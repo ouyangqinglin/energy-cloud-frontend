@@ -1,0 +1,58 @@
+{
+  "name": "energy-cloud-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "husky install",
+    "commit": "cz",
+    "dev": "cd packages/web-scada && pnpm dev",
+    "build-editor": "cd packages/web-scada && pnpm build-only",
+    "prettier:check": "prettier --config .prettierrc --check \"./packages/**/*.{vue,ts,css,less,scss}\" --write",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0",
+    "lint:fix": "pnpm run lint --fix"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/jsdom": "^21.1.0",
+    "@types/node": "^18.14.6",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "@vue/tsconfig": "^0.1.3",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.35.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "@element-plus/eslint-config": "^0.0.20230307",
+    "husky": "^8.0.3",
+    "jsdom": "^21.1.0",
+    "lint-staged": "^13.1.2",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4",
+    "vite-plugin-eslint": "^1.8.1",
+    "vue-tsc": "^1.2.0"
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx,md,json}": [
+      "pnpm prettier:check",
+      "pnpm lint && pnpm lint:fix",
+      "git add"
+    ]
+  }
+}
