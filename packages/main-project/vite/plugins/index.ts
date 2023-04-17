@@ -1,5 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 
+import DefineOptions from 'unplugin-vue-define-options/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 import createAutoImport from './auto-import'
 import createComponents from './components'
 import createSvgIcon from './svg-icon'
@@ -12,10 +14,18 @@ export default function createVitePlugins(
   isBuild = false
 ) {
   const vitePlugins: PluginOption[] = [vue()]
-  vitePlugins.push(createAutoImport())
-  vitePlugins.push(createComponents())
-  vitePlugins.push(createSetupExtend())
-  vitePlugins.push(createSvgIcon(isBuild))
+  vitePlugins.push(
+    ...[
+      visualizer({
+        emitFile: true
+      }),
+      createAutoImport(),
+      createSetupExtend(),
+      DefineOptions(),
+      createSvgIcon(isBuild)
+    ]
+  )
+
   isBuild && vitePlugins.push(...createCompression(viteEnv))
   return vitePlugins
 }
