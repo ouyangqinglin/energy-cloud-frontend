@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "types": [
+      "element-plus/global",
+      "node",
+      "vite/client",
+      "unplugin-vue-define-options/macros-global"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["/*"]
+    },
+    "skipLibCheck": true
+  },
+  "vueCompilerOptions": {
+    "target": 3, // or 2.7 for Vue 2
+    "plugins": [
+      "@vue-macros/volar/define-options"
+      // ...more feature
+    ]
+  }
+}

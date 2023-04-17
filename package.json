@@ -1,8 +1,8 @@
 {
   "name": "energy-cloud-frontend",
   "version": "1.0.0",
-  "description": "",
   "private": true,
+  "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
@@ -17,12 +17,11 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0",
     "lint:fix": "pnpm run lint --fix"
   },
-  "dependencies": {
-    "vue": "^3.2.47"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@element-plus/eslint-config": "^0.0.20230307",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.6",
@@ -39,13 +38,13 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.9.0",
-    "@element-plus/eslint-config": "^0.0.20230307",
     "husky": "^8.0.3",
     "jsdom": "^21.1.0",
     "lint-staged": "^13.1.2",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vite-plugin-eslint": "^1.8.1",
+    "vue": "^3.2.47",
     "vue-tsc": "^1.2.0"
   },
   "lint-staged": {

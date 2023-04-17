@@ -2,9 +2,11 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": [
     "*.d.t",
-    "packages/**/src/**/*",
-    "packages/src/**/*.vue",
-    "typings"
+    "typings",
+    "packages/**/src/**/*.ts",
+    "packages/**/src/**/*.d.ts",
+    "packages/**/src/**/*.tsx",
+    "packages/**/src/**/*.vue"
   ],
   "compilerOptions": {
     "composite": true
