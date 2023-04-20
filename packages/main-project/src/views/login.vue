@@ -34,7 +34,7 @@
           /></template>
         </el-input>
       </el-form-item>
-      <!-- <el-form-item v-if="captchaEnabled" prop="code">
+      <el-form-item v-if="captchaEnabled" prop="code">
         <el-input
           v-model="loginForm.code"
           size="large"
@@ -50,7 +50,7 @@
         <div class="login-code">
           <img :src="codeUrl" class="login-code-img" @click="getCode" />
         </div>
-      </el-form-item> -->
+      </el-form-item>
       <el-checkbox
         v-model="loginForm.rememberMe"
         style="margin: 0px 0px 25px 0px"
@@ -146,9 +146,9 @@ function handleLogin() {
         .catch(() => {
           loading.value = false
           // 重新获取验证码
-          // if (captchaEnabled.value) {
-          //   getCode()
-          // }
+          if (captchaEnabled.value) {
+            getCode()
+          }
         })
     }
   })

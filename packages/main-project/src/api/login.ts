@@ -1,3 +1,5 @@
+import type { RequestCommonRes, UserInfo } from './types'
+import type { Login } from './types/login'
 import request from '@/utils/request'
 
 // 登录方法
@@ -13,8 +15,8 @@ export function login(
     code,
     uuid
   }
-  return request({
-    url: '/login',
+  return request<RequestCommonRes<Login>>({
+    url: '/auth/login',
     headers: {
       isToken: false
     },
@@ -26,7 +28,7 @@ export function login(
 // 注册方法
 export function register(data: any) {
   return request({
-    url: '/register',
+    url: '/auth/register',
     headers: {
       isToken: false
     },
@@ -37,8 +39,8 @@ export function register(data: any) {
 
 // 获取用户详细信息
 export function getInfo() {
-  return request({
-    url: '/getInfo',
+  return request<UserInfo>({
+    url: '/system/user/getInfo',
     method: 'get'
   })
 }
@@ -46,15 +48,15 @@ export function getInfo() {
 // 退出方法
 export function logout() {
   return request({
-    url: '/logout',
-    method: 'post'
+    url: '/auth/logout',
+    method: 'delete'
   })
 }
 
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: '/captchaImage',
+    url: '/code',
     headers: {
       isToken: false
     },

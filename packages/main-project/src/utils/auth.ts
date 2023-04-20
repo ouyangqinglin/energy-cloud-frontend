@@ -13,3 +13,17 @@ export function setToken(token: string) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+
+const ExpiresInKey = 'Admin-Expires-In'
+
+export function getExpiresIn() {
+  return Cookies.get(ExpiresInKey) || -1
+}
+
+export function setExpiresIn(time: number) {
+  return Cookies.set(ExpiresInKey, String(time))
+}
+
+export function removeExpiresIn() {
+  return Cookies.remove(ExpiresInKey)
+}

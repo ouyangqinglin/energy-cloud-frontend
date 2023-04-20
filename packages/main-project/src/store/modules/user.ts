@@ -1,17 +1,25 @@
 import { defineStore } from 'pinia'
 import { getInfo, login, logout } from '@/api/login'
-import { getToken, removeToken, setToken } from '@/utils/auth'
+import {
+  getExpiresIn,
+  getToken,
+  removeToken,
+  setExpiresIn,
+  setToken
+} from '@/utils/auth'
 import defAva from '@/assets/images/profile.jpg'
 
 const useUserStore = defineStore('user', {
   state: (): {
     token?: string
+    expiresIn: number
     name: string
     avatar: string
     roles: any[]
     permissions: string[]
   } => ({
     token: getToken(),
+    expiresIn: Number(getExpiresIn()),
     name: '',
     avatar: '',
     roles: [],
@@ -31,11 +39,17 @@ const useUserStore = defineStore('user', {
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid)
-          .then((res: any) => {
-            setToken(res.token)
-            this.token = res.token
-            resolve(1)
-          })
+          .then(
+            ({
+              data: { access_token: accessToken, expires_in: expiresIn }
+            }) => {
+              setToken(accessToken)
+              this.token = accessToken
+              setExpiresIn(expiresIn)
+              this.expiresIn = expiresIn
+              resolve(1)
+            }
+          )
           .catch((error) => {
             reject(error)
           })
@@ -45,7 +59,7 @@ const useUserStore = defineStore('user', {
     getInfo() {
       return new Promise((resolve, reject) => {
         getInfo()
-          .then((res: any) => {
+          .then((res) => {
             const user = res.user
             const avatar =
               user.avatar === '' || user.avatar == null

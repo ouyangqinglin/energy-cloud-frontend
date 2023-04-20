@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import axios from 'axios'
+import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import {
   ElLoading,
   ElMessage,
@@ -7,6 +7,7 @@ import {
   ElNotification
 } from 'element-plus'
 import { saveAs } from 'file-saver'
+import type { Response } from '@/api/types'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { blobValidate, tansParams } from '@/utils/ruoyi'
@@ -28,6 +29,21 @@ const service = axios.create({
     'Content-Type': 'application/json;charset=utf-8'
   }
 })
+
+const commonService = <R = any, D = any>(
+  config: AxiosRequestConfig<D>
+): Promise<R> => {
+  if (!config?.method || !config?.url) {
+    return service(config) as Promise<R>
+  }
+  if (['get', 'GET'].includes(config.method)) {
+    return service.get<R, R, D>(config.url, config)
+  }
+  if (['post', 'POST'].includes(config.method)) {
+    return service.post<R, R, D>(config.url, config.data, config)
+  }
+  return service(config) as Promise<R>
+}
 
 // request拦截器
 service.interceptors.request.use(
@@ -213,4 +229,4 @@ export function download(
     })
 }
 
-export default service
+export default commonService
