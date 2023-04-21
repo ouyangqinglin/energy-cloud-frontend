@@ -2,7 +2,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2022/02/15
- * 
+ *
  * */
 
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
@@ -35,8 +35,8 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo();
-      if(resp === undefined || resp.code !== 200) {        
-        history.push(loginPath);     
+      if (resp === undefined || resp.code !== 200) {
+        history.push(loginPath);
       } else {
         return { ...resp.user, permissions: resp.permissions } as API.CurrentUser;
       }
@@ -50,7 +50,7 @@ export async function getInitialState(): Promise<{
     const currentUser = await fetchUserInfo();
     return {
       settings: defaultSettings,
-      currentUser,      
+      currentUser,
       fetchUserInfo,
     };
   }
