@@ -1,19 +1,60 @@
-# 技术选型
+# Ant Design Pro
 
-架构：采用 monorepo(pnpm) + 微前端(qiankun)
+This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
-工作流：eslint + prettier + commitlint + husky + ci/cd
+## Environment Prepare
 
-技术栈：vue3(推荐) + vite
+Install `node_modules`:
 
-# 分支管理
+```bash
+npm install
+```
 
-线上环境采用 master 分支
+or
 
-预发布环境采用 staging 分支
+```bash
+yarn
+```
 
-## 开发功能
+## Provided Scripts
 
-从 staging 中最新的版本（tag）中拉取最新的代码，
-本地切出一个开发分支并 push 到远程，
-创建一个 merger request, 同事 review code 之后，可以 rebase 到 staging。
+Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+
+Scripts provided in `package.json`. It's safe to modify or add additional script:
+
+### Start project
+
+正常启动请运行
+npm start:dev
+
+Mock测试模式请运行
+npm start
+```
+
+### Build project
+
+```bash
+npm run build
+```
+
+### Check code style
+
+```bash
+npm run lint
+```
+
+You can also use script to auto fix some lint error:
+
+```bash
+npm run lint:fix
+```
+
+### Test code
+
+```bash
+npm test
+```
+
+## More
+
+You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).

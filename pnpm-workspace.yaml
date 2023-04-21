@@ -1,5 +1,0 @@
-packages:
-  - 'packages/**'
-  - cli
-  - docs
-  - '!**/test/**'

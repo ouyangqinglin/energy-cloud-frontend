@@ -1,8 +1,8 @@
-lib/
-dist/
-build/
-*.sh
-*.woff
-*.ttf
-.vscode
-.idea
+/lambda/
+/scripts
+/config
+.history
+public
+dist
+.umi
+mock
