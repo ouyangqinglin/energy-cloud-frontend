@@ -1,0 +1,119 @@
+import { throttle } from 'lodash';
+import { FC, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './index.less';
+
+export const enum ScaleMode {
+  EQUAL = 1,
+  H_SCALE,
+  W_SCALE,
+}
+export type LayoutProps = {
+  screenW: number;
+  screenH: number;
+  scaleMode: ScaleMode;
+  disabledBackgroundFill?: boolean;
+  palette?: {
+    backgroundColor?: string;
+    backgroundImage?: string;
+  };
+};
+const Layout: FC<LayoutProps> = (props) => {
+  const [overflow, setOverflow] = useState('hidden');
+  const [transform, setTransform] = useState('scale(1)');
+  const refContainer = useRef<HTMLDivElement>(null);
+
+  const backgroundImage = props.palette?.backgroundImage ?? 'none';
+  const backgroundColor = props.palette?.backgroundColor ?? '#000';
+
+  const dashBoardStyle = {
+    overflow: overflow,
+  };
+
+  const getContentStyle = () => {
+    return {
+      width: `${props.screenW}px`,
+      height: `${props.screenH}px`,
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundColor: `${backgroundColor}`,
+      transform: transform,
+      backgroundSize: '100% 100%',
+      backgroundPosition: 'left top',
+    };
+  };
+
+  const [docClientHeight, setDocClientHeight] = useState(0);
+  const [docClientWidth, setDocClientWidth] = useState(0);
+  const initLayout = () => {
+    const containerDom = refContainer?.current;
+    if (containerDom) {
+      setDocClientHeight(containerDom.clientHeight);
+      setDocClientWidth(containerDom.clientWidth);
+      console.log('zcg', docClientHeight, docClientWidth);
+    }
+  };
+
+  const calLayoutByProps = () => {
+    // 宽高等比缩放
+    if (props.scaleMode === ScaleMode.EQUAL) {
+      const scaleW = docClientHeight / props.screenW;
+      const scaleH = docClientWidth / props.screenH;
+      setTransform(`scale(${scaleW}, ${scaleH})`);
+      setOverflow('hidden');
+    }
+
+    // 宽度铺满，高度缩放
+    if (props.scaleMode === ScaleMode.H_SCALE) {
+      // 计算出宽度的固定比例
+      const scaleW = docClientWidth / props.screenW;
+      console.log('zcg', docClientWidth, scaleW);
+      setTransform(`scale(${scaleW}, ${scaleW})`);
+
+      if (docClientHeight > props.screenH) {
+        setOverflow('hidden auto');
+      } else {
+        setOverflow('hidden');
+      }
+    }
+
+    // 高度铺满，宽度缩放
+    if (props.scaleMode === ScaleMode.W_SCALE) {
+      // 计算出高度的固定比例
+      const scaleH = docClientHeight / props.screenH;
+      setTransform(`scale(${scaleH}, ${scaleH})`);
+
+      if (docClientHeight > props.screenW) {
+        setOverflow('auto hidden');
+      } else {
+        setOverflow('hidden');
+      }
+    }
+  };
+
+  const resetLayout = throttle(() => {
+    initLayout();
+    calLayoutByProps();
+  }, 300);
+
+  useEffect(() => {
+    resetLayout();
+    window.addEventListener('resize', resetLayout);
+    return () => {
+      window.removeEventListener('resize', resetLayout);
+    };
+  });
+
+  return (
+    <div className={styles.dashboard} ref={refContainer} style={dashBoardStyle}>
+      <div
+        className={styles.contentWrapper}
+        style={{ width: docClientWidth, height: docClientHeight }}
+      >
+        <div className={styles.content} style={getContentStyle()}>
+          {props.children}
+        </div>
+      </div>
+    </div>
+  );
+};
+export default Layout;
