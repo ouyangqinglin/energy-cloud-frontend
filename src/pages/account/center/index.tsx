@@ -21,28 +21,19 @@ import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
 const operationTabList = [
   {
     key: 'base',
-    tab: (
-      <span>
-        基本资料
-      </span>
-    ),
+    tab: <span>基本资料</span>,
   },
   {
     key: 'password',
-    tab: (
-      <span>
-        重置密码
-      </span>
-    ),
+    tab: <span>重置密码</span>,
   },
 ];
 
 const Center: React.FC = () => {
-  
   const [tabKey, setTabKey] = useState<tabKeyType>('base');
-  
+
   const [cropperModalVisible, setCropperModalVisible] = useState<boolean>(false);
-  
+
   //  获取用户信息
   const { data: userInfo, loading } = useRequest(() => {
     return queryCurrentUserInfo();
@@ -138,14 +129,15 @@ const Center: React.FC = () => {
     <WrapContent>
       <Row gutter={[16, 24]}>
         <Col lg={6} md={24}>
-          <Card
-            title="个人信息"
-            bordered={false}
-            loading={loading}
-          >
+          <Card title="个人信息" bordered={false} loading={loading}>
             {!loading && (
-              <div style={{ textAlign: "center"}}>
-                <div className={styles.avatarHolder} onClick={()=>{setCropperModalVisible(true)}}>
+              <div style={{ textAlign: 'center' }}>
+                <div
+                  className={styles.avatarHolder}
+                  onClick={() => {
+                    setCropperModalVisible(true);
+                  }}
+                >
                   <img alt="" src={currentUser.avatar} />
                 </div>
                 {renderUserInfo(currentUser)}
@@ -185,7 +177,7 @@ const Center: React.FC = () => {
       </Row>
       <AvatarCropper
         onFinished={() => {
-          setCropperModalVisible(false);     
+          setCropperModalVisible(false);
         }}
         visible={cropperModalVisible}
         data={currentUser.avatar}

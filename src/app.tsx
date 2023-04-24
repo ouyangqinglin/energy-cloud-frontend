@@ -65,7 +65,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     headerRender: (props) => <MyHeader />,
-    rightContentRender: () => <RightContent />,
+    collapsedButtonRender: false,
     waterMarkProps: {
       content: initialState?.currentUser?.userName,
     },
@@ -91,6 +91,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       : [],
     menuHeaderRender: undefined,
     menu: {
+      locale: false,
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
         userId: initialState?.currentUser?.userId,
