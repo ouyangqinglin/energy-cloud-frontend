@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
+import MyHeader from '@/components/header/MyHeader';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -63,6 +64,7 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+    headerRender: (props) => <MyHeader />,
     rightContentRender: () => <RightContent />,
     waterMarkProps: {
       content: initialState?.currentUser?.userName,

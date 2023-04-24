@@ -8,18 +8,17 @@ const Settings: LayoutSettings & {
 } = {
   navTheme: 'light',
   headerTheme: 'light',
-  primaryColor: '#722ED1',
+  primaryColor: '#159AFF',
   layout: 'mix',
-  splitMenus: true,
+  // splitMenus: true,
   contentWidth: 'Fluid',
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: '永泰数能',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: '',
-  tabsLayout: true,  
+  tabsLayout: true,
   apiBasePath: '/api',
 };
 

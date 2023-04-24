@@ -12,11 +12,10 @@ const { tabsLayout } = defaultSettings;
 
 const TabsLayout: React.FC = (props) => {
   const renderTabs = () => {
-    if(tabsLayout)
-      return <KeepAliveTabs />;
-    else
-      return null;
-  }
+    if (tabsLayout) return <KeepAliveTabs />;
+    else return null;
+  };
+
   return (
     <div>
       {renderTabs()}
