@@ -9,8 +9,6 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
-import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
@@ -64,12 +62,12 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    headerRender: (props) => <MyHeader />,
-    rightContentRender: () => <RightContent />,
+    headerRender: () => <MyHeader />,
+    collapsedButtonRender: false,
     waterMarkProps: {
       content: initialState?.currentUser?.userName,
     },
-    footerRender: () => <Footer />,
+    footerRender: false,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
@@ -91,6 +89,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       : [],
     menuHeaderRender: undefined,
     menu: {
+      locale: false,
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
         userId: initialState?.currentUser?.userId,

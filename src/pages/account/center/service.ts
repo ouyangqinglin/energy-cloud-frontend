@@ -1,8 +1,17 @@
 import { request } from 'umi';
+import { getUserInfo } from '@/services/session';
 import type { ListItemDataType } from './data.d';
 
 export async function queryCurrentUserInfo(): Promise<{ data: API.GetUserInfoResult }> {
-  return { data: await request('/api/getInfo') }
+  return new Promise((resolve, reject) => {
+    getUserInfo()
+      .then((res) => {
+        resolve({ data: res });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
 export async function queryFakeList(params: {
