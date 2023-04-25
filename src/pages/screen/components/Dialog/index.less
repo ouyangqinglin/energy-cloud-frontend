@@ -1,0 +1,34 @@
+.dialogWrap {
+  color: white;
+  background: rgba(10, 16, 28, 0.9);
+  border: 0.005vw solid;
+  border-image: linear-gradient(
+      225deg,
+      rgba(8, 139, 255, 0),
+      rgba(8, 139, 255, 1),
+      rgba(8, 139, 255, 0)
+    )
+    1 1;
+  .dialogHead {
+    position: relative;
+    height: 2.96vh;
+    font-size: 1.48vh;
+    background: linear-gradient(90deg, rgba(8, 139, 255, 0.4) 0%, rgba(8, 139, 255, 0) 100%);
+    .tab {
+      display: inline-block;
+      padding: 0 0.833vw;
+      line-height: 2.96vh;
+      border-bottom: 0.19vh solid transparent;
+    }
+  }
+  .close {
+    position: absolute;
+    top: 0.41vw;
+    right: 0.52vw;
+    width: 0.83vw;
+    height: 0.83vw;
+  }
+  .dialogContent {
+    padding: 0.83vw;
+  }
+}
