@@ -1,14 +1,11 @@
-import { useRequest } from 'umi';
 import type { FC } from 'react';
-
-import numeral from 'numeral';
-import WrapContent from '@/components/WrapContent';
+import StationLayout from '@/layouts/StationLayout';
 import Layout, { ScaleMode } from './components/Layout';
 import Scene from './components/Scene';
 
 const Screen: FC = () => {
   return (
-    <WrapContent>
+    <StationLayout>
       <Layout
         screenH={1080}
         screenW={1920}
@@ -17,7 +14,7 @@ const Screen: FC = () => {
       >
         <Scene />
       </Layout>
-    </WrapContent>
+    </StationLayout>
   );
 };
 

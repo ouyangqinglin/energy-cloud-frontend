@@ -52,7 +52,11 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const { code, data: { access_token: accessToken }, msg } = await login({ ...values, uuid });
+      const {
+        code,
+        data: { access_token: accessToken },
+        msg,
+      } = await login({ ...values, uuid });
       if (code === 200) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -65,18 +69,17 @@ const Login: React.FC = () => {
 
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history)
-          return;
+        if (!history) return;
 
         const { query } = history.location;
         const { redirect } = query as { redirect: string };
         history.push(redirect || '/');
         return;
-      } else{
-        console.log('login failed')
+      } else {
+        console.log('login failed');
         clearSessionToken();
         // 如果失败去设置用户错误信息
-        setUserLoginState({status: 'error', type: 'account', massage: msg});
+        setUserLoginState({ status: 'error', type: 'account', massage: msg });
         message.error(msg);
       }
     } catch (error) {
@@ -134,9 +137,7 @@ const Login: React.FC = () => {
             />
           </Tabs>
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={massage} />
-          )}
+          {status === 'error' && loginType === 'account' && <LoginMessage content={massage} />}
           {type === 'account' && (
             <>
               <ProFormText
@@ -185,8 +186,7 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-              <Row>
-            </Row>
+              <Row></Row>
             </>
           )}
 
