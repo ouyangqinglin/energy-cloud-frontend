@@ -1,0 +1,76 @@
+.dialogWrap {
+  color: white;
+  background: rgba(10, 16, 28, 0.9);
+  border: 0.005vw solid;
+  border-image: linear-gradient(
+      225deg,
+      rgba(8, 139, 255, 0),
+      rgba(8, 139, 255, 1),
+      rgba(8, 139, 255, 0)
+    )
+    1 1;
+  .dialogHead {
+    position: relative;
+    height: 3.05vh;
+    font-size: 1.52vh;
+    background: linear-gradient(90deg, rgba(8, 139, 255, 0.4) 0%, rgba(8, 139, 255, 0) 100%);
+    .tab {
+      position: relative;
+      display: inline-block;
+      padding: 0 0.833vw;
+      line-height: 3.05vh;
+      cursor: pointer;
+      &::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: inline-block;
+        width: 100%;
+        height: 0.19vh;
+        content: '';
+      }
+    }
+    .active {
+      &::after {
+        background-color: #159aff;
+      }
+    }
+  }
+  .close {
+    position: absolute;
+    top: 0.41vw;
+    right: 0.52vw;
+    width: 0.83vw;
+    height: 0.83vw;
+    cursor: pointer;
+  }
+  .dialogContent {
+    padding: 0.83vw;
+  }
+  .productLogo {
+    width: 10.41vw;
+    margin-bottom: 1.29vh;
+  }
+  .productInfo {
+    padding-left: 1.66vw;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.74vh;
+    font-size: 1.29vh;
+    .dot {
+      display: inline-block;
+      width: 0.1vw;
+      height: 1.29vh;
+      margin-right: 0.52vw;
+      background: #0d92ff;
+    }
+  }
+  .splitLine {
+    height: 0.18vh;
+    margin-bottom: 1.3vh;
+    background: #064066;
+    opacity: 0.6;
+  }
+}
