@@ -25,7 +25,7 @@ export const isAntDesignProOrDev = (): boolean => {
 };
 
 export function trim(x: string) {
-  return x.replace(/^\s+|\s+$/gm,'');  
+  return x.replace(/^\s+|\s+$/gm, '');
 }
 
 /**
@@ -104,7 +104,7 @@ export function formatTreeSelectData(arrayList: any): DataNode[] {
       id: item.id,
       title: item.label,
       key: item.id,
-      value: item.id
+      value: item.id,
     } as DataNode;
     if (item.children) {
       node.children = formatTreeSelectData(item.children);
@@ -115,5 +115,5 @@ export function formatTreeSelectData(arrayList: any): DataNode[] {
 }
 
 export function download(fileName: string) {
-	window.location.href = `/common/download?fileName=${encodeURI(fileName)}&delete=${  true}`;
+  window.location.href = `/common/download?fileName=${encodeURI(fileName)}&delete=${true}`;
 }

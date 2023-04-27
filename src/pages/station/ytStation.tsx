@@ -26,7 +26,9 @@ const YtStation: React.FC = (props) => {
   return (
     <div>
       永泰示范站
-      <Button onClick={showModal}>弹窗</Button>
+      <Button onClick={showModal}>720充电桩弹窗</Button>
+      <Button onClick={showModal}>120充电桩弹窗</Button>
+      <Button onClick={showModal}>160充电桩弹窗</Button>
       <ChargeDialog id={chargeId} open={isOpen} onCancel={closeModal} />
     </div>
   );

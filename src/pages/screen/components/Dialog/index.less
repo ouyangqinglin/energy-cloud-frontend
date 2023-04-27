@@ -55,11 +55,9 @@
     padding-left: 1.66vw;
   }
   .label {
-    display: flex;
-    align-items: center;
     margin-bottom: 0.74vh;
     font-size: 1.29vh;
-    .dot {
+    .labelLine {
       display: inline-block;
       width: 0.1vw;
       height: 1.29vh;
@@ -72,5 +70,39 @@
     margin-bottom: 1.3vh;
     background: #064066;
     opacity: 0.6;
+  }
+  .dotWrap {
+    .dot {
+      display: inline-block;
+      width: 0.31vw;
+      height: 0.31vw;
+      margin-right: 0.31vw;
+      background: white;
+      border-radius: 50%;
+    }
+    &.active {
+      color: #28f0ee;
+      .dot {
+        background: #50f0ff;
+      }
+    }
+  }
+  .areaChart {
+    width: 19.16vw;
+    height: 13vh;
+    margin-bottom: 0.92vh;
+    .chartTitle {
+      margin-bottom: 0.92vh;
+      color: #6c8097;
+      font-size: 1.11vh;
+    }
+  }
+  .desc {
+    color: white;
+    font-size: 1.11vh;
+    line-height: 1.5;
+  }
+  .btnMore {
+    padding-left: 0;
   }
 }
