@@ -1,6 +1,13 @@
 import { Request, Response } from 'express';
 
 export default {
+  'GET /api/screen/weather/1': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      weather: '晴',
+    },
+  },
   'GET /api/screen/device/1': {
     msg: '操作成功',
     code: 200,

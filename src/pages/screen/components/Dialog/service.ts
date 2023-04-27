@@ -13,3 +13,9 @@ export const getDeviceInfo = (deviceId: string | number) => {
     method: 'GET',
   });
 };
+
+export const getWeather = (code: string) => {
+  return request(`/screen/weather/${code}`, {
+    method: 'GET',
+  });
+};
