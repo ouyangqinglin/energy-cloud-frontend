@@ -9,7 +9,9 @@ export default [
   {
     name: 'screen',
     icon: 'smile',
+    layout: false,
     path: '/screen',
+    KeepAlive: true,
     component: './screen',
     // redirect: '/screen/dataVisual',
     // children: [
@@ -59,7 +61,7 @@ export default [
     path: '/station',
     layout: false,
     name: 'station',
-    component: '@/layouts/StaionLayout',
+    component: '@/layouts/StationLayout',
     routes: [
       {
         path: '/station',

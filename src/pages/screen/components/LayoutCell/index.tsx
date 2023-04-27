@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { CSSProperties } from 'react';
 
 export type CellProps = {
   width: number;
@@ -6,6 +7,10 @@ export type CellProps = {
   left: number;
   top: number;
   zIndex?: number;
+  cursor?: 'cursor' | 'default';
+  onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseOut?: () => void;
 };
 const Cell: FC<CellProps> = (props) => {
   const cellStyle = {
@@ -14,8 +19,18 @@ const Cell: FC<CellProps> = (props) => {
     left: props.left,
     top: props.top,
     zIndex: props.zIndex ?? 'auto',
-    position: 'absolute',
+    position: 'absolute' as 'absolute',
+    cursor: props.cursor ?? 'pointer',
   };
-  return <div style={cellStyle}>{props.children}</div>;
+  return (
+    <div
+      onClick={props.onClick}
+      onMouseEnter={props.onMouseEnter}
+      onMouseOut={props.onMouseOut}
+      style={cellStyle}
+    >
+      {props.children}
+    </div>
+  );
 };
 export default Cell;
