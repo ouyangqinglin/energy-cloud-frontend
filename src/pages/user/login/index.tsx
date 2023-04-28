@@ -32,22 +32,12 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { refresh } = useModel('@@initialState');
 
   const [captchaCode, setCaptchaCode] = useState<string>('');
   const [uuid, setUuid] = useState<string>('');
 
   const intl = useIntl();
-
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
-    }
-  };
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
@@ -67,13 +57,10 @@ const Login: React.FC = () => {
         setSessionToken(accessToken, accessToken, expireTime);
         message.success(defaultLoginSuccessMessage);
 
-        await fetchUserInfo();
-        /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-
         const { query } = history.location;
         const { redirect } = query as { redirect: string };
         history.push(redirect || '/');
+        refresh();
         return;
       } else {
         console.log('login failed');

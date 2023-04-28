@@ -59,18 +59,24 @@ export default [
   },
   {
     path: '/station',
-    layout: false,
     name: 'station',
+    layout: false,
+    menu: 'sider',
     component: '@/layouts',
     routes: [
       {
         path: '/station',
-        redirect: '/station/yt-station',
+        redirect: '/station/station-list',
       },
       {
         path: '/station/yt-station',
         name: 'ytStaion',
         component: './station/ytStation',
+      },
+      {
+        path: 'station-list',
+        name: 'stationList',
+        component: './station/stationList',
       },
     ],
   },

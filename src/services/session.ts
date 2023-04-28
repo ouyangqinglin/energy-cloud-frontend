@@ -26,14 +26,14 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): MenuData
   return childrens.map((item: API.RoutersMenuItem) => {
     return {
       path: item.path,
-      icon: createIcon(item.meta.icon),
-      name: item.meta.title,
+      icon: createIcon(item?.meta?.icon),
+      name: item?.meta?.title,
       children: item.children ? convertCompatRouters(item.children) : undefined,
       hideChildrenInMenu: item.hidden,
       hideInMenu: item.hidden,
       component: item.component,
       authority: item.perms,
-      meta: item.meta,
+      meta: item?.meta,
     };
   });
 }
