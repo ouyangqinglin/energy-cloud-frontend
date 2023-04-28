@@ -8,9 +8,10 @@
  */
 
 import React from 'react';
+import { Spin } from 'antd';
 
-const YtStation: React.FC = (props) => {
-  return <div>加载中</div>;
+const Loading: React.FC = (props) => {
+  return <Spin />;
 };
 
-export default YtStation;
+export default Loading;

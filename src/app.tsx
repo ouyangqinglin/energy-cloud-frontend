@@ -8,11 +8,14 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
+import type { MenuDataItem } from '@umijs/route-utils';
 import { history, Link } from 'umi';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
+import { getMenus } from '@/utils';
+import type { MenuProps } from 'antd';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -30,6 +33,8 @@ export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  menus?: MenuDataItem[];
+  antMenus?: MenuProps['items'];
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -44,19 +49,24 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
+    const menus = await getRoutersInfo();
     return {
-      settings: defaultSettings,
-      currentUser,
       fetchUserInfo,
+      settings: defaultSettings,
+      menus,
+      antMenus: getMenus(menus),
+      currentUser,
+    };
+  } else {
+    return {
+      fetchUserInfo,
+      settings: defaultSettings,
     };
   }
-  return {
-    fetchUserInfo,
-    settings: defaultSettings,
-  };
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -88,25 +98,25 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         ]
       : [],
     menuHeaderRender: undefined,
-    menu: {
-      locale: false,
-      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
-      params: {
-        userId: initialState?.currentUser?.userId,
-      },
-      request: async () => {
-        if (!initialState?.currentUser?.userId) {
-          return [];
-        }
-        // initialState.currentUser 中包含了所有用户信息
-        const menus = await getRoutersInfo();
-        setInitialState((preInitialState) => ({
-          ...preInitialState,
-          menus,
-        }));
-        return menus;
-      },
-    },
+    // menu: {
+    //   locale: false,
+    //   // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
+    //   params: {
+    //     userId: initialState?.currentUser?.userId,
+    //   },
+    //   request: async () => {
+    //     if (!initialState?.currentUser?.userId) {
+    //       return [];
+    //     }
+    //     // initialState.currentUser 中包含了所有用户信息
+    //     const menus = await getRoutersInfo();
+    //     setInitialState((preInitialState) => ({
+    //       ...preInitialState,
+    //       menus,
+    //     }));
+    //     return menus;
+    //   },
+    // },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态

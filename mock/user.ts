@@ -226,7 +226,7 @@ export default {
         alwaysShow: true,
         meta: {
           title: '系统管理',
-          icon: 'system',
+          icon: 'HomeOutlined',
           noCache: false,
           link: null,
         },
