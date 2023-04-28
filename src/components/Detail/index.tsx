@@ -8,6 +8,7 @@
  */
 import React from 'react';
 import { Descriptions } from 'antd';
+import { uniqueId } from 'lodash';
 
 export type DetailItem = {
   label: React.ReactNode;
@@ -24,14 +25,16 @@ export type DetailProps = {
   column?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
+  colon?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
-  const { items, column = 3, labelStyle = {}, contentStyle = {}, data = {} } = props;
+  const { items, column = 3, labelStyle = {}, contentStyle = {}, data = {}, colon = true } = props;
 
   const content = items.map((item) => {
     return (
       <Descriptions.Item
+        key={uniqueId()}
         label={item.label}
         labelStyle={item.labelStyle}
         contentStyle={contentStyle}
@@ -43,7 +46,7 @@ const Detail: React.FC<DetailProps> = (props) => {
   });
 
   return (
-    <Descriptions column={column} labelStyle={labelStyle} contentStyle={contentStyle}>
+    <Descriptions column={column} labelStyle={labelStyle} contentStyle={contentStyle} colon={colon}>
       {content}
     </Descriptions>
   );

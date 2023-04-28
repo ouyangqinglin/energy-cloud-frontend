@@ -1,0 +1,29 @@
+.grid-center() {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.table {
+  display: grid;
+  grid-template-rows: 32px 56px 28px 84px;
+  grid-template-columns: 80px 220px 72px;
+  gap: 6px;
+  margin: 24px 8px 26px 8px;
+  color: rgba(167, 183, 202, 1);
+  font-size: 12px;
+
+  .header {
+    .grid-center();
+
+    color: #7ec2ff;
+    font-weight: 500;
+    background: rgba(8, 139, 255, 0.15);
+  }
+
+  .cell {
+    .grid-center();
+
+    background: rgba(8, 139, 255, 0.08);
+  }
+}

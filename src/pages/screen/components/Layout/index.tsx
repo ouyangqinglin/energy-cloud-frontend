@@ -1,7 +1,7 @@
 import { throttle } from 'lodash';
 import { FC, useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { useEvent, useKeyPress } from 'react-use';
+import { useKeyPress } from 'react-use';
 import styles from './index.less';
 
 export const enum ScaleMode {
@@ -71,7 +71,7 @@ const Layout: FC<LayoutProps> = (props) => {
     if (props.scaleMode === ScaleMode.H_SCALE) {
       // 计算出宽度的固定比例
       const scaleW = docClientWidth / props.screenW;
-      console.log('zcg', docClientWidth, scaleW);
+      // console.log('zcg', docClientWidth, scaleW);
       setTransform(`scale(${scaleW}, ${scaleW})`);
 
       if (docClientHeight > props.screenW) {
@@ -121,13 +121,13 @@ const Layout: FC<LayoutProps> = (props) => {
     clickDown: false,
     shouldMove: false,
   });
-  const onMouseDown = (event: MouseEvent) => {
+  const onMouseDown = useCallback((event: MouseEvent) => {
     const { current } = offsetCache;
     current.clickDown = true;
     current.x = event.clientX;
     current.y = event.clientY;
-  };
-  const onMouseUp = () => {
+  }, []);
+  const onMouseUp = useCallback(() => {
     const { current } = offsetCache;
     current.clickDown = false;
 
@@ -137,16 +137,19 @@ const Layout: FC<LayoutProps> = (props) => {
       setOffset({ x: offset.x + gapX, y: offset.y + gapY });
       current.shouldMove = false;
     }
-  };
-  const dragMove = (event: MouseEvent) => {
-    if (isPressSpace && offsetCache.current.clickDown) {
-      const { current } = offsetCache;
-      current.offsetX = event.clientX - current.x;
-      current.offsetY = event.clientY - current.y;
-      // console.log('123: render', current.offsetX, current.offsetY);
-      current.shouldMove = true;
-    }
-  };
+  }, [offset]);
+  const dragMove = useCallback(
+    (event: MouseEvent) => {
+      if (isPressSpace && offsetCache.current.clickDown) {
+        const { current } = offsetCache;
+        current.offsetX = event.clientX - current.x;
+        current.offsetY = event.clientY - current.y;
+        // console.log('123: render', current.offsetX, current.offsetY);
+        current.shouldMove = true;
+      }
+    },
+    [isPressSpace],
+  );
   useEffect(() => {
     window.addEventListener('mousemove', dragMove);
     window.addEventListener('mousedown', onMouseDown);
@@ -157,7 +160,7 @@ const Layout: FC<LayoutProps> = (props) => {
       window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mouseup', onMouseUp);
     };
-  }, [dragMove, offset, onMouseDown, onMouseUp]);
+  });
 
   const handleResize = throttle(
     (event: Event) => {
@@ -167,7 +170,7 @@ const Layout: FC<LayoutProps> = (props) => {
       } else if (event.wheelDelta > 0 && resize < 2) {
         setResize(resize + 0.1);
       }
-      console.log('resize', event.wheelDelta, resize);
+      // console.log('resize', event.wheelDelta, resize);
     },
     30,
     { leading: false },
@@ -177,7 +180,7 @@ const Layout: FC<LayoutProps> = (props) => {
     return () => {
       window.removeEventListener('mousewheel', handleResize);
     };
-  }, [resize]);
+  }, [handleResize]);
 
   return (
     <div className={styles.dashboard} ref={refContainer} style={dashBoardStyle}>
@@ -199,6 +202,3 @@ const Layout: FC<LayoutProps> = (props) => {
   );
 };
 export default Layout;
-function ref(arg0: null) {
-  throw new Error('Function not implemented.');
-}
