@@ -69,7 +69,7 @@
     "@umijs/route-utils": "^1.0.36",
     "ahooks": "^2.0.0",
     "antd": "^4.14.0",
-    "bizcharts": "^3.5.3-beta.0",
+    "bizcharts": "^4.1.22",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "btoa": "^1.2.1",
     "captchapng3": "^1.0.7",

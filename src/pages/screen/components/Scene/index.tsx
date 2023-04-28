@@ -6,6 +6,10 @@ import StationInfo from './StationInfo';
 import Title from './Title';
 import DeviceList from './DeviceList';
 import AlarmList from './AlarmList';
+import BenefitSocial from './BenefitSocial';
+import BenefitsEconomic from './BenefitsEconomic';
+import ChargingStation from './ChargingStation';
+
 const Scene: FC = () => {
   return (
     <>
@@ -14,7 +18,10 @@ const Scene: FC = () => {
       </Cell>
       <Title />
       <DeviceList />
-      <AlarmList />
+      {/* <AlarmList /> */}
+      <BenefitsEconomic />
+      <BenefitSocial />
+      <ChargingStation />
       <Geometry />
       <StationInfo />
     </>

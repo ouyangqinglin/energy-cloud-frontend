@@ -1,4 +1,4 @@
-import { flatten } from 'lodash';
+import { flatten, uniqueId } from 'lodash';
 import type { FC, ReactNode } from 'react';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
@@ -17,7 +17,7 @@ const DeviceList: FC = () => {
   const renderGrid: ReactNode[] = [];
   tableConfig.header.forEach((item) => {
     renderGrid.push(
-      <div className={styles.header}>
+      <div key={item} className={styles.header}>
         <span>{item}</span>
       </div>,
     );
@@ -26,11 +26,11 @@ const DeviceList: FC = () => {
     const renderGridChild: ReactNode[] = [];
     if (Array.isArray(item)) {
       item.forEach((child) => {
-        renderGridChild.push(<div>{child}</div>);
+        renderGridChild.push(<div key={uniqueId()}>{child}</div>);
       });
     }
     renderGrid.push(
-      <div className={styles.cell}>
+      <div key={uniqueId()} className={styles.cell}>
         {renderGridChild.length ? renderGridChild : <span>{item}</span>}
       </div>,
     );

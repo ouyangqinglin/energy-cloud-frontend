@@ -41,4 +41,15 @@ export default {
       location: '深圳市龙华区观湖街道鹭湖社区观',
     },
   },
+  'GET /api/screen/charging/station': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      chargingPower: '100kW',
+      chargingCapacityToday: '100kWh',
+      gunIdle: '8',
+      gunInUse: '4',
+      earningsToday: '100元',
+    },
+  },
 };
