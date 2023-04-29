@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import { DigitalFlop } from '@jiaminghi/data-view-react';
 import styles from './index.less';
 
@@ -6,6 +6,10 @@ export type DigitalFlipperItemProps = {
   num: number;
   title: string;
   unit?: string;
+  titleStyle?: CSSProperties;
+  numStyle?: CSSProperties;
+  unitStyle?: CSSProperties;
+  itemStyleWrapper?: CSSProperties;
 };
 
 const formatter = (num: number[]) => {
@@ -15,7 +19,15 @@ const formatter = (num: number[]) => {
   return segs.join(',').split('').reverse().join('');
 };
 
-const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({ num, title, unit = '元' }) => {
+const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
+  num,
+  itemStyleWrapper = {},
+  numStyle = {},
+  titleStyle = {},
+  title,
+  unit = '元',
+  unitStyle = {},
+}) => {
   // const config = {
   //   number: [num],
   //   style: {
@@ -33,11 +45,17 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({ num, title, unit = '�
 
   // return <DigitalFlop config={config} style={{ width: '200px', height: '50px' }} />;
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.title}>{title}</div>
+    <div className={styles.wrapper} style={itemStyleWrapper}>
+      <div className={styles.title} style={titleStyle}>
+        {title}
+      </div>
       <div className={styles.content}>
-        <div className={styles.number}>{formatter([num])}</div>
-        <span className={styles.unit}>{unit}</span>
+        <div className={styles.number} style={numStyle}>
+          {formatter([num])}
+        </div>
+        <span className={styles.unit} style={unitStyle}>
+          {unit}
+        </span>
       </div>
     </div>
   );

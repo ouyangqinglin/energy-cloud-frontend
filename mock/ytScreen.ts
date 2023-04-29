@@ -52,4 +52,14 @@ export default {
       earningsToday: '100元',
     },
   },
+  'GET /api/screen/energy/storage': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      realtimeStatus: 1,
+      chargingAndDischargingPower: '100kW',
+      soc: '33.33%',
+      soh: '99.33%',
+    },
+  },
 };

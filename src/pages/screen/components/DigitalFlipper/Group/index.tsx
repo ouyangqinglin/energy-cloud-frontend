@@ -1,5 +1,6 @@
 import type { DetailItem } from '@/components/Detail';
 import Detail from '@/components/Detail';
+import classnames from 'classnames';
 import { uniqueId } from 'lodash';
 import type { FC, ReactNode } from 'react';
 import { useRequest } from 'umi';
@@ -10,9 +11,10 @@ import styles from './index.less';
 
 export type DigitalFlipperProps = {
   config: DigitalFlipperItemProps[];
+  className?: string;
 };
 
-const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config }) => {
+const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => {
   function ItemList() {
     const nodes: ReactNode[] = [];
     config.forEach((ceil, index) => {
@@ -25,7 +27,7 @@ const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config }) => {
     return <>{nodes}</>;
   }
   return (
-    <div className={styles.content}>
+    <div className={classnames([styles.content, className])}>
       <ItemList />
     </div>
   );

@@ -1,4 +1,5 @@
-import { Axis, Chart, Area } from 'bizcharts';
+import { Axis, Chart, Area, Line, LineAdvance } from 'bizcharts';
+import { ScaleOption } from 'bizcharts/lib/interface';
 import type { FC } from 'react';
 import styles from './ChargingStationChart.less';
 
@@ -15,22 +16,55 @@ const ChargingStation: FC = () => {
     { year: '1999', value: 33233 },
   ];
 
-  const scale = {
+  const scale: Record<string, ScaleOption> = {
     value: {
-      min: 10000,
-      nice: true,
-    },
-    year: {
-      range: [0, 1],
+      alias: '充电功率曲线(KW)',
     },
   };
 
   return (
     <>
       <h3 className={styles.chartTitle}>充电功率曲线(KW)</h3>
-      <Chart scale={scale} height={174} data={data} autoFit>
-        <Area shape="city" position="year*value" color="l (90) 0:#159AFF 1:#7EC2FF" />
-        <Axis grid={null} name="value" />
+      <Chart scale={scale} height={154} data={data} autoFit>
+        <LineAdvance shape="smooth" area color="l (90) 0:#159AFF 1:#7EC2FF" position="year*value" />
+        <Axis
+          name="value"
+          label={{
+            style: {
+              fill: '#6C8097',
+              fontSize: 12,
+              fontWeight: 400,
+            },
+          }}
+          grid={{
+            line: {
+              type: 'line',
+              style: {
+                stroke: '#2E3A45 ',
+                lineWidth: 1,
+                lineDash: [4, 4],
+              },
+            },
+          }}
+        />
+        <Axis
+          name="year"
+          label={{
+            style: {
+              fill: '#6C8097',
+              fontSize: 12,
+              fontWeight: 400,
+            },
+          }}
+          line={{
+            style: {
+              stroke: '#475D72',
+              lineWidth: 1,
+              opacity: 0.6,
+            },
+          }}
+          tickLine={null}
+        />
       </Chart>
     </>
   );

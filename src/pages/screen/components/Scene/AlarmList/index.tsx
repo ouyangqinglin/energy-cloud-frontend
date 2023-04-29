@@ -1,4 +1,4 @@
-import { FC, HtmlHTMLAttributes, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';

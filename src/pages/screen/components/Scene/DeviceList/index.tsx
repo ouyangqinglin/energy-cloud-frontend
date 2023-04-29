@@ -36,7 +36,7 @@ const DeviceList: FC = () => {
     );
   });
   return (
-    <Cell width={400} height={300} left={24} top={488}>
+    <Cell width={400} height={300} left={24} top={432}>
       <Decoration title="设备列表">
         <div className={styles.table}>{renderGrid}</div>
       </Decoration>
