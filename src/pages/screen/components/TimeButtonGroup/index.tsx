@@ -1,6 +1,7 @@
-import { FC, useState } from 'react';
-import { Radio, RadioChangeEvent } from 'antd';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
+import type { FC } from 'react';
+import { useState } from 'react';
+import type { RadioChangeEvent } from 'antd';
+import { Radio } from 'antd';
 import styles from './index.less';
 
 export type TimeButtonGroupProps = {

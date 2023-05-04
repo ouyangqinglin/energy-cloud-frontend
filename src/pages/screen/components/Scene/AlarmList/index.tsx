@@ -65,7 +65,7 @@ const AlarmList: FC = () => {
   handleAlarmLevel();
 
   return (
-    <Cell width={400} height={240} left={24} top={808}>
+    <Cell width={400} height={240} left={24} top={752}>
       <Decoration title="实时告警">
         <div className={styles.tableWrapper}>
           <ScrollBoard config={config} style={{ width: '384px', height: '184px' }} />
