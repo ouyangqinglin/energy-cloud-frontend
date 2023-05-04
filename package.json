@@ -55,7 +55,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/charts": "^0.9.4",
+    "@ant-design/charts": "^1.4.2",
     "@ant-design/icons": "^4.5.0",
     "@ant-design/pro-descriptions": "^1.6.8",
     "@ant-design/pro-form": "^1.18.3",
@@ -75,6 +75,7 @@
     "btoa": "^1.2.1",
     "captchapng3": "^1.0.7",
     "classnames": "^2.2.6",
+    "dayjs": "^1.11.7",
     "g2": "^2.3.13",
     "gg-editor": "^2.0.2",
     "lodash": "^4.17.11",

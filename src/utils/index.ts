@@ -1,0 +1,35 @@
+import type { MenuDataItem } from '@umijs/route-utils';
+import type { MenuProps } from 'antd';
+import { createIcon } from './IconUtil';
+
+export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items'] => {
+  const arr: MenuProps['items'] = [];
+  data.forEach((item) => {
+    const path = item?.path?.split('')[0] === '/' ? item.path : `${prePath}/${item.path}`;
+    if (!item.hideInMenu) {
+      arr.push({
+        label: item.meta.title,
+        key: path,
+        icon: createIcon(item.meta.icon),
+        ...(item.children ? { children: getMenus(item.children, path) } : {}),
+      });
+    }
+  });
+  return arr;
+};
+
+export function arrayToMap(array: any[], key = 'value', value = 'label') {
+  const map = {};
+  array.forEach((item) => {
+    map['' + item[key]] = item[value];
+  });
+  return map;
+}
+
+export const isEmpty = (value: any) => {
+  return value === null || value === undefined || value === '';
+};
+
+export const getValue = (value: any, unit = '') => {
+  return isEmpty(value) ? '' : value + unit;
+};

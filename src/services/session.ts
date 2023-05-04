@@ -26,13 +26,14 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): MenuData
   return childrens.map((item: API.RoutersMenuItem) => {
     return {
       path: item.path,
-      icon: createIcon(item.meta.icon),
-      name: item.meta.title,
-      routes: item.children ? convertCompatRouters(item.children) : undefined,
+      icon: createIcon(item?.meta?.icon),
+      name: item?.meta?.title,
+      children: item.children ? convertCompatRouters(item.children) : undefined,
       hideChildrenInMenu: item.hidden,
       hideInMenu: item.hidden,
       component: item.component,
       authority: item.perms,
+      meta: item?.meta,
     };
   });
 }
@@ -58,9 +59,9 @@ export function getMatchMenuItem(
       if (path.length >= item.path?.length) {
         const exp = `${item.path}/*`;
         if (path.match(exp)) {
-          if (item.routes) {
+          if (item.children) {
             const subpath = path.substr(item.path.length + 1);
-            const subItem: MenuDataItem[] = getMatchMenuItem(subpath, item.routes);
+            const subItem: MenuDataItem[] = getMatchMenuItem(subpath, item.children);
             items = items.concat(subItem);
           } else {
             const paths = path.split('/');

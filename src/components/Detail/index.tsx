@@ -2,13 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 11:33:11
- * @LastEditTime: 2023-04-26 14:18:32
+ * @LastEditTime: 2023-04-26 15:04:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
 import React from 'react';
 import { Descriptions } from 'antd';
-import { uniqueId } from 'lodash';
 
 export type DetailItem = {
   label: React.ReactNode;
@@ -34,11 +33,11 @@ const Detail: React.FC<DetailProps> = (props) => {
   const content = items.map((item) => {
     return (
       <Descriptions.Item
-        key={uniqueId()}
         label={item.label}
         labelStyle={item.labelStyle}
         contentStyle={contentStyle}
         span={item.span || 1}
+        key={item.field}
       >
         {item.format ? item.format(data[item.field]) : data[item.field]}
       </Descriptions.Item>

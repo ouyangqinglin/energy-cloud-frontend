@@ -59,18 +59,24 @@ export default [
   },
   {
     path: '/station',
-    layout: false,
     name: 'station',
-    component: '@/layouts/StationLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/station',
-        redirect: '/station/yt-station',
+        redirect: '/station/station-list',
       },
       {
         path: '/station/yt-station',
         name: 'ytStaion',
         component: './station/ytStation',
+      },
+      {
+        path: 'station-list',
+        name: 'stationList',
+        component: './station/stationList',
       },
     ],
   },
@@ -78,7 +84,9 @@ export default [
     path: '/dashboard',
     name: 'dashboard',
     icon: 'dashboard',
-    component: '@/layouts/TabsLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/dashboard',
@@ -117,7 +125,9 @@ export default [
     name: 'account',
     icon: 'user',
     path: '/account',
-    component: '@/layouts/TabsLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/account',
@@ -147,7 +157,9 @@ export default [
     name: 'system',
     icon: 'BugOutlined',
     path: '/system',
-    component: '@/layouts/TabsLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/',
@@ -280,7 +292,9 @@ export default [
     name: 'monitor',
     icon: 'BugOutlined',
     path: '/monitor',
-    component: '@/layouts/TabsLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/',
@@ -362,7 +376,9 @@ export default [
     name: 'tool',
     icon: 'BugOutlined',
     path: '/tool',
-    component: '@/layouts/TabsLayout',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
     routes: [
       {
         path: '/',
