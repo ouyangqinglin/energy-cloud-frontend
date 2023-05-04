@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';
-import { ScrollBoard } from '@jiaminghi/data-view-react/es/scrollBoard';
+import ScrollBoard from '@chuxiaguo/data-view-react-plus/es/scrollBoard';
 export const enum AlarmLevel {
   NORMAL,
   WARNING,
@@ -34,10 +34,10 @@ const AlarmList: FC = () => {
       ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 0],
       ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 1],
     ],
-    // headerBGC:
-    //   'linear-gradient(90deg,rgba(8, 139, 255, 0) 0%,rgba(8, 139, 255, 0.2) 53%,rgba(8, 139, 255, 0) 100%)',
-    // oddRowBGC:
-    //   'linear-gradient(90deg, rgba(8,139,255,0) 0%, rgba(8,139,255,0.12) 53%, rgba(8,139,255,0) 100%)',
+    headerBGC:
+      'linear-gradient(90deg,rgba(8, 139, 255, 0) 0%,rgba(8, 139, 255, 0.2) 53%,rgba(8, 139, 255, 0) 100%)',
+    oddRowBGC:
+      'linear-gradient(90deg, rgba(8,139,255,0) 0%, rgba(8,139,255,0.12) 53%, rgba(8,139,255,0) 100%)',
     evenRowBGC: '',
     headerHeight: 32,
     waitTime: 10000,
