@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>文档的标题</title>
+    <style>
+      body {
+        background-color: #ccc;
+      }
+      .mover {
+        position: absolute;
+        top: 100px;
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(#eee 50%, #1c87c9 50%);
+        animation: move 4s linear infinite;
+        offset-path: path(
+          'M397.127315,68.9905683 L397.87767,70.2894014 L105.656852,239.10965 C99.32179,242.769508 91.5379273,242.81808 85.1671101,239.263013 L84.801151,239.053915 L-0.378643068,189.2352 L0.378643068,187.940396 L85.5584372,237.759111 C91.4105522,241.181811 98.6214805,241.269222 104.545437,238.014275 L104.906497,237.810816 L397.127315,68.9905683 Z'
+        );
+        offset-rotate: auto;
+      }
+      @keyframes move {
+        100% {
+          offset-distance: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Offset-distance 属性示例</h2>
+    <div class="mover"></div>
+  </body>
+</html>

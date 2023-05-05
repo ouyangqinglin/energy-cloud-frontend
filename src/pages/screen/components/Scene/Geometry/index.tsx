@@ -3,7 +3,9 @@ import { useState } from 'react';
 import ChargeDialog from '../../ChargeDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
-// import { Component as EnergyFlow } from '@/assets/image/screen/scenes/能流图@2x.svg';
+import EnergyFlowAnimation from './EnergyFlowAnimation';
+import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(2).svg';
+import EnergyFlowAnchor from './EnergyFlowAnchor';
 export type CellConfigItem = {
   key: string;
   cellStyle: CellStyle;
@@ -79,10 +81,11 @@ const Geometry: FC = () => {
   return (
     <div>
       <ChargeDialog id={chargeId} open={isOpen} onCancel={closeModal} />
-      {/* <Cell width={}>
-        <EnergyFlow />
-      </Cell> */}
-
+      <Cell width={684} height={332} left={640} top={372}>
+        <EnergyFlowLine />
+      </Cell>
+      <EnergyFlowAnimation />
+      <EnergyFlowAnchor />
       {ceils}
     </div>
   );

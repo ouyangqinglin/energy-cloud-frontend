@@ -12,18 +12,18 @@ import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def
 import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
 
 export const CellList = [
-  {
-    key: 'EnergyFlow',
-    cellStyle: {
-      width: 664,
-      height: 332,
-      left: 642,
-      top: 365,
-      zIndex: 0,
-    },
-    component: EnergyFlow,
-    default: EnergyFlow,
-  },
+  // {
+  //   key: 'EnergyFlow',
+  //   cellStyle: {
+  //     width: 664,
+  //     height: 332,
+  //     left: 642,
+  //     top: 365,
+  //     zIndex: 0,
+  //   },
+  //   component: EnergyFlow,
+  //   default: EnergyFlow,
+  // },
   {
     key: 'Cafe',
     cellStyle: {
