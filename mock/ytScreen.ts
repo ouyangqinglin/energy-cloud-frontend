@@ -74,4 +74,39 @@ export default {
       },
     },
   },
+  'GET /api/screen/siteInfo': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      siteName: '永泰光储充示范站',
+      siteType: '光储充站',
+      voltageLevel: '0.4KW',
+      transformerCapacity: '800kW',
+      photovoltaicPanel: '280kWp',
+      energyStorageCapacity: '500kWh/200kW',
+      chargingStation: '500kWh',
+      location: '深圳市龙华区观湖街道鹭湖社区观',
+    },
+  },
+  'GET /api/screen/charging/station': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      chargingPower: '100kW',
+      chargingCapacityToday: '100kWh',
+      gunIdle: '8',
+      gunInUse: '4',
+      earningsToday: '100元',
+    },
+  },
+  'GET /api/screen/energy/storage': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      realtimeStatus: 1,
+      chargingAndDischargingPower: '100kW',
+      soc: '33.33%',
+      soh: '99.33%',
+    },
+  },
 };

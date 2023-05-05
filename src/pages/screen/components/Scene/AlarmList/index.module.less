@@ -1,0 +1,31 @@
+.circle {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 5px;
+  background: #ff5656;
+  border-radius: 50%;
+}
+.tableWrapper {
+  margin: 16px 8px 24px 8px;
+  :global {
+    .dv-scroll-board .header {
+      // margin-bottom: 6px;
+      color: #7ec2ff;
+      font-weight: 500;
+      font-size: 12px;
+      border: 1px solid;
+      border-radius: 1px;
+      border-image: linear-gradient(
+          225deg,
+          rgba(8, 139, 255, 0),
+          rgba(8, 139, 255, 0.2),
+          rgba(8, 139, 255, 0)
+        )
+        1 1;
+    }
+    .dv-scroll-board .rows .row-item {
+      font-size: 12px;
+    }
+  }
+}

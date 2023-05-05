@@ -1,7 +1,7 @@
 import { throttle } from 'lodash';
 import { FC, useCallback, useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { useEvent, useKeyPress } from 'react-use';
+import { useKeyPress } from 'react-use';
 import styles from './index.less';
 
 export const enum ScaleMode {
@@ -71,7 +71,7 @@ const Layout: FC<LayoutProps> = (props) => {
     if (props.scaleMode === ScaleMode.H_SCALE) {
       // 计算出宽度的固定比例
       const scaleW = docClientWidth / props.screenW;
-      console.log('zcg', docClientWidth, scaleW);
+      // console.log('zcg', docClientWidth, scaleW);
       setTransform(`scale(${scaleW}, ${scaleW})`);
 
       if (docClientHeight > props.screenW) {
@@ -99,18 +99,15 @@ const Layout: FC<LayoutProps> = (props) => {
     initLayout();
     calLayoutByProps();
   }, 300);
-
-  const handleResize = throttle(
-    (event: Event) => {
-      if (event.wheelDelta < 0 && resize >= 0.2) {
-        setResize(resize - 0.1);
-      } else if (event.wheelDelta > 0 && resize < 2) {
-        setResize(resize + 0.1);
-      }
-    },
-    30,
-    { leading: false },
-  );
+  useEffect(() => {
+    if (refContainer.current) {
+      resetLayout();
+    }
+    window.addEventListener('resize', resetLayout);
+    return () => {
+      window.removeEventListener('resize', resetLayout);
+    };
+  }, [docClientWidth, docClientHeight, resetLayout]);
 
   const predicate = (event: KeyboardEvent) => {
     return event.code === 'Space';
@@ -127,49 +124,63 @@ const Layout: FC<LayoutProps> = (props) => {
   const onMouseDown = useCallback((event: MouseEvent) => {
     const { current } = offsetCache;
     current.clickDown = true;
-    if (current.x === 0 && current.y === 0) {
-      current.x = event.clientX;
-      current.y = event.clientY;
-    }
+    current.x = event.clientX;
+    current.y = event.clientY;
   }, []);
   const onMouseUp = useCallback(() => {
     const { current } = offsetCache;
     current.clickDown = false;
-    console.log(current);
 
     if (current.shouldMove === true) {
-      setOffset({ x: current.offsetX, y: current.offsetY });
-      current.offsetX = 0;
-      current.offsetX = 0;
+      const gapX = Math.floor(current.offsetX / 2);
+      const gapY = Math.floor(current.offsetY / 2);
+      setOffset({ x: offset.x + gapX, y: offset.y + gapY });
       current.shouldMove = false;
     }
-  }, []);
-  const dragMove = throttle((event: MouseEvent) => {
-    if (isPressSpace && offsetCache.current.clickDown) {
-      const { current } = offsetCache;
-      current.offsetX = event.clientX - current.x;
-      current.offsetY = event.clientY - current.y;
-      current.x = event.clientX;
-      current.y = event.clientY;
-      current.shouldMove = true;
-    }
-  }, 500);
-
+  }, [offset]);
+  const dragMove = useCallback(
+    (event: MouseEvent) => {
+      if (isPressSpace && offsetCache.current.clickDown) {
+        const { current } = offsetCache;
+        current.offsetX = event.clientX - current.x;
+        current.offsetY = event.clientY - current.y;
+        // console.log('123: render', current.offsetX, current.offsetY);
+        current.shouldMove = true;
+      }
+    },
+    [isPressSpace],
+  );
   useEffect(() => {
-    resetLayout();
-    window.addEventListener('resize', resetLayout);
-    window.addEventListener('mousewheel', handleResize);
     window.addEventListener('mousemove', dragMove);
     window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mouseup', onMouseUp);
+
     return () => {
-      window.removeEventListener('resize', resetLayout);
-      window.removeEventListener('mousewheel', handleResize);
       window.removeEventListener('mousemove', dragMove);
       window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mouseup', onMouseUp);
     };
   });
+
+  const handleResize = throttle(
+    (event: Event) => {
+      if (event.wheelDelta < 0 && resize >= 0.2) {
+        // console.log('resize', event.wheelDelta, resize, resize - 0.1);
+        setResize(resize - 0.1);
+      } else if (event.wheelDelta > 0 && resize < 2) {
+        setResize(resize + 0.1);
+      }
+      // console.log('resize', event.wheelDelta, resize);
+    },
+    30,
+    { leading: false },
+  );
+  useEffect(() => {
+    window.addEventListener('mousewheel', handleResize);
+    return () => {
+      window.removeEventListener('mousewheel', handleResize);
+    };
+  }, [handleResize]);
 
   return (
     <div className={styles.dashboard} ref={refContainer} style={dashBoardStyle}>
@@ -178,7 +189,9 @@ const Layout: FC<LayoutProps> = (props) => {
         style={{
           width: docClientWidth,
           height: docClientHeight,
-          transform: `scale(${resize}) translate(${(offset.x, offset.y)})`,
+          transform: `scale(${resize}) translateX(${offset.x + 'px'}) translateY(${
+            offset.y + 'px'
+          })`,
         }}
       >
         <div className={styles.content} style={getContentStyle()}>
@@ -189,6 +202,3 @@ const Layout: FC<LayoutProps> = (props) => {
   );
 };
 export default Layout;
-function ref(arg0: null) {
-  throw new Error('Function not implemented.');
-}

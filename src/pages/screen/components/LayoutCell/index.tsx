@@ -1,9 +1,8 @@
 import type { FC } from 'react';
-import type { CSSProperties } from 'react';
 
 export type CellProps = {
   width: number;
-  height: number;
+  height?: number;
   left: number;
   top: number;
   zIndex?: number;

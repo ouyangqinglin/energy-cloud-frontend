@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  max-width: 140px;
+  padding-left: 10px;
+
+  .title {
+    height: 20px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    line-height: 20px;
+  }
+
+  .content {
+    display: flex;
+    flex-flow: row;
+    align-items: last baseline;
+    justify-content: flex-start;
+
+    .number {
+      height: 34px;
+      color: #ecf6ff;
+      font-weight: bold;
+      font-size: 28px;
+      font-family: DIN-Bold, DIN;
+      line-height: 34px;
+      background: linear-gradient(180deg, #fff 0%, #7ec2ff 100%),
+        linear-gradient(180deg, #fff 0%, #a2d3ff 67%, #4dabff 100%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .unit {
+      margin-left: 6px;
+      color: #7ec2ff;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 20px;
+    }
+  }
+}

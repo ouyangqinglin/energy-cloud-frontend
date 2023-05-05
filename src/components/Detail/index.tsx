@@ -24,11 +24,11 @@ export type DetailProps = {
   column?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
-  format?: (value: any) => React.ReactNode;
+  colon?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
-  const { items, column = 3, labelStyle = {}, contentStyle = {}, data = {}, format } = props;
+  const { items, column = 3, labelStyle = {}, contentStyle = {}, data = {}, colon = true } = props;
 
   const content = items.map((item) => {
     return (
@@ -39,17 +39,13 @@ const Detail: React.FC<DetailProps> = (props) => {
         span={item.span || 1}
         key={item.field}
       >
-        {item.format
-          ? item.format(data[item.field])
-          : format
-          ? format(data[item.field])
-          : data[item.field]}
+        {item.format ? item.format(data[item.field]) : data[item.field]}
       </Descriptions.Item>
     );
   });
 
   return (
-    <Descriptions column={column} labelStyle={labelStyle} contentStyle={contentStyle}>
+    <Descriptions column={column} labelStyle={labelStyle} contentStyle={contentStyle} colon={colon}>
       {content}
     </Descriptions>
   );

@@ -1,3 +1,32 @@
+.rect() {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #0b5fa9;
+  content: '';
+}
+
+.wrapperRect {
+  &::before {
+    .rect();
+
+    bottom: 0;
+    left: 0;
+  }
+
+  &::after {
+    .rect();
+
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.borderLeft {
+  padding-left: 0 !important;
+  border-left: 3px solid #159aff;
+}
+
 .wrapper {
   position: relative;
   display: flex;
@@ -11,7 +40,9 @@
     align-items: center;
     justify-content: space-between;
     height: 32px;
+    padding-left: 16px;
     line-height: 32px;
+    background-image: linear-gradient(to right, rgba(21, 154, 255, 0.4), rgba(8, 139, 255, 0));
 
     .leftContent {
       display: flex;
