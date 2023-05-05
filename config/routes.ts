@@ -27,6 +27,29 @@ export default [
     // ],
   },
   {
+    path: '/station',
+    name: 'station',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/station',
+        redirect: '/station/station-list',
+      },
+      {
+        path: '/station/yt-station',
+        name: 'ytStaion',
+        component: './station/ytStation',
+      },
+      {
+        path: 'station-list',
+        name: 'stationList',
+        component: './station/stationList',
+      },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -54,29 +77,6 @@ export default [
       },
       {
         component: '404',
-      },
-    ],
-  },
-  {
-    path: '/station',
-    name: 'station',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
-    routes: [
-      {
-        path: '/station',
-        redirect: '/station/station-list',
-      },
-      {
-        path: '/station/yt-station',
-        name: 'ytStaion',
-        component: './station/ytStation',
-      },
-      {
-        path: 'station-list',
-        name: 'stationList',
-        component: './station/stationList',
       },
     ],
   },

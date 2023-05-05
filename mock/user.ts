@@ -218,6 +218,46 @@ export default {
     code: 200,
     data: [
       {
+        name: '',
+        path: '/station',
+        hidden: false,
+        redirect: 'noRedirect',
+        component: '',
+        alwaysShow: true,
+        meta: {
+          title: '站点管理',
+          icon: '',
+          noCache: false,
+          link: null,
+        },
+        children: [
+          {
+            name: '',
+            path: 'custom-page',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '定制页管理',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
+          {
+            name: '',
+            path: 'station-list',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '站点列表',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
+        ],
+      },
+      {
         name: 'System',
         path: '/system',
         hidden: false,

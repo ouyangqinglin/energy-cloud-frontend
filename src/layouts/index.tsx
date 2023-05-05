@@ -12,6 +12,7 @@ import { Layout } from 'antd';
 import MyHeader from '@/components/header/MyHeader';
 import styles from './index.less';
 import PageMenu from '@/components/Menu/PageMenu';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const MyLayout: React.FC = (props: any) => {
   const { route } = props;
@@ -22,11 +23,14 @@ const MyLayout: React.FC = (props: any) => {
       </Layout.Header>
       <Layout id="myLayoutContain">
         {route.menu == 'sider' && (
-          <Layout.Sider theme="light">
+          <Layout.Sider className={styles.sider} theme="light">
             <PageMenu />
           </Layout.Sider>
         )}
-        <Layout.Content className={styles.content}>{props.children}</Layout.Content>
+        <Layout.Content className={styles.content}>
+          <Breadcrumb />
+          {props.children}
+        </Layout.Content>
       </Layout>
     </Layout>
   );
