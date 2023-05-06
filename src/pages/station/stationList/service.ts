@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\service.ts
  */
 import request from '@/utils/request';
-import { StationForm } from './data.d';
+import { StationFormType } from './data.d';
 
 export const getList = (params: any) => {
   return request(`/stations`, {
@@ -16,7 +16,7 @@ export const getList = (params: any) => {
   });
 };
 
-export const addData = (data: StationForm) => {
+export const addData = (data: StationFormType) => {
   return request(`/station`, {
     method: 'POST',
     data,

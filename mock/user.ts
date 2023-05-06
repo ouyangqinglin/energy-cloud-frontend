@@ -258,6 +258,34 @@ export default {
         ],
       },
       {
+        name: '',
+        path: '/equipment',
+        hidden: false,
+        redirect: 'noRedirect',
+        component: '',
+        alwaysShow: true,
+        meta: {
+          title: '设备管理',
+          icon: '',
+          noCache: false,
+          link: null,
+        },
+        children: [
+          {
+            name: '',
+            path: 'equipment-list',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '设备列表',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
+        ],
+      },
+      {
         name: 'System',
         path: '/system',
         hidden: false,

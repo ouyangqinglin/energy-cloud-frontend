@@ -17,7 +17,6 @@ declare module 'mockjs';
 declare module 'react-fittext';
 declare module 'bizcharts-plugin-slider';
 declare module 'react-bmapgl';
-declare module 'BMapGL';
 declare module '@chuxiaguo/data-view-react-plus/es/scrollBoard';
 
 // preview.pro.ant.design only do not use in your production ;

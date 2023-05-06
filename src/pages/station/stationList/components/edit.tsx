@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-04 19:00:00
+ * @LastEditTime: 2023-05-05 17:53:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, message, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -18,27 +18,40 @@ import {
 } from '@ant-design/pro-form';
 import { StationFormType } from '../data.d';
 import { addData } from '../service';
-import PointSelect from '@/components/PointSelect';
+import PositionSelect from '@/components/PositionSelect';
 
-const StationForm: React.FC = () => {
+type StationFOrmProps = {
+  values?: StationFormType;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
+
+const StationForm: React.FC<StationFOrmProps> = (props) => {
   const [form] = Form.useForm<StationFormType>();
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (props.open) {
+      if (props.values) {
+        form.setFieldsValue(props.values);
+      } else {
+        form.resetFields();
+      }
+      setShow(true);
+    }
+  }, [props.open]);
 
   return (
     <>
       <ModalForm<StationFormType>
+        visible={props.open}
         form={form}
         title="创建站点"
         layout="horizontal"
         labelCol={{ flex: '86px' }}
-        trigger={
-          <Button type="primary" key="add">
-            <PlusOutlined />
-            新建站点
-          </Button>
-        }
         autoFocusFirstInput
         onFinish={(data) =>
-          addData(data).then((res) => {
+          addData({ ...data, id: props.values?.id }).then((res) => {
             if (res) {
               message.success('新增成功');
               return true;
@@ -47,6 +60,7 @@ const StationForm: React.FC = () => {
             }
           })
         }
+        onVisibleChange={props.onOpenChange}
       >
         <ProFormText
           label="站点名称"
@@ -54,8 +68,8 @@ const StationForm: React.FC = () => {
           placeholder="请输入"
           rules={[{ required: true, message: '站点名称必填' }]}
         ></ProFormText>
-        <Form.Item label="位置" name="addr">
-          <PointSelect></PointSelect>
+        <Form.Item label="位置" name="addr" rules={[{ required: true, message: '位置必填' }]}>
+          {show && <PositionSelect></PositionSelect>}
         </Form.Item>
         <Row gutter={20}>
           <Col span={12}>

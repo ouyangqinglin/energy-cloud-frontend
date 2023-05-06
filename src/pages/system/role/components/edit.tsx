@@ -35,7 +35,7 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
   const { menuTree, menuCheckedKeys } = props;
   const [menuIds, setMenuIds] = useState<any>();
   const { statusOptions } = props;
-  
+
   useEffect(() => {
     form.resetFields();
     form.setFieldsValue({
@@ -209,7 +209,7 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
                 defaultExpandAll={false}
                 treeData={menuTree}
                 defaultCheckedKeys={menuCheckedKeys}
-                onCheck={( keys: any) => {
+                onCheck={(keys: any) => {
                   setMenuIds(keys.checked);
                 }}
               />

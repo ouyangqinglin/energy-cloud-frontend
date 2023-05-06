@@ -16,6 +16,11 @@ import thunderstorm from '@/assets/image/screen/weather/thunderstorm.png';
 
 export const aks = ['YeoPwIR9MkozLsC0irBYIpFEPvjrc4bn'];
 
+export type OptionType = {
+  label: string;
+  value: string | number;
+};
+
 export const useInfo = [
   { label: '占用', value: 1 },
   { label: '空闲', value: 0 },

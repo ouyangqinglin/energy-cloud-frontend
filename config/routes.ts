@@ -50,6 +50,24 @@ export default [
     ],
   },
   {
+    path: '/equipment',
+    name: 'equipment',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/equipment',
+        redirect: '/equipment/equipment-list',
+      },
+      {
+        path: 'equipment-list',
+        name: 'equipmentList',
+        component: './station/stationList',
+      },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [

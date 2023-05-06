@@ -22,6 +22,7 @@ export type StationType = {
 };
 
 export type StationFormType = {
+  id?: number;
   name: string;
   addr: string;
   icon: string;
