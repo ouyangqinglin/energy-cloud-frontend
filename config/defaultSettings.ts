@@ -8,7 +8,7 @@ const Settings: LayoutSettings & {
 } = {
   navTheme: 'light',
   headerTheme: 'light',
-  primaryColor: '#159AFF',
+  primaryColor: '#165DFF',
   layout: 'mix',
   // splitMenus: true,
   contentWidth: 'Fluid',

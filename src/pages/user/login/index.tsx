@@ -12,6 +12,7 @@ import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-de
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { getFakeCaptcha, login } from '@/services/login';
+import YtIcon from '@/assets/image/icon-yt.png';
 
 import styles from './index.less';
 import { clearSessionToken, setSessionToken } from '@/access';
@@ -87,56 +88,27 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+          logo={<img alt="logo" src={YtIcon} />}
+          title="永泰光储充运管理系统"
           initialValues={{
             autoLogin: true,
           }}
-          actions={[
-            <FormattedMessage
-              key="loginWith"
-              id="pages.login.loginWith"
-              defaultMessage="其他登录方式"
-            />,
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
-          ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane
-              key="account"
-              tab={intl.formatMessage({
-                id: 'pages.login.accountLogin.tab',
-                defaultMessage: '账户密码登录',
-              })}
-            />
-            <Tabs.TabPane
-              key="mobile"
-              tab={intl.formatMessage({
-                id: 'pages.login.phoneLogin.tab',
-                defaultMessage: '手机号登录',
-              })}
-            />
-          </Tabs>
-
           {status === 'error' && loginType === 'account' && <LoginMessage content={massage} />}
           {type === 'account' && (
             <>
               <ProFormText
                 name="username"
-                initialValue="admin"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名1: admin',
+                  defaultMessage: '用户名',
                 })}
                 rules={[
                   {
@@ -152,14 +124,13 @@ const Login: React.FC = () => {
               />
               <ProFormText.Password
                 name="password"
-                initialValue="admin123"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: admin123',
+                  defaultMessage: '密码',
                 })}
                 rules={[
                   {
@@ -221,17 +192,10 @@ const Login: React.FC = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
             </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
-            </a>
           </div>
         </LoginForm>
       </div>
-      <Footer />
+      <Footer className={styles.footer} />
     </div>
   );
 };

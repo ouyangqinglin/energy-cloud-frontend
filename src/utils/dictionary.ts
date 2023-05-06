@@ -50,3 +50,14 @@ export const buildStatus = {
     status: 'Processing',
   },
 };
+
+export const onlineStatus = {
+  1: {
+    text: '在线',
+    status: 'Success',
+  },
+  0: {
+    text: '离线',
+    status: 'Error',
+  },
+};

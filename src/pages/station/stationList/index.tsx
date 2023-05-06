@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-06 09:29:24
+ * @LastEditTime: 2023-05-06 11:28:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -197,6 +197,9 @@ const StationList: React.FC = () => {
           })
         }
         scroll={{ x: 1366 }}
+        pagination={{
+          showSizeChanger: true,
+        }}
       ></ProTable>
       <StationForm values={formData} open={open} onOpenChange={onOpenChange} />
     </>

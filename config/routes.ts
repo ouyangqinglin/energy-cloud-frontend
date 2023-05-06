@@ -63,7 +63,7 @@ export default [
       {
         path: 'equipment-list',
         name: 'equipmentList',
-        component: './station/stationList',
+        component: './equipment/equipment-list',
       },
     ],
   },
@@ -436,7 +436,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/station',
   },
   {
     component: './404',
