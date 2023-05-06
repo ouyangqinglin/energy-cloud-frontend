@@ -4,7 +4,7 @@
     <title>文档的标题</title>
     <style>
       body {
-        background-color: #ccc;
+        /* background-color: #ccc; */
       }
       .mover {
         position: absolute;
@@ -24,10 +24,98 @@
           offset-distance: 100%;
         }
       }
+      .streamer_effect {
+        position: absolute;
+      }
+      .streamer {
+        position: absolute;
+        display: block;
+      }
+      .streamer:nth-child(1) {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #3a86ff);
+        filter: hue-rotate(0deg);
+        animation: animate1 8s linear infinite;
+      }
+      @keyframes animate1 {
+        0% {
+          left: -100%;
+        }
+        50%,
+        100% {
+          left: 100%;
+        }
+      }
+      .streamer:nth-child(2) {
+        top: -100%;
+        right: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, #3a86ff);
+        filter: hue-rotate(60deg);
+        animation: animate2 8s linear infinite;
+        animation-delay: 2s;
+      }
+      @keyframes animate2 {
+        0% {
+          top: -100%;
+        }
+        50%,
+        100% {
+          top: 100%;
+        }
+      }
+      .streamer:nth-child(3) {
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(270deg, transparent, #3a86ff);
+        filter: hue-rotate(120deg);
+        animation: animate3 8s linear infinite;
+        animation-delay: 4s;
+      }
+      @keyframes animate3 {
+        0% {
+          right: -100%;
+          height: 3px;
+        }
+        50%,
+        100% {
+          right: 100%;
+          height: 2px;
+        }
+      }
+      .streamer:nth-child(4) {
+        bottom: -100%;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(360deg, transparent, #3a86ff);
+        filter: hue-rotate(300deg);
+        animation: animate4 8s linear infinite;
+        animation-delay: 6s;
+      }
+      @keyframes animate4 {
+        0% {
+          bottom: -100%;
+        }
+        50%,
+        100% {
+          bottom: 100%;
+        }
+      }
     </style>
   </head>
   <body>
-    <h2>Offset-distance 属性示例</h2>
-    <div class="mover"></div>
+    <!-- <div class="mover"></div> -->
+    <div class="streamer_effect">
+      <span class="Streamer"></span>
+      <span class="Streamer"></span>
+      <span class="Streamer"></span>
+      <span class="Streamer"></span>
+    </div>
   </body>
 </html>

@@ -4,8 +4,8 @@ import ChargeDialog from '../../ChargeDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
-import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(2).svg';
-import EnergyFlowAnchor from './EnergyFlowAnchor';
+import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
+
 export type CellConfigItem = {
   key: string;
   cellStyle: CellStyle;
@@ -85,7 +85,7 @@ const Geometry: FC = () => {
         <EnergyFlowLine />
       </Cell>
       <EnergyFlowAnimation />
-      <EnergyFlowAnchor />
+      {/* <EnergyFlowAnchor /> */}
       {ceils}
     </div>
   );

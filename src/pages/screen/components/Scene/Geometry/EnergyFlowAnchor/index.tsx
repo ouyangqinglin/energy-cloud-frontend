@@ -1,9 +1,13 @@
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
 import Cell from '../../../LayoutCell';
 import styles from './index.module.less';
 
 const EnergyFlow: FC = () => {
   const anchors = [
+    {
+      top: 187.940396,
+      left: 0,
+    },
     {
       top: 187.940396,
       left: 0,
