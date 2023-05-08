@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 11:33:11
- * @LastEditTime: 2023-04-26 15:04:39
+ * @LastEditTime: 2023-05-06 15:49:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
@@ -24,11 +24,20 @@ export type DetailProps = {
   column?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
+  format?: (value: any) => React.ReactNode;
   colon?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
-  const { items, column = 3, labelStyle = {}, contentStyle = {}, data = {}, colon = true } = props;
+  const {
+    items,
+    column = 3,
+    labelStyle = {},
+    contentStyle = {},
+    data = {},
+    colon = true,
+    format,
+  } = props;
 
   const content = items.map((item) => {
     return (
@@ -39,7 +48,11 @@ const Detail: React.FC<DetailProps> = (props) => {
         span={item.span || 1}
         key={item.field}
       >
-        {item.format ? item.format(data[item.field]) : data[item.field]}
+        {item.format
+          ? item.format(data[item.field])
+          : format
+          ? format(data[item.field])
+          : data[item.field]}
       </Descriptions.Item>
     );
   });

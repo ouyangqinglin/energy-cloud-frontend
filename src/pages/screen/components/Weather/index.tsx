@@ -14,7 +14,7 @@ import { arrayToMap } from '@/utils';
 import { weatherInfo, weekInfo } from '@/utils/dictionary';
 import styles from './index.less';
 import IconUnknow from '@/assets/image/screen/weather/cloudy.png';
-import { getWeather } from '../Dialog/service';
+import { getWeather } from '../../../../components/ScreenDialog/service';
 import dayjs from 'dayjs';
 
 export type WeatherProps = {

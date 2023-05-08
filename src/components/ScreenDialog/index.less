@@ -1,6 +1,29 @@
-.dialogWrap {
+.dialog-equipment {
+  .dialog-product-logo {
+    width: 100%;
+  }
+  .productInfo {
+    padding-left: 32px;
+  }
+  .btnMore {
+    padding-left: 0;
+  }
+  .label {
+    margin-bottom: 16px;
+    font-size: 14px;
+    .labelLine {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      margin-right: 8px;
+      background: black;
+    }
+  }
+}
+
+.dialog-screen {
   color: white;
-  background: rgba(10, 16, 28, 0.9);
+  background: rgba(10, 16, 28, 0.8);
   border: 0.005vw solid;
   border-image: linear-gradient(
       225deg,
@@ -9,12 +32,13 @@
       rgba(8, 139, 255, 0)
     )
     1 1;
-  .dialogHead {
+  backdrop-filter: blur(5px);
+  .dialog-head {
     position: relative;
     height: 3.05vh;
     font-size: 1.52vh;
     background: linear-gradient(90deg, rgba(8, 139, 255, 0.4) 0%, rgba(8, 139, 255, 0) 100%);
-    .tab {
+    .dialog-tab {
       position: relative;
       display: inline-block;
       padding: 0 0.833vw;
@@ -44,11 +68,11 @@
     height: 0.83vw;
     cursor: pointer;
   }
-  .dialogContent {
+  .dialog-content {
     padding: 0.83vw;
   }
-  .productLogo {
-    width: 10.41vw;
+  .dialog-product-logo {
+    width: 100%;
     margin-bottom: 1.29vh;
   }
   .productInfo {
