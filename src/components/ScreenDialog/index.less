@@ -19,9 +19,21 @@
       background: black;
     }
   }
+  .ant-descriptions-item-label {
+    font-size: 12px;
+  }
+  .ant-descriptions-item-content {
+    font-size: 12px;
+  }
+  .cl-success {
+    color: #28f0ee;
+  }
+  .cl-error {
+    color: #ff5656;
+  }
 }
 
-.dialog-screen {
+.ant-modal-content.dialog-screen {
   color: white;
   background: rgba(10, 16, 28, 0.8);
   border: 0.005vw solid;
@@ -80,6 +92,7 @@
   }
   .label {
     margin-bottom: 0.74vh;
+    color: white;
     font-size: 1.29vh;
     .labelLine {
       display: inline-block;
@@ -128,5 +141,55 @@
   }
   .btnMore {
     padding-left: 0;
+  }
+  .ant-descriptions-item-label,
+  .desc-label {
+    color: #a7b7ca;
+    font-size: 1.11vh;
+  }
+  .ant-descriptions-item-content,
+  .desc-content {
+    color: white;
+    font-size: 12px;
+  }
+  .ant-tabs-nav::before {
+    border-bottom-color: #064066;
+  }
+  .ant-tabs-tab-btn {
+    color: white;
+  }
+  .child-tabs {
+    .ant-tabs-tab {
+      padding-top: 0.46vh;
+      padding-bottom: 0.46vh;
+      font-size: 1.11vh;
+      background: rgba(208, 222, 238, 0.1);
+      border: 0.05vw solid rgba(208, 222, 238, 0.1);
+      .ant-tabs-tab-btn {
+        color: #fff9;
+      }
+    }
+    .ant-tabs-tab-active {
+      background: rgba(21, 154, 255, 0.2);
+      border: 0.05vw solid #159aff;
+      .ant-tabs-tab-btn {
+        color: white;
+      }
+    }
+    .ant-tabs-ink-bar {
+      display: none;
+    }
+    .ant-tabs-content-holder {
+      border-left: 0;
+    }
+  }
+  .cl-success {
+    color: #28f0ee;
+  }
+  .cl-error {
+    color: #ff5656;
+  }
+  .mt24 {
+    margin-top: 2.22vh;
   }
 }

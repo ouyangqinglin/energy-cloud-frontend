@@ -21,6 +21,11 @@ export type OptionType = {
   value: string | number;
 };
 
+export type fieldType = {
+  label: string;
+  field: string;
+};
+
 export const useInfo = [
   { label: '占用', value: 1 },
   { label: '空闲', value: 0 },
@@ -37,6 +42,8 @@ export const weatherInfo = [
 ];
 
 export const weekInfo = ['星期天', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+export const color = {};
 
 export const buildStatus = {
   // 0: '建设中',

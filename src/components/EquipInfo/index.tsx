@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-06 17:58:49
+ * @LastEditTime: 2023-05-08 09:53:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -12,6 +12,7 @@ import { Row, Col, Button, Modal } from 'antd';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import ScreenDialog from '../ScreenDialog';
+import Label from '../Detail/label';
 
 export type EquipInfoProps = {
   data: {
@@ -37,7 +38,18 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
   };
 
   const equipInfoItems: DetailItem[] = [
-    { label: '在线状态', field: 'online', span: 3 },
+    {
+      label: '在线状态',
+      field: 'online',
+      span: 3,
+      format: (value) => {
+        if (value == 1) {
+          return <span style={{ color: '#28F0EE' }}>在线</span>;
+        } else {
+          return <span style={{ color: '#FF5656' }}>离线</span>;
+        }
+      },
+    },
     { label: '设备编码', field: 'code' },
     { label: '产品型号', field: 'model' },
     { label: '设备SN', field: 'sn' },
@@ -66,21 +78,11 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
           <img className="dialog-product-logo" src={data.img} />
         </Col>
         <Col className="productInfo" flex="1">
-          <div className="flex label">
-            <span className="labelLine" />
-            基本信息
-          </div>
+          <Label title="基本信息" />
           <Detail
             items={equipInfoItems}
             data={data}
-            labelStyle={
-              model === 'screen'
-                ? { width: '4.5vw', color: '#A7B7CA', fontSize: '1.11vh' }
-                : { width: '88px', fontSize: '12px' }
-            }
-            contentStyle={
-              model === 'screen' ? { color: 'white', fontSize: '1.11vh' } : { fontSize: '12px' }
-            }
+            labelStyle={model === 'screen' ? { width: '4.5vw' } : { width: '88px' }}
           />
           <Button className="btnMore" type="link" onClick={onClick}>{`产品介绍>`}</Button>
         </Col>
@@ -102,19 +104,9 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
               items={productInfoItem}
               data={product || {}}
               column={2}
-              labelStyle={
-                model === 'screen'
-                  ? { width: '4.5vw', color: '#A7B7CA', fontSize: '1.11vh' }
-                  : { width: '65px', fontSize: '12px' }
-              }
-              contentStyle={
-                model === 'screen' ? { color: 'white', fontSize: '1.11vh' } : { fontSize: '12px' }
-              }
+              labelStyle={model === 'screen' ? { width: '4.5vw' } : { width: '65px' }}
             />
-            <div className="label">
-              <span className="flex labelLine" />
-              产品介绍
-            </div>
+            <Label title="产品介绍" />
             <div className="desc">{product.desc}</div>
             <Button
               className="btnMore"

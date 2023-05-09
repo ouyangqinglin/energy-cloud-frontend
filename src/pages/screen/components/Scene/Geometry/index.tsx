@@ -1,6 +1,6 @@
 import type { FC, PureComponent, ReactNode } from 'react';
 import { useState } from 'react';
-import ChargeDialog from '../../ChargeDialog';
+import ChargeDialog from '../../EnergyDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
 // import { Component as EnergyFlow } from '@/assets/image/screen/scenes/能流图@2x.svg';
