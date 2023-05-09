@@ -1,0 +1,100 @@
+.wrapper {
+  position: absolute;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  // width: 5px;
+  // height: 5px;
+}
+
+.ceils {
+  // width: 5px;
+  // height: 5px;
+  // background: #edb500;
+  // border-radius: 50%;
+  &:hover {
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px);
+  }
+}
+
+.circle1,
+.circle2 {
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+  width: 40%;
+  height: 10px;
+  margin-left: -5px;
+  background: #987b1e;
+  border-radius: 50%;
+  box-shadow: 1px 1px 15px rgba(152, 123, 30, 0.7);
+  visibility: hidden;
+  opacity: 0;
+  &:hover {
+    visibility: visible;
+  }
+}
+.circle1 {
+  animation: waterRippleOuter 1.5s linear;
+  animation-iteration-count: infinite;
+}
+.circle2 {
+  animation: waterRippleInner 1.5s linear;
+  animation-iteration-count: infinite;
+}
+@keyframes waterRippleOuter {
+  0% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+
+  25% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.3;
+  }
+
+  75% {
+    transform: scale(1.6);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: scale(1.8);
+    opacity: 0.1;
+  }
+}
+
+@keyframes waterRippleInner {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.01;
+  }
+
+  25% {
+    transform: scale(0.8);
+    opacity: 0.13;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+
+  75% {
+    transform: scale(1.2);
+    opacity: 0.07;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0.01;
+  }
+}

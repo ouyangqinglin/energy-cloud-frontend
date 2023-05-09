@@ -1,10 +1,13 @@
 import { flatten, uniqueId } from 'lodash';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';
 import { DeviceListRes, getDeviceList } from './service';
+
+type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
+type BodyDataArray = [string, string[], string[]][];
 
 const DeviceList: FC = () => {
   const [bodyData, setBodyData] = useState([
@@ -16,13 +19,39 @@ const DeviceList: FC = () => {
     header: ['子系统', '设备名称', '数量'],
   };
 
-  // const combineIntoBodyData = (deviceList: DeviceListRes) => {
-  //   deviceList.map();
-  // };
+  const combineIntoBodyData = (deviceList: DeviceListRes) => {
+    const combineBodyMap: BodyDataMap = new Map();
+    deviceList.reduce((collection, device) => {
+      const cache = collection.get(device.subsystemId);
+      if (cache) {
+        cache.children.push(device);
+      } else {
+        collection.set(device.subsystemId, { name: device.subsystemName, children: [device] });
+      }
+      return collection;
+    }, combineBodyMap);
+
+    const result: BodyDataArray = [];
+    if (combineBodyMap.size) {
+      combineBodyMap.forEach((item) => {
+        const names: string[] = [];
+        const values: string[] = [];
+        item.children.forEach((child) => {
+          names.push(child.productName);
+          values.push(child.number.toString());
+        });
+        result.push([item.name, names, values]);
+      });
+    }
+    return result;
+  };
 
   const { data: deviceList } = useRequest(getDeviceList);
-  if (deviceList) {
-  }
+  // if (deviceList) {
+  //   const res = combineIntoBodyData(deviceList);
+  //   console.log('zgg', res, deviceList);
+  //   setBodyData(res);
+  // }
 
   const headerCeils: ReactNode[] = [];
   const renderHeader = () => {
@@ -57,7 +86,7 @@ const DeviceList: FC = () => {
 
   // useEffect(() => {
   //   renderBody();
-  // }, [bodyData]);
+  // }, [bodyData, renderBody]);
 
   return (
     <Cell width={400} height={300} left={24} top={432}>

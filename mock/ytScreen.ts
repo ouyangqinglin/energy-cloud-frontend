@@ -109,7 +109,7 @@ export default {
       soh: '99.33%',
     },
   },
-  'GET /screen/device/list': {
+  'GET /api/screen/device/list': {
     msg: '操作成功',
     code: 200,
     data: [

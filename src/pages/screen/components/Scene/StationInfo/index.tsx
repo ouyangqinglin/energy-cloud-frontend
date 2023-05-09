@@ -15,7 +15,8 @@ const StationInfo: FC = () => {
     return {
       label: (
         <div className={styles.itemLeft}>
-          <Icon className={styles.icon} />
+          {/* <Icon className={styles.icon} /> */}
+          <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }}></div>
           <span>{item.label}</span>
         </div>
       ),

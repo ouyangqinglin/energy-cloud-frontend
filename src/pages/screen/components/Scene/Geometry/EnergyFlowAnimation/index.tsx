@@ -1,14 +1,18 @@
-import { uniqueId } from 'lodash';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import Cell from '../../../LayoutCell';
 import { leftPathsConfig } from './configLeftPaths';
-import { rightPathsConfig, rightPathsNeedCalc } from './configRightPaths';
+import { rightPathsConfig, rightPathsNeedCalc, rightPathsDynamical } from './configRightPaths';
 import styles from './index.module.less';
 import type { PathConfigType } from './type';
 
 const EnergyFlow: FC = () => {
-  const [paths, setPaths] = useState<PathConfigType[]>([...rightPathsNeedCalc]);
+  const [paths, setPaths] = useState<PathConfigType[]>([
+    ...leftPathsConfig,
+    ...rightPathsConfig,
+    ...rightPathsNeedCalc,
+    ...rightPathsDynamical,
+  ]);
 
   const calcPointWithRadian = ({
     x,
@@ -32,17 +36,14 @@ const EnergyFlow: FC = () => {
 
   const calcPathAfterRotate = ({ path, rotateAngle: angle = -30 }: PathConfigType) => {
     const pathArr = path.split(' ');
-
     const [startX, startY] = [Number(pathArr[0]), Number(pathArr[1])];
     const [endX, endY] = [Number(pathArr[2]), Number(pathArr[3])];
     const [cx, cy] = [Math.abs((startX - endX) / 2), Math.abs((startY - endY) / 2)];
-    console.log('zgg before', startX, startY, endX, endY, cx, cy);
-    const res = [
+
+    return [
       ...calcPointWithRadian({ x: startX, y: startY, cx, cy, angle }),
       ...calcPointWithRadian({ x: endX, y: endY, cx, cy, angle }),
     ].join(' ');
-    console.log('zgg after', res);
-    return res;
   };
 
   const finalPaths: PathConfigType[] = [];
@@ -57,15 +58,15 @@ const EnergyFlow: FC = () => {
   };
   const handleRepeatItem = () => {
     return paths.reduce((pre, cur) => {
-      pre.push(handlePath(cur));
-      console.log('zgg', pre);
+      const transformedCur = handlePath(cur);
+      pre.push(transformedCur);
 
-      if (cur && cur.repeat) {
+      if (transformedCur && transformedCur.repeat) {
         const copyPaths: PathConfigType[] = [];
-        for (let i = 0; i < cur.repeat; i++) {
+        for (let i = 1; i <= transformedCur.repeat; i++) {
           copyPaths.push({
-            ...cur,
-            id: uniqueId(),
+            ...transformedCur,
+            id: transformedCur.id + '_copy',
             delay: i * 2,
           });
         }
@@ -96,7 +97,7 @@ const EnergyFlow: FC = () => {
           styleConfig = { ...styleConfig, ...p.style };
         }
 
-        return <div key={p.id} className={styles.point3} style={styleConfig} />;
+        return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
       })}
     </Cell>
   );

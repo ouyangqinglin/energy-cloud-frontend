@@ -4,6 +4,7 @@ import ChargeDialog from '../../ChargeDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
+import styles from './index.less';
 import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
 
 export type CellConfigItem = {
@@ -65,15 +66,22 @@ const Geometry: FC = () => {
         // onMouseEnter={() => handleGeometry(cell, EventType.MOUSE_ENTER)}
         {...cell.cellStyle}
       >
-        <div
-          style={{
-            background: `url(${cell.component})`,
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            ...cell.cellStyle,
-          }}
-        />
+        <div className={styles.wrapper}>
+          <div className={styles.content}>
+            <div
+              className={styles.ceils}
+              style={{
+                background: `url(${cell.component})`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                ...cell.cellStyle,
+              }}
+            />
+            <div className={styles.circle1} style={{ left: cell.cellStyle.width / 2 }} />
+            <div className={styles.circle2} style={{ left: cell.cellStyle.width / 2 }} />
+          </div>
+        </div>
       </Cell>,
     );
   });
