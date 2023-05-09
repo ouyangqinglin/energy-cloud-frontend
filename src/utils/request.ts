@@ -59,12 +59,10 @@ const request = createClient();
 
 // 更换令牌的时间区间
 const checkRegion = 5 * 60 * 1000;
-const isDev = process.env.NODE_ENV === 'development';
 
 request.interceptors.request.use((url: string, options: any) => {
   // console.log('-------------------------')
-  const reqUrl = isDev ? url : url.replace(/\/api/, '/prod-api');
-  console.log('request:', reqUrl);
+  console.log('request:', url);
   const headers = options.headers ? options.headers : [];
   if (headers['Authorization'] === '' || headers['Authorization'] == null) {
     const expireTime = getTokenExpireTime();
@@ -89,12 +87,12 @@ request.interceptors.request.use((url: string, options: any) => {
     }
     // console.log(headers)
     return {
-      url: reqUrl,
+      url,
       options: { ...options, headers },
     };
   } else {
     return {
-      url: reqUrl,
+      url,
       options,
     };
   }

@@ -1,5 +1,6 @@
 import { Settings as LayoutSettings } from '@ant-design/pro-layout';
 
+const isDev = process.env.NODE_ENV === 'development';
 const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
@@ -19,7 +20,7 @@ const Settings: LayoutSettings & {
   pwa: false,
   iconfontUrl: '',
   tabsLayout: true,
-  apiBasePath: '/api',
+  apiBasePath: isDev ? '/api' : '/prod-api',
 };
 
 export default Settings;
