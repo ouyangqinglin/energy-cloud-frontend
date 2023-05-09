@@ -40,7 +40,8 @@
     "test": "umi test",
     "test:all": "node ./tests/run-tests.js",
     "test:component": "umi test ./src/components",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "preview": "cd ./dist && live-server --port=8081 --proxy=/prod-api:http://192.168.3.18/prod-api"
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
