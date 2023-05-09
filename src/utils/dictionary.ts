@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-04-27 13:54:43
+ * @LastEditTime: 2023-05-04 19:19:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -13,6 +13,18 @@ import lightRain from '@/assets/image/screen/weather/lightRain.png';
 import moderateRain from '@/assets/image/screen/weather/moderateRain.png';
 import rainstorm from '@/assets/image/screen/weather/rainstorm.png';
 import thunderstorm from '@/assets/image/screen/weather/thunderstorm.png';
+
+export const aks = ['YeoPwIR9MkozLsC0irBYIpFEPvjrc4bn'];
+
+export type OptionType = {
+  label: string;
+  value: string | number;
+};
+
+export type fieldType = {
+  label: string;
+  field: string;
+};
 
 export const useInfo = [
   { label: '占用', value: 1 },
@@ -30,3 +42,29 @@ export const weatherInfo = [
 ];
 
 export const weekInfo = ['星期天', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+export const color = {};
+
+export const buildStatus = {
+  // 0: '建设中',
+  // 1: '已交付',
+  1: {
+    text: '已交付',
+    status: 'Success',
+  },
+  0: {
+    text: '建设中',
+    status: 'Processing',
+  },
+};
+
+export const onlineStatus = {
+  1: {
+    text: '在线',
+    status: 'Success',
+  },
+  0: {
+    text: '离线',
+    status: 'Error',
+  },
+};

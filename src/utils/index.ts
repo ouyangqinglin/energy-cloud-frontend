@@ -1,6 +1,7 @@
 import type { MenuDataItem } from '@umijs/route-utils';
 import type { MenuProps } from 'antd';
 import { createIcon } from './IconUtil';
+import React from 'react';
 
 export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items'] => {
   const arr: MenuProps['items'] = [];
@@ -32,4 +33,25 @@ export const isEmpty = (value: any) => {
 
 export const getValue = (value: any, unit = '') => {
   return isEmpty(value) ? '' : value + unit;
+};
+
+export type valueType = {
+  value?: string;
+  type?: string;
+};
+
+export const colorMap = {
+  success: 'cl-success',
+  error: 'cl-error',
+};
+
+export const valueFormat = (value: valueType) => {
+  const dom = React.createElement(
+    'span',
+    {
+      className: colorMap[value?.type || ''] || '',
+    },
+    value?.value,
+  );
+  return dom;
 };

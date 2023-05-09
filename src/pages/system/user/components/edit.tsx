@@ -16,9 +16,8 @@ import type { DataNode } from 'antd/lib/tree';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 export type UserFormValueType = Record<string, unknown> & Partial<UserType>;
 
@@ -97,12 +96,14 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <ProForm 
-        form={form} 
+      <ProForm
+        form={form}
         grid={true}
-        layout="horizontal" 
-        labelAlign="right"    
-        onFinish={handleFinish} initialValues={props.values}>
+        layout="horizontal"
+        labelAlign="right"
+        onFinish={handleFinish}
+        initialValues={props.values}
+      >
         <ProFormDigit
           name="userId"
           label={intl.formatMessage({
@@ -130,9 +131,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage id="请输入用户昵称！" defaultMessage="请输入用户昵称！" />
-              ),
+              message: <FormattedMessage id="请输入用户昵称！" defaultMessage="请输入用户昵称！" />,
             },
           ]}
         />
@@ -146,13 +145,11 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             return depts;
           }}
           placeholder="请输入用户部门"
-          colProps={{ md: 12, xl: 12}}
+          colProps={{ md: 12, xl: 12 }}
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage id="请输入用户部门！" defaultMessage="请输入用户部门！" />
-              ),
+              message: <FormattedMessage id="请输入用户部门！" defaultMessage="请输入用户部门！" />,
             },
           ]}
         />
@@ -167,9 +164,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                <FormattedMessage id="请输入手机号码！" defaultMessage="请输入手机号码！" />
-              ),
+              message: <FormattedMessage id="请输入手机号码！" defaultMessage="请输入手机号码！" />,
             },
           ]}
         />
@@ -185,9 +180,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                <FormattedMessage id="请输入用户邮箱！" defaultMessage="请输入用户邮箱！" />
-              ),
+              message: <FormattedMessage id="请输入用户邮箱！" defaultMessage="请输入用户邮箱！" />,
             },
           ]}
         />
@@ -204,9 +197,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage id="请输入用户账号！" defaultMessage="请输入用户账号！" />
-              ),
+              message: <FormattedMessage id="请输入用户账号！" defaultMessage="请输入用户账号！" />,
             },
           ]}
         />
@@ -240,9 +231,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                <FormattedMessage id="请输入用户性别！" defaultMessage="请输入用户性别！" />
-              ),
+              message: <FormattedMessage id="请输入用户性别！" defaultMessage="请输入用户性别！" />,
             },
           ]}
         />
@@ -259,9 +248,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           rules={[
             {
               required: false,
-              message: (
-                <FormattedMessage id="请输入帐号状态！" defaultMessage="请输入帐号状态！" />
-              ),
+              message: <FormattedMessage id="请输入帐号状态！" defaultMessage="请输入帐号状态！" />,
             },
           ]}
         />
@@ -308,7 +295,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           ]}
         />
       </ProForm>
-    </Modal >
+    </Modal>
   );
 };
 

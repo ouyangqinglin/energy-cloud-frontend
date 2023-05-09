@@ -19,3 +19,17 @@ export const getWeather = (code: string) => {
     method: 'GET',
   });
 };
+
+export const getAlarms = (params: any) => {
+  return request(`/screen/alarms`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getLogs = (params: any) => {
+  return request(`/screen/logs`, {
+    method: 'GET',
+    params,
+  });
+};
