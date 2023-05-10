@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-09 09:21:57
+ * @LastEditTime: 2023-05-09 16:33:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
@@ -85,6 +85,12 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
       format={dateFormat}
       defaultValue={[moment().subtract(1, 'day'), moment()]}
       onChange={onQueryChange}
+      ranges={{
+        近24小时: [moment().subtract(1, 'day'), moment()],
+        最近7天: [moment().subtract(6, 'day'), moment()],
+        本月: [moment().startOf('month'), moment()],
+        最近3个月: [moment().subtract(3, 'month'), moment()],
+      }}
     />,
   ];
 

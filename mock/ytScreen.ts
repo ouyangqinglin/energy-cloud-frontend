@@ -8,6 +8,18 @@ export default {
       weather: '晴',
     },
   },
+  'POST /api/screen/energy/community': {
+    msg: '操作成功',
+    code: 200,
+  },
+  'GET /api/screen/energy/community': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      account: 'waha',
+      secret: '123456',
+    },
+  },
   'GET /api/screen/alarms': {
     msg: '操作成功',
     code: 200,

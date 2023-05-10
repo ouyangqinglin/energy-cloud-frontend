@@ -32,8 +32,10 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
   data.img = data.img || ImgCharge;
 
   useEffect(() => {
-    run(id);
-  }, [id]);
+    if (open) {
+      run(id);
+    }
+  }, [open]);
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 

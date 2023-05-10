@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-08 15:18:34
+ * @LastEditTime: 2023-05-09 17:56:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\index.tsx
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import { useRequest } from 'umi';
 import ScreenDialog from '@/components/ScreenDialog';
@@ -19,6 +19,8 @@ import { getValue } from '@/utils';
 import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';
 import Log from './log';
+import Setting from './setting';
+import Community from './community';
 
 export const communicateFormat = (status: number) => {
   return status == 1 ? (
@@ -95,6 +97,8 @@ export const faultFormat = (status: number) => {
 
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
+  const [openSettingModal, setOpenSettingModal] = useState(false);
+
   const {
     data = {},
     loading,
@@ -105,8 +109,14 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   data.img = data.img || ImgCharge;
 
   useEffect(() => {
-    run(id);
-  }, [id]);
+    if (open) {
+      run(id);
+    }
+  }, [open]);
+
+  const onSettingClick = () => {
+    setOpenSettingModal(!openSettingModal);
+  };
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -119,7 +129,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <></>,
+      children: <Setting />,
     },
     {
       label: '报警/故障',
@@ -144,9 +154,10 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
       >
-        <EquipInfo data={data} product={data.product} model={model} />
+        <EquipInfo data={data} product={data.product} model={model} onSetting={onSettingClick} />
         <Tabs items={tabItems} />
       </Component>
+      <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
     </>
   );
 };

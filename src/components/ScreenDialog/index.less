@@ -33,43 +33,30 @@
   }
 }
 
-.ant-modal-content.dialog-screen {
-  color: white;
-  background: rgba(10, 16, 28, 0.8);
-  border: 0.005vw solid;
-  border-image: linear-gradient(
-      225deg,
-      rgba(8, 139, 255, 0),
-      rgba(8, 139, 255, 1),
-      rgba(8, 139, 255, 0)
-    )
-    1 1;
-  backdrop-filter: blur(5px);
-  .dialog-head {
+.ant-modal-wrap.dialog-screen {
+  .ant-modal-content {
+    color: white;
+    background: rgba(10, 16, 28, 0.8);
+    border: 0.005vw solid;
+    border-image: linear-gradient(
+        225deg,
+        rgba(8, 139, 255, 0),
+        rgba(8, 139, 255, 1),
+        rgba(8, 139, 255, 0)
+      )
+      1 1;
+    backdrop-filter: blur(5px);
+  }
+  .ant-modal-header {
     position: relative;
     height: 3.05vh;
-    font-size: 1.52vh;
+    padding: 0 0.833vw;
     background: linear-gradient(90deg, rgba(8, 139, 255, 0.4) 0%, rgba(8, 139, 255, 0) 100%);
-    .dialog-tab {
-      position: relative;
-      display: inline-block;
-      padding: 0 0.833vw;
+    border-bottom: none;
+    .ant-modal-title {
+      color: white;
+      font-size: 1.52vh;
       line-height: 3.05vh;
-      cursor: pointer;
-      &::after {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: inline-block;
-        width: 100%;
-        height: 0.19vh;
-        content: '';
-      }
-    }
-    .active {
-      &::after {
-        background-color: #159aff;
-      }
     }
   }
   .close {
@@ -80,7 +67,7 @@
     height: 0.83vw;
     cursor: pointer;
   }
-  .dialog-content {
+  .ant-modal-body {
     padding: 0.83vw;
   }
   .dialog-product-logo {
@@ -191,5 +178,198 @@
   }
   .mt24 {
     margin-top: 2.22vh;
+  }
+  .ant-pro-card {
+    background: none;
+    .ant-picker {
+      background: linear-gradient(
+        90deg,
+        rgba(21, 154, 255, 0.2) 0%,
+        rgba(21, 154, 255, 0) 53%,
+        rgba(21, 154, 255, 0.2) 100%
+      );
+      border: 1px solid rgba(21, 154, 255, 0.4);
+      .ant-picker-input {
+        input {
+          color: white;
+        }
+      }
+      .ant-picker-range-separator {
+        .ant-picker-separator {
+          color: white;
+        }
+      }
+      .ant-picker-suffix {
+        color: white;
+      }
+    }
+    .ant-table {
+      background: none;
+      th.ant-table-cell {
+        color: #7ec2ff;
+        background: rgba(2, 49, 100, 0.4);
+      }
+      .ant-table-cell {
+        color: #d0deee;
+        border-bottom-color: #2d3c4e;
+        &.ant-table-cell-row-hover {
+          background: #0a1b2e;
+        }
+        span {
+          color: #d0deee;
+        }
+      }
+    }
+    .ant-pagination {
+      color: #d0deee;
+      .ant-pagination-item-link {
+        color: #d0deee;
+      }
+      .ant-pagination-item {
+        color: #d0deee;
+        background: none;
+        border: 1px solid rgba(71, 93, 114, 0.6);
+        a {
+          color: #d0deee;
+        }
+      }
+      .ant-pagination-item-active {
+        background: #159aff;
+        a {
+          color: white;
+        }
+      }
+      .ant-select-selector {
+        color: #d0deee;
+        background: none;
+        border: 1px solid rgba(71, 93, 114, 0.6);
+      }
+      .ant-select {
+        .ant-select-arrow {
+          color: #d0deee;
+        }
+      }
+      .ant-select-dropdown {
+        background: #04253e;
+        border: 1px solid rgba(71, 93, 114, 0.6);
+        .ant-select-item {
+          color: white;
+        }
+        .ant-select-item-option-selected,
+        .ant-select-item-option-active {
+          background: #159aff;
+        }
+      }
+    }
+  }
+  .ant-form-item-label {
+    label {
+      color: #a7b7ca;
+    }
+  }
+  .ant-form-item-control {
+    .ant-switch {
+      background: rgba(255, 255, 255, 0.25);
+      &.ant-switch-checked {
+        background: #159aff;
+      }
+    }
+  }
+  .setting-form {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #064066;
+  }
+  .setting-field {
+    width: 120px;
+  }
+  .ant-input-affix-wrapper {
+    background: linear-gradient(
+      90deg,
+      rgba(21, 154, 255, 0.2) 0%,
+      rgba(8, 139, 255, 0) 53%,
+      rgba(21, 154, 255, 0.2) 100%
+    ) !important;
+    border: 1px solid rgba(21, 154, 255, 0.4);
+    border-radius: 4px;
+    .ant-input {
+      color: white;
+      background: none;
+    }
+    .ant-input-clear-icon {
+      color: white;
+    }
+    .ant-input-suffix {
+      .anticon {
+        color: white;
+      }
+    }
+  }
+  .ant-input-wrapper {
+    background: linear-gradient(
+      90deg,
+      rgba(21, 154, 255, 0.2) 0%,
+      rgba(8, 139, 255, 0) 53%,
+      rgba(21, 154, 255, 0.2) 100%
+    ) !important;
+    .ant-input {
+      color: white;
+      background: none;
+      border: 1px solid rgba(21, 154, 255, 0.4);
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+  }
+  .ant-form-item-control-input {
+    .ant-picker {
+      color: white;
+      background: none;
+      border: 1px solid rgba(21, 154, 255, 0.4);
+      border-radius: 4px;
+    }
+    .ant-picker-input {
+      input {
+        color: white;
+      }
+    }
+    .ant-picker-suffix,
+    .ant-picker-clear {
+      color: white;
+    }
+    .ant-picker-clear {
+      background: none;
+    }
+    .ant-input-group-addon {
+      color: white;
+      background: rgba(21, 154, 255, 0.2);
+      border: 1px solid rgba(21, 154, 255, 0.4);
+      border-left: 0;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+  .ant-btn-default {
+    color: white;
+    background: linear-gradient(180deg, rgba(21, 154, 255, 0.2) 0%, rgba(21, 154, 255, 0) 100%);
+    border: 1px solid rgba(21, 154, 255, 0.4);
+    border-radius: 4px;
+  }
+  .ant-btn-primary {
+    /* stylelint-disable-next-line */
+    background: url(~@/assets/image/screen/btn-down.png);
+    background-size: 100% 100%;
+    border: none;
+  }
+  .field-title-item {
+    .ant-form-item-label {
+      label {
+        width: 100%;
+      }
+    }
+  }
+  .field-title {
+    color: #7ec2ff;
+  }
+  .ant-modal-footer {
+    border-top: 0;
   }
 }

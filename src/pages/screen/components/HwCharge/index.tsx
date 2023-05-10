@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-08 19:08:46
+ * @LastEditTime: 2023-05-09 11:36:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
@@ -30,8 +30,10 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   data.img = data.img || ImgCharge;
 
   useEffect(() => {
-    run(id);
-  }, [id]);
+    if (open) {
+      run(id);
+    }
+  }, [open]);
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 

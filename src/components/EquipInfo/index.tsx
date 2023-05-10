@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-08 09:53:18
+ * @LastEditTime: 2023-05-09 16:20:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -23,11 +23,13 @@ export type EquipInfoProps = {
     link: string;
   };
   model?: string;
+  onSetting?: () => void;
 };
 
 const EquipInfo: React.FC<EquipInfoProps> = (props) => {
-  const { data, product, model } = props;
+  const { data, product, model, onSetting } = props;
   const [openDialog, setOpenDialog] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const onCancel = () => {
     setOpenDialog(false);
@@ -35,6 +37,10 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
 
   const onClick = () => {
     setOpenDialog(true);
+  };
+
+  const onEditClick = () => {
+    setOpenEditModal(!openEditModal);
   };
 
   const equipInfoItems: DetailItem[] = [
@@ -79,12 +85,22 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
         </Col>
         <Col className="productInfo" flex="1">
           <Label title="基本信息" />
-          <Detail
-            items={equipInfoItems}
-            data={data}
-            labelStyle={model === 'screen' ? { width: '4.5vw' } : { width: '88px' }}
-          />
-          <Button className="btnMore" type="link" onClick={onClick}>{`产品介绍>`}</Button>
+          <Detail items={equipInfoItems} data={data} />
+          <div className="flex">
+            <div className="flex1">
+              <Button className="ant-btn-primary" type="primary" onClick={onClick}>
+                产品介绍
+              </Button>
+            </div>
+            {onSetting && (
+              <Button type="link" onClick={onSetting}>
+                设置通信信息
+              </Button>
+            )}
+            <Button type="link" onClick={onEditClick}>
+              修改基本信息
+            </Button>
+          </div>
         </Col>
       </Row>
       <Component
@@ -97,21 +113,16 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
       >
         <Row>
           <Col flex={model === 'screen' ? '0 0 10.41vw' : '0 0 200px'}>
-            <img className="dialog-product-logo" src={data.img} />
+            <img className="dialog-product-logo" src={data?.img} />
           </Col>
           <Col className="productInfo" flex="1">
-            <Detail
-              items={productInfoItem}
-              data={product || {}}
-              column={2}
-              labelStyle={model === 'screen' ? { width: '4.5vw' } : { width: '65px' }}
-            />
+            <Detail items={productInfoItem} data={product || {}} column={2} />
             <Label title="产品介绍" />
-            <div className="desc">{product.desc}</div>
+            <div className="desc">{product?.desc}</div>
             <Button
               className="btnMore"
               type="link"
-              href={product.link}
+              href={product?.link}
               target="_blank"
             >{`了解更多>`}</Button>
           </Col>
