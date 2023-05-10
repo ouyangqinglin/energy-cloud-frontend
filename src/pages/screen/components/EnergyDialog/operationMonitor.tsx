@@ -160,12 +160,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
             <span>{emsSystemTime.format('HH:mm:ss')}</span>
           </div>
           <Label className="mt24" title="状态信息" />
-          <Detail
-            data={data?.ems?.status || {}}
-            items={statusItems}
-            column={5}
-            labelStyle={model == 'screen' ? { width: '5.98vw' } : { width: '112px' }}
-          />
+          <Detail data={data?.ems?.status || {}} items={statusItems} column={5} />
           <Label className="mt24" title="设置信息" />
           <Detail data={data?.ems?.setting || {}} items={settingItems} column={5} />
         </>

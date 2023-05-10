@@ -12,6 +12,7 @@ import React from 'react';
 export type LabelProps = {
   title: string;
   className?: string;
+  operate?: React.ReactNode;
 };
 
 const Label: React.FC<LabelProps> = (props) => {
@@ -19,7 +20,8 @@ const Label: React.FC<LabelProps> = (props) => {
     <>
       <div className={`flex label ${props.className}`}>
         <span className="labelLine" />
-        {props.title}
+        <span className="flex1">{props.title}</span>
+        {props.operate}
       </div>
     </>
   );
