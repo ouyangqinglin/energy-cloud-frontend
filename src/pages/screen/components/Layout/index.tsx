@@ -27,12 +27,12 @@ const Layout: FC<LayoutProps> = (props) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const backgroundImage = props.palette?.backgroundImage ?? 'none';
-  const backgroundColor = props.palette?.backgroundColor ?? '#000';
+  const backgroundColor = props.palette?.backgroundColor ?? '#111111';
 
   const dashBoardStyle = {
     overflow: overflow,
     height: 'calc(100vh - 48px)',
-    backgroundColor: '#202023',
+    backgroundColor: '#111111',
   };
 
   const getContentStyle = () => {

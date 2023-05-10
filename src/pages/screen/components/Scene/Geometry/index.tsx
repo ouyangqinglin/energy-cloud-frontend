@@ -1,9 +1,12 @@
 import type { FC, PureComponent, ReactNode } from 'react';
 import { useState } from 'react';
-import ChargeDialog from '../../EnergyDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
-// import { Component as EnergyFlow } from '@/assets/image/screen/scenes/能流图@2x.svg';
+import EnergyFlowAnimation from './EnergyFlowAnimation';
+import styles from './index.less';
+import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
+import EnergyDialog from '../../EnergyDialog';
+
 export type CellConfigItem = {
   key: string;
   cellStyle: CellStyle;
@@ -48,8 +51,6 @@ const Geometry: FC = () => {
     //   newConfigs[configs.indexOf(cell)] = newCell;
     //   setConfigs(newConfigs);
     // }
-    console.log('zcg', 'open');
-
     showModal();
   };
 
@@ -63,26 +64,34 @@ const Geometry: FC = () => {
         // onMouseEnter={() => handleGeometry(cell, EventType.MOUSE_ENTER)}
         {...cell.cellStyle}
       >
-        <div
-          style={{
-            background: `url(${cell.component})`,
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            ...cell.cellStyle,
-          }}
-        />
+        <div className={styles.wrapper}>
+          <div className={styles.content}>
+            <div
+              className={styles.ceils}
+              style={{
+                background: `url(${cell.component})`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                ...cell.cellStyle,
+              }}
+            />
+            <div className={styles.circle1} style={{ left: cell.cellStyle.width / 2 }} />
+            <div className={styles.circle2} style={{ left: cell.cellStyle.width / 2 }} />
+          </div>
+        </div>
       </Cell>,
     );
   });
 
   return (
     <div>
-      <ChargeDialog id={chargeId} open={isOpen} onCancel={closeModal} />
-      {/* <Cell width={}>
-        <EnergyFlow />
-      </Cell> */}
-
+      <EnergyDialog id={chargeId} open={isOpen} model="screen" onCancel={closeModal} />
+      <Cell width={684} height={332} left={640} top={372}>
+        <EnergyFlowLine />
+      </Cell>
+      <EnergyFlowAnimation />
+      {/* <EnergyFlowAnchor /> */}
       {ceils}
     </div>
   );

@@ -9,21 +9,22 @@ import EnergyStorage from '@/assets/image/screen/scenes/储能@2x.png';
 import EnergyStorageGridConnectedCabinet from '@/assets/image/screen/scenes/储能并网计量柜_def@2x.png';
 import HUAWEIInverter from '@/assets/image/screen/scenes/img_华为逆变器-1_def@2x.png';
 import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def@2x.png';
+import Transformer from '@/assets/image/screen/scenes/变压器@2x.png';
 import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
 
 export const CellList = [
-  {
-    key: 'EnergyFlow',
-    cellStyle: {
-      width: 664,
-      height: 332,
-      left: 642,
-      top: 365,
-      zIndex: 0,
-    },
-    component: EnergyFlow,
-    default: EnergyFlow,
-  },
+  // {
+  //   key: 'EnergyFlow',
+  //   cellStyle: {
+  //     width: 664,
+  //     height: 332,
+  //     left: 642,
+  //     top: 365,
+  //     zIndex: 0,
+  //   },
+  //   component: EnergyFlow,
+  //   default: EnergyFlow,
+  // },
   {
     key: 'Cafe',
     cellStyle: {
@@ -32,6 +33,7 @@ export const CellList = [
       left: 991,
       top: 679,
     },
+    name: '咖啡厅负载',
     component: Cafe,
     default: Cafe,
     hover: Cafe,
@@ -203,5 +205,16 @@ export const CellList = [
     },
     component: ChargingStation120KW,
     default: ChargingStation120KW,
+  },
+  {
+    key: 'transformer',
+    cellStyle: {
+      width: 32,
+      height: 40,
+      left: 990,
+      top: 365,
+    },
+    component: Transformer,
+    default: Transformer,
   },
 ];

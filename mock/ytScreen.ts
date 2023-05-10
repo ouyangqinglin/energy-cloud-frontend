@@ -361,4 +361,17 @@ export default {
       soh: '99.33%',
     },
   },
+  'GET /api/screen/device/list': {
+    msg: '操作成功',
+    code: 200,
+    data: [
+      {
+        subsystemName: '储能系统',
+        productName: '矩形单体电压',
+        productId: 4,
+        number: 1,
+        subsystemId: 2,
+      },
+    ],
+  },
 };

@@ -14,13 +14,11 @@ import styles from './index.less';
 const StationLayout: React.FC = (props) => {
   console.log(props);
   return (
-    <Layout className={styles.stationLayout}>
+    <Layout className={styles.myLayout}>
       <Layout.Header className={styles.header}>
         <MyHeader />
       </Layout.Header>
-      <Layout id="">
-        <Layout.Content className={styles.content}>{props.children}</Layout.Content>
-      </Layout>
+      {props.children}
     </Layout>
   );
 };

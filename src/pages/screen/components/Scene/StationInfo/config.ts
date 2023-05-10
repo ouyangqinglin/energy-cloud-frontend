@@ -1,10 +1,10 @@
-import { ReactComponent as SiteName } from '@/assets/image/screen/decoration/site_name.svg';
-import { ReactComponent as SiteType } from '@/assets/image/screen/decoration/site_type.svg';
-import { ReactComponent as ChargingStation } from '@/assets/image/screen/decoration/charging_station.svg';
-import { ReactComponent as EnergyStorageCapacity } from '@/assets/image/screen/decoration/energy_storage_capacity.svg';
-import { ReactComponent as Location } from '@/assets/image/screen/decoration/location.svg';
-import { ReactComponent as PhotovoltaicPanel } from '@/assets/image/screen/decoration/photovoltaic_panel.svg';
-import { ReactComponent as TransformerCapacity } from '@/assets/image/screen/decoration/transformer_capacity.svg';
+import SiteName from '@/assets/image/screen/siteInfo/site_name.png';
+// import { ReactComponent as SiteType } from '@/assets/image/screen/siteInfo/site_type.png';
+import ChargingStation from '@/assets/image/screen/siteInfo/charging_station.png';
+import EnergyStorageCapacity from '@/assets/image/screen/siteInfo/energy_storage_capacity.png';
+import Location from '@/assets/image/screen/siteInfo/location.png';
+import PhotovoltaicPanel from '@/assets/image/screen/siteInfo/photovoltaic_panel.png';
+import TransformerCapacity from '@/assets/image/screen/siteInfo/transformer_capacity.png';
 
 export const stationInfoConfig = [
   {
@@ -12,11 +12,11 @@ export const stationInfoConfig = [
     label: '站点名称：',
     field: 'siteType',
   },
-  {
-    icon: SiteType,
-    label: '站点类型：',
-    field: 'voltageLevel',
-  },
+  // {
+  //   icon: SiteType,
+  //   label: '站点类型：',
+  //   field: 'voltageLevel',
+  // },
   {
     icon: TransformerCapacity,
     label: '电压等级：',

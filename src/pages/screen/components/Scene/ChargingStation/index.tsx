@@ -18,7 +18,7 @@ const ChargingStation: FC = () => {
   ];
 
   const formatterData = () => {
-    data['gunStatus'] = (
+    data.gunStatus = (
       <>
         <span>{data.gunIdle}</span>/<span style={{ color: '#50F0FF' }}>{data.gunInUse}</span>
       </>
