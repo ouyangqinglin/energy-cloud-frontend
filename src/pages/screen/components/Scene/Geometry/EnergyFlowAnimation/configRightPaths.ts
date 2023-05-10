@@ -1,6 +1,6 @@
 export const rightPathsConfig = [
   {
-    id: 'line-right-2',
+    id: 'DC-pile-input',
     path: 'M13.2170854,74.9984125 L359.787495,274.521164 C364.432143,277.195116 370.130356,277.230673 374.799684,274.637221 L375.123756,274.452017 L397.248601,261.447582 L398.008689,262.740743',
     // reversePath: true,
     duration: 12,
@@ -13,7 +13,7 @@ export const rightPathsConfig = [
     },
   },
   {
-    id: 'line-right-3',
+    id: 'transformer-input',
     path: 'M81.5501372 -0.648197639 110.070041 15.9516393',
     // reversePath: true,
     duration: 2,
@@ -26,9 +26,8 @@ export const rightPathsConfig = [
     },
   },
   {
-    id: 'line-right-4',
+    id: 'from-inverter-to-photovoltaic-grid-connected-cabinet',
     path: 'M326.239648,168.160546 L270.547303,135.907993',
-    // reversePath: true,
     duration: 2,
     delay: 0,
     repeat: 0,
@@ -42,7 +41,7 @@ export const rightPathsConfig = [
 
 export const rightPathsNeedCalc = [
   {
-    id: 'line-right-10',
+    id: 'energy-storage-grid-connected-cabinet-output',
     path: '225.060889 128.775138 143.074779 130.284368',
     rotatePath: true,
     duration: 2,
@@ -55,7 +54,7 @@ export const rightPathsNeedCalc = [
     },
   },
   {
-    id: 'line-right-11',
+    id: 'transformer-output',
     path: '107.972432 32.4902356 73.9724319 32.4902356',
     rotatePath: true,
     duration: 2,
@@ -68,12 +67,11 @@ export const rightPathsNeedCalc = [
     },
   },
   {
-    id: 'line-right-add',
+    id: 'power-distribution-room-output',
     path: '46.9006351 73.4902356 -3.09936491 73.4902356',
     rotatePath: true,
     duration: 1.5,
     delay: 1,
-
     repeat: 0,
     style: {
       transform: 'translate(-200px, -115px)',
@@ -95,7 +93,7 @@ export const rightPathsNeedCalc = [
     },
   },
   {
-    id: 'line-right-13',
+    id: 'inverter-output-1',
     path: '321.052448 151.068647 305.614009 151.068647',
     rotatePath: true,
     duration: 1.5,
@@ -108,7 +106,7 @@ export const rightPathsNeedCalc = [
     },
   },
   {
-    id: 'line-right-14',
+    id: 'inverter-output-2',
     path: '321.052448 151.068647 305.614009 151.068647',
     rotatePath: true,
     duration: 1.5,
@@ -174,7 +172,7 @@ export const rightPathsDynamical = [
   // },
 
   {
-    id: 'line-right-reverse',
+    id: 'line-right-reverse-1-1',
     path: 'M212.126136,107.093996 L170.05403,131.300219 C166.826095,133.157415 160.875168,132.207986 152.608601,125.454018',
     duration: 2,
     delay: 0,
@@ -186,7 +184,7 @@ export const rightPathsDynamical = [
     },
   },
   {
-    id: 'line-right-reverse',
+    id: 'line-right-reverse-1-2',
     path: 'M159.304409,131.284297 L107.981929,101.553156',
     duration: 2,
     delay: 0,
@@ -198,7 +196,7 @@ export const rightPathsDynamical = [
     },
   },
   {
-    id: 'line-right-reverse',
+    id: 'line-right-reverse-1-3',
     path: 'M107.981929,101.553156 C107.263928,101.137218 106.667412,100.540448 106.251779,99.8222699 C104.976399,97.61852 105.669344,94.8162639 107.787233,93.4518701 L107.983679,93.331852 L131.397908,79.7812871',
     duration: 2,
     delay: 0,

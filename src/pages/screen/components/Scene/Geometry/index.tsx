@@ -1,11 +1,11 @@
 import type { FC, PureComponent, ReactNode } from 'react';
 import { useState } from 'react';
-import ChargeDialog from '../../EnergyDialog';
 import Cell from '../../LayoutCell';
 import { CellList } from './config';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
+import EnergyDialog from '../../EnergyDialog';
 
 export type CellConfigItem = {
   key: string;
@@ -51,8 +51,6 @@ const Geometry: FC = () => {
     //   newConfigs[configs.indexOf(cell)] = newCell;
     //   setConfigs(newConfigs);
     // }
-    console.log('zcg', 'open');
-
     showModal();
   };
 
@@ -88,7 +86,7 @@ const Geometry: FC = () => {
 
   return (
     <div>
-      <ChargeDialog id={chargeId} open={isOpen} onCancel={closeModal} />
+      <EnergyDialog id={chargeId} open={isOpen} model="screen" onCancel={closeModal} />
       <Cell width={684} height={332} left={640} top={372}>
         <EnergyFlowLine />
       </Cell>

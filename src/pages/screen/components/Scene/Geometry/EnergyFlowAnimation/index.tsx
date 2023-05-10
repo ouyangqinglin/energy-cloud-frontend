@@ -66,7 +66,7 @@ const EnergyFlow: FC = () => {
         for (let i = 1; i <= transformedCur.repeat; i++) {
           copyPaths.push({
             ...transformedCur,
-            id: transformedCur.id + '_copy',
+            id: transformedCur.id + '_copy'.repeat(i),
             delay: i * 2,
           });
         }

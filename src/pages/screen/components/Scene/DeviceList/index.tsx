@@ -1,27 +1,29 @@
 import { flatten, uniqueId } from 'lodash';
-import { FC, ReactNode, useCallback, useEffect, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useRequest } from 'umi';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';
-import { DeviceListRes, getDeviceList } from './service';
+import type { DeviceListRes } from './service';
+import { getDeviceList } from './service';
 
 type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
 type BodyDataArray = [string, string[], string[]][];
 
 const DeviceList: FC = () => {
-  const [bodyData, setBodyData] = useState([
+  let bodyData = [
     ['光伏', ['逆变器', '光伏模组'], ['2', '280']],
     ['储能', ['Smart215-P0100A'], ['1']],
     ['充电桩', ['120kW', '160kW', '600kW'], ['1', '1', '1']],
-  ]);
-  const tableConfig = {
+  ];
+  const headerData = {
     header: ['子系统', '设备名称', '数量'],
   };
 
-  const combineIntoBodyData = (deviceList: DeviceListRes) => {
+  const { data: deviceList } = useRequest(getDeviceList);
+  const combineIntoBodyData = (devices: DeviceListRes) => {
     const combineBodyMap: BodyDataMap = new Map();
-    deviceList.reduce((collection, device) => {
+    devices.reduce((collection, device) => {
       const cache = collection.get(device.subsystemId);
       if (cache) {
         cache.children.push(device);
@@ -45,29 +47,25 @@ const DeviceList: FC = () => {
     }
     return result;
   };
+  if (deviceList) {
+    const res = combineIntoBodyData(deviceList);
+    bodyData = res;
+  }
 
-  const { data: deviceList } = useRequest(getDeviceList);
-  // if (deviceList) {
-  //   const res = combineIntoBodyData(deviceList);
-  //   console.log('zgg', res, deviceList);
-  //   setBodyData(res);
-  // }
-
-  const headerCeils: ReactNode[] = [];
   const renderHeader = () => {
-    tableConfig.header.forEach((item) => {
+    const headerCeils: ReactNode[] = [];
+    headerData.header.forEach((item) => {
       headerCeils.push(
         <div key={item} className={styles.header}>
           <span>{item}</span>
         </div>,
       );
     });
+    return headerCeils;
   };
-  renderHeader();
-
-  const bodyCeils: ReactNode[] = [];
   const renderBody = () => {
-    console.log(bodyData);
+    // console.log(bodyData);
+    const bodyCeils: ReactNode[] = [];
     flatten(bodyData).forEach((item) => {
       const renderGridChild: ReactNode[] = [];
       if (Array.isArray(item)) {
@@ -81,19 +79,15 @@ const DeviceList: FC = () => {
         </div>,
       );
     });
+    return bodyCeils;
   };
-  renderBody();
-
-  // useEffect(() => {
-  //   renderBody();
-  // }, [bodyData, renderBody]);
 
   return (
     <Cell width={400} height={300} left={24} top={432}>
       <Decoration title="设备列表">
         <div className={styles.table}>
-          {headerCeils}
-          {bodyCeils}
+          {renderHeader()}
+          {renderBody()}
         </div>
       </Decoration>
     </Cell>

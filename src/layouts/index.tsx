@@ -22,13 +22,13 @@ const MyLayout: React.FC = (props: any) => {
         <MyHeader />
       </Layout.Header>
       <Layout id="myLayoutContain">
-        {route.menu == 'sider' && (
+        {route?.menu == 'sider' && (
           <Layout.Sider className={styles.sider} theme="light">
             <PageMenu />
           </Layout.Sider>
         )}
         <Layout.Content className={styles.content}>
-          <Breadcrumb />
+          {route?.menu == 'sider' && <Breadcrumb />}
           {props.children}
         </Layout.Content>
       </Layout>
