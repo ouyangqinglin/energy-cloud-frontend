@@ -3,6 +3,7 @@ import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';
 import ScrollBoard from '@chuxiaguo/data-view-react-plus/es/scrollBoard';
+import useWebsocket from '@/pages/screen/useWebsocket';
 export const enum AlarmLevel {
   NORMAL,
   WARNING,
@@ -63,6 +64,11 @@ const AlarmList: FC = () => {
     });
   };
   handleAlarmLevel();
+
+  const { connection } = useWebsocket();
+  connection.addReceivedMessageCallback((msg) => {
+    console.log('ws: ', msg);
+  });
 
   return (
     <Cell width={400} height={240} left={24} top={752}>

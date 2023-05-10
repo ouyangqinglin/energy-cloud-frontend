@@ -26,7 +26,7 @@ const ChargingStation: FC = () => {
     <>
       <h3 className={styles.chartTitle}>充电功率曲线(KW)</h3>
       <Chart scale={scale} height={154} data={data} autoFit>
-        <LineAdvance shape="smooth" area color="l (90) 0:#159AFF 1:#7EC2FF" position="year*value" />
+        <LineAdvance shape="smooth" area position="year*value" />
         <Axis
           name="value"
           label={{
