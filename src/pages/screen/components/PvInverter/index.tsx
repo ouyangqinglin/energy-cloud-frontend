@@ -2,26 +2,32 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-08 18:59:36
+ * @LastEditTime: 2023-05-10 14:15:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
 
-import React, { useEffect } from 'react';
-import { Modal, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Modal, Tabs, Table, Row, Col } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 import { useRequest } from 'umi';
 import ScreenDialog from '@/components/ScreenDialog';
-import { getDeviceInfo } from '@/components/ScreenDialog/service';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import AlarmTable from '@/components/AlarmTable';
-import { getAlarms } from '@/components/ScreenDialog/service';
+import { getDeviceInfo, getAlarms, getLogs } from '@/components/ScreenDialog/service';
 import LogTable from '@/components/LogTable';
-import { getLogs } from '@/components/ScreenDialog/service';
+import { PvInverterType } from './data.d';
+import Label from '@/components/Detail/label';
+import { getDcIn } from './service';
+import Detail from '@/components/Detail';
+import type { fieldType } from '@/utils/dictionary';
+import { valueFormat } from '@/utils';
 
 const PvInverter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
+  const [tableData, setTableData] = useState<PvInverterType[]>();
   const {
     data = {},
     loading,
@@ -31,19 +37,60 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
   });
   data.img = data.img || ImgCharge;
 
+  const runItems = (data?.run?.ytCharge?.field || []).map((item: fieldType) => {
+    return { ...item, format: valueFormat };
+  });
+
   useEffect(() => {
     if (open) {
       run(id);
+      getDcIn().then((res) => {
+        setTableData(res.rows || []);
+      });
     }
   }, [open]);
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
+  const columns: ColumnsType<PvInverterType> = [
+    {
+      title: '回路',
+      dataIndex: 'loop',
+      key: 'loop',
+      align: 'center',
+    },
+    {
+      title: '电压(V)',
+      dataIndex: 'voltage',
+      key: 'voltage',
+      align: 'center',
+    },
+    {
+      title: '电流(A)',
+      dataIndex: 'current',
+      key: 'current',
+      align: 'center',
+    },
+  ];
+
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: <></>,
+      children: (
+        <>
+          <Row>
+            <Col span={9}>
+              <Label title="直流输入" />
+              <Table columns={columns} dataSource={tableData} pagination={false} size="middle" />
+            </Col>
+            <Col span={14} offset={1}>
+              <Label title="交流输出" />
+              <Detail data={data?.run?.ytCharge?.value || {}} items={runItems} column={2} />
+            </Col>
+          </Row>
+        </>
+      ),
     },
     {
       label: '远程设置',

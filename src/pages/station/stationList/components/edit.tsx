@@ -32,10 +32,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
 
   useEffect(() => {
     if (props.open) {
+      form.resetFields();
       if (props.values) {
         form.setFieldsValue(props.values);
-      } else {
-        form.resetFields();
       }
       setShow(true);
     }
