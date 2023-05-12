@@ -44,6 +44,9 @@ export const noPowerFormat = (value: string) => {
 export const powerHourFormat = (value: string) => {
   return getValue(value, 'KWh');
 };
+export const noPowerHourFormat = (value: string) => {
+  return getValue(value, 'kvar·h');
+};
 export const voltageFormat = (value: string) => {
   return getValue(value, 'V');
 };
@@ -67,6 +70,9 @@ export const mohmFormat = (value: string) => {
 };
 export const hydrogenFormat = (value: string) => {
   return getValue(value, 'ppm');
+};
+export const moneyFormat = (value: string) => {
+  return getValue(value, '元');
 };
 export const electricModel = (value: number) => {
   const map = {
@@ -170,4 +176,11 @@ export const airsetFormat = (status: number) => {
     4: '远程关闭',
   };
   return <span className={status == 3 ? 'cl-error' : 'cl-success'}>{map[status]}</span>;
+};
+export const useFormat = (value: number) => {
+  const map = {
+    0: '占用',
+    1: '空闲',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };

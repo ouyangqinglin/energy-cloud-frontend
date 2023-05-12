@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-12 11:28:17
+ * @LastEditTime: 2023-05-12 14:56:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -18,6 +18,11 @@ import Gateway from '@/pages/screen/components/YtCharge';
 import ElectricTerminal from '@/pages/screen/components/ElectricTerminal';
 import ElectricMeter from '@/pages/screen/components/ElectricMeter';
 import Cabinet from '@/pages/screen/components/Cabinet';
+import PvInverterCabinet from '@/pages/screen/components/PvInverterCabinet';
+import EnergyCabinet from '@/pages/screen/components/EnergyCabinet';
+import BoxSubstation from '@/pages/screen/components/BoxSubstation';
+import HwChargeChild from '@/pages/screen/components/HwChargeChild';
+import HwChargeYt from '@/pages/screen/components/HwChargeYt';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,11 +31,16 @@ const YtStation: React.FC = (props) => {
   const [pvOpen, setPvOpen] = useState(false);
   const [pvOpen2, setPvOpen2] = useState(false);
   const [hwChargeOpen, setHwChargeOpen] = useState(false);
+  const [hwChargeChildOpen, setHwChargeChildOpen] = useState(false);
+  const [hwChargeYtOpen, setHwChargeYtOpen] = useState(false);
   const [ytChargeOpen, setYtChargeOpen] = useState(false);
   const [gatewayOpen, setGatewayOpen] = useState(false);
   const [electricOpen, setElectricOpen] = useState(false);
   const [electricMeterOpen, setElectricMeterOpen] = useState(false);
   const [cabinet, setCabinet] = useState(false);
+  const [pvInverterCabinet, setPvInverterCabinet] = useState(false);
+  const [energyCabinet, setEnergyCabinet] = useState(false);
+  const [boxSubstation, setBoxSubstation] = useState(false);
 
   const showModal = () => {
     setIsOpen(true);
@@ -55,6 +65,14 @@ const YtStation: React.FC = (props) => {
     setHwChargeOpen(!hwChargeOpen);
   };
 
+  const switchHwChargeChildModal = () => {
+    setHwChargeChildOpen(!hwChargeChildOpen);
+  };
+
+  const switchHwChargeYtModal = () => {
+    setHwChargeYtOpen(!hwChargeYtOpen);
+  };
+
   const switchYtChargeModal = () => {
     setYtChargeOpen(!ytChargeOpen);
   };
@@ -75,6 +93,18 @@ const YtStation: React.FC = (props) => {
     setCabinet(!cabinet);
   };
 
+  const switchPvInverterCabinet = () => {
+    setPvInverterCabinet(!pvInverterCabinet);
+  };
+
+  const switchEnergyCabinet = () => {
+    setEnergyCabinet(!energyCabinet);
+  };
+
+  const switchBoxSubstation = () => {
+    setBoxSubstation(!boxSubstation);
+  };
+
   return (
     <div>
       永泰示范站
@@ -88,6 +118,12 @@ const YtStation: React.FC = (props) => {
       </Button>
       <Button className="ml12" onClick={switchHwChargeModal}>
         华为充电桩
+      </Button>
+      <Button className="ml12" onClick={switchHwChargeChildModal}>
+        华为充电桩华为分体
+      </Button>
+      <Button className="ml12" onClick={switchHwChargeYtModal}>
+        华为充电桩永泰分体
       </Button>
       <Button className="ml12" onClick={switchYtChargeModal}>
         永泰充电桩
@@ -103,6 +139,15 @@ const YtStation: React.FC = (props) => {
       </Button>
       <Button className="ml12" onClick={switchCabinetModal}>
         换电柜
+      </Button>
+      <Button className="ml12" onClick={switchPvInverterCabinet}>
+        光伏并网柜
+      </Button>
+      <Button className="ml12" onClick={switchEnergyCabinet}>
+        储能并网柜
+      </Button>
+      <Button className="ml12" onClick={switchBoxSubstation}>
+        箱式变电站
       </Button>
       <EnergyDialog id={chargeId} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
@@ -121,6 +166,18 @@ const YtStation: React.FC = (props) => {
         loopNum={4}
       />
       <HwCharge id={chargeId} open={hwChargeOpen} onCancel={switchHwChargeModal} model="screen" />
+      <HwChargeChild
+        id={chargeId}
+        open={hwChargeChildOpen}
+        onCancel={switchHwChargeChildModal}
+        model="screen"
+      />
+      <HwChargeYt
+        id={chargeId}
+        open={hwChargeYtOpen}
+        onCancel={switchHwChargeYtModal}
+        model="screen"
+      />
       <YtCharge id={chargeId} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
       <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
       <ElectricTerminal
@@ -136,6 +193,24 @@ const YtStation: React.FC = (props) => {
         model="screen"
       />
       <Cabinet id={chargeId} open={cabinet} onCancel={switchCabinetModal} model="screen" />
+      <PvInverterCabinet
+        id={chargeId}
+        open={pvInverterCabinet}
+        onCancel={switchPvInverterCabinet}
+        model="screen"
+      />
+      <EnergyCabinet
+        id={chargeId}
+        open={energyCabinet}
+        onCancel={switchEnergyCabinet}
+        model="screen"
+      />
+      <BoxSubstation
+        id={chargeId}
+        open={boxSubstation}
+        onCancel={switchBoxSubstation}
+        model="screen"
+      />
       <Weather code={'1'} />
     </div>
   );

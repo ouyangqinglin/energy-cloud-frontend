@@ -1,11 +1,12 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-12 14:08:57
+ * @Date: 2023-05-12 14:22:46
+ * @LastEditTime: 2023-05-12 14:24:06
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
+
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import ScreenDialog from '@/components/ScreenDialog';
@@ -15,43 +16,23 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import HwChargeStackImg from '@/assets/image/product/hw-charge-stack.png';
-import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
+import EnergyCabinetImg from '@/assets/image/product/energy.png';
 import type { DetailItem } from '@/components/Detail';
 import {
-  useFormat,
   powerFormat,
   powerHourFormat,
-  moneyFormat,
   voltageFormat,
   currentFormat,
-  noPowerFormat,
   noPowerHourFormat,
 } from '@/utils/format';
 
-const HwCharge: React.FC<BusinessDialogProps> = (props) => {
+const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [data, setData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
-  const statusItems: DetailItem[] = [
-    { label: 'A枪状态', field: 'a', format: useFormat },
-    { label: 'B枪状态', field: 'b', format: useFormat },
-    { label: 'C枪状态', field: 'c', format: useFormat },
-    { label: 'D枪状态', field: 'd', format: useFormat },
-    { label: 'E枪状态', field: 'e', format: useFormat },
-    { label: 'F枪状态', field: 'f', format: useFormat },
-    { label: 'G枪状态', field: 'g', format: useFormat },
-    { label: 'H枪状态', field: 'h', format: useFormat },
-    { label: 'I枪状态', field: 'i', format: useFormat },
-  ];
   const runItems: DetailItem[] = [
-    { label: '实时充电功率', field: 'j', format: powerFormat, span: 4 },
-    { label: '今日充电量', field: 'k', format: powerHourFormat },
-    { label: '累计充电量', field: 'l', format: powerHourFormat },
-    { label: '今日充电收益', field: 'm', format: moneyFormat },
-    { label: '累计充电收益', field: 'n', format: moneyFormat },
     { label: 'A相电压', field: 'o', format: voltageFormat },
     { label: 'AB线电压', field: 'p', format: voltageFormat },
     { label: 'A相电流', field: 'q', format: currentFormat, span: 2 },
@@ -61,14 +42,28 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
     { label: 'C相电压', field: 'u', format: voltageFormat },
     { label: 'CA线电压', field: 'v', format: voltageFormat },
     { label: 'C相电流', field: 'w', format: currentFormat, span: 2 },
-    { label: '总有功功率', field: 'x', format: powerFormat },
-    { label: '总无功功率', field: 'y', format: noPowerFormat },
-    { label: '总视在功率', field: 'z', format: powerFormat },
-    { label: '总功率因数', field: 'aa' },
-    { label: '正向有功电能', field: 'ab', format: powerHourFormat },
-    { label: '反向有功电能', field: 'ac', format: powerHourFormat },
-    { label: '正向无功电能', field: 'ad', format: noPowerHourFormat },
-    { label: '反向无功电能', field: 'ae', format: noPowerHourFormat },
+
+    { label: 'A相有功功率', field: 'a', format: powerFormat },
+    { label: 'A相无功功率', field: 'b', format: powerHourFormat },
+    { label: 'A相视在功率', field: 'c', format: powerHourFormat },
+    { label: 'A相功率因数', field: 'd' },
+    { label: 'B相有功功率', field: 'e', format: powerFormat },
+    { label: 'B相无功功率', field: 'f', format: powerHourFormat },
+    { label: 'B相视在功率', field: 'g', format: powerHourFormat },
+    { label: 'B相功率因数', field: 'h' },
+    { label: 'C相有功功率', field: 'i', format: powerFormat },
+    { label: 'C相无功功率', field: 'j', format: powerHourFormat },
+    { label: 'C相视在功率', field: 'k', format: powerHourFormat },
+    { label: 'C相功率因数', field: 'l' },
+    { label: '总有功功率', field: 'm', format: powerFormat },
+    { label: '总无功功率', field: 'n', format: powerHourFormat },
+    { label: '总视在功率', field: 'aa', format: powerHourFormat },
+    { label: '总功率因数', field: 'ab' },
+
+    { label: '正向有功电能', field: 'ac', format: powerHourFormat },
+    { label: '反向有功电能', field: 'ad', format: powerHourFormat },
+    { label: '正向无功电能', field: 'ae', format: noPowerHourFormat },
+    { label: '反向无功电能', field: 'af', format: noPowerHourFormat },
   ];
 
   const tabItems = [
@@ -77,7 +72,6 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
-          <Detail data={data || {}} items={statusItems} column={4} />
           <Detail data={data || {}} items={runItems} column={4} />
         </>
       ),
@@ -110,16 +104,11 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo
-          id={id}
-          model={model}
-          equipmentImg={HwChargeStackImg}
-          productImg={HwChargeStackIntroImg}
-        />
+        <EquipInfo id={id} model={model} equipmentImg={EnergyCabinetImg} />
         <Tabs items={tabItems} />
       </Component>
     </>
   );
 };
 
-export default HwCharge;
+export default EnergyCabinet;

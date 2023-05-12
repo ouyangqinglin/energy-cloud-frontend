@@ -1,34 +1,50 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-08 19:40:01
- * @LastEditTime: 2023-05-11 11:42:18
+ * @Date: 2023-05-08 19:08:46
+ * @LastEditTime: 2023-05-12 14:08:57
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Cabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
-
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import ScreenDialog from '@/components/ScreenDialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
-import ChargeImg from '@/assets/image/product/cabinet.png';
-import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
+import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
+import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
+import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
+import type { DetailItem } from '@/components/Detail';
+import { useFormat, powerHourFormat } from '@/utils/format';
 
-const Cabinet: React.FC<BusinessDialogProps> = (props) => {
+const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [data, setData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
+  const statusItems: DetailItem[] = [
+    { label: 'A枪状态', field: 'a', format: useFormat },
+    { label: 'B枪状态', field: 'b', format: useFormat },
+  ];
+  const runItems: DetailItem[] = [
+    { label: '今日充电量', field: 'k', format: powerHourFormat },
+    { label: '累计充电量', field: 'l', format: powerHourFormat },
+  ];
+
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: <></>,
+      children: (
+        <>
+          <Detail data={data || {}} items={statusItems} column={4} />
+          <Detail data={data || {}} items={runItems} column={4} />
+        </>
+      ),
     },
     {
       label: '远程设置',
@@ -58,11 +74,16 @@ const Cabinet: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} equipmentImg={ChargeImg} productImg={ChargeIntroImg} />
+        <EquipInfo
+          id={id}
+          model={model}
+          equipmentImg={HwChargeStackImg}
+          productImg={HwChargeStackIntroImg}
+        />
         <Tabs items={tabItems} />
       </Component>
     </>
   );
 };
 
-export default Cabinet;
+export default HwChargeYt;
