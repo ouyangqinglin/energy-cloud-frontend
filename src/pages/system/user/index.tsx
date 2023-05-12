@@ -339,7 +339,7 @@ const UserTableList: React.FC = () => {
             rowKey="userId"
             key="userList"
             search={{
-              labelWidth: 120,
+              labelWidth: 'auto',
             }}
             toolBarRender={() => [
               <Button

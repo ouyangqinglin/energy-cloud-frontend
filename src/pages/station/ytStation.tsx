@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-08 19:42:14
+ * @LastEditTime: 2023-05-12 11:28:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -22,8 +22,9 @@ import Cabinet from '@/pages/screen/components/Cabinet';
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [energyOpen, setEnergyOpen] = useState(false);
-  const [chargeId, setChargeId] = useState('1');
+  const [chargeId, setChargeId] = useState('10001');
   const [pvOpen, setPvOpen] = useState(false);
+  const [pvOpen2, setPvOpen2] = useState(false);
   const [hwChargeOpen, setHwChargeOpen] = useState(false);
   const [ytChargeOpen, setYtChargeOpen] = useState(false);
   const [gatewayOpen, setGatewayOpen] = useState(false);
@@ -45,6 +46,9 @@ const YtStation: React.FC = (props) => {
 
   const switchPvModal = () => {
     setPvOpen(!pvOpen);
+  };
+  const switchPv2Modal = () => {
+    setPvOpen2(!pvOpen2);
   };
 
   const switchHwChargeModal = () => {
@@ -79,6 +83,9 @@ const YtStation: React.FC = (props) => {
       <Button className="ml12" onClick={switchPvModal}>
         光伏逆变器
       </Button>
+      <Button className="ml12" onClick={switchPv2Modal}>
+        光伏逆变器2
+      </Button>
       <Button className="ml12" onClick={switchHwChargeModal}>
         华为充电桩
       </Button>
@@ -99,7 +106,20 @@ const YtStation: React.FC = (props) => {
       </Button>
       <EnergyDialog id={chargeId} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
-      <PvInverter id={chargeId} open={pvOpen} onCancel={switchPvModal} model="screen" />
+      <PvInverter
+        id={chargeId}
+        open={pvOpen}
+        onCancel={switchPvModal}
+        model="screen"
+        loopNum={11}
+      />
+      <PvInverter
+        id={chargeId}
+        open={pvOpen2}
+        onCancel={switchPv2Modal}
+        model="screen"
+        loopNum={4}
+      />
       <HwCharge id={chargeId} open={hwChargeOpen} onCancel={switchHwChargeModal} model="screen" />
       <YtCharge id={chargeId} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
       <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
@@ -110,7 +130,7 @@ const YtStation: React.FC = (props) => {
         model="screen"
       />
       <ElectricMeter
-        id={chargeId}
+        id={'10027'}
         open={electricMeterOpen}
         onCancel={switchElectricMeterModal}
         model="screen"

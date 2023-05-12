@@ -9,9 +9,9 @@ export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items']
     const path = item?.path?.split('')[0] === '/' ? item.path : `${prePath}/${item.path}`;
     if (!item.hideInMenu) {
       arr.push({
-        label: item.meta.title,
+        label: item?.meta?.title,
         key: path,
-        icon: createIcon(item.meta.icon),
+        icon: createIcon(item?.meta?.icon),
         ...(item.children ? { children: getMenus(item.children, path) } : {}),
       });
     }

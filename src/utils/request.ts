@@ -103,25 +103,24 @@ request.interceptors.request.use((url, options) => {
 // 响应拦截器
 request.interceptors.response.use(async (response: Response) => {
   const { status } = response;
-  if (status === 401 || status === 403) {
+  if (status === 200) {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType?.includes('application/json');
+    if (isJson === true) {
+      const resp = response.clone();
+      const data = await resp.json();
+      if (data) {
+        const { code } = data;
+        if (code && code !== 200) {
+          const msg = data.msg || codeMessage[code] || codeMessage[10000];
+          message.warn(`${code} ${msg}`);
+        }
+      }
+    }
+  } else {
     const msg = codeMessage[status] || codeMessage[10000];
     message.warn(`${status} ${msg}`);
   }
-  //  else if (status === 200) {
-  //   const contentType = response.headers.get('content-type');
-  //   const isJson = contentType?.includes('application/json');
-  //   if (isJson === true) {
-  //     const resp = response.clone();
-  //     const data = await resp.json();
-  //     if (data) {
-  //       const { code } = data;
-  //       if (code && code !== 200) {
-  //         const msg = data.msg || codeMessage[code] || codeMessage[10000]
-  //         message.warn(`${code} ${msg}`)
-  //       }
-  //     }
-  //   }
-  // }
   return response;
 });
 

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-10 10:44:19
+ * @LastEditTime: 2023-05-12 10:01:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Modal } from 'antd';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
@@ -16,21 +16,29 @@ import Label from '../Detail/label';
 import EquipForm from '../EquipForm';
 import { EquipFormType } from '../EquipForm/data.d';
 import { FormTypeEnum } from '@/utils/dictionary';
+import ImgCharge from '@/assets/image/screen/dialog/charge.png';
+import { getEquipInfo } from './service';
 
 export type EquipInfoProps = {
-  data: EquipFormType;
-  product: {
-    desc: string;
-    link: string;
-  };
+  // data: EquipFormType;
+  id: string;
   model?: string;
-  onSetting?: () => void;
+  buttons?: React.ReactNode;
+  equipmentImg?: string;
+  productImg?: string;
 };
 
 const EquipInfo: React.FC<EquipInfoProps> = (props) => {
-  const { data, product, model, onSetting } = props;
+  const { id, model, buttons, equipmentImg, productImg } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [data, setData] = useState<EquipFormType>({});
+
+  useEffect(() => {
+    getEquipInfo({ deviceId: id }).then((res) => {
+      setData(res.data);
+    });
+  }, [id]);
 
   const onCancel = () => {
     setOpenDialog(false);
@@ -47,7 +55,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
   const equipInfoItems: DetailItem[] = [
     {
       label: '在线状态',
-      field: 'online',
+      field: 'status',
       span: 3,
       format: (value) => {
         if (value == 1) {
@@ -57,23 +65,18 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
         }
       },
     },
-    { label: '设备编码', field: 'code' },
+    { label: '设备编码', field: 'deviceId' },
     { label: '产品型号', field: 'model' },
     { label: '设备SN', field: 'sn' },
     { label: '设备名称', field: 'name' },
-    { label: '产品类型', field: 'type' },
-    { label: '子系统', field: 'childSystem' },
-    { label: '录入时间', field: 'createdTime' },
+    { label: '产品类型', field: 'productTypeName' },
+    { label: '子系统', field: 'subsystemName' },
+    { label: '录入时间', field: 'createTime' },
     { label: '激活时间', field: 'activeTime' },
-    { label: '最近上线时间', field: 'onlineTime' },
-    { label: '录入人', field: 'creator' },
-    { label: '在线时长', field: 'onlineHour' },
-    { label: '所属站点', field: 'station' },
-  ];
-  const productInfoItem: DetailItem[] = [
-    { label: '产品型号', field: 'model' },
-    { label: '产品类型', field: 'type' },
-    { label: '产品厂商', field: 'company' },
+    { label: '最近上线时间', field: 'updateTime' },
+    { label: '录入人', field: 'updateUserName' },
+    { label: '在线时长', field: 'onlineTime' },
+    { label: '所属站点', field: 'siteName' },
   ];
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
@@ -82,22 +85,25 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
     <>
       <Row>
         <Col flex={model === 'screen' ? '0 0 10.41vw' : '0 0 200px'}>
-          <img className="dialog-product-logo" src={data.img} />
+          <div className="dialog-product-logo-wrap">
+            <div
+              className="dialog-product-logo"
+              style={{ backgroundImage: `url(${data?.url || equipmentImg})` }}
+            />
+          </div>
         </Col>
         <Col className="productInfo" flex="1">
           <Label title="基本信息" />
           <Detail items={equipInfoItems} data={data} />
           <div className="flex">
             <div className="flex1">
-              <Button className="ant-btn-primary" type="primary" onClick={onClick}>
-                产品介绍
-              </Button>
+              {productImg && (
+                <Button className="ant-btn-primary" type="primary" onClick={onClick}>
+                  产品介绍
+                </Button>
+              )}
             </div>
-            {onSetting && (
-              <Button type="link" onClick={onSetting}>
-                设置通信信息
-              </Button>
-            )}
+            {buttons}
             <Button type="link" onClick={onEditClick}>
               修改基本信息
             </Button>
@@ -108,29 +114,14 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
         title="产品介绍"
         open={openDialog}
         onCancel={onCancel}
-        width={model === 'screen' ? '33.33vw' : '640px'}
+        width={model === 'screen' ? '62.5vw' : '1200px'}
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
       >
-        <Row>
-          <Col flex={model === 'screen' ? '0 0 10.41vw' : '0 0 200px'}>
-            <img className="dialog-product-logo" src={data?.img} />
-          </Col>
-          <Col className="productInfo" flex="1">
-            <Detail items={productInfoItem} data={product || {}} column={2} />
-            <Label title="产品介绍" />
-            <div className="desc">{product?.desc}</div>
-            <Button
-              className="btnMore"
-              type="link"
-              href={product?.link}
-              target="_blank"
-            >{`了解更多>`}</Button>
-          </Col>
-        </Row>
+        <img className="w-full" src={productImg} />
       </Component>
       <EquipForm
-        id={data?.id}
+        id={id}
         data={data}
         open={openEditModal}
         onCancel={onEditClick}

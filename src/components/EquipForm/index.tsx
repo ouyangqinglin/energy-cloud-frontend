@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-10 13:38:31
+ * @LastEditTime: 2023-05-11 14:12:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -37,7 +37,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   useEffect(() => {
     if (open) {
       form.resetFields();
-      form.setFieldsValue({ ...data, imgs: [{ url: data?.img || '' }] });
+      form.setFieldsValue({ ...data, imgs: [{ url: data?.url || '' }] });
     }
   }, [open]);
 

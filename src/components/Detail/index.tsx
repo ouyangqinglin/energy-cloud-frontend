@@ -12,7 +12,7 @@ import { Descriptions } from 'antd';
 export type DetailItem = {
   label: React.ReactNode;
   field: string;
-  format?: (value: any) => React.ReactNode;
+  format?: (value: any, data?: any) => React.ReactNode;
   span?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
@@ -24,7 +24,7 @@ export type DetailProps = {
   column?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
-  format?: (value: any) => React.ReactNode;
+  format?: (value: any, data?: any) => React.ReactNode;
   colon?: boolean;
 };
 
@@ -49,9 +49,9 @@ const Detail: React.FC<DetailProps> = (props) => {
         key={item.field}
       >
         {item.format
-          ? item.format(data[item.field])
+          ? item.format(data[item.field], data)
           : format
-          ? format(data[item.field])
+          ? format(data[item.field], data)
           : data[item.field]}
       </Descriptions.Item>
     );

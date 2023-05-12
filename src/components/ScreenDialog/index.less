@@ -31,9 +31,43 @@
   .cl-error {
     color: #ff5656;
   }
+  .dialog-product-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 264px;
+    /* stylelint-disable-next-line */
+    background-image: url(~@/assets/image/screen/equipment-bg.png);
+    background-size: 100% 100%;
+    .dialog-product-logo {
+      width: 90%;
+      height: 94%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
 }
 
 .ant-modal-wrap.dialog-screen {
+  .dialog-product-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10.41vw;
+    height: 13.75vw;
+    /* stylelint-disable-next-line */
+    background-image: url(~@/assets/image/screen/equipment-bg.png);
+    background-size: 100% 100%;
+    .dialog-product-logo {
+      width: 90%;
+      height: 94%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
   .ant-modal-content {
     color: white;
     background: rgba(10, 16, 28, 0.8);
@@ -69,10 +103,6 @@
   }
   .ant-modal-body {
     padding: 0.83vw;
-  }
-  .dialog-product-logo {
-    width: 100%;
-    margin-bottom: 1.29vh;
   }
   .productInfo {
     padding-left: 1.66vw;
@@ -250,6 +280,11 @@
         color: #d0deee;
       }
     }
+    .ant-table-placeholder:hover {
+      .ant-table-cell {
+        background: none;
+      }
+    }
   }
   .ant-select-dropdown {
     background: #04253e;
@@ -400,5 +435,8 @@
   }
   .ant-upload-list-item-list-type-picture-card {
     border: 1px solid rgba(21, 154, 255, 0.4);
+  }
+  .ant-empty-description {
+    color: rgba(255, 255, 255, 0.8);
   }
 }
