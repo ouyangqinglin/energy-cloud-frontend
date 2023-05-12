@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-09 16:33:51
+ * @LastEditTime: 2023-05-12 11:36:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
@@ -13,10 +13,11 @@ import { format } from 'timeago.js';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import moment from 'moment';
+import Empty from '../Empty';
 
 export type AlarmTableProps = {
-  params: object;
-  request: (params: any) => Promise<any>;
+  params?: object;
+  request?: (params: any) => Promise<any>;
 };
 
 export type AlarmType = {
@@ -28,7 +29,7 @@ export type AlarmType = {
 };
 
 const AlarmTable: React.FC<AlarmTableProps> = (props) => {
-  const { params, request } = props;
+  const { params = {}, request } = props;
   const actionRef = useRef<ActionType>();
   const Component: any = DatePicker.RangePicker;
   const dateFormat = 'YYYY/MM/DD';
@@ -104,18 +105,24 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
         rowKey="id"
         toolBarRender={toolBar}
         params={searchParams}
-        request={(query) =>
-          request(query).then((res) => {
-            return {
-              data: res.rows,
-              total: res.total,
-              success: true,
-            };
-          })
+        request={
+          request
+            ? (query) =>
+                request(query).then((res) => {
+                  return {
+                    data: res.rows,
+                    total: res.total,
+                    success: true,
+                  };
+                })
+            : undefined
         }
         scroll={{ x: 1000 }}
         pagination={{
           showSizeChanger: true,
+        }}
+        locale={{
+          emptyText: Empty,
         }}
       ></ProTable>
     </>

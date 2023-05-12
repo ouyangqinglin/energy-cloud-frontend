@@ -17,6 +17,9 @@ import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
 import type { fieldType } from '@/utils/dictionary';
 import { valueFormat } from '@/utils';
+import Empty from '@/components/Empty';
+import AlarmTable from '@/components/AlarmTable';
+import LogTable from '@/components/LogTable';
 
 const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -54,17 +57,17 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <></>,
+      children: <Empty />,
     },
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <></>,
+      children: <AlarmTable />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <></>,
+      children: <LogTable />,
     },
   ];
 

@@ -1,42 +1,45 @@
 import { getValue } from '@/utils';
 
-export const communicateFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-error">失联</span>
-  );
+export const communicateFormat = (value: number) => {
+  const map = {
+    0: '失联',
+    1: '正常',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
-export const runFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">运行</span>
-  ) : (
-    <span className="cl-success">待机</span>
-  );
+export const runFormat = (value: number) => {
+  const map = {
+    0: '待机',
+    1: '运行',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const modelFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">手动</span>
-  ) : (
-    <span className="cl-success">自动</span>
-  );
+export const modelFormat = (value: number) => {
+  const map = {
+    0: '自动',
+    1: '手动',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const closeFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">闭合</span>
-  ) : (
-    <span className="cl-success">断开</span>
-  );
+export const closeFormat = (value: number) => {
+  const map = {
+    0: '断开',
+    1: '闭合',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const singleFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-success">断开</span>
-  );
+export const singleFormat = (value: number) => {
+  const map = {
+    0: '断开',
+    1: '正常',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const powerFormat = (value: string) => {
   return getValue(value, 'KW');
+};
+export const noPowerFormat = (value: string) => {
+  return getValue(value, 'kvar');
 };
 export const powerHourFormat = (value: string) => {
   return getValue(value, 'KWh');
@@ -59,6 +62,9 @@ export const percentageFormat = (value: string) => {
 export const kohmFormat = (value: string) => {
   return getValue(value, 'kΩ');
 };
+export const mohmFormat = (value: string) => {
+  return getValue(value, 'MΩ');
+};
 export const hydrogenFormat = (value: string) => {
   return getValue(value, 'ppm');
 };
@@ -70,26 +76,26 @@ export const electricModel = (value: number) => {
   };
   return <span className="cl-success">{map[value]}</span>;
 };
-export const workFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-success">停机</span>
-  );
+export const workFormat = (value: number) => {
+  const map = {
+    0: '停机',
+    1: '正常',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const faultFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-error">故障</span>
-  );
+export const faultFormat = (value: number) => {
+  const map = {
+    0: '故障',
+    1: '正常',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
-export const doorFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">开门</span>
-  ) : (
-    <span className="cl-success">关门</span>
-  );
+export const doorFormat = (value: number) => {
+  const map = {
+    0: '关门',
+    1: '开门',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const chargeFormat = (status: number) => {
   const map = {
@@ -106,33 +112,33 @@ export const openFormat = (status: number) => {
   };
   return <span className="cl-success">{map[status]}</span>;
 };
-export const abnormalFormat = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-success">异常</span>
-  );
+export const abnormalFormat = (value: number) => {
+  const map = {
+    0: '异常',
+    1: '正常',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const fault1Format = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-error">一级故障</span>
-  );
+export const fault1Format = (value: number) => {
+  const map = {
+    0: '一级故障',
+    1: '正常',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
-export const fault2Format = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-error">二级故障</span>
-  );
+export const fault2Format = (value: number) => {
+  const map = {
+    0: '二级故障',
+    1: '正常',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
-export const fault3Format = (status: number) => {
-  return status == 1 ? (
-    <span className="cl-success">正常</span>
-  ) : (
-    <span className="cl-error">三级故障</span>
-  );
+export const fault3Format = (value: number) => {
+  const map = {
+    0: '三级故障',
+    1: '正常',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
 export const outputFormat = (status: number) => {
   const map = {
