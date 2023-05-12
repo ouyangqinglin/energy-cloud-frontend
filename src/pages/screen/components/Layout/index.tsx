@@ -54,15 +54,14 @@ const Layout: FC<LayoutProps> = (props) => {
     if (containerDom) {
       setDocClientHeight(containerDom.clientHeight);
       setDocClientWidth(containerDom.clientWidth);
-      console.log('zcg', docClientHeight, docClientWidth);
     }
   };
 
   const calLayoutByProps = () => {
     // 宽高等比缩放
     if (props.scaleMode === ScaleMode.EQUAL) {
-      const scaleW = docClientHeight / props.screenW;
-      const scaleH = docClientWidth / props.screenH;
+      const scaleH = docClientHeight / props.screenH;
+      const scaleW = docClientWidth / props.screenW;
       setTransform(`scale(${scaleW}, ${scaleH})`);
       setOverflow('hidden');
     }

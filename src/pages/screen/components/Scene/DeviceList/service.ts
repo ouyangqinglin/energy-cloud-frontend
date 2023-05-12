@@ -11,7 +11,7 @@ export type DeviceItem = {
 export type DeviceListRes = DeviceItem[];
 
 export const getDeviceList = () => {
-  return request<{ data: DeviceListRes }>(`/screen/device/list`, {
+  return request<{ data: DeviceListRes }>(`/device/list`, {
     method: 'GET',
   });
 };

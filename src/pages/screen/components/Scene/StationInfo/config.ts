@@ -10,7 +10,7 @@ export const stationInfoConfig = [
   {
     icon: SiteName,
     label: '站点名称：',
-    field: 'siteType',
+    field: 'siteName',
   },
   // {
   //   icon: SiteType,
@@ -19,17 +19,17 @@ export const stationInfoConfig = [
   // },
   {
     icon: TransformerCapacity,
-    label: '电压等级：',
+    label: '变压器容量：',
     field: 'transformerCapacity',
   },
   {
     icon: PhotovoltaicPanel,
-    label: '变压器容量：',
+    label: '光伏装机量',
     field: 'photovoltaicPanel',
   },
   {
     icon: EnergyStorageCapacity,
-    label: '光伏装机量：',
+    label: '储能容量：',
     field: 'energyStorageCapacity',
   },
   {
@@ -43,3 +43,22 @@ export const stationInfoConfig = [
     field: 'location',
   },
 ];
+
+export const DEFAULT_DATA = {
+  siteName: '永泰光储充示范站',
+  transformerCapacity: '800kW',
+  photovoltaicPanel: '280kWp',
+  energyStorageCapacity: '500kWh/200kWh',
+  chargingStation: '500kWh',
+  location: '深圳市龙华区观湖街道鹭湖社区观',
+};
+
+export const mapKey = {
+  siteName: 'name',
+  transformerCapacity: 'transformerCapacity',
+  photovoltaicPanel: 'photovoltaicInstalledcapacity',
+  energyStorageCapacity: 'energystorageCapacitystorage',
+  energyStorageOutput: 'energyStorageCapacityOutput',
+  chargingStation: 'chargingstationCapacity',
+  location: 'address',
+};

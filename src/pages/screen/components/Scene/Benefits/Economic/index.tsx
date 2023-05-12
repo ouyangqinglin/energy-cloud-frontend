@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import Decoration from '../../Decoration';
-import Cell from '../../LayoutCell';
-import DigitalFlipperGroup from '../../DigitalFlipper/Group';
-import type { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
+import Decoration from '../../../Decoration';
+import Cell from '../../../LayoutCell';
+import DigitalFlipperGroup from '../../../DigitalFlipper/Group';
+import type { DigitalFlipperItemProps } from '../../../DigitalFlipper/Item';
 
 const BenefitsEconomic: FC = () => {
   const config: DigitalFlipperItemProps[] = [
