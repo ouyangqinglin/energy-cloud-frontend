@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { get } from '@/utils/request';
 
 export type DeviceItem = {
   subsystemName: string;
@@ -11,7 +11,7 @@ export type DeviceItem = {
 export type DeviceListRes = DeviceItem[];
 
 export const getDeviceList = () => {
-  return request<{ data: DeviceListRes }>(`/device/list`, {
-    method: 'GET',
+  return get<{ data: DeviceListRes }>(`/oss/device/list`, {
+    site: 1,
   });
 };

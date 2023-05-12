@@ -399,7 +399,7 @@ export default {
       soh: '99.33%',
     },
   },
-  'GET /api/device/list': {
+  'GET /api/oss/device/list': {
     msg: '操作成功',
     code: 200,
     data: [

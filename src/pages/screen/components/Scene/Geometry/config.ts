@@ -12,33 +12,20 @@ import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def
 import Transformer from '@/assets/image/screen/scenes/变压器@2x.png';
 import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
 import { DeviceType } from '../Dialog';
+import { CellConfigItem } from './type';
 
-export const CellList = [
-  // {
-  //   key: 'EnergyFlow',
-  //   cellStyle: {
-  //     width: 664,
-  //     height: 332,
-  //     left: 642,
-  //     top: 365,
-  //     zIndex: 0,
-  //   },
-  //   component: EnergyFlow,
-  //   default: EnergyFlow,
-  // },
+export const CellList: CellConfigItem[] = [
   {
     key: 'Cafe',
+    name: '咖啡厅负载',
     cellStyle: {
       width: 208,
       height: 130,
       left: 991,
       top: 679,
+      cursor: 'default',
     },
-    name: '咖啡厅负载',
     component: Cafe,
-    default: Cafe,
-    hover: Cafe,
-    active: HomeEnergyStorage,
   },
   {
     key: 'HomeEnergyStorage',
@@ -47,16 +34,14 @@ export const CellList = [
       height: 150,
       left: 850,
       top: 742,
+      cursor: 'default',
     },
     component: HomeEnergyStorage,
-    default: HomeEnergyStorage,
-    hover: HomeEnergyStorage,
-    active: HomeEnergyStorage,
   },
   {
     key: 'ChargingStation160KW',
     deviceId: 'ChargingStation160KW',
-    deviceType: DeviceType.ytCharge,
+    deviceType: DeviceType.DC_PILE,
     cellStyle: {
       width: 63,
       height: 61,
@@ -68,8 +53,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack1',
-    // deviceId: 'chargingStack1',
-    // deviceType: DeviceType.electricTerminal,
+    deviceId: 'chargingStack1',
+    deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
       height: 47,
@@ -81,8 +66,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack2',
-    // deviceId: 'chargingStack2',
-    // deviceType: DeviceType.electricTerminal,
+    deviceId: 'chargingStack2',
+    deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
       height: 47,
@@ -94,8 +79,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack3',
-    // deviceId: 'chargingStack3',
-    // deviceType: DeviceType.electricTerminal,
+    deviceId: 'chargingStack3',
+    deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
       height: 47,
@@ -107,8 +92,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack4',
-    // deviceId: 'chargingStack4',
-    // deviceType: DeviceType.electricTerminal,
+    deviceId: 'chargingStack4',
+    deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
       height: 47,
@@ -120,8 +105,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack',
-    // deviceId: 'chargingStack4',
-    // deviceType: DeviceType.electricTerminal,
+    deviceId: 'chargingStack',
+    deviceType: DeviceType.HW_CHARGING_STACK,
     cellStyle: {
       width: 39,
       height: 56,
@@ -133,6 +118,8 @@ export const CellList = [
   },
   {
     key: 'powerDistributionRoom',
+    deviceId: 'powerDistributionRoom',
+    deviceType: DeviceType.BOX_TYPE_SUBSTATION,
     cellStyle: {
       width: 70,
       height: 81,
@@ -145,7 +132,7 @@ export const CellList = [
   {
     key: 'energyStorage',
     deviceId: 'energyStorage',
-    deviceType: DeviceType.energyDialog,
+    deviceType: DeviceType.ENERGY_STORAGE_BOX,
     cellStyle: {
       width: 111,
       height: 85,
@@ -157,8 +144,8 @@ export const CellList = [
   },
   {
     key: 'energyStorageGridConnectedCabinet',
-    // deviceId: 'energyStorageGridConnectedCabinet',
-    // deviceType: DeviceType.cabinet,
+    deviceId: 'energyStorageGridConnectedCabinet',
+    deviceType: DeviceType.ENERGY_CABINET,
     cellStyle: {
       width: 24,
       height: 50,
@@ -170,8 +157,8 @@ export const CellList = [
   },
   {
     key: 'photovoltaicStorageGridConnectedCabinet',
-    // deviceId: 'photovoltaicStorageGridConnectedCabinet',
-    // deviceType: DeviceType.cabinet,
+    deviceId: 'photovoltaicStorageGridConnectedCabinet',
+    deviceType: DeviceType.PV_CABINET,
     cellStyle: {
       width: 24,
       height: 50,
@@ -184,7 +171,8 @@ export const CellList = [
   {
     key: 'HUAWEIInverter1',
     deviceId: 'HUAWEIInverter1',
-    deviceType: DeviceType.pvInverter,
+    deviceType: DeviceType.PV_INVERTER,
+    loopNum: 11,
     cellStyle: {
       width: 21,
       height: 24,
@@ -197,7 +185,8 @@ export const CellList = [
   {
     key: 'HUAWEIInverter2',
     deviceId: 'HUAWEIInverter2',
-    deviceType: DeviceType.pvInverter,
+    deviceType: DeviceType.PV_INVERTER,
+    loopNum: 4,
     cellStyle: {
       width: 21,
       height: 24,
@@ -210,7 +199,7 @@ export const CellList = [
   {
     key: 'powerExchangeCabinet',
     deviceId: 'HUAWEIInverter2',
-    deviceType: DeviceType.cabinet,
+    deviceType: DeviceType.POWER_EXCHANGE_BOX,
     cellStyle: {
       width: 32,
       height: 53,
@@ -222,6 +211,8 @@ export const CellList = [
   },
   {
     key: 'chargingStation120KW',
+    deviceId: 'chargingStation120KW',
+    deviceType: DeviceType.DC_PILE,
     cellStyle: {
       width: 59,
       height: 64,
@@ -238,6 +229,7 @@ export const CellList = [
       height: 40,
       left: 990,
       top: 365,
+      cursor: 'default',
     },
     component: Transformer,
     default: Transformer,
