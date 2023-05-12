@@ -18,6 +18,14 @@ export const aks = [
   { key: 'adc5f4cb7d9630de00cf073b00437130', securityJsCode: 'a6fc788a6ad5e326462e9e080c42ae2d' },
 ];
 
+export enum EnergyEquipmentEnum {
+  EMS = 1,
+  BMS = 2,
+  PCS = 3,
+  AIR = 7,
+  METER = 6,
+}
+
 export enum FormTypeEnum {
   Add = 'add',
   Edit = 'edit',

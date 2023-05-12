@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import { Modal, Tabs, Button } from 'antd';
 import { useRequest } from 'umi';
 import ScreenDialog from '@/components/ScreenDialog';
 import { getDeviceInfo } from '@/components/ScreenDialog/service';
@@ -76,8 +76,17 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
         width={model === 'screen' ? '62.5vw' : '1200px'}
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
+        destroyOnClose
       >
-        <EquipInfo data={data} product={data.product} model={model} onSetting={onSettingClick} />
+        <EquipInfo
+          id={id}
+          model={model}
+          buttons={
+            <Button type="link" onClick={onSettingClick}>
+              设置通信信息
+            </Button>
+          }
+        />
         <Tabs items={tabItems} />
       </Component>
       <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />

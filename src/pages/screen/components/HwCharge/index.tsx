@@ -78,8 +78,9 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
         width={model === 'screen' ? '62.5vw' : '1200px'}
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
+        destroyOnClose
       >
-        <EquipInfo data={data} product={data.product} model={model} />
+        <EquipInfo id={id} model={model} />
         <Tabs items={tabItems} />
       </Component>
     </>

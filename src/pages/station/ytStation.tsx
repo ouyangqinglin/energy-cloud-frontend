@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-08 19:42:14
+ * @LastEditTime: 2023-05-12 08:51:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -22,7 +22,7 @@ import Cabinet from '@/pages/screen/components/Cabinet';
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [energyOpen, setEnergyOpen] = useState(false);
-  const [chargeId, setChargeId] = useState('1');
+  const [chargeId, setChargeId] = useState('10001');
   const [pvOpen, setPvOpen] = useState(false);
   const [hwChargeOpen, setHwChargeOpen] = useState(false);
   const [ytChargeOpen, setYtChargeOpen] = useState(false);
@@ -110,7 +110,7 @@ const YtStation: React.FC = (props) => {
         model="screen"
       />
       <ElectricMeter
-        id={chargeId}
+        id={'10027'}
         open={electricMeterOpen}
         onCancel={switchElectricMeterModal}
         model="screen"

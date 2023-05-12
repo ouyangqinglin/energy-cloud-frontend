@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:40:01
- * @LastEditTime: 2023-05-08 19:40:02
+ * @LastEditTime: 2023-05-11 11:42:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Cabinet\index.tsx
  */
@@ -68,8 +68,9 @@ const Cabinet: React.FC<BusinessDialogProps> = (props) => {
         width={model === 'screen' ? '62.5vw' : '1200px'}
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
+        destroyOnClose
       >
-        <EquipInfo data={data} product={data.product} model={model} />
+        <EquipInfo id={id} model={model} />
         <Tabs items={tabItems} />
       </Component>
     </>

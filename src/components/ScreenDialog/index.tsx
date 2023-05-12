@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 14:26:38
- * @LastEditTime: 2023-05-10 08:52:35
+ * @LastEditTime: 2023-05-11 13:57:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\index.tsx
  */
@@ -19,6 +19,7 @@ export type DialogProps = {
   footer?: React.ReactNode;
   onCancel: () => void;
   onOk?: () => void;
+  destroyOnClose?: boolean;
 };
 
 export type BusinessDialogProps = {
@@ -29,7 +30,16 @@ export type BusinessDialogProps = {
 };
 
 const Dialog: React.FC<DialogProps> = (props) => {
-  const { title = '设备详情', width = '62.5vw', open, onCancel, onOk, loading, footer } = props;
+  const {
+    title = '设备详情',
+    width = '62.5vw',
+    open,
+    onCancel,
+    onOk,
+    loading,
+    footer,
+    destroyOnClose,
+  } = props;
 
   return (
     <Modal
@@ -41,6 +51,7 @@ const Dialog: React.FC<DialogProps> = (props) => {
       footer={footer}
       onCancel={onCancel}
       onOk={onOk}
+      destroyOnClose={destroyOnClose}
     >
       {loading ? <Spin /> : props.children}
     </Modal>
