@@ -10,7 +10,7 @@ import Cabinet from '@/pages/screen/components/Cabinet';
 
 type Props = {
   activeDeviceId: string;
-  deviceType: string;
+  deviceType: DeviceType | null;
   resetActiveDeviceId: () => void;
 };
 
@@ -55,10 +55,12 @@ const DeviceDialog: React.FC<Props> = (props) => {
     setStatus({ ...DEFAULT_STATUS });
   };
 
-  if (props.activeDeviceId && props.deviceType) {
-    const newStatus = { ...status, ...{ [keyToType[props.deviceType]]: true } };
-    setStatus(newStatus);
-  }
+  useEffect(() => {
+    if (props.activeDeviceId && props.deviceType) {
+      const newStatus = { ...status, ...{ [keyToType[props.deviceType]]: true } };
+      setStatus(newStatus);
+    }
+  }, [props.activeDeviceId, props.deviceType]);
 
   return (
     <>
@@ -73,8 +75,9 @@ const DeviceDialog: React.FC<Props> = (props) => {
       <Button className="ml12" onClick={switchYtChargeModal}>
         永泰充电桩
       </Button>
-      <Button className="ml12" onClick={switchGatewayModal}>
-        网关
+      </Button>
+      <Button className="ml12" onClick={switchCabinetModal}>
+        换电柜
       </Button>
       <Button className="ml12" onClick={switchElectricModal}>
         智慧用电终端
@@ -82,9 +85,21 @@ const DeviceDialog: React.FC<Props> = (props) => {
       <Button className="ml12" onClick={switchElectricMeterModal}>
         电表
       </Button>
-      <Button className="ml12" onClick={switchCabinetModal}>
-        换电柜
-      </Button> */}
+      <Button className="ml12" onClick={switchGatewayModal}>
+        网关 */}
+      {/* <Gateway id={props.activeDeviceId} open={status.gateway} onCancel={close} model="screen" /> */}
+      {/* <ElectricTerminal
+        id={props.activeDeviceId}
+        open={status.electricTerminal}
+        onCancel={close}
+        model="screen"
+      />
+      <ElectricMeter
+        id={props.activeDeviceId}
+        open={status.electricMeter}
+        onCancel={close}
+        model="screen"
+      /> */}
       <EnergyDialog
         id={props.activeDeviceId}
         open={status.energyDialog}
@@ -99,19 +114,7 @@ const DeviceDialog: React.FC<Props> = (props) => {
       />
       <HwCharge id={props.activeDeviceId} open={status.hwCharge} onCancel={close} model="screen" />
       <YtCharge id={props.activeDeviceId} open={status.ytCharge} onCancel={close} model="screen" />
-      <Gateway id={props.activeDeviceId} open={status.gateway} onCancel={close} model="screen" />
-      <ElectricTerminal
-        id={props.activeDeviceId}
-        open={status.electricTerminal}
-        onCancel={close}
-        model="screen"
-      />
-      <ElectricMeter
-        id={props.activeDeviceId}
-        open={status.electricMeter}
-        onCancel={close}
-        model="screen"
-      />
+
       <Cabinet id={props.activeDeviceId} open={status.cabinet} onCancel={close} model="screen" />
     </>
   );

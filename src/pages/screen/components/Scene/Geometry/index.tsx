@@ -6,9 +6,13 @@ import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
 import EnergyDialog from '../../EnergyDialog';
+import type { DeviceType } from '../Dialog';
+import DeviceDialog from '../Dialog';
 
 export type CellConfigItem = {
   key: string;
+  deviceId?: string;
+  deviceType?: DeviceType;
   cellStyle: CellStyle;
   component: PureComponent | undefined;
   default: PureComponent;
@@ -35,23 +39,23 @@ const Geometry: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [chargeId, setChargeId] = useState('1');
 
+  const [deviceId, setDeviceId] = useState('');
+  const [deviceType, setDeviceType] = useState<DeviceType | null>(null);
+
   const showModal = () => {
     setIsOpen(true);
   };
 
   const closeModal = () => {
-    setIsOpen(false);
+    setDeviceId('');
+    setDeviceType(null);
   };
 
   const handleGeometry = (cell: CellConfigItem, eventType: EventType) => {
-    // const newCell = { ...cell };
-    // const newConfigs = [...configs];
-    // if (eventType === EventType.CLICK) {
-    //   newCell.component = newCell.active;
-    //   newConfigs[configs.indexOf(cell)] = newCell;
-    //   setConfigs(newConfigs);
-    // }
-    showModal();
+    if (cell.deviceId && cell.deviceType) {
+      setDeviceId(cell.deviceId);
+      setDeviceType(cell.deviceType);
+    }
   };
 
   const ceils: ReactNode[] = [];
@@ -86,7 +90,12 @@ const Geometry: FC = () => {
 
   return (
     <div>
-      <EnergyDialog id={chargeId} open={isOpen} model="screen" onCancel={closeModal} />
+      <DeviceDialog
+        deviceType={deviceType}
+        activeDeviceId={deviceId}
+        resetActiveDeviceId={closeModal}
+      />
+      {/* <EnergyDialog id={chargeId} open={isOpen} model="screen" onCancel={closeModal} /> */}
       <Cell width={684} height={332} left={640} top={372}>
         <EnergyFlowLine />
       </Cell>

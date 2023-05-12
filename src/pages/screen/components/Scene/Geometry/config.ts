@@ -11,6 +11,7 @@ import HUAWEIInverter from '@/assets/image/screen/scenes/img_华为逆变器-1_d
 import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def@2x.png';
 import Transformer from '@/assets/image/screen/scenes/变压器@2x.png';
 import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
+import { DeviceType } from '../Dialog';
 
 export const CellList = [
   // {
@@ -54,6 +55,8 @@ export const CellList = [
   },
   {
     key: 'ChargingStation160KW',
+    deviceId: 'ChargingStation160KW',
+    deviceType: DeviceType.ytCharge,
     cellStyle: {
       width: 63,
       height: 61,
@@ -65,6 +68,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack1',
+    // deviceId: 'chargingStack1',
+    // deviceType: DeviceType.electricTerminal,
     cellStyle: {
       width: 42,
       height: 47,
@@ -76,6 +81,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack2',
+    // deviceId: 'chargingStack2',
+    // deviceType: DeviceType.electricTerminal,
     cellStyle: {
       width: 42,
       height: 47,
@@ -87,6 +94,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack3',
+    // deviceId: 'chargingStack3',
+    // deviceType: DeviceType.electricTerminal,
     cellStyle: {
       width: 42,
       height: 47,
@@ -98,6 +107,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack4',
+    // deviceId: 'chargingStack4',
+    // deviceType: DeviceType.electricTerminal,
     cellStyle: {
       width: 42,
       height: 47,
@@ -109,6 +120,8 @@ export const CellList = [
   },
   {
     key: 'chargingStack',
+    // deviceId: 'chargingStack4',
+    // deviceType: DeviceType.electricTerminal,
     cellStyle: {
       width: 39,
       height: 56,
@@ -131,6 +144,8 @@ export const CellList = [
   },
   {
     key: 'energyStorage',
+    deviceId: 'energyStorage',
+    deviceType: DeviceType.energyDialog,
     cellStyle: {
       width: 111,
       height: 85,
@@ -141,7 +156,9 @@ export const CellList = [
     default: EnergyStorage,
   },
   {
-    key: 'energyStorageGridConnectedCabinet1',
+    key: 'energyStorageGridConnectedCabinet',
+    // deviceId: 'energyStorageGridConnectedCabinet',
+    // deviceType: DeviceType.cabinet,
     cellStyle: {
       width: 24,
       height: 50,
@@ -152,7 +169,9 @@ export const CellList = [
     default: EnergyStorageGridConnectedCabinet,
   },
   {
-    key: 'energyStorageGridConnectedCabinet2',
+    key: 'photovoltaicStorageGridConnectedCabinet',
+    // deviceId: 'photovoltaicStorageGridConnectedCabinet',
+    // deviceType: DeviceType.cabinet,
     cellStyle: {
       width: 24,
       height: 50,
@@ -164,6 +183,8 @@ export const CellList = [
   },
   {
     key: 'HUAWEIInverter1',
+    deviceId: 'HUAWEIInverter1',
+    deviceType: DeviceType.pvInverter,
     cellStyle: {
       width: 21,
       height: 24,
@@ -175,6 +196,8 @@ export const CellList = [
   },
   {
     key: 'HUAWEIInverter2',
+    deviceId: 'HUAWEIInverter2',
+    deviceType: DeviceType.pvInverter,
     cellStyle: {
       width: 21,
       height: 24,
@@ -186,6 +209,8 @@ export const CellList = [
   },
   {
     key: 'powerExchangeCabinet',
+    deviceId: 'HUAWEIInverter2',
+    deviceType: DeviceType.cabinet,
     cellStyle: {
       width: 32,
       height: 53,
