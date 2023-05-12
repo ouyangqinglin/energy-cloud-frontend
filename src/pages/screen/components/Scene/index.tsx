@@ -6,12 +6,12 @@ import StationInfo from './StationInfo';
 import Title from './Title';
 import DeviceList from './DeviceList';
 import AlarmList from './AlarmList';
-import BenefitSocial from './BenefitSocial';
-import BenefitsEconomic from './BenefitsEconomic';
 import ChargingStation from './ChargingStation';
 import Photovoltaic from './Photovoltaic';
 import EnergyStorage from './EnergyStorage';
 import Weather from '../Weather';
+import BenefitsEconomic from './Benefits/Economic';
+import BenefitSocial from './Benefits/Social';
 
 const Scene: FC = () => {
   return (

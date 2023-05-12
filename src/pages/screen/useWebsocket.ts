@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 const useWebsocket = () => {
   const connection = Connection.getInstance();
+  connection.reconnect();
 
   const close = () => {
     connection.close();
@@ -12,10 +13,9 @@ const useWebsocket = () => {
     window.addEventListener('onbeforeunload', close);
     return () => {
       connection.close();
-      connection.reset();
       window.removeEventListener('onbeforeunload', close);
     };
-  });
+  }, []);
 
   return {
     connection,

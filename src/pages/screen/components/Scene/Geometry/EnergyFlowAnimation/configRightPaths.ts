@@ -41,19 +41,6 @@ export const rightPathsConfig = [
 
 export const rightPathsNeedCalc = [
   {
-    id: 'energy-storage-grid-connected-cabinet-output',
-    path: '225.060889 128.775138 143.074779 130.284368',
-    rotatePath: true,
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(80px, -52px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
     id: 'transformer-output',
     path: '107.972432 32.4902356 73.9724319 32.4902356',
     rotatePath: true,
@@ -173,12 +160,12 @@ export const rightPathsDynamical = [
 
   {
     id: 'line-right-reverse-1-1',
-    path: 'M212.126136,107.093996 L170.05403,131.300219 C166.826095,133.157415 160.875168,132.207986 152.608601,125.454018',
+    path: 'M212.126136,107.093996 L170.05403,131.300219 C166.826095,133.157415 150.875 138.208 142.5 128.854',
     duration: 2,
     delay: 0,
     repeat: 0,
     style: {
-      transform: 'translate(0px, 2px)',
+      transform: 'translate(-3px, 2px)',
       left: 257.242029,
       top: 0,
     },
@@ -203,6 +190,33 @@ export const rightPathsDynamical = [
     repeat: 0,
     style: {
       transform: 'translate(0px, -1px)',
+      left: 257.242029,
+      top: 0,
+    },
+  },
+  // {
+  //   id: 'energy-storage-grid-connected-cabinet-output',
+  //   path: '225.060889 128.775138 143.074779 130.284368',
+  //   rotatePath: true,
+  //   duration: 2,
+  //   delay: 0,
+  //   repeat: 0,
+  //   style: {
+  //     transform: 'translate(80px, -52px)',
+  //     left: 257.242029,
+  //     top: 0,
+  //   },
+  // },
+  {
+    id: 'energy-storage-grid-connected-cabinet-input',
+    path: '143.074779 130.284368 225.060889 128.775138 ',
+    rotatePath: true,
+    rotateAngle: -30,
+    duration: 2,
+    delay: 0,
+    repeat: 0,
+    style: {
+      transform: 'translate(-90px, 52px)',
       left: 257.242029,
       top: 0,
     },

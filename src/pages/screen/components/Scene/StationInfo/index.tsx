@@ -6,17 +6,33 @@ import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import { getStationInfo } from './service';
 import styles from './index.module.less';
-import { stationInfoConfig } from './config';
+import { DEFAULT_DATA, mapKey, stationInfoConfig } from './config';
+import type { SiteInfo, SiteInfoRes } from './type';
 
 const StationInfo: FC = () => {
-  const { data } = useRequest(getStationInfo);
+  const { data: rawData } = useRequest(getStationInfo);
+  let data: SiteInfo = DEFAULT_DATA;
+
+  const formatData = (resData: SiteInfoRes) => {
+    const newData: SiteInfo = {} as SiteInfo;
+    Reflect.ownKeys(resData).forEach((key) => {
+      newData[mapKey[key]] = resData[key];
+    });
+    newData.energyStorageCapacity =
+      newData.energyStorageCapacity + '/' + newData.energyStorageOutput;
+    data = newData;
+  };
+  if (rawData) {
+    formatData(rawData);
+  }
+
   const gunInfoItem: DetailItem[] = stationInfoConfig.map((item) => {
-    const Icon = item.icon;
+    // const Icon = item.icon;
     return {
       label: (
         <div className={styles.itemLeft}>
           {/* <Icon className={styles.icon} /> */}
-          <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }}></div>
+          <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
           <span>{item.label}</span>
         </div>
       ),
@@ -24,8 +40,9 @@ const StationInfo: FC = () => {
       span: 0,
     };
   });
+
   return (
-    <Cell width={400} height={354} left={24} top={58}>
+    <Cell cursor="default" width={400} height={354} left={24} top={58}>
       <Decoration title="站点信息概览">
         <div className={styles.contentWrapper}>
           <Detail

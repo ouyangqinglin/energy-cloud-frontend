@@ -60,7 +60,7 @@ const request = createClient();
 // 更换令牌的时间区间
 const checkRegion = 5 * 60 * 1000;
 
-request.interceptors.request.use((url: string, options: any) => {
+request.interceptors.request.use((url, options) => {
   // console.log('-------------------------')
   console.log('request:', url);
   const headers = options.headers ? options.headers : [];
@@ -83,9 +83,11 @@ request.interceptors.request.use((url: string, options: any) => {
     } else {
       clearSessionToken();
       history.push(LoginPageUrl);
-      return undefined;
+      return {
+        url: undefined,
+        options: undefined,
+      };
     }
-    // console.log(headers)
     return {
       url,
       options: { ...options, headers },

@@ -1,40 +1,22 @@
-import { FC } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import styles from './index.module.less';
 import ScrollBoard from '@chuxiaguo/data-view-react-plus/es/scrollBoard';
 import useWebsocket from '@/pages/screen/useWebsocket';
-export const enum AlarmLevel {
-  NORMAL,
-  WARNING,
-  ERROR,
-}
+import { defaults } from 'lodash';
+import type { AlarmLevel } from './config';
+import { alarmMap, DEFAULT_DATA } from './config';
 
-const alarmMap = {
-  [AlarmLevel.ERROR]: {
-    color: '#ff5656',
-    text: '一级',
-  },
-  [AlarmLevel.WARNING]: {
-    color: '#FFC22A',
-    text: '二级',
-  },
-  [AlarmLevel.NORMAL]: {
-    color: '#11DA81',
-    text: '三级',
-  },
-};
+const MAX_DISPLAY_NUMBER = 10;
 
 const AlarmList: FC = () => {
+  const [data, setData] = useState<[string, string, string, string][]>([]);
   const config = {
     header: ['告警设备', '告警内容', '告警时间', '告警等级'],
-    data: [
-      ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 0],
-      ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 1],
-      ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 2],
-      ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 0],
-      ['smart215', 'PCS掉线', '2023.03.10  12:45:59', 1],
-    ],
+    data,
     headerBGC:
       'linear-gradient(90deg,rgba(8, 139, 255, 0) 0%,rgba(8, 139, 255, 0.2) 53%,rgba(8, 139, 255, 0) 100%)',
     oddRowBGC:
@@ -56,27 +38,64 @@ const AlarmList: FC = () => {
     background: ${alarmMap[level].color};
     border-radius: 50%;">
   </div>${alarmMap[level].text}<div>`;
-  const handleAlarmLevel = () => {
-    config.data.forEach((ceils) => {
-      const level = ceils[3];
-      ceils.pop();
-      ceils.push(getNodeTemplate(level as AlarmLevel));
-    });
+
+  const formatReceivedData = (mockData: any) => {
+    // const mockData = {
+    //   data: {
+    //     deviceId: uniqueId(),
+    //     deviceName: '组串式逆变器',
+    //     eventName: '测试告警' + uniqueId(),
+    //     eventTime: '2023-05-10 11:06:59',
+    //     eventType: 'info',
+    //   },
+    //   type: 2,
+    // };
+    console.log('ws: ', mockData);
+    if (mockData.type !== 2) {
+      return;
+    }
+    const newData = [...data];
+    const { deviceName, eventName, eventTime, eventType } = defaults(mockData.data, DEFAULT_DATA);
+    newData.unshift([deviceName, eventName, eventTime, getNodeTemplate(eventType as AlarmLevel)]);
+    if (newData.length > MAX_DISPLAY_NUMBER) {
+      newData.pop();
+    }
+    setData(newData);
   };
-  handleAlarmLevel();
 
   const { connection } = useWebsocket();
-  connection.addReceivedMessageCallback((msg) => {
-    console.log('ws: ', msg);
+  useEffect(() => {
+    connection.addReceivedMessageCallback(formatReceivedData);
+    return () => {
+      connection.removeReceivedMessageCallback(formatReceivedData);
+    };
   });
+  // const close = () => {
+  //   connection.close();
+  // };
+  // const open = () => {
+  //   connection.reconnect();
+  // };
+  // const mock = () => {
+  //   connection.mock();
+  // };
 
   return (
-    <Cell width={400} height={240} left={24} top={752}>
+    <Cell cursor="default" width={400} height={240} left={24} top={752}>
       <Decoration title="实时告警">
         <div className={styles.tableWrapper}>
           <ScrollBoard config={config} style={{ width: '384px', height: '184px' }} />
         </div>
       </Decoration>
+      {/* <Button type="primary" onClick={close}>
+        close
+      </Button>
+      <Button type="primary" onClick={open}>
+        open
+      </Button>
+      <Button type="primary" onClick={mock}>
+        接受消息
+      </Button> */}
     </Cell>
   );
 };

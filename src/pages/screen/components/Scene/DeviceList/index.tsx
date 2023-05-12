@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { useRequest } from 'umi';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
+import { DEFAULT_DATA } from './config';
 import styles from './index.module.less';
 import type { DeviceListRes } from './service';
 import { getDeviceList } from './service';
@@ -11,14 +12,7 @@ type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
 type BodyDataArray = [string, string[], string[]][];
 
 const DeviceList: FC = () => {
-  let bodyData = [
-    ['光伏', ['逆变器', '光伏模组'], ['2', '280']],
-    ['储能', ['Smart215-P0100A'], ['1']],
-    ['充电桩', ['120kW', '160kW', '600kW'], ['1', '1', '1']],
-  ];
-  const headerData = {
-    header: ['子系统', '设备名称', '数量'],
-  };
+  let bodyData = DEFAULT_DATA.bodyData;
 
   const { data: deviceList } = useRequest(getDeviceList);
   const combineIntoBodyData = (devices: DeviceListRes) => {
@@ -54,7 +48,7 @@ const DeviceList: FC = () => {
 
   const renderHeader = () => {
     const headerCeils: ReactNode[] = [];
-    headerData.header.forEach((item) => {
+    DEFAULT_DATA.header.forEach((item) => {
       headerCeils.push(
         <div key={item} className={styles.header}>
           <span>{item}</span>
@@ -83,7 +77,7 @@ const DeviceList: FC = () => {
   };
 
   return (
-    <Cell width={400} height={300} left={24} top={432}>
+    <Cell cursor="default" width={400} height={300} left={24} top={432}>
       <Decoration title="设备列表">
         <div className={styles.table}>
           {renderHeader()}
