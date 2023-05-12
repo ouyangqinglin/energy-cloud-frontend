@@ -10,8 +10,7 @@ import ChargingStation from './ChargingStation';
 import Photovoltaic from './Photovoltaic';
 import EnergyStorage from './EnergyStorage';
 import Weather from '../Weather';
-import BenefitsEconomic from './Benefits/Economic';
-import BenefitSocial from './Benefits/Social';
+import Benefit from './Benefits';
 
 const Scene: FC = () => {
   return (
@@ -25,9 +24,8 @@ const Scene: FC = () => {
       </Cell>
       <DeviceList />
       <AlarmList />
-      <BenefitsEconomic />
+      <Benefit />
       <EnergyStorage />
-      <BenefitSocial />
       <ChargingStation />
       <Photovoltaic />
       <Geometry />

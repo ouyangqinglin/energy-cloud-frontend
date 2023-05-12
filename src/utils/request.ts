@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { extend } from 'umi-request';
+import { extend, RequestOptionsInit } from 'umi-request';
 import { history } from 'umi';
 import { message, notification } from 'antd';
 import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '../access';
@@ -123,5 +123,23 @@ request.interceptors.response.use(async (response: Response) => {
   }
   return response;
 });
+
+export const get = <R = false>(
+  url: string,
+  params: object | URLSearchParams,
+  options?: RequestOptionsInit,
+) => {
+  return request.get<R>(url, {
+    options,
+    ...{ params },
+  });
+};
+
+export const post = <R = false>(url: string, params: any, options?: RequestOptionsInit) => {
+  return request.post<R>(url, {
+    options,
+    ...{ data: params },
+  });
+};
 
 export default request;

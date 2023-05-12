@@ -53,7 +53,7 @@ export const CellList = [
     active: HomeEnergyStorage,
   },
   {
-    key: 'HomeEnergyStorage',
+    key: 'ChargingStation160KW',
     cellStyle: {
       width: 63,
       height: 61,
