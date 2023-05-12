@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-05-04 19:19:52
+ * @LastEditTime: 2023-05-10 17:35:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -14,7 +14,21 @@ import moderateRain from '@/assets/image/screen/weather/moderateRain.png';
 import rainstorm from '@/assets/image/screen/weather/rainstorm.png';
 import thunderstorm from '@/assets/image/screen/weather/thunderstorm.png';
 
-export const aks = ['YeoPwIR9MkozLsC0irBYIpFEPvjrc4bn'];
+export const aks = [
+  { key: 'adc5f4cb7d9630de00cf073b00437130', securityJsCode: 'a6fc788a6ad5e326462e9e080c42ae2d' },
+];
+
+export enum FormTypeEnum {
+  Add = 'add',
+  Edit = 'edit',
+  Detail = 'detail',
+}
+
+export enum AutoComStatusEnum {
+  Complete = 'complete',
+  Error = 'error',
+  NoData = 'no_data',
+}
 
 export type OptionType = {
   label: string;

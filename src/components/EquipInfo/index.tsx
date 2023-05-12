@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-09 16:20:58
+ * @LastEditTime: 2023-05-10 10:44:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -13,11 +13,12 @@ import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import ScreenDialog from '../ScreenDialog';
 import Label from '../Detail/label';
+import EquipForm from '../EquipForm';
+import { EquipFormType } from '../EquipForm/data.d';
+import { FormTypeEnum } from '@/utils/dictionary';
 
 export type EquipInfoProps = {
-  data: {
-    img: string;
-  };
+  data: EquipFormType;
   product: {
     desc: string;
     link: string;
@@ -128,6 +129,14 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
           </Col>
         </Row>
       </Component>
+      <EquipForm
+        id={data?.id}
+        data={data}
+        open={openEditModal}
+        onCancel={onEditClick}
+        model={model}
+        type={FormTypeEnum.Edit}
+      />
     </>
   );
 };

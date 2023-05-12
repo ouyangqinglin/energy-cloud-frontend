@@ -2,31 +2,30 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 18:51:22
- * @LastEditTime: 2023-05-05 14:30:36
+ * @LastEditTime: 2023-05-10 17:19:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\MapContain\index.tsx
  */
 
-import React, { useCallback, useMemo } from 'react';
-import { MapApiLoaderHOC } from 'react-bmapgl';
+import React, { CSSProperties, useCallback, useMemo } from 'react';
+import AmapLoader from '../AmapLoader';
 import { aks } from '@/utils/dictionary';
 
 export type MapProps = {
+  style?: CSSProperties;
   ready?: () => void;
 };
 
 const MapContain: React.FC<MapProps> = (props) => {
-  const MyMap = useCallback(() => {
-    if (props.ready) {
-      props.ready();
-    }
-    return <>{props.children}</>;
-  }, [props]);
-
-  const Component = useMemo(() => MapApiLoaderHOC({ ak: aks[0] })(MyMap), []);
-
-  // return <Component />;
-  return <>{props.children}</>;
+  return (
+    <>
+      <div style={{ height: '220px', ...props.style }}>
+        <AmapLoader version="2.0.5" akey={aks[0].key} securityJsCode={aks[0].securityJsCode}>
+          {props.children}
+        </AmapLoader>
+      </div>
+    </>
+  );
 };
 
 export default MapContain;

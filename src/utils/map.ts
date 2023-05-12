@@ -1,101 +1,140 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-05 10:35:47
- * @LastEditTime: 2023-05-06 09:43:44
+ * @Date: 2023-03-13 19:26:34
+ * @LastEditTime: 2023-05-11 08:53:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\map.ts
  */
+import { AutoComStatusEnum } from './dictionary';
 
-export type Result = {
-  value: string;
-  [key: string]: any;
+interface IAutoComResult {
+  autoComplete: AMap.AutoComplete;
+  search: (keyword: string, limit?: number) => Promise<any[]>;
+}
+
+interface IGeocoderResult {
+  geocoder: AMap.Geocoder;
+  getAddress: (lngLat: AMap.LngLat) => Promise<any>;
+}
+
+let mapLoadResolve: (value: unknown) => void;
+const mapLoadPromise = new Promise((resolve) => {
+  mapLoadResolve = resolve;
+});
+export { mapLoadResolve };
+export const mapLoad = () => {
+  return mapLoadPromise;
 };
 
-export type AutoCompleteOptions = {
-  location?: any;
-  types?: string[];
-  onSearchComplete?: (result: Result[]) => void;
-  input?: string | HTMLElement;
-};
+let autoComplete: any;
+export function getAutoComplete() {
+  return new Promise<IAutoComResult>((autoresolve) => {
+    mapLoad().then(() => {
+      window.AMap.plugin(['AMap.AutoComplete'], () => {
+        autoComplete = autoComplete || new window.AMap.Autocomplete({});
+        const search = (keyword: string, limit: number = 41) => {
+          return new Promise<any[]>((resolve, reject) => {
+            autoComplete.search(keyword, (status: AutoComStatusEnum, result: any) => {
+              if (status === AutoComStatusEnum.Complete) {
+                const arr = result.tips.map((item: any) => {
+                  const address = item.district + item.address;
+                  return {
+                    ...item,
+                    label: address.length > limit ? address.substring(0, limit) + '...' : address,
+                    value: address,
+                    key: item.id,
+                  };
+                });
+                resolve(arr);
+              } else if (status === AutoComStatusEnum.NoData) {
+                resolve([]);
+              } else {
+                reject();
+              }
+            });
+          });
+        };
 
-export type LocalSearchOptions = {
-  onSearchComplete?: () => void;
-};
-
-export type PointType = {
-  lng: number;
-  lat: number;
-  equals?: (point: PointType) => boolean;
-};
-
-export type GeocoderResultType = {
-  point: PointType;
-  address: string;
-  addressComponents: any;
-  surroundingPois: any;
-  business: string;
-};
-
-export type GeoCoderType = {
-  getPoint: (address: string, callback: (result: null | PointType) => void, city?: string) => void;
-  getLocation: (
-    point: PointType,
-    callback: (result: null | GeocoderResultType) => void,
-    options?: any,
-  ) => void;
-};
-
-const getValue = (value: any) => {
-  return value.province + value.city + value.district + value.street + value.business;
-};
-
-export const getAutoComplete = (options: AutoCompleteOptions) => {
-  const fn = options.onSearchComplete;
-  if (fn) {
-    options.onSearchComplete = (e) => {
-      const key: string =
-        Object.getOwnPropertyNames(e).find((item) => {
-          return e[item] instanceof Array;
-        }) || '';
-      fn(
-        (e[key] || []).map((item: any) => {
-          return {
-            value: getValue(item),
-            ...item,
-          };
-        }),
-      );
-    };
-  }
-
-  if (typeof options.input !== 'object') {
-    options.input = options.input || 'autoinput';
-    if (!document.getElementById(options.input)) {
-      const input = document.createElement('input');
-      input.id = options.input;
-      input.style.display = 'none';
-      document.body.appendChild(input);
-    }
-  }
-
-  return new window.BMapGL.Autocomplete(options as any);
-};
-
-export const getLocalSearch = (options: any) => {};
-
-let geocoder: GeoCoderType;
-export const getGeocoder = (): Promise<GeoCoderType> => {
-  return new Promise((resolve) => {
-    if (geocoder) {
-      resolve(geocoder);
-    } else {
-      geocoder = new window.BMapGL.Geocoder();
-      resolve(geocoder);
-    }
+        autoresolve({
+          autoComplete,
+          search,
+        });
+      });
+    });
   });
-};
+}
 
-export const getPoint = (lng: number | string, lat: number | string) => {
-  return new window.BMapGL.Point(Number(lng), Number(lat)) as PointType;
-};
+let geocoder: any;
+export function getGeocoder() {
+  return new Promise<IGeocoderResult>((geoResolve) => {
+    mapLoad().then(() => {
+      window.AMap.plugin(['AMap.Geocoder'], () => {
+        geocoder = geocoder || new window.AMap.Geocoder({});
+
+        const getAddress = (point: AMap.LngLat) => {
+          return new Promise<any>((resolve, reject) => {
+            if (point.lng && point.lat) {
+              geocoder.getAddress(
+                getPoint(point.lng, point.lat),
+                (status: AutoComStatusEnum, result: any) => {
+                  if (status === AutoComStatusEnum.Complete) {
+                    resolve(result);
+                  } else if (status === AutoComStatusEnum.NoData) {
+                    resolve({});
+                  } else {
+                    reject();
+                  }
+                },
+              );
+            } else {
+              resolve({});
+            }
+          });
+        };
+
+        geoResolve({
+          geocoder,
+          getAddress,
+        });
+      });
+    });
+  });
+}
+
+export function getMoveAnimation() {
+  return new Promise<void>((moveResolve) => {
+    mapLoad().then(() => {
+      window.AMap.plugin(['AMap.MoveAnimation'], () => {
+        moveResolve();
+      });
+    });
+  });
+}
+
+export function getIcon(icon: AMap.IconOptions) {
+  const myIcon = new window.AMap.Icon({
+    size: icon.size && new window.AMap.Size(icon.size[0], icon.size[1]),
+    image: icon.image,
+    imageSize: icon.imageSize && new window.AMap.Size(icon.imageSize[0], icon.imageSize[1]),
+    imageOffset:
+      icon.imageOffset && new window.AMap.Pixel(icon.imageOffset[0], icon.imageOffset[1]),
+  });
+
+  return myIcon;
+}
+
+export function getMarker(marker: AMap.MarkerOptions, icon?: AMap.IconOptions) {
+  const myIcon = icon && getIcon(icon);
+  const myMarker = new window.AMap.Marker({
+    position: getPoint(marker?.position?.[0], marker?.position?.[1]),
+    icon: marker.icon || myIcon,
+    offset: marker.offset && new window.AMap.Pixel(marker.offset[0], marker.offset[1]),
+  });
+
+  return { marker: myMarker, icon: myIcon };
+}
+
+export function getPoint(lng: number, lat: number) {
+  return new window.AMap.LngLat(lng, lat);
+}

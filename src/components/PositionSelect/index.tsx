@@ -2,24 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-05-05 19:45:24
+ * @LastEditTime: 2023-05-10 19:17:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
 import MapContain from '@/components/MapContain';
-import { Map } from 'react-bmapgl';
-import { Marker } from 'react-bmapgl';
+import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/utils/dictionary';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
-import type { PointType } from '@/utils/map';
 import { debounce } from 'lodash';
 
 export type PositionSelectType = {
   address?: string;
-  point?: PointType;
+  point?: AMap.LngLat;
 };
 
 export type PositionSelectProps = {
@@ -32,25 +30,10 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   const [address, setAddress] = useState<string>();
   const [options, setOptions] = useState<OptionType[]>([]);
-  const [point, setPoint] = useState<PointType>();
+  const [point, setPoint] = useState<AMap.LngLat>();
   const [inputPoint, setInputPoint] = useState('');
-  const autoComplete = useMemo(
-    () =>
-      getAutoComplete({
-        onSearchComplete: (result) => {
-          autoComplete.hide();
-          const res = result.map((item) => {
-            return {
-              label: item.value,
-              value: item.value,
-            };
-          });
-          setOptions(res);
-        },
-      }),
-    [],
-  );
-  const geoCoder = getGeocoder();
+  const [center, setCenter] = useState<AMap.LngLat>();
+  const [zoom, setZoom] = useState(11);
 
   useEffect(() => {
     if (point && point.lat && point.lng) {
@@ -60,7 +43,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   useEffect(() => {
     setAddress(value?.address || '');
-    if (value?.point) {
+    if (value?.point && value?.point?.lng && value?.point?.lat) {
       const result = getPoint(value.point?.lng, value.point?.lat);
       if (result) {
         setPoint(result);
@@ -68,51 +51,55 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
     }
   }, [value]);
 
-  const autoSearch = debounce((data: string) => {
-    autoComplete.search(data);
-  }, 700);
-
-  const onSelect = (data: string) => {
-    geoCoder.then((geo) => {
-      geo.getPoint(data, (result) => {
-        if (result) {
-          setPoint(result);
-          onChange?.({
-            address: data,
-            point: {
-              lng: result.lng,
-              lat: result.lat,
-            },
-          });
-        }
+  const autoSearch = useCallback(
+    debounce((data: string) => {
+      getAutoComplete().then(({ search }) => {
+        search(data).then((result: any) => {
+          setOptions(result);
+        });
       });
+    }, 700),
+    [],
+  );
+
+  const onSelect = (_: any, data: any) => {
+    setPoint(data.location);
+    onChange?.({
+      address: data.label,
+      point: {
+        lng: data.location.lng,
+        lat: data.location.lat,
+      },
     });
+    setCenter(data.location);
+    setZoom(17);
+    // const code = item.adcode ? item.adcode * 1 : 900000;
+    // emit('update:province', parseInt(code / 10000 + '') + '0000');
+    // emit('update:city', parseInt(code / 100 + '') + '00');
+    // emit('update:area', code);
   };
 
-  const getAddress = (pointObj: PointType) => {
-    geoCoder.then((geo) => {
-      geo.getLocation(pointObj, (res) => {
+  const getAddressByPoint = (pointObj: AMap.LngLat) => {
+    getGeocoder().then(({ getAddress }) => {
+      getAddress([pointObj?.lng, pointObj?.lat]).then((res) => {
         if (res) {
-          if (res.surroundingPois && res.surroundingPois.length) {
-            setPoint(res.surroundingPois[0].point);
-            setAddress(res.surroundingPois[0].address + res.surroundingPois[0].title);
+          if (res.regeocode && res.regeocode.formattedAddress) {
+            setPoint(pointObj);
+            setAddress(res.regeocode.formattedAddress);
             onChange?.({
-              address: res.surroundingPois[0].address + res.surroundingPois[0].title,
+              address: res.regeocode.formattedAddress,
               point: {
                 lng: pointObj.lng,
                 lat: pointObj.lat,
               },
             });
-          } else if (res.address) {
-            setPoint(point);
-            setAddress(res.address);
-            onChange?.({
-              address: res.address,
-              point: {
-                lng: pointObj.lng,
-                lat: pointObj.lat,
-              },
-            });
+            setCenter(pointObj);
+            setZoom(17);
+            // let code = result.regeocode.addressComponent.adcode;
+            // code = code ? code * 1 : 900000;
+            // emit('update:province', parseInt(code / 10000 + '') + '0000');
+            // emit('update:city', parseInt(code / 100 + '') + '00');
+            // emit('update:area', code);
           } else {
             message.success('坐标无效');
           }
@@ -132,8 +119,8 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   };
 
   const onClick = (e: any) => {
-    if (e && e.latlng) {
-      getAddress(e.latlng);
+    if (e && e.lnglat) {
+      getAddressByPoint(e.lnglat);
     }
   };
 
@@ -144,9 +131,12 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   const onBlur = () => {
     const pointObj = inputPoint.split(',');
-    if (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1]) {
+    if (
+      pointObj.length > 1 &&
+      (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
+    ) {
       try {
-        getAddress(new window.BMapGL.Point(Number(pointObj[0]), Number(pointObj[1])) as PointType);
+        getAddressByPoint(getPoint(Number(pointObj[0]), Number(pointObj[1])));
       } catch (e) {}
     }
   };
@@ -175,23 +165,8 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
         </Col>
       </Row>
       <MapContain>
-        <Map
-          style={{ height: 220 }}
-          center={{ lng: 114.07365, lat: 22.68774 }}
-          zoom={15}
-          enableScrollWheelZoom
-          onClick={onClick}
-        >
-          {point && (
-            <Marker
-              position={point}
-              enableDragging
-              autoViewport
-              viewportOptions={{
-                zoomFactor: -12,
-              }}
-            />
-          )}
+        <Map center={center} zoom={zoom} onClick={onClick}>
+          {point && <Marker position={point} />}
         </Map>
       </MapContain>
     </>

@@ -1,18 +1,19 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-09 17:03:09
- * @LastEditTime: 2023-05-10 09:36:36
+ * @Date: 2023-05-10 09:53:55
+ * @LastEditTime: 2023-05-10 10:26:04
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\community.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricMeter\community.tsx
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Form, message } from 'antd';
 import { useRequest } from 'umi';
 import ScreenDialog from '@/components/ScreenDialog';
-import { ProForm, ProFormText } from '@ant-design/pro-form';
+import { ProForm, ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import { CommunityType } from './data.d';
-import { editCommunity, getCommunity } from './service';
+import { editCommunity, getCommunity, getGateway } from './service';
+import { OptionType } from '@/utils/dictionary';
 
 export type CommunityProps = {
   id: string;
@@ -24,6 +25,7 @@ export type CommunityProps = {
 const Community: React.FC<CommunityProps> = (props) => {
   const { id, model, open, onCancel } = props;
 
+  const [gatewayOptions, setGatewayOptions] = useState<OptionType[]>();
   const [form] = Form.useForm<CommunityType>();
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -46,6 +48,12 @@ const Community: React.FC<CommunityProps> = (props) => {
     }
   }, [open]);
 
+  useEffect(() => {
+    getGateway().then((res) => {
+      setGatewayOptions(res.data || []);
+    });
+  }, []);
+
   return (
     <>
       <Component
@@ -58,7 +66,7 @@ const Community: React.FC<CommunityProps> = (props) => {
         <ProForm<CommunityType>
           form={form}
           layout="horizontal"
-          labelCol={{ flex: '128px' }}
+          labelCol={{ flex: '84px' }}
           autoFocusFirstInput
           onFinish={(data) =>
             editCommunity({ ...data, id }).then((res) => {
@@ -71,17 +79,21 @@ const Community: React.FC<CommunityProps> = (props) => {
           submitter={false}
         >
           <ProFormText
-            label="EMS  mqtt用户名"
-            name="account"
+            label="通讯短码"
+            name="code"
             placeholder="请输入"
-            rules={[{ required: true, message: '用户名必填' }]}
+            rules={[{ required: true, message: '通讯短码必填' }]}
           ></ProFormText>
-          <ProFormText.Password
-            label="EMS mqtt密码"
-            name="secret"
-            placeholder="请输入"
-            rules={[{ required: true, message: '密码必填' }]}
-          ></ProFormText.Password>
+          <ProFormSelect
+            label="绑定网关"
+            name="gateway"
+            placeholder="请选择"
+            rules={[{ required: true, message: '网关必选' }]}
+            options={gatewayOptions}
+            fieldProps={{
+              getPopupContainer: (triggerNode) => triggerNode.parentElement,
+            }}
+          ></ProFormSelect>
         </ProForm>
       </Component>
     </>

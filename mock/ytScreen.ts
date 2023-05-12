@@ -8,6 +8,34 @@ export default {
       weather: '晴',
     },
   },
+  'GET /api/screen/pvinverter/dcin': {
+    msg: '操作成功',
+    code: 200,
+    rows: [
+      {
+        id: 1,
+        loop: 'PV1',
+        voltage: 40,
+        current: 6,
+      },
+    ],
+  },
+  'GET /api/product/models': {
+    msg: '操作成功',
+    code: 200,
+    data: [
+      { label: '型号1', value: 1 },
+      { label: '型号2', value: 2 },
+    ],
+  },
+  'GET /api/product/types': {
+    msg: '操作成功',
+    code: 200,
+    data: [
+      { label: '类型1', value: 1 },
+      { label: '类型2', value: 2 },
+    ],
+  },
   'POST /api/screen/energy/community': {
     msg: '操作成功',
     code: 200,
@@ -19,6 +47,14 @@ export default {
       account: 'waha',
       secret: '123456',
     },
+  },
+  'GET /api/screen/gateways': {
+    msg: '操作成功',
+    code: 200,
+    data: [
+      { label: '网关1', value: 1 },
+      { label: '网关2', value: 2 },
+    ],
   },
   'GET /api/screen/alarms': {
     msg: '操作成功',

@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricTerminal\index.tsx
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import { useRequest } from 'umi';
 import Label from '@/components/Detail/label';
@@ -19,9 +19,11 @@ import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
 import type { fieldType } from '@/utils/dictionary';
 import { valueFormat } from '@/utils';
+import Community from './community';
 
 const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
+  const [openSettingModal, setOpenSettingModal] = useState(false);
   const {
     data = {},
     loading,
@@ -30,6 +32,10 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
     manual: true,
   });
   data.img = data.img || ImgCharge;
+
+  const onSettingClick = () => {
+    setOpenSettingModal(!openSettingModal);
+  };
 
   useEffect(() => {
     if (open) {
@@ -82,9 +88,10 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
         wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
       >
-        <EquipInfo data={data} product={data.product} model={model} />
+        <EquipInfo data={data} product={data.product} model={model} onSetting={onSettingClick} />
         <Tabs items={tabItems} />
       </Component>
+      <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
     </>
   );
 };

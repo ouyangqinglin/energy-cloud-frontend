@@ -1,10 +1,10 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-09 17:03:09
- * @LastEditTime: 2023-05-10 09:36:36
+ * @Date: 2023-05-10 09:50:05
+ * @LastEditTime: 2023-05-10 09:50:09
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\community.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Gateway\community.tsx
  */
 import React, { useEffect } from 'react';
 import { Modal, Form, message } from 'antd';
@@ -71,13 +71,13 @@ const Community: React.FC<CommunityProps> = (props) => {
           submitter={false}
         >
           <ProFormText
-            label="EMS  mqtt用户名"
+            label="网关  mqtt用户名"
             name="account"
             placeholder="请输入"
             rules={[{ required: true, message: '用户名必填' }]}
           ></ProFormText>
           <ProFormText.Password
-            label="EMS mqtt密码"
+            label="网关 mqtt密码"
             name="secret"
             placeholder="请输入"
             rules={[{ required: true, message: '密码必填' }]}
