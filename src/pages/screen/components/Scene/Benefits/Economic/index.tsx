@@ -3,24 +3,27 @@ import Decoration from '../../../Decoration';
 import Cell from '../../../LayoutCell';
 import DigitalFlipperGroup from '../../../DigitalFlipper/Group';
 import type { DigitalFlipperItemProps } from '../../../DigitalFlipper/Item';
+import type { BenefitsRes } from '../type';
 
-const BenefitsEconomic: FC = () => {
+type Props = Omit<BenefitsRes, 'conserveEnergyReduceEmissions' | 'cumulativeTree'>;
+
+const BenefitsEconomic: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
       title: '今日收益',
-      num: 123,
+      num: props.todayEconomicPerformance,
     },
     {
       title: '本月收益',
-      num: 123,
+      num: props.monthEconomicPerformance,
     },
     {
       title: '今年收益',
-      num: 8025,
+      num: props.yearEconomicPerformance,
     },
     {
       title: '累计收益',
-      num: 28025,
+      num: props.cumulativeEconomicPerformance,
     },
   ];
   return (

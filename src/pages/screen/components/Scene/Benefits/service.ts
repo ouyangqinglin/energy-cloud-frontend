@@ -1,8 +1,6 @@
 import type { BenefitsRes } from './type';
-import request from '@/utils/request';
+import { get } from '@/utils/request';
 
 export const getBenefits = () => {
-  return request<{ data: BenefitsRes }>('/oss/site/economicAndSocialStatistics', {
-    method: 'GET',
-  });
+  return get<{ data: BenefitsRes }>('/oss/site/economicAndSocialStatistics', { site: 1 });
 };

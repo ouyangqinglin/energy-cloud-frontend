@@ -3,7 +3,7 @@ import { DigitalFlop } from '@jiaminghi/data-view-react';
 import styles from './index.less';
 
 export type DigitalFlipperItemProps = {
-  num: number;
+  num: string;
   title: string;
   unit?: string;
   titleStyle?: CSSProperties;
@@ -12,7 +12,7 @@ export type DigitalFlipperItemProps = {
   itemStyleWrapper?: CSSProperties;
 };
 
-const formatter = (num: number[]) => {
+const formatter = (num: string) => {
   const numbers = num.toString().split('').reverse();
   const segs = [];
   while (numbers.length) segs.push(numbers.splice(0, 3).join(''));
@@ -51,7 +51,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       </div>
       <div className={styles.content}>
         <div className={styles.number} style={numStyle}>
-          {formatter([num])}
+          {formatter(num)}
         </div>
         <span className={styles.unit} style={unitStyle}>
           {unit}
