@@ -16,8 +16,8 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import PvInverterCabinetImg from '@/assets/image/product/pvInverter.png';
-import BoxSubstationImg from '@/assets/image/product/transfer-intro.jpg';
+import BoxSubstationImg from '@/assets/image/product/box-substation.png';
+import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import {
   powerFormat,
@@ -108,8 +108,8 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
         <EquipInfo
           id={id}
           model={model}
-          equipmentImg={PvInverterCabinetImg}
-          productImg={BoxSubstationImg}
+          equipmentImg={BoxSubstationImg}
+          productImg={BoxSubstationIntroImg}
         />
         <Tabs items={tabItems} />
       </Component>

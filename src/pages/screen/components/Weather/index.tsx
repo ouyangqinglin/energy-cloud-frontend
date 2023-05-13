@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-04-27 14:48:14
+ * @LastEditTime: 2023-05-13 10:34:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
@@ -14,17 +14,17 @@ import { arrayToMap } from '@/utils';
 import { weatherInfo, weekInfo } from '@/utils/dictionary';
 import styles from './index.less';
 import IconUnknow from '@/assets/image/screen/weather/cloudy.png';
-import { getWeather } from '@/components/ScreenDialog/service';
+import { getWeather } from './service';
 import dayjs from 'dayjs';
 
 export type WeatherProps = {
-  code: string;
+  id: string;
 };
 
 const weatherMap = arrayToMap(weatherInfo);
 
 const Weather: React.FC<WeatherProps> = (props) => {
-  const { code } = props;
+  const { id } = props;
   const {
     data = {},
     loading,
@@ -35,8 +35,8 @@ const Weather: React.FC<WeatherProps> = (props) => {
   const [date, setDate] = useState({ date: '', week: '', time: '' });
 
   useEffect(() => {
-    run(code);
-  }, [code]);
+    run(id);
+  }, [id]);
 
   useEffect(() => {
     const timer = setInterval(() => {

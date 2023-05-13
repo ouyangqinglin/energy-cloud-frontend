@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-13 09:28:24
+ * @LastEditTime: 2023-05-13 13:49:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Modal, Tabs } from 'antd';
 import ScreenDialog from '@/components/ScreenDialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -20,6 +20,7 @@ import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png'
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import useWebsocket from '@/pages/screen/useWebsocket';
+import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import {
   powerFormat,
   powerHourFormat,
@@ -27,10 +28,11 @@ import {
   currentFormat,
   noPowerHourFormat,
 } from '@/utils/format';
+import { EquipPropType } from '@/utils/dictionary';
 
 const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [data, setData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -74,7 +76,7 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
-          <Detail data={data || {}} items={runItems} column={4} />
+          <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
     },
@@ -95,27 +97,39 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
     },
   ];
 
-  const onReceivedMessage = (res: any) => {
-    console.log(res);
-  };
+  const onReceivedMessage = useCallback((res: any) => {
+    if (MessageEventType.DEVICE_REAL_TIME_DATA === res?.type && id == res?.data?.deviceId) {
+      const { data } = res;
+      try {
+        const obj = {};
+        data?.keyValues?.forEach((item: EquipPropType) => {
+          obj[item.key] = item.value;
+        });
+        if (Object.keys(obj).length) {
+          setEquipmentData({ ...equipmentData, ...obj });
+        }
+      } catch (e) {}
+    }
+    // const key = Math.random() > 0.5 ? 'b' : 'c';
+    // setEquipmentData({ ...equipmentData, a: 1, [key]: 2 });
+  }, []);
 
   const { connection } = useWebsocket();
   useEffect(() => {
-    // connection.sendMessage({
-    //   "data": {
-    //     "command": "subscribe",
-    //     "device": "10020",
-    //     "keys": [],
-    //     "msgType": "",
-    //     "product": ""
-    //   },
-    //   "type": "1"
-    // });
+    if (open) {
+      connection.sendMessage({
+        data: {
+          command: RequestCommandEnum.SUBSCRIBE,
+          device: id,
+        },
+        type: MessageEventType.DEVICE_REAL_TIME_DATA,
+      });
+    }
     connection.addReceivedMessageCallback(onReceivedMessage);
     return () => {
       connection.removeReceivedMessageCallback(onReceivedMessage);
     };
-  });
+  }, [open]);
 
   return (
     <>

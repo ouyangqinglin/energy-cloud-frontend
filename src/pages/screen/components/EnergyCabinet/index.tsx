@@ -16,7 +16,7 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import EnergyCabinetImg from '@/assets/image/product/energy.png';
+import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import type { DetailItem } from '@/components/Detail';
 import {
   powerFormat,

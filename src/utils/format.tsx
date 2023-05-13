@@ -1,5 +1,12 @@
 import { getValue } from '@/utils';
 
+export const onlineFormat = (value: number) => {
+  const map = {
+    0: '离线',
+    1: '在线',
+  };
+  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+};
 export const communicateFormat = (value: number) => {
   const map = {
     0: '失联',

@@ -22,7 +22,7 @@ const enum ConnectStatus {
   SUCCESS,
 }
 
-const enum MessageEventType {
+export const enum MessageEventType {
   // 设备实时数据
   DEVICE_REAL_TIME_DATA = 1,
   // 设备告警数据
@@ -32,6 +32,30 @@ const enum MessageEventType {
   // 提示信息, 连接成功
   TIPS,
 }
+
+export enum RequestCommandEnum {
+  SUBSCRIBE = 'subscribe',
+  UNSUBSCRIBE = 'unsubscribe',
+}
+
+export enum RequestMsgType {
+  PROPERTY = 'post_properties',
+  EVENT = 'post_event',
+}
+
+type RequestMessageBodyType = {
+  command: RequestCommandEnum;
+  device?: string;
+  keys?: string[];
+  msgType?: RequestMsgType;
+  product?: string;
+  [key: string]: any;
+};
+
+type RequestMessageType = {
+  type: MessageEventType;
+  data: RequestMessageBodyType;
+};
 
 type MessageType<T = string> = {
   type: MessageEventType;
@@ -54,6 +78,9 @@ export class Connection {
 
   private url?: string = '';
 
+  private clientResolve: any = null;
+  private clientReady: Promise<any> | null = null;
+
   static getInstance() {
     if (!this.instance) {
       return (this.instance = new Connection());
@@ -63,6 +90,13 @@ export class Connection {
 
   constructor(url?: string) {
     this.url = url;
+    this.initClientReady();
+  }
+
+  private initClientReady() {
+    this.clientReady = new Promise((resolve) => {
+      this.clientResolve = resolve;
+    });
   }
 
   private tryConnectedUntilSuccess() {
@@ -78,9 +112,11 @@ export class Connection {
         url ? `${url}/${token}` : `ws://192.168.3.18/prod-api/websocket/${token}`,
       );
       this.client.onerror = (e) => {
+        this.initClientReady();
         console.log('websocket: ', 'connected error', e);
       };
       this.client.onclose = ({ code, reason }) => {
+        this.initClientReady();
         Connection.connectedStatus = ConnectStatus.CLOSE;
         if (code === ExitCode.CLOSE) {
           this.reset();
@@ -93,20 +129,25 @@ export class Connection {
         console.log('websocket: ', 'close', code, reason);
       };
       this.client.onopen = (e) => {
+        this.clientResolve();
         console.log('websocket: ', 'connected', e);
       };
-      this.client.onmessage = (rawData: MessageEvent<MessageType>) => {
+      this.client.onmessage = (rawData: MessageEvent<string>) => {
         if (!this.receivedMessageCallbacks.length) {
           return;
         }
-        const message = rawData.data ?? {};
-        const { type } = message;
+        let message: MessageType;
+        let type;
+        try {
+          message = JSON.parse(rawData.data ?? '{}');
+          type = message.type;
+        } catch (e) {}
         if (type === MessageEventType.HEARTBEAT || type === MessageEventType.TIPS) {
-          return;
+          // return;
         }
 
         this.receivedMessageCallbacks.forEach((cb) => {
-          cb(message);
+          cb(message || rawData.data);
         });
       };
     } catch (error) {
@@ -164,8 +205,10 @@ export class Connection {
     }, 10000);
   }
 
-  sendMessage(data: string) {
-    this.client?.send(data);
+  sendMessage(data: RequestMessageType) {
+    this.clientReady?.then(() => {
+      this.client?.send(JSON.stringify(data));
+    });
   }
 
   addReceivedMessageCallback(callback: receivedMessageCallback) {

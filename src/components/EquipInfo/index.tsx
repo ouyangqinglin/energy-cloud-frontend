@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-12 10:01:42
+ * @LastEditTime: 2023-05-13 10:25:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -18,6 +18,7 @@ import { EquipFormType } from '../EquipForm/data.d';
 import { FormTypeEnum } from '@/utils/dictionary';
 import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import { getEquipInfo } from './service';
+import { onlineFormat } from '@/utils/format';
 
 export type EquipInfoProps = {
   // data: EquipFormType;
@@ -57,13 +58,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
       label: '在线状态',
       field: 'status',
       span: 3,
-      format: (value) => {
-        if (value == 1) {
-          return <span style={{ color: '#28F0EE' }}>在线</span>;
-        } else {
-          return <span style={{ color: '#FF5656' }}>离线</span>;
-        }
-      },
+      format: onlineFormat,
     },
     { label: '设备编码', field: 'deviceId' },
     { label: '产品型号', field: 'model' },
