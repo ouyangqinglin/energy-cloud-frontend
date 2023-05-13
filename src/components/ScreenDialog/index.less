@@ -48,6 +48,47 @@
       background-size: contain;
     }
   }
+  .card-battery-item {
+    flex: 1;
+    padding: 6px 0;
+    color: #a7b7ca;
+    font-size: 12px;
+    text-align: center;
+    background: rgba(21, 154, 255, 0.15);
+    border: 1px solid #159aff;
+    border-radius: 4px;
+    .card-battery-value {
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+  .card-battery-item + .card-battery-item {
+    margin-left: 4px;
+  }
+  .card-temp-item {
+    flex: 1 0 16%;
+    margin-left: -4px;
+    color: #a7b7ca;
+    font-size: 12px;
+    line-height: 1.5;
+    .card-temp-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #28f0ee;
+      border-radius: 4px;
+    }
+    .card-temp-value {
+      color: #28f0ee;
+    }
+  }
+  .temp-right-item {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    text-align: center;
+  }
 }
 
 .ant-modal-wrap.dialog-screen {
@@ -233,36 +274,6 @@
         color: white;
       }
     }
-    .ant-pagination {
-      color: #d0deee;
-      .ant-pagination-item-link {
-        color: #d0deee;
-      }
-      .ant-pagination-item {
-        color: #d0deee;
-        background: none;
-        border: 1px solid rgba(71, 93, 114, 0.6);
-        a {
-          color: #d0deee;
-        }
-      }
-      .ant-pagination-item-active {
-        background: #159aff;
-        a {
-          color: white;
-        }
-      }
-      .ant-select-selector {
-        color: #d0deee;
-        background: none;
-        border: 1px solid rgba(71, 93, 114, 0.6);
-      }
-      .ant-select {
-        .ant-select-arrow {
-          color: #d0deee;
-        }
-      }
-    }
   }
   .ant-table {
     background: none;
@@ -284,6 +295,41 @@
       .ant-table-cell {
         background: none;
       }
+    }
+  }
+  .ant-pagination {
+    color: #d0deee;
+    .ant-pagination-item-link {
+      color: #d0deee;
+    }
+    .ant-pagination-item,
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      color: #d0deee;
+      background: none;
+      border: 1px solid rgba(71, 93, 114, 0.6);
+      a {
+        color: #d0deee;
+      }
+    }
+    .ant-pagination-item-active {
+      background: #159aff;
+      a {
+        color: white;
+      }
+    }
+    .ant-select-selector {
+      color: #d0deee;
+      background: none;
+      border: 1px solid rgba(71, 93, 114, 0.6);
+    }
+    .ant-select {
+      .ant-select-arrow {
+        color: #d0deee;
+      }
+    }
+    .ant-pagination-item-ellipsis {
+      color: white;
     }
   }
   .ant-select-dropdown {
@@ -438,5 +484,46 @@
   }
   .ant-empty-description {
     color: rgba(255, 255, 255, 0.8);
+  }
+  .card-battery-item {
+    flex: 1;
+    padding: 6px 0;
+    color: #a7b7ca;
+    font-size: 12px;
+    text-align: center;
+    background: rgba(21, 154, 255, 0.15);
+    border: 1px solid #159aff;
+    border-radius: 4px;
+    .card-battery-value {
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+  .card-battery-item + .card-battery-item {
+    margin-left: 4px;
+  }
+  .card-temp-item {
+    flex: 1 0 16%;
+    margin-left: -4px;
+    color: #a7b7ca;
+    font-size: 12px;
+    line-height: 1.5;
+    .card-temp-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #28f0ee;
+      border-radius: 4px;
+    }
+    .card-temp-value {
+      color: #28f0ee;
+    }
+  }
+  .temp-right-item {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    text-align: center;
   }
 }

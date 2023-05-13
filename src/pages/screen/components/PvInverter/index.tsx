@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-12 11:43:45
+ * @LastEditTime: 2023-05-13 15:20:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
@@ -32,7 +32,9 @@ import {
   frequencyFormat,
   tempFormat,
   mohmFormat,
+  timeFormat,
 } from '@/utils/format';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 export type PvInverterProps = BusinessDialogProps & {
   loopNum: number;
@@ -41,7 +43,7 @@ export type PvInverterProps = BusinessDialogProps & {
 const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { id, open, onCancel, model, loopNum } = props;
   const [tableData, setTableData] = useState<PvInverterType[]>([]); //UUpv15 Ipv1
-  const [data, setData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
 
   const runItems: DetailItem[] = [
     { label: '电网A相电压', field: 'Ua', format: voltageFormat },
@@ -55,13 +57,13 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     { label: '无功功率', field: 'Q', format: noPowerFormat },
     { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
     { label: '功率因数', field: 'COS' },
-    { label: '逆变器额定功率', field: '', format: powerFormat },
-    { label: '输出方式', field: '' },
+    { label: '逆变器额定功率', field: 'aaa', format: powerFormat },
+    { label: '输出方式', field: 'aab' },
     { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
     { label: '内部温度', field: 'temperature', format: tempFormat },
-    { label: '逆变器开机时间', field: 'openTime' },
-    { label: '绝缘阻抗值', field: '', format: mohmFormat },
-    { label: '逆变器关机时间', field: 'closeTime' },
+    { label: '逆变器开机时间', field: 'openTime', format: timeFormat },
+    { label: '绝缘阻抗值', field: 'aac', format: mohmFormat },
+    { label: '逆变器关机时间', field: 'closeTime', format: timeFormat },
   ];
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
@@ -78,12 +80,14 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       dataIndex: 'voltage',
       key: 'voltage',
       align: 'center',
+      render: (_, record) => equipmentData['UUpv' + record.id],
     },
     {
       title: '电流(A)',
       dataIndex: 'current',
       key: 'current',
       align: 'center',
+      render: (_, record) => equipmentData['Ipv' + record.id],
     },
   ];
 
@@ -96,11 +100,17 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           <Row>
             <Col span={9}>
               <Label title="直流输入" />
-              <Table columns={columns} dataSource={tableData} pagination={false} size="small" />
+              <Table
+                columns={columns}
+                dataSource={tableData}
+                pagination={false}
+                size="small"
+                rowKey="id"
+              />
             </Col>
             <Col span={14} offset={1}>
               <Label title="交流输出" />
-              <Detail data={data} items={runItems} column={2} />
+              <Detail data={equipmentData} items={runItems} column={2} />
             </Col>
           </Row>
         </>
@@ -127,6 +137,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     const initTableData: PvInverterType[] = [];
     for (let i = 0; i < loopNum; i++) {
       initTableData.push({
+        id: i + 1,
         loop: 'PV' + (i + 1),
         voltage: '',
         current: '',
@@ -134,6 +145,10 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     }
     setTableData(initTableData);
   }, [loopNum]);
+
+  useSubscribe(id, open, (res) => {
+    setEquipmentData({ ...equipmentData, ...res });
+  });
 
   return (
     <>

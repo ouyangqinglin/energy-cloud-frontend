@@ -143,7 +143,7 @@ export class Connection {
           type = message.type;
         } catch (e) {}
         if (type === MessageEventType.HEARTBEAT || type === MessageEventType.TIPS) {
-          // return;
+          return;
         }
 
         this.receivedMessageCallbacks.forEach((cb) => {

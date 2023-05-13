@@ -2,16 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-12 11:57:12
+ * @LastEditTime: 2023-05-13 16:07:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { format } from 'timeago.js';
 import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
 import moment from 'moment';
 import Empty from '../Empty';
 
@@ -22,10 +21,10 @@ export type LogTableProps = {
 
 export type LogType = {
   id: string;
-  operator: string;
-  params: string;
-  value: string;
-  createdTime: string;
+  createByName: string;
+  serviceName: string;
+  input: string;
+  createTime: string;
 };
 
 const AlarmTable: React.FC<LogTableProps> = (props) => {
@@ -48,28 +47,28 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
     },
     {
       title: '操作用户',
-      dataIndex: 'operator',
+      dataIndex: 'createByName',
       width: 150,
       ellipsis: true,
     },
     {
       title: '目标参数',
-      dataIndex: 'params',
+      dataIndex: 'serviceName',
       width: 100,
       ellipsis: true,
     },
     {
       title: '设定值',
-      dataIndex: 'value',
+      dataIndex: 'input',
       width: 100,
       ellipsis: true,
     },
     {
       title: '操作时间',
-      dataIndex: 'createdTime',
+      dataIndex: 'createTime',
       width: 200,
       ellipsis: true,
-      render: (_, record) => `${record.createdTime} (${format(record.createdTime, 'zh_CN')})`,
+      render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
     },
   ];
 

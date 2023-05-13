@@ -159,15 +159,9 @@ const YtStation: React.FC = (props) => {
       <Button className="ml12" onClick={switchPosition}>
         站点位置
       </Button>
-      <EnergyDialog id={'10027'} open={isOpen} onCancel={closeModal} model="screen" />
+      <EnergyDialog id={'10026'} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
-      <PvInverter
-        id={chargeId}
-        open={pvOpen}
-        onCancel={switchPvModal}
-        model="screen"
-        loopNum={11}
-      />
+      <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={11} />
       <PvInverter
         id={chargeId}
         open={pvOpen2}

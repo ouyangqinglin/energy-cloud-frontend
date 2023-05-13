@@ -44,10 +44,11 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   useEffect(() => {
     setAddress(value?.address || '');
     if (value?.point && value?.point?.lng && value?.point?.lat) {
-      const result = getPoint(value.point?.lng, value.point?.lat);
-      if (result) {
-        setPoint(result);
-      }
+      getPoint(value.point?.lng, value.point?.lat).then((res) => {
+        if (res) {
+          setPoint(res);
+        }
+      });
     }
   }, [value]);
 
@@ -136,7 +137,9 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
       (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
     ) {
       try {
-        getAddressByPoint(getPoint(Number(pointObj[0]), Number(pointObj[1])));
+        getPoint(Number(pointObj[0]), Number(pointObj[1])).then((res) => {
+          getAddressByPoint(res);
+        });
       } catch (e) {}
     }
   };
