@@ -149,7 +149,7 @@ const YtStation: React.FC = (props) => {
       <Button className="ml12" onClick={switchBoxSubstation}>
         箱式变电站
       </Button>
-      <EnergyDialog id={chargeId} open={isOpen} onCancel={closeModal} model="screen" />
+      <EnergyDialog id={'10027'} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
       <PvInverter
         id={chargeId}
@@ -194,7 +194,7 @@ const YtStation: React.FC = (props) => {
       />
       <Cabinet id={chargeId} open={cabinet} onCancel={switchCabinetModal} model="screen" />
       <PvInverterCabinet
-        id={chargeId}
+        id={'10027'}
         open={pvInverterCabinet}
         onCancel={switchPvInverterCabinet}
         model="screen"

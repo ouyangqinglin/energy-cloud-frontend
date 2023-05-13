@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-12 16:33:20
+ * @LastEditTime: 2023-05-13 09:28:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
@@ -16,9 +16,10 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import PvInverterCabinetImg from '@/assets/image/product/pvInverter.png';
+import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
+import useWebsocket from '@/pages/screen/useWebsocket';
 import {
   powerFormat,
   powerHourFormat,
@@ -93,6 +94,28 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
       children: <LogTable />,
     },
   ];
+
+  const onReceivedMessage = (res: any) => {
+    console.log(res);
+  };
+
+  const { connection } = useWebsocket();
+  useEffect(() => {
+    // connection.sendMessage({
+    //   "data": {
+    //     "command": "subscribe",
+    //     "device": "10020",
+    //     "keys": [],
+    //     "msgType": "",
+    //     "product": ""
+    //   },
+    //   "type": "1"
+    // });
+    connection.addReceivedMessageCallback(onReceivedMessage);
+    return () => {
+      connection.removeReceivedMessageCallback(onReceivedMessage);
+    };
+  });
 
   return (
     <>
