@@ -1,14 +1,17 @@
-import request from '@/utils/request';
+import { get } from '@/utils/request';
+import type { TimeType } from '../../TimeButtonGroup';
+import type { CurrentPowerGenerationRes, PVChartRes, StatisticsRes } from './type';
 
-export interface ChartingStationRes {
-  chargingPower: string;
-  chargingCapacityToday: string;
-  gunIdle: string;
-  gunInUse: string;
-  earningsToday: string;
-}
-export const getChargingStation = () => {
-  return request<ChartingStationRes>(`/screen/charging/station`, {
-    method: 'GET',
+export const getCurrentPowerGeneration = () => {
+  return get<CurrentPowerGenerationRes>(`/oss/photovoltaic/currentPowerGeneration`, {
+    siteId: 1,
   });
+};
+
+export const getStatistics = (type: TimeType) => {
+  return get<StatisticsRes>(`/oss/photovoltaic/statistics`, { type, siteId: 1 });
+};
+
+export const getPVChart = () => {
+  return get<PVChartRes>(`/oss/photovoltaic/curve`, { siteId: 1 });
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import EnergyDialog from '@/pages/screen/components/EnergyDialog';
 import PvInverter from '@/pages/screen/components/PvInverter';
 import HwCharge from '@/pages/screen/components/HwCharge';
@@ -12,7 +12,7 @@ import HwChargeYt from '@/pages/screen/components/HwChargeYt';
 import { assign } from 'lodash';
 
 type Props = {
-  deviceId: string;
+  deviceId: string | number;
   deviceType: DeviceType | null;
   onCancel: () => void;
   loopNum?: number;

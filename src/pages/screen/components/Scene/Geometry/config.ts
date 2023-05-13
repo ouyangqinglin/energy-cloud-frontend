@@ -11,8 +11,8 @@ import HUAWEIInverter from '@/assets/image/screen/scenes/img_华为逆变器-1_d
 import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def@2x.png';
 import Transformer from '@/assets/image/screen/scenes/变压器@2x.png';
 import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
-import { DeviceType } from '../Dialog';
-import { CellConfigItem } from './type';
+import { DeviceType } from './Dialog';
+import { CellConfigItem, DeviceMark } from './type';
 
 export const CellList: CellConfigItem[] = [
   {
@@ -42,6 +42,7 @@ export const CellList: CellConfigItem[] = [
     key: 'ChargingStation160KW',
     deviceId: 'ChargingStation160KW',
     deviceType: DeviceType.DC_PILE,
+    mark: DeviceMark.DC_PILE_160KW,
     cellStyle: {
       width: 63,
       height: 61,
@@ -53,6 +54,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStack1',
+    mark: DeviceMark.YT_CHARGING_TERMINAL_1,
     deviceId: 'chargingStack1',
     deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
@@ -66,6 +68,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStack2',
+    mark: DeviceMark.YT_CHARGING_TERMINAL_2,
     deviceId: 'chargingStack2',
     deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
@@ -79,6 +82,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStack3',
+    mark: DeviceMark.HW_CHARGING_TERMINAL_1,
     deviceId: 'chargingStack3',
     deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
@@ -92,6 +96,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStack4',
+    mark: DeviceMark.HW_CHARGING_TERMINAL_2,
     deviceId: 'chargingStack4',
     deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
@@ -105,6 +110,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStack',
+    mark: DeviceMark.HW_CHARGING_STACK,
     deviceId: 'chargingStack',
     deviceType: DeviceType.HW_CHARGING_STACK,
     cellStyle: {
@@ -118,6 +124,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'powerDistributionRoom',
+    mark: DeviceMark.BOX_TYPE_SUBSTATION,
     deviceId: 'powerDistributionRoom',
     deviceType: DeviceType.BOX_TYPE_SUBSTATION,
     cellStyle: {
@@ -131,6 +138,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'energyStorage',
+    mark: DeviceMark.ENERGY_STORAGE_BOX,
     deviceId: 'energyStorage',
     deviceType: DeviceType.ENERGY_STORAGE_BOX,
     cellStyle: {
@@ -144,6 +152,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'energyStorageGridConnectedCabinet',
+    mark: DeviceMark.ENERGY_CABINET,
     deviceId: 'energyStorageGridConnectedCabinet',
     deviceType: DeviceType.ENERGY_CABINET,
     cellStyle: {
@@ -157,6 +166,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'photovoltaicStorageGridConnectedCabinet',
+    mark: DeviceMark.PV_CABINET,
     deviceId: 'photovoltaicStorageGridConnectedCabinet',
     deviceType: DeviceType.PV_CABINET,
     cellStyle: {
@@ -170,6 +180,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'HUAWEIInverter1',
+    mark: DeviceMark.PV_INVERTER_1,
     deviceId: 'HUAWEIInverter1',
     deviceType: DeviceType.PV_INVERTER,
     loopNum: 11,
@@ -184,6 +195,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'HUAWEIInverter2',
+    mark: DeviceMark.PV_INVERTER_2,
     deviceId: 'HUAWEIInverter2',
     deviceType: DeviceType.PV_INVERTER,
     loopNum: 4,
@@ -198,7 +210,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'powerExchangeCabinet',
-    deviceId: 'HUAWEIInverter2',
+    deviceId: 'powerExchangeCabinet',
     deviceType: DeviceType.POWER_EXCHANGE_BOX,
     cellStyle: {
       width: 32,
@@ -211,6 +223,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'chargingStation120KW',
+    mark: DeviceMark.DC_PILE_120KW,
     deviceId: 'chargingStation120KW',
     deviceType: DeviceType.DC_PILE,
     cellStyle: {

@@ -1,14 +1,8 @@
-import request from '@/utils/request';
+import { get } from '@/utils/request';
+import type { ChargingStationRes } from './type';
 
-export interface ChartingStationRes {
-  chargingPower: string;
-  chargingCapacityToday: string;
-  gunIdle: string;
-  gunInUse: string;
-  earningsToday: string;
-}
 export const getChargingStation = () => {
-  return request<ChartingStationRes>(`/screen/charging/station`, {
-    method: 'GET',
+  return get<ChargingStationRes>(`/oss/chargingPlie/statistic`, {
+    siteId: 1,
   });
 };

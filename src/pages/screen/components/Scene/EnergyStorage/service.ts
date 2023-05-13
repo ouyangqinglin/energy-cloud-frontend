@@ -1,11 +1,15 @@
 import { get } from '@/utils/request';
+import type { TimeType } from '../../TimeButtonGroup';
+import type { ChargeAndDisChargeRes, EnergyStorageChartRes, StatisticsRes } from './type';
 
-export interface EnergyStorageRes {
-  realtimeStatus: number;
-  chargingAndDischargingPower: string;
-  soc: string;
-  soh: string;
-}
-export const getEnergyStorage = () => {
-  return get<{ data: EnergyStorageRes }>(`/oss/es/statistic`);
+export const getEnergyStorageStatistic = () => {
+  return get<StatisticsRes>(`/oss/es/statistic`, { siteId: 1 });
+};
+
+export const getChargeAndDischargePower = (type: TimeType) => {
+  return get<ChargeAndDisChargeRes>(`/oss/es/chargeDischarge`, { type, siteId: 1 });
+};
+
+export const getEnergyStorageChart = () => {
+  return get<EnergyStorageChartRes>(`/oss/es/getCure`, { siteId: 1 });
 };

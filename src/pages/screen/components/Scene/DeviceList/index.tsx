@@ -5,7 +5,7 @@ import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import { DEFAULT_DATA } from './config';
 import styles from './index.module.less';
-import type { DeviceListRes } from './service';
+import type { DeviceListRes } from './type';
 import { getDeviceList } from './service';
 
 type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
@@ -18,6 +18,10 @@ const DeviceList: FC = () => {
   const combineIntoBodyData = (devices: DeviceListRes) => {
     const combineBodyMap: BodyDataMap = new Map();
     devices.reduce((collection, device) => {
+      if (!device.display) {
+        return collection;
+      }
+
       const cache = collection.get(device.subsystemId);
       if (cache) {
         cache.children.push(device);
@@ -28,12 +32,19 @@ const DeviceList: FC = () => {
     }, combineBodyMap);
 
     const result: BodyDataArray = [];
+
     if (combineBodyMap.size) {
       combineBodyMap.forEach((item) => {
         const names: string[] = [];
         const values: string[] = [];
-        item.children.forEach((child) => {
-          names.push(child.productName);
+
+        const { children } = item;
+        if (!children.length) {
+          return;
+        }
+
+        children.forEach((child) => {
+          names.push(child.model);
           values.push(child.number.toString());
         });
         result.push([item.name, names, values]);

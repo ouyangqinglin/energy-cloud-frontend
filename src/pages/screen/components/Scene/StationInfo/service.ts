@@ -1,8 +1,8 @@
-import request from '@/utils/request';
+import { get } from '@/utils/request';
 import type { SiteInfoRes } from './type';
 
 export const getStationInfo = () => {
-  return request<{ data: SiteInfoRes }>('/site/2', {
-    method: 'GET',
+  return get<SiteInfoRes>('/oss/site/getInfo', {
+    siteId: 1,
   });
 };

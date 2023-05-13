@@ -1,12 +1,16 @@
 import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import Cell from '../../LayoutCell';
-import { CellList as configs } from './config';
+import { CellList as defaultConfigs } from './config';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
-import DeviceDialog from '../Dialog';
-import { CellConfigItem, DeviceInfoType, EventType } from './type';
+import DeviceDialog from './Dialog';
+import type { CellConfigItem, DeviceInfoType } from './type';
+import { EventType } from './type';
+import { getDeviceList } from './service';
+import { useRequest } from 'umi';
+import { find, isNil } from 'lodash';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -15,13 +19,29 @@ const DEFAULT_DEVICE_INFO = {
 };
 
 const Geometry: FC = () => {
-  const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
+  const { data: deviceList } = useRequest(getDeviceList);
+  const ceilsConfig = defaultConfigs;
+  const fillDeviceIdForMarkDevices = () => {
+    if (deviceList && deviceList.length) {
+      deviceList.forEach((device) => {
+        const { mark } = device;
+        if (!isNil(mark)) {
+          const ceil = find(ceilsConfig, (it) => it?.mark === mark);
+          if (ceil) {
+            ceil.deviceId = device.deviceId;
+          }
+        }
+      });
+    }
+  };
+  fillDeviceIdForMarkDevices();
+  console.log(ceilsConfig);
 
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const closeDialog = () => {
     setDeviceInfo({ ...DEFAULT_DEVICE_INFO });
   };
-
-  const handleGeometry = (cell: CellConfigItem, eventType: EventType) => {
+  const handleGeometry = (cell: CellConfigItem) => {
     const { deviceId, deviceType, loopNum } = cell;
     if (deviceId && deviceType) {
       setDeviceInfo({
@@ -33,11 +53,11 @@ const Geometry: FC = () => {
   };
 
   const ceils: ReactNode[] = [];
-  configs.forEach((cell) => {
+  ceilsConfig.forEach((cell) => {
     ceils.push(
       <Cell
         key={cell.key}
-        onClick={() => handleGeometry(cell, EventType.CLICK)}
+        onClick={() => handleGeometry(cell)}
         // onMouseOut={() => handleGeometry(cell, EventType.MOUSE_OUT)}
         // onMouseEnter={() => handleGeometry(cell, EventType.MOUSE_ENTER)}
         {...cell.cellStyle}
@@ -64,7 +84,7 @@ const Geometry: FC = () => {
 
   return (
     <div>
-      {/* <DeviceDialog {...deviceInfo} onCancel={closeDialog} /> */}
+      <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
       <Cell width={684} height={332} left={640} top={372}>
         <EnergyFlowLine />
       </Cell>
