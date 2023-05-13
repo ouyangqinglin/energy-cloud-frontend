@@ -13,9 +13,9 @@ import { alarmMap, DEFAULT_DATA } from './config';
 const MAX_DISPLAY_NUMBER = 10;
 
 const AlarmList: FC = () => {
-  const [data, setData] = useState<[string, string, string, string][]>([]);
+  const [data, setData] = useState<[string, string, string][]>([]);
   const config = {
-    header: ['告警设备', '告警内容', '告警时间', '告警等级'],
+    header: ['告警设备', '告警内容', '告警时间'],
     data,
     headerBGC:
       'linear-gradient(90deg,rgba(8, 139, 255, 0) 0%,rgba(8, 139, 255, 0.2) 53%,rgba(8, 139, 255, 0) 100%)',
@@ -24,7 +24,7 @@ const AlarmList: FC = () => {
     evenRowBGC: '',
     headerHeight: 32,
     waitTime: 10000,
-    columnWidth: [90, 90, 135, 85],
+    columnWidth: [133, 133, 133],
     rowNum: 4,
     align: ['center'],
   };
@@ -55,8 +55,8 @@ const AlarmList: FC = () => {
       return;
     }
     const newData = [...data];
-    const { deviceName, eventName, eventTime, eventType } = defaults(mockData.data, DEFAULT_DATA);
-    newData.unshift([deviceName, eventName, eventTime, getNodeTemplate(eventType as AlarmLevel)]);
+    const { deviceName, eventName, eventTime } = defaults(mockData.data, DEFAULT_DATA);
+    newData.unshift([deviceName, eventName, eventTime]);
     if (newData.length > MAX_DISPLAY_NUMBER) {
       newData.pop();
     }

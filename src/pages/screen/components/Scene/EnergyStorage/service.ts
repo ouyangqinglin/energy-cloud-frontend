@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import { get } from '@/utils/request';
 
 export interface EnergyStorageRes {
   realtimeStatus: number;
@@ -7,7 +7,5 @@ export interface EnergyStorageRes {
   soh: string;
 }
 export const getEnergyStorage = () => {
-  return request<EnergyStorageRes>(`/screen/energy/storage`, {
-    method: 'GET',
-  });
+  return get<{ data: EnergyStorageRes }>(`/oss/es/statistic`);
 };

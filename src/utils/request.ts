@@ -6,6 +6,7 @@ import { message, notification } from 'antd';
 import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '../access';
 import { LoginPageUrl } from './utils';
 import defaultSettings from '../../config/defaultSettings';
+import { isEmpty } from 'lodash';
 
 const codeMessage: Record<number, string> = {
   10000: '系统未知错误，请反馈给管理员',
@@ -126,20 +127,26 @@ request.interceptors.response.use(async (response: Response) => {
 
 export const get = <R = false>(
   url: string,
-  params: object | URLSearchParams,
+  params?: object | URLSearchParams,
   options?: RequestOptionsInit,
 ) => {
-  return request.get<R>(url, {
-    options,
-    ...{ params },
-  });
+  const composeOptions = isEmpty(params)
+    ? options
+    : {
+        options,
+        ...{ params },
+      };
+  return request.get<R>(url, composeOptions);
 };
 
-export const post = <R = false>(url: string, params: any, options?: RequestOptionsInit) => {
-  return request.post<R>(url, {
-    options,
-    ...{ data: params },
-  });
+export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
+  const composeOptions = isEmpty(params)
+    ? options
+    : {
+        options,
+        ...{ params },
+      };
+  return request.post<R>(url, composeOptions);
 };
 
 export default request;

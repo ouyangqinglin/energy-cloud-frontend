@@ -1,16 +1,15 @@
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 
-export type CellProps = {
+export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {
   width: number;
   height?: number;
   left: number;
   top: number;
-  zIndex?: number;
-  cursor?: 'cursor' | 'default';
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseOut?: () => void;
-};
+}
+
 const Cell: FC<CellProps> = (props) => {
   const cellStyle = {
     width: props.width,
