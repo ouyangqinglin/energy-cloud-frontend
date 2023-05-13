@@ -16,8 +16,8 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import PvInverterCabinetImg from '@/assets/image/product/pvInverter.png';
-import BoxSubstationImg from '@/assets/image/product/transfer-intro.jpg';
+import BoxSubstationImg from '@/assets/image/product/box-substation.png';
+import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import {
   powerFormat,
@@ -26,10 +26,11 @@ import {
   currentFormat,
   noPowerHourFormat,
 } from '@/utils/format';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [data, setData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -73,7 +74,7 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
-          <Detail data={data || {}} items={runItems} column={4} />
+          <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
     },
@@ -94,6 +95,10 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
     },
   ];
 
+  useSubscribe(id, open, (res) => {
+    setEquipmentData({ ...equipmentData, ...res });
+  });
+
   return (
     <>
       <Component
@@ -108,8 +113,8 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
         <EquipInfo
           id={id}
           model={model}
-          equipmentImg={PvInverterCabinetImg}
-          productImg={BoxSubstationImg}
+          equipmentImg={BoxSubstationImg}
+          productImg={BoxSubstationIntroImg}
         />
         <Tabs items={tabItems} />
       </Component>

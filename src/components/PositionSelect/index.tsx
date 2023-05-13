@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-05-10 19:17:53
+ * @LastEditTime: 2023-05-13 14:06:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
@@ -44,10 +44,11 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   useEffect(() => {
     setAddress(value?.address || '');
     if (value?.point && value?.point?.lng && value?.point?.lat) {
-      const result = getPoint(value.point?.lng, value.point?.lat);
-      if (result) {
-        setPoint(result);
-      }
+      getPoint(value.point?.lng, value.point?.lat).then((res) => {
+        if (res) {
+          setPoint(res);
+        }
+      });
     }
   }, [value]);
 
@@ -81,7 +82,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   const getAddressByPoint = (pointObj: AMap.LngLat) => {
     getGeocoder().then(({ getAddress }) => {
-      getAddress([pointObj?.lng, pointObj?.lat]).then((res) => {
+      getAddress(pointObj).then((res) => {
         if (res) {
           if (res.regeocode && res.regeocode.formattedAddress) {
             setPoint(pointObj);
@@ -136,7 +137,9 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
       (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
     ) {
       try {
-        getAddressByPoint(getPoint(Number(pointObj[0]), Number(pointObj[1])));
+        getPoint(Number(pointObj[0]), Number(pointObj[1])).then((res) => {
+          getAddressByPoint(res);
+        });
       } catch (e) {}
     }
   };

@@ -136,5 +136,9 @@ export function getMarker(marker: AMap.MarkerOptions, icon?: AMap.IconOptions) {
 }
 
 export function getPoint(lng: number, lat: number) {
-  return new window.AMap.LngLat(lng, lat);
+  return new Promise<AMap.LngLat>((resolve) => {
+    mapLoad().then(() => {
+      resolve(new window.AMap.LngLat(lng, lat));
+    });
+  });
 }

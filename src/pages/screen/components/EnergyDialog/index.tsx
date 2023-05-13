@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-12 09:38:04
+ * @LastEditTime: 2023-05-13 17:14:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\index.tsx
  */
@@ -25,10 +25,17 @@ import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [openSettingModal, setOpenSettingModal] = useState(false);
+  const [equipmentIds, setEquipmentIds] = useState({});
 
   useEffect(() => {
     if (open) {
-      getChildEquipment({ parentId: 10001 });
+      getChildEquipment({ parentId: id }).then((res) => {
+        const obj = {};
+        res?.data?.forEach?.((item: any) => {
+          obj[item.productId] = item.deviceId;
+        });
+        setEquipmentIds(obj);
+      });
     }
   }, [open]);
 
@@ -42,7 +49,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: <OperationMonitor />,
+      children: <OperationMonitor open={open} equipmentIds={equipmentIds} />,
     },
     {
       label: '远程设置',
@@ -52,12 +59,12 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <Alarm id={props.id} />,
+      children: <Alarm id={id} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <Log id={props.id} />,
+      children: <Log id={id} />,
     },
   ];
 

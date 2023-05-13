@@ -43,6 +43,12 @@ export type OptionType = {
   value: string | number;
 };
 
+export type EquipPropType = {
+  key: string;
+  type: string;
+  value: string | number;
+};
+
 export type fieldType = {
   label: string;
   field: string;

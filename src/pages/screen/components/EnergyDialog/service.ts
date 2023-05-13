@@ -18,14 +18,17 @@ export const getChildEquipment = (params: any) => {
 };
 
 export const editCommunity = (data: CommunityType) => {
-  return request(`/screen/energy/community`, {
-    method: 'POST',
+  return request(`/oss/device/communication_info`, {
+    method: 'PUT',
     data,
   });
 };
 
 export const getCommunity = (id: string) => {
-  return request(`/screen/energy/community`, {
+  return request(`/oss/device/communication_info`, {
     method: 'GET',
+    params: {
+      deviceId: id,
+    },
   });
 };

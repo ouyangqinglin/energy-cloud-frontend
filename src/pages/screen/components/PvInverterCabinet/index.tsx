@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-12 16:33:20
+ * @LastEditTime: 2023-05-13 14:44:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import ScreenDialog from '@/components/ScreenDialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -16,7 +16,7 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import PvInverterCabinetImg from '@/assets/image/product/pvInverter.png';
+import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import {
@@ -26,10 +26,11 @@ import {
   currentFormat,
   noPowerHourFormat,
 } from '@/utils/format';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [data, setData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -73,7 +74,7 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
-          <Detail data={data || {}} items={runItems} column={4} />
+          <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
     },
@@ -93,6 +94,10 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
       children: <LogTable />,
     },
   ];
+
+  useSubscribe(id, open, (res) => {
+    setEquipmentData({ ...equipmentData, ...res });
+  });
 
   return (
     <>

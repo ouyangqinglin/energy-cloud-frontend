@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-12 14:56:20
+ * @LastEditTime: 2023-05-13 10:35:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -23,6 +23,8 @@ import EnergyCabinet from '@/pages/screen/components/EnergyCabinet';
 import BoxSubstation from '@/pages/screen/components/BoxSubstation';
 import HwChargeChild from '@/pages/screen/components/HwChargeChild';
 import HwChargeYt from '@/pages/screen/components/HwChargeYt';
+import Position from '@/pages/screen/components/Position';
+import { getPoint } from '@/utils/map';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +43,7 @@ const YtStation: React.FC = (props) => {
   const [pvInverterCabinet, setPvInverterCabinet] = useState(false);
   const [energyCabinet, setEnergyCabinet] = useState(false);
   const [boxSubstation, setBoxSubstation] = useState(false);
+  const [positionOpen, setPositionOpen] = useState(false);
 
   const showModal = () => {
     setIsOpen(true);
@@ -105,6 +108,10 @@ const YtStation: React.FC = (props) => {
     setBoxSubstation(!boxSubstation);
   };
 
+  const switchPosition = () => {
+    setPositionOpen(!positionOpen);
+  };
+
   return (
     <div>
       永泰示范站
@@ -149,15 +156,12 @@ const YtStation: React.FC = (props) => {
       <Button className="ml12" onClick={switchBoxSubstation}>
         箱式变电站
       </Button>
-      <EnergyDialog id={chargeId} open={isOpen} onCancel={closeModal} model="screen" />
+      <Button className="ml12" onClick={switchPosition}>
+        站点位置
+      </Button>
+      <EnergyDialog id={'10026'} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
-      <PvInverter
-        id={chargeId}
-        open={pvOpen}
-        onCancel={switchPvModal}
-        model="screen"
-        loopNum={11}
-      />
+      <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={11} />
       <PvInverter
         id={chargeId}
         open={pvOpen2}
@@ -194,7 +198,7 @@ const YtStation: React.FC = (props) => {
       />
       <Cabinet id={chargeId} open={cabinet} onCancel={switchCabinetModal} model="screen" />
       <PvInverterCabinet
-        id={chargeId}
+        id={'10027'}
         open={pvInverterCabinet}
         onCancel={switchPvInverterCabinet}
         model="screen"
@@ -205,13 +209,20 @@ const YtStation: React.FC = (props) => {
         onCancel={switchEnergyCabinet}
         model="screen"
       />
+      <Position
+        id=""
+        open={positionOpen}
+        point={{ lng: 114.067836, lat: 22.681899 }}
+        onCancel={switchPosition}
+        model="screen"
+      />
       <BoxSubstation
         id={chargeId}
         open={boxSubstation}
         onCancel={switchBoxSubstation}
         model="screen"
       />
-      <Weather code={'1'} />
+      <Weather id={'1'} />
     </div>
   );
 };

@@ -8,7 +8,7 @@
  */
 
 export type CommunityType = {
-  id: string;
-  account: string;
-  secret: string;
+  deviceId: string;
+  userName: string;
+  password: string;
 };

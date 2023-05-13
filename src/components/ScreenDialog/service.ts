@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 10:12:41
- * @LastEditTime: 2023-04-26 10:12:41
+ * @LastEditTime: 2023-05-13 16:01:49
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Dialog\service.ts
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\service.ts
  */
 import request from '@/utils/request';
 
@@ -28,7 +28,7 @@ export const getAlarms = (params: any) => {
 };
 
 export const getLogs = (params: any) => {
-  return request(`/screen/logs`, {
+  return request(`/oss/device_log/page`, {
     method: 'GET',
     params,
   });

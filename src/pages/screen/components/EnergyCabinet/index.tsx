@@ -16,7 +16,7 @@ import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import EnergyCabinetImg from '@/assets/image/product/energy.png';
+import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import type { DetailItem } from '@/components/Detail';
 import {
   powerFormat,
@@ -25,10 +25,11 @@ import {
   currentFormat,
   noPowerHourFormat,
 } from '@/utils/format';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [data, setData] = useState({});
+  const [equipmentData, setEquipmentData] = useState({});
 
   const Component = model === 'screen' ? ScreenDialog : Modal;
 
@@ -72,7 +73,7 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
-          <Detail data={data || {}} items={runItems} column={4} />
+          <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
     },
@@ -92,6 +93,10 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
       children: <LogTable />,
     },
   ];
+
+  useSubscribe(id, open, (res) => {
+    setEquipmentData({ ...equipmentData, ...res });
+  });
 
   return (
     <>
