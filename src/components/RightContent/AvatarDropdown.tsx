@@ -1,5 +1,11 @@
 import React, { useCallback } from 'react';
-import { HomeOutlined, LogoutOutlined, MonitorOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  LogoutOutlined,
+  MonitorOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
@@ -32,14 +38,14 @@ const loginOut = async () => {
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
-  const { dispatch } = useModel("system");
+  const { dispatch } = useModel('system');
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
         setInitialState((s) => ({ ...s, currentUser: undefined, menus: undefined }));
-        dispatch({ type: 'CHANGESTATE', payload: { tabList: []} });
+        dispatch({ type: 'CHANGESTATE', payload: { tabList: [] } });
         loginOut();
         return;
       }
@@ -76,24 +82,6 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         <Menu.Item key="/account/center">
           <UserOutlined />
           个人中心
-        </Menu.Item>
-      )}
-      {menu && (
-        <Menu.Item key="/account/settings">
-          <SettingOutlined />
-          个人设置
-        </Menu.Item>
-      )}
-      {menu && (
-        <Menu.Item key="/dashboard/workplace">
-          <HomeOutlined />
-          工作台
-        </Menu.Item>
-      )}
-      {menu && (
-        <Menu.Item key="/dashboard/monitor">
-          <MonitorOutlined />
-          监控页
         </Menu.Item>
       )}
       {menu && <Menu.Divider />}

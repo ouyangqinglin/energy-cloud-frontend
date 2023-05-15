@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 09:53:55
- * @LastEditTime: 2023-05-10 10:26:04
+ * @LastEditTime: 2023-05-15 17:58:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricMeter\community.tsx
  */
@@ -48,9 +48,9 @@ const Community: React.FC<CommunityProps> = (props) => {
   }, [open]);
 
   useEffect(() => {
-    getGateway().then((res) => {
-      setGatewayOptions(res.data || []);
-    });
+    // getGateway().then((res) => {
+    //   setGatewayOptions(res.data || []);
+    // });
   }, []);
 
   return (
