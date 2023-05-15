@@ -6,25 +6,19 @@ import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
 import { getStationInfo } from './service';
 import styles from './index.module.less';
-import { DEFAULT_DATA, mapKey, stationInfoConfig } from './config';
-import type { SiteInfo, SiteInfoRes } from './type';
+import { DEFAULT_DATA, stationInfoConfig } from './config';
+import type { SiteInfoRes } from './type';
+import { defaults } from 'lodash';
 
 const StationInfo: FC = () => {
-  const { data: rawData } = useRequest(getStationInfo);
-  let data: SiteInfo = DEFAULT_DATA;
+  const { data: rawData = {} as SiteInfoRes } = useRequest(getStationInfo);
+  const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
 
-  const formatData = (resData: SiteInfoRes) => {
-    const newData: SiteInfo = {} as SiteInfo;
-    Reflect.ownKeys(resData).forEach((key) => {
-      newData[mapKey[key]] = resData[key];
-    });
-    newData.energyStorageCapacity =
-      newData.energyStorageCapacity + '/' + newData.energyStorageOutput;
-    data = newData;
+  const formatData = () => {
+    const { energyStorageCapacityStorage, energyStorageCapacityOutput } = data;
+    data.energyStorageCapacity = `${energyStorageCapacityStorage}kWh/${energyStorageCapacityOutput}kW`;
   };
-  if (rawData) {
-    formatData(rawData);
-  }
+  formatData();
 
   const gunInfoItem: DetailItem[] = stationInfoConfig.map((item) => {
     // const Icon = item.icon;
@@ -38,6 +32,7 @@ const StationInfo: FC = () => {
       ),
       field: item.field,
       span: 0,
+      format: item.format,
     };
   });
 

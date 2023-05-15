@@ -1,93 +1,58 @@
-import { FC } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import styles from './index.module.less';
 import { useRequest } from 'umi';
 import Cell from '../../LayoutCell';
 import Decoration from '../../Decoration';
-import type { DetailItem } from '@/components/Detail';
-import { getChargingStation } from './service';
-import ChargingStationChart from './PhotovoltaicChart';
-import { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
+import { getCurrentPowerGeneration, getPVChart, getStatistics } from './service';
+import PhotovoltaicChart from './Chart';
+import type { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
 import DigitalFlipperGroup from '../../DigitalFlipper/Group';
-import TimeButtonGroup from '../../TimeButtonGroup';
+import TimeButtonGroup, { TimeType } from '../../TimeButtonGroup';
+import { DEFAULT_REQUEST_INTERVAL, digitalFlipperItemConfig } from './config';
+import type { PVChartRes } from './type';
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 
 const Photovoltaic: FC = () => {
-  const { data = {} } = useRequest(getChargingStation);
+  const { data: chartData = {} as PVChartRes } = useRequest(getPVChart, {
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+  });
 
-  const gunInfoItem: DetailItem[] = [
-    { label: '充电功率', field: 'chargingPower' },
-    { label: '今日充电量', field: 'chargingCapacityToday' },
-    { label: '充电枪空闲/使用', field: 'gunStatus' },
-    { label: '今日收益', field: 'earningsToday' },
-  ];
-
-  const formatterData = () => {
-    data['gunStatus'] = (
-      <>
-        <span>{data.gunIdle}</span>/<span style={{ color: '#50F0FF' }}>{data.gunInUse}</span>
-      </>
-    );
-    return data;
-  };
+  const { data: statistics, run } = useRequest((type = TimeType.DAY) => getStatistics(type), {
+    manual: true,
+  });
 
   const config: DigitalFlipperItemProps[] = [
     {
-      title: '发电量',
-      unit: 'kWh',
-      num: 1397,
-      titleStyle: {
-        fontWeight: 400,
-        fontSize: '14px',
-        color: '#D0DEEE',
-      },
-      unitStyle: {
-        fontSize: '12px',
-        color: '#28F0EE',
-      },
-      numStyle: {
-        backgroundImage: `linear-gradient(180deg, #FFFFFF 0%, #28F0EE 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(40, 240, 238, 0.6) 67%, #28F0EE 100%)`,
-        fontSize: '16px',
-        color: '#28F0EE',
-        height: 'auto',
-        lineHeight: 'inherit',
-        fontFamily: 'DIN-Bold, DIN',
-        fontWeight: 'bold',
+      ...digitalFlipperItemConfig.powerGeneration,
+      ...{
+        num: keepTwoDecimalWithUnit(statistics?.powerGeneration),
       },
     },
     {
-      title: '收益',
-      num: 100,
-      titleStyle: {
-        fontWeight: 400,
-        fontSize: '14px',
-        color: '#D0DEEE',
-      },
-      unitStyle: {
-        fontSize: '12px',
-        color: '#FFE04D',
-      },
-      numStyle: {
-        backgroundImage: `linear-gradient(180deg, #FFFFFF 0%, #FFE04D 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(255, 224, 77, 0.6) 67%, #FFE04D 100%)`,
-        fontSize: '16px',
-        height: 'auto',
-        lineHeight: 'inherit',
-        color: '#FFE04D',
-        fontFamily: 'DIN-Bold, DIN',
-        fontWeight: 'bold',
+      ...digitalFlipperItemConfig.profit,
+      ...{
+        num: keepTwoDecimalWithUnit(statistics?.profit),
       },
     },
   ];
+  useEffect(() => {
+    run();
+  }, []);
 
-  const currentPowerGeneration = 100;
+  const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
   return (
     <Cell width={400} height={314} left={1496} top={398}>
       <Decoration title="光伏">
         <div className={styles.contentWrapper}>
-          <div className={styles.powerGeneration}>当前发电功率：{currentPowerGeneration}kWh</div>
+          <div className={styles.powerGeneration}>
+            当前发电功率：{keepTwoDecimalWithUnit(currentPowerData?.CurrentPowerGeneration)}kWh
+          </div>
           <div className={styles.digitalFlipperWrapper}>
             <DigitalFlipperGroup className={styles.digitalFlipperContent} config={config} />
-            <TimeButtonGroup />
+            <TimeButtonGroup onChange={(type) => run(type)} />
           </div>
-          <ChargingStationChart />
+          <PhotovoltaicChart chartData={chartData} />
         </div>
       </Decoration>
     </Cell>

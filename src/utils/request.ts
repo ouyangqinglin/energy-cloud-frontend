@@ -125,7 +125,7 @@ request.interceptors.response.use(async (response: Response) => {
   return response;
 });
 
-export const get = <R = false>(
+export const get = <R>(
   url: string,
   params?: object | URLSearchParams,
   options?: RequestOptionsInit,
@@ -136,7 +136,7 @@ export const get = <R = false>(
         options,
         ...{ params },
       };
-  return request.get<R>(url, composeOptions);
+  return request.get<{ data: R }>(url, composeOptions);
 };
 
 export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
@@ -146,7 +146,7 @@ export const post = <R = false>(url: string, params?: any, options?: RequestOpti
         options,
         ...{ params },
       };
-  return request.post<R>(url, composeOptions);
+  return request.post<{ data: R }>(url, composeOptions);
 };
 
 export default request;

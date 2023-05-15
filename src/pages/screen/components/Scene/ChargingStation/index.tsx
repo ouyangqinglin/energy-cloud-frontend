@@ -1,26 +1,26 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import Cell from '../../LayoutCell';
 import Decoration from '../../Decoration';
-import type { DetailItem } from '@/components/Detail';
 import Detail from '@/components/Detail';
 import { getChargingStation } from './service';
-import ChargingStationChart from './ChargingStationChart';
+import ChargingStationChart from './Chart';
+import type { ChargingStationRes } from './type';
+import { DEFAULT_STATISTICS, gunInfoItem } from './config';
+import { defaults } from 'lodash';
 
 const ChargingStation: FC = () => {
-  const { data = {} } = useRequest(getChargingStation);
-  const gunInfoItem: DetailItem[] = [
-    { label: '充电功率', field: 'chargingPower' },
-    { label: '今日充电量', field: 'chargingCapacityToday' },
-    { label: '充电枪空闲/使用', field: 'gunStatus' },
-    { label: '今日收益', field: 'earningsToday' },
-  ];
+  const { data = {} as ChargingStationRes } = useRequest(getChargingStation);
 
   const formatterData = () => {
-    data.gunStatus = (
+    const processedData: ChargingStationRes & {
+      gunStatus?: ReactNode | string;
+    } = defaults(data, DEFAULT_STATISTICS);
+    const { chargingGunStatus: { freeCount = '--', occupyCount = '--' } = {} } = processedData;
+    processedData.gunStatus = (
       <>
-        <span>{data.gunIdle}</span>/<span style={{ color: '#50F0FF' }}>{data.gunInUse}</span>
+        <span>{freeCount}</span>/<span style={{ color: '#50F0FF' }}>{occupyCount}</span>
       </>
     );
     return data;
@@ -47,7 +47,7 @@ const ChargingStation: FC = () => {
               fontSize: '1.11vh',
             }}
           />
-          <ChargingStationChart />
+          <ChargingStationChart chartData={data} />
         </div>
       </Decoration>
     </Cell>

@@ -4,21 +4,21 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import styles from './index.less';
 
-export type TimeButtonGroupProps = {
-  requestData?: () => void;
-};
-
 export const enum TimeType {
   DAY,
   MONTH,
   YEAR,
   TOTAL,
 }
+export type TimeButtonGroupProps = {
+  onChange?: (type: TimeType) => void;
+};
 
-const TimeButtonGroup: FC<TimeButtonGroupProps> = ({ requestData }) => {
+const TimeButtonGroup: FC<TimeButtonGroupProps> = ({ onChange }) => {
   const [size, setSize] = useState<TimeType>(TimeType.DAY);
   const handleClick = (e: RadioChangeEvent) => {
     setSize(e.target.value);
+    onChange?.(e.target.value as TimeType);
   };
 
   return (

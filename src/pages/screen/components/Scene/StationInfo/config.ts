@@ -10,7 +10,7 @@ export const stationInfoConfig = [
   {
     icon: SiteName,
     label: '站点名称：',
-    field: 'siteName',
+    field: 'name',
   },
   // {
   //   icon: SiteType,
@@ -21,11 +21,13 @@ export const stationInfoConfig = [
     icon: TransformerCapacity,
     label: '变压器容量：',
     field: 'transformerCapacity',
+    format: (value: number) => value + 'kW',
   },
   {
     icon: PhotovoltaicPanel,
     label: '光伏装机量',
-    field: 'photovoltaicPanel',
+    field: 'photovoltaicInstalledCapacity',
+    format: (value: number) => value + 'kWp',
   },
   {
     icon: EnergyStorageCapacity,
@@ -35,30 +37,22 @@ export const stationInfoConfig = [
   {
     icon: ChargingStation,
     label: '充电桩装机量：',
-    field: 'chargingStation',
+    field: 'chargingStationCapacity',
+    format: (value: number) => value + 'kWh',
   },
   {
     icon: Location,
     label: '站点地址：',
-    field: 'location',
+    field: 'address',
   },
 ];
 
 export const DEFAULT_DATA = {
-  siteName: '永泰光储充示范站',
-  transformerCapacity: '800kW',
-  photovoltaicPanel: '280kWp',
-  energyStorageCapacity: '500kWh/200kWh',
-  chargingStation: '500kWh',
-  location: '深圳市龙华区观湖街道鹭湖社区观',
-};
-
-export const mapKey = {
-  siteName: 'name',
-  transformerCapacity: 'transformerCapacity',
-  photovoltaicPanel: 'photovoltaicInstalledcapacity',
-  energyStorageCapacity: 'energystorageCapacitystorage',
-  energyStorageOutput: 'energyStorageCapacityOutput',
-  chargingStation: 'chargingstationCapacity',
-  location: 'address',
+  name: '永泰光储充示范站',
+  transformerCapacity: 800,
+  photovoltaicInstalledCapacity: 280,
+  energyStorageCapacityStorage: 500,
+  energyStorageCapacityOutput: 200,
+  chargingStationCapacity: 500,
+  address: '深圳市龙华区观湖街道鹭湖社区观',
 };

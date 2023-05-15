@@ -26,7 +26,7 @@ export type DialogProps = {
 };
 
 export type BusinessDialogProps = {
-  id: string;
+  id: string | number;
   open: boolean;
   onCancel: () => void;
   model?: string;

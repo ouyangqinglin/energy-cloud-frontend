@@ -1,22 +1,18 @@
-export interface SiteInfoRes {
+export interface SiteInfoRes extends SiteInfoFront {
   id: number;
   sn: string;
   name: string;
-  voltageclass: number;
   transformerCapacity: number;
-  photovoltaicInstalledcapacity: number;
-  energystorageCapacitystorage: number;
+  photovoltaicInstalledCapacity: number;
+  energyStorageCapacityStorage: number;
   energyStorageCapacityOutput: number;
-  chargingstationCapacity: number;
+  chargingStationCapacity: number;
   address: string;
+  cityCode: string;
+  longitude: number;
+  latitude: number;
 }
 
-export interface SiteInfo {
-  siteName: string;
-  transformerCapacity: string;
-  photovoltaicPanel: string;
+export interface SiteInfoFront {
   energyStorageCapacity: string;
-  energyStorageOutput?: string;
-  chargingStation: string;
-  location: string;
 }
