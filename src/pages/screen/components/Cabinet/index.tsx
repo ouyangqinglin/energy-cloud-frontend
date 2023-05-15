@@ -9,8 +9,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import ChargeImg from '@/assets/image/product/cabinet.png';
 import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
@@ -21,8 +21,6 @@ import LogTable from '@/components/LogTable';
 const Cabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [data, setData] = useState({});
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const tabItems = [
     {
@@ -49,18 +47,17 @@ const Cabinet: React.FC<BusinessDialogProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
         <EquipInfo id={id} model={model} equipmentImg={ChargeImg} productImg={ChargeIntroImg} />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

@@ -2,17 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-11 14:12:29
+ * @LastEditTime: 2023-05-15 11:02:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
-import { Modal, Form, message } from 'antd';
-import ScreenDialog from '@/components/ScreenDialog';
+import { Form, message } from 'antd';
+import { useRequest } from 'umi';
+import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import { EquipFormType } from './data.d';
-import { editCommunity, getStations, getProductTypes, getProductModels } from './service';
+import { editData, getData, getStations, getProductTypes, getProductModels } from './service';
 import { FormTypeEnum } from '@/utils/dictionary';
 
 export type EquipFormProps = {
@@ -20,15 +21,20 @@ export type EquipFormProps = {
   model?: string;
   open: boolean;
   onCancel: () => void;
-  data: EquipFormType;
   type: FormTypeEnum;
 };
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
-  const { id, model, open, onCancel, data, type } = props;
+  const { id, model, open, onCancel, type } = props;
+
+  const { loading: getLoading, run: runGet } = useRequest(getData, {
+    manual: true,
+  });
+  const { loading: editLoading, run: runEdit } = useRequest(editData, {
+    manual: true,
+  });
 
   const [form] = Form.useForm<EquipFormType>();
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const triggerSubmit = () => {
     form.submit();
@@ -37,7 +43,13 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   useEffect(() => {
     if (open) {
       form.resetFields();
-      form.setFieldsValue({ ...data, imgs: [{ url: data?.url || '' }] });
+      if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
+        runGet(id).then((res) => {
+          if (res && res.data) {
+            form.setFieldsValue({ ...res.data, imgs: [{ url: res.data?.url || '' }] });
+          }
+        });
+      }
     }
   }, [open]);
 
@@ -76,12 +88,14 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         open={open}
         title={(type === FormTypeEnum.Add ? '新增' : '编辑') + '设备'}
         width="460px"
         onCancel={onCancel}
         onOk={triggerSubmit}
+        confirmLoading={getLoading || editLoading}
       >
         <ProForm<EquipFormType>
           form={form}
@@ -89,7 +103,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           labelCol={{ flex: '84px' }}
           autoFocusFirstInput
           onFinish={(formData) =>
-            editCommunity({ ...formData, id }).then((res) => {
+            runEdit({ ...formData, deviceId: id }).then((res) => {
               if (res) {
                 message.success('保存成功');
                 onCancel();
@@ -100,7 +114,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         >
           <ProFormSelect
             label="所属站点"
-            name="stationId"
+            name="siteId"
             placeholder="请选择"
             request={requestStations}
             fieldProps={{
@@ -155,7 +169,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             }}
           ></ProFormUploadButton>
         </ProForm>
-      </Component>
+      </Dialog>
     </>
   );
 };

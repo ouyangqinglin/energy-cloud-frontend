@@ -11,9 +11,9 @@ import React, { useEffect } from 'react';
 import { Modal, Tabs } from 'antd';
 import { useRequest } from 'umi';
 import Label from '@/components/Detail/label';
-import ScreenDialog from '@/components/ScreenDialog';
-import { getDeviceInfo } from '@/components/ScreenDialog/service';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import { getDeviceInfo } from '@/components/Dialog/service';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
@@ -36,8 +36,6 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
       run(id);
     }
   }, [open]);
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const runItems = (data?.run?.electricTerminal?.field || []).map((item: fieldType) => {
     return { ...item, format: valueFormat };
@@ -73,19 +71,18 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
         loading={loading}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
         <EquipInfo id={id} model={model} />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Modal } from 'antd';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
-import ScreenDialog from '../ScreenDialog';
+import Dialog from '../Dialog';
 import Label from '../Detail/label';
 import EquipForm from '../EquipForm';
 import { EquipFormType } from '../EquipForm/data.d';
@@ -74,12 +74,10 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
     { label: '所属站点', field: 'siteName' },
   ];
 
-  const Component = model === 'screen' ? ScreenDialog : Modal;
-
   return (
     <>
       <Row>
-        <Col flex={model === 'screen' ? '0 0 10.41vw' : '0 0 200px'}>
+        <Col flex={model === 'screen' ? '0 0 9.41vw' : '0 0 180px'}>
           <div className="dialog-product-logo-wrap">
             <div
               className="dialog-product-logo"
@@ -105,19 +103,11 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
           </div>
         </Col>
       </Row>
-      <Component
-        title="产品介绍"
-        open={openDialog}
-        onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
-        footer={null}
-      >
+      <Dialog model={model} title="产品介绍" open={openDialog} onCancel={onCancel} footer={null}>
         <img className="w-full" src={productImg} />
-      </Component>
+      </Dialog>
       <EquipForm
         id={id}
-        data={data}
         open={openEditModal}
         onCancel={onEditClick}
         model={model}

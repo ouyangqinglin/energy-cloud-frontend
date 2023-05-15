@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs, Button } from 'antd';
 import { useRequest } from 'umi';
-import ScreenDialog from '@/components/ScreenDialog';
-import { getDeviceInfo } from '@/components/ScreenDialog/service';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import { getDeviceInfo } from '@/components/Dialog/service';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
@@ -32,8 +32,6 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
       run(id);
     }
   }, [open]);
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const runItems = (data?.run?.gateway?.field || []).map((item: fieldType) => {
     return { ...item, format: valueFormat };
@@ -68,13 +66,12 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
         loading={loading}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -88,7 +85,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
           }
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
       <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
     </>
   );

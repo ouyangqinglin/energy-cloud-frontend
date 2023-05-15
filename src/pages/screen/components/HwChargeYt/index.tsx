@@ -8,8 +8,8 @@
  */
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
@@ -23,9 +23,7 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 
 const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [equipmentData, setEquipmentData] = useState({});
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
+  const equipmentData = useSubscribe(id, open);
 
   const statusItems: DetailItem[] = [
     { label: 'A枪状态', field: 'a', format: useFormat },
@@ -64,18 +62,13 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
     },
   ];
 
-  useSubscribe(id, open, (res) => {
-    setEquipmentData({ ...equipmentData, ...res });
-  });
-
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -86,7 +79,7 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
           productImg={HwChargeStackIntroImg}
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

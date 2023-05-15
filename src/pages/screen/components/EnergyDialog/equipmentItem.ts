@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-05-12 10:35:45
+ * @LastEditTime: 2023-05-15 11:41:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\equipmentItem.ts
  */
@@ -39,22 +39,22 @@ import {
 } from '@/utils/format';
 
 export const statusItems: DetailItem[] = [
-  { label: 'PCS通讯状态', field: 'PCSCommunicationStatus', format: communicateFormat },
-  { label: 'BMS通讯状态', field: 'BMSCommunicationStatus', format: communicateFormat },
+  { label: 'PCS通讯状态', field: 'pcsLoss', format: communicateFormat },
+  { label: 'BMS通讯状态', field: 'bmsLoss', format: communicateFormat },
   {
     label: '电表通讯状态',
-    field: 'ElectricityMeterCommunicationStatus',
+    field: 'meterLoss',
     format: communicateFormat,
   },
-  { label: 'EMS系统状态', field: 'EMSSystemState', format: runFormat },
-  { label: '系统模式', field: 'SystemMode', format: modelFormat },
+  { label: 'EMS系统状态', field: 'emsSysStatus', format: runFormat },
+  { label: '系统模式', field: 'sysModel', format: modelFormat },
   { label: 'BMS主接触器状态', field: 'BMSContactorClosed', format: closeFormat },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
-  { label: '电气急停信号', field: 'ElectricalEmergencyStopSignal', format: singleFormat },
-  { label: 'BMS急停信号', field: 'BMSEmergencyStopSignal', format: singleFormat },
+  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
+  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },
 ];
 export const settingItems: DetailItem[] = [
-  { label: '手动PCS功率', field: 'ManualPCSPower', format: powerFormat },
+  { label: '手动PCS功率', field: 'handOpePcsPower', format: powerFormat },
   { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
   { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
   { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
@@ -114,28 +114,6 @@ export const settingItems: DetailItem[] = [
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerFive', format: powerFormat },
-  {
-    label: '时段6',
-    field: 'AtTheBeginningOfThePeriodSix',
-    format: (_, data) =>
-      data.AtTheBeginningOfThePeriodSix
-        ? `${data.AtTheBeginningOfThePeriodSix}:${data.StartingPointOfTimePeriodSix || ''}~${
-            data.AtTheEndOfThePeriodSix || ''
-          }:${data.PeriodEndMinuteSix || ''}`
-        : '',
-  },
-  { label: '执行功率', field: 'PCSPeriodPowerSix', format: powerFormat, span: 2 },
-  {
-    label: '时段7',
-    field: 'AtTheBeginningOfThePeriodSeven',
-    format: (_, data) =>
-      data.AtTheBeginningOfThePeriodSeven
-        ? `${data.AtTheBeginningOfThePeriodSeven}:${data.StartingPointOfTimePeriodSeven || ''}~${
-            data.AtTheEndOfThePeriodSeven
-          }:${data.PeriodEndMinuteSeven || ''}`
-        : '',
-  },
-  { label: '执行功率', field: 'PCSPeriodPowerSix', format: powerFormat, span: 2 },
 ];
 
 export const pcsStatusItems: DetailItem[] = [
@@ -216,10 +194,10 @@ export const bmsStatusItems: DetailItem[] = [
   { label: 'BMU9风扇', field: 'BMU9Fan', format: openFormat },
   { label: 'BMU10风扇', field: 'BMU10Fan', format: openFormat },
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
-  { label: '对外故障', field: 'ExternalFault', format: faultFormat },
-  { label: '一级报警', field: 'FirstLevelAlarm', format: fault1Format },
-  { label: '二级报警', field: 'SecondaryAlarm', format: fault2Format },
-  { label: '三级报警', field: 'L3A', format: fault3Format },
+  { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
+  { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
+  { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
+  { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },
 ];
 export const bmsMeasureItems: DetailItem[] = [
   { label: '电池总电压', field: 'TotalBatteryVoltage', format: voltageFormat },

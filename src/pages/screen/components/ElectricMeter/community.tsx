@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, message } from 'antd';
 import { useRequest } from 'umi';
-import ScreenDialog from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
 import { ProForm, ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import { CommunityType } from './data.d';
 import { editCommunity, getCommunity, getGateway } from './service';
@@ -27,7 +27,6 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   const [gatewayOptions, setGatewayOptions] = useState<OptionType[]>();
   const [form] = Form.useForm<CommunityType>();
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const { loading, run } = useRequest(getCommunity, {
     manual: true,
@@ -56,10 +55,11 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         open={open}
         title="设置通信信息"
-        width="23.95vw"
+        width="458px"
         onCancel={onCancel}
         onOk={triggerSubmit}
       >
@@ -95,7 +95,7 @@ const Community: React.FC<CommunityProps> = (props) => {
             }}
           ></ProFormSelect>
         </ProForm>
-      </Component>
+      </Dialog>
     </>
   );
 };

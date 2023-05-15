@@ -32,3 +32,10 @@ export const getCommunity = (id: string) => {
     },
   });
 };
+
+export const editSetting = (data: any) => {
+  return request(`/oss/device/remote_setting`, {
+    method: 'POST',
+    data,
+  });
+};
