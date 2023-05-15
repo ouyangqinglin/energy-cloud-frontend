@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 14:26:38
- * @LastEditTime: 2023-05-15 17:04:30
+ * @LastEditTime: 2023-05-15 17:24:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Dialog\index.tsx
  */
@@ -26,7 +26,7 @@ export type DialogProps = {
 };
 
 export type BusinessDialogProps = {
-  id: string | number;
+  id: string;
   open: boolean;
   onCancel: () => void;
   model?: string;
