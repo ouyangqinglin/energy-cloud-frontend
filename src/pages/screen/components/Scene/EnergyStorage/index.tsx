@@ -43,7 +43,7 @@ const EnergyStorage: FC = () => {
   );
 
   const formatterData = () => {
-    const { statistics = {} } = statisticsData;
+    const { statistics = {} } = statisticsData ?? {};
     const processedData: Record<string, any> = defaults(statistics, DEFAULT_STATISTICS);
     if (!Number.isNaN(processedData?.realTimeStatus)) {
       const realtimeConfig = RealtimeStatusMap[processedData?.realTimeStatus as RealtimeStatusEnum];
