@@ -15,7 +15,9 @@ import moment from 'moment';
 import Empty from '../Empty';
 
 export type LogTableProps = {
-  params?: object;
+  params?: {
+    id: string;
+  };
   request?: (params: any) => Promise<any>;
 };
 
@@ -28,12 +30,12 @@ export type LogType = {
 };
 
 const AlarmTable: React.FC<LogTableProps> = (props) => {
-  const { params = {}, request } = props;
+  const { params, request } = props;
   const actionRef = useRef<ActionType>();
   const Component: any = DatePicker.RangePicker;
   const dateFormat = 'YYYY/MM/DD';
   const searchParams = {
-    ...params,
+    ...(params || {}),
     startTime: '',
     endTime: '',
   };
@@ -104,12 +106,12 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         toolBarRender={toolBar}
         params={searchParams}
         request={
-          request
+          request && params?.id
             ? (query) =>
-                request(query).then((res) => {
+                request(query).then(({ data = {} }) => {
                   return {
-                    data: res.rows,
-                    total: res.total,
+                    data: data.list,
+                    total: data.total,
                     success: true,
                   };
                 })

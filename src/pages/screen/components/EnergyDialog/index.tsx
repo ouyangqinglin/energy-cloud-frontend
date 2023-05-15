@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-13 17:14:59
+ * @LastEditTime: 2023-05-15 09:48:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\index.tsx
  */
@@ -10,8 +10,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Modal, Tabs, Button } from 'antd';
 import { useRequest } from 'umi';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';
@@ -43,8 +43,6 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     setOpenSettingModal(!openSettingModal);
   };
 
-  const Component = model === 'screen' ? ScreenDialog : Modal;
-
   const tabItems = [
     {
       label: '运行监测',
@@ -59,23 +57,22 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <Alarm id={id} />,
+      children: <Alarm equipmentIds={equipmentIds} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <Log id={id} />,
+      children: <Log equipmentIds={equipmentIds} />,
     },
   ];
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -91,7 +88,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
           }
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
       <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
     </>
   );

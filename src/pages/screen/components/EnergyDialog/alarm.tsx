@@ -1,40 +1,53 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import AlarmTable from '@/components/AlarmTable';
-import { getAlarms } from '@/components/ScreenDialog/service';
+import { getAlarms } from '@/components/Dialog/service';
+import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type AlarmProps = {
-  id: string | number;
+  equipmentIds: {
+    [key: string]: any;
+  };
 };
 
 const Alarm: React.FC<AlarmProps> = (props) => {
-  const { id } = props;
+  const { equipmentIds } = props;
 
   const items = [
     {
       label: 'EMS',
       key: 'item-0',
-      children: <AlarmTable params={{ id }} request={getAlarms} />,
+      children: (
+        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.EMS] }} request={getAlarms} />
+      ),
     },
     {
       label: 'PCS',
       key: 'item-1',
-      children: <AlarmTable params={{ id }} request={getAlarms} />,
+      children: (
+        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.PCS] }} request={getAlarms} />
+      ),
     },
     {
       label: 'BMS',
       key: 'item-2',
-      children: <AlarmTable params={{ id }} request={getAlarms} />,
+      children: (
+        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.BMS] }} request={getAlarms} />
+      ),
     },
     {
       label: '空调',
       key: 'item-3',
-      children: <AlarmTable params={{ id }} request={getAlarms} />,
+      children: (
+        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.AIR] }} request={getAlarms} />
+      ),
     },
     {
       label: '电表',
       key: 'item-4',
-      children: <AlarmTable params={{ id }} request={getAlarms} />,
+      children: (
+        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.METER] }} request={getAlarms} />
+      ),
     },
   ];
 

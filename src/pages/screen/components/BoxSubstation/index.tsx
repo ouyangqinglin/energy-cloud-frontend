@@ -2,15 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-12 14:46:05
+ * @LastEditTime: 2023-05-15 17:26:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\BoxSubstation\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import { Tabs } from 'antd';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
@@ -30,42 +30,40 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 
 const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [equipmentData, setEquipmentData] = useState({});
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
+  const equipmentData = useSubscribe(id, open);
 
   const runItems: DetailItem[] = [
-    { label: 'A相电压', field: 'o', format: voltageFormat },
-    { label: 'AB线电压', field: 'p', format: voltageFormat },
-    { label: 'A相电流', field: 'q', format: currentFormat, span: 2 },
-    { label: 'B相电压', field: 'r', format: voltageFormat },
-    { label: 'BC线电压', field: 's', format: voltageFormat },
-    { label: 'B相电流', field: 't', format: currentFormat, span: 2 },
-    { label: 'C相电压', field: 'u', format: voltageFormat },
-    { label: 'CA线电压', field: 'v', format: voltageFormat },
-    { label: 'C相电流', field: 'w', format: currentFormat, span: 2 },
+    { label: 'A相电压', field: 'Ua', format: voltageFormat },
+    { label: 'AB线电压', field: 'Uab', format: voltageFormat },
+    { label: 'A相电流', field: 'Ia', format: currentFormat, span: 2 },
+    { label: 'B相电压', field: 'Ub', format: voltageFormat },
+    { label: 'BC线电压', field: 'Ubc', format: voltageFormat },
+    { label: 'B相电流', field: 'Ib', format: currentFormat, span: 2 },
+    { label: 'C相电压', field: 'Uc', format: voltageFormat },
+    { label: 'CA线电压', field: 'Uca', format: voltageFormat },
+    { label: 'C相电流', field: 'Ic', format: currentFormat, span: 2 },
 
-    { label: 'A相有功功率', field: 'a', format: powerFormat },
-    { label: 'A相无功功率', field: 'b', format: powerHourFormat },
-    { label: 'A相视在功率', field: 'c', format: powerHourFormat },
-    { label: 'A相功率因数', field: 'd' },
-    { label: 'B相有功功率', field: 'e', format: powerFormat },
-    { label: 'B相无功功率', field: 'f', format: powerHourFormat },
-    { label: 'B相视在功率', field: 'g', format: powerHourFormat },
-    { label: 'B相功率因数', field: 'h' },
-    { label: 'C相有功功率', field: 'i', format: powerFormat },
-    { label: 'C相无功功率', field: 'j', format: powerHourFormat },
-    { label: 'C相视在功率', field: 'k', format: powerHourFormat },
-    { label: 'C相功率因数', field: 'l' },
-    { label: '总有功功率', field: 'm', format: powerFormat },
-    { label: '总无功功率', field: 'n', format: powerHourFormat },
-    { label: '总视在功率', field: 'aa', format: powerHourFormat },
-    { label: '总功率因数', field: 'ab' },
+    { label: 'A相有功功率', field: 'Pa', format: powerFormat },
+    { label: 'A相无功功率', field: 'Qa', format: powerHourFormat },
+    { label: 'A相视在功率', field: 'Sa', format: powerHourFormat },
+    { label: 'A相功率因数', field: 'COSa' },
+    { label: 'B相有功功率', field: 'Pb', format: powerFormat },
+    { label: 'B相无功功率', field: 'Qb', format: powerHourFormat },
+    { label: 'B相视在功率', field: 'Sb', format: powerHourFormat },
+    { label: 'B相功率因数', field: 'COSb' },
+    { label: 'C相有功功率', field: 'Pc', format: powerFormat },
+    { label: 'C相无功功率', field: 'Qc', format: powerHourFormat },
+    { label: 'C相视在功率', field: 'Sc', format: powerHourFormat },
+    { label: 'C相功率因数', field: 'COSc' },
+    { label: '总有功功率', field: 'P', format: powerFormat },
+    { label: '总无功功率', field: 'Q', format: powerHourFormat },
+    { label: '总视在功率', field: 'S', format: powerHourFormat },
+    { label: '总功率因数', field: 'COS' },
 
-    { label: '正向有功电能', field: 'ac', format: powerHourFormat },
-    { label: '反向有功电能', field: 'ad', format: powerHourFormat },
-    { label: '正向无功电能', field: 'ae', format: noPowerHourFormat },
-    { label: '反向无功电能', field: 'af', format: noPowerHourFormat },
+    { label: '正向有功电能', field: 'Pimp', format: powerHourFormat },
+    { label: '反向有功电能', field: 'Qimp', format: powerHourFormat },
+    { label: '正向无功电能', field: 'Pexp', format: noPowerHourFormat },
+    { label: '反向无功电能', field: 'Qexp', format: noPowerHourFormat },
   ];
 
   const tabItems = [
@@ -95,18 +93,13 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
     },
   ];
 
-  useSubscribe(id, open, (res) => {
-    setEquipmentData({ ...equipmentData, ...res });
-  });
-
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -117,7 +110,7 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
           productImg={BoxSubstationIntroImg}
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

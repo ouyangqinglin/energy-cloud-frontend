@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-05-09 16:08:37
+ * @LastEditTime: 2023-05-15 10:18:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\setting.tsx
  */
@@ -11,6 +11,7 @@ import React from 'react';
 import { Row, Col, Switch, Form, Input, Button, TimePicker, DatePicker } from 'antd';
 import Label from '@/components/Detail/label';
 import moment from 'moment';
+import { editSetting } from './service';
 
 export type ControlType = {
   systemFiring: boolean;

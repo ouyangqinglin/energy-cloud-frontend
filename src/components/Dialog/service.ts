@@ -21,7 +21,7 @@ export const getWeather = (code: string) => {
 };
 
 export const getAlarms = (params: any) => {
-  return request(`/screen/alarms`, {
+  return request(`/oss/alarm/getAlarm`, {
     method: 'GET',
     params,
   });

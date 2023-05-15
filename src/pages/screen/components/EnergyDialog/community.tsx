@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 17:03:09
- * @LastEditTime: 2023-05-12 16:56:55
+ * @LastEditTime: 2023-05-15 10:59:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\community.tsx
  */
 import React, { useEffect } from 'react';
 import { Modal, Form, message } from 'antd';
 import { useRequest } from 'umi';
-import ScreenDialog from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
 import { ProForm, ProFormText } from '@ant-design/pro-form';
 import { CommunityType } from './data.d';
 import { editCommunity, getCommunity } from './service';
@@ -24,12 +24,14 @@ export type CommunityProps = {
 const Community: React.FC<CommunityProps> = (props) => {
   const { id, model, open, onCancel } = props;
 
-  const [form] = Form.useForm<CommunityType>();
-  const Component = model === 'screen' ? ScreenDialog : Modal;
-
-  const { loading, run } = useRequest(getCommunity, {
+  const { loading: getLoading, run: runGet } = useRequest(getCommunity, {
     manual: true,
   });
+  const { loading: editLoading, run: runEdit } = useRequest(editCommunity, {
+    manual: true,
+  });
+
+  const [form] = Form.useForm<CommunityType>();
 
   const triggerSubmit = () => {
     form.submit();
@@ -37,7 +39,7 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   useEffect(() => {
     if (open) {
-      run(id).then((data) => {
+      runGet(id).then((data) => {
         form.resetFields();
         if (data) {
           form.setFieldsValue(data);
@@ -48,10 +50,12 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         open={open}
         title="设置通信信息"
-        width="23.95vw"
+        width="458px"
+        confirmLoading={getLoading || editLoading}
         onCancel={onCancel}
         onOk={triggerSubmit}
       >
@@ -61,7 +65,7 @@ const Community: React.FC<CommunityProps> = (props) => {
           labelCol={{ flex: '128px' }}
           autoFocusFirstInput
           onFinish={(data) =>
-            editCommunity({ ...data, deviceId: id }).then((res) => {
+            runEdit({ ...data, deviceId: id }).then((res) => {
               if (res.code == 200) {
                 message.success('保存成功');
                 onCancel();
@@ -83,7 +87,7 @@ const Community: React.FC<CommunityProps> = (props) => {
             rules={[{ required: true, message: '密码必填' }]}
           ></ProFormText.Password>
         </ProForm>
-      </Component>
+      </Dialog>
     </>
   );
 };

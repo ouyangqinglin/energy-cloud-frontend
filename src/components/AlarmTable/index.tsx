@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-12 11:36:21
+ * @LastEditTime: 2023-05-15 10:07:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
@@ -16,25 +16,27 @@ import moment from 'moment';
 import Empty from '../Empty';
 
 export type AlarmTableProps = {
-  params?: object;
+  params?: {
+    id: string;
+  };
   request?: (params: any) => Promise<any>;
 };
 
 export type AlarmType = {
   id: string;
   content: string;
-  source: string;
-  createdTime: string;
-  recoverTime: string;
+  fromResource: string;
+  alarmTime: string;
+  recoveryTime: string;
 };
 
 const AlarmTable: React.FC<AlarmTableProps> = (props) => {
-  const { params = {}, request } = props;
+  const { params, request } = props;
   const actionRef = useRef<ActionType>();
   const Component: any = DatePicker.RangePicker;
   const dateFormat = 'YYYY/MM/DD';
   const searchParams = {
-    ...params,
+    ...(params || {}),
     startTime: '',
     endTime: '',
   };
@@ -54,23 +56,23 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
     },
     {
       title: '告警来源',
-      dataIndex: 'source',
+      dataIndex: 'fromResource',
       width: 100,
       ellipsis: true,
     },
     {
       title: '发生时间',
-      dataIndex: 'createdTime',
+      dataIndex: 'alarmTime',
       width: 200,
       ellipsis: true,
-      render: (_, record) => `${record.createdTime} (${format(record.createdTime, 'zh_CN')})`,
+      render: (_, record) => `${record.alarmTime} (${format(record.alarmTime, 'zh_CN')})`,
     },
     {
       title: '恢复时间',
-      dataIndex: 'recoverTime',
+      dataIndex: 'recoveryTime',
       width: 200,
       ellipsis: true,
-      render: (_, record) => `${record.recoverTime} (${format(record.recoverTime, 'zh_CN')})`,
+      render: (_, record) => `${record.recoveryTime} (${format(record.recoveryTime, 'zh_CN')})`,
     },
   ];
 
@@ -106,12 +108,12 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
         toolBarRender={toolBar}
         params={searchParams}
         request={
-          request
+          request && params?.id
             ? (query) =>
-                request(query).then((res) => {
+                request(query).then(({ data = {} }) => {
                   return {
-                    data: res.rows,
-                    total: res.total,
+                    data: data.list,
+                    total: data.total,
                     success: true,
                   };
                 })

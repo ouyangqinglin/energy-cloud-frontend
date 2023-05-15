@@ -9,40 +9,53 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import LogTable from '@/components/LogTable';
-import { getLogs } from '@/components/ScreenDialog/service';
+import { getLogs } from '@/components/Dialog/service';
+import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type LogProps = {
-  id: string | number;
+  equipmentIds: {
+    [key: string]: any;
+  };
 };
 
 const Log: React.FC<LogProps> = (props) => {
-  const { id } = props;
+  const { equipmentIds } = props;
 
   const items = [
     {
       label: 'EMS',
       key: 'item-0',
-      children: <LogTable params={{ id }} request={getLogs} />,
+      children: (
+        <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.EMS] }} request={getLogs} />
+      ),
     },
     {
       label: 'PCS',
       key: 'item-1',
-      children: <LogTable params={{ id }} request={getLogs} />,
+      children: (
+        <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.PCS] }} request={getLogs} />
+      ),
     },
     {
       label: 'BMS',
       key: 'item-2',
-      children: <LogTable params={{ id }} request={getLogs} />,
+      children: (
+        <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.BMS] }} request={getLogs} />
+      ),
     },
     {
       label: '空调',
       key: 'item-3',
-      children: <LogTable params={{ id }} request={getLogs} />,
+      children: (
+        <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.AIR] }} request={getLogs} />
+      ),
     },
     {
       label: '电表',
       key: 'item-4',
-      children: <LogTable params={{ id }} request={getLogs} />,
+      children: (
+        <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.METER] }} request={getLogs} />
+      ),
     },
   ];
 

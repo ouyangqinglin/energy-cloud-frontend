@@ -12,8 +12,8 @@ export type fileType = {
 };
 
 export type EquipFormType = {
-  id?: string;
-  stationId?: string;
+  deviceId?: string;
+  siteId?: string;
   type?: string;
   model?: string;
   name?: string;

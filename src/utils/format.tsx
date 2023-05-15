@@ -13,8 +13,8 @@ export const onlineFormat = (value: number) => {
 };
 export const communicateFormat = (value: number) => {
   const map = {
-    0: '失联',
-    1: '正常',
+    0: '正常',
+    1: '失联',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
@@ -27,8 +27,8 @@ export const runFormat = (value: number) => {
 };
 export const modelFormat = (value: number) => {
   const map = {
-    0: '自动',
-    1: '手动',
+    0: '手动',
+    1: '自动',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
@@ -102,8 +102,8 @@ export const workFormat = (value: number) => {
 };
 export const faultFormat = (value: number) => {
   const map = {
-    0: '故障',
-    1: '正常',
+    0: '正常',
+    1: '故障',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
@@ -116,9 +116,9 @@ export const doorFormat = (value: number) => {
 };
 export const chargeFormat = (status: number) => {
   const map = {
-    0: '充电',
-    1: '静置',
-    2: '放电',
+    0: '静置',
+    1: '放电',
+    2: '充电',
   };
   return <span className="cl-success">{map[status]}</span>;
 };
@@ -131,29 +131,29 @@ export const openFormat = (status: number) => {
 };
 export const abnormalFormat = (value: number) => {
   const map = {
-    0: '异常',
-    1: '正常',
+    0: '正常',
+    1: '异常',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const fault1Format = (value: number) => {
   const map = {
-    0: '一级故障',
-    1: '正常',
+    0: '正常',
+    1: '一级故障',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
 export const fault2Format = (value: number) => {
   const map = {
-    0: '二级故障',
-    1: '正常',
+    0: '正常',
+    1: '二级故障',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
 export const fault3Format = (value: number) => {
   const map = {
-    0: '三级故障',
-    1: '正常',
+    0: '正常',
+    1: '三级故障',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
@@ -190,8 +190,8 @@ export const airsetFormat = (status: number) => {
 };
 export const useFormat = (value: number) => {
   const map = {
-    0: '占用',
     1: '空闲',
+    2: '占用',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };

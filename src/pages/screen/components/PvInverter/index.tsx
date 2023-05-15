@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-13 15:20:28
+ * @LastEditTime: 2023-05-15 08:53:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
@@ -10,12 +10,12 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs, Table, Row, Col } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import { getAlarms, getLogs } from '@/components/ScreenDialog/service';
+import { getAlarms, getLogs } from '@/components/Dialog/service';
 import { PvInverterType } from './data.d';
 import Label from '@/components/Detail/label';
 import Detail from '@/components/Detail';
@@ -43,7 +43,7 @@ export type PvInverterProps = BusinessDialogProps & {
 const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { id, open, onCancel, model, loopNum } = props;
   const [tableData, setTableData] = useState<PvInverterType[]>([]); //UUpv15 Ipv1
-  const [equipmentData, setEquipmentData] = useState({});
+  const equipmentData = useSubscribe(id, open);
 
   const runItems: DetailItem[] = [
     { label: '电网A相电压', field: 'Ua', format: voltageFormat },
@@ -57,16 +57,14 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     { label: '无功功率', field: 'Q', format: noPowerFormat },
     { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
     { label: '功率因数', field: 'COS' },
-    { label: '逆变器额定功率', field: 'aaa', format: powerFormat },
-    { label: '输出方式', field: 'aab' },
+    { label: '逆变器额定功率', field: 'ratedPowerOfInverter', format: powerFormat },
+    { label: '输出方式', field: 'outputMethod' },
     { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
     { label: '内部温度', field: 'temperature', format: tempFormat },
     { label: '逆变器开机时间', field: 'openTime', format: timeFormat },
-    { label: '绝缘阻抗值', field: 'aac', format: mohmFormat },
+    { label: '绝缘阻抗值', field: 'insulationImpedanceValue', format: mohmFormat },
     { label: '逆变器关机时间', field: 'closeTime', format: timeFormat },
   ];
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const columns: ColumnsType<PvInverterType> = [
     {
@@ -80,14 +78,14 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       dataIndex: 'voltage',
       key: 'voltage',
       align: 'center',
-      render: (_, record) => equipmentData['UUpv' + record.id],
+      render: (_, record) => equipmentData?.['UUpv' + record.id],
     },
     {
       title: '电流(A)',
       dataIndex: 'current',
       key: 'current',
       align: 'center',
-      render: (_, record) => equipmentData['Ipv' + record.id],
+      render: (_, record) => equipmentData?.['Ipv' + record.id],
     },
   ];
 
@@ -146,18 +144,13 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     setTableData(initTableData);
   }, [loopNum]);
 
-  useSubscribe(id, open, (res) => {
-    setEquipmentData({ ...equipmentData, ...res });
-  });
-
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -168,7 +161,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           productImg={PvInverterIntroImg}
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

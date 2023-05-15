@@ -54,6 +54,10 @@ export type fieldType = {
   field: string;
 };
 
+export type AnyMapType = {
+  [key: string]: any;
+};
+
 export const useInfo = [
   { label: '占用', value: 1 },
   { label: '空闲', value: 0 },

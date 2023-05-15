@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-05-13 10:34:49
+ * @LastEditTime: 2023-05-15 13:38:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
@@ -58,8 +58,8 @@ const Weather: React.FC<WeatherProps> = (props) => {
         <Spin />
       ) : (
         <>
-          <img className={styles.img} src={weatherMap[data.weather] || IconUnknow} />
-          <span className={styles.name}>{data.weather}</span>
+          <img className={styles.img} src={weatherMap[data?.weather] || IconUnknow} />
+          <span className={styles.name}>{data?.weather}</span>
         </>
       )}
       <span>{`${date.date} ${date.week}`}</span>

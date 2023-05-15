@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, message } from 'antd';
 import { useRequest } from 'umi';
-import ScreenDialog from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
 import { ProForm, ProFormText } from '@ant-design/pro-form';
 import { CommunityType } from './data.d';
 import { editCommunity, getCommunity } from './service';
@@ -25,7 +25,6 @@ const Community: React.FC<CommunityProps> = (props) => {
   const { id, model, open, onCancel } = props;
 
   const [form] = Form.useForm<CommunityType>();
-  const Component = model === 'screen' ? ScreenDialog : Modal;
 
   const { loading, run } = useRequest(getCommunity, {
     manual: true,
@@ -48,10 +47,11 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         open={open}
         title="设置通信信息"
-        width="23.95vw"
+        width="458px"
         onCancel={onCancel}
         onOk={triggerSubmit}
       >
@@ -83,7 +83,7 @@ const Community: React.FC<CommunityProps> = (props) => {
             rules={[{ required: true, message: '密码必填' }]}
           ></ProFormText.Password>
         </ProForm>
-      </Component>
+      </Dialog>
     </>
   );
 };

@@ -2,15 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-13 14:44:24
+ * @LastEditTime: 2023-05-15 10:32:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Modal, Tabs } from 'antd';
-import ScreenDialog from '@/components/ScreenDialog';
-import type { BusinessDialogProps } from '@/components/ScreenDialog';
+import Dialog from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
@@ -30,9 +30,7 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 
 const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [equipmentData, setEquipmentData] = useState({});
-
-  const Component = model === 'screen' ? ScreenDialog : Modal;
+  const equipmentData = useSubscribe(id, open);
 
   const runItems: DetailItem[] = [
     { label: 'A相电压', field: 'Ua', format: voltageFormat },
@@ -95,18 +93,13 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
     },
   ];
 
-  useSubscribe(id, open, (res) => {
-    setEquipmentData({ ...equipmentData, ...res });
-  });
-
   return (
     <>
-      <Component
+      <Dialog
+        model={model}
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        width={model === 'screen' ? '62.5vw' : '1200px'}
-        wrapClassName={model === 'screen' ? '' : 'dialog-equipment'}
         footer={null}
         destroyOnClose
       >
@@ -117,7 +110,7 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
           productImg={PvInverterCabinetIntroImg}
         />
         <Tabs items={tabItems} />
-      </Component>
+      </Dialog>
     </>
   );
 };

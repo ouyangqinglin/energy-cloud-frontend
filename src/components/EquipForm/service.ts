@@ -10,16 +10,19 @@
 import request from '@/utils/request';
 import { EquipFormType } from './data.d';
 
-export const editCommunity = (data: EquipFormType) => {
-  return request(`/screen/energy/community`, {
+export const editData = (data: EquipFormType) => {
+  return request(`/oss/device/update`, {
     method: 'POST',
     data,
   });
 };
 
-export const getCommunity = (id: string) => {
-  return request(`/screen/energy/community`, {
+export const getData = (id: string) => {
+  return request(`/oss/device/details`, {
     method: 'GET',
+    params: {
+      deviceId: id,
+    },
   });
 };
 

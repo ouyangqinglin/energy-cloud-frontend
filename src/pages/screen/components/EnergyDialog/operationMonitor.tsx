@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-13 18:15:21
+ * @LastEditTime: 2023-05-15 16:54:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
  */
@@ -37,29 +37,14 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
   const { equipmentIds = {}, open } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [emsData, setEmsData] = useState<any>({});
-  const [pcsData, setPcsData] = useState({});
-  const [bmsData, setBmsData] = useState({});
-  const [airData, setAirData] = useState({});
-  const [meterData, setMeterData] = useState({});
   const items = useMemo(() => Array.from({ length: 12 }), []);
   const tempArr = useMemo(() => Array.from({ length: 6 }), []);
 
-  useSubscribe(equipmentIds[EnergyEquipmentEnum.EMS], open, (res) => {
-    setEmsData({ ...emsData, ...res });
-  });
-  useSubscribe(equipmentIds[EnergyEquipmentEnum.PCS], open, (res) => {
-    setPcsData({ ...pcsData, ...res });
-  });
-  useSubscribe(equipmentIds[EnergyEquipmentEnum.BMS], open, (res) => {
-    setBmsData({ ...bmsData, ...res });
-  });
-  useSubscribe(equipmentIds[EnergyEquipmentEnum.AIR], open, (res) => {
-    setAirData({ ...airData, ...res });
-  });
-  useSubscribe(equipmentIds[EnergyEquipmentEnum.METER], open, (res) => {
-    setMeterData({ ...meterData, ...res });
-  });
+  const emsData = useSubscribe(equipmentIds[EnergyEquipmentEnum.EMS], open);
+  const pcsData = useSubscribe(equipmentIds[EnergyEquipmentEnum.PCS], open);
+  const bmsData = useSubscribe(equipmentIds[EnergyEquipmentEnum.BMS], open);
+  const airData = useSubscribe(equipmentIds[EnergyEquipmentEnum.AIR], open);
+  const meterData = useSubscribe(equipmentIds[EnergyEquipmentEnum.METER], open);
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -74,9 +59,9 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       <div className="card-temp-item temp-right-item">
         <span className="card-temp-dot"></span>
         <div>
-          温度{currentPage + 6}:
+          温度{(currentPage - 1) * 13 + 6}:
           <span className="card-temp-value">
-            {tempFormat(emsData['Temperature' + (currentPage + 7)])}
+            {tempFormat(emsData?.['Temperature' + (currentPage + 7)])}
           </span>
         </div>
       </div>
@@ -86,20 +71,20 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
     upItems.push(
       <div className="card-battery-item" key={'up' + index}>
         <span>
-          电芯1_{currentPage}_{(index + 1) * currentPage}
+          电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 1}
         </span>
         <div className="card-battery-value">
-          {voltageFormat(emsData['Voltage' + (index + 1) * currentPage] || '_')}
+          {voltageFormat(emsData?.['Voltage' + ((currentPage - 1) * 24 + index + 1)] || '_')}
         </div>
       </div>,
     );
     downItems.push(
       <div className="card-battery-item" key={'down' + index}>
         <span>
-          电芯1_{currentPage}_{(index + 13) * currentPage}
+          电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 13}
         </span>
         <div className="card-battery-value">
-          {voltageFormat(emsData['Voltage' + (index + 13) * currentPage] || '_')}
+          {voltageFormat(emsData?.['Voltage' + ((currentPage - 1) * 24 + index + 13)] || '_')}
         </div>
       </div>,
     );
@@ -109,9 +94,9 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       <div className="card-temp-item" key={'uptemp' + index}>
         <span className="card-temp-dot"></span>
         <div>
-          温度{(index + 1) * currentPage}:
+          温度{(currentPage - 1) * 13 + index + 1}:
           <span className="card-temp-value">
-            {tempFormat(emsData['Temperature' + (index + 1) * currentPage])}
+            {tempFormat(emsData?.['Temperature' + ((currentPage - 1) * 13 + index + 1)])}
           </span>
         </div>
       </div>,
@@ -119,9 +104,9 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
     downTempItems.push(
       <div className="card-temp-item" key={'downtemp' + index}>
         <div>
-          温度{(index + 8) * currentPage}:
+          温度{(currentPage - 1) * 13 + index + 7}:
           <span className="card-temp-value">
-            {tempFormat(emsData['Temperature' + (index + 8) * currentPage])}
+            {tempFormat(emsData?.['Temperature' + ((currentPage - 1) * 13 + index + 7)])}
           </span>
         </div>
         <span className="card-temp-dot"></span>
@@ -136,18 +121,12 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       children: (
         <>
           <Label title="系统时钟" />
-          <div className="desc-label">
-            {emsData.SystemYear ? (
-              `${emsData?.SystemYear}年${emsData?.SystemMonth}月${emsData?.SystemDay}日 星期${
-                weekInfo[emsData?.SystemWeek]
-              } ${emsData?.SystemTime}:${emsData?.SystemDivision}:${emsData?.SystemSeconds}`
-            ) : (
-              <>无</>
-            )}
+          <div className="desc-label mb12">
+            {emsData?.sysTem ? `${emsData.sysTem} ${emsData?.week || ''}` : <>无</>}
           </div>
-          <Label className="mt24" title="状态信息" />
+          <Label title="状态信息" />
           <Detail data={emsData || {}} items={statusItems} column={5} />
-          <Label className="mt24" title="设置信息" />
+          <Label title="设置信息" />
           <Detail data={emsData || {}} items={settingItems} column={5} />
         </>
       ),
@@ -159,7 +138,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
         <>
           <Label title="状态信息" />
           <Detail data={pcsData || {}} items={pcsStatusItems} column={5} />
-          <Label className="mt24" title="测量信息" />
+          <Label title="测量信息" />
           <Detail data={pcsData || {}} items={measureItems} column={5} />
         </>
       ),
