@@ -1,6 +1,8 @@
 import type { DetailItem } from '@/components/Detail';
 import Detail from '@/components/Detail';
-import type { FC } from 'react';
+import Position from '@/pages/screen/components/Position';
+import type { FC, ReactNode } from 'react';
+import { useState } from 'react';
 import { useRequest } from 'umi';
 import Decoration from '../../Decoration';
 import Cell from '../../LayoutCell';
@@ -8,28 +10,47 @@ import { getStationInfo } from './service';
 import styles from './index.module.less';
 import { DEFAULT_DATA, stationInfoConfig } from './config';
 import type { SiteInfoRes } from './type';
-import { defaults } from 'lodash';
+import { defaults, isNumber } from 'lodash';
 
 const StationInfo: FC = () => {
   const { data: rawData = {} as SiteInfoRes } = useRequest(getStationInfo);
   const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
-
   const formatData = () => {
     const { energyStorageCapacityStorage, energyStorageCapacityOutput } = data;
     data.energyStorageCapacity = `${energyStorageCapacityStorage}kWh/${energyStorageCapacityOutput}kW`;
   };
   formatData();
 
+  const [open, setOpen] = useState(false);
+  const onCancel = () => {
+    setOpen(false);
+  };
+  const onOpen = () => {
+    setOpen(true);
+  };
   const gunInfoItem: DetailItem[] = stationInfoConfig.map((item) => {
-    // const Icon = item.icon;
+    const LabelComponent = (
+      <div className={styles.itemLeft}>
+        <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
+        <span>{item.label}</span>
+      </div>
+    );
+
+    const isLocation = item.field === 'address';
+    const isValidCoord = isNumber(data.longitude) && isNumber(data.latitude);
+    const cursor = isLocation ? 'pointer' : 'default';
+    if (isLocation && isValidCoord) {
+      item.format = (value): ReactNode => {
+        return (
+          <span onClick={onOpen} style={{ cursor, color: '#159AFF' }}>
+            {value}
+          </span>
+        );
+      };
+    }
+
     return {
-      label: (
-        <div className={styles.itemLeft}>
-          {/* <Icon className={styles.icon} /> */}
-          <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
-          <span>{item.label}</span>
-        </div>
-      ),
+      label: LabelComponent,
       field: item.field,
       span: 0,
       format: item.format,
@@ -60,6 +81,13 @@ const StationInfo: FC = () => {
           />
         </div>
       </Decoration>
+      <Position
+        id="1"
+        open={open}
+        point={{ lng: data.longitude, lat: data.latitude }}
+        onCancel={onCancel}
+        model="screen"
+      />
     </Cell>
   );
 };

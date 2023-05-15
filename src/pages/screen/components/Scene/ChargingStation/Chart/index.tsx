@@ -20,6 +20,9 @@ const ChargingStation: FC<Props> = ({ chartData }) => {
   //   { year: '1998', value: 32040 },
   //   { year: '1999', value: 33233 },
   // ];
+  if (isEmpty(chartData)) {
+    return <></>;
+  }
 
   const sourceData: {
     time: string;

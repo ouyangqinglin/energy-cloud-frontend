@@ -1,10 +1,10 @@
 import type { CSSProperties, FC } from 'react';
-import { DigitalFlop } from '@jiaminghi/data-view-react';
 import styles from './index.less';
 
 export type DigitalFlipperItemProps = {
   num: string;
   title: string;
+  comma?: boolean;
   unit?: string;
   titleStyle?: CSSProperties;
   numStyle?: CSSProperties;
@@ -25,6 +25,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   numStyle = {},
   titleStyle = {},
   title,
+  comma,
   unit = '元',
   unitStyle = {},
 }) => {
@@ -51,7 +52,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       </div>
       <div className={styles.content}>
         <div className={styles.number} style={numStyle}>
-          {formatter(num)}
+          {comma ? formatter(num) : num}
         </div>
         <span className={styles.unit} style={unitStyle}>
           {unit}

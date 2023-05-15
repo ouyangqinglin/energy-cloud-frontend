@@ -1,4 +1,6 @@
+import { ReactComponent as DemonstrationBackground } from '@/assets/image/screen/demonstration_bg.svg';
 import type { FC, ReactNode } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useState } from 'react';
 import Cell from '../../LayoutCell';
 import { CellList as defaultConfigs } from './config';
@@ -7,10 +9,11 @@ import styles from './index.less';
 import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
 import DeviceDialog from './Dialog';
 import type { CellConfigItem, DeviceInfoType } from './type';
-import { EventType } from './type';
 import { getDeviceList } from './service';
 import { useRequest } from 'umi';
 import { find, isNil } from 'lodash';
+import useResize from './useResize';
+import useDragging from './useDragging';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -19,7 +22,7 @@ const DEFAULT_DEVICE_INFO = {
 };
 
 const Geometry: FC = () => {
-  const { data: deviceList } = useRequest(getDeviceList);
+  const { data: deviceList } = useRequest(getDeviceList, {});
   const ceilsConfig = defaultConfigs;
   const fillDeviceIdForMarkDevices = () => {
     if (deviceList && deviceList.length) {
@@ -35,7 +38,6 @@ const Geometry: FC = () => {
     }
   };
   fillDeviceIdForMarkDevices();
-  console.log(ceilsConfig);
 
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const closeDialog = () => {
@@ -52,46 +54,60 @@ const Geometry: FC = () => {
     }
   };
 
-  const ceils: ReactNode[] = [];
-  ceilsConfig.forEach((cell) => {
-    ceils.push(
-      <Cell
-        key={cell.key}
-        onClick={() => handleGeometry(cell)}
-        // onMouseOut={() => handleGeometry(cell, EventType.MOUSE_OUT)}
-        // onMouseEnter={() => handleGeometry(cell, EventType.MOUSE_ENTER)}
-        {...cell.cellStyle}
-      >
-        <div className={styles.wrapper}>
-          <div className={styles.content}>
-            <div
-              className={styles.ceils}
-              style={{
-                background: `url(${cell.component})`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                ...cell.cellStyle,
-              }}
-            />
-            <div className={styles.circle1} style={{ left: cell.cellStyle.width / 2 }} />
-            <div className={styles.circle2} style={{ left: cell.cellStyle.width / 2 }} />
+  const ceils = useMemo<ReactNode[]>(() => {
+    return ceilsConfig.map((cell) => {
+      const { cellStyle } = cell;
+      cellStyle.left = cellStyle.left - 440;
+      cellStyle.top = cellStyle.top - 280;
+      return (
+        <Cell key={cell.key} onClick={() => handleGeometry(cell)} {...cellStyle}>
+          <div className={styles.wrapper}>
+            <div className={styles.content}>
+              <div
+                className={styles.ceils}
+                style={{
+                  background: `url(${cell.component})`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  ...cellStyle,
+                }}
+              />
+              <div className={styles.circle1} style={{ left: cellStyle.width / 2 }} />
+              <div className={styles.circle2} style={{ left: cellStyle.width / 2 }} />
+            </div>
           </div>
-        </div>
-      </Cell>,
-    );
-  });
+        </Cell>
+      );
+    });
+  }, []);
+
+  const sceneWrapperRef = useRef<HTMLDivElement>(null);
+  const { resize } = useResize(sceneWrapperRef.current);
+  const { offset } = useDragging(sceneWrapperRef.current, resize);
+  const sceneWrapper = {
+    transform: `scale(${resize})`,
+  };
 
   return (
-    <div>
+    <Cell
+      ref={sceneWrapperRef}
+      width={1040}
+      height={667}
+      left={440}
+      top={280}
+      zIndex={9999}
+      cursor="default"
+      style={sceneWrapper}
+    >
+      <DemonstrationBackground width={1040} height={667} />
       <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
-      <Cell width={684} height={332} left={640} top={372}>
+      <Cell width={684} height={332} left={200} top={92}>
         <EnergyFlowLine />
       </Cell>
       <EnergyFlowAnimation />
-      {/* <EnergyFlowAnchor /> */}
       {ceils}
-    </div>
+    </Cell>
   );
 };
 

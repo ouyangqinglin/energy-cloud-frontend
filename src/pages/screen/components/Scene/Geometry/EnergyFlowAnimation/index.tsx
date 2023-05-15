@@ -84,7 +84,7 @@ const EnergyFlow: FC = () => {
   }, []);
 
   return (
-    <Cell width={684} height={332} left={640} top={372}>
+    <Cell width={684} height={332} left={200} top={92}>
       {paths.map((p) => {
         let styleConfig = {
           animationDelay: `-${p.delay}s`,

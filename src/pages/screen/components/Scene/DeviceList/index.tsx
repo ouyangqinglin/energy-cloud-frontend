@@ -56,6 +56,7 @@ const DeviceList: FC = () => {
     const res = combineIntoBodyData(deviceList);
     bodyData = res;
   }
+  console.log(bodyData);
 
   const renderHeader = () => {
     const headerCeils: ReactNode[] = [];
@@ -69,7 +70,6 @@ const DeviceList: FC = () => {
     return headerCeils;
   };
   const renderBody = () => {
-    // console.log(bodyData);
     const bodyCeils: ReactNode[] = [];
     flatten(bodyData).forEach((item) => {
       const renderGridChild: ReactNode[] = [];

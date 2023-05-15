@@ -10,9 +10,9 @@ import EnergyStorageGridConnectedCabinet from '@/assets/image/screen/scenes/储�
 import HUAWEIInverter from '@/assets/image/screen/scenes/img_华为逆变器-1_def@2x.png';
 import PowerExchangeCabinet from '@/assets/image/screen/scenes/img_换电柜_def@2x.png';
 import Transformer from '@/assets/image/screen/scenes/变压器@2x.png';
-import EnergyFlow from '@/assets/image/screen/scenes/能流图@2x.png';
 import { DeviceType } from './Dialog';
-import { CellConfigItem, DeviceMark } from './type';
+import type { CellConfigItem } from './type';
+import { DeviceMark } from './type';
 
 export const CellList: CellConfigItem[] = [
   {

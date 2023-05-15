@@ -1,7 +1,7 @@
-import { isNumber } from 'lodash';
+import { isNaN } from 'lodash';
 
 export function keepAnyDecimal(value: any, defaultValue: any = 0, decimal = 2) {
-  if (!isNumber(Number(value))) {
+  if (isNaN(Number(value))) {
     return defaultValue;
   }
   return Math.floor(Number(value) * Math.pow(10, decimal)) / Math.pow(10, decimal);

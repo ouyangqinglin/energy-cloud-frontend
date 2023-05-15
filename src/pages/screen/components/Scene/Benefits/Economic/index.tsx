@@ -11,18 +11,22 @@ const BenefitsEconomic: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
       title: '今日收益',
+      comma: true,
       num: props.todayEconomicPerformance,
     },
     {
       title: '本月收益',
+      comma: true,
       num: props.monthEconomicPerformance,
     },
     {
       title: '今年收益',
+      comma: true,
       num: props.yearEconomicPerformance,
     },
     {
       title: '累计收益',
+      comma: true,
       num: props.cumulativeEconomicPerformance,
     },
   ];

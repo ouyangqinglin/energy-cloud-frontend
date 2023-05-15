@@ -8,6 +8,10 @@ type Props = {
   chartData: PVChartRes;
 };
 const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
+  if (isEmpty(chartData)) {
+    return <></>;
+  }
+
   // const data = [
   //   { year: '1991', value: 15468, field: 'powerGeneration' },
   //   { year: '1991', value: 32040, field: 'radiancy' },

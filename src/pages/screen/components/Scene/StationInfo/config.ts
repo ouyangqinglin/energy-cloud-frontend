@@ -5,8 +5,13 @@ import EnergyStorageCapacity from '@/assets/image/screen/siteInfo/energy_storage
 import Location from '@/assets/image/screen/siteInfo/location.png';
 import PhotovoltaicPanel from '@/assets/image/screen/siteInfo/photovoltaic_panel.png';
 import TransformerCapacity from '@/assets/image/screen/siteInfo/transformer_capacity.png';
+import { DetailItem } from '@/components/Detail';
 
-export const stationInfoConfig = [
+type StationInfo = {
+  icon: any;
+} & DetailItem;
+
+export const stationInfoConfig: StationInfo[] = [
   {
     icon: SiteName,
     label: '站点名称：',

@@ -50,7 +50,7 @@ const AlarmList: FC = () => {
     //   },
     //   type: 2,
     // };
-    console.log('ws: ', mockData);
+    // console.log('ws: ', mockData);
     if (mockData.type !== 2) {
       return;
     }
