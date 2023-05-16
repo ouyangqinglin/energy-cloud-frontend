@@ -41,7 +41,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
         merge(animation, { Children: { formatMoney: true } });
       }
 
-      console.log(animation);
+      // console.log(animation);
       return <TweenOne animation={animation} />;
     }
     return <span>{'--'}</span>;

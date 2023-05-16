@@ -12,7 +12,6 @@ import MyHeader from '@/components/header/MyHeader';
 import styles from './index.less';
 
 const StationLayout: React.FC = (props) => {
-  console.log(props);
   return (
     <Layout className={styles.myLayout}>
       <Layout.Header className={styles.header}>

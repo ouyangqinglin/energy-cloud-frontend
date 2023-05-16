@@ -52,7 +52,7 @@ const EnergyStorage: FC = () => {
         );
       }
     }
-    console.log(rawData);
+    // console.log(rawData);
 
     return rawData;
   }, [statisticsData]);

@@ -57,7 +57,7 @@ const DeviceList: FC = () => {
     const res = combineIntoBodyData(deviceList);
     bodyData = res.reverse();
   }
-  console.log(bodyData);
+  // console.log(bodyData);
 
   const renderHeader = () => {
     const headerCeils: ReactNode[] = [];
