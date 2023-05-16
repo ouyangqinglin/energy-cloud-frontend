@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-13 10:25:15
+ * @LastEditTime: 2023-05-16 16:19:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -68,7 +68,8 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
     { label: '子系统', field: 'subsystemName' },
     { label: '录入时间', field: 'createTime' },
     { label: '激活时间', field: 'activeTime' },
-    { label: '最近上线时间', field: 'updateTime' },
+    { label: '最近上线时间', field: 'sessionStartTime', show: data?.status !== 0 },
+    { label: '最近离线时间', field: 'offlineTime', show: data?.status === 0 },
     { label: '录入人', field: 'updateUserName' },
     { label: '在线时长', field: 'onlineTime' },
     { label: '所属站点', field: 'siteName' },

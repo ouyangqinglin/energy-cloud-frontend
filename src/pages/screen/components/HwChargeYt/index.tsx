@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-12 14:08:57
+ * @LastEditTime: 2023-05-16 15:30:24
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwChargeYt\index.tsx
  */
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
@@ -13,8 +13,10 @@ import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
+import Label from '@/components/Detail/label';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
+import { getAlarms, getLogs } from '@/services/equipment';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
@@ -40,7 +42,9 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
+          <Label title="状态信息" />
           <Detail data={equipmentData || {}} items={statusItems} column={4} />
+          <Label title="运行信息" />
           <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
@@ -53,12 +57,12 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <AlarmTable />,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <LogTable />,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 

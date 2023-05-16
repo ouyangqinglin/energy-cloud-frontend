@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 11:33:11
- * @LastEditTime: 2023-05-06 15:49:21
+ * @LastEditTime: 2023-05-16 16:51:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
 import React from 'react';
 import { Descriptions } from 'antd';
+import { isEmpty } from '@/utils';
 
 export type DetailItem = {
   label: React.ReactNode;
@@ -16,6 +17,7 @@ export type DetailItem = {
   span?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
+  show?: boolean;
 };
 
 export type DetailProps = {
@@ -39,22 +41,27 @@ const Detail: React.FC<DetailProps> = (props) => {
     format,
   } = props;
 
-  const content = items.map((item) => {
-    return (
-      <Descriptions.Item
-        label={item.label}
-        labelStyle={item.labelStyle}
-        contentStyle={contentStyle}
-        span={item.span || 1}
-        key={item.field}
-      >
-        {item.format
-          ? item.format(data[item.field], data)
-          : format
-          ? format(data[item.field], data)
-          : data[item.field]}
-      </Descriptions.Item>
-    );
+  const content: React.ReactNode[] = [];
+  items.forEach((item) => {
+    if (item.show !== false) {
+      content.push(
+        <Descriptions.Item
+          label={item.label}
+          labelStyle={item.labelStyle}
+          contentStyle={contentStyle}
+          span={item.span || 1}
+          key={item.field}
+        >
+          {!isEmpty(data[item.field])
+            ? item.format
+              ? item.format(data[item.field], data)
+              : format
+              ? format(data[item.field], data)
+              : data[item.field]
+            : '--'}
+        </Descriptions.Item>,
+      );
+    }
   });
 
   return (

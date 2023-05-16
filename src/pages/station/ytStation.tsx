@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-15 14:35:52
+ * @LastEditTime: 2023-05-16 11:54:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -182,7 +182,7 @@ const YtStation: React.FC = (props) => {
         onCancel={switchHwChargeYtModal}
         model="screen"
       />
-      <YtCharge id={chargeId} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
+      <YtCharge id={'10013'} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
       <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
       <ElectricTerminal
         id={chargeId}

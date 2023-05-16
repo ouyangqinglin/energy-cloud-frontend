@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-13 16:07:01
+ * @LastEditTime: 2023-05-16 16:53:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
@@ -33,11 +33,11 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
   const { params, request } = props;
   const actionRef = useRef<ActionType>();
   const Component: any = DatePicker.RangePicker;
-  const dateFormat = 'YYYY/MM/DD';
+  const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
     ...(params || {}),
-    startTime: '',
-    endTime: '',
+    startTime: moment().subtract(1, 'day').format(dateFormat),
+    endTime: moment().format(dateFormat),
   };
 
   const columns: ProColumns<LogType>[] = [
@@ -48,25 +48,19 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
       ellipsis: true,
     },
     {
+      title: '日志内容',
+      dataIndex: 'serviceName',
+      width: 100,
+      ellipsis: true,
+    },
+    {
       title: '操作用户',
       dataIndex: 'createByName',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '目标参数',
-      dataIndex: 'serviceName',
-      width: 100,
-      ellipsis: true,
-    },
-    {
-      title: '设定值',
-      dataIndex: 'input',
-      width: 100,
-      ellipsis: true,
-    },
-    {
-      title: '操作时间',
+      title: '发生时间',
       dataIndex: 'createTime',
       width: 200,
       ellipsis: true,
@@ -86,6 +80,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
       format={dateFormat}
       defaultValue={[moment().subtract(1, 'day'), moment()]}
       onChange={onQueryChange}
+      getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
       ranges={{
         近24小时: [moment().subtract(1, 'day'), moment()],
         最近7天: [moment().subtract(6, 'day'), moment()],

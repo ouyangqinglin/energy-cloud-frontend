@@ -7,35 +7,23 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricTerminal\index.tsx
  */
 
-import React, { useEffect } from 'react';
-import { Modal, Tabs } from 'antd';
-import { useRequest } from 'umi';
+import React from 'react';
+import { Tabs } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
-import { getDeviceInfo } from '@/components/Dialog/service';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
 import type { fieldType } from '@/utils/dictionary';
 import { valueFormat } from '@/utils';
+import Empty from '@/components/Empty';
+import AlarmTable from '@/components/AlarmTable';
+import LogTable from '@/components/LogTable';
+import { getAlarms, getLogs } from '@/services/equipment';
 
 const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const {
-    data = {},
-    loading,
-    run,
-  } = useRequest(getDeviceInfo, {
-    manual: true,
-  });
-  data.img = data.img || ImgCharge;
-
-  useEffect(() => {
-    if (open) {
-      run(id);
-    }
-  }, [open]);
+  const data: any = {};
 
   const runItems = (data?.run?.electricTerminal?.field || []).map((item: fieldType) => {
     return { ...item, format: valueFormat };
@@ -55,17 +43,17 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <></>,
+      children: <Empty />,
     },
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <></>,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <></>,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 
@@ -76,7 +64,6 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        loading={loading}
         footer={null}
         destroyOnClose
       >

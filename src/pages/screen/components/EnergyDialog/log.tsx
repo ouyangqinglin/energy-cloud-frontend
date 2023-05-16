@@ -9,7 +9,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import LogTable from '@/components/LogTable';
-import { getLogs } from '@/components/Dialog/service';
+import { getLogs } from '@/services/equipment';
 import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type LogProps = {

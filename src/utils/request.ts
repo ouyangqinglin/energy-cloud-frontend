@@ -62,8 +62,6 @@ const request = createClient();
 const checkRegion = 5 * 60 * 1000;
 
 request.interceptors.request.use((url, options) => {
-  // console.log('-------------------------')
-  console.log('request:', url);
   const headers = options.headers ? options.headers : [];
   if (headers['Authorization'] === '' || headers['Authorization'] == null) {
     const expireTime = getTokenExpireTime();
@@ -125,7 +123,7 @@ request.interceptors.response.use(async (response: Response) => {
   return response;
 });
 
-export const get = <R>(
+export const get = <R = false>(
   url: string,
   params?: object | URLSearchParams,
   options?: RequestOptionsInit,
@@ -136,7 +134,7 @@ export const get = <R>(
         options,
         ...{ params },
       };
-  return request.get<{ data: R }>(url, composeOptions);
+  return request.get<R>(url, composeOptions);
 };
 
 export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
@@ -146,7 +144,7 @@ export const post = <R = false>(url: string, params?: any, options?: RequestOpti
         options,
         ...{ params },
       };
-  return request.post<{ data: R }>(url, composeOptions);
+  return request.post<R>(url, composeOptions);
 };
 
 export default request;

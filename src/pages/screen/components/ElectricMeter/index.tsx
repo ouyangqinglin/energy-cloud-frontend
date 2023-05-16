@@ -7,20 +7,20 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricMeter\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
-import { Modal, Tabs, Button } from 'antd';
-import { useRequest } from 'umi';
+import React, { useState } from 'react';
+import { Tabs, Button } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
-import { getDeviceInfo } from '@/components/Dialog/service';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
 import Community from './community';
 import type { DetailItem } from '@/components/Detail';
 import { voltageFormat, currentFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import Empty from '@/components/Empty';
+import AlarmTable from '@/components/AlarmTable';
+import LogTable from '@/components/LogTable';
+import { getAlarms, getLogs } from '@/services/equipment';
 
 const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -78,12 +78,12 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <Empty />,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <Empty />,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 

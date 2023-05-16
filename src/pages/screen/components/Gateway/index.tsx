@@ -1,37 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Tabs, Button } from 'antd';
-import { useRequest } from 'umi';
+import React, { useState } from 'react';
+import { Tabs, Button } from 'antd';
 import Dialog from '@/components/Dialog';
-import { getDeviceInfo } from '@/components/Dialog/service';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import Detail from '@/components/Detail';
 import type { fieldType } from '@/utils/dictionary';
 import { valueFormat } from '@/utils';
 import Community from './community';
+import AlarmTable from '@/components/AlarmTable';
+import LogTable from '@/components/LogTable';
+import { getAlarms, getLogs } from '@/services/equipment';
+import Empty from '@/components/Empty';
 
 const Gateway: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [openSettingModal, setOpenSettingModal] = useState(false);
-  const {
-    data = {},
-    loading,
-    run,
-  } = useRequest(getDeviceInfo, {
-    manual: true,
-  });
-  data.img = data.img || ImgCharge;
+  const data: any = {};
 
   const onSettingClick = () => {
     setOpenSettingModal(!openSettingModal);
   };
-
-  useEffect(() => {
-    if (open) {
-      run(id);
-    }
-  }, [open]);
 
   const runItems = (data?.run?.gateway?.field || []).map((item: fieldType) => {
     return { ...item, format: valueFormat };
@@ -50,17 +38,17 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <></>,
+      children: <Empty />,
     },
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <></>,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <></>,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 
@@ -71,7 +59,6 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
         title="设备详情"
         open={open}
         onCancel={onCancel}
-        loading={loading}
         footer={null}
         destroyOnClose
       >

@@ -17,6 +17,7 @@ import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
+import { getAlarms, getLogs } from '@/services/equipment';
 
 const Cabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -26,7 +27,7 @@ const Cabinet: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: <></>,
+      children: <Empty />,
     },
     {
       label: '远程设置',
@@ -36,12 +37,12 @@ const Cabinet: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <AlarmTable />,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <LogTable />,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 

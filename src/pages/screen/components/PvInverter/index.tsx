@@ -2,20 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-15 08:53:36
+ * @LastEditTime: 2023-05-16 16:32:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs, Table, Row, Col } from 'antd';
+import { Tabs, Table, Row, Col } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import { getAlarms, getLogs } from '@/components/Dialog/service';
+import { getAlarms, getLogs } from '@/services/equipment';
 import { PvInverterType } from './data.d';
 import Label from '@/components/Detail/label';
 import Detail from '@/components/Detail';
@@ -35,6 +35,7 @@ import {
   timeFormat,
 } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import { isEmpty } from '@/utils';
 
 export type PvInverterProps = BusinessDialogProps & {
   loopNum: number;
@@ -42,8 +43,21 @@ export type PvInverterProps = BusinessDialogProps & {
 
 const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { id, open, onCancel, model, loopNum } = props;
-  const [tableData, setTableData] = useState<PvInverterType[]>([]); //UUpv15 Ipv1
+  const [tableData, setTableData] = useState<PvInverterType[]>([]); //Upv15 Ipv1
   const equipmentData = useSubscribe(id, open);
+
+  useEffect(() => {
+    const initTableData: PvInverterType[] = [];
+    for (let i = 0; i < loopNum; i++) {
+      initTableData.push({
+        id: i + 1,
+        loop: 'PV' + (i + 1),
+        voltage: '',
+        current: '',
+      });
+    }
+    setTableData(initTableData);
+  }, [loopNum]);
 
   const runItems: DetailItem[] = [
     { label: '电网A相电压', field: 'Ua', format: voltageFormat },
@@ -78,14 +92,16 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       dataIndex: 'voltage',
       key: 'voltage',
       align: 'center',
-      render: (_, record) => equipmentData?.['UUpv' + record.id],
+      render: (_, record) =>
+        isEmpty(equipmentData?.['Upv' + record.id]) ? '--' : equipmentData?.['Upv' + record.id],
     },
     {
       title: '电流(A)',
       dataIndex: 'current',
       key: 'current',
       align: 'center',
-      render: (_, record) => equipmentData?.['Ipv' + record.id],
+      render: (_, record) =>
+        isEmpty(equipmentData?.['Ipv' + record.id]) ? '--' : equipmentData?.['Ipv' + record.id],
     },
   ];
 
@@ -130,19 +146,6 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
-
-  useEffect(() => {
-    const initTableData: PvInverterType[] = [];
-    for (let i = 0; i < loopNum; i++) {
-      initTableData.push({
-        id: i + 1,
-        loop: 'PV' + (i + 1),
-        voltage: '',
-        current: '',
-      });
-    }
-    setTableData(initTableData);
-  }, [loopNum]);
 
   return (
     <>

@@ -90,6 +90,9 @@
   .ant-descriptions {
     margin-bottom: 12px;
   }
+  .ant-pro-table-list-toolbar-container {
+    padding-top: 0;
+  }
 }
 
 .ant-modal-wrap.dialog-screen {
@@ -550,5 +553,35 @@
     background-color: #222731;
     border-radius: 8px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  .ant-card-contain-grid {
+    overflow: hidden;
+    background: none;
+    border: 1px solid #064066;
+    border-radius: 8px;
+    .ant-card-grid {
+      box-shadow: 1px 0 0 0 #064066, 0 1px 0 0 #064066, 1px 1px 0 0 #064066, 1px 0 0 0 #064066 inset,
+        0 1px 0 0 #064066 inset;
+    }
+    .card-grid-title {
+      color: white;
+      font-size: 12px;
+    }
+  }
+  .ant-pro-table-list-toolbar-container {
+    padding-top: 0;
+  }
+  .ant-picker-date-range-wrapper {
+    .ant-picker-panel-container {
+      background: #04253e;
+      .ant-picker-cell-in-view,
+      .ant-picker-content th,
+      .ant-picker-header-view button {
+        color: white;
+      }
+      .ant-picker-cell-in-view.ant-picker-cell-in-range {
+        color: black !important;
+      }
+    }
   }
 }
