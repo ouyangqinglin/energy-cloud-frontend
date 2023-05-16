@@ -27,7 +27,7 @@ const ChargingStation: FC = () => {
   };
 
   return (
-    <Cell width={400} height={284} left={1496} top={720}>
+    <Cell width={400} height={284} left={1496} top={728}>
       <Decoration title="充电桩">
         <div className={styles.contentWrapper}>
           <Detail
