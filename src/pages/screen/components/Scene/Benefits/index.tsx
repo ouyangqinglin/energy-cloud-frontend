@@ -3,14 +3,13 @@ import BenefitsEconomic from './Economic';
 import { useRequest } from 'umi';
 import { getBenefits } from './service';
 import BenefitSocial from './Social';
-import { DEFAULT_DATA } from './config';
-import { defaults, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import type { BenefitsRes } from './type';
 
 const Benefit: FC = () => {
   const { data: resData } = useRequest(getBenefits);
   const formatData = (res: BenefitsRes | undefined) => {
-    const transformData = res ?? {};
+    const transformData = res ?? ({} as BenefitsRes);
     if (!res) {
       return transformData;
     }
@@ -24,7 +23,7 @@ const Benefit: FC = () => {
     });
     return transformData;
   };
-  const data: BenefitsRes = defaults(formatData(resData), DEFAULT_DATA);
+  const data: BenefitsRes = formatData(resData);
 
   return (
     <>

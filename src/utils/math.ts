@@ -1,10 +1,11 @@
 import { isNaN } from 'lodash';
 
 export function keepAnyDecimal(value: any, defaultValue: any = 0, decimal = 2) {
-  if (isNaN(Number(value))) {
+  const num = Number(value);
+  if (isNaN(num)) {
     return defaultValue;
   }
-  return Math.floor(Number(value) * Math.pow(10, decimal)) / Math.pow(10, decimal);
+  return Math.floor(num * Math.pow(10, decimal)) / Math.pow(10, decimal);
 }
 
 export function keepTwoDecimalWithUnit(value: any, unit?: string) {

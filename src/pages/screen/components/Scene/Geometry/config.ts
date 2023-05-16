@@ -116,8 +116,8 @@ export const CellList: CellConfigItem[] = [
     cellStyle: {
       width: 39,
       height: 56,
-      left: 874,
-      top: 416,
+      left: 870,
+      top: 420,
     },
     component: ChargingStack,
     default: ChargingStack,
@@ -130,8 +130,8 @@ export const CellList: CellConfigItem[] = [
     cellStyle: {
       width: 70,
       height: 81,
-      left: 921,
-      top: 366,
+      left: 919,
+      top: 368,
     },
     component: PowerDistributionRoom,
     default: PowerDistributionRoom,
@@ -158,8 +158,8 @@ export const CellList: CellConfigItem[] = [
     cellStyle: {
       width: 24,
       height: 50,
-      left: 1102,
-      top: 435,
+      left: 1100,
+      top: 440,
     },
     component: EnergyStorageGridConnectedCabinet,
     default: EnergyStorageGridConnectedCabinet,
@@ -173,7 +173,7 @@ export const CellList: CellConfigItem[] = [
       width: 24,
       height: 50,
       left: 1152,
-      top: 464,
+      top: 469,
     },
     component: EnergyStorageGridConnectedCabinet,
     default: EnergyStorageGridConnectedCabinet,
@@ -210,6 +210,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'powerExchangeCabinet',
+    mark: DeviceMark.POWER_EXCHANGE_BOX,
     deviceId: 'powerExchangeCabinet',
     deviceType: DeviceType.POWER_EXCHANGE_BOX,
     cellStyle: {

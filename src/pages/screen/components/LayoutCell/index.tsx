@@ -1,3 +1,4 @@
+import QueueAnim from 'rc-queue-anim';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import React from 'react';
 
@@ -42,15 +43,18 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseOut={onMouseOut}
-        style={cellStyle}
-      >
-        {children}
-      </div>
+      <QueueAnim type={['top', 'bottom']} duration={1500} ease="easeInOutQuart">
+        <div
+          key="animation"
+          ref={ref}
+          onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseOut={onMouseOut}
+          style={cellStyle}
+        >
+          {children}
+        </div>
+      </QueueAnim>
     );
   },
 );

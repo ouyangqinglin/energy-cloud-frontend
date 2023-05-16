@@ -7,6 +7,7 @@ import { DEFAULT_DATA } from './config';
 import styles from './index.module.less';
 import type { DeviceListRes } from './type';
 import { getDeviceList } from './service';
+import QueueAnim from 'rc-queue-anim';
 
 type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
 type BodyDataArray = [string, string[], string[]][];
@@ -56,7 +57,7 @@ const DeviceList: FC = () => {
     const res = combineIntoBodyData(deviceList);
     bodyData = res.reverse();
   }
-  console.log(bodyData);
+  // console.log(bodyData);
 
   const renderHeader = () => {
     const headerCeils: ReactNode[] = [];
@@ -90,10 +91,18 @@ const DeviceList: FC = () => {
   return (
     <Cell cursor="default" width={400} height={338} left={24} top={402}>
       <Decoration title="设备列表">
-        <div className={styles.table}>
+        {/* <div key="animation" className={styles.table}> */}
+        <QueueAnim
+          component={'div'}
+          className={styles.table}
+          delay={500}
+          type={['top', 'bottom']}
+          ease="easeInOutQuart"
+        >
           {renderHeader()}
           {renderBody()}
-        </div>
+        </QueueAnim>
+        {/* </div> */}
       </Decoration>
     </Cell>
   );

@@ -19,9 +19,3 @@ export const gunInfoItem: DetailItem[] = [
     format: (value) => keepTwoDecimalWithUnit(value, '元'),
   },
 ];
-
-export const DEFAULT_STATISTICS = {
-  chargingPower: '--',
-  chargingCapacity: '--',
-  profit: '--',
-};
