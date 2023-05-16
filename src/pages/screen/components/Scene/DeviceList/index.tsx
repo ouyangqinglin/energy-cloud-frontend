@@ -12,7 +12,7 @@ type BodyDataMap = Map<number, { name: string; children: DeviceListRes }>;
 type BodyDataArray = [string, string[], string[]][];
 
 const DeviceList: FC = () => {
-  let bodyData = DEFAULT_DATA.bodyData;
+  let bodyData: BodyDataArray;
 
   const { data: deviceList } = useRequest(getDeviceList);
   const combineIntoBodyData = (devices: DeviceListRes) => {
@@ -54,7 +54,7 @@ const DeviceList: FC = () => {
   };
   if (deviceList) {
     const res = combineIntoBodyData(deviceList);
-    bodyData = res;
+    bodyData = res.reverse();
   }
   console.log(bodyData);
 
@@ -88,7 +88,7 @@ const DeviceList: FC = () => {
   };
 
   return (
-    <Cell cursor="default" width={400} height={300} left={24} top={432}>
+    <Cell cursor="default" width={400} height={338} left={24} top={402}>
       <Decoration title="设备列表">
         <div className={styles.table}>
           {renderHeader()}

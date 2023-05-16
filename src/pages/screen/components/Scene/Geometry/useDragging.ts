@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useKeyPress } from 'ahooks';
 
-const useDragging = (target?: HTMLDialogElement, resize: number = 1) => {
+const useDragging = (target: HTMLDialogElement | Window | null = window, resize: number = 1) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [pressSpace, setPressSpace] = useState(false);
 
@@ -32,12 +32,12 @@ const useDragging = (target?: HTMLDialogElement, resize: number = 1) => {
     shouldMove: false,
   });
 
-  const onMouseDown = useCallback((event: MouseEvent) => {
+  const onMouseDown = (event: MouseEvent) => {
     const { current } = offsetCache;
     current.clickDown = true;
     current.x = event.clientX;
     current.y = event.clientY;
-  }, []);
+  };
   const onMouseUp = useCallback(() => {
     const { current } = offsetCache;
     current.clickDown = false;

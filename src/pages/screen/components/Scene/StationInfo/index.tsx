@@ -58,7 +58,7 @@ const StationInfo: FC = () => {
   });
 
   return (
-    <Cell cursor="default" width={400} height={354} left={24} top={58}>
+    <Cell cursor="default" width={400} height={320} left={24} top={58}>
       <Decoration title="站点信息概览">
         <div className={styles.contentWrapper}>
           <Detail
@@ -68,15 +68,15 @@ const StationInfo: FC = () => {
             column={1}
             labelStyle={{
               color: '#A7B7CA',
-              height: '25px',
-              lineHeight: '25px',
-              fontSize: '1.11vh',
+              height: '18px',
+              lineHeight: '18px',
+              fontSize: '14px',
             }}
             contentStyle={{
               color: 'white',
-              height: '25px',
-              lineHeight: '25px',
-              fontSize: '1.11vh',
+              height: '18px',
+              lineHeight: '18px',
+              fontSize: '14px',
             }}
           />
         </div>

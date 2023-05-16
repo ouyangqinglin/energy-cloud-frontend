@@ -47,7 +47,7 @@ export const enum DeviceType {
 export const keyToType = {
   [DeviceType.ENERGY_STORAGE_BOX]: 'energyStorageBox',
   [DeviceType.PV_INVERTER]: 'pvInverter',
-  [DeviceType.HW_CHARGING_STACK]: 'pvInverter',
+  [DeviceType.HW_CHARGING_STACK]: 'hwChargingStack',
   [DeviceType.HW_CHARGING_TERMINAL]: 'hwChargingTerminal',
   [DeviceType.YT_CHARGING_TERMINAL]: 'ytChargingTerminal',
   [DeviceType.DC_PILE]: 'dcPile',
@@ -70,7 +70,7 @@ const DeviceDialog: React.FC<Props> = (props) => {
   }
 
   const restProps = {
-    id: props.deviceId,
+    id: props.deviceId as string,
     model: 'screen',
     onCancel: close,
     loopNum: props.loopNum as number,

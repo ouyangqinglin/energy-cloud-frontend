@@ -81,7 +81,7 @@ const AlarmList: FC = () => {
   // };
 
   return (
-    <Cell cursor="default" width={400} height={240} left={24} top={752}>
+    <Cell cursor="default" width={400} height={240} left={24} top={764}>
       <Decoration title="实时告警">
         <div className={styles.tableWrapper}>
           <ScrollBoard config={config} style={{ width: '384px', height: '184px' }} />
