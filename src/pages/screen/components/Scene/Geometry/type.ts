@@ -31,6 +31,7 @@ export const enum DeviceMark {
   PV_INVERTER_1,
   PV_INVERTER_2,
   DC_PILE_120KW,
+  POWER_EXCHANGE_BOX,
 }
 
 export interface CellConfigItem {

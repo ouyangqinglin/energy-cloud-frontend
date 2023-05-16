@@ -10,14 +10,17 @@ import Photovoltaic from './Photovoltaic';
 import EnergyStorage from './EnergyStorage';
 import Weather from '../Weather';
 import Benefit from './Benefits';
+import QueueAnim from 'rc-queue-anim';
 
 const Scene: FC = () => {
   return (
     <>
+      <QueueAnim duration={1000} delay={30} type={['left', 'right']} ease="easeInOutQuart">
+        <Cell key="animation2" cursor="default" width={400} left={24} top={20}>
+          <Weather id={'1'} />
+        </Cell>
+      </QueueAnim>
       <Title />
-      <Cell cursor="default" width={400} left={24} top={20}>
-        <Weather id={'1'} />
-      </Cell>
       <DeviceList />
       <AlarmList />
       <Benefit />

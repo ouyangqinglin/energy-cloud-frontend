@@ -7,7 +7,7 @@ import Detail from '@/components/Detail';
 import { getChargingStation } from './service';
 import ChargingStationChart from './Chart';
 import type { ChargingStationRes } from './type';
-import { DEFAULT_STATISTICS, gunInfoItem } from './config';
+import { gunInfoItem } from './config';
 import { defaults } from 'lodash';
 
 const ChargingStation: FC = () => {
@@ -16,7 +16,7 @@ const ChargingStation: FC = () => {
   const formatterData = () => {
     const processedData: ChargingStationRes & {
       gunStatus?: ReactNode | string;
-    } = defaults(data, DEFAULT_STATISTICS);
+    } = data;
     const { chargingGunStatus: { freeCount = '--', occupyCount = '--' } = {} } = processedData;
     processedData.gunStatus = (
       <>

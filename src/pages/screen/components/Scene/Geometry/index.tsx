@@ -84,7 +84,7 @@ const Geometry: FC = () => {
 
   const sceneWrapperRef = useRef<HTMLDivElement>(null);
   const { resize } = useResize(sceneWrapperRef.current);
-  const { offset } = useDragging(sceneWrapperRef.current, resize);
+  // const { offset } = useDragging(sceneWrapperRef.current, resize);
   const sceneWrapper = {
     transform: `scale(${resize})`,
   };

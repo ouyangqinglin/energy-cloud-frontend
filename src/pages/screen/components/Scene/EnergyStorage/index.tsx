@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useEffect } from 'react';
 import styles from './index.module.less';
 import { useRequest } from 'umi';
@@ -6,7 +6,6 @@ import Cell from '../../LayoutCell';
 import Decoration from '../../Decoration';
 import {
   getChargeAndDischargePower,
-  getEnergyStorage,
   getEnergyStorageChart,
   getEnergyStorageStatistic,
 } from './service';
@@ -17,14 +16,14 @@ import TimeButtonGroup, { TimeType } from '../../TimeButtonGroup';
 import Detail from '@/components/Detail';
 import {
   DEFAULT_REQUEST_INTERVAL,
-  DEFAULT_STATISTICS,
   DEFAULT_STATISTICS_REQUEST_INTERVAL,
   digitalFlipperItemConfig,
   gunInfoItem,
   RealtimeStatusMap,
 } from './config';
-import { defaults, isNumber } from 'lodash';
+import { defaults, isNaN } from 'lodash';
 import type { RealtimeStatusEnum, StatisticsRes } from './type';
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 
 const EnergyStorage: FC = () => {
   const { data: chartData } = useRequest(getEnergyStorageChart, {
@@ -42,34 +41,33 @@ const EnergyStorage: FC = () => {
     },
   );
 
-  const formatterData = () => {
+  const processedData = useMemo(() => {
     const { statistics = {} } = statisticsData ?? {};
-    const processedData: Record<string, any> = defaults(statistics, DEFAULT_STATISTICS);
-    if (!Number.isNaN(processedData?.realTimeStatus)) {
-      const realtimeConfig = RealtimeStatusMap[processedData?.realTimeStatus as RealtimeStatusEnum];
+    const rawData: Record<string, any> = statistics;
+    if (!isNaN(rawData?.realTimeStatus)) {
+      const realtimeConfig = RealtimeStatusMap[rawData?.realTimeStatus as RealtimeStatusEnum];
       if (realtimeConfig) {
-        processedData.realtimeStatus = (
+        rawData.realtimeStatus = (
           <span style={{ color: realtimeConfig.color }}>{realtimeConfig.text}</span>
         );
       }
     }
-    return processedData;
-  };
+    console.log(rawData);
 
-  const formatChargeData = (value: number | undefined) => {
-    return isNumber(value) ? value.toFixed(2) : '--';
-  };
+    return rawData;
+  }, [statisticsData]);
+
   const config: DigitalFlipperItemProps[] = [
     {
       ...digitalFlipperItemConfig.charging,
       ...{
-        num: formatChargeData(chargeData?.ACC),
+        num: keepTwoDecimalWithUnit(chargeData?.ACC),
       },
     },
     {
       ...digitalFlipperItemConfig.discharging,
       ...{
-        num: formatChargeData(chargeData?.ADC),
+        num: keepTwoDecimalWithUnit(chargeData?.ADC),
       },
     },
   ];
@@ -83,7 +81,7 @@ const EnergyStorage: FC = () => {
         <div className={styles.contentWrapper}>
           <Detail
             items={gunInfoItem}
-            data={formatterData()}
+            data={processedData}
             column={2}
             labelStyle={{
               color: '#A7B7CA',

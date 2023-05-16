@@ -3,7 +3,7 @@ import type { TimeType } from '../../TimeButtonGroup';
 import type { ChargeAndDisChargeRes, EnergyStorageChartRes, StatisticsRes } from './type';
 
 export const getEnergyStorageStatistic = () => {
-  return get<StatisticsRes>(`/oss/es/statistic`, { siteId: 1 });
+  return get<StatisticsRes>(`/oss/es/statistic1`, { siteId: 1 });
 };
 
 export const getChargeAndDischargePower = (type: TimeType) => {

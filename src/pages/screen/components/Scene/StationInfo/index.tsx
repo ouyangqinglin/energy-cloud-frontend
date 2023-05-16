@@ -11,8 +11,9 @@ import styles from './index.module.less';
 import { DEFAULT_DATA, stationInfoConfig } from './config';
 import type { SiteInfoRes } from './type';
 import { defaults, isNumber } from 'lodash';
+import React from 'react';
 
-const StationInfo: FC = () => {
+const StationInfo = React.forwardRef(() => {
   const { data: rawData = {} as SiteInfoRes } = useRequest(getStationInfo);
   const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
   const formatData = () => {
@@ -90,5 +91,5 @@ const StationInfo: FC = () => {
       />
     </Cell>
   );
-};
+});
 export default StationInfo;

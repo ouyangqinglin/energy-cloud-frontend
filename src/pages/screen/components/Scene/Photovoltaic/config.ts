@@ -9,6 +9,7 @@ export const digitalFlipperItemConfig: {
   powerGeneration: {
     title: '发电量',
     unit: 'kWh',
+    floatLength: 2,
     num: '--',
     titleStyle: {
       fontWeight: 400,
@@ -31,6 +32,7 @@ export const digitalFlipperItemConfig: {
   },
   profit: {
     title: '收益',
+    floatLength: 2,
     num: '--',
     titleStyle: {
       fontWeight: 400,

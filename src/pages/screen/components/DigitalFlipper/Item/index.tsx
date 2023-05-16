@@ -1,9 +1,15 @@
 import type { CSSProperties, FC } from 'react';
 import styles from './index.less';
+import TweenOne from 'rc-tween-one';
+import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
+import { isNumber, isNaN, merge } from 'lodash';
+
+TweenOne.plugins.push(Children);
 
 export type DigitalFlipperItemProps = {
   num: string;
   title: string;
+  floatLength?: number;
   comma?: boolean;
   unit?: string;
   titleStyle?: CSSProperties;
@@ -12,39 +18,35 @@ export type DigitalFlipperItemProps = {
   itemStyleWrapper?: CSSProperties;
 };
 
-const formatter = (num: string) => {
-  const numbers = num.toString().split('').reverse();
-  const segs = [];
-  while (numbers.length) segs.push(numbers.splice(0, 3).join(''));
-  return segs.join(',').split('').reverse().join('');
-};
-
 const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   num,
   itemStyleWrapper = {},
   numStyle = {},
   titleStyle = {},
   title,
-  comma,
+  comma = false,
+  floatLength = 0,
   unit = '元',
   unitStyle = {},
 }) => {
-  // const config = {
-  //   number: [num],
-  //   style: {
-  //     fontSize: '32px',
-  //     // fill: '#fff',
-  //     // linear-gradient(180deg, #FFFFFF 0%, #A2D3FF 67%, #4DABFF 100%)
-  //     gradientWith: 'stroke',
-  //     gradientColor: ['#FFFFFF', '#A2D3FF', '#4DABFF'],
-  //     gradientParams: [0, 100, 50, 100],
-  //     gradientType: 'linear',
-  //     gradientStops: [0, 0.67, 1],
-  //   },
-  //   formatter,
-  // };
+  function Text() {
+    const digital = Number(num);
+    if (isNumber(digital) && !isNaN(digital)) {
+      const animation = {
+        Children: { value: digital as number, floatLength },
+        duration: 1000,
+        delay: 300,
+      };
+      if (comma) {
+        merge(animation, { Children: { formatMoney: true } });
+      }
 
-  // return <DigitalFlop config={config} style={{ width: '200px', height: '50px' }} />;
+      console.log(animation);
+      return <TweenOne animation={animation} />;
+    }
+    return <span>{'--'}</span>;
+  }
+
   return (
     <div className={styles.wrapper} style={itemStyleWrapper}>
       <div className={styles.title} style={titleStyle}>
@@ -52,7 +54,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       </div>
       <div className={styles.content}>
         <div className={styles.number} style={numStyle}>
-          {comma ? formatter(num) : num}
+          <Text />
         </div>
         <span className={styles.unit} style={unitStyle}>
           {unit}

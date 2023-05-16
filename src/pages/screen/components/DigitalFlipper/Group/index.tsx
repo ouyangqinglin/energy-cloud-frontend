@@ -1,12 +1,9 @@
-import type { DetailItem } from '@/components/Detail';
-import Detail from '@/components/Detail';
 import classnames from 'classnames';
 import { uniqueId } from 'lodash';
+import QueueAnim from 'rc-queue-anim';
 import type { FC, ReactNode } from 'react';
-import { useRequest } from 'umi';
-import Decoration from '../../Decoration';
-import Cell from '../../LayoutCell';
-import DigitalFlipperItem, { DigitalFlipperItemProps } from '../Item';
+import type { DigitalFlipperItemProps } from '../Item';
+import DigitalFlipperItem from '../Item';
 import styles from './index.less';
 
 export type DigitalFlipperProps = {
@@ -27,9 +24,17 @@ const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => 
     return <>{nodes}</>;
   }
   return (
-    <div className={classnames([styles.content, className])}>
-      <ItemList />
-    </div>
+    <QueueAnim
+      className={styles.content}
+      type={['top', 'bottom']}
+      duration={1500}
+      delay={500}
+      ease="easeInOutQuart"
+    >
+      <div key="animation" className={classnames([styles.content, className])}>
+        <ItemList />
+      </div>
+    </QueueAnim>
   );
 };
 export default DigitalFlipperGroup;

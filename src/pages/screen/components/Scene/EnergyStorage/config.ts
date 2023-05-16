@@ -1,4 +1,5 @@
 import type { DetailItem } from '@/components/Detail';
+import { keepAnyDecimal, keepTwoDecimalWithUnit } from '@/utils/math';
 import type { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
 import { RealtimeStatusEnum } from './type';
 
@@ -8,19 +9,22 @@ export const DEFAULT_STATISTICS_REQUEST_INTERVAL = 60 * 60 * 1000;
 
 export const gunInfoItem: DetailItem[] = [
   { label: '实时状态', field: 'realtimeStatus' },
-  { label: '充放电功率：', field: 'chargingAndDischargingPower' },
-  { label: 'SOC', field: 'soc' },
-  { label: 'SOH', field: 'soh' },
+  {
+    label: '充放电功率：',
+    field: 'chargingAndDischargingPower',
+    format: (value) => keepTwoDecimalWithUnit(value, 'kW'),
+  },
+  {
+    label: 'SOC',
+    field: 'soc',
+    format: (value) => keepAnyDecimal(Number(value) * 100, '--', 4) + '%',
+  },
+  {
+    label: 'SOH',
+    field: 'soh',
+    format: (value) => keepAnyDecimal(Number(value) * 100, '--', 4) + '%',
+  },
 ];
-
-export const DEFAULT_STATISTICS = {
-  soc: '--',
-  soh: '--',
-  chargingAndDischargingPower: '--',
-  electricCurrent: '--',
-  voltage: '--',
-  realTimeStatus: '--',
-};
 
 export const RealtimeStatusMap = {
   [RealtimeStatusEnum.DEFAULT]: {
@@ -44,6 +48,7 @@ export const digitalFlipperItemConfig: {
   charging: {
     title: '充电量',
     unit: 'kWh',
+    floatLength: 2,
     num: '1397',
     titleStyle: {
       fontWeight: 400,
@@ -67,6 +72,7 @@ export const digitalFlipperItemConfig: {
   discharging: {
     title: '放电量',
     unit: 'kWh',
+    floatLength: 2,
     num: '100',
     titleStyle: {
       fontWeight: 400,

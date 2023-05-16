@@ -40,17 +40,6 @@ const AlarmList: FC = () => {
   </div>${alarmMap[level].text}<div>`;
 
   const formatReceivedData = (mockData: any) => {
-    // const mockData = {
-    //   data: {
-    //     deviceId: uniqueId(),
-    //     deviceName: '组串式逆变器',
-    //     eventName: '测试告警' + uniqueId(),
-    //     eventTime: '2023-05-10 11:06:59',
-    //     eventType: 'info',
-    //   },
-    //   type: 2,
-    // };
-    // console.log('ws: ', mockData);
     if (mockData.type !== 2) {
       return;
     }
