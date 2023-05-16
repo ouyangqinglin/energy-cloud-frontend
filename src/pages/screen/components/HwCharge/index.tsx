@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-12 14:08:57
+ * @LastEditTime: 2023-05-16 19:15:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
@@ -22,10 +22,22 @@ import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.
 import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import { getRelatedDevice } from '@/services/equipment';
 
 const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const equipmentData = useSubscribe(id, open);
+  const [relatedIds, setRelatedIds] = useState([]);
+  const equipmentData = useSubscribe(relatedIds, open);
+
+  useEffect(() => {
+    if (open && id) {
+      getRelatedDevice(id).then((res) => {
+        if (res?.data?.associatedIds) {
+          setRelatedIds(res.data.associatedIds);
+        }
+      });
+    }
+  }, [id, open]);
 
   const runItems: DetailItem[] = [
     { label: '今日充电量', field: 'k', format: powerHourFormat },

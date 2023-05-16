@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-16 11:54:07
+ * @LastEditTime: 2023-05-16 19:21:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
  */
@@ -196,7 +196,7 @@ const YtStation: React.FC = (props) => {
         onCancel={switchElectricMeterModal}
         model="screen"
       />
-      <Cabinet id={chargeId} open={cabinet} onCancel={switchCabinetModal} model="screen" />
+      <Cabinet id={'10067'} open={cabinet} onCancel={switchCabinetModal} model="screen" />
       <PvInverterCabinet
         id={'10027'}
         open={pvInverterCabinet}
