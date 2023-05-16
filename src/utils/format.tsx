@@ -2,7 +2,7 @@ import { getValue } from '@/utils';
 import dayjs from 'dayjs';
 
 export const timeFormat = (value: string) => {
-  return dayjs(value).format('YYYY-MM-DD HH:mm:ss');
+  return value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '';
 };
 export const onlineFormat = (value: number) => {
   const map = {

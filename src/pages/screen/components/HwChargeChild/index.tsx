@@ -13,7 +13,9 @@ import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
+import Label from '@/components/Detail/label';
 import AlarmTable from '@/components/AlarmTable';
+import { getAlarms, getLogs } from '@/services/equipment';
 import LogTable from '@/components/LogTable';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-child.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
@@ -40,7 +42,9 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: (
         <>
+          <Label title="状态信息" />
           <Detail data={equipmentData || {}} items={statusItems} column={4} />
+          <Label title="运行信息" />
           <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>
       ),
@@ -53,12 +57,12 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '报警/故障',
       key: 'item-2',
-      children: <AlarmTable />,
+      children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
       label: '设备日志',
       key: 'item-3',
-      children: <LogTable />,
+      children: <LogTable params={{ id }} request={getLogs} />,
     },
   ];
 

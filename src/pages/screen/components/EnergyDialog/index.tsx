@@ -52,7 +52,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Setting />,
+      children: <Setting id={id} />,
     },
     {
       label: '报警/故障',

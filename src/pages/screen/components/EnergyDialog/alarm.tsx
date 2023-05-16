@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import AlarmTable from '@/components/AlarmTable';
-import { getAlarms } from '@/components/Dialog/service';
+import { getAlarms } from '@/services/equipment';
 import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type AlarmProps = {

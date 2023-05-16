@@ -1,11 +1,12 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-04-26 10:12:41
- * @LastEditTime: 2023-05-13 16:01:49
+ * @Date: 2023-05-16 11:43:44
+ * @LastEditTime: 2023-05-16 11:43:48
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\service.ts
+ * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
+
 import request from '@/utils/request';
 
 export const getDeviceInfo = (deviceId: string | number) => {
@@ -31,5 +32,14 @@ export const getLogs = (params: any) => {
   return request(`/oss/device_log/page`, {
     method: 'GET',
     params,
+  });
+};
+
+export const getRelatedDevice = (id: string) => {
+  return request(`/oss/device/associated_device`, {
+    method: 'GET',
+    params: {
+      deviceId: id,
+    },
   });
 };

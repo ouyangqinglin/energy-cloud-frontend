@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-15 10:07:19
+ * @LastEditTime: 2023-05-16 15:58:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
@@ -34,11 +34,11 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
   const { params, request } = props;
   const actionRef = useRef<ActionType>();
   const Component: any = DatePicker.RangePicker;
-  const dateFormat = 'YYYY/MM/DD';
+  const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
     ...(params || {}),
-    startTime: '',
-    endTime: '',
+    startTime: moment().subtract(1, 'day').format(dateFormat),
+    endTime: moment().format(dateFormat),
   };
 
   const columns: ProColumns<AlarmType>[] = [
@@ -88,6 +88,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
       format={dateFormat}
       defaultValue={[moment().subtract(1, 'day'), moment()]}
       onChange={onQueryChange}
+      getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
       ranges={{
         近24小时: [moment().subtract(1, 'day'), moment()],
         最近7天: [moment().subtract(6, 'day'), moment()],

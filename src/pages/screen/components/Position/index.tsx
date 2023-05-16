@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-13 13:50:09
- * @LastEditTime: 2023-05-15 17:06:48
+ * @LastEditTime: 2023-05-16 08:51:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Position\index.tsx
  */
@@ -41,7 +41,7 @@ const Position: React.FC<PositionProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <MapContain style={{ height: '755px' }}>
+        <MapContain style={{ height: '100%' }}>
           <Map center={center} zoom={zoom}>
             {center && <Marker position={center} />}
           </Map>
