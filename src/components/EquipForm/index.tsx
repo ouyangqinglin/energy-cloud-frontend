@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-15 11:02:13
+ * @LastEditTime: 2023-05-17 11:26:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -14,7 +14,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import { EquipFormType } from './data.d';
 import { editData, getData, getStations, getProductTypes, getProductModels } from './service';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum, OptionType } from '@/utils/dictionary';
 
 export type EquipFormProps = {
   id: string;
@@ -22,41 +22,28 @@ export type EquipFormProps = {
   open: boolean;
   onCancel: () => void;
   type: FormTypeEnum;
+  onSuccess?: () => void;
 };
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
-  const { id, model, open, onCancel, type } = props;
-
+  const { id, model, open, onCancel, type, onSuccess } = props;
+  const [modelOption, setModelOption] = useState<OptionType[]>();
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
   });
   const { loading: editLoading, run: runEdit } = useRequest(editData, {
     manual: true,
   });
-
   const [form] = Form.useForm<EquipFormType>();
 
   const triggerSubmit = () => {
     form.submit();
   };
 
-  useEffect(() => {
-    if (open) {
-      form.resetFields();
-      if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
-        runGet(id).then((res) => {
-          if (res && res.data) {
-            form.setFieldsValue({ ...res.data, imgs: [{ url: res.data?.url || '' }] });
-          }
-        });
-      }
-    }
-  }, [open]);
-
   const requestStations = useCallback(
     () =>
-      getStations().then((res) => {
-        return res?.rows?.map((item: any) => {
+      getStations().then(({ data = {} }) => {
+        return data?.map((item: any) => {
           return {
             label: item.name,
             value: item.id,
@@ -68,23 +55,53 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
 
   const requestProductType = useCallback(
     () =>
-      getProductTypes().then((res) => {
-        return res?.data || [];
+      getProductTypes().then(({ data = {} }) => {
+        return data?.map?.((item: any) => {
+          return {
+            label: item.name,
+            value: item.id,
+          };
+        });
       }),
     [],
   );
 
-  const requestProductModel = useCallback(
-    () =>
-      getProductModels().then((res) => {
-        return res?.data || [];
-      }),
-    [],
-  );
+  const requestProductModel = useCallback((productType) => {
+    if (productType) {
+      getProductModels({ productType }).then(({ data = {} }) => {
+        setModelOption(
+          data?.map?.((item: any) => {
+            return {
+              label: item.name,
+              value: item.id,
+            };
+          }),
+        );
+      });
+    }
+  }, []);
+
+  const onValuesChange = useCallback(({ productType }) => {
+    if (productType) {
+      requestProductModel(productType);
+    }
+  }, []);
 
   const getValueFromEvent = (e: any) => {
     console.log(e);
   };
+
+  useEffect(() => {
+    if (open) {
+      form.resetFields();
+      if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
+        runGet(id).then((res) => {
+          form.setFieldsValue({ ...res, imgs: [{ url: res?.url || '' }] });
+          requestProductModel(res?.productType);
+        });
+      }
+    }
+  }, [open]);
 
   return (
     <>
@@ -106,10 +123,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             runEdit({ ...formData, deviceId: id }).then((res) => {
               if (res) {
                 message.success('保存成功');
+                onSuccess?.();
                 onCancel();
               }
             })
           }
+          onValuesChange={onValuesChange}
           submitter={false}
         >
           <ProFormSelect
@@ -124,7 +143,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           ></ProFormSelect>
           <ProFormSelect
             label="产品类型"
-            name="type"
+            name="productType"
             placeholder="请选择"
             request={requestProductType}
             fieldProps={{
@@ -135,9 +154,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           ></ProFormSelect>
           <ProFormSelect
             label="产品型号"
-            name="model"
+            name="productId"
             placeholder="请选择"
-            request={requestProductModel}
+            options={modelOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
