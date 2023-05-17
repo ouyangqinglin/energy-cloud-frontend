@@ -1,15 +1,21 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useMemo } from 'react';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import { EquipPropType, AnyMapType } from '@/utils/dictionary';
 
-export default (id: string, open: boolean) => {
+export default (id: string | string[], open: boolean) => {
+  const ids = useMemo(() => {
+    return Array.isArray(id) ? id : [id];
+  }, [id]);
   const [data, setData] = useState<AnyMapType>({});
   const { connection } = useWebsocket();
 
   const onReceivedMessage = useCallback(
     (res: any) => {
-      if (MessageEventType.DEVICE_REAL_TIME_DATA === res?.type && id == res?.data?.deviceId) {
+      if (
+        MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
+        ids.find((item) => item == res?.data?.deviceId)
+      ) {
         const { data: msgData } = res;
         try {
           const obj = {};
@@ -22,19 +28,17 @@ export default (id: string, open: boolean) => {
         } catch (e) {}
       }
     },
-    [id],
+    [ids],
   );
 
   useEffect(() => {
-    if (open && id) {
+    if (open && ids.length) {
       connection.sendMessage({
         data: {
           command: RequestCommandEnum.SUBSCRIBE,
-          params: [
-            {
-              device: id,
-            },
-          ],
+          params: ids.map((item) => ({
+            device: item,
+          })),
         },
         type: MessageEventType.DEVICE_REAL_TIME_DATA,
       });
@@ -44,7 +48,7 @@ export default (id: string, open: boolean) => {
       connection.removeReceivedMessageCallback(onReceivedMessage);
     };
     // 待优化
-  }, [open, id]);
+  }, [open, ids]);
 
   return data;
 };

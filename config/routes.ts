@@ -144,7 +144,6 @@ export default [
     icon: 'user',
     path: '/account',
     layout: false,
-    menu: 'sider',
     component: '@/layouts',
     routes: [
       {

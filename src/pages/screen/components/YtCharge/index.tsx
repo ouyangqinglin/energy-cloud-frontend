@@ -19,15 +19,15 @@ import { getRelatedDevice } from '@/services/equipment';
 
 const YtCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [relatedId, setRelatedId] = useState('');
+  const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(id, open);
-  const meterData = useSubscribe(relatedId, open);
+  const meterData = useSubscribe(relatedIds, open);
 
   useEffect(() => {
     if (open && id) {
       getRelatedDevice(id).then((res) => {
-        if (res?.data?.associatedId) {
-          setRelatedId(res.data.associatedId);
+        if (res?.data?.associatedIds) {
+          setRelatedIds(res.data.associatedIds);
         }
       });
     }
