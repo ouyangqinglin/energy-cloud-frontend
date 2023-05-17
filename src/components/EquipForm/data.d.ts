@@ -15,8 +15,8 @@ export type fileType = {
 export type EquipFormType = AnyMapType & {
   deviceId?: string;
   siteId?: string;
-  type?: string;
-  model?: string;
+  productType?: string;
+  productId?: string;
   name?: string;
   sn?: string;
   url?: string;

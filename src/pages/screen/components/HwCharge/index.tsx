@@ -40,8 +40,8 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   }, [id, open]);
 
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'k', format: powerHourFormat },
-    { label: '累计充电量', field: 'l', format: powerHourFormat },
+    { label: '今日充电量', field: 'todaycharge', format: powerHourFormat },
+    { label: '累计充电量', field: 'cumulativeCharge', format: powerHourFormat },
   ];
 
   const tabItems = [

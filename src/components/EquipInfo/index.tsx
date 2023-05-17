@@ -2,13 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-16 16:19:57
+ * @LastEditTime: 2023-05-17 10:36:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
 
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Modal } from 'antd';
+import { useRequest } from 'umi';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import Dialog from '../Dialog';
@@ -16,7 +17,6 @@ import Label from '../Detail/label';
 import EquipForm from '../EquipForm';
 import { EquipFormType } from '../EquipForm/data.d';
 import { FormTypeEnum } from '@/utils/dictionary';
-import ImgCharge from '@/assets/image/screen/dialog/charge.png';
 import { getEquipInfo } from './service';
 import { onlineFormat } from '@/utils/format';
 
@@ -33,12 +33,16 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
   const { id, model, buttons, equipmentImg, productImg } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [data, setData] = useState<EquipFormType>({});
+  const {
+    loading,
+    data = {},
+    run,
+  } = useRequest(getEquipInfo, {
+    manual: true,
+  });
 
   useEffect(() => {
-    getEquipInfo({ deviceId: id }).then((res) => {
-      setData(res.data);
-    });
+    run({ deviceId: id });
   }, [id]);
 
   const onCancel = () => {
@@ -113,6 +117,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
         onCancel={onEditClick}
         model={model}
         type={FormTypeEnum.Edit}
+        onSuccess={() => run({ deviceId: id })}
       />
     </>
   );
