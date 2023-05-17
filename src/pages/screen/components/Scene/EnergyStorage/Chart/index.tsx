@@ -1,5 +1,5 @@
 import { Axis, Chart, LineAdvance, Legend } from 'bizcharts';
-import { isEmpty, isNumber } from 'lodash';
+import { isEmpty, isNumber, sortBy } from 'lodash';
 import moment from 'moment';
 import type { FC } from 'react';
 import styles from './index.less';
@@ -57,7 +57,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
       if (!isNumber(item.ts)) {
         return;
       }
-      const time = moment(item.ts).format('hh: mm');
+      const time = moment(item.ts).format('HH: mm');
       const value = Math.floor(item.value * 100) / 100;
       sourceData.push({
         time,
@@ -70,6 +70,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
   fillData(chartData?.TotalBatteryVoltage, 'voltage');
   fillData(chartData?.SOC, 'soc');
   fillData(chartData?.PDC, 'power');
+  const sortedData = sortBy(sourceData, (o) => o.time);
 
   const legendConfig = {
     soc: 'SOC',
@@ -88,7 +89,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
 
   return (
     <div className={styles.chartWrapper}>
-      <Chart height={154} scale={scale} data={sourceData} autoFit>
+      <Chart height={154} scale={scale} data={sortedData} autoFit>
         <LineAdvance shape="smooth" area color="field" position="time*value" />
         <Axis
           name="value"

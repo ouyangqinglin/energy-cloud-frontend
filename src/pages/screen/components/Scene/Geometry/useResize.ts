@@ -16,8 +16,6 @@ const useResize = (target: HTMLElement | Document | Window | null = window) => {
   );
 
   useEffect(() => {
-    console.log(target);
-
     target?.addEventListener?.('mousewheel', handleWheel);
     return () => {
       target?.removeEventListener?.('mousewheel', handleWheel);
