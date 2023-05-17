@@ -1,3 +1,4 @@
+import QueueAnim from 'rc-queue-anim';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import Cell from '../../../LayoutCell';
@@ -84,22 +85,24 @@ const EnergyFlow: FC = () => {
   }, []);
 
   return (
-    <Cell width={684} height={332} left={200} top={92}>
-      {paths.map((p) => {
-        let styleConfig = {
-          animationDelay: `-${p.delay}s`,
-          animationDuration: `${p.duration}s`,
-          animationPlayState: 'running',
-          offsetPath: `path('${p.path}')`,
-        };
+    <QueueAnim delay={1500} ease="easeInOutQuart">
+      <Cell key="animation" width={684} height={332} left={200} top={92}>
+        {paths.map((p) => {
+          let styleConfig = {
+            animationDelay: `-${p.delay}s`,
+            animationDuration: `${p.duration}s`,
+            animationPlayState: 'running',
+            offsetPath: `path('${p.path}')`,
+          };
 
-        if (p.style) {
-          styleConfig = { ...styleConfig, ...p.style };
-        }
+          if (p.style) {
+            styleConfig = { ...styleConfig, ...p.style };
+          }
 
-        return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
-      })}
-    </Cell>
+          return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
+        })}
+      </Cell>
+    </QueueAnim>
   );
 };
 

@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import { useEffect, useRef } from 'react';
 import styles from './index.module.less';
 import classnames from 'classnames';
-import Lottie from 'lottie-web';
+import decoration from './lottie/decoration.json';
+import play from './lottie/play.json';
+import { Lottie } from '@/components/Lottie';
 
 export type DecorationProp = {
   title: string;
@@ -11,40 +12,16 @@ export type DecorationProp = {
 };
 
 const Decoration: FC<DecorationProp> = ({ title, disableIcon, disableDecoration, children }) => {
-  const playAnimation = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (playAnimation.current) {
-      Lottie.loadAnimation({
-        container: playAnimation.current,
-        path: '/lottie/play.json',
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-      });
-    }
-  }, [playAnimation]);
-
-  const decorationAnimation = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (decorationAnimation.current) {
-      Lottie.loadAnimation({
-        container: decorationAnimation.current,
-        path: '/lottie/decoration.json',
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-      });
-    }
-  }, [decorationAnimation]);
-
   return (
     <div className={classnames(styles.wrapper, { [styles.wrapperRect]: !disableDecoration })}>
       <div className={classnames(styles.titleWrapper, { [styles.borderLeft]: !disableDecoration })}>
         <div className={styles.leftContent}>
-          {!disableIcon && <div className={styles.icon} ref={playAnimation} />}
+          {!disableIcon && <Lottie width={24} height={24} animationData={play} />}
           <span className={styles.text}>{title}</span>
         </div>
-        {!disableDecoration && <div className={styles.decoration} ref={decorationAnimation} />}
+        {!disableDecoration && (
+          <Lottie className={styles.decoration} width={29} height={32} animationData={decoration} />
+        )}
       </div>
       <div className={styles.content}>{children}</div>
     </div>
