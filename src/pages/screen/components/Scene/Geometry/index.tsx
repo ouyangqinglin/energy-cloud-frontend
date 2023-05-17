@@ -1,6 +1,6 @@
 import { ReactComponent as DemonstrationBackground } from '@/assets/image/screen/demonstration_bg.svg';
 import type { FC, ReactNode } from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useState } from 'react';
 import Cell from '../../LayoutCell';
 import { CellList as defaultConfigs } from './config';
@@ -11,7 +11,7 @@ import DeviceDialog from './Dialog';
 import type { CellConfigItem, DeviceInfoType } from './type';
 import { getDeviceList } from './service';
 import { useRequest } from 'umi';
-import { find, isNil } from 'lodash';
+import { cloneDeep, find, isNil } from 'lodash';
 import useResize from './useResize';
 import useDragging from './useDragging';
 
@@ -23,9 +23,9 @@ const DEFAULT_DEVICE_INFO = {
 
 const Geometry: FC = () => {
   const { data: deviceList } = useRequest(getDeviceList, {});
-  const ceilsConfig = defaultConfigs;
+  const ceilsConfig = cloneDeep(defaultConfigs);
   const fillDeviceIdForMarkDevices = () => {
-    if (deviceList && deviceList.length) {
+    if (deviceList && deviceList?.length) {
       deviceList.forEach((device) => {
         const { mark } = device;
         if (!isNil(mark)) {

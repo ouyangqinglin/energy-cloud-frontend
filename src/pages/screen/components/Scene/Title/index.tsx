@@ -6,32 +6,18 @@ import TweenOne from 'rc-tween-one';
 import Cell from '../../LayoutCell';
 
 const Title: FC = () => {
-  const getEnter = (e: any) => {
-    const t = {
-      opacity: 0,
-      scale: 0.8,
-      y: '-100%',
-    };
-    if (e.index >= 2 && e.index <= 6) {
-      return { ...t, y: '-30%', duration: 150 };
-    }
-    return t;
-  };
-
   return (
     <>
       <Cell width={289} height={36} left={815.5} top={12}>
         <Texty
           className={styles.title}
           type="mask-top"
-          delay={100}
-          enter={getEnter}
-          // interval={this.geInterval}
+          delay={500}
+          duration={1000}
           component={TweenOne}
           componentProps={{
             animation: [
-              { x: 130, type: 'set' },
-              { x: 100, delay: 500, duration: 450 },
+              { x: 0, delay: 500, duration: 1000 },
               {
                 ease: 'easeOutQuart',
                 duration: 300,
@@ -40,7 +26,7 @@ const Title: FC = () => {
               {
                 letterSpacing: 0,
                 delay: -300,
-                scale: 0.9,
+                scale: 0.85,
                 ease: 'easeInOutQuint',
                 duration: 1000,
               },
