@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-16 19:15:13
+ * @LastEditTime: 2023-05-18 11:18:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
@@ -41,7 +41,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   }, [id, open]);
 
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'todaycharge', format: powerHourFormat },
+    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
     { label: '累计充电量', field: 'cumulativeCharge', format: powerHourFormat },
   ];
 

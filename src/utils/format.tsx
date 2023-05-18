@@ -190,8 +190,13 @@ export const airsetFormat = (status: number) => {
 };
 export const useFormat = (value: number) => {
   const map = {
+    // 0：离网1：空闲2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
+    0: '离网',
     1: '空闲',
-    2: '占用',
+    2: '占用（未充电）',
+    3: '占用（充电中）',
+    4: '占用（预约锁定）',
+    255: '故障',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
