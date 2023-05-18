@@ -1,37 +1,40 @@
 import React, { useState } from 'react';
-import { Tabs, Button } from 'antd';
+import { Tabs, Button, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import Detail from '@/components/Detail';
-import type { fieldType } from '@/utils/dictionary';
-import { valueFormat } from '@/utils';
+import Meter, { MeterSkeleton } from '@/components/Meter';
+import Label from '@/components/Detail/label';
 import Community from './community';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import Empty from '@/components/Empty';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const Gateway: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [openSettingModal, setOpenSettingModal] = useState(false);
-  const data: any = {};
+  const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const onSettingClick = () => {
     setOpenSettingModal(!openSettingModal);
   };
 
-  const runItems = (data?.run?.gateway?.field || []).map((item: fieldType) => {
-    return { ...item, format: valueFormat };
-  });
-
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
         <>
-          <Detail data={data?.run?.gateway?.value || {}} items={runItems} column={5} />
+          <Skeleton.Button className="mb12" size="small" />
+          <MeterSkeleton />
+        </>
+      ) : (
+        <>
+          <Label title="运行信息" />
+          <Meter data={equipmentData || {}} />
         </>
       ),
     },
@@ -70,6 +73,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
               设置通信信息
             </Button>
           }
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

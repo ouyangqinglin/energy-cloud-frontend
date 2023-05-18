@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-16 16:32:35
+ * @LastEditTime: 2023-05-18 10:44:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
-import { Tabs, Table, Row, Col } from 'antd';
+import { Tabs, Table, Row, Col, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
@@ -45,6 +45,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { id, open, onCancel, model, loopNum } = props;
   const [tableData, setTableData] = useState<PvInverterType[]>([]); //Upv15 Ipv1
   const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const initTableData: PvInverterType[] = [];
@@ -109,7 +110,18 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Row gutter={24}>
+            <Col span={10}>
+              <Skeleton paragraph={{ rows: loopNum }} />
+            </Col>
+            <Col span={13} offset={1}>
+              <Skeleton paragraph={{ rows: 6 }} />
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <Row>
             <Col span={9}>
@@ -162,6 +174,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           model={model}
           equipmentImg={PvInverterImg}
           productImg={PvInverterIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

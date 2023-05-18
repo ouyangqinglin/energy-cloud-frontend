@@ -2,35 +2,34 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-17 10:36:23
+ * @LastEditTime: 2023-05-18 09:45:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
 
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Button, Skeleton } from 'antd';
 import { useRequest } from 'umi';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import Dialog from '../Dialog';
 import Label from '../Detail/label';
 import EquipForm from '../EquipForm';
-import { EquipFormType } from '../EquipForm/data.d';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { getEquipInfo } from './service';
 import { onlineFormat } from '@/utils/format';
 
 export type EquipInfoProps = {
-  // data: EquipFormType;
   id: string;
   model?: string;
   buttons?: React.ReactNode;
   equipmentImg?: string;
   productImg?: string;
+  setLoading?: (loading: boolean) => void;
 };
 
 const EquipInfo: React.FC<EquipInfoProps> = (props) => {
-  const { id, model, buttons, equipmentImg, productImg } = props;
+  const { id, model, buttons, equipmentImg, productImg, setLoading } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const {
@@ -42,7 +41,10 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
   });
 
   useEffect(() => {
-    run({ deviceId: id });
+    setLoading?.(true);
+    run({ deviceId: id }).finally(() => {
+      setLoading?.(false);
+    });
   }, [id]);
 
   const onCancel = () => {
@@ -84,28 +86,46 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
       <Row>
         <Col flex={model === 'screen' ? '0 0 9.41vw' : '0 0 180px'}>
           <div className="dialog-product-logo-wrap">
-            <div
-              className="dialog-product-logo"
-              style={{ backgroundImage: `url(${data?.url || equipmentImg})` }}
-            />
+            {loading ? (
+              <Skeleton.Image active />
+            ) : (
+              <div
+                className="dialog-product-logo"
+                style={{ backgroundImage: `url(${data?.url || equipmentImg})` }}
+              />
+            )}
           </div>
         </Col>
         <Col className="productInfo" flex="1">
           <Label title="基本信息" />
-          <Detail items={equipInfoItems} data={data} />
-          <div className="flex">
-            <div className="flex1">
-              {productImg && (
-                <Button className="ant-btn-primary" type="primary" onClick={onClick}>
-                  产品介绍
+          {loading ? (
+            <>
+              <Skeleton active paragraph={{ rows: 4 }} />
+              <div className="flex">
+                <div className="flex1">
+                  <Skeleton.Button active />
+                </div>
+                <Skeleton.Button active />
+              </div>
+            </>
+          ) : (
+            <>
+              <Detail items={equipInfoItems} data={data} />
+              <div className="flex">
+                <div className="flex1">
+                  {productImg && (
+                    <Button className="ant-btn-primary" type="primary" onClick={onClick}>
+                      产品介绍
+                    </Button>
+                  )}
+                </div>
+                {buttons}
+                <Button type="link" onClick={onEditClick}>
+                  修改基本信息
                 </Button>
-              )}
-            </div>
-            {buttons}
-            <Button type="link" onClick={onEditClick}>
-              修改基本信息
-            </Button>
-          </div>
+              </div>
+            </>
+          )}
         </Col>
       </Row>
       <Dialog model={model} title="产品介绍" open={openDialog} onCancel={onCancel} footer={null}>

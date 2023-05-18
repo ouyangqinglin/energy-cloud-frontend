@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwChargeYt\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import { Modal, Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -26,21 +26,34 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const statusItems: DetailItem[] = [
     { label: 'A枪状态', field: 'a', format: useFormat },
     { label: 'B枪状态', field: 'b', format: useFormat },
   ];
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'k', format: powerHourFormat },
-    { label: '累计充电量', field: 'l', format: powerHourFormat },
+    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
+    { label: '累计充电量', field: 'Pimp', format: powerHourFormat },
   ];
 
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <Label title="状态信息" />
           <Detail data={equipmentData || {}} items={statusItems} column={4} />
@@ -81,6 +94,7 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

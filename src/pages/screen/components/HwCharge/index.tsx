@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-16 19:15:13
+ * @LastEditTime: 2023-05-18 11:18:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import { Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -28,6 +28,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(relatedIds, open);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open && id) {
@@ -40,7 +41,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   }, [id, open]);
 
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'todaycharge', format: powerHourFormat },
+    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
     { label: '累计充电量', field: 'cumulativeCharge', format: powerHourFormat },
   ];
 
@@ -48,7 +49,19 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <Label title="运行信息" />
           <Detail data={equipmentData || {}} items={runItems} column={4} />
@@ -87,6 +100,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

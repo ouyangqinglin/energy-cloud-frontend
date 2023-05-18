@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-05-16 15:50:10
+ * @LastEditTime: 2023-05-18 10:21:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Space, Skeleton } from 'antd';
 import Detail from '../Detail';
 import { AnyMapType } from '@/utils/dictionary';
 import IconCurrent from '@/assets/image/meter/current.png';
@@ -17,7 +17,7 @@ import IconActivePower from '@/assets/image/meter/active-power.png';
 import IconReactivePower from '@/assets/image/meter/reactive-power.png';
 import IconApparentPower from '@/assets/image/meter/apparent-power.png';
 import IconTodayElectric from '@/assets/image/meter/today-electric.png';
-import IconFrequency from '@/assets/image/meter/apparent-power.png';
+import IconFrequency from '@/assets/image/meter/frequency.png';
 import IconPowerFactor from '@/assets/image/meter/power-factor.png';
 
 type MeterProps = {
@@ -133,5 +133,28 @@ const Meter: React.FC<MeterProps> = ({ data = {} }) => {
     </>
   );
 };
+
+const MeterSkeleton: React.FC = () => {
+  const grid = Array.from({ length: 9 }).map((_, index) => (
+    <Card.Grid hoverable={false} style={{ width: '20%' }} key={index}>
+      <Skeleton.Button className="mb8" size="small" />
+      <div>
+        <Space direction="vertical">
+          <Skeleton.Input size="small" />
+          <Skeleton.Input size="small" />
+          <Skeleton.Input size="small" />
+        </Space>
+      </div>
+    </Card.Grid>
+  ));
+
+  return (
+    <>
+      <Card>{grid}</Card>
+    </>
+  );
+};
+
+export { MeterSkeleton };
 
 export default Meter;
