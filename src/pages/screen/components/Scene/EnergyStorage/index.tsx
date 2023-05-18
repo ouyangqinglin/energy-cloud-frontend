@@ -21,7 +21,7 @@ import {
   gunInfoItem,
   RealtimeStatusMap,
 } from './config';
-import { defaults, isNaN } from 'lodash';
+import { isNaN } from 'lodash';
 import type { RealtimeStatusEnum, StatisticsRes } from './type';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 
@@ -30,7 +30,7 @@ const EnergyStorage: FC = () => {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
-  const { data: statisticsData = {} as StatisticsRes } = useRequest(getEnergyStorageStatistic, {
+  const { data: statisticsData } = useRequest(getEnergyStorageStatistic, {
     pollingInterval: DEFAULT_STATISTICS_REQUEST_INTERVAL,
   });
 
@@ -52,25 +52,27 @@ const EnergyStorage: FC = () => {
         );
       }
     }
-    // console.log(rawData);
-
     return rawData;
   }, [statisticsData]);
 
-  const config: DigitalFlipperItemProps[] = [
-    {
-      ...digitalFlipperItemConfig.charging,
-      ...{
-        num: keepTwoDecimalWithUnit(chargeData?.ACC),
+  const config: DigitalFlipperItemProps[] = useMemo(() => {
+    return [
+      {
+        ...digitalFlipperItemConfig.charging,
+        ...{
+          num: keepTwoDecimalWithUnit(chargeData?.ACC),
+        },
       },
-    },
-    {
-      ...digitalFlipperItemConfig.discharging,
-      ...{
-        num: keepTwoDecimalWithUnit(chargeData?.ADC),
+      {
+        ...digitalFlipperItemConfig.discharging,
+        ...{
+          num: keepTwoDecimalWithUnit(chargeData?.ADC),
+        },
       },
-    },
-  ];
+    ];
+  }, [chargeData]);
+  // console.log(config);
+
   useEffect(() => {
     run();
   }, []);

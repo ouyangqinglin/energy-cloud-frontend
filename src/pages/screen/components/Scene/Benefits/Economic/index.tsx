@@ -32,7 +32,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
   ];
   return (
     <Cell width={600} height={118} left={484} top={58}>
-      <Decoration disableIcon disableDecoration title="社会效益">
+      <Decoration disableIcon disableDecoration title="经济效益">
         <DigitalFlipperGroup config={config} />
       </Decoration>
     </Cell>

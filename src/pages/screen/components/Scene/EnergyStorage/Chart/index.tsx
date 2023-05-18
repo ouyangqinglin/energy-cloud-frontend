@@ -1,4 +1,4 @@
-import { Axis, Chart, LineAdvance, Legend } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Tooltip } from 'bizcharts';
 import { isEmpty, isNumber, sortBy } from 'lodash';
 import moment from 'moment';
 import type { FC } from 'react';
@@ -10,36 +10,6 @@ type Props = {
 };
 
 const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
-  // const sourceData = [
-  //   { time: '1991', value: 15468, field: 'SOC' },
-  //   { time: '1991', value: 32040, field: 'current' },
-  //   { time: '1991', value: 12040, field: 'voltage' },
-  //   { time: '1991', value: 22040, field: 'power' },
-  //   { time: '1992', value: 26100, field: 'SOC' },
-  //   { time: '1992', value: 21233, field: 'current' },
-  //   { time: '1992', value: 16100, field: 'voltage' },
-  //   { time: '1993', value: 31900, field: 'SOC' },
-  //   { time: '1993', value: 12900, field: 'current' },
-  //   { time: '1993', value: 35900, field: 'voltage' },
-  //   { time: '1993', value: 12900, field: 'power' },
-  //   { time: '1994', value: 16409, field: 'SOC' },
-  //   { time: '1994', value: 15409, field: 'current' },
-  //   { time: '1994', value: 14409, field: 'voltage' },
-  //   { time: '1995', value: 27000, field: 'SOC' },
-  //   { time: '1995', value: 26000, field: 'current' },
-  //   { time: '1995', value: 21000, field: 'voltage' },
-  //   { time: '1995', value: 17000, field: 'power' },
-  //   { time: '1996', value: 21056, field: 'SOC' },
-  //   { time: '1996', value: 11056, field: 'current' },
-  //   { time: '1996', value: 21056, field: 'voltage' },
-  //   { time: '1997', value: 31982, field: 'SOC' },
-  //   { time: '1997', value: 21982, field: 'current' },
-  //   { time: '1997', value: 31982, field: 'voltage' },
-  //   { time: '1998', value: 32040, field: 'SOC' },
-  //   { time: '1998', value: 12040, field: 'current' },
-  //   { time: '1999', value: 17000, field: 'power' },
-  //   { time: '1998', value: 32040, field: 'voltage' },
-  // ];
   if (isEmpty(chartData)) {
     return <></>;
   }
@@ -144,6 +114,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
           itemSpacing={5}
           position="top"
         />
+        <Tooltip />
       </Chart>
     </div>
   );
