@@ -7,36 +7,37 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricTerminal\index.tsx
  */
 
-import React from 'react';
-import { Tabs } from 'antd';
+import React, { useState } from 'react';
+import { Tabs, Skeleton } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import Detail from '@/components/Detail';
-import type { fieldType } from '@/utils/dictionary';
-import { valueFormat } from '@/utils';
+import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const data: any = {};
-
-  const runItems = (data?.run?.electricTerminal?.field || []).map((item: fieldType) => {
-    return { ...item, format: valueFormat };
-  });
+  const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
         <>
-          <Label title="市电负载" />
-          <Detail data={data?.run?.electricTerminal?.value || {}} items={runItems} column={5} />
+          <Skeleton.Button className="mb12" size="small" />
+          <MeterSkeleton />
+        </>
+      ) : (
+        <>
+          <Label title="运行信息" />
+          <Meter data={equipmentData || {}} />
         </>
       ),
     },
@@ -67,7 +68,7 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} />
+        <EquipInfo id={id} model={model} setLoading={setLoading} />
         <Tabs items={tabItems} />
       </Dialog>
     </>

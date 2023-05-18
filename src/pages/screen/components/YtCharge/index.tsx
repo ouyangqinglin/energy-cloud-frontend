@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
-import Meter from '@/components/Meter';
+import Meter, { MeterSkeleton } from '@/components/Meter';
 import Label from '@/components/Detail/label';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
@@ -15,13 +15,19 @@ import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import { useFormat, powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
-import { getRelatedDevice } from '@/services/equipment';
+import { getRelatedDevice, getGuns } from '@/services/equipment';
+import { arrayToMap } from '@/utils';
+import { AnyMapType } from '@/utils/dictionary';
 
 const YtCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [relatedIds, setRelatedIds] = useState([]);
-  const equipmentData = useSubscribe(id, open);
+  const [aGunId, setAGunId] = useState('');
+  const [bGunId, setBGunId] = useState('');
+  const aGunData = useSubscribe(aGunId, open);
+  const bGunData = useSubscribe(bGunId, open);
   const meterData = useSubscribe(relatedIds, open);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open && id) {
@@ -30,12 +36,17 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
           setRelatedIds(res.data.associatedIds);
         }
       });
+      getGuns(id).then(({ data = [] }) => {
+        const gunMap: AnyMapType = arrayToMap(data || [], 'key', 'deviceId');
+        setAGunId(gunMap.AGun);
+        setAGunId(gunMap.BGun);
+      });
     }
   }, [id, open]);
 
   const statusItems: DetailItem[] = [
-    { label: 'A枪状态', field: 'a', format: useFormat },
-    { label: 'B枪状态', field: 'b', format: useFormat },
+    { label: 'A枪状态', field: 'status', format: useFormat },
+    { label: 'B枪状态', field: 'status', format: useFormat },
   ];
 
   const runItems: DetailItem[] = [
@@ -47,10 +58,32 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+          <MeterSkeleton />
+        </>
+      ) : (
         <>
           <Label title="状态信息" />
-          <Detail data={equipmentData} items={statusItems} column={4} />
+          <Detail data={{ ...aGunData, ...bGunData }} items={statusItems} column={4} />
           <Label title="运行信息" />
           <Detail data={{ ...meterData }} items={runItems} column={4} />
           <Meter data={meterData} />
@@ -83,7 +116,13 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} equipmentImg={YtChargeImg} productImg={YtChargeIntroImg} />
+        <EquipInfo
+          id={id}
+          model={model}
+          equipmentImg={YtChargeImg}
+          productImg={YtChargeIntroImg}
+          setLoading={setLoading}
+        />
         <Tabs items={tabItems} />
       </Dialog>
     </>

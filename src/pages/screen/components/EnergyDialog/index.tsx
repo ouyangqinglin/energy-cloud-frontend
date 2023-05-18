@@ -2,14 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-15 09:48:24
+ * @LastEditTime: 2023-05-18 10:08:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\index.tsx
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { Modal, Tabs, Button } from 'antd';
-import { useRequest } from 'umi';
+import React, { useEffect, useState } from 'react';
+import { Tabs, Button, Skeleton, Row, Col, Space } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -26,6 +25,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [openSettingModal, setOpenSettingModal] = useState(false);
   const [equipmentIds, setEquipmentIds] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -47,7 +47,32 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: <OperationMonitor open={open} equipmentIds={equipmentIds} />,
+      children: loading ? (
+        <>
+          <Row gutter={20}>
+            <Col flex="100px">
+              <Space direction="vertical">
+                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" />
+              </Space>
+            </Col>
+            <Col flex="1">
+              <Space className="mb12" direction="vertical">
+                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" />
+              </Space>
+              <Skeleton paragraph={{ rows: 2 }} />
+              <Skeleton.Button className="mb12" size="small" />
+              <Skeleton paragraph={{ rows: 4 }} />
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <OperationMonitor open={open} equipmentIds={equipmentIds} />
+      ),
     },
     {
       label: '远程设置',
@@ -86,6 +111,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
               设置通信信息
             </Button>
           }
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

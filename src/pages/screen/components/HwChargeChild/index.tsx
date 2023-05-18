@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import { Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -26,6 +26,7 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const statusItems: DetailItem[] = [
     { label: 'A枪状态', field: 'a', format: useFormat },
@@ -40,7 +41,28 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <Label title="状态信息" />
           <Detail data={equipmentData || {}} items={statusItems} column={4} />
@@ -81,6 +103,7 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

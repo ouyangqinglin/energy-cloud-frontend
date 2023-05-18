@@ -14,7 +14,7 @@ import Weather from '@/pages/screen/components/Weather';
 import PvInverter from '@/pages/screen/components/PvInverter';
 import HwCharge from '@/pages/screen/components/HwCharge';
 import YtCharge from '@/pages/screen/components/YtCharge';
-import Gateway from '@/pages/screen/components/YtCharge';
+import Gateway from '@/pages/screen/components/Gateway';
 import ElectricTerminal from '@/pages/screen/components/ElectricTerminal';
 import ElectricMeter from '@/pages/screen/components/ElectricMeter';
 import Cabinet from '@/pages/screen/components/Cabinet';

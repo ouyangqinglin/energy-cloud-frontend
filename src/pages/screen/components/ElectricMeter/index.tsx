@@ -8,65 +8,42 @@
  */
 
 import React, { useState } from 'react';
-import { Tabs, Button } from 'antd';
+import { Tabs, Button, Skeleton } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
+import Meter, { MeterSkeleton } from '@/components/Meter';
 import EquipInfo from '@/components/EquipInfo';
-import Detail from '@/components/Detail';
 import Community from './community';
-import type { DetailItem } from '@/components/Detail';
-import { voltageFormat, currentFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
+import useSubscribe from '@/pages/screen/useSubscribe';
 
 const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [openSettingModal, setOpenSettingModal] = useState(false);
-  const data: any = {};
+  const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const onSettingClick = () => {
     setOpenSettingModal(!openSettingModal);
   };
 
-  const runItems: DetailItem[] = [
-    { label: 'A相电压', field: 'Ua', format: voltageFormat },
-    { label: 'AB线电压', field: 'Uab', format: voltageFormat },
-    { label: 'A相电流', field: 'Ia', format: currentFormat, span: 2 },
-    { label: 'B相电压', field: 'Ub', format: voltageFormat },
-    { label: 'BC线电压', field: 'Ubc', format: voltageFormat },
-    { label: 'B相电流', field: 'Ib', format: currentFormat, span: 2 },
-    { label: 'C相电压', field: 'Uc', format: voltageFormat },
-    { label: 'CA线电压', field: 'Uca', format: voltageFormat },
-    { label: 'C相电流', field: 'Ic', format: currentFormat, span: 2 },
-    { label: 'A相有功功率', field: 'Pa', format: powerFormat },
-    { label: 'A相无功功率', field: 'Qa', format: powerFormat },
-    { label: 'A相视在功率', field: 'Sa', format: powerFormat },
-    { label: 'A相功率因数', field: 'COSa' },
-    { label: 'B相有功功率', field: 'Pb', format: powerFormat },
-    { label: 'B相无功功率', field: 'Qb', format: powerFormat },
-    { label: 'B相视在功率', field: 'Sb', format: powerFormat },
-    { label: 'B相功率因数', field: 'COSb' },
-    { label: 'C相有功功率', field: 'Pc', format: powerFormat },
-    { label: 'C相无功功率', field: 'Qc', format: powerFormat },
-    { label: 'C相视在功率', field: 'Sc', format: powerFormat },
-    { label: 'C相功率因数', field: 'COSc' },
-    { label: '正向有功电能', field: 'Pimp', format: powerHourFormat },
-    { label: '反向有功电能', field: 'Qimp', format: powerHourFormat },
-    { label: '正向无功电能', field: 'Pexp', format: powerHourFormat },
-    { label: '反向无功电能', field: 'Qexp', format: powerHourFormat },
-  ];
-
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <MeterSkeleton />
+        </>
+      ) : (
         <>
           <Label title="市电负载" />
-          <Detail data={data?.run?.electricMeter?.value || {}} items={runItems} column={4} />
+          <Meter data={equipmentData || {}} />
         </>
       ),
     },
@@ -105,6 +82,7 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
               设置通信信息
             </Button>
           }
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

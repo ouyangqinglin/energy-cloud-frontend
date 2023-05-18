@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import { Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -28,6 +28,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(relatedIds, open);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open && id) {
@@ -48,7 +49,19 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <Row>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+            <Col span={12}>
+              <Skeleton.Button className="mb12" size="small" />
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <Label title="运行信息" />
           <Detail data={equipmentData || {}} items={runItems} column={4} />
@@ -87,6 +100,7 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

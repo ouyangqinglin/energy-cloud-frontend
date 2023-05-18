@@ -2,17 +2,17 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-16 15:25:35
+ * @LastEditTime: 2023-05-18 10:43:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
  */
 
-import React from 'react';
-import { Tabs } from 'antd';
+import React, { useState } from 'react';
+import { Tabs, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/Dialog';
 import EquipInfo from '@/components/EquipInfo';
-import Meter from '@/components/Meter';
+import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
 import AlarmTable from '@/components/AlarmTable';
@@ -25,12 +25,18 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
+  const [loading, setLoading] = useState(false);
 
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: (
+      children: loading ? (
+        <>
+          <Skeleton.Button className="mb12" size="small" />
+          <MeterSkeleton />
+        </>
+      ) : (
         <>
           <Label title="运行信息" />
           <Meter data={equipmentData || {}} />
@@ -69,6 +75,7 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={PvInverterCabinetImg}
           productImg={PvInverterCabinetIntroImg}
+          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>

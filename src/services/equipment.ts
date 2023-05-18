@@ -43,3 +43,12 @@ export const getRelatedDevice = (id: string) => {
     },
   });
 };
+
+export const getGuns = (id: string) => {
+  return request(`/oss/device/getABGunDeviceEncode`, {
+    method: 'GET',
+    params: {
+      deviceId: id,
+    },
+  });
+};
