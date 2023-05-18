@@ -14,6 +14,8 @@ import { useRequest } from 'umi';
 import { cloneDeep, find, isNil } from 'lodash';
 import useResize from './useResize';
 import useDragging from './useDragging';
+import QueueAnim from 'rc-queue-anim';
+import { useToggle } from 'react-use';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -22,7 +24,14 @@ const DEFAULT_DEVICE_INFO = {
 };
 
 const Geometry: FC = () => {
-  const { data: deviceList } = useRequest(getDeviceList, {});
+  const [showChild, toggle] = useToggle(false);
+  const renderChildren = () => {
+    toggle();
+  };
+  const { data: deviceList } = useRequest(getDeviceList, {
+    onError: renderChildren,
+    onSuccess: renderChildren,
+  });
   const ceilsConfig = cloneDeep(defaultConfigs);
   const fillDeviceIdForMarkDevices = () => {
     if (deviceList && deviceList?.length) {
@@ -80,7 +89,7 @@ const Geometry: FC = () => {
         </Cell>
       );
     });
-  }, []);
+  }, [ceilsConfig]);
 
   const sceneWrapperRef = useRef<HTMLDivElement>(null);
   const { resize } = useResize(sceneWrapperRef.current);
@@ -102,11 +111,15 @@ const Geometry: FC = () => {
     >
       <DemonstrationBackground width={1040} height={667} />
       <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
-      <Cell width={684} height={332} left={200} top={92}>
-        <EnergyFlowLine />
-      </Cell>
-      <EnergyFlowAnimation />
-      {ceils}
+      {showChild && (
+        <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
+          <Cell width={684} height={332} left={200} top={92}>
+            <EnergyFlowLine />
+          </Cell>
+          <EnergyFlowAnimation />
+          {ceils}
+        </QueueAnim>
+      )}
     </Cell>
   );
 };

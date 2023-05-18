@@ -1,5 +1,5 @@
 import { Axis, Chart, LineAdvance, Legend } from 'bizcharts';
-import { isEmpty, isNumber } from 'lodash';
+import { isEmpty, isNumber, sortBy } from 'lodash';
 import moment from 'moment';
 import type { FC } from 'react';
 import type { ChartDataMap, PVChartRes } from '../type';
@@ -44,7 +44,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
       if (!isNumber(item.ts)) {
         return;
       }
-      const time = moment(item.ts).format('hh: mm');
+      const time = moment(item.ts).format('HH: mm');
       const value = Math.floor(item.value * 100) / 100;
       sourceData.push({
         time,
@@ -55,11 +55,12 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
   };
   fillData(chartData?.activePower, 'powerGeneration');
   fillData(chartData?.irradiance, 'radiancy');
+  const sortedData = sortBy(sourceData, (o) => o.time);
 
   return (
     <div className={styles.chartWrapper}>
       <h3 className={styles.chartTitle}>光伏发电功率及辐照度曲线(KW)</h3>
-      <Chart height={154} data={sourceData} autoFit>
+      <Chart height={154} data={sortedData} autoFit>
         <LineAdvance shape="smooth" area color="field" position="time*value" />
         <Axis
           name="value"

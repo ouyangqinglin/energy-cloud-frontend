@@ -112,13 +112,13 @@ request.interceptors.response.use(async (response: Response) => {
         const { code } = data;
         if (code && code !== 200) {
           const msg = data.msg || codeMessage[code] || codeMessage[10000];
-          // message.warn(`${code} ${msg}`);
+          message.warn(`${code} ${msg}`);
         }
       }
     }
   } else {
     const msg = codeMessage[status] || codeMessage[10000];
-    // message.warn(`${status} ${msg}`);
+    message.warn(`${status} ${msg}`);
   }
   return response;
 });

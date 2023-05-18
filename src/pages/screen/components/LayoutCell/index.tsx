@@ -29,7 +29,7 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
       onMouseOut,
       children,
     },
-    ref = null,
+    ref,
   ) => {
     const cellStyle = {
       width: width,
@@ -43,18 +43,16 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
     };
 
     return (
-      <QueueAnim type={['top', 'bottom']} duration={1500} ease="easeInOutQuart">
-        <div
-          key="animation"
-          ref={ref}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseOut={onMouseOut}
-          style={cellStyle}
-        >
-          {children}
-        </div>
-      </QueueAnim>
+      <div
+        key="animation"
+        ref={ref}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseOut={onMouseOut}
+        style={cellStyle}
+      >
+        {children}
+      </div>
     );
   },
 );
