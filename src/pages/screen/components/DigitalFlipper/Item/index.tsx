@@ -1,4 +1,5 @@
 import type { CSSProperties, FC } from 'react';
+import { useMemo } from 'react';
 import styles from './index.less';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
@@ -29,7 +30,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   unit = '元',
   unitStyle = {},
 }) => {
-  function Text() {
+  const textNode = useMemo(() => {
     const digital = Number(num);
     if (isNumber(digital) && !isNaN(digital)) {
       const animation = {
@@ -40,12 +41,10 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       if (comma) {
         merge(animation, { Children: { formatMoney: true } });
       }
-
-      // console.log(animation);
       return <TweenOne animation={animation} />;
     }
     return <span>{'--'}</span>;
-  }
+  }, [num, floatLength, comma]);
 
   return (
     <div className={styles.wrapper} style={itemStyleWrapper}>
@@ -54,7 +53,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       </div>
       <div className={styles.content}>
         <div className={styles.number} style={numStyle}>
-          <Text />
+          {textNode}
         </div>
         <span className={styles.unit} style={unitStyle}>
           {unit}

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useEffect } from 'react';
 import styles from './index.module.less';
 import { useRequest } from 'umi';
@@ -10,11 +10,10 @@ import type { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
 import DigitalFlipperGroup from '../../DigitalFlipper/Group';
 import TimeButtonGroup, { TimeType } from '../../TimeButtonGroup';
 import { DEFAULT_REQUEST_INTERVAL, digitalFlipperItemConfig } from './config';
-import type { PVChartRes } from './type';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 
 const Photovoltaic: FC = () => {
-  const { data: chartData = {} as PVChartRes } = useRequest(getPVChart, {
+  const { data: chartData } = useRequest(getPVChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
@@ -22,20 +21,24 @@ const Photovoltaic: FC = () => {
     manual: true,
   });
 
-  const config: DigitalFlipperItemProps[] = [
-    {
-      ...digitalFlipperItemConfig.powerGeneration,
-      ...{
-        num: keepTwoDecimalWithUnit(statistics?.powerGeneration),
+  const config: DigitalFlipperItemProps[] = useMemo(
+    () => [
+      {
+        ...digitalFlipperItemConfig.powerGeneration,
+        ...{
+          num: keepTwoDecimalWithUnit(statistics?.powerGeneration),
+        },
       },
-    },
-    {
-      ...digitalFlipperItemConfig.profit,
-      ...{
-        num: keepTwoDecimalWithUnit(statistics?.profit),
+      {
+        ...digitalFlipperItemConfig.profit,
+        ...{
+          num: keepTwoDecimalWithUnit(statistics?.profit),
+        },
       },
-    },
-  ];
+    ],
+    [statistics],
+  );
+
   useEffect(() => {
     run();
   }, []);

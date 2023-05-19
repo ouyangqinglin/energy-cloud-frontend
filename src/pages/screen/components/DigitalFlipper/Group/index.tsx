@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import { uniqueId } from 'lodash';
 import QueueAnim from 'rc-queue-anim';
 import type { FC, ReactNode } from 'react';
+import { useMemo } from 'react';
 import type { DigitalFlipperItemProps } from '../Item';
 import DigitalFlipperItem from '../Item';
 import styles from './index.less';
@@ -12,7 +13,7 @@ export type DigitalFlipperProps = {
 };
 
 const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => {
-  function ItemList() {
+  const itemList = useMemo(() => {
     const nodes: ReactNode[] = [];
     config.forEach((ceil, index) => {
       const isLastCeil = index === config.length - 1;
@@ -21,8 +22,9 @@ const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => 
         nodes.push(<div key={uniqueId()} className={styles.divider} />);
       }
     });
-    return <>{nodes}</>;
-  }
+    return nodes;
+  }, [config]);
+
   return (
     <QueueAnim
       className={styles.content}
@@ -32,7 +34,7 @@ const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => 
       ease="easeInOutQuart"
     >
       <div key="animation" className={classnames([styles.content, className])}>
-        <ItemList />
+        {itemList}
       </div>
     </QueueAnim>
   );

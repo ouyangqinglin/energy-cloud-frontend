@@ -12,25 +12,6 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
     return <></>;
   }
 
-  // const data = [
-  //   { year: '1991', value: 15468, field: 'powerGeneration' },
-  //   { year: '1991', value: 32040, field: 'radiancy' },
-  //   { year: '1992', value: 16100, field: 'powerGeneration' },
-  //   { year: '1992', value: 33233, field: 'radiancy' },
-  //   { year: '1993', value: 15900, field: 'powerGeneration' },
-  //   { year: '1993', value: 15900, field: 'radiancy' },
-  //   { year: '1994', value: 17409, field: 'powerGeneration' },
-  //   { year: '1994', value: 17409, field: 'radiancy' },
-  //   { year: '1995', value: 17000, field: 'powerGeneration' },
-  //   { year: '1995', value: 17000, field: 'radiancy' },
-  //   { year: '1996', value: 21056, field: 'powerGeneration' },
-  //   { year: '1996', value: 11056, field: 'radiancy' },
-  //   { year: '1997', value: 31982, field: 'powerGeneration' },
-  //   { year: '1997', value: 21982, field: 'radiancy' },
-  //   { year: '1998', value: 32040, field: 'powerGeneration' },
-  //   { year: '1998', value: 12040, field: 'radiancy' },
-  // ];
-
   const sourceData: {
     time: string;
     value: number;
@@ -110,7 +91,7 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
               fill: '#6C8097',
             },
             formatter: (text) => {
-              return text === 'radiancy' ? '辐射度' : '发电功率';
+              return text === 'radiancy' ? '辐照度' : '发电功率';
             },
           }}
           offsetX={0}
