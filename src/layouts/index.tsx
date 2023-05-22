@@ -2,31 +2,45 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 18:57:33
- * @LastEditTime: 2023-04-27 19:51:43
+ * @LastEditTime: 2023-05-22 14:48:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\index.tsx
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Layout } from 'antd';
 import MyHeader from '@/components/header/MyHeader';
 import styles from './index.less';
 import PageMenu from '@/components/Menu/PageMenu';
+import TopMenu from '@/components/Menu/TopMenu';
 import Breadcrumb from '@/components/Breadcrumb';
 
 const MyLayout: React.FC = (props: any) => {
   const { route } = props;
+
+  const layoutMenu = useMemo(() => {
+    if (route.menu == 'sider') {
+      return (
+        <Layout.Sider className={styles.sider} theme="light">
+          <PageMenu />
+        </Layout.Sider>
+      );
+    } else if (route.menu == 'top') {
+      return (
+        <Layout.Header className={styles.topHeader}>
+          <TopMenu />
+        </Layout.Header>
+      );
+    }
+  }, [route.menu]);
+
   return (
     <Layout className={styles.myLayout}>
       <Layout.Header className={styles.header}>
         <MyHeader />
       </Layout.Header>
       <Layout id="myLayoutContain">
-        {route?.menu == 'sider' && (
-          <Layout.Sider className={styles.sider} theme="light">
-            <PageMenu />
-          </Layout.Sider>
-        )}
+        {layoutMenu}
         <Layout.Content className={styles.content}>
           {route?.menu == 'sider' && <Breadcrumb />}
           {props.children}

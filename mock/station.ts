@@ -40,6 +40,13 @@ export default {
     ],
     total: 1,
   },
+  'GET /api/station/1': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      name: '永泰示范站',
+    },
+  },
   'DELETE /api/station/1': {
     msg: '操作成功',
     code: 200,

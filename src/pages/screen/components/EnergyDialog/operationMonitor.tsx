@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-15 16:54:01
+ * @LastEditTime: 2023-05-22 16:34:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
  */
@@ -61,7 +61,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
         <div>
           温度{(currentPage - 1) * 13 + 6}:
           <span className="card-temp-value">
-            {tempFormat(emsData?.['Temperature' + (currentPage + 7)])}
+            {tempFormat(bmsData?.['Temperature' + (currentPage + 7)])}
           </span>
         </div>
       </div>
@@ -74,7 +74,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
           电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 1}
         </span>
         <div className="card-battery-value">
-          {voltageFormat(emsData?.['Voltage' + ((currentPage - 1) * 24 + index + 1)] || '_')}
+          {voltageFormat(bmsData?.['Voltage' + ((currentPage - 1) * 24 + index + 1)] || '_')}
         </div>
       </div>,
     );
@@ -84,7 +84,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
           电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 13}
         </span>
         <div className="card-battery-value">
-          {voltageFormat(emsData?.['Voltage' + ((currentPage - 1) * 24 + index + 13)] || '_')}
+          {voltageFormat(bmsData?.['Voltage' + ((currentPage - 1) * 24 + index + 13)] || '_')}
         </div>
       </div>,
     );
@@ -96,7 +96,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
         <div>
           温度{(currentPage - 1) * 13 + index + 1}:
           <span className="card-temp-value">
-            {tempFormat(emsData?.['Temperature' + ((currentPage - 1) * 13 + index + 1)])}
+            {tempFormat(bmsData?.['Temperature' + ((currentPage - 1) * 13 + index + 1)])}
           </span>
         </div>
       </div>,
@@ -106,7 +106,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
         <div>
           温度{(currentPage - 1) * 13 + index + 7}:
           <span className="card-temp-value">
-            {tempFormat(emsData?.['Temperature' + ((currentPage - 1) * 13 + index + 7)])}
+            {tempFormat(bmsData?.['Temperature' + ((currentPage - 1) * 13 + index + 7)])}
           </span>
         </div>
         <span className="card-temp-dot"></span>

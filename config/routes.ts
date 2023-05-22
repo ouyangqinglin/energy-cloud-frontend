@@ -50,6 +50,24 @@ export default [
     ],
   },
   {
+    path: '/station-manage',
+    name: 'stationManage',
+    layout: false,
+    menu: 'top',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/station-manage',
+        redirect: '/station-manage/operation-monitor',
+      },
+      {
+        path: '/station-manage/operation-monitor',
+        name: 'operationMonitor',
+        component: './station/stationManage/operationMonitor',
+      },
+    ],
+  },
+  {
     path: '/equipment',
     name: 'equipment',
     layout: false,
