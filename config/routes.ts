@@ -65,6 +65,26 @@ export default [
         name: 'operationMonitor',
         component: './station/stationManage/operationMonitor',
       },
+      {
+        path: '/station-manage/equipment-list',
+        name: 'equipmentList',
+      },
+      {
+        path: '/station-manage/alarm-record',
+        name: 'alarmRecord',
+      },
+      {
+        path: '/station-manage/setting',
+        name: 'setting',
+      },
+      {
+        path: '/station-manage/data-query',
+        name: 'dataQuery',
+      },
+      {
+        path: '/station-manage/service-record',
+        name: 'serviceRecord',
+      },
     ],
   },
   {
