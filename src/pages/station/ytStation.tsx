@@ -24,7 +24,6 @@ import BoxSubstation from '@/pages/screen/components/BoxSubstation';
 import HwChargeChild from '@/pages/screen/components/HwChargeChild';
 import HwChargeYt from '@/pages/screen/components/HwChargeYt';
 import Position from '@/pages/screen/components/Position';
-import { getPoint } from '@/utils/map';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);

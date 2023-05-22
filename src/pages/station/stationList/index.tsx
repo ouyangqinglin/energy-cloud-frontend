@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-16 11:47:28
+ * @LastEditTime: 2023-05-22 16:55:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
 import React, { useRef, useState, useCallback } from 'react';
 import { Button, Modal, message } from 'antd';
+import { useHistory } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -19,7 +20,7 @@ import StationForm from './components/edit';
 const StationList: React.FC = () => {
   const [formData, setFormData] = useState<StationFormType | undefined>();
   const [open, setOpen] = useState(false);
-
+  const history = useHistory();
   const actionRef = useRef<ActionType>();
 
   const onAddClick = useCallback(() => {
@@ -45,6 +46,15 @@ const StationList: React.FC = () => {
     }
   };
 
+  const onInClick = useCallback((record) => {
+    history.push({
+      pathname: '/station-manage/operation-monitor',
+      query: {
+        id: record.id,
+      },
+    });
+  }, []);
+
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
@@ -54,7 +64,7 @@ const StationList: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      <Button type="link" size="small" key="in">
+      <Button type="link" size="small" key="in" onClick={() => onInClick(record)}>
         进入
       </Button>
       <Button type="link" size="small" key="edit" onClick={() => onEditData(record)}>

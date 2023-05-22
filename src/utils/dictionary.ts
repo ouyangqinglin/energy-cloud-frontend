@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-05-10 17:35:01
+ * @LastEditTime: 2023-05-19 11:20:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -15,7 +15,7 @@ import rainstorm from '@/assets/image/screen/weather/rainstorm.png';
 import thunderstorm from '@/assets/image/screen/weather/thunderstorm.png';
 
 export const aks = [
-  { key: 'adc5f4cb7d9630de00cf073b00437130', securityJsCode: 'a6fc788a6ad5e326462e9e080c42ae2d' },
+  { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
 ];
 
 export enum EnergyEquipmentEnum {

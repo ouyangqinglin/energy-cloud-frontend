@@ -50,6 +50,44 @@ export default [
     ],
   },
   {
+    path: '/station-manage',
+    name: 'stationManage',
+    layout: false,
+    menu: 'top',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/station-manage',
+        redirect: '/station-manage/operation-monitor',
+      },
+      {
+        path: '/station-manage/operation-monitor',
+        name: 'operationMonitor',
+        component: './station/stationManage/operationMonitor',
+      },
+      {
+        path: '/station-manage/equipment-list',
+        name: 'equipmentList',
+      },
+      {
+        path: '/station-manage/alarm-record',
+        name: 'alarmRecord',
+      },
+      {
+        path: '/station-manage/setting',
+        name: 'setting',
+      },
+      {
+        path: '/station-manage/data-query',
+        name: 'dataQuery',
+      },
+      {
+        path: '/station-manage/service-record',
+        name: 'serviceRecord',
+      },
+    ],
+  },
+  {
     path: '/equipment',
     name: 'equipment',
     layout: false,
