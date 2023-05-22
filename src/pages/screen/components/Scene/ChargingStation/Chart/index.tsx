@@ -1,4 +1,4 @@
-import { Axis, Chart, Area, Line, LineAdvance } from 'bizcharts';
+import { Axis, Chart, Area, Line, LineAdvance, Tooltip } from 'bizcharts';
 import type { ScaleOption } from 'bizcharts/lib/interface';
 import { isEmpty, isNumber } from 'lodash';
 import moment from 'moment';
@@ -27,6 +27,7 @@ const ChargingStation: FC<Props> = ({ chartData }) => {
   const sourceData: {
     time: string;
     value: number;
+    field: string;
   }[] = [];
   const fillData = (arr: ChartDataMap[]) => {
     if (isEmpty(arr)) {
@@ -41,6 +42,7 @@ const ChargingStation: FC<Props> = ({ chartData }) => {
       sourceData.push({
         time,
         value,
+        field: 'chargingGunCurve',
       });
     });
   };
@@ -49,6 +51,13 @@ const ChargingStation: FC<Props> = ({ chartData }) => {
   const scale: Record<string, ScaleOption> = {
     value: {
       alias: '充电功率曲线(KW)',
+    },
+  };
+
+  const tooltipMap = {
+    chargingGunCurve: {
+      name: '充电功率',
+      unit: 'kW',
     },
   };
 
@@ -95,6 +104,27 @@ const ChargingStation: FC<Props> = ({ chartData }) => {
           }}
           tickLine={null}
         />
+        <Tooltip showCrosshairs>
+          {(title, items: any) => {
+            return (
+              <>
+                <div style={{ paddingTop: 10 }}>{title}</div>
+                {items.map((it: any, idx: number) => {
+                  const name = tooltipMap[it.data.field].name;
+                  const unit = tooltipMap[it.data.field].unit;
+                  return (
+                    <>
+                      <div style={{ paddingTop: 10 }} key={idx}>
+                        {name}: {it.value + ' ' + unit}
+                      </div>
+                      <br />
+                    </>
+                  );
+                })}
+              </>
+            );
+          }}
+        </Tooltip>
       </Chart>
     </>
   );

@@ -306,6 +306,25 @@ export default [
     ],
   },
   {
+    name: 'user-manager',
+    path: '/user-manager',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/user-manager',
+        redirect: '/user-manager/accounts',
+      },
+      {
+        name: 'accounts',
+        icon: 'PartitionOutlined',
+        path: '/user-manager/accounts',
+        component: 'user-manager/accounts/Customer',
+      },
+    ],
+  },
+  {
     name: 'monitor',
     icon: 'BugOutlined',
     path: '/monitor',

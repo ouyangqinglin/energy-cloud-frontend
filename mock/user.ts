@@ -438,6 +438,34 @@ export default {
         ],
       },
       {
+        name: 'User-manager',
+        path: '/user-manager',
+        hidden: false,
+        redirect: 'noRedirect',
+        component: 'Layout',
+        alwaysShow: true,
+        meta: {
+          title: '用户管理',
+          icon: 'UserOutlined',
+          noCache: false,
+          link: null,
+        },
+        children: [
+          {
+            name: 'Accounts',
+            path: 'accounts',
+            hidden: false,
+            component: 'accounts/Customer/index',
+            meta: {
+              title: '权限管理',
+              icon: 'FormOutlined',
+              noCache: false,
+              link: null,
+            },
+          },
+        ],
+      },
+      {
         name: 'Monitor',
         path: '/monitor',
         hidden: false,

@@ -1,4 +1,4 @@
-import { Axis, Chart, LineAdvance, Legend } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Tooltip, Point } from 'bizcharts';
 import { isEmpty, isNumber, sortBy } from 'lodash';
 import moment from 'moment';
 import type { FC } from 'react';
@@ -37,6 +37,17 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
   fillData(chartData?.activePower, 'powerGeneration');
   fillData(chartData?.irradiance, 'radiancy');
   const sortedData = sortBy(sourceData, (o) => o.time);
+
+  const tooltipMap = {
+    powerGeneration: {
+      name: '发电功率',
+      unit: 'kW',
+    },
+    radiancy: {
+      name: '辐照度',
+      unit: 'W/㎡',
+    },
+  };
 
   return (
     <div className={styles.chartWrapper}>
@@ -81,6 +92,27 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
           }}
           tickLine={null}
         />
+        <Tooltip showCrosshairs>
+          {(title, items: any) => {
+            return (
+              <>
+                <div style={{ paddingTop: 10 }}>{title}</div>
+                {items.map((it: any, idx: number) => {
+                  const name = tooltipMap[it.data.field].name;
+                  const unit = tooltipMap[it.data.field].unit;
+                  return (
+                    <>
+                      <div style={{ paddingTop: 10 }} key={idx}>
+                        {name}: {it.value + ' ' + unit}
+                      </div>
+                      <br />
+                    </>
+                  );
+                })}
+              </>
+            );
+          }}
+        </Tooltip>
         <Legend
           marker={{
             symbol: 'hyphen',
