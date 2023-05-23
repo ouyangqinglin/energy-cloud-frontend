@@ -24,6 +24,6 @@ export type YTProColumns<D, V = any> = ProColumns<D, V> & {
     url: string;
     methods?: 'post' | 'get';
     mapKey?: Record<string, string>;
-    path?: string;
+    dataIndex?: string;
   };
 };

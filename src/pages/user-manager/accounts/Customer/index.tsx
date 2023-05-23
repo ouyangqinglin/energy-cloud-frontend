@@ -3,8 +3,10 @@ import type { AccountListDataType } from './data.d';
 import { getAccountList } from './service';
 import YTProTable from '@/components/YTProTable';
 import type { CustomTableProps, YTProColumns } from '@/components/YTProTable/typing';
+import { useToggle } from 'ahooks';
+import { YTModalForm } from './components/edit';
 
-const StationList: React.FC = () => {
+const Customer: React.FC = () => {
   const columns: YTProColumns<AccountListDataType>[] = [
     {
       title: '序号',
@@ -80,7 +82,7 @@ const StationList: React.FC = () => {
     //   width: 150,
     // },
     {
-      title: '代理商1',
+      title: '代理商',
       dataIndex: 'provider',
       valueType: 'select',
       hideInTable: true,
@@ -90,7 +92,7 @@ const StationList: React.FC = () => {
           label: 'name',
           value: 'id',
         },
-        path: 'provider',
+        dataIndex: 'provider',
       },
       width: 150,
     },
@@ -113,9 +115,12 @@ const StationList: React.FC = () => {
     },
   ];
 
+  const [state, { setLeft, setRight }] = useToggle<boolean>(false);
   const customConfig: CustomTableProps<AccountListDataType, any> = {
     toolbar: {
-      onChange() {},
+      onChange() {
+        setRight();
+      },
     },
     option: {
       onDeleteChange() {},
@@ -123,13 +128,16 @@ const StationList: React.FC = () => {
   };
 
   return (
-    <YTProTable<AccountListDataType>
-      columns={columns}
-      {...customConfig}
-      scroll={{ x: 1366 }}
-      request={(params) => getAccountList(params)}
-    />
+    <>
+      <YTProTable<AccountListDataType>
+        columns={columns}
+        {...customConfig}
+        scroll={{ x: 1366 }}
+        request={(params) => getAccountList(params)}
+      />
+      <YTModalForm open={state} onClose={setLeft} />
+    </>
   );
 };
 
-export default StationList;
+export default Customer;

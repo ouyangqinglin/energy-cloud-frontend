@@ -1,5 +1,5 @@
 import type { DetailItem } from '@/components/Detail';
-import { keepAnyDecimal, keepTwoDecimalWithUnit } from '@/utils/math';
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 import type { DigitalFlipperItemProps } from '../../DigitalFlipper/Item';
 import { RealtimeStatusEnum } from './type';
 
@@ -17,12 +17,12 @@ export const gunInfoItem: DetailItem[] = [
   {
     label: 'SOC',
     field: 'soc',
-    format: (value) => keepAnyDecimal(Number(value) * 100, '--', 4) + '%',
+    format: (value) => keepTwoDecimalWithUnit(Number(value)) + '%',
   },
   {
     label: 'SOH',
     field: 'soh',
-    format: (value) => keepAnyDecimal(Number(value) * 100, '--', 4) + '%',
+    format: (value) => keepTwoDecimalWithUnit(Number(value)) + '%',
   },
 ];
 

@@ -12,7 +12,7 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
       const {
         url,
         mapKey = { label: '', value: '' },
-        path = '',
+        dataIndex = '',
         methods = 'get',
       } = col.requestOption;
       const request = methods === 'get' ? requestGet : requestPost;
@@ -20,8 +20,8 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
         try {
           const { data } = await request(url, params);
           let rawData: Record<string, string>[] = [];
-          if (path) {
-            rawData = get(data, path);
+          if (dataIndex) {
+            rawData = get(data, dataIndex);
           }
 
           if (isEmpty(rawData)) {

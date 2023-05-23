@@ -42,7 +42,7 @@ const EnergyStorage: FC = () => {
   );
 
   const processedData = useMemo(() => {
-    const { statistics = {} } = statisticsData ?? {};
+    const { statistics = {} } = statisticsData ?? ({} as StatisticsRes);
     const rawData: Record<string, any> = statistics;
     if (!isNaN(rawData?.realTimeStatus)) {
       const realtimeConfig = RealtimeStatusMap[rawData?.realTimeStatus as RealtimeStatusEnum];
