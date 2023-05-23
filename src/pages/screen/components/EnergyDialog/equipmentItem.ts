@@ -48,7 +48,7 @@ export const statusItems: DetailItem[] = [
   },
   { label: 'EMS系统状态', field: 'emsSysStatus', format: runFormat },
   { label: '系统模式', field: 'sysModel', format: modelFormat },
-  { label: 'BMS主接触器状态', field: 'BMSContactorClosed', format: closeFormat },
+  { label: 'BMS主接触器状态', field: 'MainContactorStatus', format: closeFormat },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },

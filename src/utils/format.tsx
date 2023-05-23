@@ -16,7 +16,7 @@ export const communicateFormat = (value: number) => {
     0: '正常',
     1: '失联',
   };
-  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const runFormat = (value: number) => {
   const map = {
@@ -105,7 +105,7 @@ export const faultFormat = (value: number) => {
     0: '正常',
     1: '故障',
   };
-  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const doorFormat = (value: number) => {
   const map = {
@@ -141,21 +141,21 @@ export const fault1Format = (value: number) => {
     0: '正常',
     1: '一级故障',
   };
-  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const fault2Format = (value: number) => {
   const map = {
     0: '正常',
     1: '二级故障',
   };
-  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const fault3Format = (value: number) => {
   const map = {
     0: '正常',
     1: '三级故障',
   };
-  return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
+  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const outputFormat = (status: number) => {
   const map = {
