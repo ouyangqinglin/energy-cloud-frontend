@@ -52,18 +52,15 @@ const TopMenu: React.FC = () => {
 
   const onChange = useCallback((key) => {
     history.push({
-      pathname: key,
-      query: {
-        id: location.query?.id,
-      },
+      pathname: `${key}?id=${(location as LocationType).query?.id}`,
     });
   }, []);
 
   useEffect(() => {
-    getStation(location.query?.id).then((res) => {
+    getStation((location as LocationType).query?.id).then((res) => {
       dispatch({ type: 'get', payload: res.data || {} });
     });
-  }, [location.query?.id]);
+  }, [(location as LocationType).query?.id]);
 
   return (
     <>

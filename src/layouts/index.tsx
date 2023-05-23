@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 18:57:33
- * @LastEditTime: 2023-05-22 14:48:02
+ * @LastEditTime: 2023-05-22 19:32:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\index.tsx
  */
@@ -31,6 +31,8 @@ const MyLayout: React.FC = (props: any) => {
           <TopMenu />
         </Layout.Header>
       );
+    } else {
+      return <></>;
     }
   }, [route.menu]);
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-22 16:55:54
+ * @LastEditTime: 2023-05-22 19:30:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -48,10 +48,7 @@ const StationList: React.FC = () => {
 
   const onInClick = useCallback((record) => {
     history.push({
-      pathname: '/station-manage/operation-monitor',
-      query: {
-        id: record.id,
-      },
+      pathname: `/station-manage/operation-monitor?id=${record.id}`,
     });
   }, []);
 
