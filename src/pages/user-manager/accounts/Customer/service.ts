@@ -1,26 +1,13 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-05-04 14:26:05
- * @LastEditTime: 2023-05-04 14:26:09
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\service.ts
- */
-import request from '@/utils/request';
-import { StationFormType } from './data.d';
+import request, { get } from '@/utils/request';
+import { RequestData } from '@ant-design/pro-table';
+import type { AccountListDataType } from './data';
 
-export const getList = (params: any) => {
-  return request(`/stations`, {
-    method: 'GET',
-    params,
-  });
+export const getAccountList = (params: any) => {
+  return get<AccountListDataType>(`/accounts/list`, params);
 };
 
-export const addData = (data: StationFormType) => {
-  return request(`/station`, {
-    method: 'POST',
-    data,
-  });
+export const getProviders = () => {
+  return get(`/accounts/get/provider`);
 };
 
 export const removeData = (id: string) => {

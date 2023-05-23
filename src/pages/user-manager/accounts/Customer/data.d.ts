@@ -7,25 +7,17 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
  */
 
-export type StationType = {
-  name: string;
+export type AccountListDataType = {
   id: string;
-  createTime: string;
-  deliveryTime: string;
-  country: string;
-  province: string;
-  city: string;
-  serviceCompany: string;
+  account: string;
+  userName: string;
+  role: string;
+  phone: string;
+  serviceOrganization: string;
   status: number;
-  operator: string;
+  note: string;
   updateTime: string;
-};
-
-export type StationFormType = {
-  id?: number;
-  name: string;
-  addr: string;
-  icon: string;
-  img: string;
-  remark: string;
+  createTime: string;
+  creator: string;
+  operator: string;
 };

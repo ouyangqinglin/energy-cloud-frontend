@@ -1,90 +1,102 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-16 11:47:28
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
- */
 import React from 'react';
-import type { ProColumns } from '@ant-design/pro-table';
-import type { StationType } from './data.d';
-import { buildStatus } from '@/utils/dictionary';
-import { getList } from './service';
+import type { AccountListDataType } from './data.d';
+import { getAccountList } from './service';
 import YTProTable from '@/components/YTProTable';
-import type { CustomTableProps } from '@/components/YTProTable/typing';
+import type { CustomTableProps, YTProColumns } from '@/components/YTProTable/typing';
 
 const StationList: React.FC = () => {
-  const columns: ProColumns<StationType>[] = [
+  const columns: YTProColumns<AccountListDataType>[] = [
     {
       title: '序号',
       valueType: 'index',
       width: 48,
     },
     {
-      title: '站点名称',
-      dataIndex: 'name',
-      width: 120,
+      title: '用户账号',
+      dataIndex: 'account',
+      width: 140,
       ellipsis: true,
     },
     {
-      title: '站点ID',
-      dataIndex: 'id',
+      title: '用户名称',
+      dataIndex: 'userName',
+    },
+    {
+      title: '角色',
+      dataIndex: 'role',
+      hideInSearch: true,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+      width: 120,
+      hideInSearch: true,
+    },
+    {
+      title: '服务机构',
+      width: 120,
+      ellipsis: true,
+      dataIndex: 'serviceOrganization',
+      hideInSearch: true,
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      valueEnum: new Map([
+        [1, '有效'],
+        [0, '无效'],
+      ]),
+    },
+    {
+      title: '备注',
+      dataIndex: 'note',
+      hideInSearch: true,
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => <span>{record.createTime}</span>,
-      search: {
-        transform: (value) => {
-          return {
-            beginTime: value[0],
-            endTime: value[1],
-          };
+      hideInSearch: true,
+      width: 150,
+    },
+    // {
+    //   title: '代理商',
+    //   dataIndex: 'provider',
+    //   valueType: 'select',
+    //   hideInTable: true,
+    //   request: async () => {
+    //     const {
+    //       data: { provider = [] },
+    //     } = await getProviders();
+    //     const rawSource = provider.map((it) => {
+    //       return {
+    //         label: it.name,
+    //         value: it.id,
+    //       };
+    //     });
+    //     return rawSource;
+    //   },
+    //   width: 150,
+    // },
+    {
+      title: '代理商1',
+      dataIndex: 'provider',
+      valueType: 'select',
+      hideInTable: true,
+      requestOption: {
+        url: '/accounts/get/provider',
+        mapKey: {
+          label: 'name',
+          value: 'id',
         },
+        path: 'provider',
       },
       width: 150,
     },
     {
-      title: '交付时间',
-      dataIndex: 'deliveryTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: '国家',
-      dataIndex: 'country',
-      hideInSearch: true,
-    },
-    {
-      title: '省份',
-      dataIndex: 'province',
-      hideInSearch: true,
-    },
-    {
-      title: '城市',
-      dataIndex: 'city',
-      hideInSearch: true,
-    },
-    {
-      title: '服务单位',
-      dataIndex: 'serviceCompany',
-      hideInSearch: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: '建设状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: buildStatus,
-      hideInSearch: true,
-    },
-    {
-      title: '操作人',
-      dataIndex: 'operator',
+      title: '创建人',
+      dataIndex: 'creator',
       hideInSearch: true,
     },
     {
@@ -94,9 +106,14 @@ const StationList: React.FC = () => {
       hideInSearch: true,
       width: 150,
     },
+    {
+      title: '更新人',
+      dataIndex: 'operator',
+      hideInSearch: true,
+    },
   ];
 
-  const customConfig: CustomTableProps<StationType, any> = {
+  const customConfig: CustomTableProps<AccountListDataType, any> = {
     toolbar: {
       onChange() {},
     },
@@ -106,18 +123,11 @@ const StationList: React.FC = () => {
   };
 
   return (
-    <YTProTable<StationType>
+    <YTProTable<AccountListDataType>
       columns={columns}
       {...customConfig}
-      request={(params) =>
-        getList(params).then((res) => {
-          return {
-            data: res.rows,
-            total: res.total,
-            success: true,
-          };
-        })
-      }
+      scroll={{ x: 1366 }}
+      request={(params) => getAccountList(params)}
     />
   );
 };
