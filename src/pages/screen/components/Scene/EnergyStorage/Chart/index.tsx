@@ -114,7 +114,6 @@ const PhotovoltaicChart: FC<Props> = ({ chartData }) => {
           itemSpacing={5}
           position="top"
         />
-        <Tooltip />
       </Chart>
     </div>
   );
