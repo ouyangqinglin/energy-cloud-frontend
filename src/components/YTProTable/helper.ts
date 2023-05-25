@@ -2,7 +2,7 @@ import { get as requestGet, post as requestPost } from '@/utils/request';
 import { get, isEmpty } from 'lodash';
 import type { YTProColumns } from './typing';
 
-export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | undefined) => {
+export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V> | undefined) => {
   if (!Array.isArray(columns) || !columns.length) {
     return [];
   }
@@ -43,8 +43,6 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
           return [];
         }
       };
-
-      console.log(col);
     }
 
     return col;

@@ -101,7 +101,6 @@
     "react-intl": "^5.24.6",
     "react-router": "^4.3.1",
     "react-sortable-hoc": "^2.0.0",
-    "react-use": "^17.4.0",
     "timeago.js": "^4.0.2",
     "umi": "^3.5.0",
     "umi-plugin-keep-alive": "^0.0.1-beta.18",

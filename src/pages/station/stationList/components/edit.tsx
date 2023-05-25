@@ -16,7 +16,7 @@ import {
   ProFormTextArea,
   ProFormUploadButton,
 } from '@ant-design/pro-form';
-import { StationFormType } from '../data.d';
+import type { StationFormType } from '../data.d';
 import { addData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
 
@@ -66,9 +66,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           name="name"
           placeholder="请输入"
           rules={[{ required: true, message: '站点名称必填' }]}
-        ></ProFormText>
+        />
         <Form.Item label="位置" name="addr" rules={[{ required: true, message: '位置必填' }]}>
-          {show && <PositionSelect></PositionSelect>}
+          {show && <PositionSelect />}
         </Form.Item>
         <Row gutter={20}>
           <Col span={12}>
@@ -86,7 +86,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 name: 'file',
                 listType: 'picture-card',
               }}
-            ></ProFormUploadButton>
+            />
           </Col>
           <Col span={12}>
             <ProFormUploadButton
@@ -103,10 +103,10 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 </div>
               }
               title="上传图片"
-            ></ProFormUploadButton>
+            />
           </Col>
         </Row>
-        <ProFormTextArea label="备注" name="remark" placeholder="请输入"></ProFormTextArea>
+        <ProFormTextArea label="备注" name="remark" placeholder="请输入" />
       </ModalForm>
     </>
   );

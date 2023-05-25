@@ -12,7 +12,7 @@ export default function genDefaultOperation<
   const defaultOptionConfig: ProColumns<DataType, ValueType> = {
     title: '操作',
     valueType: 'option',
-    width: 'auto',
+    width: '120px',
     fixed: 'right',
     render: (...renderProp) => (
       <>

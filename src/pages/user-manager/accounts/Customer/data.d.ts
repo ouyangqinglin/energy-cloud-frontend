@@ -11,7 +11,7 @@ export type AccountListDataType = {
   id: string;
   account: string;
   userName: string;
-  role: string;
+  roles: string;
   phone: string;
   serviceOrganization: string;
   status: number;
@@ -20,4 +20,15 @@ export type AccountListDataType = {
   createTime: string;
   creator: string;
   operator: string;
+};
+
+export type CustomerInfo = {
+  provider: string;
+  account: string;
+  userName: string;
+  phone: string;
+  roles: string;
+  status: number;
+  password: string;
+  note: string;
 };
