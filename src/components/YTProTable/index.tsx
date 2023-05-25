@@ -1,8 +1,9 @@
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import ProTable from '@ant-design/pro-table';
+import { ProTable } from '@ant-design/pro-components';
+// import ProTable from '@ant-design/pro-table';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { ProTableProps } from '@ant-design/pro-table';
+import type { ProTableProps } from '@ant-design/pro-components';
 
 import type { CustomTableProps } from './typing';
 import genDefaultOperation from './operation';

@@ -7,7 +7,14 @@ export default {
     data: {
       total: 12,
       list: [
-        { id: 1, name: '深圳代理商', service: '深圳服务商' },
+        {
+          id: 1,
+          name: '深圳代理商',
+          service: [
+            { id: 1, name: '深圳服务商' },
+            { id: 2, name: '深圳服务商1' },
+          ],
+        },
         { id: 2, name: '深圳龙华代理商' },
         { id: 3, name: '深圳光明代理商' },
         { id: 4, name: '深圳代理商' },

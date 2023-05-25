@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 09:51:58
- * @LastEditTime: 2023-05-24 19:32:54
+ * @LastEditTime: 2023-05-25 09:24:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\index.tsx
  */
@@ -127,7 +127,14 @@ const TableSelect = <
 };
 
 const valueRender: ProRenderFieldPropsType['render'] = (value, props, dom) => {
-  return <>{[value].flat(1).join(',')}</>;
+  return (
+    <>
+      {[value]
+        .flat(1)
+        .map((item) => item?.name)
+        .join(',')}
+    </>
+  );
 };
 
 const formRender: ProRenderFieldPropsType['renderFormItem'] = (value, props, dom) => {

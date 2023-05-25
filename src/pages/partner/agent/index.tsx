@@ -2,11 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-05-25 09:15:29
+ * @LastEditTime: 2023-05-25 09:50:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\index.tsx
  */
 import React from 'react';
+import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
@@ -143,17 +145,20 @@ const Agent: React.FC = () => {
   return (
     <>
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
-        <BetaSchemaForm
-          trigger={<span>点击我</span>}
-          columns={formColumns}
-          layoutType="ModalForm"
-        ></BetaSchemaForm>
         <YTProTable<AgentType, AgentType, TABLESELECTVALUETYPE>
           columns={columns}
-          toolbar={{
-            onChange: onAddClick,
-            buttonText: '新建代理商',
-          }}
+          toolBarRender={
+            <BetaSchemaForm
+              trigger={
+                <Button type="primary">
+                  <PlusOutlined />
+                  新建代理商
+                </Button>
+              }
+              columns={formColumns}
+              layoutType="ModalForm"
+            ></BetaSchemaForm>
+          }
           option={{
             onEditChange: onEditClick,
           }}
