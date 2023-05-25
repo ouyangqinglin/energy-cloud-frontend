@@ -1,6 +1,15 @@
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 
-export type CustomTableProps<D, V> = {
+export type YTProColumns<D, V> = ProColumns<D, V> & {
+  requestOption?: {
+    url: string;
+    methods?: 'post' | 'get';
+    mapKey?: Record<string, string>;
+    dataIndex?: string;
+  };
+};
+
+export type YTProTableProps<D, P, V> = {
   toolbar?: {
     buttonText?: string;
     onChange: () => void;
@@ -12,18 +21,5 @@ export type CustomTableProps<D, V> = {
     onDetailChange?: ProColumns<D, V>['render'];
     onEnterChange?: ProColumns<D, V>['render'];
   };
-};
-
-export type BaseDataTypeConfig = {
-  createTime?: number;
-  updateTime?: number;
-};
-
-export type YTProColumns<D, V = any> = ProColumns<D, V> & {
-  requestOption?: {
-    url: string;
-    methods?: 'post' | 'get';
-    mapKey?: Record<string, string>;
-    dataIndex?: string;
-  };
-};
+  columns?: YTProColumns<D, V>[];
+} & Omit<ProTableProps<D, P, V>, 'columns'>;

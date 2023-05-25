@@ -1,10 +1,10 @@
 import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
-import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-form';
+import type { ProFormInstance } from '@ant-design/pro-form';
+import { BetaSchemaForm } from '@ant-design/pro-form';
 import { defaults, get, omit, unset } from 'lodash';
 import type { SchemaModalFormChildProps } from './typing';
 import { FormOperations } from './typing';
 import { normalizeRequestOption } from '../YTProTable/helper';
-import type { YTProColumns } from '../YTProTable/typing';
 import { useEffect, useRef } from 'react';
 
 const DEFAULT_PROPS = {
@@ -34,7 +34,7 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
 
   const { operations } = mergeProps;
 
-  // 只读
+  // 只读操作，去除校验规则
   const readonly = isRead(operations) ? true : false;
   if (readonly) {
     mergeProps.columns = mergeProps.columns.map((c) => {
@@ -47,14 +47,14 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
     });
   }
 
-  // 新增
+  // 新增操作，忽略请求数据
   if (isCreate(operations)) {
     mergeProps = omit(mergeProps, ['request']);
   }
 
   const { columns, visible, onVisibleChange, initialValues, ...restProps } = mergeProps;
-  // TODO: 支持选项式的请求
-  const customColumns = normalizeRequestOption<T, ValueType>(columns as YTProColumns<T, ValueType>);
+  // 支持选项式的请求
+  const customColumns = normalizeRequestOption<T, ValueType>(columns);
 
   // 重置表单
   const formRef = useRef<ProFormInstance>();

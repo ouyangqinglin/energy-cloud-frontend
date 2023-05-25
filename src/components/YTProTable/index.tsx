@@ -2,9 +2,7 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { ProTableProps } from '@ant-design/pro-table';
-
-import type { CustomTableProps, YTProColumns } from './typing';
+import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
 import { normalizeRequestOption } from './helper';
 
@@ -13,7 +11,7 @@ const YTProTable = <
   Params extends ParamsType = ParamsType,
   ValueType = 'text',
 >(
-  props: ProTableProps<DataType, Params, ValueType> & CustomTableProps<DataType, ValueType>,
+  props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
   const { toolBarRender, columns, actionRef, toolbar, ...restProps } = props;
 
@@ -27,9 +25,7 @@ const YTProTable = <
   const toolBar = toolBarRender ? toolBarRender : toolBarNode;
 
   // TODO: 支持选项式的请求
-  const customColumns = normalizeRequestOption<DataType, ValueType>(
-    columns as YTProColumns<DataType, ValueType>,
-  );
+  const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
 
   // 合并默认的操作(删除，编辑，进入)
   const defaultOperation = genDefaultOperation<DataType, ValueType>(props);
