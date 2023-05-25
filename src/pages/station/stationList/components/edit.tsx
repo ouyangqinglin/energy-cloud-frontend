@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-05 17:53:15
+ * @LastEditTime: 2023-05-24 15:06:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -19,6 +19,9 @@ import {
 import { StationFormType } from '../data.d';
 import { addData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
+import TableSelect from '@/components/TableSelect';
+import type { ProColumns } from '@ant-design/pro-table';
+import { getAgent } from '@/services/agent';
 
 type StationFOrmProps = {
   values?: StationFormType;
@@ -26,13 +29,47 @@ type StationFOrmProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
+type AgentType = {
+  id: string;
+  name: string;
+};
+
 const StationForm: React.FC<StationFOrmProps> = (props) => {
   const [form] = Form.useForm<StationFormType>();
   const [show, setShow] = useState(false);
 
+  const [agent, setAgent] = useState([]);
+
+  const requestTable = (params: Record<string, any>) => {
+    return getAgent(params).then(({ data }) => {
+      return {
+        data: data?.list,
+        total: data?.total,
+        success: true,
+      };
+    });
+  };
+
+  const columns: ProColumns<AgentType>[] = [
+    {
+      title: '代理商ID',
+      dataIndex: 'id',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '代理商名称',
+      dataIndex: 'name',
+      width: 200,
+      ellipsis: true,
+    },
+  ];
+
   useEffect(() => {
     if (props.open) {
       form.resetFields();
+      form.setFieldValue('agent', agent);
       if (props.values) {
         form.setFieldsValue(props.values);
       }
@@ -69,6 +106,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         ></ProFormText>
         <Form.Item label="位置" name="addr" rules={[{ required: true, message: '位置必填' }]}>
           {show && <PositionSelect></PositionSelect>}
+        </Form.Item>
+        <Form.Item label="代理商" name="agent">
+          <TableSelect proTableProps={{ columns, request: requestTable }} />
         </Form.Item>
         <Row gutter={20}>
           <Col span={12}>

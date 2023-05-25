@@ -6,7 +6,9 @@ export default function genDefaultOperation<
   DataType extends Record<string, any>,
   ValueType = 'text',
 >(props: CustomTableProps<DataType, ValueType>) {
-  const { option: { modalDeleteText, onEditChange, onDeleteChange, onEnterChange } = {} } = props;
+  const {
+    option: { modalDeleteText, onEditChange, onDeleteChange, onEnterChange, onDetailChange } = {},
+  } = props;
 
   // 设置默认的option
   const defaultOptionConfig: ProColumns<DataType, ValueType> = {
@@ -16,6 +18,11 @@ export default function genDefaultOperation<
     fixed: 'right',
     render: (...renderProp) => (
       <>
+        {onDetailChange && (
+          <Button type="link" size="small" key="in" onClick={() => onDetailChange?.(...renderProp)}>
+            查看详情
+          </Button>
+        )}
         {onEnterChange && (
           <Button type="link" size="small" key="in" onClick={() => onEnterChange?.(...renderProp)}>
             进入

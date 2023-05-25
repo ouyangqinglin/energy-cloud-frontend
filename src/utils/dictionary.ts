@@ -73,7 +73,7 @@ export const weatherInfo = [
   { label: thunderstorm, value: '雷阵雨' },
 ];
 
-export const weekInfo = ['星期天', '周一', '周二', '周三', '周四', '周五', '周六'];
+export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
 export const color = {};
 
@@ -97,6 +97,17 @@ export const onlineStatus = {
   },
   0: {
     text: '离线',
+    status: 'Error',
+  },
+};
+
+export const effectStatus = {
+  1: {
+    text: '有效',
+    status: 'Success',
+  },
+  0: {
+    text: '无效',
     status: 'Error',
   },
 };

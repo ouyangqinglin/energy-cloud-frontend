@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-03-13 19:26:34
- * @LastEditTime: 2023-05-11 08:53:22
+ * @LastEditTime: 2023-05-23 15:57:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\map.ts
  */
@@ -75,9 +75,8 @@ export function getGeocoder() {
         const getAddress = (point: AMap.LngLat) => {
           return new Promise<any>((resolve, reject) => {
             if (point.lng && point.lat) {
-              geocoder.getAddress(
-                getPoint(point.lng, point.lat),
-                (status: AutoComStatusEnum, result: any) => {
+              getPoint(point.lng, point.lat).then((resPoint) => {
+                geocoder.getAddress(resPoint, (status: AutoComStatusEnum, result: any) => {
                   if (status === AutoComStatusEnum.Complete) {
                     resolve(result);
                   } else if (status === AutoComStatusEnum.NoData) {
@@ -85,8 +84,8 @@ export function getGeocoder() {
                   } else {
                     reject();
                   }
-                },
-              );
+                });
+              });
             } else {
               resolve({});
             }
@@ -125,14 +124,19 @@ export function getIcon(icon: AMap.IconOptions) {
 }
 
 export function getMarker(marker: AMap.MarkerOptions, icon?: AMap.IconOptions) {
-  const myIcon = icon && getIcon(icon);
-  const myMarker = new window.AMap.Marker({
-    position: getPoint(marker?.position?.[0], marker?.position?.[1]),
-    icon: marker.icon || myIcon,
-    offset: marker.offset && new window.AMap.Pixel(marker.offset[0], marker.offset[1]),
+  return new Promise((resolve) => {
+    mapLoad().then(() => {
+      const myIcon = icon && getIcon(icon);
+      getPoint(marker?.position?.[0], marker?.position?.[1]).then((resPoint) => {
+        const myMarker = new window.AMap.Marker({
+          position: resPoint,
+          icon: marker.icon || myIcon,
+          offset: marker.offset && new window.AMap.Pixel(marker.offset[0], marker.offset[1]),
+        });
+        resolve({ marker: myMarker, icon: myIcon });
+      });
+    });
   });
-
-  return { marker: myMarker, icon: myIcon };
 }
 
 export function getPoint(lng: number, lat: number) {

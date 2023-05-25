@@ -37,6 +37,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
   const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
     ...(params || {}),
+    deviceId: params?.id,
     startTime: moment().subtract(1, 'day').format(dateFormat),
     endTime: moment().format(dateFormat),
   };

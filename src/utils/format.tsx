@@ -1,4 +1,4 @@
-import { getValue } from '@/utils';
+import { getValue, isEmpty } from '@/utils';
 import dayjs from 'dayjs';
 
 export const timeFormat = (value: string) => {
@@ -100,13 +100,6 @@ export const workFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
-export const faultFormat = (value: number) => {
-  const map = {
-    0: '正常',
-    1: '故障',
-  };
-  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
-};
 export const doorFormat = (value: number) => {
   const map = {
     0: '关门',
@@ -136,26 +129,45 @@ export const abnormalFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const faultFormat = (value: number) => {
+  const map = {
+    0: '正常',
+  };
+  return (
+    <span className={value == 0 ? 'cl-success' : 'cl-error'}>
+      {isEmpty(value) ? '' : map[value] || '故障'}
+    </span>
+  );
+};
 export const fault1Format = (value: number) => {
   const map = {
     0: '正常',
-    1: '一级故障',
   };
-  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
+  return (
+    <span className={value == 0 ? 'cl-success' : 'cl-error'}>
+      {isEmpty(value) ? '' : map[value] || '一级故障'}
+    </span>
+  );
 };
 export const fault2Format = (value: number) => {
   const map = {
     0: '正常',
-    1: '二级故障',
   };
-  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
+  return (
+    <span className={value == 0 ? 'cl-success' : 'cl-error'}>
+      {isEmpty(value) ? '' : map[value] || '二级故障'}
+    </span>
+  );
 };
 export const fault3Format = (value: number) => {
   const map = {
     0: '正常',
-    1: '三级故障',
   };
-  return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
+  return (
+    <span className={value == 0 ? 'cl-success' : 'cl-error'}>
+      {isEmpty(value) ? '' : map[value] || '三级故障'}
+    </span>
+  );
 };
 export const outputFormat = (status: number) => {
   const map = {

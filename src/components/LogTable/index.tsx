@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-16 16:53:18
+ * @LastEditTime: 2023-05-23 15:07:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
@@ -36,6 +36,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
   const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
     ...(params || {}),
+    deviceId: params?.id,
     startTime: moment().subtract(1, 'day').format(dateFormat),
     endTime: moment().format(dateFormat),
   };

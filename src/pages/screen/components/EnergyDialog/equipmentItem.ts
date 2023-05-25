@@ -177,7 +177,6 @@ export const measureItems: DetailItem[] = [
 ];
 
 export const bmsStatusItems: DetailItem[] = [
-  { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
   { label: '预充接触器状态', field: 'PrechargeContactorStatus', format: closeFormat },
   { label: '直流断路器状态', field: 'DCCircuitBreakerStatus', format: closeFormat },
   { label: '交流断路器状态', field: 'ACCircuitBreakerStatus', format: closeFormat },
