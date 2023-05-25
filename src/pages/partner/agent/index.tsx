@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-05-25 09:50:41
+ * @LastEditTime: 2023-05-25 14:05:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\index.tsx
  */
@@ -147,8 +147,9 @@ const Agent: React.FC = () => {
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <YTProTable<AgentType, AgentType, TABLESELECTVALUETYPE>
           columns={columns}
-          toolBarRender={
+          toolBarRender={() => (
             <BetaSchemaForm
+              key="add"
               trigger={
                 <Button type="primary">
                   <PlusOutlined />
@@ -158,8 +159,11 @@ const Agent: React.FC = () => {
               columns={formColumns}
               layoutType="ModalForm"
             ></BetaSchemaForm>
-          }
+          )}
           option={{
+            columnsProp: {
+              width: '120px',
+            },
             onEditChange: onEditClick,
           }}
           request={requestList}

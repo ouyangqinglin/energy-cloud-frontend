@@ -103,6 +103,11 @@ export default [
         name: 'equipmentList',
         component: './equipment/equipment-list',
       },
+      {
+        path: 'alarm',
+        name: 'alarm',
+        component: './equipment/alarm',
+      },
     ],
   },
   {

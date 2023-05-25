@@ -111,3 +111,21 @@ export const effectStatus = {
     status: 'Error',
   },
 };
+
+export const alarmStatus = {
+  1: {
+    text: '已恢复',
+  },
+  0: {
+    text: '未恢复',
+  },
+};
+
+export const alarmSourceStatus = {
+  1: {
+    text: '平台告警',
+  },
+  0: {
+    text: '设备告警',
+  },
+};

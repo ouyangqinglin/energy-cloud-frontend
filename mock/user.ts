@@ -283,6 +283,18 @@ export default {
               link: null,
             },
           },
+          {
+            name: '',
+            path: 'alarm',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '告警列表',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
         ],
       },
       {

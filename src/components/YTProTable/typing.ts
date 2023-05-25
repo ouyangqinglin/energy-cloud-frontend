@@ -6,11 +6,13 @@ export type CustomTableProps<D, V> = {
     onChange: () => void;
   };
   option?: {
+    columnsProp?: Omit<ProColumns<D, V>, 'render'>;
     modalDeleteText?: string;
     onDeleteChange?: ProColumns<D, V>['render'];
     onEditChange?: ProColumns<D, V>['render'];
     onDetailChange?: ProColumns<D, V>['render'];
     onEnterChange?: ProColumns<D, V>['render'];
+    render?: ProColumns<D, V>['render'];
   };
 };
 

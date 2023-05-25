@@ -32,10 +32,7 @@ const YTProTable = <
 
   // 合并默认的操作(删除，编辑，进入)
   const defaultOperation = genDefaultOperation<DataType, ValueType>(props);
-  const shouldMergeOperation = columns?.find((column) => {
-    return column.valueType !== 'option';
-  });
-  if (shouldMergeOperation) {
+  if (defaultOperation) {
     customColumns?.push(defaultOperation);
   }
 
