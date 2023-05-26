@@ -32,6 +32,10 @@ export enum FormTypeEnum {
   Detail = 'detail',
 }
 
+export type FileType = {
+  url: string;
+};
+
 export enum AutoComStatusEnum {
   Complete = 'complete',
   Error = 'error',
@@ -73,13 +77,11 @@ export const weatherInfo = [
   { label: thunderstorm, value: '雷阵雨' },
 ];
 
-export const weekInfo = ['星期天', '周一', '周二', '周三', '周四', '周五', '周六'];
+export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
 export const color = {};
 
 export const buildStatus = {
-  // 0: '建设中',
-  // 1: '已交付',
   1: {
     text: '已交付',
     status: 'Success',
@@ -93,10 +95,39 @@ export const buildStatus = {
 export const onlineStatus = {
   1: {
     text: '在线',
-    status: 'Success',
+    status: 'Processing',
   },
   0: {
     text: '离线',
     status: 'Error',
+  },
+};
+
+export const effectStatus = {
+  1: {
+    text: '有效',
+    status: 'Success',
+  },
+  0: {
+    text: '无效',
+    status: 'Error',
+  },
+};
+
+export const alarmStatus = {
+  1: {
+    text: '已恢复',
+  },
+  0: {
+    text: '未恢复',
+  },
+};
+
+export const alarmSourceStatus = {
+  1: {
+    text: '平台告警',
+  },
+  0: {
+    text: '设备告警',
   },
 };

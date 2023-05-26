@@ -8,23 +8,15 @@
  */
 
 export type EquipmentType = {
-  id: string;
+  deviceId: string;
   name: string;
   sn: string;
   model: string;
-  type: string;
+  productTypeName: string;
+  subsystemName: string;
   childSystem: string;
-  station: string;
+  siteName: string;
   createTime: string;
-  onlineTime: string;
-  status: number;
-};
-
-export type StationFormType = {
-  id?: number;
-  name: string;
-  addr: string;
-  icon: string;
-  img: string;
-  remark: string;
+  sessionStartTime: string;
+  connectStatus: number;
 };

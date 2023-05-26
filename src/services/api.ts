@@ -2,9 +2,21 @@
 /* eslint-disable */
 import request from '@/utils/request';
 
+export const uploadFile = (formData: any) => {
+  return request(`/uc/upload`, {
+    method: 'POST',
+    data: formData,
+  });
+};
+
+export const getDeviceSubsystem = () => {
+  return request(`/iot/product/subsystemList`, {
+    method: 'GET',
+  });
+};
 
 /** 此处后端没有提供注释 GET /notices */
-export async function getNotices (options?: { [key: string]: any }) {
+export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/notices', {
     method: 'GET',
     ...(options || {}),
@@ -12,7 +24,7 @@ export async function getNotices (options?: { [key: string]: any }) {
 }
 
 /** 获取规则列表 GET /rule */
-export async function rule (
+export async function rule(
   params: {
     // query
     /** 当前的页码 */
@@ -32,7 +44,7 @@ export async function rule (
 }
 
 /** 新建规则 PUT /rule */
-export async function updateRule (options?: { [key: string]: any }) {
+export async function updateRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/rule', {
     method: 'PUT',
     ...(options || {}),
@@ -40,7 +52,7 @@ export async function updateRule (options?: { [key: string]: any }) {
 }
 
 /** 新建规则 POST /rule */
-export async function addRule (options?: { [key: string]: any }) {
+export async function addRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/rule', {
     method: 'POST',
     ...(options || {}),
@@ -48,7 +60,7 @@ export async function addRule (options?: { [key: string]: any }) {
 }
 
 /** 删除规则 DELETE /rule */
-export async function removeRule (options?: { [key: string]: any }) {
+export async function removeRule(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/rule', {
     method: 'DELETE',
     ...(options || {}),

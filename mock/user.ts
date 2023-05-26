@@ -283,6 +283,58 @@ export default {
               link: null,
             },
           },
+          {
+            name: '',
+            path: 'alarm',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '告警列表',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
+        ],
+      },
+      {
+        name: '',
+        path: '/partner',
+        hidden: false,
+        redirect: 'noRedirect',
+        component: '',
+        alwaysShow: true,
+        meta: {
+          title: '代理商/服务商',
+          icon: '',
+          noCache: false,
+          link: null,
+        },
+        children: [
+          {
+            name: '',
+            path: 'agent',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '代理商',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
+          {
+            name: '',
+            path: 'service',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '服务商',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
         ],
       },
       {

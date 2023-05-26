@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-17 11:26:28
+ * @LastEditTime: 2023-05-26 10:41:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -13,11 +13,19 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import { EquipFormType } from './data.d';
-import { editData, getData, getStations, getProductTypes, getProductModels } from './service';
+import {
+  editData,
+  getData,
+  addData,
+  getStations,
+  getProductTypes,
+  getProductModels,
+} from './service';
 import { FormTypeEnum, OptionType } from '@/utils/dictionary';
+import { api } from '@/services';
 
 export type EquipFormProps = {
-  id: string;
+  id?: string;
   model?: string;
   open: boolean;
   onCancel: () => void;
@@ -27,8 +35,12 @@ export type EquipFormProps = {
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
   const { id, model, open, onCancel, type, onSuccess } = props;
+  const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { loading: getLoading, run: runGet } = useRequest(getData, {
+    manual: true,
+  });
+  const { loading: addLoading, run: runAdd } = useRequest(addData, {
     manual: true,
   });
   const { loading: editLoading, run: runEdit } = useRequest(editData, {
@@ -39,6 +51,32 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   const triggerSubmit = () => {
     form.submit();
   };
+
+  const beforeUpload = useCallback((file, field) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    api.uploadFile(formData).then(({ data }) => {
+      if (data.url) {
+        form.setFieldValue(field, [{ url: data.url }]);
+      }
+    });
+    return false;
+  }, []);
+
+  const onFinish = useCallback((formData: EquipFormType) => {
+    const request = type == FormTypeEnum.Add ? runAdd : runEdit;
+    return request({
+      ...formData,
+      deviceId: id,
+      photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
+    }).then((data) => {
+      if (data) {
+        message.success('保存成功');
+        onSuccess?.();
+        onCancel?.();
+      }
+    });
+  }, []);
 
   const requestStations = useCallback(
     () =>
@@ -53,9 +91,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     [],
   );
 
-  const requestProductType = useCallback(
+  const requestDeviceSubsystem = useCallback(
     () =>
-      getProductTypes().then(({ data = {} }) => {
+      api.getDeviceSubsystem().then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
             label: item.name,
@@ -65,6 +103,19 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       }),
     [],
   );
+
+  const requestProductType = useCallback((subsystemId) => {
+    getProductTypes({ subsystemId }).then(({ data = {} }) => {
+      setTypeOption(
+        data?.map?.((item: any) => {
+          return {
+            label: item.name,
+            value: item.id,
+          };
+        }),
+      );
+    });
+  }, []);
 
   const requestProductModel = useCallback((productType) => {
     if (productType) {
@@ -81,23 +132,33 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  const onValuesChange = useCallback(({ productType }) => {
+  const onValuesChange = useCallback(({ productType, subsystemId }) => {
+    if (subsystemId) {
+      requestProductType(subsystemId);
+      form.setFieldValue('productType', undefined);
+      form.setFieldValue('productId', undefined);
+    }
     if (productType) {
       requestProductModel(productType);
+      form.setFieldValue('productId', undefined);
     }
   }, []);
 
-  const getValueFromEvent = (e: any) => {
-    console.log(e);
-  };
+  const getValueFromEvent = useCallback((e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  }, []);
 
   useEffect(() => {
     if (open) {
       form.resetFields();
       if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
-        runGet(id).then((res) => {
-          form.setFieldsValue({ ...res, imgs: [{ url: res?.url || '' }] });
-          requestProductModel(res?.productType);
+        runGet(id).then((data) => {
+          form.setFieldsValue({ ...data, photosList: data?.url ? [{ url: data.url }] : [] });
+          requestProductType(data?.subsystemId);
+          requestProductModel(data?.productType);
         });
       }
     }
@@ -112,22 +173,14 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         width="460px"
         onCancel={onCancel}
         onOk={triggerSubmit}
-        confirmLoading={getLoading || editLoading}
+        confirmLoading={getLoading || editLoading || addLoading}
       >
         <ProForm<EquipFormType>
           form={form}
           layout="horizontal"
           labelCol={{ flex: '84px' }}
           autoFocusFirstInput
-          onFinish={(formData) =>
-            runEdit({ ...formData, deviceId: id }).then((res) => {
-              if (res) {
-                message.success('保存成功');
-                onSuccess?.();
-                onCancel();
-              }
-            })
-          }
+          onFinish={onFinish}
           onValuesChange={onValuesChange}
           submitter={false}
         >
@@ -142,10 +195,21 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             disabled={type == FormTypeEnum.Edit}
           ></ProFormSelect>
           <ProFormSelect
+            label="子系统"
+            name="subsystemId"
+            placeholder="请选择"
+            request={requestDeviceSubsystem}
+            fieldProps={{
+              getPopupContainer: (triggerNode) => triggerNode.parentElement,
+            }}
+            rules={[{ required: true, message: '子系统必选' }]}
+            disabled={type == FormTypeEnum.Edit}
+          ></ProFormSelect>
+          <ProFormSelect
             label="产品类型"
             name="productType"
             placeholder="请选择"
-            request={requestProductType}
+            options={typeOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
@@ -172,20 +236,21 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           <ProFormText label="设备SN" name="sn" placeholder="请输入"></ProFormText>
           <ProFormUploadButton
             label="设备照片"
-            name="imgs"
+            name="photosList"
             valuePropName="fileList"
             getValueFromEvent={getValueFromEvent}
+            title="上传图片"
             max={1}
+            fieldProps={{
+              name: 'file',
+              listType: 'picture-card',
+              beforeUpload: (file) => beforeUpload(file, 'photosList'),
+            }}
             icon={
               <div>
                 <PlusOutlined />
               </div>
             }
-            title="上传图片"
-            fieldProps={{
-              name: 'file',
-              listType: 'picture-card',
-            }}
           ></ProFormUploadButton>
         </ProForm>
       </Dialog>

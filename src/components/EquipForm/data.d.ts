@@ -6,19 +6,17 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\data.d.ts
  */
-import { AnyMapType } from '@/utils/dictionary';
-
-export type fileType = {
-  url: string;
-};
+import { AnyMapType, FileType } from '@/utils/dictionary';
 
 export type EquipFormType = AnyMapType & {
   deviceId?: string;
   siteId?: string;
+  subsystemId?: string;
   productType?: string;
   productId?: string;
   name?: string;
   sn?: string;
   url?: string;
-  imgs?: fileType[];
+  photos?: string;
+  photosList?: fileType[];
 };

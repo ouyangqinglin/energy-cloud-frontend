@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-22 16:34:27
+ * @LastEditTime: 2023-05-23 14:02:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
  */
@@ -122,7 +122,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
         <>
           <Label title="系统时钟" />
           <div className="desc-label mb12">
-            {emsData?.sysTem ? `${emsData.sysTem} ${emsData?.week || ''}` : <>无</>}
+            {emsData?.sysTem ? `${emsData.sysTem} ${weekInfo[emsData?.week]}` : <>无</>}
           </div>
           <Label title="状态信息" />
           <Detail data={emsData || {}} items={statusItems} column={5} />

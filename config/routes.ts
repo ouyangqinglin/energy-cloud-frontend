@@ -104,6 +104,34 @@ export default [
         name: 'equipmentList',
         component: './equipment/equipment-list',
       },
+      {
+        path: 'alarm',
+        name: 'alarm',
+        component: './equipment/alarm',
+      },
+    ],
+  },
+  {
+    path: '/partner',
+    name: 'partner',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/partner',
+        redirect: '/partner/agent',
+      },
+      {
+        path: 'agent',
+        name: 'agent',
+        component: './partner/agent',
+      },
+      {
+        path: 'service',
+        name: 'service',
+        component: './partner/service',
+      },
     ],
   },
   {

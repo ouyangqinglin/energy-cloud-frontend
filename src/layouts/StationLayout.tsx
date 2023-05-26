@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 16:55:31
- * @LastEditTime: 2023-04-27 19:35:52
+ * @LastEditTime: 2023-05-26 10:24:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\StationLayout.tsx
  */
@@ -17,7 +17,7 @@ const StationLayout: React.FC = (props) => {
       <Layout.Header className={styles.header}>
         <MyHeader />
       </Layout.Header>
-      {props.children}
+      <div id="myLayoutContain">{props.children}</div>
     </Layout>
   );
 };

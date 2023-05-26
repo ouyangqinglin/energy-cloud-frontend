@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-05-06 15:10:01
+ * @LastEditTime: 2023-05-26 12:02:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -11,14 +11,13 @@ import { Button, Modal, message, Badge } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import type { EquipmentType, StationFormType } from './data.d';
+import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
 import { getList, removeData, getTabs } from './service';
-import StationForm from './components/edit';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType, FormTypeEnum } from '@/utils/dictionary';
+import EquipForm from '@/components/EquipForm';
 
 const StationList: React.FC = () => {
-  const [formData, setFormData] = useState<StationFormType | undefined>();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab0');
   const [tabItems, setTabItems] = useState<OptionType[]>([]);
@@ -26,36 +25,25 @@ const StationList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
   const onAddClick = useCallback(() => {
-    setFormData(undefined);
     setOpen(true);
   }, []);
 
-  const onEditData = (data: EquipmentType) => {
-    // data.addr = {
-    //   address: '广东省深圳市龙华区长兴路',
-    //   point: {
-    //     lng: 114.0714940667767,
-    //     lat: 22.686739677916982
-    //   }
-    // };
-    setFormData(data);
-    setOpen(true);
+  const onSuccess = () => {
+    actionRef?.current?.reload?.();
   };
 
-  const onOpenChange = (value: boolean) => {
-    if (!value) {
-      setOpen(value);
-    }
-  };
+  const onSwitchOpen = useCallback(() => {
+    setOpen((data) => !data);
+  }, []);
 
   const handleRequest = (params: any) => {
     getTabs({}).then((res) => {
       setTabItems(res.data || []);
     });
-    return getList(params).then((res) => {
+    return getList(params).then(({ data }) => {
       return {
-        data: res.rows,
-        total: res.total,
+        data: data?.list,
+        total: data?.total,
         success: true,
       };
     });
@@ -77,12 +65,6 @@ const StationList: React.FC = () => {
       <Button type="link" size="small" key="detail">
         查看详情
       </Button>
-      <Button type="link" size="small" key="forbidden">
-        启用
-      </Button>
-      <Button type="link" size="small" key="edit" onClick={() => onEditData(record)}>
-        编辑
-      </Button>
       <Button
         type="link"
         size="small"
@@ -90,11 +72,11 @@ const StationList: React.FC = () => {
         onClick={() => {
           Modal.confirm({
             title: '删除',
-            content: '确定要删除改站点吗？',
+            content: '确定要删除该设备吗？',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
-              removeData(record.id).then(() => {
+              removeData({ deviceId: record.deviceId }).then(() => {
                 message.success('删除成功');
                 if (actionRef.current) {
                   actionRef.current.reload();
@@ -139,7 +121,7 @@ const StationList: React.FC = () => {
   const columns: ProColumns<EquipmentType>[] = [
     {
       title: '设备ID',
-      dataIndex: 'id',
+      dataIndex: 'deviceId',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
@@ -153,7 +135,8 @@ const StationList: React.FC = () => {
     {
       title: '设备SN',
       dataIndex: 'sn',
-      width: 120,
+      width: 150,
+      ellipsis: true,
     },
     {
       title: '型号',
@@ -164,21 +147,21 @@ const StationList: React.FC = () => {
     },
     {
       title: '产品类型',
-      dataIndex: 'type',
-      width: 120,
+      dataIndex: 'productTypeName',
+      width: 150,
       hideInSearch: true,
       ellipsis: true,
     },
     {
       title: '子系统',
-      dataIndex: 'childSystem',
+      dataIndex: 'subsystemName',
       width: 80,
       hideInSearch: true,
       ellipsis: true,
     },
     {
       title: '所属站点',
-      dataIndex: 'station',
+      dataIndex: 'siteName',
       width: 150,
       ellipsis: true,
     },
@@ -196,24 +179,27 @@ const StationList: React.FC = () => {
         },
       },
       width: 150,
+      ellipsis: true,
     },
     {
       title: '上线时间',
-      dataIndex: 'onlineTime',
+      dataIndex: 'sessionStartTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
+      ellipsis: true,
     },
     {
       title: '通信状态',
-      dataIndex: 'status',
+      dataIndex: 'connectStatus',
       valueType: 'select',
       valueEnum: onlineStatus,
+      width: 120,
     },
     {
       title: '操作',
       valueType: 'option',
-      width: 220,
+      width: 150,
       fixed: 'right',
       render: rowBar,
     },
@@ -242,8 +228,13 @@ const StationList: React.FC = () => {
         pagination={{
           showSizeChanger: true,
         }}
-      ></ProTable>
-      <StationForm values={formData} open={open} onOpenChange={onOpenChange} />
+      />
+      <EquipForm
+        open={open}
+        onCancel={onSwitchOpen}
+        type={FormTypeEnum.Add}
+        onSuccess={onSuccess}
+      />
     </>
   );
 };

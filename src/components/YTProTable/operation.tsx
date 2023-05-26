@@ -1,6 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-table';
 import { Button, Modal } from 'antd';
-import { isFunction } from 'lodash';
+import { isFunction, isEmpty } from 'lodash';
 import type { ReactNode } from 'react';
 import type { YTProTableCustomProps } from './typing';
 import styles from './index.less';
@@ -59,46 +59,58 @@ export default function genDefaultOperation<
   DataType extends Record<string, any>,
   ValueType = 'text',
 >(props: YTProTableCustomProps<DataType, ValueType>) {
+  const { option = {} } = props;
   const {
-    option: { modalDeleteText, onEditChange, onDetailChange, onDeleteChange, onEnterChange } = {},
-  } = props;
+    columnsProp = {},
+    modalDeleteText,
+    onEditChange,
+    onDetailChange,
+    onDeleteChange,
+    onEnterChange,
+    render,
+  } = option;
 
   const operationsCollection = [onEnterChange, onDetailChange, onEditChange, onDeleteChange].filter(
     (fn) => isFunction(fn),
   );
   const widthLength = operationsCollection.length;
-  console.log(widthLength);
 
   // 设置默认的option
   const defaultOptionConfig: ProColumns<DataType, ValueType> = {
     title: '操作',
+    dataIndex: 'option',
     valueType: 'option',
     width: widthLength * 50 + 50,
     fixed: 'right',
+    ...columnsProp,
     render: (...renderProp) => {
       const renderButtonGroup: ReactNode[] = [];
-      [onEnterChange, onDetailChange, onEditChange, onDeleteChange].forEach((fn) => {
-        if (fn && isFunction(fn)) {
-          const key = fn.name;
-          const renderButton = operationsMap.get(key);
+      if (render) {
+        renderButtonGroup.push(render(...renderProp));
+      }
+      ['onEnterChange', 'onDetailChange', 'onEditChange', 'onDeleteChange'].forEach((buttonKey) => {
+        const fn = option[buttonKey];
+        console.log(fn);
+
+        if (buttonKey && isFunction(fn)) {
+          const renderButton = operationsMap.get(buttonKey);
           if (!renderButton) {
             return;
           }
 
-          renderButtonGroup.push(renderButton(() => fn(...renderProp), modalDeleteText));
-
+          // 插入分割线
           if (renderButtonGroup.length > 0) {
-            renderButtonGroup.push(<div key={key} className={styles.divider} />);
+            renderButtonGroup.push(<div key={buttonKey} className={styles.divider} />);
           }
+
+          // 插入需要显示的元素
+          renderButtonGroup.push(renderButton(() => fn(...renderProp), modalDeleteText));
         }
       });
-
-      if (renderButtonGroup.length) {
-        renderButtonGroup.pop();
-      }
       return <div className={styles.operationWrapper}>{renderButtonGroup}</div>;
     },
   };
+  console.log(option);
 
-  return defaultOptionConfig;
+  return isEmpty(option) ? '' : defaultOptionConfig;
 }

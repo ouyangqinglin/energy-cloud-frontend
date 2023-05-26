@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 18:57:33
- * @LastEditTime: 2023-05-22 19:32:14
+ * @LastEditTime: 2023-05-26 10:22:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\index.tsx
  */
@@ -16,7 +16,7 @@ import TopMenu from '@/components/Menu/TopMenu';
 import Breadcrumb from '@/components/Breadcrumb';
 
 const MyLayout: React.FC = (props: any) => {
-  const { route } = props;
+  const { route = {} } = props;
 
   const layoutMenu = useMemo(() => {
     if (route.menu == 'sider') {
