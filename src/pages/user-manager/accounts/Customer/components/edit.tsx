@@ -119,9 +119,7 @@ export const CustomerModal = (props: {
 }) => {
   return (
     <YTModalForm<CustomerInfo>
-      layoutType={'ModalForm'}
-      title={'新增账号'}
-      columns={columns}
+      title={'新增市电电价规则'}
       onFinish={async (values) => {
         console.log(values);
         await saveCustomerInfo(values);
@@ -133,6 +131,8 @@ export const CustomerModal = (props: {
         });
       }}
       {...props}
-    />
+    >
+      Form
+    </YTModalForm>
   );
 };

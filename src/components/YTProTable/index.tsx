@@ -44,6 +44,7 @@ const YTProTable = <
       toolBarRender={toolBar}
       search={{
         labelWidth: 'auto',
+        searchText: '搜索',
       }}
       pagination={{
         showSizeChanger: true,

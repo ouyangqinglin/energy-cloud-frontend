@@ -1,0 +1,22 @@
+.category {
+  border-bottom: 1px dashed #e4e7ed;
+  :global {
+    .ant-tabs-ink-bar {
+      background-color: transparent;
+    }
+    .ant-tabs-tab {
+      margin: 12px 0;
+      padding: 0 8px;
+    }
+    .ant-tabs-tab-active {
+      color: #165dff;
+      background: rgba(22, 93, 255, 0.1);
+    }
+    .ant-tabs-nav {
+      background-color: #fff;
+      &::before {
+        border-bottom: 0;
+      }
+    }
+  }
+}

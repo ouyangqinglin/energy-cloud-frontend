@@ -5284,10 +5284,10 @@
     "rmc-tabs" "~1.2.0"
     "rmc-tooltip" "~1.0.0"
 
-"antd@^4.1.2", "antd@^4.1.3", "antd@^4.14.0", "antd@^4.20.0 ", "antd@^4.6.3", "antd@>=4.4.2 || >=5.0.0-beta.0":
-  "integrity" "sha512-VPgjzGk9o8UZESlaIGLI8Vei7Dudlrd7bopWm+Adw7uevRejtBMAatnQUNo8hACjuGYIW7AYLU6wYe1dorBX0Q=="
-  "resolved" "https://registry.npmmirror.com/antd/-/antd-4.24.9.tgz"
-  "version" "4.24.9"
+"antd@^4.1.2", "antd@^4.1.3", "antd@^4.20.0 ", "antd@^4.24.10", "antd@^4.6.3", "antd@>=4.4.2 || >=5.0.0-beta.0":
+  "integrity" "sha512-GihdwTGFW0dUaWjcvSIfejFcT63HjEp2EbYd+ojEXayldhey230KrHDJ+C53rkrkzLvymrPBfSxlLxJzyFIZsg=="
+  "resolved" "https://registry.npmmirror.com/antd/-/antd-4.24.10.tgz"
+  "version" "4.24.10"
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
