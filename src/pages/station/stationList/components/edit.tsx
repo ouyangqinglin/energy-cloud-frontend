@@ -2,78 +2,111 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-24 15:06:20
+ * @LastEditTime: 2023-05-26 13:46:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Button, Form, message, Row, Col } from 'antd';
+import { useRequest } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProForm,
   ProFormText,
   ProFormTextArea,
+  ProFormDigit,
   ProFormUploadButton,
 } from '@ant-design/pro-form';
+import type { ModalFormProps } from '@ant-design/pro-form';
 import { StationFormType } from '../data.d';
-import { addData } from '../service';
+import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
-import TableSelect from '@/components/TableSelect';
-import type { ProColumns } from '@ant-design/pro-table';
-import { getAgent } from '@/services/agent';
+import { FormTypeEnum } from '@/utils/dictionary';
+import type { UploadProps } from 'antd/es/upload/interface';
+import { api } from '@/services';
 
 type StationFOrmProps = {
-  values?: StationFormType;
+  id?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-};
-
-type AgentType = {
-  id: string;
-  name: string;
+  type: FormTypeEnum;
+  onSuccess?: () => void;
 };
 
 const StationForm: React.FC<StationFOrmProps> = (props) => {
+  const { type, id, onSuccess } = props;
+
   const [form] = Form.useForm<StationFormType>();
   const [show, setShow] = useState(false);
+  const { run: runGet } = useRequest(getData, {
+    manual: true,
+  });
+  const { run: runAdd } = useRequest(addData, {
+    manual: true,
+  });
+  const { run: runEdit } = useRequest(editData, {
+    manual: true,
+  });
 
-  const [agent, setAgent] = useState([]);
+  const getValueFromEvent = useCallback((e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  }, []);
 
-  const requestTable = (params: Record<string, any>) => {
-    return getAgent(params).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
+  const beforeUpload = useCallback((file, field) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const fieldList = field + 'List';
+    let photosList: string[];
+    if (field === 'photos') {
+      photosList = form.getFieldValue(fieldList) || [];
+    }
+    api.uploadFile(formData).then(({ data }) => {
+      if (data.url) {
+        if (field === 'photos') {
+          form.setFieldValue(fieldList, [...photosList, { url: data.url }]);
+        } else {
+          form.setFieldValue(fieldList, [{ url: data.url }]);
+        }
+      }
     });
-  };
+    return false;
+  }, []);
 
-  const columns: ProColumns<AgentType>[] = [
-    {
-      title: '代理商ID',
-      dataIndex: 'id',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
+  const onFinish = useCallback(
+    (formData: StationFormType) => {
+      const request = type == FormTypeEnum.Add ? runAdd : runEdit;
+      return request({
+        ...formData,
+        id,
+        logo: formData.logoList ? formData.logoList.map((item) => item.url).join(',') : '',
+        photos: formData.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
+        address: formData?.addressInfo?.address,
+        longitude: formData?.addressInfo?.point?.lng,
+        latitude: formData?.addressInfo?.point?.lat,
+      }).then((data) => {
+        if (data) {
+          message.success('保存成功');
+          onSuccess?.();
+          return true;
+        }
+      });
     },
-    {
-      title: '代理商名称',
-      dataIndex: 'name',
-      width: 200,
-      ellipsis: true,
-    },
-  ];
+    [type, id],
+  );
 
   useEffect(() => {
     if (props.open) {
       form.resetFields();
-      form.setFieldValue('agent', agent);
-      if (props.values) {
-        form.setFieldsValue(props.values);
-      }
       setShow(true);
+      if ((type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) && id) {
+        runGet(id).then(({ data }) => {
+          form.setFieldsValue({ ...(data || {}), logo: [{ url: data?.url || '' }] });
+        });
+      }
     }
   }, [props.open]);
 
@@ -83,19 +116,8 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         visible={props.open}
         form={form}
         title="创建站点"
-        layout="horizontal"
-        labelCol={{ flex: '86px' }}
         autoFocusFirstInput
-        onFinish={(data) =>
-          addData({ ...data, id: props.values?.id }).then((res) => {
-            if (res) {
-              message.success('新增成功');
-              return true;
-            } else {
-              return false;
-            }
-          })
-        }
+        onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
       >
         <ProFormText
@@ -104,49 +126,78 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           placeholder="请输入"
           rules={[{ required: true, message: '站点名称必填' }]}
         ></ProFormText>
-        <Form.Item label="位置" name="addr" rules={[{ required: true, message: '位置必填' }]}>
+        <Row gutter={20}>
+          <Col span={8}>
+            <ProFormDigit label="电压等级" name="voltageClass" addonAfter="KV" />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit label="变压器容量" name="transformerCapacity" addonAfter="KVA" />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit label="储能总容量" name="energyStorageCapacityStorage" addonAfter="kWh" />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="光伏装机量"
+              name="photovoltaicInstalledCapacity"
+              addonAfter="kWp"
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit label="充电桩装机量" name="chargingStationCapacity" addonAfter="KW" />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit label="储能额定功率" name="energyStoragePower" addonAfter="KW" />
+          </Col>
+        </Row>
+        <Form.Item
+          label="位置"
+          name="addressInfo"
+          rules={[{ required: true, message: '位置必填' }]}
+        >
           {show && <PositionSelect></PositionSelect>}
         </Form.Item>
-        <Form.Item label="代理商" name="agent">
-          <TableSelect proTableProps={{ columns, request: requestTable }} />
-        </Form.Item>
+        <ProFormTextArea label="备注" name="remark" placeholder="请输入"></ProFormTextArea>
         <Row gutter={20}>
-          <Col span={12}>
+          <Col span={8}>
             <ProFormUploadButton
               label="站点图标"
-              name="icon"
+              name="logoList"
+              title="上传图片"
               max={1}
+              fieldProps={{
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, 'logo'),
+              }}
               icon={
                 <div>
                   <PlusOutlined />
                 </div>
               }
-              title="上传图片"
-              fieldProps={{
-                name: 'file',
-                listType: 'picture-card',
-              }}
             ></ProFormUploadButton>
           </Col>
-          <Col span={12}>
+          <Col span={16}>
             <ProFormUploadButton
               label="站点照片"
-              name="img"
-              max={1}
+              name="photosList"
+              valuePropName="fileList"
+              getValueFromEvent={getValueFromEvent}
+              title="上传图片"
+              max={3}
               fieldProps={{
                 name: 'file',
                 listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, 'photos'),
               }}
               icon={
                 <div>
                   <PlusOutlined />
                 </div>
               }
-              title="上传图片"
             ></ProFormUploadButton>
           </Col>
         </Row>
-        <ProFormTextArea label="备注" name="remark" placeholder="请输入"></ProFormTextArea>
       </ModalForm>
     </>
   );

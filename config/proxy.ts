@@ -15,6 +15,10 @@ export default {
       pathRewrite: { '^/api': '/prod-api' },
       // pathRewrite: { '^/api': '' },
     },
+    '/file/': {
+      target: 'http://192.168.3.18',
+      changeOrigin: true,
+    },
     '/profile/avatar/': {
       target: 'http://192.168.3.18',
       changeOrigin: true,

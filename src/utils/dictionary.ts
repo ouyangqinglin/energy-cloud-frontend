@@ -32,6 +32,10 @@ export enum FormTypeEnum {
   Detail = 'detail',
 }
 
+export type FileType = {
+  url: string;
+};
+
 export enum AutoComStatusEnum {
   Complete = 'complete',
   Error = 'error',
@@ -78,8 +82,6 @@ export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周�
 export const color = {};
 
 export const buildStatus = {
-  // 0: '建设中',
-  // 1: '已交付',
   1: {
     text: '已交付',
     status: 'Success',
@@ -93,7 +95,7 @@ export const buildStatus = {
 export const onlineStatus = {
   1: {
     text: '在线',
-    status: 'Success',
+    status: 'Processing',
   },
   0: {
     text: '离线',

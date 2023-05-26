@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:02
- * @LastEditTime: 2023-05-17 09:40:56
+ * @LastEditTime: 2023-05-26 10:43:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\service.ts
  */
@@ -10,14 +10,21 @@
 import request from '@/utils/request';
 import { EquipFormType } from './data.d';
 
-export const editData = (data: EquipFormType) => {
-  return request(`/oss/device/update`, {
+export const addData = (data: EquipFormType) => {
+  return request(`/iot/device`, {
     method: 'POST',
     data,
   });
 };
 
-export const getData = (id: string) => {
+export const editData = (data: EquipFormType) => {
+  return request(`/iot/device/update`, {
+    method: 'POST',
+    data,
+  });
+};
+
+export const getData = (id: string | undefined) => {
   return request(`/oss/device/details`, {
     method: 'GET',
     params: {
@@ -38,14 +45,15 @@ export const getStations = () => {
   });
 };
 
-export const getProductTypes = () => {
-  return request(`/oss/product/getProductType`, {
+export const getProductTypes = (params: any) => {
+  return request(`/iot/product/getProductType`, {
     method: 'GET',
+    params,
   });
 };
 
 export const getProductModels = (params: any) => {
-  return request(`/oss/product/getProductModel`, {
+  return request(`/iot/product/getProductModel`, {
     method: 'GET',
     params,
   });

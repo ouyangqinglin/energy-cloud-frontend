@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-25 14:04:24
+ * @LastEditTime: 2023-05-25 14:14:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -16,34 +16,19 @@ import type { StationType, StationFormType } from './data.d';
 import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
+import { FormTypeEnum } from '@/utils/dictionary';
 
 const StationList: React.FC = () => {
-  const [formData, setFormData] = useState<StationFormType | undefined>();
   const [open, setOpen] = useState(false);
   const history = useHistory();
   const actionRef = useRef<ActionType>();
 
   const onAddClick = useCallback(() => {
-    setFormData(undefined);
     setOpen(true);
   }, []);
 
   const onEditData = (data: StationType) => {
-    // data.addr = {
-    //   address: '广东省深圳市龙华区长兴路',
-    //   point: {
-    //     lng: 114.0714940667767,
-    //     lat: 22.686739677916982
-    //   }
-    // };
-    setFormData(data);
     setOpen(true);
-  };
-
-  const onOpenChange = (value: boolean) => {
-    if (!value) {
-      setOpen(value);
-    }
   };
 
   const onInClick = useCallback((record) => {
@@ -51,6 +36,10 @@ const StationList: React.FC = () => {
       pathname: `/station-manage/operation-monitor?id=${record.id}`,
     });
   }, []);
+
+  const onSuccess = () => {
+    actionRef?.current?.reload?.();
+  };
 
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
@@ -120,7 +109,7 @@ const StationList: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            beginTime: value[0],
+            startTime: value[0],
             endTime: value[1],
           };
         },
@@ -136,29 +125,29 @@ const StationList: React.FC = () => {
     },
     {
       title: '国家',
-      dataIndex: 'country',
+      dataIndex: 'countryCode',
       hideInSearch: true,
     },
     {
       title: '省份',
-      dataIndex: 'province',
+      dataIndex: 'provinceCode',
       hideInSearch: true,
     },
     {
       title: '城市',
-      dataIndex: 'city',
+      dataIndex: 'cityCode',
       hideInSearch: true,
     },
     {
-      title: '服务单位',
-      dataIndex: 'serviceCompany',
+      title: '代理商',
+      dataIndex: 'agent',
       hideInSearch: true,
       ellipsis: true,
       width: 150,
     },
     {
       title: '建设状态',
-      dataIndex: 'status',
+      dataIndex: 'constructionStatus',
       valueType: 'select',
       valueEnum: buildStatus,
       hideInSearch: true,
@@ -170,7 +159,7 @@ const StationList: React.FC = () => {
     },
     {
       title: '最后操作时间',
-      dataIndex: 'updateTime',
+      dataIndex: 'lastOperationTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
@@ -208,7 +197,12 @@ const StationList: React.FC = () => {
           showSizeChanger: true,
         }}
       ></ProTable>
-      <StationForm values={formData} open={open} onOpenChange={onOpenChange} />
+      <StationForm
+        open={open}
+        onOpenChange={setOpen}
+        type={FormTypeEnum.Add}
+        onSuccess={onSuccess}
+      />
     </>
   );
 };
