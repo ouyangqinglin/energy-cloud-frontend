@@ -10,7 +10,7 @@
 import React, { useState } from 'react';
 import { Tabs, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';

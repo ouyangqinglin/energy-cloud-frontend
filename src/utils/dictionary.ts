@@ -26,6 +26,24 @@ export enum EnergyEquipmentEnum {
   METER = 6,
 }
 
+export enum DeviceTypeEnum {
+  Gateway = 9,
+  ElectricMeter = 17,
+  PvInverter11 = 11,
+  PvInverter4 = 28,
+  YtCharge160 = 13,
+  Energy = 26,
+  PvInverterCabinet = 18,
+  HwCharge = 19,
+  YtCharge120 = 24,
+  EnergyCabinet = 30,
+  BoxSubstation = 31,
+  Cabinet = 32,
+  HwChargeChild = 21,
+  HwChargeYt = 22,
+  Device = 'default',
+}
+
 export enum FormTypeEnum {
   Add = 'add',
   Edit = 'edit',
@@ -45,6 +63,7 @@ export enum AutoComStatusEnum {
 export type OptionType = {
   label: string;
   value: string | number;
+  [key: string]: any;
 };
 
 export type EquipPropType = {

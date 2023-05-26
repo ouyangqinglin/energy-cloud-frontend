@@ -13,9 +13,9 @@ export type StationType = {
   id: string;
   createTime: string;
   deliveryTime: string;
-  countryCode: string;
-  provinceCode: string;
-  cityCode: string;
+  country: string;
+  province: string;
+  city: string;
   agent: string;
   constructionStatus: number;
   operator: string;

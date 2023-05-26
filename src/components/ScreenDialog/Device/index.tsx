@@ -1,45 +1,32 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-08 19:31:31
- * @LastEditTime: 2023-05-08 19:31:31
+ * @Date: 2023-05-08 19:40:01
+ * @LastEditTime: 2023-05-11 11:42:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricTerminal\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Cabinet\index.tsx
  */
 
-import React, { useState } from 'react';
-import { Tabs, Skeleton } from 'antd';
-import Label from '@/components/Detail/label';
+import React, { useEffect, useState } from 'react';
+import { Modal, Tabs } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
-import Meter, { MeterSkeleton } from '@/components/Meter';
+import ChargeImg from '@/assets/image/product/cabinet.png';
+import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
-import useSubscribe from '@/pages/screen/useSubscribe';
 
-const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
+const Device: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const equipmentData = useSubscribe(id, open);
-  const [loading, setLoading] = useState(false);
 
   const tabItems = [
     {
       label: '运行监测',
       key: 'item-0',
-      children: loading ? (
-        <>
-          <Skeleton.Button className="mb12" size="small" />
-          <MeterSkeleton />
-        </>
-      ) : (
-        <>
-          <Label title="运行信息" />
-          <Meter data={equipmentData || {}} />
-        </>
-      ),
+      children: <Empty />,
     },
     {
       label: '远程设置',
@@ -68,11 +55,11 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} setLoading={setLoading} />
+        <EquipInfo id={id} model={model} equipmentImg={ChargeImg} productImg={ChargeIntroImg} />
         <Tabs items={tabItems} />
       </Dialog>
     </>
   );
 };
 
-export default ElectricTerminal;
+export default Device;

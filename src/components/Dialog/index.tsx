@@ -25,13 +25,6 @@ export type DialogProps = {
   confirmLoading?: boolean;
 };
 
-export type BusinessDialogProps = {
-  id: string;
-  open: boolean;
-  onCancel: () => void;
-  model?: string;
-};
-
 const Dialog: React.FC<DialogProps> = (props) => {
   const {
     model,

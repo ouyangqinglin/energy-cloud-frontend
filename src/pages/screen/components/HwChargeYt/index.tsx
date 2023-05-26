@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';

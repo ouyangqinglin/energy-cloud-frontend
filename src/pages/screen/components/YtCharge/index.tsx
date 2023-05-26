@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Row, Col, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import Detail from '@/components/Detail';
 import Meter, { MeterSkeleton } from '@/components/Meter';

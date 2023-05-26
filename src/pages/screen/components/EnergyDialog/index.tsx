@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Button, Skeleton, Row, Col, Space } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';

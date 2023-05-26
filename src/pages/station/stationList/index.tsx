@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-25 14:14:25
+ * @LastEditTime: 2023-05-26 18:04:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -20,16 +20,29 @@ import { FormTypeEnum } from '@/utils/dictionary';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [siteId, setSiteId] = useState('');
   const history = useHistory();
   const actionRef = useRef<ActionType>();
 
-  const onAddClick = useCallback(() => {
-    setOpen(true);
+  const requestList = useCallback((params) => {
+    return getList(params).then(({ data }) => {
+      return {
+        data: data?.list,
+        total: data?.total,
+        success: true,
+      };
+    });
   }, []);
 
-  const onEditData = (data: StationType) => {
+  const onAddClick = useCallback(() => {
     setOpen(true);
-  };
+    setSiteId('');
+  }, []);
+
+  const onEditData = useCallback((data: StationType) => {
+    setOpen(true);
+    setSiteId(data.id);
+  }, []);
 
   const onInClick = useCallback((record) => {
     history.push({
@@ -53,9 +66,9 @@ const StationList: React.FC = () => {
       <Button type="link" size="small" key="in" onClick={() => onInClick(record)}>
         进入
       </Button>
-      <Button type="link" size="small" key="edit" onClick={() => onEditData(record)}>
+      {/* <Button type="link" size="small" key="edit" onClick={() => onEditData(record)}>
         编辑
-      </Button>
+      </Button> */}
       <Button
         type="link"
         size="small"
@@ -67,7 +80,7 @@ const StationList: React.FC = () => {
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
-              removeData(record.id).then(() => {
+              removeData({ siteId: record.id }).then(() => {
                 message.success('删除成功');
                 if (actionRef.current) {
                   actionRef.current.reload();
@@ -78,9 +91,6 @@ const StationList: React.FC = () => {
         }}
       >
         删除
-      </Button>
-      <Button type="link" size="small" key="delivery">
-        交付
       </Button>
     </>
   );
@@ -93,13 +103,15 @@ const StationList: React.FC = () => {
     {
       title: '站点名称',
       dataIndex: 'name',
-      width: 120,
+      width: 150,
       ellipsis: true,
     },
     {
       title: '站点ID',
       dataIndex: 'id',
       hideInSearch: true,
+      width: 150,
+      ellipsis: true,
     },
     {
       title: '创建时间',
@@ -125,17 +137,23 @@ const StationList: React.FC = () => {
     },
     {
       title: '国家',
-      dataIndex: 'countryCode',
+      dataIndex: 'country',
+      width: 150,
+      ellipsis: true,
       hideInSearch: true,
     },
     {
       title: '省份',
-      dataIndex: 'provinceCode',
+      dataIndex: 'province',
+      width: 150,
+      ellipsis: true,
       hideInSearch: true,
     },
     {
       title: '城市',
-      dataIndex: 'cityCode',
+      dataIndex: 'city',
+      width: 150,
+      ellipsis: true,
       hideInSearch: true,
     },
     {
@@ -150,11 +168,15 @@ const StationList: React.FC = () => {
       dataIndex: 'constructionStatus',
       valueType: 'select',
       valueEnum: buildStatus,
+      width: 120,
+      ellipsis: true,
       hideInSearch: true,
     },
     {
       title: '操作人',
       dataIndex: 'operator',
+      width: 120,
+      ellipsis: true,
       hideInSearch: true,
     },
     {
@@ -167,7 +189,7 @@ const StationList: React.FC = () => {
     {
       title: '操作',
       valueType: 'option',
-      width: 220,
+      width: 150,
       fixed: 'right',
       render: rowBar,
     },
@@ -183,24 +205,17 @@ const StationList: React.FC = () => {
         }}
         rowKey="id"
         toolBarRender={toolBar}
-        request={(params) =>
-          getList(params).then((res) => {
-            return {
-              data: res.rows,
-              total: res.total,
-              success: true,
-            };
-          })
-        }
+        request={requestList}
         scroll={{ x: 1366 }}
         pagination={{
           showSizeChanger: true,
         }}
       ></ProTable>
       <StationForm
+        id={siteId}
         open={open}
         onOpenChange={setOpen}
-        type={FormTypeEnum.Add}
+        type={siteId ? FormTypeEnum.Edit : FormTypeEnum.Add}
         onSuccess={onSuccess}
       />
     </>

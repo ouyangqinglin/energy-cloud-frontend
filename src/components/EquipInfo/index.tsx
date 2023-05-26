@@ -56,7 +56,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
   };
 
   const onEditClick = () => {
-    setOpenEditModal(!openEditModal);
+    setOpenEditModal((openValue) => !openValue);
   };
 
   const equipInfoItems: DetailItem[] = [
