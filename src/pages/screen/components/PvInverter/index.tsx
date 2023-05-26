@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-18 10:44:38
+ * @LastEditTime: 2023-05-26 15:14:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { Tabs, Table, Row, Col, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';

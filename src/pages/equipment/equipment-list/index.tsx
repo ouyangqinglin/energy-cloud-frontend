@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-05-26 12:02:38
+ * @LastEditTime: 2023-05-26 18:16:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -16,31 +16,66 @@ import { onlineStatus } from '@/utils/dictionary';
 import { getList, removeData, getTabs } from './service';
 import { OptionType, FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
+import { deviceDialogMap } from '@/components/ScreenDialog';
+import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [deviceId, setDeviceId] = useState('');
+  const [detailOpen, setDetailOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab0');
   const [tabItems, setTabItems] = useState<OptionType[]>([]);
-
+  const [deviceDialog, setDeviceDialog] = useState<DeviceDialogMapType>();
   const actionRef = useRef<ActionType>();
+  const [searchParams, setSearchParams] = useState({
+    subSystemId: '',
+  });
+
+  const Component = deviceDialog?.component;
+
+  const onSwitchOpen = useCallback(() => {
+    setOpen((data) => !data);
+  }, []);
+
+  const onSwitchDetailOpen = useCallback(() => {
+    setDetailOpen((data) => !data);
+  }, []);
 
   const onAddClick = useCallback(() => {
     setOpen(true);
+  }, []);
+
+  const onDetailClick = useCallback((rowData: EquipmentType) => {
+    setDeviceId(rowData.deviceId);
+    setDeviceDialog(deviceDialogMap?.[rowData.productId] || deviceDialogMap?.['default']);
+    onSwitchDetailOpen();
   }, []);
 
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
 
-  const onSwitchOpen = useCallback(() => {
-    setOpen((data) => !data);
-  }, []);
-
   const handleRequest = (params: any) => {
-    getTabs({}).then((res) => {
-      setTabItems(res.data || []);
-    });
-    return getList(params).then(({ data }) => {
+    return getList({ ...params, ...searchParams }).then(({ data }) => {
+      getTabs({}).then(({ data: tabData }) => {
+        if (Array.isArray(tabData)) {
+          const items = (tabData || []).map((item) => {
+            return {
+              id: item.id,
+              label: item.name,
+              value: item.count,
+            };
+          });
+          setTabItems([
+            {
+              id: '',
+              label: '全部',
+              value: data?.total,
+            },
+            ...items,
+          ]);
+        }
+      });
       return {
         data: data?.list,
         total: data?.total,
@@ -49,20 +84,26 @@ const StationList: React.FC = () => {
     });
   };
 
-  const onTabChange = (key: React.Key | undefined) => {
+  const onTabChange = useCallback((key: React.Key | undefined) => {
     setActiveTab(key as string);
+    setSearchParams({
+      subSystemId: (key as string).replace('tab', ''),
+    });
     actionRef.current?.reloadAndRest?.();
-  };
+  }, []);
 
-  const toolBar = () => [
-    <Button type="primary" key="add" onClick={onAddClick}>
-      <PlusOutlined />
-      新建设备
-    </Button>,
-  ];
+  const toolBar = useCallback(
+    () => [
+      <Button type="primary" key="add" onClick={onAddClick}>
+        <PlusOutlined />
+        新建设备
+      </Button>,
+    ],
+    [],
+  );
   const rowBar = (_: any, record: EquipmentType) => (
     <>
-      <Button type="link" size="small" key="detail">
+      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         查看详情
       </Button>
       <Button
@@ -105,7 +146,7 @@ const StationList: React.FC = () => {
     );
   };
   const tabItemList = tabItems.map((item, index) => {
-    const key = 'tab' + index;
+    const key = 'tab' + item.id;
     return {
       key,
       label: (
@@ -235,6 +276,14 @@ const StationList: React.FC = () => {
         type={FormTypeEnum.Add}
         onSuccess={onSuccess}
       />
+      {Component && (
+        <Component
+          id={deviceId}
+          open={detailOpen}
+          onCancel={onSwitchDetailOpen}
+          {...deviceDialog?.props}
+        />
+      )}
     </>
   );
 };

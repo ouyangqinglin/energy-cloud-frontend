@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-26 13:46:10
+ * @LastEditTime: 2023-05-26 18:05:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -103,7 +103,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       form.resetFields();
       setShow(true);
       if ((type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) && id) {
-        runGet(id).then(({ data }) => {
+        runGet(id).then((data) => {
           form.setFieldsValue({ ...(data || {}), logo: [{ url: data?.url || '' }] });
         });
       }

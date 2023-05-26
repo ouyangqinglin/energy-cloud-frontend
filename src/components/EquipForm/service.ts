@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:02
- * @LastEditTime: 2023-05-26 10:43:59
+ * @LastEditTime: 2023-05-26 17:10:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\service.ts
  */
@@ -25,7 +25,7 @@ export const editData = (data: EquipFormType) => {
 };
 
 export const getData = (id: string | undefined) => {
-  return request(`/oss/device/details`, {
+  return request(`/iot/device/details`, {
     method: 'GET',
     params: {
       deviceId: id,

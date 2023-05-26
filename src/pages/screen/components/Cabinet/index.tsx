@@ -10,7 +10,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import ChargeImg from '@/assets/image/product/cabinet.png';
 import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
@@ -21,7 +21,6 @@ import { getAlarms, getLogs } from '@/services/equipment';
 
 const Cabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [data, setData] = useState({});
 
   const tabItems = [
     {

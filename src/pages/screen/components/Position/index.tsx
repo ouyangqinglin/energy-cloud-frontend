@@ -11,7 +11,7 @@ import { Modal } from 'antd';
 import Dialog from '@/components/Dialog';
 import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
-import type { BusinessDialogProps } from '@/components/Dialog';
+import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import { getPoint } from '@/utils/map';
 
 export type PositionProps = BusinessDialogProps & {
