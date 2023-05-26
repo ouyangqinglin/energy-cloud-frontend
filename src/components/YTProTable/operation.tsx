@@ -90,8 +90,6 @@ export default function genDefaultOperation<
       }
       ['onEnterChange', 'onDetailChange', 'onEditChange', 'onDeleteChange'].forEach((buttonKey) => {
         const fn = option[buttonKey];
-        console.log(fn);
-
         if (buttonKey && isFunction(fn)) {
           const renderButton = operationsMap.get(buttonKey);
           if (!renderButton) {
@@ -110,7 +108,5 @@ export default function genDefaultOperation<
       return <div className={styles.operationWrapper}>{renderButtonGroup}</div>;
     },
   };
-  console.log(option);
-
   return isEmpty(option) ? '' : defaultOptionConfig;
 }
