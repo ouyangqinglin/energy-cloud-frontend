@@ -43,8 +43,6 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
           return [];
         }
       };
-
-      console.log(col);
     }
 
     return col;

@@ -1,7 +1,6 @@
 import { throttle } from 'lodash';
-import { FC, useCallback, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { useEffect, useState } from 'react';
-import { useKeyPress } from 'react-use';
 import styles from './index.less';
 
 export const enum ScaleMode {

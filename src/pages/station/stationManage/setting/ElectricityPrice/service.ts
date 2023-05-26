@@ -5,12 +5,12 @@ export const getAccountList = (params: any) => {
   return get<AccountListDataType>(`/accounts/list`, params);
 };
 
-export const getProviders = () => {
-  return get(`/accounts/get/provider`);
+export const getMarketElectricityPriceList = (params) => {
+  return get(`/electricityPrice/market/list`, params);
 };
 
-export const getRoles = () => {
-  return get(`/accounts/get/roles`);
+export const getRules = () => {
+  return get(`/electricityPrice/rules`);
 };
 
 export const saveCustomerInfo = (params) => {

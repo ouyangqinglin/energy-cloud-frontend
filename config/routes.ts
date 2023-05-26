@@ -76,6 +76,7 @@ export default [
       {
         path: '/station-manage/setting',
         name: 'setting',
+        component: './station/stationManage/setting/index',
       },
       {
         path: '/station-manage/data-query',

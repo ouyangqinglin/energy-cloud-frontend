@@ -3,9 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 // import ProTable from '@ant-design/pro-table';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { ProTableProps } from '@ant-design/pro-components';
-
-import type { CustomTableProps } from './typing';
+import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
 import { normalizeRequestOption } from './helper';
 
@@ -14,7 +12,7 @@ const YTProTable = <
   Params extends ParamsType = ParamsType,
   ValueType = 'text',
 >(
-  props: ProTableProps<DataType, Params, ValueType> & CustomTableProps<DataType, ValueType>,
+  props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
   const { toolBarRender, columns, actionRef, toolbar, ...restProps } = props;
 
@@ -44,6 +42,7 @@ const YTProTable = <
       toolBarRender={toolBar}
       search={{
         labelWidth: 'auto',
+        searchText: '搜索',
       }}
       pagination={{
         showSizeChanger: true,

@@ -1,34 +1,13 @@
-import { BetaSchemaForm, ProFormColumnsType, ProFormLayoutType } from '@ant-design/pro-form';
-import { Button, DatePicker, Modal } from 'antd';
-import dayjs from 'dayjs';
-import { useState } from 'react';
-
-const valueEnum = {
-  all: { text: '全部', status: 'Default' },
-  open: {
-    text: '未解决',
-    status: 'Error',
-  },
-  closed: {
-    text: '已解决',
-    status: 'Success',
-    disabled: true,
-  },
-  processing: {
-    text: '解决中',
-    status: 'Processing',
-  },
-};
-
-type DataItem = {
-  name: string;
-  state: string;
-};
-
-const columns: ProFormColumnsType<DataItem>[] = [
+import type { ProFormColumnsType } from '@ant-design/pro-form';
+import type { CustomerInfo } from '../data';
+import { getCustomerInfo, getProviders, getRoles, saveCustomerInfo } from '../service';
+import YTModalForm from '@/components/YTModalForm';
+import type { FormOperations } from '@/components/YTModalForm/typing';
+const columns: ProFormColumnsType<CustomerInfo>[] = [
   {
-    title: '标题',
-    dataIndex: 'title',
+    title: '代理商',
+    dataIndex: 'provider',
+    valueType: 'select',
     formItemProps: {
       rules: [
         {
@@ -37,93 +16,123 @@ const columns: ProFormColumnsType<DataItem>[] = [
         },
       ],
     },
-    width: 'md',
-    colProps: {
-      xs: 24,
-      md: 12,
+    request: async () => {
+      const {
+        data: { provider = [] },
+      } = await getProviders();
+      const rawSource = provider.map((it) => {
+        return {
+          label: it.name,
+          value: it.id,
+        };
+      });
+      return rawSource;
     },
-    initialValue: '默认值',
-    render: (value) => '' + value,
-    convertValue: (value) => {
-      return `标题：${value}`;
+  },
+  {
+    title: '账户',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: '此项为必填项',
+        },
+      ],
     },
-    transform: (value) => {
-      return {
-        title: `${value}-转换`,
-      };
+    dataIndex: 'account',
+  },
+  {
+    title: '用户名',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: '此项为必填项',
+        },
+      ],
+    },
+    dataIndex: 'userName',
+  },
+  {
+    title: '电话',
+    dataIndex: 'phone',
+  },
+  {
+    title: '角色',
+    dataIndex: 'roles',
+    valueType: 'select',
+    fieldProps: {
+      mode: 'multiple',
+    },
+    request: async () => {
+      const { data: roles } = await getRoles();
+      const rawSource = roles.map((it) => {
+        return {
+          label: it.role,
+          value: it.id,
+        };
+      });
+      return rawSource;
     },
   },
   {
     title: '状态',
-    dataIndex: 'state',
-    valueType: 'select',
-    valueEnum,
-    width: 'md',
-    render: (value) => '' + value,
-    colProps: {
-      xs: 24,
-      md: 12,
-    },
+    dataIndex: 'status',
+    valueEnum: new Map([
+      [1, '有效'],
+      [0, '无效'],
+    ]),
   },
   {
-    title: '创建时间',
-    key: 'showTime',
-    dataIndex: 'createName',
-    initialValue: [dayjs().add(-1, 'm'), dayjs()],
-    render: (value) => '' + value,
-    renderFormItem: () => <DatePicker.RangePicker />,
-    transform: (value) => {
-      return {
-        startTime: value[0],
-        endTime: value[1],
-      };
+    title: '初始密码',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: '此项为必填项',
+        },
+      ],
     },
-    width: 'md',
+    valueType: 'password',
+    dataIndex: 'pw',
     colProps: {
-      xs: 24,
-      md: 12,
+      span: 24,
     },
+    width: 'xl',
   },
   {
-    title: '更新时间',
-    dataIndex: 'updateName',
-    initialValue: [dayjs().add(-1, 'm'), dayjs()],
-    render: (value) => '' + value,
-    renderFormItem: () => <DatePicker.RangePicker />,
-    transform: (value) => {
-      return {
-        startTime: value[0],
-        endTime: value[1],
-      };
-    },
-    width: 'md',
+    title: '备注',
+    dataIndex: 'note',
+    valueType: 'textarea',
     colProps: {
-      xs: 24,
-      md: 12,
+      span: 24,
     },
+    width: 'xl',
   },
 ];
 
-export const YTModalForm = (props: { open: boolean; onClose: () => void }) => {
-  const [layoutType, setLayoutType] = useState<ProFormLayoutType>('Form');
-  const [readonly, setReadonly] = useState(false);
+export const CustomerModal = (props: {
+  visible: boolean;
+  onVisibleChange: (state: boolean) => void;
+  operations: FormOperations;
+  initialValues?: CustomerInfo;
+}) => {
   return (
-    <Modal title="Title" open={props.open} onOk={props.onClose} onCancel={props.onClose}>
-      <Button onClick={() => setReadonly(true)}>qiehuan</Button>
-      <BetaSchemaForm<DataItem>
-        readonly={readonly}
-        rowProps={{
-          gutter: [16, 16],
-        }}
-        colProps={{
-          span: 8,
-        }}
-        grid={true}
-        onFinish={async (values) => {
-          console.log(values);
-        }}
-        columns={columns}
-      />
-    </Modal>
+    <YTModalForm<CustomerInfo>
+      title={'新增市电电价规则'}
+      onFinish={async (values) => {
+        console.log(values);
+        await saveCustomerInfo(values);
+        return true;
+      }}
+      request={(param) => {
+        return getCustomerInfo(param).then((res) => {
+          return res.data;
+        });
+      }}
+      {...props}
+    >
+      Form
+    </YTModalForm>
   );
 };

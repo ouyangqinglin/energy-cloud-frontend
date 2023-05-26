@@ -1,10 +1,13 @@
-import React from 'react';
-import type { AccountListDataType } from './data.d';
+import React, { useState } from 'react';
+import type { AccountListDataType, CustomerInfo } from './data.d';
 import { getAccountList } from './service';
 import YTProTable from '@/components/YTProTable';
 import type { CustomTableProps, YTProColumns } from '@/components/YTProTable/typing';
 import { useToggle } from 'ahooks';
-import { YTModalForm } from './components/edit';
+import { CustomerModal } from './components/edit';
+import { FormOperations } from '@/components/YTModalForm/typing';
+import YTModalForm from '@/components/YTModalForm';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
 
 const Customer: React.FC = () => {
   const columns: YTProColumns<AccountListDataType>[] = [
@@ -25,7 +28,7 @@ const Customer: React.FC = () => {
     },
     {
       title: '角色',
-      dataIndex: 'role',
+      dataIndex: 'roles',
       hideInSearch: true,
     },
     {
@@ -115,15 +118,24 @@ const Customer: React.FC = () => {
     },
   ];
 
-  const [state, { setLeft, setRight }] = useToggle<boolean>(false);
+  const [state, { toggle }] = useToggle<boolean>(false);
+  const [operations, setOperations] = useState(FormOperations.CREATE);
+  const [initialValues, setInitialValues] = useState<CustomerInfo>({} as CustomerInfo);
   const customConfig: CustomTableProps<AccountListDataType, any> = {
     toolbar: {
       onChange() {
-        setRight();
+        setInitialValues({} as CustomerInfo);
+        setOperations(FormOperations.CREATE);
+        toggle(true);
       },
     },
     option: {
       onDeleteChange() {},
+      onEditChange(_, entity) {
+        setInitialValues({ ...entity } as CustomerInfo);
+        setOperations(FormOperations.UPDATE);
+        toggle(true);
+      },
     },
   };
 
@@ -135,7 +147,27 @@ const Customer: React.FC = () => {
         scroll={{ x: 1366 }}
         request={(params) => getAccountList(params)}
       />
-      <YTModalForm open={state} onClose={setLeft} />
+      <CustomerModal
+        initialValues={initialValues}
+        operations={operations}
+        visible={state}
+        onVisibleChange={toggle}
+      />
+      {/* <YTModalForm<any>
+        title={'test'}
+        visible={state}
+        onVisibleChange={toggle}
+        columns={[]}
+        operations={operations}
+      >
+        <ProFormText
+          name="name"
+          label="签约客户名称"
+          tooltip="最长为 24 位"
+          placeholder="请输入名称"
+        />
+        <ProFormText name="company" label="我方公司名称" placeholder="请输入名称" />
+      </YTModalForm> */}
     </>
   );
 };

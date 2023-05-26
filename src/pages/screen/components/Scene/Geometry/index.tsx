@@ -15,7 +15,7 @@ import { cloneDeep, find, isNil } from 'lodash';
 import useResize from './useResize';
 import useDragging from './useDragging';
 import QueueAnim from 'rc-queue-anim';
-import { useToggle } from 'react-use';
+import { useToggle } from 'ahooks';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -24,7 +24,7 @@ const DEFAULT_DEVICE_INFO = {
 };
 
 const Geometry: FC = () => {
-  const [showChild, toggle] = useToggle(false);
+  const [showChild, { toggle }] = useToggle(false);
   const renderChildren = () => {
     toggle();
   };
