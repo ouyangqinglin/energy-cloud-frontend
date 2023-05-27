@@ -13,11 +13,12 @@ import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/utils/dictionary';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 
 export type PositionSelectType = {
   address?: string;
   point?: AMap.LngLat;
+  adcode?: string;
 };
 
 export type PositionSelectProps = {
@@ -71,9 +72,11 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
         lng: data.location.lng,
         lat: data.location.lat,
       },
+      adcode: data.adcode,
     });
     setCenter(data.location);
     setZoom(17);
+
     // const code = item.adcode ? item.adcode * 1 : 900000;
     // emit('update:province', parseInt(code / 10000 + '') + '0000');
     // emit('update:city', parseInt(code / 100 + '') + '00');
@@ -83,27 +86,25 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   const getAddressByPoint = (pointObj: AMap.LngLat) => {
     getGeocoder().then(({ getAddress }) => {
       getAddress(pointObj).then((res) => {
-        if (res) {
-          if (res.regeocode && res.regeocode.formattedAddress) {
-            setPoint(pointObj);
-            setAddress(res.regeocode.formattedAddress);
-            onChange?.({
-              address: res.regeocode.formattedAddress,
-              point: {
-                lng: pointObj.lng,
-                lat: pointObj.lat,
-              },
-            });
-            setCenter(pointObj);
-            setZoom(17);
-            // let code = result.regeocode.addressComponent.adcode;
-            // code = code ? code * 1 : 900000;
-            // emit('update:province', parseInt(code / 10000 + '') + '0000');
-            // emit('update:city', parseInt(code / 100 + '') + '00');
-            // emit('update:area', code);
-          } else {
-            message.success('坐标无效');
-          }
+        if (get(res ?? {}, 'regeocode.formattedAddress')) {
+          const { regeocode } = res;
+          setPoint(pointObj);
+          setAddress(regeocode.formattedAddress);
+          onChange?.({
+            address: regeocode.formattedAddress,
+            point: {
+              lng: pointObj.lng,
+              lat: pointObj.lat,
+            },
+            adcode: regeocode?.addressComponent?.adcode,
+          });
+          setCenter(pointObj);
+          setZoom(17);
+          // let code = result.regeocode.addressComponent.adcode;
+          // code = code ? code * 1 : 900000;
+          // emit('update:province', parseInt(code / 10000 + '') + '0000');
+          // emit('update:city', parseInt(code / 100 + '') + '00');
+          // emit('update:area', code);
         } else {
           message.success('坐标无效');
         }

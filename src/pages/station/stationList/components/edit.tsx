@@ -87,6 +87,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         address: formData?.addressInfo?.address,
         longitude: formData?.addressInfo?.point?.lng,
         latitude: formData?.addressInfo?.point?.lat,
+        adcode: formData?.addressInfo?.adcode,
       }).then((data) => {
         if (data) {
           message.success('保存成功');

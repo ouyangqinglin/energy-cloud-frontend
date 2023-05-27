@@ -37,10 +37,12 @@ export type StationFormType = {
       lat: number;
       lng: number;
     };
+    adcode: string;
   };
   address: string;
   longitude: number;
   latitude: number;
+  adcode: string;
   countryCode: string;
   provinceCode: string;
   cityCode: string;

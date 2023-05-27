@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
@@ -7,24 +8,26 @@ import Detail from '@/components/Detail';
 import { getChargingStation } from './service';
 import ChargingStationChart from './Chart';
 import type { ChargingStationRes } from './type';
-import { gunInfoItem } from './config';
+import { DEFAULT_CONFIG, gunInfoItem } from './config';
 import { defaults } from 'lodash';
 
 const ChargingStation: FC = () => {
   const { data = {} as ChargingStationRes } = useRequest(getChargingStation);
 
-  const formatterData = () => {
+  const formatterData = useMemo(() => {
     const processedData: ChargingStationRes & {
       gunStatus?: ReactNode | string;
-    } = data;
+    } = defaults(data ?? {}, DEFAULT_CONFIG);
+
     const { chargingGunStatus: { freeCount = '--', occupyCount = '--' } = {} } = processedData;
     processedData.gunStatus = (
       <>
         <span>{freeCount}</span>/<span style={{ color: '#50F0FF' }}>{occupyCount}</span>
       </>
     );
-    return data;
-  };
+
+    return processedData;
+  }, [data]);
 
   return (
     <Cell width={400} height={284} left={1496} top={728}>
@@ -32,7 +35,7 @@ const ChargingStation: FC = () => {
         <div className={styles.contentWrapper}>
           <Detail
             items={gunInfoItem}
-            data={formatterData()}
+            data={formatterData}
             column={2}
             labelStyle={{
               color: '#A7B7CA',
