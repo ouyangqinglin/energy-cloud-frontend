@@ -2,17 +2,20 @@
  *
  * @author whiteshader@163.com
  * @datetime  2022/02/15
- * 
+ *
  * */
 
-import type { MenuDataItem } from "@umijs/route-utils";
-import { getMatchMenuItem } from "./services/session";
-import { checkRole, matchPermission } from "./utils/permission";
+import type { MenuDataItem } from '@umijs/route-utils';
+import { getMatchMenuItem } from './services/session';
+import { checkRole, matchPermission } from './utils/permission';
 
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
-export default function access (initialState: { currentUser: API.CurrentUser | undefined, menus: MenuDataItem[] | undefined }) {
+export default function access(initialState: {
+  currentUser: API.CurrentUser | undefined;
+  menus: MenuDataItem[] | undefined;
+}) {
   const { currentUser, menus } = initialState || {};
   return {
     canAdmin: currentUser && currentUser.access === 'admin',
@@ -22,13 +25,13 @@ export default function access (initialState: { currentUser: API.CurrentUser | u
     hasNoPerms: (perm: string) => {
       return !matchPermission(currentUser?.permissions, perm);
     },
-    roleFiler: (route: {authority: string[]}) => {
+    roleFiler: (route: { authority: string[] }) => {
       return checkRole(currentUser?.roles, route.authority);
     },
     authorize: (route: any) => {
-      if(menus) {
+      if (menus) {
         const items = getMatchMenuItem(route.path, menus);
-        if(!items || items.length === 0){
+        if (!items || items.length === 0) {
           return false;
         } else {
           return true;
@@ -39,10 +42,11 @@ export default function access (initialState: { currentUser: API.CurrentUser | u
   };
 }
 
-export function setSessionToken (
+export function setSessionToken(
   access_token: string | undefined,
   refresh_token: string | undefined,
   expireTime: number,
+  siteId: string,
 ): void {
   if (access_token) {
     localStorage.setItem('access_token', access_token);
@@ -55,21 +59,26 @@ export function setSessionToken (
     localStorage.removeItem('refresh_token');
   }
   localStorage.setItem('expireTime', `${expireTime}`);
+  localStorage.setItem('siteId', siteId);
 }
 
-export function getAccessToken () {
+export function getAccessToken() {
   return localStorage.getItem('access_token');
 }
 
-export function getRefreshToken () {
+export function getRefreshToken() {
   return localStorage.getItem('refresh_token');
 }
 
-export function getTokenExpireTime () {
+export function getTokenExpireTime() {
   return localStorage.getItem('expireTime');
 }
 
-export function clearSessionToken () {
+export function getSiteIdFromStore() {
+  return localStorage.getItem('siteId');
+}
+
+export function clearSessionToken() {
   sessionStorage.removeItem('user');
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');

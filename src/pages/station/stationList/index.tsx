@@ -45,9 +45,16 @@ const StationList: React.FC = () => {
   }, []);
 
   const onInClick = useCallback((record) => {
+    // TODO: 演示版本
     history.push({
-      pathname: `/station-manage/operation-monitor?id=${record.id}`,
-    });
+      pathname: `/screen`,
+      query: {
+        siteId: record.id,
+      },
+    } as any);
+    // history.push({
+    //   pathname: `/station-manage/operation-monitor?id=${record.id}`,
+    // });
   }, []);
 
   const onSuccess = () => {

@@ -41,7 +41,7 @@ const Login: React.FC = () => {
         code,
         data: {
           access_token: accessToken,
-          homeMenu: { menu = MenuEnum.STATION_LIST, siteId = 1 } = {},
+          homeMenu: { menu = MenuEnum.STATION_LIST, siteId = '1' } = {},
         },
         msg,
       } = await login({ ...values, uuid });
@@ -52,7 +52,9 @@ const Login: React.FC = () => {
         });
         const current = new Date();
         const expireTime = current.setTime(current.getTime() + 1000 * 12 * 60 * 60);
-        setSessionToken(accessToken, accessToken, expireTime);
+
+        // TODO: 定制化开发，后续移除
+        setSessionToken(accessToken, accessToken, expireTime, String(siteId));
         message.success(defaultLoginSuccessMessage);
 
         // const { query } = history.location;
@@ -62,13 +64,13 @@ const Login: React.FC = () => {
         if (menu === MenuEnum.SCREEN) {
           redirectPath = '/screen';
         }
-
         history.push({
           pathname: redirectPath,
           query: {
             siteId: String(siteId),
           },
         });
+
         refresh();
         return;
       } else {
