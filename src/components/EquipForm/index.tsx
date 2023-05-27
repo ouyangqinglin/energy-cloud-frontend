@@ -69,12 +69,10 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       ...formData,
       deviceId: id,
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
-    }).then((data) => {
-      if (data) {
-        message.success('保存成功');
-        onSuccess?.();
-        onCancel?.();
-      }
+    }).then(() => {
+      message.success('保存成功');
+      onSuccess?.();
+      onCancel?.();
     });
   }, []);
 
