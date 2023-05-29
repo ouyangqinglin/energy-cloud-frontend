@@ -12,7 +12,7 @@ export type AreaDataType = AreaType[];
 const useStationModel = () => {
   const initState: AreaDataType = [];
 
-  const reducer = (state: AreaDataType, action: { type: string; payload: AreaDataType }) => {
+  const reducer = (state: AreaDataType, action: { payload: AreaDataType; type?: string }) => {
     if (action.payload) {
       return action.payload;
     } else {

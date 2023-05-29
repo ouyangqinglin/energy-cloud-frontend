@@ -13,6 +13,10 @@ export type StationType = {
   id: string;
   createTime: string;
   deliveryTime: string;
+  area: string[];
+  countryCode: string;
+  provinceCode: string;
+  cityCode: string;
   country: string;
   province: string;
   city: string;
@@ -37,6 +41,9 @@ export type StationFormType = {
       lat: number;
       lng: number;
     };
+    countryCode: string;
+    provinceCode: string;
+    cityCode: string;
   };
   address: string;
   longitude: number;

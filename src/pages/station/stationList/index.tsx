@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-26 18:04:13
+ * @LastEditTime: 2023-05-29 10:38:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -17,15 +17,18 @@ import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
+import { useArea } from '@/hooks';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [siteId, setSiteId] = useState('');
   const history = useHistory();
   const actionRef = useRef<ActionType>();
+  const { state: areaOptions } = useArea();
 
   const requestList = useCallback((params) => {
-    return getList(params).then(({ data }) => {
+    const [countryCode, provinceCode, cityCode] = params?.area || [];
+    return getList({ ...params, countryCode, provinceCode, cityCode }).then(({ data }) => {
       return {
         data: data?.list,
         total: data?.total,
@@ -134,6 +137,18 @@ const StationList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
+    },
+    {
+      title: '地区',
+      dataIndex: 'area',
+      valueType: 'cascader',
+      hideInTable: true,
+      fieldProps: {
+        options: areaOptions,
+        fieldNames: {
+          value: 'id',
+        },
+      },
     },
     {
       title: '国家',

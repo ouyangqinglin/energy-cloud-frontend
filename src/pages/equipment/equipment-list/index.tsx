@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-05-26 18:16:43
+ * @LastEditTime: 2023-05-29 09:18:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -233,6 +233,7 @@ const StationList: React.FC = () => {
     {
       title: '通信状态',
       dataIndex: 'connectStatus',
+      render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
       valueType: 'select',
       valueEnum: onlineStatus,
       width: 120,

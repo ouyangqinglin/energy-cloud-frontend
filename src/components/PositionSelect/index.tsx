@@ -14,10 +14,14 @@ import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/utils/dictionary';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
+import { getAreaCodeByAdCode } from '@/utils';
 
 export type PositionSelectType = {
   address?: string;
   point?: AMap.LngLat;
+  countryCode?: string;
+  provinceCode?: string;
+  cityCode?: string;
 };
 
 export type PositionSelectProps = {
@@ -65,12 +69,16 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   const onSelect = (_: any, data: any) => {
     setPoint(data.location);
+    const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(data?.adcode || '');
     onChange?.({
       address: data.label,
       point: {
         lng: data.location.lng,
         lat: data.location.lat,
       },
+      countryCode,
+      provinceCode,
+      cityCode,
     });
     setCenter(data.location);
     setZoom(17);
@@ -85,6 +93,8 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
       getAddress(pointObj).then((res) => {
         if (res) {
           if (res.regeocode && res.regeocode.formattedAddress) {
+            const adcode = res?.regeocode?.addressComponent?.adcode || '';
+            const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(adcode);
             setPoint(pointObj);
             setAddress(res.regeocode.formattedAddress);
             onChange?.({
@@ -93,14 +103,12 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
                 lng: pointObj.lng,
                 lat: pointObj.lat,
               },
+              countryCode,
+              provinceCode,
+              cityCode,
             });
             setCenter(pointObj);
             setZoom(17);
-            // let code = result.regeocode.addressComponent.adcode;
-            // code = code ? code * 1 : 900000;
-            // emit('update:province', parseInt(code / 10000 + '') + '0000');
-            // emit('update:city', parseInt(code / 100 + '') + '00');
-            // emit('update:area', code);
           } else {
             message.success('坐标无效');
           }

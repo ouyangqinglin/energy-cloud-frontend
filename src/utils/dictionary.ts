@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-05-19 11:20:05
+ * @LastEditTime: 2023-05-29 09:15:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -112,6 +112,10 @@ export const buildStatus = {
 };
 
 export const onlineStatus = {
+  2: {
+    text: '没有状态',
+    status: '',
+  },
   1: {
     text: '在线',
     status: 'Processing',

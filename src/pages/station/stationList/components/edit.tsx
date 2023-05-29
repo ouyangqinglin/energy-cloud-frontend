@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-26 18:05:36
+ * @LastEditTime: 2023-05-29 11:04:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -87,6 +87,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         address: formData?.addressInfo?.address,
         longitude: formData?.addressInfo?.point?.lng,
         latitude: formData?.addressInfo?.point?.lat,
+        countryCode: formData?.addressInfo?.countryCode,
+        provinceCode: formData?.addressInfo?.provinceCode,
+        cityCode: formData?.addressInfo?.cityCode,
       }).then((data) => {
         if (data) {
           message.success('保存成功');
