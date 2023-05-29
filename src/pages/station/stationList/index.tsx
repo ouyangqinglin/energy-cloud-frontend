@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-29 10:38:56
+ * @LastEditTime: 2023-05-29 11:41:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -155,6 +155,7 @@ const StationList: React.FC = () => {
         fieldNames: {
           value: 'id',
         },
+        changeOnSelect: true,
       },
     },
     {
