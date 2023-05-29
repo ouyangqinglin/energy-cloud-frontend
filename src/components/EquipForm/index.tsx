@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-29 11:36:48
+ * @LastEditTime: 2023-05-29 11:49:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -178,7 +178,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         <ProForm<EquipFormType>
           form={form}
           layout="horizontal"
-          labelCol={{ flex: '84px' }}
+          labelCol={{ flex: '94px' }}
           autoFocusFirstInput
           onFinish={onFinish}
           onValuesChange={onValuesChange}
@@ -195,7 +195,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             disabled={type == FormTypeEnum.Edit}
           ></ProFormSelect>
           <ProFormSelect
-            label="子系统"
+            label="所属子系统"
             name="subsystemId"
             placeholder="请选择"
             request={requestDeviceSubsystem}
@@ -233,7 +233,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             placeholder="请输入"
             rules={[{ required: true, message: '设备名称必填' }]}
           ></ProFormText>
-          <ProFormText label="设备SN" name="sn" placeholder="请输入"></ProFormText>
+          <ProFormText
+            label="设备SN"
+            name="sn"
+            placeholder="请输入"
+            rules={[{ required: true, message: '设备SN必填' }]}
+          ></ProFormText>
           <ProFormUploadButton
             label="设备照片"
             name="photosList"

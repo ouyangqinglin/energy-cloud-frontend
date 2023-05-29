@@ -194,7 +194,7 @@ const StationList: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: '子系统',
+      title: '所属子系统',
       dataIndex: 'subsystemName',
       width: 80,
       hideInSearch: true,

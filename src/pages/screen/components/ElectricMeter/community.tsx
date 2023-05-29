@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 09:53:55
- * @LastEditTime: 2023-05-15 17:58:05
+ * @LastEditTime: 2023-05-29 19:47:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricMeter\community.tsx
  */
@@ -58,7 +58,7 @@ const Community: React.FC<CommunityProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title="设置通信信息"
+        title="设置通信参数"
         width="458px"
         onCancel={onCancel}
         onOk={triggerSubmit}

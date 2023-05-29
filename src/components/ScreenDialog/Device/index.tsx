@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:40:01
- * @LastEditTime: 2023-05-11 11:42:18
+ * @LastEditTime: 2023-05-29 19:49:39
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Cabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Device\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
@@ -34,12 +34,12 @@ const Device: React.FC<BusinessDialogProps> = (props) => {
       children: <Empty />,
     },
     {
-      label: '报警/故障',
+      label: '告警/故障',
       key: 'item-2',
       children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
-      label: '设备日志',
+      label: '日志',
       key: 'item-3',
       children: <LogTable params={{ id }} request={getLogs} />,
     },
