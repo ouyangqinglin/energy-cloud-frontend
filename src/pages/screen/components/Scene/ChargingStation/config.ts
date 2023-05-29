@@ -19,3 +19,13 @@ export const gunInfoItem: DetailItem[] = [
     format: (value) => keepTwoDecimalWithUnit(value, '元'),
   },
 ];
+
+export const DEFAULT_CONFIG = {
+  // 充电功率
+  chargingPower: '--',
+  // 充电量
+  chargingCapacity: '--',
+  profit: '--',
+  chargingGunStatus: '--',
+  chargingGunCurve: [],
+};

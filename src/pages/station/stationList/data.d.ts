@@ -44,10 +44,12 @@ export type StationFormType = {
     countryCode: string;
     provinceCode: string;
     cityCode: string;
+    adcode: string;
   };
   address: string;
   longitude: number;
   latitude: number;
+  adcode: string;
   countryCode: string;
   provinceCode: string;
   cityCode: string;

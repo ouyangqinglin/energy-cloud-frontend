@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-05-13 14:06:16
+ * @LastEditTime: 2023-05-29 11:28:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
@@ -19,9 +19,11 @@ import { getAreaCodeByAdCode } from '@/utils';
 export type PositionSelectType = {
   address?: string;
   point?: AMap.LngLat;
+
   countryCode?: string;
   provinceCode?: string;
   cityCode?: string;
+  adcode?: string;
 };
 
 export type PositionSelectProps = {
@@ -79,9 +81,11 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
       countryCode,
       provinceCode,
       cityCode,
+      adcode: data.adcode,
     });
     setCenter(data.location);
     setZoom(17);
+
     // const code = item.adcode ? item.adcode * 1 : 900000;
     // emit('update:province', parseInt(code / 10000 + '') + '0000');
     // emit('update:city', parseInt(code / 100 + '') + '00');
@@ -106,6 +110,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
               countryCode,
               provinceCode,
               cityCode,
+              adcode: res?.regeocode?.addressComponent?.adcode,
             });
             setCenter(pointObj);
             setZoom(17);

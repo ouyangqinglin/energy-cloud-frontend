@@ -1,21 +1,15 @@
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
-import { Alert, Col, message, Row, Tabs, Image } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
+import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import { Alert, message, Row } from 'antd';
+import React, { useState } from 'react';
+import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { getFakeCaptcha, login } from '@/services/login';
+import { login } from '@/services/login';
 import YtIcon from '@/assets/image/icon-yt.png';
 
 import styles from './index.less';
 import { clearSessionToken, setSessionToken } from '@/access';
+import { MenuEnum } from './type';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -45,7 +39,10 @@ const Login: React.FC = () => {
       // 登录
       const {
         code,
-        data: { access_token: accessToken },
+        data: {
+          access_token: accessToken,
+          homeMenu: { menu = MenuEnum.STATION_LIST, siteId = '1' } = {},
+        },
         msg,
       } = await login({ ...values, uuid });
       if (code === 200) {
@@ -55,12 +52,25 @@ const Login: React.FC = () => {
         });
         const current = new Date();
         const expireTime = current.setTime(current.getTime() + 1000 * 12 * 60 * 60);
-        setSessionToken(accessToken, accessToken, expireTime);
+
+        // TODO: 定制化开发，后续移除
+        setSessionToken(accessToken, accessToken, expireTime, String(siteId));
         message.success(defaultLoginSuccessMessage);
 
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
+        // const { query } = history.location;
+        // const { redirect } = query as { redirect: string };
+        // TODO: 定制化开发，后续移除
+        let redirectPath = '/';
+        if (menu === MenuEnum.SCREEN) {
+          redirectPath = '/screen';
+        }
+        history.push({
+          pathname: redirectPath,
+          query: {
+            siteId: String(siteId),
+          },
+        });
+
         refresh();
         return;
       } else {

@@ -171,6 +171,7 @@ export default {
         currentAuthority: 'admin',
         data: {
           access_token: guid(),
+          homeMenu: { menu: 1, siteId: 3 },
         },
       });
       access = 'admin';

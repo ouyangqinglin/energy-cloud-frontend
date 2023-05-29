@@ -7,23 +7,20 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
-import { Button, Form, message, Row, Col } from 'antd';
+import { Form, message, Row, Col } from 'antd';
 import { useRequest } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
-  ProForm,
   ProFormText,
   ProFormTextArea,
   ProFormDigit,
   ProFormUploadButton,
 } from '@ant-design/pro-form';
-import type { ModalFormProps } from '@ant-design/pro-form';
 import { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
 import { FormTypeEnum } from '@/utils/dictionary';
-import type { UploadProps } from 'antd/es/upload/interface';
 import { api } from '@/services';
 
 type StationFOrmProps = {
@@ -90,6 +87,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         countryCode: formData?.addressInfo?.countryCode,
         provinceCode: formData?.addressInfo?.provinceCode,
         cityCode: formData?.addressInfo?.cityCode,
+        adcode: formData?.addressInfo?.adcode,
       }).then((data) => {
         if (data) {
           message.success('保存成功');

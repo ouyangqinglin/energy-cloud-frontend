@@ -79,6 +79,11 @@ declare namespace API {
     msg?: string;
     data: {
       access_token?: string;
+      expires_in?: number;
+      homeMenu: {
+        menu: number;
+        siteId: number;
+      };
     };
   };
 
