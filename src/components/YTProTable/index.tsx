@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
@@ -14,7 +15,23 @@ const YTProTable = <
 >(
   props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
-  const { toolBarRender, columns, actionRef, toolbar, ...restProps } = props;
+  const { toolBarRender, columns, actionRef, toolbar, request, ...restProps } = props;
+
+  const requestList = useCallback(
+    (params: Params, sort, filter) => {
+      const result = request?.(params, sort, filter);
+      if (result?.tableThen) {
+        return result.tableThen();
+      } else {
+        return result;
+      }
+    },
+    [request],
+  );
+
+  if (request) {
+    restProps['request'] = requestList;
+  }
 
   // 新建按钮的统一模板
   const toolBarNode = () => [
@@ -29,7 +46,7 @@ const YTProTable = <
   const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
 
   // 合并默认的操作(删除，编辑，进入)
-  const defaultOperation = genDefaultOperation<DataType, ValueType>(props);
+  const defaultOperation = genDefaultOperation<DataType, Params, ValueType>(props);
   if (defaultOperation) {
     customColumns?.push(defaultOperation);
   }
@@ -47,6 +64,7 @@ const YTProTable = <
       pagination={{
         showSizeChanger: true,
       }}
+      rowKey="id"
       {...restProps}
     />
   );

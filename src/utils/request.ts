@@ -13,6 +13,7 @@ import {
 } from 'umi-request';
 import { history } from 'umi';
 import { message, notification } from 'antd';
+import type { RequestData } from '@ant-design/pro-table';
 import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '../access';
 import { LoginPageUrl } from './utils';
 import defaultSettings from '../../config/defaultSettings';
@@ -64,28 +65,33 @@ export interface Init {
   (options: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit): void;
 }
 
-type TableData<U> = {
-  data: U[];
-  total: number;
-  success: boolean;
+export type ResponsePageData<T> = {
+  code: string;
+  data: {
+    list: T[];
+    total: number;
+  };
+  msg: string;
 };
 
-type RequestPromise<T = any, U = any> = Promise<T> & {
-  tableThen: () => Promise<TableData<U>>;
+export type ResponsePromise<T = any, U = any> = Promise<T> & {
+  tableThen: () => Promise<RequestData<U>>;
 };
 
 interface HttpRequestType<R = false> {
   request: {
-    <T = any>(url: string, options: RequestOptionsWithResponse): RequestPromise<RequestResponse<T>>;
-    <T = any>(url: string, options: RequestOptionsWithoutResponse): RequestPromise<T>;
+    <T = any>(url: string, options: RequestOptionsWithResponse): ResponsePromise<
+      RequestResponse<T>
+    >;
+    <T = any>(url: string, options: RequestOptionsWithoutResponse): ResponsePromise<T>;
     <T = any>(url: string, options?: RequestOptionsInit): R extends true
-      ? RequestPromise<RequestResponse<T>>
-      : RequestPromise<T>;
+      ? ResponsePromise<RequestResponse<T>>
+      : ResponsePromise<T>;
   };
 }
 
 class HttpRequest implements HttpRequestType {
-  instance: RequestMethod<false>;
+  instance: RequestMethod<false> | null = null;
 
   init(option?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) {
     this.instance = extend({
@@ -162,17 +168,19 @@ class HttpRequest implements HttpRequestType {
     url: string,
     options?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit,
   ) {
-    const result = this.instance<T>(url, options);
-    result['tableThen'] = () => {
-      return result.then(({ data }: any) => {
-        return {
-          data: data?.list,
-          total: data.total,
-          success: true,
-        };
-      });
-    };
-    return result as RequestPromise<T, U>;
+    const result = this?.instance?.<T>(url, options);
+    if (result) {
+      result['tableThen'] = () => {
+        return result.then(({ data }: any) => {
+          return {
+            data: data?.list,
+            total: data?.total,
+            success: true,
+          };
+        });
+      };
+    }
+    return result as ResponsePromise<T, U>;
   }
 }
 
@@ -190,7 +198,7 @@ export const get = <R = false>(
         options,
         ...{ params },
       };
-  return httpRequest.instance.get<R>(url, composeOptions);
+  return httpRequest?.instance?.get?.<R>(url, composeOptions);
 };
 
 export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
@@ -200,9 +208,12 @@ export const post = <R = false>(url: string, params?: any, options?: RequestOpti
         options,
         ...{ params },
       };
-  return httpRequest.instance.post<R>(url, composeOptions);
+  return httpRequest?.instance?.post?.<R>(url, composeOptions);
 };
 
-const request: HttpRequest['request'] = (url, options) => httpRequest.request(url, options);
+const request: HttpRequest['request'] = <T, U>(
+  url: string,
+  options?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit,
+) => httpRequest.request<T, U>(url, options);
 
 export default request;

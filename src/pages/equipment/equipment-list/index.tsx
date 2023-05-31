@@ -258,6 +258,7 @@ const StationList: React.FC = () => {
         }}
         rowKey="id"
         toolBarRender={toolBar}
+        options={false}
         request={handleRequest}
         toolbar={{
           menu: {

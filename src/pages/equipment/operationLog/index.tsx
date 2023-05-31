@@ -27,7 +27,7 @@ const OperationLog: React.FC = () => {
   }, []);
 
   const requestList = useCallback((params: OperationLogType) => {
-    return getList(params).tableThen();
+    return getList(params);
   }, []);
 
   const requestStations = useCallback(

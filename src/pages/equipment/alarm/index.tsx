@@ -12,6 +12,7 @@ import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import type { AlarmType } from './data.d';
 import { alarmStatus, alarmSourceStatus } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
+import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
@@ -26,8 +27,8 @@ const Alarm: React.FC = () => {
     setOpen((value) => !value);
   }, []);
 
-  const requestList: ProTableProps<AlarmType, AlarmType>['request'] = (params) => {
-    return getList(params).tableThen();
+  const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (params) => {
+    return getList(params);
   };
 
   const onDetailClick = useCallback((_, record) => {

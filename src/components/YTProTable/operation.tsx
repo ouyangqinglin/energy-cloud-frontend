@@ -1,5 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-table';
 import { Button, Modal } from 'antd';
+import type { ParamsType } from '@ant-design/pro-provider';
 import { isFunction, isEmpty } from 'lodash';
 import type { ReactNode } from 'react';
 import type { YTProTableCustomProps } from './typing';
@@ -57,8 +58,9 @@ const operationsMap = new Map([
 
 export default function genDefaultOperation<
   DataType extends Record<string, any>,
+  Params extends ParamsType = ParamsType,
   ValueType = 'text',
->(props: YTProTableCustomProps<DataType, ValueType>) {
+>(props: YTProTableCustomProps<DataType, Params, ValueType>) {
   const { option = {} } = props;
   const {
     columnsProp = {},

@@ -68,10 +68,12 @@ export default [
       {
         path: '/station-manage/equipment-list',
         name: 'equipmentList',
+        component: './equipment/equipment-list',
       },
       {
         path: '/station-manage/alarm-record',
         name: 'alarmRecord',
+        component: './equipment/alarm',
       },
       {
         path: '/station-manage/setting',
