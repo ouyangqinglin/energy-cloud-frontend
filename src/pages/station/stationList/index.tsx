@@ -225,6 +225,7 @@ const StationList: React.FC = () => {
         columns={columns}
         search={{
           labelWidth: 'auto',
+          searchText: '搜索',
         }}
         rowKey="id"
         toolBarRender={toolBar}

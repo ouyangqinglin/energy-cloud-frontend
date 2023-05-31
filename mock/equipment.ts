@@ -40,4 +40,33 @@ export default {
     msg: '操作成功',
     data: 1,
   },
+  'GET /api/operation-logs/page': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      total: 1,
+      list: [
+        {
+          id: 1,
+          content: '系统停止指令下发',
+          deviceName: '储能',
+          siteName: '永泰光储充示范站',
+          operator: '王欢喜',
+          createTime: '2023-4-12 12:00:00',
+        },
+      ],
+    },
+  },
+  'GET /api/operation-logs': {
+    msg: '操作成功',
+    code: 200,
+    data: {
+      id: 1,
+      content: '系统停止指令下发',
+      deviceName: '储能',
+      siteName: '永泰光储充示范站',
+      operator: '王欢喜',
+      createTime: '2023-4-12 12:00:00',
+    },
+  },
 };

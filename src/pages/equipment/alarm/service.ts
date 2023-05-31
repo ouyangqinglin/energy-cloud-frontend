@@ -10,8 +10,17 @@ import request from '@/utils/request';
 import { StationFormType } from './data.d';
 
 export const getList = (params: any) => {
-  return request(`/alarms`, {
+  return request(`/alarms/page`, {
     method: 'GET',
     params,
+  });
+};
+
+export const getDetail = (id: string) => {
+  return request(`/alarms`, {
+    method: 'GET',
+    params: {
+      id,
+    },
   });
 };

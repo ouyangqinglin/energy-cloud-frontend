@@ -1,22 +1,21 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-05-30 15:46:56
+ * @Date: 2023-05-30 08:50:38
+ * @LastEditTime: 2023-05-30 15:41:03
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\equipment\operationLog\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useRequest } from 'umi';
-import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
-import type { AlarmType } from './data.d';
-import { alarmStatus, alarmSourceStatus } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
+import type { ProColumns } from '@ant-design/pro-table';
 import { getList, getDetail } from './service';
+import { OperationLogType } from './data.d';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 
-const Alarm: React.FC = () => {
+const OperationLog: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { data, run } = useRequest(getDetail, {
     manual: true,
@@ -26,9 +25,9 @@ const Alarm: React.FC = () => {
     setOpen((value) => !value);
   }, []);
 
-  const requestList: ProTableProps<AlarmType, AlarmType>['request'] = (params) => {
+  const requestList = useCallback((params: OperationLogType) => {
     return getList(params).tableThen();
-  };
+  }, []);
 
   const onDetailClick = useCallback((_, record) => {
     switchOpen();
@@ -36,55 +35,47 @@ const Alarm: React.FC = () => {
   }, []);
 
   const detailItems: DetailItem[] = [
-    { label: '告警ID', field: 'id' },
-    { label: '告警内容', field: 'content' },
+    { label: '日志ID', field: 'id' },
+    { label: '日志内容', field: 'content' },
     { label: '所属站点', field: 'siteName' },
-    { label: '告警状态', field: 'status' },
-    { label: '告警来源', field: 'source' },
-    { label: '关联设备', field: 'device' },
+    { label: '设备名称', field: 'deviceName' },
+    { label: '操作人', field: 'operator' },
     { label: '发生时间', field: 'createTime' },
-    { label: '恢复时间', field: 'recoveryTime' },
   ];
 
-  const columns: ProColumns<AlarmType>[] = [
+  const columns: ProColumns<OperationLogType>[] = [
     {
-      title: '告警ID',
+      title: '日志ID',
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '告警内容',
+      title: '日志内容',
       dataIndex: 'content',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '关联设备',
-      dataIndex: 'device',
+      title: '设备名称',
+      dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
     },
     {
       title: '所属站点',
-      dataIndex: 'station',
+      dataIndex: 'siteName',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '告警状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: alarmStatus,
+      title: '操作人',
+      dataIndex: 'operator',
       width: 120,
-    },
-    {
-      title: '告警来源',
-      dataIndex: 'source',
-      valueEnum: alarmSourceStatus,
-      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '发生时间',
@@ -101,18 +92,11 @@ const Alarm: React.FC = () => {
         },
       },
     },
-    {
-      title: '恢复时间',
-      dataIndex: 'recoveryTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
   ];
 
   return (
     <>
-      <YTProTable<AlarmType, AlarmType>
+      <YTProTable<OperationLogType, OperationLogType>
         columns={columns}
         request={requestList}
         option={{
@@ -124,7 +108,7 @@ const Alarm: React.FC = () => {
       />
       <DetailDialog
         width="420px"
-        title="告警详情"
+        title="日志详情"
         open={open}
         onCancel={switchOpen}
         detailProps={{
@@ -138,4 +122,4 @@ const Alarm: React.FC = () => {
   );
 };
 
-export default Alarm;
+export default OperationLog;

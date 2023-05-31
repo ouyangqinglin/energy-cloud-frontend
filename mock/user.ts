@@ -296,6 +296,18 @@ export default {
               link: null,
             },
           },
+          {
+            name: '',
+            path: 'operation-log',
+            hidden: false,
+            component: '',
+            meta: {
+              title: '设备运行日志',
+              icon: '',
+              noCache: false,
+              link: null,
+            },
+          },
         ],
       },
       {

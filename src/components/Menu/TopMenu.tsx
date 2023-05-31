@@ -12,36 +12,28 @@ import styles from './index.less';
 import { useLocation, useModel, useHistory } from 'umi';
 import YtIcon from '@/assets/image/icon-yt.png';
 import { getStation } from '@/services/station';
-import { AnyMapType } from '@/utils/dictionary';
-
-type LocationType = {
-  query?: AnyMapType;
-};
+import { LocationType } from '@/utils/dictionary';
 
 const menus = [
   {
     key: '/station-manage/operation-monitor',
-    label: '运行监控',
+    label: '概览',
+  },
+  {
+    key: '/station-manage/info',
+    label: '站点信息',
   },
   {
     key: '/station-manage/equipment-list',
-    label: '设备列表',
+    label: '设备',
   },
   {
     key: '/station-manage/alarm-record',
-    label: '告警记录',
+    label: '告警',
   },
   {
     key: '/station-manage/setting',
-    label: '站点设置',
-  },
-  {
-    key: '/station-manage/data-query',
-    label: '数据查询',
-  },
-  {
-    key: '/station-manage/service-record',
-    label: '服务记录',
+    label: '设置',
   },
 ];
 

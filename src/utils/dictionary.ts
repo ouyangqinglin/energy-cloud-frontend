@@ -54,6 +54,10 @@ export type FileType = {
   url: string;
 };
 
+export type LocationType = {
+  query?: AnyMapType;
+};
+
 export enum AutoComStatusEnum {
   Complete = 'complete',
   Error = 'error',
