@@ -9,6 +9,7 @@
 import React, { useReducer } from 'react';
 
 export type StationDetailType = {
+  id?: string;
   name?: string;
   icon?: string;
 };

@@ -2,66 +2,62 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:03:38
- * @LastEditTime: 2023-05-22 16:44:44
+ * @LastEditTime: 2023-05-31 09:12:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Menu\TopMenu.tsx
  */
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { Tabs } from 'antd';
 import styles from './index.less';
 import { useLocation, useModel, useHistory } from 'umi';
 import YtIcon from '@/assets/image/icon-yt.png';
 import { getStation } from '@/services/station';
-import { AnyMapType } from '@/utils/dictionary';
-
-type LocationType = {
-  query?: AnyMapType;
-};
+import { LocationType } from '@/utils/dictionary';
 
 const menus = [
   {
     key: '/station-manage/operation-monitor',
-    label: '运行监控',
+    label: '概览',
+  },
+  {
+    key: '/station-manage/info',
+    label: '站点信息',
   },
   {
     key: '/station-manage/equipment-list',
-    label: '设备列表',
+    label: '设备',
   },
   {
     key: '/station-manage/alarm-record',
-    label: '告警记录',
+    label: '告警',
   },
   {
     key: '/station-manage/setting',
-    label: '站点设置',
-  },
-  {
-    key: '/station-manage/data-query',
-    label: '数据查询',
-  },
-  {
-    key: '/station-manage/service-record',
-    label: '服务记录',
+    label: '设置',
   },
 ];
 
 const TopMenu: React.FC = () => {
   const { state, dispatch } = useModel('station');
   const location = useLocation<LocationType>();
+  const id = useMemo(
+    () => (location as LocationType).query?.id,
+    [(location as LocationType).query?.id],
+  );
   const history = useHistory();
 
   const onChange = useCallback((key) => {
     history.push({
       pathname: `${key}`,
-      search: `id=${(location as LocationType).query?.id}`,
+      search: `id=${id}`,
     });
   }, []);
 
   useEffect(() => {
-    // getStation((location as LocationType).query?.id).then((res) => {
-    //   dispatch({ type: 'get', payload: res.data || {} });
+    // getStation(id).then(({data}) => {
+    //   dispatch({ type: 'get', payload: {id,...(data || {} )}});
     // });
-  }, [(location as LocationType).query?.id]);
+  }, [id]);
 
   return (
     <>

@@ -154,7 +154,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
         </Row>
       </Form>
       <Label
-        title="保护参数设置"
+        title="电池保护参数设置"
         operate={
           <Button type="primary" onClick={onProtectClick}>
             下发参数

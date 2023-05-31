@@ -55,3 +55,16 @@ export const valueFormat = (value: valueType) => {
   );
   return dom;
 };
+
+export const getAreaCodeByAdCode = (code: string): string[] => {
+  const result = code + '';
+  if (result == '900000') {
+    return ['900000', '', ''];
+  } else if (result) {
+    const province = result.substring(0, 2).padEnd(6, '0');
+    const city = result.substring(0, 4).padEnd(6, '0');
+    return ['100000', province, city];
+  } else {
+    return ['', '', ''];
+  }
+};

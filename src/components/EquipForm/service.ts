@@ -39,12 +39,6 @@ export const getGateway = () => {
   });
 };
 
-export const getStations = () => {
-  return request(`/system/site/list`, {
-    method: 'GET',
-  });
-};
-
 export const getProductTypes = (params: any) => {
   return request(`/iot/product/getProductType`, {
     method: 'GET',

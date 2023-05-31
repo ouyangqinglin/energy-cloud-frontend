@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-23 14:02:55
+ * @LastEditTime: 2023-05-29 19:53:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
  */
@@ -125,9 +125,9 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
             {emsData?.sysTem ? `${emsData.sysTem} ${weekInfo[emsData?.week]}` : <>无</>}
           </div>
           <Label title="状态信息" />
-          <Detail data={emsData || {}} items={statusItems} column={5} />
+          <Detail data={emsData || {}} items={statusItems} column={4} />
           <Label title="设置信息" />
-          <Detail data={emsData || {}} items={settingItems} column={5} />
+          <Detail data={emsData || {}} items={settingItems} column={4} />
         </>
       ),
     },

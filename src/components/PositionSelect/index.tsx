@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-05-13 14:06:16
+ * @LastEditTime: 2023-05-29 11:28:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
@@ -13,11 +13,16 @@ import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/utils/dictionary';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
-import { debounce, get } from 'lodash';
+import { debounce } from 'lodash';
+import { getAreaCodeByAdCode } from '@/utils';
 
 export type PositionSelectType = {
   address?: string;
   point?: AMap.LngLat;
+
+  countryCode?: string;
+  provinceCode?: string;
+  cityCode?: string;
   adcode?: string;
 };
 
@@ -66,12 +71,16 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
 
   const onSelect = (_: any, data: any) => {
     setPoint(data.location);
+    const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(data?.adcode || '');
     onChange?.({
       address: data.label,
       point: {
         lng: data.location.lng,
         lat: data.location.lat,
       },
+      countryCode,
+      provinceCode,
+      cityCode,
       adcode: data.adcode,
     });
     setCenter(data.location);
@@ -86,25 +95,28 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   const getAddressByPoint = (pointObj: AMap.LngLat) => {
     getGeocoder().then(({ getAddress }) => {
       getAddress(pointObj).then((res) => {
-        if (get(res ?? {}, 'regeocode.formattedAddress')) {
-          const { regeocode } = res;
-          setPoint(pointObj);
-          setAddress(regeocode.formattedAddress);
-          onChange?.({
-            address: regeocode.formattedAddress,
-            point: {
-              lng: pointObj.lng,
-              lat: pointObj.lat,
-            },
-            adcode: regeocode?.addressComponent?.adcode,
-          });
-          setCenter(pointObj);
-          setZoom(17);
-          // let code = result.regeocode.addressComponent.adcode;
-          // code = code ? code * 1 : 900000;
-          // emit('update:province', parseInt(code / 10000 + '') + '0000');
-          // emit('update:city', parseInt(code / 100 + '') + '00');
-          // emit('update:area', code);
+        if (res) {
+          if (res.regeocode && res.regeocode.formattedAddress) {
+            const adcode = res?.regeocode?.addressComponent?.adcode || '';
+            const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(adcode);
+            setPoint(pointObj);
+            setAddress(res.regeocode.formattedAddress);
+            onChange?.({
+              address: res.regeocode.formattedAddress,
+              point: {
+                lng: pointObj.lng,
+                lat: pointObj.lat,
+              },
+              countryCode,
+              provinceCode,
+              cityCode,
+              adcode: res?.regeocode?.addressComponent?.adcode,
+            });
+            setCenter(pointObj);
+            setZoom(17);
+          } else {
+            message.success('坐标无效');
+          }
         } else {
           message.success('坐标无效');
         }

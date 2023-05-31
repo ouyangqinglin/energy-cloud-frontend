@@ -1,6 +1,16 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { extend, RequestOptionsInit } from 'umi-request';
+import {
+  extend,
+  RequestOptionsInit,
+  RequestMethod,
+  ExtendOptionsWithoutResponse,
+  ExtendOptionsWithResponse,
+  ExtendOptionsInit,
+  RequestOptionsWithResponse,
+  RequestOptionsWithoutResponse,
+  RequestResponse,
+} from 'umi-request';
 import { history } from 'umi';
 import { message, notification } from 'antd';
 import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '../access';
@@ -47,81 +57,127 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
-function createClient() {
-  /** 配置request请求时的默认参数 */
-  return extend({
-    errorHandler, // 默认错误处理
-    credentials: 'include', // 默认请求是否带上cookie
-    prefix: defaultSettings.apiBasePath,
-  });
-}
-
-const request = createClient();
-
 // 更换令牌的时间区间
 const checkRegion = 5 * 60 * 1000;
 
-request.interceptors.request.use((url, options) => {
-  const headers = options.headers ? options.headers : [];
-  if (headers['Authorization'] === '' || headers['Authorization'] == null) {
-    const expireTime = getTokenExpireTime();
-    if (expireTime) {
-      const left = Number(expireTime) - new Date().getTime();
-      const refreshToken = getRefreshToken();
-      if (left < checkRegion && refreshToken) {
-        if (left < 0) {
+export interface Init {
+  (options: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit): void;
+}
+
+type TableData<U> = {
+  data: U[];
+  total: number;
+  success: boolean;
+};
+
+type RequestPromise<T = any, U = any> = Promise<T> & {
+  tableThen: () => Promise<TableData<U>>;
+};
+
+interface HttpRequestType<R = false> {
+  request: {
+    <T = any>(url: string, options: RequestOptionsWithResponse): RequestPromise<RequestResponse<T>>;
+    <T = any>(url: string, options: RequestOptionsWithoutResponse): RequestPromise<T>;
+    <T = any>(url: string, options?: RequestOptionsInit): R extends true
+      ? RequestPromise<RequestResponse<T>>
+      : RequestPromise<T>;
+  };
+}
+
+class HttpRequest implements HttpRequestType {
+  instance: RequestMethod<false>;
+
+  init(option?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) {
+    this.instance = extend({
+      errorHandler, // 默认错误处理
+      credentials: 'include', // 默认请求是否带上cookie
+      prefix: defaultSettings.apiBasePath,
+      ...(option || {}),
+    });
+
+    this.instance.interceptors.request.use((url, options) => {
+      const headers = options.headers ? options.headers : [];
+      if (headers['Authorization'] === '' || headers['Authorization'] == null) {
+        const expireTime = getTokenExpireTime();
+        if (expireTime) {
+          const left = Number(expireTime) - new Date().getTime();
+          const refreshToken = getRefreshToken();
+          if (left < checkRegion && refreshToken) {
+            if (left < 0) {
+              clearSessionToken();
+              history.push(LoginPageUrl);
+            }
+          } else {
+            const accessToken = getAccessToken();
+            if (accessToken) {
+              headers['Authorization'] = `Bearer ${accessToken}`;
+            }
+          }
+        } else {
           clearSessionToken();
           history.push(LoginPageUrl);
+          return {
+            url: undefined,
+            options: undefined,
+          };
+        }
+        return {
+          url,
+          options: { ...options, headers },
+        };
+      } else {
+        return {
+          url,
+          options,
+        };
+      }
+    });
+
+    // 响应拦截器
+    this.instance.interceptors.response.use(async (response: Response) => {
+      const { status } = response;
+      if (status === 200) {
+        const contentType = response.headers.get('content-type');
+        const isJson = contentType?.includes('application/json');
+        if (isJson === true) {
+          const resp = response.clone();
+          const data = await resp.json();
+          if (data) {
+            const { code } = data;
+            if (code && code !== 200) {
+              const msg = data.msg || codeMessage[code] || codeMessage[10000];
+              message.warn(`${code} ${msg}`);
+            }
+          }
         }
       } else {
-        const accessToken = getAccessToken();
-        if (accessToken) {
-          headers['Authorization'] = `Bearer ${accessToken}`;
-        }
+        const msg = codeMessage[status] || codeMessage[10000];
+        message.warn(`${status} ${msg}`);
       }
-    } else {
-      clearSessionToken();
-      history.push(LoginPageUrl);
-      return {
-        url: undefined,
-        options: undefined,
-      };
-    }
-    return {
-      url,
-      options: { ...options, headers },
-    };
-  } else {
-    return {
-      url,
-      options,
-    };
+      return response;
+    });
   }
-});
 
-// 响应拦截器
-request.interceptors.response.use(async (response: Response) => {
-  const { status } = response;
-  if (status === 200) {
-    const contentType = response.headers.get('content-type');
-    const isJson = contentType?.includes('application/json');
-    if (isJson === true) {
-      const resp = response.clone();
-      const data = await resp.json();
-      if (data) {
-        const { code } = data;
-        if (code && code !== 200) {
-          const msg = data.msg || codeMessage[code] || codeMessage[10000];
-          message.warn(`${code} ${msg}`);
-        }
-      }
-    }
-  } else {
-    const msg = codeMessage[status] || codeMessage[10000];
-    message.warn(`${status} ${msg}`);
+  request<T = any, U = any>(
+    url: string,
+    options?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit,
+  ) {
+    const result = this.instance<T>(url, options);
+    result['tableThen'] = () => {
+      return result.then(({ data }: any) => {
+        return {
+          data: data?.list,
+          total: data.total,
+          success: true,
+        };
+      });
+    };
+    return result as RequestPromise<T, U>;
   }
-  return response;
-});
+}
+
+const httpRequest = new HttpRequest();
+httpRequest.init();
 
 export const get = <R = false>(
   url: string,
@@ -134,7 +190,7 @@ export const get = <R = false>(
         options,
         ...{ params },
       };
-  return request.get<R>(url, composeOptions);
+  return httpRequest.instance.get<R>(url, composeOptions);
 };
 
 export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
@@ -144,7 +200,9 @@ export const post = <R = false>(url: string, params?: any, options?: RequestOpti
         options,
         ...{ params },
       };
-  return request.post<R>(url, composeOptions);
+  return httpRequest.instance.post<R>(url, composeOptions);
 };
+
+const request: HttpRequest['request'] = (url, options) => httpRequest.request(url, options);
 
 export default request;

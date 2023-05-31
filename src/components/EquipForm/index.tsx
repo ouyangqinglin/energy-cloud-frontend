@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-26 10:41:13
+ * @LastEditTime: 2023-05-29 11:49:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -13,14 +13,8 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import { EquipFormType } from './data.d';
-import {
-  editData,
-  getData,
-  addData,
-  getStations,
-  getProductTypes,
-  getProductModels,
-} from './service';
+import { editData, getData, addData, getProductTypes, getProductModels } from './service';
+import { getStations } from '@/services/station';
 import { FormTypeEnum, OptionType } from '@/utils/dictionary';
 import { api } from '@/services';
 
@@ -69,10 +63,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       ...formData,
       deviceId: id,
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
-    }).then(() => {
-      message.success('保存成功');
-      onSuccess?.();
-      onCancel?.();
+    }).then(({ data }) => {
+      if (data) {
+        message.success('保存成功');
+        onSuccess?.();
+        onCancel?.();
+      }
     });
   }, []);
 
@@ -176,7 +172,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         <ProForm<EquipFormType>
           form={form}
           layout="horizontal"
-          labelCol={{ flex: '84px' }}
+          labelCol={{ flex: '94px' }}
           autoFocusFirstInput
           onFinish={onFinish}
           onValuesChange={onValuesChange}
@@ -193,7 +189,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             disabled={type == FormTypeEnum.Edit}
           ></ProFormSelect>
           <ProFormSelect
-            label="子系统"
+            label="所属子系统"
             name="subsystemId"
             placeholder="请选择"
             request={requestDeviceSubsystem}
@@ -231,7 +227,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             placeholder="请输入"
             rules={[{ required: true, message: '设备名称必填' }]}
           ></ProFormText>
-          <ProFormText label="设备SN" name="sn" placeholder="请输入"></ProFormText>
+          <ProFormText
+            label="设备SN"
+            name="sn"
+            placeholder="请输入"
+            rules={[{ required: true, message: '设备SN必填' }]}
+          ></ProFormText>
           <ProFormUploadButton
             label="设备照片"
             name="photosList"

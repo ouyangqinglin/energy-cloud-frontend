@@ -71,14 +71,14 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
     { label: '设备SN', field: 'sn' },
     { label: '设备名称', field: 'name' },
     { label: '产品类型', field: 'productTypeName' },
-    { label: '子系统', field: 'subsystemName' },
+    { label: '所属子系统', field: 'subsystemName' },
     { label: '录入时间', field: 'createTime' },
     { label: '激活时间', field: 'activeTime' },
-    { label: '最近上线时间', field: 'sessionStartTime', show: data?.status !== 0 },
-    { label: '最近离线时间', field: 'offlineTime', show: data?.status === 0 },
+    { label: '所属站点', field: 'siteName' },
     { label: '录入人', field: 'updateUserName' },
     { label: '在线时长', field: 'onlineTime' },
-    { label: '所属站点', field: 'siteName' },
+    { label: '最近上线时间', field: 'sessionStartTime', show: data?.status !== 0 },
+    { label: '最近离线时间', field: 'offlineTime', show: data?.status === 0 },
   ];
 
   return (
@@ -119,10 +119,10 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
                     </Button>
                   )}
                 </div>
-                {buttons}
                 <Button type="link" onClick={onEditClick}>
                   修改基本信息
                 </Button>
+                {buttons}
               </div>
             </>
           )}

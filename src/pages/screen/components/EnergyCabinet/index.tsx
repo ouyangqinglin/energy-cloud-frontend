@@ -48,12 +48,12 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
       children: <Empty />,
     },
     {
-      label: '报警/故障',
+      label: '告警/故障',
       key: 'item-2',
       children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
-      label: '设备日志',
+      label: '日志',
       key: 'item-3',
       children: <LogTable params={{ id }} request={getLogs} />,
     },

@@ -54,10 +54,10 @@ const Detail: React.FC<DetailProps> = (props) => {
         >
           {!isEmpty(data[item.field])
             ? item.format
-              ? item.format(data[item.field], data)
+              ? item.format(data[item.field] || '', data)
               : format
-              ? format(data[item.field], data)
-              : data[item.field]
+              ? format(data[item.field] || '', data)
+              : data[item.field] || ''
             : '--'}
         </Descriptions.Item>,
       );

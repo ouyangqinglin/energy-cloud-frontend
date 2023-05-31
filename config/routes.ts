@@ -79,12 +79,9 @@ export default [
         component: './station/stationManage/setting/index',
       },
       {
-        path: '/station-manage/data-query',
+        path: '/station-manage/info',
         name: 'dataQuery',
-      },
-      {
-        path: '/station-manage/service-record',
-        name: 'serviceRecord',
+        component: './station/stationManage/info/index',
       },
     ],
   },
@@ -108,6 +105,11 @@ export default [
         path: 'alarm',
         name: 'alarm',
         component: './equipment/alarm',
+      },
+      {
+        path: 'operation-log',
+        name: 'operationLog',
+        component: './equipment/operationLog',
       },
     ],
   },

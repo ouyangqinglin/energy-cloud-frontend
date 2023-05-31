@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-05-15 11:41:39
+ * @LastEditTime: 2023-05-29 19:55:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\equipmentItem.ts
  */
@@ -45,20 +45,21 @@ export const statusItems: DetailItem[] = [
     label: '电表通讯状态',
     field: 'meterLoss',
     format: communicateFormat,
+    span: 2,
   },
-  { label: 'EMS系统状态', field: 'emsSysStatus', format: runFormat },
-  { label: '系统模式', field: 'sysModel', format: modelFormat },
+  { label: 'EMS运行状态', field: 'emsSysStatus', format: runFormat },
+  { label: '系统模式', field: 'sysModel', format: modelFormat, span: 3 },
   { label: 'BMS主接触器状态', field: 'MainContactorStatus', format: closeFormat },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },
 ];
 export const settingItems: DetailItem[] = [
-  { label: '手动PCS功率', field: 'handOpePcsPower', format: powerFormat },
   { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
   { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
   { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
   { label: '过放释放', field: 'Overrelease', format: voltageFormat },
+  { label: '手动PCS功率', field: 'handOpePcsPower', format: powerFormat, span: 4 },
   {
     label: '时段1',
     field: 'AtTheBeginningOfThePeriodOne',
@@ -123,12 +124,12 @@ export const pcsStatusItems: DetailItem[] = [
     format: electricModel,
   },
   { label: '工作状态', field: 'WorkStatus', format: workFormat },
+  { label: '系统故障字', field: 'SystemFault', format: faultFormat },
   { label: '硬件故障字1', field: 'HardwareFault1', format: faultFormat },
   { label: '硬件故障字2', field: 'HardwareFault2', format: faultFormat },
   { label: '电网故障字', field: 'GridFault', format: faultFormat },
   { label: '母线故障字', field: 'BusFault', format: faultFormat },
   { label: '交流电容故障字', field: 'AcCapacitorFault', format: faultFormat },
-  { label: '系统故障字', field: 'SystemFault', format: faultFormat },
   { label: '开关故障字', field: 'SwitchFault', format: faultFormat },
   { label: '其他故障字', field: 'OtherFault', format: faultFormat },
 ];

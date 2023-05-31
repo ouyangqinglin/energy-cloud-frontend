@@ -50,7 +50,7 @@ const Community: React.FC<CommunityProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title="设置通信信息"
+        title="设置通信参数"
         width="458px"
         onCancel={onCancel}
         onOk={triggerSubmit}
