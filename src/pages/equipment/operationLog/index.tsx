@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-05-30 15:41:03
+ * @LastEditTime: 2023-05-31 09:28:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\operationLog\index.tsx
  */
@@ -14,10 +14,11 @@ import { getList, getDetail } from './service';
 import { OperationLogType } from './data.d';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
+import { getStations } from '@/services/station';
 
 const OperationLog: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { data, run } = useRequest(getDetail, {
+  const { data: logData, run } = useRequest(getDetail, {
     manual: true,
   });
 
@@ -28,6 +29,17 @@ const OperationLog: React.FC = () => {
   const requestList = useCallback((params: OperationLogType) => {
     return getList(params).tableThen();
   }, []);
+
+  const requestStations = useCallback(
+    () =>
+      getStations().then((data) => {
+        return data?.map?.((item: any) => ({
+          label: item.name,
+          value: item.id,
+        }));
+      }),
+    [],
+  );
 
   const onDetailClick = useCallback((_, record) => {
     switchOpen();
@@ -67,6 +79,8 @@ const OperationLog: React.FC = () => {
     {
       title: '所属站点',
       dataIndex: 'siteName',
+      valueType: 'select',
+      request: requestStations,
       width: 150,
       ellipsis: true,
     },
@@ -112,7 +126,7 @@ const OperationLog: React.FC = () => {
         open={open}
         onCancel={switchOpen}
         detailProps={{
-          data: data,
+          data: logData,
           items: detailItems,
           column: 1,
           labelStyle: { width: '90px' },

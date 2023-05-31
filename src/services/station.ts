@@ -9,6 +9,12 @@
 
 import request from '@/utils/request';
 
+export const getStations = () => {
+  return request(`/system/site/list`, {
+    method: 'GET',
+  });
+};
+
 export const getStation = (id: string) => {
   return request(`/station/${id}`, {
     method: 'GET',

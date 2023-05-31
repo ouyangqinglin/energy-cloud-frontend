@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:03:38
- * @LastEditTime: 2023-05-22 16:44:44
+ * @LastEditTime: 2023-05-31 09:12:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Menu\TopMenu.tsx
  */
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { Tabs } from 'antd';
 import styles from './index.less';
 import { useLocation, useModel, useHistory } from 'umi';
@@ -40,20 +40,24 @@ const menus = [
 const TopMenu: React.FC = () => {
   const { state, dispatch } = useModel('station');
   const location = useLocation<LocationType>();
+  const id = useMemo(
+    () => (location as LocationType).query?.id,
+    [(location as LocationType).query?.id],
+  );
   const history = useHistory();
 
   const onChange = useCallback((key) => {
     history.push({
       pathname: `${key}`,
-      search: `id=${(location as LocationType).query?.id}`,
+      search: `id=${id}`,
     });
   }, []);
 
   useEffect(() => {
-    // getStation((location as LocationType).query?.id).then((res) => {
-    //   dispatch({ type: 'get', payload: res.data || {} });
+    // getStation(id).then(({data}) => {
+    //   dispatch({ type: 'get', payload: {id,...(data || {} )}});
     // });
-  }, [(location as LocationType).query?.id]);
+  }, [id]);
 
   return (
     <>

@@ -13,14 +13,8 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import { EquipFormType } from './data.d';
-import {
-  editData,
-  getData,
-  addData,
-  getStations,
-  getProductTypes,
-  getProductModels,
-} from './service';
+import { editData, getData, addData, getProductTypes, getProductModels } from './service';
+import { getStations } from '@/services/station';
 import { FormTypeEnum, OptionType } from '@/utils/dictionary';
 import { api } from '@/services';
 
