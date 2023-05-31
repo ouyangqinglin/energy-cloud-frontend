@@ -1,12 +1,14 @@
 import { get } from '@/utils/request';
-import type { AccountListDataType, CustomerInfo } from './data';
+import type { MarketElectricityPriceList } from './type';
 
-export const getAccountList = (params: any) => {
-  return get<AccountListDataType>(`/accounts/list`, params);
-};
-
-export const getMarketElectricityPriceList = (params) => {
-  return get(`/electricityPrice/market/list`, params);
+export const getMarketElectricityPriceList = (params: {
+  name?: string;
+  startTime?: number;
+  endTime?: number;
+  status?: number;
+  siteId: number;
+}) => {
+  return get<MarketElectricityPriceList>(`/electricityPrice/market/list`, params);
 };
 
 export const getRules = () => {

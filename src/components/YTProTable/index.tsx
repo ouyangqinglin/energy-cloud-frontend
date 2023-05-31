@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProTable } from '@ant-design/pro-components';
+import { ProTable, ProTableProps } from '@ant-design/pro-components';
 // import ProTable from '@ant-design/pro-table';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
@@ -14,7 +14,7 @@ const YTProTable = <
 >(
   props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
-  const { toolBarRender, columns, actionRef, toolbar, ...restProps } = props;
+  const { toolBarRender, columns, actionRef, toolbar, request, ...restProps } = props;
 
   // 新建按钮的统一模板
   const toolBarNode = () => (
@@ -34,6 +34,19 @@ const YTProTable = <
     customColumns?.push(defaultOperation);
   }
 
+  // 对request请求方法进行封装
+  const simpleRequest: ProTableProps<DataType, Params>['request'] | undefined = request
+    ? (params) => {
+        return request(params, {}, {}).then(
+          ({ data }) =>
+            ({
+              data: data?.list,
+              total: data?.total,
+            } as { data: DataType; total: number }),
+        );
+      }
+    : undefined;
+
   return (
     <ProTable<DataType, Params, ValueType>
       options={false}
@@ -47,6 +60,7 @@ const YTProTable = <
       pagination={{
         showSizeChanger: true,
       }}
+      request={simpleRequest}
       {...restProps}
     />
   );

@@ -1,5 +1,5 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
-import type { MarketElectricityPriceListItem } from './data';
+import type { MarketElectricityPriceListItem } from './type';
 
 export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   {
@@ -9,7 +9,7 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   },
   {
     title: '规则名称',
-    dataIndex: 'ruleName',
+    dataIndex: 'name',
     hideInSearch: true,
     ellipsis: true,
   },
@@ -21,7 +21,7 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   },
   {
     title: '最后更新时间',
-    dataIndex: 'updateTime',
+    dataIndex: 'lastOperationTime',
     valueType: 'dateTime',
     hideInSearch: true,
   },
@@ -54,8 +54,8 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
     title: '当前操作状态',
     dataIndex: 'status',
     valueEnum: new Map([
-      ['1', '生效'],
-      ['0', '未生效'],
+      [1, '生效'],
+      [0, '未生效'],
     ]),
   },
 ];
