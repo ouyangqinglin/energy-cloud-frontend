@@ -17,7 +17,7 @@ export default {
       {
         ruleName: '123',
         effectiveTime: '2023/12/23 12:00',
-        updateTime: '2023/12/23 12:00',
+        updateTime: '2023/12/23 12:10',
         operator: '王欢喜',
         status: '1',
       },

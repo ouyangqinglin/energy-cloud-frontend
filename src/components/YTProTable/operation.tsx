@@ -31,7 +31,6 @@ const operationsMap = new Map([
       </Button>
     ),
   ],
-
   [
     'onDeleteChange',
     (onChange: React.MouseEventHandler<HTMLElement>, content = '确定要删除吗？') => (
