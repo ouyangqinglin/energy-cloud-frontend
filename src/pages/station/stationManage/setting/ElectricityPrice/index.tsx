@@ -8,7 +8,7 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import styles from './index.less';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import { columns } from './helper';
+import { columns } from './config';
 import { UpdateModal } from './components/edit';
 
 const Customer: React.FC = () => {
@@ -28,7 +28,11 @@ const Customer: React.FC = () => {
     },
     option: {
       onDeleteChange() {},
-      onDetailChange() {},
+      onDetailChange(_, entity) {
+        setInitialValues({ ...entity });
+        setOperations(FormOperations.READ);
+        toggle(true);
+      },
       onEditChange(_, entity) {
         setInitialValues({ ...entity });
         setOperations(FormOperations.UPDATE);

@@ -34,12 +34,12 @@ const YTProTable = <
   }
 
   // 新建按钮的统一模板
-  const toolBarNode = () => [
+  const toolBarNode = () => (
     <Button type="primary" key="add" onClick={toolbar?.onChange}>
       <PlusOutlined />
       {toolbar?.buttonText ?? '新建'}
-    </Button>,
-  ];
+    </Button>
+  );
   const toolBar = toolBarRender ? toolBarRender : toolBarNode;
 
   // TODO: 支持选项式的请求

@@ -27,7 +27,7 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   },
   {
     title: '最后更新时间',
-    dataIndex: 'updateTime',
+    dataIndex: 'updateTime.edit',
     valueType: 'dateRange',
     hideInTable: true,
   },
@@ -54,8 +54,8 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
     title: '当前操作状态',
     dataIndex: 'status',
     valueEnum: new Map([
-      [1, '生效'],
-      [0, '未生效'],
+      ['1', '生效'],
+      ['0', '未生效'],
     ]),
   },
 ];
