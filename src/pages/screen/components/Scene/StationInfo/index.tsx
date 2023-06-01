@@ -17,8 +17,8 @@ const StationInfo = React.forwardRef(() => {
   const { data: rawData = {} as SiteInfoRes } = useRequest(getStationInfo);
   const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
   const formatData = () => {
-    const { energyStorageCapacityStorage, energyStorageCapacityOutput } = data;
-    data.energyStorageCapacity = `${energyStorageCapacityStorage}kWh/${energyStorageCapacityOutput}kW`;
+    const { energyStorageCapacity, energyStoragePower } = data;
+    data.energyStorageCapacityFront = `${energyStoragePower}kW/${energyStorageCapacity}kWh`;
   };
   formatData();
 

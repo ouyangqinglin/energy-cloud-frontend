@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-05-25 14:05:37
+ * @LastEditTime: 2023-05-31 16:42:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\index.tsx
  */
@@ -11,23 +11,18 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
-import type { ProFormColumnsType } from '@ant-design/pro-form';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 import type { AgentType, AgentFormType } from './data.d';
 import { effectStatus } from '@/utils/dictionary';
 import { getAgent } from '@/services/agent';
 import YTProTable from '@/components/YTProTable';
+import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 
 const Agent: React.FC = () => {
-  const requestList: ProTableProps<AgentType, AgentType>['request'] = (params) => {
-    return getAgent(params).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
-    });
+  const requestList: YTProTableCustomProps<AgentType, AgentType>['request'] = (params) => {
+    return getAgent(params);
   };
 
   const onAddClick = () => {};
@@ -147,7 +142,7 @@ const Agent: React.FC = () => {
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <YTProTable<AgentType, AgentType, TABLESELECTVALUETYPE>
           columns={columns}
-          toolBarRender={() => (
+          toolBarRender={() => [
             <BetaSchemaForm
               key="add"
               trigger={
@@ -158,8 +153,8 @@ const Agent: React.FC = () => {
               }
               columns={formColumns}
               layoutType="ModalForm"
-            ></BetaSchemaForm>
-          )}
+            ></BetaSchemaForm>,
+          ]}
           option={{
             columnsProp: {
               width: '120px',

@@ -1,11 +1,11 @@
+import { useCallback } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProTable, ProTableProps } from '@ant-design/pro-components';
-// import ProTable from '@ant-design/pro-table';
+import { ProTable } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
-import { normalizeRequestOption } from './helper';
+import { normalizeRequestOption, standardRequestTableData } from './helper';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -29,23 +29,13 @@ const YTProTable = <
   const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
 
   // 合并默认的操作(删除，编辑，进入)
-  const defaultOperation = genDefaultOperation<DataType, ValueType>(props);
+  const defaultOperation = genDefaultOperation<DataType, Params, ValueType>(props);
   if (defaultOperation) {
     customColumns?.push(defaultOperation);
   }
 
-  // 对request请求方法进行封装
-  const simpleRequest: ProTableProps<DataType, Params>['request'] | undefined = request
-    ? (params) => {
-        return request(params, {}, {}).then(
-          ({ data }) =>
-            ({
-              data: data?.list,
-              total: data?.total,
-            } as { data: DataType; total: number }),
-        );
-      }
-    : undefined;
+  // 对request请求方法进行封装，解构表格数据格式
+  const standardRequest = standardRequestTableData(request);
 
   return (
     <ProTable<DataType, Params, ValueType>
@@ -60,7 +50,8 @@ const YTProTable = <
       pagination={{
         showSizeChanger: true,
       }}
-      request={simpleRequest}
+      request={standardRequest}
+      rowKey="id"
       {...restProps}
     />
   );

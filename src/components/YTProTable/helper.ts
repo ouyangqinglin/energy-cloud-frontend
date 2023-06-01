@@ -1,6 +1,7 @@
 import { get as requestGet, post as requestPost } from '@/utils/request';
+import type { ProTableProps } from '@ant-design/pro-components';
 import { get, isEmpty } from 'lodash';
-import type { YTProColumns } from './typing';
+import type { YTProColumns, YTProTableCustomProps } from './typing';
 
 export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | undefined) => {
   if (!Array.isArray(columns) || !columns.length) {
@@ -47,4 +48,20 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
 
     return col;
   });
+};
+
+export const standardRequestTableData = <D, P>(
+  request?: YTProTableCustomProps<D, P>['request'],
+) => {
+  if (!request) {
+    return;
+  }
+  const simpleRequest: ProTableProps<D, P>['request'] = async (...props) => {
+    const { data } = await request(...props);
+    return {
+      data: data?.list,
+      total: data?.total,
+    };
+  };
+  return simpleRequest;
 };

@@ -229,6 +229,7 @@ const StationList: React.FC = () => {
         }}
         rowKey="id"
         toolBarRender={toolBar}
+        options={false}
         request={requestList}
         scroll={{ x: 1366 }}
         pagination={{

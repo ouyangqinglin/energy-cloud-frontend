@@ -1,9 +1,11 @@
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
+import type { SortOrder } from 'antd/lib/table/interface';
+import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 
-export type YTProTableProps<D, P, V = 'text'> = YTProTableCustomProps<D, V> &
-  Omit<ProTableProps<D, P, V>, 'columns'>;
+export type YTProTableProps<D, P, V = 'text'> = YTProTableCustomProps<D, P, V> &
+  Omit<ProTableProps<D, P, V>, 'columns' | 'request'>;
 
-export type YTProTableCustomProps<D, V = 'text'> = {
+export type YTProTableCustomProps<D, P, V = 'text'> = {
   toolbar?: {
     buttonText?: string;
     onChange: () => void;
@@ -18,6 +20,15 @@ export type YTProTableCustomProps<D, V = 'text'> = {
     render?: ProColumns<D, V>['render'];
   };
   columns?: YTProColumns<D, V>[];
+  request?: (
+    params: P & {
+      pageSize?: number;
+      current?: number;
+      keyword?: string;
+    },
+    sort: Record<string, SortOrder>,
+    filter: Record<string, React.ReactText[] | null>,
+  ) => ResponsePromise<ResponsePageData<D>, D>;
 };
 
 export type YTProColumns<D, V = 'text'> = ProColumns<D, V> & {
