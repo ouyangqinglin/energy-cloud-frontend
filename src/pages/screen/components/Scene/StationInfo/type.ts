@@ -4,8 +4,8 @@ export interface SiteInfoRes extends SiteInfoFront {
   name: string;
   transformerCapacity: number;
   photovoltaicInstalledCapacity: number;
-  energyStorageCapacityStorage: number;
-  energyStorageCapacityOutput: number;
+  energyStorageCapacity: number;
+  energyStoragePower: number;
   chargingStationCapacity: number;
   address: string;
   cityCode: string;
@@ -14,5 +14,5 @@ export interface SiteInfoRes extends SiteInfoFront {
 }
 
 export interface SiteInfoFront {
-  energyStorageCapacity: string;
+  energyStorageCapacityFront: string;
 }

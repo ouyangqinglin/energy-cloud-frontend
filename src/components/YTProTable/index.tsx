@@ -2,11 +2,10 @@ import { useCallback } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-// import ProTable from '@ant-design/pro-table';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
-import { normalizeRequestOption } from './helper';
+import { normalizeRequestOption, standardRequestTableData } from './helper';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -16,22 +15,6 @@ const YTProTable = <
   props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
   const { toolBarRender, columns, actionRef, toolbar, request, ...restProps } = props;
-
-  const requestList = useCallback(
-    (params: Params, sort, filter) => {
-      const result = request?.(params, sort, filter);
-      if (result?.tableThen) {
-        return result.tableThen();
-      } else {
-        return result;
-      }
-    },
-    [request],
-  );
-
-  if (request) {
-    restProps['request'] = requestList;
-  }
 
   // 新建按钮的统一模板
   const toolBarNode = () => (
@@ -51,6 +34,9 @@ const YTProTable = <
     customColumns?.push(defaultOperation);
   }
 
+  // 对request请求方法进行封装，解构表格数据格式
+  const standardRequest = standardRequestTableData(request);
+
   return (
     <ProTable<DataType, Params, ValueType>
       options={false}
@@ -64,6 +50,7 @@ const YTProTable = <
       pagination={{
         showSizeChanger: true,
       }}
+      request={standardRequest}
       rowKey="id"
       {...restProps}
     />

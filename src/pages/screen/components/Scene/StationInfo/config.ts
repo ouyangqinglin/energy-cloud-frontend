@@ -37,7 +37,7 @@ export const stationInfoConfig: StationInfo[] = [
   {
     icon: EnergyStorageCapacity,
     label: '储能容量：',
-    field: 'energyStorageCapacity',
+    field: 'energyStorageCapacityFront',
   },
   {
     icon: ChargingStation,
@@ -56,8 +56,8 @@ export const DEFAULT_DATA = {
   name: '永泰光储充示范站',
   transformerCapacity: 800,
   photovoltaicInstalledCapacity: 280,
-  energyStorageCapacityStorage: 500,
-  energyStorageCapacityOutput: 200,
+  energyStorageCapacity: 500,
+  energyStoragePower: 200,
   chargingStationCapacity: 500,
   address: '深圳市龙华区观湖街道鹭湖社区观',
 };

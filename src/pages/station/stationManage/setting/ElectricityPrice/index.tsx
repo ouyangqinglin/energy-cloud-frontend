@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { MarketElectricityPriceListItem } from './data.d';
+import type { MarketElectricityPriceListItem } from './type';
 import { getMarketElectricityPriceList } from './service';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
@@ -55,6 +55,7 @@ const Customer: React.FC = () => {
     },
     {
       label: '光伏上网电价设置',
+
       key: '2',
     },
     {
@@ -72,7 +73,7 @@ const Customer: React.FC = () => {
         items={category}
       />
       <UpdateModal
-        initialValues={initialValues}
+        // initialValues={initialValues}
         operations={operations}
         visible={state}
         onVisibleChange={toggle}
