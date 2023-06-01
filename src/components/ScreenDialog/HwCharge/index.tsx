@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-18 11:18:00
+ * @LastEditTime: 2023-06-01 14:52:40
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwCharge\index.tsx
  */
-import React, { useEffect, useState } from 'react';
-import { Tabs, Row, Col, Skeleton } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Tabs, Row, Col, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -23,12 +23,18 @@ import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { getRelatedDevice } from '@/services/equipment';
+import Community from '../Community';
 
 const HwCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(relatedIds, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   useEffect(() => {
     if (open && id) {
@@ -101,9 +107,15 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
           setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
         />
         <Tabs items={tabItems} />
       </Dialog>
+      <Community model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

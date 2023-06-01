@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-18 10:08:05
+ * @LastEditTime: 2023-06-01 16:00:19
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Tabs, Button, Skeleton, Row, Col, Space } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -16,16 +16,20 @@ import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';
 import Log from './log';
 import Setting from './setting';
-import Community from './community';
 import { getChildEquipment } from './service';
 import EnergyImg from '@/assets/image/product/energy.png';
 import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
+import AccountCommunity from '@/components/ScreenDialog/Community/AccountCommunity';
 
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [openSettingModal, setOpenSettingModal] = useState(false);
   const [equipmentIds, setEquipmentIds] = useState({});
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -38,10 +42,6 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
       });
     }
   }, [open]);
-
-  const onSettingClick = () => {
-    setOpenSettingModal(!openSettingModal);
-  };
 
   const tabItems = [
     {
@@ -107,7 +107,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={EnergyImg}
           productImg={EnergyIntroImg}
           buttons={
-            <Button type="link" onClick={onSettingClick}>
+            <Button type="link" onClick={switchOpenCommunity}>
               设置通信参数
             </Button>
           }
@@ -115,7 +115,14 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
+      <AccountCommunity
+        model={model}
+        open={openCommunity}
+        onOpenChange={setOpenCommunity}
+        id={id}
+        userLabel="EMS  mqtt用户名"
+        passwordLabel="EMS mqtt密码"
+      />
     </>
   );
 };

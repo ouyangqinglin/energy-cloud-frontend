@@ -7,8 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\ElectricTerminal\index.tsx
  */
 
-import React, { useState } from 'react';
-import { Tabs, Skeleton } from 'antd';
+import React, { useState, useCallback } from 'react';
+import { Tabs, Skeleton, Button } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -19,11 +19,17 @@ import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
 
 const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const tabItems = [
     {
@@ -68,9 +74,19 @@ const ElectricTerminal: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} setLoading={setLoading} />
+        <EquipInfo
+          id={id}
+          model={model}
+          setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
+        />
         <Tabs items={tabItems} />
       </Dialog>
+      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

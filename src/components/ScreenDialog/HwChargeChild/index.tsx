@@ -6,8 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwCharge\index.tsx
  */
-import React, { useEffect, useState } from 'react';
-import { Tabs, Row, Col, Skeleton } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Tabs, Row, Col, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -22,11 +22,17 @@ import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.
 import type { DetailItem } from '@/components/Detail';
 import { useFormat, powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import Community from '../Community';
 
 const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const statusItems: DetailItem[] = [
     { label: 'A枪状态', field: 'a', format: useFormat },
@@ -104,9 +110,15 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
           setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
         />
         <Tabs items={tabItems} />
       </Dialog>
+      <Community model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

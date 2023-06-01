@@ -8,28 +8,11 @@
  */
 
 import request from '@/utils/request';
-import { CommunityType } from './data';
 
 export const getChildEquipment = (params: any) => {
   return request(`/oss/device/subDevice`, {
     method: 'GET',
     params,
-  });
-};
-
-export const editCommunity = (data: CommunityType) => {
-  return request(`/oss/device/communication_info`, {
-    method: 'PUT',
-    data,
-  });
-};
-
-export const getCommunity = (id: string) => {
-  return request(`/oss/device/communication_info`, {
-    method: 'GET',
-    params: {
-      deviceId: id,
-    },
   });
 };
 

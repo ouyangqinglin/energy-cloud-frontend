@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-01 10:27:55
+ * @LastEditTime: 2023-06-01 13:42:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverter\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
-import { Tabs, Table, Row, Col, Skeleton } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Tabs, Table, Row, Col, Skeleton, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -36,6 +36,7 @@ import {
 } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { isEmpty } from '@/utils';
+import StationCommunity from '@/components/ScreenDialog/Community/StationCommunity';
 
 export type PvInverterProps = BusinessDialogProps & {
   loopNum: number;
@@ -46,6 +47,11 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const [tableData, setTableData] = useState<PvInverterType[]>([]); //Upv15 Ipv1
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   useEffect(() => {
     const initTableData: PvInverterType[] = [];
@@ -175,9 +181,20 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           equipmentImg={PvInverterImg}
           productImg={PvInverterIntroImg}
           setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
         />
         <Tabs items={tabItems} />
       </Dialog>
+      <StationCommunity
+        model={model}
+        open={openCommunity}
+        onOpenChange={setOpenCommunity}
+        id={id}
+      />
     </>
   );
 };

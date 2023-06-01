@@ -52,3 +52,24 @@ export const getGuns = (id: string) => {
     },
   });
 };
+
+export const getEquipInfo = (params: any) => {
+  return request(`/iot/device/details`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const editEquipConfig = (data: any) => {
+  return request(`/iot/device/updateDeviceConfig`, {
+    method: 'put',
+    data,
+  });
+};
+
+export const getThirdStation = (params: any) => {
+  return request(`/iot/third_site/getThirdSiteList`, {
+    method: 'GET',
+    params,
+  });
+};

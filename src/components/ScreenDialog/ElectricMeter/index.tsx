@@ -1,5 +1,5 @@
 /*
- * @Description:
+ * @Description: 智慧用电终端
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:31:31
  * @LastEditTime: 2023-05-11 19:31:44
@@ -7,29 +7,29 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricMeter\index.tsx
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Tabs, Button, Skeleton } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import EquipInfo from '@/components/EquipInfo';
-import Community from './community';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
 
 const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [openSettingModal, setOpenSettingModal] = useState(false);
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
 
-  const onSettingClick = () => {
-    setOpenSettingModal(!openSettingModal);
-  };
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const tabItems = [
     {
@@ -77,16 +77,16 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
         <EquipInfo
           id={id}
           model={model}
+          setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={onSettingClick}>
+            <Button type="link" onClick={switchOpenCommunity}>
               设置通信参数
             </Button>
           }
-          setLoading={setLoading}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
+      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-12 14:24:06
+ * @LastEditTime: 2023-06-01 15:37:44
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyCabinet\index.tsx
  */
 
-import React, { useState } from 'react';
-import { Tabs, Skeleton } from 'antd';
+import React, { useState, useCallback } from 'react';
+import { Tabs, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -20,11 +20,17 @@ import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
 
 const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const tabItems = [
     {
@@ -69,9 +75,20 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} equipmentImg={EnergyCabinetImg} setLoading={setLoading} />
+        <EquipInfo
+          id={id}
+          model={model}
+          equipmentImg={EnergyCabinetImg}
+          setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
+        />
         <Tabs items={tabItems} />
       </Dialog>
+      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

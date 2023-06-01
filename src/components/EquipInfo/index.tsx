@@ -16,7 +16,7 @@ import Dialog from '../Dialog';
 import Label from '../Detail/label';
 import EquipForm from '../EquipForm';
 import { FormTypeEnum } from '@/utils/dictionary';
-import { getEquipInfo } from './service';
+import { getEquipInfo } from '@/services/equipment';
 import { onlineFormat } from '@/utils/format';
 
 export type EquipInfoProps = {

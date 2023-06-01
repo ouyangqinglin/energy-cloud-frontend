@@ -25,6 +25,17 @@ export type DialogProps = {
   confirmLoading?: boolean;
 };
 
+export const getModalProps = (model: string | undefined, wrapClassName = '') => {
+  return model === 'screen'
+    ? {
+        closeIcon: <img className="close" src={IconClose} />,
+        wrapClassName: `dialog-screen ${wrapClassName}`,
+      }
+    : {
+        wrapClassName: `dialog-equipment ${wrapClassName}`,
+      };
+};
+
 const Dialog: React.FC<DialogProps> = (props) => {
   const {
     model,
@@ -40,15 +51,7 @@ const Dialog: React.FC<DialogProps> = (props) => {
     confirmLoading,
   } = props;
 
-  const modalProps =
-    model === 'screen'
-      ? {
-          closeIcon: <img className="close" src={IconClose} onClick={onCancel} />,
-          wrapClassName: `dialog-screen ${wrapClassName}`,
-        }
-      : {
-          wrapClassName: `dialog-equipment ${wrapClassName}`,
-        };
+  const modalProps = getModalProps(model, wrapClassName);
 
   return (
     <Modal

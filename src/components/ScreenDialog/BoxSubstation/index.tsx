@@ -7,8 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\BoxSubstation\index.tsx
  */
 
-import React, { useState } from 'react';
-import { Tabs, Skeleton } from 'antd';
+import React, { useState, useCallback } from 'react';
+import { Tabs, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -21,11 +21,17 @@ import { getAlarms, getLogs } from '@/services/equipment';
 import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
 
 const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const tabItems = [
     {
@@ -76,9 +82,15 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={BoxSubstationImg}
           productImg={BoxSubstationIntroImg}
           setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
         />
         <Tabs items={tabItems} />
       </Dialog>
+      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

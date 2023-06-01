@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Tabs, Row, Col, Skeleton } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Tabs, Row, Col, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -18,6 +18,7 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 import { getRelatedDevice, getGuns } from '@/services/equipment';
 import { arrayToMap } from '@/utils';
 import { AnyMapType } from '@/utils/dictionary';
+import Community from '../Community';
 
 const YtCharge: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -28,6 +29,11 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
   const bGunData = useSubscribe(bGunId, open);
   const meterData = useSubscribe(relatedIds, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
+
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   useEffect(() => {
     if (open && id) {
@@ -126,9 +132,15 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={YtChargeImg}
           productImg={YtChargeIntroImg}
           setLoading={setLoading}
+          buttons={
+            <Button type="link" onClick={switchOpenCommunity}>
+              设置通信参数
+            </Button>
+          }
         />
         <Tabs items={tabItems} />
       </Dialog>
+      <Community model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

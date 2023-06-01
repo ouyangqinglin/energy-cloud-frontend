@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Tabs, Button, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Label from '@/components/Detail/label';
-import Community from './community';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import Empty from '@/components/Empty';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import AccountCommunity from '@/components/ScreenDialog/Community/AccountCommunity';
 
 const Gateway: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const [openSettingModal, setOpenSettingModal] = useState(false);
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
+  const [openCommunity, setOpenCommunity] = useState(false);
 
-  const onSettingClick = () => {
-    setOpenSettingModal(!openSettingModal);
-  };
+  const switchOpenCommunity = useCallback(() => {
+    setOpenCommunity((openData) => !openData);
+  }, []);
 
   const tabItems = [
     {
@@ -69,7 +69,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
           id={id}
           model={model}
           buttons={
-            <Button type="link" onClick={onSettingClick}>
+            <Button type="link" onClick={switchOpenCommunity}>
               设置通信参数
             </Button>
           }
@@ -77,7 +77,14 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <Community id={id} open={openSettingModal} onCancel={onSettingClick} model={model} />
+      <AccountCommunity
+        model={model}
+        open={openCommunity}
+        onOpenChange={setOpenCommunity}
+        id={id}
+        userLabel="EMS  mqtt用户名"
+        passwordLabel="EMS mqtt密码"
+      />
     </>
   );
 };
