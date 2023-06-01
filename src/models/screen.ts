@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useScreenModel = () => {
-  const [outlined, setOutlined] = useState<boolean>(true);
+  const [outlined, setOutlined] = useState<boolean>(false);
   return {
     outlined,
     setOutlined,
