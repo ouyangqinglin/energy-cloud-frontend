@@ -1,14 +1,14 @@
 import React from 'react';
-import EnergyDialog from '@/pages/screen/components/EnergyDialog';
-import PvInverter from '@/pages/screen/components/PvInverter';
-import HwCharge from '@/pages/screen/components/HwCharge';
-import YtCharge from '@/pages/screen/components/YtCharge';
-import Cabinet from '@/pages/screen/components/Cabinet';
-import PvInverterCabinet from '@/pages/screen/components/PvInverterCabinet';
-import EnergyCabinet from '@/pages/screen/components/EnergyCabinet';
-import BoxSubstation from '@/pages/screen/components/BoxSubstation';
-import HwChargeChild from '@/pages/screen/components/HwChargeChild';
-import HwChargeYt from '@/pages/screen/components/HwChargeYt';
+import EnergyDialog from '@/components/ScreenDialog/EnergyDialog';
+import PvInverter from '@/components/ScreenDialog/PvInverter';
+import HwCharge from '@/components/ScreenDialog/HwCharge';
+import YtCharge from '@/components/ScreenDialog/YtCharge';
+import Cabinet from '@/components/ScreenDialog/Cabinet';
+import PvInverterCabinet from '@/components/ScreenDialog/PvInverterCabinet';
+import EnergyCabinet from '@/components/ScreenDialog/EnergyCabinet';
+import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
+import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
+import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
 import { assign } from 'lodash';
 
 type Props = {

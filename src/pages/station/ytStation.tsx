@@ -2,28 +2,28 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-05-16 19:21:52
+ * @LastEditTime: 2023-06-01 10:22:15
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\YtStation.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
 
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import EnergyDialog from '@/pages/screen/components/EnergyDialog';
+import EnergyDialog from '@/components/ScreenDialog/EnergyDialog';
 import Weather from '@/pages/screen/components/Weather';
-import PvInverter from '@/pages/screen/components/PvInverter';
-import HwCharge from '@/pages/screen/components/HwCharge';
-import YtCharge from '@/pages/screen/components/YtCharge';
-import Gateway from '@/pages/screen/components/Gateway';
-import ElectricTerminal from '@/pages/screen/components/ElectricTerminal';
-import ElectricMeter from '@/pages/screen/components/ElectricMeter';
-import Cabinet from '@/pages/screen/components/Cabinet';
-import PvInverterCabinet from '@/pages/screen/components/PvInverterCabinet';
-import EnergyCabinet from '@/pages/screen/components/EnergyCabinet';
-import BoxSubstation from '@/pages/screen/components/BoxSubstation';
-import HwChargeChild from '@/pages/screen/components/HwChargeChild';
-import HwChargeYt from '@/pages/screen/components/HwChargeYt';
-import Position from '@/pages/screen/components/Position';
+import PvInverter from '@/components/ScreenDialog/PvInverter';
+import HwCharge from '@/components/ScreenDialog/HwCharge';
+import YtCharge from '@/components/ScreenDialog/YtCharge';
+import Gateway from '@/components/ScreenDialog/Gateway';
+import ElectricTerminal from '@/components/ScreenDialog/ElectricTerminal';
+import ElectricMeter from '@/components/ScreenDialog/ElectricMeter';
+import Cabinet from '@/components/ScreenDialog/Cabinet';
+import PvInverterCabinet from '@/components/ScreenDialog/PvInverterCabinet';
+import EnergyCabinet from '@/components/ScreenDialog/EnergyCabinet';
+import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
+import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
+import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
+import Position from '@/components/ScreenDialog/Position';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -160,7 +160,7 @@ const YtStation: React.FC = (props) => {
       </Button>
       <EnergyDialog id={'10026'} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
-      <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={11} />
+      <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={12} />
       <PvInverter
         id={chargeId}
         open={pvOpen2}

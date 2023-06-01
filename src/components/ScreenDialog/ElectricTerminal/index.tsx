@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:31:31
- * @LastEditTime: 2023-05-08 19:31:31
+ * @LastEditTime: 2023-06-01 10:24:24
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\ElectricTerminal\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\ElectricTerminal\index.tsx
  */
 
 import React, { useState } from 'react';

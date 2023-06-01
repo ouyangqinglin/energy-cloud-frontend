@@ -20,7 +20,7 @@ import { useToggle } from 'ahooks';
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
   deviceType: null,
-  loopNum: 11,
+  loopNum: 12,
 };
 
 const Geometry: FC = () => {

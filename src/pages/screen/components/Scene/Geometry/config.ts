@@ -183,7 +183,7 @@ export const CellList: CellConfigItem[] = [
     mark: DeviceMark.PV_INVERTER_1,
     deviceId: 'HUAWEIInverter1',
     deviceType: DeviceType.PV_INVERTER,
-    loopNum: 11,
+    loopNum: 12,
     cellStyle: {
       width: 21,
       height: 24,

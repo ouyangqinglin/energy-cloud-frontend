@@ -1,6 +1,6 @@
 import type { DetailItem } from '@/components/Detail';
 import Detail from '@/components/Detail';
-import Position from '@/pages/screen/components/Position';
+import Position from '@/components/ScreenDialog/Position';
 import type { FC, ReactNode } from 'react';
 import { useState } from 'react';
 import { useRequest } from 'umi';

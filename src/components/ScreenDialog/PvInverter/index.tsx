@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-01 09:54:46
+ * @LastEditTime: 2023-06-01 10:27:55
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverter\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ import EquipInfo from '@/components/EquipInfo';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
-import { PvInverterType } from './data.d';
+import { PvInverterType } from './data';
 import Label from '@/components/Detail/label';
 import Detail from '@/components/Detail';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';

@@ -11,7 +11,7 @@ import { Modal, Form, message } from 'antd';
 import { useRequest } from 'umi';
 import Dialog from '@/components/Dialog';
 import { ProForm, ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { CommunityType } from './data.d';
+import { CommunityType } from './data';
 import { editCommunity, getCommunity, getGateway } from './service';
 import { OptionType } from '@/utils/dictionary';
 

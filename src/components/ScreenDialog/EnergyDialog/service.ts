@@ -8,7 +8,7 @@
  */
 
 import request from '@/utils/request';
-import { CommunityType } from './data.d';
+import { CommunityType } from './data';
 
 export const getChildEquipment = (params: any) => {
   return request(`/oss/device/subDevice`, {
