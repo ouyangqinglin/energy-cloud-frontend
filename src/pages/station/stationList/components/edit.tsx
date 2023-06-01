@@ -135,7 +135,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             <ProFormDigit label="变压器容量" name="transformerCapacity" addonAfter="KVA" />
           </Col>
           <Col span={8}>
-            <ProFormDigit label="储能总容量" name="energyStorageCapacityStorage" addonAfter="kWh" />
+            <ProFormDigit label="储能总容量" name="energyStorageCapacity" addonAfter="kWh" />
           </Col>
           <Col span={8}>
             <ProFormDigit

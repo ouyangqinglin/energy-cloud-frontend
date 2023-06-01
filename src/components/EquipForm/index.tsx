@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-05-29 11:49:06
+ * @LastEditTime: 2023-06-01 10:12:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
 import { Form, message } from 'antd';
-import { useRequest } from 'umi';
+import { useRequest, useModel } from 'umi';
 import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
@@ -25,12 +25,14 @@ export type EquipFormProps = {
   onCancel: () => void;
   type: FormTypeEnum;
   onSuccess?: () => void;
+  isStationChild?: boolean;
 };
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
-  const { id, model, open, onCancel, type, onSuccess } = props;
+  const { id, model, open, onCancel, type, onSuccess, isStationChild } = props;
   const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
+  const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
   });
@@ -61,6 +63,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     const request = type == FormTypeEnum.Add ? runAdd : runEdit;
     return request({
       ...formData,
+      ...(isStationChild ? { siteId: stationId } : {}),
       deviceId: id,
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
     }).then(({ data }) => {
@@ -178,16 +181,20 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           onValuesChange={onValuesChange}
           submitter={false}
         >
-          <ProFormSelect
-            label="所属站点"
-            name="siteId"
-            placeholder="请选择"
-            request={requestStations}
-            fieldProps={{
-              getPopupContainer: (triggerNode) => triggerNode.parentElement,
-            }}
-            disabled={type == FormTypeEnum.Edit}
-          ></ProFormSelect>
+          {isStationChild ? (
+            <></>
+          ) : (
+            <ProFormSelect
+              label="所属站点"
+              name="siteId"
+              placeholder="请选择"
+              request={requestStations}
+              fieldProps={{
+                getPopupContainer: (triggerNode) => triggerNode.parentElement,
+              }}
+              disabled={type == FormTypeEnum.Edit}
+            ></ProFormSelect>
+          )}
           <ProFormSelect
             label="所属子系统"
             name="subsystemId"

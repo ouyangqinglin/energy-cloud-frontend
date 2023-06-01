@@ -19,4 +19,5 @@ export type EquipFormType = AnyMapType & {
   url?: string;
   photos?: string;
   photosList?: fileType[];
+  paramConfigType?: string;
 };

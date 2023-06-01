@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 16:01:37
- * @LastEditTime: 2023-05-30 16:01:41
+ * @LastEditTime: 2023-05-31 17:54:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\info\index.tsx
  */
@@ -32,7 +32,8 @@ const Info: React.FC = () => {
 
   return (
     <>
-      <Tabs className={styles.tabs} items={tabItems}></Tabs>
+      <StationInfo />
+      {/* <Tabs className={styles.tabs} items={tabItems}></Tabs> */}
     </>
   );
 };
