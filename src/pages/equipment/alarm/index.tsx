@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\index.tsx
  */
 import React, { useState, useCallback } from 'react';
-import { useRequest } from 'umi';
+import { useRequest, useModel } from 'umi';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import type { AlarmType } from './data.d';
 import { alarmStatus, alarmSourceStatus } from '@/utils/dictionary';
@@ -17,8 +17,14 @@ import { getList, getDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 
-const Alarm: React.FC = () => {
+type AlarmProps = {
+  isStationChild?: boolean;
+};
+
+const Alarm: React.FC<AlarmProps> = (props) => {
+  const { isStationChild } = props;
   const [open, setOpen] = useState(false);
+  const { stationId } = useModel('station', (model) => ({ stationId: model?.state.id }));
   const { data, run } = useRequest(getDetail, {
     manual: true,
   });
@@ -28,7 +34,7 @@ const Alarm: React.FC = () => {
   }, []);
 
   const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (params) => {
-    return getList(params);
+    return getList({ ...params, ...(isStationChild ? { siteId: stationId } : {}) });
   };
 
   const onDetailClick = useCallback((_, record) => {
@@ -68,12 +74,16 @@ const Alarm: React.FC = () => {
       width: 150,
       ellipsis: true,
     },
-    {
-      title: '所属站点',
-      dataIndex: 'station',
-      width: 150,
-      ellipsis: true,
-    },
+    ...(isStationChild
+      ? []
+      : [
+          {
+            title: '所属站点',
+            dataIndex: 'station',
+            width: 150,
+            ellipsis: true,
+          },
+        ]),
     {
       title: '告警状态',
       dataIndex: 'status',

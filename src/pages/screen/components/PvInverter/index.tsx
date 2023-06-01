@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-05-26 15:14:36
+ * @LastEditTime: 2023-06-01 09:54:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverter\index.tsx
  */
@@ -69,9 +69,9 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     { label: '电网C相电流', field: 'Ic', format: currentFormat },
     { label: '有功功率', field: 'P', format: powerFormat },
     { label: '当日发电量', field: 'dayCap', format: powerHourFormat },
-    { label: '无功功率', field: 'Q', format: noPowerFormat },
+    { label: '无功功率', field: 'reactivePower', format: noPowerFormat },
     { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
-    { label: '功率因数', field: 'COS' },
+    { label: '功率因数', field: 'powerFactor' },
     { label: '逆变器额定功率', field: 'ratedPowerOfInverter', format: powerFormat },
     { label: '输出方式', field: 'outputMethod' },
     { label: '电网频率', field: 'elecFreq', format: frequencyFormat },

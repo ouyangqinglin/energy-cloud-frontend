@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 18:57:33
- * @LastEditTime: 2023-05-26 10:22:25
+ * @LastEditTime: 2023-05-31 17:12:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\index.tsx
  */
@@ -19,13 +19,13 @@ const MyLayout: React.FC = (props: any) => {
   const { route = {} } = props;
 
   const layoutMenu = useMemo(() => {
-    if (route.menu == 'sider') {
+    if (route?.menu == 'sider') {
       return (
         <Layout.Sider className={styles.sider} theme="light">
           <PageMenu />
         </Layout.Sider>
       );
-    } else if (route.menu == 'top') {
+    } else if (route?.menu == 'top') {
       return (
         <Layout.Header className={styles.topHeader}>
           <TopMenu />
@@ -34,7 +34,7 @@ const MyLayout: React.FC = (props: any) => {
     } else {
       return <></>;
     }
-  }, [route.menu]);
+  }, [route?.menu]);
 
   return (
     <Layout className={styles.myLayout}>
@@ -45,7 +45,11 @@ const MyLayout: React.FC = (props: any) => {
         {layoutMenu}
         <Layout.Content className={styles.content}>
           {route?.menu == 'sider' && <Breadcrumb />}
-          {props.children}
+          {route?.name === 'stationManage'
+            ? React.Children.map(props.children, (child) => {
+                return React.cloneElement(child, { isStationChild: true });
+              })
+            : props.children}
         </Layout.Content>
       </Layout>
     </Layout>

@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-05-29 09:18:35
+ * @LastEditTime: 2023-05-31 17:53:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 import { Button, Modal, message, Badge } from 'antd';
+import { useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -19,7 +20,12 @@ import EquipForm from '@/components/EquipForm';
 import { deviceDialogMap } from '@/components/ScreenDialog';
 import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
-const StationList: React.FC = () => {
+type StationListProps = {
+  isStationChild?: boolean;
+};
+
+const StationList: React.FC<StationListProps> = (props) => {
+  const { isStationChild } = props;
   const [open, setOpen] = useState(false);
   const [deviceId, setDeviceId] = useState('');
   const [detailOpen, setDetailOpen] = useState(false);
@@ -30,6 +36,12 @@ const StationList: React.FC = () => {
   const [searchParams, setSearchParams] = useState({
     subSystemId: '',
   });
+  const { stationId } = useModel('station', (model) => ({ stationId: model?.state.id }));
+  const stationParams = useMemo(() => {
+    return {
+      siteId: isStationChild ? stationId : '',
+    };
+  }, [stationId, isStationChild]);
 
   const Component = deviceDialog?.component;
 
@@ -56,8 +68,8 @@ const StationList: React.FC = () => {
   };
 
   const handleRequest = (params: any) => {
-    return getList({ ...params, ...searchParams }).then(({ data }) => {
-      getTabs({}).then(({ data: tabData }) => {
+    return getList({ ...params, ...searchParams, ...stationParams }).then(({ data }) => {
+      getTabs(stationParams).then(({ data: tabData }) => {
         if (Array.isArray(tabData)) {
           const items = (tabData || []).map((item) => {
             return {
@@ -200,12 +212,16 @@ const StationList: React.FC = () => {
       hideInSearch: true,
       ellipsis: true,
     },
-    {
-      title: '所属站点',
-      dataIndex: 'siteName',
-      width: 150,
-      ellipsis: true,
-    },
+    ...(isStationChild
+      ? []
+      : [
+          {
+            title: '所属站点',
+            dataIndex: 'siteName',
+            width: 150,
+            ellipsis: true,
+          },
+        ]),
     {
       title: '添加时间',
       dataIndex: 'createTime',
@@ -278,6 +294,7 @@ const StationList: React.FC = () => {
         onCancel={onSwitchOpen}
         type={FormTypeEnum.Add}
         onSuccess={onSuccess}
+        isStationChild={isStationChild}
       />
       {Component && (
         <Component
