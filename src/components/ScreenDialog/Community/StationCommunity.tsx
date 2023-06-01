@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:14:53
- * @LastEditTime: 2023-06-01 16:06:31
+ * @LastEditTime: 2023-06-01 16:28:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationCommunity.tsx
  */
@@ -40,7 +40,13 @@ const StationCommunity: React.FC<CommunityProps> = (props) => {
   const requestDetail = useCallback(() => {
     return getEquipInfo({ deviceId: id }).then(({ data }) => {
       setEquipData(data || {});
-      return data || {};
+      let config = (data || {})?.config;
+      try {
+        config = JSON.parse(config);
+      } catch (e) {
+        config = {};
+      }
+      return config;
     });
   }, [id]);
 

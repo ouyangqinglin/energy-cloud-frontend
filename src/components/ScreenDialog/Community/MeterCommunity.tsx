@@ -25,7 +25,13 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
   const requestDetail = useCallback(() => {
     return getEquipInfo({ deviceId: id }).then(({ data }) => {
       setEquipData(data || {});
-      return data || {};
+      let config = (data || {})?.config;
+      try {
+        config = JSON.parse(config);
+      } catch (e) {
+        config = {};
+      }
+      return config;
     });
   }, [id]);
 
