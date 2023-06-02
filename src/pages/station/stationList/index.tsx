@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-05-29 11:41:37
+ * @LastEditTime: 2023-06-01 16:52:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -28,13 +28,7 @@ const StationList: React.FC = () => {
 
   const requestList = useCallback((params) => {
     const [countryCode, provinceCode, cityCode] = params?.area || [];
-    return getList({ ...params, countryCode, provinceCode, cityCode }).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
-    });
+    return getList({ ...params, countryCode, provinceCode, cityCode });
   }, []);
 
   const onAddClick = useCallback(() => {

@@ -40,7 +40,7 @@ const StationCommunity: React.FC<CommunityProps> = (props) => {
   const requestDetail = useCallback(() => {
     return getEquipInfo({ deviceId: id }).then(({ data }) => {
       setEquipData(data || {});
-      let config = (data || {})?.config;
+      let config = (data || {})?.config || '{}';
       try {
         config = JSON.parse(config);
       } catch (e) {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:17:19
- * @LastEditTime: 2023-06-01 15:23:22
+ * @LastEditTime: 2023-06-02 08:51:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity.tsx
  */
@@ -25,7 +25,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
   const requestDetail = useCallback(() => {
     return getEquipInfo({ deviceId: id }).then(({ data }) => {
       setEquipData(data || {});
-      let config = (data || {})?.config;
+      let config = (data || {})?.config || '{}';
       try {
         config = JSON.parse(config);
       } catch (e) {

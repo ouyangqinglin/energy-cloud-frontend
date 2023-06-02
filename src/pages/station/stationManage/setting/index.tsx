@@ -2,6 +2,7 @@ import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import ElectricityPrice from './ElectricityPrice';
 import styles from './index.less';
+import System from './System';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
@@ -13,7 +14,7 @@ const Setting = () => {
     {
       key: '2',
       label: `系统设置`,
-      children: `Content of Tab Pane 2`,
+      children: <System />,
     },
     {
       key: '3',

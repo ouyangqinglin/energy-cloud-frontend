@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:52:41
- * @LastEditTime: 2023-06-01 15:52:45
+ * @LastEditTime: 2023-06-02 08:57:20
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity copy.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\AccountCommunity.tsx
  */
 import React, { useCallback, useState } from 'react';
 import { message } from 'antd';
@@ -36,7 +36,7 @@ const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
   const requestDetail = useCallback(() => {
     return getEquipInfo({ deviceId: id }).then(({ data }) => {
       setEquipData(data || {});
-      let config = (data || {})?.config;
+      let config = (data || {})?.config || '{}';
       try {
         config = JSON.parse(config);
       } catch (e) {
