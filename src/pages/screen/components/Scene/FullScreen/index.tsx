@@ -1,18 +1,34 @@
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
-import { useToggle } from 'ahooks';
+import { useFullscreen, useToggle } from 'ahooks';
 import { useModel } from 'umi';
 import Cell from '../../LayoutCell';
 import styles from './index.less';
 
+/**
+ * 暂时不支持自动全屏
+ * issue: 尝试过模拟点击事件，也会报异常
+ * // MDN: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
+ */
 const FullScreen = () => {
   const [visible, { toggle: toggleVisible }] = useToggle(true);
   const { outlined, setOutlined } = useModel('screen');
+  const [_, { setFull, exitFull }] = useFullscreen(document.body);
+
+  const markScreenOutlined = () => {
+    setOutlined(true);
+    setFull();
+  };
+
+  const markScreenExitOutlined = () => {
+    setOutlined(false);
+    exitFull();
+  };
 
   const button = !outlined ? (
-    <FullscreenOutlined onClick={() => setOutlined(true)} style={{ color: '#fff', fontSize: 32 }} />
+    <FullscreenOutlined onClick={markScreenOutlined} style={{ color: '#fff', fontSize: 32 }} />
   ) : (
     <FullscreenExitOutlined
-      onClick={() => setOutlined(false)}
+      onClick={markScreenExitOutlined}
       style={{ color: '#fff', fontSize: 32 }}
     />
   );

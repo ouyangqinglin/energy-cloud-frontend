@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
@@ -35,7 +34,7 @@ const YTProTable = <
   }
 
   // 对request请求方法进行封装，解构表格数据格式
-  const standardRequest = standardRequestTableData(request);
+  const standardRequest = standardRequestTableData<DataType, Params>(request);
 
   return (
     <ProTable<DataType, Params, ValueType>
