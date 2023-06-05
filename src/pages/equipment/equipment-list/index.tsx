@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-05-31 17:53:05
+ * @LastEditTime: 2023-06-02 15:45:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -68,26 +68,19 @@ const StationList: React.FC<StationListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
+    getTabs(stationParams).then(({ data: tabData }) => {
+      if (Array.isArray(tabData)) {
+        const items = (tabData || []).map((item) => {
+          return {
+            id: item.id,
+            label: item.name,
+            value: item.count,
+          };
+        });
+        setTabItems(items);
+      }
+    });
     return getList({ ...params, ...searchParams, ...stationParams }).then(({ data }) => {
-      getTabs(stationParams).then(({ data: tabData }) => {
-        if (Array.isArray(tabData)) {
-          const items = (tabData || []).map((item) => {
-            return {
-              id: item.id,
-              label: item.name,
-              value: item.count,
-            };
-          });
-          setTabItems([
-            {
-              id: '',
-              label: '全部',
-              value: data?.total,
-            },
-            ...items,
-          ]);
-        }
-      });
       return {
         data: data?.list,
         total: data?.total,

@@ -7,11 +7,6 @@ import System from './System';
 const Setting = () => {
   const items: TabsProps['items'] = [
     {
-      key: '1',
-      label: `站点信息`,
-      children: '',
-    },
-    {
       key: '2',
       label: `系统设置`,
       children: <System />,
@@ -39,7 +34,7 @@ const Setting = () => {
   ];
 
   return (
-    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="4" items={items} />
+    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="2" items={items} />
   );
 };
 

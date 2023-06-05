@@ -73,3 +73,10 @@ export const getThirdStation = (params: any) => {
     params,
   });
 };
+
+export const getDeviceTree = (params: any) => {
+  return request(`/iot/siteSystemConfiguration/condition/tree`, {
+    method: 'GET',
+    params,
+  });
+};

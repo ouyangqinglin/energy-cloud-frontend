@@ -99,6 +99,7 @@ const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
         onFinish={onFinish}
         modalProps={{
           centered: true,
+          destroyOnClose: true,
           ...modalProps,
         }}
       />

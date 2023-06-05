@@ -119,6 +119,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
         onFinish={onFinish}
         modalProps={{
           centered: true,
+          destroyOnClose: true,
           ...modalProps,
         }}
       />

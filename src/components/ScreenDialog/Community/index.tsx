@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2023-06-01 15:11:41
+ * @LastEditTime: 2023-06-02 15:42:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
@@ -80,7 +80,7 @@ const Community: React.FC<CommunityProps> = (props) => {
 
   const columns: ProFormColumnsType<CommunityType>[] = [
     {
-      title: '第三方站点ID',
+      title: '第三方站点',
       dataIndex: 'thirdSiteId',
       valueType: 'select',
       request: requestStation,
@@ -113,6 +113,7 @@ const Community: React.FC<CommunityProps> = (props) => {
         onFinish={onFinish}
         modalProps={{
           centered: true,
+          destroyOnClose: true,
           ...modalProps,
         }}
       />

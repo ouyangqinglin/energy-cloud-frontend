@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-05-16 11:40:04
+ * @LastEditTime: 2023-06-05 15:00:33
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\setting.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Row,
   Col,
@@ -20,10 +20,13 @@ import {
   message,
   Modal,
 } from 'antd';
+import type { FormInstance } from 'antd';
 import Label from '@/components/Detail/label';
 import moment from 'moment';
+import type { Moment } from 'moment';
 import { useRequest } from 'umi';
 import { editSetting } from './service';
+import { isEmpty } from '@/utils';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -40,6 +43,62 @@ type SettingProps = {
   id: string;
 };
 
+const powerMap = new Map([
+  ['power1', 'PCSPeriodPowerOne'],
+  ['power2', 'PCSPeriodPowerTwo'],
+  ['power3', 'PCSPeriodPowerThree'],
+  ['power4', 'PCSPeriodPowerFour'],
+  ['power5', 'PCSPeriodPowerFive'],
+]);
+
+const timeMap = new Map([
+  [
+    'time1',
+    [
+      'AtTheBeginningOfThePeriodOne',
+      'StartingPointOfTimePeriodOne',
+      'AtTheEndOfThePeriodOne',
+      'PeriodEndMinuteOne',
+    ],
+  ],
+  [
+    'time2',
+    [
+      'AtTheBeginningOfThePeriodTwo',
+      'StartingPointOfTimePeriodTwo',
+      'AtTheEndOfThePeriodTwo',
+      'PeriodEndMinuteTwo',
+    ],
+  ],
+  [
+    'time3',
+    [
+      'AtTheBeginningOfThePeriodThree',
+      'StartingPointOfTimePeriodThree',
+      'AtTheEndOfThePeriodThree',
+      'PeriodEndMinuteThree',
+    ],
+  ],
+  [
+    'time4',
+    [
+      'AtTheBeginningOfThePeriodFour',
+      'StartingPointOfTimePeriodFour',
+      'AtTheEndOfThePeriodFour',
+      'PeriodEndMinuteFour',
+    ],
+  ],
+  [
+    'time5',
+    [
+      'AtTheBeginningOfThePeriodFive',
+      'StartingPointOfTimePeriodFive',
+      'AtTheEndOfThePeriodFive',
+      'PeriodEndMinuteFive',
+    ],
+  ],
+]);
+
 const Setting: React.FC<SettingProps> = ({ id }) => {
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -49,72 +108,212 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
     manual: true,
   });
 
-  const onControlChange = (fieldValue: ControlType) => {
-    const field = Object.keys(fieldValue)[0];
-    let content = '';
-    switch (field) {
-      case 'systemFiring':
-        content = '当前系统为停止状态，是否执行系统启动指令';
-        break;
-      case 'systemStop':
-        content = '当前系统为启动状态，是否执行系统停止指令';
-        break;
-      case 'flash':
-        content = '当前设置参数将储存至EMS中，是否执行falsh保存指令';
-        break;
-      case 'bmsConnect':
-        content = '当前BMS主接触器为断开状态，是否执行BMS主接触器为闭合指令';
-        break;
-      case 'bmsBreak':
-        content = '当前BMS主接触器为闭合状态，是否执行BMS主接触器为断开指令';
-        break;
-    }
-    Modal.confirm({
-      title: '确认',
-      content: content,
-      okText: '确认',
-      cancelText: '取消',
-      onOk: () =>
-        run({ deviceId: id, input: { ...fieldValue }, serviceId: '' }).then((res) => {
-          message.success('下发成功');
+  const onControlChange = useCallback(
+    (fieldValue: ControlType) => {
+      const field = Object.keys(fieldValue)[0];
+      let content: React.ReactNode;
+      switch (field) {
+        case 'sysStart':
+          content = (
+            <span>
+              当前系统为<span className="cl-primary">停止状态</span>，是否执行系统启动指令
+            </span>
+          );
+          break;
+        case 'sysStop':
+          content = (
+            <span>
+              当前系统为<span className="cl-primary">启动状态</span>，是否执行系统停止指令
+            </span>
+          );
+          break;
+        case 'bmsClose':
+          content = (
+            <span>
+              当前BMS主接触器为<span className="cl-primary">断开状态</span>
+              ，是否执行BMS主接触器为闭合指令
+            </span>
+          );
+          break;
+        case 'bmsBreak':
+          content = (
+            <span>
+              当前BMS主接触器为<span className="cl-primary">闭合状态</span>
+              ，是否执行BMS主接触器为断开指令
+            </span>
+          );
+          break;
+      }
+      Modal.confirm({
+        title: '确认',
+        content: content,
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () =>
+          run({ deviceId: id, input: { [field]: 1 }, serviceId: field })
+            .then((data) => {
+              if (data) {
+                message.success('下发成功');
+              }
+            })
+            .finally(() => {
+              controlForm.setFieldValue(field, false);
+            }),
+        onCancel: () => {
           controlForm.setFieldValue(field, false);
-        }),
-    });
-  };
+        },
+      });
+    },
+    [controlForm],
+  );
 
-  const onProtectClick = () => {
+  const onProtectClick = useCallback(() => {
     protectFrom.submit();
-  };
-
-  const onRunClick = () => {
-    run({ deviceId: id, input: { ...runForm.getFieldsValue() }, serviceId: '' }).then((res) => {
-      message.success('下发成功');
-    });
-  };
-
-  const onTimeClick = () => {
-    timeForm.submit();
-  };
-
-  const onTimeFormFinish = (formData: any) => {
-    let content = '';
-    if (formData.time) {
-      content = '是否执行系统校时指令并进行校时参数下发';
-    } else {
-      content = '是否执行当前校时参数下发';
-    }
+  }, [protectFrom]);
+  const requestProtect = useCallback((formData) => {
     Modal.confirm({
       title: '确认',
-      content: content,
+      content: '是否执行当前保护参数下发',
       okText: '确认',
       cancelText: '取消',
       onOk: () =>
-        run({ deviceId: id, input: { ...formData }, serviceId: '' }).then((res) => {
-          message.success('下发成功');
-          timeForm.setFieldValue('time', false);
-        }),
+        run({ deviceId: id, input: { ...formData }, serviceId: 'setChargeReleaseProtect' }).then(
+          (data) => {
+            if (data) {
+              message.success('下发成功');
+            }
+          },
+        ),
     });
-  };
+  }, []);
+
+  const onRunClick = useCallback(() => {
+    runForm.submit();
+  }, [runForm]);
+  const requestRun = useCallback(
+    (formData) => {
+      let content = <span>是否执行当前保护参数下发</span>;
+      if (formData.operateModel) {
+        content = (
+          <span>
+            当前系统模式为<span className="cl-primary">手动/自动状态</span>
+            是否执行手/自动模式切换指令并进行运行参数下发
+          </span>
+        );
+      }
+      Modal.confirm({
+        title: '确认',
+        content: content,
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          const inputData = {};
+          let fields = [];
+          for (const key in formData) {
+            if (key.includes('power')) {
+              inputData[powerMap.get(key) || ''] = formData[key];
+            } else if (key.includes('time') && formData[key] && formData[key].length) {
+              fields = timeMap.get(key) || [];
+              inputData[fields[0]] = formData[key][0].hour();
+              inputData[fields[1]] = formData[key][0].minute();
+              inputData[fields[2]] = formData[key][1].hour();
+              inputData[fields[3]] = formData[key][1].minute();
+            }
+          }
+          run({
+            deviceId: id,
+            input: inputData,
+            serviceId: 'timePower',
+          })
+            .then((data) => {
+              if (data) {
+                message.success('下发成功');
+              }
+            })
+            .finally(() => {
+              runForm.setFieldValue('operateModel', false);
+            });
+        },
+        onCancel: () => {
+          runForm.setFieldValue('operateModel', false);
+        },
+      });
+    },
+    [runForm],
+  );
+
+  const onTimeClick = useCallback(() => {
+    timeForm.submit();
+  }, [timeForm]);
+  const onTimeFormFinish = useCallback((formData: any) => {
+    Modal.confirm({
+      title: '确认',
+      content: '是否执行当前校时参数下发',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: () => {
+        const time: Moment = formData.time;
+        run({
+          deviceId: id,
+          input: {
+            yearWait: time.year(),
+            monthWait: time.month() + 1,
+            dayWait: time.date(),
+            hourWait: time.hour(),
+            minuteWait: time.minute(),
+            secondWait: time.second(),
+            weekWait: time.day() || 7,
+          },
+          serviceId: 'correctionTime',
+        }).then((data) => {
+          if (data) {
+            message.success('下发成功');
+          }
+        });
+      },
+    });
+  }, []);
+
+  const validatorTime = useCallback((getFieldValue: FormInstance['getFieldValue'], num: number) => {
+    const prevValue: Moment[] = getFieldValue('time' + (num - 1));
+    const nextValue: Moment[] = getFieldValue('time' + (num + 1));
+    return {
+      validator: (_: any, value: Moment[]) => {
+        if (value && value.length) {
+          if (nextValue && nextValue.length && value[1].isSameOrAfter(nextValue[0])) {
+            return Promise.reject(`时段${num}应小于时段${num + 1}`);
+          }
+          if (num > 1 && prevValue && prevValue.length && value[0].isSameOrBefore(prevValue[1])) {
+            return Promise.reject(`时段${num}应大于时段${num - 1}`);
+          }
+        } else {
+          if (nextValue && nextValue.length) {
+            return Promise.reject(`时段${num}必填`);
+          }
+          if (getFieldValue('power' + num)) {
+            return Promise.reject(`时段${num}必填`);
+          }
+        }
+        return Promise.resolve();
+      },
+    };
+  }, []);
+  const validatorPower = useCallback(
+    (getFieldValue: FormInstance['getFieldValue'], num: number) => {
+      const timeValue: Moment[] = getFieldValue('time' + num);
+      return {
+        validator: (_: any, value: string) => {
+          if (timeValue && timeValue.length) {
+            if (isEmpty(value)) {
+              return Promise.reject(`功率不能为空`);
+            }
+          }
+          return Promise.resolve();
+        },
+      };
+    },
+    [],
+  );
 
   return (
     <>
@@ -126,28 +325,33 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
         onValuesChange={onControlChange}
       >
         <Row>
-          <Col flex="20%">
-            <Form.Item name="systemFiring" label="系统启动" labelCol={{ flex: '116px' }}>
+          <Col flex="25%">
+            <Form.Item
+              name="sysStart"
+              label="系统启动"
+              labelCol={{ flex: '116px' }}
+              valuePropName="checked"
+            >
               <Switch />
             </Form.Item>
           </Col>
-          <Col flex="20%">
-            <Form.Item name="systemStop" label="系统停止" labelCol={{ flex: '116px' }}>
+          <Col flex="25%">
+            <Form.Item
+              name="sysStop"
+              label="系统停止"
+              labelCol={{ flex: '116px' }}
+              valuePropName="checked"
+            >
               <Switch />
             </Form.Item>
           </Col>
-          <Col flex="20%">
-            <Form.Item name="flash" label="falsh保存" labelCol={{ flex: '116px' }}>
+          <Col flex="25%">
+            <Form.Item name="bmsClose" label="BMS主接触器闭合" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Col>
-          <Col flex="20%">
-            <Form.Item name="bmsConnect" label="BMS主接触器闭合">
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="20%">
-            <Form.Item name="bmsBreak" label="BMS主接触器断开">
+          <Col flex="25%">
+            <Form.Item name="bmsBreak" label="BMS主接触器断开" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Col>
@@ -156,7 +360,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
       <Label
         title="电池保护参数设置"
         operate={
-          <Button type="primary" onClick={onProtectClick}>
+          <Button type="primary" onClick={onProtectClick} loading={loading}>
             下发参数
           </Button>
         }
@@ -166,16 +370,12 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
         className="setting-form"
         layout="horizontal"
         labelCol={{ flex: '116px' }}
-        onFinish={(formData) =>
-          run({ deviceId: id, input: { ...formData }, serviceId: '' }).then((res) => {
-            message.success('下发成功');
-          })
-        }
+        onFinish={requestProtect}
       >
         <Row>
           <Col flex="25%">
             <Form.Item
-              name="a"
+              name="OverchargeProtection"
               label="过充保护"
               rules={[{ required: true, message: '过充保护必填' }]}
             >
@@ -184,7 +384,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
           </Col>
           <Col flex="25%">
             <Form.Item
-              name="b"
+              name="OverchargeRelease"
               label="过充释放"
               rules={[{ required: true, message: '过充释放必填' }]}
             >
@@ -193,7 +393,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
           </Col>
           <Col flex="25%">
             <Form.Item
-              name="c"
+              name="OverdischargeProtection"
               label="过放保护"
               rules={[{ required: true, message: '过放保护必填' }]}
             >
@@ -202,7 +402,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
           </Col>
           <Col flex="25%">
             <Form.Item
-              name="d"
+              name="Overrelease"
               label="过放释放"
               rules={[{ required: true, message: '过放释放必填' }]}
             >
@@ -214,7 +414,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
       <Label
         title="运行参数设置"
         operate={
-          <Button type="primary" onClick={onRunClick}>
+          <Button type="primary" onClick={onRunClick} loading={loading}>
             下发参数
           </Button>
         }
@@ -225,115 +425,133 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
         layout="horizontal"
         labelAlign="right"
         labelCol={{ flex: '116px' }}
+        onFinish={requestRun}
       >
         <Row>
           <Col flex="25%">
-            <Form.Item name="a" label="手/自动切换">
+            <Form.Item name="operateModel" label="手/自动切换" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="b" label="手动PCS功率">
+            <Form.Item name="setPcsPower" label="手动PCS功率">
               <Input addonAfter="KW" />
             </Form.Item>
           </Col>
         </Row>
         <Row>
           <Col flex="25%">
-            <Form.Item name="c" label="时段1">
+            <Form.Item
+              name="time1"
+              label="时段1"
+              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 1)]}
+            >
               <TimePicker.RangePicker
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
+            <Form.Item
+              name="power1"
+              label="执行功率"
+              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
+            >
               <Input addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="c" label="时段2">
+            <Form.Item
+              name="time2"
+              label="时段2"
+              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 2)]}
+            >
               <TimePicker.RangePicker
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
+            <Form.Item
+              name="power2"
+              label="执行功率"
+              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
+            >
               <Input addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="c" label="时段3">
+            <Form.Item
+              name="time3"
+              label="时段3"
+              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 3)]}
+            >
               <TimePicker.RangePicker
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
+            <Form.Item
+              name="power3"
+              label="执行功率"
+              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
+            >
               <Input addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="c" label="时段4">
+            <Form.Item
+              name="time4"
+              label="时段4"
+              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 4)]}
+            >
               <TimePicker.RangePicker
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
+            <Form.Item
+              name="power4"
+              label="执行功率"
+              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
+            >
               <Input addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="c" label="时段5">
+            <Form.Item
+              name="time5"
+              label="时段5"
+              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 5)]}
+            >
               <TimePicker.RangePicker
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
-              <Input addonAfter="KW" min={-110} max={110} />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item name="c" label="时段6">
-              <TimePicker.RangePicker
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={['开始', '结束']}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
-              <Input addonAfter="KW" min={-110} max={110} />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item name="aa" label="时段7">
-              <TimePicker.RangePicker
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={['开始', '结束']}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item name="g" label="执行功率">
+            <Form.Item
+              name="power5"
+              label="执行功率"
+              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
+            >
               <Input addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
@@ -342,7 +560,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
       <Label
         title="校时设置"
         operate={
-          <Button type="primary" onClick={onTimeClick}>
+          <Button type="primary" onClick={onTimeClick} loading={loading}>
             下发参数
           </Button>
         }
@@ -355,17 +573,15 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
       >
         <Row>
           <Col flex="25%">
-            <Form.Item name="time" label="系统校时">
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
             <Form.Item
-              name="a"
+              name="time"
               label="系统时间"
               rules={[{ required: true, message: '系统时间必填' }]}
             >
-              <DatePick showTime />
+              <DatePick
+                getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
+                showTime
+              />
             </Form.Item>
           </Col>
         </Row>

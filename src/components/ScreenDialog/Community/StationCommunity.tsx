@@ -74,7 +74,7 @@ const StationCommunity: React.FC<CommunityProps> = (props) => {
 
   const columns: ProFormColumnsType<StationCommunityType>[] = [
     {
-      title: '第三方站点ID',
+      title: '第三方站点',
       dataIndex: 'thirdSiteId',
       valueType: 'select',
       request: requestStation,
@@ -100,6 +100,7 @@ const StationCommunity: React.FC<CommunityProps> = (props) => {
         onFinish={onFinish}
         modalProps={{
           centered: true,
+          destroyOnClose: true,
           ...modalProps,
         }}
       />
