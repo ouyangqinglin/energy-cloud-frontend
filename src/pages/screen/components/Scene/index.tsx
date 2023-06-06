@@ -12,12 +12,14 @@ import Weather from '../Weather';
 import Benefit from './Benefits';
 import QueueAnim from 'rc-queue-anim';
 import { getSiteId } from './helper';
-import FullScreen from './FullScreen';
+import { useWatchFullScreen } from '@/components/header/FullScreen';
 
 const Scene: FC = () => {
+  useWatchFullScreen();
+
   return (
     <>
-      <FullScreen />
+      {/* <FullScreen /> */}
       <QueueAnim duration={1000} delay={30} type={['left', 'right']} ease="easeInOutQuart">
         <Cell key="animation2" cursor="default" width={400} left={24} top={20}>
           <Weather id={getSiteId()} />
