@@ -25,6 +25,7 @@ export interface MarketElectricityPriceInfo {
   electricityType?: any;
   maxDemand?: any;
   demandElectrovalency?: any;
+  // 生效状态
   status: boolean;
   sharpPrice: string;
   peakPrice: string;

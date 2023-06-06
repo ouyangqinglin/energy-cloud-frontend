@@ -1,11 +1,12 @@
 import { saveCustomerInfo } from '../service';
 import YTModalForm from '@/components/YTModalForm';
-import type { FormOperations } from '@/components/YTModalForm/typing';
+import { FormOperations } from '@/components/YTModalForm/typing';
 import useSafeTimeRangeColum from './SafeTimeRange';
-import { columns } from './config';
+import { columns, columnsReadonly } from './config';
 import type { MarketElectricityPriceInfo } from './type';
 import { getMarketPrice } from './service';
 import dayjs from 'dayjs';
+import { unset } from 'lodash';
 
 const DEFAULT_PROPS = {
   layout: 'vertical' as 'vertical',
@@ -42,6 +43,12 @@ export const UpdateModal = (props: {
 
     return { ...data, effectiveTimeList, hoursPriceList };
   };
+
+  const isRead = FormOperations.READ === props.operations;
+  if (isRead) {
+    unset(DEFAULT_PROPS, 'layout');
+  }
+
   return (
     <YTModalForm<MarketElectricityPriceInfo>
       title={'新增市电电价规则'}
@@ -50,7 +57,7 @@ export const UpdateModal = (props: {
         span: 24,
       }}
       layoutType={'ModalForm'}
-      columns={columns(timeColum)}
+      columns={isRead ? columnsReadonly : columns(timeColum)}
       onSubmitCapture={() => {
         resetTimeStore();
       }}
