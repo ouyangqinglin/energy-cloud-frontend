@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 11:33:11
- * @LastEditTime: 2023-05-16 16:51:43
+ * @LastEditTime: 2023-06-05 14:22:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
@@ -31,15 +31,9 @@ export type DetailProps = {
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
-  const {
-    items,
-    column = 3,
-    labelStyle = {},
-    contentStyle = {},
-    data = {},
-    colon = true,
-    format,
-  } = props;
+  const { items, column = 3, labelStyle = {}, contentStyle = {}, colon = true, format } = props;
+
+  const data = props?.data || {};
 
   const content: React.ReactNode[] = [];
   items.forEach((item) => {

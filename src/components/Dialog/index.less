@@ -402,7 +402,7 @@
     ) !important;
     .ant-input {
       color: white;
-      background: none;
+      background: none !important;
       border: 1px solid rgba(21, 154, 255, 0.4);
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
@@ -447,6 +447,10 @@
     background: url(~@/assets/image/screen/btn-down.png);
     background-size: 100% 100%;
     border: none;
+  }
+  .ant-btn-primary[disabled],
+  .ant-btn-default[disabled] {
+    color: rgba(255, 255, 255, 0.5);
   }
   .field-title-item {
     .ant-form-item-label {
@@ -613,6 +617,20 @@
       .anticon {
         color: white;
       }
+    }
+  }
+  .ant-picker-time-range-wrapper {
+    .ant-picker-panel-container,
+    .ant-picker-range-arrow::before {
+      background: #04253e;
+    }
+    .ant-picker-time-panel-cell-inner {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner,
+    .ant-picker-time-panel-cell-inner:hover {
+      color: #159aff;
+      background: rgba(21, 154, 255, 0.1);
     }
   }
 }

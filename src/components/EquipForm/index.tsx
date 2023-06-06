@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-01 10:12:38
+ * @LastEditTime: 2023-06-02 08:55:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -66,7 +66,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       ...(isStationChild ? { siteId: stationId } : {}),
       deviceId: id,
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
-    }).then(({ data }) => {
+    }).then((data) => {
       if (data) {
         message.success('保存成功');
         onSuccess?.();

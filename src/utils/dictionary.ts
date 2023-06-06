@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-05-29 09:15:01
+ * @LastEditTime: 2023-06-01 17:39:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -32,7 +32,7 @@ export enum DeviceTypeEnum {
   PvInverter11 = 11,
   PvInverter4 = 28,
   YtCharge160 = 13,
-  Energy = 26,
+  Energy = 16,
   PvInverterCabinet = 18,
   HwCharge = 19,
   YtCharge120 = 24,

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:03:38
- * @LastEditTime: 2023-05-31 09:12:05
+ * @LastEditTime: 2023-06-05 09:18:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Menu\TopMenu.tsx
  */
@@ -54,9 +54,11 @@ const TopMenu: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // getStation(id).then(({data}) => {
-    //   dispatch({ type: 'get', payload: {id,...(data || {} )}});
-    // });
+    if (id) {
+      getStation(id).then(({ data }) => {
+        dispatch({ type: 'get', payload: { ...(data || {}), id } });
+      });
+    }
   }, [id]);
 
   return (

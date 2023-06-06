@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-06-01 10:22:15
+ * @LastEditTime: 2023-06-05 13:46:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
@@ -158,7 +158,7 @@ const YtStation: React.FC = (props) => {
       <Button className="ml12" onClick={switchPosition}>
         站点位置
       </Button>
-      <EnergyDialog id={'10026'} open={isOpen} onCancel={closeModal} model="screen" />
+      <EnergyDialog id={'10273'} open={isOpen} onCancel={closeModal} model="screen" />
       <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
       <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={12} />
       <PvInverter

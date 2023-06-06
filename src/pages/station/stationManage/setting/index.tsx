@@ -2,18 +2,14 @@ import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import ElectricityPrice from './ElectricityPrice';
 import styles from './index.less';
+import System from './System';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
     {
-      key: '1',
-      label: `站点信息`,
-      children: '',
-    },
-    {
       key: '2',
       label: `系统设置`,
-      children: `Content of Tab Pane 2`,
+      children: <System />,
     },
     {
       key: '3',
@@ -38,7 +34,7 @@ const Setting = () => {
   ];
 
   return (
-    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="4" items={items} />
+    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="2" items={items} />
   );
 };
 

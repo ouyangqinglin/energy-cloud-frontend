@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:40:01
- * @LastEditTime: 2023-05-29 19:49:39
+ * @LastEditTime: 2023-06-01 17:41:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Device\index.tsx
  */
@@ -12,8 +12,6 @@ import { Modal, Tabs } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
-import ChargeImg from '@/assets/image/product/cabinet.png';
-import ChargeIntroImg from '@/assets/image/product/cabinet-intro.jpg';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
@@ -55,7 +53,7 @@ const Device: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} equipmentImg={ChargeImg} productImg={ChargeIntroImg} />
+        <EquipInfo id={id} model={model} />
         <Tabs items={tabItems} />
       </Dialog>
     </>
