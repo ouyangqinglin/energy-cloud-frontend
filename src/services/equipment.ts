@@ -29,7 +29,7 @@ export const getAlarms = (params: any) => {
 };
 
 export const getLogs = (params: any) => {
-  return request(`/oss/device_log/page`, {
+  return request(`/oss/deviceLog/page`, {
     method: 'GET',
     params,
   });
@@ -76,6 +76,13 @@ export const getThirdStation = (params: any) => {
 
 export const getDeviceTree = (params: any) => {
   return request(`/iot/siteSystemConfiguration/condition/tree`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getDeviceCollection = (params: any) => {
+  return request('/iot/siteSystemConfiguration/dataSource/deviceParamList', {
     method: 'GET',
     params,
   });
