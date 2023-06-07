@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-05-29 11:04:00
+ * @LastEditTime: 2023-06-07 16:06:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -105,7 +105,19 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       setShow(true);
       if ((type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) && id) {
         runGet(id).then((data) => {
-          form.setFieldsValue({ ...(data || {}), logo: [{ url: data?.url || '' }] });
+          form.setFieldsValue({
+            ...(data || {}),
+            addressInfo: {
+              address: data?.address,
+              point: {
+                lng: data?.longitude,
+                lat: data?.latitude,
+              },
+              adcode: data?.adcode,
+            },
+            logoList: data?.logo ? [{ url: data.logo }] : [],
+            photosList: data?.photos ? data.photos.split(',').map((url: string) => ({ url })) : [],
+          });
         });
       }
     }
@@ -158,7 +170,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         >
           {show && <PositionSelect></PositionSelect>}
         </Form.Item>
-        <ProFormTextArea label="备注" name="remark" placeholder="请输入"></ProFormTextArea>
+        <ProFormTextArea label="备注" name="remarks" placeholder="请输入"></ProFormTextArea>
         <Row gutter={20}>
           <Col span={8}>
             <ProFormUploadButton
@@ -166,6 +178,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
               name="logoList"
               title="上传图片"
               max={1}
+              accept="image/*"
               fieldProps={{
                 name: 'file',
                 listType: 'picture-card',
@@ -186,6 +199,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
               getValueFromEvent={getValueFromEvent}
               title="上传图片"
               max={3}
+              accept="image/*"
               fieldProps={{
                 name: 'file',
                 listType: 'picture-card',

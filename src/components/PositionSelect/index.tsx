@@ -19,7 +19,6 @@ import { getAreaCodeByAdCode } from '@/utils';
 export type PositionSelectType = {
   address?: string;
   point?: AMap.LngLat;
-
   countryCode?: string;
   provinceCode?: string;
   cityCode?: string;

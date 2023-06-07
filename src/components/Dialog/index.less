@@ -259,28 +259,6 @@
   }
   .ant-pro-card {
     background: none;
-    .ant-picker {
-      background: linear-gradient(
-        90deg,
-        rgba(21, 154, 255, 0.2) 0%,
-        rgba(21, 154, 255, 0) 53%,
-        rgba(21, 154, 255, 0.2) 100%
-      );
-      border: 1px solid rgba(21, 154, 255, 0.4);
-      .ant-picker-input {
-        input {
-          color: white;
-        }
-      }
-      .ant-picker-range-separator {
-        .ant-picker-separator {
-          color: white;
-        }
-      }
-      .ant-picker-suffix {
-        color: white;
-      }
-    }
   }
   .ant-table {
     background: none;
@@ -408,18 +386,38 @@
       border-bottom-left-radius: 4px;
     }
   }
-  .ant-form-item-control-input {
+  .ant-picker {
+    color: white;
+    background: linear-gradient(
+      90deg,
+      rgba(21, 154, 255, 0.2) 0%,
+      rgba(21, 154, 255, 0) 53%,
+      rgba(21, 154, 255, 0.2) 100%
+    );
+    border: 1px solid rgba(21, 154, 255, 0.4);
+    border-radius: 4px;
     .ant-picker {
-      color: white;
-      background: none;
-      border: 1px solid rgba(21, 154, 255, 0.4);
-      border-radius: 4px;
+      .ant-picker-input {
+        input {
+          color: white;
+        }
+      }
+      .ant-picker-range-separator {
+        .ant-picker-separator {
+          color: white;
+        }
+      }
+      .ant-picker-suffix {
+        color: white;
+      }
     }
     .ant-picker-input {
       input {
         color: white;
       }
     }
+    .ant-picker-range-separator .ant-picker-separator,
+    .ant-picker-input input,
     .ant-picker-suffix,
     .ant-picker-clear {
       color: white;
@@ -427,14 +425,15 @@
     .ant-picker-clear {
       background: none;
     }
-    .ant-input-group-addon {
-      color: white;
-      background: rgba(21, 154, 255, 0.2);
-      border: 1px solid rgba(21, 154, 255, 0.4);
-      border-left: 0;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
+  }
+  .ant-input-group-addon,
+  .ant-input-number-group-addon {
+    color: white;
+    background: rgba(21, 154, 255, 0.2);
+    border: 1px solid rgba(21, 154, 255, 0.4);
+    border-left: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
   .ant-btn-default {
     color: white;
@@ -578,18 +577,40 @@
   .ant-pro-table-list-toolbar-container {
     padding-top: 0;
   }
-  .ant-picker-date-range-wrapper {
-    .ant-picker-panel-container {
-      background: #04253e;
-      .ant-picker-cell-in-view,
-      .ant-picker-content th,
-      .ant-picker-header-view button {
-        color: white;
-      }
-      .ant-picker-cell-in-view.ant-picker-cell-in-range {
-        color: black !important;
-      }
+  .ant-picker-panel-container {
+    background: #04253e;
+    .ant-picker-cell {
+      color: rgba(255, 255, 255, 0.25);
     }
+    .ant-picker-cell-in-view,
+    .ant-picker-content th,
+    .ant-picker-header-view button {
+      color: white;
+    }
+    .ant-picker-cell-in-view.ant-picker-cell-in-range {
+      color: black !important;
+    }
+    .ant-picker-time-panel-cell-inner {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner,
+    .ant-picker-time-panel-cell-inner:hover {
+      color: #159aff;
+      background: rgba(21, 154, 255, 0.1);
+    }
+    .ant-picker-header {
+      color: white;
+    }
+    .ant-picker-header,
+    .ant-picker-footer,
+    .ant-picker-time-panel,
+    .ant-picker-time-panel-column,
+    .ant-picker-panel {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+  }
+  .ant-picker-range-arrow::before {
+    background: #04253e;
   }
   .ant-btn-link {
     color: #159aff;
@@ -597,7 +618,7 @@
   .ant-tabs-ink-bar {
     background: #159aff;
   }
-  .ant-input-number-in-form-item {
+  .ant-input-number {
     width: 100%;
     color: white !important;
     background: linear-gradient(
@@ -619,18 +640,10 @@
       }
     }
   }
-  .ant-picker-time-range-wrapper {
-    .ant-picker-panel-container,
-    .ant-picker-range-arrow::before {
-      background: #04253e;
-    }
-    .ant-picker-time-panel-cell-inner {
-      color: rgba(255, 255, 255, 0.9);
-    }
-    .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner,
-    .ant-picker-time-panel-cell-inner:hover {
-      color: #159aff;
-      background: rgba(21, 154, 255, 0.1);
+  .ant-input-number-group {
+    .ant-input-number {
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
     }
   }
 }
