@@ -40,7 +40,7 @@ export const CellList: CellConfigItem[] = [
   },
   {
     key: 'ChargingStation160KW',
-    deviceId: 'ChargingStation160KW',
+    // deviceId: 'ChargingStation160KW',
     deviceType: DeviceType.DC_PILE,
     mark: DeviceMark.DC_PILE_160KW,
     cellStyle: {
@@ -55,7 +55,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStack1',
     mark: DeviceMark.YT_CHARGING_TERMINAL_1,
-    deviceId: 'chargingStack1',
+    // deviceId: 'chargingStack1',
     deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
@@ -69,7 +69,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStack2',
     mark: DeviceMark.YT_CHARGING_TERMINAL_2,
-    deviceId: 'chargingStack2',
+    // deviceId: 'chargingStack2',
     deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
@@ -83,7 +83,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStack3',
     mark: DeviceMark.HW_CHARGING_TERMINAL_1,
-    deviceId: 'chargingStack3',
+    // deviceId: 'chargingStack3',
     deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
@@ -97,7 +97,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStack4',
     mark: DeviceMark.HW_CHARGING_TERMINAL_2,
-    deviceId: 'chargingStack4',
+    // deviceId: 'chargingStack4',
     deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
       width: 42,
@@ -111,7 +111,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStack',
     mark: DeviceMark.HW_CHARGING_STACK,
-    deviceId: 'chargingStack',
+    // deviceId: 'chargingStack',
     deviceType: DeviceType.HW_CHARGING_STACK,
     cellStyle: {
       width: 39,
@@ -125,7 +125,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'powerDistributionRoom',
     mark: DeviceMark.BOX_TYPE_SUBSTATION,
-    deviceId: 'powerDistributionRoom',
+    // deviceId: 'powerDistributionRoom',
     deviceType: DeviceType.BOX_TYPE_SUBSTATION,
     cellStyle: {
       width: 70,
@@ -139,7 +139,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'energyStorage',
     mark: DeviceMark.ENERGY_STORAGE_BOX,
-    deviceId: 'energyStorage',
+    // deviceId: 'energyStorage',
     deviceType: DeviceType.ENERGY_STORAGE_BOX,
     cellStyle: {
       width: 111,
@@ -153,7 +153,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'energyStorageGridConnectedCabinet',
     mark: DeviceMark.ENERGY_CABINET,
-    deviceId: 'energyStorageGridConnectedCabinet',
+    // deviceId: 'energyStorageGridConnectedCabinet',
     deviceType: DeviceType.ENERGY_CABINET,
     cellStyle: {
       width: 24,
@@ -167,7 +167,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'photovoltaicStorageGridConnectedCabinet',
     mark: DeviceMark.PV_CABINET,
-    deviceId: 'photovoltaicStorageGridConnectedCabinet',
+    // deviceId: 'photovoltaicStorageGridConnectedCabinet',
     deviceType: DeviceType.PV_CABINET,
     cellStyle: {
       width: 24,
@@ -181,7 +181,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'HUAWEIInverter1',
     mark: DeviceMark.PV_INVERTER_1,
-    deviceId: 'HUAWEIInverter1',
+    // deviceId: 'HUAWEIInverter1',
     deviceType: DeviceType.PV_INVERTER,
     loopNum: 12,
     cellStyle: {
@@ -196,7 +196,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'HUAWEIInverter2',
     mark: DeviceMark.PV_INVERTER_2,
-    deviceId: 'HUAWEIInverter2',
+    // deviceId: 'HUAWEIInverter2',
     deviceType: DeviceType.PV_INVERTER,
     loopNum: 4,
     cellStyle: {
@@ -211,7 +211,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'powerExchangeCabinet',
     mark: DeviceMark.POWER_EXCHANGE_BOX,
-    deviceId: 'powerExchangeCabinet',
+    // deviceId: 'powerExchangeCabinet',
     deviceType: DeviceType.POWER_EXCHANGE_BOX,
     cellStyle: {
       width: 32,
@@ -225,7 +225,7 @@ export const CellList: CellConfigItem[] = [
   {
     key: 'chargingStation120KW',
     mark: DeviceMark.DC_PILE_120KW,
-    deviceId: 'chargingStation120KW',
+    // deviceId: 'chargingStation120KW',
     deviceType: DeviceType.DC_PILE,
     cellStyle: {
       width: 59,

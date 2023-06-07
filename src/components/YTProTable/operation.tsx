@@ -72,7 +72,7 @@ export default function genDefaultOperation<
   } = option;
 
   const operationsCollection = [onEnterChange, onDetailChange, onEditChange, onDeleteChange].filter(
-    (fn) => isFunction(fn),
+    isFunction,
   );
   const widthLength = operationsCollection.length;
 

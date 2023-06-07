@@ -34,16 +34,16 @@ const FullScreen = () => {
   );
 
   return (
-    <Cell width={50} height={50} left={1750} top={0} zIndex={9999}>
-      <div
-        className={styles.iconWrapper}
-        style={{ opacity: visible ? 1 : 0 }}
-        onMouseOver={() => toggleVisible(true)}
-        onMouseOut={() => toggleVisible(false)}
-      >
-        {button}
-      </div>
-    </Cell>
+    // <Cell width={50} height={50} left={1750} top={0} zIndex={9999}>
+    <div
+      className={styles.iconWrapper}
+      // style={{ opacity: visible ? 1 : 0 }}
+      onMouseOver={() => toggleVisible(true)}
+      onMouseOut={() => toggleVisible(false)}
+    >
+      {button}
+    </div>
+    // </Cell>
   );
 };
 

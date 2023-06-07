@@ -16,6 +16,7 @@ import useResize from './useResize';
 import useDragging from './useDragging';
 import QueueAnim from 'rc-queue-anim';
 import { useToggle } from 'ahooks';
+import { message } from 'antd';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -54,13 +55,16 @@ const Geometry: FC = () => {
   };
   const handleGeometry = (cell: CellConfigItem) => {
     const { deviceId, deviceType, loopNum } = cell;
-    if (deviceId && deviceType) {
-      setDeviceInfo({
-        deviceId,
-        deviceType,
-        loopNum,
-      });
+    if (!deviceId || !deviceType) {
+      message.error('该设备未配置');
+      return;
     }
+
+    setDeviceInfo({
+      deviceId,
+      deviceType,
+      loopNum,
+    });
   };
 
   const ceils = useMemo<ReactNode[]>(() => {

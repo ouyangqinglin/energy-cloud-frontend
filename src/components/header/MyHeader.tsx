@@ -6,16 +6,15 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Drawer } from 'antd';
-import RightContent from '@/components/RightContent';
+import RightContent from '@/components/header/RightContent';
 import styles from './index.less';
 import logoYt from '@/assets/image/logo-yt.png';
 import IconMenu from '@/assets/image/menu.png';
 import IconClose from '@/assets/image/menu-close.png';
 import MyMenu from '../Menu';
-
-const MyHeader: React.FC = (props) => {
+const MyHeader = () => {
   const [open, setOpen] = useState(false);
 
   const switchDrawer = useCallback((status) => {
