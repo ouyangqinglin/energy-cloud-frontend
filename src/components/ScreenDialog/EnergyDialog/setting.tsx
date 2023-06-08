@@ -2,18 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-06-05 15:00:33
+ * @LastEditTime: 2023-06-07 17:52:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Row,
   Col,
   Switch,
   Form,
-  Input,
+  InputNumber,
   Button,
   TimePicker,
   DatePicker,
@@ -27,6 +27,7 @@ import type { Moment } from 'moment';
 import { useRequest } from 'umi';
 import { editSetting } from './service';
 import { isEmpty } from '@/utils';
+import lodash from 'lodash';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -41,6 +42,7 @@ const timeFormat = 'HH:mm';
 
 type SettingProps = {
   id: string;
+  settingData?: Record<string, any>;
 };
 
 const powerMap = new Map([
@@ -99,7 +101,9 @@ const timeMap = new Map([
   ],
 ]);
 
-const Setting: React.FC<SettingProps> = ({ id }) => {
+const Setting: React.FC<SettingProps> = (props) => {
+  const { id } = props;
+  const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
   const [runForm] = Form.useForm();
@@ -114,32 +118,22 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
       let content: React.ReactNode;
       switch (field) {
         case 'sysStart':
-          content = (
-            <span>
-              当前系统为<span className="cl-primary">停止状态</span>，是否执行系统启动指令
-            </span>
-          );
-          break;
         case 'sysStop':
+          const runStatus = settingData?.emsSysStatus ? '启动' : '停止';
           content = (
             <span>
-              当前系统为<span className="cl-primary">启动状态</span>，是否执行系统停止指令
+              当前系统为<span className="cl-primary">{runStatus}状态</span>，是否执行系统
+              {field === 'sysStart' ? '启动' : '停止'}指令
             </span>
           );
           break;
         case 'bmsClose':
-          content = (
-            <span>
-              当前BMS主接触器为<span className="cl-primary">断开状态</span>
-              ，是否执行BMS主接触器为闭合指令
-            </span>
-          );
-          break;
         case 'bmsBreak':
+          const contactStatus = settingData?.MainContactorStatus ? '闭合' : '断开';
           content = (
             <span>
-              当前BMS主接触器为<span className="cl-primary">闭合状态</span>
-              ，是否执行BMS主接触器为断开指令
+              当前BMS主接触器为<span className="cl-primary">{contactStatus}状态</span>
+              ，是否执行BMS主接触器为{field === 'bmsClose' ? '闭合' : '断开'}指令
             </span>
           );
           break;
@@ -190,24 +184,51 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
   const onRunClick = useCallback(() => {
     runForm.submit();
   }, [runForm]);
-  const requestRun = useCallback(
-    (formData) => {
-      let content = <span>是否执行当前保护参数下发</span>;
-      if (formData.operateModel) {
-        content = (
-          <span>
-            当前系统模式为<span className="cl-primary">手动/自动状态</span>
-            是否执行手/自动模式切换指令并进行运行参数下发
-          </span>
-        );
-      }
+  const onRunValuesChange = useCallback((fieldValue) => {
+    const field = Object.keys(fieldValue)[0];
+    if (field === 'manualAutomaticSwitch') {
+      const systemStatus = settingData?.sysModel ? '自动' : '手动';
+      const content = (
+        <span>
+          当前系统模式为<span className="cl-primary">{systemStatus}状态</span>
+          是否执行手/自动模式切换指令
+        </span>
+      );
       Modal.confirm({
         title: '确认',
-        content: content,
+        content,
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          const inputData = {};
+          run({
+            deviceId: id,
+            input: { manualAutomaticSwitch: 1 },
+            serviceId: 'operateModel',
+          })
+            .then((data) => {
+              if (data) {
+                message.success('下发成功');
+              }
+            })
+            .finally(() => {
+              runForm.setFieldValue('manualAutomaticSwitch', false);
+            });
+        },
+        onCancel: () => {
+          runForm.setFieldValue('manualAutomaticSwitch', false);
+        },
+      });
+    }
+  }, []);
+  const requestRun = useCallback(
+    (formData) => {
+      Modal.confirm({
+        title: '确认',
+        content: '是否执行当前运行参数下发',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          const inputData = { handOpePcsPower: formData.handOpePcsPower };
           let fields = [];
           for (const key in formData) {
             if (key.includes('power')) {
@@ -223,19 +244,12 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
           run({
             deviceId: id,
             input: inputData,
-            serviceId: 'timePower',
-          })
-            .then((data) => {
-              if (data) {
-                message.success('下发成功');
-              }
-            })
-            .finally(() => {
-              runForm.setFieldValue('operateModel', false);
-            });
-        },
-        onCancel: () => {
-          runForm.setFieldValue('operateModel', false);
+            serviceId: 'pcsPowerSetting',
+          }).then((data) => {
+            if (data) {
+              message.success('下发成功');
+            }
+          });
         },
       });
     },
@@ -315,6 +329,33 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
     [],
   );
 
+  useEffect(() => {
+    if (!lodash.isEmpty(settingData)) {
+      protectFrom.setFieldsValue({
+        OverchargeProtection: settingData?.OverchargeProtection ?? '',
+        OverchargeRelease: settingData?.OverchargeRelease ?? '',
+        OverdischargeProtection: settingData?.OverdischargeProtection ?? '',
+        Overrelease: settingData?.Overrelease ?? '',
+      });
+      const runData = {};
+      timeMap.forEach((item, key) => {
+        runData[key] = settingData?.[item[0]]
+          ? [
+              moment(`2023-06-07 ${settingData?.[item[0]]}:${settingData?.[item[1]]}`),
+              moment(`2023-06-07 ${settingData?.[item[2]]}:${settingData?.[item[3]]}`),
+            ]
+          : [];
+      });
+      runForm.setFieldsValue({
+        handOpePcsPower: settingData?.handOpePcsPower ?? '',
+        ...runData,
+      });
+      timeForm.setFieldsValue({
+        time: settingData?.sysTem ? moment(settingData?.sysTem) : null,
+      });
+    }
+  }, [settingData, protectFrom, runForm, timeForm]);
+
   return (
     <>
       <Label title="控制指令" />
@@ -379,7 +420,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="过充保护"
               rules={[{ required: true, message: '过充保护必填' }]}
             >
-              <Input addonAfter="V" />
+              <InputNumber addonAfter="V" />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -388,7 +429,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="过充释放"
               rules={[{ required: true, message: '过充释放必填' }]}
             >
-              <Input addonAfter="V" />
+              <InputNumber addonAfter="V" />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -397,7 +438,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="过放保护"
               rules={[{ required: true, message: '过放保护必填' }]}
             >
-              <Input addonAfter="V" />
+              <InputNumber addonAfter="V" />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -406,7 +447,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="过放释放"
               rules={[{ required: true, message: '过放释放必填' }]}
             >
-              <Input addonAfter="V" />
+              <InputNumber addonAfter="V" />
             </Form.Item>
           </Col>
         </Row>
@@ -426,16 +467,17 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
         labelAlign="right"
         labelCol={{ flex: '116px' }}
         onFinish={requestRun}
+        onValuesChange={onRunValuesChange}
       >
         <Row>
           <Col flex="25%">
-            <Form.Item name="operateModel" label="手/自动切换" valuePropName="checked">
+            <Form.Item name="manualAutomaticSwitch" label="手/自动切换" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="setPcsPower" label="手动PCS功率">
-              <Input addonAfter="KW" />
+            <Form.Item name="handOpePcsPower" label="手动PCS功率">
+              <InputNumber addonAfter="KW" />
             </Form.Item>
           </Col>
         </Row>
@@ -460,7 +502,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
-              <Input addonAfter="KW" min={-110} max={110} />
+              <InputNumber addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -483,7 +525,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
-              <Input addonAfter="KW" min={-110} max={110} />
+              <InputNumber addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -506,7 +548,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
-              <Input addonAfter="KW" min={-110} max={110} />
+              <InputNumber addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -529,7 +571,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
-              <Input addonAfter="KW" min={-110} max={110} />
+              <InputNumber addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
           <Col flex="25%">
@@ -552,7 +594,7 @@ const Setting: React.FC<SettingProps> = ({ id }) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
-              <Input addonAfter="KW" min={-110} max={110} />
+              <InputNumber addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>

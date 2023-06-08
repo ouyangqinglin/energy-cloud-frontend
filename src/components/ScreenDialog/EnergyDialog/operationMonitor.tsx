@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Tabs, Pagination } from 'antd';
 import Detail from '@/components/Detail';
 import { weekInfo, EnergyEquipmentEnum, OptionType } from '@/utils/dictionary';
@@ -31,10 +31,11 @@ export type OperationMonitorProps = {
   equipmentIds: {
     [key: string]: any;
   };
+  onEmsDataChange?: (value: Record<string, any>) => void;
 };
 
 const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
-  const { equipmentIds = {}, open } = props;
+  const { equipmentIds = {}, open, onEmsDataChange } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
   const items = useMemo(() => Array.from({ length: 12 }), []);
@@ -46,9 +47,15 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
   const airData = useSubscribe(equipmentIds[EnergyEquipmentEnum.AIR], open);
   const meterData = useSubscribe(equipmentIds[EnergyEquipmentEnum.METER], open);
 
-  const onPageChange = (page: number) => {
+  const onPageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (onEmsDataChange) {
+      onEmsDataChange(emsData);
+    }
+  }, [emsData]);
 
   const upItems: React.ReactNode[] = [];
   const downItems: React.ReactNode[] = [];

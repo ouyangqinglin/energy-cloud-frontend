@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-02 08:55:00
+ * @LastEditTime: 2023-06-07 15:11:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -247,6 +247,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             getValueFromEvent={getValueFromEvent}
             title="上传图片"
             max={1}
+            accept="image/*"
             fieldProps={{
               name: 'file',
               listType: 'picture-card',

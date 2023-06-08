@@ -1,9 +1,9 @@
 import request from '@/utils/request';
 
 export const setComplete = (id: string) => {
-  return request(`/station`, {
-    method: 'GET',
-    params: {
+  return request(`/uc/site/constructionStatus`, {
+    method: 'PUT',
+    data: {
       id,
     },
   });

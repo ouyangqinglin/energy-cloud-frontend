@@ -57,5 +57,5 @@ export type StationFormType = {
   logoList: FileType[];
   photos: string;
   photosList: FileType[];
-  remark: string;
+  remarks: string;
 };

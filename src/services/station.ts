@@ -16,7 +16,10 @@ export const getStations = () => {
 };
 
 export const getStation = (id: string) => {
-  return request(`/station/${id}`, {
+  return request(`/uc/site/details`, {
     method: 'GET',
+    params: {
+      siteId: id,
+    },
   });
 };

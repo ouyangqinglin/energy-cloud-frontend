@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-05-24 14:58:10
+ * @LastEditTime: 2023-06-06 09:50:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableModal.tsx
  */
@@ -103,7 +103,7 @@ const TableModal = <
             <a onClick={onCleanSelected}>清空</a>
           </div>
           <div>
-            <div className="flex1">{tags}</div>
+            <div className={`flex1 ${styles.tagContain}`}>{tags}</div>
           </div>
         </>
       );
@@ -119,7 +119,7 @@ const TableModal = <
       onChange: onSelectedChange,
     },
     search: { labelWidth: 'auto' },
-    rowKey: 'id',
+    rowKey: tableId,
     pagination: {
       pageSize: 10,
       showSizeChanger: true,

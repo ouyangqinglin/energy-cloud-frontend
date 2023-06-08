@@ -26,6 +26,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const [equipmentIds, setEquipmentIds] = useState({});
   const [loading, setLoading] = useState(false);
   const [openCommunity, setOpenCommunity] = useState(false);
+  const [settingData, setSettingData] = useState<Record<string, any>>();
 
   const switchOpenCommunity = useCallback(() => {
     setOpenCommunity((openData) => !openData);
@@ -71,13 +72,17 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
           </Row>
         </>
       ) : (
-        <OperationMonitor open={open} equipmentIds={equipmentIds} />
+        <OperationMonitor
+          open={open}
+          equipmentIds={equipmentIds}
+          onEmsDataChange={setSettingData}
+        />
       ),
     },
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Setting id={id} />,
+      children: <Setting id={id} settingData={settingData} />,
     },
     {
       label: '告警/故障',

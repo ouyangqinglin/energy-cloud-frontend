@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 11:33:11
- * @LastEditTime: 2023-06-05 14:22:34
+ * @LastEditTime: 2023-06-05 15:18:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
@@ -48,10 +48,10 @@ const Detail: React.FC<DetailProps> = (props) => {
         >
           {!isEmpty(data[item.field])
             ? item.format
-              ? item.format(data[item.field] || '', data)
+              ? item.format(data[item.field] ?? '', data)
               : format
-              ? format(data[item.field] || '', data)
-              : data[item.field] || ''
+              ? format(data[item.field] ?? '', data)
+              : data[item.field] ?? ''
             : '--'}
         </Descriptions.Item>,
       );

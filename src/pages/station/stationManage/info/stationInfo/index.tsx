@@ -1,27 +1,23 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Button, Image, Modal, message } from 'antd';
 import { ProField } from '@ant-design/pro-components';
-import { useRequest, useLocation } from 'umi';
+import { useRequest, useModel } from 'umi';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
-import { getData } from '../../../stationList/service';
+import { getStation } from '@/services/station';
 import { setComplete } from './service';
-import { LocationType, buildStatus, FormTypeEnum } from '@/utils/dictionary';
+import { buildStatus, FormTypeEnum } from '@/utils/dictionary';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 
 const StationInfo: React.FC = () => {
-  const location = useLocation();
-  const id = useMemo(
-    () => (location as LocationType)?.query?.id,
-    [(location as LocationType)?.query?.id],
-  );
+  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const [open, setOpen] = useState(false);
   const {
     loading,
     data: detailData,
     run,
-  } = useRequest(getData, {
+  } = useRequest(getStation, {
     manual: true,
   });
 
@@ -32,10 +28,10 @@ const StationInfo: React.FC = () => {
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
-        setComplete(id).then(({ data }) => {
+        setComplete(siteId).then(({ data }) => {
           if (data) {
             message.success('操作成功');
-            run(id);
+            run(siteId);
           }
         });
       },
@@ -47,37 +43,46 @@ const StationInfo: React.FC = () => {
   }, []);
 
   const onSuccess = useCallback(() => {
-    run(id);
+    run(siteId);
   }, []);
 
   useEffect(() => {
-    run(id);
-  }, [id]);
+    if (siteId) {
+      run(siteId);
+    }
+  }, [siteId]);
 
   const detailItems: DetailItem[] = [
     {
       label: '站点状态',
-      field: 'status',
+      field: 'constructionStatus',
       span: 3,
       format: (value) => <ProField text={value} mode="read" valueEnum={buildStatus} />,
     },
     { label: '创建时间', field: 'createTime' },
     { label: '交付时间', field: 'deliveryTime', span: 2 },
-    { label: '创建人', field: 'creator' },
-    { label: '交付人', field: 'deliveryUser' },
+    { label: '创建人', field: 'createByName' },
+    { label: '交付人', field: 'deliveryByName' },
   ];
 
   const baseDetailItems: DetailItem[] = [
     { label: '站点名称', field: 'name' },
     { label: '站点ID', field: 'id' },
-    { label: '代理商', field: 'agent' },
+    { label: '代理商', field: 'agentName' },
     { label: '电压等级', field: 'voltageClass', format: kVoltageFormat },
     { label: '变压器容量', field: 'transformerCapacity', format: kVAFormat },
     { label: '光伏装机量', field: 'photovoltaicInstalledCapacity', format: kWpFormat },
-    { label: '储能总容量', field: 'energyStorageCapacityStorage' },
+    { label: '储能总容量', field: 'energyStorageCapacity' },
     { label: '充电桩装机量', field: 'chargingStationCapacity', format: powerFormat },
     { label: '站点地址', field: 'address' },
-    { label: 'logo', field: 'logo', format: (url) => <Image width={200} src={url} /> },
+    { label: '备注', field: 'remarks', span: 3 },
+    {
+      label: 'logo',
+      field: 'logo',
+      format: (url) => (
+        <Image style={{ objectFit: 'contain' }} width={200} height={200} src={url} />
+      ),
+    },
     {
       label: '站点照片',
       field: 'photos',
@@ -96,9 +101,13 @@ const StationInfo: React.FC = () => {
       <Card
         title="状态信息"
         extra={
-          <Button type="primary" loading={loading} onClick={onCompleteClick}>
-            站点完工
-          </Button>
+          detailData?.constructionStatus === 0 ? (
+            <Button type="primary" loading={loading} onClick={onCompleteClick}>
+              站点完工
+            </Button>
+          ) : (
+            ''
+          )
         }
       >
         <Detail data={detailData} items={detailItems} labelStyle={{ width: '100px' }} column={3} />
@@ -120,7 +129,7 @@ const StationInfo: React.FC = () => {
         />
       </Card>
       <StationForm
-        id={id}
+        id={siteId}
         open={open}
         onOpenChange={setOpen}
         type={FormTypeEnum.Edit}
