@@ -2,15 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 09:51:58
- * @LastEditTime: 2023-05-25 09:24:14
+ * @LastEditTime: 2023-06-08 09:26:06
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\TableSelect\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\index.tsx
  */
 import React, { useState, useMemo, useCallback } from 'react';
 import { Tag, Modal } from 'antd';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
-import styles from './index.less';
+import styles from '../index.less';
 import TableModal from './TableModal';
 import type { ProTableProps } from '@ant-design/pro-table';
 import type { ProRenderFieldPropsType } from '@ant-design/pro-components';

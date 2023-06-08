@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-18 10:43:23
+ * @LastEditTime: 2023-06-08 11:29:27
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\PvInverterCabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverterCabinet\index.tsx
  */
 
 import React, { useState, useCallback } from 'react';
@@ -28,9 +28,14 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
   const [openCommunity, setOpenCommunity] = useState(false);
+  const [siteId, setSiteId] = useState<string>();
 
   const switchOpenCommunity = useCallback(() => {
     setOpenCommunity((openData) => !openData);
+  }, []);
+
+  const onDataChange = useCallback((data) => {
+    setSiteId(data?.siteId);
   }, []);
 
   const tabItems = [
@@ -87,10 +92,17 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
               设置通信参数
             </Button>
           }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
+      <MeterCommunity
+        model={model}
+        open={openCommunity}
+        onOpenChange={setOpenCommunity}
+        id={id}
+        siteId={siteId}
+      />
     </>
   );
 };

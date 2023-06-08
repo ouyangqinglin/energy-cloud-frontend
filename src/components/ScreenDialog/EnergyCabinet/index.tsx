@@ -27,9 +27,14 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
   const [openCommunity, setOpenCommunity] = useState(false);
+  const [siteId, setSiteId] = useState<string>();
 
   const switchOpenCommunity = useCallback(() => {
     setOpenCommunity((openData) => !openData);
+  }, []);
+
+  const onDataChange = useCallback((data) => {
+    setSiteId(data?.siteId);
   }, []);
 
   const tabItems = [
@@ -85,10 +90,17 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
               设置通信参数
             </Button>
           }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <MeterCommunity model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
+      <MeterCommunity
+        model={model}
+        open={openCommunity}
+        onOpenChange={setOpenCommunity}
+        id={id}
+        siteId={siteId}
+      />
     </>
   );
 };

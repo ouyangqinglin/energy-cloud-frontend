@@ -6,8 +6,8 @@ import type { ProColumns } from '@ant-design/pro-table';
 import { useRequest, useModel } from 'umi';
 import { getConfig, editStatus, editConfig } from './service';
 import styles from './index.less';
-import TableTreeModal, { SelectTypeEnum } from '@/components/TableSelect/TableTreeModal';
-import { forbiddenCheckboxType } from '@/components/TableSelect/TableTreeModal';
+import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
+import type { showCheckboxType } from '@/components/TableSelect';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
 import {
   TreeDataType,
@@ -196,16 +196,13 @@ const Monitor: React.FC = () => {
     [allTableData],
   );
 
-  const forbiddenCheckbox = useCallback<forbiddenCheckboxType<TreeDataType>>((item) => {
+  const showCheckbox = useCallback<showCheckboxType<TreeDataType>>((item) => {
     return !!item.selectFlag;
   }, []);
 
   const requestTree = useCallback(() => {
     if (siteId) {
       return getDeviceTree({ siteId });
-    }
-    {
-      return Promise.resolve();
     }
   }, [siteId]);
 
@@ -455,7 +452,6 @@ const Monitor: React.FC = () => {
         title={selectedRow.area === 'elec' ? '选择设备' : '选择采集点'}
         open={openTableSelect}
         onCancel={setLeft}
-        request={requestTree}
         treeProps={{
           defaultExpandAll: true,
           fieldNames: {
@@ -463,6 +459,7 @@ const Monitor: React.FC = () => {
             key: 'id',
             children: 'children',
           },
+          request: requestTree,
         }}
         proTableProps={{
           columns: tableSelectColumns,
@@ -471,7 +468,7 @@ const Monitor: React.FC = () => {
         valueId={valueMap.valueId}
         valueName={valueMap.valueName}
         treeName="deviceName"
-        forbiddenCheckbox={forbiddenCheckbox}
+        showCheckbox={showCheckbox}
         value={tableTreeValue}
         onChange={onChange}
       />

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-07 16:07:12
+ * @LastEditTime: 2023-06-08 14:40:33
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeModal.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { Modal, Tag, Tree, Row, Col } from 'antd';
@@ -16,7 +16,7 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
 import type { ProTableProps, ActionType } from '@ant-design/pro-table';
 import { defaultsDeep } from 'lodash';
-import styles from './index.less';
+import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 
@@ -25,13 +25,13 @@ export enum SelectTypeEnum {
   Device = 'device',
 }
 
-export type forbiddenCheckboxType<TreeData = Record<string, any>> = {
+export type showCheckboxType<TreeData = Record<string, any>> = {
   (value: TreeData & BasicDataNode): boolean;
 };
 
 export { BasicDataNode };
 
-export type TableModalProps<V, T, U, TreeData> = {
+export type TableTreeModalProps<V, T, U, TreeData> = {
   value?: V[];
   onChange?: (value: V[]) => void;
   title?: string;
@@ -50,28 +50,33 @@ export type TableModalProps<V, T, U, TreeData> = {
     ) => ResponsePromise<ResponsePageData<T>, T>;
   };
   multiple?: boolean;
+  disabled?: boolean;
+  limit?: number;
   valueId?: string;
   valueName?: string;
+  clearable?: boolean;
+  placeholder?: string;
   treeName?: string;
-  request: (params?: any) => Promise<any> | undefined;
-  treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'>;
+  treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'> & {
+    request: (params?: any) => Promise<any> | undefined;
+  };
   onlySelectedLastLevel?: boolean;
   selectType?: SelectTypeEnum;
-  forbiddenCheckbox?: forbiddenCheckboxType<TreeData>;
+  showCheckbox?: showCheckboxType<TreeData>;
 };
 
 const setCheckAndSelect = <TreeData,>(
   data: TreeProps['treeData'],
-  forbiddenCheckbox?: forbiddenCheckboxType<TreeData>,
+  showCheckbox?: showCheckboxType<TreeData>,
 ) => {
   if (data && data.length) {
     data.forEach((item) => {
-      if (forbiddenCheckbox) {
-        item.checkable = forbiddenCheckbox(item as any);
+      if (showCheckbox) {
+        item.checkable = showCheckbox(item as any);
       }
       if (item.children && item.children.length) {
         item.selectable = false;
-        setCheckAndSelect(item.children, forbiddenCheckbox);
+        setCheckAndSelect(item.children, showCheckbox);
       }
     });
   }
@@ -83,7 +88,7 @@ const TableTreeModal = <
   Params extends Record<string, any>,
   TreeData,
 >(
-  props: TableModalProps<ValueType, DataType, Params, TreeData>,
+  props: TableTreeModalProps<ValueType, DataType, Params, TreeData>,
 ) => {
   const {
     title = '选择数据',
@@ -97,11 +102,9 @@ const TableTreeModal = <
     treeName = 'name',
     value = [],
     onChange,
-    request,
-    treeProps = {},
     onlySelectedLastLevel = true,
     selectType = SelectTypeEnum.Collect,
-    forbiddenCheckbox,
+    showCheckbox,
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
@@ -180,20 +183,20 @@ const TableTreeModal = <
         return Promise.resolve({});
       }
     },
-    [proTableProps.request],
+    [proTableProps?.request],
   );
 
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
-      request?.()?.then?.(({ data }) => {
+      props?.treeProps?.request?.()?.then?.(({ data }) => {
         if (onlySelectedLastLevel) {
-          setCheckAndSelect(data, forbiddenCheckbox);
+          setCheckAndSelect(data, showCheckbox);
         }
         setTreeData(data);
       });
     }
-  }, [open, value, onlySelectedLastLevel]);
+  }, [open, value, onlySelectedLastLevel, props?.treeProps?.request]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -269,7 +272,8 @@ const TableTreeModal = <
                     checkedKeys: selectedTags?.map?.((item) => item[valueId]),
                   }
                 : {})}
-              {...treeProps}
+              checkStrictly
+              {...props?.treeProps}
             />
           </Col>
           <Col className={styles.treeCol} flex="1">

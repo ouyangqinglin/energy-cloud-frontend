@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-05-29 19:55:17
+ * @LastEditTime: 2023-06-08 15:08:20
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\equipmentItem.ts
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */
 import type { DetailItem } from '@/components/Detail';
 import {
@@ -65,9 +65,9 @@ export const settingItems: DetailItem[] = [
     field: 'AtTheBeginningOfThePeriodOne',
     format: (_, data) =>
       data.AtTheBeginningOfThePeriodOne
-        ? `${data.AtTheBeginningOfThePeriodOne}:${data.StartingPointOfTimePeriodOne || ''}~${
-            data.AtTheEndOfThePeriodOne || ''
-          }:${data.PeriodEndMinuteOne || ''}`
+        ? `${data.AtTheBeginningOfThePeriodOne}:${data.StartingPointOfTimePeriodOne ?? ''}~${
+            data.AtTheEndOfThePeriodOne ?? ''
+          }:${data.PeriodEndMinuteOne ?? ''}`
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerOne', format: powerFormat },
@@ -76,9 +76,9 @@ export const settingItems: DetailItem[] = [
     field: 'AtTheBeginningOfThePeriodTwo',
     format: (_, data) =>
       data.AtTheBeginningOfThePeriodTwo
-        ? `${data.AtTheBeginningOfThePeriodTwo}:${data.StartingPointOfTimePeriodTwo || ''}~${
-            data.AtTheEndOfThePeriodTwo || ''
-          }:${data.PeriodEndMinuteTwo || ''}`
+        ? `${data.AtTheBeginningOfThePeriodTwo}:${data.StartingPointOfTimePeriodTwo ?? ''}~${
+            data.AtTheEndOfThePeriodTwo ?? ''
+          }:${data.PeriodEndMinuteTwo ?? ''}`
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerTwo', format: powerFormat, span: 2 },
@@ -87,9 +87,9 @@ export const settingItems: DetailItem[] = [
     field: 'AtTheBeginningOfThePeriodThree',
     format: (_, data) =>
       data.AtTheBeginningOfThePeriodThree
-        ? `${data.AtTheBeginningOfThePeriodThree}:${data.StartingPointOfTimePeriodThree || ''}~${
-            data.AtTheEndOfThePeriodThree || ''
-          }:${data.PeriodEndMinuteThree || ''}`
+        ? `${data.AtTheBeginningOfThePeriodThree}:${data.StartingPointOfTimePeriodThree ?? ''}~${
+            data.AtTheEndOfThePeriodThree ?? ''
+          }:${data.PeriodEndMinuteThree ?? ''}`
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerThree', format: powerFormat },
@@ -98,9 +98,9 @@ export const settingItems: DetailItem[] = [
     field: 'AtTheBeginningOfThePeriodFour',
     format: (_, data) =>
       data.AtTheBeginningOfThePeriodFour
-        ? `${data.AtTheBeginningOfThePeriodFour}:${data.StartingPointOfTimePeriodFour || ''}~${
-            data.AtTheEndOfThePeriodFour || ''
-          }:${data.PeriodEndMinuteFour || ''}`
+        ? `${data.AtTheBeginningOfThePeriodFour}:${data.StartingPointOfTimePeriodFour ?? ''}~${
+            data.AtTheEndOfThePeriodFour ?? ''
+          }:${data.PeriodEndMinuteFour ?? ''}`
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerFour', format: powerFormat, span: 2 },
@@ -109,9 +109,9 @@ export const settingItems: DetailItem[] = [
     field: 'AtTheBeginningOfThePeriodFive',
     format: (_, data) =>
       data.AtTheBeginningOfThePeriodFive
-        ? `${data.AtTheBeginningOfThePeriodFive}:${data.StartingPointOfTimePeriodFive || ''}~${
-            data.AtTheEndOfThePeriodFive || ''
-          }:${data.PeriodEndMinuteFive || ''}`
+        ? `${data.AtTheBeginningOfThePeriodFive}:${data.StartingPointOfTimePeriodFive ?? ''}~${
+            data.AtTheEndOfThePeriodFive ?? ''
+          }:${data.PeriodEndMinuteFive ?? ''}`
         : '',
   },
   { label: '执行功率', field: 'PCSPeriodPowerFive', format: powerFormat },

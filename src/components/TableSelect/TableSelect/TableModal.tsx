@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-06-06 09:50:39
+ * @LastEditTime: 2023-06-08 09:25:36
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableModal.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
 import React, { useCallback, useState, useEffect } from 'react';
 import { Modal, Tag } from 'antd';
@@ -13,7 +13,7 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
 import type { ProTableProps } from '@ant-design/pro-table';
 import { defaultsDeep } from 'lodash';
-import styles from './index.less';
+import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 
 export type TableModalProps<V, T, U> = {
