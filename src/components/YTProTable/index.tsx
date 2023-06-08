@@ -5,6 +5,8 @@ import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
 import { normalizeRequestOption, standardRequestTableData } from './helper';
+import styles from './index.less';
+import classnames from 'classnames';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -52,6 +54,7 @@ const YTProTable = <
       request={standardRequest}
       rowKey="id"
       {...restProps}
+      className={styles.ytTable}
     />
   );
 };

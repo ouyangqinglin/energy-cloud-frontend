@@ -1,12 +1,8 @@
-import { saveCustomerInfo } from '../service';
 import YTModalForm from '@/components/YTModalForm';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import useSafeTimeRangeColum from './SafeTimeRange';
-import { columns, columnsReadonly } from './config';
-import type { MarketElectricityPriceInfo } from './type';
-import { getMarketPrice } from './service';
 import dayjs from 'dayjs';
-import { unset } from 'lodash';
+import useSafeTimeRangeColum from './SafeTimeRange';
+import type { BasePriceInfo, FormUpdateProps } from './type';
 
 const DEFAULT_PROPS = {
   layout: 'vertical' as 'vertical',
@@ -14,16 +10,26 @@ const DEFAULT_PROPS = {
   wrapperCol: { flex: 'auto' },
 };
 
-export const UpdateModal = (props: {
-  visible: boolean;
-  onVisibleChange: (state: boolean) => void;
-  operations: FormOperations;
-  initialValues?: any;
-}) => {
+export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string, any>>(
+  props: FormUpdateProps<FormData, Param>,
+) => {
+  const {
+    operations,
+    titleCreate,
+    titleUpdate,
+    onFinishUpdate,
+    onFinishCreate,
+    columns,
+    request,
+    ...resetProps
+  } = props;
+  const isCreate = operations === FormOperations.CREATE;
+  const title = isCreate ? titleCreate : titleUpdate;
+
   const { resetTimeStore, colum: timeColum } = useSafeTimeRangeColum();
-  const convertTimeData = (data: MarketElectricityPriceInfo) => {
+  const convertTimeData = (data: FormData) => {
     if (!data) {
-      return {} as MarketElectricityPriceInfo;
+      return {} as FormData;
     }
     const effectiveTimeList =
       data?.effectiveTimeList?.map((it) => {
@@ -39,39 +45,34 @@ export const UpdateModal = (props: {
         timeRange: [dayjs(time.intervalStartTime, 'HH:mm'), dayjs(time.intervalEndTime, 'HH:mm')],
       };
     });
-    console.log({ ...data, effectiveTimeList, hoursPriceList });
 
     return { ...data, effectiveTimeList, hoursPriceList };
   };
-
-  const isRead = FormOperations.READ === props.operations;
-  if (isRead) {
-    unset(DEFAULT_PROPS, 'layout');
-  }
+  const onFinish = isCreate ? onFinishCreate : onFinishUpdate;
 
   return (
-    <YTModalForm<MarketElectricityPriceInfo>
-      title={'新增市电电价规则'}
+    <YTModalForm<FormData>
+      title={title}
       {...DEFAULT_PROPS}
       colProps={{
         span: 24,
       }}
       layoutType={'ModalForm'}
-      columns={isRead ? columnsReadonly : columns(timeColum)}
+      columns={columns(timeColum)}
       onSubmitCapture={() => {
         resetTimeStore();
       }}
-      onFinish={async (values) => {
-        console.log(values);
-        await saveCustomerInfo(values);
+      operations={operations}
+      onFinish={async (params) => {
+        await onFinish(params, {});
         return true;
       }}
       request={(param) => {
-        return getMarketPrice(param).then((res) => {
-          return convertTimeData(res.data);
+        return request(param, {}).then((res) => {
+          return convertTimeData(res?.data);
         });
       }}
-      {...props}
+      {...resetProps}
     />
   );
 };

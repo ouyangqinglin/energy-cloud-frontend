@@ -1,4 +1,4 @@
-import { ProFormColumnsType } from '@ant-design/pro-form';
+import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { TimePicker } from 'antd';
 import { useState } from 'react';
 import { isWholeDay, timeStore } from './helper';

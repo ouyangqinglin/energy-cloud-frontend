@@ -1,4 +1,12 @@
-import type { EffectiveTimeList } from '../type';
+import type { FormOperations } from '@/components/YTModalForm/typing';
+import type { EffectiveTimeList, HoursPriceList } from '../type';
+
+export type FormModalProps = {
+  visible: boolean;
+  onVisibleChange: (state: boolean) => void;
+  operations: FormOperations;
+  initialValues?: any;
+};
 
 export interface MarketElectricityPriceParams {
   id: number;
@@ -35,12 +43,4 @@ export interface MarketElectricityPriceInfo {
   hoursPriceList: HoursPriceList[];
   valleyPrice: string;
   operator: string;
-}
-
-export interface HoursPriceList {
-  intervalStartTime: string;
-  intervalEndTime: string;
-  id?: number;
-  type?: number;
-  mainsId?: number;
 }

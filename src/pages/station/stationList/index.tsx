@@ -56,6 +56,7 @@ const StationList: React.FC = () => {
     //   },
     // } as any);
     history.push({
+      // pathname: `/station-manage/setting`,
       pathname: `/station-manage/operation-monitor`,
       search: `?id=${record.id}`,
     });

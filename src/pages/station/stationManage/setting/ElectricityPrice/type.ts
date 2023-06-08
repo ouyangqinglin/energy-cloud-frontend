@@ -1,14 +1,15 @@
-export type MarketElectricityPriceList = MarketElectricityPriceListItem[];
+import type { FormOperations } from '@/components/YTModalForm/typing';
 
-// export type MarketElectricityPriceListItem = {
-//   ruleName: string;
-//   effectiveTime: string;
-//   updateTime: string;
-//   operator: string;
-//   status: string;
-// };
+export type FormModalProps = {
+  visible: boolean;
+  onVisibleChange: (state: boolean) => void;
+  operations: FormOperations;
+  initialValues?: any;
+};
 
-export interface MarketElectricityPriceListItem {
+export type ElectricityPriceList = ElectricityPriceListItem[];
+
+export interface ElectricityPriceListItem {
   id: number;
   name: string;
   effectiveTime?: string;
@@ -24,6 +25,39 @@ export interface EffectiveTimeList {
   id?: number;
   effectiveTime: string;
   expirationTime: string;
+  // 市电电价才有的字段
+  mainsId?: number;
+  // 光伏电价才有的字段
   internetId?: number;
-  mainsId?: number; // 市电电价才有的字段
+  // c充电电价才有
+  chargeId: number;
+
+  // front
+  effectiveDateScoped?: [string, string];
+}
+
+export interface HoursPriceList {
+  intervalStartTime: string;
+  intervalEndTime: string;
+  id?: number;
+  type?: PriceType;
+  // 市电
+  mainsId?: number;
+  // 光伏
+  internetId?: number;
+  electricityFees?: number;
+  // 充电
+  chargeId: number;
+  serviceFees: string;
+
+  // font
+  timeRange: [string, string];
+}
+
+// 尖0 /峰1 /平2 /谷3
+export const enum PriceType {
+  SHARP,
+  PEAK,
+  SHOULDER,
+  OFF_PEAK,
 }
