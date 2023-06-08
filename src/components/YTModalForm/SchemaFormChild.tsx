@@ -53,6 +53,8 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
   };
   if (readonly) {
     mergeProps.columns = recurseUnsetRules(mergeProps.columns);
+    mergeProps = omit(mergeProps, ['onFinish']);
+    mergeProps.onFinish = async () => await true;
   }
 
   // 新增操作，忽略请求数据
