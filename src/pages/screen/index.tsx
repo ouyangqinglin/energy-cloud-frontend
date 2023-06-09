@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import StationLayout from '@/layouts/StationLayout';
 import Layout, { ScaleMode } from './components/Layout';
-import Scene from './components/Scene';
+import Scene from './Scene';
 
 const Screen: FC = () => {
   return (

@@ -1,0 +1,199 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+
+  .boxHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    padding-left: 16px;
+    line-height: 32px;
+
+    .leftContent {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .icon {
+        margin-right: 12px;
+        color: #fff;
+        font-size: 18px;
+      }
+
+      .text {
+        color: #fff;
+        font-weight: 600;
+        font-size: 18px;
+        font-family: YouSheBiaoTiHei;
+        line-height: 24px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px #088bff;
+        background: linear-gradient(180deg, #fff 0%, #52c8ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .rightContent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .boxContent {
+    flex: 1;
+    background: linear-gradient(360deg, rgba(8, 139, 255, 0.05) 0%, rgba(8, 139, 255, 0) 100%);
+  }
+}
+
+.wrapperRect {
+  .rect() {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #0b5fa9;
+    content: '';
+  }
+
+  &::before {
+    .rect();
+
+    bottom: 0;
+    left: 0;
+  }
+
+  &::after {
+    .rect();
+
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.pagination {
+  :global {
+    .ant-pagination-next .ant-pagination-item-link {
+      color: #159aff;
+    }
+    .ant-pagination-prev .ant-pagination-item-link {
+      color: #159aff;
+    }
+    .ant-pagination-disabled .ant-pagination-item-link {
+      color: rgba(21, 154, 255, 0.6);
+    }
+    .ant-pagination-item-active {
+      background: rgba(21, 154, 255, 0.51) !important;
+      border-color: #159aff !important;
+      a {
+        color: #fff !important;
+      }
+    }
+    .ant-pagination-item {
+      margin: 0 3px;
+      background: rgba(21, 154, 255, 0.1);
+      border: 1px solid #0d437f;
+      a {
+        color: #7ec2ff;
+      }
+    }
+  }
+}
+
+.datePicker {
+  :global {
+    .ant-picker {
+      color: white;
+      background: linear-gradient(
+        90deg,
+        rgba(21, 154, 255, 0.2) 0%,
+        rgba(21, 154, 255, 0) 53%,
+        rgba(21, 154, 255, 0.2) 100%
+      );
+      border: 1px solid rgba(21, 154, 255, 0.4);
+      border-radius: 4px;
+      .ant-picker {
+        .ant-picker-input {
+          input {
+            color: white;
+          }
+        }
+        .ant-picker-range-separator {
+          .ant-picker-separator {
+            color: white;
+          }
+        }
+        .ant-picker-suffix {
+          color: white;
+        }
+      }
+      .ant-picker-input {
+        input {
+          color: white;
+        }
+      }
+      .ant-picker-range-separator .ant-picker-separator,
+      .ant-picker-input input,
+      .ant-picker-suffix,
+      .ant-picker-clear {
+        color: white;
+      }
+      .ant-picker-clear {
+        background: none;
+      }
+    }
+    .ant-picker-panel-container {
+      background: #04253e;
+      .ant-picker-header button {
+        color: #165dff;
+        &:hover {
+          color: #159aff;
+        }
+      }
+
+      .ant-picker-cell {
+        color: rgba(255, 255, 255, 0.25);
+      }
+
+      .ant-picker-cell-in-view,
+      .ant-picker-content th,
+      .ant-picker-header-view button {
+        color: white;
+      }
+
+      .ant-picker-cell-in-view {
+        &:hover {
+          color: #159aff;
+        }
+      }
+      // .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+      // .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(
+      //     .ant-picker-cell-range-end
+      //   ):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
+      //   .ant-picker-cell-inner {
+      //   background: rgba(21, 154, 255, 0.1);
+      // }
+      .ant-picker-cell-inner-selected .ant-picker-cell-inner-inner,
+      .ant-picker-cell-inner-inner:hover {
+        color: #159aff;
+        background: rgba(21, 154, 255, 0.1);
+      }
+      .ant-picker-cell-disabled {
+        background: rgba(21, 154, 255, 0.1);
+      }
+      .ant-picker-header {
+        color: white;
+      }
+      .ant-picker-header,
+      .ant-picker-footer,
+      .ant-picker-time-panel,
+      .ant-picker-time-panel-column,
+      .ant-picker-panel {
+        border-color: rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+}
