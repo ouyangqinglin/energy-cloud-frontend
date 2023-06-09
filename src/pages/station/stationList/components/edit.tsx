@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-06-07 16:06:48
+ * @LastEditTime: 2023-06-08 16:57:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -147,9 +147,6 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             <ProFormDigit label="变压器容量" name="transformerCapacity" addonAfter="KVA" />
           </Col>
           <Col span={8}>
-            <ProFormDigit label="储能总容量" name="energyStorageCapacity" addonAfter="kWh" />
-          </Col>
-          <Col span={8}>
             <ProFormDigit
               label="光伏装机量"
               name="photovoltaicInstalledCapacity"
@@ -158,6 +155,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           </Col>
           <Col span={8}>
             <ProFormDigit label="充电桩装机量" name="chargingStationCapacity" addonAfter="KW" />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit label="储能总容量" name="energyStorageCapacity" addonAfter="kWh" />
           </Col>
           <Col span={8}>
             <ProFormDigit label="储能额定功率" name="energyStoragePower" addonAfter="KW" />

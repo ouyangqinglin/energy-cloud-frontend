@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-05-25 19:29:22
+ * @LastEditTime: 2023-06-08 20:05:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -26,15 +26,16 @@ export type EquipInfoProps = {
   equipmentImg?: string;
   productImg?: string;
   setLoading?: (loading: boolean) => void;
+  onChange?: (value: Record<string, any>) => void;
 };
 
 const EquipInfo: React.FC<EquipInfoProps> = (props) => {
-  const { id, model, buttons, equipmentImg, productImg, setLoading } = props;
+  const { id, model, buttons, equipmentImg, productImg, setLoading, onChange } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const {
     loading,
-    data = {},
+    data: equipData = {},
     run,
   } = useRequest(getEquipInfo, {
     manual: true,
@@ -42,10 +43,14 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
 
   useEffect(() => {
     setLoading?.(true);
-    run({ deviceId: id }).finally(() => {
-      setLoading?.(false);
-    });
-  }, [id]);
+    run({ deviceId: id })
+      .then((data) => {
+        onChange?.(data);
+      })
+      .finally(() => {
+        setLoading?.(false);
+      });
+  }, [id, onChange]);
 
   const onCancel = () => {
     setOpenDialog(false);
@@ -77,8 +82,8 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
     { label: '所属站点', field: 'siteName' },
     { label: '录入人', field: 'updateUserName' },
     { label: '在线时长', field: 'onlineTime' },
-    { label: '最近上线时间', field: 'sessionStartTime', show: data?.status !== 0 },
-    { label: '最近离线时间', field: 'offlineTime', show: data?.status === 0 },
+    { label: '最近上线时间', field: 'sessionStartTime', show: equipData?.status !== 0 },
+    { label: '最近离线时间', field: 'offlineTime', show: equipData?.status === 0 },
   ];
 
   return (
@@ -91,7 +96,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
             ) : (
               <div
                 className="dialog-product-logo"
-                style={{ backgroundImage: `url(${data?.url || equipmentImg})` }}
+                style={{ backgroundImage: `url(${equipData?.url || equipmentImg})` }}
               />
             )}
           </div>
@@ -110,7 +115,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
             </>
           ) : (
             <>
-              <Detail items={equipInfoItems} data={data} />
+              <Detail items={equipInfoItems} data={equipData} />
               <div className="flex">
                 <div className="flex1">
                   {productImg && (

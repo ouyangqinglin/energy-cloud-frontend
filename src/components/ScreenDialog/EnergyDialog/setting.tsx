@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-06-07 17:52:40
+ * @LastEditTime: 2023-06-08 15:17:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -345,6 +345,9 @@ const Setting: React.FC<SettingProps> = (props) => {
               moment(`2023-06-07 ${settingData?.[item[2]]}:${settingData?.[item[3]]}`),
             ]
           : [];
+      });
+      powerMap.forEach((item, key) => {
+        runData[key] = settingData?.[item];
       });
       runForm.setFieldsValue({
         handOpePcsPower: settingData?.handOpePcsPower ?? '',

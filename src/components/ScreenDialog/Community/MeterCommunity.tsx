@@ -2,27 +2,77 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:17:19
- * @LastEditTime: 2023-06-02 10:38:08
+ * @LastEditTime: 2023-06-08 15:12:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity.tsx
  */
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { message } from 'antd';
-import { BetaSchemaForm } from '@ant-design/pro-components';
+import type { ProColumns } from '@ant-design/pro-table';
+import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import { MeterCommunityType } from './data.d';
+import type { MeterCommunityType, TreeDataType } from './data.d';
 import { EquipFormType } from '@/components/EquipForm/data.d';
-import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
+import {
+  getEquipInfo,
+  editEquipConfig,
+  getThirdStation,
+  getDeviceTree,
+  getDeviceCollection,
+} from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './index';
+import {
+  tableTreeSelectValueTypeMap,
+  SelectTypeEnum,
+  TABLETREESELECT,
+  TABLETREESELECTVALUETYPE,
+} from '@/components/TableSelect';
+import type { TableTreeModalProps, showCheckboxType } from '@/components/TableSelect';
+import { omit } from 'lodash';
+
+type DeviceDataType = {
+  id: string;
+  deviceName: string;
+};
 
 const MeterCommunity: React.FC<CommunityProps> = (props) => {
-  const { id, open, onOpenChange, model } = props;
+  const { id, siteId, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
   const modalProps = getModalProps(model);
+
+  const onFinish = useCallback(
+    (formData: MeterCommunityType<DeviceDataType[]>) => {
+      const formParams = omit(formData, ['associateDevices']);
+      formParams.associateIds = formData?.associateDevices?.map?.((item) => item.id).join(',');
+      return editEquipConfig({
+        deviceId: id,
+        name: equipData?.name,
+        productId: equipData?.productId,
+        paramConfigType: 2,
+        config: JSON.stringify(formParams),
+      }).then(({ data }) => {
+        if (data) {
+          message.success('保存成功');
+          return true;
+        }
+      });
+    },
+    [id, equipData],
+  );
+
+  const requestTree = useCallback(() => {
+    if (siteId) {
+      return getDeviceTree({ siteId });
+    }
+  }, [siteId]);
+
+  const showCheckbox = useCallback<showCheckboxType<TreeDataType>>((item) => {
+    return !item.selectFlag;
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -35,41 +85,75 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
         } catch (e) {
           config = {};
         }
+        config.associateDevices = data?.bindList?.map((item: any) => {
+          return {
+            ...item,
+            id: item.deviceId,
+          };
+        });
         formRef?.current?.setFieldsValue?.(config);
       });
     }
   }, [open]);
 
-  const onFinish = useCallback(
-    (formData) => {
-      return editEquipConfig({
-        deviceId: id,
-        productId: equipData?.productId,
-        paramConfigType: 2,
-        config: JSON.stringify(formData),
-      }).then(({ data }) => {
-        if (data) {
-          message.success('保存成功');
-          return true;
-        }
-      });
+  const tableSelectColumns: ProColumns[] = [
+    {
+      title: '采集点ID',
+      dataIndex: 'paramCode',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
     },
-    [id, equipData],
-  );
+    {
+      title: '采集点',
+      dataIndex: 'paramName',
+      width: 200,
+      ellipsis: true,
+    },
+  ];
 
-  const columns: ProFormColumnsType<MeterCommunityType>[] = [
+  const tableTreeSelectProps: TableTreeModalProps<
+    Record<string, any>,
+    Record<string, any>,
+    Record<string, any>,
+    TreeDataType
+  > = {
+    selectType: SelectTypeEnum.Device,
+    title: '选择设备',
+    treeProps: {
+      defaultExpandAll: true,
+      fieldNames: {
+        title: 'deviceName',
+        key: 'id',
+        children: 'children',
+      },
+      request: requestTree,
+    },
+    proTableProps: {
+      columns: tableSelectColumns,
+      request: getDeviceCollection,
+    },
+    valueId: 'id',
+    valueName: 'deviceName',
+    showCheckbox: showCheckbox,
+  };
+
+  const columns: ProFormColumnsType<
+    MeterCommunityType<DeviceDataType[]>,
+    TABLETREESELECTVALUETYPE
+  >[] = [
     {
       title: 'mqtt用户名',
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: 'mqtt用户名必填' }],
       },
     },
     {
       title: 'mqtt密码',
       dataIndex: 'password',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: 'mqtt密码必填' }],
       },
     },
     {
@@ -77,7 +161,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
       dataIndex: 'currentRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: '电流变比必填' }],
       },
     },
     {
@@ -85,7 +169,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
       dataIndex: 'voltageRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: '电压变比必填' }],
       },
     },
     {
@@ -93,7 +177,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
       dataIndex: 'energyRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: '电能变比必填' }],
       },
     },
     {
@@ -101,28 +185,46 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
       dataIndex: 'powerRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '必填' }],
+        rules: [{ required: true, message: '功率变比必填' }],
+      },
+    },
+    {
+      title: '关联设备',
+      dataIndex: 'associateDevices',
+      valueType: TABLETREESELECT,
+      formItemProps: {
+        rules: [{ required: true, message: '关联设备必选' }],
+      },
+      fieldProps: tableTreeSelectProps,
+      colProps: {
+        span: 24,
       },
     },
   ];
 
   return (
     <>
-      <BetaSchemaForm<MeterCommunityType>
-        formRef={formRef}
-        layoutType="ModalForm"
-        title="设置通信信息"
-        width="460px"
-        visible={open}
-        onVisibleChange={onOpenChange}
-        columns={columns}
-        onFinish={onFinish}
-        modalProps={{
-          centered: true,
-          destroyOnClose: true,
-          ...modalProps,
-        }}
-      />
+      <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
+        <BetaSchemaForm
+          formRef={formRef}
+          layoutType="ModalForm"
+          title="设置通信信息"
+          width="600px"
+          visible={open}
+          onVisibleChange={onOpenChange}
+          columns={columns}
+          onFinish={onFinish}
+          modalProps={{
+            centered: true,
+            destroyOnClose: true,
+            ...modalProps,
+          }}
+          grid={true}
+          colProps={{
+            span: 12,
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

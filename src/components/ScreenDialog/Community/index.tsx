@@ -18,6 +18,7 @@ import { getModalProps } from '@/components/Dialog';
 
 export type CommunityProps = {
   id: string;
+  siteId?: string;
   model?: string;
   open: boolean;
   onOpenChange: (value: boolean) => void;
