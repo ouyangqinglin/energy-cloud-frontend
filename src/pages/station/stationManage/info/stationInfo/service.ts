@@ -8,3 +8,25 @@ export const setComplete = (id: string) => {
     },
   });
 };
+
+export const getDefaultPage = (id: string) => {
+  return request(`/oss/siteHomeConfig`, {
+    method: 'GET',
+    params: {
+      siteId: id,
+    },
+  });
+};
+
+export const editDefaultPage = (data: string) => {
+  return request(`/oss/siteHomeConfig`, {
+    method: 'POST',
+    data,
+  });
+};
+
+export const getCustomPage = () => {
+  return request(`/oss/siteHomeConfig/customPage/list`, {
+    method: 'GET',
+  });
+};

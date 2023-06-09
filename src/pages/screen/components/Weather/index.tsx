@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-06-08 19:56:55
+ * @LastEditTime: 2023-06-09 09:11:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
 
 import React, { useEffect, useState } from 'react';
-import { Spin } from 'antd';
+import { Spin, Space } from 'antd';
 import { useRequest } from 'umi';
 import { weekInfo } from '@/utils/dictionary';
 import weatherMap, { iconUnknow } from '@/utils/weather';
@@ -55,8 +55,11 @@ const Weather: React.FC<WeatherProps> = (props) => {
         <Spin />
       ) : (
         <>
-          <img className={styles.img} src={weatherMap.get(data?.weather) || iconUnknow} />
-          <span className={styles.name}>{data?.weather}</span>
+          <Space align="center">
+            <span className={styles.name}>{data?.weather}</span>
+            <img className={styles.img} src={weatherMap.get(data?.weather) || iconUnknow} />
+            <span>18℃ -26℃ </span>
+          </Space>
         </>
       )}
       <span>{`${date.date} ${date.week}`}</span>

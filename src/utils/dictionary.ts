@@ -141,3 +141,8 @@ export const alarmSourceStatus = {
     text: '设备告警',
   },
 };
+
+export const pageType = {
+  0: '标准首页',
+  1: '定制页',
+};
