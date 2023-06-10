@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-06-02 15:45:54
+ * @LastEditTime: 2023-06-09 14:32:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -72,7 +72,7 @@ const StationList: React.FC<StationListProps> = (props) => {
       if (Array.isArray(tabData)) {
         const items = (tabData || []).map((item) => {
           return {
-            id: item.id,
+            id: item.id ?? '',
             label: item.name,
             value: item.count,
           };

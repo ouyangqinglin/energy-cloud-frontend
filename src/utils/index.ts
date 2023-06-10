@@ -68,3 +68,7 @@ export const getAreaCodeByAdCode = (code: string): string[] => {
     return ['', '', ''];
   }
 };
+
+export const getPlaceholder = (value: any, placeholder = '--') => {
+  return value ?? placeholder;
+};

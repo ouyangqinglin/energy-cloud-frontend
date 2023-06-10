@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-06-05 13:46:15
+ * @LastEditTime: 2023-06-10 15:37:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
@@ -24,6 +24,10 @@ import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
 import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
 import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
 import Position from '@/components/ScreenDialog/Position';
+import Time from '../screen/components/Time';
+import EnergyData from '../screen/Scene/EnergyData';
+import RealTimePower from '../screen/Scene/RealTimePower';
+import RevenueProportion from '../screen/Scene/RevenueProportion';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -112,116 +116,130 @@ const YtStation: React.FC = (props) => {
   };
 
   return (
-    <div>
+    <div className="p16" style={{ height: '100%', background: '#04091c', overflow: 'auto' }}>
       永泰示范站
-      <Button onClick={showModal}>储能</Button>
-      <Button onClick={switchEnergyModal}>储能1</Button>
-      <Button className="ml12" onClick={switchPvModal}>
-        光伏逆变器
-      </Button>
-      <Button className="ml12" onClick={switchPv2Modal}>
-        光伏逆变器2
-      </Button>
-      <Button className="ml12" onClick={switchHwChargeModal}>
-        华为充电桩
-      </Button>
-      <Button className="ml12" onClick={switchHwChargeChildModal}>
-        华为充电桩华为分体
-      </Button>
-      <Button className="ml12" onClick={switchHwChargeYtModal}>
-        华为充电桩永泰分体
-      </Button>
-      <Button className="ml12" onClick={switchYtChargeModal}>
-        永泰充电桩
-      </Button>
-      <Button className="ml12" onClick={switchGatewayModal}>
-        网关
-      </Button>
-      <Button className="ml12" onClick={switchElectricModal}>
-        智慧用电终端
-      </Button>
-      <Button className="ml12" onClick={switchElectricMeterModal}>
-        电表
-      </Button>
-      <Button className="ml12" onClick={switchCabinetModal}>
-        换电柜
-      </Button>
-      <Button className="ml12" onClick={switchPvInverterCabinet}>
-        光伏并网柜
-      </Button>
-      <Button className="ml12" onClick={switchEnergyCabinet}>
-        储能并网柜
-      </Button>
-      <Button className="ml12" onClick={switchBoxSubstation}>
-        箱式变电站
-      </Button>
-      <Button className="ml12" onClick={switchPosition}>
-        站点位置
-      </Button>
-      <EnergyDialog id={'10273'} open={isOpen} onCancel={closeModal} model="screen" />
-      <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
-      <PvInverter id={'10016'} open={pvOpen} onCancel={switchPvModal} model="screen" loopNum={12} />
-      <PvInverter
-        id={chargeId}
-        open={pvOpen2}
-        onCancel={switchPv2Modal}
-        model="screen"
-        loopNum={4}
-      />
-      <HwCharge id={chargeId} open={hwChargeOpen} onCancel={switchHwChargeModal} model="screen" />
-      <HwChargeChild
-        id={chargeId}
-        open={hwChargeChildOpen}
-        onCancel={switchHwChargeChildModal}
-        model="screen"
-      />
-      <HwChargeYt
-        id={chargeId}
-        open={hwChargeYtOpen}
-        onCancel={switchHwChargeYtModal}
-        model="screen"
-      />
-      <YtCharge id={'10013'} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
-      <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
-      <ElectricTerminal
-        id={chargeId}
-        open={electricOpen}
-        onCancel={switchElectricModal}
-        model="screen"
-      />
-      <ElectricMeter
-        id={'10027'}
-        open={electricMeterOpen}
-        onCancel={switchElectricMeterModal}
-        model="screen"
-      />
-      <Cabinet id={'10067'} open={cabinet} onCancel={switchCabinetModal} model="screen" />
-      <PvInverterCabinet
-        id={'10027'}
-        open={pvInverterCabinet}
-        onCancel={switchPvInverterCabinet}
-        model="screen"
-      />
-      <EnergyCabinet
-        id={chargeId}
-        open={energyCabinet}
-        onCancel={switchEnergyCabinet}
-        model="screen"
-      />
-      <Position
-        id=""
-        open={positionOpen}
-        point={{ lng: 114.067836, lat: 22.681899 }}
-        onCancel={switchPosition}
-        model="screen"
-      />
-      <BoxSubstation
-        id={chargeId}
-        open={boxSubstation}
-        onCancel={switchBoxSubstation}
-        model="screen"
-      />
+      <div>
+        <Button onClick={showModal}>储能</Button>
+        <Button onClick={switchEnergyModal}>储能1</Button>
+        <Button className="ml12" onClick={switchPvModal}>
+          光伏逆变器
+        </Button>
+        <Button className="ml12" onClick={switchPv2Modal}>
+          光伏逆变器2
+        </Button>
+        <Button className="ml12" onClick={switchHwChargeModal}>
+          华为充电桩
+        </Button>
+        <Button className="ml12" onClick={switchHwChargeChildModal}>
+          华为充电桩华为分体
+        </Button>
+        <Button className="ml12" onClick={switchHwChargeYtModal}>
+          华为充电桩永泰分体
+        </Button>
+        <Button className="ml12" onClick={switchYtChargeModal}>
+          永泰充电桩
+        </Button>
+        <Button className="ml12" onClick={switchGatewayModal}>
+          网关
+        </Button>
+        <Button className="ml12" onClick={switchElectricModal}>
+          智慧用电终端
+        </Button>
+        <Button className="ml12" onClick={switchElectricMeterModal}>
+          电表
+        </Button>
+        <Button className="ml12" onClick={switchCabinetModal}>
+          换电柜
+        </Button>
+        <Button className="ml12" onClick={switchPvInverterCabinet}>
+          光伏并网柜
+        </Button>
+        <Button className="ml12" onClick={switchEnergyCabinet}>
+          储能并网柜
+        </Button>
+        <Button className="ml12" onClick={switchBoxSubstation}>
+          箱式变电站
+        </Button>
+        <Button className="ml12" onClick={switchPosition}>
+          站点位置
+        </Button>
+        <EnergyDialog id={'10273'} open={isOpen} onCancel={closeModal} model="screen" />
+        <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
+        <PvInverter
+          id={'10016'}
+          open={pvOpen}
+          onCancel={switchPvModal}
+          model="screen"
+          loopNum={12}
+        />
+        <PvInverter
+          id={chargeId}
+          open={pvOpen2}
+          onCancel={switchPv2Modal}
+          model="screen"
+          loopNum={4}
+        />
+        <HwCharge id={chargeId} open={hwChargeOpen} onCancel={switchHwChargeModal} model="screen" />
+        <HwChargeChild
+          id={chargeId}
+          open={hwChargeChildOpen}
+          onCancel={switchHwChargeChildModal}
+          model="screen"
+        />
+        <HwChargeYt
+          id={chargeId}
+          open={hwChargeYtOpen}
+          onCancel={switchHwChargeYtModal}
+          model="screen"
+        />
+        <YtCharge id={'10013'} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
+        <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
+        <ElectricTerminal
+          id={chargeId}
+          open={electricOpen}
+          onCancel={switchElectricModal}
+          model="screen"
+        />
+        <ElectricMeter
+          id={'10027'}
+          open={electricMeterOpen}
+          onCancel={switchElectricMeterModal}
+          model="screen"
+        />
+        <Cabinet id={'10067'} open={cabinet} onCancel={switchCabinetModal} model="screen" />
+        <PvInverterCabinet
+          id={'10027'}
+          open={pvInverterCabinet}
+          onCancel={switchPvInverterCabinet}
+          model="screen"
+        />
+        <EnergyCabinet
+          id={chargeId}
+          open={energyCabinet}
+          onCancel={switchEnergyCabinet}
+          model="screen"
+        />
+        <Position
+          id=""
+          open={positionOpen}
+          point={{ lng: 114.067836, lat: 22.681899 }}
+          onCancel={switchPosition}
+          model="screen"
+        />
+        <BoxSubstation
+          id={chargeId}
+          open={boxSubstation}
+          onCancel={switchBoxSubstation}
+          model="screen"
+        />
+      </div>
       <Weather id={'1'} />
+      <Time />
+      <EnergyData timeType={0} />
+      <div style={{ width: '400px' }}>
+        <RealTimePower />
+        <RevenueProportion timeType={0} />
+      </div>
     </div>
   );
 };
