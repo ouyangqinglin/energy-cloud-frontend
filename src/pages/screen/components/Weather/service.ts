@@ -9,7 +9,7 @@
 
 import request from '@/utils/request';
 
-export const getWeather = (id: string) => {
+export const getWeather = (id: any) => {
   return request(`/system/site/weather`, {
     method: 'GET',
     params: {

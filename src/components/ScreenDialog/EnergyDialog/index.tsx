@@ -125,7 +125,7 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
         open={openCommunity}
         onOpenChange={setOpenCommunity}
         id={id}
-        userLabel="EMS  mqtt用户名"
+        userLabel="EMS mqtt用户名"
         passwordLabel="EMS mqtt密码"
       />
     </>
