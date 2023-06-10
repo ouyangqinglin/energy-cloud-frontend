@@ -28,7 +28,7 @@ const Layout: FC<LayoutProps> = (props) => {
 
   const dashBoardStyle = {
     overflow: overflow,
-    height: 'calc(100vh - 48px)',
+    height: '100vh',
     backgroundColor: '#111111',
   };
 

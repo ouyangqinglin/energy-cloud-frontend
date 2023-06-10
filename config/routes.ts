@@ -7,24 +7,22 @@
 
 export default [
   {
-    name: 'screen',
-    icon: 'smile',
-    layout: false,
     path: '/screen',
-    KeepAlive: true,
-    component: './screen',
-    // redirect: '/screen/dataVisual',
-    // children: [
-    //   {
-    //     name: 'dataVisual',
-    //     icon: 'smile',
-    //     path: '/screen/dataVisual',
-    //     wrappers: ['@/components/KeepAlive'],
-    //     KeepAlive: true,
-    //     component: './index',
-    //     title: 'menu.dashboard.analysis',
-    //   },
-    // ],
+    name: 'screen',
+    layout: false,
+    menu: 'top',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/screen',
+        redirect: '/screen/standard',
+      },
+      {
+        name: 'standard',
+        path: '/screen/standard',
+        component: './screen/index',
+      },
+    ],
   },
   {
     path: '/station',

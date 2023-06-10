@@ -86,17 +86,15 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   });
 
   return (
-    <>
-      <div className={`px10 py20 flex ${styles.energyContain}`}>
-        <Space direction="vertical" size={26}>
-          {leftItems}
-        </Space>
-        <Image className={styles.floor} src={floor} />
-        <Space direction="vertical" size={26}>
-          {rightItems}
-        </Space>
-      </div>
-    </>
+    <div className={`px10 py20 flex ${styles.energyContain}`}>
+      <Space direction="vertical" size={26}>
+        {leftItems}
+      </Space>
+      <Image className={styles.floor} src={floor} />
+      <Space direction="vertical" size={26}>
+        {rightItems}
+      </Space>
+    </div>
   );
 };
 
