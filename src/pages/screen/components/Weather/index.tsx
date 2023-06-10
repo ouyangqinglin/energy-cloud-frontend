@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-06-09 14:30:15
+ * @LastEditTime: 2023-06-10 17:19:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
@@ -10,16 +10,13 @@
 import React, { useEffect } from 'react';
 import { Spin, Space } from 'antd';
 import { useRequest } from 'umi';
+import { getSiteId } from '../../Scene/helper';
 import weatherMap, { iconUnknow } from '@/utils/weather';
 import styles from './index.less';
 import { getWeather } from './service';
 
-export type WeatherProps = {
-  id: string;
-};
-
-const Weather: React.FC<WeatherProps> = (props) => {
-  const { id } = props;
+const Weather: React.FC = (props) => {
+  const siteId = getSiteId();
   const {
     data = {},
     loading,
@@ -29,8 +26,8 @@ const Weather: React.FC<WeatherProps> = (props) => {
   });
 
   useEffect(() => {
-    run(id);
-  }, [id]);
+    run(siteId);
+  }, [siteId]);
 
   return (
     <div className={`flex ${styles.weather}`}>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-06-10 15:37:02
+ * @LastEditTime: 2023-06-10 17:23:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
@@ -28,6 +28,7 @@ import Time from '../screen/components/Time';
 import EnergyData from '../screen/Scene/EnergyData';
 import RealTimePower from '../screen/Scene/RealTimePower';
 import RevenueProportion from '../screen/Scene/RevenueProportion';
+import moment from 'moment';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -233,11 +234,11 @@ const YtStation: React.FC = (props) => {
           model="screen"
         />
       </div>
-      <Weather id={'1'} />
+      <Weather />
       <Time />
       <EnergyData timeType={0} />
       <div style={{ width: '400px' }}>
-        <RealTimePower />
+        <RealTimePower date={moment()} />
         <RevenueProportion timeType={0} />
       </div>
     </div>
