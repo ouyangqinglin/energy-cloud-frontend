@@ -12,6 +12,7 @@ import Title from './Title';
 import QueueAnim from 'rc-queue-anim';
 import { getSiteId } from './helper';
 import { useWatchFullScreen } from '@/components/header/FullScreen';
+import StationOverview from './StationOverview';
 
 const Scene = () => {
   useWatchFullScreen();
@@ -24,7 +25,7 @@ const Scene = () => {
         </Cell>
       </QueueAnim> */}
       <Title />
-      <StationInfo />
+      <StationOverview />
       {/* <DeviceList />
       <AlarmList />
       <Benefit />

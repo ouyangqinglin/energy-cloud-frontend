@@ -4,12 +4,38 @@
   flex-flow: column;
   height: 100%;
 
+  .decoration {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    .left {
+      position: relative;
+      flex: 1;
+      height: 6px;
+      .partIcon {
+        position: absolute;
+        bottom: 2px;
+      }
+      .line {
+        position: absolute;
+        bottom: 1px;
+        width: 100%;
+        height: 2px;
+        background: #105271;
+      }
+    }
+    .dotsIcon {
+      position: relative;
+      bottom: -3px;
+    }
+  }
+
   .boxHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 32px;
-    padding-left: 16px;
     line-height: 32px;
 
     .leftContent {
@@ -17,10 +43,15 @@
       align-items: center;
       justify-content: space-between;
 
-      .icon {
-        margin-right: 12px;
-        color: #fff;
-        font-size: 18px;
+      .iconWrapper {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+        .tagIcon {
+          position: absolute;
+          top: -5px;
+          left: -13px;
+        }
       }
 
       .text {
@@ -46,7 +77,16 @@
 
   .boxContent {
     flex: 1;
+    padding: 0 16px;
     background: linear-gradient(360deg, rgba(8, 139, 255, 0.05) 0%, rgba(8, 139, 255, 0) 100%);
+    border: 1px solid;
+    border-image: linear-gradient(
+        225deg,
+        rgba(8, 139, 255, 0),
+        rgba(8, 139, 255, 0.2),
+        rgba(8, 139, 255, 0)
+      )
+      1 1;
   }
 }
 
@@ -101,6 +141,18 @@
       }
     }
   }
+}
+
+.boxContent {
+  :global {
+    .ant-carousel {
+      height: 100%;
+    }
+  }
+}
+.carousel {
+  height: 100%;
+  color: #fff;
 }
 
 .datePicker {

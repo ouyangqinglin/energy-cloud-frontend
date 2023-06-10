@@ -4,14 +4,14 @@ import Position from '@/components/ScreenDialog/Position';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { useRequest } from 'umi';
-import Decoration from '../../components/DecorationCarousel';
-import Cell from '../../components/LayoutCell';
 import { getStationInfo } from './service';
 import styles from './index.less';
 import { DEFAULT_DATA, stationInfoConfig } from './config';
 import type { SiteInfoRes } from './type';
 import { defaults, isNumber } from 'lodash';
 import React from 'react';
+import { List } from 'antd';
+import { ReactComponent as TriangleIcon } from '@/assets/image/screen/stationOverview/icon_三角形元素.svg';
 
 const StationInfo = React.forwardRef(() => {
   const { data: rawData = {} as SiteInfoRes } = useRequest(getStationInfo);
@@ -32,7 +32,9 @@ const StationInfo = React.forwardRef(() => {
   const gunInfoItem: DetailItem[] = stationInfoConfig.map((item) => {
     const LabelComponent = (
       <div className={styles.itemLeft}>
-        <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
+        <div className={styles.iconWrapper}>
+          <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
+        </div>
         <span>{item.label}</span>
       </div>
     );
@@ -58,30 +60,69 @@ const StationInfo = React.forwardRef(() => {
     };
   });
 
+  const dataSource = [
+    {
+      title: '变压器容量',
+      value: 200,
+    },
+    {
+      title: '光伏装机量',
+      value: 400,
+    },
+    {
+      title: '储能装机量',
+      value: 500,
+    },
+    {
+      title: '充电桩装机量',
+      value: 300,
+    },
+  ];
+
   return (
-    <Cell cursor="default" width={400} height={320} left={24} top={58}>
-      <Decoration title="站点信息概览">
-        <div className={styles.contentWrapper}>
-          <Detail
-            colon={false}
-            items={gunInfoItem}
-            data={data}
-            column={1}
-            labelStyle={{
-              color: '#A7B7CA',
-              height: '18px',
-              lineHeight: '18px',
-              fontSize: '14px',
-            }}
-            contentStyle={{
-              color: 'white',
-              height: '18px',
-              lineHeight: '18px',
-              fontSize: '14px',
-            }}
-          />
-        </div>
-      </Decoration>
+    <>
+      <div className={styles.contentWrapper}>
+        <Detail
+          colon={false}
+          items={gunInfoItem}
+          data={data}
+          column={1}
+          labelStyle={{
+            color: 'white',
+            height: '36px;',
+            lineHeight: '36px;',
+            fontSize: '14px',
+          }}
+          contentStyle={{
+            alignItems: 'center',
+            color: 'white',
+            height: '36px;',
+            lineHeight: '36px;',
+            fontSize: '14px',
+          }}
+        />
+        <List
+          grid={{
+            gutter: 16,
+            column: 2,
+          }}
+          dataSource={dataSource}
+          renderItem={(item) => (
+            <List.Item>
+              <div className={styles.box}>
+                <div className={styles.boxTitle}>
+                  <TriangleIcon className={styles.icon} />
+                  <h1>{item.title}</h1>
+                </div>
+                <div className={styles.boxDescription}>
+                  <span className={styles.boxValue}>{item.value}</span>
+                  <span className={styles.boxUnit}>kw</span>
+                </div>
+              </div>
+            </List.Item>
+          )}
+        />
+      </div>
       <Position
         id="1"
         open={open}
@@ -89,7 +130,7 @@ const StationInfo = React.forwardRef(() => {
         onCancel={onCancel}
         model="screen"
       />
-    </Cell>
+    </>
   );
 });
 export default StationInfo;
