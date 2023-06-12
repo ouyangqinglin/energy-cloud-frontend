@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import styles from './index.less';
@@ -21,9 +21,15 @@ export type DecorationProp = {
   title: string;
   valueType?: DecorationValueType;
   disableDecoration?: boolean;
+  panelStyle?: CSSProperties;
 };
 
-const DecorationCarousel: FC<DecorationProp> = ({ title, valueType = 'pagination', children }) => {
+const DecorationCarousel: FC<DecorationProp> = ({
+  title,
+  panelStyle,
+  valueType = 'pagination',
+  children,
+}) => {
   const carouselRef = useRef<CarouselRef>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const goToPage = (page: number) => {
@@ -111,7 +117,9 @@ const DecorationCarousel: FC<DecorationProp> = ({ title, valueType = 'pagination
         </div>
         <DotsIcon className={styles.dotsIcon} />
       </div>
-      <div className={styles.boxContent}>{Panel}</div>
+      <div className={styles.boxContent} style={panelStyle}>
+        {Panel}
+      </div>
     </div>
   );
 };

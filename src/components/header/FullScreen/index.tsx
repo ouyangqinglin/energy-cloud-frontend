@@ -38,16 +38,16 @@ export const useWatchFullScreen = () => {
 const FullScreen = () => {
   const { outlined, setOutlined } = useModel('screen');
 
-  const [_, { setFull, exitFull }] = useFullscreen(document.body);
+  const [_, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body);
 
   function markScreenOutlined() {
     setOutlined(true);
-    setFull();
+    enterFullscreen();
   }
 
   function markScreenExitOutlined() {
     setOutlined(false);
-    exitFull();
+    exitFullscreen();
   }
 
   const button = !outlined ? (
