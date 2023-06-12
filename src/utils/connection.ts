@@ -1,5 +1,6 @@
 import { getAccessToken } from '@/access';
 import { remove, uniqueId } from 'lodash';
+import { getWebSocketHost } from './location';
 
 export type receivedMessageCallback = (msg: any) => void;
 
@@ -109,7 +110,7 @@ export class Connection {
       Connection.connectedStatus = ConnectStatus.CONNECTING;
       const url = this.url;
       this.client = new WebSocket(
-        url ? `${url}/${token}` : `ws://192.168.3.18/prod-api/websocket/${token}`,
+        url ? `${url}/${token}` : `${getWebSocketHost()}/websocket/${token}`,
       );
       this.client.onerror = (e) => {
         this.initClientReady();
