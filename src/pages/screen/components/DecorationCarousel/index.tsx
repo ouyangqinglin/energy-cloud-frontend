@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { CarouselRef } from 'antd/lib/carousel';
 
-export type DecorationValueType = 'pagination' | 'timeButtonGroup' | 'datePicker';
+export type DecorationValueType = 'pagination' | 'timeButtonGroup' | 'datePicker' | undefined;
 export type DecorationProp = {
   title: string;
   valueType?: DecorationValueType;
@@ -24,12 +24,7 @@ export type DecorationProp = {
   panelStyle?: CSSProperties;
 };
 
-const DecorationCarousel: FC<DecorationProp> = ({
-  title,
-  panelStyle,
-  valueType = 'pagination',
-  children,
-}) => {
+const DecorationCarousel: FC<DecorationProp> = ({ title, panelStyle, valueType, children }) => {
   const carouselRef = useRef<CarouselRef>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const goToPage = (page: number) => {
@@ -103,9 +98,7 @@ const DecorationCarousel: FC<DecorationProp> = ({
     <div className={classnames([styles.wrapper, styles.wrapperRect])}>
       <div className={classnames(styles.boxHeader)}>
         <div className={styles.leftContent}>
-          <div className={styles.iconWrapper}>
-            <TagIcon className={styles.tagIcon} />
-          </div>
+          <div className={styles.iconWrapper}>{/* <TagIcon className={styles.tagIcon} /> */}</div>
           <span className={styles.text}>{title}</span>
         </div>
         <div className={styles.rightContent}>{Operation}</div>

@@ -1,8 +1,9 @@
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
-import { useFullscreen, useToggle } from 'ahooks';
+import { useFullscreen } from 'ahooks';
 import { throttle } from 'lodash';
 import { useEffect } from 'react';
 import { useModel } from 'umi';
+import Cell from '../../components/LayoutCell';
 import styles from './index.less';
 
 /**
@@ -37,29 +38,39 @@ export const useWatchFullScreen = () => {
 
 const FullScreen = () => {
   const { outlined, setOutlined } = useModel('screen');
-
   const [_, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body);
 
-  function markScreenOutlined() {
+  const markScreenOutlined = () => {
     setOutlined(true);
     enterFullscreen();
-  }
+  };
 
-  function markScreenExitOutlined() {
+  const markScreenExitOutlined = () => {
     setOutlined(false);
     exitFullscreen();
-  }
+  };
 
   const button = !outlined ? (
-    <FullscreenOutlined onClick={markScreenOutlined} style={{ color: '#fff', fontSize: 22 }} />
+    <div className={styles.fullscreenContent} onClick={markScreenOutlined}>
+      <div className={styles.iconWrapper}>
+        <FullscreenOutlined style={{ fontSize: 22 }} />
+      </div>
+      <span>进入全屏</span>
+    </div>
   ) : (
-    <FullscreenExitOutlined
-      onClick={markScreenExitOutlined}
-      style={{ color: '#fff', fontSize: 22 }}
-    />
+    <div className={styles.fullscreenContent} onClick={markScreenExitOutlined}>
+      <div className={styles.iconWrapper}>
+        <FullscreenExitOutlined style={{ fontSize: 22 }} />
+      </div>
+      <span>退出全屏</span>
+    </div>
   );
 
-  return <div className={styles.iconWrapper}>{button}</div>;
+  return (
+    <Cell width={104} height={32} left={1792} top={12} zIndex={9999}>
+      <div className={styles.fullscreen}>{button}</div>
+    </Cell>
+  );
 };
 
 export default FullScreen;

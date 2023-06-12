@@ -7,10 +7,9 @@ import Title from './Title';
 // import Photovoltaic from './Photovoltaic';
 // import EnergyStorage from './EnergyStorage';
 // import Weather from '../Weather';
-// import Benefit from './Benefits';
+import Benefit from './Benefits';
 import QueueAnim from 'rc-queue-anim';
 import { getSiteId } from './helper';
-import { useWatchFullScreen } from '@/components/header/FullScreen';
 import StationOverview from './StationOverview';
 import ScreenTime from './Time';
 import ScreenWeather from './Weather';
@@ -19,6 +18,8 @@ import EnergyData from './EnergyData';
 import { TimeType } from '../components/TimeButtonGroup';
 import Cell from '../components/LayoutCell';
 import RealTimePower from './RealTimePower';
+import RevenueProportion from './RevenueProportion';
+import FullScreen, { useWatchFullScreen } from './FullScreen';
 
 const Scene = () => {
   useWatchFullScreen();
@@ -41,13 +42,20 @@ const Scene = () => {
           <RealTimePower />
         </DecorationCarousel>
       </Cell>
+      <Cell cursor="default" width={400} height={317} left={1515} top={81}>
+        <DecorationCarousel title="经济占比" valueType="timeButtonGroup">
+          <RevenueProportion timeType={TimeType.DAY} />
+        </DecorationCarousel>
+      </Cell>
       <Title />
       <ScreenTime />
       <ScreenWeather />
       <StationOverview />
+      <Benefit />
+      <FullScreen />
       {/* <DeviceList />
       <AlarmList />
-      <Benefit />
+      
       <EnergyStorage />
       <ChargingStation />
       <Photovoltaic />

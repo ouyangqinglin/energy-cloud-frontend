@@ -12,16 +12,16 @@ import styles from './index.less';
 const FullScreen = () => {
   const [visible, { toggle: toggleVisible }] = useToggle(true);
   const { outlined, setOutlined } = useModel('screen');
-  const [_, { setFull, exitFull }] = useFullscreen(document.body);
+  const [_, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body);
 
   const markScreenOutlined = () => {
     setOutlined(true);
-    setFull();
+    enterFullscreen();
   };
 
   const markScreenExitOutlined = () => {
     setOutlined(false);
-    exitFull();
+    exitFullscreen();
   };
 
   const button = !outlined ? (

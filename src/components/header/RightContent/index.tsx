@@ -6,7 +6,6 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../../HeaderSearch';
 import styles from './index.less';
 import NoticeIconView from '../../NoticeIcon';
-import FullScreen from '../FullScreen';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -26,7 +25,6 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className}>
-      <FullScreen />
       <Avatar menu />
       <SelectLang className={styles.action} />
     </Space>
