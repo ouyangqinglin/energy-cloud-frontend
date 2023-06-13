@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 15:23:35
- * @LastEditTime: 2023-06-09 16:52:29
+ * @LastEditTime: 2023-06-13 14:26:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\EnergyData\index.tsx
  */
@@ -58,14 +58,15 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   const leftItems = items.left.map((item) => {
     return (
       <div className="flex" key={item.field}>
-        <Image className={styles.icon} src={item.icon} />
+        <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}</span>
+          <span>{item.label}(kWh)</span>
           <div>
-            <span className={styles.field}>{getPlaceholder(energyData?.[item.field])}</span>kWh
+            <span className={styles.field}>
+              {getPlaceholder(Math.floor(energyData?.[item.field] || 0))}
+            </span>
           </div>
         </div>
-        <Image className={`${styles.arrow} ml15`} src={arrowRight} />
       </div>
     );
   });
@@ -73,24 +74,44 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   const rightItems = items.right.map((item) => {
     return (
       <div className="flex" key={item.field}>
-        <Image className={`${styles.arrow} mr15`} src={arrowRight} />
-        <Image className={styles.icon} src={item.icon} />
+        <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}</span>
+          <span>{item.label}(kWh)</span>
           <div>
-            <span className={styles.field}>{getPlaceholder(energyData?.[item.field])}</span>kWh
+            <span className={styles.field}>
+              {getPlaceholder(Math.floor(energyData?.[item.field]) || 0)}
+            </span>
           </div>
         </div>
       </div>
     );
   });
 
+  const arrows = (
+    <>
+      <Space className={styles.arrowContain} direction="vertical" size={26}>
+        {items.left.map((item) => {
+          return (
+            <Image
+              className={`${styles.arrow}`}
+              src={arrowRight}
+              preview={false}
+              key={item.field}
+            />
+          );
+        })}
+      </Space>
+    </>
+  );
+
   return (
-    <div className={`px10 py20 flex ${styles.energyContain}`}>
+    <div className={`flex ${styles.energyContain}`}>
       <Space direction="vertical" size={26}>
         {leftItems}
       </Space>
-      <Image className={styles.floor} src={floor} />
+      {arrows}
+      <Image className={`${styles.floor} mx8`} src={floor} preview={false} />
+      {arrows}
       <Space direction="vertical" size={26}>
         {rightItems}
       </Space>

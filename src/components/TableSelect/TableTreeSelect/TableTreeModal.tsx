@@ -8,6 +8,7 @@
  */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { Modal, Tag, Tree, Row, Col } from 'antd';
+import Dialog from '@/components/Dialog';
 import type { TreeDataNode, TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
@@ -92,6 +93,7 @@ const TableTreeModal = <
   props: TableTreeModalProps<ValueType, DataType, Params, TreeData>,
 ) => {
   const {
+    model,
     title = '选择数据',
     open,
     onCancel,
@@ -270,14 +272,14 @@ const TableTreeModal = <
 
   return (
     <>
-      <Modal
+      <Dialog
+        model={model}
         title={title}
         open={open}
         width={width}
         onCancel={onCancel}
         onOk={onOk}
         destroyOnClose
-        centered
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">
@@ -311,7 +313,7 @@ const TableTreeModal = <
             />
           </Col>
         </Row>
-      </Modal>
+      </Dialog>
     </>
   );
 };

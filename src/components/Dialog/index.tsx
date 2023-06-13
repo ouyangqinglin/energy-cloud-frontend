@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 14:26:38
- * @LastEditTime: 2023-05-15 17:24:12
+ * @LastEditTime: 2023-06-13 15:04:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Dialog\index.tsx
  */
@@ -14,11 +14,11 @@ import './index.less';
 export type DialogProps = {
   model?: string;
   title?: string;
-  open: boolean;
+  open?: boolean;
   width?: string | number;
   loading?: boolean;
   footer?: React.ReactNode;
-  onCancel: () => void;
+  onCancel?: () => void;
   onOk?: () => void;
   destroyOnClose?: boolean;
   wrapClassName?: string;

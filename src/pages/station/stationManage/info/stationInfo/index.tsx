@@ -114,6 +114,7 @@ const StationInfo: React.FC = () => {
   return (
     <>
       <Card
+        className="mt16"
         title="状态信息"
         extra={
           detailData?.constructionStatus === 0 ? (

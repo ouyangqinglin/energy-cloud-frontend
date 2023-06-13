@@ -78,11 +78,6 @@ export default [
         name: 'setting',
         component: './station/stationManage/setting/index',
       },
-      {
-        path: '/station-manage/info',
-        name: 'dataQuery',
-        component: './station/stationManage/info/index',
-      },
     ],
   },
   {

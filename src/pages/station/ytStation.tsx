@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-06-10 17:23:19
+ * @LastEditTime: 2023-06-13 11:35:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
@@ -236,8 +236,8 @@ const YtStation: React.FC = (props) => {
       </div>
       <Weather />
       <Time />
-      <EnergyData timeType={0} />
       <div style={{ width: '400px' }}>
+        <EnergyData timeType={0} />
         <RealTimePower date={moment()} />
         <RevenueProportion timeType={0} />
       </div>

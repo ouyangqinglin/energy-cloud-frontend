@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-05-30 15:46:56
+ * @LastEditTime: 2023-06-13 14:18:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\index.tsx
  */
@@ -46,10 +46,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     { label: '告警ID', field: 'id' },
     { label: '告警内容', field: 'content' },
     { label: '所属站点', field: 'siteName' },
-    { label: '告警状态', field: 'status' },
-    { label: '告警来源', field: 'source' },
-    { label: '关联设备', field: 'device' },
-    { label: '发生时间', field: 'createTime' },
+    { label: '告警状态', field: 'status', format: (value) => alarmStatus[value]?.text },
+    { label: '告警来源', field: 'fromResource', format: (value) => alarmSourceStatus[value]?.text },
+    { label: '关联设备', field: 'deviceName' },
+    { label: '发生时间', field: 'alarmTime' },
     { label: '恢复时间', field: 'recoveryTime' },
   ];
 
@@ -70,7 +70,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     },
     {
       title: '关联设备',
-      dataIndex: 'device',
+      dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
     },
@@ -93,20 +93,20 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     },
     {
       title: '告警来源',
-      dataIndex: 'source',
+      dataIndex: 'fromResource',
       valueEnum: alarmSourceStatus,
       width: 120,
     },
     {
       title: '发生时间',
-      dataIndex: 'createTime',
+      dataIndex: 'alarmTime',
       valueType: 'dateRange',
       width: 150,
-      render: (_, record) => record.createTime,
+      render: (_, record) => record.alarmTime,
       search: {
         transform: (value) => {
           return {
-            beginTime: value[0],
+            startTime: value[0],
             endTime: value[1],
           };
         },

@@ -20,10 +20,6 @@ const menus = [
     label: '概览',
   },
   {
-    key: '/station-manage/info',
-    label: '站点信息',
-  },
-  {
     key: '/station-manage/equipment-list',
     label: '设备',
   },
