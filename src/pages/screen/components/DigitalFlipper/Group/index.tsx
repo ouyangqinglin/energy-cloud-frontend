@@ -10,15 +10,20 @@ import styles from './index.less';
 export type DigitalFlipperProps = {
   config: DigitalFlipperItemProps[];
   className?: string;
+  showDivider?: boolean;
 };
 
-const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => {
+const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({
+  config,
+  className,
+  showDivider = true,
+}) => {
   const itemList = useMemo(() => {
     const nodes: ReactNode[] = [];
     config.forEach((ceil, index) => {
       const isLastCeil = index === config.length - 1;
       nodes.push(<DigitalFlipperItem key={ceil.title} {...ceil} />);
-      if (!isLastCeil) {
+      if (showDivider && !isLastCeil) {
         nodes.push(<div key={uniqueId()} className={styles.divider} />);
       }
     });
@@ -26,13 +31,7 @@ const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({ config, className }) => 
   }, [config]);
 
   return (
-    <QueueAnim
-      className={styles.content}
-      type={['top', 'bottom']}
-      duration={1500}
-      delay={500}
-      ease="easeInOutQuart"
-    >
+    <QueueAnim type={['top', 'bottom']} duration={1500} delay={500} ease="easeInOutQuart">
       <div key="animation" className={classnames([styles.content, className])}>
         {itemList}
       </div>

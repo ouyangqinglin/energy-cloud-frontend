@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import { useEffect } from 'react';
-import styles from './index.module.less';
+import styles from './index.less';
 import { useRequest } from 'umi';
 import Cell from '../../LayoutCell';
 import Decoration from '../../Decoration';
