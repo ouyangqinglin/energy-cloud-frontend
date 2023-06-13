@@ -1,4 +1,4 @@
-import type { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import styles from './index.less';
 import TweenOne from 'rc-tween-one';
@@ -8,10 +8,13 @@ import { isNumber, isNaN, merge } from 'lodash';
 TweenOne.plugins.push(Children);
 
 export type DigitalFlipperItemProps = {
-  num: string;
+  num?: string;
   title: string;
   floatLength?: number;
   comma?: boolean;
+  prefix?: string | ReactNode;
+  suffix?: string | ReactNode;
+  render?: (num: any) => string | ReactNode;
   unit?: string;
   titleStyle?: CSSProperties;
   numStyle?: CSSProperties;
@@ -27,10 +30,13 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   title,
   comma = false,
   floatLength = 0,
-  unit = '元',
+  unit,
   unitStyle = {},
+  render,
+  prefix,
+  suffix,
 }) => {
-  const textNode = useMemo(() => {
+  const textNode = () => {
     const digital = Number(num);
     if (isNumber(digital) && !isNaN(digital)) {
       const animation = {
@@ -44,7 +50,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       return <TweenOne animation={animation} />;
     }
     return <span>{'--'}</span>;
-  }, [num, floatLength, comma]);
+  };
 
   return (
     <div className={styles.wrapper} style={itemStyleWrapper}>
@@ -52,12 +58,20 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
         {title}
       </div>
       <div className={styles.content}>
-        <div className={styles.number} style={numStyle}>
-          {textNode}
-        </div>
-        <span className={styles.unit} style={unitStyle}>
-          {unit}
-        </span>
+        {prefix}
+        {render ? (
+          render(num)
+        ) : (
+          <div className={styles.number} style={numStyle}>
+            {textNode()}
+          </div>
+        )}
+        {unit && (
+          <span className={styles.unit} style={unitStyle}>
+            {unit}
+          </span>
+        )}
+        {suffix}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
       comma: true,
       num: props.monthEconomicPerformance,
       numStyle: {
-        backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
+        backgroundImage: 'linear-gradient(180deg, #fff 0%, #FFDD9B 82%, #FFC34F 100%)',
       },
     },
     {
@@ -23,7 +23,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
       comma: true,
       num: props.yearEconomicPerformance,
       numStyle: {
-        backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
+        backgroundImage: 'linear-gradient(180deg, #fff 0%, #FFDD9B 82%, #FFC34F 100%)',
       },
     },
     {
@@ -31,7 +31,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
       comma: true,
       num: props.cumulativeEconomicPerformance,
       numStyle: {
-        backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
+        backgroundImage: 'linear-gradient(180deg, #fff 0%, #FFDD9B 82%, #FFC34F 100%)',
       },
     },
   ];

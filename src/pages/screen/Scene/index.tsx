@@ -20,6 +20,7 @@ import Cell from '../components/LayoutCell';
 import RealTimePower from './RealTimePower';
 import RevenueProportion from './RevenueProportion';
 import FullScreen, { useWatchFullScreen } from './FullScreen';
+import SubsystemStatistic from './SubsystemStatistic';
 
 const Scene = () => {
   useWatchFullScreen();
@@ -31,7 +32,6 @@ const Scene = () => {
           <Weather id={getSiteId()} />
         </Cell>
       </QueueAnim> */}
-
       <Cell cursor="default" width={400} height={258} left={24} top={468}>
         <DecorationCarousel title="能耗数据" valueType="timeButtonGroup">
           <EnergyData timeType={TimeType.DAY} />
@@ -53,9 +53,9 @@ const Scene = () => {
       <StationOverview />
       <Benefit />
       <FullScreen />
+      <SubsystemStatistic></SubsystemStatistic>
       {/* <DeviceList />
       <AlarmList />
-      
       <EnergyStorage />
       <ChargingStation />
       <Photovoltaic />

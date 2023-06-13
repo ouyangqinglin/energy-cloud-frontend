@@ -1,0 +1,47 @@
+.subsystem {
+  display: flex;
+  flex: 1;
+  .tabsBtn {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin: 25px 62px;
+    :global {
+      .ant-radio-button-wrapper {
+        width: 76px;
+        height: 32px;
+        margin: 4px;
+        color: #4dd6f0;
+        font-weight: 500;
+        font-size: 14px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(0, 68, 94, 0.2) 0%, rgba(0, 71, 106, 0.2) 100%),
+          linear-gradient(180deg, rgba(0, 135, 161, 0.2) 0%, rgba(0, 95, 164, 0) 100%),
+          linear-gradient(180deg, rgba(0, 145, 215, 0.5) 0%, rgba(0, 155, 255, 0) 100%);
+        border: 1px solid;
+        border-color: #4dd6f0;
+        border-radius: 4px;
+        &:hover {
+          color: #fff;
+          background: rgba(0, 145, 215, 0.5);
+        }
+      }
+
+      .ant-radio-button-wrapper-checked {
+        color: #fff;
+        text-shadow: 0 0 4px rgba(30, 198, 255, 0.8);
+        border-color: #4dd6f0;
+        &:hover {
+          color: #fff;
+          background: rgba(0, 145, 215, 0.5) !important;
+          border-color: #4dd6f0;
+        }
+      }
+
+      .ant-radio-button-wrapper:not(:first-child)::before {
+        display: none;
+      }
+    }
+  }
+}
