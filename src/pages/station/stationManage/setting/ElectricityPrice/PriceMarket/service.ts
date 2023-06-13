@@ -3,7 +3,7 @@ import type { ElectricityPriceList } from '../type';
 import type { MarketElectricityPriceInfo } from './type';
 
 export const createMarketPrice = (params) => {
-  return post(`/site/mains/saveOrUpdate`, params);
+  return post(`/oss/site/mains/save`, params);
 };
 
 export const updateMarketPrice = (params) => {
@@ -25,5 +25,5 @@ export const getMarketElectricityPriceList = (params: {
   status?: number;
   siteId: number;
 }) => {
-  return get<ElectricityPriceList>(`/site/mains/pageQuery`, params);
+  return get<ElectricityPriceList>(`/oss/site/mains/pageQuery`, params);
 };

@@ -15,6 +15,7 @@ export const pieConfig = {
     itemValue: {
       formatter: (text: string) => text,
       style: {
+        fontSize: 14,
         fill: 'white',
       },
     },
@@ -23,14 +24,14 @@ export const pieConfig = {
   angleField: 'value',
   colorField: 'type',
   color: ['#FFE04D', '#159AFF', '#01CFA1'],
-  radius: 0.7,
+  radius: 0.6,
   innerRadius: 0.7,
   pieStyle: {
     lineWidth: 0,
   },
   label: {
     type: 'spider',
-    offset: 40,
+    offset: 20,
     labelHeight: 40,
     formatter: (data: any, mappingData: any) => {
       return '';

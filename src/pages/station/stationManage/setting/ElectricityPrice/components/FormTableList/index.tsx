@@ -16,7 +16,7 @@ const FormTableList = <DataType extends Record<string, any>>(
   const { actionRef, onDeleteChange, columns, formUpdateChild, formReadChild, ...restProps } =
     props;
 
-  const [state, { toggle }] = useToggle<boolean>(false);
+  const [state, { toggle, set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<DataType>({} as DataType);
 
@@ -25,7 +25,7 @@ const FormTableList = <DataType extends Record<string, any>>(
       onChange() {
         setInitialValues({} as DataType);
         setOperations(FormOperations.CREATE);
-        toggle(true);
+        set(true);
       },
       buttonText: '新建规则',
     },
@@ -34,12 +34,12 @@ const FormTableList = <DataType extends Record<string, any>>(
       onDetailChange(_, entity) {
         setInitialValues({ ...entity });
         setOperations(FormOperations.READ);
-        toggle(true);
+        set(true);
       },
       onEditChange(_, entity) {
         setInitialValues({ ...entity });
         setOperations(FormOperations.UPDATE);
-        toggle(true);
+        set(true);
       },
       modalDeleteText: '您确认要删除该电价规则吗？删除之后无法恢复！',
     },
@@ -54,7 +54,7 @@ const FormTableList = <DataType extends Record<string, any>>(
       {
         operations: operations,
         visible: visibleUpdated && state,
-        onVisibleChange: toggle,
+        onVisibleChange: set,
       },
       null,
     );
@@ -66,7 +66,7 @@ const FormTableList = <DataType extends Record<string, any>>(
       {
         operations: operations,
         visible: visibleRead && state,
-        onVisibleChange: toggle,
+        onVisibleChange: set,
       },
       null,
     );

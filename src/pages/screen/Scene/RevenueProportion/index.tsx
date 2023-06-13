@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-10 14:53:34
- * @LastEditTime: 2023-06-13 13:52:27
+ * @LastEditTime: 2023-06-13 16:50:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
+import { useRequest } from 'umi';
 import { TimeType } from '../../components/TimeButtonGroup';
 import { Pie, G2 } from '@ant-design/plots';
 import { getData } from './service';
@@ -37,7 +38,7 @@ const typeMap = new Map([
 
 const getCustomHtml = (value: number) => {
   return `<div>
-        <span style="color:white;font-size:24px">${value}</span>
+        <span style="color:white;font-size:22px">${value}</span>
         <div style="font-size:12px;color:#ACCCEC;">总收益(元)</div>
     </div>`;
 };
@@ -48,6 +49,10 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   const [myConfig, setMyConfig] = useState(pieConfig);
   const [pieData, setPieData] = useState<PieDataType>({ data: [], totalGains: 0 });
   const siteId = getSiteId();
+  const { data: revenueData, run } = useRequest(getData, {
+    manual: true,
+    pollingInterval: 5 * 60 * 1000,
+  });
 
   const legendFormat = useCallback(
     (type) => {
@@ -66,6 +71,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
         y: 8,
         text: data.value,
         fill: mappingData.color,
+        fontSize: 20,
       },
     });
     group.addShape({
@@ -73,7 +79,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
       attrs: {
         x: 0,
         y: 25,
-        text: data.type,
+        text: data.type + '收益(元)',
         fill: '#ACCCEC',
         fontWeight: 400,
         fontSize: 12,
@@ -92,17 +98,25 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   }, [pieData]);
 
   useEffect(() => {
-    getData({ siteId, type: timeType }).then(({ data }) => {
-      const typeData: DataType[] = [];
-      typeMap.forEach((item, key) => {
-        typeData.push({
-          type: key,
-          value: (data?.[item[0]] || 0) * 1,
-          percent: (data?.[item[1]] || 0) * 1,
-        });
+    const typeData: DataType[] = [];
+    typeMap.forEach((item, key) => {
+      const valueNum = (revenueData?.[item[0]] || 0) * 1;
+      const percentNum = (revenueData?.[item[1]] || 0) * 1;
+      typeData.push({
+        type: key,
+        value: (valueNum + '').length > 7 ? Math.floor(valueNum) : valueNum,
+        percent: (percentNum + '').length > 7 ? Math.floor(percentNum) : percentNum,
       });
-      setPieData({ totalGains: (data?.totalGains || 0) * 1, data: typeData });
     });
+    const totalNum = (revenueData?.totalGains || 0) * 1;
+    setPieData({
+      totalGains: (totalNum + '').length > 7 ? Math.floor(totalNum) : totalNum,
+      data: typeData,
+    });
+  }, [revenueData]);
+
+  useEffect(() => {
+    run({ siteId, type: timeType });
   }, [timeType, siteId]);
 
   return (

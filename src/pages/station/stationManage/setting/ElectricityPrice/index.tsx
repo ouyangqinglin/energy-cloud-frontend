@@ -51,7 +51,7 @@ const Customer: React.FC = () => {
   return (
     <>
       <Tabs
-        defaultActiveKey={TabKeys.CHARGING}
+        defaultActiveKey={TabKeys.MARKET}
         tabBarExtraContent={{ left: <strong style={{ paddingRight: 16 }}>所属类目：</strong> }}
         onChange={onChange}
         className={styles.category}

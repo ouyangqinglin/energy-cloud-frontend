@@ -1,9 +1,9 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
 import { ReactNode } from 'react';
-import type { MarketElectricityPriceListItem } from './type';
+import type { MarketElectricityPriceInfo } from './type';
 
-export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
+export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
   {
     title: '序号',
     valueType: 'index',
@@ -44,7 +44,7 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
     hideInSearch: true,
   },
   {
-    title: '当前操作状态',
+    title: '当前状态',
     dataIndex: 'status',
     valueEnum: new Map<number, ReactNode>([
       // eslint-disable-next-line react/jsx-key

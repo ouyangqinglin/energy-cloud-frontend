@@ -1,7 +1,7 @@
 import { getSiteId } from '@/pages/screen/Scene/helper';
 import { get } from '@/utils/request';
-import { DefaultPageDate } from './type';
+import { DefaultPageResult } from './type';
 
-export const getDefaultOverviewPage = () => {
-  return get<DefaultPageDate>('/oss/siteDetail/homePage', { siteId: getSiteId() });
+export const getDefaultOverviewPage = (siteId: string) => {
+  return get('/oss/siteDetail/homePage', { siteId });
 };

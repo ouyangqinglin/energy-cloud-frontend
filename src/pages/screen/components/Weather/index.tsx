@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-06-10 17:19:56
+ * @LastEditTime: 2023-06-13 15:58:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
@@ -23,6 +23,7 @@ const Weather: React.FC = (props) => {
     run,
   } = useRequest(getWeather, {
     manual: true,
+    pollingInterval: 60 * 60 * 1000,
   });
 
   useEffect(() => {

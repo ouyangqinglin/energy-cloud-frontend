@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-10 10:54:07
+ * @LastEditTime: 2023-06-13 16:10:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
 import React, { useEffect, useState } from 'react';
+import { useRequest } from 'umi';
 import { Axis, Chart, LineAdvance, Legend, Annotation } from 'bizcharts';
 import moment from 'moment';
 import { getSiteId } from '../helper';
@@ -52,17 +53,23 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   const [chartData, setChartData] = useState<DataType[]>();
   const siteId = getSiteId();
+  const { data: powerData, run } = useRequest(getData, {
+    manual: true,
+    pollingInterval: 2 * 60 * 1000,
+  });
 
   useEffect(() => {
-    getData({
+    const result: DataType[] = [];
+    legendMap.forEach((_, key) => {
+      result.push(...getChartData(powerData?.[key] || [], key));
+    });
+    setChartData(result);
+  }, [powerData]);
+
+  useEffect(() => {
+    run({
       siteId,
       date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-    }).then(({ data }) => {
-      const result: DataType[] = [];
-      legendMap.forEach((_, key) => {
-        result.push(...getChartData(data?.[key] || [], key));
-      });
-      setChartData(result);
     });
   }, [siteId, date]);
 

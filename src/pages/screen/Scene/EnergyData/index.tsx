@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 15:23:35
- * @LastEditTime: 2023-06-13 14:26:14
+ * @LastEditTime: 2023-06-13 15:29:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\EnergyData\index.tsx
  */
@@ -33,6 +33,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
 
   const { data: energyData, run } = useRequest(getData, {
     manual: true,
+    pollingInterval: 5 * 60 * 1000,
   });
 
   useEffect(() => {
@@ -42,14 +43,14 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   const items = useMemo(
     () => ({
       left: [
-        { label: '光伏发电', icon: pvInvinter, field: 'photovoltaic' },
-        { label: '电网输电', icon: transmission, field: 'electricSupply' },
-        { label: '储能放电', icon: energyDischarge, field: 'essDischarge' },
+        { label: '市电输电(kWh)', icon: transmission, field: 'electricSupply' },
+        { label: '光伏发电(kWh)', icon: pvInvinter, field: 'photovoltaic' },
+        { label: '储能放电(kWh)', icon: energyDischarge, field: 'essDischarge' },
       ],
       right: [
-        { label: '充电桩', icon: charge, field: 'chargingPile' },
-        { label: '储能充电', icon: energyCharge, field: 'essCharge' },
-        { label: '负载', icon: load, field: 'load' },
+        { label: '充电桩(kWh)', icon: charge, field: 'chargingPile' },
+        { label: '其他负载(kWh)', icon: load, field: 'load' },
+        { label: '储能充电(kWh)', icon: energyCharge, field: 'essCharge' },
       ],
     }),
     [],
@@ -60,7 +61,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
       <div className="flex" key={item.field}>
         <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}(kWh)</span>
+          <span>{item.label}</span>
           <div>
             <span className={styles.field}>
               {getPlaceholder(Math.floor(energyData?.[item.field] || 0))}
@@ -76,7 +77,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
       <div className="flex" key={item.field}>
         <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}(kWh)</span>
+          <span>{item.label}</span>
           <div>
             <span className={styles.field}>
               {getPlaceholder(Math.floor(energyData?.[item.field]) || 0)}

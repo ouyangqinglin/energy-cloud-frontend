@@ -3,7 +3,7 @@ export const enum HomeTypeEnum {
   CUSTOM,
 }
 
-export interface DefaultPageDate {
+export interface DefaultPageResult {
   siteId: number;
   // 0-标准首页 1-定制页
   homeType: HomeTypeEnum;
