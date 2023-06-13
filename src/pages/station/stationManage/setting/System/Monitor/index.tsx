@@ -449,7 +449,6 @@ const Monitor: React.FC = () => {
         open={openTableSelect}
         onCancel={setLeft}
         treeProps={{
-          defaultExpandAll: true,
           fieldNames: {
             title: 'deviceName',
             key: 'id',
@@ -463,7 +462,6 @@ const Monitor: React.FC = () => {
         }}
         valueId={valueMap.valueId}
         valueName={valueMap.valueName}
-        treeName="deviceName"
         dealTreeData={dealTreeData}
         value={tableTreeValue}
         onChange={onChange}

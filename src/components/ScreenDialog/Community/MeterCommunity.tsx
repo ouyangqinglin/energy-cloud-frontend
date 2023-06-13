@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:17:19
- * @LastEditTime: 2023-06-13 10:11:17
+ * @LastEditTime: 2023-06-13 10:50:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity.tsx
  */
@@ -121,7 +121,6 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
     selectType: SelectTypeEnum.Device,
     title: '选择设备',
     treeProps: {
-      defaultExpandAll: true,
       fieldNames: {
         title: 'deviceName',
         key: 'id',

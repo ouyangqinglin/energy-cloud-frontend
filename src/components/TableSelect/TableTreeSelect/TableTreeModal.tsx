@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-13 10:32:27
+ * @LastEditTime: 2023-06-13 10:52:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -32,14 +32,15 @@ export type dealTreeDataType<TreeData = Record<string, any>> = {
 export { BasicDataNode };
 
 export type TableTreeModalProps<V, T, U, TreeData> = {
-  model?: string;
-  value?: V[];
+  model?: string; // screen：大屏样式
+  value?: V[]; //
   onChange?: (value: V[]) => void;
-  title?: string;
+  title?: string; // 弹窗标题
   open?: boolean;
   onCancel?: () => void;
-  width?: string;
+  width?: string; // 弹窗宽度
   proTableProps?: Omit<ProTableProps<T, U>, 'actionRef' | 'request'> & {
+    // 表格属性
     request?: (
       params: U & {
         pageSize?: number;
@@ -50,20 +51,19 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
       filter: Record<string, React.ReactText[] | null>,
     ) => ResponsePromise<ResponsePageData<T>, T>;
   };
-  multiple?: boolean;
-  disabled?: boolean;
-  limit?: number;
-  valueId?: string;
-  valueName?: string;
-  clearable?: boolean;
-  placeholder?: string;
-  treeName?: string;
+  multiple?: boolean; // 是否多选
+  disabled?: boolean; // 是否禁用
+  limit?: number; //  表单输入框显示已选项的数量，多余的数字显示
+  valueId?: string; // 数据字段id既表格id或者树id
+  valueName?: string; // 数据字段name既表格name或者树name
+  clearable?: boolean; // 表单输入框是否可清空
+  placeholder?: string; // 表单输入框placshoder
   treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'> & {
+    //  树属性
     request: (params?: any) => Promise<any> | undefined;
   };
-  onlySelectedLastLevel?: boolean;
-  selectType?: SelectTypeEnum;
-  dealTreeData?: dealTreeDataType<TreeData>;
+  selectType?: SelectTypeEnum; //  数据选择类型：选设备/选设备属性
+  dealTreeData?: dealTreeDataType<TreeData>; //  处理树数据
 };
 
 const runDealTreeData = <TreeData,>(
@@ -100,10 +100,8 @@ const TableTreeModal = <
     proTableProps = {},
     valueId = 'id',
     valueName = 'name',
-    treeName = 'name',
     value = [],
     onChange,
-    onlySelectedLastLevel = true,
     selectType = SelectTypeEnum.Collect,
     dealTreeData,
   } = props;
@@ -227,7 +225,7 @@ const TableTreeModal = <
         setTreeData(data);
       });
     }
-  }, [open, value, onlySelectedLastLevel, props?.treeProps?.request, selectType, valueId]);
+  }, [open, value, props?.treeProps?.request, selectType, valueId]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -235,13 +233,13 @@ const TableTreeModal = <
         <Tag className="mb4" key={item[valueId]} closable onClose={() => onClose(index)}>
           <div className={styles.tag} title={item[valueName]}>
             {selectType === SelectTypeEnum.Collect
-              ? item?.node?.[treeName] + '-' + item[valueName]
+              ? item?.node?.[props.treeProps?.fieldNames?.title || 'name'] + '-' + item[valueName]
               : item[valueName]}
           </div>
         </Tag>
       );
     });
-  }, [selectedTags]);
+  }, [selectedTags, valueId, valueName, selectType, props.treeProps]);
 
   const defaultTableProps: ProTableProps<DataType, Params> = {
     ...(selectType === SelectTypeEnum.Collect
@@ -300,6 +298,7 @@ const TableTreeModal = <
               checkable={selectType === SelectTypeEnum.Device && multiple}
               {...treeSelectAndCheckData}
               checkStrictly
+              defaultExpandAll={true}
               {...props?.treeProps}
             />
           </Col>
