@@ -14,7 +14,7 @@ export type AlarmType = {
   station: string;
   status: number;
   source: string;
-  createTime: string;
+  alarmTime: string;
   recoveryTime: string;
 };
 

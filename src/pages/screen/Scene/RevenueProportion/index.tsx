@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-10 14:53:34
- * @LastEditTime: 2023-06-10 17:10:57
+ * @LastEditTime: 2023-06-13 13:52:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
@@ -26,7 +26,7 @@ type DataType = {
 
 type PieDataType = {
   data: DataType[];
-  total: number;
+  totalGains: number;
 };
 
 const typeMap = new Map([
@@ -46,7 +46,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   const { timeType } = props;
   const G = G2.getEngine('canvas');
   const [myConfig, setMyConfig] = useState(pieConfig);
-  const [pieData, setPieData] = useState<PieDataType>({ data: [], total: 0 });
+  const [pieData, setPieData] = useState<PieDataType>({ data: [], totalGains: 0 });
   const siteId = getSiteId();
 
   const legendFormat = useCallback(
@@ -86,7 +86,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
     setMyConfig((prevData) => {
       prevData.legend.itemValue.formatter = legendFormat;
       prevData.label.formatter = labelFormat;
-      prevData.statistic.content.customHtml = getCustomHtml(pieData?.total);
+      prevData.statistic.content.customHtml = getCustomHtml(pieData?.totalGains);
       return { ...prevData };
     });
   }, [pieData]);
@@ -101,12 +101,12 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
           percent: (data?.[item[1]] || 0) * 1,
         });
       });
-      setPieData({ total: 0, data: typeData });
+      setPieData({ totalGains: (data?.totalGains || 0) * 1, data: typeData });
     });
   }, [timeType, siteId]);
 
   return (
-    <Pie className={styles.pieContain} height={286} data={pieData.data} {...(myConfig as any)} />
+    <Pie className={styles.pieContain} height={270} data={pieData.data} {...(myConfig as any)} />
   );
 };
 

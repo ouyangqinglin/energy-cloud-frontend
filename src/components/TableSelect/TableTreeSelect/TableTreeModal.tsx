@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-08 14:40:33
+ * @LastEditTime: 2023-06-13 10:52:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { Modal, Tag, Tree, Row, Col } from 'antd';
+import Dialog from '@/components/Dialog';
 import type { TreeDataNode, TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
@@ -25,20 +26,22 @@ export enum SelectTypeEnum {
   Device = 'device',
 }
 
-export type showCheckboxType<TreeData = Record<string, any>> = {
-  (value: TreeData & BasicDataNode): boolean;
+export type dealTreeDataType<TreeData = Record<string, any>> = {
+  (value: TreeData & BasicDataNode): void;
 };
 
 export { BasicDataNode };
 
 export type TableTreeModalProps<V, T, U, TreeData> = {
-  value?: V[];
+  model?: string; // screen：大屏样式
+  value?: V[]; //
   onChange?: (value: V[]) => void;
-  title?: string;
+  title?: string; // 弹窗标题
   open?: boolean;
   onCancel?: () => void;
-  width?: string;
+  width?: string; // 弹窗宽度
   proTableProps?: Omit<ProTableProps<T, U>, 'actionRef' | 'request'> & {
+    // 表格属性
     request?: (
       params: U & {
         pageSize?: number;
@@ -49,34 +52,33 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
       filter: Record<string, React.ReactText[] | null>,
     ) => ResponsePromise<ResponsePageData<T>, T>;
   };
-  multiple?: boolean;
-  disabled?: boolean;
-  limit?: number;
-  valueId?: string;
-  valueName?: string;
-  clearable?: boolean;
-  placeholder?: string;
-  treeName?: string;
+  multiple?: boolean; // 是否多选
+  disabled?: boolean; // 是否禁用
+  limit?: number; //  表单输入框显示已选项的数量，多余的数字显示
+  valueId?: string; // 数据字段id既表格id或者树id
+  valueName?: string; // 数据字段name既表格name或者树name
+  clearable?: boolean; // 表单输入框是否可清空
+  placeholder?: string; // 表单输入框placshoder
   treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'> & {
+    //  树属性
     request: (params?: any) => Promise<any> | undefined;
   };
-  onlySelectedLastLevel?: boolean;
-  selectType?: SelectTypeEnum;
-  showCheckbox?: showCheckboxType<TreeData>;
+  selectType?: SelectTypeEnum; //  数据选择类型：选设备/选设备属性
+  dealTreeData?: dealTreeDataType<TreeData>; //  处理树数据
 };
 
-const setCheckAndSelect = <TreeData,>(
+const runDealTreeData = <TreeData,>(
   data: TreeProps['treeData'],
-  showCheckbox?: showCheckboxType<TreeData>,
+  dealTreeData?: dealTreeDataType<TreeData>,
 ) => {
   if (data && data.length) {
     data.forEach((item) => {
-      if (showCheckbox) {
-        item.checkable = showCheckbox(item as any);
-      }
       if (item.children && item.children.length) {
         item.selectable = false;
-        setCheckAndSelect(item.children, showCheckbox);
+      }
+      dealTreeData?.(item as any);
+      if (item.children && item.children.length) {
+        runDealTreeData(item.children, dealTreeData);
       }
     });
   }
@@ -91,6 +93,7 @@ const TableTreeModal = <
   props: TableTreeModalProps<ValueType, DataType, Params, TreeData>,
 ) => {
   const {
+    model,
     title = '选择数据',
     open,
     onCancel,
@@ -99,17 +102,30 @@ const TableTreeModal = <
     proTableProps = {},
     valueId = 'id',
     valueName = 'name',
-    treeName = 'name',
     value = [],
     onChange,
-    onlySelectedLastLevel = true,
     selectType = SelectTypeEnum.Collect,
-    showCheckbox,
+    dealTreeData,
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
   const [treeData, setTreeData] = useState();
   const [tableParams, setTableParams] = useState<any>({});
+
+  const treeSelectAndCheckData = useMemo(() => {
+    if (selectType === SelectTypeEnum.Device) {
+      if (multiple) {
+        return {
+          checkedKeys: selectedTags?.map?.((item) => item[valueId]),
+        };
+      } else {
+        return {
+          selectedKeys: selectedTags?.map?.((item) => item[valueId]),
+        };
+      }
+    }
+    return {};
+  }, [selectType, multiple, selectedTags, valueId]);
 
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
@@ -149,11 +165,25 @@ const TableTreeModal = <
     onCancel?.();
   }, [selectedTags]);
 
-  const onTreeSelect = useCallback((selectedKeys) => {
-    if (selectedKeys && selectedKeys.length) {
-      setTableParams({ deviceId: selectedKeys[0] });
-    }
-  }, []);
+  const onTreeSelect = useCallback(
+    (selectedKeys, { selectedNodes }) => {
+      if (selectedKeys && selectedKeys.length) {
+        setTableParams({ deviceId: selectedKeys[0] });
+      }
+      if (selectType === SelectTypeEnum.Device && !multiple) {
+        const result = selectedNodes.map(
+          (item: TreeData) =>
+            ({
+              [valueId]: item[valueId],
+              [valueName]: item[valueName],
+              ['node' as string]: item,
+            } as ValueType),
+        );
+        setSelectedTags(result);
+      }
+    },
+    [valueId, valueName],
+  );
 
   const onTreeCheck = useCallback(
     (_, { checkedNodes }) => {
@@ -189,14 +219,15 @@ const TableTreeModal = <
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
+      if (selectType === SelectTypeEnum.Device && value && value.length) {
+        setTableParams({ deviceId: value[0][valueId] });
+      }
       props?.treeProps?.request?.()?.then?.(({ data }) => {
-        if (onlySelectedLastLevel) {
-          setCheckAndSelect(data, showCheckbox);
-        }
+        runDealTreeData(data, dealTreeData);
         setTreeData(data);
       });
     }
-  }, [open, value, onlySelectedLastLevel, props?.treeProps?.request]);
+  }, [open, value, props?.treeProps?.request, selectType, valueId]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -204,13 +235,13 @@ const TableTreeModal = <
         <Tag className="mb4" key={item[valueId]} closable onClose={() => onClose(index)}>
           <div className={styles.tag} title={item[valueName]}>
             {selectType === SelectTypeEnum.Collect
-              ? item?.node?.[treeName] + '-' + item[valueName]
+              ? item?.node?.[props.treeProps?.fieldNames?.title || 'name'] + '-' + item[valueName]
               : item[valueName]}
           </div>
         </Tag>
       );
     });
-  }, [selectedTags]);
+  }, [selectedTags, valueId, valueName, selectType, props.treeProps]);
 
   const defaultTableProps: ProTableProps<DataType, Params> = {
     ...(selectType === SelectTypeEnum.Collect
@@ -241,14 +272,14 @@ const TableTreeModal = <
 
   return (
     <>
-      <Modal
+      <Dialog
+        model={model}
         title={title}
         open={open}
         width={width}
         onCancel={onCancel}
         onOk={onOk}
         destroyOnClose
-        centered
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">
@@ -267,12 +298,9 @@ const TableTreeModal = <
               onCheck={onTreeCheck}
               blockNode
               checkable={selectType === SelectTypeEnum.Device && multiple}
-              {...(selectType === SelectTypeEnum.Device && multiple
-                ? {
-                    checkedKeys: selectedTags?.map?.((item) => item[valueId]),
-                  }
-                : {})}
+              {...treeSelectAndCheckData}
               checkStrictly
+              defaultExpandAll={true}
               {...props?.treeProps}
             />
           </Col>
@@ -285,7 +313,7 @@ const TableTreeModal = <
             />
           </Col>
         </Row>
-      </Modal>
+      </Dialog>
     </>
   );
 };

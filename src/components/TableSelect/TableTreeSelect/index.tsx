@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-08 09:26:37
- * @LastEditTime: 2023-06-08 09:26:40
+ * @LastEditTime: 2023-06-13 14:45:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\index.tsx
  */
@@ -22,7 +22,7 @@ const TableTreeSelect = <
   Params extends Record<string, any>,
   TreeData,
 >(
-  props: TableTreeModalProps<ValueType, DataType, Params, TreeData>,
+  props: Omit<TableTreeModalProps<ValueType, DataType, Params, TreeData>, 'open' | 'onCancel'>,
 ) => {
   const {
     value = [],

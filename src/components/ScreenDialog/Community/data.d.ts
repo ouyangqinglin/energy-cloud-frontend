@@ -26,4 +26,5 @@ export type TreeDataType = {
   parentId: string;
   children: TreeDataType[];
   selectFlag: boolean;
+  productId: number;
 };

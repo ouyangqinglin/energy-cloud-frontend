@@ -22,7 +22,7 @@ export const pieConfig = {
   appendPadding: 10,
   angleField: 'value',
   colorField: 'type',
-  color: ['#01cfa1', '#ffe04d', '#159aff'],
+  color: ['#FFE04D', '#159AFF', '#01CFA1'],
   radius: 0.7,
   innerRadius: 0.7,
   pieStyle: {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-07 15:11:19
+ * @LastEditTime: 2023-06-13 14:07:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -120,7 +120,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         setModelOption(
           data?.map?.((item: any) => {
             return {
-              label: item.name,
+              label: item.model,
               value: item.id,
             };
           }),
