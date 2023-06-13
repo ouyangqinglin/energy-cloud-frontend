@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-08 14:40:33
+ * @LastEditTime: 2023-06-13 10:32:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -25,13 +25,14 @@ export enum SelectTypeEnum {
   Device = 'device',
 }
 
-export type showCheckboxType<TreeData = Record<string, any>> = {
-  (value: TreeData & BasicDataNode): boolean;
+export type dealTreeDataType<TreeData = Record<string, any>> = {
+  (value: TreeData & BasicDataNode): void;
 };
 
 export { BasicDataNode };
 
 export type TableTreeModalProps<V, T, U, TreeData> = {
+  model?: string;
   value?: V[];
   onChange?: (value: V[]) => void;
   title?: string;
@@ -62,21 +63,21 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   };
   onlySelectedLastLevel?: boolean;
   selectType?: SelectTypeEnum;
-  showCheckbox?: showCheckboxType<TreeData>;
+  dealTreeData?: dealTreeDataType<TreeData>;
 };
 
-const setCheckAndSelect = <TreeData,>(
+const runDealTreeData = <TreeData,>(
   data: TreeProps['treeData'],
-  showCheckbox?: showCheckboxType<TreeData>,
+  dealTreeData?: dealTreeDataType<TreeData>,
 ) => {
   if (data && data.length) {
     data.forEach((item) => {
-      if (showCheckbox) {
-        item.checkable = showCheckbox(item as any);
-      }
       if (item.children && item.children.length) {
         item.selectable = false;
-        setCheckAndSelect(item.children, showCheckbox);
+      }
+      dealTreeData?.(item as any);
+      if (item.children && item.children.length) {
+        runDealTreeData(item.children, dealTreeData);
       }
     });
   }
@@ -104,12 +105,27 @@ const TableTreeModal = <
     onChange,
     onlySelectedLastLevel = true,
     selectType = SelectTypeEnum.Collect,
-    showCheckbox,
+    dealTreeData,
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
   const [treeData, setTreeData] = useState();
   const [tableParams, setTableParams] = useState<any>({});
+
+  const treeSelectAndCheckData = useMemo(() => {
+    if (selectType === SelectTypeEnum.Device) {
+      if (multiple) {
+        return {
+          checkedKeys: selectedTags?.map?.((item) => item[valueId]),
+        };
+      } else {
+        return {
+          selectedKeys: selectedTags?.map?.((item) => item[valueId]),
+        };
+      }
+    }
+    return {};
+  }, [selectType, multiple, selectedTags, valueId]);
 
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
@@ -149,11 +165,25 @@ const TableTreeModal = <
     onCancel?.();
   }, [selectedTags]);
 
-  const onTreeSelect = useCallback((selectedKeys) => {
-    if (selectedKeys && selectedKeys.length) {
-      setTableParams({ deviceId: selectedKeys[0] });
-    }
-  }, []);
+  const onTreeSelect = useCallback(
+    (selectedKeys, { selectedNodes }) => {
+      if (selectedKeys && selectedKeys.length) {
+        setTableParams({ deviceId: selectedKeys[0] });
+      }
+      if (selectType === SelectTypeEnum.Device && !multiple) {
+        const result = selectedNodes.map(
+          (item: TreeData) =>
+            ({
+              [valueId]: item[valueId],
+              [valueName]: item[valueName],
+              ['node' as string]: item,
+            } as ValueType),
+        );
+        setSelectedTags(result);
+      }
+    },
+    [valueId, valueName],
+  );
 
   const onTreeCheck = useCallback(
     (_, { checkedNodes }) => {
@@ -189,14 +219,15 @@ const TableTreeModal = <
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
+      if (selectType === SelectTypeEnum.Device && value && value.length) {
+        setTableParams({ deviceId: value[0][valueId] });
+      }
       props?.treeProps?.request?.()?.then?.(({ data }) => {
-        if (onlySelectedLastLevel) {
-          setCheckAndSelect(data, showCheckbox);
-        }
+        runDealTreeData(data, dealTreeData);
         setTreeData(data);
       });
     }
-  }, [open, value, onlySelectedLastLevel, props?.treeProps?.request]);
+  }, [open, value, onlySelectedLastLevel, props?.treeProps?.request, selectType, valueId]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -267,11 +298,7 @@ const TableTreeModal = <
               onCheck={onTreeCheck}
               blockNode
               checkable={selectType === SelectTypeEnum.Device && multiple}
-              {...(selectType === SelectTypeEnum.Device && multiple
-                ? {
-                    checkedKeys: selectedTags?.map?.((item) => item[valueId]),
-                  }
-                : {})}
+              {...treeSelectAndCheckData}
               checkStrictly
               {...props?.treeProps}
             />

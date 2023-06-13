@@ -7,7 +7,7 @@ import { useRequest, useModel } from 'umi';
 import { getConfig, editStatus, editConfig } from './service';
 import styles from './index.less';
 import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
-import type { showCheckboxType } from '@/components/TableSelect';
+import type { dealTreeDataType } from '@/components/TableSelect';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
 import {
   TreeDataType,
@@ -118,11 +118,7 @@ const Monitor: React.FC = () => {
     valueId: '',
     valueName: '',
   });
-  const {
-    data: monitorData,
-    loading,
-    run,
-  } = useRequest(getConfig, {
+  const { loading, run } = useRequest(getConfig, {
     manual: true,
   });
   const { loading: editStatusLoading, run: runEdit } = useRequest(editStatus, {
@@ -196,8 +192,8 @@ const Monitor: React.FC = () => {
     [allTableData],
   );
 
-  const showCheckbox = useCallback<showCheckboxType<TreeDataType>>((item) => {
-    return !!item.selectFlag;
+  const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>((item) => {
+    item.checkable = item.productId == 516;
   }, []);
 
   const requestTree = useCallback(() => {
@@ -468,7 +464,7 @@ const Monitor: React.FC = () => {
         valueId={valueMap.valueId}
         valueName={valueMap.valueName}
         treeName="deviceName"
-        showCheckbox={showCheckbox}
+        dealTreeData={dealTreeData}
         value={tableTreeValue}
         onChange={onChange}
       />

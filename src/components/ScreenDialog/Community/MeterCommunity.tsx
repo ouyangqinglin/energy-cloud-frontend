@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:17:19
- * @LastEditTime: 2023-06-08 15:12:41
+ * @LastEditTime: 2023-06-13 10:11:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity.tsx
  */
@@ -29,7 +29,7 @@ import {
   TABLETREESELECT,
   TABLETREESELECTVALUETYPE,
 } from '@/components/TableSelect';
-import type { TableTreeModalProps, showCheckboxType } from '@/components/TableSelect';
+import type { TableTreeModalProps, dealTreeDataType } from '@/components/TableSelect';
 import { omit } from 'lodash';
 
 type DeviceDataType = {
@@ -70,8 +70,8 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
     }
   }, [siteId]);
 
-  const showCheckbox = useCallback<showCheckboxType<TreeDataType>>((item) => {
-    return !item.selectFlag;
+  const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>((item) => {
+    item.checkable = item.productId == 516;
   }, []);
 
   useEffect(() => {
@@ -135,7 +135,7 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
     },
     valueId: 'id',
     valueName: 'deviceName',
-    showCheckbox: showCheckbox,
+    dealTreeData: dealTreeData,
   };
 
   const columns: ProFormColumnsType<

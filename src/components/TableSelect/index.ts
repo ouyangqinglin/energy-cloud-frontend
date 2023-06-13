@@ -20,7 +20,7 @@ import TableTreeSelect, {
 import type { TABLETREESELECTVALUETYPE } from './TableTreeSelect';
 import TableTreeModal, { SelectTypeEnum } from './TableTreeSelect/TableTreeModal';
 import type {
-  showCheckboxType,
+  dealTreeDataType,
   BasicDataNode,
   TableTreeModalProps,
 } from './TableTreeSelect/TableTreeModal';
@@ -37,5 +37,5 @@ export {
   SelectTypeEnum,
 };
 
-export type { TABLETREESELECTVALUETYPE, showCheckboxType, BasicDataNode, TableTreeModalProps };
+export type { TABLETREESELECTVALUETYPE, dealTreeDataType, BasicDataNode, TableTreeModalProps };
 export default TableSelect;
