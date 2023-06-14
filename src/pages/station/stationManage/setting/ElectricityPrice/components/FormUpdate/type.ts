@@ -8,6 +8,8 @@ export type FormUpdateBaseProps = {
   onVisibleChange: (state: boolean) => void;
   operations: FormOperations;
   initialValues?: any;
+  id?: string;
+  onSuccess?: () => void;
 };
 
 export type FormUpdateProps<T, U> = {

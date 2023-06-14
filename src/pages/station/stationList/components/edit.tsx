@@ -121,7 +121,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         });
       }
     }
-  }, [props.open]);
+  }, [props.open, id, type, form]);
 
   return (
     <>

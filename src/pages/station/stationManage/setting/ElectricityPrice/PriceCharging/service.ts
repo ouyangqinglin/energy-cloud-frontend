@@ -2,20 +2,20 @@ import { del, get, post, put } from '@/utils/request';
 import type { ElectricityPriceList } from '../type';
 import { ChargingElectricityPriceInfo } from './type';
 
-export const createChargingPrice = (params) => {
-  return post(`/site/charge/saveOrUpdate`, params);
+export const createChargingPrice = (data: any) => {
+  return post(`/oss/site/charge/save`, data);
 };
 
-export const updateChargingPrice = (params) => {
-  return put(`/site/charge/update`, params);
+export const updateChargingPrice = (data: any) => {
+  return put(`/oss/site/charge/update`, data);
 };
 
-export const getChargingPrice = (params) => {
-  return get<{ data: ChargingElectricityPriceInfo }>(`/site/charge/getInfo`, params);
+export const getChargingPrice = (params: any) => {
+  return get<{ data: ChargingElectricityPriceInfo }>(`/oss/site/charge/getInfo`, params);
 };
 
-export const deleteChargingPrice = (params) => {
-  return del(`/oss/site/charge/delete`, params);
+export const deleteChargingPrice = (data: any) => {
+  return del(`/oss/site/charge/delete`, data);
 };
 
 export const getChargingElectricityPriceList = (params: {
@@ -25,5 +25,5 @@ export const getChargingElectricityPriceList = (params: {
   status?: number;
   siteId: number;
 }) => {
-  return get<ElectricityPriceList>(`/site/charge/pageQuery`, params);
+  return get<ElectricityPriceList>(`/oss/site/charge/pageQuery`, params);
 };

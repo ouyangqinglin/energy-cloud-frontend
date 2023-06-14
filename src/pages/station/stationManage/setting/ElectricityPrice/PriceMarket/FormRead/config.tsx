@@ -74,10 +74,7 @@ export const columns: ProFormColumnsType[] = [
       {
         title: '最大需量',
         dataIndex: 'maxDemand',
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: 'kW',
-        },
+        render: (_, { value }) => value + 'kW',
         colProps: {
           span: 8,
         },
@@ -85,10 +82,7 @@ export const columns: ProFormColumnsType[] = [
       {
         title: '需量电价',
         dataIndex: 'demandElectrovalency',
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: '元',
-        },
+        render: (_, { value }) => value + '元',
         colProps: {
           span: 8,
         },
@@ -129,10 +123,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: '元',
-        },
+        render: (_, { value }) => value + '元',
         colProps: {
           span: 6,
         },
@@ -145,10 +136,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: '元',
-        },
+        render: (_, { value }) => value + '元',
         colProps: {
           span: 6,
         },
@@ -161,10 +149,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: '元',
-        },
+        render: (_, { value }) => value + '元',
         colProps: {
           span: 6,
         },
@@ -177,10 +162,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        fieldProps: {
-          placeholder: '请输入',
-          addonAfter: '元',
-        },
+        render: (_, { value }) => value + '元',
         colProps: {
           span: 6,
         },

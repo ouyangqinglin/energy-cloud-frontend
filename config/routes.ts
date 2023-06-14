@@ -15,11 +15,11 @@ export default [
     routes: [
       {
         path: '/screen',
-        redirect: '/screen/standard',
+        redirect: '/screen/demo-station',
       },
       {
-        name: 'standard',
-        path: '/screen/standard',
+        path: '/screen/demo-station',
+        name: 'demoStation',
         component: './screen/index',
       },
     ],

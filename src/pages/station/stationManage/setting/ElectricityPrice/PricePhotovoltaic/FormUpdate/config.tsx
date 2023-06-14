@@ -79,6 +79,9 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                     },
                   ],
                 },
+                fieldProps: {
+                  format: 'MM/DD',
+                },
                 convertValue: (value, field) => {
                   return value;
                 },
@@ -108,6 +111,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         fieldProps: {
           copyIconProps: false,
           creatorButtonProps: {
+            className: 'pl0',
             creatorButtonText: '新增时间段',
             icon: <PlusCircleOutlined />,
             type: 'link',
@@ -150,6 +154,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                   ],
                 },
                 dataIndex: 'electricityFees',
+                valueType: 'digit',
                 colProps: {
                   span: 11,
                   offset: 1,

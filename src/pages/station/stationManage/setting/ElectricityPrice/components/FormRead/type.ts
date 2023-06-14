@@ -7,6 +7,7 @@ export type FormReadBaseProps = {
   onVisibleChange: (state: boolean) => void;
   operations: FormOperations;
   initialValues?: any;
+  id?: string;
 };
 
 export type FormReadProps<T, U> = {

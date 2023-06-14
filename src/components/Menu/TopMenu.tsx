@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:03:38
- * @LastEditTime: 2023-06-05 09:18:01
+ * @LastEditTime: 2023-06-13 16:57:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Menu\TopMenu.tsx
  */
@@ -14,24 +14,12 @@ import YtIcon from '@/assets/image/icon-yt.png';
 import { getStation } from '@/services/station';
 import { LocationType } from '@/utils/dictionary';
 
-const menus = [
-  {
-    key: '/station-manage/operation-monitor',
-    label: '概览',
-  },
-  {
-    key: '/station-manage/equipment-list',
-    label: '设备',
-  },
-  {
-    key: '/station-manage/alarm-record',
-    label: '告警',
-  },
-  {
-    key: '/station-manage/setting',
-    label: '设置',
-  },
-];
+const menuMap = new Map([
+  ['/station-manage/operation-monitor', '概览'],
+  ['/station-manage/equipment-list', '设备'],
+  ['/station-manage/alarm-record', '告警'],
+  ['/station-manage/setting', '设置'],
+]);
 
 const TopMenu: React.FC = () => {
   const { state, dispatch } = useModel('station');
@@ -42,12 +30,17 @@ const TopMenu: React.FC = () => {
   );
   const history = useHistory();
 
-  const onChange = useCallback((key) => {
-    history.push({
-      pathname: `${key}`,
-      search: `id=${id}`,
-    });
-  }, []);
+  const menus = [...menuMap].map(([key, label]) => ({ key, label }));
+
+  const onChange = useCallback(
+    (key) => {
+      history.push({
+        pathname: `${key}`,
+        search: `id=${id}`,
+      });
+    },
+    [id],
+  );
 
   useEffect(() => {
     if (id) {
@@ -65,7 +58,7 @@ const TopMenu: React.FC = () => {
         <Tabs
           className={styles.tabs}
           items={menus}
-          activeKey={location.pathname}
+          activeKey={menuMap.has(location.pathname) ? location.pathname : menuMap.keys()[0]}
           onChange={onChange}
         />
       </div>

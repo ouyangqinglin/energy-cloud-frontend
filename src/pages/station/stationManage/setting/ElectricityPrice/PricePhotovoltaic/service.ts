@@ -2,20 +2,20 @@ import { del, get, post, put } from '@/utils/request';
 import type { ElectricityPriceList } from '../type';
 import { PhotovoltaicElectricityPriceInfo } from './type';
 
-export const createPhotovoltaicPrice = (params) => {
-  return post(`/site/internet/saveOrUpdate`, params);
+export const createPhotovoltaicPrice = (data: any) => {
+  return post(`/oss/site/internet/save`, data);
 };
 
-export const updatePhotovoltaicPrice = (params) => {
-  return put(`/site/internet/update`, params);
+export const updatePhotovoltaicPrice = (data: any) => {
+  return put(`/oss/site/internet/update`, data);
 };
 
-export const getPhotovoltaicPrice = (params) => {
-  return get<{ data: PhotovoltaicElectricityPriceInfo }>(`/site/internet/getInfo`, params);
+export const getPhotovoltaicPrice = (params: any) => {
+  return get<{ data: PhotovoltaicElectricityPriceInfo }>(`/oss/site/internet/getInfo`, params);
 };
 
-export const deletePhotovoltaicPrice = (params) => {
-  return del(`/oss/site/internet/delete`, params);
+export const deletePhotovoltaicPrice = (data: any) => {
+  return del(`/oss/site/internet/delete`, data);
 };
 
 export const getPhotovoltaicElectricityPriceList = (params: {
@@ -25,5 +25,5 @@ export const getPhotovoltaicElectricityPriceList = (params: {
   status?: number;
   siteId: number;
 }) => {
-  return get<ElectricityPriceList>(`/site/internet/pageQuery`, params);
+  return get<ElectricityPriceList>(`/oss/site/internet/pageQuery`, params);
 };

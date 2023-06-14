@@ -17,11 +17,11 @@ const Setting = () => {
       label: `系统设置`,
       children: <System />,
     },
-    {
-      key: '3',
-      label: `告警规则`,
-      children: `Content of Tab Pane 3`,
-    },
+    // {
+    //   key: '3',
+    //   label: `告警规则`,
+    //   children: `Content of Tab Pane 3`,
+    // },
     {
       key: '4',
       label: `电价设置`,

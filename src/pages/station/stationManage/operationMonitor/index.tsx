@@ -2,35 +2,50 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 14:52:05
- * @LastEditTime: 2023-05-22 14:52:09
+ * @LastEditTime: 2023-06-13 19:38:30
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\operationMonitor\index.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\operationMonitor\index.tsx
  */
-import { getSiteId } from '@/pages/screen/Scene/helper';
-import { Spin } from 'antd';
-import { isEmpty } from 'lodash';
+import { useEffect } from 'react';
+import { Spin, Empty } from 'antd';
 import React from 'react';
-import { useRequest } from 'umi';
-import { useHistory } from 'umi';
+import { useRequest, useHistory, useModel } from 'umi';
 import { getDefaultOverviewPage } from './service';
 
 const OperationMonitor: React.FC = () => {
-  const { data = {}, loading } = useRequest(getDefaultOverviewPage);
+  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
+  const { data, loading, run } = useRequest(getDefaultOverviewPage, {
+    manual: true,
+  });
   const history = useHistory();
-  if (isEmpty(data)) {
-    history.push({
-      pathname: `/screen/standard`,
-      search: `?id=${1}`,
-    });
-  } else {
-    const { customPagePath } = data;
-    history.push({
-      pathname: customPagePath,
-      search: `?id=${getSiteId()}`,
-    });
-  }
 
-  return loading ? <Spin /> : null;
+  const standPage =
+    data?.homeType != 1 ? (
+      <div className="flex" style={{ height: '100%' }}>
+        <Empty className="flex1" description="页面开发中，敬请期待..." />
+      </div>
+    ) : (
+      <></>
+    );
+
+  useEffect(() => {
+    if (data) {
+      if (data.homeType == 1) {
+        history.push({
+          pathname: data.customPagePath,
+          search: `?id=${siteId}`,
+        });
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (siteId) {
+      run(siteId);
+    }
+  }, [siteId]);
+
+  return loading ? <Spin /> : standPage;
 };
 
 export default OperationMonitor;
