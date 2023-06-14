@@ -114,7 +114,7 @@ const Layout: FC<LayoutProps> = (props) => {
           height: docClientHeight,
         }}
       >
-        <div className={styles.content} style={getContentStyle()}>
+        <div className={styles.content} id="screen" style={getContentStyle()}>
           {props.children}
         </div>
       </div>

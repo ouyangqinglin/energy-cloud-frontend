@@ -22,9 +22,16 @@ export type DecorationProp = {
   valueType?: DecorationValueType;
   disableDecoration?: boolean;
   panelStyle?: CSSProperties;
+  scroll?: boolean;
 };
 
-const DecorationCarousel: FC<DecorationProp> = ({ title, panelStyle, valueType, children }) => {
+const DecorationCarousel: FC<DecorationProp> = ({
+  title,
+  panelStyle,
+  valueType,
+  scroll,
+  children,
+}) => {
   const carouselRef = useRef<CarouselRef>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const goToPage = (page: number) => {
@@ -110,7 +117,10 @@ const DecorationCarousel: FC<DecorationProp> = ({ title, panelStyle, valueType, 
         </div>
         <DotsIcon className={styles.dotsIcon} />
       </div>
-      <div className={styles.boxContent} style={panelStyle}>
+      <div
+        className={classnames(styles.boxContent, [scroll ? styles.boxContentScroll : ''])}
+        style={panelStyle}
+      >
         {Panel}
       </div>
     </div>

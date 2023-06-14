@@ -73,11 +73,11 @@ export const digitalFlipperItemConfig: {
       background: 'none',
       WebkitTextFillColor: 'inherit',
       fontSize: '20px',
+      fontWeight: 500,
       height: 'auto',
       lineHeight: 'inherit',
       color: '#4DD6F0',
       fontFamily: 'DIN-Bold, DIN',
-      fontWeight: 'bold',
     },
   },
   ratedCapacity: {
@@ -102,7 +102,7 @@ export const digitalFlipperItemConfig: {
       lineHeight: 'inherit',
       color: '#4DD6F0',
       fontFamily: 'DIN-Bold, DIN',
-      fontWeight: 'bold',
+      fontWeight: 500,
     },
   },
 };

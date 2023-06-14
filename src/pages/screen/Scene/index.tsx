@@ -21,6 +21,8 @@ import RealTimePower from './RealTimePower';
 import RevenueProportion from './RevenueProportion';
 import FullScreen, { useWatchFullScreen } from './FullScreen';
 import SubsystemStatistic from './SubsystemStatistic';
+import RunningLog from './RunningLog';
+import Alarm from './Alarm';
 
 const Scene = () => {
   useWatchFullScreen();
@@ -53,7 +55,9 @@ const Scene = () => {
       <StationOverview />
       <Benefit />
       <FullScreen />
-      <SubsystemStatistic></SubsystemStatistic>
+      <SubsystemStatistic />
+      <RunningLog />
+      <Alarm />
       {/* <DeviceList />
       <AlarmList />
       <EnergyStorage />

@@ -1,7 +1,7 @@
 import { Carousel, Radio } from 'antd';
 import { RadioChangeEvent } from 'antd/es/radio';
 import type { CarouselRef } from 'antd/lib/carousel';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DecorationCarousel from '../../components/DecorationCarousel';
 import Cell from '../../components/LayoutCell';
 import ChargingStation from './ChargingStation';
@@ -10,12 +10,14 @@ import styles from './index.less';
 import Photovoltaic from './Photovoltaic';
 
 const SubsystemStatistic = () => {
-  const [activeBtn, setActiveBtn] = useState(0);
+  const [activeBtn, setActiveBtn] = useState(1);
   const carouselRef = useRef<CarouselRef>(null);
-  const goToPage = (e: RadioChangeEvent) => {
-    console.log(e.target);
-    carouselRef.current?.goTo(e.target.value);
-  };
+
+  useEffect(() => {
+    if (carouselRef?.current) {
+      carouselRef.current.goTo(activeBtn);
+    }
+  }, [activeBtn, carouselRef]);
 
   return (
     <Cell cursor="default" width={400} height={635} left={1515} top={426}>
@@ -23,8 +25,8 @@ const SubsystemStatistic = () => {
         <div className={styles.subsystem}>
           <Radio.Group
             className={styles.tabsBtn}
-            onChange={goToPage}
-            defaultValue={activeBtn}
+            value={activeBtn}
+            onChange={(e) => setActiveBtn(e?.target?.value)}
             buttonStyle="solid"
           >
             <Radio.Button value={0}>光伏</Radio.Button>
@@ -32,17 +34,10 @@ const SubsystemStatistic = () => {
             <Radio.Button value={2}>充电桩</Radio.Button>
           </Radio.Group>
         </div>
-        <Carousel
-          // autoplay={true}
-          // beforeChange={changePagination}
-          className={styles.carousel}
-          dots={false}
-          ref={carouselRef}
-        >
+        <Carousel className={styles.carousel} dots={false} ref={carouselRef}>
           <Photovoltaic />
           <EnergyStorage />
-          <div>456</div>
-          {/* <ChargingStation /> */}
+          <ChargingStation />
         </Carousel>
       </DecorationCarousel>
     </Cell>

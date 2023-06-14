@@ -1,0 +1,55 @@
+.logWrapper {
+  flex: 1;
+  margin: 17px 0;
+  .log {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 22px;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+    .mark {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 3%;
+      .rect {
+        width: 6px;
+        height: 6px;
+        background: #4dd6f0;
+      }
+    }
+    .date {
+      width: 20%;
+      color: #abc9f1;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 22px;
+    }
+    .deviceName {
+      width: 20%;
+      height: 22px;
+      overflow: hidden;
+      color: #4dd6f0;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 22px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .content {
+      flex: 1;
+      width: 67%;
+      overflow: hidden;
+      color: #fff;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -11,9 +11,8 @@ import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonG
 import { List } from 'antd';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
-import DigitalFlipperItem, {
-  DigitalFlipperItemProps,
-} from '@/pages/screen/components/DigitalFlipperV2/Item';
+import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
+import DigitalFlipperItem from '@/pages/screen/components/DigitalFlipper/Item';
 
 const Photovoltaic: FC = () => {
   const { data: chartData } = useRequest(getPVChart, {
@@ -51,6 +50,7 @@ const Photovoltaic: FC = () => {
       numStyle: {
         width: 'auto',
         fontSize: 20,
+        fontWeight: 500,
         color: '#FFE04D',
         backgroundImage:
           'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
@@ -67,6 +67,7 @@ const Photovoltaic: FC = () => {
       floatLength: 2,
       numStyle: {
         width: 'auto',
+        fontWeight: 500,
         fontSize: 20,
         color: '#4DD6F0',
         background: 'none',
@@ -84,6 +85,7 @@ const Photovoltaic: FC = () => {
       unit: 'kWh',
       numStyle: {
         width: 'auto',
+        fontWeight: 500,
         fontSize: 20,
         color: '#4DD6F0',
         background: 'none',
@@ -101,6 +103,7 @@ const Photovoltaic: FC = () => {
       floatLength: 2,
       numStyle: {
         width: 'auto',
+        fontWeight: 500,
         fontSize: 20,
         color: '#4DD6F0',
         background: 'none',
@@ -120,7 +123,7 @@ const Photovoltaic: FC = () => {
   const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
   return (
     <div className={styles.contentWrapper}>
-      <div className={styles.powerGeneration}>
+      <div className={styles.realtimeStatistic}>
         <div className={styles.content}>
           实时发电功率：
           <div className={styles.number}>
@@ -128,6 +131,8 @@ const Photovoltaic: FC = () => {
           </div>
           <span className={styles.unit}>kWh</span>
         </div>
+      </div>
+      <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />
       </div>
       <div className={styles.digitalFlipperWrapper}>
@@ -150,7 +155,7 @@ const Photovoltaic: FC = () => {
           )}
         />
       </div>
-      <StatisticChart title="充电桩电量" chartData={chartData} />
+      <StatisticChart title="光伏系统发电量" chartData={chartData} />
     </div>
   );
 };

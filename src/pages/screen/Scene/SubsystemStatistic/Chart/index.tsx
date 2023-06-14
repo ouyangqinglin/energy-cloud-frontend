@@ -24,9 +24,9 @@ const StatisticChart: FC<Props> = ({
   chartConfigMap = {},
   showLegend = false,
 }) => {
-  if (isEmpty(chartData)) {
-    return <></>;
-  }
+  // if (isEmpty(chartData)) {
+  //   return <></>;
+  // }
 
   const sourceData: {
     date: string;
