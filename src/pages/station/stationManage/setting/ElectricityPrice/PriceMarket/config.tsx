@@ -2,6 +2,7 @@ import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
 import { ReactNode } from 'react';
 import type { MarketElectricityPriceInfo } from './type';
+import moment from 'moment';
 
 export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
   {
@@ -12,31 +13,36 @@ export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
   {
     title: '规则名称',
     dataIndex: 'name',
-    hideInSearch: true,
     ellipsis: true,
   },
   {
     title: '生效日期',
-    dataIndex: 'effectiveTime',
-    valueType: 'dateTime',
+    dataIndex: 'effectiveTimeList',
+    render: (_, record) => {
+      return record?.effectiveTimeList
+        ?.map?.((item) => {
+          const start = item?.effectiveTime?.split('-');
+          const end = item?.expirationTime?.split('-');
+          return `${start[0]}月${start[1]}日-${end[0]}月${end[1]}日`;
+        })
+        .join('，');
+    },
+    ellipsis: true,
     hideInSearch: true,
   },
   {
     title: '最后更新时间',
     dataIndex: 'lastOperationTime',
-    valueType: 'dateTime',
-    hideInSearch: true,
-  },
-  {
-    title: '最后更新时间',
-    dataIndex: 'updateTime.edit',
     valueType: 'dateRange',
-    hideInTable: true,
-  },
-  {
-    title: '规则',
-    dataIndex: 'rules',
-    hideInTable: true,
+    render: (_, record) => <span>{record.lastOperationTime}</span>,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
   },
   {
     title: '操作人',

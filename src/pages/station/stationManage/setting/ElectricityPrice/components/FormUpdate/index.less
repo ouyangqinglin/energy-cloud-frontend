@@ -1,0 +1,13 @@
+.timePicker {
+  :global {
+    .ant-picker-time-panel-column + .ant-picker-time-panel-column {
+      .ant-picker-time-panel-cell {
+        display: none;
+      }
+      .ant-picker-time-panel-cell:nth-child(15n + 1),
+      .ant-picker-time-panel-cell:last-child {
+        display: block;
+      }
+    }
+  }
+}

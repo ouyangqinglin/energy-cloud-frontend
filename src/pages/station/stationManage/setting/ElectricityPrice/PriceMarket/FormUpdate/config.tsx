@@ -36,19 +36,39 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
       },
       {
         title: '功率因素考核',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: '请输入功率因素考核',
+            },
+          ],
+        },
         fieldProps: {
           placeholder: '请输入',
+          className: 'w-full',
         },
         colProps: {
           span: 8,
         },
         dataIndex: 'powerFactor',
+        valueType: 'digit',
       },
       {
         title: '基本电费类型',
         dataIndex: 'electricityType',
+        valueType: 'digit',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: '请选择基本电费类型',
+            },
+          ],
+        },
         fieldProps: {
           placeholder: '请输入',
+          className: 'w-full',
         },
         colProps: {
           span: 8,
@@ -61,9 +81,19 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
       {
         title: '最大需量',
         dataIndex: 'maxDemand',
+        valueType: 'digit',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: '请选择最大需量',
+            },
+          ],
+        },
         fieldProps: {
           placeholder: '请输入',
           addonAfter: 'kW',
+          className: 'w-full',
         },
         colProps: {
           span: 8,
@@ -72,9 +102,19 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
       {
         title: '需量电价',
         dataIndex: 'demandElectrovalency',
+        valueType: 'digit',
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message: '请选择需量电价',
+            },
+          ],
+        },
         fieldProps: {
           placeholder: '请输入',
           addonAfter: '元',
+          className: 'w-full',
         },
         colProps: {
           span: 8,
@@ -124,6 +164,9 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                       message: '请输入生效日期',
                     },
                   ],
+                },
+                fieldProps: {
+                  format: 'MM/DD',
                 },
                 convertValue: (value, field) => {
                   return value;
@@ -198,6 +241,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         fieldProps: {
           copyIconProps: false,
           creatorButtonProps: {
+            className: 'pl0',
             creatorButtonText: '新增时间段',
             icon: <PlusCircleOutlined />,
             type: 'link',

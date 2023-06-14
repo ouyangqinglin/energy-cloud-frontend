@@ -201,32 +201,32 @@ export const get = <R = false>(
   return httpRequest?.instance?.get?.<R>(url, composeOptions);
 };
 
-export const del = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
-  const composeOptions = isEmpty(params)
+export const del = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+  const composeOptions = isEmpty(data)
     ? options
     : {
         options,
-        ...{ params },
+        ...{ data },
       };
   return httpRequest?.instance?.delete?.<R>(url, composeOptions);
 };
 
-export const put = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
-  const composeOptions = isEmpty(params)
+export const put = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+  const composeOptions = isEmpty(data)
     ? options
     : {
         options,
-        ...{ params },
+        ...{ data },
       };
   return httpRequest?.instance?.put?.<R>(url, composeOptions);
 };
 
-export const post = <R = false>(url: string, params?: any, options?: RequestOptionsInit) => {
-  const composeOptions = isEmpty(params)
+export const post = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+  const composeOptions = isEmpty(data)
     ? options
     : {
         options,
-        ...{ params },
+        ...{ data },
       };
   return httpRequest?.instance?.post?.<R>(url, composeOptions);
 };

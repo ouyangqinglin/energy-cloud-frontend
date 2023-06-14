@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-05-31 16:42:51
+ * @LastEditTime: 2023-06-14 10:36:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\index.tsx
  */
@@ -109,6 +109,10 @@ const Agent: React.FC = () => {
     });
   };
 
+  const onFinish = (params) => {
+    console.log(params);
+  };
+
   const tableSelectColumns: ProColumns<AgentType>[] = [
     {
       title: '代理商ID',
@@ -126,6 +130,13 @@ const Agent: React.FC = () => {
   ];
 
   const formColumns: ProFormColumnsType<AgentFormType, TABLESELECTVALUETYPE>[] = [
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      valueType: 'dateRange',
+      width: 150,
+      fieldProps: {},
+    },
     {
       title: '服务商',
       dataIndex: 'service',
@@ -153,6 +164,7 @@ const Agent: React.FC = () => {
               }
               columns={formColumns}
               layoutType="ModalForm"
+              onFinish={onFinish}
             ></BetaSchemaForm>,
           ]}
           option={{

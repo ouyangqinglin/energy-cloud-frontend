@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
+import { Form } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
-import type { FormReadModalProps } from './type';
+import type { FormReadProps } from './type';
 
 const DEFAULT_PROPS = {
   layout: 'horizontal' as 'horizontal',
@@ -11,10 +13,25 @@ export const FormRead = <FormData = any, Param = Record<string, any>>({
   request,
   columns,
   title,
+  id,
   ...restProps
-}: FormReadModalProps<FormData, Param>) => {
+}: FormReadProps<FormData, Param>) => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (restProps.visible) {
+      form?.resetFields();
+      if (id) {
+        request({ id }, {}).then((data) => {
+          form.setFieldsValue(data);
+        });
+      }
+    }
+  }, [restProps.visible, form, id, request]);
+
   return (
     <YTModalForm<FormData, Param>
+      form={form}
       title={title}
       {...DEFAULT_PROPS}
       colProps={{
@@ -22,7 +39,6 @@ export const FormRead = <FormData = any, Param = Record<string, any>>({
       }}
       layoutType={'ModalForm'}
       columns={columns}
-      request={request}
       {...restProps}
     />
   );

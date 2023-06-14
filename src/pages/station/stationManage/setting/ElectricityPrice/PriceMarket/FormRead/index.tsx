@@ -11,7 +11,7 @@ export const FormReadForMarket = (props: FormReadBaseProps) => {
       columns={columns}
       request={(param) => {
         return getMarketPrice(param).then((res) => {
-          return res.data;
+          return res?.data;
         });
       }}
       {...props}

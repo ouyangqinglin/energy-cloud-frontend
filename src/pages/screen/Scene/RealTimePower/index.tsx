@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-13 16:10:16
+ * @LastEditTime: 2023-06-14 09:20:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
@@ -60,8 +60,8 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     const result: DataType[] = [];
-    legendMap.forEach((_, key) => {
-      result.push(...getChartData(powerData?.[key] || [], key));
+    legendMap.forEach((item, key) => {
+      result.push(...getChartData(powerData?.[key] || [], item));
     });
     setChartData(result);
   }, [powerData]);
@@ -104,9 +104,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           itemName={{
             style: {
               fill: '#ACCCEC',
-            },
-            formatter: (text) => {
-              return legendMap.get(text);
             },
           }}
           itemSpacing={0}

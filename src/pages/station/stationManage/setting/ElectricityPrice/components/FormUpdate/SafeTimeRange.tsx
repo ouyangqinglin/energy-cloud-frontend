@@ -2,6 +2,7 @@ import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { TimePicker } from 'antd';
 import { useState } from 'react';
 import { isWholeDay, timeStore } from './helper';
+import styles from './index.less';
 
 const useSafeTimeRangeColum = () => {
   const [disableTime, setDisableTime] = useState<Record<string, (0 | 15 | 30 | 45 | null)[]>>({});
@@ -14,7 +15,7 @@ const useSafeTimeRangeColum = () => {
     colum: {
       title: '时间段',
       dataIndex: 'timeRange',
-      valueType: 'dateRange',
+      valueType: 'timeRange',
       colProps: {
         span: 11,
       },
@@ -82,8 +83,8 @@ const useSafeTimeRangeColum = () => {
               },
             };
           }}
-          minuteStep={15}
           format={'HH:mm'}
+          popupClassName={styles.timePicker}
         />
       ),
     } as ProFormColumnsType,
