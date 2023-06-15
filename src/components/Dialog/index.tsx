@@ -2,27 +2,19 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 14:26:38
- * @LastEditTime: 2023-06-13 15:04:44
+ * @LastEditTime: 2023-06-15 10:36:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Dialog\index.tsx
  */
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useMemo } from 'react';
 import { Modal, Spin } from 'antd';
+import type { ModalProps } from 'antd';
 import IconClose from '@/assets/image/screen/dialog/close.png';
 import './index.less';
 
-export type DialogProps = {
+export type DialogProps = ModalProps & {
   model?: string;
-  title?: string;
-  open?: boolean;
-  width?: string | number;
   loading?: boolean;
-  footer?: React.ReactNode;
-  onCancel?: () => void;
-  onOk?: () => void;
-  destroyOnClose?: boolean;
-  wrapClassName?: string;
-  confirmLoading?: boolean;
 };
 
 export const getModalProps = (model: string | undefined, wrapClassName = '') => {
@@ -41,31 +33,32 @@ const Dialog: React.FC<DialogProps> = (props) => {
     model,
     title = '设备详情',
     width = '1200px',
-    open,
-    onCancel,
-    onOk,
     loading,
-    footer,
-    destroyOnClose,
     wrapClassName,
-    confirmLoading,
+    bodyStyle = {},
+    ...restProps
   } = props;
+
+  const ModalBodyStyle = useMemo(() => {
+    return width === '1200px'
+      ? {
+          height: '780px',
+          overflow: 'auto',
+          ...bodyStyle,
+        }
+      : bodyStyle;
+  }, [width, bodyStyle]);
 
   const modalProps = getModalProps(model, wrapClassName);
 
   return (
     <Modal
-      open={open}
       title={title}
       width={width}
-      footer={footer}
-      onCancel={onCancel}
-      onOk={onOk}
-      destroyOnClose={destroyOnClose}
       {...modalProps}
-      confirmLoading={confirmLoading}
       centered
-      bodyStyle={width === '1200px' ? { height: '780px', overflow: 'auto' } : {}}
+      bodyStyle={ModalBodyStyle}
+      {...restProps}
     >
       {loading ? <Spin /> : props.children}
     </Modal>

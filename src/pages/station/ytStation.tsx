@@ -28,6 +28,7 @@ import Time from '../screen/components/Time';
 import EnergyData from '../screen/Scene/EnergyData';
 import RealTimePower from '../screen/Scene/RealTimePower';
 import RevenueProportion from '../screen/Scene/RevenueProportion';
+import Alarm from '@/components/ScreenDialog/Alarm';
 import moment from 'moment';
 
 const YtStation: React.FC = (props) => {
@@ -48,6 +49,7 @@ const YtStation: React.FC = (props) => {
   const [energyCabinet, setEnergyCabinet] = useState(false);
   const [boxSubstation, setBoxSubstation] = useState(false);
   const [positionOpen, setPositionOpen] = useState(false);
+  const [alarmOpen, setAlarmOpen] = useState(false);
 
   const showModal = () => {
     setIsOpen(true);
@@ -116,6 +118,10 @@ const YtStation: React.FC = (props) => {
     setPositionOpen(!positionOpen);
   };
 
+  const switchAlarm = () => {
+    setAlarmOpen(!alarmOpen);
+  };
+
   return (
     <div className="p16" style={{ height: '100%', background: '#04091c', overflow: 'auto' }}>
       永泰示范站
@@ -163,6 +169,9 @@ const YtStation: React.FC = (props) => {
         </Button>
         <Button className="ml12" onClick={switchPosition}>
           站点位置
+        </Button>
+        <Button className="ml12" onClick={switchAlarm}>
+          站点告警列表
         </Button>
         <EnergyDialog id={'10273'} open={isOpen} onCancel={closeModal} model="screen" />
         <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
@@ -231,6 +240,12 @@ const YtStation: React.FC = (props) => {
           id={chargeId}
           open={boxSubstation}
           onCancel={switchBoxSubstation}
+          model="screen"
+        />
+        <Alarm
+          id={'1'} // 站点id
+          open={alarmOpen}
+          onCancel={switchAlarm}
           model="screen"
         />
       </div>
