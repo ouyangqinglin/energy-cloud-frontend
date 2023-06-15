@@ -66,7 +66,7 @@ const ChartProcess: FC<Props> = () => {
           formatter: (field, item) => {
             if (field === '可放电量') {
               const dataItem = find(data, (it) => it.field === '可放电量');
-              return '可冲电量' + dataItem?.value + 'kwh';
+              return '可放电量' + dataItem?.value + 'kwh';
               // (
               //   <div>
               //     可放电量<span style={{ color: '#01CFA1' }}>{dataItem?.value + 'kwh'}</span>

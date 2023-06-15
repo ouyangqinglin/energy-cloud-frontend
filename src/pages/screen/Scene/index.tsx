@@ -23,6 +23,7 @@ import FullScreen, { useWatchFullScreen } from './FullScreen';
 import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import Alarm from './Alarm';
+import Geometry from './Geometry';
 
 const Scene = () => {
   useWatchFullScreen();
@@ -58,13 +59,7 @@ const Scene = () => {
       <SubsystemStatistic />
       <RunningLog />
       <Alarm />
-      {/* <DeviceList />
-      <AlarmList />
-      <EnergyStorage />
-      <ChargingStation />
-      <Photovoltaic />
       <Geometry />
-      <StationInfo /> */}
     </>
   );
 };

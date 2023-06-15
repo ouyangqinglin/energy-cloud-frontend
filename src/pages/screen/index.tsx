@@ -1,14 +1,16 @@
 import type { FC } from 'react';
-import StationLayout from '@/layouts/StationLayout';
 import Layout, { ScaleMode } from './components/Layout';
 import Scene from './Scene';
+import LayoutBg from '@/assets/image/screen/background/示范站_背景@2x.png';
 
 const Screen: FC = () => {
   return (
     <Layout
       screenH={1080}
       screenW={1920}
-      // palette={{ backgroundImage }}
+      palette={{
+        backgroundImage: LayoutBg,
+      }}
       scaleMode={ScaleMode.H_SCALE}
     >
       <Scene />
