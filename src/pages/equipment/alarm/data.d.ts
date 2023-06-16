@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:23:41
- * @LastEditTime: 2023-05-25 10:23:41
+ * @LastEditTime: 2023-06-16 16:18:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\data.d.ts
  */
@@ -11,7 +11,7 @@ export type AlarmType = {
   id: string;
   content: string;
   device: string;
-  station: string;
+  siteName: string;
   status: number;
   source: string;
   alarmTime: string;

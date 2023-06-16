@@ -10,6 +10,7 @@ import React, { useMemo } from 'react';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useModel, history, useLocation, useRouteMatch } from 'umi';
+import styles from './index.less';
 
 export type MyMenuProps = {
   onClick?: () => void;
@@ -37,6 +38,7 @@ const MyMenu: React.FC<MyMenuProps> = (props) => {
   return (
     <>
       <Menu
+        className={styles.modalMenu}
         selectedKeys={keys.selected}
         items={initialState?.antMenus}
         mode="inline"

@@ -2,13 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 15:48:18
- * @LastEditTime: 2023-06-13 11:35:15
+ * @LastEditTime: 2023-06-16 16:31:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\ytStation.tsx
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Button } from 'antd';
+import { useBoolean } from 'ahooks';
+import type { ProColumns } from '@ant-design/pro-table';
 import EnergyDialog from '@/components/ScreenDialog/EnergyDialog';
 import Weather from '@/pages/screen/components/Weather';
 import PvInverter from '@/components/ScreenDialog/PvInverter';
@@ -24,12 +26,16 @@ import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
 import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
 import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
 import Position from '@/components/ScreenDialog/Position';
+import Device from '@/components/ScreenDialog/Device';
 import Time from '../screen/components/Time';
 import EnergyData from '../screen/Scene/EnergyData';
 import RealTimePower from '../screen/Scene/RealTimePower';
 import RevenueProportion from '../screen/Scene/RevenueProportion';
 import Alarm from '@/components/ScreenDialog/Alarm';
 import moment from 'moment';
+import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
+import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
+import type { dealTreeDataType } from '@/components/TableSelect';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,6 +56,8 @@ const YtStation: React.FC = (props) => {
   const [boxSubstation, setBoxSubstation] = useState(false);
   const [positionOpen, setPositionOpen] = useState(false);
   const [alarmOpen, setAlarmOpen] = useState(false);
+  const [openTableSelect, { setTrue, setFalse }] = useBoolean(false);
+  const [openDevice, { setTrue: setDeviceTrue, setFalse: setDeviceFalse }] = useBoolean(false);
 
   const showModal = () => {
     setIsOpen(true);
@@ -122,6 +130,30 @@ const YtStation: React.FC = (props) => {
     setAlarmOpen(!alarmOpen);
   };
 
+  const requestTree = useCallback(() => {
+    return getDeviceTree({ siteId: 1 });
+  }, []);
+
+  const dealTreeData = useCallback<dealTreeDataType>((item) => {
+    item.checkable = item.productId == 516;
+  }, []);
+
+  const tableSelectColumns: ProColumns[] = [
+    {
+      title: '采集点ID',
+      dataIndex: 'paramCode',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '采集点',
+      dataIndex: 'paramName',
+      width: 200,
+      ellipsis: true,
+    },
+  ];
+
   return (
     <div className="p16" style={{ height: '100%', background: '#04091c', overflow: 'auto' }}>
       永泰示范站
@@ -167,11 +199,17 @@ const YtStation: React.FC = (props) => {
         <Button className="ml12" onClick={switchBoxSubstation}>
           箱式变电站
         </Button>
+        <Button className="ml12" onClick={setDeviceTrue}>
+          通用设备弹窗
+        </Button>
         <Button className="ml12" onClick={switchPosition}>
           站点位置
         </Button>
         <Button className="ml12" onClick={switchAlarm}>
           站点告警列表
+        </Button>
+        <Button className="ml12" onClick={setTrue}>
+          设备绑定
         </Button>
         <EnergyDialog id={'10273'} open={isOpen} onCancel={closeModal} model="screen" />
         <EnergyDialog id={chargeId} open={energyOpen} onCancel={switchEnergyModal} />
@@ -242,11 +280,37 @@ const YtStation: React.FC = (props) => {
           onCancel={switchBoxSubstation}
           model="screen"
         />
+        <Device id={chargeId} open={openDevice} onCancel={setDeviceFalse} model="screen" />
         <Alarm
           id={'1'} // 站点id
           open={alarmOpen}
           onCancel={switchAlarm}
           model="screen"
+        />
+        <TableTreeModal
+          model="screen"
+          multiple={false}
+          selectType={SelectTypeEnum.Device}
+          title="选择设备"
+          open={openTableSelect}
+          onCancel={setFalse}
+          treeProps={{
+            fieldNames: {
+              title: 'deviceName',
+              key: 'id',
+              children: 'children',
+            },
+            request: requestTree,
+          }}
+          proTableProps={{
+            columns: tableSelectColumns,
+            request: getDeviceCollection,
+          }}
+          valueId="id"
+          valueName="deviceName"
+          dealTreeData={dealTreeData}
+          // value={[]}
+          // onChange={}
         />
       </div>
       <Weather />

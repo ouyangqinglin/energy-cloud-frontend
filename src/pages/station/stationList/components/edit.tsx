@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-06-08 16:57:21
+ * @LastEditTime: 2023-06-16 10:56:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -78,7 +78,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       return request({
         ...formData,
-        id,
+        siteId: id,
         logo: formData.logoList ? formData.logoList.map((item) => item.url).join(',') : '',
         photos: formData.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
         address: formData?.addressInfo?.address,
@@ -128,7 +128,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       <ModalForm<StationFormType>
         visible={props.open}
         form={form}
-        title="创建站点"
+        title={type === FormTypeEnum.Edit ? '编辑站点' : '创建站点'}
         autoFocusFirstInput
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}

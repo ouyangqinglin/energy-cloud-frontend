@@ -102,7 +102,7 @@ const TableTreeModal = <
     proTableProps = {},
     valueId = 'id',
     valueName = 'name',
-    value = [],
+    value,
     onChange,
     selectType = SelectTypeEnum.Collect,
     dealTreeData,
