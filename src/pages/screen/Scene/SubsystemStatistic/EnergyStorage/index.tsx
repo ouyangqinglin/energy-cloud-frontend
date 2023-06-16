@@ -62,7 +62,7 @@ const EnergyStorage: FC = () => {
       {
         ...digitalFlipperItemConfig.runningState,
         ...{
-          num: keepTwoDecimalWithUnit(chargeData?.ACC),
+          num: 1,
         },
       },
       {

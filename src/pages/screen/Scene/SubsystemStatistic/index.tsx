@@ -21,7 +21,7 @@ const SubsystemStatistic = () => {
 
   return (
     <Cell cursor="default" width={400} height={635} left={1515} top={426}>
-      <DecorationCarousel panelStyle={{ padding: 0 }} title="系统运行数据">
+      <DecorationCarousel panelStyle={{ padding: 0 }} title="子系统运行数据">
         <div className={styles.subsystem}>
           <Radio.Group
             className={styles.tabsBtn}

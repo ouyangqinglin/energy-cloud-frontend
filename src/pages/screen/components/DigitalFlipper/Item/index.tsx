@@ -14,7 +14,7 @@ export type DigitalFlipperItemProps = {
   comma?: boolean;
   prefix?: string | ReactNode;
   suffix?: string | ReactNode;
-  render?: (num: any) => string | ReactNode;
+  render?: (num: any) => ReactNode;
   unit?: string;
   titleStyle?: CSSProperties;
   numStyle?: CSSProperties;

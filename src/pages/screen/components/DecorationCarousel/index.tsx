@@ -105,7 +105,7 @@ const DecorationCarousel: FC<DecorationProp> = ({
     <div className={classnames([styles.wrapper, styles.wrapperRect])}>
       <div className={classnames(styles.boxHeader)}>
         <div className={styles.leftContent}>
-          <div className={styles.iconWrapper}>{/* <TagIcon className={styles.tagIcon} /> */}</div>
+          <div className={styles.iconWrapper} />
           <span className={styles.text}>{title}</span>
         </div>
         <div className={styles.rightContent}>{Operation}</div>

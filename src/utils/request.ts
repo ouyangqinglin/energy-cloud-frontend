@@ -74,6 +74,12 @@ export type ResponsePageData<T> = {
   msg: string;
 };
 
+export type ResponseCommonData<T> = {
+  code: string;
+  data: T;
+  msg: string;
+};
+
 export type ResponsePromise<T = any, U = any> = Promise<T> & {
   tableThen: () => Promise<RequestData<U>>;
 };
@@ -187,7 +193,7 @@ class HttpRequest implements HttpRequestType {
 const httpRequest = new HttpRequest();
 httpRequest.init();
 
-export const get = <R = false>(
+export const get = <R = any>(
   url: string,
   params?: object | URLSearchParams,
   options?: RequestOptionsInit,
@@ -198,37 +204,37 @@ export const get = <R = false>(
         options,
         ...{ params },
       };
-  return httpRequest?.instance?.get?.<R>(url, composeOptions);
+  return httpRequest?.instance?.get?.<ResponseCommonData<R>>(url, composeOptions);
 };
 
-export const del = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const del = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.delete?.<R>(url, composeOptions);
+  return httpRequest?.instance?.delete?.<ResponseCommonData<R>>(url, composeOptions);
 };
 
-export const put = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const put = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.put?.<R>(url, composeOptions);
+  return httpRequest?.instance?.put?.<ResponseCommonData<R>>(url, composeOptions);
 };
 
-export const post = <R = false>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const post = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.post?.<R>(url, composeOptions);
+  return httpRequest?.instance?.post?.<ResponseCommonData<R>>(url, composeOptions);
 };
 
 const request: HttpRequest['request'] = <T, U>(

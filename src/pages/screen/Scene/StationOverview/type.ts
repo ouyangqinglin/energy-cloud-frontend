@@ -16,3 +16,17 @@ export interface SiteInfoRes extends SiteInfoFront {
 export interface SiteInfoFront {
   energyStorageCapacityFront: string;
 }
+
+export interface DeviceNumRes {
+  energyStorageNumber: number;
+  chargingHostNumber: number;
+  overchargedPileNumber: number;
+  fastFillingPileNumber: number;
+  acpileNumber: number;
+  pvinverterNumber: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+export interface CombineDeviceRes extends DeviceNumRes, SiteInfoRes {
+  [index: string]: any;
+}
