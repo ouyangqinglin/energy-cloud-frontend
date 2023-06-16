@@ -3,7 +3,7 @@ import Time from '../../components/Time';
 
 const ScreenTime = () => {
   return (
-    <Cell cursor="default" width={337} height={38} left={24} top={8}>
+    <Cell cursor="default" width={347} height={38} left={24} top={8}>
       <Time />
     </Cell>
   );

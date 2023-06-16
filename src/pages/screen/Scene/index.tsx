@@ -36,7 +36,11 @@ const Scene = () => {
         </Cell>
       </QueueAnim> */}
       <Cell cursor="default" width={400} height={258} left={24} top={468}>
-        <DecorationCarousel title="能耗数据" valueType="timeButtonGroup">
+        <DecorationCarousel
+          panelStyle={{ padding: '17px 16px' }}
+          title="能耗数据"
+          valueType="timeButtonGroup"
+        >
           <EnergyData timeType={TimeType.DAY} />
         </DecorationCarousel>
       </Cell>

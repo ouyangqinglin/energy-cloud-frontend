@@ -6,4 +6,5 @@ export interface BenefitsRes {
   cumulativeEconomicPerformance: string;
   siteId: number;
   todayEconomicPerformance: string;
+  coal?: any;
 }

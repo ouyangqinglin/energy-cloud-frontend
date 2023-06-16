@@ -1,5 +1,3 @@
-import Cafe from '@/assets/image/screen/scenes/img_咖啡店_def@2x.png';
-import HomeEnergyStorage from '@/assets/image/screen/scenes/img_家储_def@2x.png';
 import ChargingStation160KW from '@/assets/image/screen/scenes/img_充电桩160KW_def@2x.png';
 import ChargingStation120KW from '@/assets/image/screen/scenes/充电桩120KW_def@2x.png';
 import ChargingTerminal from '@/assets/image/screen/scenes/img_充电终端1_def@2x.png';
@@ -16,29 +14,6 @@ import { DeviceMark } from './type';
 
 export const CellList: CellConfigItem[] = [
   {
-    key: 'Cafe',
-    name: '咖啡厅负载',
-    cellStyle: {
-      width: 208,
-      height: 130,
-      left: 991,
-      top: 679,
-      cursor: 'default',
-    },
-    component: Cafe,
-  },
-  {
-    key: 'HomeEnergyStorage',
-    cellStyle: {
-      width: 212,
-      height: 150,
-      left: 850,
-      top: 742,
-      cursor: 'default',
-    },
-    component: HomeEnergyStorage,
-  },
-  {
     key: 'ChargingStation160KW',
     // deviceId: 'ChargingStation160KW',
     deviceType: DeviceType.DC_PILE,
@@ -46,8 +21,8 @@ export const CellList: CellConfigItem[] = [
     cellStyle: {
       width: 63,
       height: 61,
-      left: 600,
-      top: 595,
+      left: 559,
+      top: 543,
     },
     component: ChargingStation160KW,
     default: ChargingStation160KW,
