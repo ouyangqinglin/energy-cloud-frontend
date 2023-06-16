@@ -32,6 +32,12 @@ export const enum DeviceMark {
   PV_INVERTER_2,
   DC_PILE_120KW,
   POWER_EXCHANGE_BOX,
+
+  // 右侧
+  YT_CHARGING_TERMINAL_3,
+  YT_CHARGING_TERMINAL_4,
+  YT_CHARGING_TERMINAL_5,
+  YT_AC_CHARGING_TERMINAL,
 }
 
 export interface CellConfigItem {

@@ -1,5 +1,5 @@
-import { getSiteId } from '@/pages/screen/components/Scene/helper';
 import { get } from '@/utils/request';
+import { getSiteId } from '../../helper';
 import type { ChargingStationRes } from './type';
 
 export const getChargingStation = () => {

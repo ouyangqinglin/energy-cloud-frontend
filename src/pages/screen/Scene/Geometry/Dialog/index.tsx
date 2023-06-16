@@ -87,7 +87,7 @@ const DeviceDialog: React.FC<Props> = (props) => {
       <PvInverterCabinet open={status.pvCabinet} {...restProps} />
       <EnergyCabinet open={status.energyCabinet} {...restProps} />
       <BoxSubstation open={status.boxTypeSubstation} {...restProps} />
-      <EnergyDialog open={status.energyStorageBox} {...restProps} />
+      {/* <EnergyDialog open={status.energyStorageBox} {...restProps} /> */}
     </>
   );
 };

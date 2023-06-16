@@ -1,6 +1,6 @@
-import { getSiteId } from '@/pages/screen/components/Scene/helper';
 import { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { get } from '@/utils/request';
+import { getSiteId } from '../../helper';
 import type { ChargeAndDisChargeRes, EnergyStorageChartRes, StatisticsRes } from './type';
 
 export const getEnergyStorageStatistic = () => {

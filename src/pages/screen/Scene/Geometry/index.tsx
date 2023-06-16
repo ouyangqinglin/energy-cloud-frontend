@@ -4,11 +4,12 @@ import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/Geometry
 import type { FC, ReactNode } from 'react';
 import { useMemo, useRef } from 'react';
 import { useState } from 'react';
-import { CellList as defaultConfigs } from './config';
+import { chargingStackCeils } from './config';
+import { otherCeils } from './configOtherDevice';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 // import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
-import DeviceDialog from './Dialog';
+// import DeviceDialog from './Dialog';
 import type { CellConfigItem, DeviceInfoType } from './type';
 import { getDeviceList } from './service';
 import { useRequest } from 'umi';
@@ -35,7 +36,7 @@ const Geometry: FC = () => {
     onError: renderChildren,
     onSuccess: renderChildren,
   });
-  const ceilsConfig = cloneDeep(defaultConfigs);
+  const ceilsConfig = cloneDeep([...chargingStackCeils, ...otherCeils]);
   const fillDeviceIdForMarkDevices = () => {
     if (deviceList && deviceList?.length) {
       deviceList.forEach((device) => {
@@ -72,8 +73,8 @@ const Geometry: FC = () => {
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
       const { cellStyle } = cell;
-      cellStyle.left = cellStyle.left - 440;
-      cellStyle.top = cellStyle.top - 280;
+      // cellStyle.left = cellStyle.left - 441;
+      // cellStyle.top = cellStyle.top - 221;
       return (
         <Cell key={cell.key} onClick={() => handleGeometry(cell)} {...cellStyle}>
           <div className={styles.wrapper}>
@@ -119,15 +120,14 @@ const Geometry: FC = () => {
       <div className={styles.backgroundBottom} />
       <div className={styles.backgroundTop} />
       {/* <DeviceDialog {...deviceInfo} onCancel={closeDialog} /> */}
-      {showChild && (
-        <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
-          <Cell width={865} height={390} left={142} top={86}>
-            <EnergyFlowLine />
-          </Cell>
-          {/* <EnergyFlowAnimation /> */}
-          {/* {ceils} */}
-        </QueueAnim>
-      )}
+
+      <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
+        <Cell width={865} height={390} left={142} top={86}>
+          <EnergyFlowLine />
+        </Cell>
+        <EnergyFlowAnimation />
+        {ceils}
+      </QueueAnim>
     </Cell>
   );
 };

@@ -4,15 +4,15 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { leftPathsConfig } from './configLeftPaths';
 import { rightPathsConfig, rightPathsNeedCalc, rightPathsDynamical } from './configRightPaths';
-import styles from './index.module.less';
+import styles from './index.less';
 import type { PathConfigType } from './type';
 
 const EnergyFlow: FC = () => {
   const [paths, setPaths] = useState<PathConfigType[]>([
     ...leftPathsConfig,
-    ...rightPathsConfig,
-    ...rightPathsNeedCalc,
-    ...rightPathsDynamical,
+    // ...rightPathsConfig,
+    // ...rightPathsNeedCalc,
+    // ...rightPathsDynamical,
   ]);
 
   const calcPointWithRadian = ({
@@ -86,7 +86,7 @@ const EnergyFlow: FC = () => {
 
   return (
     <QueueAnim delay={1500} ease="easeInOutQuart">
-      <Cell key="animation" width={684} height={332} left={200} top={92}>
+      <Cell key="animation" width={865} height={390} left={141} top={79}>
         {paths.map((p) => {
           let styleConfig = {
             animationDelay: `-${p.delay}s`,
