@@ -202,6 +202,17 @@ const logo = [
   'Sketch',
 ];
 
+const ytIcon = [
+  'YTHome',
+  'YTStation',
+  'YTWorkOrder',
+  'YTData',
+  'YTDevice',
+  'YTPartner',
+  'YTUser',
+  'YTSetting',
+];
+
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];
 
 const other = all.filter((n) => !datum.includes(n));
@@ -213,6 +224,7 @@ export const categories = {
   data,
   logo,
   other,
+  ytIcon,
 };
 
 export default categories;

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Icon, * as AntdIcons from '@ant-design/icons';
+import * as YTIcons from '../YTIcons';
 import { Radio, Input, Empty, Tabs, Row, Col } from 'antd';
 import type { RadioChangeEvent } from 'antd/es/radio/interface';
 import { injectIntl } from 'react-intl';
@@ -18,7 +19,7 @@ export enum ThemeType {
   TwoTone = 'TwoTone',
 }
 
-const allIcons: Record<string, any> = AntdIcons;
+const allIcons: Record<string, any> = { ...AntdIcons, ...YTIcons };
 
 interface IconSelectorProps {
   intl: any;
@@ -66,6 +67,7 @@ class IconSelector extends React.PureComponent<IconSelectorProps, IconSelectorSt
       data: '数据类图标',
       logo: '品牌和标识',
       other: '网站通用图标',
+      ytIcon: '永泰图标',
     };
     return titles[cate];
   }

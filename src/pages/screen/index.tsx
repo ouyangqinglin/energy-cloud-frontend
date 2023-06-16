@@ -6,6 +6,7 @@ import LayoutBg from '@/assets/image/screen/background/示范站_背景@2x.png';
 const Screen: FC = () => {
   return (
     <Layout
+      id="demo-staion"
       screenH={1080}
       screenW={1920}
       palette={{
