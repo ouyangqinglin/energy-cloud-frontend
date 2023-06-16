@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-13 14:07:45
+ * @LastEditTime: 2023-06-16 11:09:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -167,19 +167,21 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
         model={model}
         open={open}
         title={(type === FormTypeEnum.Add ? '新增' : '编辑') + '设备'}
-        width="460px"
+        width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
         confirmLoading={getLoading || editLoading || addLoading}
       >
         <ProForm<EquipFormType>
           form={form}
-          layout="horizontal"
-          labelCol={{ flex: '94px' }}
           autoFocusFirstInput
           onFinish={onFinish}
           onValuesChange={onValuesChange}
           submitter={false}
+          grid={true}
+          colProps={{
+            span: 12,
+          }}
         >
           {isStationChild ? (
             <></>
@@ -258,6 +260,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
                 <PlusOutlined />
               </div>
             }
+            colProps={{
+              span: 24,
+            }}
           ></ProFormUploadButton>
         </ProForm>
       </Dialog>

@@ -11,7 +11,7 @@ export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items']
       arr.push({
         label: item?.meta?.title,
         key: path,
-        icon: createIcon(item?.meta?.icon),
+        icon: createIcon(item?.meta?.icon, { style: { fontSize: '20px' } }),
         ...(item.children ? { children: getMenus(item.children, path) } : {}),
       });
     }

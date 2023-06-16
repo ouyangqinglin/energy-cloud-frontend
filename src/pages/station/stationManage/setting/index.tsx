@@ -4,6 +4,7 @@ import ElectricityPrice from './ElectricityPrice';
 import styles from './index.less';
 import System from './System';
 import StationInfo from '../info/stationInfo';
+import Record from './Record';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
@@ -27,15 +28,15 @@ const Setting = () => {
       label: `电价设置`,
       children: <ElectricityPrice />,
     },
-    {
-      key: '5',
-      label: `用户管理`,
-      // children: <ElectricityPrice />,
-    },
+    // {
+    //   key: '5',
+    //   label: `用户管理`,
+    //   // children: <ElectricityPrice />,
+    // },
     {
       key: '6',
       label: `设置记录`,
-      // children: <ElectricityPrice />,
+      children: <Record />,
     },
   ];
 

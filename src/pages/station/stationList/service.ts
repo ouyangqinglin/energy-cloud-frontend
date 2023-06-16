@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 14:26:05
- * @LastEditTime: 2023-06-07 14:58:47
+ * @LastEditTime: 2023-06-16 10:44:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\service.ts
  */
@@ -33,7 +33,7 @@ export const addData = (data: StationFormType) => {
 };
 
 export const editData = (data: StationFormType) => {
-  return request(`/uc/site`, {
+  return request(`/oss/site`, {
     method: 'PUT',
     data,
   });

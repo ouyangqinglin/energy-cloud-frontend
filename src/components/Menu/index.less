@@ -20,13 +20,21 @@
 .tabs {
   :global {
     .ant-tabs-nav {
-      margin-bottom: 0;
+      margin-bottom: 0 !important;
       &::before {
         display: none;
       }
     }
     .ant-tabs-tab {
       font-size: 16px;
+    }
+  }
+}
+
+.modalMenu {
+  :global {
+    .ant-menu-sub.ant-menu-inline {
+      background: none;
     }
   }
 }

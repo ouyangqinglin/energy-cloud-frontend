@@ -9,9 +9,9 @@
 
 export type OperationLogType = {
   id: number;
-  content: string;
+  serviceName: string;
   deviceName: string;
-  siteName: string;
-  operator: string;
   createTime: string;
+  siteName: string;
+  createByName: string;
 };
