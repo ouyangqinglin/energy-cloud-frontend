@@ -9,6 +9,7 @@ export const enum ScaleMode {
   W_SCALE,
 }
 export type LayoutProps = {
+  id?: string;
   screenW: number;
   screenH: number;
   scaleMode: ScaleMode;
@@ -106,7 +107,7 @@ const Layout: FC<LayoutProps> = (props) => {
   }, [docClientWidth, docClientHeight, resetLayout]);
 
   return (
-    <div className={styles.dashboard} ref={refContainer} style={dashBoardStyle}>
+    <div id={props.id || ''} className={styles.dashboard} ref={refContainer} style={dashBoardStyle}>
       <div
         className={styles.contentWrapper}
         style={{

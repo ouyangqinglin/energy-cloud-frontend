@@ -1,7 +1,8 @@
 import * as AntdIcons from '@ant-design/icons';
+import * as YTIcons from '@/components/YTIcons';
 import React from 'react';
 
-const allIcons: Record<string, any> = AntdIcons;
+const allIcons: Record<string, any> = { ...AntdIcons, ...YTIcons };
 
 export function getIcon(name: string): React.ReactNode | string {
   const icon = allIcons[name];

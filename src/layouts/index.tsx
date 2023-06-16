@@ -14,12 +14,9 @@ import styles from './index.less';
 import PageMenu from '@/components/Menu/PageMenu';
 import TopMenu from '@/components/Menu/TopMenu';
 import Breadcrumb from '@/components/Breadcrumb';
-import { useModel } from 'umi';
 
 const MyLayout: React.FC = (props: any) => {
   const { route = {} } = props;
-
-  const { outlined } = useModel('screen', (model) => ({ outlined: model.outlined }));
 
   const layoutMenu = useMemo(() => {
     if (route?.menu == 'sider') {
@@ -28,7 +25,7 @@ const MyLayout: React.FC = (props: any) => {
           <PageMenu />
         </Layout.Sider>
       );
-    } else if (route?.menu == 'top' && !outlined) {
+    } else if (route?.menu == 'top') {
       return (
         <Layout.Header className={styles.topHeader}>
           <TopMenu />
@@ -37,20 +34,16 @@ const MyLayout: React.FC = (props: any) => {
     } else {
       return <></>;
     }
-  }, [route?.menu, outlined]);
-
-  const resetPadding = outlined ? { padding: 0 } : {};
+  }, [route?.menu]);
 
   return (
     <Layout className={styles.myLayout}>
-      {!outlined && (
-        <Layout.Header className={styles.header}>
-          <MyHeader />
-        </Layout.Header>
-      )}
+      <Layout.Header className={styles.header}>
+        <MyHeader />
+      </Layout.Header>
       <Layout id="myLayoutContain">
         {layoutMenu}
-        <Layout.Content className={styles.content} style={resetPadding}>
+        <Layout.Content className={styles.content}>
           {route?.menu == 'sider' && <Breadcrumb />}
           {route?.name === 'stationManage'
             ? React.Children.map(props.children, (child) => {

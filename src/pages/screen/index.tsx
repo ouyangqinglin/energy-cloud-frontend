@@ -6,6 +6,7 @@ import Scene from './Scene';
 const Screen: FC = () => {
   return (
     <Layout
+      id="demo-staion"
       screenH={1080}
       screenW={1920}
       // palette={{ backgroundImage }}

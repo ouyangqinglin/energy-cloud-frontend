@@ -19,14 +19,12 @@ import { TimeType } from '../components/TimeButtonGroup';
 import Cell from '../components/LayoutCell';
 import RealTimePower from './RealTimePower';
 import RevenueProportion from './RevenueProportion';
-import FullScreen, { useWatchFullScreen } from './FullScreen';
+import FullScreen from './FullScreen';
 import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import Alarm from './Alarm';
 
 const Scene = () => {
-  useWatchFullScreen();
-
   return (
     <>
       {/* {/* <QueueAnim duration={1000} delay={30} type={['left', 'right']} ease="easeInOutQuart">
@@ -54,7 +52,7 @@ const Scene = () => {
       <ScreenWeather />
       <StationOverview />
       <Benefit />
-      <FullScreen />
+      <FullScreen target={() => document.getElementById('demo-staion') || document.body} />
       <SubsystemStatistic />
       <RunningLog />
       <Alarm />

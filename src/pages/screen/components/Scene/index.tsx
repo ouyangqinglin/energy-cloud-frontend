@@ -12,11 +12,8 @@ import Weather from '../Weather';
 import Benefit from './Benefits';
 import QueueAnim from 'rc-queue-anim';
 import { getSiteId } from './helper';
-import { useWatchFullScreen } from '@/components/header/FullScreen';
 
 const Scene: FC = () => {
-  useWatchFullScreen();
-
   return (
     <>
       {/* <FullScreen /> */}

@@ -10,7 +10,7 @@ import styles from './index.less';
  * // MDN: https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API/Guide
  */
 const FullScreen = () => {
-  const [visible, { toggle: toggleVisible }] = useToggle(true);
+  const [visible, { set: toggleVisible }] = useToggle(true);
   const { outlined, setOutlined } = useModel('screen');
   const [_, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body);
 
