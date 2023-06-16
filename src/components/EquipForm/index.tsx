@@ -78,7 +78,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   const requestStations = useCallback(
     () =>
       getStations().then(({ data = {} }) => {
-        return data?.map((item: any) => {
+        return data?.map?.((item: any) => {
           return {
             label: item.name,
             value: item.id,
