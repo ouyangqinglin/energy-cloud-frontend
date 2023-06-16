@@ -9,6 +9,7 @@ export default {
       yearEconomicPerformance: '2.41600',
       cumulativeEconomicPerformance: '2.41600',
       siteId: 1,
+      coal: 12,
       todayEconomicPerformance: '2.41600',
     },
   },

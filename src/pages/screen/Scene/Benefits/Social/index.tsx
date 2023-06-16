@@ -5,19 +5,19 @@ import Cell from '@/pages/screen/components/LayoutCell';
 import type { FC } from 'react';
 import type { BenefitsRes } from '../type';
 
-type Props = Pick<BenefitsRes, 'conserveEnergyReduceEmissions' | 'cumulativeTree'>;
+type Props = Pick<BenefitsRes, 'conserveEnergyReduceEmissions' | 'cumulativeTree' | 'coal'>;
 
 const BenefitSocial: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
       title: '节约标准煤',
-      unit: '吨',
+      unit: 'kg',
       comma: true,
-      num: props.conserveEnergyReduceEmissions,
+      num: props.coal,
     },
     {
       title: 'CO₂减排量',
-      unit: '吨',
+      unit: 'kg',
       comma: true,
       num: props.conserveEnergyReduceEmissions,
     },

@@ -1,4 +1,3 @@
-import Decoration from '@/pages/screen/components/Decoration';
 import DecorationCarousel from '@/pages/screen/components/DecorationCarousel';
 import DigitalFlipperGroup from '@/pages/screen/components/DigitalFlipperV2/Group';
 import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipperV2/Item';
