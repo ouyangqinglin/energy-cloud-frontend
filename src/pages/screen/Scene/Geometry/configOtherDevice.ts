@@ -120,8 +120,7 @@ export const otherCeils: CellConfigItem[] = [
   {
     key: 'YTChargingHost',
     mark: DeviceMark.YT_CHARGING_HOST,
-    //??
-    deviceType: DeviceType.ENERGY_STORAGE_BOX,
+    deviceType: DeviceType.CHARGING_HOST,
     cellStyle: {
       width: 31,
       height: 56,

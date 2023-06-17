@@ -10,6 +10,7 @@ import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
 import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
 import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
 import { assign } from 'lodash';
+import Device from '@/components/ScreenDialog/Device';
 
 type Props = {
   deviceId: string | number;
@@ -29,6 +30,7 @@ const DEFAULT_STATUS = {
   pvCabinet: false,
   energyCabinet: false,
   boxTypeSubstation: false,
+  chargingHost: false,
 };
 
 export const enum DeviceType {
@@ -42,6 +44,7 @@ export const enum DeviceType {
   PV_CABINET,
   ENERGY_CABINET,
   BOX_TYPE_SUBSTATION,
+  CHARGING_HOST,
 }
 
 export const keyToType = {
@@ -55,6 +58,7 @@ export const keyToType = {
   [DeviceType.PV_CABINET]: 'pvCabinet',
   [DeviceType.ENERGY_CABINET]: 'energyCabinet',
   [DeviceType.BOX_TYPE_SUBSTATION]: 'boxTypeSubstation',
+  [DeviceType.CHARGING_HOST]: 'chargingHost',
 };
 
 const DeviceDialog: React.FC<Props> = (props) => {
@@ -87,7 +91,8 @@ const DeviceDialog: React.FC<Props> = (props) => {
       <PvInverterCabinet open={status.pvCabinet} {...restProps} />
       <EnergyCabinet open={status.energyCabinet} {...restProps} />
       <BoxSubstation open={status.boxTypeSubstation} {...restProps} />
-      {/* <EnergyDialog open={status.energyStorageBox} {...restProps} /> */}
+      <Device open={status.chargingHost} {...restProps} />
+      <EnergyDialog open={status.energyStorageBox} {...restProps} />
     </>
   );
 };

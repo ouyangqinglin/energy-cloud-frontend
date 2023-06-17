@@ -1,224 +1,44 @@
-export const rightPathsConfig = [
+import type { PathConfigType } from './type';
+
+export const rightPathsConfig: PathConfigType[] = [
+  // 右一永泰快充充电桩
   {
-    id: 'DC-pile-input',
-    path: 'M13.2170854,74.9984125 L359.787495,274.521164 C364.432143,277.195116 370.130356,277.230673 374.799684,274.637221 L375.123756,274.452017 L397.248601,261.447582 L398.008689,262.740743',
-    // reversePath: true,
+    id: 'right_1_yt_terminal',
+    duration: 2,
+    delay: 0,
+    repeat: 1,
+    path: 'M524.406 199.881 L547.813 186.252',
+  },
+  // 右二永泰120kw直流桩
+  {
+    id: 'right_2_yt_DC_terminal',
+    duration: 2,
+    delay: 0,
+    repeat: 1,
+    path: 'M572.444 252.344l-0-0 38.788-22.814',
+  },
+  // 右三永泰快充充电桩
+  {
+    id: 'right_3_yt_terminal',
+    duration: 2,
+    delay: 0,
+    repeat: 1,
+    path: 'M653.476 275.244l0 0 22.434-13.356',
+  },
+  // 右四永泰快充充电桩
+  {
+    id: 'right_4_yt_terminal',
+    duration: 8,
+    delay: 0,
+    repeat: 4,
+    path: 'm566.461 114.999.756 1.296-87.8 51.183a3.25 3.25 0 0 0-.17 5.509l.163.101 227.096 133.287a9.25 9.25 0 0 0 9.04.182l.263-.146 19.085-11.004.75 1.3',
+  },
+  // 右五永泰交流桩
+  {
+    id: 'right_5_yt_ac_terminal',
     duration: 12,
     delay: 0,
     repeat: 6,
-    style: {
-      transform: 'translate(0px, 1px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
-    id: 'transformer-input',
-    path: 'M81.5501372 -0.648197639 110.070041 15.9516393',
-    // reversePath: true,
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(0px, 4px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
-    id: 'from-inverter-to-photovoltaic-grid-connected-cabinet',
-    path: 'M326.239648,168.160546 L270.547303,135.907993',
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(0px, -3px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-];
-
-export const rightPathsNeedCalc = [
-  {
-    id: 'transformer-output',
-    path: '107.972432 32.4902356 73.9724319 32.4902356',
-    rotatePath: true,
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(10px, -31px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
-    id: 'power-distribution-room-output',
-    path: '46.9006351 73.4902356 -3.09936491 73.4902356',
-    rotatePath: true,
-    duration: 1.5,
-    delay: 1,
-    repeat: 0,
-    style: {
-      transform: 'translate(-200px, -115px)',
-      left: 0,
-      top: 0,
-    },
-  },
-  {
-    id: 'power_exchange_cabinet',
-    path: '303.526635 221.389162 395.491424 218.414313',
-    rotatePath: true,
-    duration: 4,
-    delay: 0,
-    repeat: 1,
-    style: {
-      transform: 'translate(70px, 251px)',
-      left: 0,
-      top: 0,
-    },
-  },
-  {
-    id: 'inverter-output-1',
-    path: '321.052448 151.068647 305.614009 151.068647',
-    rotatePath: true,
-    duration: 1.5,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(-125px, -284px)',
-      left: 0,
-      top: 0,
-    },
-  },
-  {
-    id: 'inverter-output-2',
-    path: '321.052448 151.068647 305.614009 151.068647',
-    rotatePath: true,
-    duration: 1.5,
-    delay: 1,
-    repeat: 0,
-    style: {
-      transform: 'translate(-112px, -260px)',
-      left: 0,
-      top: 0,
-    },
-  },
-  {
-    id: 'photovoltaic-grid-connected-cabinet',
-    path: '272.165089 155.999924 190.174964 157.314635',
-    rotatePath: true,
-    duration: 4,
-    delay: 0,
-    repeat: 1,
-    style: {
-      transform: 'translate(-120px, -203px)',
-      left: 0,
-      top: 0,
-    },
-  },
-];
-
-export const rightPathsDynamical = [
-  // {
-  //   id: 'line-right-forward',
-  //   path: 'M131.397908,79.7812871 L132.149253,81.0795477 L108.735024,94.6301126 C107.181503,95.5291848 106.650968,97.5174042 107.55004,99.0709249',
-  //   duration: 2,
-  //   delay: 0,
-  //   repeat: 0,
-  //   style: {
-  //     transform: 'translate(0px, 2px)',
-  //     left: 257.242029,
-  //     top: 0,
-  //   },
-  // },
-  // {
-  //   id: 'line-right-forward-1',
-  //   path: 'M108.733826,100.255215 L155.056306,124.986356 C155.056306,124.986356 161.207336,126.645865 165.305981,124.000057',
-  //   duration: 2,
-  //   delay: 0,
-  //   repeat: 0,
-  //   style: {
-  //     transform: 'translate(0px, 5px)',
-  //     left: 257.242029,
-  //     top: 0,
-  //   },
-  // },
-  // {
-  //   id: 'line-right-forward-2',
-  //   path: 'M169.305981,130.000057 L211.378086,105.793833',
-  //   duration: 2,
-  //   delay: 2,
-  //   repeat: 0,
-  //   style: {
-  //     transform: 'translate(2px, -1px)',
-  //     left: 257.242029,
-  //     top: 0,
-  //   },
-  // },
-
-  {
-    id: 'line-right-reverse-1-1',
-    path: 'M212.126136,107.093996 L170.05403,131.300219 C166.826095,133.157415 150.875 138.208 142.5 128.854',
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(-3px, 2px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
-    id: 'line-right-reverse-1-2',
-    path: 'M159.304409,131.284297 L107.981929,101.553156',
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(0px, -3px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  {
-    id: 'line-right-reverse-1-3',
-    path: 'M107.981929,101.553156 C107.263928,101.137218 106.667412,100.540448 106.251779,99.8222699 C104.976399,97.61852 105.669344,94.8162639 107.787233,93.4518701 L107.983679,93.331852 L131.397908,79.7812871',
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(0px, -1px)',
-      left: 257.242029,
-      top: 0,
-    },
-  },
-  // {
-  //   id: 'energy-storage-grid-connected-cabinet-output',
-  //   path: '225.060889 128.775138 143.074779 130.284368',
-  //   rotatePath: true,
-  //   duration: 2,
-  //   delay: 0,
-  //   repeat: 0,
-  //   style: {
-  //     transform: 'translate(80px, -52px)',
-  //     left: 257.242029,
-  //     top: 0,
-  //   },
-  // },
-  {
-    id: 'energy-storage-grid-connected-cabinet-input',
-    path: '143.074779 130.284368 225.060889 128.775138 ',
-    rotatePath: true,
-    rotateAngle: -30,
-    duration: 2,
-    delay: 0,
-    repeat: 0,
-    style: {
-      transform: 'translate(-90px, 52px)',
-      left: 257.242029,
-      top: 0,
-    },
+    path: 'm349.867 62.37.757 1.296-49.736 29.082 432.62 254.028a15.25 15.25 0 0 0 15.1.196l.326-.186 108.399-63.458.758 1.294',
   },
 ];

@@ -1,5 +1,5 @@
 import QueueAnim from 'rc-queue-anim';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import type { CSSProperties, MouseEventHandler, ReactNode, RefObject } from 'react';
 import React from 'react';
 
 export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {
@@ -11,6 +11,7 @@ export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseOut?: () => void;
+  onContextMenu?: MouseEventHandler<HTMLDivElement> | undefined;
   children?: ReactNode;
 }
 
@@ -27,6 +28,7 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
       onClick,
       onMouseEnter,
       onMouseOut,
+      onContextMenu,
       children,
     },
     ref,
@@ -49,6 +51,7 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseOut={onMouseOut}
+        onContextMenu={onContextMenu}
         style={cellStyle}
       >
         {children}

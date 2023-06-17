@@ -24,6 +24,7 @@ import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import Alarm from './Alarm';
 import Geometry from './Geometry';
+import styles from './index.less';
 
 const Scene = () => {
   return (
@@ -33,17 +34,16 @@ const Scene = () => {
           <Weather id={getSiteId()} />
         </Cell>
       </QueueAnim> */}
-      <Cell cursor="default" width={400} height={258} left={24} top={468}>
+      <Cell cursor="default" width={400} height={589} left={24} top={468}>
         <DecorationCarousel
           panelStyle={{ padding: '17px 16px' }}
           title="能耗数据"
           valueType="timeButtonGroup"
         >
           <EnergyData timeType={TimeType.DAY} />
-        </DecorationCarousel>
-      </Cell>
-      <Cell cursor="default" width={400} height={307} left={24} top={750}>
-        <DecorationCarousel title="站点实时功率" valueType="datePicker">
+          <div className={styles.topBar}>
+            <h3 className={styles.chartTitle}>系统实时功率</h3>
+          </div>
           <RealTimePower />
         </DecorationCarousel>
       </Cell>

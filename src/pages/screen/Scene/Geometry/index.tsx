@@ -1,6 +1,6 @@
 import { ReactComponent as BackgroundBottom } from '@/assets/image/screen/Geometry/background_bottom.svg';
 import { ReactComponent as BackgroundTop } from '@/assets/image/screen/Geometry/background_top.svg';
-import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/Geometry/background_energy_flow.svg';
+// import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/Geometry/background_energy_flow.svg';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useRef } from 'react';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import { otherCeils } from './configOtherDevice';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 // import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/scenes/能流图@2x(3).svg';
-// import DeviceDialog from './Dialog';
+import DeviceDialog from './Dialog';
 import type { CellConfigItem, DeviceInfoType } from './type';
 import { getDeviceList } from './service';
 import { useRequest } from 'umi';
@@ -20,6 +20,7 @@ import QueueAnim from 'rc-queue-anim';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import Cell from '../../components/LayoutCell';
+import EnergyFlowLine from './EnergyFlowAnimation/EnergyFlowLine';
 
 const DEFAULT_DEVICE_INFO = {
   deviceId: '',
@@ -70,13 +71,23 @@ const Geometry: FC = () => {
     });
   };
 
+  const onBindDevice = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
       const { cellStyle } = cell;
-      // cellStyle.left = cellStyle.left - 441;
-      // cellStyle.top = cellStyle.top - 221;
+      console.log(cell);
+
       return (
-        <Cell key={cell.key} onClick={() => handleGeometry(cell)} {...cellStyle}>
+        <Cell
+          key={cell.key}
+          onClick={() => handleGeometry(cell)}
+          {...cellStyle}
+          onContextMenu={onBindDevice}
+        >
           <div className={styles.wrapper}>
             <div className={styles.content}>
               <div
@@ -96,7 +107,7 @@ const Geometry: FC = () => {
         </Cell>
       );
     });
-  }, [ceilsConfig]);
+  }, []);
 
   const sceneWrapperRef = useRef<HTMLDivElement>(null);
   const { resize } = useResize(sceneWrapperRef.current);
@@ -116,16 +127,15 @@ const Geometry: FC = () => {
       cursor="default"
       style={sceneWrapper}
     >
-      {/* <BackgroundBottom width={1040} height={682} /> */}
       <div className={styles.backgroundBottom} />
       <div className={styles.backgroundTop} />
-      {/* <DeviceDialog {...deviceInfo} onCancel={closeDialog} /> */}
+      <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
 
       <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
         <Cell width={865} height={390} left={142} top={86}>
           <EnergyFlowLine />
+          <EnergyFlowAnimation />
         </Cell>
-        <EnergyFlowAnimation />
         {ceils}
       </QueueAnim>
     </Cell>

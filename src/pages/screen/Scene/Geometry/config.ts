@@ -81,8 +81,8 @@ export const chargingStackCeils: CellConfigItem[] = [
   },
   {
     key: 'HWChargingStack3',
-    mark: DeviceMark.HW_CHARGING_STACK,
-    deviceType: DeviceType.HW_CHARGING_STACK,
+    mark: DeviceMark.HW_CHARGING_TERMINAL_3,
+    deviceType: DeviceType.HW_CHARGING_TERMINAL,
     cellStyle: {
       width: 46,
       height: 60,
@@ -147,7 +147,7 @@ export const chargingStackCeils: CellConfigItem[] = [
   {
     key: 'YT_AC_ChargingStack1',
     mark: DeviceMark.YT_AC_CHARGING_TERMINAL,
-    deviceType: DeviceType.YT_CHARGING_TERMINAL,
+    deviceType: DeviceType.CHARGING_HOST,
     cellStyle: {
       width: 23,
       height: 46,

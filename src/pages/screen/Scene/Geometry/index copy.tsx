@@ -8,7 +8,7 @@ import { rightPathsConfig } from './configRightPaths';
 import styles from './index.less';
 import type { PathConfigType } from './type';
 
-const EnergyFlowAnimation = () => {
+const EnergyFlow = () => {
   const [paths, setPaths] = useState<PathConfigType[]>([
     ...leftPathsConfig,
     ...otherPathConfig,
@@ -85,24 +85,20 @@ const EnergyFlowAnimation = () => {
     setPaths(newPaths);
   }, []);
 
-  return (
-    <>
-      {paths.map((p) => {
-        let styleConfig = {
-          animationDelay: `-${p.delay}s`,
-          animationDuration: `${p.duration}s`,
-          animationPlayState: 'running',
-          offsetPath: `path('${p.path}')`,
-        };
+  return paths.map((p) => {
+    let styleConfig = {
+      animationDelay: `-${p.delay}s`,
+      animationDuration: `${p.duration}s`,
+      animationPlayState: 'running',
+      offsetPath: `path('${p.path}')`,
+    };
 
-        if (p.style) {
-          styleConfig = { ...styleConfig, ...p.style };
-        }
+    if (p.style) {
+      styleConfig = { ...styleConfig, ...p.style };
+    }
 
-        return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
-      })}
-    </>
-  );
+    return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
+  });
 };
 
-export default EnergyFlowAnimation;
+export default EnergyFlow;

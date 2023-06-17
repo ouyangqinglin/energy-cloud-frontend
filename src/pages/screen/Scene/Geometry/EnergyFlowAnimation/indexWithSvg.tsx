@@ -2,18 +2,16 @@ import Cell from '@/pages/screen/components/LayoutCell';
 import QueueAnim from 'rc-queue-anim';
 import { useEffect, useState } from 'react';
 import { leftPathsConfig } from './configLeftPaths';
-import { otherPathConfig } from './configOtherPaths';
-import { dynamicalPathsConfig } from './configPathsDynamical';
-import { rightPathsConfig } from './configRightPaths';
+import { rightPathsConfig, rightPathsNeedCalc, rightPathsDynamical } from './configRightPaths';
 import styles from './index.less';
 import type { PathConfigType } from './type';
 
-const EnergyFlowAnimation = () => {
+const EnergyFlow = () => {
   const [paths, setPaths] = useState<PathConfigType[]>([
     ...leftPathsConfig,
-    ...otherPathConfig,
-    ...rightPathsConfig,
-    ...dynamicalPathsConfig,
+    // ...rightPathsConfig,
+    // ...rightPathsNeedCalc,
+    // ...rightPathsDynamical,
   ]);
 
   const calcPointWithRadian = ({
@@ -85,24 +83,22 @@ const EnergyFlowAnimation = () => {
     setPaths(newPaths);
   }, []);
 
-  return (
-    <>
-      {paths.map((p) => {
-        let styleConfig = {
-          animationDelay: `-${p.delay}s`,
-          animationDuration: `${p.duration}s`,
-          animationPlayState: 'running',
-          offsetPath: `path('${p.path}')`,
-        };
+  return paths.map((p) => {
+    let styleConfig = {
+      begin: `${p.delay}s`,
+      dur: `${p.duration}s`,
+      path: p.path,
+    };
 
-        if (p.style) {
-          styleConfig = { ...styleConfig, ...p.style };
-        }
-
-        return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
-      })}
-    </>
-  );
+    if (p.style) {
+      styleConfig = { ...styleConfig, ...p.style };
+    }
+    return (
+      <use key={p.id} id={p.id} className={styles.flow} xlinkHref="#circleAnimation" x="0" y="0">
+        <animateMotion {...styleConfig} rotate="auto" repeatCount="indefinite" />
+      </use>
+    );
+  });
 };
 
-export default EnergyFlowAnimation;
+export default EnergyFlow;
