@@ -43,7 +43,7 @@ const OperationLog: React.FC = () => {
     debounce((searchText) => {
       getStations({ name: searchText }).then(({ data }) => {
         setStationOptions(
-          data.map((item: any) => {
+          data?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,
