@@ -9,7 +9,7 @@ import styles from './index.less';
 import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
 import type { dealTreeDataType } from '@/components/TableSelect';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
-import {
+import type {
   TreeDataType,
   MonitorDataType,
   TableDataType,

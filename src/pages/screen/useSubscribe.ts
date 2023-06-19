@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState, useMemo } from 'react';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
-import { EquipPropType, AnyMapType } from '@/utils/dictionary';
+import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
 
 export default (id: string | string[], open: boolean) => {
   const ids = useMemo(() => {

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import {
-  extend,
+import type {
   RequestOptionsInit,
   RequestMethod,
   ExtendOptionsWithoutResponse,
@@ -11,6 +10,7 @@ import {
   RequestOptionsWithoutResponse,
   RequestResponse,
 } from 'umi-request';
+import { extend } from 'umi-request';
 import { history } from 'umi';
 import { message, notification } from 'antd';
 import type { RequestData } from '@ant-design/pro-table';

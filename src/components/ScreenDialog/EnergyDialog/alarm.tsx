@@ -5,9 +5,7 @@ import { getAlarms } from '@/services/equipment';
 import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type AlarmProps = {
-  equipmentIds: {
-    [key: string]: any;
-  };
+  equipmentIds: Record<string, any>;
 };
 
 const Alarm: React.FC<AlarmProps> = (props) => {
@@ -18,35 +16,38 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       label: 'EMS',
       key: 'item-0',
       children: (
-        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.EMS] }} request={getAlarms} />
+        <AlarmTable params={{ id: equipmentIds?.[EnergyEquipmentEnum.EMS] }} request={getAlarms} />
       ),
     },
     {
       label: 'PCS',
       key: 'item-1',
       children: (
-        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.PCS] }} request={getAlarms} />
+        <AlarmTable params={{ id: equipmentIds?.[EnergyEquipmentEnum.PCS] }} request={getAlarms} />
       ),
     },
     {
       label: 'BMS',
       key: 'item-2',
       children: (
-        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.BMS] }} request={getAlarms} />
+        <AlarmTable params={{ id: equipmentIds?.[EnergyEquipmentEnum.BMS] }} request={getAlarms} />
       ),
     },
     {
       label: '空调',
       key: 'item-3',
       children: (
-        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.AIR] }} request={getAlarms} />
+        <AlarmTable params={{ id: equipmentIds?.[EnergyEquipmentEnum.AIR] }} request={getAlarms} />
       ),
     },
     {
       label: '电表',
       key: 'item-4',
       children: (
-        <AlarmTable params={{ id: equipmentIds[EnergyEquipmentEnum.METER] }} request={getAlarms} />
+        <AlarmTable
+          params={{ id: equipmentIds?.[EnergyEquipmentEnum.METER] }}
+          request={getAlarms}
+        />
       ),
     },
   ];

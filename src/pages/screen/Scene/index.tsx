@@ -25,33 +25,57 @@ import RunningLog from './RunningLog';
 import Alarm from './Alarm';
 import Geometry from './Geometry';
 import styles from './index.less';
+import { useMemo, useState } from 'react';
 
 const Scene = () => {
-  return (
-    <>
-      {/* {/* <QueueAnim duration={1000} delay={30} type={['left', 'right']} ease="easeInOutQuart">
-        <Cell key="animation2" cursor="default" width={400} left={24} top={20}>
-          <Weather id={getSiteId()} />
-        </Cell>
-      </QueueAnim> */}
-      <Cell cursor="default" width={400} height={589} left={24} top={468}>
+  const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
+  const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
+
+  const EnergyDataWidget = useMemo(
+    () => (
+      <Cell key={'EnergyData'} cursor="default" width={400} height={589} left={24} top={468}>
         <DecorationCarousel
           panelStyle={{ padding: '17px 16px' }}
-          title="能耗数据"
+          title="系统运行数据"
           valueType="timeButtonGroup"
+          onTimeButtonChange={setEnergyTimeType}
         >
-          <EnergyData timeType={TimeType.DAY} />
+          <EnergyData timeType={energyTimeType} />
           <div className={styles.topBar}>
             <h3 className={styles.chartTitle}>系统实时功率</h3>
           </div>
           <RealTimePower />
         </DecorationCarousel>
       </Cell>
-      <Cell cursor="default" width={400} height={317} left={1515} top={81}>
-        <DecorationCarousel title="经济占比" valueType="timeButtonGroup">
-          <RevenueProportion timeType={TimeType.DAY} />
+    ),
+    [energyTimeType],
+  );
+
+  const RevenueTimeTypeWidget = useMemo(
+    () => (
+      <Cell
+        key={'RevenueProportion'}
+        cursor="default"
+        width={400}
+        height={317}
+        left={1515}
+        top={81}
+      >
+        <DecorationCarousel
+          title="经济占比"
+          valueType="timeButtonGroup"
+          onTimeButtonChange={setRevenueTimeType}
+        >
+          <RevenueProportion timeType={revenueTimeType} />
         </DecorationCarousel>
       </Cell>
+    ),
+    [revenueTimeType],
+  );
+
+  return (
+    <>
+      {[EnergyDataWidget, RevenueTimeTypeWidget]}
       <Title />
       <ScreenTime />
       <ScreenWeather />

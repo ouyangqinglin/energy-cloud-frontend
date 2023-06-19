@@ -34,12 +34,7 @@ const PageMenu: React.FC = () => {
       <Typography.Title className={styles.title} level={5}>
         {menu.label}
       </Typography.Title>
-      <Menu
-        selectedKeys={keys.selected}
-        items={menu.children}
-        mode="inline"
-        onClick={menuClick}
-      ></Menu>
+      <Menu selectedKeys={keys.selected} items={menu.children} mode="inline" onClick={menuClick} />
     </>
   );
 };

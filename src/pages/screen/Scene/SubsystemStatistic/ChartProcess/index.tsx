@@ -17,33 +17,27 @@ import { DatePicker } from 'antd';
 import classnames from 'classnames';
 import DataSet from '@antv/data-set';
 type Props = {
-  chartData: ChartRes;
-  chartConfigMap: Record<
-    string,
-    {
-      name: string;
-      unit: string;
-    }
-  >;
-  showLegend?: boolean;
-  title?: string;
+  charge?: number;
+  discharge?: number;
+  capacity?: number;
 };
-const ChartProcess: FC<Props> = () => {
+const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) => {
+  const loss = capacity - charge - discharge;
   const data = [
     {
       type: '电池状态',
       field: '损耗容量',
-      value: 10,
+      value: isNaN(loss) ? 0 : loss,
     },
     {
       type: '电池状态',
       field: '可冲电量',
-      value: 20,
+      value: charge ?? 0,
     },
     {
       type: '电池状态',
       field: '可放电量',
-      value: 70,
+      value: discharge ?? 0,
     },
   ];
   return (
@@ -65,8 +59,7 @@ const ChartProcess: FC<Props> = () => {
           position: 'bottom-left',
           formatter: (field, item) => {
             if (field === '可放电量') {
-              const dataItem = find(data, (it) => it.field === '可放电量');
-              return '可放电量' + dataItem?.value + 'kwh';
+              return '可放电量' + discharge + 'kwh';
               // (
               //   <div>
               //     可放电量<span style={{ color: '#01CFA1' }}>{dataItem?.value + 'kwh'}</span>
@@ -74,8 +67,7 @@ const ChartProcess: FC<Props> = () => {
               // );
             }
             if (field === '可冲电量') {
-              const dataItem = find(data, (it) => it.field === '可冲电量');
-              return '可冲电量' + dataItem?.value + 'kwh';
+              return '可冲电量' + charge + 'kwh';
               // (
               //   <div>
               //     可放电量<span style={{ color: '#FFE04D' }}>{dataItem?.value + 'kwh'}</span>

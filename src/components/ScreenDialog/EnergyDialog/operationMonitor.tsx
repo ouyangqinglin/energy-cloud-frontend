@@ -28,9 +28,7 @@ import { voltageFormat, tempFormat } from '@/utils/format';
 
 export type OperationMonitorProps = {
   open: boolean;
-  equipmentIds: {
-    [key: string]: any;
-  };
+  equipmentIds: Record<string, any>;
   onEmsDataChange?: (value: Record<string, any>) => void;
 };
 
@@ -64,7 +62,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
   const rightItems = (
     <>
       <div className="card-temp-item temp-right-item">
-        <span className="card-temp-dot"></span>
+        <span className="card-temp-dot" />
         <div>
           温度{(currentPage - 1) * 13 + 6}:
           <span className="card-temp-value">
@@ -99,7 +97,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
   tempArr.forEach((_, index) => {
     upTempItems.push(
       <div className="card-temp-item" key={'uptemp' + index}>
-        <span className="card-temp-dot"></span>
+        <span className="card-temp-dot" />
         <div>
           温度{(currentPage - 1) * 13 + index + 1}:
           <span className="card-temp-value">
@@ -116,7 +114,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
             {tempFormat(bmsData?.['Temperature' + ((currentPage - 1) * 13 + index + 7)])}
           </span>
         </div>
-        <span className="card-temp-dot"></span>
+        <span className="card-temp-dot" />
       </div>,
     );
   });
@@ -168,7 +166,7 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
           <div className="flex flex-between ">{downTempItems.reverse()}</div>
           <div className="flex flex-between my20">{downItems.reverse()}</div>
           <div className="flex mt16">
-            <div className="flex1"></div>
+            <div className="flex1" />
             <Pagination
               defaultCurrent={currentPage}
               pageSize={1}

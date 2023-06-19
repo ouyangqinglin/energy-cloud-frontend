@@ -17,7 +17,7 @@ import {
   ProFormDigit,
   ProFormUploadButton,
 } from '@ant-design/pro-form';
-import { StationFormType } from '../data.d';
+import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
 import { FormTypeEnum } from '@/utils/dictionary';
@@ -138,7 +138,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           name="name"
           placeholder="请输入"
           rules={[{ required: true, message: '站点名称必填' }]}
-        ></ProFormText>
+        />
         <Row gutter={20}>
           <Col span={8}>
             <ProFormDigit label="电压等级" name="voltageClass" addonAfter="KV" />
@@ -168,9 +168,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           name="addressInfo"
           rules={[{ required: true, message: '位置必填' }]}
         >
-          {show && <PositionSelect></PositionSelect>}
+          {show && <PositionSelect />}
         </Form.Item>
-        <ProFormTextArea label="备注" name="remarks" placeholder="请输入"></ProFormTextArea>
+        <ProFormTextArea label="备注" name="remarks" placeholder="请输入" />
         <Row gutter={20}>
           <Col span={8}>
             <ProFormUploadButton
@@ -189,7 +189,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                   <PlusOutlined />
                 </div>
               }
-            ></ProFormUploadButton>
+            />
           </Col>
           <Col span={16}>
             <ProFormUploadButton
@@ -210,7 +210,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                   <PlusOutlined />
                 </div>
               }
-            ></ProFormUploadButton>
+            />
           </Col>
         </Row>
       </ModalForm>

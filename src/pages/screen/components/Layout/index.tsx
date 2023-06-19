@@ -1,5 +1,6 @@
 import { throttle } from 'lodash';
-import { FC, useRef } from 'react';
+import type { FC } from 'react';
+import { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 

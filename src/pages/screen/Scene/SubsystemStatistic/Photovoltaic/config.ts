@@ -1,56 +1,77 @@
-import { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
-
+import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
 export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
 
-export const digitalFlipperItemConfig: {
-  powerGeneration: DigitalFlipperItemProps;
-  profit: DigitalFlipperItemProps;
-} = {
-  powerGeneration: {
+export const dataSource: DigitalFlipperItemProps[] = [
+  {
+    title: '光伏收益',
+    unit: '元',
+    floatLength: 2,
+    field: 'profit',
+    numStyle: {
+      width: 'auto',
+      fontSize: 20,
+      fontWeight: 500,
+      color: '#FFE04D',
+      backgroundImage:
+        'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+  {
     title: '发电量',
     unit: 'kWh',
     floatLength: 2,
-    num: '--',
-    titleStyle: {
-      fontWeight: 400,
-      fontSize: '14px',
-      color: '#D0DEEE',
+    field: 'charge',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
     },
     unitStyle: {
-      fontSize: '12px',
-      color: '#28F0EE',
-    },
-    numStyle: {
-      backgroundImage: `linear-gradient(180deg, #fff 0%, #28F0EE 100%), linear-gradient(180deg, #fff 0%, rgba(40, 240, 238, 0.6) 67%, #28F0EE 100%)`,
-      fontSize: '16px',
-      color: '#28F0EE',
-      height: 'auto',
-      lineHeight: 'inherit',
-      fontFamily: 'DIN-Bold, DIN',
-      fontWeight: 'bold',
+      color: '#ACCCEC',
+      fontSize: 12,
     },
   },
-  profit: {
-    title: '收益',
+  {
+    title: '自发自用电量',
     floatLength: 2,
-    num: '--',
-    titleStyle: {
-      fontWeight: 400,
-      fontSize: '14px',
-      color: '#D0DEEE',
+    field: 'selfUse',
+    unit: 'kWh',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
     },
     unitStyle: {
-      fontSize: '12px',
-      color: '#FFE04D',
-    },
-    numStyle: {
-      backgroundImage: `linear-gradient(180deg, #fff 0%, #FFE04D 100%), linear-gradient(180deg, #fff 0%, rgba(255, 224, 77, 0.6) 67%, #FFE04D 100%)`,
-      fontSize: '16px',
-      height: 'auto',
-      lineHeight: 'inherit',
-      color: '#FFE04D',
-      fontFamily: 'DIN-Bold, DIN',
-      fontWeight: 'bold',
+      color: '#ACCCEC',
+      fontSize: 12,
     },
   },
-};
+  {
+    title: '上网电量',
+    unit: 'kWh',
+    floatLength: 2,
+    field: 'discharge',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+];

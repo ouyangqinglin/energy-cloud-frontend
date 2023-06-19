@@ -1,4 +1,5 @@
-import { FC, Fragment, PropsWithChildren, useEffect, useState } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { load } from '@amap/amap-jsapi-loader';
 import { mapLoadResolve } from '@/utils/map';
 

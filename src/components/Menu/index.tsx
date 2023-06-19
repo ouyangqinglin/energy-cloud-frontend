@@ -43,7 +43,7 @@ const MyMenu: React.FC<MyMenuProps> = (props) => {
         items={initialState?.antMenus}
         mode="inline"
         onClick={menuClick}
-      ></Menu>
+      />
     </>
   );
 };

@@ -7,7 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\components\MapContain\index.tsx
  */
 
-import React, { CSSProperties, useCallback, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import AmapLoader from '../AmapLoader';
 import { aks } from '@/utils/dictionary';
 

@@ -8,7 +8,7 @@
  */
 
 import request from '@/utils/request';
-import { EquipFormType } from './data.d';
+import type { EquipFormType } from './data.d';
 
 export const addData = (data: EquipFormType) => {
   return request(`/iot/device`, {

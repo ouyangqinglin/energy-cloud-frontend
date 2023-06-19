@@ -1,16 +1,20 @@
-import { TimeType } from '@/pages/screen/components/TimeButtonGroup';
+import type { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { get } from '@/utils/request';
 import { getSiteId } from '../../helper';
 import type { ChargeAndDisChargeRes, EnergyStorageChartRes, StatisticsRes } from './type';
 
 export const getEnergyStorageStatistic = () => {
-  return get<StatisticsRes>(`/oss/es/statistic`, { siteId: getSiteId() });
+  return get<StatisticsRes>(`/iot/es/esVo`, { siteId: getSiteId() });
 };
 
 export const getChargeAndDischargePower = (type: TimeType) => {
-  return get<ChargeAndDisChargeRes>(`/oss/es/chargeDischarge`, { type, siteId: getSiteId() });
+  return get<ChargeAndDisChargeRes>(`/oss/es/operationalData`, { type, siteId: getSiteId() });
 };
 
-export const getEnergyStorageChart = () => {
-  return get<EnergyStorageChartRes>(`/oss/es/getCure`, { siteId: getSiteId() });
+export const getEnergyStorageChart = (startTime: string, endTime: string) => {
+  return get<EnergyStorageChartRes>(`/iot/es/chargeDischargeBarChart`, {
+    siteId: getSiteId(),
+    startTime,
+    endTime,
+  });
 };

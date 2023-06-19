@@ -90,7 +90,7 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
                 ) : (
                   <div className={styles.boxDescription}>
                     <span className={styles.boxValue}>{data[item.field]}</span>
-                    <span className={styles.boxUnit}>kw</span>
+                    <span className={styles.boxUnit}>{item.unit ?? 'kW'}</span>
                   </div>
                 )}
               </div>

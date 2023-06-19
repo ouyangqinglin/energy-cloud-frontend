@@ -16,7 +16,7 @@ import EquipInfo from '@/components/EquipInfo';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
-import { PvInverterType } from './data';
+import type { PvInverterType } from './data';
 import Label from '@/components/Detail/label';
 import Detail from '@/components/Detail';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';

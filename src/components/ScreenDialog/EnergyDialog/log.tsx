@@ -13,9 +13,7 @@ import { getLogs } from '@/services/equipment';
 import { EnergyEquipmentEnum } from '@/utils/dictionary';
 
 export type LogProps = {
-  equipmentIds: {
-    [key: string]: any;
-  };
+  equipmentIds: Record<string, any>;
 };
 
 const Log: React.FC<LogProps> = (props) => {

@@ -1,10 +1,10 @@
-import { TimeType } from '@/pages/screen/components/TimeButtonGroup';
+import type { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { get } from '@/utils/request';
 import { getSiteId } from '../../helper';
-import type { CurrentPowerGenerationRes, PVChartRes, StatisticsRes } from './type';
+import type { PVChartRes, StatisticsRes } from './type';
 
 export const getCurrentPowerGeneration = () => {
-  return get<CurrentPowerGenerationRes>(`/oss/photovoltaic/currentPowerGeneration`, {
+  return get<number>(`/iot/photovoltaic/currentPowerGeneration`, {
     siteId: getSiteId(),
   });
 };
@@ -13,6 +13,10 @@ export const getStatistics = (type: TimeType) => {
   return get<StatisticsRes>(`/oss/photovoltaic/statistics`, { type, siteId: getSiteId() });
 };
 
-export const getPVChart = () => {
-  return get<PVChartRes>(`/oss/photovoltaic/curve`, { siteId: getSiteId() });
+export const getPVChart = (startTime: string, endTime: string) => {
+  return get<PVChartRes>(`/iot/photovoltaic/histogram`, {
+    siteId: getSiteId(),
+    startTime,
+    endTime,
+  });
 };

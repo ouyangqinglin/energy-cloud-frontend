@@ -12,10 +12,11 @@ import { useRequest, useModel } from 'umi';
 import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
-import { EquipFormType } from './data.d';
+import type { EquipFormType } from './data.d';
 import { editData, getData, addData, getProductTypes, getProductModels } from './service';
 import { getStations } from '@/services/station';
-import { FormTypeEnum, OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
 
 export type EquipFormProps = {
@@ -195,7 +196,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
                 getPopupContainer: (triggerNode) => triggerNode.parentElement,
               }}
               disabled={type == FormTypeEnum.Edit}
-            ></ProFormSelect>
+            />
           )}
           <ProFormSelect
             label="所属子系统"
@@ -207,7 +208,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             }}
             rules={[{ required: true, message: '子系统必选' }]}
             disabled={type == FormTypeEnum.Edit}
-          ></ProFormSelect>
+          />
           <ProFormSelect
             label="产品类型"
             name="productType"
@@ -218,7 +219,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             }}
             rules={[{ required: true, message: '产品类型必选' }]}
             disabled={type == FormTypeEnum.Edit}
-          ></ProFormSelect>
+          />
           <ProFormSelect
             label="产品型号"
             name="productId"
@@ -229,19 +230,19 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             }}
             rules={[{ required: true, message: '产品型号必选' }]}
             disabled={type == FormTypeEnum.Edit}
-          ></ProFormSelect>
+          />
           <ProFormText
             label="设备名称"
             name="name"
             placeholder="请输入"
             rules={[{ required: true, message: '设备名称必填' }]}
-          ></ProFormText>
+          />
           <ProFormText
             label="设备SN"
             name="sn"
             placeholder="请输入"
             rules={[{ required: true, message: '设备SN必填' }]}
-          ></ProFormText>
+          />
           <ProFormUploadButton
             label="设备照片"
             name="photosList"
@@ -263,7 +264,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             colProps={{
               span: 24,
             }}
-          ></ProFormUploadButton>
+          />
         </ProForm>
       </Dialog>
     </>

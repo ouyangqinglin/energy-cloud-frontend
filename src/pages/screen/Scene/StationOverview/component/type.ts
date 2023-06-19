@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SiteInfoRes } from '../type';
+import type { SiteInfoRes } from '../type';
 
 export interface DeviceConfigItem {
   icon?: ReactNode;

@@ -1,10 +1,16 @@
 export interface StatisticsRes {
-  // 当前发电量
-  powerGeneration: number;
+  SSRation: number;
+  // 发电
+  charge: number;
+  // 	馈电（上网电量）
+  discharge: number;
+  // 自发自用
+  selfUse: number;
   // 收益
-  profit: number;
+  profit?: number;
 }
 
-export interface CurrentPowerGenerationRes {
-  CurrentPowerGeneration: number;
-}
+export type PVChartRes = {
+  eventTs: string;
+  doubleVal: number;
+}[];

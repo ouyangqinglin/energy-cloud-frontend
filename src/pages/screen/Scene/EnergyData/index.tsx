@@ -9,7 +9,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Image, Space } from 'antd';
 import { useRequest } from 'umi';
-import { TimeType } from '../../components/TimeButtonGroup';
+import type { TimeType } from '../../components/TimeButtonGroup';
 import { getData } from './service';
 import { getSiteId } from '../helper';
 import { getPlaceholder } from '@/utils';

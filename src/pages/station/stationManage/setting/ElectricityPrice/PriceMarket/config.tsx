@@ -1,6 +1,6 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { MarketElectricityPriceInfo } from './type';
 import moment from 'moment';
 

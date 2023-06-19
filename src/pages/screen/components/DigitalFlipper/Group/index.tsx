@@ -11,24 +11,26 @@ export type DigitalFlipperProps = {
   config: DigitalFlipperItemProps[];
   className?: string;
   showDivider?: boolean;
+  data?: Record<string, any>;
 };
 
 const DigitalFlipperGroup: FC<DigitalFlipperProps> = ({
   config,
   className,
   showDivider = true,
+  data,
 }) => {
   const itemList = useMemo(() => {
     const nodes: ReactNode[] = [];
     config.forEach((ceil, index) => {
       const isLastCeil = index === config.length - 1;
-      nodes.push(<DigitalFlipperItem key={ceil.title} {...ceil} />);
+      nodes.push(<DigitalFlipperItem data={data} key={ceil.title} {...ceil} />);
       if (showDivider && !isLastCeil) {
         nodes.push(<div key={uniqueId()} className={styles.divider} />);
       }
     });
     return nodes;
-  }, [config]);
+  }, [config, showDivider, data]);
 
   return (
     <QueueAnim type={['top', 'bottom']} duration={1500} delay={500} ease="easeInOutQuart">

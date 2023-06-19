@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\index.ts
  */
-import React from 'react';
+import type React from 'react';
 import Gateway from '@/components/ScreenDialog/Gateway';
 import ElectricMeter from '@/components/ScreenDialog/ElectricMeter';
 import PvInverter from '@/components/ScreenDialog/PvInverter';

@@ -1,6 +1,6 @@
 import { del, get, post, put } from '@/utils/request';
 import type { ElectricityPriceList } from '../type';
-import { PhotovoltaicElectricityPriceInfo } from './type';
+import type { PhotovoltaicElectricityPriceInfo } from './type';
 
 export const createPhotovoltaicPrice = (data: any) => {
   return post(`/oss/site/internet/save`, data);

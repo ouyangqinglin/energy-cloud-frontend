@@ -5,6 +5,8 @@ import EnergyStorageGridConnectedCabinet from '@/assets/image/screen/Geometry/�
 import YTEnergyStorage from '@/assets/image/screen/Geometry/永泰储能smart@2x.png';
 import HWEnergyStorage from '@/assets/image/screen/Geometry/华为储能@2x.png';
 import YTChargingHost from '@/assets/image/screen/Geometry/永泰充电主机@2x.png';
+import HomeEnergyStore from '@/assets/image/screen/Geometry/img_家储_def@2x.png';
+import CoffeeEnergyStore from '@/assets/image/screen/Geometry/img_咖啡店_def@2x.png';
 import { DeviceType } from './Dialog';
 import type { CellConfigItem } from './type';
 import { DeviceMark } from './type';
@@ -129,5 +131,27 @@ export const otherCeils: CellConfigItem[] = [
     },
     component: YTChargingHost,
     default: YTChargingHost,
+  },
+  {
+    key: 'HomeEnergyStore',
+    cellStyle: {
+      width: 212,
+      height: 152,
+      left: 410,
+      top: 468,
+    },
+    component: HomeEnergyStore,
+    default: HomeEnergyStore,
+  },
+  {
+    key: 'CoffeeEnergyStore',
+    cellStyle: {
+      width: 208,
+      height: 132,
+      left: 551,
+      top: 404,
+    },
+    component: CoffeeEnergyStore,
+    default: CoffeeEnergyStore,
   },
 ];

@@ -9,7 +9,7 @@
 import React from 'react';
 import { Card, Space, Skeleton } from 'antd';
 import Detail from '../Detail';
-import { AnyMapType } from '@/utils/dictionary';
+import type { AnyMapType } from '@/utils/dictionary';
 import IconCurrent from '@/assets/image/meter/current.png';
 import IconVoltage from '@/assets/image/meter/voltage.png';
 import IconLineVoltage from '@/assets/image/meter/line-voltage.png';

@@ -1,6 +1,6 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { PhotovoltaicElectricityPriceInfo } from './type';
 
 export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [

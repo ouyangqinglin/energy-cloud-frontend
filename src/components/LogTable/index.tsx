@@ -120,7 +120,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         locale={{
           emptyText: Empty,
         }}
-      ></ProTable>
+      />
     </>
   );
 };

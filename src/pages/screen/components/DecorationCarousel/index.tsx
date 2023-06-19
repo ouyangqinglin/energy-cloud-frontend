@@ -10,11 +10,13 @@ import { Carousel, Pagination } from 'antd';
 import { ReactComponent as DotsIcon } from '@/assets/image/screen/decorationCarousel/dots.svg';
 import { ReactComponent as PartIcon } from '@/assets/image/screen/decorationCarousel/part.svg';
 import { ReactComponent as TagIcon } from '@/assets/image/screen/decorationCarousel/tag.svg';
+import type { TimeType } from '../TimeButtonGroup';
 import TimeButtonGroup from '../TimeButtonGroup';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { CarouselRef } from 'antd/lib/carousel';
+import { noop } from 'lodash';
 
 export type DecorationValueType = 'pagination' | 'timeButtonGroup' | 'datePicker' | undefined;
 export type DecorationProp = {
@@ -22,6 +24,7 @@ export type DecorationProp = {
   valueType?: DecorationValueType;
   disableDecoration?: boolean;
   panelStyle?: CSSProperties;
+  onTimeButtonChange?: (time: TimeType) => void;
   scroll?: boolean;
 };
 
@@ -30,6 +33,7 @@ const DecorationCarousel: FC<DecorationProp> = ({
   panelStyle,
   valueType,
   scroll,
+  onTimeButtonChange = noop,
   children,
 }) => {
   const carouselRef = useRef<CarouselRef>(null);
@@ -71,7 +75,7 @@ const DecorationCarousel: FC<DecorationProp> = ({
 
     if (valueType === 'timeButtonGroup') {
       return {
-        Operation: <TimeButtonGroup />,
+        Operation: <TimeButtonGroup onChange={onTimeButtonChange} />,
         Panel: children,
       };
     }

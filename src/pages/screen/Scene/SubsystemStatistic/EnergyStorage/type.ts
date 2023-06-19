@@ -1,12 +1,15 @@
 export interface StatisticsRes {
-  statistics: Statistics;
+  status: number;
+  power: number;
+  ratedCapacity: number;
+  charge: number;
+  discharge: number;
 }
 
 export interface ChargeAndDisChargeRes {
-  //放电量
-  ADC: number;
-  //充电量
-  ACC: number;
+  charge: number;
+  discharge: number;
+  profit: number;
 }
 
 export const enum RealtimeStatusEnum {
@@ -26,14 +29,12 @@ export interface Statistics {
   createTime?: any;
 }
 
-export interface EnergyStorageChartRes {
-  TotalBatteryCurrent: ChartDataMap[];
-  TotalBatteryVoltage: ChartDataMap[];
-  SOC: ChartDataMap[];
-  PDC: ChartDataMap[];
-}
+export type EnergyStorageChartRes = {
+  charge: ESChartRes;
+  discharge: ESChartRes;
+};
 
-export interface ChartDataMap {
-  value: number;
-  ts: number;
-}
+export type ESChartRes = {
+  eventTs: string;
+  doubleVal: number;
+}[];

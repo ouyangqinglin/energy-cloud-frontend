@@ -48,13 +48,10 @@ export const RealtimeStatusMap = {
   },
 };
 
-export const digitalFlipperItemConfig: {
-  runningState: DigitalFlipperItemProps;
-  runningPower: DigitalFlipperItemProps;
-  ratedCapacity: DigitalFlipperItemProps;
-} = {
-  runningState: {
+export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
+  {
     title: '运行状态',
+    field: 'status',
     render: (status: RealtimeStatusEnum = RealtimeStatusEnum.DEFAULT) => {
       const statusItem = RealtimeStatusMap[status];
       return (
@@ -70,11 +67,11 @@ export const digitalFlipperItemConfig: {
       color: '#D0DEEE',
     },
   },
-  runningPower: {
+  {
     title: '运行功率',
     unit: 'kW',
     floatLength: 2,
-    num: '120',
+    field: 'power',
     titleStyle: {
       fontWeight: 400,
       fontSize: '12x',
@@ -95,11 +92,11 @@ export const digitalFlipperItemConfig: {
       fontFamily: 'DIN-Bold, DIN',
     },
   },
-  ratedCapacity: {
+  {
     title: '额定容量',
     unit: 'kWh',
+    field: 'ratedCapacity',
     floatLength: 2,
-    num: '450',
     titleStyle: {
       fontWeight: 400,
       fontSize: '12x',
@@ -120,4 +117,61 @@ export const digitalFlipperItemConfig: {
       fontWeight: 500,
     },
   },
-};
+];
+
+export const dataSource: DigitalFlipperItemProps[] = [
+  {
+    title: '储能收益',
+    unit: '元',
+    floatLength: 2,
+    field: 'profit',
+    numStyle: {
+      width: 'auto',
+      fontSize: 20,
+      fontWeight: 500,
+      color: '#FFE04D',
+      backgroundImage:
+        'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+  {
+    title: '充电量',
+    unit: 'kWh',
+    floatLength: 2,
+    field: 'charge',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+  {
+    title: '放电量',
+    floatLength: 2,
+    field: 'discharge',
+    unit: 'kWh',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+];

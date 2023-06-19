@@ -6,7 +6,7 @@ import type { SchemaModalFormChildProps } from './typing';
 import { FormOperations } from './typing';
 import { normalizeRequestOption } from '../YTProTable/helper';
 import { useEffect, useRef } from 'react';
-import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 const DEFAULT_PROPS = {
   title: '新增',

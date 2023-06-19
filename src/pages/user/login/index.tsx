@@ -154,7 +154,7 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-              <Row></Row>
+              <Row />
             </>
           )}
 

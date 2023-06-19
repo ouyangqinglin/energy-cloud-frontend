@@ -31,10 +31,12 @@ export const stationBoxConfig = [
   {
     label: '变压器容量',
     field: 'transformerCapacity',
+    unit: 'kVA',
   },
   {
     label: '光伏组串容量',
     field: 'photovoltaicInstalledCapacity',
+    unit: 'kWp',
   },
   {
     label: '储能额定电量',
@@ -43,8 +45,11 @@ export const stationBoxConfig = [
       return (
         <div className={styles.boxDescription}>
           <span className={styles.boxValue}>{data.energyStoragePower}</span>
-          <span className={styles.boxUnit}>kw</span>
-          <span className={styles.boxValue}>/{data.energyStorageCapacity}</span>
+          <span className={styles.boxUnit} style={{ marginRight: 4 }}>
+            kw
+          </span>
+          <span className={styles.boxValue}>/</span>
+          <span className={styles.boxValue}>{data.energyStorageCapacity}</span>
           <span className={styles.boxUnit}>kWh</span>
         </div>
       );
@@ -53,5 +58,6 @@ export const stationBoxConfig = [
   {
     label: '充电桩总功率',
     field: 'chargingStationCapacity',
+    unit: 'kW',
   },
 ];

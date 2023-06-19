@@ -39,6 +39,33 @@ export const otherPathConfig: PathConfigType[] = [
     duration: 2,
     delay: 0,
     repeat: 1,
+    reverse: true,
     path: 'm279.408 80.253 20.871 12.134',
+  },
+  {
+    id: 'other_charging_host',
+    duration: 2,
+    delay: 0,
+    repeat: 1,
+    reverse: true,
+    path: 'M551.449 114.72l0 0-106.883 62.865-.76-1.293',
+  },
+  // 家庭负载
+  {
+    id: 'other_home_energy_storage',
+    duration: 6,
+    delay: 0,
+    repeat: 3,
+    // reverse: true,
+    path: 'm572.247 252.551.76 1.293-275.562 162.184a3.25 3.25 0 0 0-.154 5.507l.162.102 38.019 22.197',
+  },
+  // 咖啡负载
+  {
+    id: 'other_coffee_storage',
+    duration: 2,
+    delay: 0,
+    repeat: 1,
+    // reverse: true,
+    path: 'M429.38 336.719l41.413 24.267',
   },
 ];

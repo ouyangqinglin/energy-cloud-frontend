@@ -1,6 +1,6 @@
 import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProRequestData } from '@ant-design/pro-components';
-import { ProFormColumnsType } from '@ant-design/pro-form';
+import type { ProFormColumnsType } from '@ant-design/pro-form';
 
 export type FormReadBaseProps = {
   visible: boolean;

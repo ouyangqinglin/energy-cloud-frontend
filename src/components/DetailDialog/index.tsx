@@ -30,7 +30,7 @@ const DetailDialog: React.FC<DetailDialogProps> = (props) => {
         ]}
         {...props}
       >
-        <Detail {...detailProps}></Detail>
+        <Detail {...detailProps} />
       </Modal>
     </>
   );

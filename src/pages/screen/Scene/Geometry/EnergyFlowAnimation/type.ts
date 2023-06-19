@@ -9,4 +9,5 @@ export type PathConfigType = {
   rotatePath?: boolean;
   rotateAngle?: number;
   style?: CSSProperties;
+  reverse?: boolean;
 };

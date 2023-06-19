@@ -3,9 +3,7 @@ import { Upload, Tooltip, Popover, Modal, Progress, message, Spin, Result } from
 import { injectIntl } from 'react-intl';
 import * as AntdIcons from '@ant-design/icons';
 
-const allIcons: {
-  [key: string]: any;
-} = AntdIcons;
+const allIcons: Record<string, any> = AntdIcons;
 
 const { Dragger } = Upload;
 interface AntdIconClassifier {

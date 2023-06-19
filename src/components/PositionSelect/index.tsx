@@ -168,7 +168,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
             onSearch={onSearch}
             onChange={onAutoCompleteChange}
             placeholder="请输入地址"
-          ></AutoComplete>
+          />
         </Col>
         <Col flex="200px">
           <Input

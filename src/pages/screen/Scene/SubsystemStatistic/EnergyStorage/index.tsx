@@ -1,4 +1,5 @@
-import { FC, useMemo } from 'react';
+import type { FC } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
@@ -10,10 +11,12 @@ import {
 import ChargingStationChart from './Chart';
 import Detail from '@/components/Detail';
 import {
+  dataSource,
   DEFAULT_REQUEST_INTERVAL,
   DEFAULT_STATISTICS_REQUEST_INTERVAL,
   digitalFlipperItemConfig,
   gunInfoItem,
+  realTimeStatisticConfig,
   RealtimeStatusMap,
 } from './config';
 import { isNaN } from 'lodash';
@@ -26,15 +29,18 @@ import { Col, Row, Statistic } from 'antd';
 import ChartProcess from '../ChartProcess';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
+import dayjs from 'dayjs';
+import type { Moment } from 'moment';
+import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
+import type { ChartRes } from '../Chart/type';
+import { convertToData } from '../Chart/helper';
 
 const EnergyStorage: FC = () => {
-  const { data: chartData } = useRequest(getEnergyStorageChart, {
+  const { data: rawChartData, run: runForChart } = useRequest(getEnergyStorageChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
-  const { data: statisticsData } = useRequest(getEnergyStorageStatistic, {
-    pollingInterval: DEFAULT_STATISTICS_REQUEST_INTERVAL,
-  });
+  const { data: statisticsData } = useRequest(getEnergyStorageStatistic);
 
   const { data: chargeData, run } = useRequest(
     (type = TimeType.DAY) => getChargeAndDischargePower(type),
@@ -43,63 +49,78 @@ const EnergyStorage: FC = () => {
     },
   );
 
-  const processedData = useMemo(() => {
-    const { statistics = {} } = statisticsData ?? ({} as StatisticsRes);
-    const rawData: Record<string, any> = statistics;
-    if (!isNaN(rawData?.realTimeStatus)) {
-      const realtimeConfig = RealtimeStatusMap[rawData?.realTimeStatus as RealtimeStatusEnum];
-      if (realtimeConfig) {
-        rawData.realtimeStatus = (
-          <span style={{ color: realtimeConfig.color }}>{realtimeConfig.text}</span>
-        );
-      }
-    }
-    return rawData;
-  }, [statisticsData]);
-
-  const config: DigitalFlipperItemProps[] = useMemo(() => {
-    return [
-      {
-        ...digitalFlipperItemConfig.runningState,
-        ...{
-          num: 1,
-        },
-      },
-      {
-        ...digitalFlipperItemConfig.runningPower,
-        ...{
-          num: keepTwoDecimalWithUnit(chargeData?.ADC),
-        },
-      },
-      {
-        ...digitalFlipperItemConfig.ratedCapacity,
-      },
-    ];
-  }, [chargeData]);
-
   useEffect(() => {
     run();
   }, []);
 
+  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
+    if (rangeDate) {
+      runForChart(
+        dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
+        dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
+      );
+    }
+  }, []);
+
+  const chartData: ChartRes = [];
+  if (rawChartData) {
+    Object.entries(rawChartData).forEach(([key, value]) => {
+      value.forEach((it) => {
+        chartData.push({
+          ts: it.eventTs,
+          value: it.doubleVal,
+          field: key,
+        });
+      });
+    });
+  }
+
   return (
     <div className={styles.contentWrapper}>
       <div className={styles.realtimeStatistic}>
-        <DigitalFlipperGroup className={styles.digitalGroup} showDivider={false} config={config} />
+        <DigitalFlipperGroup
+          className={styles.digitalGroup}
+          showDivider={false}
+          config={realTimeStatisticConfig}
+          data={statisticsData}
+        />
       </div>
       <div className={styles.batteryStatus}>
-        <ChartProcess />
+        <ChartProcess
+          discharge={statisticsData?.discharge}
+          charge={statisticsData?.charge}
+          capacity={statisticsData?.ratedCapacity}
+        />
       </div>
       <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />
       </div>
       <div className={styles.statisticalData}>
-        <DigitalFlipperGroup className={styles.digitalGroup} config={config} />
+        <DigitalFlipperGroup
+          className={styles.digitalGroup}
+          config={dataSource}
+          data={chargeData}
+        />
         <div className={classnames([styles.rect, styles['top-left']])} />
         <div className={classnames([styles.rect, styles['top-right']])} />
         <div className={classnames([styles.rect, styles['bottom-right']])} />
         <div className={classnames([styles.rect, styles['bottom-left']])} />
       </div>
-      <StatisticChart title="储能系统充放电量" chartData={chartData} />
+      <StatisticChart
+        chartConfigMap={{
+          charge: {
+            name: '充电量',
+            unit: 'kWh',
+          },
+          discharge: {
+            name: '充电量',
+            unit: 'kWh',
+          },
+        }}
+        title="储能系统充放电量"
+        onDateChange={onDateChange}
+        chartData={convertToData(chartData)}
+      />
     </div>
   );
 };

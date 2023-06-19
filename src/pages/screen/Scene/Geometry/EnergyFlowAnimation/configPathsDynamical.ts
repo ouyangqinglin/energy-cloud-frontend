@@ -1,26 +1,17 @@
-import { PathConfigType } from './type';
+import type { PathConfigType } from './type';
 
 export const dynamicalPathsConfig: PathConfigType[] = [
-  // 华为储能箱 - 充电(待修复)
-  // {
-  //   id: 'left_5_yt_terminal?',
-  //   duration: 10,
-  //   delay: 0,
-  //   repeat: 1,
-  //   path: 'M524.411 113.724l-53.374 31.237-.28-.159a11.25 11.25 0 0 1-11.159-.203l-16.453-9.8.768-1.289 16.453 9.8a12.75 12.75 0 0 0 12.678-.116l.287-.166',
-  // },
   // 华为储能箱 - 放电
   {
-    id: 'left_5_yt_terminal?',
+    id: 'energy_store_hw_discharging',
     duration: 5,
     delay: 0,
     repeat: 1,
     path: 'M500.455 92.337l.768 1.289-16.453-9.8a11.25 11.25 0 0 0-11.159-.203l-.28.159-53.374 29.237',
   },
-  // -.768 1.289-16.453-9.8a11.25 11.25 0 0 0-11.159-.203l-.28.159-53.374 31.237
   // 储能并网柜 - 放电
   {
-    id: 'right_2_yt_DC_terminal',
+    id: 'energy_store_discharging',
     duration: 2,
     delay: 0,
     repeat: 1,

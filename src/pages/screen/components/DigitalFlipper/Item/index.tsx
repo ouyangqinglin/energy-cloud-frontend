@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import styles from './index.less';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
-import { isNumber, isNaN, merge } from 'lodash';
+import { isNumber, isNaN, merge, isNil } from 'lodash';
 
 TweenOne.plugins.push(Children);
 
@@ -15,7 +15,10 @@ export type DigitalFlipperItemProps = {
   prefix?: string | ReactNode;
   suffix?: string | ReactNode;
   render?: (num: any) => ReactNode;
+  data?: Record<string, any>;
   unit?: string;
+  field?: string;
+  format?: (value: number | string) => any;
   titleStyle?: CSSProperties;
   numStyle?: CSSProperties;
   unitStyle?: CSSProperties;
@@ -23,7 +26,8 @@ export type DigitalFlipperItemProps = {
 };
 
 const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
-  num,
+  num: rawNum,
+  format,
   itemStyleWrapper = {},
   numStyle = {},
   titleStyle = {},
@@ -35,7 +39,11 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   render,
   prefix,
   suffix,
+  field = '',
+  data = {},
 }) => {
+  let num = isNil(rawNum) ? data?.[field] : rawNum;
+  num = format ? format(num) : num;
   const textNode = () => {
     const digital = Number(num);
     if (isNumber(digital) && !isNaN(digital)) {

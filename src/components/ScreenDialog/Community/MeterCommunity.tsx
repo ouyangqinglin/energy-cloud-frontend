@@ -13,7 +13,7 @@ import type { ProColumns } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import type { MeterCommunityType, TreeDataType } from './data.d';
-import { EquipFormType } from '@/components/EquipForm/data.d';
+import type { EquipFormType } from '@/components/EquipForm/data.d';
 import {
   getEquipInfo,
   editEquipConfig,
@@ -22,14 +22,17 @@ import {
   getDeviceCollection,
 } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
-import { CommunityProps } from './index';
+import type { CommunityProps } from './index';
 import {
   tableTreeSelectValueTypeMap,
   SelectTypeEnum,
   TABLETREESELECT,
+} from '@/components/TableSelect';
+import type {
+  TableTreeModalProps,
+  dealTreeDataType,
   TABLETREESELECTVALUETYPE,
 } from '@/components/TableSelect';
-import type { TableTreeModalProps, dealTreeDataType } from '@/components/TableSelect';
 import { omit } from 'lodash';
 
 type DeviceDataType = {

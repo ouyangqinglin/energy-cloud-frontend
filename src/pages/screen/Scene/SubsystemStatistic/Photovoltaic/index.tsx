@@ -1,21 +1,29 @@
 import type { FC } from 'react';
+import { useCallback } from 'react';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getCurrentPowerGeneration, getPVChart, getStatistics } from './service';
 import PhotovoltaicChart from './Chart';
-import { DEFAULT_REQUEST_INTERVAL, digitalFlipperItemConfig } from './config';
+import { dataSource, DEFAULT_REQUEST_INTERVAL } from './config';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { List } from 'antd';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
-import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
 import DigitalFlipperItem from '@/pages/screen/components/DigitalFlipper/Item';
+import type { Moment } from 'moment';
+import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
+import dayjs from 'dayjs';
+import type { ChartRes } from '../Chart/type';
+import { convertToData } from '../Chart/helper';
 
 const Photovoltaic: FC = () => {
-  const { data: chartData } = useRequest(getPVChart, {
+  const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
+
+  const { data: rawChartData, run: runForChart } = useRequest(getPVChart, {
+    manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
@@ -23,112 +31,35 @@ const Photovoltaic: FC = () => {
     manual: true,
   });
 
-  const config: DigitalFlipperItemProps[] = useMemo(
-    () => [
-      {
-        ...digitalFlipperItemConfig.powerGeneration,
-        ...{
-          num: keepTwoDecimalWithUnit(statistics?.powerGeneration),
-        },
-      },
-      {
-        ...digitalFlipperItemConfig.profit,
-        ...{
-          num: keepTwoDecimalWithUnit(statistics?.profit),
-        },
-      },
-    ],
-    [statistics],
-  );
+  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
+    if (rangeDate) {
+      runForChart(
+        dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
+        dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
+      );
+    }
+  }, []);
 
-  const dataSource: DigitalFlipperItemProps[] = [
-    {
-      title: '光伏系统收益',
-      num: '200',
-      unit: '元',
-      floatLength: 2,
-      numStyle: {
-        width: 'auto',
-        fontSize: 20,
-        fontWeight: 500,
-        color: '#FFE04D',
-        backgroundImage:
-          'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
-      },
-      unitStyle: {
-        color: '#ACCCEC',
-        fontSize: 12,
-      },
-    },
-    {
-      title: '发电量',
-      num: '400',
-      unit: 'kWh',
-      floatLength: 2,
-      numStyle: {
-        width: 'auto',
-        fontWeight: 500,
-        fontSize: 20,
-        color: '#4DD6F0',
-        background: 'none',
-        WebkitTextFillColor: 'inherit',
-      },
-      unitStyle: {
-        color: '#ACCCEC',
-        fontSize: 12,
-      },
-    },
-    {
-      title: '自发自用电量',
-      num: '500',
-      floatLength: 2,
-      unit: 'kWh',
-      numStyle: {
-        width: 'auto',
-        fontWeight: 500,
-        fontSize: 20,
-        color: '#4DD6F0',
-        background: 'none',
-        WebkitTextFillColor: 'inherit',
-      },
-      unitStyle: {
-        color: '#ACCCEC',
-        fontSize: 12,
-      },
-    },
-    {
-      title: '上网电量',
-      num: '300',
-      unit: 'kWh',
-      floatLength: 2,
-      numStyle: {
-        width: 'auto',
-        fontWeight: 500,
-        fontSize: 20,
-        color: '#4DD6F0',
-        background: 'none',
-        WebkitTextFillColor: 'inherit',
-      },
-      unitStyle: {
-        color: '#ACCCEC',
-        fontSize: 12,
-      },
-    },
-  ];
+  const chartData: ChartRes =
+    (rawChartData &&
+      rawChartData.map((it) => {
+        return {
+          ts: it.eventTs,
+          value: it.doubleVal,
+        };
+      })) ??
+    [];
 
   useEffect(() => {
     run();
   }, []);
 
-  const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
   return (
     <div className={styles.contentWrapper}>
       <div className={styles.realtimeStatistic}>
         <div className={styles.content}>
           实时发电功率：
-          <div className={styles.number}>
-            {keepTwoDecimalWithUnit(currentPowerData?.CurrentPowerGeneration)}
-          </div>
+          <div className={styles.number}>{keepTwoDecimalWithUnit(currentPowerData)}</div>
           <span className={styles.unit}>kWh</span>
         </div>
       </div>
@@ -145,7 +76,7 @@ const Photovoltaic: FC = () => {
           renderItem={(item) => (
             <List.Item>
               <div className={styles.box}>
-                <DigitalFlipperItem {...item} />
+                <DigitalFlipperItem {...item} data={statistics} />
                 <div className={classnames([styles.rect, styles['top-left']])} />
                 <div className={classnames([styles.rect, styles['top-right']])} />
                 <div className={classnames([styles.rect, styles['bottom-right']])} />
@@ -155,7 +86,11 @@ const Photovoltaic: FC = () => {
           )}
         />
       </div>
-      <StatisticChart title="光伏系统发电量" chartData={chartData} />
+      <StatisticChart
+        title="光伏系统发电量"
+        onDateChange={onDateChange}
+        chartData={convertToData(chartData)}
+      />
     </div>
   );
 };

@@ -11,11 +11,11 @@ import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns } from '@ant-design/pro-table';
 import { getList, getDetail } from './service';
-import { OperationLogType } from './data.d';
+import type { OperationLogType } from './data.d';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
-import { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/utils/dictionary';
 import { debounce } from 'lodash';
 import { format } from 'timeago.js';
 

@@ -79,7 +79,6 @@ const Geometry: FC = () => {
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
       const { cellStyle } = cell;
-      console.log(cell);
 
       return (
         <Cell
@@ -129,6 +128,7 @@ const Geometry: FC = () => {
     >
       <div className={styles.backgroundBottom} />
       <div className={styles.backgroundTop} />
+      <div className={styles.backgroundRight} />
       <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
 
       <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">

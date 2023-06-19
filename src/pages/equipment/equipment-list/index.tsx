@@ -15,7 +15,8 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
 import { getList, removeData, getTabs } from './service';
-import { OptionType, FormTypeEnum } from '@/utils/dictionary';
+import type { OptionType } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
 import { deviceDialogMap } from '@/components/ScreenDialog';
 import type { DeviceDialogMapType } from '@/components/ScreenDialog';
@@ -59,7 +60,7 @@ const StationList: React.FC<StationListProps> = (props) => {
 
   const onDetailClick = useCallback((rowData: EquipmentType) => {
     setDeviceId(rowData.deviceId);
-    setDeviceDialog(deviceDialogMap?.[rowData.productId] || deviceDialogMap?.['default']);
+    setDeviceDialog(deviceDialogMap?.[rowData.productId] || deviceDialogMap?.default);
     onSwitchDetailOpen();
   }, []);
 

@@ -165,7 +165,7 @@ const Agent: React.FC = () => {
               columns={formColumns}
               layoutType="ModalForm"
               onFinish={onFinish}
-            ></BetaSchemaForm>,
+            />,
           ]}
           option={{
             columnsProp: {

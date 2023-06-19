@@ -18,7 +18,7 @@ import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
-import { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/utils/dictionary';
 
 type AlarmProps = {
   isStationChild?: boolean;

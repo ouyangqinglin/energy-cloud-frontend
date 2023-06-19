@@ -4,7 +4,7 @@ import IconTransformerCapacity from '@/assets/image/screen/stationOverview/icon_
 import IconPhotovoltaicPanel from '@/assets/image/screen/stationOverview/icon_photovoltaic_panel.png';
 import IconEnergyStorageCapacity from '@/assets/image/screen/stationOverview/icon_energy_storage_capacity.png';
 import iconChargingStation from '@/assets/image/screen/stationOverview/icon_charging_station.png';
-import { SiteInfoRes } from '../type';
+import type { SiteInfoRes } from '../type';
 
 export const DEFAULT_DATA = {
   bodyData: [
@@ -19,7 +19,7 @@ export const config: DeviceConfigItem[] = [
   {
     icon: IconTransformerCapacity,
     title: '变压器容量',
-    unit: 'kWh',
+    unit: 'kVA',
     field: 'transformerCapacity',
     span: 12,
     child: [

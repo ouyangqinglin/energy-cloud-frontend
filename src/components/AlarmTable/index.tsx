@@ -128,7 +128,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
         locale={{
           emptyText: Empty,
         }}
-      ></ProTable>
+      />
     </>
   );
 };

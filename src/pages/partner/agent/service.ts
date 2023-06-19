@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\service.ts
  */
 import request from '@/utils/request';
-import { AgentFormType } from './data.d';
+import type { AgentFormType } from './data.d';
 
 export const getList = (params: any) => {
   return request(`/agents`, {

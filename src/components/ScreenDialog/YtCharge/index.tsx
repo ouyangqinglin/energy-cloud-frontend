@@ -17,7 +17,7 @@ import { useFormat, powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { getRelatedDevice, getGuns } from '@/services/equipment';
 import { arrayToMap } from '@/utils';
-import { AnyMapType } from '@/utils/dictionary';
+import type { AnyMapType } from '@/utils/dictionary';
 import Community from '../Community';
 
 const YtCharge: React.FC<BusinessDialogProps> = (props) => {

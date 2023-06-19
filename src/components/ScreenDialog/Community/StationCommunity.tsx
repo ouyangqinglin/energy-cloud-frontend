@@ -11,11 +11,11 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import { StationCommunityType } from './data.d';
-import { EquipFormType } from '@/components/EquipForm/data.d';
+import type { StationCommunityType } from './data.d';
+import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
-import { CommunityProps } from './index';
+import type { CommunityProps } from './index';
 
 const StationCommunity: React.FC<CommunityProps> = (props) => {
   const { id, open, onOpenChange, model } = props;

@@ -1,4 +1,5 @@
 import Cell from '@/pages/screen/components/LayoutCell';
+import classnames from 'classnames';
 import QueueAnim from 'rc-queue-anim';
 import { useEffect, useState } from 'react';
 import { leftPathsConfig } from './configLeftPaths';
@@ -93,13 +94,21 @@ const EnergyFlowAnimation = () => {
           animationDuration: `${p.duration}s`,
           animationPlayState: 'running',
           offsetPath: `path('${p.path}')`,
+          animationDirection: p.reverse ? 'reverse' : 'normal',
         };
 
         if (p.style) {
           styleConfig = { ...styleConfig, ...p.style };
         }
 
-        return <div key={p.id} id={p.id} className={styles.flow} style={styleConfig} />;
+        return (
+          <div
+            key={p.id}
+            id={p.id}
+            className={classnames([styles.flow, p.reverse ? styles.flowReverse : ''])}
+            style={styleConfig}
+          />
+        );
       })}
     </>
   );

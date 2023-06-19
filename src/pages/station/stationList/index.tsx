@@ -237,7 +237,7 @@ const StationList: React.FC = () => {
         pagination={{
           showSizeChanger: true,
         }}
-      ></ProTable>
+      />
       <StationForm
         id={siteId}
         open={open}

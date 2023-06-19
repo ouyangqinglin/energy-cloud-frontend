@@ -10,11 +10,11 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import { MeterCommunityType } from './data.d';
-import { EquipFormType } from '@/components/EquipForm/data.d';
+import type { MeterCommunityType } from './data.d';
+import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
-import { CommunityProps } from './index';
+import type { CommunityProps } from './index';
 
 type AccountCommunityType = CommunityProps & {
   userLabel?: string;

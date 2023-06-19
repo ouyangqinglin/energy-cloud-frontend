@@ -12,7 +12,7 @@ import styles from './index.less';
 import { useLocation, useModel, useHistory } from 'umi';
 import YtIcon from '@/assets/image/icon-yt.png';
 import { getStation } from '@/services/station';
-import { LocationType } from '@/utils/dictionary';
+import type { LocationType } from '@/utils/dictionary';
 
 const menuMap = new Map([
   ['/station-manage/operation-monitor', '概览'],

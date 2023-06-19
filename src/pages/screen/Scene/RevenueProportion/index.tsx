@@ -8,7 +8,7 @@
  */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useRequest } from 'umi';
-import { TimeType } from '../../components/TimeButtonGroup';
+import type { TimeType } from '../../components/TimeButtonGroup';
 import { Pie, G2 } from '@ant-design/plots';
 import { getData } from './service';
 import { getSiteId } from '../helper';

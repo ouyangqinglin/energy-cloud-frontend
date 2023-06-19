@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
  */
-import { FileType } from '@/utils/dictionary';
+import type { FileType } from '@/utils/dictionary';
 
 export type StationType = {
   name: string;

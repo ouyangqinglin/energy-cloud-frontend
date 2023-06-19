@@ -74,9 +74,7 @@ export type fieldType = {
   field: string;
 };
 
-export type AnyMapType = {
-  [key: string]: any;
-};
+export type AnyMapType = Record<string, any>;
 
 export const useInfo = [
   { label: '占用', value: 1 },

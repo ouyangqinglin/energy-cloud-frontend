@@ -1,5 +1,6 @@
 import { notification } from 'antd';
-import { FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { useRequest } from 'umi';
 import Cell from '../../components/LayoutCell';
 import styles from './index.less';

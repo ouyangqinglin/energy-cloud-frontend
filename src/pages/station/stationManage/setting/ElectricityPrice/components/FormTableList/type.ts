@@ -1,7 +1,7 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { FunctionComponent, ReactNode } from 'react';
-import { FormReadBaseProps } from '../FormRead/type';
+import type { FormReadBaseProps } from '../FormRead/type';
 
 export type FormTableListBaseProps<DataType> = {
   actionRef?: React.Ref<ActionType>;
