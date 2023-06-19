@@ -4,10 +4,10 @@ import 左3_永泰_充电终端 from '@/assets/image/screen/Geometry/左3_永泰
 import 左4_华为_充电终端 from '@/assets/image/screen/Geometry/左4_华为_充电终端.png';
 import 左5_华为_充电终端 from '@/assets/image/screen/Geometry/左5_华为_充电终端.png';
 import 左6_华为_充电终端 from '@/assets/image/screen/Geometry/左6_华为_充电终端.png';
-import 右1_永泰_充电终端 from '@/assets/image/screen/Geometry/右1_永泰_充电终端.png';
+import 右4_永泰_充电终端 from '@/assets/image/screen/Geometry/右4_永泰_充电终端.png';
 import 右2_永泰_充电终端 from '@/assets/image/screen/Geometry/右2_永泰_充电终端.png';
 import 右3_永泰_120KW_充电桩 from '@/assets/image/screen/Geometry/右3_永泰_120KW_充电桩.png';
-import 右4_永泰_充电终端 from '@/assets/image/screen/Geometry/右4_永泰_充电终端.png';
+import 右1_永泰_充电终端 from '@/assets/image/screen/Geometry/右1_永泰_充电终端.png';
 import 右5_交流桩 from '@/assets/image/screen/Geometry/右5_交流桩.png';
 import { DeviceType } from './Dialog';
 import type { CellConfigItem } from './type';
