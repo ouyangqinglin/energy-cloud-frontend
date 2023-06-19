@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-14 09:20:54
+ * @LastEditTime: 2023-06-19 10:03:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
@@ -31,11 +31,11 @@ type ChartDataType = {
 };
 
 const legendMap = new Map([
+  ['me', '市电'],
   ['pv', '光伏'],
   ['es', '储能'],
   ['cs', '充电桩'],
-  ['me', '市电'],
-  ['load', '负载'],
+  ['load', '其他负载'],
 ]);
 
 const getChartData = (data: ChartDataType[], field: string): DataType[] => {
@@ -76,7 +76,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   return (
     <div className={styles.chartWrapper}>
       <Chart
-        height={240}
+        height={249}
         scale={{
           value: {
             type: 'linear',
@@ -99,7 +99,19 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         <Legend
           position="top-right"
           marker={{
-            symbol: 'circle',
+            symbol: (x, y, radius) => {
+              const r = radius / 2;
+              return [
+                ['M', x - 3 * r, y],
+                ['L', x + 3 * r, y],
+                ['M', x - r, y],
+                ['A', r, r, 0, 0, 0, x + r, y],
+                ['A', r, r, 0, 0, 0, x - r, y],
+              ];
+            },
+            style: {
+              fill: null,
+            },
           }}
           itemName={{
             style: {
@@ -111,7 +123,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         <LineAdvance
           shape="smooth"
           area
-          color={['field', ['#FFE04D', '#159AFF', '#11DA81', '#FF8144', '#00C9EC']]}
+          color={['field', ['#FF8144', '#FFE04D', '#159AFF', '#11DA81', '#00C9EC']]}
           position="time*value"
         />
         <Axis
