@@ -4,10 +4,12 @@ import Texty from 'rc-texty';
 import 'rc-texty/assets/index.css';
 import TweenOne from 'rc-tween-one';
 import Cell from '../../components/LayoutCell';
+import TitleBG from './TitleBackGround';
 
 const Title: FC = () => {
   return (
     <>
+      <TitleBG />
       <Cell width={289} height={36} left={815.5} top={12}>
         <Texty
           className={styles.title}
