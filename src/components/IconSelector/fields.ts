@@ -210,6 +210,7 @@ const ytIcon = [
   'YTDevice',
   'YTPartner',
   'YTUser',
+  'YTRemoteUpgrade',
   'YTSetting',
 ];
 

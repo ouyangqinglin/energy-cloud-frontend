@@ -55,6 +55,7 @@ const YTProTable = <
       rowKey="id"
       {...restProps}
       className={styles.ytTable}
+      scroll={{ x: 1366 }}
     />
   );
 };

@@ -122,7 +122,7 @@ const OperationLog: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            beginTime: value[0],
+            startTime: value[0],
             endTime: value[1],
           };
         },

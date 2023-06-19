@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-06-15 14:55:00
+ * @LastEditTime: 2023-06-19 19:33:43
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\IconSelector\YTIcon.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
 import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
@@ -16,6 +16,7 @@ import {
   DeviceSvg,
   PartnerSvg,
   UserSvg,
+  RemoteUpgradeSvg,
   SettingSvg,
 } from './YTSvg';
 
@@ -47,6 +48,10 @@ const YTUserOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={UserSvg} {...props} />
 );
 
+const YTRemoteUpgradeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={RemoteUpgradeSvg} {...props} />
+);
+
 const YTSettingOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={SettingSvg} {...props} />
 );
@@ -59,5 +64,6 @@ export {
   YTDeviceOutlined,
   YTPartnerOutlined,
   YTUserOutlined,
+  YTRemoteUpgradeOutlined,
   YTSettingOutlined,
 };

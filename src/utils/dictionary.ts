@@ -114,11 +114,11 @@ export const onlineStatus = {
 };
 
 export const effectStatus = {
-  1: {
+  0: {
     text: '有效',
     status: 'Success',
   },
-  0: {
+  1: {
     text: '无效',
     status: 'Error',
   },
@@ -145,4 +145,34 @@ export const alarmSourceStatus = {
 export const pageType = {
   0: '标准首页',
   1: '定制页',
+};
+
+export const dataSource = {
+  1: {
+    text: '手动',
+  },
+  0: {
+    text: '系统预设',
+  },
+};
+
+export const serviceType = {
+  1: {
+    text: '维护',
+  },
+  0: {
+    text: '安装',
+  },
+};
+
+export const serviceProgressType = {
+  2: {
+    text: '完成',
+  },
+  1: {
+    text: '处理中',
+  },
+  0: {
+    text: '已受理',
+  },
 };

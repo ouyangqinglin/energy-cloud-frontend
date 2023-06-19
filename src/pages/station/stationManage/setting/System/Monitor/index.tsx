@@ -88,7 +88,8 @@ const monitorTypeMap = new Map([
 const bingData = (data: MonitorDataType[], type: string, index: number) => {
   if (!data.length) {
     data.push({
-      id: 'noData' + index,
+      id: type + 'noData' + index,
+      rowId: type + 'noData' + index,
       project: monitorTypeMap.get(type)?.data[index].name,
       deviceName: index ? '关联采集点' : '关联设备',
       area: monitorTypeMap.get(type)?.data[index].area || '',
@@ -207,6 +208,7 @@ const Monitor: React.FC = () => {
       const rowData: MonitorDataType[] = selectedData.map((item: any) => {
         return {
           id: item[valueMap.valueId],
+          rowId: selectedRow.type + item[valueMap.valueId],
           collection: selectedRow.area === 'elec' ? '全部采集点' : item?.node?.paramName,
           deviceName: item?.node?.deviceName,
           sn: item?.node?.deviceSN,
@@ -310,6 +312,7 @@ const Monitor: React.FC = () => {
               data?.[item.type]?.valueMap?.[row.subType]?.map?.((record: any) => {
                 return {
                   id: row.area == 'elec' ? record.deviceId : record?.selectName,
+                  rowId: row.area == 'elec' ? record.deviceId : record?.selectName,
                   collection: row.area == 'elec' ? '全部采集点' : record?.paramName,
                   deviceName: record?.deviceName,
                   sn: record?.deviceSN,
@@ -417,7 +420,7 @@ const Monitor: React.FC = () => {
             size="small"
             bordered
             pagination={false}
-            rowKey="id"
+            rowKey="rowId"
           />
           <div className="tx-right mt12 mb24">
             <Button

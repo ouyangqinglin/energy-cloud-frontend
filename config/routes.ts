@@ -7,6 +7,23 @@
 
 export default [
   {
+    path: '/index',
+    name: 'index',
+    layout: false,
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/index',
+        redirect: '/index/station',
+      },
+      {
+        path: 'station',
+        name: 'indexStation',
+        component: './home-page',
+      },
+    ],
+  },
+  {
     path: '/screen',
     name: 'screen',
     layout: false,
@@ -45,6 +62,11 @@ export default [
         name: 'stationList',
         component: './station/stationList',
       },
+      {
+        path: 'custom-page',
+        name: 'customPage',
+        component: './station/customPage',
+      },
     ],
   },
   {
@@ -62,6 +84,11 @@ export default [
         path: '/station-manage/operation-monitor',
         name: 'operationMonitor',
         component: './station/stationManage/operationMonitor',
+      },
+      {
+        path: '/station-manage/stat',
+        name: 'stat',
+        component: './station/stationManage/stat',
       },
       {
         path: '/station-manage/equipment-list',
@@ -109,6 +136,39 @@ export default [
     ],
   },
   {
+    path: '/data-manage',
+    name: 'dataManage',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/data-manage',
+        redirect: '/data-manage/search',
+      },
+      {
+        path: 'search',
+        name: 'search',
+        component: './data-manage/search',
+      },
+      {
+        path: 'report',
+        name: 'report',
+        component: './data-manage/report',
+      },
+      {
+        path: 'fault-tracing',
+        name: 'faultTracing',
+        component: './data-manage/faultTracing',
+      },
+      {
+        path: 'prediction',
+        name: 'prediction',
+        component: './data-manage/prediction',
+      },
+    ],
+  },
+  {
     path: '/partner',
     name: 'partner',
     layout: false,
@@ -117,17 +177,58 @@ export default [
     routes: [
       {
         path: '/partner',
-        redirect: '/partner/agent',
-      },
-      {
-        path: 'agent',
-        name: 'agent',
-        component: './partner/agent',
+        redirect: '/partner/service',
       },
       {
         path: 'service',
         name: 'service',
         component: './partner/service',
+      },
+    ],
+  },
+  {
+    path: '/remote-upgrade',
+    name: 'remote-upgrade',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/remote-upgrade',
+        redirect: '/remote-upgrade/index',
+      },
+      {
+        path: 'index',
+        name: 'remoteUpgradeIndex',
+        component: './remote-upgrade',
+      },
+    ],
+  },
+  {
+    path: '/work-order',
+    name: 'workOrder',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/work-order',
+        redirect: '/work-order/install',
+      },
+      {
+        path: 'install',
+        name: 'install',
+        component: './work-order/install',
+      },
+      {
+        path: 'maintenance',
+        name: 'maintenance',
+        component: './work-order/maintenance',
+      },
+      {
+        path: 'fault',
+        name: 'fault',
+        component: './work-order/fault',
       },
     ],
   },
@@ -245,6 +346,11 @@ export default [
       {
         path: '/',
         redirect: '/system/user',
+      },
+      {
+        path: 'authorization',
+        name: 'authorization',
+        component: 'system/authorization',
       },
       {
         name: 'user',
@@ -384,7 +490,12 @@ export default [
         name: 'accounts',
         icon: 'PartitionOutlined',
         path: '/user-manager/accounts',
-        component: 'user-manager/accounts/Customer',
+        component: 'user-manager/accounts',
+      },
+      {
+        path: 'authority',
+        name: 'authority',
+        component: './user-manager/authority',
       },
     ],
   },
@@ -518,7 +629,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/station',
+    redirect: '/index',
   },
   {
     component: './404',
