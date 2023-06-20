@@ -86,12 +86,14 @@ const EnergyStorage: FC = () => {
         />
       </div>
       <div className={styles.batteryStatus}>
-        <ChartProcess
-          discharge={statisticsData?.discharge}
-          charge={statisticsData?.charge}
-          capacity={statisticsData?.ratedCapacity}
-        />
+        <span>SOC：{statisticsData?.soc ?? '--'}%</span>
+        <span>SOH：{statisticsData?.soh ?? '--'}2%</span>
       </div>
+      <ChartProcess
+        discharge={statisticsData?.discharge}
+        charge={statisticsData?.charge}
+        capacity={statisticsData?.ratedCapacity}
+      />
       <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />
       </div>

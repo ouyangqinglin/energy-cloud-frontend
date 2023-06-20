@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { leftPathsConfig } from './configLeftPaths';
 import { rightPathsConfig, rightPathsNeedCalc, rightPathsDynamical } from './configRightPaths';
 import styles from './index.less';
-import type { PathConfigType } from './type';
+import type { PathConfigType } from '../type';
 
 const EnergyFlow = () => {
   const [paths, setPaths] = useState<PathConfigType[]>([

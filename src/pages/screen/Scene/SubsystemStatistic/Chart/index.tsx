@@ -7,6 +7,7 @@ import styles from './index.less';
 import { DatePicker } from 'antd';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
+import { isEmpty } from 'lodash';
 type Props = {
   chartData: ChartData;
   chartConfigMap?: Record<
@@ -24,12 +25,22 @@ type Props = {
 const dateFormat = 'YYYY.MM.DD';
 const defaultValue = [dayjs().subtract(1, 'w'), dayjs()] as any;
 
-const StatisticChart: FC<Props> = ({ chartData, title, chartConfigMap = {}, onDateChange }) => {
+const StatisticChart: FC<Props> = ({
+  chartData: rawChartData,
+  title,
+  chartConfigMap = {},
+  onDateChange,
+}) => {
   useEffect(() => {
     if (onDateChange) {
       onDateChange(defaultValue, [dateFormat, dateFormat]);
     }
   }, [onDateChange]);
+
+  let chartData = rawChartData;
+  if (isEmpty(chartData)) {
+    chartData = [{ value: 0, date: '', field: '' }];
+  }
 
   return (
     <div className={styles.chartWrapper}>
@@ -45,98 +56,96 @@ const StatisticChart: FC<Props> = ({ chartData, title, chartConfigMap = {}, onDa
         />
       </div>
       <div className={styles.axisTitle}>单位(kW·h)</div>
-      {chartData && (
-        <Chart height={200} data={chartData} autoFit>
-          <Interval
-            adjust={[
-              {
-                type: 'dodge',
-                marginRatio: 0,
-              },
-            ]}
-            color="field"
-            position="date*value"
-          />
-          <Axis
-            name="value"
-            label={{
+      <Chart height={200} data={chartData} autoFit>
+        <Interval
+          adjust={[
+            {
+              type: 'dodge',
+              marginRatio: 0,
+            },
+          ]}
+          color="field"
+          position="date*value"
+        />
+        <Axis
+          name="value"
+          label={{
+            style: {
+              fill: '#6C8097',
+              fontSize: 12,
+              fontWeight: 400,
+            },
+          }}
+          grid={{
+            line: {
+              type: 'line',
               style: {
-                fill: '#6C8097',
-                fontSize: 12,
-                fontWeight: 400,
-              },
-            }}
-            grid={{
-              line: {
-                type: 'line',
-                style: {
-                  stroke: '#2E3A45 ',
-                  lineWidth: 1,
-                  lineDash: [4, 4],
-                },
-              },
-            }}
-          />
-          <Axis
-            name="date"
-            label={{
-              style: {
-                fill: '#6C8097',
-                fontSize: 12,
-                fontWeight: 400,
-              },
-            }}
-            line={{
-              style: {
-                stroke: '#475D72',
+                stroke: '#2E3A45 ',
                 lineWidth: 1,
-                opacity: 0.6,
+                lineDash: [4, 4],
+              },
+            },
+          }}
+        />
+        <Axis
+          name="date"
+          label={{
+            style: {
+              fill: '#6C8097',
+              fontSize: 12,
+              fontWeight: 400,
+            },
+          }}
+          line={{
+            style: {
+              stroke: '#475D72',
+              lineWidth: 1,
+              opacity: 0.6,
+            },
+          }}
+          tickLine={null}
+        />
+        {chartConfigMap && (
+          <Tooltip showCrosshairs>
+            {(t, items: any) => {
+              return (
+                <>
+                  <div style={{ paddingTop: 10 }}>{t}</div>
+                  {items.map((it: any, idx: number) => {
+                    const name = chartConfigMap[it.data.field]?.name;
+                    const unit = chartConfigMap[it.data.field]?.unit;
+                    return (
+                      <>
+                        <div style={{ paddingTop: 10 }} key={idx}>
+                          {name}: {it.value + ' ' + unit}
+                        </div>
+                        <br />
+                      </>
+                    );
+                  })}
+                </>
+              );
+            }}
+          </Tooltip>
+        )}
+        {chartConfigMap && (
+          <Legend
+            itemName={{
+              spacing: 5,
+              style: {
+                fill: '#6C8097',
+              },
+              formatter: (text) => {
+                return chartConfigMap[text]?.name ?? '';
               },
             }}
-            tickLine={null}
+            offsetX={0}
+            offsetY={0}
+            itemSpacing={5}
+            position="top-right"
           />
-          {chartConfigMap && (
-            <Tooltip showCrosshairs>
-              {(t, items: any) => {
-                return (
-                  <>
-                    <div style={{ paddingTop: 10 }}>{t}</div>
-                    {items.map((it: any, idx: number) => {
-                      const name = chartConfigMap[it.data.field]?.name;
-                      const unit = chartConfigMap[it.data.field]?.unit;
-                      return (
-                        <>
-                          <div style={{ paddingTop: 10 }} key={idx}>
-                            {name}: {it.value + ' ' + unit}
-                          </div>
-                          <br />
-                        </>
-                      );
-                    })}
-                  </>
-                );
-              }}
-            </Tooltip>
-          )}
-          {chartConfigMap && (
-            <Legend
-              itemName={{
-                spacing: 5,
-                style: {
-                  fill: '#6C8097',
-                },
-                formatter: (text) => {
-                  return chartConfigMap[text]?.name ?? '';
-                },
-              }}
-              offsetX={0}
-              offsetY={0}
-              itemSpacing={5}
-              position="top-right"
-            />
-          )}
-        </Chart>
-      )}
+        )}
+      </Chart>
     </div>
   );
 };

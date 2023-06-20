@@ -54,18 +54,17 @@ const ChargingStation: FC = () => {
   return (
     <div className={styles.contentWrapper}>
       <div className={styles.realtimeStatistic}>
-        <div className={styles.content}>
-          实时功率率：
-          <div className={styles.number}>{keepTwoDecimalWithUnit(powerData?.power)}</div>
-          <span className={styles.unit}>kWh</span>
-        </div>
-        <div className={styles.content}>
-          充电枪使用/总数：
-          <div className={styles.number}>{keepTwoDecimalWithUnit(powerData?.occupyCount)}</div>
-          <span className={styles.number} style={{ color: '#fff' }}>
-            /{keepTwoDecimalWithUnit(powerData?.totalCount)}
-          </span>
-        </div>
+        <List
+          grid={{
+            column: 2,
+          }}
+          dataSource={realTimeStatisticConfig}
+          renderItem={(item) => (
+            <List.Item>
+              <DigitalFlipperItem {...item} data={powerData} />
+            </List.Item>
+          )}
+        />
       </div>
       <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />

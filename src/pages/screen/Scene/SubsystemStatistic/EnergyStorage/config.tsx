@@ -66,6 +66,9 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
       fontSize: '14px',
       color: '#D0DEEE',
     },
+    itemStyleWrapper: {
+      paddingLeft: 0,
+    },
   },
   {
     title: '运行功率',
@@ -91,6 +94,9 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
       color: '#4DD6F0',
       fontFamily: 'DIN-Bold, DIN',
     },
+    itemStyleWrapper: {
+      paddingLeft: 0,
+    },
   },
   {
     title: '额定容量',
@@ -115,6 +121,9 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
       color: '#4DD6F0',
       fontFamily: 'DIN-Bold, DIN',
       fontWeight: 500,
+    },
+    itemStyleWrapper: {
+      paddingLeft: 0,
     },
   },
 ];
