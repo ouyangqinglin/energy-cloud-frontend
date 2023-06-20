@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-05-16 15:30:24
+ * @LastEditTime: 2023-06-20 14:33:25
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\HwChargeYt\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwChargeYt\index.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
 import { Modal, Tabs, Row, Col, Skeleton, Button } from 'antd';
@@ -17,16 +17,21 @@ import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
-import { getAlarms, getLogs } from '@/services/equipment';
+import { getAlarms, getGuns, getLogs } from '@/services/equipment';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 import type { DetailItem } from '@/components/Detail';
 import { useFormat, powerHourFormat } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Community from '../Community';
+import { arrayToMap } from '@/utils';
 
 const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
+  const [aGunId, setAGunId] = useState('');
+  const [bGunId, setBGunId] = useState('');
+  const aGunData = useSubscribe(aGunId, open);
+  const bGunData = useSubscribe(bGunId, open);
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceType>();
@@ -35,10 +40,18 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
     setDeviceData(data);
   }, []);
 
-  const statusItems: DetailItem[] = [
-    { label: 'A枪状态', field: 'a', format: useFormat },
-    { label: 'B枪状态', field: 'b', format: useFormat },
-  ];
+  useEffect(() => {
+    if (open && id) {
+      getGuns(id).then(({ data = [] }) => {
+        const gunMap: Record<string, any> = arrayToMap(data || [], 'key', 'deviceId');
+        setAGunId(gunMap.AGun);
+        setBGunId(gunMap.BGun);
+      });
+    }
+  }, [id, open]);
+
+  const aStatusItems: DetailItem[] = [{ label: 'A枪状态', field: 'Status', format: useFormat }];
+  const bStatusItems: DetailItem[] = [{ label: 'B枪状态', field: 'Status', format: useFormat }];
   const runItems: DetailItem[] = [
     { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
     { label: '累计充电量', field: 'Pimp', format: powerHourFormat },
@@ -63,7 +76,14 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
       ) : (
         <>
           <Label title="状态信息" />
-          <Detail data={equipmentData || {}} items={statusItems} column={4} />
+          <Row>
+            <Col span={12}>
+              <Detail data={aGunData} items={aStatusItems} column={2} />
+            </Col>
+            <Col span={12}>
+              <Detail data={bGunData} items={bStatusItems} column={2} />
+            </Col>
+          </Row>
           <Label title="运行信息" />
           <Detail data={equipmentData || {}} items={runItems} column={4} />
         </>

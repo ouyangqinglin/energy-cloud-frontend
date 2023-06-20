@@ -5,7 +5,7 @@ import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
 
 export default (id: string | string[], open: boolean) => {
   const ids = useMemo(() => {
-    return Array.isArray(id) ? id : [id];
+    return Array.isArray(id) ? id : id ? [id] : [];
   }, [id]);
   const [data, setData] = useState<AnyMapType>({});
   const { connection } = useWebsocket();

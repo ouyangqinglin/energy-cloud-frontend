@@ -6,7 +6,7 @@ import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/login';
 import YtIcon from '@/assets/image/icon-yt.png';
-
+import BGImg from '@/assets/image/login-bg.png';
 import styles from './index.less';
 import { clearSessionToken, setSessionToken } from '@/access';
 import { MenuEnum } from './type';
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
   const { status, type: loginType, massage } = userLoginState;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ backgroundImage: `url(${BGImg})` }}>
       <div className={styles.lang} data-lang>
         {SelectLang && <SelectLang />}
       </div>
