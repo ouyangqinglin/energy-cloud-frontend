@@ -98,14 +98,15 @@ const Layout: FC<LayoutProps> = (props) => {
       initLayout();
       calLayoutByProps();
     },
-    1000,
+    300,
     {
-      trailing: true,
+      leading: false,
     },
   );
   useEffect(() => {
     if (refContainer.current) {
-      resetLayout();
+      initLayout();
+      calLayoutByProps();
     }
     window.addEventListener('resize', resetLayout);
     return () => {
