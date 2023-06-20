@@ -6,16 +6,16 @@ import EmptyPage from '@/components/EmptyPage';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: '数据查询',
-      children: <EmptyPage />,
-    },
-    {
-      key: '2',
-      label: '数据报表',
-      children: <EmptyPage />,
-    },
+    // {
+    //   key: '1',
+    //   label: '数据查询',
+    //   children: <EmptyPage />,
+    // },
+    // {
+    //   key: '2',
+    //   label: '数据报表',
+    //   children: <EmptyPage />,
+    // },
     {
       key: '3',
       label: '服务记录',
