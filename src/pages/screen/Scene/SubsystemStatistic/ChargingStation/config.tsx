@@ -47,7 +47,7 @@ export const config: DigitalFlipperItemProps[] = [
   {
     title: '充电桩功率利用率',
     field: 'useRatio',
-    floatLength: 0,
+    floatLength: 2,
     format: (value) => Number(value),
     unit: '%',
     numStyle: {
