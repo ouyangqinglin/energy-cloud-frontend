@@ -105,7 +105,7 @@ const StationInfo: React.FC = () => {
 
   const pageDetailItems: DetailItem[] = [
     {
-      label: '当前默认首页',
+      label: '当前设置',
       field: 'homeType',
       format: () => (pageData?.homeType ? pageData?.customPageName : '默认首页'),
     },
@@ -113,21 +113,28 @@ const StationInfo: React.FC = () => {
 
   return (
     <>
-      <Card
-        className="mt16"
-        title="状态信息"
-        extra={
-          detailData?.constructionStatus === 0 ? (
-            <Button type="primary" loading={loading} onClick={onCompleteClick}>
-              站点完工
-            </Button>
-          ) : (
-            ''
-          )
-        }
-      >
-        <Detail data={detailData} items={detailItems} labelStyle={{ width: '100px' }} column={3} />
-      </Card>
+      {false && (
+        <Card
+          className="mt16"
+          title="状态信息"
+          extra={
+            detailData?.constructionStatus === 0 ? (
+              <Button type="primary" loading={loading} onClick={onCompleteClick}>
+                站点完工
+              </Button>
+            ) : (
+              ''
+            )
+          }
+        >
+          <Detail
+            data={detailData}
+            items={detailItems}
+            labelStyle={{ width: '100px' }}
+            column={3}
+          />
+        </Card>
+      )}
       <Card
         className="my16"
         title="基础信息"
@@ -145,7 +152,7 @@ const StationInfo: React.FC = () => {
         />
       </Card>
       <Card
-        title="默认首页"
+        title="默认监控首页"
         extra={
           <Button type="primary" loading={loading} onClick={setTrue}>
             编辑

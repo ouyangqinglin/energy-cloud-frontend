@@ -13,6 +13,7 @@ import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
@@ -36,7 +37,8 @@ import {
 } from '@/utils/format';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { isEmpty } from '@/utils';
-import StationCommunity from '@/components/ScreenDialog/Community/StationCommunity';
+import StationCommunity from '@/components/ScreenDialog/Community/Station';
+import Community from '../Community';
 
 export type PvInverterProps = BusinessDialogProps & {
   loopNum: number;
@@ -47,10 +49,10 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const [tableData, setTableData] = useState<PvInverterType[]>([]); //Upv15 Ipv1
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
+  const onDataChange = useCallback((data) => {
+    setDeviceData(data);
   }, []);
 
   useEffect(() => {
@@ -182,19 +184,17 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           productImg={PvInverterIntroImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <StationCommunity
-        model={model}
-        open={openCommunity}
-        onOpenChange={setOpenCommunity}
-        id={id}
-      />
     </>
   );
 };

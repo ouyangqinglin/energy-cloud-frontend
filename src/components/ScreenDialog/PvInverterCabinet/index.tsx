@@ -12,6 +12,7 @@ import { Tabs, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
@@ -21,21 +22,17 @@ import { getAlarms, getLogs } from '@/services/equipment';
 import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 import useSubscribe from '@/pages/screen/useSubscribe';
-import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
+import MeterCommunity from '@/components/ScreenDialog/Community/Meter';
+import Community from '../Community';
 
 const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
-  const [siteId, setSiteId] = useState<string>();
-
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
-  }, []);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
   const onDataChange = useCallback((data) => {
-    setSiteId(data?.siteId);
+    setDeviceData(data);
   }, []);
 
   const tabItems = [
@@ -88,21 +85,17 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
           productImg={PvInverterCabinetIntroImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
           onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <MeterCommunity
-        model={model}
-        open={openCommunity}
-        onOpenChange={setOpenCommunity}
-        id={id}
-        siteId={siteId}
-      />
     </>
   );
 };

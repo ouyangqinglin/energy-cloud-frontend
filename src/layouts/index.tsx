@@ -27,7 +27,7 @@ const MyLayout: React.FC = (props: any) => {
       );
     } else if (route?.menu == 'top') {
       return (
-        <Layout.Header className={styles.topHeader}>
+        <Layout.Header className={`my-top-header ${styles.topHeader}`}>
           <TopMenu />
         </Layout.Header>
       );
@@ -38,12 +38,12 @@ const MyLayout: React.FC = (props: any) => {
 
   return (
     <Layout className={styles.myLayout}>
-      <Layout.Header className={styles.header}>
+      <Layout.Header className={`my-header ${styles.header}`}>
         <MyHeader />
       </Layout.Header>
       <Layout id="myLayoutContain">
         {layoutMenu}
-        <Layout.Content className={styles.content}>
+        <Layout.Content className={`my-content ${styles.content}`}>
           {route?.menu == 'sider' && <Breadcrumb />}
           {route?.name === 'stationManage'
             ? React.Children.map(props.children, (child) => {

@@ -1,39 +1,43 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-06-01 15:52:41
- * @LastEditTime: 2023-06-02 08:57:20
+ * @Date: 2023-06-20 10:40:19
+ * @LastEditTime: 2023-06-20 10:41:04
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\AccountCommunity.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationGun.tsx
  */
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import type { MeterCommunityType } from './data.d';
+import type { CommunityType } from './data.d';
 import type { EquipFormType } from '@/components/EquipForm/data.d';
-import { getEquipInfo, editEquipConfig } from '@/services/equipment';
+import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
-import type { CommunityProps } from './index';
+import { CommunityProps } from './';
 
-type AccountCommunityType = CommunityProps & {
-  userLabel?: string;
-  passwordLabel?: string;
-};
-
-const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
-  const {
-    id,
-    open,
-    onOpenChange,
-    model,
-    userLabel = 'mqtt用户名',
-    passwordLabel = 'mqtt密码',
-  } = props;
+const StationGun: React.FC<CommunityProps> = (props) => {
+  const { id, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
   const modalProps = getModalProps(model);
+
+  const requestStation = useCallback(() => {
+    return getThirdStation({
+      current: 1,
+      pageSize: 10000,
+      productId: equipData?.productId,
+    }).then(({ data }) => {
+      return data?.list?.map?.((item: any) => {
+        return {
+          label: item.siteName,
+          value: item.id,
+        };
+      });
+    });
+  }, [equipData?.productId]);
 
   useEffect(() => {
     if (open) {
@@ -56,7 +60,7 @@ const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
       return editEquipConfig({
         deviceId: id,
         productId: equipData?.productId,
-        paramConfigType: 1,
+        paramConfigType: 3,
         config: JSON.stringify(formData),
       }).then(({ data }) => {
         if (data) {
@@ -68,27 +72,31 @@ const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
     [id, equipData],
   );
 
-  const columns: ProFormColumnsType<MeterCommunityType>[] = [
+  const columns: ProFormColumnsType<CommunityType>[] = [
     {
-      title: userLabel,
-      dataIndex: 'userName',
+      title: '第三方站点',
+      dataIndex: 'thirdSiteId',
+      valueType: 'select',
+      request: requestStation,
       formItemProps: {
-        rules: [{ required: true, message: userLabel + '必填' }],
+        rules: [{ required: true, message: '第三方站点ID必选' }],
+      },
+      fieldProps: {
+        getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
       },
     },
     {
-      title: passwordLabel,
-      dataIndex: 'password',
-      valueType: 'password',
+      title: '任一充电枪序列码',
+      dataIndex: 'anyGnSn',
       formItemProps: {
-        rules: [{ required: true, message: passwordLabel + '必填' }],
+        rules: [{ required: true, message: '必填' }],
       },
     },
   ];
 
   return (
     <>
-      <BetaSchemaForm<MeterCommunityType>
+      <BetaSchemaForm<CommunityType>
         formRef={formRef}
         layoutType="ModalForm"
         title="设置通信信息"
@@ -107,4 +115,4 @@ const AccountCommunity: React.FC<AccountCommunityType> = (props) => {
   );
 };
 
-export default AccountCommunity;
+export default StationGun;

@@ -11,6 +11,7 @@ import { Modal, Tabs, Row, Col, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Detail from '@/components/Detail';
 import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
@@ -28,10 +29,10 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
+  const onDataChange = useCallback((data) => {
+    setDeviceData(data);
   }, []);
 
   const statusItems: DetailItem[] = [
@@ -102,14 +103,17 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
           productImg={HwChargeStackIntroImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <Community model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };
