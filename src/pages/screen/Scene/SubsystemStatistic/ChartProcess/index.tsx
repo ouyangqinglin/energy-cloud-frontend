@@ -44,7 +44,7 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
     <div className={styles.chartWrapper}>
       <StackedBarChart
         autoFit
-        height={60}
+        height={50}
         width={368}
         padding={[0, 0, 20, 0]}
         color={['#01CFA1', '#FFE04D', '#6F84A1']}

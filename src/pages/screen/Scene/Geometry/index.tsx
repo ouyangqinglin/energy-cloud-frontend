@@ -1,5 +1,6 @@
-import { ReactComponent as BackgroundBottom } from '@/assets/image/screen/Geometry/background_bottom.svg';
-import { ReactComponent as BackgroundTop } from '@/assets/image/screen/Geometry/background_top.svg';
+import BackgroundBottom from '@/assets/image/screen/Geometry/background_bottom.png';
+import BackgroundTop from '@/assets/image/screen/Geometry/background_top.png';
+import BackgroundRight from '@/assets/image/screen/Geometry/background_right.png';
 // import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/Geometry/background_energy_flow.svg';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useRef } from 'react';
@@ -52,6 +53,7 @@ const Geometry: FC = () => {
     }
   };
   fillDeviceIdForMarkDevices();
+  console.log('zcg', ceilsConfig);
 
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const closeDialog = () => {
@@ -59,6 +61,8 @@ const Geometry: FC = () => {
   };
   const handleGeometry = (cell: CellConfigItem) => {
     const { deviceId, deviceType, loopNum } = cell;
+    console.log(cell);
+
     if (!deviceId || !deviceType) {
       message.error('该设备未配置');
       return;
@@ -106,7 +110,7 @@ const Geometry: FC = () => {
         </Cell>
       );
     });
-  }, []);
+  }, [ceilsConfig]);
 
   const sceneWrapperRef = useRef<HTMLDivElement>(null);
   const { resize } = useResize(sceneWrapperRef.current);
@@ -126,11 +130,16 @@ const Geometry: FC = () => {
       cursor="default"
       style={sceneWrapper}
     >
-      <div className={styles.backgroundBottom} />
-      <div className={styles.backgroundTop} />
-      <div className={styles.backgroundRight} />
+      <div
+        className={styles.backgroundBottom}
+        style={{ backgroundImage: `url(${BackgroundBottom})` }}
+      />
+      <div className={styles.backgroundTop} style={{ backgroundImage: `url(${BackgroundTop})` }} />
+      <div
+        className={styles.backgroundRight}
+        style={{ backgroundImage: `url(${BackgroundRight})` }}
+      />
       <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
-
       <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
         <Cell width={865} height={390} left={142} top={86}>
           <EnergyFlowLine />

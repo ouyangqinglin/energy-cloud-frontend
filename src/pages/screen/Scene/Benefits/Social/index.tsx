@@ -31,7 +31,7 @@ const BenefitSocial: FC<Props> = (props) => {
 
   return (
     <Cell width={474} height={113} left={972} top={81}>
-      <DecorationCarousel disableDecoration title="社会效益">
+      <DecorationCarousel disableDecoration title="社会贡献">
         <DigitalFlipperGroup config={config} />
       </DecorationCarousel>
     </Cell>

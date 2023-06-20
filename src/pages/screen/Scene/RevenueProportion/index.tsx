@@ -38,8 +38,8 @@ const typeMap = new Map([
 
 const getCustomHtml = (value: number) => {
   return `<div>
-        <span style="color:white;font-size:22px">${value}</span>
-        <div style="font-size:12px;color:#ACCCEC;">总收益(元)</div>
+        <span style="color:white;font-size:20px;font-weight: 300">${value}</span>
+        <div style="font-size:12px;color:#ACCCEC;font-weight: 300">总收益(元)</div>
     </div>`;
 };
 

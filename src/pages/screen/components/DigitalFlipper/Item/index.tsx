@@ -7,14 +7,14 @@ import { isNumber, isNaN, merge, isNil } from 'lodash';
 
 TweenOne.plugins.push(Children);
 
-export type DigitalFlipperItemProps = {
+export type DigitalFlipperItemProps<Data = any> = {
   num?: string;
   title: string;
   floatLength?: number;
   comma?: boolean;
   prefix?: string | ReactNode;
   suffix?: string | ReactNode;
-  render?: (num: any) => ReactNode;
+  render?: (num: any, entity: Data) => ReactNode;
   data?: Record<string, any>;
   unit?: string;
   field?: string;
@@ -68,7 +68,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
       <div className={styles.content}>
         {prefix}
         {render ? (
-          render(num)
+          render(num, data)
         ) : (
           <div className={styles.number} style={numStyle}>
             {textNode()}

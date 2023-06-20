@@ -4,6 +4,8 @@ export interface StatisticsRes {
   ratedCapacity: number;
   charge: number;
   discharge: number;
+  soc: number;
+  soh: number;
 }
 
 export interface ChargeAndDisChargeRes {
