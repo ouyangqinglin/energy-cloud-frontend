@@ -37,7 +37,7 @@ const FullScreen = () => {
   );
 
   return (
-    <Cell width={104} height={32} left={1792} top={12}>
+    <Cell width={104} height={32} left={1792} top={12} zIndex={99999}>
       <div className={styles.fullscreen}>{button}</div>
     </Cell>
   );

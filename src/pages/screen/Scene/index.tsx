@@ -9,7 +9,6 @@ import Title from './Title';
 // import Weather from '../Weather';
 import Benefit from './Benefits';
 import QueueAnim from 'rc-queue-anim';
-import { getSiteId } from './helper';
 import StationOverview from './StationOverview';
 import ScreenTime from './Time';
 import ScreenWeather from './Weather';
@@ -22,7 +21,7 @@ import RevenueProportion from './RevenueProportion';
 import FullScreen from './FullScreen';
 import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
-import Alarm from './Alarm';
+import AlarmInfo from './Alarm';
 import Geometry from './Geometry';
 import styles from './index.less';
 import { useMemo, useState } from 'react';
@@ -81,11 +80,11 @@ const Scene = () => {
       <ScreenWeather />
       <StationOverview />
       <Benefit />
-      <FullScreen />
       <SubsystemStatistic />
       <RunningLog />
-      <Alarm />
       <Geometry />
+      <AlarmInfo />
+      <FullScreen />
     </>
   );
 };
