@@ -11,6 +11,7 @@ import { Spin, Empty } from 'antd';
 import React from 'react';
 import { useRequest, useHistory, useModel } from 'umi';
 import { getDefaultOverviewPage } from './service';
+import EmptyPage from '@/components/EmptyPage';
 
 const OperationMonitor: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
@@ -19,14 +20,7 @@ const OperationMonitor: React.FC = () => {
   });
   const history = useHistory();
 
-  const standPage =
-    data?.homeType != 1 ? (
-      <div className="flex" style={{ height: '100%' }}>
-        <Empty className="flex1" description="页面开发中，敬请期待..." />
-      </div>
-    ) : (
-      <></>
-    );
+  const standPage = data?.homeType != 1 ? <EmptyPage /> : <></>;
 
   useEffect(() => {
     if (data) {

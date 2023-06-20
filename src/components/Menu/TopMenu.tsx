@@ -16,6 +16,7 @@ import type { LocationType } from '@/utils/dictionary';
 
 const menuMap = new Map([
   ['/station-manage/operation-monitor', '概览'],
+  ['/station-manage/stat', '统计'],
   ['/station-manage/equipment-list', '设备'],
   ['/station-manage/alarm-record', '告警'],
   ['/station-manage/setting', '设置'],

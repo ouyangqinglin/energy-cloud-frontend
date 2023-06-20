@@ -15,6 +15,7 @@ export type MonitorDataType = {
   sn?: string;
   collection?: string;
   id?: string;
+  rowId?: string;
   area: string;
   type: string;
 };

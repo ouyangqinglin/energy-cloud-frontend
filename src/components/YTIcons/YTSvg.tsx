@@ -219,6 +219,51 @@ export const UserSvg = () => (
   </svg>
 );
 
+export const RemoteUpgradeSvg = () => (
+  <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
+    <title>icon_远程升级_def</title>
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g transform="translate(-24.000000, -522.000000)">
+        <g transform="translate(0.000000, 56.000000)">
+          <g transform="translate(8.000000, 16.000000)">
+            <g transform="translate(0.000000, 440.000000)">
+              <g transform="translate(16.000000, 10.000000)">
+                <rect
+                  fill="currentcolor"
+                  fillRule="nonzero"
+                  opacity="0"
+                  x="0"
+                  y="0"
+                  width="20"
+                  height="20"
+                />
+                <g
+                  transform="translate(1.000000, 4.000000)"
+                  stroke="currentcolor"
+                  strokeWidth="1.3"
+                >
+                  <path
+                    d="M4.05000239,10.1538462 C1.81324676,10.1538462 0,8.44908424 0,6.34615385 L0,6.34615385 C0,4.24322345 1.81324676,2.53846154 4.05,2.53846154 C4.13984979,2.53846154 4.2290162,2.54121236 4.31740917,2.5466293 C5.2498518,1.02463038 6.9976537,0 9,0 C11.6904644,0 13.9213715,1.84987914 14.3322678,4.27057855 C14.5007106,4.24439177 14.6736632,4.23076923 14.85,4.23076923 C16.589697,4.23076923 18,5.55669516 18,7.19230769 C18,8.82792022 16.589697,10.1538462 14.85,10.1538462"
+                    id="Combined-Shape"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <rect x="9" y="4.88076923" width="1" height="5.46923077" rx="0.5" />
+                  <polyline
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    points="6.3 6.76923077 9 4.23076923 11.7 6.76923077"
+                  />
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+);
+
 export const SettingSvg = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
     <title>icon_运行维护备份 5</title>
