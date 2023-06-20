@@ -60,7 +60,7 @@ const Login: React.FC = () => {
         // const { query } = history.location;
         // const { redirect } = query as { redirect: string };
         // TODO: 定制化开发，后续移除
-        let redirectPath = '/';
+        let redirectPath = '/station/station-list';
         if (menu === MenuEnum.SCREEN) {
           redirectPath = '/screen';
         }
