@@ -53,7 +53,6 @@ const Geometry: FC = () => {
     }
   };
   fillDeviceIdForMarkDevices();
-  console.log('zcg', ceilsConfig);
 
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const closeDialog = () => {
