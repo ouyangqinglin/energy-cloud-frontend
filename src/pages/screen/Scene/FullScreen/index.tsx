@@ -3,12 +3,15 @@ import { useFullscreen, useEventListener } from 'ahooks';
 import Cell from '../../components/LayoutCell';
 import styles from './index.less';
 
-type FullScreenType = {
-  target?: Element | (() => Element) | React.MutableRefObject<Element>;
-};
-
-const FullScreen = (props: FullScreenType) => {
-  const [isFullscreen, { enterFullscreen, exitFullscreen }] = useFullscreen(props.target);
+const FullScreen = () => {
+  const [isFullscreen, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body, {
+    onEnter() {
+      document.body.classList.add('full-screen');
+    },
+    onExit() {
+      document.body.classList.remove('full-screen');
+    },
+  });
 
   useEventListener('keydown', (e) => {
     if (e.key == 'F11') {

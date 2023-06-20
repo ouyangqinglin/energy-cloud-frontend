@@ -93,10 +93,16 @@ const Layout: FC<LayoutProps> = (props) => {
     }
   };
 
-  const resetLayout = throttle(() => {
-    initLayout();
-    calLayoutByProps();
-  }, 300);
+  const resetLayout = throttle(
+    () => {
+      initLayout();
+      calLayoutByProps();
+    },
+    1000,
+    {
+      trailing: true,
+    },
+  );
   useEffect(() => {
     if (refContainer.current) {
       resetLayout();

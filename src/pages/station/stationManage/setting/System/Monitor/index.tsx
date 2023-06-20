@@ -166,7 +166,7 @@ const Monitor: React.FC = () => {
       const valueId = record.area == 'elec' ? 'id' : 'selectName';
       const valueName = record.area == 'elec' ? 'deviceName' : 'paramName';
       allTableData[record.type][record.area].forEach((item: MonitorDataType) => {
-        if (!(item.id + '').startsWith('noData')) {
+        if ((item.id + '').indexOf('noData') === -1) {
           data.push({
             [valueId]: item.id,
             [valueName]: item.area == 'elec' ? item.deviceName : item.collection,
@@ -236,7 +236,7 @@ const Monitor: React.FC = () => {
     const tableData: TableDataType = allTableData[type];
     if (tableData.elec && tableData.elec.length) {
       [...(tableData.elec || [])].forEach((item) => {
-        if (!(item.id + '').startsWith('noData')) {
+        if ((item.id + '').indexOf('noData') === -1) {
           data.push({
             siteId: siteId,
             selectName: item.id,
@@ -248,7 +248,7 @@ const Monitor: React.FC = () => {
     }
     [...(tableData.row1 || []), ...(tableData.row2 || []), ...(tableData.row3 || [])].forEach(
       (item) => {
-        if (!(item.id + '').startsWith('noData')) {
+        if ((item.id + '').indexOf('noData') === -1) {
           data.push({
             siteId: siteId,
             selectName: item.id,
@@ -261,13 +261,13 @@ const Monitor: React.FC = () => {
     if (
       !tableData.row1 ||
       !tableData.row1.length ||
-      (tableData.row1[0].id + '').startsWith('noData')
+      (tableData.row1[0].id + '').indexOf('noData') > -1
     ) {
       hasCollectEmpty = true;
     } else if (
       !tableData.row2 ||
       !tableData.row2.length ||
-      (tableData.row2[0].id + '').startsWith('noData')
+      (tableData.row2[0].id + '').indexOf('noData') > -1
     ) {
       hasCollectEmpty = true;
     }
@@ -275,7 +275,7 @@ const Monitor: React.FC = () => {
       if (
         !tableData.row3 ||
         !tableData.row3.length ||
-        (tableData.row3[0].id + '').startsWith('noData')
+        (tableData.row3[0].id + '').indexOf('noData') > -1
       ) {
         hasCollectEmpty = true;
       }

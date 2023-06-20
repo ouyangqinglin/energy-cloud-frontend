@@ -99,7 +99,7 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src={YtIcon} />}
-          title="永泰光储充运营维护管理系统"
+          title="永泰数能OSS"
           initialValues={{
             autoLogin: true,
           }}

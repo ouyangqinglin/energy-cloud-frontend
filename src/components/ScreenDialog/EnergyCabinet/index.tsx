@@ -8,10 +8,11 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, Skeleton, Button } from 'antd';
+import { Tabs, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
@@ -20,21 +21,17 @@ import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import useSubscribe from '@/pages/screen/useSubscribe';
-import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
+import MeterCommunity from '@/components/ScreenDialog/Community/Meter';
+import Community from '../Community';
 
 const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
-  const [siteId, setSiteId] = useState<string>();
-
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
-  }, []);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
   const onDataChange = useCallback((data) => {
-    setSiteId(data?.siteId);
+    setDeviceData(data);
   }, []);
 
   const tabItems = [
@@ -86,21 +83,17 @@ const EnergyCabinet: React.FC<BusinessDialogProps> = (props) => {
           equipmentImg={EnergyCabinetImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
           onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <MeterCommunity
-        model={model}
-        open={openCommunity}
-        onOpenChange={setOpenCommunity}
-        id={id}
-        siteId={siteId}
-      />
     </>
   );
 };

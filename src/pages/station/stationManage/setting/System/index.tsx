@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 18:08:53
- * @LastEditTime: 2023-06-19 17:46:27
+ * @LastEditTime: 2023-06-20 10:11:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\index.tsx
  */
@@ -29,12 +29,7 @@ const System: React.FC = () => {
 
   return (
     <>
-      <Tabs
-        items={tabItems}
-        tabBarExtraContent={{ left: <strong style={{ paddingRight: 16 }}>所属类目：</strong> }}
-        className={styles.category}
-        tabBarGutter={24}
-      />
+      <Tabs items={tabItems} className={styles.category} tabBarGutter={24} />
     </>
   );
 };

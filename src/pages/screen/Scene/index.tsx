@@ -81,7 +81,7 @@ const Scene = () => {
       <ScreenWeather />
       <StationOverview />
       <Benefit />
-      <FullScreen target={() => document.getElementById('demo-staion') || document.body} />
+      <FullScreen />
       <SubsystemStatistic />
       <RunningLog />
       <Alarm />

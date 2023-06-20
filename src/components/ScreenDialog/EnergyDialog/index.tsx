@@ -12,6 +12,7 @@ import { Tabs, Button, Skeleton, Row, Col, Space } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';
 import Log from './log';
@@ -19,17 +20,18 @@ import Setting from './setting';
 import { getChildEquipment } from './service';
 import EnergyImg from '@/assets/image/product/energy.png';
 import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
-import AccountCommunity from '@/components/ScreenDialog/Community/AccountCommunity';
+import AccountCommunity from '@/components/ScreenDialog/Community/Account';
+import Community from '../Community';
 
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [equipmentIds, setEquipmentIds] = useState({});
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
   const [settingData, setSettingData] = useState<Record<string, any>>();
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
+  const onDataChange = useCallback((data) => {
+    setDeviceData(data);
   }, []);
 
   useEffect(() => {
@@ -111,23 +113,21 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
           model={model}
           equipmentImg={EnergyImg}
           productImg={EnergyIntroImg}
-          buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
-          }
           setLoading={setLoading}
+          buttons={
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+              userLabel="EMS mqtt用户名"
+              passwordLabel="EMS mqtt密码"
+            />
+          }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <AccountCommunity
-        model={model}
-        open={openCommunity}
-        onOpenChange={setOpenCommunity}
-        id={id}
-        userLabel="EMS mqtt用户名"
-        passwordLabel="EMS mqtt密码"
-      />
     </>
   );
 };

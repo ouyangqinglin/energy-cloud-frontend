@@ -11,13 +11,13 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import type { StationCommunityType } from './data.d';
+import type { StationCommunityType } from './data';
 import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
 
-const StationCommunity: React.FC<CommunityProps> = (props) => {
+const Station: React.FC<CommunityProps> = (props) => {
   const { id, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
@@ -108,4 +108,4 @@ const StationCommunity: React.FC<CommunityProps> = (props) => {
   );
 };
 
-export default StationCommunity;
+export default Station;

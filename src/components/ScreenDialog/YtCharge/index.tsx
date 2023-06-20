@@ -3,6 +3,7 @@ import { Tabs, Row, Col, Skeleton, Button } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Detail from '@/components/Detail';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Label from '@/components/Detail/label';
@@ -29,10 +30,10 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
   const bGunData = useSubscribe(bGunId, open);
   const meterData = useSubscribe(relatedIds, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
+  const onDataChange = useCallback((data) => {
+    setDeviceData(data);
   }, []);
 
   useEffect(() => {
@@ -133,14 +134,17 @@ const YtCharge: React.FC<BusinessDialogProps> = (props) => {
           productImg={YtChargeIntroImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
+          onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <Community model={model} open={openCommunity} onOpenChange={setOpenCommunity} id={id} />
     </>
   );
 };

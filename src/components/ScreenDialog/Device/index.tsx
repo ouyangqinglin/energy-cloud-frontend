@@ -7,18 +7,25 @@
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Device\index.tsx
  */
 
-import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Tabs } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
+import Community from '../Community';
 
 const Device: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
+  const [deviceData, setDeviceData] = useState<DeviceType>();
+
+  const onDataChange = useCallback((data) => {
+    setDeviceData(data);
+  }, []);
 
   const tabItems = [
     {
@@ -53,7 +60,19 @@ const Device: React.FC<BusinessDialogProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <EquipInfo id={id} model={model} />
+        <EquipInfo
+          id={id}
+          model={model}
+          buttons={
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
+          }
+          onChange={onDataChange}
+        />
         <Tabs items={tabItems} />
       </Dialog>
     </>

@@ -2,16 +2,17 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-12 14:22:46
- * @LastEditTime: 2023-05-16 11:15:20
+ * @LastEditTime: 2023-06-20 11:24:06
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\BoxSubstation\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\BoxSubstation\index.tsx
  */
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, Skeleton, Button } from 'antd';
+import { Tabs, Skeleton } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
+import type { DeviceType } from '@/components/EquipInfo/type';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import Empty from '@/components/Empty';
 import Label from '@/components/Detail/label';
@@ -21,21 +22,16 @@ import { getAlarms, getLogs } from '@/services/equipment';
 import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import useSubscribe from '@/pages/screen/useSubscribe';
-import MeterCommunity from '@/components/ScreenDialog/Community/MeterCommunity';
+import Community from '../Community';
 
 const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
-  const [openCommunity, setOpenCommunity] = useState(false);
-  const [siteId, setSiteId] = useState<string>();
-
-  const switchOpenCommunity = useCallback(() => {
-    setOpenCommunity((openData) => !openData);
-  }, []);
+  const [deviceData, setDeviceData] = useState<DeviceType>();
 
   const onDataChange = useCallback((data) => {
-    setSiteId(data?.siteId);
+    setDeviceData(data);
   }, []);
 
   const tabItems = [
@@ -88,21 +84,17 @@ const BoxSubstation: React.FC<BusinessDialogProps> = (props) => {
           productImg={BoxSubstationIntroImg}
           setLoading={setLoading}
           buttons={
-            <Button type="link" onClick={switchOpenCommunity}>
-              设置通信参数
-            </Button>
+            <Community
+              id={id}
+              model={model}
+              siteId={deviceData?.siteId}
+              type={deviceData?.paramConfigType}
+            />
           }
           onChange={onDataChange}
         />
         <Tabs items={tabItems} />
       </Dialog>
-      <MeterCommunity
-        model={model}
-        open={openCommunity}
-        onOpenChange={setOpenCommunity}
-        id={id}
-        siteId={siteId}
-      />
     </>
   );
 };

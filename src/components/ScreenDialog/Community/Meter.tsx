@@ -12,7 +12,7 @@ import { message } from 'antd';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import type { MeterCommunityType, TreeDataType } from './data.d';
+import type { MeterCommunityType, TreeDataType } from './data';
 import type { EquipFormType } from '@/components/EquipForm/data.d';
 import {
   getEquipInfo,
@@ -40,7 +40,7 @@ type DeviceDataType = {
   deviceName: string;
 };
 
-const MeterCommunity: React.FC<CommunityProps> = (props) => {
+const Meter: React.FC<CommunityProps> = (props) => {
   const { id, siteId, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
@@ -231,4 +231,4 @@ const MeterCommunity: React.FC<CommunityProps> = (props) => {
   );
 };
 
-export default MeterCommunity;
+export default Meter;
