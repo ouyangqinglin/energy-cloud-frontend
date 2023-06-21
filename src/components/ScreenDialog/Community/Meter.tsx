@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:17:19
- * @LastEditTime: 2023-06-13 10:50:45
+ * @LastEditTime: 2023-06-21 16:14:04
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\MeterCommunity.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\Meter.tsx
  */
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
@@ -74,7 +74,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
   }, [siteId]);
 
   const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>((item) => {
-    item.checkable = item.productId == 516;
+    item.checkable = !!item.productId;
   }, []);
 
   useEffect(() => {
