@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { FC, useMemo } from 'react';
 import BenefitsEconomic from './Economic';
 import { useRequest } from 'umi';
 import { getBenefits } from './service';
@@ -8,22 +8,21 @@ import type { BenefitsRes } from './type';
 
 const Benefit: FC = () => {
   const { data: resData } = useRequest(getBenefits);
-  const formatData = (res: BenefitsRes | undefined) => {
-    const transformData = res ?? ({} as BenefitsRes);
-    if (!res) {
+  const data = useMemo(() => {
+    const transformData = resData ?? ({} as BenefitsRes);
+    if (!resData) {
       return transformData;
     }
     const excludeKeys = ['siteId'];
-    Reflect.ownKeys(res).forEach((key) => {
-      let value = res[key];
+    Reflect.ownKeys(resData).forEach((key) => {
+      let value = resData[key];
       if (!excludeKeys.includes(value)) {
         value = isEmpty(value) ? undefined : Math.floor(Number(value));
       }
       transformData[key] = value;
     });
     return transformData;
-  };
-  const data: BenefitsRes = formatData(resData);
+  }, [resData]);
 
   return (
     <>

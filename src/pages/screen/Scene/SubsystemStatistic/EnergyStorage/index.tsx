@@ -87,7 +87,7 @@ const EnergyStorage: FC = () => {
       </div>
       <div className={styles.batteryStatus}>
         <span>SOC：{statisticsData?.soc ?? '--'}%</span>
-        <span>SOH：{statisticsData?.soh ?? '--'}2%</span>
+        <span>SOH：{statisticsData?.soh ?? '--'}%</span>
       </div>
       <ChartProcess
         discharge={statisticsData?.discharge}
