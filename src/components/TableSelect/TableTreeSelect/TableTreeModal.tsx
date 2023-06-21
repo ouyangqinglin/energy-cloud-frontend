@@ -298,6 +298,7 @@ const TableTreeModal = <
         <Row gutter={20}>
           <Col className={styles.treeCol} flex="250px">
             <Tree
+              className={styles.tree}
               treeData={treeData}
               onSelect={onTreeSelect}
               onCheck={onTreeCheck}

@@ -8,10 +8,46 @@
   overflow: auto;
   background: white;
   box-shadow: 1px 0 0 0 #dfe1e6, 2px 0 4px 0 rgba(0, 0, 0, 0.16);
+  transition: 0.5s;
+  :global {
+    .ant-tree-title {
+      white-space: nowrap;
+    }
+  }
 }
 
 .content {
   height: 100%;
-  padding-left: 280px;
   overflow: auto;
+}
+
+.switchWrap {
+  position: fixed;
+  top: 50%;
+  left: 280px;
+  padding: 9px 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.toggle {
+  width: 280px;
+  transition: 0.5s;
+}
+
+.close {
+  .tree,
+  .switchWrap {
+    transform: translate3d(-280px, 0, 0);
+  }
+  .content {
+    padding-left: 0;
+  }
+  .toggle {
+    width: 0;
+  }
 }

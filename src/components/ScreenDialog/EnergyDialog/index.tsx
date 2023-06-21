@@ -55,21 +55,21 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
           <Row gutter={20}>
             <Col flex="100px">
               <Space direction="vertical">
-                <Skeleton.Button size="small" />
-                <Skeleton.Button size="small" />
-                <Skeleton.Button size="small" />
-                <Skeleton.Button size="small" />
-                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" active />
+                <Skeleton.Button size="small" active />
+                <Skeleton.Button size="small" active />
+                <Skeleton.Button size="small" active />
+                <Skeleton.Button size="small" active />
               </Space>
             </Col>
             <Col flex="1">
               <Space className="mb12" direction="vertical">
-                <Skeleton.Button size="small" />
-                <Skeleton.Button size="small" />
+                <Skeleton.Button size="small" active />
+                <Skeleton.Button size="small" active />
               </Space>
-              <Skeleton paragraph={{ rows: 2 }} />
-              <Skeleton.Button className="mb12" size="small" />
-              <Skeleton paragraph={{ rows: 4 }} />
+              <Skeleton paragraph={{ rows: 2 }} active />
+              <Skeleton.Button className="mb12" size="small" active />
+              <Skeleton paragraph={{ rows: 4 }} active />
             </Col>
           </Row>
         </>

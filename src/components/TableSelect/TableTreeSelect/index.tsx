@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-08 09:26:37
- * @LastEditTime: 2023-06-13 14:45:18
+ * @LastEditTime: 2023-06-21 17:15:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\index.tsx
  */
@@ -13,7 +13,6 @@ import { cloneDeep } from 'lodash';
 import styles from '../index.less';
 import TableTreeModal from './TableTreeModal';
 import type { TableTreeModalProps } from './TableTreeModal';
-import type { ProTableProps } from '@ant-design/pro-table';
 import type { ProRenderFieldPropsType } from '@ant-design/pro-components';
 
 const TableTreeSelect = <
@@ -37,14 +36,20 @@ const TableTreeSelect = <
   } = props;
 
   const [open, setOpen] = useState(false);
-  const valueLength = value?.length || 0;
 
-  const onClose = useCallback((e: React.MouseEvent, index) => {
-    e.stopPropagation();
-    const result = cloneDeep(value || []);
-    result.splice(index, 1);
-    onChange?.(result);
-  }, []);
+  const valueLength = useMemo(() => {
+    return value?.length || 0;
+  }, [value]);
+
+  const onClose = useCallback(
+    (e: React.MouseEvent, index) => {
+      e.stopPropagation();
+      const result = cloneDeep(value || []);
+      result.splice(index, 1);
+      onChange?.(result);
+    },
+    [value],
+  );
 
   const onClearClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -73,7 +78,7 @@ const TableTreeSelect = <
       }
     }
     return result;
-  }, [value]);
+  }, [value, limit, valueId, disabled, valueName, valueLength]);
 
   return (
     <>

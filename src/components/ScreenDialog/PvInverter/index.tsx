@@ -122,10 +122,10 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
         <>
           <Row gutter={24}>
             <Col span={10}>
-              <Skeleton paragraph={{ rows: loopNum }} />
+              <Skeleton paragraph={{ rows: loopNum }} active />
             </Col>
             <Col span={13} offset={1}>
-              <Skeleton paragraph={{ rows: 6 }} />
+              <Skeleton paragraph={{ rows: 6 }} active />
             </Col>
           </Row>
         </>

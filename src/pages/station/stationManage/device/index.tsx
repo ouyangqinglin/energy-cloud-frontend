@@ -2,13 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-06-21 14:52:15
+ * @LastEditTime: 2023-06-21 17:57:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\index.tsx
  */
 
 import React, { useCallback, useState } from 'react';
 import { useModel } from 'umi';
+import { useBoolean } from 'ahooks';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import DeviceList from '@/pages/equipment/equipment-list';
 import SiteTree from '@/components/SiteTree';
 import styles from './index.less';
@@ -19,6 +21,7 @@ import { default as DeviceListChild } from './DeviceList';
 const Device: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [selectNode, setSelectNode] = useState<TreeNode>();
+  const [open, { toggle }] = useBoolean(true);
 
   const onSelect = useCallback((_, { selected, node }: { selected: boolean; node: TreeNode }) => {
     if (selected) {
@@ -28,15 +31,23 @@ const Device: React.FC = () => {
 
   return (
     <>
-      <div className={styles.tree}>
-        <SiteTree siteId={siteId} onSelect={onSelect} />
-      </div>
-      <div className={styles.content}>
-        {(!selectNode || selectNode?.parentId === -1) && <DeviceList isStationChild={true} />}
-        {selectNode?.parentId === 0 && (
-          <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
-        )}
-        {selectNode?.productId && <Detail />}
+      <div className={`h-full ${!open && styles.close}`}>
+        <div className={`${styles.tree}`}>
+          <SiteTree siteId={siteId} onSelect={onSelect} />
+        </div>
+        <div className={styles.switchWrap} onClick={toggle}>
+          {open ? <LeftOutlined /> : <RightOutlined />}
+        </div>
+        <div className={`flex ${styles.content}`}>
+          <div className={styles.toggle}></div>
+          <div className={`flex1 h-full`}>
+            {(!selectNode || selectNode?.parentId === -1) && <DeviceList isStationChild={true} />}
+            {selectNode?.parentId === 0 && (
+              <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
+            )}
+            {selectNode?.productId && <Detail />}
+          </div>
+        </div>
       </div>
     </>
   );
