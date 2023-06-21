@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-21 08:52:20
+ * @LastEditTime: 2023-06-21 15:39:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -261,7 +261,7 @@ const TableTreeModal = <
     search: false,
     rowKey: valueId,
     pagination: {
-      pageSize: 10,
+      defaultPageSize: 10,
       showSizeChanger: true,
     },
     toolBarRender: false,
