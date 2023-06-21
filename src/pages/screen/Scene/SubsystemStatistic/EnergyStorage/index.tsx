@@ -20,7 +20,7 @@ import {
   RealtimeStatusMap,
 } from './config';
 import { isNaN } from 'lodash';
-import type { RealtimeStatusEnum, StatisticsRes } from './type';
+import type { RealtimeStakeepTwoDecimalWithUnittusEnum, StatisticsRes } from './type';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 import { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
 import DigitalFlipperGroup from '@/pages/screen/components/DigitalFlipper/Group';
@@ -86,8 +86,8 @@ const EnergyStorage: FC = () => {
         />
       </div>
       <div className={styles.batteryStatus}>
-        <span>SOC：{statisticsData?.soc ?? '--'}%</span>
-        <span>SOH：{statisticsData?.soh ?? '--'}%</span>
+        <span>SOC：{keepTwoDecimalWithUnit(statisticsData?.soc)}%</span>
+        <span>SOH：{keepTwoDecimalWithUnit(statisticsData?.soh)}%</span>
       </div>
       <ChartProcess
         discharge={statisticsData?.discharge}

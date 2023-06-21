@@ -86,8 +86,8 @@ export const enum DeviceMark {
 export interface CellConfigItem {
   key: string;
   mark?: DeviceMark;
-  name?: string;
-  deviceId?: string | number;
+  deviceName?: string;
+  deviceId?: string | number | null;
   deviceType?: DeviceType;
   // 逆变器才有
   loopNum?: number;
@@ -101,6 +101,8 @@ export interface CellConfigItem {
 export type DeviceInfoType = {
   deviceId: string | number;
   deviceType: DeviceType | null;
+  deviceName?: string;
+  mark?: DeviceMark;
   // 逆变器才有
   loopNum: number | undefined;
 };

@@ -7,3 +7,10 @@ export const getDeviceList = () => {
     siteId: getSiteId(),
   });
 };
+
+export const bindDeviceMark = (params: { deviceId?: number; mark: number }) => {
+  return get(`/oss/device/mark`, {
+    siteId: getSiteId(),
+    ...params,
+  });
+};
