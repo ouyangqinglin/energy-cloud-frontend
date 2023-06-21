@@ -32,6 +32,8 @@ export const enum MessageEventType {
   HEARTBEAT,
   // 提示信息, 连接成功
   TIPS,
+  // 设备日志数据
+  DEVICE_LOG,
 }
 
 export enum RequestCommandEnum {
@@ -178,30 +180,23 @@ export class Connection {
   }
 
   mock() {
-    this.receivedMessageCallbacks.forEach((cb) => {
-      cb({
-        data: {
-          deviceId: uniqueId(),
-          deviceName: '组串式逆变器',
-          eventName: '测试告警' + uniqueId(),
-          eventTime: '2023-05-10 11:06:59',
-          eventType: 'info',
+    const log = {
+      data: [
+        {
+          createTime: '2023-06-20 19:33:54',
+          logContent: '充电设备接口状态产生变化:由空闲变为占用(未充电)',
+          deviceName: '永泰分体式充电枪_4_02',
         },
-        type: 2,
-      } as any);
+      ],
+      type: 5,
+    };
+    this.receivedMessageCallbacks.forEach((cb) => {
+      cb(log as any);
     });
+
     setInterval(() => {
       this.receivedMessageCallbacks.forEach((cb) => {
-        cb({
-          data: {
-            deviceId: uniqueId(),
-            deviceName: '组串式逆变器',
-            eventName: '测试告警' + uniqueId(),
-            eventTime: '2023-05-10 11:06:59',
-            eventType: 'info',
-          },
-          type: 2,
-        } as any);
+        cb(log as any);
       });
     }, 10000);
   }

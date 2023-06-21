@@ -22,16 +22,25 @@ const OperationMonitor: React.FC = () => {
 
   const standPage = data?.homeType != 1 ? <EmptyPage /> : <></>;
 
+  // useEffect(() => {
+  //   if (data) {
+  //     if (data.homeType == 1) {
+  //       history.push({
+  //         pathname: data.customPagePath,
+  //         search: `?id=${siteId}`,
+  //       });
+  //     }
+  //   }
+  // }, [data]);
+
   useEffect(() => {
-    if (data) {
-      if (data.homeType == 1) {
-        history.push({
-          pathname: data.customPagePath,
-          search: `?id=${siteId}`,
-        });
-      }
+    if (siteId) {
+      history.push({
+        pathname: '/screen/demo-station',
+        search: `?id=${siteId}`,
+      });
     }
-  }, [data]);
+  }, [siteId]);
 
   useEffect(() => {
     if (siteId) {

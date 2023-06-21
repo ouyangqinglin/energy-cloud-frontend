@@ -1,65 +1,11 @@
 import { List, Tooltip } from 'antd';
-import { isEmpty } from 'lodash';
-import type { FC } from 'react';
-import { useRequest } from 'umi';
 import DecorationCarousel from '../../components/DecorationCarousel';
 import Cell from '../../components/LayoutCell';
-import { getBenefits } from './service';
-import type { BenefitsRes } from './type';
 import styles from './index.less';
+import useSubscribe from './useSubscribe';
 
-const RunningLog: FC = () => {
-  const { data: resData } = useRequest(getBenefits);
-  const formatData = (res: BenefitsRes | undefined) => {
-    const transformData = res ?? ({} as BenefitsRes);
-    if (!res) {
-      return transformData;
-    }
-    const excludeKeys = ['siteId'];
-    Reflect.ownKeys(res).forEach((key) => {
-      let value = res[key];
-      if (!excludeKeys.includes(value)) {
-        value = isEmpty(value) ? undefined : Math.floor(Number(value));
-      }
-      transformData[key] = value;
-    });
-    return transformData;
-  };
-  const data: BenefitsRes = formatData(resData);
-
-  const listData = [
-    {
-      deviceName: '120kW直流桩',
-      createTime: '2023-06-21 09:32:25',
-      logContent: '充电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-    },
-    {
-      createTime: '2023-06-10 14:26:02',
-      logContent: '充电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-      deviceName: '小桔充电枪_225816000200000102',
-    },
-    {
-      deviceName: '120kW直流桩',
-      createTime: '2023-06-21 09:32:25',
-      logContent: '充电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-    },
-    {
-      createTime: '2023-06-10 14:26:02',
-      logContent: '充电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-      deviceName: '小桔充电枪_225816000200000102',
-    },
-    {
-      deviceName: '120kW直流桩',
-      createTime: '2023-06-21 09:32:25',
-      logContent: '充电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-    },
-    {
-      createTime: '2023-06-10 14:26:02',
-      logContent:
-        '充电设备接口状态产生变化,由：空闲变为：占用(充电中)电设备接口状态产生变化,由：空闲变为：占用(充电中)电设备接口状态产生变化,由：空闲变为：占用(充电中)',
-      deviceName: '小桔充电枪_225816000200000102',
-    },
-  ];
+const RunningLog = () => {
+  const listData = useSubscribe();
 
   return (
     <Cell cursor="default" width={834} height={151} left={562} top={910}>

@@ -6,50 +6,58 @@ import { useRequest } from 'umi';
 import Cell from '../../components/LayoutCell';
 import { getSiteId } from '../helper';
 import styles from './index.less';
+import useSubscribe from './useSubscribe';
+import AlarmIcon from '@/assets/image/screen/alarm/告警状态_BG@2x.png';
 
 const AlarmInfo: FC = () => {
-  notification.config({
-    getContainer: () => document.querySelector('#screen'),
-    maxCount: 1,
-  });
   const [alarmOpen, setAlarmOpen] = useState(false);
   const switchAlarm = () => {
     setAlarmOpen(!alarmOpen);
   };
 
   const [api, contextHolder] = notification.useNotification();
-
   useEffect(() => {
-    api?.open({
-      icon: (
-        <div className={styles.icon}>
-          <span>通知</span>
-        </div>
-      ),
-      className: styles.alarmNotification,
-      message: <div className={styles.content}>编号#2#3充电枪线流短</div>,
-      duration: null,
+    notification.config({
+      getContainer: () => document.querySelector('#screen'),
+      maxCount: 1,
+      props: {
+        style: {
+          zIndex: 999,
+        },
+      },
     });
-  }, [api]);
+  }, []);
+
+  const data = useSubscribe();
+  useEffect(() => {
+    const { length: alarmNum } = data;
+    if (alarmNum) {
+      const latestAlarm = data[alarmNum - 1];
+      api?.open({
+        icon: (
+          <div className={styles.icon}>
+            <span>通知</span>
+          </div>
+        ),
+        className: styles.alarmNotification,
+        message: <div className={styles.content}>{latestAlarm.content}</div>,
+        duration: null,
+      });
+    }
+  }, [api, data]);
 
   const onChange = () => {
     switchAlarm();
-    // api?.open({
-    //   icon: (
-    //     <div className={styles.icon}>
-    //       <span>通知</span>
-    //     </div>
-    //   ),
-    //   className: styles.alarmNotification,
-    //   message: <div className={styles.content}>编号#2#3充电枪线流短1111</div>,
-    //   duration: null,
-    // });
   };
   return (
-    <Cell cursor="default" width={120} height={66} left={1328} top={249} zIndex={99999}>
+    <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
       {contextHolder}
-      <div onClick={onChange} className={styles.alarmWrapper}>
-        <span className={styles.alarmContent}>告警: {3}</span>
+      <div
+        onClick={onChange}
+        className={styles.alarmWrapper}
+        style={{ backgroundImage: `url(${AlarmIcon})` }}
+      >
+        <span className={styles.alarmContent}>告警: {data.length}</span>
       </div>
       <Alarm id={getSiteId() as string} open={alarmOpen} onCancel={switchAlarm} model="screen" />
     </Cell>

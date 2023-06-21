@@ -7,3 +7,9 @@ export interface BenefitsRes {
   siteId: number;
   todayEconomicPerformance: string;
 }
+
+export type DeviceLog = {
+  createTime: string;
+  logContent: string;
+  deviceName: string;
+};
