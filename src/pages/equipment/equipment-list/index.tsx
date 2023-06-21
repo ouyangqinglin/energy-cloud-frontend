@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-06-09 14:32:52
+ * @LastEditTime: 2023-06-21 10:51:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -21,11 +21,11 @@ import EquipForm from '@/components/EquipForm';
 import { deviceDialogMap } from '@/components/ScreenDialog';
 import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
-type StationListProps = {
+type DeviceListProps = {
   isStationChild?: boolean;
 };
 
-const StationList: React.FC<StationListProps> = (props) => {
+const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const [open, setOpen] = useState(false);
   const [deviceId, setDeviceId] = useState('');
@@ -302,4 +302,4 @@ const StationList: React.FC<StationListProps> = (props) => {
   );
 };
 
-export default StationList;
+export default DeviceList;

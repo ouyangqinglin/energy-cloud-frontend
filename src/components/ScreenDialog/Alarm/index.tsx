@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-15 10:55:14
+ * @LastEditTime: 2023-06-21 15:35:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Alarm\index.tsx
  */
@@ -14,6 +14,7 @@ import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import YTProTable from '@/components/YTProTable';
 import { getPage } from './service';
 import styles from './index.less';
+import Empty from '@/components/Empty';
 
 const levelMap = new Map([
   ['info', <span className={styles.info}>提示</span>],
@@ -90,6 +91,9 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
           pagination={{ pageSize: 10 }}
           columns={columns}
           request={requestList}
+          locale={{
+            emptyText: Empty,
+          }}
         />
       </Dialog>
     </>

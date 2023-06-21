@@ -91,9 +91,9 @@ export default [
         component: './station/stationManage/report',
       },
       {
-        path: '/station-manage/equipment-list',
-        name: 'equipmentList',
-        component: './equipment/equipment-list',
+        path: '/station-manage/device',
+        name: 'device',
+        component: './station/stationManage/device',
       },
       {
         path: '/station-manage/alarm-record',
