@@ -79,7 +79,7 @@ const monitorTypeMap = new Map([
       data: [
         { name: '电气监测', area: 'elec', subType: 1 },
         { name: '负载用电量', area: 'row1', subType: 2 },
-        { name: '负载实时功率', area: 'row2', subType: 1 },
+        { name: '负载实时功率', area: 'row2', subType: 4 },
       ],
     },
   ],

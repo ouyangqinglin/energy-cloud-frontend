@@ -86,9 +86,9 @@ export default [
         component: './station/stationManage/operationMonitor',
       },
       {
-        path: '/station-manage/stat',
-        name: 'stat',
-        component: './station/stationManage/stat',
+        path: '/station-manage/report',
+        name: 'report',
+        component: './station/stationManage/report',
       },
       {
         path: '/station-manage/equipment-list',
@@ -99,6 +99,11 @@ export default [
         path: '/station-manage/alarm-record',
         name: 'alarmRecord',
         component: './equipment/alarm',
+      },
+      {
+        path: '/station-manage/stat',
+        name: 'stat',
+        component: './station/stationManage/stat',
       },
       {
         path: '/station-manage/setting',

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-13 10:52:30
+ * @LastEditTime: 2023-06-21 08:52:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
-import { Modal, Tag, Tree, Row, Col } from 'antd';
+import { Modal, Tag, Tree, Row, Col, Empty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { TreeDataNode, TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
@@ -109,8 +109,9 @@ const TableTreeModal = <
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
-  const [treeData, setTreeData] = useState();
+  const [treeData, setTreeData] = useState<any[]>();
   const [tableParams, setTableParams] = useState<any>({});
+  const [tableIdSet, setTableIdSet] = useState<Set<string>>();
 
   const treeSelectAndCheckData = useMemo(() => {
     if (selectType === SelectTypeEnum.Device) {
@@ -134,6 +135,9 @@ const TableTreeModal = <
           result.set(item[valueId], item);
           return result;
         }, new Map());
+        tableIdSet?.forEach((item) => {
+          map.delete(item);
+        });
         selectedRows.forEach((item) => {
           map.set(item[valueId], {
             [valueId]: item[valueId],
@@ -144,7 +148,7 @@ const TableTreeModal = <
         return [...map.values()];
       });
     },
-    [valueId, valueName],
+    [valueId, valueName, tableIdSet],
   );
 
   const onCleanSelected = useCallback(() => {
@@ -204,6 +208,7 @@ const TableTreeModal = <
     (params, sort, filter) => {
       if (proTableProps?.request && params.deviceId) {
         return proTableProps.request(params, sort, filter).then(({ data = {} }) => {
+          setTableIdSet(new Set(data?.list?.map?.((item) => item[valueId])));
           return {
             data: data?.list,
             total: data?.total,
@@ -213,7 +218,7 @@ const TableTreeModal = <
         return Promise.resolve({});
       }
     },
-    [proTableProps?.request],
+    [proTableProps?.request, valueId],
   );
 
   useEffect(() => {
