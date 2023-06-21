@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-19 10:03:23
+ * @LastEditTime: 2023-06-21 09:38:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
@@ -21,7 +21,7 @@ type RealTimePowerProps = {
 
 type DataType = {
   time: string;
-  value: number;
+  value: number | undefined;
   field: string;
 };
 
@@ -38,14 +38,44 @@ const legendMap = new Map([
   ['load', '其他负载'],
 ]);
 
+const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
+  return moment()
+    .startOf('day')
+    .add(index * 2, 'minute')
+    .format('HH:mm');
+});
+
+const getNowMinute = () => {
+  let nowMinute = moment().minute();
+  if (nowMinute % 2) {
+    nowMinute++;
+  }
+  return moment().minute(nowMinute).format('HH:mm');
+};
+
 const getChartData = (data: ChartDataType[], field: string): DataType[] => {
-  return data.map((item) => {
-    return {
-      time: moment(item?.eventTs).format('HH:mm'),
-      value: item?.doubleVal,
-      field: field,
-    };
-  });
+  const valueMap = new Map(
+    data.map((item) => {
+      return [moment(item?.eventTs).format('HH:mm'), item?.doubleVal];
+    }),
+  );
+
+  const result: DataType[] = [];
+  const length = allMinute.length;
+  const nowMinute = getNowMinute();
+  for (let i = 0; i < length; i++) {
+    if (nowMinute == allMinute[i]) {
+      break;
+    } else {
+      result.push({
+        time: allMinute[i],
+        value: valueMap.get(allMinute[i]),
+        field,
+      });
+    }
+  }
+
+  return result;
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
