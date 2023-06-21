@@ -3,7 +3,7 @@ import BackgroundTop from '@/assets/image/screen/Geometry/background_top.png';
 import BackgroundRight from '@/assets/image/screen/Geometry/background_right.png';
 import BackgroundPark from '@/assets/image/screen/Geometry/background_park.png';
 // import { ReactComponent as EnergyFlowLine } from '@/assets/image/screen/Geometry/background_energy_flow.svg';
-import type { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { useMemo, useRef } from 'react';
 import { useState } from 'react';
 import { chargingStackCeils } from './config';
@@ -31,29 +31,24 @@ const DEFAULT_DEVICE_INFO = {
 };
 
 const Geometry: FC = () => {
-  const [showChild, { toggle }] = useToggle(false);
-  const renderChildren = () => {
-    toggle();
-  };
-  const { data: deviceList } = useRequest(getDeviceList, {
-    onError: renderChildren,
-    onSuccess: renderChildren,
-  });
-  const ceilsConfig = cloneDeep([...chargingStackCeils, ...otherCeils]);
-  const fillDeviceIdForMarkDevices = () => {
-    if (deviceList && deviceList?.length) {
-      deviceList.forEach((device) => {
-        const { mark } = device;
-        if (!isNil(mark)) {
-          const ceil = find(ceilsConfig, (it) => it?.mark === mark);
-          if (ceil) {
-            ceil.deviceId = device.deviceId;
+  const [ceilsConfig, setCeilsConfig] = useState([...chargingStackCeils, ...otherCeils]);
+  useRequest(getDeviceList, {
+    onSuccess: (deviceList) => {
+      if (deviceList && deviceList?.length) {
+        const newCeilsConfig = [...ceilsConfig];
+        deviceList.forEach((device) => {
+          const { mark } = device;
+          if (!isNil(mark)) {
+            const ceil = find(newCeilsConfig, (it) => it?.mark === mark);
+            if (ceil) {
+              ceil.deviceId = device.deviceId;
+            }
           }
-        }
-      });
-    }
-  };
-  fillDeviceIdForMarkDevices();
+        });
+        setCeilsConfig(newCeilsConfig);
+      }
+    },
+  });
 
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const closeDialog = () => {
@@ -83,7 +78,6 @@ const Geometry: FC = () => {
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
       const { cellStyle } = cell;
-
       return (
         <Cell
           key={cell.key}
@@ -144,13 +138,11 @@ const Geometry: FC = () => {
         style={{ backgroundImage: `url(${BackgroundPark})` }}
       />
       <DeviceDialog {...deviceInfo} onCancel={closeDialog} />
-      <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
-        <Cell width={865} height={390} left={142} top={86}>
-          <EnergyFlowLine />
-          <EnergyFlowAnimation />
-        </Cell>
-        {ceils}
-      </QueueAnim>
+      <Cell width={865} height={390} left={142} top={86}>
+        <EnergyFlowLine />
+        <EnergyFlowAnimation />
+      </Cell>
+      {ceils}
     </Cell>
   );
 };
