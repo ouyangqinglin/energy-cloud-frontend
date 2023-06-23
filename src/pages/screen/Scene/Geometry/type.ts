@@ -83,29 +83,14 @@ export const enum DeviceMark {
 //   POWER_EXCHANGE_BOX = 'POWER_EXCHANGE_BOX',
 // }
 
-export interface CellConfigItem {
+export type CellConfigItem = {
   key: string;
-  mark?: DeviceMark;
-  deviceName?: string;
-  deviceId?: string | number | null;
-  deviceType?: DeviceType;
-  // 逆变器才有
-  loopNum?: number;
-  cellStyle: CellStyle;
-  component: PureComponent | undefined;
+  cellStyle?: CellStyle;
+  component?: PureComponent;
   default?: PureComponent;
   active?: PureComponent;
   hover?: PureComponent;
-}
-
-export type DeviceInfoType = {
-  deviceId: string | number;
-  deviceType: DeviceType | null;
-  deviceName?: string;
-  mark?: DeviceMark;
-  // 逆变器才有
-  loopNum: number | undefined;
-};
+} & DeviceInfoType;
 
 export interface CellStyle extends Pick<CSSProperties, 'cursor'> {
   width: number;
@@ -114,13 +99,42 @@ export interface CellStyle extends Pick<CSSProperties, 'cursor'> {
   top: number;
 }
 
+export type AlarmStatus = {
+  status?: boolean;
+  context?: string;
+};
+
+export const enum GunStatus {
+  CHARGING = 1,
+  IDLE_WITH_FILLED,
+  IDLE,
+}
+
+export type ChargingGun = {
+  deviceId: number;
+  name?: string;
+  status: GunStatus;
+  mark: number;
+};
+
+export type DeviceListRes = {
+  deviceId?: number;
+  mark?: DeviceMark;
+};
+
+export type DeviceInfoType = {
+  deviceType?: DeviceType;
+  deviceName?: string;
+
+  chargingGuns?: ChargingGun[];
+  alarmStatus?: AlarmStatus;
+
+  // 逆变器才有
+  loopNum?: number;
+} & DeviceListRes;
+
 export const enum EventType {
   CLICK,
   MOUSE_OUT,
   MOUSE_ENTER,
 }
-
-export type DeviceListRes = {
-  deviceId: number;
-  mark?: any;
-}[];

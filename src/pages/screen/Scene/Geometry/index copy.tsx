@@ -39,7 +39,7 @@ const DEFAULT_DEVICE_INFO = {
 
 const Geometry: FC = () => {
   const { data: deviceList } = useRequest(getDeviceList);
-  // const { run: runForBindDeviceMark } = useRequest(bindDeviceMark, { manual: true });
+  const { run: runForBindDeviceMark } = useRequest(bindDeviceMark, { manual: true });
 
   const ceilsConfig = cloneDeep([...chargingStackCeils, ...otherCeils]);
 
@@ -127,6 +127,7 @@ const Geometry: FC = () => {
       return (
         <Cell
           key={cell.key}
+          zIndex={3}
           onClick={() => handleGeometry(cell)}
           {...cellStyle}
           // onContextMenu={onContextMenu}
@@ -191,7 +192,7 @@ const Geometry: FC = () => {
         onChange={handleGeometry}
         value={deviceInfo}
       />
-      {/* <BindDevice<BindDeviceType>
+      <BindDevice<BindDeviceType>
         open={openBindDevice}
         onCancel={setFalse}
         value={[
@@ -201,7 +202,7 @@ const Geometry: FC = () => {
           },
         ]}
         onChange={onBindDevice}
-      /> */}
+      />
       <QueueAnim duration={1500} type={['top', 'bottom']} ease="easeInOutQuart">
         <Cell width={865} height={390} left={142} top={86}>
           <EnergyFlowLine />

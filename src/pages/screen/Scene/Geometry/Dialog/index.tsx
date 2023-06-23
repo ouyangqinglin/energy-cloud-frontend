@@ -13,10 +13,11 @@ import { assign } from 'lodash';
 import Device from '@/components/ScreenDialog/Device';
 
 type Props = {
-  deviceId: string | number;
-  deviceType: DeviceType | null;
-  onCancel: () => void;
+  deviceId?: number;
+  deviceType?: DeviceType;
+  onCancel?: () => void;
   loopNum?: number;
+  open: boolean;
 };
 
 const DEFAULT_STATUS = {
@@ -65,7 +66,7 @@ const DeviceDialog: React.FC<Props> = (props) => {
   const status = { ...DEFAULT_STATUS };
 
   const close = () => {
-    props?.onCancel();
+    props?.onCancel?.();
     assign(status, DEFAULT_STATUS);
   };
 
@@ -82,17 +83,17 @@ const DeviceDialog: React.FC<Props> = (props) => {
 
   return (
     <>
-      <PvInverter open={status.pvInverter} {...restProps} />
-      <HwCharge open={status.hwChargingStack} {...restProps} />
-      <HwChargeChild open={status.hwChargingTerminal} {...restProps} />
-      <HwChargeYt open={status.ytChargingTerminal} {...restProps} />
-      <YtCharge open={status.dcPile} {...restProps} />
-      <Cabinet open={status.powerExchangeBox} {...restProps} />
-      <PvInverterCabinet open={status.pvCabinet} {...restProps} />
-      <EnergyCabinet open={status.energyCabinet} {...restProps} />
-      <BoxSubstation open={status.boxTypeSubstation} {...restProps} />
-      <Device open={status.chargingHost} {...restProps} />
-      <EnergyDialog open={status.energyStorageBox} {...restProps} />
+      <PvInverter open={props.open && status.pvInverter} {...restProps} />
+      <HwCharge open={props.open && status.hwChargingStack} {...restProps} />
+      <HwChargeChild open={props.open && status.hwChargingTerminal} {...restProps} />
+      <HwChargeYt open={props.open && status.ytChargingTerminal} {...restProps} />
+      <YtCharge open={props.open && status.dcPile} {...restProps} />
+      <Cabinet open={props.open && status.powerExchangeBox} {...restProps} />
+      <PvInverterCabinet open={props.open && status.pvCabinet} {...restProps} />
+      <EnergyCabinet open={props.open && status.energyCabinet} {...restProps} />
+      <BoxSubstation open={props.open && status.boxTypeSubstation} {...restProps} />
+      <Device open={props.open && status.chargingHost} {...restProps} />
+      <EnergyDialog open={props.open && status.energyStorageBox} {...restProps} />
     </>
   );
 };
