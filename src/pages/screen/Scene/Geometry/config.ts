@@ -10,7 +10,7 @@ import 右3_永泰_120KW_充电桩 from '@/assets/image/screen/Geometry/右3_永
 import 右1_永泰_充电终端 from '@/assets/image/screen/Geometry/右1_永泰_充电终端.png';
 import 右5_交流桩 from '@/assets/image/screen/Geometry/右5_交流桩.png';
 import { DeviceType } from './Dialog';
-import type { CellConfigItem } from './type';
+import { CellConfigItem, GunMark, GunStatus } from './type';
 import { DeviceMark } from './type';
 
 export const chargingStackCeils: CellConfigItem[] = [
@@ -24,6 +24,24 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 118,
       top: 322,
     },
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 5,
+          top: 20,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -5,
+          top: 0,
+        },
+      },
+    ],
     component: 左1_永泰_160kW_充电桩,
     default: 左1_永泰_160kW_充电桩,
   },
@@ -37,6 +55,24 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 208,
       top: 290,
     },
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 0,
+          top: 20,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -10,
+          top: 0,
+        },
+      },
+    ],
     component: 左2_永泰_充电终端,
     default: 左2_永泰_充电终端,
   },
@@ -52,6 +88,24 @@ export const chargingStackCeils: CellConfigItem[] = [
     },
     component: 左3_永泰_充电终端,
     default: 左3_永泰_充电终端,
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 5,
+          top: 20,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -8,
+          top: 0,
+        },
+      },
+    ],
   },
   {
     key: 'HWChargingStack1',
@@ -65,6 +119,24 @@ export const chargingStackCeils: CellConfigItem[] = [
     },
     component: 左4_华为_充电终端,
     default: 左4_华为_充电终端,
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 8,
+          top: 18,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -8,
+          top: 3,
+        },
+      },
+    ],
   },
   {
     key: 'HWChargingStack2',
@@ -78,6 +150,24 @@ export const chargingStackCeils: CellConfigItem[] = [
     },
     component: 左5_华为_充电终端,
     default: 左5_华为_充电终端,
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 8,
+          top: 18,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -8,
+          top: 2,
+        },
+      },
+    ],
   },
   {
     key: 'HWChargingStack3',
@@ -91,6 +181,24 @@ export const chargingStackCeils: CellConfigItem[] = [
     },
     component: 左6_华为_充电终端,
     default: 左6_华为_充电终端,
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'left',
+        style: {
+          left: 15,
+          top: 16,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'left',
+        style: {
+          right: -10,
+          top: 0,
+        },
+      },
+    ],
   },
   {
     key: 'YTChargingStack3',
@@ -104,6 +212,24 @@ export const chargingStackCeils: CellConfigItem[] = [
     },
     component: 右1_永泰_充电终端,
     default: 右1_永泰_充电终端,
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'right',
+        style: {
+          left: -10,
+          top: 0,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'right',
+        style: {
+          right: 0,
+          top: 18,
+        },
+      },
+    ],
   },
   {
     key: 'ChargingStation120KW',
@@ -115,6 +241,24 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 738,
       top: 251,
     },
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'right',
+        style: {
+          left: -10,
+          top: 0,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'right',
+        style: {
+          right: 28,
+          top: 24,
+        },
+      },
+    ],
     component: 右3_永泰_120KW_充电桩,
     default: 右3_永泰_120KW_充电桩,
   },
@@ -128,6 +272,24 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 806,
       top: 298,
     },
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'right',
+        style: {
+          left: -10,
+          top: 0,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'right',
+        style: {
+          right: 12,
+          top: 18,
+        },
+      },
+    ],
     component: 右2_永泰_充电终端,
     default: 右2_永泰_充电终端,
   },
@@ -141,6 +303,24 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 863,
       top: 331,
     },
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'right',
+        style: {
+          left: -10,
+          top: 0,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'right',
+        style: {
+          right: 10,
+          top: 18,
+        },
+      },
+    ],
     component: 右4_永泰_充电终端,
     default: 右4_永泰_充电终端,
   },
@@ -154,6 +334,38 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 988,
       top: 328,
     },
+    chargingGuns: [
+      {
+        status: GunStatus.IDLE_WITH_FILLED,
+        deviceId: 100012,
+        mark: 0,
+        name: 'A枪',
+      },
+      {
+        status: GunStatus.IDLE,
+        deviceId: 100011,
+        mark: 1,
+        name: 'A枪',
+      },
+    ],
+    charingGunsConfig: [
+      {
+        mark: GunMark.A_GUN,
+        direction: 'right',
+        style: {
+          left: -5,
+          top: 0,
+        },
+      },
+      {
+        mark: GunMark.B_GUN,
+        direction: 'right',
+        style: {
+          right: -12,
+          top: 10,
+        },
+      },
+    ],
     component: 右5_交流桩,
     default: 右5_交流桩,
   },

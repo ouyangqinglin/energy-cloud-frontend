@@ -17,9 +17,11 @@ import {
   ChargingGun,
   DeviceInfoType,
   DeviceMark,
+  DeviceStatusRes,
+  GunMark,
   GunStatus,
 } from './type';
-import { bindDeviceMark, getDeviceList } from './service';
+import { bindDeviceMark, getDeviceList, getDeviceStatus } from './service';
 import { useRequest } from 'umi';
 import { find, isEmpty, isNil } from 'lodash';
 import useResize from './useResize';
@@ -34,6 +36,7 @@ import ChargingLeft from './lottie/ChargingLeft.json';
 import ChargingRight from './lottie/ChargingRight.json';
 import ChargeCompleteLeft from './lottie/ChargeCompleteLeft.json';
 import ChargeCompleteRight from './lottie/ChargeCompleteRight.json';
+import CeilGun from './Gun';
 
 type BindDeviceType = {
   id?: number | null;
@@ -106,9 +109,20 @@ const Geometry: FC = () => {
     setCeilsConfig(newCeilsConfig);
   };
 
-  useRequest(getDeviceList, {
+  const convertResDataToList = (res: DeviceStatusRes) => {
+    const deviceList = Object.values(res);
+    if (deviceList.length) {
+      deviceList.forEach((device) => {
+        // device.
+      });
+    }
+    return deviceList;
+  };
+
+  useRequest(getDeviceStatus, {
     onSuccess: (res) => {
-      addDevicePropsToCeilAccordingMark(res);
+      console.log(res);
+      addDevicePropsToCeilAccordingMark(convertResDataToList(res));
       // readyToWatchGunStatus();
     },
   });
@@ -179,9 +193,17 @@ const Geometry: FC = () => {
 
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
-      const { cellStyle = {} as CellStyle } = cell;
+      const { cellStyle = {} as CellStyle, chargingGuns = [] } = cell;
       const shouldSupportClick = cellStyle?.cursor !== 'default';
       console.log(cellStyle);
+
+      let aGun: ChargingGun | undefined;
+      let bGun: ChargingGun | undefined;
+
+      if (chargingGuns.length) {
+        aGun = chargingGuns.find((gun) => gun.mark === GunMark.A_GUN);
+        bGun = chargingGuns.find((gun) => gun.mark === GunMark.b_GUN);
+      }
 
       return (
         <Cell
@@ -203,12 +225,7 @@ const Geometry: FC = () => {
                   ...cellStyle,
                 }}
               />
-              {/* <div className={styles.leftGun}>
-                <Lottie width={14} height={32} animationData={ChargingLeft} />
-              </div>
-              <div className={styles.rightGun}>
-                <Lottie width={14} height={32} animationData={ChargingRight} />
-              </div> */}
+              <CeilGun ceil={cell} />
             </div>
           </div>
         </Cell>

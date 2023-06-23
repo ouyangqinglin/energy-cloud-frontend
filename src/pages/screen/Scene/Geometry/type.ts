@@ -104,17 +104,24 @@ export type AlarmStatus = {
   context?: string;
 };
 
+// 0：离网 1：空闲 2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
 export const enum GunStatus {
-  CHARGING = 1,
-  IDLE_WITH_FILLED,
-  IDLE,
+  OFFLINE = 0,
+  IDLE = 1,
+  IDLE_WITH_FILLED = 2,
+  CHARGING = 3,
+}
+
+export const enum GunMark {
+  A_GUN = 0,
+  B_GUN = 1,
 }
 
 export type ChargingGun = {
   deviceId: number;
   name?: string;
   status: GunStatus;
-  mark: number;
+  mark: GunMark;
 };
 
 export type DeviceListRes = {
@@ -122,11 +129,40 @@ export type DeviceListRes = {
   mark?: DeviceMark;
 };
 
+// string => deviceId
+export type DeviceStatusRes = Record<
+  string,
+  {
+    deviceId: number;
+    connectStatus: boolean;
+    alarmStatus: boolean;
+    directionStatus: number;
+    directionPower: number;
+    mark?: DeviceMark;
+    childer: Record<
+      string,
+      {
+        cornectStatus: boolean;
+        // a枪或b枪的标识
+        num: GunMark;
+        name: string;
+        deviceId: number;
+        status: GunStatus;
+      }
+    >;
+  }
+>;
+
 export type DeviceInfoType = {
   deviceType?: DeviceType;
   deviceName?: string;
 
   chargingGuns?: ChargingGun[];
+  charingGunsConfig?: {
+    direction: 'left' | 'right';
+    mark: GunMark;
+    style: CSSProperties;
+  }[];
   alarmStatus?: AlarmStatus;
 
   // 逆变器才有

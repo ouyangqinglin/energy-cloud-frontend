@@ -1,9 +1,15 @@
 import { get } from '@/utils/request';
 import { getSiteId } from '../helper';
-import type { DeviceListRes } from './type';
+import type { DeviceListRes, DeviceStatusRes } from './type';
 
 export const getDeviceList = () => {
   return get<DeviceListRes[]>(`/oss/device/list/getDeviceList`, {
+    siteId: getSiteId(),
+  });
+};
+
+export const getDeviceStatus = () => {
+  return get<DeviceStatusRes>(`/oss/device/indexDeviceStatus`, {
     siteId: getSiteId(),
   });
 };
