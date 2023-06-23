@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-06-21 15:59:25
+ * @LastEditTime: 2023-06-21 17:49:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteTree\index.tsx
  */
@@ -21,7 +21,7 @@ export type SiteTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
 };
 
 const dealTreeData = (data: TreeNode[]) => {
-  data.forEach((item) => {
+  data?.forEach?.((item) => {
     // item.icon = <SmileOutlined />;
     if (item.children && item.children.length) {
       dealTreeData(item.children);

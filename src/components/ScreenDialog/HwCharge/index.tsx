@@ -58,13 +58,13 @@ const HwCharge: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: loading ? (
         <>
-          <Skeleton.Button className="mb12" size="small" />
+          <Skeleton.Button className="mb12" size="small" active />
           <Row>
             <Col span={12}>
-              <Skeleton.Button className="mb12" size="small" />
+              <Skeleton.Button className="mb12" size="small" active />
             </Col>
             <Col span={12}>
-              <Skeleton.Button className="mb12" size="small" />
+              <Skeleton.Button className="mb12" size="small" active />
             </Col>
           </Row>
         </>

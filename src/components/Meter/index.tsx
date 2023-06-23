@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-05-18 10:21:00
+ * @LastEditTime: 2023-06-21 16:25:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
@@ -137,12 +137,12 @@ const Meter: React.FC<MeterProps> = ({ data = {} }) => {
 const MeterSkeleton: React.FC = () => {
   const grid = Array.from({ length: 9 }).map((_, index) => (
     <Card.Grid hoverable={false} style={{ width: '20%' }} key={index}>
-      <Skeleton.Button className="mb8" size="small" />
+      <Skeleton.Button className="mb8" size="small" active />
       <div>
         <Space direction="vertical">
-          <Skeleton.Input size="small" />
-          <Skeleton.Input size="small" />
-          <Skeleton.Input size="small" />
+          <Skeleton.Input size="small" active />
+          <Skeleton.Input size="small" active />
+          <Skeleton.Input size="small" active />
         </Space>
       </div>
     </Card.Grid>

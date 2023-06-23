@@ -41,7 +41,7 @@ const PvInverterCabinet: React.FC<BusinessDialogProps> = (props) => {
       key: 'item-0',
       children: loading ? (
         <>
-          <Skeleton.Button className="mb12" size="small" />
+          <Skeleton.Button className="mb12" size="small" active />
           <MeterSkeleton />
         </>
       ) : (
