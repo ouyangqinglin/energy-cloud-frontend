@@ -8,6 +8,8 @@ import { CellConfigItem, ChargingGun, GunMark, GunStatus } from '../type';
 
 const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
   const { chargingGuns = [], charingGunsConfig = [] } = ceil;
+  console.log(chargingGuns);
+
   if (chargingGuns.length) {
     const aGun = chargingGuns.find((gun) => gun.mark === GunMark.A_GUN);
     const bGun = chargingGuns.find((gun) => gun.mark === GunMark.B_GUN);

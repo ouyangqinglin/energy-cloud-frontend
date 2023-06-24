@@ -334,20 +334,20 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 988,
       top: 328,
     },
-    chargingGuns: [
-      {
-        status: GunStatus.IDLE_WITH_FILLED,
-        deviceId: 100012,
-        mark: 0,
-        name: 'A枪',
-      },
-      {
-        status: GunStatus.IDLE,
-        deviceId: 100011,
-        mark: 1,
-        name: 'A枪',
-      },
-    ],
+    // chargingGuns: [
+    //   {
+    //     status: GunStatus.IDLE_WITH_FILLED,
+    //     deviceId: 100012,
+    //     mark: 0,
+    //     name: 'A枪',
+    //   },
+    //   {
+    //     status: GunStatus.IDLE,
+    //     deviceId: 100011,
+    //     mark: 1,
+    //     name: 'A枪',
+    //   },
+    // ],
     charingGunsConfig: [
       {
         mark: GunMark.A_GUN,

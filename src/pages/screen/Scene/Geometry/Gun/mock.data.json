@@ -1,0 +1,14 @@
+{
+  "data": {
+    "deviceId": 10020,
+    "keyValues": [
+      {
+        "key": "Status",
+        "type": "STRING",
+        "value": 3
+      }
+    ],
+    "msgType": "post_properties"
+  },
+  "type": 1
+}

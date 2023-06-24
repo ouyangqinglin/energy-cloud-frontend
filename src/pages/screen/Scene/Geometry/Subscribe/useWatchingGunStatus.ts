@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
@@ -11,33 +11,36 @@ export const useWatchingGunStatus = () => {
   const [idsStore, setIdsStore] = useState<number[]>([]);
   const { connection } = useWebsocket();
 
-  const onReceivedMessage = useCallback(
-    (res: any) => {
-      const { data: msgData } = res;
-      const { deviceId } = msgData?.data;
-      if (
-        MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
-        idsStore.find((item) => item == deviceId)
-      ) {
-        try {
-          const obj = {} as { Status: GunStatus };
-          msgData?.keyValues?.forEach?.((item: EquipPropType) => {
-            obj[item.key] = item.value;
-          });
-          if (Object.keys(obj).length) {
-            setData({ deviceId, ...obj });
-          }
-        } catch (e) {}
-      }
-    },
-    [idsStore],
-  );
+  useEffect(() => {
+    console.log('zcg idsStore', idsStore);
+  }, [idsStore]);
+
+  const onReceivedMessage = useCallback((res: any, ids: number[]) => {
+    const { data: msgData } = res;
+    console.log(msgData, idsStore);
+    const { deviceId } = msgData;
+    if (
+      MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
+      ids.find((item) => item == deviceId)
+    ) {
+      try {
+        const obj = {} as { Status: GunStatus };
+        msgData?.keyValues?.forEach?.((item: EquipPropType) => {
+          obj[item.key] = item.value;
+        });
+        if (Object.keys(obj).length) {
+          setData({ deviceId, ...obj });
+        }
+      } catch (e) {}
+    }
+  }, []);
 
   return {
     data,
     run: (ids: number[]) => {
+      const cb = (res: any) => onReceivedMessage(res, ids);
       if (ids.length) {
-        setIdsStore(ids);
+        // setIdsStore(() => [...ids]);
         connection.sendMessage({
           data: {
             command: RequestCommandEnum.SUBSCRIBE,
@@ -47,10 +50,27 @@ export const useWatchingGunStatus = () => {
           },
           type: MessageEventType.DEVICE_REAL_TIME_DATA,
         });
-        connection.addReceivedMessageCallback(onReceivedMessage);
+        connection.mock(
+          {
+            data: {
+              deviceId: 10330,
+              keyValues: [
+                {
+                  key: 'Status',
+                  type: 'STRING',
+                  value: 3,
+                },
+              ],
+              msgType: 'post_properties',
+            },
+            type: 1,
+          },
+          5000,
+        );
+        connection.addReceivedMessageCallback(cb);
       }
       return () => {
-        connection.removeReceivedMessageCallback(onReceivedMessage);
+        connection.removeReceivedMessageCallback(cb);
       };
       // 待优化
     },

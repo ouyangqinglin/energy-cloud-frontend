@@ -65,24 +65,30 @@ const Geometry: FC = () => {
     });
     const ids = gunDevices.map((gun) => gun.deviceId);
     if (ids) {
+      console.log(ids);
       run(ids);
     }
   };
-  // useEffect(() => {
-  //   if (!isNil(gunsData?.deviceId)) {
-  //     const parentDeviceId = gunIdsMapToDeviceId.get(gunsData.deviceId);
-  //     const ceil = ceilsConfig.find((c) => c.deviceId === parentDeviceId);
-  //     if (ceil && ceil.chargingGuns) {
-  //       ceil.chargingGuns = ceil.chargingGuns.map((gun) => {
-  //         if (gun.deviceId === gunsData?.deviceId) {
-  //           gun.status = gunsData.Status ?? GunStatus.IDLE;
-  //         }
-  //         return gun;
-  //       });
-  //       setCeilsConfig((preValue) => [...preValue]);
-  //     }
-  //   }
-  // }, [ceilsConfig, gunsData]);
+  useEffect(() => {
+    if (!isNil(gunsData?.deviceId)) {
+      const parentDeviceId = gunIdsMapToDeviceId.get(gunsData.deviceId);
+      const index = ceilsConfig.findIndex((c) => c.deviceId === parentDeviceId);
+      const ceil = index >= 0 ? ceilsConfig[index] : null;
+      if (ceil && ceil.chargingGuns) {
+        ceil.chargingGuns = ceil.chargingGuns.map((gun) => {
+          if (gun.deviceId === gunsData?.deviceId) {
+            gun.status = gunsData.Status ?? GunStatus.IDLE;
+          }
+          return gun;
+        });
+        setCeilsConfig((preValue) => {
+          const newValue = [...preValue];
+          newValue[index] = { ...ceil };
+          return newValue;
+        });
+      }
+    }
+  }, [ceilsConfig, gunsData]);
 
   const addDevicePropsToCeilAccordingMark = (deviceList: DeviceInfoType[]) => {
     if (isEmpty(deviceList)) {
@@ -110,20 +116,44 @@ const Geometry: FC = () => {
   };
 
   const convertResDataToList = (res: DeviceStatusRes) => {
-    const deviceList = Object.values(res);
-    if (deviceList.length) {
-      deviceList.forEach((device) => {
-        // device.
-      });
+    const deviceListRes = Object.values(res);
+    const deviceList: DeviceInfoType[] = [];
+    if (deviceListRes.length) {
+      deviceListRes.forEach(
+        ({ deviceId, mark, alarmStatus, directionStatus, childer, directionPower }) => {
+          const device: DeviceInfoType = {
+            deviceId,
+            mark,
+            alarmStatus: { status: alarmStatus },
+            directionStatus,
+            directionPower,
+            chargingGuns: [],
+          };
+          if (childer) {
+            const chargingGuns = Object.values(childer);
+            chargingGuns.forEach(({ deviceId: gunDeviceId, name, status, num }) => {
+              const gun: ChargingGun = {
+                deviceId: gunDeviceId,
+                name,
+                status,
+                mark: num,
+              };
+              device?.chargingGuns?.push(gun);
+            });
+          }
+          deviceList.push(device);
+        },
+      );
     }
     return deviceList;
   };
 
   useRequest(getDeviceStatus, {
     onSuccess: (res) => {
-      console.log(res);
-      addDevicePropsToCeilAccordingMark(convertResDataToList(res));
-      // readyToWatchGunStatus();
+      const deviceList = convertResDataToList(res);
+      console.log(deviceList);
+      addDevicePropsToCeilAccordingMark(deviceList);
+      readyToWatchGunStatus();
     },
   });
 
@@ -193,17 +223,8 @@ const Geometry: FC = () => {
 
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
-      const { cellStyle = {} as CellStyle, chargingGuns = [] } = cell;
+      const { cellStyle = {} as CellStyle } = cell;
       const shouldSupportClick = cellStyle?.cursor !== 'default';
-      console.log(cellStyle);
-
-      let aGun: ChargingGun | undefined;
-      let bGun: ChargingGun | undefined;
-
-      if (chargingGuns.length) {
-        aGun = chargingGuns.find((gun) => gun.mark === GunMark.A_GUN);
-        bGun = chargingGuns.find((gun) => gun.mark === GunMark.b_GUN);
-      }
 
       return (
         <Cell

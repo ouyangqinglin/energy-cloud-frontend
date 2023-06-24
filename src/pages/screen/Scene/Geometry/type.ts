@@ -164,6 +164,10 @@ export type DeviceInfoType = {
     style: CSSProperties;
   }[];
   alarmStatus?: AlarmStatus;
+  // 能源流向，=1流向设备，=0未有流动，=-1流出设备
+  directionStatus?: number;
+  // 设备的功率
+  directionPower?: number;
 
   // 逆变器才有
   loopNum?: number;

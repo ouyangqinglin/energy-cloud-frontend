@@ -179,7 +179,7 @@ export class Connection {
     this.client?.close(ExitCode.CLOSE, EXIT_REASON[ExitCode.CLOSE]);
   }
 
-  mock() {
+  mock(data: any, time: number) {
     const log = {
       data: [
         {
@@ -191,14 +191,17 @@ export class Connection {
       type: 5,
     };
     this.receivedMessageCallbacks.forEach((cb) => {
-      cb(log as any);
+      cb(data ? data : (log as any));
     });
 
-    setInterval(() => {
-      this.receivedMessageCallbacks.forEach((cb) => {
-        cb(log as any);
-      });
-    }, 10000);
+    setInterval(
+      () => {
+        this.receivedMessageCallbacks.forEach((cb) => {
+          cb(data ? data : (log as any));
+        });
+      },
+      time ? time : 10000,
+    );
   }
 
   sendMessage(data: RequestMessageType) {
