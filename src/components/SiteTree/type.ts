@@ -14,6 +14,7 @@ export type TreeNode = BasicDataNode &
   DataNode & {
     id?: number;
     name?: string;
+    type?: number;
     parentId?: number;
     productId?: number;
   };
