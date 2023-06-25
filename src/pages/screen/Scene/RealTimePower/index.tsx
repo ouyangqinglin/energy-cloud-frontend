@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-21 09:38:52
+ * @LastEditTime: 2023-06-25 17:45:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
@@ -82,6 +82,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { date } = props;
 
   const [chartData, setChartData] = useState<DataType[]>();
+  const [ticks, setTicks] = useState<string[]>();
   const siteId = getSiteId();
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
@@ -94,6 +95,21 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       result.push(...getChartData(powerData?.[key] || [], item));
     });
     setChartData(result);
+    const step = result.length / legendMap.size / 8;
+    setTicks(
+      step * 8 > 8
+        ? [
+            result[0].time,
+            result[Math.floor(step * 1)].time,
+            result[Math.floor(step * 2)].time,
+            result[Math.floor(step * 3)].time,
+            result[Math.floor(step * 4)].time,
+            result[Math.floor(step * 5)].time,
+            result[Math.floor(step * 6)].time,
+            result[step * 8 - 1].time,
+          ]
+        : [],
+    );
   }, [powerData]);
 
   useEffect(() => {
@@ -108,6 +124,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       <Chart
         height={249}
         scale={{
+          time: {
+            ticks: ticks,
+          },
           value: {
             type: 'linear',
           },

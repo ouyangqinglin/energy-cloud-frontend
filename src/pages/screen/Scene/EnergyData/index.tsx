@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 15:23:35
- * @LastEditTime: 2023-06-13 15:29:05
+ * @LastEditTime: 2023-06-25 15:51:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\EnergyData\index.tsx
  */
@@ -43,7 +43,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   const items = useMemo(
     () => ({
       left: [
-        { label: '市电输电(kWh)', icon: transmission, field: 'electricSupply' },
+        { label: '市电(kWh)', icon: transmission, field: 'electricSupply' },
         { label: '光伏发电(kWh)', icon: pvInvinter, field: 'photovoltaic' },
         { label: '储能放电(kWh)', icon: energyDischarge, field: 'essDischarge' },
       ],

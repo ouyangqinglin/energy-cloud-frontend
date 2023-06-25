@@ -2,58 +2,116 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-06-19 19:33:43
+ * @LastEditTime: 2023-06-25 11:45:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
 import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 import {
-  HomeSvg,
-  StationSvg,
-  WorkOrderSvg,
-  DataSvg,
-  DeviceSvg,
-  PartnerSvg,
-  UserSvg,
-  RemoteUpgradeSvg,
-  SettingSvg,
+  Home,
+  Station,
+  WorkOrder,
+  Data,
+  Device,
+  Partner,
+  User,
+  RemoteUpgrade,
+  Setting,
+  Photovoltaic,
+  PVInverter,
+  Energy,
+  Ems,
+  Bms,
+  Air,
+  Meter,
+  Charge,
+  Electric,
+  Battery,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={HomeSvg} {...props} />
+  <Icon component={Home} {...props} />
 );
 
 const YTStationOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={StationSvg} {...props} />
+  <Icon component={Station} {...props} />
 );
 
 const YTWorkOrderOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={WorkOrderSvg} {...props} />
+  <Icon component={WorkOrder} {...props} />
 );
 
 const YTDataOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={DataSvg} {...props} />
+  <Icon component={Data} {...props} />
 );
 
 const YTDeviceOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={DeviceSvg} {...props} />
+  <Icon component={Device} {...props} />
 );
 
 const YTPartnerOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={PartnerSvg} {...props} />
+  <Icon component={Partner} {...props} />
 );
 
 const YTUserOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={UserSvg} {...props} />
+  <Icon component={User} {...props} />
 );
 
 const YTRemoteUpgradeOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={RemoteUpgradeSvg} {...props} />
+  <Icon component={RemoteUpgrade} {...props} />
 );
 
 const YTSettingOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={SettingSvg} {...props} />
+  <Icon component={Setting} {...props} />
+);
+
+const YTPhotovoltaicOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Photovoltaic} {...props} />
+);
+
+const YTPVInverterOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={PVInverter} {...props} />
+);
+
+const YTEnergyOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Energy} {...props} />
+);
+
+const YTEmsOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Ems} {...props} />
+);
+
+const YTBmsOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Bms} {...props} />
+);
+
+const YTAirOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Air} {...props} />
+);
+
+const YTMeterOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Meter} {...props} />
+);
+
+const YTChargeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Charge} {...props} />
+);
+
+const YTElectricOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Electric} {...props} />
+);
+
+const YTBatteryOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Battery} {...props} />
+);
+
+const YTChargeStackOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Charge} {...props} />
+);
+
+const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Charge} {...props} />
 );
 
 export {
@@ -66,4 +124,16 @@ export {
   YTUserOutlined,
   YTRemoteUpgradeOutlined,
   YTSettingOutlined,
+  YTPhotovoltaicOutlined,
+  YTPVInverterOutlined,
+  YTEnergyOutlined,
+  YTEmsOutlined,
+  YTBmsOutlined,
+  YTAirOutlined,
+  YTMeterOutlined,
+  YTChargeOutlined,
+  YTElectricOutlined,
+  YTBatteryOutlined,
+  YTChargeStackOutlined,
+  YTCabinetOutlined,
 };
