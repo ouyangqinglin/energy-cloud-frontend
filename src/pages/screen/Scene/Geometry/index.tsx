@@ -88,7 +88,7 @@ const Geometry: FC = () => {
         });
       }
     }
-  }, [ceilsConfig, gunsData]);
+  }, [gunsData]);
 
   const addDevicePropsToCeilAccordingMark = (deviceList: DeviceInfoType[]) => {
     if (isEmpty(deviceList)) {

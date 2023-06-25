@@ -4,11 +4,10 @@ import ChargingRight from '../lottie/ChargingRight.json';
 import ChargeCompleteLeft from '../lottie/ChargeCompleteLeft.json';
 import ChargeCompleteRight from '../lottie/ChargeCompleteRight.json';
 import styles from '../index.less';
-import { CellConfigItem, ChargingGun, GunMark, GunStatus } from '../type';
+import { CellConfigItem, GunMark, GunStatus } from '../type';
 
 const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
   const { chargingGuns = [], charingGunsConfig = [] } = ceil;
-  console.log(chargingGuns);
 
   if (chargingGuns.length) {
     const aGun = chargingGuns.find((gun) => gun.mark === GunMark.A_GUN);

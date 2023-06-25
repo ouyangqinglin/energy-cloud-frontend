@@ -12,8 +12,8 @@ export default {
       target: 'http://192.168.3.18',
       // target: 'http://192.168.3.104:7071',
       changeOrigin: true,
-      // pathRewrite: { '^/api': '/prod-api' },
-      pathRewrite: { '^/api': '' },
+      pathRewrite: { '^/api': '/prod-api' },
+      // pathRewrite: { '^/api': '' },
     },
     '/file/': {
       target: 'http://192.168.3.18',

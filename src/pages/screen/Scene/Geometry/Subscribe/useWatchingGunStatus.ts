@@ -1,23 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
-import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
+import type { EquipPropType } from '@/utils/dictionary';
 import type { GunStatus } from '../type';
 
 type GunData = { Status?: GunStatus; deviceId: number };
 
 export const useWatchingGunStatus = () => {
   const [data, setData] = useState<GunData>({} as GunData);
-  const [idsStore, setIdsStore] = useState<number[]>([]);
   const { connection } = useWebsocket();
-
-  useEffect(() => {
-    console.log('zcg idsStore', idsStore);
-  }, [idsStore]);
 
   const onReceivedMessage = useCallback((res: any, ids: number[]) => {
     const { data: msgData } = res;
-    console.log(msgData, idsStore);
     const { deviceId } = msgData;
     if (
       MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
@@ -40,7 +34,6 @@ export const useWatchingGunStatus = () => {
     run: (ids: number[]) => {
       const cb = (res: any) => onReceivedMessage(res, ids);
       if (ids.length) {
-        // setIdsStore(() => [...ids]);
         connection.sendMessage({
           data: {
             command: RequestCommandEnum.SUBSCRIBE,
@@ -50,23 +43,23 @@ export const useWatchingGunStatus = () => {
           },
           type: MessageEventType.DEVICE_REAL_TIME_DATA,
         });
-        connection.mock(
-          {
-            data: {
-              deviceId: 10330,
-              keyValues: [
-                {
-                  key: 'Status',
-                  type: 'STRING',
-                  value: 3,
-                },
-              ],
-              msgType: 'post_properties',
-            },
-            type: 1,
-          },
-          5000,
-        );
+        // connection.mock(
+        //   {
+        //     data: {
+        //       deviceId: 10330,
+        //       keyValues: [
+        //         {
+        //           key: 'Status',
+        //           type: 'STRING',
+        //           value: 3,
+        //         },
+        //       ],
+        //       msgType: 'post_properties',
+        //     },
+        //     type: 1,
+        //   },
+        //   15000,
+        // );
         connection.addReceivedMessageCallback(cb);
       }
       return () => {
