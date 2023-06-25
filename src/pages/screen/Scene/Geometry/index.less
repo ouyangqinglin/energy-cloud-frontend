@@ -15,7 +15,7 @@
 .backgroundTop {
   .backgroundImage();
 
-  z-index: 9;
+  z-index: 1;
   width: 570px;
   height: 367px;
   background-image: url('~@/assets/image/screen/Geometry/background_top.png');
@@ -24,6 +24,7 @@
 .backgroundBottom {
   .backgroundImage();
 
+  z-index: 0;
   width: 1040px;
   height: 682px;
   background-image: url('~@/assets/image/screen/Geometry/background_bottom.png');
@@ -33,7 +34,7 @@
   .backgroundImage();
 
   left: 488px;
-  z-index: 8;
+  z-index: 2;
   width: 550px;
   height: 332px;
   background-image: url('~@/assets/image/screen/Geometry/background_right.png');
@@ -44,7 +45,7 @@
 
   top: 208px;
   left: 692px;
-  z-index: 9;
+  z-index: 3;
   width: 317px;
   height: 186px;
 }
@@ -65,6 +66,18 @@
     // box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
     // transform: translateY(-10px);
   }
+}
+
+.leftGun {
+  position: absolute;
+  bottom: -10;
+  left: -10;
+}
+
+.rightGun {
+  position: absolute;
+  right: 10;
+  bottom: -10;
 }
 
 .circle1,
