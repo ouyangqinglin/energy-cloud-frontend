@@ -55,41 +55,6 @@ const gunIdsMapToDeviceId = new Map<number, number>();
 const Geometry: FC = () => {
   const [ceilsConfig, setCeilsConfig] = useState([...chargingStackCeils, ...otherCeils]);
 
-  const { run, data: gunsData } = useWatchingGunStatus();
-  const readyToWatchGunStatus = () => {
-    const gunDevices: ChargingGun[] = [];
-    ceilsConfig.forEach((curDevice) => {
-      if (curDevice.chargingGuns) {
-        gunDevices.push(...curDevice.chargingGuns);
-      }
-    });
-    const ids = gunDevices.map((gun) => gun.deviceId);
-    if (ids) {
-      console.log(ids);
-      run(ids);
-    }
-  };
-  useEffect(() => {
-    if (!isNil(gunsData?.deviceId)) {
-      const parentDeviceId = gunIdsMapToDeviceId.get(gunsData.deviceId);
-      const index = ceilsConfig.findIndex((c) => c.deviceId === parentDeviceId);
-      const ceil = index >= 0 ? ceilsConfig[index] : null;
-      if (ceil && ceil.chargingGuns) {
-        ceil.chargingGuns = ceil.chargingGuns.map((gun) => {
-          if (gun.deviceId === gunsData?.deviceId) {
-            gun.status = gunsData.Status ?? GunStatus.IDLE;
-          }
-          return gun;
-        });
-        setCeilsConfig((preValue) => {
-          const newValue = [...preValue];
-          newValue[index] = { ...ceil };
-          return newValue;
-        });
-      }
-    }
-  }, [gunsData]);
-
   const addDevicePropsToCeilAccordingMark = (deviceList: DeviceInfoType[]) => {
     if (isEmpty(deviceList)) {
       return;
@@ -115,6 +80,49 @@ const Geometry: FC = () => {
     setCeilsConfig(newCeilsConfig);
   };
 
+  // 订阅监听充电桩状态
+  const { run, data: gunsData } = useWatchingGunStatus();
+  const readyToWatchGunStatus = () => {
+    const gunDevices: ChargingGun[] = [];
+    ceilsConfig.forEach((curDevice) => {
+      if (curDevice.chargingGuns) {
+        gunDevices.push(...curDevice.chargingGuns);
+      }
+    });
+    const ids = gunDevices.map((gun) => gun.deviceId);
+    if (ids) {
+      run(ids);
+    }
+  };
+  useEffect(() => {
+    if (!isNil(gunsData?.deviceId)) {
+      if (window.DEVTOOL) {
+        console.log('[ws] gunsData: ', gunsData);
+      }
+      const parentDeviceId = gunIdsMapToDeviceId.get(gunsData.deviceId);
+      const index = ceilsConfig.findIndex((c) => c.deviceId === parentDeviceId);
+      const ceil = index >= 0 ? ceilsConfig[index] : null;
+      if (ceil && ceil.chargingGuns) {
+        ceil.chargingGuns = ceil.chargingGuns.map((gun) => {
+          if (gun.deviceId === gunsData?.deviceId) {
+            gun.status = gunsData.Status ?? GunStatus.IDLE;
+          }
+          return gun;
+        });
+        setCeilsConfig((preValue) => {
+          const newValue = [...preValue];
+          newValue[index] = { ...ceil };
+          return newValue;
+        });
+      }
+    }
+  }, [gunsData]);
+
+  /**
+   * 将后端的数据格式转为前端的数据格式
+   * @param res DeviceStatusRes
+   * @returns DeviceInfoType[]
+   */
   const convertResDataToList = (res: DeviceStatusRes) => {
     const deviceListRes = Object.values(res);
     const deviceList: DeviceInfoType[] = [];
@@ -147,16 +155,15 @@ const Geometry: FC = () => {
     }
     return deviceList;
   };
-
   useRequest(getDeviceStatus, {
     onSuccess: (res) => {
       const deviceList = convertResDataToList(res);
-      console.log(deviceList);
       addDevicePropsToCeilAccordingMark(deviceList);
       readyToWatchGunStatus();
     },
   });
 
+  // 展示设备详情
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfoType>(DEFAULT_DEVICE_INFO);
   const [openDeviceInfo, setOpenDeviceInfo] = useState(false);
   const closeDialog = () => {
@@ -180,6 +187,7 @@ const Geometry: FC = () => {
     });
   };
 
+  // 绑定设备
   const { run: runForBindDeviceMark } = useRequest(bindDeviceMark, { manual: true });
   const [openBindDevice, { setTrue, setFalse }] = useBoolean(false);
   const onContextMenu = useCallback((e: MouseEvent, cell: CellConfigItem) => {
@@ -196,7 +204,6 @@ const Geometry: FC = () => {
       deviceName,
     });
   }, []);
-
   const onBindDevice = async (value: BindDeviceType[]) => {
     const { mark } = deviceInfo;
     console.log(value, mark);
@@ -219,6 +226,13 @@ const Geometry: FC = () => {
       await runForBindDeviceMark(params);
       addDevicePropsToCeilAccordingMark([{ ...params, ...{ deviceName } }]);
     } catch (error) {}
+  };
+
+  // 操作一次图面板
+  const sceneWrapperRef = useRef<HTMLDivElement>(null);
+  const { resize } = useResize(sceneWrapperRef.current);
+  const sceneWrapper = {
+    transform: `scale(${resize})`,
   };
 
   const ceils = useMemo<ReactNode[]>(() => {
@@ -254,12 +268,6 @@ const Geometry: FC = () => {
     });
   }, [ceilsConfig, onContextMenu]);
 
-  const sceneWrapperRef = useRef<HTMLDivElement>(null);
-  const { resize } = useResize(sceneWrapperRef.current);
-  const sceneWrapper = {
-    transform: `scale(${resize})`,
-  };
-
   return (
     <Cell
       ref={sceneWrapperRef}
@@ -267,7 +275,7 @@ const Geometry: FC = () => {
       height={682}
       left={441}
       top={221}
-      zIndex={9999}
+      zIndex={0}
       cursor="default"
       style={sceneWrapper}
     >

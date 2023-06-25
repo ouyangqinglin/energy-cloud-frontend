@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getChartStationChart, getChartStationPowerAndGunStatus, getStatistics } from './service';
-import { config, DEFAULT_REQUEST_INTERVAL, realTimeStatisticConfig } from './config';
+import { config, DEFAULT_REQUEST_INTERVAL } from './config';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { List } from 'antd';
 import classnames from 'classnames';
@@ -43,6 +43,7 @@ const ChargingStation: FC = () => {
         return {
           ts: it.key,
           value: it.value,
+          field: 'discharge',
         };
       })) ??
     [];
@@ -55,7 +56,7 @@ const ChargingStation: FC = () => {
     <div className={styles.contentWrapper}>
       <div className={styles.realtimeStatistic}>
         <div className={styles.content}>
-          实时功率率：
+          实时功率：
           <div className={styles.number}>{keepTwoDecimalWithUnit(powerData?.power)}</div>
           <span className={styles.unit}>kWh</span>
         </div>
@@ -91,8 +92,14 @@ const ChargingStation: FC = () => {
         />
       </div>
       <StatisticChart
-        title="充电桩电量"
+        title="充电桩充电量"
         onDateChange={onDateChange}
+        chartConfigMap={{
+          discharge: {
+            name: '发电量',
+            unit: 'kWh',
+          },
+        }}
         chartData={convertToData(chartData)}
       />
     </div>

@@ -33,7 +33,7 @@ import dayjs from 'dayjs';
 import type { Moment } from 'moment';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import type { ChartRes } from '../Chart/type';
-import { convertToData } from '../Chart/helper';
+import { convertToData, sortedData } from '../Chart/helper';
 
 const EnergyStorage: FC = () => {
   const { data: rawChartData, run: runForChart } = useRequest(getEnergyStorageChart, {
@@ -109,6 +109,7 @@ const EnergyStorage: FC = () => {
         <div className={classnames([styles.rect, styles['bottom-left']])} />
       </div>
       <StatisticChart
+        showLegend={true}
         chartConfigMap={{
           charge: {
             name: '充电量',
@@ -119,9 +120,9 @@ const EnergyStorage: FC = () => {
             unit: 'kWh',
           },
         }}
-        title="储能系统充放电量"
+        title="储能充放电量"
         onDateChange={onDateChange}
-        chartData={convertToData(chartData)}
+        chartData={sortedData(convertToData(chartData))}
       />
     </div>
   );

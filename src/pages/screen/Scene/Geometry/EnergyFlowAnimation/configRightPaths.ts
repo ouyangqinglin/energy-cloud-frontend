@@ -21,16 +21,16 @@ export const rightPathsConfig: PathConfigType[] = [
   {
     id: 'right_3_yt_terminal',
     duration: 2,
-    delay: 0,
+    delay: 0.5,
     repeat: 1,
     path: 'M653.476 275.244l0 0 22.434-13.356',
   },
   // 右四永泰快充充电桩
   {
     id: 'right_4_yt_terminal',
-    duration: 8,
+    duration: 10,
     delay: 0,
-    repeat: 4,
+    repeat: 5,
     path: 'm566.461 114.999.756 1.296-87.8 51.183a3.25 3.25 0 0 0-.17 5.509l.163.101 227.096 133.287a9.25 9.25 0 0 0 9.04.182l.263-.146 19.085-11.004.75 1.3',
   },
   // 右五永泰交流桩

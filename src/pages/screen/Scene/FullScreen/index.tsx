@@ -3,6 +3,9 @@ import { useFullscreen, useEventListener } from 'ahooks';
 import Cell from '../../components/LayoutCell';
 import styles from './index.less';
 
+import { ReactComponent as EnterFullScreenIcon } from '@/assets/image/screen/fullscreen/icon_进入全屏.svg';
+import { ReactComponent as ExitFullScreenIcon } from '@/assets/image/screen/fullscreen/icon_退出全屏.svg';
+
 const FullScreen = () => {
   const [isFullscreen, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body, {
     onEnter() {
@@ -23,14 +26,14 @@ const FullScreen = () => {
   const button = !isFullscreen ? (
     <div className={styles.fullscreenContent} onClick={enterFullscreen}>
       <div className={styles.iconWrapper}>
-        <FullscreenOutlined style={{ fontSize: 22 }} />
+        <EnterFullScreenIcon width={38} height={38} />
       </div>
       <span>进入全屏</span>
     </div>
   ) : (
     <div className={styles.fullscreenContent} onClick={exitFullscreen}>
       <div className={styles.iconWrapper}>
-        <FullscreenExitOutlined style={{ fontSize: 22 }} />
+        <ExitFullScreenIcon width={38} height={38} />
       </div>
       <span>退出全屏</span>
     </div>

@@ -1,4 +1,4 @@
-import { get } from '@/utils/request';
+import { get, post, put } from '@/utils/request';
 import { getSiteId } from '../helper';
 import type { DeviceListRes, DeviceStatusRes } from './type';
 
@@ -15,7 +15,7 @@ export const getDeviceStatus = () => {
 };
 
 export const bindDeviceMark = (params: { deviceId?: number; mark: number }) => {
-  return get(`/oss/device/mark`, {
+  return put(`/oss/device/mark`, {
     siteId: getSiteId(),
     ...params,
   });

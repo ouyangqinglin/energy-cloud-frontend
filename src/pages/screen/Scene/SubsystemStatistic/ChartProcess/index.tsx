@@ -16,72 +16,58 @@ import styles from './index.less';
 import { DatePicker } from 'antd';
 import classnames from 'classnames';
 import DataSet from '@antv/data-set';
+import { keepAnyDecimal } from '@/utils/math';
 type Props = {
   charge?: number;
   discharge?: number;
   capacity?: number;
 };
 const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) => {
-  const loss = capacity - charge - discharge;
+  const chargePercent = keepAnyDecimal(
+    (capacity ? charge / capacity : charge / (charge + discharge)) * 100,
+  );
+  const dischargePercent = keepAnyDecimal(
+    (capacity ? discharge / capacity : discharge / (charge + discharge)) * 100,
+  );
   const data = [
     {
       type: '电池状态',
-      field: '损耗容量',
-      value: isNaN(loss) ? 0 : loss,
-    },
-    {
-      type: '电池状态',
-      field: '可冲电量',
+      field: '可充电量',
       value: charge ?? 0,
+      unit: 'kwh',
+      color: '#01CFA1',
     },
     {
       type: '电池状态',
       field: '可放电量',
       value: discharge ?? 0,
+      unit: 'kwh',
+      color: '#FFE04D',
     },
   ];
+
   return (
     <div className={styles.chartWrapper}>
-      <StackedBarChart
-        autoFit
-        height={50}
-        width={368}
-        padding={[0, 0, 20, 0]}
-        color={['#01CFA1', '#FFE04D', '#6F84A1']}
-        data={data}
-        xAxis={{
-          label: null,
-          grid: null,
-        }}
-        yAxis={{ visible: false }}
-        legend={{
-          offsetX: 10,
-          position: 'bottom-left',
-          formatter: (field, item) => {
-            if (field === '可放电量') {
-              return '可放电量' + discharge + 'kwh';
-              // (
-              //   <div>
-              //     可放电量<span style={{ color: '#01CFA1' }}>{dataItem?.value + 'kwh'}</span>
-              //   </div>
-              // );
-            }
-            if (field === '可冲电量') {
-              return '可冲电量' + charge + 'kwh';
-              // (
-              //   <div>
-              //     可放电量<span style={{ color: '#FFE04D' }}>{dataItem?.value + 'kwh'}</span>
-              //   </div>
-              // );
-            }
-            return null;
-          },
-          itemSpacing: 10,
-        }}
-        yField="type"
-        xField="value"
-        stackField="field"
-      />
+      <div className={styles.bar}>
+        <div className={styles.charging} style={{ width: `${chargePercent}%` }} />
+        <div className={styles.discharging} style={{ width: `${dischargePercent}%` }} />
+      </div>
+      <div className={styles.legend}>
+        {data.map((item) => {
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <div className={styles.content}>
+              <div className={styles.mark} style={{ backgroundColor: item.color }} />
+              <div className={styles.desc}>
+                <div className={styles.title}>{item.field}</div>
+                <span className={styles.unit} style={{ color: item.color }}>
+                  {item.value + item.unit}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

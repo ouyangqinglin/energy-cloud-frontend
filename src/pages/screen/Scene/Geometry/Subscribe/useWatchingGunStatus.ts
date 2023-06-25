@@ -19,6 +19,14 @@ export const useWatchingGunStatus = () => {
     ) {
       try {
         const obj = {} as { Status: GunStatus };
+
+        const isGunData = msgData?.keyValues?.find(({ key }) => {
+          return key === 'Status';
+        });
+        if (!isGunData) {
+          return;
+        }
+
         msgData?.keyValues?.forEach?.((item: EquipPropType) => {
           obj[item.key] = item.value;
         });
@@ -46,12 +54,12 @@ export const useWatchingGunStatus = () => {
         // connection.mock(
         //   {
         //     data: {
-        //       deviceId: 10330,
+        //       deviceId: 10303,
         //       keyValues: [
         //         {
         //           key: 'Status',
         //           type: 'STRING',
-        //           value: 3,
+        //           value: 2,
         //         },
         //       ],
         //       msgType: 'post_properties',

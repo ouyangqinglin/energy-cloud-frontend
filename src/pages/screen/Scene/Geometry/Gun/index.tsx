@@ -21,6 +21,22 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
     const isBGunCharging = bGun?.status === GunStatus.CHARGING;
     const isBGunFullCharge = bGun?.status === GunStatus.IDLE_WITH_FILLED;
 
+    if (isAGunCharging || isAGunFullCharge || isBGunCharging || isBGunFullCharge) {
+      const log = {
+        aGun: {
+          deviceId: aGun?.deviceId,
+          name: aGun?.name,
+          status: isAGunCharging ? '充电' : isAGunFullCharge ? '充满' : '空闲',
+        },
+        bGun: {
+          deviceId: bGun?.deviceId,
+          name: bGun?.name,
+          status: isBGunCharging ? '充电' : isBGunFullCharge ? '充满' : '空闲',
+        },
+      };
+      console.log(log);
+    }
+
     if (aGunConfig?.direction === 'left') {
       return (
         <>

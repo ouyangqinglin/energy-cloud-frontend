@@ -15,7 +15,7 @@ export const otherPathConfig: PathConfigType[] = [
     duration: 2,
     delay: 0,
     repeat: 1,
-    path: 'm427.223 17.929.758 1.294-31.96 18.614a3.25 3.25 0 0 0-.172 5.5l.161.102 11.717 6.926',
+    path: 'm427.223 17.929-31.96 18.614a3.25 3.25 0 0 0-.172 5.5l.161.102 11.717 6.926',
   },
   // 光伏逆变器2
   {
@@ -23,7 +23,7 @@ export const otherPathConfig: PathConfigType[] = [
     duration: 2,
     delay: 0,
     repeat: 1,
-    path: 'M443.182 27.483l.75 1.3-18.186 10.5',
+    path: 'M443.182 27.483l0 0-18.186 10.5',
   },
   // 市电输入
   {

@@ -2,6 +2,7 @@ import Cell from '@/pages/screen/components/LayoutCell';
 import classnames from 'classnames';
 import QueueAnim from 'rc-queue-anim';
 import { useEffect, useState } from 'react';
+import { CellConfigItem, DeviceMark } from '../type';
 import { leftPathsConfig } from './configLeftPaths';
 import { otherPathConfig } from './configOtherPaths';
 import { dynamicalPathsConfig } from './configPathsDynamical';
@@ -9,13 +10,30 @@ import { rightPathsConfig } from './configRightPaths';
 import styles from './index.less';
 import type { PathConfigType } from './type';
 
-const EnergyFlowAnimation = () => {
+const keyToMark = {
+  energy_store_discharging: DeviceMark.ENERGY_CABINET,
+  energy_store_hw_discharging: DeviceMark.HW_ENERGY_STORAGE_BOX,
+  energy_store_yt_discharging: DeviceMark.YT_ENERGY_STORAGE_BOX,
+};
+const MarksCollection = Object.values(keyToMark);
+
+const EnergyFlowAnimation = ({ ceils }: { ceils?: CellConfigItem[] }) => {
   const [paths, setPaths] = useState<PathConfigType[]>([
     ...leftPathsConfig,
     ...otherPathConfig,
     ...rightPathsConfig,
     ...dynamicalPathsConfig,
   ]);
+
+  // useEffect(() => {
+  //   if (ceils.length) {
+  //     ceils.forEach((ceil) => {
+  //       if (MarksCollection.includes(ceil?.mark as DeviceMark)) {
+
+  //       }
+  //     })
+  //   }
+  // }, [ceils])
 
   const calcPointWithRadian = ({
     x,
@@ -64,7 +82,7 @@ const EnergyFlowAnimation = () => {
       const transformedCur = handlePath(cur);
       pre.push(transformedCur);
 
-      if (transformedCur && transformedCur.repeat) {
+      if (transformedCur && transformedCur.repeat >= 2) {
         const copyPaths: PathConfigType[] = [];
         for (let i = 1; i <= transformedCur.repeat; i++) {
           copyPaths.push({

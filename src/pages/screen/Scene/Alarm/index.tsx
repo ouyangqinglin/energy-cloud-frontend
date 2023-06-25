@@ -8,6 +8,7 @@ import { getSiteId } from '../helper';
 import styles from './index.less';
 import useSubscribe from './useSubscribe';
 import AlarmIcon from '@/assets/image/screen/alarm/告警状态_BG@2x.png';
+import AlarmNormalIcon from '@/assets/image/screen/alarm/BG_正常@2x.png';
 
 const AlarmInfo: FC = () => {
   const [alarmOpen, setAlarmOpen] = useState(false);
@@ -49,15 +50,24 @@ const AlarmInfo: FC = () => {
   const onChange = () => {
     switchAlarm();
   };
+
+  const shouldAlarm = data.length;
+
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
       {contextHolder}
       <div
         onClick={onChange}
         className={styles.alarmWrapper}
-        style={{ backgroundImage: `url(${AlarmIcon})` }}
+        style={{ backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})` }}
       >
-        <span className={styles.alarmContent}>告警: {data.length}</span>
+        {shouldAlarm ? (
+          <span className={styles.alarmContent}>告警: {data.length}</span>
+        ) : (
+          <span className={styles.alarmContent} style={{ color: '#01cfa1', paddingLeft: 10 }}>
+            正常
+          </span>
+        )}
       </div>
       <Alarm id={getSiteId() as string} open={alarmOpen} onCancel={switchAlarm} model="screen" />
     </Cell>
