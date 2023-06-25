@@ -64,7 +64,7 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
     titleStyle: {
       fontWeight: 400,
       fontSize: '14px',
-      color: '#D0DEEE',
+      color: '#fff',
     },
     itemStyleWrapper: {
       paddingLeft: 0,

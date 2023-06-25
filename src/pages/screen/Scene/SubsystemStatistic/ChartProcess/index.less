@@ -1,135 +1,70 @@
 .chartWrapper {
   position: relative;
+  width: 366px;
+  height: 46px;
+  margin-bottom: 10px;
 
-  .topBar {
+  .bar {
     display: flex;
-    flex-flow: row;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    .chartTitle {
-      margin: 0;
-      padding: 0 8px;
-      color: #fff;
-      font-weight: 500;
-      font-size: 14px;
-      font-family: PingFangSC-Medium, PingFang SC;
-      background: linear-gradient(
-        180deg,
-        #4484fd 0%,
-        rgba(70, 149, 251, 0) 35%,
-        rgba(64, 142, 251, 0.26) 72%,
-        #4585fe 100%
-      );
-      border: 1px solid;
-      border-image: linear-gradient(
-          180deg,
-          rgba(70, 127, 224, 1),
-          rgba(92, 150, 231, 0),
-          rgba(82, 140, 228, 0),
-          rgba(70, 127, 224, 1)
-        )
-        1 1;
-      opacity: 0.78;
-    }
-    .rangePicker {
-      width: 220px;
-      height: 25px;
+    justify-content: flex-start;
+    height: 16px;
+    background-color: #6f84a1;
+
+    .charging {
+      height: 100%;
+      background-color: #01cfa1;
     }
 
-    :global {
-      .ant-picker {
-        color: white;
-        background: linear-gradient(
-          90deg,
-          rgba(21, 154, 255, 0.2) 0%,
-          rgba(21, 154, 255, 0) 53%,
-          rgba(21, 154, 255, 0.2) 100%
-        );
-        border: 1px solid rgba(21, 154, 255, 0.4);
-        border-radius: 4px;
-        .ant-picker {
-          .ant-picker-input {
-            input {
-              color: white;
-            }
-          }
-          .ant-picker-range-separator {
-            .ant-picker-separator {
-              color: white;
-            }
-          }
-          .ant-picker-suffix {
-            color: white;
-          }
-        }
-        .ant-picker-input {
-          input {
-            color: white;
-          }
-        }
-        .ant-picker-range-separator .ant-picker-separator,
-        .ant-picker-input input,
-        .ant-picker-suffix,
-        .ant-picker-clear {
-          color: white;
-        }
-        .ant-picker-clear {
-          background: none;
-        }
-      }
+    .discharging {
+      height: 100%;
+      background-color: #ffe04d;
     }
   }
-  .axisTitle {
-    position: absolute;
-    top: 100;
-    left: 0;
-    width: 63px;
+
+  .rect {
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+  }
+
+  .legend {
+    display: flex;
     height: 20px;
-    color: #acccec;
-    font-weight: 400;
-    font-size: 12px;
-    font-family: PingFangSC-Regular, PingFang SC;
-    line-height: 20px;
-  }
-}
+    margin-top: 10px;
 
-.rangePickerPanel {
-  :global {
-    .ant-picker-panel-container {
-      background: #04253e;
-      .ant-picker-cell {
-        color: rgba(255, 255, 255, 0.25);
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .mark {
+        width: 8px;
+        height: 8px;
+        margin-right: 6px;
       }
-      .ant-picker-cell-in-view,
-      .ant-picker-content th,
-      .ant-picker-header-view button {
-        color: white;
+      .desc {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        margin-right: 40px;
+        margin-left: 8px;
+
+        .title {
+          margin-right: 4px;
+          color: #acccec;
+          font-weight: 400;
+          font-size: 12px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          line-height: 20px;
+        }
+        .unit {
+          font-weight: 500;
+          font-size: 12px;
+          font-family: DIN-Medium, DIN;
+          line-height: 20px;
+        }
       }
-      .ant-picker-cell-in-view.ant-picker-cell-in-range {
-        color: black !important;
-      }
-      .ant-picker-time-panel-cell-inner {
-        color: rgba(255, 255, 255, 0.9);
-      }
-      .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner,
-      .ant-picker-time-panel-cell-inner:hover {
-        color: #159aff;
-        background: rgba(21, 154, 255, 0.1);
-      }
-      .ant-picker-header {
-        color: white;
-      }
-      .ant-picker-header,
-      .ant-picker-footer,
-      .ant-picker-time-panel,
-      .ant-picker-time-panel-column,
-      .ant-picker-panel {
-        border-color: rgba(255, 255, 255, 0.25);
-      }
-    }
-    .ant-picker-range-arrow::before {
-      background: #04253e;
     }
   }
 }

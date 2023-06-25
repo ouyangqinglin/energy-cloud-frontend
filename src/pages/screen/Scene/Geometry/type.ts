@@ -83,29 +83,14 @@ export const enum DeviceMark {
 //   POWER_EXCHANGE_BOX = 'POWER_EXCHANGE_BOX',
 // }
 
-export interface CellConfigItem {
+export type CellConfigItem = {
   key: string;
-  mark?: DeviceMark;
-  deviceName?: string;
-  deviceId?: string | number | null;
-  deviceType?: DeviceType;
-  // 逆变器才有
-  loopNum?: number;
-  cellStyle: CellStyle;
-  component: PureComponent | undefined;
+  cellStyle?: CellStyle;
+  component?: PureComponent;
   default?: PureComponent;
   active?: PureComponent;
   hover?: PureComponent;
-}
-
-export type DeviceInfoType = {
-  deviceId: string | number;
-  deviceType: DeviceType | null;
-  deviceName?: string;
-  mark?: DeviceMark;
-  // 逆变器才有
-  loopNum: number | undefined;
-};
+} & DeviceInfoType;
 
 export interface CellStyle extends Pick<CSSProperties, 'cursor'> {
   width: number;
@@ -114,13 +99,82 @@ export interface CellStyle extends Pick<CSSProperties, 'cursor'> {
   top: number;
 }
 
+export type AlarmStatus = {
+  status?: boolean;
+  context?: string;
+};
+
+// 0：离网 1：空闲 2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
+export const enum GunStatus {
+  OFFLINE = 0,
+  IDLE = 1,
+  IDLE_WITH_FILLED = 2,
+  CHARGING = 3,
+}
+
+export const enum GunMark {
+  A_GUN = 0,
+  B_GUN = 1,
+}
+
+export type ChargingGun = {
+  deviceId: number;
+  name?: string;
+  status: GunStatus;
+  mark: GunMark;
+};
+
+export type DeviceListRes = {
+  deviceId?: number;
+  mark?: DeviceMark;
+};
+
+// string => deviceId
+export type DeviceStatusRes = Record<
+  string,
+  {
+    deviceId: number;
+    connectStatus: boolean;
+    alarmStatus: boolean;
+    directionStatus: number;
+    directionPower: number;
+    mark?: DeviceMark;
+    childer: Record<
+      string,
+      {
+        cornectStatus: boolean;
+        // a枪或b枪的标识
+        num: GunMark;
+        name: string;
+        deviceId: number;
+        status: GunStatus;
+      }
+    >;
+  }
+>;
+
+export type DeviceInfoType = {
+  deviceType?: DeviceType;
+  deviceName?: string;
+
+  chargingGuns?: ChargingGun[];
+  charingGunsConfig?: {
+    direction: 'left' | 'right';
+    mark: GunMark;
+    style: CSSProperties;
+  }[];
+  alarmStatus?: AlarmStatus;
+  // 能源流向，=1流向设备，=0未有流动，=-1流出设备
+  directionStatus?: number;
+  // 设备的功率
+  directionPower?: number;
+
+  // 逆变器才有
+  loopNum?: number;
+} & DeviceListRes;
+
 export const enum EventType {
   CLICK,
   MOUSE_OUT,
   MOUSE_ENTER,
 }
-
-export type DeviceListRes = {
-  deviceId: number;
-  mark?: any;
-}[];

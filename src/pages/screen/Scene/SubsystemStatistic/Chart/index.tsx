@@ -28,7 +28,8 @@ const defaultValue = [dayjs().subtract(1, 'w'), dayjs()] as any;
 const StatisticChart: FC<Props> = ({
   chartData: rawChartData,
   title,
-  chartConfigMap = {},
+  showLegend,
+  chartConfigMap,
   onDateChange,
 }) => {
   useEffect(() => {
@@ -58,6 +59,7 @@ const StatisticChart: FC<Props> = ({
       <div className={styles.axisTitle}>单位(kW·h)</div>
       <Chart height={180} data={chartData} autoFit>
         <Interval
+          size={8}
           adjust={[
             {
               type: 'dodge',
@@ -115,12 +117,12 @@ const StatisticChart: FC<Props> = ({
                     const name = chartConfigMap[it.data.field]?.name;
                     const unit = chartConfigMap[it.data.field]?.unit;
                     return (
-                      <>
+                      <div key={name}>
                         <div style={{ paddingTop: 10 }} key={idx}>
                           {name}: {it.value + ' ' + unit}
                         </div>
                         <br />
-                      </>
+                      </div>
                     );
                   })}
                 </>
@@ -139,6 +141,7 @@ const StatisticChart: FC<Props> = ({
                 return chartConfigMap[text]?.name ?? '';
               },
             }}
+            visible={!!showLegend}
             offsetX={0}
             offsetY={0}
             itemSpacing={5}

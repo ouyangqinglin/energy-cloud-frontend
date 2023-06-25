@@ -17,7 +17,7 @@ import type { Moment } from 'moment';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
 import type { ChartRes } from '../Chart/type';
-import { convertToData } from '../Chart/helper';
+import { convertToData, sortedData } from '../Chart/helper';
 
 const Photovoltaic: FC = () => {
   const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
@@ -46,6 +46,7 @@ const Photovoltaic: FC = () => {
         return {
           ts: it.eventTs,
           value: it.doubleVal,
+          field: 'discharge',
         };
       })) ??
     [];
@@ -87,9 +88,15 @@ const Photovoltaic: FC = () => {
         />
       </div>
       <StatisticChart
-        title="光伏系统发电量"
+        title="光伏发电量"
         onDateChange={onDateChange}
-        chartData={convertToData(chartData)}
+        chartConfigMap={{
+          discharge: {
+            name: '发电量',
+            unit: 'kWh',
+          },
+        }}
+        chartData={sortedData(convertToData(chartData))}
       />
     </div>
   );

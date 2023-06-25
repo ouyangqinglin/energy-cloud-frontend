@@ -1,12 +1,4 @@
-// import Geometry from './Geometry/index';
-import StationInfo from './StationInfo';
 import Title from './Title';
-// import DeviceList from './DeviceList';
-// import AlarmList from './AlarmList';
-// import ChargingStation from './ChargingStation';
-// import Photovoltaic from './Photovoltaic';
-// import EnergyStorage from './EnergyStorage';
-// import Weather from '../Weather';
 import Benefit from './Benefits';
 import QueueAnim from 'rc-queue-anim';
 import StationOverview from './StationOverview';
