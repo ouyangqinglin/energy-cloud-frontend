@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-06-25 11:45:32
+ * @LastEditTime: 2023-06-25 18:58:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
@@ -28,6 +28,7 @@ import {
   Charge,
   Electric,
   Battery,
+  Cabinet,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -111,7 +112,7 @@ const YTChargeStackOutlined = (props: Partial<CustomIconComponentProps>) => (
 );
 
 const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={Charge} {...props} />
+  <Icon component={Cabinet} {...props} />
 );
 
 export {
