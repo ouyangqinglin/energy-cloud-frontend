@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-06-01 16:00:19
+ * @LastEditTime: 2023-06-26 11:02:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\index.tsx
  */
@@ -26,7 +26,7 @@ import Community from '../Community';
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
   const [equipmentIds, setEquipmentIds] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [settingData, setSettingData] = useState<Record<string, any>>();
   const [deviceData, setDeviceData] = useState<DeviceType>();
 

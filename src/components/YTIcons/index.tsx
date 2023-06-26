@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-06-25 18:58:35
+ * @LastEditTime: 2023-06-26 11:06:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
@@ -26,6 +26,7 @@ import {
   Air,
   Meter,
   Charge,
+  ChargeStack,
   Electric,
   Battery,
   Cabinet,
@@ -108,7 +109,7 @@ const YTBatteryOutlined = (props: Partial<CustomIconComponentProps>) => (
 );
 
 const YTChargeStackOutlined = (props: Partial<CustomIconComponentProps>) => (
-  <Icon component={Charge} {...props} />
+  <Icon component={ChargeStack} {...props} />
 );
 
 const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (

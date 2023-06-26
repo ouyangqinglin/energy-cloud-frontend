@@ -176,7 +176,7 @@ export class Connection {
   }
 
   close() {
-    this.client?.close(ExitCode.CLOSE, EXIT_REASON[ExitCode.CLOSE]);
+    this.client?.close?.(ExitCode.CLOSE, EXIT_REASON[ExitCode.CLOSE]);
   }
 
   mock(data: any, time: number) {

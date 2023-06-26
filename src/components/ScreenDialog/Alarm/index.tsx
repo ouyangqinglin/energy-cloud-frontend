@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-21 15:35:27
+ * @LastEditTime: 2023-06-26 14:46:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Alarm\index.tsx
  */
 
 import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import { Empty as AntEmpty } from 'antd';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -92,7 +93,7 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
           columns={columns}
           request={requestList}
           locale={{
-            emptyText: Empty,
+            emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
           }}
         />
       </Dialog>

@@ -84,6 +84,12 @@ export type ResponsePromise<T = any, U = any> = Promise<T> & {
   tableThen: () => Promise<RequestData<U>>;
 };
 
+export type CustomRequestOptions = {
+  showMessage?: boolean;
+};
+
+export type RequestOptions = RequestOptionsInit & CustomRequestOptions;
+
 interface HttpRequestType<R = false> {
   request: {
     <T = any>(url: string, options: RequestOptionsWithResponse): ResponsePromise<
@@ -146,7 +152,7 @@ class HttpRequest implements HttpRequestType {
     });
 
     // 响应拦截器
-    this.instance.interceptors.response.use(async (response: Response) => {
+    this.instance.interceptors.response.use(async (response: Response, options: RequestOptions) => {
       const { status } = response;
       if (status === 200) {
         const contentType = response.headers.get('content-type');
@@ -157,14 +163,18 @@ class HttpRequest implements HttpRequestType {
           if (data) {
             const { code } = data;
             if (code && code !== 200) {
-              const msg = data.msg || codeMessage[code] || codeMessage[10000];
-              message.warn(`${code} ${msg}`);
+              if (options.showMessage !== false) {
+                const msg = data.msg || codeMessage[code] || codeMessage[10000];
+                message.warn(`${code} ${msg}`);
+              }
             }
           }
         }
       } else {
-        const msg = codeMessage[status] || codeMessage[10000];
-        message.warn(`${status} ${msg}`);
+        if (options.showMessage !== false) {
+          const msg = codeMessage[status] || codeMessage[10000];
+          message.warn(`${status} ${msg}`);
+        }
       }
       return response;
     });
@@ -172,7 +182,8 @@ class HttpRequest implements HttpRequestType {
 
   request<T = any, U = any>(
     url: string,
-    options?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit,
+    options?: (ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) &
+      CustomRequestOptions,
   ) {
     const result = this?.instance?.<T>(url, options);
     if (result) {
@@ -239,7 +250,8 @@ export const post = <R = any>(url: string, data?: any, options?: RequestOptionsI
 
 const request: HttpRequest['request'] = <T, U>(
   url: string,
-  options?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit,
+  options?: (ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) &
+    CustomRequestOptions,
 ) => httpRequest.request<T, U>(url, options);
 
 export default request;

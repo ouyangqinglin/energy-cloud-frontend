@@ -31,7 +31,7 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const resp = await getUserInfo();
+      const resp = await getUserInfo({ showMessage: false });
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);
       } else {
@@ -46,12 +46,15 @@ export async function getInitialState(): Promise<{
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
-    const menus = await getRoutersInfo();
+    let menus;
+    if (currentUser) {
+      menus = await getRoutersInfo();
+    }
     return {
       fetchUserInfo,
       settings: defaultSettings,
       menus,
-      antMenus: getMenus(menus),
+      antMenus: menus && getMenus(menus),
       currentUser,
     };
   } else {

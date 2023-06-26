@@ -8,7 +8,7 @@
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Tabs, Table, Row, Col, Skeleton, Button } from 'antd';
+import { Tabs, Table, Row, Col, Skeleton, Empty as AntEmpty } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -153,7 +153,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '告警/故障',

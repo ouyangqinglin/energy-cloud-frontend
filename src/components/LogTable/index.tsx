@@ -2,17 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-06-16 18:05:39
+ * @LastEditTime: 2023-06-26 14:55:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { format } from 'timeago.js';
-import { DatePicker } from 'antd';
+import { DatePicker, Empty as AntEmpty } from 'antd';
 import moment from 'moment';
 import Empty from '../Empty';
+import { DialogContext } from '@/components/Dialog';
 
 export type LogTableProps = {
   params?: {
@@ -31,7 +32,9 @@ export type LogType = {
 
 const AlarmTable: React.FC<LogTableProps> = (props) => {
   const { params, request } = props;
+
   const actionRef = useRef<ActionType>();
+  const dialogContext = useContext(DialogContext);
   const Component: any = DatePicker.RangePicker;
   const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
@@ -118,7 +121,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
           showSizeChanger: true,
         }}
         locale={{
-          emptyText: Empty,
+          emptyText: dialogContext.model == 'screen' ? <Empty /> : <AntEmpty />,
         }}
       />
     </>
