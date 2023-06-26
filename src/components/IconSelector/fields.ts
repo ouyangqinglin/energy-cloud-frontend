@@ -212,6 +212,18 @@ const ytIcon = [
   'YTUser',
   'YTRemoteUpgrade',
   'YTSetting',
+  'YTPhotovoltaic',
+  'YTPVInverter',
+  'YTEnergy',
+  'YTEms',
+  'YTBms',
+  'YTAir',
+  'YTMeter',
+  'YTCharge',
+  'YTElectric',
+  'YTBattery',
+  'YTChargeStack',
+  'YTCabinet',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

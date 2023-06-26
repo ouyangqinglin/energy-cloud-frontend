@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-06-21 16:25:19
+ * @LastEditTime: 2023-06-25 17:00:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
@@ -84,13 +84,13 @@ const Meter: React.FC<MeterProps> = ({ data = {} }) => {
       ],
     },
     {
-      title: '今日电量(kW·h）',
+      title: '累计电量(kW·h）',
       icon: IconTodayElectric,
       item: [
         { label: '正向有功电量', field: 'Pimp' },
-        { label: '反向有功电能', field: 'Qimp' },
-        { label: '正向无功电能', field: 'Pexp' },
-        { label: '反向无功电能', field: 'Qexp' },
+        { label: '反向有功电量', field: 'Pexp' },
+        { label: '正向无功电量', field: 'Qimp' },
+        { label: '反向无功电量', field: 'Qexp' },
       ],
     },
     {

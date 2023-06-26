@@ -8,7 +8,7 @@ import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
 import { setComplete, getDefaultPage } from './service';
 import { buildStatus, FormTypeEnum } from '@/utils/dictionary';
-import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat } from '@/utils/format';
+import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import CustomPageForm from './components/customPageForm';
 
@@ -79,7 +79,12 @@ const StationInfo: React.FC = () => {
     { label: '电压等级', field: 'voltageClass', format: kVoltageFormat },
     { label: '变压器容量', field: 'transformerCapacity', format: kVAFormat },
     { label: '光伏装机量', field: 'photovoltaicInstalledCapacity', format: kWpFormat },
-    { label: '储能总容量', field: 'energyStorageCapacity' },
+    {
+      label: '储能桩机量',
+      field: 'energyStorageCapacity',
+      format: (_, data) =>
+        `${powerFormat(data.energyStoragePower)}/${powerHourFormat(data.energyStorageCapacity)}`,
+    },
     { label: '充电桩装机量', field: 'chargingStationCapacity', format: powerFormat },
     { label: '站点地址', field: 'address' },
     { label: '备注', field: 'remarks', span: 3 },

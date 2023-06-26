@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-06-25 09:46:45
+ * @LastEditTime: 2023-06-25 14:13:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\index.tsx
  */
@@ -38,15 +38,12 @@ const Device: React.FC = () => {
         <div className={styles.switchWrap} onClick={toggle}>
           {open ? <LeftOutlined /> : <RightOutlined />}
         </div>
-        <div className={`flex ${styles.content}`}>
-          <div className={styles.toggle}></div>
-          <div className={`flex1 h-full`}>
-            {(!selectNode || selectNode?.type === 3) && <DeviceList isStationChild={true} />}
-            {selectNode?.type === 2 && (
-              <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
-            )}
-            {selectNode?.type !== 2 && selectNode?.type !== 3 && <Detail />}
-          </div>
+        <div className={`${styles.content}`}>
+          {(!selectNode || selectNode?.type === 3) && <DeviceList isStationChild={true} />}
+          {selectNode?.type === 2 && (
+            <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
+          )}
+          {selectNode && selectNode?.type !== 2 && selectNode?.type !== 3 && <Detail />}
         </div>
       </div>
     </>

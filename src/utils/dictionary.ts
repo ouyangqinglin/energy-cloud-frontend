@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-06-08 19:59:44
+ * @LastEditTime: 2023-06-25 11:43:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -10,6 +10,14 @@
 export const aks = [
   { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
 ];
+
+export enum ChildSystemEnum {
+  Charge = 1,
+  Energy,
+  Pv,
+  Electric,
+  Cabinet,
+}
 
 export enum EnergyEquipmentEnum {
   EMS = 1,

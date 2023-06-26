@@ -12,11 +12,12 @@ import type { DataNode } from 'antd/lib/tree';
 
 export type TreeNode = BasicDataNode &
   DataNode & {
-    id?: number;
+    id: string;
     name?: string;
     type?: number;
     parentId?: number;
     productId?: number;
+    children?: TreeNode[];
   };
 
 export type TreeData = TreeNode[];
