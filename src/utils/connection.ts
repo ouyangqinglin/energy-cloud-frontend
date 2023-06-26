@@ -1,5 +1,5 @@
 import { getAccessToken } from '@/access';
-import { remove, uniqueId } from 'lodash';
+import { eq, remove, uniqueId } from 'lodash';
 import { getWebSocketHost } from './location';
 
 export type receivedMessageCallback = (msg: any) => void;
@@ -65,8 +65,14 @@ type MessageType<T = string> = {
   data: T;
 };
 
-const MAX_RETRY = 3;
-const RETRY_INTERVAL = 3000;
+const MAX_RETRY = 5;
+const RETRY_INTERVAL = 5000;
+
+type InitialOption = {
+  url?: string;
+  onConnectedSuccess?: () => void;
+  onConnectedError?: () => void;
+};
 
 export class Connection {
   static retryCount = 0;
@@ -81,18 +87,27 @@ export class Connection {
 
   private url?: string = '';
 
+  private onConnectedSuccess?: () => void;
+
+  private onConnectedError?: () => void;
+
+  private subscribeServices: RequestMessageType[] = [];
+
   private clientResolve: any = null;
+
   private clientReady: Promise<any> | null = null;
 
-  static getInstance() {
+  static getInstance(option?: InitialOption) {
     if (!this.instance) {
-      return (this.instance = new Connection());
+      return (this.instance = new Connection(option));
     }
     return this.instance;
   }
 
-  constructor(url?: string) {
+  constructor({ url, onConnectedSuccess, onConnectedError }: InitialOption = {}) {
     this.url = url;
+    this.onConnectedSuccess = onConnectedSuccess;
+    this.onConnectedError = onConnectedError;
     this.initClientReady();
   }
 
@@ -114,10 +129,13 @@ export class Connection {
       this.client = new WebSocket(
         url ? `${url}/${token}` : `${getWebSocketHost()}/websocket/${token}`,
       );
+
       this.client.onerror = (e) => {
         this.initClientReady();
+        this.onConnectedError?.();
         console.log('websocket: ', 'connected error', e);
       };
+
       this.client.onclose = ({ code, reason }) => {
         this.initClientReady();
         Connection.connectedStatus = ConnectStatus.CLOSE;
@@ -131,10 +149,14 @@ export class Connection {
         }
         console.log('websocket: ', 'close', code, reason);
       };
+
       this.client.onopen = (e) => {
         this.clientResolve();
+        this.resendSubscribeService();
+        this.onConnectedSuccess?.();
         console.log('websocket: ', 'connected', e);
       };
+
       this.client.onmessage = (rawData: MessageEvent<string>) => {
         if (!this.receivedMessageCallbacks.length) {
           return;
@@ -148,7 +170,6 @@ export class Connection {
         if (type === MessageEventType.HEARTBEAT || type === MessageEventType.TIPS) {
           // return;
         }
-
         this.receivedMessageCallbacks.forEach((cb) => {
           cb(message || rawData.data);
         });
@@ -171,6 +192,7 @@ export class Connection {
 
   reset() {
     this.receivedMessageCallbacks.length = 0;
+    this.subscribeServices.length = 0;
     Connection.retryCount = 0;
     Connection.connectedStatus = ConnectStatus.UNCONNECTED;
   }
@@ -180,32 +202,41 @@ export class Connection {
   }
 
   mock(data: any, time: number) {
-    const log = {
-      data: [
-        {
-          createTime: '2023-06-20 19:33:54',
-          logContent: '充电设备接口状态产生变化:由空闲变为占用(未充电)',
-          deviceName: '永泰分体式充电枪_4_02',
-        },
-      ],
-      type: 5,
-    };
     this.receivedMessageCallbacks.forEach((cb) => {
-      cb(data ? data : (log as any));
+      cb(data);
     });
 
     setInterval(
       () => {
         this.receivedMessageCallbacks.forEach((cb) => {
-          cb(data ? data : (log as any));
+          cb(data);
         });
       },
       time ? time : 10000,
     );
   }
 
+  private recordSubscribeService(curService: RequestMessageType) {
+    const hasCache = this.subscribeServices.some((service) => eq(service, curService));
+    if (curService?.data?.command === RequestCommandEnum.SUBSCRIBE && !hasCache) {
+      this.subscribeServices.push(curService);
+    }
+    if (curService?.data?.command === RequestCommandEnum.UNSUBSCRIBE && hasCache) {
+      remove(this.subscribeServices, (service) => eq(service, curService));
+    }
+  }
+
+  private resendSubscribeService() {
+    if (this.subscribeServices.length) {
+      this.subscribeServices.forEach((service) => {
+        this.sendMessage(service);
+      });
+    }
+  }
+
   sendMessage(data: RequestMessageType) {
     this.clientReady?.then(() => {
+      this.recordSubscribeService(data);
       this.client?.send(JSON.stringify(data));
     });
   }
