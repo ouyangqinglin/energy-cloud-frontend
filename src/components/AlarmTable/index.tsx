@@ -2,18 +2,19 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-05-16 15:58:33
+ * @LastEditTime: 2023-06-26 14:53:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { format } from 'timeago.js';
-import { DatePicker } from 'antd';
+import { DatePicker, Empty as AntEmpty } from 'antd';
 import dayjs from 'dayjs';
 import moment from 'moment';
 import Empty from '../Empty';
+import { DialogContext } from '@/components/Dialog';
 
 export type AlarmTableProps = {
   params?: {
@@ -32,7 +33,9 @@ export type AlarmType = {
 
 const AlarmTable: React.FC<AlarmTableProps> = (props) => {
   const { params, request } = props;
+
   const actionRef = useRef<ActionType>();
+  const dialogContext = useContext(DialogContext);
   const Component: any = DatePicker.RangePicker;
   const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
@@ -126,7 +129,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
           showSizeChanger: true,
         }}
         locale={{
-          emptyText: Empty,
+          emptyText: dialogContext.model == 'screen' ? <Empty /> : <AntEmpty />,
         }}
       />
     </>

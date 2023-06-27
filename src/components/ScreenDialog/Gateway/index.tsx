@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Tabs, Button, Skeleton } from 'antd';
+import { Tabs, Button, Skeleton, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -43,7 +43,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '告警/故障',

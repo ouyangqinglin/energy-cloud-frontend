@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwChargeYt\index.tsx
  */
 import React, { useEffect, useState, useCallback } from 'react';
-import { Modal, Tabs, Row, Col, Skeleton, Button } from 'antd';
+import { Modal, Tabs, Row, Col, Skeleton, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -92,7 +92,7 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '告警/故障',

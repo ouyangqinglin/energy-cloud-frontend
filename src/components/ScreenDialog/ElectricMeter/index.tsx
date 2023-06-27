@@ -8,7 +8,7 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, Skeleton } from 'antd';
+import { Tabs, Skeleton, Empty as AntEmpty } from 'antd';
 import Label from '@/components/Detail/label';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
@@ -51,7 +51,7 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '告警/故障',

@@ -8,7 +8,7 @@
  */
 
 import React, { useCallback, useState } from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
@@ -31,12 +31,12 @@ const Device: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '远程设置',
       key: 'item-1',
-      children: <Empty />,
+      children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
       label: '告警/故障',

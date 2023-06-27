@@ -11,6 +11,7 @@ import { Modal, Spin } from 'antd';
 import type { ModalProps } from 'antd';
 import IconClose from '@/assets/image/screen/dialog/close.png';
 import './index.less';
+import DialogContext from './DialogContext';
 
 export type DialogProps = ModalProps & {
   model?: string;
@@ -39,6 +40,10 @@ const Dialog: React.FC<DialogProps> = (props) => {
     ...restProps
   } = props;
 
+  const dialogContext = useMemo(() => {
+    return { model };
+  }, [model]);
+
   const ModalBodyStyle = useMemo(() => {
     return width === '1200px'
       ? {
@@ -60,9 +65,13 @@ const Dialog: React.FC<DialogProps> = (props) => {
       bodyStyle={ModalBodyStyle}
       {...restProps}
     >
-      {loading ? <Spin /> : props.children}
+      <DialogContext.Provider value={dialogContext}>
+        {loading ? <Spin /> : props.children}
+      </DialogContext.Provider>
     </Modal>
   );
 };
 
 export default Dialog;
+
+export { DialogContext };

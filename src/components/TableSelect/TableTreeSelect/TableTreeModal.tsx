@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
-import { Modal, Tag, Tree, Row, Col, Empty } from 'antd';
+import { Modal, Tag, Tree, Row, Col, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { TreeDataNode, TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
@@ -20,6 +20,7 @@ import { defaultsDeep } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
+import Empty from '@/components/Empty';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -316,6 +317,9 @@ const TableTreeModal = <
               {...tableProps}
               params={tableParams}
               request={requestTable}
+              locale={{
+                emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
+              }}
             />
           </Col>
         </Row>
