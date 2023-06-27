@@ -23,6 +23,12 @@ import Device from './Device';
 import type { PvInverterProps } from '@/components/ScreenDialog/PvInverter';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
+export type RealTimeProps = {
+  id: string;
+  loading?: boolean;
+  open?: boolean;
+};
+
 export type BusinessDialogProps = {
   id: string;
   open: boolean;

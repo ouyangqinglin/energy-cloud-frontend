@@ -86,6 +86,11 @@ export default [
         component: './station/stationManage/operationMonitor',
       },
       {
+        path: '/station-manage/station',
+        name: 'station',
+        component: './station/stationManage/station',
+      },
+      {
         path: '/station-manage/report',
         name: 'report',
         component: './station/stationManage/report',

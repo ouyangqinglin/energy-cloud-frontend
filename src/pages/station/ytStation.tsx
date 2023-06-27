@@ -17,7 +17,6 @@ import PvInverter from '@/components/ScreenDialog/PvInverter';
 import HwCharge from '@/components/ScreenDialog/HwCharge';
 import YtCharge from '@/components/ScreenDialog/YtCharge';
 import Gateway from '@/components/ScreenDialog/Gateway';
-import ElectricTerminal from '@/components/ScreenDialog/ElectricTerminal';
 import ElectricMeter from '@/components/ScreenDialog/ElectricMeter';
 import Cabinet from '@/components/ScreenDialog/Cabinet';
 import PvInverterCabinet from '@/components/ScreenDialog/PvInverterCabinet';
@@ -242,12 +241,6 @@ const YtStation: React.FC = (props) => {
         />
         <YtCharge id={'10013'} open={ytChargeOpen} onCancel={switchYtChargeModal} model="screen" />
         <Gateway id={chargeId} open={gatewayOpen} onCancel={switchGatewayModal} model="screen" />
-        <ElectricTerminal
-          id={chargeId}
-          open={electricOpen}
-          onCancel={switchElectricModal}
-          model="screen"
-        />
         <ElectricMeter
           id={'10027'}
           open={electricMeterOpen}

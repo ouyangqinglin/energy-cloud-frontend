@@ -6,12 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\AlarmTable\index.tsx
  */
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { format } from 'timeago.js';
 import { DatePicker, Empty as AntEmpty } from 'antd';
-import dayjs from 'dayjs';
 import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
@@ -105,6 +104,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
   return (
     <>
       <ProTable
+        className="alarm-table"
         actionRef={actionRef}
         columns={columns}
         search={false}

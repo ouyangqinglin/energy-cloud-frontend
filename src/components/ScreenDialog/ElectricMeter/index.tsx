@@ -8,23 +8,20 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { Tabs, Skeleton, Empty as AntEmpty } from 'antd';
-import Label from '@/components/Detail/label';
+import { Tabs, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
-import Meter, { MeterSkeleton } from '@/components/Meter';
 import EquipInfo from '@/components/EquipInfo';
 import type { DeviceType } from '@/components/EquipInfo/type';
 import Empty from '@/components/Empty';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
-import useSubscribe from '@/pages/screen/useSubscribe';
 import Community from '../Community';
+import RealTime from '@/components/Meter/RealTime';
 
 const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceType>();
 
@@ -36,17 +33,7 @@ const ElectricMeter: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: loading ? (
-        <>
-          <Skeleton.Button className="mb12" size="small" active />
-          <MeterSkeleton />
-        </>
-      ) : (
-        <>
-          <Label title="市电负载" />
-          <Meter data={equipmentData || {}} />
-        </>
-      ),
+      children: <RealTime id={id} open={open} loading={loading} label="市电负载" />,
     },
     {
       label: '远程设置',

@@ -1,22 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import { Tabs, Button, Skeleton, Empty as AntEmpty } from 'antd';
+import { Tabs, Empty as AntEmpty } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import type { DeviceType } from '@/components/EquipInfo/type';
-import Meter, { MeterSkeleton } from '@/components/Meter';
-import Label from '@/components/Detail/label';
 import AlarmTable from '@/components/AlarmTable';
 import LogTable from '@/components/LogTable';
 import { getAlarms, getLogs } from '@/services/equipment';
 import Empty from '@/components/Empty';
-import useSubscribe from '@/pages/screen/useSubscribe';
-import AccountCommunity from '@/components/ScreenDialog/Community/Account';
 import Community from '../Community';
+import RealTime from '@/components/Meter/RealTime';
 
 const Gateway: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
-  const equipmentData = useSubscribe(id, open);
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceType>();
 
@@ -28,17 +24,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: loading ? (
-        <>
-          <Skeleton.Button className="mb12" size="small" active />
-          <MeterSkeleton />
-        </>
-      ) : (
-        <>
-          <Label title="运行信息" />
-          <Meter data={equipmentData || {}} />
-        </>
-      ),
+      children: <RealTime id={id} open={open} loading={loading} />,
     },
     {
       label: '远程设置',
@@ -77,7 +63,7 @@ const Gateway: React.FC<BusinessDialogProps> = (props) => {
               model={model}
               siteId={deviceData?.siteId}
               type={deviceData?.paramConfigType}
-              userLabel="EMS  mqtt用户名"
+              userLabel="EMS mqtt用户名"
               passwordLabel="EMS mqtt密码"
             />
           }

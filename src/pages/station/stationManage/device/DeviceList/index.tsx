@@ -17,7 +17,7 @@ import { deviceDialogMap } from '@/components/ScreenDialog';
 import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
 type DeviceListProps = {
-  subSystemId?: number;
+  subSystemId?: string;
   siteId?: string;
 };
 

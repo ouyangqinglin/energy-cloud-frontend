@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-06-25 14:13:44
+ * @LastEditTime: 2023-06-27 11:35:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\index.tsx
  */
@@ -15,8 +15,8 @@ import DeviceList from '@/pages/equipment/equipment-list';
 import SiteTree from '@/components/SiteTree';
 import styles from './index.less';
 import type { TreeNode } from '@/components/SiteTree/type';
-import Detail from './Detail';
 import { default as DeviceListChild } from './DeviceList';
+import DeviceDetail from '@/components/DeviceDetail';
 
 const Device: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
@@ -43,7 +43,9 @@ const Device: React.FC = () => {
           {selectNode?.type === 2 && (
             <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
           )}
-          {selectNode && selectNode?.type !== 2 && selectNode?.type !== 3 && <Detail />}
+          {selectNode && selectNode?.type !== 2 && selectNode?.type !== 3 && (
+            <DeviceDetail id={selectNode.id} productId={selectNode.productId} />
+          )}
         </div>
       </div>
     </>

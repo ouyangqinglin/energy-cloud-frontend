@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-16 11:09:05
+ * @LastEditTime: 2023-06-26 17:43:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -195,7 +195,6 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
               fieldProps={{
                 getPopupContainer: (triggerNode) => triggerNode.parentElement,
               }}
-              disabled={type == FormTypeEnum.Edit}
             />
           )}
           <ProFormSelect

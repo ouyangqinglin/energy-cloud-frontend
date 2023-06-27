@@ -2,28 +2,22 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Button, Image, Modal, message } from 'antd';
 import { ProField } from '@ant-design/pro-components';
 import { useRequest, useModel } from 'umi';
-import { useBoolean } from 'ahooks';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
-import { setComplete, getDefaultPage } from './service';
+import { setComplete } from './service';
 import { buildStatus, FormTypeEnum } from '@/utils/dictionary';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
-import CustomPageForm from './components/customPageForm';
 
 const StationInfo: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const [open, setOpen] = useState(false);
-  const [openCustomPage, { set, setTrue }] = useBoolean(false);
   const {
     loading,
     data: detailData,
     run,
   } = useRequest(getStation, {
-    manual: true,
-  });
-  const { data: pageData, run: runGetDefaultPage } = useRequest(getDefaultPage, {
     manual: true,
   });
 
@@ -55,7 +49,6 @@ const StationInfo: React.FC = () => {
   useEffect(() => {
     if (siteId) {
       run(siteId);
-      runGetDefaultPage(siteId);
     }
   }, [siteId]);
 
@@ -108,14 +101,6 @@ const StationInfo: React.FC = () => {
     },
   ];
 
-  const pageDetailItems: DetailItem[] = [
-    {
-      label: '当前设置',
-      field: 'homeType',
-      format: () => (pageData?.homeType ? pageData?.customPageName : '默认首页'),
-    },
-  ];
-
   return (
     <>
       {false && (
@@ -156,21 +141,6 @@ const StationInfo: React.FC = () => {
           column={3}
         />
       </Card>
-      <Card
-        title="默认监控首页"
-        extra={
-          <Button type="primary" loading={loading} onClick={setTrue}>
-            编辑
-          </Button>
-        }
-      >
-        <Detail
-          data={pageData}
-          items={pageDetailItems}
-          labelStyle={{ width: '100px' }}
-          column={3}
-        />
-      </Card>
       <StationForm
         id={siteId}
         open={open}
@@ -178,9 +148,6 @@ const StationInfo: React.FC = () => {
         type={FormTypeEnum.Edit}
         onSuccess={onSuccess}
       />
-      {openCustomPage && (
-        <CustomPageForm open={openCustomPage} onOpenChange={set} siteId={siteId} />
-      )}
     </>
   );
 };
