@@ -2,15 +2,20 @@ import Alarm from '@/components/ScreenDialog/Alarm';
 import { notification } from 'antd';
 import { FC, useState } from 'react';
 import { useEffect } from 'react';
-import { useRequest } from 'umi';
 import Cell from '../../components/LayoutCell';
 import { getSiteId } from '../helper';
 import styles from './index.less';
-import useSubscribe from './useSubscribe';
 import AlarmIcon from '@/assets/image/screen/alarm/告警状态_BG@2x.png';
 import AlarmNormalIcon from '@/assets/image/screen/alarm/BG_正常@2x.png';
+import { DeviceAlarm } from './type';
 
-const AlarmInfo: FC = () => {
+const AlarmInfo = ({
+  alarmCount,
+  latestAlarm,
+}: {
+  alarmCount: number;
+  latestAlarm?: DeviceAlarm;
+}) => {
   const [alarmOpen, setAlarmOpen] = useState(false);
   const switchAlarm = () => {
     setAlarmOpen(!alarmOpen);
@@ -29,11 +34,8 @@ const AlarmInfo: FC = () => {
     });
   }, []);
 
-  const data = useSubscribe();
   useEffect(() => {
-    const { length: alarmNum } = data;
-    if (alarmNum) {
-      const latestAlarm = data[alarmNum - 1];
+    if (alarmCount) {
       api?.open({
         icon: (
           <div className={styles.icon}>
@@ -41,17 +43,17 @@ const AlarmInfo: FC = () => {
           </div>
         ),
         className: styles.alarmNotification,
-        message: <div className={styles.content}>{latestAlarm.content}</div>,
+        message: <div className={styles.content}>{latestAlarm?.content}</div>,
         duration: null,
       });
     }
-  }, [api, data]);
+  }, [api, alarmCount, latestAlarm]);
 
   const onChange = () => {
     switchAlarm();
   };
 
-  const shouldAlarm = data.length;
+  const shouldAlarm = alarmCount;
 
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
@@ -62,7 +64,7 @@ const AlarmInfo: FC = () => {
         style={{ backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})` }}
       >
         {shouldAlarm ? (
-          <span className={styles.alarmContent}>告警: {data.length}</span>
+          <span className={styles.alarmContent}>告警: {alarmCount}</span>
         ) : (
           <span className={styles.alarmContent} style={{ color: '#01cfa1', paddingLeft: 10 }}>
             正常

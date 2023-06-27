@@ -1,20 +1,34 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-19 19:11:33
- * @LastEditTime: 2023-06-19 19:11:37
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\index.tsx
- */
+import YTProTable from '@/components/YTProTable';
+import {
+  BetaSchemaForm,
+  ProFormDatePicker,
+  ProFormText,
+  QueryFilter,
+} from '@ant-design/pro-components';
+import type { TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import RealTimePower from './Chart';
+import { columns } from './config';
+import styles from './index.less';
 
-import React from 'react';
-import EmptyPage from '@/components/EmptyPage';
-
-const Search: React.FC = () => {
+const Search = () => {
   return (
-    <>
-      <EmptyPage />
-    </>
+    <div className={styles.searchWrapper}>
+      <div className={styles.tableWrapper}>
+        <YTProTable<any>
+          toolBarRender={() => <></>}
+          tableExtraRender={() => (
+            <>
+              <div className={styles.chartWrapper}>
+                <RealTimePower />
+              </div>
+              <span className={styles.title}>采样明细</span>
+            </>
+          )}
+          columns={columns}
+        />
+      </div>
+    </div>
   );
 };
 
