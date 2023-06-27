@@ -21,6 +21,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
+import HistoryData from './HistoryData';
 
 const HwChargeYt: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -57,6 +58,7 @@ const HwChargeYt: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

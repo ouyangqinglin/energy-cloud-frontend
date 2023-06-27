@@ -23,10 +23,11 @@ import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
 type DeviceListProps = {
   isStationChild?: boolean;
+  onDetail?: (row: EquipmentType) => boolean | void;
 };
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
-  const { isStationChild } = props;
+  const { isStationChild, onDetail } = props;
   const [open, setOpen] = useState(false);
   const [deviceId, setDeviceId] = useState('');
   const [detailOpen, setDetailOpen] = useState(false);
@@ -59,9 +60,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   }, []);
 
   const onDetailClick = useCallback((rowData: EquipmentType) => {
-    setDeviceId(rowData.deviceId);
-    setDeviceDialog(deviceDialogMap?.[rowData.productId] || deviceDialogMap?.default);
-    onSwitchDetailOpen();
+    if (onDetail?.(rowData) !== false) {
+      setDeviceId(rowData.deviceId);
+      setDeviceDialog(deviceDialogMap?.[rowData.productId] || deviceDialogMap?.default);
+      onSwitchDetailOpen();
+    }
   }, []);
 
   const onSuccess = () => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-06-27 11:35:21
+ * @LastEditTime: 2023-06-27 19:40:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\index.tsx
  */
@@ -12,6 +12,7 @@ import { useModel } from 'umi';
 import { useBoolean } from 'ahooks';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import DeviceList from '@/pages/equipment/equipment-list';
+import { EquipmentType } from '@/pages/equipment/equipment-list/data.d';
 import SiteTree from '@/components/SiteTree';
 import styles from './index.less';
 import type { TreeNode } from '@/components/SiteTree/type';
@@ -29,17 +30,24 @@ const Device: React.FC = () => {
     }
   }, []);
 
+  const onDetail = useCallback((rowData: EquipmentType) => {
+    setSelectNode({ ...rowData, id: rowData.deviceId, key: rowData.deviceId });
+    return false;
+  }, []);
+
   return (
     <>
       <div className={`h-full ${!open && styles.close}`}>
         <div className={`${styles.tree}`}>
-          <SiteTree siteId={siteId} onSelect={onSelect} />
+          <SiteTree selectedKeys={[selectNode?.id || '']} siteId={siteId} onSelect={onSelect} />
         </div>
         <div className={styles.switchWrap} onClick={toggle}>
           {open ? <LeftOutlined /> : <RightOutlined />}
         </div>
         <div className={`${styles.content}`}>
-          {(!selectNode || selectNode?.type === 3) && <DeviceList isStationChild={true} />}
+          {(!selectNode || selectNode?.type === 3) && (
+            <DeviceList isStationChild={true} onDetail={onDetail} />
+          )}
           {selectNode?.type === 2 && (
             <DeviceListChild subSystemId={selectNode?.id} siteId={siteId} />
           )}

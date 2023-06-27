@@ -21,6 +21,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';
 import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
+import HistoryData from './HistoryData';
 
 export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
@@ -61,6 +62,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

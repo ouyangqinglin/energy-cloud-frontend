@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:55:49
- * @LastEditTime: 2023-06-27 10:55:53
+ * @LastEditTime: 2023-06-27 19:23:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\YTCharge.tsx
  */
@@ -21,6 +21,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import YtChargeImg from '@/assets/image/product/yt-charge.png';
 import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
+import HistoryData from './HistoryData';
 
 const YTCharge: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -57,6 +58,7 @@ const YTCharge: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

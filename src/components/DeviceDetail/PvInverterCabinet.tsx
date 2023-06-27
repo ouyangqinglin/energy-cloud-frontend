@@ -21,6 +21,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
+import HistoryData from './HistoryData';
 
 const PvInverterCabinet: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -57,6 +58,7 @@ const PvInverterCabinet: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

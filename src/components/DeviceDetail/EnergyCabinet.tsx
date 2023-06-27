@@ -20,6 +20,7 @@ import EquipInfo from '@/components/EquipInfo';
 import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
+import HistoryData from './HistoryData';
 
 const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -55,6 +56,7 @@ const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',
