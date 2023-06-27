@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import './index.less';
 
 export type LabelProps = {
   title: string;
@@ -18,8 +19,8 @@ export type LabelProps = {
 const Label: React.FC<LabelProps> = (props) => {
   return (
     <>
-      <div className={`flex label ${props.className}`}>
-        <span className="labelLine" />
+      <div className={`flex label-wrap ${props.className}`}>
+        <span className="label-line" />
         <span className="flex1">{props.title}</span>
         {props.operate}
       </div>

@@ -182,3 +182,17 @@ export const serviceProgressType = {
     text: '已受理',
   },
 };
+
+export const dataSaveTime = {
+  0: '一个月',
+  1: '三个月',
+  2: '六个月',
+  3: '一年',
+};
+
+export const noticeMethod = {
+  0: '不通知',
+  1: '短信',
+  2: '邮件',
+  3: '短信+邮件',
+};

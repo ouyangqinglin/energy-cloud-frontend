@@ -10,7 +10,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import Monitor from './Monitor';
-import Strategy from './Strategy';
+import OverviewSetting from './OverviewSetting';
 import styles from '../ElectricityPrice/index.less';
 
 const System: React.FC = () => {
@@ -22,8 +22,8 @@ const System: React.FC = () => {
     },
     {
       key: 'strategy',
-      label: '运行策略',
-      children: <Strategy />,
+      label: '概览页配置',
+      children: <OverviewSetting />,
     },
   ];
 

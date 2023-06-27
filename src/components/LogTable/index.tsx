@@ -97,6 +97,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
   return (
     <>
       <ProTable
+        className="log-table"
         actionRef={actionRef}
         columns={columns}
         search={false}

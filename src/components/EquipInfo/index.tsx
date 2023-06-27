@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-06-08 20:05:56
+ * @LastEditTime: 2023-06-27 13:40:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -18,6 +18,7 @@ import EquipForm from '../EquipForm';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { getEquipInfo } from '@/services/equipment';
 import { onlineFormat } from '@/utils/format';
+import './index.less';
 
 export type EquipInfoProps = {
   id: string;
@@ -27,10 +28,20 @@ export type EquipInfoProps = {
   productImg?: string;
   setLoading?: (loading: boolean) => void;
   onChange?: (value: Record<string, any>) => void;
+  className?: string;
 };
 
 const EquipInfo: React.FC<EquipInfoProps> = (props) => {
-  const { id, model, buttons, equipmentImg, productImg, setLoading, onChange } = props;
+  const {
+    id,
+    model,
+    buttons,
+    equipmentImg,
+    productImg,
+    setLoading,
+    onChange,
+    className = '',
+  } = props;
   const [openDialog, setOpenDialog] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const {
@@ -88,7 +99,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
 
   return (
     <>
-      <Row>
+      <Row className={className}>
         <Col flex={model === 'screen' ? '0 0 9.41vw' : '0 0 180px'}>
           <div className="dialog-product-logo-wrap">
             {loading ? (

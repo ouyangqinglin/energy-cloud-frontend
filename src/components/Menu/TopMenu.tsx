@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:03:38
- * @LastEditTime: 2023-06-13 16:57:06
+ * @LastEditTime: 2023-06-26 17:35:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Menu\TopMenu.tsx
  */
@@ -16,10 +16,11 @@ import type { LocationType } from '@/utils/dictionary';
 
 const menuMap = new Map([
   ['/station-manage/operation-monitor', '概览'],
-  ['/station-manage/report', '报表'],
+  ['/station-manage/station', '站点'],
   ['/station-manage/device', '设备'],
   ['/station-manage/alarm-record', '告警'],
-  ['/station-manage/stat', '运维'],
+  ['/station-manage/report', '数据'],
+  ['/station-manage/stat', '任务'],
   ['/station-manage/setting', '设置'],
 ]);
 
@@ -50,6 +51,9 @@ const TopMenu: React.FC = () => {
         dispatch({ type: 'get', payload: { ...(data || {}), id } });
       });
     }
+    return () => {
+      dispatch({ type: 'get', payload: { id: '' } });
+    };
   }, [id]);
 
   return (
