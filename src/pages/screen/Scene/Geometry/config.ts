@@ -42,6 +42,10 @@ export const chargingStackCeils: CellConfigItem[] = [
         },
       },
     ],
+    alarmConfig: {
+      left: 0,
+      top: -20,
+    },
     component: 左1_永泰_160kW_充电桩,
     default: 左1_永泰_160kW_充电桩,
   },
@@ -54,6 +58,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       height: 63,
       left: 208,
       top: 290,
+    },
+    alarmConfig: {
+      left: -12,
+      top: -28,
     },
     charingGunsConfig: [
       {
@@ -86,6 +94,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 256,
       top: 256,
     },
+    alarmConfig: {
+      left: -3,
+      top: -28,
+    },
     component: 左3_永泰_充电终端,
     default: 左3_永泰_充电终端,
     charingGunsConfig: [
@@ -116,6 +128,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       height: 68,
       left: 301,
       top: 233,
+    },
+    alarmConfig: {
+      left: -4,
+      top: -28,
     },
     component: 左4_华为_充电终端,
     default: 左4_华为_充电终端,
@@ -148,6 +164,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 346,
       top: 206,
     },
+    alarmConfig: {
+      left: -5,
+      top: -28,
+    },
     component: 左5_华为_充电终端,
     default: 左5_华为_充电终端,
     charingGunsConfig: [
@@ -178,6 +198,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       height: 60,
       left: 386,
       top: 181,
+    },
+    alarmConfig: {
+      left: 0,
+      top: -28,
     },
     component: 左6_华为_充电终端,
     default: 左6_华为_充电终端,
@@ -210,6 +234,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 679,
       top: 223,
     },
+    alarmConfig: {
+      left: -17,
+      top: -28,
+    },
     component: 右1_永泰_充电终端,
     default: 右1_永泰_充电终端,
     charingGunsConfig: [
@@ -240,6 +268,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       height: 83,
       left: 738,
       top: 251,
+    },
+    alarmConfig: {
+      left: -12,
+      top: -25,
     },
     charingGunsConfig: [
       {
@@ -272,6 +304,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 806,
       top: 298,
     },
+    alarmConfig: {
+      left: -17,
+      top: -28,
+    },
     charingGunsConfig: [
       {
         mark: GunMark.A_GUN,
@@ -303,6 +339,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       left: 863,
       top: 331,
     },
+    alarmConfig: {
+      left: -17,
+      top: -28,
+    },
     charingGunsConfig: [
       {
         mark: GunMark.A_GUN,
@@ -333,6 +373,10 @@ export const chargingStackCeils: CellConfigItem[] = [
       height: 46,
       left: 988,
       top: 328,
+    },
+    alarmConfig: {
+      left: -17,
+      top: -30,
     },
     // chargingGuns: [
     //   {

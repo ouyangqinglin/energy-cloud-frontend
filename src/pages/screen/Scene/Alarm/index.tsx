@@ -61,7 +61,11 @@ const AlarmInfo = ({
       <div
         onClick={onChange}
         className={styles.alarmWrapper}
-        style={{ backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})` }}
+        style={{
+          backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})`,
+          width: shouldAlarm ? 138 : 120,
+          right: shouldAlarm ? 0 : -20,
+        }}
       >
         {shouldAlarm ? (
           <span className={styles.alarmContent}>告警: {alarmCount}</span>
