@@ -86,6 +86,12 @@ export const enum DeviceMark {
 export type CellConfigItem = {
   key: string;
   cellStyle?: CellStyle;
+  alarmConfig?: {
+    left?: number;
+    top?: number;
+    width?: number;
+    height?: number;
+  };
   component?: PureComponent;
   default?: PureComponent;
   active?: PureComponent;
@@ -97,6 +103,7 @@ export interface CellStyle extends Pick<CSSProperties, 'cursor'> {
   height: number;
   left: number;
   top: number;
+  zIndex?: number;
 }
 
 export type AlarmStatus = {

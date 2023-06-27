@@ -61,49 +61,49 @@ export const useWatchingAlarm = () => {
       },
       type: MessageEventType.DEVICE_EVENT_DATA,
     });
-    connection.mock({
-      data: [
-        {
-          alarmTime: '2023-06-10 13:54:54',
-          content: '模块拨码地址错误',
-          detailInfo: '{"val":1}',
-          deviceId: 10278,
-          deviceName: 'PCS',
-          fromResource: 0,
-          functionKey: 'moduleDialAddressErrorEvent',
-          id: 827388908745580500,
-          isConfirm: 0,
-          level: 'error',
-          name: '模块拨码地址错误',
-          productTypeName: '工商业储能',
-          status: 0,
-        },
-      ],
-      type: 2,
-    });
+    // connection.mock({
+    //   data: [
+    //     {
+    //       alarmTime: '2023-06-10 13:54:54',
+    //       content: '模块拨码地址错误',
+    //       detailInfo: '{"val":1}',
+    //       deviceId: 10390,
+    //       deviceName: 'PCS',
+    //       fromResource: 0,
+    //       functionKey: 'moduleDialAddressErrorEvent',
+    //       id: 827388908745580500,
+    //       isConfirm: 0,
+    //       level: 'error',
+    //       name: '模块拨码地址错误',
+    //       productTypeName: '工商业储能',
+    //       status: 0,
+    //     },
+    //   ],
+    //   type: 2,
+    // });
 
-    setTimeout(() => {
-      connection.mock({
-        data: [
-          {
-            alarmTime: '2023-06-10 13:54:54',
-            content: '模块拨码地址错误',
-            detailInfo: '{"val":1}',
-            deviceId: 10278,
-            deviceName: 'PCS',
-            fromResource: 0,
-            functionKey: 'moduleDialAddressErrorEvent',
-            id: 827388908745580500,
-            isConfirm: 0,
-            level: 'error',
-            name: '模块拨码地址错误',
-            productTypeName: '工商业储能',
-            status: 1,
-          },
-        ],
-        type: 2,
-      });
-    }, 20000);
+    // setTimeout(() => {
+    //   connection.mock({
+    //     data: [
+    //       {
+    //         alarmTime: '2023-06-10 13:54:54',
+    //         content: '模块拨码地址错误',
+    //         detailInfo: '{"val":1}',
+    //         deviceId: 10390,
+    //         deviceName: 'PCS',
+    //         fromResource: 0,
+    //         functionKey: 'moduleDialAddressErrorEvent',
+    //         id: 827388908745580500,
+    //         isConfirm: 0,
+    //         level: 'error',
+    //         name: '模块拨码地址错误',
+    //         productTypeName: '工商业储能',
+    //         status: 1,
+    //       },
+    //     ],
+    //     type: 2,
+    //   });
+    // }, 20000);
     connection.addReceivedMessageCallback(onReceivedMessage);
     return () => {
       connection.removeReceivedMessageCallback(onReceivedMessage);

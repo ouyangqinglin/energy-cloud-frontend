@@ -2,7 +2,7 @@ import BackgroundBottom from '@/assets/image/screen/Geometry/background_bottom.p
 import BackgroundTop from '@/assets/image/screen/Geometry/background_top.png';
 import BackgroundRight from '@/assets/image/screen/Geometry/background_right.png';
 import BackgroundPark from '@/assets/image/screen/Geometry/background_park.png';
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useCallback, useEffect } from 'react';
 import { useMemo, useRef } from 'react';
 import { useState } from 'react';
@@ -11,33 +11,27 @@ import { otherCeils } from './configOtherDevice';
 import EnergyFlowAnimation from './EnergyFlowAnimation';
 import styles from './index.less';
 import DeviceDialog from './Dialog';
-import {
+import type {
   CellConfigItem,
   CellStyle,
   ChargingGun,
   DeviceInfoType,
   DeviceMark,
   DeviceStatusRes,
-  GunMark,
-  GunStatus,
 } from './type';
-import { bindDeviceMark, getDeviceList, getDeviceStatus } from './service';
+import { GunStatus } from './type';
+import { bindDeviceMark, getDeviceStatus } from './service';
 import { useRequest } from 'umi';
-import { assignIn, find, findIndex, isEmpty, isNil } from 'lodash';
+import { assignIn, find, isEmpty, isNil } from 'lodash';
 import useResize from './useResize';
 import { useBoolean } from 'ahooks';
 import { message } from 'antd';
 import Cell from '../../components/LayoutCell';
 import EnergyFlowLine from './EnergyFlowAnimation/EnergyFlowLine';
 import BindDevice from './Dialog/BindDevice';
-import { useSubScribeGunStatus, useWatchingGunStatus } from './Subscribe/useWatchingGunStatus';
-import { Lottie } from '@/components/Lottie';
-import ChargingLeft from './lottie/ChargingLeft.json';
-import ChargingRight from './lottie/ChargingRight.json';
-import ChargeCompleteLeft from './lottie/ChargeCompleteLeft.json';
-import ChargeCompleteRight from './lottie/ChargeCompleteRight.json';
+import { useWatchingGunStatus } from './Subscribe/useWatchingGunStatus';
 import CeilGun from './Gun';
-import { AlarmTreeData } from '../Alarm/useSubscribe';
+import type { AlarmTreeData } from '../Alarm/useSubscribe';
 
 type BindDeviceType = {
   id?: number | null;
@@ -54,7 +48,14 @@ const DEFAULT_DEVICE_INFO: DeviceInfoType = {
 const gunIdsMapToDeviceId = new Map<number, number>();
 
 const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
-  const [ceilsConfig, setCeilsConfig] = useState([...chargingStackCeils, ...otherCeils]);
+  const [ceilsConfig, setCeilsConfig] = useState(
+    [...otherCeils, ...chargingStackCeils].map((item, index) => {
+      if (item?.cellStyle) {
+        item.cellStyle.zIndex = index + 1;
+      }
+      return item;
+    }),
+  );
 
   const addDevicePropsToCeilAccordingMark = (deviceList: DeviceInfoType[]) => {
     if (isEmpty(deviceList)) {
@@ -84,7 +85,6 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
 
   // 监听设备告警状态
   useEffect(() => {
-    console.log(alarmDeviceTree);
     if (isEmpty(alarmDeviceTree)) {
       return;
     }
@@ -99,7 +99,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
     });
 
     addDevicePropsToCeilAccordingMark(readyAlarmDevices);
-    // console.log(ceilsConfig);
+    console.log(ceilsConfig);
   }, [alarmDeviceTree]);
 
   // 订阅监听充电桩状态
@@ -154,7 +154,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
           const device: DeviceInfoType = {
             deviceId,
             mark,
-            alarmStatus: { status: alarmStatus },
+            alarmStatus: { status: !alarmStatus },
             directionStatus,
             directionPower,
             chargingGuns: [],
@@ -259,13 +259,12 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
 
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
-      const { cellStyle = {} as CellStyle, alarmStatus } = cell;
+      const { cellStyle = {} as CellStyle, alarmStatus, alarmConfig } = cell;
       const shouldSupportClick = cellStyle?.cursor !== 'default';
 
       return (
         <Cell
           key={cell.key}
-          zIndex={4}
           onClick={() => shouldSupportClick && handleGeometry(cell)}
           onContextMenu={(e: Event) => shouldSupportClick && onContextMenu(e, cell)}
           {...cellStyle}
@@ -282,7 +281,19 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
                   ...cellStyle,
                 }}
               />
-              {alarmStatus?.status ? '123' : '456'}
+              {alarmStatus?.status && alarmConfig ? (
+                <div
+                  className={styles.deviceAlarm}
+                  style={{
+                    left: alarmConfig?.left ?? 0,
+                    top: alarmConfig?.top ?? 0,
+                    height: alarmConfig?.height ?? 43,
+                    width: alarmConfig?.width ?? 64,
+                  }}
+                />
+              ) : (
+                <></>
+              )}
               <CeilGun ceil={cell} />
             </div>
           </div>
