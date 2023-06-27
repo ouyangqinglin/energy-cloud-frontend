@@ -1,21 +1,26 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-19 19:11:33
- * @LastEditTime: 2023-06-19 19:11:37
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\index.tsx
- */
+import type { TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import styles from './index.less';
+import ElectricityStatistic from './ElectricityStatistic';
+import RevenueStatistic from './RevenueStatistic';
 
-import React from 'react';
-import EmptyPage from '@/components/EmptyPage';
+const Setting = () => {
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: `电量统计`,
+      children: <ElectricityStatistic key={'1'} />,
+    },
+    {
+      key: '2',
+      label: `收益统计`,
+      children: <RevenueStatistic key={'2'} />,
+    },
+  ];
 
-const Report: React.FC = () => {
   return (
-    <>
-      <EmptyPage />
-    </>
+    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="1" items={items} />
   );
 };
 
-export default Report;
+export default Setting;

@@ -201,7 +201,7 @@ export class Connection {
     this.client?.close(ExitCode.CLOSE, EXIT_REASON[ExitCode.CLOSE]);
   }
 
-  mock(data: any, time: number) {
+  mock(data: any, time?: number) {
     this.receivedMessageCallbacks.forEach((cb) => {
       cb(data);
     });
@@ -212,7 +212,7 @@ export class Connection {
           cb(data);
         });
       },
-      time ? time : 10000,
+      time ? time : 15000,
     );
   }
 

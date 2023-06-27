@@ -1,4 +1,3 @@
-import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 import { useFullscreen, useEventListener } from 'ahooks';
 import Cell from '../../components/LayoutCell';
 import styles from './index.less';

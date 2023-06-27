@@ -81,6 +81,7 @@
     "captchapng3": "^1.0.7",
     "classnames": "^2.2.6",
     "dayjs": "^1.11.7",
+    "file-saver": "^2.0.5",
     "g2": "^2.3.13",
     "gg-editor": "^2.0.2",
     "lodash": "^4.17.11",
@@ -107,7 +108,8 @@
     "umi": "^3.5.0",
     "umi-plugin-keep-alive": "^0.0.1-beta.18",
     "umi-request": "^1.0.8",
-    "umi-serve": "^1.9.10"
+    "umi-serve": "^1.9.10",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.0.2",

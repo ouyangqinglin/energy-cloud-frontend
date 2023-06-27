@@ -48,6 +48,7 @@ const Customer: React.FC = () => {
       children: <PriceChargingList actionRef={chargingActionRef} />,
     },
   ];
+
   return (
     <>
       <Tabs

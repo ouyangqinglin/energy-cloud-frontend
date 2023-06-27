@@ -23,7 +23,7 @@ import {
 } from './type';
 import { bindDeviceMark, getDeviceList, getDeviceStatus } from './service';
 import { useRequest } from 'umi';
-import { find, isEmpty, isNil } from 'lodash';
+import { assignIn, find, findIndex, isEmpty, isNil } from 'lodash';
 import useResize from './useResize';
 import { useBoolean } from 'ahooks';
 import { message } from 'antd';
@@ -37,6 +37,7 @@ import ChargingRight from './lottie/ChargingRight.json';
 import ChargeCompleteLeft from './lottie/ChargeCompleteLeft.json';
 import ChargeCompleteRight from './lottie/ChargeCompleteRight.json';
 import CeilGun from './Gun';
+import { AlarmTreeData } from '../Alarm/useSubscribe';
 
 type BindDeviceType = {
   id?: number | null;
@@ -52,7 +53,7 @@ const DEFAULT_DEVICE_INFO: DeviceInfoType = {
 // new Map<gunDeviceId, deviceId>
 const gunIdsMapToDeviceId = new Map<number, number>();
 
-const Geometry: FC = () => {
+const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
   const [ceilsConfig, setCeilsConfig] = useState([...chargingStackCeils, ...otherCeils]);
 
   const addDevicePropsToCeilAccordingMark = (deviceList: DeviceInfoType[]) => {
@@ -61,13 +62,14 @@ const Geometry: FC = () => {
     }
     const newCeilsConfig = [...ceilsConfig];
     deviceList.forEach((device) => {
-      const { mark } = device;
-      if (!isNil(mark)) {
-        const ceil = find(newCeilsConfig, (it) => it?.mark === mark);
+      const { mark, deviceId } = device;
+      if (!isNil(mark) || !isNil(deviceId)) {
+        const ceil = find(newCeilsConfig, (it) => it?.mark === mark || it?.deviceId === deviceId);
+
         if (!ceil) {
           return;
         }
-        Object.assign(ceil, device);
+        assignIn(ceil, device);
 
         if (!device.chargingGuns || !device.deviceId) {
           return;
@@ -79,6 +81,26 @@ const Geometry: FC = () => {
     });
     setCeilsConfig(newCeilsConfig);
   };
+
+  // 监听设备告警状态
+  useEffect(() => {
+    console.log(alarmDeviceTree);
+    if (isEmpty(alarmDeviceTree)) {
+      return;
+    }
+
+    const readyAlarmDevices = Object.entries(alarmDeviceTree).map(([deviceId, alarmList]) => {
+      return {
+        deviceId: Number(deviceId),
+        alarmStatus: {
+          status: !!alarmList.length,
+        },
+      } as unknown as DeviceInfoType;
+    });
+
+    addDevicePropsToCeilAccordingMark(readyAlarmDevices);
+    // console.log(ceilsConfig);
+  }, [alarmDeviceTree]);
 
   // 订阅监听充电桩状态
   const { run, data: gunsData } = useWatchingGunStatus();
@@ -237,7 +259,7 @@ const Geometry: FC = () => {
 
   const ceils = useMemo<ReactNode[]>(() => {
     return ceilsConfig.map((cell) => {
-      const { cellStyle = {} as CellStyle } = cell;
+      const { cellStyle = {} as CellStyle, alarmStatus } = cell;
       const shouldSupportClick = cellStyle?.cursor !== 'default';
 
       return (
@@ -260,6 +282,7 @@ const Geometry: FC = () => {
                   ...cellStyle,
                 }}
               />
+              {alarmStatus?.status ? '123' : '456'}
               <CeilGun ceil={cell} />
             </div>
           </div>

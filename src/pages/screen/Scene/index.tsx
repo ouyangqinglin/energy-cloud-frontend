@@ -17,10 +17,12 @@ import AlarmInfo from './Alarm';
 import Geometry from './Geometry';
 import styles from './index.less';
 import { useMemo, useState } from 'react';
+import { useWatchingAlarm } from './Alarm/useSubscribe';
 
 const Scene = () => {
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
+  const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
 
   const EnergyDataWidget = useMemo(
     () => (
@@ -74,8 +76,8 @@ const Scene = () => {
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />
-      <Geometry />
-      <AlarmInfo />
+      <Geometry alarmDeviceTree={alarmDeviceTree} />
+      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} />
       <FullScreen />
     </>
   );

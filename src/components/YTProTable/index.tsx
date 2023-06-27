@@ -24,7 +24,7 @@ const YTProTable = <
       {toolbar?.buttonText ?? '新建'}
     </Button>
   );
-  const toolBar = toolBarRender !== undefined ? toolBarRender : toolBarNode;
+  const toolBar = toolBarRender ? toolBarRender : toolBarNode;
 
   // TODO: 支持选项式的请求
   const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
