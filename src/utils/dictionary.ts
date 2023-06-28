@@ -153,15 +153,6 @@ export const pageType = {
   1: '定制页',
 };
 
-export const dataSource = {
-  1: {
-    text: '手动',
-  },
-  0: {
-    text: '系统预设',
-  },
-};
-
 export const serviceType = {
   1: {
     text: '维护',

@@ -1,6 +1,6 @@
 import { Axis, Chart, Legend, Tooltip, Interval } from 'bizcharts';
 import type { Moment } from 'moment';
-import type { FC } from 'react';
+import { FC, memo } from 'react';
 import { useEffect } from 'react';
 import type { ChartData } from './type';
 import styles from './index.less';

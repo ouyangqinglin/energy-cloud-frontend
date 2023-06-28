@@ -38,6 +38,7 @@ import { convertToData, sortedData } from '../Chart/helper';
 const EnergyStorage: FC = () => {
   const { data: rawChartData, run: runForChart } = useRequest(getEnergyStorageChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
+    manual: true,
   });
 
   const { data: statisticsData } = useRequest(getEnergyStorageStatistic);
@@ -53,14 +54,17 @@ const EnergyStorage: FC = () => {
     run();
   }, []);
 
-  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
-    if (rangeDate) {
-      runForChart(
-        dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
-        dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
-      );
-    }
-  }, []);
+  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback(
+    (rangeDate) => {
+      if (rangeDate) {
+        runForChart(
+          dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
+          dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
+        );
+      }
+    },
+    [runForChart],
+  );
 
   const chartData: ChartRes = [];
   if (rawChartData) {

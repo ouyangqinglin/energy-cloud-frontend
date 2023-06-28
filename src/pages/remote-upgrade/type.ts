@@ -1,4 +1,4 @@
-export interface DataType {
+export interface RemoteUpgradeDataRes {
   id: number;
   version: string;
   deviceType: string;

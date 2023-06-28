@@ -11,13 +11,11 @@ export type AlarmTreeData = Record<string, DeviceAlarm[]>;
 export const useWatchingAlarm = () => {
   const [alarmDeviceTree, setAlarmDeviceTree] = useState<AlarmTreeData>({});
   const [latestAlarm, setLatestAlarm] = useState<DeviceAlarm>();
-  const { connection } = useWebsocket();
+  const { connection } = useWebsocket(true);
 
   const onReceivedMessage = useCallback((res: { type: MessageEventType; data: DeviceAlarm[] }) => {
     if (MessageEventType.DEVICE_EVENT_DATA === res?.type) {
       const { data: msgData } = res;
-      console.log(msgData);
-
       try {
         const alarmList = msgData.filter((it) => it.level !== AlarmLevel.info);
         const { length: alarmLen } = alarmList;
