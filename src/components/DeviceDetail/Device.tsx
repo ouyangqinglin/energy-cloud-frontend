@@ -19,6 +19,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
+import HistoryData from './HistoryData';
 
 const Device: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -52,6 +53,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 13:54:37
- * @LastEditTime: 2023-05-04 13:54:41
+ * @LastEditTime: 2023-06-27 19:36:28
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\data.d.ts
  */
 
 export type EquipmentType = {
@@ -12,7 +12,7 @@ export type EquipmentType = {
   name: string;
   sn: string;
   model: string;
-  productId: string;
+  productId: number;
   productTypeName: string;
   subsystemName: string;
   childSystem: string;

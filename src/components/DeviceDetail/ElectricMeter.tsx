@@ -19,6 +19,7 @@ import { DeviceDetailType } from './config';
 import EquipInfo from '@/components/EquipInfo';
 import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
+import HistoryData from './HistoryData';
 
 const ElectricMeter: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -53,6 +54,7 @@ const ElectricMeter: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

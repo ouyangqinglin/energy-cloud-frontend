@@ -25,7 +25,7 @@ export const editData = (data: EquipFormType) => {
 };
 
 export const getData = (id: string | undefined) => {
-  return request(`/iot/device/details`, {
+  return request(`/oss/device/details`, {
     method: 'GET',
     params: {
       deviceId: id,

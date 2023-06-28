@@ -16,6 +16,7 @@ import LogTable from '@/components/LogTable';
 import { getLogs } from '@/services/equipment';
 import styles from './index.less';
 import { DeviceDetailType } from './config';
+import HistoryData from './HistoryData';
 
 const Energy: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -34,6 +35,7 @@ const Energy: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

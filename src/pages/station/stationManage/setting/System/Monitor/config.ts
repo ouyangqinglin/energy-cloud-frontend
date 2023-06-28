@@ -48,8 +48,8 @@ export const monitorTypeMap = new Map([
       type: 3,
       data: [
         { name: '电气监测', area: 'elec', subType: 1 },
-        { name: '充电桩充电量', area: 'row1', subType: 2 },
-        { name: '充电桩充电功率', area: 'row2', subType: 4 },
+        { name: '充电桩用电量', area: 'row1', subType: 2 },
+        { name: '充电桩实时功率', area: 'row2', subType: 4 },
       ],
     },
   ],

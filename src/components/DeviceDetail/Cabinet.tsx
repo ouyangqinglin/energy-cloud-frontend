@@ -20,6 +20,7 @@ import type { DeviceType } from '@/components/EquipInfo/type';
 import Community from '@/components/ScreenDialog/Community';
 import CabinetImg from '@/assets/image/product/cabinet.png';
 import CabinetIntroImg from '@/assets/image/product/cabinet-intro.jpg';
+import HistoryData from './HistoryData';
 
 const Cabinet: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -53,6 +54,7 @@ const Cabinet: React.FC<DeviceDetailType> = (props) => {
       {
         label: '历史数据',
         key: '2',
+        children: <HistoryData />,
       },
       {
         label: '告警',

@@ -307,7 +307,7 @@ const Monitor: React.FC = () => {
     { key: 'photovoltaic', title: '光伏监测' },
     { key: 'energy', title: '储能监测' },
     { key: 'charge', title: '充电桩监测' },
-    { key: 'load', title: '负载监测' },
+    { key: 'load', title: '其他负载' },
   ];
 
   const tableSelectColumns: ProColumns[] = [

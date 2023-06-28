@@ -91,11 +91,6 @@ export default [
         component: './station/stationManage/station',
       },
       {
-        path: '/station-manage/report',
-        name: 'report',
-        component: './station/stationManage/report',
-      },
-      {
         path: '/station-manage/device',
         name: 'device',
         component: './station/stationManage/device',
@@ -104,6 +99,11 @@ export default [
         path: '/station-manage/alarm-record',
         name: 'alarmRecord',
         component: './equipment/alarm',
+      },
+      {
+        path: '/station-manage/report',
+        name: 'report',
+        component: './data-manage/report',
       },
       {
         path: '/station-manage/stat',
