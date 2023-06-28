@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-10 14:53:34
- * @LastEditTime: 2023-06-13 16:50:43
+ * @LastEditTime: 2023-06-28 17:14:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
@@ -14,6 +14,8 @@ import { getData } from './service';
 import { getSiteId } from '../helper';
 import { pieConfig } from './config';
 import styles from './index.less';
+import { useToolTip } from '@/hooks';
+import { ChartTypeEnum } from '@/hooks/tooltip';
 
 type RevenueProportionProps = {
   timeType: TimeType;
@@ -49,6 +51,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   const [myConfig, setMyConfig] = useState(pieConfig);
   const [pieData, setPieData] = useState<PieDataType>({ data: [], totalGains: 0 });
   const siteId = getSiteId();
+  const [chartRef] = useToolTip({ type: ChartTypeEnum.Pie });
   const { data: revenueData, run } = useRequest(getData, {
     manual: true,
     pollingInterval: 5 * 60 * 1000,
@@ -100,7 +103,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   useEffect(() => {
     const typeData: DataType[] = [];
     typeMap.forEach((item, key) => {
-      const valueNum = (revenueData?.[item[0]] || 0) * 1;
+      const valueNum = (revenueData?.[item[0]] || 30) * 1;
       const percentNum = (revenueData?.[item[1]] || 0) * 1;
       typeData.push({
         type: key,
@@ -116,11 +119,17 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   }, [revenueData]);
 
   useEffect(() => {
-    run({ siteId, type: timeType });
+    // run({ siteId, type: timeType });
   }, [timeType, siteId]);
 
   return (
-    <Pie className={styles.pieContain} height={270} data={pieData.data} {...(myConfig as any)} />
+    <Pie
+      ref={chartRef}
+      className={styles.pieContain}
+      height={270}
+      data={pieData.data}
+      {...(myConfig as any)}
+    />
   );
 };
 

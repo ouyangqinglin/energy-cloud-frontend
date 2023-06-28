@@ -2,18 +2,19 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-25 17:45:03
+ * @LastEditTime: 2023-06-28 17:07:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
 import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { Axis, Chart, LineAdvance, Legend, Annotation } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip } from 'bizcharts';
 import moment from 'moment';
 import { getSiteId } from '../helper';
 import type { Moment } from 'moment';
 import styles from './index.less';
 import { getData } from './service';
+import { useToolTip } from '@/hooks';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -84,6 +85,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const [chartData, setChartData] = useState<DataType[]>();
   const [ticks, setTicks] = useState<string[]>();
   const siteId = getSiteId();
+  const [chartRef] = useToolTip();
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
     pollingInterval: 2 * 60 * 1000,
@@ -122,6 +124,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   return (
     <div className={styles.chartWrapper}>
       <Chart
+        ref={chartRef}
         height={249}
         scale={{
           time: {
@@ -134,6 +137,18 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         data={chartData}
         autoFit
       >
+        <Tooltip
+          domStyles={{
+            'g2-tooltip': {
+              border: '1px solid rgba(21, 154, 255, 0.8)',
+              backgroundColor: 'rgba(9,12,21,0.8)',
+              'box-shadow': '0 0 6px 0 rgba(21,154,255,0.7)',
+              boxShadow: 'none',
+              color: 'white',
+              opacity: 1,
+            },
+          }}
+        />
         <Annotation.Text
           position={['min', 'max']}
           content="功率(KW)"
@@ -172,7 +187,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         <LineAdvance
           shape="smooth"
           area
-          color={['field', ['#FF8144', '#FFE04D', '#159AFF', '#11DA81', '#00C9EC']]}
+          color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
           position="time*value"
         />
         <Axis

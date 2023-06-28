@@ -54,7 +54,7 @@ export const getGuns = (id: string) => {
 };
 
 export const getEquipInfo = (params: any) => {
-  return request(`/iot/device/details`, {
+  return request(`/oss/device/details`, {
     method: 'GET',
     params,
   });

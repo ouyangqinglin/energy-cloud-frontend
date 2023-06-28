@@ -17,7 +17,7 @@ export const getList = (params: any) => {
 };
 
 export const getData = (id: string) => {
-  return request(`/uc/site/details`, {
+  return request(`/oss/site/details`, {
     method: 'GET',
     params: {
       siteId: id,
@@ -40,7 +40,7 @@ export const editData = (data: StationFormType) => {
 };
 
 export const removeData = (params: any) => {
-  return request(`/uc/site/delete`, {
+  return request(`/oss/site/delete`, {
     method: 'DELETE',
     params,
   });

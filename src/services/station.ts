@@ -17,7 +17,7 @@ export const getStations = (params?: any) => {
 };
 
 export const getStation = (id: string) => {
-  return request(`/uc/site/details`, {
+  return request(`/oss/site/details`, {
     method: 'GET',
     params: {
       siteId: id,
