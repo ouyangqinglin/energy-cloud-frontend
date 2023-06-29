@@ -1,4 +1,5 @@
-import useArea from './area';
-import useToolTip from './tooltip';
+import useArea from './useArea';
+import useToolTip from './useTooltip';
+import useSiteColumn from './useSiteColumn';
 
-export { useArea, useToolTip };
+export { useArea, useToolTip, useSiteColumn };

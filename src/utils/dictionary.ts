@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-06-25 11:43:19
+ * @LastEditTime: 2023-06-29 14:58:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -163,6 +163,9 @@ export const serviceType = {
 };
 
 export const serviceProgressType = {
+  3: {
+    text: '完成',
+  },
   2: {
     text: '完成',
   },
@@ -187,3 +190,37 @@ export const noticeMethod = {
   2: '邮件',
   3: '短信+邮件',
 };
+
+export enum reportTypeEnum {
+  Site,
+  Electric,
+  PvInverter,
+  Energy,
+  ChargeOrder,
+  ChargeBase,
+  Else,
+}
+
+export const reportType = new Map([
+  [reportTypeEnum.Site, '电站报表'],
+  [reportTypeEnum.Electric, '市电报表'],
+  [reportTypeEnum.PvInverter, '光伏报表'],
+  [reportTypeEnum.Energy, '储能报表'],
+  [reportTypeEnum.ChargeOrder, '充电桩订单报表'],
+  [reportTypeEnum.ChargeBase, '充电桩基础报表'],
+  [reportTypeEnum.Else, '其他负载报表'],
+]);
+
+export enum timeDimensionEnum {
+  Day,
+  Month,
+  Year,
+  Cycle,
+}
+
+export const timeDimension = new Map([
+  [timeDimensionEnum.Day, '按日统计'],
+  [timeDimensionEnum.Month, '按月统计'],
+  [timeDimensionEnum.Year, '按年统计'],
+  [timeDimensionEnum.Cycle, '按生命周期统计'],
+]);

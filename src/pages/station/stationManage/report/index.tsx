@@ -2,20 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 09:37:35
- * @LastEditTime: 2023-06-21 09:37:39
+ * @LastEditTime: 2023-06-29 14:07:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\report\index.tsx
  */
 
 import React from 'react';
-import EmptyPage from '@/components/EmptyPage';
+import Report from '@/pages/data-manage/report';
 
-const Strategy: React.FC = () => {
+const Index: React.FC = () => {
   return (
     <>
-      <EmptyPage />
+      <Report isStationChild={true} />
     </>
   );
 };
 
-export default Strategy;
+export default Index;
