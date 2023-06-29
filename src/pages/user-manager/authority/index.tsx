@@ -6,102 +6,79 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
-import React, { useCallback } from 'react';
-import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
-import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
-import type { ProFormColumnsType } from '@ant-design/pro-components';
-import type { AuthorityType, AgentFormType } from './data.d';
-import { effectStatus, dataSource } from '@/utils/dictionary';
-import { getAgent } from '@/services/agent';
+import { useCallback, useRef, useState } from 'react';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import type { RoleInfo, RoleItemType } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
-import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
+import { columns } from './config';
+import { deleteRole, getRoleList } from './service';
+import { RoleUpdate } from './RoleUpdate';
+import { FormOperations } from '@/components/YTModalForm/typing';
+import { useToggle } from 'ahooks';
+import { message } from 'antd';
 
-const Agent: React.FC = () => {
-  const requestList: YTProTableCustomProps<AuthorityType, AuthorityType>['request'] = (params) => {
-    return getAgent(params);
-  };
+const Authority = () => {
+  const [state, { set }] = useToggle<boolean>(false);
+  const [operations, setOperations] = useState(FormOperations.CREATE);
+  const [initialValues, setInitialValues] = useState<RoleInfo>({} as RoleInfo);
+  const actionRef = useRef<ActionType>(null);
 
-  const onAddClick = useCallback(() => {}, []);
-
-  const onEditClick: ProColumns<AuthorityType>['render'] = useCallback((_, row) => {}, []);
-
-  const columns: ProColumns<AuthorityType>[] = [
-    {
-      title: '序号',
-      valueType: 'index',
-      width: 48,
-    },
-    {
-      title: '角色名称',
-      dataIndex: 'roleName',
-      width: 120,
-      ellipsis: true,
-    },
-    {
-      title: '数据来源',
-      dataIndex: 'type',
-      valueType: 'select',
-      valueEnum: dataSource,
-      width: 120,
-      hideInSearch: true,
-    },
-    {
-      title: 'web权限',
-      dataIndex: 'authority',
-      width: 120,
-      hideInSearch: true,
-      render: (_, record) => {
-        return record.type ? <a>配置</a> : '--';
+  const customConfig: YTProTableCustomProps<RoleInfo, any> = {
+    toolbar: {
+      onChange() {
+        setInitialValues({} as RoleInfo);
+        setOperations(FormOperations.CREATE);
+        set(true);
       },
+      buttonText: '新建角色',
     },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      width: 100,
-      valueEnum: effectStatus,
+    option: {
+      onDeleteChange(_, entity) {
+        deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
+          if (data) {
+            message.success('删除成功');
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+      onEditChange(_, entity) {
+        setInitialValues({ ...entity });
+        setOperations(FormOperations.UPDATE);
+        set(true);
+      },
+      modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
     },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '最后更新时间',
-      dataIndex: 'updateTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: '更新人',
-      dataIndex: 'updateByName',
-      hideInSearch: true,
-      width: 100,
-      ellipsis: true,
-    },
-  ];
+  };
+  const visibleUpdated = operations !== FormOperations.READ;
 
+  const onSuccess = useCallback(() => {
+    actionRef?.current?.reload?.();
+  }, [actionRef]);
+
+  const requestList: YTProTableCustomProps<RoleItemType, RoleItemType>['request'] = (params) => {
+    return getRoleList(params);
+  };
   return (
     <>
-      <YTProTable<AuthorityType, AuthorityType>
+      <YTProTable<RoleItemType, RoleItemType>
         columns={columns}
-        option={{
-          columnsProp: {
-            width: '120px',
-          },
-          onEditChange: onEditClick,
-        }}
+        actionRef={actionRef}
+        {...customConfig}
         request={requestList}
+        rowKey="roleId"
+      />
+      <RoleUpdate
+        {...{
+          operations: operations,
+          visible: visibleUpdated && state,
+          onVisibleChange: set,
+          onSuccess: onSuccess,
+          id: initialValues?.roleId,
+        }}
       />
     </>
   );
 };
 
-export default Agent;
+export default Authority;

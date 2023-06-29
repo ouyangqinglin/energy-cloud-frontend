@@ -99,7 +99,6 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
     });
 
     addDevicePropsToCeilAccordingMark(readyAlarmDevices);
-    console.log(ceilsConfig);
   }, [alarmDeviceTree]);
 
   // 订阅监听充电桩状态
@@ -228,7 +227,6 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
   }, []);
   const onBindDevice = async (value: BindDeviceType[]) => {
     const { mark } = deviceInfo;
-    console.log(value, mark);
     if (!mark) {
       return;
     }

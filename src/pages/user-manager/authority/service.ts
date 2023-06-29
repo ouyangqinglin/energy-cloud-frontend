@@ -1,30 +1,22 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-05-24 15:30:37
- * @LastEditTime: 2023-05-24 15:30:41
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\service.ts
- */
-import request from '@/utils/request';
-import { AgentFormType } from './data.d';
+import type { RoleParam, RoleItemType } from './type';
+import { del, get, post, put } from '@/utils/request';
 
-export const getList = (params: any) => {
-  return request(`/agents`, {
-    method: 'GET',
-    params,
-  });
+export const createRole = (data: RoleParam) => {
+  return post(`/uc/role`, data);
 };
 
-export const addData = (data: AgentFormType) => {
-  return request(`/station`, {
-    method: 'POST',
-    data,
-  });
+export const getRole = (data: { roleId: number }) => {
+  return get(`/uc/role`, data);
 };
 
-export const removeData = (id: string) => {
-  return request(`/station/${id}`, {
-    method: 'DELETE',
-  });
+export const updateRole = (data: any) => {
+  return put(`/uc/role`, data);
+};
+
+export const deleteRole = (data: { roleIds: number[] }) => {
+  return del(`/uc/role`, data);
+};
+
+export const getRoleList = (params: any) => {
+  return get<RoleItemType[]>(`/uc/role/page`, params);
 };

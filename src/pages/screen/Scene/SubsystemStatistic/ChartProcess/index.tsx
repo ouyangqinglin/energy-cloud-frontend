@@ -56,7 +56,7 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
         {data.map((item) => {
           return (
             // eslint-disable-next-line react/jsx-key
-            <div className={styles.content}>
+            <div className={styles.content} key={item.field}>
               <div className={styles.mark} style={{ backgroundColor: item.color }} />
               <div className={styles.desc}>
                 <div className={styles.title}>{item.field}</div>

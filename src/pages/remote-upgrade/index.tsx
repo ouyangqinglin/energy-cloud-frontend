@@ -15,10 +15,10 @@ import { getRemoteUpgradeList } from './service';
 import { RemoteUpgradeDataRes } from './type';
 
 const RemoteUpgrade: React.FC = () => {
-  const requestList: YTProTableCustomProps<RemoteUpgradeDataRes, RemoteUpgradeDataRes>['request'] =
-    useCallback((params) => {
-      return getRemoteUpgradeList(params);
-    }, []);
+  const requestList: YTProTableCustomProps<
+    RemoteUpgradeDataRes,
+    RemoteUpgradeDataRes
+  >['request'] = (params) => getRemoteUpgradeList(params);
   const onAddClick = useCallback(() => {}, []);
   const onEditClick: ProColumns<RemoteUpgradeDataRes>['render'] = useCallback((_, row) => {}, []);
   return (

@@ -1,4 +1,4 @@
-import type { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, memo, useMemo } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import styles from './index.less';
@@ -28,107 +28,102 @@ export type DecorationProp = {
   scroll?: boolean;
 };
 
-const DecorationCarousel: FC<DecorationProp> = ({
-  title,
-  panelStyle,
-  valueType,
-  scroll,
-  onTimeButtonChange = noop,
-  children,
-}) => {
-  const carouselRef = useRef<CarouselRef>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const goToPage = (page: number) => {
-    carouselRef?.current?.goTo(page - 1);
-    setCurrentPage(page);
-  };
-  const changePagination = (currentSlider: number) => {
-    setCurrentPage(currentSlider + 1);
-  };
-  const getValueType = () => {
-    if (valueType === 'pagination') {
-      return {
-        Operation: (
-          <Pagination
-            size="small"
-            className={styles.pagination}
-            // defaultCurrent={1}
-            current={currentPage}
-            total={2}
-            defaultPageSize={1}
-            onChange={goToPage}
-          />
-        ),
-        Panel: (
-          <Carousel
-            // autoplay={true}
-            // beforeChange={changePagination}
-            className={styles.carousel}
-            dots={false}
-            ref={carouselRef}
-          >
-            {children}
-          </Carousel>
-        ),
-      };
-    }
-
-    if (valueType === 'timeButtonGroup') {
-      return {
-        Operation: <TimeButtonGroup onChange={onTimeButtonChange} />,
-        Panel: children,
-      };
-    }
-
-    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-      return current && current > dayjs().endOf('day');
+const DecorationCarousel: FC<DecorationProp> = memo(
+  ({ title, panelStyle, valueType, scroll, onTimeButtonChange = noop, children }) => {
+    const carouselRef = useRef<CarouselRef>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const goToPage = (page: number) => {
+      carouselRef?.current?.goTo(page - 1);
+      setCurrentPage(page);
     };
-    if (valueType === 'datePicker') {
-      return {
-        Operation: (
-          <div className={styles.datePicker}>
-            <DatePicker
-              popupClassName={styles.datePicker}
-              disabledDate={disabledDate}
+    const changePagination = (currentSlider: number) => {
+      setCurrentPage(currentSlider + 1);
+    };
+    const getValueType = useMemo(() => {
+      if (valueType === 'pagination') {
+        return {
+          Operation: (
+            <Pagination
               size="small"
+              className={styles.pagination}
+              // defaultCurrent={1}
+              current={currentPage}
+              total={2}
+              defaultPageSize={1}
+              onChange={goToPage}
             />
-          </div>
-        ),
+          ),
+          Panel: (
+            <Carousel
+              // autoplay={true}
+              // beforeChange={changePagination}
+              className={styles.carousel}
+              dots={false}
+              ref={carouselRef}
+            >
+              {children}
+            </Carousel>
+          ),
+        };
+      }
+
+      if (valueType === 'timeButtonGroup') {
+        return {
+          Operation: <TimeButtonGroup onChange={onTimeButtonChange} />,
+          Panel: children,
+        };
+      }
+
+      const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+        return current && current > dayjs().endOf('day');
+      };
+      if (valueType === 'datePicker') {
+        return {
+          Operation: (
+            <div className={styles.datePicker}>
+              <DatePicker
+                popupClassName={styles.datePicker}
+                disabledDate={disabledDate}
+                size="small"
+              />
+            </div>
+          ),
+          Panel: children,
+        };
+      }
+      return {
+        Operation: null,
         Panel: children,
       };
-    }
-    return {
-      Operation: null,
-      Panel: children,
-    };
-  };
+    }, [children, currentPage, onTimeButtonChange, valueType]);
 
-  const { Operation, Panel } = getValueType();
+    const { Operation, Panel } = getValueType;
 
-  return (
-    <div className={classnames([styles.wrapper, styles.wrapperRect])}>
-      <div className={classnames(styles.boxHeader)}>
-        <div className={styles.leftContent}>
-          <div className={styles.iconWrapper} />
-          <span className={styles.text}>{title}</span>
+    return (
+      <div className={classnames([styles.wrapper, styles.wrapperRect])}>
+        <div className={classnames(styles.boxHeader)}>
+          <div className={styles.leftContent}>
+            <div className={styles.iconWrapper} />
+            <span className={styles.text}>{title}</span>
+          </div>
+          <div className={styles.rightContent}>{Operation}</div>
         </div>
-        <div className={styles.rightContent}>{Operation}</div>
-      </div>
-      <div className={styles.decoration}>
-        <div className={styles.left}>
-          <PartIcon className={styles.partIcon} />
-          <div className={styles.line} />
+        <div className={styles.decoration}>
+          <div className={styles.left}>
+            <PartIcon className={styles.partIcon} />
+            <div className={styles.line} />
+          </div>
+          <DotsIcon className={styles.dotsIcon} />
         </div>
-        <DotsIcon className={styles.dotsIcon} />
+        <div
+          className={classnames(styles.boxContent, [scroll ? styles.boxContentScroll : ''])}
+          style={panelStyle}
+        >
+          {Panel}
+        </div>
       </div>
-      <div
-        className={classnames(styles.boxContent, [scroll ? styles.boxContentScroll : ''])}
-        style={panelStyle}
-      >
-        {Panel}
-      </div>
-    </div>
-  );
-};
+    );
+  },
+);
 
 export default DecorationCarousel;

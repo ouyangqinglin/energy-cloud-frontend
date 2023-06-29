@@ -21,7 +21,10 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
     const isBGunCharging = bGun?.status === GunStatus.CHARGING;
     const isBGunFullCharge = bGun?.status === GunStatus.IDLE_WITH_FILLED;
 
-    if (isAGunCharging || isAGunFullCharge || isBGunCharging || isBGunFullCharge) {
+    if (
+      window.DEVTOOL &&
+      (isAGunCharging || isAGunFullCharge || isBGunCharging || isBGunFullCharge)
+    ) {
       const log = {
         aGun: {
           deviceId: aGun?.deviceId,

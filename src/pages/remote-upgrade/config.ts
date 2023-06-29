@@ -1,7 +1,7 @@
-import type { ProColumns } from '@ant-design/pro-components';
+import { YTProColumns } from '@/components/YTProTable/typing';
 import type { RemoteUpgradeDataRes } from './type';
 
-export const columns: ProColumns<RemoteUpgradeDataRes>[] = [
+export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
   {
     title: '序号',
     valueType: 'index',
