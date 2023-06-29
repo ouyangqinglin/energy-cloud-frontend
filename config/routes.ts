@@ -194,6 +194,11 @@ export default [
         name: 'service',
         component: './partner/service',
       },
+      {
+        path: 'agent',
+        name: 'agent',
+        component: './partner/agent',
+      },
     ],
   },
   {
@@ -205,12 +210,17 @@ export default [
     routes: [
       {
         path: '/remote-upgrade',
-        redirect: '/remote-upgrade/index',
+        redirect: '/remote-upgrade/package',
       },
       {
-        path: 'index',
-        name: 'remoteUpgradeIndex',
-        component: './remote-upgrade',
+        path: 'package',
+        name: 'remoteUpgradePackage',
+        component: './remote-upgrade/package',
+      },
+      {
+        path: 'log',
+        name: 'remoteUpgradeLog',
+        component: './remote-upgrade/log',
       },
     ],
   },

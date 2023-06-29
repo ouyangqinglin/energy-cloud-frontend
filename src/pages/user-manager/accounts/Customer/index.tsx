@@ -8,26 +8,26 @@
  */
 import { useCallback, useRef, useState } from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import type { RoleInfo } from './type';
+import type { CustomerInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
-import { deleteRole, getRoleList } from './service';
-import { RoleUpdate } from './RoleUpdate';
+import { deleteCustomer, getCustomerList } from './service';
+import { Update } from './Update';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 
-const Authority = () => {
+const Customer = () => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
-  const [initialValues, setInitialValues] = useState<RoleInfo>({} as RoleInfo);
+  const [initialValues, setInitialValues] = useState<CustomerInfo>({} as CustomerInfo);
   const actionRef = useRef<ActionType>(null);
 
-  const customConfig: YTProTableCustomProps<RoleInfo, any> = {
+  const customConfig: YTProTableCustomProps<CustomerInfo, any> = {
     toolbar: {
       onChange() {
-        setInitialValues({} as RoleInfo);
+        setInitialValues({} as CustomerInfo);
         setOperations(FormOperations.CREATE);
         set(true);
       },
@@ -35,7 +35,7 @@ const Authority = () => {
     },
     option: {
       onDeleteChange(_, entity) {
-        deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
+        deleteCustomer?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
           if (data) {
             message.success('删除成功');
             actionRef?.current?.reload?.();
@@ -56,29 +56,29 @@ const Authority = () => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-  const requestList: YTProTableCustomProps<RoleInfo, RoleInfo>['request'] = (params) => {
-    return getRoleList(params);
+  const requestList: YTProTableCustomProps<CustomerInfo, CustomerInfo>['request'] = (params) => {
+    return getCustomerList(params);
   };
   return (
     <>
-      <YTProTable<RoleInfo, RoleInfo>
+      <YTProTable<CustomerInfo, CustomerInfo>
         columns={columns}
         actionRef={actionRef}
         {...customConfig}
         request={requestList}
-        rowKey="roleId"
+        rowKey="userId"
       />
-      <RoleUpdate
+      <Update
         {...{
           operations: operations,
           visible: visibleUpdated && state,
           onVisibleChange: set,
           onSuccess: onSuccess,
-          id: initialValues?.roleId,
+          id: initialValues?.userId,
         }}
       />
     </>
   );
 };
 
-export default Authority;
+export default Customer;

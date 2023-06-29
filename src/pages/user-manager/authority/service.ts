@@ -1,4 +1,4 @@
-import type { RoleParam, RoleItemType } from './type';
+import type { RoleParam, RoleInfo } from './type';
 import { del, get, post, put } from '@/utils/request';
 
 export const createRole = (data: RoleParam) => {
@@ -18,5 +18,5 @@ export const deleteRole = (data: { roleIds: number[] }) => {
 };
 
 export const getRoleList = (params: any) => {
-  return get<RoleItemType[]>(`/uc/role/page`, params);
+  return get<RoleInfo[]>(`/uc/role/page`, params);
 };

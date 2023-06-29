@@ -80,6 +80,10 @@ export type ResponseCommonData<T> = {
   msg: string;
 };
 
+export type InferResponseData<T, U = 'common'> = U extends 'common'
+  ? ResponseCommonData<T>
+  : ResponsePageData<T>;
+
 export type ResponsePromise<T = any, U = any> = Promise<T> & {
   tableThen: () => Promise<RequestData<U>>;
 };
@@ -204,7 +208,7 @@ class HttpRequest implements HttpRequestType {
 const httpRequest = new HttpRequest();
 httpRequest.init();
 
-export const get = <R = any>(
+export const get = <R = any, U = 'common'>(
   url: string,
   params?: object | URLSearchParams,
   options?: RequestOptionsInit,
@@ -215,37 +219,49 @@ export const get = <R = any>(
         options,
         ...{ params },
       };
-  return httpRequest?.instance?.get?.<ResponseCommonData<R>>(url, composeOptions);
+  return httpRequest?.instance?.get?.<InferResponseData<R, U>>(url, composeOptions);
 };
 
-export const del = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const del = <R = any, U = 'common'>(
+  url: string,
+  data?: any,
+  options?: RequestOptionsInit,
+) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.delete?.<ResponseCommonData<R>>(url, composeOptions);
+  return httpRequest?.instance?.delete?.<InferResponseData<R, U>>(url, composeOptions);
 };
 
-export const put = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const put = <R = any, U = 'common'>(
+  url: string,
+  data?: any,
+  options?: RequestOptionsInit,
+) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.put?.<ResponseCommonData<R>>(url, composeOptions);
+  return httpRequest?.instance?.put?.<InferResponseData<R, U>>(url, composeOptions);
 };
 
-export const post = <R = any>(url: string, data?: any, options?: RequestOptionsInit) => {
+export const post = <R = any, U = 'common'>(
+  url: string,
+  data?: any,
+  options?: RequestOptionsInit,
+) => {
   const composeOptions = isEmpty(data)
     ? options
     : {
         options,
         ...{ data },
       };
-  return httpRequest?.instance?.post?.<ResponseCommonData<R>>(url, composeOptions);
+  return httpRequest?.instance?.post?.<InferResponseData<R, U>>(url, composeOptions);
 };
 
 const request: HttpRequest['request'] = <T, U>(

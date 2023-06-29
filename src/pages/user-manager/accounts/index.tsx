@@ -11,14 +11,15 @@ import React, { useMemo } from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import Account, { PageTypeEnum } from './account';
+import Customer from './Customer';
 
-const Accounts: React.FC = (props) => {
+const Accounts: React.FC = () => {
   const items = useMemo<TabsProps['items']>(() => {
     return [
       {
         key: '1',
         label: '客户账号',
-        children: <Account type={PageTypeEnum.Custom} />,
+        children: <Customer />,
       },
       {
         key: '2',

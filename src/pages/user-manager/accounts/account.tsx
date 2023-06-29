@@ -51,14 +51,12 @@ const Account: React.FC<AccountsProps> = (props) => {
       {
         title: '角色',
         dataIndex: 'roles',
-        hideInSearch: type == PageTypeEnum.Platform || type == PageTypeEnum.Station,
       },
       {
         title: '电话',
         dataIndex: 'phone',
         width: 120,
         hideInSearch: true,
-        hideInTable: type == PageTypeEnum.Platform,
       },
       {
         title: '服务商',

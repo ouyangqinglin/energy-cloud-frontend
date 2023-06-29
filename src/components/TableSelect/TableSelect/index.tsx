@@ -40,7 +40,7 @@ const TableSelect = <
   props: TableSelectProps<ValueType, DataType, Params>,
 ) => {
   const {
-    value = [],
+    value: rawValue = [],
     onChange,
     multiple = true,
     limit = 3,
@@ -57,6 +57,7 @@ const TableSelect = <
   } = props;
 
   const [open, setOpen] = useState(false);
+  const value = !Array.isArray(rawValue) ? [rawValue] : rawValue;
   const valueLength = value?.length || 0;
 
   const onClose = useCallback((e: React.MouseEvent, index) => {

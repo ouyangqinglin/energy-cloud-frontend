@@ -1,12 +1,12 @@
 import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
 import type { ProFormInstance } from '@ant-design/pro-form';
-import { BetaSchemaForm } from '@ant-design/pro-form';
 import { defaults, get, omit, unset } from 'lodash';
 import type { SchemaModalFormChildProps } from './typing';
 import { FormOperations } from './typing';
 import { normalizeRequestOption } from '../YTProTable/helper';
 import { useEffect, useRef } from 'react';
-import type { ProFormColumnsType } from '@ant-design/pro-components';
+import { ProConfigProvider, ProFormColumnsType, BetaSchemaForm } from '@ant-design/pro-components';
+import { tableSelectValueTypeMap } from '../TableSelect';
 
 const DEFAULT_PROPS = {
   title: '新增',
@@ -73,16 +73,18 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
   }, [formRef, initialValues]);
 
   return (
-    <BetaSchemaForm<T, ValueType>
-      key={operations}
-      visible={visible}
-      formRef={formRef}
-      onVisibleChange={onVisibleChange}
-      readonly={readonly}
-      columns={customColumns}
-      initialValues={initialValues}
-      {...restProps}
-    />
+    <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
+      <BetaSchemaForm<T, ValueType>
+        key={operations}
+        visible={visible}
+        formRef={formRef}
+        onVisibleChange={onVisibleChange}
+        readonly={readonly}
+        columns={customColumns}
+        initialValues={initialValues}
+        {...restProps}
+      />
+    </ProConfigProvider>
   );
 };
 export default SchemaModalFormChild;

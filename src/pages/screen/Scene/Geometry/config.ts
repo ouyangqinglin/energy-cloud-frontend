@@ -4,10 +4,10 @@ import 左3_永泰_充电终端 from '@/assets/image/screen/Geometry/左3_永泰
 import 左4_华为_充电终端 from '@/assets/image/screen/Geometry/左4_华为_充电终端.png';
 import 左5_华为_充电终端 from '@/assets/image/screen/Geometry/左5_华为_充电终端.png';
 import 左6_华为_充电终端 from '@/assets/image/screen/Geometry/左6_华为_充电终端.png';
-import 右4_永泰_充电终端 from '@/assets/image/screen/Geometry/右4_永泰_充电终端.png';
+import 右1_永泰_充电终端 from '@/assets/image/screen/Geometry/右4_永泰_充电终端.png';
 import 右2_永泰_充电终端 from '@/assets/image/screen/Geometry/右2_永泰_充电终端.png';
 import 右3_永泰_120KW_充电桩 from '@/assets/image/screen/Geometry/右3_永泰_120KW_充电桩.png';
-import 右1_永泰_充电终端 from '@/assets/image/screen/Geometry/右1_永泰_充电终端.png';
+import 右4_永泰_充电终端 from '@/assets/image/screen/Geometry/右1_永泰_充电终端.png';
 import 右5_交流桩 from '@/assets/image/screen/Geometry/右5_交流桩.png';
 import { DeviceType } from './Dialog';
 import { CellConfigItem, GunMark, GunStatus } from './type';
@@ -229,17 +229,17 @@ export const chargingStackCeils: CellConfigItem[] = [
     mark: DeviceMark.YT_CHARGING_TERMINAL_3,
     deviceType: DeviceType.YT_CHARGING_TERMINAL,
     cellStyle: {
-      width: 36,
+      width: 41,
       height: 60,
       left: 679,
       top: 223,
     },
+    component: 右1_永泰_充电终端,
+    default: 右1_永泰_充电终端,
     alarmConfig: {
       left: -17,
       top: -28,
     },
-    component: 右1_永泰_充电终端,
-    default: 右1_永泰_充电终端,
     charingGunsConfig: [
       {
         mark: GunMark.A_GUN,
@@ -253,7 +253,7 @@ export const chargingStackCeils: CellConfigItem[] = [
         mark: GunMark.B_GUN,
         direction: 'right',
         style: {
-          right: 0,
+          right: 10,
           top: 18,
         },
       },
@@ -336,9 +336,11 @@ export const chargingStackCeils: CellConfigItem[] = [
     cellStyle: {
       width: 50,
       height: 60,
-      left: 863,
+      left: 855,
       top: 331,
     },
+    component: 右4_永泰_充电终端,
+    default: 右4_永泰_充电终端,
     alarmConfig: {
       left: -17,
       top: -28,
@@ -356,13 +358,11 @@ export const chargingStackCeils: CellConfigItem[] = [
         mark: GunMark.B_GUN,
         direction: 'right',
         style: {
-          right: 10,
+          right: 0,
           top: 18,
         },
       },
     ],
-    component: 右4_永泰_充电终端,
-    default: 右4_永泰_充电终端,
   },
   {
     key: 'YT_AC_ChargingStack1',

@@ -1,6 +1,6 @@
 import { YTProColumns } from '@/components/YTProTable/typing';
 import { effectStatus } from '@/utils/dictionary';
-import { RoleItemType } from './type';
+import { RoleInfo } from './type';
 
 export const dataSource = {
   1: {
@@ -11,7 +11,7 @@ export const dataSource = {
   },
 };
 
-export const columns: YTProColumns<RoleItemType>[] = [
+export const columns: YTProColumns<RoleInfo>[] = [
   {
     title: '序号',
     valueType: 'index',
