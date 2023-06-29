@@ -27,3 +27,7 @@ export const getPhotovoltaicElectricityPriceList = (params: {
 }) => {
   return get<ElectricityPriceList>(`/oss/site/internet/pageQuery`, params);
 };
+
+export const getMarketDefaultPrice = (params: any) => {
+  return get('/oss/site/internet/getDefaultPrice', params);
+};

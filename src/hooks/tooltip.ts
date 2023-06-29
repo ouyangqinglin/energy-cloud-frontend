@@ -37,7 +37,6 @@ const useToolTip: UseToolTip = (props = {}) => {
           const { elements = [] } = chart?.geometries[0] || {};
           const element = elements[tipNum];
           let { x, y } = element?.getModel?.() || {};
-          console.log(element, x, y);
           //chartRef?.current?.getChart?.().setState("selected", (item) => item.type === chartData[tipNum].type);
           x = Array.isArray(x) ? x : [x];
           y = Array.isArray(y) ? x : [y];

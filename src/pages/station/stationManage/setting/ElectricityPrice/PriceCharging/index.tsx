@@ -1,4 +1,8 @@
-import { deleteChargingPrice, getChargingElectricityPriceList } from './service';
+import {
+  deleteChargingPrice,
+  getChargingElectricityPriceList,
+  getMarketDefaultPrice,
+} from './service';
 import { columns } from './config';
 import { FormUpdateForCharging } from './FormUpdate';
 import { FormReadForCharging } from './FormRead';
@@ -13,6 +17,7 @@ const PriceChargingList = (props: { actionRef?: React.Ref<ActionType> }) => {
       columns={columns}
       request={(params) => getChargingElectricityPriceList(params)}
       onDeleteChange={async (params) => await deleteChargingPrice(params)}
+      requestDefaultPrice={getMarketDefaultPrice}
       {...props}
     />
   );
