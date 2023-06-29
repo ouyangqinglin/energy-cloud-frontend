@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { deleteMarketPrice, getMarketElectricityPriceList } from './service';
+import { deleteMarketPrice, getMarketElectricityPriceList, getMarketDefaultPrice } from './service';
 import { columns } from './config';
 import { FormUpdateForMarket } from './FormUpdate';
 import { FormReadForMarket } from './FormRead';
@@ -18,6 +18,7 @@ const PriceMarketList = (props: { actionRef?: React.Ref<ActionType> }) => {
       columns={columns}
       request={request}
       onDeleteChange={async (params) => await deleteMarketPrice(params)}
+      requestDefaultPrice={getMarketDefaultPrice}
       {...props}
     />
   );

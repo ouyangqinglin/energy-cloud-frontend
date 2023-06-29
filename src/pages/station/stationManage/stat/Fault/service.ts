@@ -6,11 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\stat\ServiceRecord\service.ts
  */
-import request from '@/utils/request';
-import { AgentFormType } from './data';
+import request, { ResponseCommonData } from '@/utils/request';
+import { FaultType, AgentFormType } from './type';
 
-export const getList = (params: any) => {
-  return request(`/agents`, {
+export const getPage = (params: any) => {
+  return request(`/oss/site/faultDeclaration/page`, {
     method: 'GET',
     params,
   });
@@ -23,8 +23,11 @@ export const addData = (data: AgentFormType) => {
   });
 };
 
-export const removeData = (id: string) => {
-  return request(`/station/${id}`, {
-    method: 'DELETE',
+export const getData = (id: string) => {
+  return request<ResponseCommonData<FaultType>>(`/oss/site/faultDeclaration`, {
+    method: 'GET',
+    params: {
+      id,
+    },
   });
 };

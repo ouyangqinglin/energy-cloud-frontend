@@ -12,24 +12,25 @@ import { Tabs } from 'antd';
 import Alarm from './AlarmTable';
 
 type AlarmType = {
+  isStationChild?: boolean;
   params?: {
     id?: string;
   };
 };
 
 const Index: React.FC<AlarmType> = (props) => {
-  const { params } = props;
+  const { params, isStationChild } = props;
 
   const items: TabsProps['items'] = [
     {
       key: '1',
       label: `当前告警`,
-      children: <Alarm />,
+      children: <Alarm isStationChild={isStationChild} />,
     },
     {
       key: '2',
       label: `历史告警`,
-      children: <Alarm />,
+      children: <Alarm isStationChild={isStationChild} />,
     },
   ];
 

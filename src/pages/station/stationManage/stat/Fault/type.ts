@@ -10,9 +10,10 @@ export type FaultType = {
   id: string;
   faultTitle: number;
   faultDescription: string;
-  currentProgress: string;
+  currentProgress: number;
   createTime: string;
   endTime: string;
+  processingTime: string;
 };
 
 export type AgentFormType = {

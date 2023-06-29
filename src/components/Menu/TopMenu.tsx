@@ -18,7 +18,7 @@ const menuMap = new Map([
   ['/station-manage/operation-monitor', '概览'],
   ['/station-manage/station', '站点'],
   ['/station-manage/device', '设备'],
-  ['/station-manage/alarm-record', '告警'],
+  ['/station-manage/alarm', '告警'],
   ['/station-manage/report', '数据'],
   ['/station-manage/stat', '任务'],
   ['/station-manage/setting', '设置'],

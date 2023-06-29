@@ -96,14 +96,14 @@ export default [
         component: './station/stationManage/device',
       },
       {
-        path: '/station-manage/alarm-record',
-        name: 'alarmRecord',
-        component: './equipment/alarm',
+        path: '/station-manage/alarm',
+        name: 'alarm',
+        component: './station/stationManage/alarm',
       },
       {
         path: '/station-manage/report',
         name: 'report',
-        component: './data-manage/report',
+        component: './station/stationManage/report',
       },
       {
         path: '/station-manage/stat',

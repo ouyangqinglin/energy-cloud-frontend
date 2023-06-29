@@ -21,7 +21,7 @@ const Label: React.FC<LabelProps> = (props) => {
     <>
       <div className={`flex label-wrap ${props.className}`}>
         <span className="label-line" />
-        <span className="flex1">{props.title}</span>
+        <span className="flex1 label-title">{props.title}</span>
         {props.operate}
       </div>
     </>

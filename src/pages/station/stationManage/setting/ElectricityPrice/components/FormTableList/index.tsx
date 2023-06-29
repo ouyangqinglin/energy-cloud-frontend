@@ -7,7 +7,7 @@ import type { ActionType } from '@ant-design/pro-table';
 import { useToggle } from 'ahooks';
 import React from 'react';
 import { useState, useCallback, useRef } from 'react';
-import { useModel } from 'umi';
+import { useModel, useRequest } from 'umi';
 import YTDivider from '../Divider';
 import type { FormReadBaseProps } from '../FormRead/type';
 import type { FormUpdateBaseProps } from '../FormUpdate/type';
@@ -16,13 +16,23 @@ import type { FormTableListBaseProps } from './type';
 const FormTableList = <DataType extends Record<string, any>>(
   props: FormTableListBaseProps<DataType>,
 ) => {
-  const { onDeleteChange, actionRef, columns, formUpdateChild, formReadChild, ...restProps } =
-    props;
+  const {
+    onDeleteChange,
+    actionRef,
+    columns,
+    formUpdateChild,
+    formReadChild,
+    requestDefaultPrice,
+    ...restProps
+  } = props;
 
   const [state, { toggle, set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<DataType>({} as DataType);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
+  const { data: defaultPrice } = useRequest(() => {
+    return requestDefaultPrice?.({ siteId });
+  });
 
   const customConfig: YTProTableCustomProps<DataType, any> = {
     toolbar: {
@@ -97,6 +107,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         columns={columns}
         {...customConfig}
         {...restProps}
+        headerTitle={defaultPrice && `默认电价：${defaultPrice}`}
         params={{ siteId }}
       />
       {FormUpdate}

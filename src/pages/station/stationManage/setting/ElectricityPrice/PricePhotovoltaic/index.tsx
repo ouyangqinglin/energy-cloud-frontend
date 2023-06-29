@@ -1,4 +1,8 @@
-import { deletePhotovoltaicPrice, getPhotovoltaicElectricityPriceList } from './service';
+import {
+  deletePhotovoltaicPrice,
+  getPhotovoltaicElectricityPriceList,
+  getMarketDefaultPrice,
+} from './service';
 import { columns } from './config';
 import { FormUpdateForCharging } from './FormUpdate';
 import { FormReadForCharging } from './FormRead';
@@ -13,6 +17,7 @@ const PricePhotovoltaicList = (props: { actionRef?: React.Ref<ActionType> }) => 
       columns={columns}
       request={(params) => getPhotovoltaicElectricityPriceList(params)}
       onDeleteChange={async (params) => await deletePhotovoltaicPrice(params)}
+      requestDefaultPrice={getMarketDefaultPrice}
       {...props}
     />
   );

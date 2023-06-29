@@ -106,7 +106,7 @@ interface HttpRequestType<R = false> {
   };
 }
 
-class HttpRequest implements HttpRequestType {
+export class HttpRequest implements HttpRequestType {
   instance: RequestMethod<false> | null = null;
 
   init(option?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) {

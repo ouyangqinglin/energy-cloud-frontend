@@ -45,11 +45,7 @@ const MyLayout: React.FC = (props: any) => {
         {layoutMenu}
         <Layout.Content className={`my-content ${styles.content}`}>
           {route?.menu == 'sider' && <Breadcrumb />}
-          {route?.name === 'stationManage'
-            ? React.Children.map(props.children, (child) => {
-                return React.cloneElement(child, { isStationChild: true });
-              })
-            : props.children}
+          {props.children}
         </Layout.Content>
       </Layout>
     </Layout>

@@ -27,3 +27,7 @@ export const getChargingElectricityPriceList = (params: {
 }) => {
   return get<ElectricityPriceList>(`/oss/site/charge/pageQuery`, params);
 };
+
+export const getMarketDefaultPrice = (params: any) => {
+  return get('/oss/site/charge/getDefaultPrice', params);
+};

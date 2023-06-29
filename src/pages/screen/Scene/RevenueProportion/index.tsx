@@ -15,7 +15,7 @@ import { getSiteId } from '../helper';
 import { pieConfig } from './config';
 import styles from './index.less';
 import { useToolTip } from '@/hooks';
-import { ChartTypeEnum } from '@/hooks/tooltip';
+import { ChartTypeEnum } from '@/hooks/useTooltip';
 
 type RevenueProportionProps = {
   timeType: TimeType;
