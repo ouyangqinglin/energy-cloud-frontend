@@ -9,23 +9,23 @@ import { del, get, post, put } from '@/utils/request';
 import { RoleInfo } from '../../authority/type';
 
 export const createCustomer = (data: CustomerParam) => {
-  return post(`/uc/customerUser`, data);
+  return post(`/uc/platformUser`, data);
 };
 
 export const getCustomer = (data: { userId: number }) => {
-  return get<CustomerUpdateInfo>(`/uc/customerUser`, data);
+  return get<CustomerUpdateInfo>(`/uc/platformUser`, data);
 };
 
 export const updateCustomer = (data: CustomerParam) => {
-  return put(`/uc/customerUser`, data);
+  return put(`/uc/platformUser`, data);
 };
 
 export const deleteCustomer = (data: { userId: number[] }) => {
-  return del(`/uc/customerUser`, data);
+  return del(`/uc/platformUser`, data);
 };
 
-export const getCustomerList = (params: any) => {
-  return get<CustomerInfo[]>(`/uc/customerUser/page`, params);
+export const getList = (params: any) => {
+  return get<CustomerInfo[]>(`/uc/platformUser/page`, params);
 };
 
 export const getRoleListForCurrentUser = () => {

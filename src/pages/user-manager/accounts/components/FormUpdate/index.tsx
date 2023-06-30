@@ -59,9 +59,6 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
       form={form}
       title={title}
       {...DEFAULT_PROPS}
-      colProps={{
-        span: 24,
-      }}
       layoutType={'ModalForm'}
       columns={columns}
       operations={operations}

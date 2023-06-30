@@ -7,18 +7,17 @@ import { omit } from 'lodash';
 import { useCallback, useState } from 'react';
 
 export const Update = (props: FormUpdateBaseProps) => {
-  const [orgId, setOrgId] = useState<number>();
-
   const convertRequestData = async (param: { userId: number }) => {
     const res = await getCustomer(param);
     if (res) {
-      const { user } = res.data;
-      setOrgId(user.orgId);
+      const { user, roles } = res.data;
       const rawFormData = omit(
         {
           ...user,
-          ...{ serviceProvider: [{ orgId: user.orgId, orgName: user.orgName }] },
-          ...{ roleIds: user.roles.map((it) => it.roleId) },
+          ...{
+            roleIds: user.roles.map((it) => it.roleId),
+            rolesMap: roles?.map(({ roleId, roleName }) => ({ label: roleName, value: roleId })),
+          },
         },
         'password',
       ) as TransformCustomerUpdateInfo;
@@ -30,17 +29,14 @@ export const Update = (props: FormUpdateBaseProps) => {
   };
 
   const convertUpdateParams = (params: TransformCustomerUpdateInfo): CustomerParam => {
-    const siteIds = params.sites?.map((it) => it.id) ?? [];
     return {
       ...omit(params, 'serviceProvider', 'sites'),
-      ...{ orgId: params.serviceProvider?.[0]?.orgId, siteIds },
     } as CustomerParam;
   };
 
-  const getConfig = useCallback(() => Columns(props.operations, orgId), [props.operations, orgId]);
+  const getConfig = useCallback(() => Columns(props.operations), [props.operations]);
 
   return (
-    // todo: 创建的时候无法请求到角色
     <FormUpdate<TransformCustomerUpdateInfo, CustomerParam>
       titleCreate={`新增客户账号`}
       titleUpdate={`编辑客户账号`}
