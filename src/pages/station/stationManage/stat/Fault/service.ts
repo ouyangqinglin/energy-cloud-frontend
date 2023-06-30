@@ -17,7 +17,7 @@ export const getPage = (params: any) => {
 };
 
 export const addData = (data: AgentFormType) => {
-  return request(`/station`, {
+  return request(`/oss/site/faultDeclaration`, {
     method: 'POST',
     data,
   });

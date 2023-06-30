@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-06-29 16:13:56
+ * @LastEditTime: 2023-06-30 16:18:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.ts
  */
@@ -16,6 +16,7 @@ import {
   timeDimensionEnum,
 } from '@/utils/dictionary';
 import { getDevice } from './service';
+import moment from 'moment';
 
 const pickerMap = new Map([
   [timeDimensionEnum.Day, { picker: 'date', format: 'YYYY-MM-DD' }],
@@ -31,6 +32,9 @@ export const searchColumns: ProColumns[] = [
     valueType: 'select',
     valueEnum: reportType,
     hideInTable: true,
+    formItemProps: {
+      rules: [{ required: true }],
+    },
   },
   {
     title: '选中设备',
@@ -58,6 +62,10 @@ export const searchColumns: ProColumns[] = [
     valueType: 'select',
     valueEnum: timeDimension,
     hideInTable: true,
+    formItemProps: {
+      rules: [{ required: true }],
+    },
+    initialValue: timeDimensionEnum.Day,
   },
   {
     title: '统计时间',
@@ -71,6 +79,10 @@ export const searchColumns: ProColumns[] = [
         format: config?.format,
       };
     },
+    formItemProps: {
+      // rules: [{ required: true }]
+    },
+    initialValue: moment(),
   },
 ];
 

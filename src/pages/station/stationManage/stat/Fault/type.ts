@@ -7,6 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\stat\Fault\data.d.ts
  */
 export type FaultType = {
+  siteId?: string;
   id: string;
   faultTitle: number;
   faultDescription: string;

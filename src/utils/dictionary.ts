@@ -153,29 +153,17 @@ export const pageType = {
   1: '定制页',
 };
 
-export const serviceType = {
-  1: {
-    text: '维护',
-  },
-  0: {
-    text: '安装',
-  },
-};
+export const serviceTypeMap = new Map([
+  [0, '安装'],
+  [1, '维护'],
+]);
 
-export const serviceProgressType = {
-  3: {
-    text: '完成',
-  },
-  2: {
-    text: '完成',
-  },
-  1: {
-    text: '处理中',
-  },
-  0: {
-    text: '已受理',
-  },
-};
+export const serviceProgressMap = new Map([
+  [0, '已受理'],
+  [1, '处理中'],
+  [2, '完成'],
+  [3, '完成'],
+]);
 
 export const dataSaveTime = {
   0: '一个月',

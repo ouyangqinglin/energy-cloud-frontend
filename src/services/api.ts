@@ -21,6 +21,13 @@ export const getAreaData = () => {
   });
 };
 
+export const getMaintenancePeople = (params: any) => {
+  return request('/oss/site/getMaintenanceStaff', {
+    method: 'GET',
+    params,
+  });
+};
+
 /** 此处后端没有提供注释 GET /notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/notices', {

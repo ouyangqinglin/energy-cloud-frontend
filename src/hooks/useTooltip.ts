@@ -22,7 +22,7 @@ type UseToolTip = {
 const useToolTip: UseToolTip = (props = {}) => {
   const { type = ChartTypeEnum.Line } = props;
 
-  const chartRef = useRef<ChartRefConfig>();
+  const chartRef = useRef<any>();
   const tipRef = useRef<number>(0);
 
   const clear = useInterval(() => {
