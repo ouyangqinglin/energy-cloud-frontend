@@ -35,38 +35,6 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     },
   },
   {
-    title: '角色',
-    dataIndex: 'roleId',
-    hideInTable: true,
-    valueType: 'select',
-    request: async () => {
-      const res = await getRoleListForCurrentUser();
-      if (!res) {
-        return [];
-      }
-      const roleList = res.data ?? [];
-      const rawSource = roleList.map((it) => {
-        return {
-          label: it.roleName,
-          value: it.roleId,
-        };
-      });
-      return rawSource;
-    },
-  },
-  {
-    title: '电话',
-    dataIndex: 'phonenumber',
-    width: 120,
-    hideInSearch: true,
-  },
-  {
-    title: '服务商',
-    width: 120,
-    ellipsis: true,
-    dataIndex: 'orgName',
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     width: 100,

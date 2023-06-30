@@ -17,6 +17,7 @@ export interface TransformCustomerUpdateInfo extends CustomerInfo {
 
   // frontend
   serviceProvider: { orgId: number; orgName: string }[];
+  rolesMap: { label: string; value: number }[];
 }
 
 export interface CustomerUpdateInfo {

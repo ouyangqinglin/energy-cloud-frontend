@@ -3,14 +3,14 @@ import type { CustomerInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
-import { deleteCustomer, getCustomerList } from './service';
+import { deleteCustomer, getList } from './service';
 import { Update } from './Update';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 
-const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
+const Platform = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<CustomerInfo>({} as CustomerInfo);
@@ -49,7 +49,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   }, [actionRef]);
 
   const requestList: YTProTableCustomProps<CustomerInfo, CustomerInfo>['request'] = (params) => {
-    return getCustomerList(params);
+    return getList(params);
   };
   return (
     <>
@@ -59,7 +59,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="userId"
-        // {...props}
+        {...props}
       />
       <Update
         {...{
@@ -74,4 +74,4 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   );
 };
 
-export default Customer;
+export default Platform;
