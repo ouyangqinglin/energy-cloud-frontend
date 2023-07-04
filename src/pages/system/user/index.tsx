@@ -413,7 +413,7 @@ const UserTableList: React.FC = () => {
               </Button>,
             ]}
             request={(params) =>
-              getUserList({ ...params, deptId: selectDept.id } as UserListParams).then((res) => {
+              getUserList({ ...params, orgId: selectDept.id } as UserListParams).then((res) => {
                 return {
                   data: res.rows,
                   total: res.total,

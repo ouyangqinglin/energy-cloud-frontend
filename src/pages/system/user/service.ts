@@ -4,14 +4,12 @@ import { formatTreeSelectData } from '@/utils/utils';
 import type { DataNode } from 'antd/lib/tree';
 import type { UserType, UserListParams } from './data.d';
 
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 // 查询用户信息列表
 export async function getUserList(params?: UserListParams) {
@@ -66,38 +64,38 @@ export function exportUser(params?: UserListParams) {
 export function updateUserProfile(data: API.CurrentUser) {
   return request('/system/user/profile', {
     method: 'put',
-    data: data
-  })
+    data: data,
+  });
 }
 
 // 用户密码重置
 export function updateUserPwd(oldPassword: string, newPassword: string) {
   const data = {
     oldPassword,
-    newPassword
-  }
+    newPassword,
+  };
   return request('/system/user/profile/updatePwd', {
     method: 'put',
-    params: data
-  })
+    params: data,
+  });
 }
 
 // 用户头像上传
 export function uploadAvatar(data: any) {
   return request('/system/user/profile/avatar', {
     method: 'post',
-    data: data
-  })
+    data: data,
+  });
 }
 
 // 获取数据列表
 export function getDeptTree(params: any): Promise<DataNode[]> {
   return new Promise((resolve) => {
     const queryString = new URLSearchParams(params).toString();
-    request(`/system/user/deptTree?${queryString}`, {
+    request(`/system/user/orgTree?${queryString}`, {
       method: 'get',
     }).then((res) => {
-      if(res && res.code === 200) {
+      if (res && res.code === 200) {
         const treeData = formatTreeSelectData(res.data);
         resolve(treeData);
       } else {

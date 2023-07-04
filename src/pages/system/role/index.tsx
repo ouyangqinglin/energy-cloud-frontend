@@ -26,9 +26,8 @@ import WrapContent from '@/components/WrapContent';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 /**
  * 添加节点
@@ -40,7 +39,7 @@ const handleAdd = async (fields: RoleType) => {
   try {
     const resp = await addRole({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -63,7 +62,7 @@ const handleUpdate = async (fields: RoleType) => {
   try {
     const resp = await updateRole(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -87,7 +86,7 @@ const handleRemove = async (selectedRows: RoleType[]) => {
   try {
     const resp = await removeRole(selectedRows.map((row) => row.roleId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -107,7 +106,7 @@ const handleRemoveOne = async (selectedRow: RoleType) => {
     const params = [selectedRow.roleId];
     const resp = await removeRole(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -128,7 +127,7 @@ const handleRemoveOne = async (selectedRow: RoleType) => {
 const handleExport = async () => {
   const hide = message.loading('正在导出');
   try {
-    await exportRole();   
+    await exportRole();
     hide();
     message.success('导出成功');
     return true;
@@ -340,9 +339,10 @@ const RoleTableList: React.FC = () => {
           ]}
           request={(params) =>
             getRoleList({ ...params } as RoleListParams).then((res) => {
+              const { data = {} } = res;
               return {
-                data: res.rows,
-                total: res.total,
+                data: data.list,
+                total: data.total,
                 success: true,
               };
             })

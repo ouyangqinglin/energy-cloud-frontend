@@ -48,7 +48,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     setUserId(props.values.userId);
     form.setFieldsValue({
       userId: props.values.userId,
-      deptId: props.values.deptId,
+      orgId: props.values.orgId,
       postIds: props.postIds,
       roleIds: props.roleIds,
       userName: props.values.userName,
@@ -136,9 +136,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           ]}
         />
         <ProFormTreeSelect
-          name="deptId"
+          name="orgId"
           label={intl.formatMessage({
-            id: 'system.User.dept_id',
+            id: 'system.User.orgId',
             defaultMessage: '部门',
           })}
           request={async () => {

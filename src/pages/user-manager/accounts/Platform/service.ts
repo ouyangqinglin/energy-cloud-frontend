@@ -6,13 +6,13 @@ import type {
   SiteInfo,
 } from './type';
 import { del, get, post, put } from '@/utils/request';
-import { RoleInfo } from '../../authority/type';
+import type { RoleInfo } from '../../authority/type';
 
 export const createCustomer = (data: CustomerParam) => {
   return post(`/uc/platformUser`, data);
 };
 
-export const getCustomer = (data: { userId: number }) => {
+export const getCustomer = (data: { userId?: number } = {}) => {
   return get<CustomerUpdateInfo>(`/uc/platformUser`, data);
 };
 
