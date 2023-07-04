@@ -27,8 +27,8 @@ export default [
     path: '/screen',
     name: 'screen',
     layout: false,
-    menu: 'top',
-    component: '@/layouts',
+    // menu: 'top',
+    // component: '@/layouts',
     routes: [
       {
         path: '/screen',
@@ -63,9 +63,57 @@ export default [
         component: './station/stationList',
       },
       {
+        path: 'setting',
+        component: './station/Setting',
+      },
+      {
         path: 'custom-page',
         name: 'customPage',
         component: './station/customPage',
+      },
+    ],
+  },
+  {
+    path: '/site-monitor',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/site-monitor',
+        redirect: '/site-monitor/overview',
+      },
+      {
+        path: 'overview',
+        component: './site-monitor/Overview',
+      },
+      {
+        path: 'topo',
+        component: './site-monitor/Topo',
+      },
+      {
+        path: 'electric-generate',
+        component: './site-monitor/ElectricGenerate',
+      },
+      {
+        path: 'energy',
+        component: './site-monitor/Energy',
+      },
+      {
+        path: 'electric-consumer',
+        component: './site-monitor/ElectricConsumer',
+      },
+      {
+        path: 'device-monitor',
+        component: './site-monitor/DeviceMonitor',
+      },
+      {
+        path: 'device-detail',
+        component: './equipment/DeviceMonitor',
+      },
+      {
+        path: 'run-log',
+        component: './site-monitor/RunLog',
       },
     ],
   },
@@ -91,16 +139,6 @@ export default [
         component: './station/stationManage/station',
       },
       {
-        path: '/station-manage/device',
-        name: 'device',
-        component: './station/stationManage/device',
-      },
-      {
-        path: '/station-manage/alarm',
-        name: 'alarm',
-        component: './station/stationManage/alarm',
-      },
-      {
         path: '/station-manage/report',
         name: 'report',
         component: './station/stationManage/report',
@@ -114,34 +152,6 @@ export default [
         path: '/station-manage/setting',
         name: 'setting',
         component: './station/stationManage/setting/index',
-      },
-    ],
-  },
-  {
-    path: '/equipment',
-    name: 'equipment',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
-    routes: [
-      {
-        path: '/equipment',
-        redirect: '/equipment/equipment-list',
-      },
-      {
-        path: 'equipment-list',
-        name: 'equipmentList',
-        component: './equipment/equipment-list',
-      },
-      {
-        path: 'alarm',
-        name: 'alarm',
-        component: './equipment/alarm',
-      },
-      {
-        path: 'operation-log',
-        name: 'operationLog',
-        component: './equipment/operationLog',
       },
     ],
   },
@@ -175,6 +185,67 @@ export default [
         path: 'prediction',
         name: 'prediction',
         component: './data-manage/prediction',
+      },
+    ],
+  },
+  {
+    path: '/alarm',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: 'current',
+        component: './alarm/Current',
+      },
+      {
+        path: 'history',
+        component: './alarm/History',
+      },
+      {
+        path: 'setting',
+        component: './alarm/Setting',
+      },
+    ],
+  },
+  {
+    path: '/equipment',
+    name: 'equipment',
+    layout: false,
+    menu: 'sider',
+    component: '@/layouts',
+    routes: [
+      {
+        path: '/equipment',
+        redirect: '/equipment/equipment-list',
+      },
+      {
+        path: 'equipment-list',
+        name: 'equipmentList',
+        component: './equipment/equipment-list',
+      },
+      {
+        path: 'device-monitor',
+        component: './equipment/DeviceMonitor',
+      },
+      {
+        path: 'upgrade',
+        routes: [
+          {
+            path: '/equipment/upgrade',
+            redirect: '/equipment/upgrade/package',
+          },
+          {
+            path: 'package',
+            name: 'remoteUpgradePackage',
+            component: './remote-upgrade/package',
+          },
+          {
+            path: 'log',
+            name: 'remoteUpgradeLog',
+            component: './remote-upgrade/log',
+          },
+        ],
       },
     ],
   },

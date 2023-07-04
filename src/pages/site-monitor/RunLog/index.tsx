@@ -2,16 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-06-16 16:13:08
+ * @LastEditTime: 2023-07-04 15:51:39
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\operationLog\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
 import React, { useCallback, useState, useEffect } from 'react';
 import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns } from '@ant-design/pro-table';
 import { getList, getDetail } from './service';
-import type { OperationLogType } from './data.d';
+import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
@@ -84,12 +84,6 @@ const OperationLog: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '设备名称',
-      dataIndex: 'deviceName',
-      width: 150,
-      ellipsis: true,
-    },
-    {
       title: '所属站点',
       dataIndex: 'siteName',
       valueType: 'select',
@@ -103,6 +97,12 @@ const OperationLog: React.FC = () => {
         onSearch: requestStation,
         options: stationOptions,
       },
+      width: 150,
+      ellipsis: true,
+    },
+    {
+      title: '设备名称',
+      dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
     },

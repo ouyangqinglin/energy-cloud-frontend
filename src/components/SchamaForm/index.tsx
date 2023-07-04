@@ -18,7 +18,7 @@ import { CombineService } from '@ahooksjs/use-request/lib/types';
 export { FormTypeEnum };
 
 export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueType> & {
-  formRef?: React.Ref<ProFormInstance>;
+  formRef?: React.Ref<ProFormInstance | undefined>;
   type?: FormTypeEnum;
   suffixTitle?: string;
   id?: string | number;

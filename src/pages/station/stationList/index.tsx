@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-06-05 09:56:12
+ * @LastEditTime: 2023-07-04 15:30:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -42,22 +42,16 @@ const StationList: React.FC = () => {
     setSiteId('');
   }, []);
 
-  const onEditData = useCallback((data: StationType) => {
-    setOpen(true);
-    setSiteId(data.id);
+  const onSiteClick = useCallback((record: StationType) => {
+    history.push({
+      pathname: '/site-monitor/overview',
+      search: `?id=${record.id}`,
+    });
   }, []);
 
-  const onInClick = useCallback((record) => {
-    // TODO: 演示版本
-    // history.push({
-    //   pathname: `/screen`,
-    //   query: {
-    //     siteId: record.id,
-    //   },
-    // } as any);
+  const onSettingClick = useCallback((record) => {
     history.push({
-      // pathname: `/station-manage/setting`,
-      pathname: `/station-manage/operation-monitor`,
+      pathname: `/station/setting`,
       search: `?id=${record.id}`,
     });
   }, []);
@@ -75,12 +69,9 @@ const StationList: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      <Button type="link" size="small" key="in" onClick={() => onInClick(record)}>
-        进入
+      <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
+        站点配置
       </Button>
-      {/* <Button type="link" size="small" key="edit" onClick={() => onEditData(record)}>
-        编辑
-      </Button> */}
       <Button
         type="link"
         size="small"
@@ -117,6 +108,9 @@ const StationList: React.FC = () => {
       dataIndex: 'name',
       width: 150,
       ellipsis: true,
+      render: (_, record) => {
+        return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
+      },
     },
     {
       title: '站点ID',

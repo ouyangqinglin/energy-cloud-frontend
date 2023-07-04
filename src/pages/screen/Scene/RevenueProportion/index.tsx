@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-10 14:53:34
- * @LastEditTime: 2023-06-28 17:14:33
+ * @LastEditTime: 2023-07-04 18:00:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
@@ -103,7 +103,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   useEffect(() => {
     const typeData: DataType[] = [];
     typeMap.forEach((item, key) => {
-      const valueNum = (revenueData?.[item[0]] || 30) * 1;
+      const valueNum = (revenueData?.[item[0]] || 0) * 1;
       const percentNum = (revenueData?.[item[1]] || 0) * 1;
       typeData.push({
         type: key,

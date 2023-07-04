@@ -14,7 +14,7 @@ import { columns } from './config';
 import { getRemoteUpgradeList } from './service';
 import { RemoteUpgradeDataRes } from './type';
 
-const RemoteUpgrade: React.FC = () => {
+const Log: React.FC = () => {
   const requestList: YTProTableCustomProps<
     RemoteUpgradeDataRes,
     RemoteUpgradeDataRes
@@ -37,4 +37,4 @@ const RemoteUpgrade: React.FC = () => {
   );
 };
 
-export default RemoteUpgrade;
+export default Log;
