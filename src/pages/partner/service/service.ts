@@ -1,30 +1,26 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-05-24 15:30:37
- * @LastEditTime: 2023-05-24 15:30:41
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\service.ts
- */
-import request from '@/utils/request';
-import { AgentFormType } from './data.d';
+import type { ServiceParam, ServiceInfo, ServiceUpdateInfo } from './type';
+import { del, get, post, put } from '@/utils/request';
 
-export const getList = (params: any) => {
-  return request(`/agents`, {
-    method: 'GET',
-    params,
-  });
+export const createService = (data: ServiceParam) => {
+  return post(`/uc/serviceProvider`, data);
 };
 
-export const addData = (data: AgentFormType) => {
-  return request(`/station`, {
-    method: 'POST',
-    data,
-  });
+export const getService = (data: { orgId: number }) => {
+  return get<ServiceUpdateInfo>(`/uc/serviceProvider`, data);
 };
 
-export const removeData = (id: string) => {
-  return request(`/station/${id}`, {
-    method: 'DELETE',
-  });
+export const updateService = (data: ServiceParam) => {
+  return put(`/uc/serviceProvider`, data);
+};
+
+export const deleteService = (data: { orgId: number[] }) => {
+  return del(`/uc/serviceProvider`, data);
+};
+
+export const getServiceList = (params: any) => {
+  return get<ServiceInfo[]>(`/uc/serviceProvider`, params);
+};
+
+export const getServiceId = () => {
+  return get<number>(`/uc/serviceProvider/orgId`);
 };

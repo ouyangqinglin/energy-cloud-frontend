@@ -1,113 +1,77 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-06-19 14:31:47
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\partner\service\index.tsx
- */
-import React, { useCallback } from 'react';
-import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
-import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
-import type { ProFormColumnsType } from '@ant-design/pro-components';
-import type { ServiceType, AgentFormType } from './data.d';
-import { effectStatus } from '@/utils/dictionary';
-import { getAgent } from '@/services/agent';
+import { useCallback, useRef, useState } from 'react';
+import type { ServiceInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
-import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
+import { columns } from './config';
+import { deleteService, getServiceList } from './service';
+import { Update } from './Update';
+import { FormOperations } from '@/components/YTModalForm/typing';
+import { useToggle } from 'ahooks';
+import { message } from 'antd';
+import { ActionType } from '@ant-design/pro-components';
 
-const Service: React.FC = () => {
-  const requestList: YTProTableCustomProps<ServiceType, ServiceType>['request'] = useCallback(
-    (params) => {
-      return getAgent(params);
-    },
-    [],
-  );
+const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
+  const [state, { set }] = useToggle<boolean>(false);
+  const [operations, setOperations] = useState(FormOperations.CREATE);
+  const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
+  const actionRef = useRef<ActionType>(null);
 
-  const onAddClick = useCallback(() => {}, []);
+  const customConfig: YTProTableCustomProps<ServiceInfo, any> = {
+    toolbar: {
+      onChange() {
+        setInitialValues({} as ServiceInfo);
+        setOperations(FormOperations.CREATE);
+        set(true);
+      },
+      buttonText: '新增服务商',
+    },
+    option: {
+      onDeleteChange(_, entity) {
+        deleteService?.({ orgId: [entity?.orgId] })?.then?.(({ data }) => {
+          if (data) {
+            message.success('删除成功');
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+      onEditChange(_, entity) {
+        setInitialValues({ ...entity });
+        setOperations(FormOperations.UPDATE);
+        set(true);
+      },
+      modalDeleteText: '您确认要删除该服务商吗？删除之后无法恢复！',
+    },
+  };
+  const visibleUpdated = operations !== FormOperations.READ;
 
-  const onEditClick: ProColumns<ServiceType>['render'] = useCallback((_, row) => {}, []);
+  const onSuccess = useCallback(() => {
+    actionRef?.current?.reload?.();
+  }, [actionRef]);
 
-  const columns: ProColumns<ServiceType>[] = [
-    {
-      title: '序号',
-      valueType: 'index',
-      width: 48,
-    },
-    {
-      title: '服务商名称',
-      dataIndex: 'orgName',
-      width: 120,
-      ellipsis: true,
-    },
-    {
-      title: '服务商ID',
-      dataIndex: 'orgId',
-      width: 120,
-      ellipsis: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: effectStatus,
-      width: 100,
-    },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: '创建人',
-      dataIndex: 'createByName',
-      hideInSearch: true,
-      width: 100,
-      ellipsis: true,
-    },
-    {
-      title: '最后更新时间',
-      dataIndex: 'updateTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: '更新人',
-      dataIndex: 'updateBy',
-      hideInSearch: true,
-      width: 100,
-      ellipsis: true,
-    },
-  ];
-
+  const requestList: YTProTableCustomProps<ServiceInfo, ServiceInfo>['request'] = (params) => {
+    return getServiceList(params);
+  };
   return (
     <>
-      <YTProTable<ServiceType, ServiceType>
+      <YTProTable<ServiceInfo, ServiceInfo>
         columns={columns}
-        option={{
-          columnsProp: {
-            width: '120px',
-          },
-          onEditChange: onEditClick,
-        }}
+        actionRef={actionRef}
+        {...customConfig}
         request={requestList}
+        rowKey="orgId"
+        {...props}
+      />
+      <Update
+        {...{
+          operations: operations,
+          visible: visibleUpdated && state,
+          onVisibleChange: set,
+          onSuccess: onSuccess,
+          id: initialValues?.orgId,
+        }}
       />
     </>
   );
 };
 
-export default Service;
+export default Customer;
