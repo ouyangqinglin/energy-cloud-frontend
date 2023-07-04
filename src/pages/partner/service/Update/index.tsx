@@ -1,9 +1,10 @@
 import { Columns } from './config';
 import type { ServiceParam, ServiceUpdateInfo } from '../type';
-import { createService, getService, updateService } from '../service';
+import { createService, getService, getServiceId, updateService } from '../service';
 import { FormUpdate } from '../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../components/FormUpdate/type';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { isCreate } from '@/components/YTModalForm/helper';
 
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>();
@@ -13,10 +14,17 @@ export const Update = (props: FormUpdateBaseProps) => {
     if (res) {
       const { orgId: rawOrgId } = res.data;
       setOrgId(rawOrgId);
-      return res;
     }
-    return { data: {} };
+    return res;
   };
+
+  useEffect(() => {
+    if (props.visible && isCreate(props.operations)) {
+      getServiceId()?.then(({ data }) => {
+        setOrgId(data);
+      });
+    }
+  }, [props.visible]);
 
   const getConfig = useCallback(() => Columns(props.operations, orgId), [props.operations, orgId]);
 

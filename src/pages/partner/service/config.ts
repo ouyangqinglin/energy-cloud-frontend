@@ -1,8 +1,8 @@
 import { effectStatus } from '@/utils/dictionary';
 import { ProColumns } from '@ant-design/pro-components';
-import { ServiceType } from './type';
+import { ServiceInfo } from './type';
 
-export const columns: ProColumns<ServiceType>[] = [
+export const columns: ProColumns<ServiceInfo>[] = [
   {
     title: '序号',
     valueType: 'index',

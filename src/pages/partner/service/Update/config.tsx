@@ -3,9 +3,6 @@ import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
-import { isNil } from 'lodash';
-import { useState, useEffect, useRef } from 'react';
-import { getServiceId } from '../service';
 import type { ServiceUpdateInfo } from '../type';
 
 export const Columns: (
@@ -27,24 +24,19 @@ export const Columns: (
     },
     {
       title: '服务商ID',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
+      // formItemProps: {
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: '此项为必填项',
+      //     },
+      //   ],
+      // },
+      valueType: 'input',
+      fieldProps: {
+        value: orgId,
+        disabled: isCreate(operation),
       },
-      request: async () => {
-        if (isCreate(operation)) {
-          const res = await getServiceId();
-          if (res) {
-            return res.data;
-          }
-        }
-        return await orgId;
-      },
-      // dataIndex: 'orgId',
     },
     {
       title: '状态',
