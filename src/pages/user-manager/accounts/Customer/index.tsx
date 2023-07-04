@@ -59,7 +59,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="userId"
-        // {...props}
+        {...props}
       />
       <Update
         {...{

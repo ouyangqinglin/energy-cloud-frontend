@@ -4,14 +4,14 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
 import { Select } from 'antd';
-import { isEmpty, isNil } from 'lodash';
-import { useState, useEffect, useRef } from 'react';
-import { getRoleListForCurrentUser, getServiceProviderList, getSiteList } from '../service';
+import { omit } from 'lodash';
+import { getCustomer } from '../service';
 import type { TransformCustomerUpdateInfo } from '../type';
 
 export const Columns: (
   operation: FormOperations,
-) => ProColumns<TransformCustomerUpdateInfo, TABLESELECTVALUETYPE>[] = (operation) => {
+  userId: number,
+) => ProColumns<TransformCustomerUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, userId) => {
   return [
     {
       title: '账户',
@@ -56,10 +56,20 @@ export const Columns: (
       fieldProps: {
         mode: 'multiple',
       },
-      renderFormItem(schema, config, form, action) {
-        const rolesMap = form?.getFieldValue('rolesMap');
-        return <Select mode="multiple" allowClear options={rolesMap} />;
+      request: async () => {
+        const res = await getCustomer();
+        if (res && res.data) {
+          return res.data.roles?.map(({ roleId, roleName }) => ({
+            label: roleName,
+            value: roleId,
+          }));
+        }
+        return [];
       },
+      // renderFormItem(schema, config, form, action) {
+      //   const rolesMap = form?.getFieldValue('rolesMap');
+      //   return <Select mode="multiple" allowClear options={rolesMap} />;
+      // },
     },
     {
       title: '状态',
