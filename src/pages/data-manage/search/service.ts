@@ -8,6 +8,13 @@
  */
 import request from '@/utils/request';
 
+export const getList = (params: any) => {
+  return request(`/iot/collectionData/realTimePower`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getData = (params: any) => {
   return request(`/iot/collectionData/realTimePower`, {
     method: 'GET',

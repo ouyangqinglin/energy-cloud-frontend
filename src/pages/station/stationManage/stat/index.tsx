@@ -2,14 +2,14 @@ import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import ServiceRecord from './ServiceRecord';
 import Fault from './Fault';
-import EmptyPage from '@/components/EmptyPage';
+import { PageTypeEnum } from './ServiceRecord';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
     {
       key: '1',
       label: '安装工单',
-      children: <ServiceRecord />,
+      children: <ServiceRecord type={PageTypeEnum.Install} />,
     },
     {
       key: '2',

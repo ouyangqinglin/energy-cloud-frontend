@@ -1,80 +1,84 @@
-import type { YTProColumns } from '@/components/YTProTable/typing';
+import type { ProColumns } from '@ant-design/pro-table';
+import { tableTreeSelectValueTypeMap, TABLETREESELECT } from '@/components/TableSelect';
+import type { TABLETREESELECTVALUETYPE, TableTreeModalProps } from '@/components/TableSelect';
+import { TableSearchType, CollectionValueType } from './type';
+import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
+import moment from 'moment';
 
-export const columns: YTProColumns<any>[] = [
+const tableSelectColumns: ProColumns[] = [
   {
-    title: '站点名称',
-    dataIndex: 'name',
-    hideInTable: true,
+    title: '采集点ID',
+    dataIndex: 'paramCode',
+    width: 150,
     ellipsis: true,
+    hideInSearch: true,
   },
   {
-    title: '产品类型',
-    dataIndex: 'productionType',
-    hideInTable: true,
-    valueEnum: new Map<number, string>([
-      [0, '市电'],
-      [1, '光伏'],
-      [2, '储能'],
-      [3, '充电桩'],
-      [4, '负载'],
-    ]),
+    title: '采集点',
+    dataIndex: 'paramName',
+    width: 200,
     ellipsis: true,
   },
+];
+
+export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '选择查询时间',
-    dataIndex: 'searchTime',
+    title: '采集点',
+    dataIndex: 'collection',
+    valueType: TABLETREESELECT,
     hideInTable: true,
-    ellipsis: true,
-    valueType: 'dateRange',
-  },
-  {
-    title: '设备名称',
-    dataIndex: 'deviceName',
-    hideInTable: true,
-    ellipsis: true,
-  },
-  {
-    title: '信号点名称',
-    dataIndex: 'signalName',
-    valueType: 'select',
-    fieldProps: {
-      mode: 'multiple',
+    dependencies: ['siteId'],
+    formItemProps: {
+      rules: [{ required: true, message: '请选择采集点' }],
     },
-    valueEnum: new Map<number, string>([
-      [0, 'A相电流(A)'],
-      [1, 'B相电流(A)'],
-      [2, 'C相电流(A)'],
-      [3, 'A相电压(F)'],
-      [4, 'B相电压(F)'],
-      [5, 'C相电压(F)'],
-    ]),
-    hideInTable: true,
-    ellipsis: true,
+    fieldProps: (form) => {
+      const value = form.getFieldValue('siteId');
+      const tableTreeSelectProps: TableTreeModalProps<
+        CollectionValueType,
+        TableSearchType,
+        TableSearchType,
+        any
+      > = {
+        title: '选择采集点',
+        treeProps: {
+          fieldNames: {
+            title: 'deviceName',
+            key: 'id',
+            children: 'children',
+          },
+          request: () => getDeviceTree({ siteId: value }),
+        },
+        proTableProps: {
+          columns: tableSelectColumns,
+          request: getDeviceCollection,
+        },
+        valueId: 'selectName',
+        valueName: 'paramName',
+        limit: 2,
+      };
+      return tableTreeSelectProps;
+    },
   },
+];
+
+export const timeColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: '日期时间',
     dataIndex: 'date',
-    hideInSearch: true,
-    ellipsis: true,
-    valueType: 'dateTime',
-  },
-
-  {
-    title: 'A相电流（A）',
-    dataIndex: 'aa',
-    hideInSearch: true,
-    ellipsis: true,
-  },
-  {
-    title: 'B相电流（A）',
-    dataIndex: 'ba',
-    hideInSearch: true,
-    ellipsis: true,
-  },
-  {
-    title: 'A项电压（V）',
-    dataIndex: 'av',
-    hideInSearch: true,
-    ellipsis: true,
+    valueType: 'dateRange',
+    render: (_, record) => record.date,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
+    initialValue: [moment().startOf('W'), moment().endOf('w')],
+    width: 150,
+    formItemProps: {
+      rules: [{ required: true, message: '请选择时间' }],
+    },
   },
 ];

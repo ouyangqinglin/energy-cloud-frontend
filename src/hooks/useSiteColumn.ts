@@ -12,11 +12,9 @@ import type { OptionType } from '@/utils/dictionary';
 import { debounce } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-table';
 
-export type UseSiteColumn = {
-  (props?: ProColumns): [siteColumn: ProColumns];
-};
-
-const useSiteColumn: UseSiteColumn = (props = {}) => {
+const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
+  props?: ProColumns<TableData, ValueType>,
+): [siteColumn: ProColumns<TableData, ValueType>] => {
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
 
   const requestStation = useCallback(
@@ -39,12 +37,11 @@ const useSiteColumn: UseSiteColumn = (props = {}) => {
     requestStation('');
   }, []);
 
-  const siteColumn: ProColumns = useMemo(() => {
+  const siteColumn: ProColumns<TableData, ValueType> = useMemo(() => {
     return {
       title: '站点名称',
       dataIndex: 'siteName',
       valueType: 'select',
-      render: (_, record) => record.siteName,
       formItemProps: {
         name: 'siteId',
       },
@@ -56,7 +53,7 @@ const useSiteColumn: UseSiteColumn = (props = {}) => {
       },
       width: 150,
       ellipsis: true,
-      ...props,
+      ...(props || {}),
     };
   }, [stationOptions, props]);
 

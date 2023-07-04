@@ -2,25 +2,30 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 17:22:37
- * @LastEditTime: 2023-06-29 17:48:50
+ * @LastEditTime: 2023-06-30 11:27:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\stat\Fault\index.tsx
  */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { StepsProps } from 'antd';
-import { useRequest } from 'umi';
+import { useRequest, useModel } from 'umi';
 import { useBoolean } from 'ahooks';
-import type { ProColumns } from '@ant-design/pro-table';
+import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FaultType } from './type';
-import { serviceProgressType } from '@/utils/dictionary';
-import { getPage, getData } from './service';
+import { serviceProgressMap } from '@/utils/dictionary';
+import { getPage, getData, addData } from './service';
 import YTProTable from '@/components/YTProTable';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
+import SchemaForm from '@/components/SchamaForm';
 
 const Fault: React.FC = () => {
   const [openDetail, { setTrue, setFalse }] = useBoolean(false);
+  const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
+  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const actionRef = useRef<ActionType>();
   const {
     data: detailData,
     loading,
@@ -29,11 +34,17 @@ const Fault: React.FC = () => {
     manual: true,
   });
 
-  const onAddClick = useCallback(() => {}, []);
+  const onAddClick = useCallback(() => {
+    setOpenFormTrue();
+  }, []);
 
   const onDetailChange = useCallback((_, row: FaultType) => {
     run(row.id);
     setTrue();
+  }, []);
+
+  const onSuccess = useCallback(() => {
+    actionRef?.current?.reload?.();
   }, []);
 
   const columns: ProColumns<FaultType>[] = useMemo(() => {
@@ -61,14 +72,14 @@ const Fault: React.FC = () => {
         title: '当前进度',
         dataIndex: 'currentProgress',
         valueType: 'select',
-        valueEnum: serviceProgressType,
+        valueEnum: serviceProgressMap,
         width: 120,
       },
       {
         title: '创建时间',
         dataIndex: 'createTime',
         valueType: 'dateRange',
-        render: (_, record) => <span>{record.endTime}</span>,
+        render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
@@ -89,14 +100,6 @@ const Fault: React.FC = () => {
     ];
   }, []);
 
-  const detailItems = useMemo<DetailItem[]>(() => {
-    return [
-      { label: '故障标题', field: 'faultTitle' },
-      { label: '故障描述', field: 'faultDescription' },
-      { label: '申请时间', field: 'createTime' },
-    ];
-  }, []);
-
   const stepsItem = useMemo<StepsProps['items']>(() => {
     return [
       {
@@ -114,9 +117,38 @@ const Fault: React.FC = () => {
     ];
   }, [detailData]);
 
+  const detailItems = useMemo<DetailItem[]>(() => {
+    return [
+      { label: '故障标题', field: 'faultTitle' },
+      { label: '故障描述', field: 'faultDescription' },
+      { label: '申请时间', field: 'createTime' },
+    ];
+  }, []);
+
+  const formColumns = useMemo<ProFormColumnsType<FaultType>[]>(() => {
+    return [
+      {
+        title: '故障标题',
+        dataIndex: 'faultTitle',
+        formItemProps: {
+          rules: [{ required: true, message: '请填写故障标题' }],
+        },
+      },
+      {
+        title: '故障描述',
+        dataIndex: 'faultDescription',
+        valueType: 'textarea',
+        formItemProps: {
+          rules: [{ required: true, message: '请填写故障描述' }],
+        },
+      },
+    ];
+  }, []);
+
   return (
     <>
-      <YTProTable<FaultType, FaultType>
+      <YTProTable<FaultType, Pick<FaultType, 'siteId'>>
+        actionRef={actionRef}
         columns={columns}
         toolbar={{
           onChange: onAddClick,
@@ -124,6 +156,9 @@ const Fault: React.FC = () => {
         }}
         option={{
           onDetailChange: onDetailChange,
+        }}
+        params={{
+          siteId,
         }}
         request={getPage}
       />
@@ -149,6 +184,17 @@ const Fault: React.FC = () => {
             items={stepsItem}
           />
         }
+      />
+      <SchemaForm
+        title="故障申报"
+        columns={formColumns}
+        open={openForm}
+        onOpenChange={set}
+        addData={addData}
+        onSuccess={onSuccess}
+        extraData={{
+          siteId,
+        }}
       />
     </>
   );
