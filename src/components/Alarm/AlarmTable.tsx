@@ -2,34 +2,48 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-06-16 17:03:16
+ * @LastEditTime: 2023-07-04 11:06:40
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
-import React, { useState, useCallback, useEffect } from 'react';
-import { useRequest, useModel } from 'umi';
-import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import { Modal, message, Space } from 'antd';
+import { ClearOutlined } from '@ant-design/icons';
+import { useRequest, useHistory } from 'umi';
+import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-table';
 import type { AlarmType } from './data';
-import { alarmStatus, alarmSourceStatus } from '@/utils/dictionary';
+import { alarmLevelMap, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { getList, getDetail } from './service';
+import { getList, getDetail, cleanUpAlarm, getAlarmNum } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
 import type { OptionType } from '@/utils/dictionary';
 
-type AlarmProps = {
+export enum PageTypeEnum {
+  Current,
+  History,
+}
+
+export type AlarmProps = {
   isStationChild?: boolean;
+  type?: PageTypeEnum;
+  params?: any;
 };
 
 const Alarm: React.FC<AlarmProps> = (props) => {
-  const { isStationChild } = props;
+  const { isStationChild, type = PageTypeEnum.Current, params } = props;
+
+  const history = useHistory();
   const [open, setOpen] = useState(false);
-  const { siteId } = useModel('station', (model) => ({ siteId: model?.state.id }));
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
+  const actionRef = useRef<ActionType>();
   const { data: detailData, run } = useRequest(getDetail, {
+    manual: true,
+  });
+  const { data: alarmNumData, run: runGetAlarmNum } = useRequest(getAlarmNum, {
     manual: true,
   });
 
@@ -37,13 +51,43 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     setOpen((value) => !value);
   }, []);
 
-  const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (params) => {
-    return getList({ ...params, ...(isStationChild ? { siteId } : {}) });
+  const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (paramsData) => {
+    const requestParams = { ...paramsData, ...(params || {}), status: type };
+    runGetAlarmNum(requestParams);
+    return getList(requestParams);
   };
+
+  const requestCleanUpAlarm = useCallback((paramsData) => {
+    return cleanUpAlarm(paramsData);
+  }, []);
+
+  const onSiteClick = useCallback((record: AlarmType) => {
+    history.push({
+      pathname: '/station-manage/operation-monitor',
+      search: `?id=${record.siteId}`,
+    });
+  }, []);
 
   const onDetailClick = useCallback((_, record) => {
     switchOpen();
     run(record.id);
+  }, []);
+
+  const onCleanClick = useCallback((record: AlarmType) => {
+    Modal.confirm({
+      title: <strong>清除确认</strong>,
+      content: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: () => {
+        requestCleanUpAlarm({ id: record.id }).then(({ data }) => {
+          if (data) {
+            message.success('保存成功');
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+    });
   }, []);
 
   const requestStation = useCallback(
@@ -67,45 +111,46 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   }, []);
 
   const detailItems: DetailItem[] = [
+    { label: '告警名称', field: 'name' },
+    { label: '电站名称', field: 'siteName' },
+    { label: '设备名称', field: 'deviceName' },
+    { label: '产品类型', field: 'productTypeName' },
+    { label: '告警等级', field: 'level', format: (value) => alarmLevelMap.get(value) },
     { label: '告警ID', field: 'id' },
-    { label: '告警内容', field: 'content' },
-    { label: '所属站点', field: 'siteName' },
-    { label: '告警状态', field: 'status', format: (value) => alarmStatus[value]?.text },
-    { label: '告警来源', field: 'fromResource', format: (value) => alarmSourceStatus[value]?.text },
-    { label: '关联设备', field: 'deviceName' },
     { label: '发生时间', field: 'alarmTime' },
-    { label: '恢复时间', field: 'recoveryTime' },
+    { label: '清除时间', field: 'recoveryTime', show: type === PageTypeEnum.History },
+    {
+      label: '清除类型',
+      field: 'recoverType',
+      format: (value) => cleanUpType[value],
+      show: type === PageTypeEnum.History,
+    },
   ];
 
   const columns: ProColumns<AlarmType>[] = [
     {
-      title: '告警ID',
-      dataIndex: 'id',
+      title: '序号',
+      valueType: 'index',
+      width: 50,
+    },
+    {
+      title: '告警级别',
+      dataIndex: 'level',
+      valueType: 'select',
+      valueEnum: alarmLevelMap,
       width: 120,
-      ellipsis: true,
       hideInSearch: true,
-    },
-    {
-      title: '告警内容',
-      dataIndex: 'content',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '关联设备',
-      dataIndex: 'deviceName',
-      width: 150,
-      ellipsis: true,
     },
     ...(isStationChild
       ? []
       : [
           {
-            title: '所属站点',
+            title: '站点名称',
             dataIndex: 'siteName',
             valueType: 'select',
-            render: (_, record) => record.siteName,
+            render: (_, record) => {
+              return <a onClick={() => onSiteClick(record)}>{record.siteName}</a>;
+            },
             formItemProps: {
               name: 'siteId',
             },
@@ -120,17 +165,48 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           } as ProColumns<AlarmType>,
         ]),
     {
-      title: '告警状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: alarmStatus,
-      width: 120,
+      title: '产品类型',
+      dataIndex: 'productTypeName',
+      width: 150,
+      ellipsis: true,
     },
     {
-      title: '告警来源',
-      dataIndex: 'fromResource',
-      valueEnum: alarmSourceStatus,
+      title: '设备名称',
+      dataIndex: 'deviceName',
+      width: 150,
+      ellipsis: true,
+    },
+    {
+      title: '告警ID',
+      dataIndex: 'id',
       width: 120,
+      ellipsis: true,
+    },
+    {
+      title: '告警内容',
+      dataIndex: 'content',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+      render: (_, record) => {
+        return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
+      },
+    },
+    {
+      title: '清除类型',
+      dataIndex: 'recoverType',
+      valueType: 'select',
+      valueEnum: cleanUpType,
+      width: 120,
+      hideInSearch: true,
+      hideInTable: type == PageTypeEnum.Current,
+    },
+    {
+      title: '清除时间',
+      dataIndex: 'recoveryTime',
+      width: 150,
+      hideInSearch: true,
+      hideInTable: type == PageTypeEnum.Current,
     },
     {
       title: '发生时间',
@@ -148,36 +224,46 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
     },
     {
-      title: '恢复时间',
-      dataIndex: 'recoveryTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
+      title: '操作',
+      valueType: 'option',
+      width: 100,
+      fixed: 'right',
+      render: (_, record) => {
+        return <ClearOutlined onClick={() => onCleanClick(record)} />;
+      },
     },
   ];
+
+  const headerTitle = useMemo(() => {
+    const nums: React.ReactNode[] = [];
+    alarmLevelMap.forEach((text, key) => {
+      nums.push(
+        <span>
+          {text}：{alarmNumData?.[key + 'Num'] || 0}
+        </span>,
+      );
+    });
+    return <Space size="large">{nums}</Space>;
+  }, [alarmNumData]);
 
   return (
     <>
       <YTProTable<AlarmType, AlarmType>
+        headerTitle={headerTitle}
+        actionRef={actionRef}
         columns={columns}
         request={requestList}
         toolBarRender={() => [<></>]}
-        option={{
-          columnsProp: {
-            width: '100px',
-          },
-          onDetailChange: onDetailClick,
-        }}
       />
       <DetailDialog
-        width="420px"
+        width="700px"
         title="告警详情"
         open={open}
         onCancel={switchOpen}
         detailProps={{
           data: detailData,
           items: detailItems,
-          column: 1,
+          column: 2,
           labelStyle: { width: '90px' },
         }}
       />

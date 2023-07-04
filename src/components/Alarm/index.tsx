@@ -2,35 +2,32 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-06-27 17:44:14
+ * @LastEditTime: 2023-07-04 10:04:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
  */
 import React from 'react';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import Alarm from './AlarmTable';
+import Alarm, { PageTypeEnum, AlarmProps } from './AlarmTable';
 
-type AlarmType = {
-  isStationChild?: boolean;
-  params?: {
-    id?: string;
-  };
-};
-
-const Index: React.FC<AlarmType> = (props) => {
+const Index: React.FC<AlarmProps> = (props) => {
   const { params, isStationChild } = props;
 
   const items: TabsProps['items'] = [
     {
       key: '1',
       label: `当前告警`,
-      children: <Alarm isStationChild={isStationChild} />,
+      children: (
+        <Alarm isStationChild={isStationChild} params={params} type={PageTypeEnum.Current} />
+      ),
     },
     {
       key: '2',
       label: `历史告警`,
-      children: <Alarm isStationChild={isStationChild} />,
+      children: (
+        <Alarm isStationChild={isStationChild} params={params} type={PageTypeEnum.History} />
+      ),
     },
   ];
 

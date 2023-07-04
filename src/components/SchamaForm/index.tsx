@@ -15,11 +15,14 @@ import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-de
 import { FormTypeEnum } from '@/utils/dictionary';
 import { CombineService } from '@ahooksjs/use-request/lib/types';
 
+export { FormTypeEnum };
+
 export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueType> & {
   formRef?: React.Ref<ProFormInstance>;
   type?: FormTypeEnum;
   suffixTitle?: string;
   id?: string | number;
+  idKey?: string;
   getData?: CombineService<any, any>;
   addData?: CombineService<any, any>;
   editData?: CombineService<any, any>;
@@ -39,6 +42,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     type = FormTypeEnum.Add,
     suffixTitle = '',
     id,
+    idKey = 'id',
     getData,
     addData,
     editData,
@@ -79,7 +83,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     (formData: FormData) => {
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       beforeSubmit?.(formData);
-      return request?.({ ...formData, ...(extraData || {}) })?.then?.((data) => {
+      return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })?.then?.((data) => {
         if (data) {
           const result = onSuccess?.(formData);
           if (result !== false) {
@@ -100,7 +104,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     if (open) {
       myFormRef?.current?.resetFields?.();
       if (type !== FormTypeEnum.Add && id) {
-        runGet?.(id)?.then?.((data) => {
+        runGet?.({ [idKey]: id })?.then?.((data) => {
           const requestData = data || {};
           afterRequest?.(requestData);
           myFormRef?.current?.setFieldsValue?.(requestData);

@@ -11,6 +11,7 @@ export type AlarmType = {
   id: string;
   content: string;
   device: string;
+  siteId: string;
   siteName: string;
   status: number;
   source: string;
@@ -25,4 +26,11 @@ export type StationFormType = {
   icon: string;
   img: string;
   remark: string;
+};
+
+export type AlarmNumType = {
+  errorNum: number;
+  alarmNum: number;
+  warnNum: number;
+  infoNum: number;
 };

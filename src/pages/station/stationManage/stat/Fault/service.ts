@@ -23,11 +23,9 @@ export const addData = (data: AgentFormType) => {
   });
 };
 
-export const getData = (id: string) => {
+export const getData = (params: any) => {
   return request<ResponseCommonData<FaultType>>(`/oss/site/faultDeclaration`, {
     method: 'GET',
-    params: {
-      id,
-    },
+    params,
   });
 };

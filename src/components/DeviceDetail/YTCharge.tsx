@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:55:49
- * @LastEditTime: 2023-06-27 19:23:28
+ * @LastEditTime: 2023-07-04 10:38:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\YTCharge.tsx
  */
@@ -63,7 +63,9 @@ const YTCharge: React.FC<DeviceDetailType> = (props) => {
       {
         label: '告警',
         key: '3',
-        children: <Alarm params={{ id }} />,
+        children: (
+          <Alarm isStationChild={true} params={{ siteId: deviceData?.siteId, deviceId: id }} />
+        ),
       },
       {
         label: '日志',

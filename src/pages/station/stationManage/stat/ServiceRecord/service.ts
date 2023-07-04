@@ -16,11 +16,9 @@ export const getPage = (params: ServiceRecordType) => {
   });
 };
 
-export const getData = (id: string) => {
+export const getData = (params: any) => {
   return request(`/oss/site/serviceRecord`, {
     method: 'GET',
-    params: {
-      taskId: id,
-    },
+    params,
   });
 };

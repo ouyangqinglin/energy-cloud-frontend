@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 13:46:04
- * @LastEditTime: 2023-06-27 13:46:08
+ * @LastEditTime: 2023-07-04 10:50:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Cabinet.tsx
  */
@@ -59,7 +59,9 @@ const Cabinet: React.FC<DeviceDetailType> = (props) => {
       {
         label: '告警',
         key: '3',
-        children: <Alarm params={{ id }} />,
+        children: (
+          <Alarm isStationChild={true} params={{ siteId: deviceData?.siteId, deviceId: id }} />
+        ),
       },
       {
         label: '日志',

@@ -28,6 +28,12 @@ export const getMaintenancePeople = (params: any) => {
   });
 };
 
+export const getRoles = () => {
+  return request('/uc/site/detail/customerUser/role/list', {
+    method: 'GET',
+  });
+};
+
 /** 此处后端没有提供注释 GET /notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/notices', {

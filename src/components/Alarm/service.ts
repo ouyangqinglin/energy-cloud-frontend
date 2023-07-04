@@ -6,7 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\alarm\service.ts
  */
-import request from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
+import { AlarmNumType } from './data.d';
 
 export const getList = (params: any) => {
   return request(`/oss/alarm/getAlarm`, {
@@ -21,5 +22,19 @@ export const getDetail = (id: string) => {
     params: {
       id,
     },
+  });
+};
+
+export const getAlarmNum = (params: any) => {
+  return request<ResponseCommonData<AlarmNumType>>(`/oss/alarm/getAlarmNum`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const cleanUpAlarm = (data: any) => {
+  return request('/oss/alarm/clearAlarm', {
+    method: 'PUT',
+    data,
   });
 };

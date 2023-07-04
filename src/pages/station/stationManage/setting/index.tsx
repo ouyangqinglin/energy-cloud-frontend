@@ -3,7 +3,7 @@ import { Tabs } from 'antd';
 import styles from './index.less';
 import StationInfo from '../info/stationInfo';
 import Record from './Record';
-import Account, { PageTypeEnum } from '../../../user-manager/accounts/account';
+import Account from './Account';
 import ParamsSetting from './ParamsSetting';
 
 const Setting = () => {
@@ -11,7 +11,7 @@ const Setting = () => {
     {
       key: '1',
       label: `用户管理`,
-      children: <Account type={PageTypeEnum.Station} />,
+      children: <Account />,
     },
     {
       key: '2',

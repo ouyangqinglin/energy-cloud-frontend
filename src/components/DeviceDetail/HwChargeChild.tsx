@@ -63,7 +63,9 @@ const HwChargeChild: React.FC<DeviceDetailType> = (props) => {
       {
         label: '告警',
         key: '3',
-        children: <Alarm params={{ id }} />,
+        children: (
+          <Alarm isStationChild={true} params={{ siteId: deviceData?.siteId, deviceId: id }} />
+        ),
       },
       {
         label: '日志',
