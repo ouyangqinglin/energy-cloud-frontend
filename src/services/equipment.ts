@@ -7,7 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
 
-import request from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
+import { ListDataType } from '@/utils/dictionary';
 
 export const getDeviceInfo = (deviceId: string | number) => {
   return request(`/screen/device/${deviceId}`, {
@@ -83,6 +84,13 @@ export const getDeviceTree = (params: any) => {
 
 export const getDeviceCollection = (params: any) => {
   return request('/iot/siteSystemConfiguration/dataSource/deviceParamList', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getProductTypeList = (params: any) => {
+  return request<ResponseCommonData<ListDataType[]>>('/oss/product/getProductTypeList', {
     method: 'GET',
     params,
   });

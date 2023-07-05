@@ -59,6 +59,12 @@ export type LocationType = {
   query?: AnyMapType;
 };
 
+export type ListDataType = {
+  id?: string;
+  name?: string;
+  [key: string]: any;
+};
+
 export enum AutoComStatusEnum {
   Complete = 'complete',
   Error = 'error',

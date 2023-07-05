@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-04 11:06:40
+ * @LastEditTime: 2023-07-05 09:13:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -21,6 +21,9 @@ import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
 import type { OptionType } from '@/utils/dictionary';
+import { useSearchSelect } from '@/hooks';
+import { SearchParams } from '@/hooks/useSearchSelect';
+import { getProductTypeList } from '@/services/equipment';
 
 export enum PageTypeEnum {
   Current,
@@ -50,6 +53,30 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
   }, []);
+
+  const requestProductType = useCallback((searchParams: SearchParams) => {
+    return getProductTypeList(searchParams).then(({ data }) => {
+      return data?.map?.((item) => {
+        return {
+          label: item?.name || '',
+          value: item?.id || '',
+        };
+      });
+    });
+  }, []);
+
+  const [productTypeColumn] = useSearchSelect<AlarmType>({
+    proColumns: {
+      title: '产品类型',
+      dataIndex: 'productTypeName',
+      width: 150,
+      ellipsis: true,
+      formItemProps: {
+        name: 'productTypeId',
+      },
+    },
+    request: requestProductType,
+  });
 
   const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (paramsData) => {
     const requestParams = { ...paramsData, ...(params || {}), status: type };
@@ -127,112 +154,118 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     },
   ];
 
-  const columns: ProColumns<AlarmType>[] = [
-    {
-      title: '序号',
-      valueType: 'index',
-      width: 50,
-    },
-    {
-      title: '告警级别',
-      dataIndex: 'level',
-      valueType: 'select',
-      valueEnum: alarmLevelMap,
-      width: 120,
-      hideInSearch: true,
-    },
-    ...(isStationChild
-      ? []
-      : [
-          {
-            title: '站点名称',
-            dataIndex: 'siteName',
-            valueType: 'select',
-            render: (_, record) => {
-              return <a onClick={() => onSiteClick(record)}>{record.siteName}</a>;
-            },
-            formItemProps: {
-              name: 'siteId',
-            },
-            fieldProps: {
-              showSearch: true,
-              filterOption: false,
-              onSearch: requestStation,
-              options: stationOptions,
-            },
-            width: 150,
-            ellipsis: true,
-          } as ProColumns<AlarmType>,
-        ]),
-    {
-      title: '产品类型',
-      dataIndex: 'productTypeName',
-      width: 150,
-      ellipsis: true,
-    },
-    {
-      title: '设备名称',
-      dataIndex: 'deviceName',
-      width: 150,
-      ellipsis: true,
-    },
-    {
-      title: '告警ID',
-      dataIndex: 'id',
-      width: 120,
-      ellipsis: true,
-    },
-    {
-      title: '告警内容',
-      dataIndex: 'content',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-      render: (_, record) => {
-        return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
+  const columns = useMemo<ProColumns<AlarmType>[]>(() => {
+    return [
+      {
+        title: '序号',
+        valueType: 'index',
+        width: 50,
       },
-    },
-    {
-      title: '清除类型',
-      dataIndex: 'recoverType',
-      valueType: 'select',
-      valueEnum: cleanUpType,
-      width: 120,
-      hideInSearch: true,
-      hideInTable: type == PageTypeEnum.Current,
-    },
-    {
-      title: '清除时间',
-      dataIndex: 'recoveryTime',
-      width: 150,
-      hideInSearch: true,
-      hideInTable: type == PageTypeEnum.Current,
-    },
-    {
-      title: '发生时间',
-      dataIndex: 'alarmTime',
-      valueType: 'dateRange',
-      width: 150,
-      render: (_, record) => record.alarmTime,
-      search: {
-        transform: (value) => {
-          return {
-            startTime: value[0],
-            endTime: value[1],
-          };
+      {
+        title: '告警级别',
+        dataIndex: 'level',
+        valueType: 'select',
+        valueEnum: alarmLevelMap,
+        width: 120,
+        hideInSearch: true,
+      },
+      ...(isStationChild
+        ? []
+        : [
+            {
+              title: '站点名称',
+              dataIndex: 'siteName',
+              valueType: 'select',
+              render: (_, record) => {
+                return <a onClick={() => onSiteClick(record)}>{record.siteName}</a>;
+              },
+              formItemProps: {
+                name: 'siteId',
+              },
+              fieldProps: {
+                showSearch: true,
+                filterOption: false,
+                onSearch: requestStation,
+                options: stationOptions,
+              },
+              width: 150,
+              ellipsis: true,
+            } as ProColumns<AlarmType>,
+          ]),
+      productTypeColumn,
+      {
+        title: '设备名称',
+        dataIndex: 'deviceName',
+        width: 150,
+        ellipsis: true,
+      },
+      {
+        title: '告警ID',
+        dataIndex: 'id',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title: '告警内容',
+        dataIndex: 'content',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+        render: (_, record) => {
+          return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
         },
       },
-    },
-    {
-      title: '操作',
-      valueType: 'option',
-      width: 100,
-      fixed: 'right',
-      render: (_, record) => {
-        return <ClearOutlined onClick={() => onCleanClick(record)} />;
+      {
+        title: '清除类型',
+        dataIndex: 'recoverType',
+        valueType: 'select',
+        valueEnum: cleanUpType,
+        width: 120,
+        hideInSearch: true,
+        hideInTable: type == PageTypeEnum.Current,
       },
-    },
-  ];
+      {
+        title: '清除时间',
+        dataIndex: 'recoveryTime',
+        width: 150,
+        hideInSearch: true,
+        hideInTable: type == PageTypeEnum.Current,
+      },
+      {
+        title: '发生时间',
+        dataIndex: 'alarmTime',
+        valueType: 'dateRange',
+        width: 150,
+        render: (_, record) => record.alarmTime,
+        search: {
+          transform: (value) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+      },
+      {
+        title: '操作',
+        valueType: 'option',
+        width: 100,
+        fixed: 'right',
+        render: (_, record) => {
+          return <ClearOutlined onClick={() => onCleanClick(record)} />;
+        },
+      },
+    ];
+  }, [
+    productTypeColumn,
+    requestStation,
+    isStationChild,
+    stationOptions,
+    type,
+    onSiteClick,
+    onDetailClick,
+    onCleanClick,
+  ]);
 
   const headerTitle = useMemo(() => {
     const nums: React.ReactNode[] = [];
