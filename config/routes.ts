@@ -105,7 +105,7 @@ export default [
       },
       {
         path: 'device-monitor',
-        component: './site-monitor/DeviceMonitor',
+        component: './site-monitor/Device',
       },
       {
         path: 'device-detail',

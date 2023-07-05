@@ -1,18 +1,18 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-04 13:54:37
- * @LastEditTime: 2023-06-27 19:36:28
+ * @Date: 2023-06-21 14:39:31
+ * @LastEditTime: 2023-06-21 14:39:35
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\data.d.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\DeviceList\data.d.ts
  */
 
-export type DeviceType = {
+export type EquipmentType = {
   deviceId: string;
   name: string;
   sn: string;
   model: string;
-  productId: number;
+  productId: string;
   productTypeName: string;
   subsystemName: string;
   childSystem: string;
@@ -20,9 +20,4 @@ export type DeviceType = {
   createTime: string;
   sessionStartTime: string;
   connectStatus: number;
-};
-
-export type DeviceSearchType = {
-  subSystemId?: string;
-  siteId?: string;
 };

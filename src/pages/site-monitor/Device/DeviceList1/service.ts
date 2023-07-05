@@ -1,10 +1,10 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-05-04 14:26:05
- * @LastEditTime: 2023-05-26 13:40:47
+ * @Date: 2023-06-21 14:39:49
+ * @LastEditTime: 2023-06-21 14:39:53
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\service.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\device\DeviceList\service.ts
  */
 import request from '@/utils/request';
 

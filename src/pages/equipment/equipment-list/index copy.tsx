@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-05 15:23:00
+ * @LastEditTime: 2023-07-04 17:34:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -248,30 +248,32 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <ProTable
-        actionRef={actionRef}
-        columns={columns}
-        search={{
-          labelWidth: 'auto',
-          searchText: '搜索',
-        }}
-        rowKey="id"
-        toolBarRender={toolBar}
-        options={false}
-        request={handleRequest}
-        toolbar={{
-          menu: {
-            type: 'tab',
-            activeKey: activeTab,
-            items: tabItemList,
-            onChange: onTabChange,
-          },
-        }}
-        scroll={{ x: 1366 }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
+      <div className="bg-white">
+        <ProTable
+          actionRef={actionRef}
+          columns={columns}
+          search={{
+            labelWidth: 'auto',
+            searchText: '搜索',
+          }}
+          rowKey="id"
+          toolBarRender={toolBar}
+          options={false}
+          request={handleRequest}
+          toolbar={{
+            menu: {
+              type: 'tab',
+              activeKey: activeTab,
+              items: tabItemList,
+              onChange: onTabChange,
+            },
+          }}
+          scroll={{ x: 1366 }}
+          pagination={{
+            showSizeChanger: true,
+          }}
+        />
+      </div>
       <EquipForm
         open={open}
         onCancel={onSwitchOpen}
