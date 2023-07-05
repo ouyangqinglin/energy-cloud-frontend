@@ -213,13 +213,6 @@ export const timeDimension = new Map([
   [timeDimensionEnum.Cycle, '按生命周期统计'],
 ]);
 
-export const alarmLevelMap = new Map([
-  ['error', '严重'],
-  ['alarm', '重要'],
-  ['warn', '次要'],
-  ['info', '提示'],
-]);
-
 export const cleanUpType = {
   0: '正常清除',
   1: '手动清除',

@@ -224,6 +224,7 @@ const ytIcon = [
   'YTBattery',
   'YTChargeStack',
   'YTCabinet',
+  'YTAlarm',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];
