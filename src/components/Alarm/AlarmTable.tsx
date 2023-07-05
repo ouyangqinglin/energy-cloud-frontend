@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-05 11:48:37
+ * @LastEditTime: 2023-07-05 11:57:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -267,7 +267,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         width: 100,
         fixed: 'right',
         render: (_, record) => {
-          return <ClearOutlined onClick={() => onCleanClick(record)} />;
+          return <ClearOutlined className={styles.cleanUp} onClick={() => onCleanClick(record)} />;
         },
       },
     ];
