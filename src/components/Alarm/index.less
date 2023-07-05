@@ -1,0 +1,26 @@
+.alarmWrap {
+  display: inline-block;
+  padding: 0 8px;
+  color: #165dff;
+  font-size: 14px;
+  line-height: 22px;
+  background: #e8f3ff;
+  border-radius: 4px;
+  &.error {
+    color: #f53f3f;
+    background: #ffece8;
+  }
+  &.alarm {
+    color: #ff7d00;
+    background: #fff7e8;
+  }
+  &.warn {
+    color: #f99600;
+    background: #fff4c9;
+  }
+  :global {
+    .anticon {
+      margin-right: 4px;
+    }
+  }
+}

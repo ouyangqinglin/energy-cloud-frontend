@@ -2,18 +2,17 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-05 11:18:38
+ * @LastEditTime: 2023-07-05 11:48:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
-// wahaha
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { Modal, message, Space } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import { useRequest, useHistory } from 'umi';
 import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-table';
 import type { AlarmType } from './data';
-import { alarmLevelMap, cleanUpType } from '@/utils/dictionary';
+import { cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum } from './service';
@@ -25,6 +24,8 @@ import type { OptionType } from '@/utils/dictionary';
 import { useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
+import { YTAlarmOutlined } from '@/components/YTIcons';
+import styles from './index.less';
 
 export enum PageTypeEnum {
   Current,
@@ -36,6 +37,19 @@ export type AlarmProps = {
   type?: PageTypeEnum;
   params?: any;
 };
+
+export const alarmLevelMap = new Map([
+  [
+    'error',
+    <span className={`${styles.alarmWrap} ${styles.error}`}>{<YTAlarmOutlined />}严重</span>,
+  ],
+  [
+    'alarm',
+    <span className={`${styles.alarmWrap} ${styles.alarm}`}>{<YTAlarmOutlined />}重要</span>,
+  ],
+  ['warn', <span className={`${styles.alarmWrap} ${styles.warn}`}>{<YTAlarmOutlined />}次要</span>],
+  ['info', <span className={`${styles.alarmWrap} ${styles.info}`}>{<YTAlarmOutlined />}提示</span>],
+]);
 
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params } = props;
@@ -273,7 +287,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     alarmLevelMap.forEach((text, key) => {
       nums.push(
         <span>
-          {text}：{alarmNumData?.[key + 'Num'] || 0}
+          {text} {alarmNumData?.[key + 'Num'] || 0}
         </span>,
       );
     });

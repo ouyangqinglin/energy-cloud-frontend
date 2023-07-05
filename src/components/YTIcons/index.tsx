@@ -30,6 +30,7 @@ import {
   Electric,
   Battery,
   Cabinet,
+  Alarm,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -116,6 +117,10 @@ const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Cabinet} {...props} />
 );
 
+const YTAlarmOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Alarm} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -138,4 +143,5 @@ export {
   YTBatteryOutlined,
   YTChargeStackOutlined,
   YTCabinetOutlined,
+  YTAlarmOutlined,
 };
