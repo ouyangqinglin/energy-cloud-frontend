@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-04 15:12:07
- * @LastEditTime: 2023-07-04 19:38:07
+ * @LastEditTime: 2023-07-05 10:34:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\index.tsx
  */
 import React, { useMemo, useCallback, useRef } from 'react';
-import { message } from 'antd';
+import { message, Tooltip } from 'antd';
 import { useLocation } from 'umi';
 import { FundProjectionScreenOutlined } from '@ant-design/icons';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
@@ -49,7 +49,9 @@ const Index: React.FC = () => {
   return (
     <>
       <div className="h-full bg-white card-wrap p24">
-        <FundProjectionScreenOutlined className={styles.screen} onClick={onScreenClick} />
+        <Tooltip placement="top" title="单站大屏">
+          <FundProjectionScreenOutlined className={styles.screen} onClick={onScreenClick} />
+        </Tooltip>
         <SchemaForm
           formRef={formRef}
           open={true}
