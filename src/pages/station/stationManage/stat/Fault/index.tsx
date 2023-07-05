@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 17:22:37
- * @LastEditTime: 2023-06-30 11:27:13
+ * @LastEditTime: 2023-07-05 11:02:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\stat\Fault\index.tsx
  */

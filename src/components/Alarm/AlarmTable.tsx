@@ -2,10 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-05 09:13:23
+ * @LastEditTime: 2023-07-05 11:18:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
+// wahaha
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { Modal, message, Space } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
@@ -107,7 +108,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
-        requestCleanUpAlarm({ id: record.id }).then(({ data }) => {
+        return requestCleanUpAlarm({ id: record.id }).then(({ data }) => {
           if (data) {
             message.success('保存成功');
             actionRef?.current?.reload?.();

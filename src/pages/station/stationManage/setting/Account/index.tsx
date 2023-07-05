@@ -2,17 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-03 14:00:53
- * @LastEditTime: 2023-07-03 16:32:22
+ * @LastEditTime: 2023-07-05 11:16:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\Account\index.tsx
  */
 
 import React, { useCallback, useRef, useState } from 'react';
+import { message } from 'antd';
 import { useModel } from 'umi';
 import { useBoolean } from 'ahooks';
 import type { ActionType } from '@ant-design/pro-table';
 import type { AccountType } from './type';
-import { getPage, getData, addData, editData } from './service';
+import { getPage, getData, addData, editData, deleteData } from './service';
 import YTProTable from '@/components/YTProTable';
 import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
 import { columns, formColumns } from './config';
@@ -25,6 +26,10 @@ const Account: React.FC = () => {
     id: '',
   });
   const actionRef = useRef<ActionType>();
+
+  const onSuccess = useCallback(() => {
+    actionRef?.current?.reload?.();
+  }, []);
 
   const onAddClick = useCallback(() => {
     setFormInfo({
@@ -42,6 +47,15 @@ const Account: React.FC = () => {
     setOpenFormTrue();
   }, []);
 
+  const onDeleteChange = useCallback((_, record: AccountType) => {
+    return deleteData({ userIds: [record.userId] }).then(({ data }) => {
+      if (data) {
+        message.success('删除成功');
+        onSuccess();
+      }
+    });
+  }, []);
+
   const beforeSubmit = useCallback((formData: AccountType) => {
     formData.roleIds = [formData.roleId];
   }, []);
@@ -56,10 +70,6 @@ const Account: React.FC = () => {
     formData.remark = formData?.user?.remark;
   }, []);
 
-  const onSuccess = useCallback(() => {
-    actionRef?.current?.reload?.();
-  }, []);
-
   return (
     <>
       <YTProTable<AccountType, Pick<AccountType, 'siteId'>>
@@ -71,6 +81,7 @@ const Account: React.FC = () => {
         }}
         option={{
           onEditChange: onEditChange,
+          onDeleteChange: onDeleteChange,
         }}
         params={{
           siteId,
@@ -78,7 +89,7 @@ const Account: React.FC = () => {
         request={getPage}
       />
       <SchemaForm<AccountType>
-        title="用户"
+        suffixTitle="用户"
         width="800px"
         type={formInfo.type}
         columns={formColumns}

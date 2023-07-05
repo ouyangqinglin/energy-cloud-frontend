@@ -35,7 +35,7 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
     if (isLocation && isValidCoord) {
       item.format = (value): ReactNode => {
         return (
-          <span onClick={onOpen} style={{ cursor, color: '#159AFF' }}>
+          <span onClick={onOpen} style={{ cursor, color: '#159AFF', lineHeight: 1.2 }}>
             {value}
           </span>
         );
