@@ -1,4 +1,7 @@
 export default {
+  'menu.index': '首页',
+  'menu.station.list': '站点列表',
+  'menu.device.deviceMonitor': '设备监视',
   'menu.welcome': '欢迎',
   'menu.system': '系统管理',
   'menu.more-blocks': '更多区块',

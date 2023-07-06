@@ -1,0 +1,43 @@
+@import '~antd/es/style/themes/default.less';
+.layout {
+  :global {
+    .ant-layout-header {
+      height: 56px !important;
+    }
+  }
+}
+
+:global {
+  .ant-layout-sider {
+    background: #1e222d;
+    ::-webkit-scrollbar {
+      background-color: #263849;
+    }
+    .ant-pro-sider-logo {
+      height: 56px;
+      background: #252e3d;
+    }
+    .ant-menu-dark .ant-menu-item,
+    .ant-menu-dark .ant-menu-item-group-title,
+    .ant-menu-dark .ant-menu-item > a,
+    .ant-menu-dark .ant-menu-item > span > a,
+    .ant-menu.ant-menu-dark,
+    .ant-menu-dark .ant-menu-sub,
+    .ant-menu.ant-menu-dark .ant-menu-sub,
+    .ant-menu-dark .ant-menu-item-active,
+    .ant-menu-dark .ant-menu-submenu-active,
+    .ant-menu-dark .ant-menu-submenu-open,
+    .ant-menu-dark .ant-menu-submenu-selected {
+      color: rgb(191, 203, 217);
+    }
+    .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+      background: #10121a;
+    }
+    .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+      color: white;
+    }
+  }
+  .ant-pro-table-search {
+    margin-bottom: 0 !important;
+  }
+}

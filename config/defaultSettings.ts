@@ -7,10 +7,10 @@ const Settings: LayoutSettings & {
   tabsLayout?: boolean;
   apiBasePath?: string;
 } = {
-  navTheme: 'light',
+  navTheme: 'dark',
   headerTheme: 'light',
   primaryColor: '#165DFF',
-  layout: 'mix',
+  layout: 'side',
   // splitMenus: true,
   contentWidth: 'Fluid',
   fixedHeader: true,

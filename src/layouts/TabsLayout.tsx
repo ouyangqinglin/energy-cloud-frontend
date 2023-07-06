@@ -1,5 +1,6 @@
 import KeepAliveTabs from '@/components/KeepAliveTabs';
 import defaultSettings from '../../config/defaultSettings';
+import styles from './index.less';
 
 const { tabsLayout } = defaultSettings;
 
@@ -19,7 +20,9 @@ const TabsLayout: React.FC = (props) => {
   return (
     <div>
       {renderTabs()}
-      <div>{props.children}</div>
+      <div className={styles.tabsContent}>
+        <div className={styles.contain}>{props.children}</div>
+      </div>
     </div>
   );
 };

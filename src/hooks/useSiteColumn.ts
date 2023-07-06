@@ -50,6 +50,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         filterOption: false,
         onSearch: requestStation,
         options: stationOptions,
+        placeholder: '请选择',
       },
       width: 150,
       ellipsis: true,

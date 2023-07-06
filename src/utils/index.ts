@@ -1,10 +1,17 @@
+import React from 'react';
 import type { MenuDataItem } from '@umijs/route-utils';
 import type { MenuProps } from 'antd';
 import { createIcon } from './IconUtil';
-import React from 'react';
 
-export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items'] => {
-  const arr: MenuProps['items'] = [];
+export type AntMenuProps = {
+  label: string;
+  key: string;
+  icon?: React.ReactNode;
+  children?: AntMenuProps[];
+};
+
+export const getMenus = (data: MenuDataItem[], prePath = ''): AntMenuProps[] => {
+  const arr: AntMenuProps[] = [];
   data.forEach((item) => {
     const path = item?.path?.split('')[0] === '/' ? item.path : `${prePath}/${item.path}`;
     if (!item.hideInMenu) {
@@ -17,6 +24,20 @@ export const getMenus = (data: MenuDataItem[], prePath = ''): MenuProps['items']
     }
   });
   return arr;
+};
+
+export const getPathTitleMap = (data?: AntMenuProps[]): Map<string, string> => {
+  const map = new Map<string, string>();
+  data?.forEach?.((item) => {
+    map.set(item?.key || '', item.label);
+    if (item.children && item.children.length) {
+      const result = getPathTitleMap(item.children);
+      result.forEach((value, key) => {
+        map.set(key, value);
+      });
+    }
+  });
+  return map;
 };
 
 export function arrayToMap(array: any[], key = 'value', value = 'label') {

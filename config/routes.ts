@@ -9,8 +9,7 @@ export default [
   {
     path: '/index',
     name: 'index',
-    layout: false,
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/index',
@@ -20,6 +19,8 @@ export default [
         path: 'station',
         name: 'indexStation',
         component: './home-page',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.index',
       },
     ],
   },
@@ -44,9 +45,7 @@ export default [
   {
     path: '/station',
     name: 'station',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/station',
@@ -61,6 +60,8 @@ export default [
         path: 'station-list',
         name: 'stationList',
         component: './station/stationList',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.station.list',
       },
       {
         path: 'setting',
@@ -75,9 +76,7 @@ export default [
   },
   {
     path: '/site-monitor',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/site-monitor',
@@ -86,26 +85,32 @@ export default [
       {
         path: 'overview',
         component: './site-monitor/Overview',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'topo',
         component: './site-monitor/Topo',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'electric-generate',
         component: './site-monitor/ElectricGenerate',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'energy',
         component: './site-monitor/Energy',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'electric-consumer',
         component: './site-monitor/ElectricConsumer',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'device-monitor',
         component: './site-monitor/Device',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'device-detail',
@@ -114,15 +119,14 @@ export default [
       {
         path: 'run-log',
         component: './site-monitor/RunLog',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
   {
     path: '/station-manage',
     name: 'stationManage',
-    layout: false,
-    menu: 'top',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/station-manage',
@@ -158,9 +162,7 @@ export default [
   {
     path: '/data-manage',
     name: 'dataManage',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/data-manage',
@@ -170,50 +172,53 @@ export default [
         path: 'search',
         name: 'search',
         component: './data-manage/search',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'report',
         name: 'report',
         component: './data-manage/report',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'fault-tracing',
         name: 'faultTracing',
         component: './data-manage/faultTracing',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'prediction',
         name: 'prediction',
         component: './data-manage/prediction',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
   {
     path: '/alarm',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: 'current',
         component: './alarm/Current',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'history',
         component: './alarm/History',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'setting',
         component: './alarm/Setting',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
   {
     path: '/equipment',
     name: 'equipment',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/equipment',
@@ -223,10 +228,13 @@ export default [
         path: 'equipment-list',
         name: 'equipmentList',
         component: './equipment/equipment-list',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'device-monitor',
         component: './equipment/DeviceMonitor',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.device.deviceMonitor',
       },
       {
         path: 'upgrade',
@@ -239,11 +247,13 @@ export default [
             path: 'package',
             name: 'remoteUpgradePackage',
             component: './remote-upgrade/package',
+            wrappers: ['@/components/KeepAlive'],
           },
           {
             path: 'log',
             name: 'remoteUpgradeLog',
             component: './remote-upgrade/log',
+            wrappers: ['@/components/KeepAlive'],
           },
         ],
       },
@@ -252,9 +262,7 @@ export default [
   {
     path: '/partner',
     name: 'partner',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/partner',
@@ -264,20 +272,20 @@ export default [
         path: 'service',
         name: 'service',
         component: './partner/service',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'agent',
         name: 'agent',
         component: './partner/agent',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
   {
     path: '/remote-upgrade',
     name: 'remote-upgrade',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/remote-upgrade',
@@ -287,20 +295,20 @@ export default [
         path: 'package',
         name: 'remoteUpgradePackage',
         component: './remote-upgrade/package',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'log',
         name: 'remoteUpgradeLog',
         component: './remote-upgrade/log',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
   {
     path: '/work-order',
     name: 'workOrder',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/work-order',
@@ -310,16 +318,19 @@ export default [
         path: 'install',
         name: 'install',
         component: './work-order/install',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'maintenance',
         name: 'maintenance',
         component: './work-order/maintenance',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'fault',
         name: 'fault',
         component: './work-order/fault',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
@@ -358,9 +369,7 @@ export default [
     path: '/dashboard',
     name: 'dashboard',
     icon: 'dashboard',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/dashboard',
@@ -399,8 +408,7 @@ export default [
     name: 'account',
     icon: 'user',
     path: '/account',
-    layout: false,
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/account',
@@ -430,9 +438,7 @@ export default [
     name: 'system',
     icon: 'BugOutlined',
     path: '/system',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/',
@@ -442,6 +448,7 @@ export default [
         path: 'authorization',
         name: 'authorization',
         component: 'system/authorization',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         name: 'user',
@@ -569,9 +576,7 @@ export default [
   {
     name: 'user-manager',
     path: '/user-manager',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/user-manager',
@@ -582,11 +587,13 @@ export default [
         icon: 'PartitionOutlined',
         path: '/user-manager/accounts',
         component: 'user-manager/accounts',
+        wrappers: ['@/components/KeepAlive'],
       },
       {
         path: 'authority',
         name: 'authority',
         component: './user-manager/authority',
+        wrappers: ['@/components/KeepAlive'],
       },
     ],
   },
@@ -594,9 +601,7 @@ export default [
     name: 'monitor',
     icon: 'BugOutlined',
     path: '/monitor',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/',
@@ -678,9 +683,7 @@ export default [
     name: 'tool',
     icon: 'BugOutlined',
     path: '/tool',
-    layout: false,
-    menu: 'sider',
-    component: '@/layouts',
+    component: '@/layouts/TabsLayout',
     routes: [
       {
         path: '/',

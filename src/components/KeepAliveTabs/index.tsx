@@ -189,14 +189,14 @@ const KeepAliveTabs = () => {
       const width = document.getElementById('contentContainer')
         ? document.getElementById('contentContainer')!.getBoundingClientRect()!.width
         : 0;
-      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width, tarnslateX: 0 } });
+      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 100, tarnslateX: 0 } });
     };
 
     const timer = setTimeout(() => {
       const width = document.getElementById('contentContainer')
         ? document.getElementById('contentContainer')!.getBoundingClientRect()!.width
         : 0;
-      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width } });
+      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 100 } });
     }, 100);
     return () => {
       clearTimeout(timer);
