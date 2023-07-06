@@ -205,6 +205,7 @@ const logo = [
 const ytIcon = [
   'YTHome',
   'YTStation',
+  'YTMonitor',
   'YTWorkOrder',
   'YTData',
   'YTDevice',

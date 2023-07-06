@@ -9,7 +9,7 @@ const Settings: LayoutSettings & {
 } = {
   navTheme: 'dark',
   headerTheme: 'light',
-  primaryColor: '#165DFF',
+  primaryColor: '#007DFF',
   layout: 'side',
   // splitMenus: true,
   contentWidth: 'Fluid',

@@ -11,6 +11,7 @@ import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/
 import {
   Home,
   Station,
+  Monitor,
   WorkOrder,
   Data,
   Device,
@@ -39,6 +40,10 @@ const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
 
 const YTStationOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Station} {...props} />
+);
+
+const YTMonitorOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Monitor} {...props} />
 );
 
 const YTWorkOrderOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -124,6 +129,7 @@ const YTAlarmOutlined = (props: Partial<CustomIconComponentProps>) => (
 export {
   YTHomeOutlined,
   YTStationOutlined,
+  YTMonitorOutlined,
   YTWorkOrderOutlined,
   YTDataOutlined,
   YTDeviceOutlined,
