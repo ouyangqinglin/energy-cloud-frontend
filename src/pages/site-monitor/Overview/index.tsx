@@ -23,6 +23,7 @@ import SiteDropdown from './SiteDropdown';
 import SiteInfo from './SiteInfo';
 import Benefit from './Benefits';
 import ElectricityChart from './ElectricityChart';
+import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 
 type SiteType = {
   siteId?: string;
@@ -35,6 +36,7 @@ const Index: React.FC = () => {
   const [siteColumn] = useSiteColumn<SiteType>({
     title: '选择站点',
     fieldProps: {
+      className: styles.selectSiteStation,
       bordered: false,
       showSearch: false,
       showArrow: false,
@@ -81,13 +83,13 @@ const Index: React.FC = () => {
             }}
           />
           {/* <SiteDropdown defaultSiteId={siteId}></SiteDropdown> */}
-          <FundProjectionScreenOutlined className={styles.screen} onClick={onScreenClick} />
+          <IconScreen className={styles.screen} onClick={onScreenClick} />
         </div>
         <Row gutter={[16, 16]}>
           <Statistics />
           <EnergyFlow />
           <Benefit />
-          <ElectricityChart />
+          <ElectricityChart siteId={siteId} />
           <SiteInfo />
         </Row>
       </div>

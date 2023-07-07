@@ -67,7 +67,7 @@ export const columns = [
         labelUnit: '/kW',
         field: 'ratePower',
         value: '1083.4/968.3',
-        valueUnit: '(放)',
+        // valueUnit: '(放)',
       },
     ],
   },

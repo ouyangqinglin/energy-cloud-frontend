@@ -1,17 +1,22 @@
 import { useToggle } from 'ahooks';
 import { DatePicker } from 'antd';
+import moment from 'moment';
 import { useState } from 'react';
 import RowBox from '../components/RowBox';
 import TimeButtonGroup, { TimeType } from '../components/TimeButtonGroup';
 import RealTimePower from './Chart';
 import styles from './index.less';
 
-const ElectricityChart = () => {
+const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [picker, setPicker] = useState<
     'year' | 'month' | 'time' | 'date' | 'week' | 'quarter' | undefined
   >();
   const [showDatePicker, { set }] = useToggle(true);
-  const onChange = () => {};
+  const [date, setDate] = useState(moment());
+
+  const onChange = (value) => {
+    setDate(value);
+  };
   const timeTypeChange = (type: TimeType) => {
     switch (type) {
       case TimeType.DAY:
@@ -39,7 +44,7 @@ const ElectricityChart = () => {
       <div className={styles.topBar}>
         <h1 className={styles.title}>站点实时功率</h1>
         <div>
-          {showDatePicker && <DatePicker onChange={onChange} picker={picker} />}
+          {showDatePicker && <DatePicker defaultValue={date} onChange={onChange} picker={picker} />}
           <TimeButtonGroup
             style={{
               marginLeft: 20,
@@ -48,7 +53,7 @@ const ElectricityChart = () => {
           />
         </div>
       </div>
-      <RealTimePower />
+      <RealTimePower date={date} siteId={siteId} />
     </RowBox>
   );
 };

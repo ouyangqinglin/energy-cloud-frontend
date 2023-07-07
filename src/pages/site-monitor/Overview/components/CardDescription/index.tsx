@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Col, Row } from 'antd';
 import classnames from 'classnames';
 import RowBox from '../RowBox';
 import styles from './index.less';
@@ -23,14 +23,16 @@ const DescriptionCard = ({ config }: { config: DescriptionCardConfig }) => {
   const Icon = config.icon;
 
   return (
-    <RowBox>
-      <div className={styles['kpi-box']}>
-        <div>
+    <RowBox span={6}>
+      <Row className={styles['kpi-box']}>
+        <Col span={4} className={styles.boxLeft}>
           <Icon className={classnames(styles['svg-icon'], styles['icon'])} />
           <p className={styles['left-title']}>{config.title}</p>
-        </div>
-        <div className={styles.content}>{cardItemList}</div>
-      </div>
+        </Col>
+        <Col span={20} className={styles.content}>
+          {cardItemList}
+        </Col>
+      </Row>
     </RowBox>
   );
 };

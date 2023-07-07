@@ -8,7 +8,7 @@ const EnergyFlow = () => {
     <RowBox span={18} className={styles.energyFlow}>
       <div style={{ position: 'relative' }}>
         {/* <div style={{ width: 578, height: 320 }}></div> */}
-        <SystemDiagram style={{ width: 578, height: 320 }} />
+        <SystemDiagram />
       </div>
       <RealTimeData />
     </RowBox>
