@@ -247,6 +247,17 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
       addDevicePropsToCeilAccordingMark([{ ...params, ...{ deviceName } }]);
     } catch (error) {}
   };
+  const bindingDeviceValue = useMemo(() => {
+    if (isNil(deviceInfo?.deviceId)) {
+      return [];
+    }
+    return [
+      {
+        id: deviceInfo.deviceId as number,
+        deviceName: deviceInfo.deviceName,
+      },
+    ];
+  }, [deviceInfo]);
 
   // 操作一次图面板
   const sceneWrapperRef = useRef<HTMLDivElement>(null);
@@ -327,12 +338,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
       <BindDevice<BindDeviceType>
         open={openBindDevice}
         onCancel={setFalse}
-        value={[
-          {
-            id: deviceInfo.deviceId as number,
-            deviceName: deviceInfo.deviceName ?? '',
-          },
-        ]}
+        value={bindingDeviceValue}
         onChange={onBindDevice}
       />
       <DeviceDialog open={openDeviceInfo} onCancel={closeDialog} {...deviceInfo} />
