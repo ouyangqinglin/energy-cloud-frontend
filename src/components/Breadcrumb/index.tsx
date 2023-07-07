@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:01:50
- * @LastEditTime: 2023-05-04 15:08:23
+ * @LastEditTime: 2023-07-06 15:50:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Breadcrumb\index.tsx
  */
-import React from 'react';
-import { Breadcrumb } from 'antd';
+import React, { useMemo } from 'react';
+import { Breadcrumb as AntBreadcrumb } from 'antd';
 import { useLocation, useModel } from 'umi';
 import styles from './index.less';
 
@@ -29,29 +29,33 @@ const findMenuByKey = (menus: any[], key: string, preItems: any[] = []) => {
   return items;
 };
 
-const MyBreadcrumb: React.FC = () => {
+const Breadcrumb: React.FC = () => {
   const location = useLocation();
   const { initialState } = useModel('@@initialState');
 
-  const menus = findMenuByKey(initialState?.antMenus || [], location.pathname);
-  const breadItems = menus.map((item, index) => {
-    if (index === menus.length - 1) {
-      return <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>;
-    } else {
-      return (
-        <Breadcrumb.Item href={item.key} key={item.key}>
-          {item.label}
-        </Breadcrumb.Item>
-      );
-    }
-  });
+  const menus = useMemo(() => {
+    return findMenuByKey(initialState?.antMenus || [], location.pathname);
+  }, [initialState?.antMenus, location?.pathname]);
+
+  const breadItems = useMemo(() => {
+    return menus.map((item, index) => {
+      if (index === menus.length - 1) {
+        return <AntBreadcrumb.Item key={item.key}>{item.label}</AntBreadcrumb.Item>;
+      } else {
+        return (
+          <AntBreadcrumb.Item href={item.key} key={item.key}>
+            {item.label}
+          </AntBreadcrumb.Item>
+        );
+      }
+    });
+  }, [menus]);
 
   return (
     <>
-      <Breadcrumb>{breadItems}</Breadcrumb>
-      <div className={styles.title}>{menus[menus.length - 1]?.label}</div>
+      <AntBreadcrumb className={styles.breadcrumb}>{breadItems}</AntBreadcrumb>
     </>
   );
 };
 
-export default MyBreadcrumb;
+export default Breadcrumb;

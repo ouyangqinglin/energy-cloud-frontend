@@ -12,7 +12,7 @@ import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data';
 import { onlineStatus } from '@/utils/dictionary';
-import { getList } from './service';
+import { getDevicePage } from '@/services/equipment';
 import { deviceDialogMap } from '@/components/ScreenDialog';
 import type { DeviceDialogMapType } from '@/components/ScreenDialog';
 
@@ -40,7 +40,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   }, []);
 
   const handleRequest = (params: any) => {
-    return getList({ ...params, subSystemId, siteId }).then(({ data }) => {
+    return getDevicePage({ ...params, subSystemId, siteId }).then(({ data }) => {
       return {
         data: data?.list,
         total: data?.total,

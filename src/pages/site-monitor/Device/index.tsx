@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-07-05 17:01:02
+ * @LastEditTime: 2023-07-06 17:59:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\index.tsx
  */
 
 import React, { useCallback, useState, useEffect } from 'react';
+import { Divider } from 'antd';
 import { useLocation } from 'umi';
 import { useBoolean } from 'ahooks';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -51,13 +52,15 @@ const Device: React.FC = () => {
   return (
     <>
       <div className="bg-white">
-        <SiteSwitch
-          className="p24"
-          initialValues={{
-            siteId: (location as LocationType).query?.id,
-          }}
-          onChange={onChange}
-        />
+        <div className="px24 pt24">
+          <SiteSwitch
+            initialValues={{
+              siteId: (location as LocationType).query?.id,
+            }}
+            onChange={onChange}
+          />
+          <Divider className="mt0 my12" />
+        </div>
         <div className={`${open && siteId && styles.open} ${styles.treeContain}`}>
           {siteId && (
             <>

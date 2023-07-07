@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-05 15:23:00
+ * @LastEditTime: 2023-07-06 16:34:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -14,7 +14,8 @@ import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
-import { getList, removeData, getTabs } from './service';
+import { removeData, getTabs } from './service';
+import { getDevicePage } from '@/services/equipment';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
@@ -70,7 +71,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setTabItems(items);
       }
     });
-    return getList({ ...params, ...searchParams }).then(({ data }) => {
+    return getDevicePage({ ...params, ...searchParams }).then(({ data }) => {
       return {
         data: data?.list,
         total: data?.total,

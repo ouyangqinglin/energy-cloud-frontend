@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-06-30 16:18:50
+ * @LastEditTime: 2023-07-06 17:15:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.ts
  */
@@ -14,8 +14,9 @@ import {
   OptionType,
   timeDimension,
   timeDimensionEnum,
+  reportTypeSystemIdMap,
 } from '@/utils/dictionary';
-import { getDevice } from './service';
+import { getDevicePage } from '@/services/equipment';
 import moment from 'moment';
 
 const pickerMap = new Map([
@@ -28,7 +29,7 @@ const pickerMap = new Map([
 export const searchColumns: ProColumns[] = [
   {
     title: '报表类型',
-    dataIndex: 'type',
+    dataIndex: 'reportType',
     valueType: 'select',
     valueEnum: reportType,
     hideInTable: true,
@@ -38,16 +39,28 @@ export const searchColumns: ProColumns[] = [
   },
   {
     title: '选中设备',
-    dataIndex: 'device',
+    dataIndex: 'deviceId',
     valueType: 'select',
-    dependencies: ['type'],
+    dependencies: ['reportType', 'siteId'],
     request: (params) => {
       const options: OptionType[] = [{ label: '全部', value: '' }];
       if (
-        ![reportTypeEnum.Site, reportTypeEnum.Electric, reportTypeEnum.Else].includes(params.type)
+        ![reportTypeEnum.Site, reportTypeEnum.Electric, reportTypeEnum.Else].includes(
+          params.reportType,
+        )
       ) {
-        return getDevice(params).then(({ data }) => {
-          options.push();
+        return getDevicePage({
+          ...params,
+          subSystemId: reportTypeSystemIdMap.get(params.reportType),
+          current: 1,
+          pageSize: 10000,
+        }).then(({ data }) => {
+          data?.list?.forEach((item) => {
+            options.push({
+              label: item.name,
+              value: item.deviceId,
+            });
+          });
           return options;
         });
       } else {
@@ -58,7 +71,7 @@ export const searchColumns: ProColumns[] = [
   },
   {
     title: '时间维度',
-    dataIndex: 'time',
+    dataIndex: 'timeDimension',
     valueType: 'select',
     valueEnum: timeDimension,
     hideInTable: true,
@@ -69,18 +82,22 @@ export const searchColumns: ProColumns[] = [
   },
   {
     title: '统计时间',
-    dataIndex: 'date',
+    dataIndex: 'dimensionTime',
     valueType: 'date',
-    dependencies: ['time'],
+    dependencies: ['timeDimension'],
     fieldProps: (form) => {
-      const config = pickerMap.get(form.getFieldValue('time'));
+      const config = pickerMap.get(form?.getFieldValue?.('timeDimension'));
       return {
         picker: config?.picker,
         format: config?.format,
       };
     },
-    formItemProps: {
-      // rules: [{ required: true }]
+    formItemProps: (form) => {
+      const time = form?.getFieldValue?.('timeDimension');
+      return {
+        hidden: time === timeDimensionEnum.Cycle,
+        rules: [{ required: true }],
+      };
     },
     initialValue: moment(),
   },
@@ -89,7 +106,7 @@ export const searchColumns: ProColumns[] = [
 export const siteColumns: ProColumns[] = [
   {
     title: '统计时间',
-    dataIndex: 'a',
+    dataIndex: 'statisticalTime',
     hideInSearch: true,
     width: 150,
   },
@@ -99,13 +116,13 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title: '市电电量(kWh)',
-        dataIndex: 'b',
+        dataIndex: 'meq',
         width: 120,
         ellipsis: true,
       },
       {
         title: '市电电费(元)',
-        dataIndex: 'c',
+        dataIndex: 'meb',
         width: 120,
         ellipsis: true,
       },
@@ -117,26 +134,31 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title: '充电桩用电量(kWh)',
+        dataIndex: 'cspc',
         width: 150,
         ellipsis: true,
       },
       {
         title: '充电桩充电量(kWh)',
+        dataIndex: 'cscc',
         width: 150,
         ellipsis: true,
       },
       {
         title: '用电成本(元)',
+        dataIndex: 'ec',
         width: 120,
         ellipsis: true,
       },
       {
         title: '充电收入(元)',
+        dataIndex: 'ci',
         width: 120,
         ellipsis: true,
       },
       {
         title: '充电桩收益(元)',
+        dataIndex: 'ics',
         width: 120,
         ellipsis: true,
       },
@@ -148,11 +170,13 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title: '光伏发电量(kWh)',
+        dataIndex: 'pvpg',
         width: 150,
         ellipsis: true,
       },
       {
         title: '光伏收益(元)',
+        dataIndex: 'pvr',
         width: 120,
         ellipsis: true,
       },
@@ -164,26 +188,31 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title: '储能充电量(kWh)',
+        dataIndex: 'escc',
         width: 150,
         ellipsis: true,
       },
       {
         title: '储能放电量(kWh)',
+        dataIndex: 'esdc',
         width: 150,
         ellipsis: true,
       },
       {
         title: '充电成本(元)',
+        dataIndex: 'cc',
         width: 120,
         ellipsis: true,
       },
       {
         title: '放电收入(元)',
+        dataIndex: 'di',
         width: 120,
         ellipsis: true,
       },
       {
         title: '储能收益(元)',
+        dataIndex: 'esi',
         width: 120,
         ellipsis: true,
       },
@@ -195,11 +224,13 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title: '其他负载用电量(kWh)',
+        dataIndex: 'loadec',
         width: 170,
         ellipsis: true,
       },
       {
         title: '其他负载电费(元)',
+        dataIndex: 'loadef',
         width: 140,
         ellipsis: true,
       },
@@ -210,7 +241,7 @@ export const siteColumns: ProColumns[] = [
 export const electricColumns: ProColumns[] = [
   {
     title: '统计时间',
-    dataIndex: 'a',
+    dataIndex: 'statisticalDimension',
     hideInSearch: true,
     width: 150,
   },
@@ -220,13 +251,13 @@ export const electricColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b',
+        dataIndex: 'sharpElectricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '电费(元)',
-        dataIndex: 'c',
+        dataIndex: 'sharpElectricityBill',
         width: 120,
         ellipsis: true,
       },
@@ -238,13 +269,13 @@ export const electricColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b1',
+        dataIndex: 'peakElectricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '电费(元)',
-        dataIndex: 'c1',
+        dataIndex: 'peakElectricityBill',
         width: 120,
         ellipsis: true,
       },
@@ -256,13 +287,13 @@ export const electricColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b1',
+        dataIndex: 'flatElectricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '电费(元)',
-        dataIndex: 'c1',
+        dataIndex: 'flatElectricityBill',
         width: 120,
         ellipsis: true,
       },
@@ -274,13 +305,13 @@ export const electricColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b1',
+        dataIndex: 'valleyElectricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '电费(元)',
-        dataIndex: 'c1',
+        dataIndex: 'valleyElectricityBill',
         width: 120,
         ellipsis: true,
       },
@@ -292,13 +323,13 @@ export const electricColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b1',
+        dataIndex: 'electricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '电费(元)',
-        dataIndex: 'c1',
+        dataIndex: 'electricityBill',
         width: 120,
         ellipsis: true,
       },
@@ -309,7 +340,7 @@ export const electricColumns: ProColumns[] = [
 export const pvInverterColumns: ProColumns[] = [
   {
     title: '统计时间',
-    dataIndex: 'a',
+    dataIndex: 'statisticalDimension',
     hideInSearch: true,
     width: 150,
   },
@@ -323,13 +354,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b',
+            dataIndex: 'sharpElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c',
+            dataIndex: 'sharpIncome',
             width: 120,
             ellipsis: true,
           },
@@ -341,13 +372,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'peakElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c1',
+            dataIndex: 'peakIncome',
             width: 120,
             ellipsis: true,
           },
@@ -359,13 +390,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'flatElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c1',
+            dataIndex: 'flatIncome',
             width: 120,
             ellipsis: true,
           },
@@ -377,13 +408,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'valleyElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c1',
+            dataIndex: 'valleyIncome',
             width: 120,
             ellipsis: true,
           },
@@ -395,13 +426,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'selfElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c1',
+            dataIndex: 'selfIncome',
             width: 120,
             ellipsis: true,
           },
@@ -418,13 +449,13 @@ export const pvInverterColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'pvgElectricityLevel',
             width: 110,
             ellipsis: true,
           },
           {
             title: '收益(元)',
-            dataIndex: 'c12',
+            dataIndex: 'pvgIncome',
             width: 110,
             ellipsis: true,
           },
@@ -438,13 +469,13 @@ export const pvInverterColumns: ProColumns[] = [
     children: [
       {
         title: '电量(kWh)',
-        dataIndex: 'b13',
+        dataIndex: 'electricityLevel',
         width: 120,
         ellipsis: true,
       },
       {
         title: '收益(元)',
-        dataIndex: 'c13',
+        dataIndex: 'income',
         width: 120,
         ellipsis: true,
       },
@@ -455,7 +486,7 @@ export const pvInverterColumns: ProColumns[] = [
 export const energyColumns: ProColumns[] = [
   {
     title: '统计时间',
-    dataIndex: 'a',
+    dataIndex: 'statisticalDimension',
     hideInSearch: true,
     width: 150,
   },
@@ -469,13 +500,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b',
+            dataIndex: 'escsharpElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c',
+            dataIndex: 'escsharpIncome',
             width: 120,
             ellipsis: true,
           },
@@ -487,13 +518,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'escpeakElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'escpeakIncome',
             width: 120,
             ellipsis: true,
           },
@@ -505,13 +536,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'escflatElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'escflatIncome',
             width: 120,
             ellipsis: true,
           },
@@ -523,13 +554,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'escvalleyElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'escvalleyIncome',
             width: 120,
             ellipsis: true,
           },
@@ -541,13 +572,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'escelectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'escincome',
             width: 120,
             ellipsis: true,
           },
@@ -565,13 +596,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b2',
+            dataIndex: 'esdsharpElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c2',
+            dataIndex: 'esdsharpIncome',
             width: 120,
             ellipsis: true,
           },
@@ -583,13 +614,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'esdpeakElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c12',
+            dataIndex: 'esdpeakIncome',
             width: 120,
             ellipsis: true,
           },
@@ -601,13 +632,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'esdflatElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c12',
+            dataIndex: 'esdflatIncome',
             width: 120,
             ellipsis: true,
           },
@@ -619,13 +650,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'esdvalleyElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c12',
+            dataIndex: 'esdvalleyIncome',
             width: 120,
             ellipsis: true,
           },
@@ -637,13 +668,13 @@ export const energyColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'esdelectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c12',
+            dataIndex: 'esdincome',
             width: 120,
             ellipsis: true,
           },
@@ -657,7 +688,7 @@ export const energyColumns: ProColumns[] = [
     children: [
       {
         title: '总收益(元)',
-        dataIndex: 'c13',
+        dataIndex: 'income',
         width: 120,
         ellipsis: true,
       },
@@ -771,13 +802,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b',
+            dataIndex: 'pccssharpElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c',
+            dataIndex: 'pccssharpIncome',
             width: 120,
             ellipsis: true,
           },
@@ -789,13 +820,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'pccspeakElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'pccspeakIncome',
             width: 120,
             ellipsis: true,
           },
@@ -807,13 +838,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'pccsflatElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'pccsflatIncome',
             width: 120,
             ellipsis: true,
           },
@@ -825,13 +856,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'pccsvalleyElectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'pccsvalleyIncome',
             width: 120,
             ellipsis: true,
           },
@@ -843,13 +874,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b1',
+            dataIndex: 'pccselectricityLevel',
             width: 120,
             ellipsis: true,
           },
           {
             title: '成本(元)',
-            dataIndex: 'c1',
+            dataIndex: 'pccsincome',
             width: 120,
             ellipsis: true,
           },
@@ -866,13 +897,13 @@ export const chargeBaseColumns: ProColumns[] = [
         children: [
           {
             title: '电量(kWh)',
-            dataIndex: 'b12',
+            dataIndex: 'cscelectricityLevel	',
             width: 110,
             ellipsis: true,
           },
           {
             title: '收入(元)',
-            dataIndex: 'c12',
+            dataIndex: 'cscincome',
             width: 110,
             ellipsis: true,
           },
@@ -886,7 +917,7 @@ export const chargeBaseColumns: ProColumns[] = [
     children: [
       {
         title: '总收益(元)',
-        dataIndex: 'c13',
+        dataIndex: 'totalRevenue',
         width: 120,
         ellipsis: true,
       },

@@ -14,7 +14,8 @@ import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { DeviceType, DeviceSearchType } from './data';
 import { onlineStatus } from '@/utils/dictionary';
-import { getList, removeData, getTabs } from './service';
+import { removeData, getTabs } from './service';
+import { getDevicePage } from '@/services/equipment';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
@@ -70,7 +71,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setTabItems(items);
       }
     });
-    return getList({ ...paramsData, ...searchParams, ...(params || {}) }).then(({ data }) => {
+    return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) }).then(({ data }) => {
       return {
         data: data?.list,
         total: data?.total,
@@ -256,7 +257,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           optionRender: (_, __, dom) => [
             ...dom,
             <Button type="primary" key="add" onClick={onAddClick}>
-              <PlusOutlined />
               新建设备
             </Button>,
           ],

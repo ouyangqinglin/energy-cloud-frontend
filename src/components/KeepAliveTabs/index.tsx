@@ -189,14 +189,14 @@ const KeepAliveTabs = () => {
       const width = document.getElementById('contentContainer')
         ? document.getElementById('contentContainer')!.getBoundingClientRect()!.width
         : 0;
-      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 100, tarnslateX: 0 } });
+      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 80, tarnslateX: 0 } });
     };
 
     const timer = setTimeout(() => {
       const width = document.getElementById('contentContainer')
         ? document.getElementById('contentContainer')!.getBoundingClientRect()!.width
         : 0;
-      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 100 } });
+      dispatch({ type: 'CHANGESTATE', payload: { tabsWidth: width - 80 } });
     }, 100);
     return () => {
       clearTimeout(timer);
@@ -235,13 +235,13 @@ const KeepAliveTabs = () => {
             <Divider type="vertical" />
           </>
         )}
-        {tabList.length > 1 && (
+        {/* {tabList.length > 1 && (
           <Dropdown overlay={menu} className={styles.menuRight}>
             <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
               操作 <DownOutlined />
             </a>
           </Dropdown>
-        )}
+        )} */}
       </div>
     </div>
   );

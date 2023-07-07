@@ -11,14 +11,7 @@ import request, { ResponseCommonData } from '@/utils/request';
 import type { TableDataType } from './type';
 
 export const getList = (params: any) => {
-  return request<ResponseCommonData<TableDataType[]>>(`/iot/collectionData/realTimePower`, {
-    method: 'GET',
-    params,
-  });
-};
-
-export const getDevice = (params: any) => {
-  return request<ResponseCommonData<TableDataType[]>>(`/iot/collectionData/realTimePower`, {
+  return request<ResponseCommonData<TableDataType[]>>(`/oss/reportForms/getReport`, {
     method: 'GET',
     params,
   });

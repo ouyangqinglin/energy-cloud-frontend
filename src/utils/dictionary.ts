@@ -186,13 +186,13 @@ export const noticeMethod = {
 };
 
 export enum reportTypeEnum {
-  Site,
-  Electric,
-  PvInverter,
-  Energy,
-  ChargeOrder,
-  ChargeBase,
-  Else,
+  Site = 0,
+  Electric = 1,
+  PvInverter = 2,
+  Energy = 3,
+  ChargeOrder = 41,
+  ChargeBase = 4,
+  Else = 5,
 }
 
 export const reportType = new Map([
@@ -203,6 +203,13 @@ export const reportType = new Map([
   [reportTypeEnum.ChargeOrder, '充电桩订单报表'],
   [reportTypeEnum.ChargeBase, '充电桩基础报表'],
   [reportTypeEnum.Else, '其他负载报表'],
+]);
+
+export const reportTypeSystemIdMap = new Map([
+  [reportTypeEnum.PvInverter, ChildSystemEnum.Pv],
+  [reportTypeEnum.Energy, ChildSystemEnum.Energy],
+  [reportTypeEnum.ChargeBase, ChildSystemEnum.Charge],
+  [reportTypeEnum.ChargeOrder, ChildSystemEnum.Charge],
 ]);
 
 export enum timeDimensionEnum {

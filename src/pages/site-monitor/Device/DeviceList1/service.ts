@@ -15,13 +15,6 @@ export const getTabs = (params: any) => {
   });
 };
 
-export const getList = (params: any) => {
-  return request(`/iot/device/deviceList`, {
-    method: 'GET',
-    params,
-  });
-};
-
 export const removeData = (params: any) => {
   return request(`/iot/device`, {
     method: 'DELETE',

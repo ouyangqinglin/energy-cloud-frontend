@@ -3,14 +3,14 @@
   position: relative;
   z-index: 20;
   width: 120px;
-  height: 30px;
+  height: 26px;
   margin-top: 2px;
   margin-left: 5px;
   padding: 0 20px;
   overflow: hidden;
   color: @text-color;
-  font-size: @font-size-sm;
-  line-height: 28px;
+  font-size: 12px;
+  line-height: 24px;
   white-space: nowrap;
   text-align: center;
   text-overflow: ellipsis;
@@ -21,7 +21,6 @@
   &:hover {
     // background: @layout-body-background;
     color: @primary-color-hover;
-    font-weight: bolder;
     &::before {
       display: none;
     } // display: block;
@@ -44,7 +43,7 @@
   .closeIcon {
     // display: none;
     position: absolute;
-    top: 7px;
+    top: 5px;
     right: 5px;
     display: flex;
     align-items: center;
@@ -62,8 +61,7 @@
 }
 
 .active {
-  color: white;
-  font-weight: bolder;
+  color: white !important;
   background: @primary-color;
   .closeIcon {
     color: white;

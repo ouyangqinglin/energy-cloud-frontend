@@ -80,6 +80,13 @@ const Report: React.FC<ReportProps> = (props) => {
         dataSource={tableData}
         onSubmit={onSubmit}
         bordered
+        search={{
+          collapsed: false,
+          collapseRender: false,
+        }}
+        form={{
+          ignoreRules: false,
+        }}
       />
     </>
   );

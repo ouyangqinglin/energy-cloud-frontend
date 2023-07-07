@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 14:44:32
- * @LastEditTime: 2023-07-06 14:37:32
+ * @LastEditTime: 2023-07-06 17:36:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
@@ -14,6 +14,7 @@ import styles from './index.less';
 import IconMenu from '@/assets/image/menu.png';
 import IconMenuRight from '@/assets/image/menu-right.png';
 import MyMenu from '../Menu';
+import Breadcrumb from '@/components/Breadcrumb';
 
 const MyHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -37,6 +38,7 @@ const MyHeader: React.FC = () => {
           src={initialState?.collapsed ? IconMenu : IconMenuRight}
           onClick={onSwitchClick}
         />
+        <Breadcrumb />
         <RightContent />
       </div>
       <Drawer

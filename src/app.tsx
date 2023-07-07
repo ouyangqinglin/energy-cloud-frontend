@@ -111,6 +111,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //   ]
     //   : [],
     menuHeaderRender: () => <Logo />,
+    // openKeys:[],
+    // onOpenChange(openKeys) {
+    //   console.log(openKeys);
+    // },
     menu: {
       locale: false,
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request

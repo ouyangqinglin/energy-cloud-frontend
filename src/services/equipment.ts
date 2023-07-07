@@ -7,8 +7,30 @@
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
 
-import request, { ResponseCommonData } from '@/utils/request';
+import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
 import { ListDataType } from '@/utils/dictionary';
+
+export type DeviceDataType = {
+  deviceId: string;
+  name: string;
+  sn: string;
+  model: string;
+  productId: number;
+  productTypeName: string;
+  subsystemName: string;
+  childSystem: string;
+  siteName: string;
+  createTime: string;
+  sessionStartTime: string;
+  connectStatus: number;
+};
+
+export const getDevicePage = (params: any) => {
+  return request<ResponsePageData<DeviceDataType>>(`/iot/device/deviceList`, {
+    method: 'GET',
+    params,
+  });
+};
 
 export const getDeviceInfo = (deviceId: string | number) => {
   return request(`/screen/device/${deviceId}`, {

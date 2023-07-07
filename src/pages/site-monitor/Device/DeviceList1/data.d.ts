@@ -12,7 +12,7 @@ export type EquipmentType = {
   name: string;
   sn: string;
   model: string;
-  productId: string;
+  productId: number;
   productTypeName: string;
   subsystemName: string;
   childSystem: string;
