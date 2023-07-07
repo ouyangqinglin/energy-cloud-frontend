@@ -10,7 +10,7 @@ const DescriptionCard = ({ config }: { config: DescriptionCardConfig }) => {
       <div key={label} className={styles['card-item']}>
         <div className={styles['card-left']}>
           <span className={styles['card-kpi-label']}>{label}</span>
-          <span className={styles['card-kpi-unit']}>{labelUnit}</span>
+          {/* <span className={styles['card-kpi-unit']}>{labelUnit}</span> */}
         </div>
         <div className={styles['card-right']}>
           <span className={styles['card-kpi-value']}>{value}</span>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { getData } from './service';
@@ -152,19 +152,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       <Legend
         position="top"
         marker={{
-          symbol: (x, y, radius) => {
-            const r = radius / 2;
-            return [
-              ['M', x - 3 * r, y],
-              ['L', x + 3 * r, y],
-              ['M', x - r, y],
-              ['A', r, r, 0, 0, 0, x + r, y],
-              ['A', r, r, 0, 0, 0, x - r, y],
-            ];
-          },
-          style: {
-            fill: null,
-          },
+          symbol: 'circle',
         }}
         itemName={{
           style: {
@@ -173,6 +161,17 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         }}
         itemSpacing={0}
       />
+      {/* <Interval
+        size={8}
+        adjust={[
+          {
+            type: 'dodge',
+            marginRatio: 0,
+          },
+        ]}
+        color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
+        position="time*value"
+      /> */}
       <LineAdvance
         shape="smooth"
         area

@@ -24,7 +24,7 @@ const SystemDiagram = () => {
           left: 0,
         }}
       >
-        {/* <AnimationDiagram /> */}
+        <AnimationDiagram />
       </div>
     </div>
   );

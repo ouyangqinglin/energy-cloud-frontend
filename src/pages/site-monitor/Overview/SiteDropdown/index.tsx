@@ -4,13 +4,25 @@ import { useState } from 'react';
 import styles from './index.less';
 import { getStations } from '@/services/station';
 
-const SiteDropdown = ({ defaultSiteId }: { defaultSiteId: number | string }) => {
-  const [stationName, setStationName] = useState('');
+export type StationItemType = {
+  label: string;
+  value: number;
+  key: string;
+};
+
+const SiteDropdown = ({
+  defaultSiteId,
+  onChange,
+}: {
+  defaultSiteId?: number | string;
+  onChange?: (siteId: string) => void;
+}) => {
+  const [station, setStation] = useState({});
   const { data } = useRequest(getStations);
   const items: MenuProps['items'] =
     data?.map?.((item: any) => {
       if (defaultSiteId === item.id) {
-        setStationName(item.name);
+        setStation(item);
       }
       return {
         label: item.name,
@@ -21,11 +33,21 @@ const SiteDropdown = ({ defaultSiteId }: { defaultSiteId: number | string }) => 
 
   return (
     <div className={styles.siteDropdown} id="area">
-      <h1>{stationName}</h1>
+      <h1>{station?.key}</h1>
       <Dropdown
-        menu={{ items, onClick: ({ label }) => setStationName(label) }}
+        menu={{
+          items,
+          selectable: true,
+          defaultSelectedKeys: [station?.key],
+          onClick: (key) => {
+            onChange?.(key);
+            setStation(key);
+          },
+        }}
+        overlayClassName={styles.dropdownContent}
+        placement="bottomLeft"
         getPopupContainer={() => document.getElementById('area')}
-        dropdownMatchSelectWidth={false}
+        dropdownMatchSelectWidth={true}
         trigger={['click']}
       >
         <a onClick={(e) => e.preventDefault()}>

@@ -5,41 +5,17 @@ import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overv
 
 export const columns = [
   {
-    icon: IconMarketElectric,
-    title: '市电',
-    statistics: [
-      {
-        label: '当日充/放电',
-        labelUnit: '/kWh',
-        field: 'charge',
-        value: '14024.9',
-      },
-      {
-        label: '剩余电量',
-        labelUnit: '/kWh',
-        field: 'ratePower',
-        value: '0',
-      },
-      {
-        label: '储能功率',
-        labelUnit: '/kW',
-        field: 'ratePower',
-        value: '462.46',
-      },
-    ],
-  },
-  {
     icon: IconPhotovoltaic,
     title: '光伏',
     statistics: [
       {
-        label: '当日发电',
+        label: '当日发电量(kWh)',
         labelUnit: '/kWh',
         field: 'charge',
         value: '1366.8',
       },
       {
-        label: '发电功率',
+        label: '发电功率(kW)',
         labelUnit: '/kW',
         field: 'ratePower',
         value: '210.03',
@@ -51,19 +27,19 @@ export const columns = [
     title: '储能',
     statistics: [
       {
-        label: '当日充/放电',
+        label: '当日充/放电量(kWh)',
         labelUnit: '/kWh',
         field: 'charge',
         value: '1083.4/968.3',
       },
       {
-        label: '剩余电量',
+        label: '剩余电量(kWh)',
         labelUnit: '/kWh',
         field: 'ratePower',
         value: '164.92',
       },
       {
-        label: '储能功率',
+        label: '储能功率(kW)',
         labelUnit: '/kW',
         field: 'ratePower',
         value: '1083.4/968.3',
@@ -72,29 +48,53 @@ export const columns = [
     ],
   },
   {
+    icon: IconMarketElectric,
+    title: '市电',
+    statistics: [
+      {
+        label: '当日购电量(kWh)',
+        labelUnit: '/kWh',
+        field: 'charge',
+        value: '14024.9',
+      },
+      {
+        label: '当日售电量(kWh)',
+        labelUnit: '/kWh',
+        field: 'ratePower',
+        value: '0',
+      },
+      {
+        label: '市电功率(kW)',
+        labelUnit: '/kW',
+        field: 'ratePower',
+        value: '462.46',
+      },
+    ],
+  },
+  {
     icon: IconLoad,
     title: '负载',
     statistics: [
       {
-        label: '当日用电量',
+        label: '当日用电量(kWh)',
         labelUnit: '/kWh',
         field: 'charge',
         value: '15286.43',
       },
       {
-        label: '·充电桩/其他',
+        label: '·充电桩/其他(kWh)',
         labelUnit: '/kWh',
         field: 'ratePower',
         value: '915.62',
       },
       {
-        label: '用电功率',
+        label: '用电功率(kW)',
         labelUnit: '/kW',
         field: 'charge',
         value: '15286.43',
       },
       {
-        label: '·充电桩/其他',
+        label: '·充电桩/其他(kW)',
         labelUnit: '/kW',
         field: 'ratePower',
         value: '915.62',

@@ -15,11 +15,11 @@ const Benefit = () => {
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
-            <span className={styles.label}>年CO2减排量/t：</span>
+            <span className={styles.label}>年CO2减排量(t)：</span>
             <span className={styles.value}>394.79</span>
           </div>
           <div className={styles.desc}>
-            <span className={styles.label}>累计减排量/t：</span>
+            <span className={styles.label}>累计减排量(t)：</span>
             <span className={styles.value}>394.79</span>
           </div>
         </Col>
@@ -31,11 +31,11 @@ const Benefit = () => {
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
-            <span className={styles.label}>年CO2减排量/t：</span>
+            <span className={styles.label}>年节约标准煤(t)：</span>
             <span className={styles.value}>394.79</span>
           </div>
           <div className={styles.desc}>
-            <span className={styles.label}>累计减排量/t：</span>
+            <span className={styles.label}>累计节约(t)：</span>
             <span className={styles.value}>394.79</span>
           </div>
         </Col>
@@ -47,11 +47,11 @@ const Benefit = () => {
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
-            <span className={styles.label}>年CO2减排量/t：</span>
+            <span className={styles.label}>年等效植树(颗)：</span>
             <span className={styles.value}>394.79</span>
           </div>
           <div className={styles.desc}>
-            <span className={styles.label}>累计减排量/t：</span>
+            <span className={styles.label}>累计等效植树(颗)：</span>
             <span className={styles.value}>394.79</span>
           </div>
         </Col>
