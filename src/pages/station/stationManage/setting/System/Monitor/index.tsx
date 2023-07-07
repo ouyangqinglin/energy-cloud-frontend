@@ -126,9 +126,17 @@ const Monitor: React.FC = () => {
     [allTableData],
   );
 
-  const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>((item) => {
-    item.checkable = item.productId == 516;
-  }, []);
+  const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>(
+    (item) => {
+      if (selectedRow.area === 'elec') {
+        if (item.productId) {
+          item.selectable = true;
+        }
+      }
+      item.checkable = item.productId == 516;
+    },
+    [selectedRow.area],
+  );
 
   const requestTree = useCallback(() => {
     if (siteId) {

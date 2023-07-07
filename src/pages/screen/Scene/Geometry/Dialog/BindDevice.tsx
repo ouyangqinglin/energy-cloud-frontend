@@ -31,7 +31,9 @@ const BindDevice = <V = any,>(props: {
     },
   ];
   const dealTreeData = useCallback<dealTreeDataType>((item) => {
-    item.checkable = item.productId == 516;
+    if (item.productId) {
+      item.selectable = true;
+    }
   }, []);
 
   return (
@@ -48,6 +50,7 @@ const BindDevice = <V = any,>(props: {
         },
         request: requestTree,
       }}
+      dealTreeData={dealTreeData}
       proTableProps={{
         columns: tableSelectColumns,
         request: getDeviceCollection,
