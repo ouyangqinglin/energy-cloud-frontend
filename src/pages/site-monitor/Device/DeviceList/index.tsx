@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-05 17:02:56
+ * @LastEditTime: 2023-07-07 14:01:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -264,7 +264,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         rowKey="id"
         options={false}
         request={handleRequest}
-        scroll={{ x: 1366 }}
+        scroll={{ x: 1366, y: 508 }}
         pagination={{
           showSizeChanger: true,
         }}

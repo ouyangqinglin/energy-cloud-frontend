@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Menu\index.tsx
  */
 import React, { useMemo } from 'react';
-import { Menu } from 'antd';
+import { Menu as AntMenu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useModel, history, useLocation, useRouteMatch } from 'umi';
 import styles from './index.less';
@@ -16,7 +16,7 @@ export type MyMenuProps = {
   onClick?: () => void;
 };
 
-const MyMenu: React.FC<MyMenuProps> = (props) => {
+const Menu: React.FC<MyMenuProps> = (props) => {
   const { initialState } = useModel('@@initialState');
   const location = useLocation();
   const route = useRouteMatch();
@@ -37,7 +37,7 @@ const MyMenu: React.FC<MyMenuProps> = (props) => {
 
   return (
     <>
-      <Menu
+      <AntMenu
         className={styles.modalMenu}
         selectedKeys={keys.selected}
         items={initialState?.antMenus}
@@ -48,4 +48,4 @@ const MyMenu: React.FC<MyMenuProps> = (props) => {
   );
 };
 
-export default MyMenu;
+export default Menu;

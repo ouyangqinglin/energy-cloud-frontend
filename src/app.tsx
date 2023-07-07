@@ -2,12 +2,12 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { MenuDataItem } from '@umijs/route-utils';
-import { history, Link } from 'umi';
+import { history } from 'umi';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
-import { getMenus, getPathTitleMap } from '@/utils';
+import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
@@ -20,10 +20,7 @@ export const initialStateConfig = {
   loading: <PageLoading />,
 };
 
-/**
- * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
- * */
-export async function getInitialState(): Promise<{
+export type initialStateType = {
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   loading?: boolean;
@@ -32,7 +29,13 @@ export async function getInitialState(): Promise<{
   menuPathTitleMap?: Map<string, string>;
   antMenus?: MenuProps['items'];
   collapsed?: boolean;
-}> {
+  openKeys?: string[];
+};
+
+/**
+ * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
+ * */
+export async function getInitialState(): Promise<initialStateType> {
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo({ showMessage: false });
@@ -111,10 +114,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //   ]
     //   : [],
     menuHeaderRender: () => <Logo />,
-    // openKeys:[],
-    // onOpenChange(openKeys) {
-    //   console.log(openKeys);
-    // },
+    openKeys: initialState?.openKeys,
+    onOpenChange(openKeys) {
+      if (Array.isArray(openKeys)) {
+        setInitialState((prevData) => {
+          return { ...prevData, openKeys: getPathArrary(openKeys[openKeys.length - 1]) };
+        });
+      }
+    },
     menu: {
       locale: false,
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request

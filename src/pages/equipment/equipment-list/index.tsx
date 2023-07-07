@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-06 16:34:46
+ * @LastEditTime: 2023-07-07 13:46:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -268,7 +268,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onChange: onTabChange,
           },
         }}
-        scroll={{ x: 1366 }}
+        scroll={{ x: 1366, y: 557 }}
         pagination={{
           showSizeChanger: true,
         }}

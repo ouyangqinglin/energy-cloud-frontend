@@ -93,3 +93,22 @@ export const getAreaCodeByAdCode = (code: string): string[] => {
 export const getPlaceholder = (value: any, placeholder = '--') => {
   return value ?? placeholder;
 };
+
+/**
+ * @param path string;
+ * @returns path[];
+ * @example '/a/b/c'=>['/a','/a/b','/a/b/c']
+ */
+export const getPathArrary = (path: string): string[] => {
+  const result: string[] = [];
+  if (path) {
+    (path + '').split('/').forEach((item, index) => {
+      if (index) {
+        result.push([result[result.length - 1], item].join('/'));
+      } else {
+        result.push(item);
+      }
+    });
+  }
+  return result;
+};
