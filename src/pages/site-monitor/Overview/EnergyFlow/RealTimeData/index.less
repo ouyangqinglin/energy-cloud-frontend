@@ -1,37 +1,32 @@
 .realTimeData {
   position: absolute;
   top: 0;
-  right: 30px;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
   min-width: 300px;
   padding: 16px;
+  .realBtn {
+    order: 2;
+  }
   .realContent {
-    min-width: 300px;
-    background: #f3f3f3;
-    .descItem {
-      margin-bottom: 15px;
-      padding: 15px 30px;
-      background: #fff;
-      border-radius: 5px;
-      box-shadow: 0 3px 6px 1px #00000014;
-      opacity: 1;
-      .realTitle {
-        margin: 0 0 4px;
-        .indexLabel {
-          margin-right: 3px;
-          color: #666;
-          font-size: 14px;
-        }
-        .indexUnit {
-          color: #999;
-          font-size: 12px;
-        }
-      }
-      .realValue {
-        color: #333;
-        font-weight: 700;
-        font-size: 18px;
-        font-family: 'Microsoft YaHei-Bold, Microsoft YaHei';
-      }
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    order: 1;
+    width: 356px;
+    .timeBtn {
+      margin-bottom: 16px;
+    }
+    .boxContent {
+      // margin-top: 16px;
+      padding: 18px 20px;
+      // color: #606266;
+      // font-weight: 400;
+      // font-size: 14px;
+      // font-family: PingFangSC-Regular, PingFang SC;
+      // line-height: 22px;
+      background-color: #fff;
     }
   }
 }

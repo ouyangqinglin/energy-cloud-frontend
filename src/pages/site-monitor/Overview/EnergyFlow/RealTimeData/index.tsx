@@ -1,7 +1,8 @@
 import { useToggle } from 'ahooks';
-import { Button } from 'antd';
+import { Button, Col, Radio, Row, Statistic } from 'antd';
 import classNames from 'classnames';
 import React from 'react';
+import TimeButtonGroup from '../../components/TimeButtonGroup';
 import styles from './index.less';
 
 const RealTimeData: React.FC = () => {
@@ -9,50 +10,73 @@ const RealTimeData: React.FC = () => {
 
   const columns = [
     {
-      label: '当日总收益',
+      label: '总收益',
       unit: '(元)',
       value: 2454.83,
     },
     {
-      label: '当日光伏收益',
+      label: '光伏收益',
       unit: '(元)',
       value: 1644.43,
     },
     {
-      label: '当日储能收益',
+      label: '储能收益',
+      unit: '(元)',
+      value: 811.67,
+    },
+    {
+      label: '充电桩收益',
       unit: '(元)',
       value: 811.67,
     },
   ];
 
   const toggleButton = show ? (
-    <Button type="link" onChange={toggle} size={'small'}>
-      显示实时信息
+    <Button type="link" onClick={toggle} size={'small'}>
+      隐藏
     </Button>
   ) : (
-    <Button type="link" onChange={toggle} size={'small'}>
-      隐藏
+    <Button type="link" onClick={toggle} size={'small'}>
+      显示实时信息
     </Button>
   );
 
   return (
     <div className={styles.realTimeData}>
-      {toggleButton}
-      <div className={classNames(styles.realContent)}>
-        {columns.map((row) => {
-          return (
-            <div key={row.label} className={styles.descItem}>
-              <p className={styles.realTitle}>
-                <span className={styles.indexLabel}>{row.label}</span>
-                <span className={styles.indexUnit}>{row.unit}</span>
-              </p>
-              <p className={styles.realValue}>
-                <span>{row.value}</span>
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <div className={styles.realBtn}>{toggleButton}</div>
+      {show && (
+        <div className={classNames(styles.realContent)}>
+          <TimeButtonGroup className={styles.timeBtn} onChange={() => {}} />
+          <Row gutter={[16, 16]}>
+            {columns.map((row) => {
+              return (
+                <Col key={row.label} span={12}>
+                  <Statistic
+                    className={styles.boxContent}
+                    title={
+                      <span
+                        style={{
+                          color: '#606266',
+                          fontSize: 14,
+                          fontWeight: 400,
+                        }}
+                      >
+                        {row.label + row.unit}
+                      </span>
+                    }
+                    value={row.value}
+                    valueStyle={{
+                      fontWeight: 600,
+                      color: '#1D2129',
+                      fontSize: 20,
+                    }}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+      )}
     </div>
   );
 };

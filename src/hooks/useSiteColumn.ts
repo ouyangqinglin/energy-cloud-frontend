@@ -9,11 +9,11 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
-import { debounce } from 'lodash';
+import { debounce, merge } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-table';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
-  props?: ProColumns<TableData, ValueType>,
+  props: ProColumns<TableData, ValueType> = {},
 ): [siteColumn: ProColumns<TableData, ValueType>] => {
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
 
@@ -38,27 +38,28 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   }, []);
 
   const siteColumn: ProColumns<TableData, ValueType> = useMemo(() => {
-    return {
-      title: '站点名称',
-      dataIndex: 'siteName',
-      valueType: 'select',
-      width: 150,
-      ellipsis: true,
-      ...(props || {}),
-      formItemProps: {
-        name: 'siteId',
-        ...(props?.formItemProps || {}),
+    const option = merge(
+      {
+        title: '站点名称',
+        dataIndex: 'siteName',
+        valueType: 'select',
+        width: 150,
+        ellipsis: true,
+        formItemProps: {
+          name: 'siteId',
+        },
+        fieldProps: {
+          showSearch: true,
+          filterOption: false,
+          onSearch: requestStation,
+          options: stationOptions,
+          placeholder: '请选择',
+        },
       },
-      fieldProps: {
-        showSearch: true,
-        filterOption: false,
-        onSearch: requestStation,
-        options: stationOptions,
-        placeholder: '请选择',
-        ...(props?.fieldProps || {}),
-      },
-    };
-  }, [stationOptions, props]);
+      props,
+    );
+    return option;
+  }, [requestStation, stationOptions, props]);
 
   return [siteColumn];
 };

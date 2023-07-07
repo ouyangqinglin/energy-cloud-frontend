@@ -1,10 +1,35 @@
-import { ReactComponent as IconPhotovoltaicPanel } from '@/assets/image/screen/decoration/photovoltaic_panel.svg';
-import { ReactComponent as EnergyStorageCapacity } from '@/assets/image/screen/decoration/energy_storage_capacity.svg';
-import { ReactComponent as VoltageLevel } from '@/assets/image/screen/decoration/voltage_level.svg';
+import { ReactComponent as IconEnergyStorage } from '@/assets/image/station/overview/icon_储能1.svg';
+import { ReactComponent as IconLoad } from '@/assets/image/station/overview/icon_负载1.svg';
+import { ReactComponent as IconMarketElectric } from '@/assets/image/station/overview/icon_市电1.svg';
+import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overview/icon_光伏1.svg';
 
 export const columns = [
   {
-    icon: IconPhotovoltaicPanel,
+    icon: IconMarketElectric,
+    title: '市电',
+    statistics: [
+      {
+        label: '当日充/放电',
+        labelUnit: '/kWh',
+        field: 'charge',
+        value: '14024.9',
+      },
+      {
+        label: '剩余电量',
+        labelUnit: '/kWh',
+        field: 'ratePower',
+        value: '0',
+      },
+      {
+        label: '储能功率',
+        labelUnit: '/kW',
+        field: 'ratePower',
+        value: '462.46',
+      },
+    ],
+  },
+  {
+    icon: IconPhotovoltaic,
     title: '光伏',
     statistics: [
       {
@@ -22,7 +47,7 @@ export const columns = [
     ],
   },
   {
-    icon: EnergyStorageCapacity,
+    icon: IconEnergyStorage,
     title: '储能',
     statistics: [
       {
@@ -47,32 +72,7 @@ export const columns = [
     ],
   },
   {
-    icon: EnergyStorageCapacity,
-    title: '电网',
-    statistics: [
-      {
-        label: '当日购电',
-        labelUnit: '/kWh',
-        field: 'charge',
-        value: '14024.9',
-      },
-      {
-        label: '当日售电',
-        labelUnit: '/kWh',
-        field: 'ratePower',
-        value: '0',
-      },
-      {
-        label: '电网功率',
-        labelUnit: '/kW',
-        field: 'ratePower',
-        value: '462.46',
-        valueUnit: '(购电)',
-      },
-    ],
-  },
-  {
-    icon: VoltageLevel,
+    icon: IconLoad,
     title: '负载',
     statistics: [
       {
