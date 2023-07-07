@@ -8,10 +8,17 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import type { TableDataType } from './type';
+import type { TableDataType, TableSearchType } from './type';
 
-export const getList = (params: any) => {
+export const getList = (params: TableSearchType) => {
   return request<ResponseCommonData<TableDataType[]>>(`/oss/reportForms/getReport`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const exportList = (params: TableSearchType) => {
+  return request('/oss/reportForms/export', {
     method: 'GET',
     params,
   });

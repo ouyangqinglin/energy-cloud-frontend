@@ -13,9 +13,11 @@ import {
   chargeOrderColumns,
   chargeBaseColumns,
 } from './config';
-import { getList } from './service';
+import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
 import { reportTypeEnum } from '@/utils/dictionary';
+import { cloneDeep } from 'lodash';
+import moment from 'moment';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -35,14 +37,23 @@ const Report: React.FC<ReportProps> = (props) => {
   const { isStationChild } = props;
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const [searchParams, setSearchParams] = useState<TableSearchType>({
+    reportType: reportTypeEnum.Site,
+  });
   const [siteSearchColumn] = useSiteColumn({
     hideInTable: true,
     formItemProps: {
       name: 'siteId',
       rules: [{ required: true }],
     },
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form?.setFieldValue?.('deviceId', '');
+        },
+      };
+    },
   });
-  const [reportType, setReportType] = useState<reportTypeEnum>(reportTypeEnum.Site);
 
   const {
     data: tableData,
@@ -56,25 +67,32 @@ const Report: React.FC<ReportProps> = (props) => {
   });
 
   const onSubmit = useCallback((params: TableSearchType) => {
-    setReportType(params.type || reportTypeEnum.Site);
-    run({ ...params, ...(isStationChild ? { siteId } : {}) });
+    setSearchParams(params);
+    run({
+      ...params,
+      dimensionTime: params?.dimensionTime
+        ? moment(params?.dimensionTime).format('YYYY-MM-DD')
+        : '',
+      ...(isStationChild ? { siteId } : {}),
+    });
   }, []);
 
   const columns = useMemo(() => {
     const siteSearch = isStationChild ? [] : [siteSearchColumn];
-    return [...siteSearch, ...searchColumns, ...(columnsMap.get(reportType) || siteColumns)];
-  }, [siteSearchColumn]);
+    const fieldColumns = cloneDeep(
+      columnsMap.get(searchParams?.reportType || reportTypeEnum.Site) || siteColumns,
+    );
+    if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {
+      fieldColumns.splice(2, 1);
+    }
+    return [...siteSearch, ...searchColumns, ...fieldColumns];
+  }, [siteSearchColumn, searchParams, isStationChild]);
 
   return (
     <>
       <YTProTable
         columns={columns}
-        toolBarRender={() => [
-          <Button key="export" type="primary">
-            <ExportOutlined />
-            导出
-          </Button>,
-        ]}
+        toolBarRender={() => []}
         pagination={false}
         loading={loading}
         dataSource={tableData}
@@ -83,6 +101,15 @@ const Report: React.FC<ReportProps> = (props) => {
         search={{
           collapsed: false,
           collapseRender: false,
+          optionRender: (_, __, dom) => {
+            return [
+              ...dom,
+              <Button key="export" type="primary" onClick={exportList}>
+                <ExportOutlined />
+                导出
+              </Button>,
+            ];
+          },
         }}
         form={{
           ignoreRules: false,

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-07-06 17:15:44
+ * @LastEditTime: 2023-07-07 10:55:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.ts
  */
@@ -36,6 +36,13 @@ export const searchColumns: ProColumns[] = [
     formItemProps: {
       rules: [{ required: true }],
     },
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form?.setFieldValue?.('deviceId', '');
+        },
+      };
+    },
   },
   {
     title: '选中设备',
@@ -49,23 +56,25 @@ export const searchColumns: ProColumns[] = [
           params.reportType,
         )
       ) {
-        return getDevicePage({
-          ...params,
-          subSystemId: reportTypeSystemIdMap.get(params.reportType),
-          current: 1,
-          pageSize: 10000,
-        }).then(({ data }) => {
-          data?.list?.forEach((item) => {
-            options.push({
-              label: item.name,
-              value: item.deviceId,
+        const subSystemId = reportTypeSystemIdMap.get(params.reportType);
+        if (subSystemId && params.siteId) {
+          return getDevicePage({
+            ...params,
+            subSystemId,
+            current: 1,
+            pageSize: 10000,
+          }).then(({ data }) => {
+            data?.list?.forEach((item) => {
+              options.push({
+                label: item.name,
+                value: item.deviceId,
+              });
             });
+            return options;
           });
-          return options;
-        });
-      } else {
-        return Promise.resolve(options);
+        }
       }
+      return Promise.resolve(options);
     },
     hideInTable: true,
   },
@@ -77,6 +86,15 @@ export const searchColumns: ProColumns[] = [
     hideInTable: true,
     formItemProps: {
       rules: [{ required: true }],
+    },
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          if (form?.getFieldValue?.('timeDimension') == timeDimensionEnum.Cycle) {
+            form?.setFieldValue?.('dimensionTime', '');
+          }
+        },
+      };
     },
     initialValue: timeDimensionEnum.Day,
   },
@@ -96,10 +114,11 @@ export const searchColumns: ProColumns[] = [
       const time = form?.getFieldValue?.('timeDimension');
       return {
         hidden: time === timeDimensionEnum.Cycle,
-        rules: [{ required: true }],
+        rules: [{ required: time !== timeDimensionEnum.Cycle }],
       };
     },
     initialValue: moment(),
+    hideInTable: true,
   },
 ];
 
@@ -703,14 +722,14 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '站点名称',
-    dataIndex: 'a',
+    dataIndex: 'siteName',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
     title: '设备名称',
-    dataIndex: 'a',
+    dataIndex: 'deviceName',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
@@ -724,27 +743,27 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电订单号',
-    dataIndex: 'a',
+    dataIndex: 'startChargeSeq',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
     title: '订单状态',
-    dataIndex: 'a',
+    dataIndex: 'orderStatus',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
   },
   {
     title: '开始充电时间',
-    dataIndex: 'a',
+    dataIndex: 'startTime',
     hideInSearch: true,
     width: 150,
   },
   {
     title: '结束时间',
-    dataIndex: 'a',
+    dataIndex: 'endTime',
     hideInSearch: true,
     width: 150,
   },
@@ -778,7 +797,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电结束原因',
-    dataIndex: 'a',
+    dataIndex: 'stopReason',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
@@ -788,7 +807,7 @@ export const chargeOrderColumns: ProColumns[] = [
 export const chargeBaseColumns: ProColumns[] = [
   {
     title: '统计时间',
-    dataIndex: 'a',
+    dataIndex: 'statisticalDimension',
     hideInSearch: true,
     width: 150,
   },

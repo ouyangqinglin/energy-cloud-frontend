@@ -2,14 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-07-06 17:59:16
+ * @LastEditTime: 2023-07-07 11:55:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\index.tsx
  */
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { Divider } from 'antd';
-import { useLocation } from 'umi';
 import { useBoolean } from 'ahooks';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import DeviceList from './DeviceList';
@@ -19,13 +18,15 @@ import styles from './index.less';
 import type { TreeNode } from '@/components/SiteTree/type';
 import DeviceDetail from '@/components/DeviceDetail';
 import SiteSwitch from '@/components/SiteSwitch';
-import { LocationType } from '@/utils/dictionary';
 
 const Device: React.FC = () => {
-  const location = useLocation();
   const [selectNode, setSelectNode] = useState<TreeNode | null>();
   const [open, { toggle }] = useBoolean(true);
   const [siteId, setSiteId] = useState<string>();
+
+  const selectedKeys = useMemo<string[]>(() => {
+    return selectNode?.id ? [selectNode.id] : [];
+  }, [selectNode]);
 
   const onChange = useCallback((data) => {
     setSiteId(data?.siteId || '');
@@ -43,33 +44,31 @@ const Device: React.FC = () => {
     return false;
   }, []);
 
-  useEffect(() => {
-    if ((location as LocationType).query?.id) {
-      setSiteId((location as LocationType).query?.id);
-    }
-  }, [(location as LocationType).query?.id]);
-
   return (
     <>
       <div className="bg-white">
-        <div className="px24 pt24">
-          <SiteSwitch
-            initialValues={{
-              siteId: (location as LocationType).query?.id,
-            }}
-            onChange={onChange}
-          />
-          <Divider className="mt0 my12" />
-        </div>
+        {!siteId && (
+          <div className="px24 pt24">
+            <SiteSwitch onChange={onChange} />
+            <Divider className="mb0 mt12" />
+          </div>
+        )}
         <div className={`${open && siteId && styles.open} ${styles.treeContain}`}>
           {siteId && (
             <>
               <div className={`${styles.tree}`}>
-                <SiteTree
-                  selectedKeys={[selectNode?.id || '']}
-                  siteId={siteId}
-                  onSelect={onSelect}
+                <SiteSwitch
+                  className="my12"
+                  initialValues={{
+                    siteId,
+                  }}
+                  onChange={onChange}
+                  columnProps={{
+                    title: '',
+                    width: 225,
+                  }}
                 />
+                <SiteTree selectedKeys={selectedKeys} siteId={siteId} onSelect={onSelect} />
               </div>
               <div className={styles.switchWrap} onClick={toggle}>
                 {open ? <LeftOutlined /> : <RightOutlined />}

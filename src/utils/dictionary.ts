@@ -55,8 +55,8 @@ export type FileType = {
   url: string;
 };
 
-export type LocationType = {
-  query?: AnyMapType;
+export type LocationType<Params = Record<string, any>> = {
+  query?: Params;
 };
 
 export type ListDataType = {

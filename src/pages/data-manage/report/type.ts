@@ -9,10 +9,11 @@
 import { reportTypeEnum, timeDimensionEnum } from '@/utils/dictionary';
 
 export type TableSearchType = {
-  siteId?: number;
-  type?: reportTypeEnum;
-  device?: number;
-  dimention?: timeDimensionEnum;
+  siteId?: string;
+  reportType?: reportTypeEnum;
+  deviceId?: number;
+  timeDimension?: timeDimensionEnum;
+  dimensionTime?: string;
 };
 
 export type TableDataType = {

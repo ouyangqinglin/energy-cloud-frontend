@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:36:01
- * @LastEditTime: 2023-06-29 10:36:05
+ * @LastEditTime: 2023-07-07 10:22:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
@@ -42,8 +42,12 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
       title: '站点名称',
       dataIndex: 'siteName',
       valueType: 'select',
+      width: 150,
+      ellipsis: true,
+      ...(props || {}),
       formItemProps: {
         name: 'siteId',
+        ...(props?.formItemProps || {}),
       },
       fieldProps: {
         showSearch: true,
@@ -51,10 +55,8 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         onSearch: requestStation,
         options: stationOptions,
         placeholder: '请选择',
+        ...(props?.fieldProps || {}),
       },
-      width: 150,
-      ellipsis: true,
-      ...(props || {}),
     };
   }, [stationOptions, props]);
 
