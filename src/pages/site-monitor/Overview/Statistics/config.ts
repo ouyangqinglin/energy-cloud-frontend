@@ -76,13 +76,25 @@ export const columns = [
     title: '负载',
     statistics: [
       {
-        label: '当日用电',
+        label: '当日用电量',
         labelUnit: '/kWh',
         field: 'charge',
         value: '15286.43',
       },
       {
+        label: '·充电桩/其他',
+        labelUnit: '/kWh',
+        field: 'ratePower',
+        value: '915.62',
+      },
+      {
         label: '用电功率',
+        labelUnit: '/kW',
+        field: 'charge',
+        value: '15286.43',
+      },
+      {
+        label: '·充电桩/其他',
         labelUnit: '/kW',
         field: 'ratePower',
         value: '915.62',

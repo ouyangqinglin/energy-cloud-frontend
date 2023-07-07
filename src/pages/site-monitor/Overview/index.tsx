@@ -39,7 +39,9 @@ const Index: React.FC = () => {
       showSearch: false,
       showArrow: false,
       allowClear: false,
-      onChange: () => {},
+      onChange: (id) => {
+        setSiteId(id);
+      },
     },
     width: 200,
   });

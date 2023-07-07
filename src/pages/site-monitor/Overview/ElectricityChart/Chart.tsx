@@ -105,10 +105,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   }, [powerData]);
 
   useEffect(() => {
-    run({
-      siteId,
-      date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-    });
+    if (siteId) {
+      run({
+        siteId,
+        date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+      });
+    }
   }, [siteId, date]);
 
   return (
