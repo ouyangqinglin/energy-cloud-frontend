@@ -1,5 +1,6 @@
 import { isNumber } from 'lodash';
 import type { SVGProps } from 'react';
+import { keepTwoDecimalWithoutNull } from '../../helper';
 import { SubSystemType, SystemDiagramRes } from '../type';
 const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes }) => {
   const { data } = props;
@@ -91,7 +92,7 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
             transform="translate(364 310)"
           >
             <tspan x={99} y={15}>
-              {!isNaN(load.p + chargeStack.p) ? load.p + chargeStack.p : '--'}
+              {keepTwoDecimalWithoutNull(load.p + chargeStack.p)}
             </tspan>
           </text>
         </g>
@@ -172,11 +173,11 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
             fontFamily="PingFangSC-Semibold, PingFang SC"
             fontWeight={500}
             transform="translate(368 139)"
+            x={102}
+            y={15}
           >
-            <tspan x={102} y={15} fill="#1D2129">
-              {energyStore.soc ?? '--'}
-            </tspan>
-            <tspan x={145.19} y={15} fill="#999" fontSize={12}>
+            <tspan fill="#1D2129">{energyStore.soc ?? '--'}</tspan>
+            <tspan fill="#999" fontSize={12}>
               {'%'}
             </tspan>
           </text>

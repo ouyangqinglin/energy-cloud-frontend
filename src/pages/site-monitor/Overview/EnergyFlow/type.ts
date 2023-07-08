@@ -11,6 +11,7 @@ export type SystemDiagramRes = Record<
   {
     type: number;
     time: string;
+    // 能流方向 =-1能流流入 =0未流动 =1 能源流出
     direction: number;
     charge: number;
     p: number;

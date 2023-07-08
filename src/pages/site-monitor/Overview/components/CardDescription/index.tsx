@@ -1,11 +1,19 @@
 import { Card, Col, Row } from 'antd';
 import classnames from 'classnames';
+import { isFunction } from 'lodash';
+import { keepTwoDecimalWithoutNull } from '../../helper';
 import RowBox from '../RowBox';
 import styles from './index.less';
 import type { DescriptionCardConfig } from './type';
 
-const DescriptionCard = ({ config }: { config: DescriptionCardConfig }) => {
-  const cardItemList = config.statistics.map(({ label, labelUnit, value, valueUnit }) => {
+const DescriptionCard = ({
+  config,
+  data,
+}: {
+  config: DescriptionCardConfig;
+  data: Record<string, any>;
+}) => {
+  const cardItemList = config.statistics.map(({ label, labelUnit, value, valueUnit, field }) => {
     return (
       <div key={label} className={styles['card-item']}>
         <div className={styles['card-left']}>
@@ -13,7 +21,13 @@ const DescriptionCard = ({ config }: { config: DescriptionCardConfig }) => {
           {/* <span className={styles['card-kpi-unit']}>{labelUnit}</span> */}
         </div>
         <div className={styles['card-right']}>
-          <span className={styles['card-kpi-value']}>{value}</span>
+          <span className={styles['card-kpi-value']}>
+            {field
+              ? keepTwoDecimalWithoutNull(data?.[field])
+              : isFunction(value)
+              ? value(data)
+              : value}
+          </span>
           {valueUnit && <span className={styles['card-kpi-unit']}>{valueUnit}</span>}
         </div>
       </div>

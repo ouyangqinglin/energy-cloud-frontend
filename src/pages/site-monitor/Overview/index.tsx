@@ -56,7 +56,7 @@ const Index: React.FC = () => {
           <IconScreen className={styles.screen} onClick={onScreenClick} />
         </div>
         <Row gutter={[16, 16]}>
-          <Statistics />
+          <Statistics siteId={siteId} />
           <EnergyFlow siteId={siteId} />
           <Benefit siteId={siteId} />
           <ElectricityChart siteId={siteId} />
