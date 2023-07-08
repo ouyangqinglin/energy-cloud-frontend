@@ -1,47 +1,48 @@
 import { useRequest } from 'umi';
-import { Dropdown, MenuProps, Space } from 'antd';
+import { Dropdown, Space } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
 import { getStations } from '@/services/station';
-
-export type StationItemType = {
-  label: string;
-  value: number;
-  key: string;
-};
+import type { MenuItemType } from 'antd/es/menu/hooks/useItems';
 
 const SiteDropdown = ({
-  defaultSiteId,
+  // defaultSiteId,
   onChange,
 }: {
-  defaultSiteId?: number | string;
-  onChange?: (siteId: string) => void;
+  // defaultSiteId?: number | string;
+  onChange?: (siteId: number) => void;
 }) => {
-  const [station, setStation] = useState({});
+  const [station, setStation] = useState<MenuItemType>({} as MenuItemType);
   const { data } = useRequest(getStations);
-  const items: MenuProps['items'] =
+  const items: MenuItemType[] =
     data?.map?.((item: any) => {
-      if (defaultSiteId === item.id) {
-        setStation(item);
-      }
+      // if (defaultSiteId === item.id) {
+      //   setStation(item);
+      // }
       return {
         label: item.name,
-        value: item.id,
         key: String(item.id),
       };
     }) ?? [];
 
+  const getItemByKey = (key: string) => {
+    return items?.find((it) => it?.key === key);
+  };
+
   return (
     <div className={styles.siteDropdown} id="area">
-      <h1>{station?.key}</h1>
+      <h1>{station?.label ?? '请选择站点'}</h1>
       <Dropdown
         menu={{
           items,
           selectable: true,
-          defaultSelectedKeys: [station?.key],
-          onClick: (key) => {
-            onChange?.(key);
-            setStation(key);
+          // defaultSelectedKeys: [defaultSiteId as string],
+          onClick: (menuInfo) => {
+            const menu = getItemByKey(menuInfo.key);
+            if (menu) {
+              onChange?.(Number(menu.key));
+              setStation(menu);
+            }
           },
         }}
         overlayClassName={styles.dropdownContent}
