@@ -34,6 +34,7 @@ export const Update = (props: FormUpdateBaseProps) => {
     return {
       ...omit(params, 'serviceProvider', 'sites'),
       ...{ orgId: params.serviceProvider?.[0]?.orgId, siteIds },
+      roleIds: [params.roleId],
     } as CustomerParam;
   };
 
@@ -42,8 +43,8 @@ export const Update = (props: FormUpdateBaseProps) => {
   return (
     // todo: 创建的时候无法请求到角色
     <FormUpdate<TransformCustomerUpdateInfo, CustomerParam>
-      titleCreate={`新增客户账号`}
-      titleUpdate={`编辑客户账号`}
+      titleCreate={`新增账号`}
+      titleUpdate={`编辑账号`}
       columns={getConfig()}
       onFinishUpdate={(params) => {
         return updateCustomer(convertUpdateParams(params));

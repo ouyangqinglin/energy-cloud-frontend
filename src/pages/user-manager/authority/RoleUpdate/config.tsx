@@ -15,9 +15,6 @@ export const columns: ProFormColumnsType[] = [
         },
       ],
     },
-    colProps: {
-      span: 18,
-    },
     dataIndex: 'roleName',
   },
   {
@@ -34,9 +31,6 @@ export const columns: ProFormColumnsType[] = [
     fieldProps: {
       placeholder: '请输入',
     },
-    colProps: {
-      span: 18,
-    },
     dataIndex: 'status',
   },
   {
@@ -44,11 +38,8 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'remark',
     valueType: 'textarea',
     fieldProps: {
-      placeholder: '请输入内容',
+      placeholder: '请输入',
       className: 'w-full',
-    },
-    colProps: {
-      span: 18,
     },
   },
 ];

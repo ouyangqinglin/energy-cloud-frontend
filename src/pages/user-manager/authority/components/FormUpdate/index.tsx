@@ -5,7 +5,7 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import type { FormUpdateBaseProps, FormUpdateProps } from './type';
 
 const DEFAULT_PROPS = {
-  layout: 'vertical' as 'vertical',
+  layout: 'vertical',
   labelCol: { flex: 'auto' },
   wrapperCol: { flex: 'auto' },
 };
@@ -56,6 +56,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
 
   return (
     <YTModalForm<FormData>
+      width={480}
       form={form}
       title={title}
       {...DEFAULT_PROPS}

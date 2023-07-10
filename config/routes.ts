@@ -481,14 +481,13 @@ export default [
         title: 'menu.title.role',
       },
       {
-        name: 'dept',
+        name: 'org',
         icon: 'PartitionOutlined',
-        path: '/system/dept',
+        path: '/system/org',
         component: 'system/dept/index',
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.dept',
       },
       {
         name: 'post',

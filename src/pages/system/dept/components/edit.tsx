@@ -8,7 +8,7 @@ import type { DeptType } from '../data.d';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export type DeptFormValueType = Record<string, unknown> & Partial<DeptType>;
@@ -30,10 +30,10 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
   useEffect(() => {
     form.resetFields();
     form.setFieldsValue({
-      deptId: props.values.deptId,
+      orgId: props.values.orgId,
       parentId: props.values.parentId,
       ancestors: props.values.ancestors,
-      deptName: props.values.deptName,
+      orgName: props.values.orgName,
       orderNum: props.values.orderNum,
       leader: props.values.leader,
       phone: props.values.phone,
@@ -61,118 +61,92 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
 
   return (
     <Modal
-      width={640}
-      title={intl.formatMessage({
-        id: 'system.Dept.modify',
-        defaultMessage: '编辑Dept',
-      })}
+      width={680}
+      title={props?.values?.orgId ? '编辑组织' : '新增组织'}
       visible={props.visible}
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} onFinish={handleFinish} initialValues={props.values}>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormDigit
-              name="deptId"
-              label={intl.formatMessage({
-                id: 'system.Dept.dept_id',
-                defaultMessage: '部门id',
-              })}
-              width="xl"
-              placeholder="请输入部门id"
-              disabled
-              hidden={!props.values.deptId}
-              rules={[
-                {
-                  required: false,
-                  message: <FormattedMessage id="请输入部门id！" defaultMessage="请输入部门id！" />,
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+      <Form form={form} onFinish={handleFinish} initialValues={props.values} layout="vertical">
+        <Row gutter={16}>
+          <ProFormDigit
+            name="orgId"
+            label={intl.formatMessage({
+              id: 'system.Dept.dept_id',
+              defaultMessage: '部门id',
+            })}
+            placeholder="请输入部门id"
+            disabled
+            hidden={true}
+            rules={[
+              {
+                required: false,
+                message: <FormattedMessage id="请输入部门id！" defaultMessage="请输入部门id！" />,
+              },
+            ]}
+          />
+          <Col span={12}>
             <ProFormTreeSelect
-                name="parentId"
-                label={intl.formatMessage({
-                  id: 'system.Dept.parent_dept',
-                  defaultMessage: '上级部门:',
-                })}
-                request={async () => {
-                  return deptTree;
-                }}
-                width="xl"
-                placeholder="请选择上级部门"
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage id="请输入用户昵称！" defaultMessage="请选择上级部门!" />
-                    ),
-                  },
-                ]}
-              />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormText
-              name="ancestors"
-              label={intl.formatMessage({
-                id: 'system.Dept.ancestors',
-                defaultMessage: '祖级列表',
-              })}
-              width="xl"
-              placeholder="请输入祖级列表"
-              hidden={true}
+              name="parentId"
+              label="上级组织"
+              request={async () => {
+                return deptTree;
+              }}
+              placeholder="请选择上级组织"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: (
-                    <FormattedMessage id="请输入祖级列表！" defaultMessage="请输入祖级列表！" />
+                    <FormattedMessage id="请输入用户昵称！" defaultMessage="请选择上级组织!" />
                   ),
                 },
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <ProFormText
+            name="ancestors"
+            label={intl.formatMessage({
+              id: 'system.Dept.ancestors',
+              defaultMessage: '组织列表',
+            })}
+            placeholder="请输入组织列表"
+            hidden={true}
+            rules={[
+              {
+                required: false,
+                message: (
+                  <FormattedMessage id="请输入组织列表！" defaultMessage="请输入组织列表！" />
+                ),
+              },
+            ]}
+          />
+          <Col span={12}>
             <ProFormText
-              name="deptName"
-              label={intl.formatMessage({
-                id: 'system.Dept.dept_name',
-                defaultMessage: '部门名称',
-              })}
-              width="xl"
-              placeholder="请输入部门名称"
+              name="orgName"
+              label="组织名称"
+              placeholder="请输入组织名称"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: (
-                    <FormattedMessage id="请输入部门名称！" defaultMessage="请输入部门名称！" />
+                    <FormattedMessage id="请输入组织名称！" defaultMessage="请输入组织名称！" />
                   ),
                 },
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <Col span={12}>
             <ProFormDigit
               name="orderNum"
               label={intl.formatMessage({
                 id: 'system.Dept.order_num',
                 defaultMessage: '显示顺序',
               })}
-              width="xl"
               placeholder="请输入显示顺序"
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: (
                     <FormattedMessage id="请输入显示顺序！" defaultMessage="请输入显示顺序！" />
                   ),
@@ -180,16 +154,13 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <Col span={12}>
             <ProFormText
               name="leader"
               label={intl.formatMessage({
                 id: 'system.Dept.leader',
                 defaultMessage: '负责人',
               })}
-              width="xl"
               placeholder="请输入负责人"
               rules={[
                 {
@@ -199,16 +170,13 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <Col span={12}>
             <ProFormText
               name="phone"
               label={intl.formatMessage({
                 id: 'system.Dept.phone',
                 defaultMessage: '联系电话',
               })}
-              width="xl"
               placeholder="请输入联系电话"
               rules={[
                 {
@@ -220,16 +188,13 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <Col span={12}>
             <ProFormText
               name="email"
               label={intl.formatMessage({
                 id: 'system.Dept.email',
                 defaultMessage: '邮箱',
               })}
-              width="xl"
               placeholder="请输入邮箱"
               rules={[
                 {
@@ -239,24 +204,17 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
               ]}
             />
           </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
+          <Col span={12}>
             <ProFormRadio.Group
               valueEnum={statusOptions}
               name="status"
-              label={intl.formatMessage({
-                id: 'system.Dept.status',
-                defaultMessage: '部门状态',
-              })}
-              labelCol={{ span: 24 }}
-              width="xl"
-              placeholder="请输入部门状态"
+              label="组织状态"
+              placeholder="请输入组织状态"
               rules={[
                 {
                   required: false,
                   message: (
-                    <FormattedMessage id="请输入部门状态！" defaultMessage="请输入部门状态！" />
+                    <FormattedMessage id="请输入组织状态！" defaultMessage="请输入组织状态！" />
                   ),
                 },
               ]}

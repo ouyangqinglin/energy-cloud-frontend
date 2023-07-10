@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-07 19:45:46
+ * @LastEditTime: 2023-07-10 15:15:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
@@ -12,7 +12,7 @@ import { Tree, Spin } from 'antd';
 import type { TreeProps } from 'antd';
 import { useRequest } from 'umi';
 import { getOrgTree } from './service';
-import type { TreeNode } from './type';
+import { TreeNode, OrgTypeEnum } from './type';
 import styles from './index.less';
 
 export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
@@ -20,12 +20,14 @@ export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
   onSelect?: TreeProps<TreeNode>['onSelect'];
 };
 
-const dealData = (data: any) => {
+const dealData = (data: any, prefix = OrgTypeEnum.Service) => {
   data?.forEach((item: any) => {
-    item.id = 'service' + item.id;
+    item.id = prefix + item.id;
     item.label = item.label || item.name;
+    item.type = prefix;
     if (item.sites && item.sites.length) {
-      item.children = dealData(item.sites);
+      dealData(item.sites, OrgTypeEnum.Site);
+      item.children = item.sites;
     }
   });
 };
@@ -44,7 +46,8 @@ const OrgTree: React.FC<OrgTreeProps> = (props) => {
         data[0].id = 0;
       }
       if (data?.[1]) {
-        data[1].id = 'service';
+        data[1].id = OrgTypeEnum.Service;
+        data[1].type = OrgTypeEnum.Service;
         if (data[1].children && data[1].children.length) {
           dealData(data[1].children);
         }

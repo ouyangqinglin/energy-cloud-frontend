@@ -1,7 +1,7 @@
 import { YTProColumns } from '@/components/YTProTable/typing';
 import { effectStatus } from '@/utils/dictionary';
 import { isEmpty } from 'lodash';
-import { getRoleListForCurrentUser } from './service';
+import { getRoleListForCurrentUser, getCustomer } from './service';
 import { CustomerInfo } from './type';
 
 export const columns: YTProColumns<CustomerInfo>[] = [
@@ -33,6 +33,23 @@ export const columns: YTProColumns<CustomerInfo>[] = [
       return entity.roles.reduce((str, cur) => (str += ' ' + cur.roleName), '');
     },
     hideInSearch: true,
+  },
+
+  {
+    title: '角色',
+    dataIndex: 'roleId',
+    hideInTable: true,
+    valueType: 'select',
+    request: async () => {
+      const res = await getCustomer();
+      if (res && res.data) {
+        return res.data.roles?.map(({ roleId, roleName }) => ({
+          label: roleName,
+          value: roleId,
+        }));
+      }
+      return [];
+    },
   },
   {
     title: '组织',

@@ -56,8 +56,13 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
 
   return (
     <YTModalForm<FormData>
+      width={680}
       form={form}
       title={title}
+      grid={true}
+      colProps={{
+        span: 12,
+      }}
       {...DEFAULT_PROPS}
       layoutType={'ModalForm'}
       columns={columns}

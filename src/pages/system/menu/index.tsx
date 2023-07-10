@@ -14,14 +14,14 @@ import { getDict } from '../dict/service';
 import { buildTreeData } from '@/utils/utils';
 import type { DataNode } from 'antd/lib/tree';
 import { createIcon } from '@/utils/IconUtil';
+import YTProTable from '@/components/YTProTable';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 /**
  * 添加节点
@@ -33,7 +33,7 @@ const handleAdd = async (fields: MenuType) => {
   try {
     const resp = await addMenu({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -56,7 +56,7 @@ const handleUpdate = async (fields: MenuType) => {
   try {
     const resp = await updateMenu(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -80,7 +80,7 @@ const handleRemove = async (selectedRows: MenuType[]) => {
   try {
     const resp = await removeMenu(selectedRows.map((row) => row.menuId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -100,7 +100,7 @@ const handleRemoveOne = async (selectedRow: MenuType) => {
     const params = [selectedRow.menuId];
     const resp = await removeMenu(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -113,10 +113,7 @@ const handleRemoveOne = async (selectedRow: MenuType) => {
   }
 };
 
-
 const MenuTableList: React.FC = () => {
-  const formTableRef = useRef<FormInstance>();
-
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
@@ -255,18 +252,10 @@ const MenuTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<MenuType>
-          headerTitle={intl.formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
+        <YTProTable<MenuType>
           actionRef={actionRef}
-          formRef={formTableRef}
           rowKey="menuId"
           key="menuList"
-          search={{
-            labelWidth: 120,
-          }}
           toolBarRender={() => [
             <Button
               type="primary"
@@ -293,7 +282,7 @@ const MenuTableList: React.FC = () => {
             >
               <DeleteOutlined />
               <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>
+            </Button>,
           ]}
           request={(params) =>
             getMenuList({ ...params } as MenuListParams).then((res) => {
@@ -303,11 +292,9 @@ const MenuTableList: React.FC = () => {
               const treeData: any = [];
               treeData.push(menu);
               setMenuTree(treeData);
-              return {
-                data: memuData,
-                total: res.data.length,
-                success: true,
-              };
+              res.data.list = memuData;
+              res.data.total = memuData.length;
+              return res;
             })
           }
           columns={columns}

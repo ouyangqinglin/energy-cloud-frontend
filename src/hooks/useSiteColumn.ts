@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:36:01
- * @LastEditTime: 2023-07-07 10:22:53
+ * @LastEditTime: 2023-07-10 14:27:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
@@ -38,27 +38,46 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   }, []);
 
   const siteColumn: ProColumns<TableData, ValueType> = useMemo(() => {
-    const option = merge(
-      {
-        title: '站点名称',
-        dataIndex: 'siteName',
-        valueType: 'select',
-        width: 150,
-        ellipsis: true,
-        formItemProps: {
+    return {
+      title: '站点名称',
+      dataIndex: 'siteName',
+      valueType: 'select',
+      width: 150,
+      ellipsis: true,
+      ...(props || {}),
+      formItemProps: (form, config) => {
+        const defaultConfig = {
           name: 'siteId',
-        },
-        fieldProps: {
+        };
+        if (typeof props?.formItemProps === 'function') {
+          const result = props.formItemProps(form, config);
+          return { ...defaultConfig, ...(result || {}) };
+        } else {
+          return {
+            ...defaultConfig,
+            ...(props?.formItemProps || {}),
+          };
+        }
+      },
+      fieldProps: (form, config) => {
+        const defaultConfig = {
           showSearch: true,
           filterOption: false,
           onSearch: requestStation,
           options: stationOptions,
           placeholder: '请选择',
-        },
+        };
+        if (typeof props?.fieldProps === 'function') {
+          const result = props.fieldProps(form, config);
+          return { ...defaultConfig, ...(result || {}) };
+        } else {
+          return {
+            ...defaultConfig,
+            ...(props?.fieldProps || {}),
+          };
+        }
       },
-      props,
-    );
-    return option;
+    };
   }, [requestStation, stationOptions, props]);
 
   return [siteColumn];

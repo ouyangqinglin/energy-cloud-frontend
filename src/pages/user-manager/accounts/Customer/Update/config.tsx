@@ -7,6 +7,8 @@ import { isNil } from 'lodash';
 import { useState, useEffect, useRef } from 'react';
 import { getRoleListForCurrentUser, getServiceProviderList, getSiteList } from '../service';
 import type { TransformCustomerUpdateInfo } from '../type';
+import { isEmpty } from '@/utils';
+import { verifyPhone, verifyPassword } from '@/utils/reg';
 
 export const Columns: (
   operation: FormOperations,
@@ -20,6 +22,10 @@ export const Columns: (
 
   return [
     {
+      dataIndex: 'userId',
+      hideInForm: true,
+    },
+    {
       title: '服务商',
       valueType: TABLESELECT,
       dataIndex: 'serviceProvider',
@@ -27,7 +33,7 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: '请选择服务商',
           },
         ],
       },
@@ -77,12 +83,12 @@ export const Columns: (
       }),
     },
     {
-      title: '账户',
+      title: '账号',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: '请填写账号',
           },
         ],
       },
@@ -94,7 +100,7 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: '请填写用户名',
           },
         ],
       },
@@ -102,23 +108,37 @@ export const Columns: (
     },
     {
       title: '电话',
-      dataIndex: ['phonenumber'],
+      dataIndex: 'phonenumber',
+      formItemProps: {
+        rules: [
+          () => {
+            return {
+              validator: (_: any, value: string) => {
+                if (isEmpty(value)) {
+                  return Promise.resolve();
+                } else if (verifyPhone(value)) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject(`电话格式错误`);
+                }
+              },
+            };
+          },
+        ],
+      },
     },
     {
       title: '角色',
-      dataIndex: 'roleIds',
+      dataIndex: 'roleId',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: '请选择角色',
           },
         ],
       },
       hideInTable: true,
-      fieldProps: {
-        mode: 'multiple',
-      },
       valueType: 'select',
       request: async (parms, props) => {
         console.log(parms, props);
@@ -143,18 +163,85 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: '请选择状态',
           },
         ],
       },
       valueEnum: effectStatus,
     },
     {
+      title: operation === FormOperations.CREATE ? '初始密码' : '修改密码',
+      dataIndex: 'password',
+      valueType: 'password',
+      dependencies: ['userId'],
+      formItemProps: (form) => {
+        const userId = form?.getFieldValue?.('userId');
+        return {
+          required: isEmpty(userId),
+          rules: [
+            () => {
+              return {
+                validator: (_: any, value: string) => {
+                  if (isEmpty(value)) {
+                    if (isEmpty(userId)) {
+                      return Promise.reject(`请填写初始密码`);
+                    }
+                  } else if (!verifyPassword(value)) {
+                    return Promise.reject(`格式错误：8-16个数字单词，至少其中两种:字母/数字/符号`);
+                  }
+                  return Promise.resolve();
+                },
+              };
+            },
+          ],
+        };
+      },
+      fieldProps: {
+        autoComplete: 'new-password',
+        placeholder: '8-16个数字单词，至少其中两种：字母/数字/符号',
+      },
+    },
+    {
+      title: '确认密码',
+      dataIndex: 'confirmPassword',
+      valueType: 'password',
+      dependencies: ['userId'],
+      formItemProps: (form) => {
+        const userId = form?.getFieldValue?.('userId');
+        return {
+          required: isEmpty(userId),
+          rules: [
+            ({ getFieldValue }) => {
+              const password = getFieldValue('password');
+              return {
+                validator: (_: any, value: string) => {
+                  if (isEmpty(value)) {
+                    if (isEmpty(userId)) {
+                      return Promise.reject(`请填写确认密码`);
+                    }
+                  } else if (password !== value) {
+                    return Promise.reject(`初始密码和确认密码不一致`);
+                  } else if (!verifyPassword(value)) {
+                    return Promise.reject(`格式错误：8-16个数字单词，至少其中两种:字母/数字/符号`);
+                  }
+                  return Promise.resolve();
+                },
+              };
+            },
+          ],
+        };
+      },
+      fieldProps: {
+        autoComplete: 'new-password',
+        placeholder: '8-16个数字单词，至少其中两种：字母/数字/符号',
+      },
+    },
+    {
       title: '关联站点',
       valueType: TABLESELECT,
       dataIndex: 'sites',
       colProps: {
-        span: 16,
+        span: 24,
       },
       fieldProps: (form) => {
         return {
@@ -198,20 +285,12 @@ export const Columns: (
       },
     },
     {
-      title: operation === FormOperations.CREATE ? '初始密码' : '修改密码',
-      valueType: 'password',
-      colProps: {
-        span: 16,
-      },
-      dataIndex: 'password',
-    },
-    {
       title: '备注',
-      colProps: {
-        span: 16,
-      },
       dataIndex: ['remark'],
       valueType: 'textarea',
+      colProps: {
+        span: 24,
+      },
     },
   ];
 };

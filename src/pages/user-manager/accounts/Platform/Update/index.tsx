@@ -38,8 +38,8 @@ export const Update = (props: FormUpdateBaseProps) => {
 
   return (
     <FormUpdate<TransformCustomerUpdateInfo, CustomerParam>
-      titleCreate={`新增客户账号`}
-      titleUpdate={`编辑客户账号`}
+      titleCreate={`新增账号`}
+      titleUpdate={`编辑账号`}
       columns={getConfig()}
       onFinishUpdate={(params) => {
         return updateCustomer(convertUpdateParams(params));

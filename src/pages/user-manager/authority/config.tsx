@@ -32,15 +32,6 @@ export const columns: YTProColumns<RoleInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: 'web权限',
-    dataIndex: 'authority',
-    width: 120,
-    hideInSearch: true,
-    render: (_, record) => {
-      return record.type ? <a>配置</a> : '--';
-    },
-  },
-  {
     title: '状态',
     dataIndex: 'status',
     valueType: 'select',

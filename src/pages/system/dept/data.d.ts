@@ -1,16 +1,15 @@
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export type DeptType = {
-  deptId: number;
+  orgId: number;
   parentId: number;
   ancestors: string;
-  deptName: string;
+  orgName: string;
   orderNum: number;
   leader: string;
   phone: string;

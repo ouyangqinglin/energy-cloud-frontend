@@ -1,5 +1,10 @@
 import type { RoleInfo } from '../../authority/type';
 
+export type PlatformSearchType = {
+  orgId?: string;
+  siteId?: string;
+};
+
 export type CustomerParam = {
   remark: string;
   orgId: number;

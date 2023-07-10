@@ -85,7 +85,7 @@ export type InferResponseData<T, U = 'common'> = U extends 'common'
   : ResponsePageData<T>;
 
 export type ResponsePromise<T = any, U = any> = Promise<T> & {
-  tableThen: () => Promise<RequestData<U>>;
+  tableThen?: () => Promise<RequestData<U>>;
 };
 
 export type CustomRequestOptions = {

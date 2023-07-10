@@ -2,44 +2,44 @@ import { downLoadXlsx } from '@/utils/downloadfile';
 import request from '@/utils/request';
 import type { DeptType, DeptListParams } from './data.d';
 
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 // 查询部门列表
 export async function getDeptList(params?: DeptListParams) {
-  const queryString = new URLSearchParams(params).toString();
-  return request(`/system/dept/list?${queryString}`, {
-    data: params,
+  return request(`/uc/org/list`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
+    params,
   });
 }
 
 // 查询部门列表（排除节点）
-export function getDeptListExcludeChild(deptId: number) {
-  return request(`/system/dept/list/exclude/${deptId}`, {
+export function getDeptListExcludeChild(orgId: number) {
+  return request(`/uc/org`, {
     method: 'get',
+    params: {
+      orgId,
+    },
   });
 }
 
 // 查询部门详细
-export function getDept(deptId: number) {
-  return request(`/system/dept/${deptId}`, {
+export function getDept(orgId: number) {
+  return request(`/uc/org`, {
     method: 'GET',
+    params: {
+      orgId,
+    },
   });
 }
 
 // 新增部门
 export async function addDept(params: DeptType) {
-  return request('/system/dept', {
+  return request('/uc/org', {
     method: 'POST',
     data: params,
   });
@@ -47,18 +47,18 @@ export async function addDept(params: DeptType) {
 
 // 修改部门
 export async function updateDept(params: DeptType) {
-  return request('/system/dept', {
+  return request('/uc/org', {
     method: 'PUT',
     data: params,
   });
 }
 
 // 删除部门
-export async function removeDept(ids: string) {
-  return request(`/system/dept/${ids}`, {
+export async function removeDept(id: string) {
+  return request(`/uc/org`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
+    data: {
+      orgId: id,
     },
   });
 }

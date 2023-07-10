@@ -1,3 +1,4 @@
+@import '~antd/es/style/themes/default.less';
 .tree {
   :global {
     img {
@@ -5,6 +6,10 @@
     }
     .ant-tree-node-content-wrapper {
       white-space: nowrap;
+      &.ant-tree-node-selected {
+        color: white;
+        background: @primary-color;
+      }
     }
     .ant-tree-title {
       white-space: nowrap;

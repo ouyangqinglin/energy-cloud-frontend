@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import type { CustomerInfo } from './type';
+import type { CustomerInfo, PlatformSearchType } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
@@ -10,7 +10,7 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 
-const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
+const Customer = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformSearchType }) => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<CustomerInfo>({} as CustomerInfo);
@@ -23,7 +23,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         setOperations(FormOperations.CREATE);
         set(true);
       },
-      buttonText: '新建角色',
+      buttonText: '新建账号',
     },
     option: {
       onDeleteChange(_, entity) {
@@ -51,8 +51,10 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-  const requestList: YTProTableCustomProps<CustomerInfo, CustomerInfo>['request'] = (params) => {
-    return getCustomerList(params);
+  const requestList: YTProTableCustomProps<CustomerInfo, CustomerInfo>['request'] = (
+    searchParams,
+  ) => {
+    return getCustomerList({ ...searchParams, ...(props.params || {}) });
   };
   return (
     <>
