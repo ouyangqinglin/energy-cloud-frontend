@@ -176,8 +176,10 @@ export class HttpRequest implements HttpRequestType {
         }
       } else {
         if (options.showMessage !== false) {
-          const msg = codeMessage[status] || codeMessage[10000];
-          message.warn(`${status} ${msg}`);
+          if (status !== 404) {
+            const msg = codeMessage[status] || codeMessage[10000];
+            message.warn(`${status} ${msg}`);
+          }
         }
       }
       return response;

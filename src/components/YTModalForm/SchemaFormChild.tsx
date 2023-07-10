@@ -82,6 +82,9 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
         readonly={readonly}
         columns={customColumns}
         initialValues={initialValues}
+        rowProps={{
+          gutter: 0,
+        }}
         {...restProps}
       />
     </ProConfigProvider>

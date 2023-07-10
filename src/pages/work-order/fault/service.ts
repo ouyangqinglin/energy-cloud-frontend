@@ -8,8 +8,10 @@
  */
 import request from '@/utils/request';
 import { AgentFormType } from './data';
+import { requestEmpty } from '@/services';
 
-export const getList = (params: any) => {
+export const getPage = (params: any) => {
+  return requestEmpty();
   return request(`/agents`, {
     method: 'GET',
     params,

@@ -1,17 +1,18 @@
 import { downLoadXlsx } from '@/utils/downloadfile';
 import request from '@/utils/request';
 import type { OperlogType, OperlogListParams } from './data.d';
+import { requestEmpty } from '@/services';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 // 查询操作日志记录列表
 export async function getOperlogList(params?: OperlogListParams) {
+  return requestEmpty();
   const queryString = new URLSearchParams(params).toString();
   return request(`/monitor/operlog/list?${queryString}`, {
     data: params,
@@ -57,7 +58,11 @@ export async function removeOperlog(ids: string) {
 
 // 导出操作日志记录
 export function exportOperlog(params?: OperlogListParams) {
-  return downLoadXlsx(`/monitor/operlog/export`, { params }, `oper_log_${new Date().getTime()}.xlsx`);
+  return downLoadXlsx(
+    `/monitor/operlog/export`,
+    { params },
+    `oper_log_${new Date().getTime()}.xlsx`,
+  );
 }
 
 // 清空操作日志

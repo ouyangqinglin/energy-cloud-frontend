@@ -441,8 +441,8 @@ export default [
     component: '@/layouts/TabsLayout',
     routes: [
       {
-        path: '/',
-        redirect: '/system/user',
+        path: '/system',
+        redirect: '/system/notice',
       },
       {
         path: 'authorization',

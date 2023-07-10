@@ -117,7 +117,22 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     openKeys: initialState?.openKeys,
     onOpenChange(openKeys) {
       if (Array.isArray(openKeys)) {
-        if (openKeys.length < (initialState?.openKeys?.length || 0)) {
+        if (initialState?.openKeys && initialState?.openKeys?.length) {
+          if (
+            openKeys[openKeys.length - 1] == initialState.openKeys[initialState.openKeys.length - 1]
+          ) {
+            for (let i = 0; i < initialState.openKeys.length; i++) {
+              if (initialState.openKeys[i] != openKeys[i]) {
+                setInitialState?.((prevData) => {
+                  return {
+                    ...prevData,
+                    openKeys: getPathArrary(prevData?.openKeys?.[i - 1] || ''),
+                  };
+                });
+                return;
+              }
+            }
+          }
         }
         setInitialState?.((prevData) => {
           return { ...prevData, openKeys: getPathArrary(openKeys[openKeys.length - 1]) };

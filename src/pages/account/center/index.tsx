@@ -143,7 +143,7 @@ const Center: React.FC = () => {
                 {renderUserInfo(currentUser)}
                 <Divider dashed />
                 <div className={styles.team}>
-                  <div className={styles.teamTitle}>角色</div>
+                  <div className={styles.teamTitle}>权限</div>
                   <Row gutter={36}>
                     {currentUser.roles &&
                       currentUser.roles.map((item: any) => (

@@ -10,7 +10,7 @@ import React, { useCallback } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import type { WorkOrderType } from './data.d';
 import { effectStatus } from '@/utils/dictionary';
-import { getAgent } from '@/services/agent';
+import { getPage } from './service';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 
@@ -28,7 +28,7 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
 
   const requestList: YTProTableCustomProps<WorkOrderType, WorkOrderType>['request'] = useCallback(
     (params) => {
-      return getAgent(params);
+      return getPage(params);
     },
     [],
   );

@@ -1,5 +1,6 @@
 import { del, get, post, put } from '@/utils/request';
 import { RemoteUpgradeDataRes } from './type';
+import { requestEmpty } from '@/services';
 // import type { ElectricityPriceList } from '../type';
 // import type { MarketElectricityPriceInfo } from './type';
 
@@ -20,5 +21,6 @@ import { RemoteUpgradeDataRes } from './type';
 // };
 
 export const getRemoteUpgradeList = (params: any) => {
+  return requestEmpty();
   return get<RemoteUpgradeDataRes>(`/oss/remote-upgrade/list`, params);
 };

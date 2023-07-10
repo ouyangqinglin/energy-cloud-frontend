@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-06-30 11:56:15
+ * @LastEditTime: 2023-07-10 19:48:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -130,6 +130,9 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           onFinish={onFinish}
           open={open}
           onOpenChange={onOpenChange}
+          rowProps={{
+            gutter: 0,
+          }}
           {...restProps}
         />
       )}
