@@ -1,29 +1,49 @@
 import { useRequest } from 'umi';
 import { Dropdown, Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
-import { getStations } from '@/services/station';
 import type { MenuItemType } from 'antd/es/menu/hooks/useItems';
+import { getStations } from './service';
 
 const SiteDropdown = ({
-  // defaultSiteId,
+  defaultSiteId,
   onChange,
 }: {
-  // defaultSiteId?: number | string;
+  defaultSiteId?: number | string;
   onChange?: (siteId: number) => void;
 }) => {
   const [station, setStation] = useState<MenuItemType>({} as MenuItemType);
   const { data } = useRequest(getStations);
-  const items: MenuItemType[] =
-    data?.map?.((item: any) => {
-      // if (defaultSiteId === item.id) {
-      //   setStation(item);
-      // }
-      return {
-        label: item.name,
-        key: String(item.id),
-      };
-    }) ?? [];
+  const items: MenuItemType[] = useMemo(
+    () =>
+      data?.map?.((item: any) => {
+        return {
+          label: item.name,
+          key: String(item.id),
+        };
+      }) ?? [],
+    [data],
+  );
+
+  const getDefaultSelectedKey = useMemo(() => {
+    if (!items.length) {
+      return [];
+    }
+
+    // 默认选中第一个项作为默认站点
+    let defaultSelectedItem: MenuItemType = items[0];
+    // url中存在siteId
+    if (defaultSiteId && items.length) {
+      const matchItem = items.find((it) => it.key === String(defaultSiteId));
+      if (matchItem) {
+        defaultSelectedItem = matchItem;
+      }
+    }
+
+    onChange?.(Number(defaultSelectedItem.key));
+    setStation(defaultSelectedItem);
+    return [defaultSelectedItem.key as string];
+  }, [defaultSiteId, items, onChange]);
 
   const getItemByKey = (key: string) => {
     return items?.find((it) => it?.key === key);
@@ -36,7 +56,7 @@ const SiteDropdown = ({
         menu={{
           items,
           selectable: true,
-          // defaultSelectedKeys: [defaultSiteId as string],
+          defaultSelectedKeys: getDefaultSelectedKey,
           onClick: (menuInfo) => {
             const menu = getItemByKey(menuInfo.key);
             if (menu) {

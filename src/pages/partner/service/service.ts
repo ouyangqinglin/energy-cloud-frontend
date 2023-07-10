@@ -18,7 +18,7 @@ export const deleteService = (data: { orgId: number[] }) => {
 };
 
 export const getServiceList = (params: any) => {
-  return get<ServiceInfo[]>(`/uc/serviceProvider`, params);
+  return get<ServiceInfo[]>(`/uc/serviceProvider/page`, params);
 };
 
 export const getServiceId = () => {

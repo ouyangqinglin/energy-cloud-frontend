@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Slider, Interval } from 'bizcharts';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { getData } from './service';
 import { useToolTip } from '@/hooks';
+import { TimeType } from '../components/TimeButtonGroup';
 
 type RealTimePowerProps = {
   date?: Moment;
   siteId?: number | string;
+  timeType: TimeType;
 };
 
 type DataType = {
@@ -30,20 +32,12 @@ const legendMap = new Map([
   ['load', '其他负载'],
 ]);
 
-const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
+const allMinute = Array.from({ length: (24 * 60) / 10 }).map((_, index) => {
   return moment()
     .startOf('day')
-    .add(index * 2, 'minute')
+    .add(index * 10, 'minute')
     .format('HH:mm');
 });
-
-const getNowMinute = () => {
-  let nowMinute = moment().minute();
-  if (nowMinute % 2) {
-    nowMinute++;
-  }
-  return moment().minute(nowMinute).format('HH:mm');
-};
 
 const getChartData = (data: ChartDataType[], field: string): DataType[] => {
   const valueMap = new Map(
@@ -54,24 +48,19 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
 
   const result: DataType[] = [];
   const length = allMinute.length;
-  const nowMinute = getNowMinute();
   for (let i = 0; i < length; i++) {
-    if (nowMinute == allMinute[i]) {
-      break;
-    } else {
-      result.push({
-        time: allMinute[i],
-        value: valueMap.get(allMinute[i]),
-        field,
-      });
-    }
+    result.push({
+      time: allMinute[i],
+      value: valueMap.get(allMinute[i]) ?? 0,
+      field,
+    });
   }
 
   return result;
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId } = props;
+  const { date, siteId, timeType } = props;
 
   const [chartData, setChartData] = useState<DataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -87,21 +76,16 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       result.push(...getChartData(powerData?.[key] || [], item));
     });
     setChartData(result);
-    const step = result.length / legendMap.size / 8;
+    const tickNum = 24;
+    const step = result.length / legendMap.size / tickNum;
     setTicks(
-      step * 8 > 8
-        ? [
-            result[0].time,
-            result[Math.floor(step * 1)].time,
-            result[Math.floor(step * 2)].time,
-            result[Math.floor(step * 3)].time,
-            result[Math.floor(step * 4)].time,
-            result[Math.floor(step * 5)].time,
-            result[Math.floor(step * 6)].time,
-            result[step * 8 - 1].time,
-          ]
+      step * tickNum > tickNum
+        ? new Array(tickNum).map((_, index) => {
+            return result[Math.floor(step * index)].time;
+          })
         : [],
     );
+    console.log(ticks, step * tickNum > tickNum);
   }, [powerData]);
 
   useEffect(() => {
@@ -113,16 +97,17 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
   }, [siteId, date]);
 
+  const shouldShowLine = timeType === TimeType.DAY;
+
   return (
     <Chart
       ref={chartRef}
-      height={350}
+      height={340}
+      // bugfix: ticks的设置会导致slider出现白屏（看来像是放大到没有tick定义的时候会出现这个问题）
       scale={{
-        time: {
-          ticks: ticks,
-        },
         value: {
           type: 'linear',
+          min: -100,
         },
       }}
       data={chartData}
@@ -140,9 +125,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       />
       <Annotation.Text
         position={['min', 'max']}
-        content="功率(KW)"
+        content="单位(KW)"
         offsetX={-25}
-        offsetY={-25}
+        offsetY={0}
         style={{
           textAlign: 'left',
           fontSize: 12,
@@ -161,23 +146,25 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         }}
         itemSpacing={0}
       />
-      {/* <Interval
-        size={8}
-        adjust={[
-          {
-            type: 'dodge',
-            marginRatio: 0,
-          },
-        ]}
-        color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
-        position="time*value"
-      /> */}
-      <LineAdvance
-        shape="smooth"
-        area
-        color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
-        position="time*value"
-      />
+      {!shouldShowLine ? (
+        <Interval
+          size={4}
+          adjust={[
+            {
+              type: 'dodge',
+              marginRatio: 0,
+            },
+          ]}
+          color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
+          position="time*value"
+        />
+      ) : (
+        <LineAdvance
+          shape="smooth"
+          color={['field', ['#ff7b7b', '#FFD15C', '#159AFF', '#11DA81', '#00C9EC']]}
+          position="time*value"
+        />
+      )}
       <Axis
         name="value"
         label={{
@@ -216,6 +203,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         }}
         tickLine={null}
       />
+      <Slider start={0} end={1} minLimit={0.2} />
     </Chart>
   );
 };

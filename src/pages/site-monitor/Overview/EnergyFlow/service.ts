@@ -3,7 +3,7 @@ import { TimeType } from '../components/TimeButtonGroup';
 import { PVRevenueRes, SystemDiagramRes } from './type';
 
 export const getSystemDiagram = (siteId: number) => {
-  return post<SystemDiagramRes>('/oss/topologicalGraph/logicalView', {
+  return get<SystemDiagramRes>('/oss/topologicalGraph/logicalView', {
     siteId,
   });
 };

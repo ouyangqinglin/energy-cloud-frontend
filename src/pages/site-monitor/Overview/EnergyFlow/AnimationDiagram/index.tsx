@@ -6,7 +6,6 @@ const AnimationDiagram = ({ data }: { data: SystemDiagramRes }) => {
   const pv = data?.[SubSystemType.PV] ?? {};
   const electricSupply = data?.[SubSystemType.E] ?? {};
   const energyStore = data?.[SubSystemType.ES] ?? {};
-  console.log(data);
 
   const paths = [
     {

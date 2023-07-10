@@ -26,7 +26,7 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
     <RowBox span={6} className={styles.benefitWrapper}>
       <Row gutter={0} className={styles.boxContent}>
         <Col span={6} className={styles.leftBox}>
-          <IconTree className={styles.icon} />
+          <IconCarbonEmission className={styles.icon} />
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
@@ -60,7 +60,7 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
       <Divider style={{ margin: 0 }} type={'horizontal'} />
       <Row className={styles.boxContent}>
         <Col span={6} className={styles.leftBox}>
-          <IconCarbonEmission className={styles.icon} />
+          <IconTree className={styles.icon} />
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>

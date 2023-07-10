@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>icon_储能1@2x</title>
-    <g id="能源云系统V2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="3_3.站点概览1920" transform="translate(-1094.000000, -192.000000)">
-            <g id="main" transform="translate(212.000000, 116.000000)">
+    <title>icon_储能</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="48" height="48" rx="8"></rect>
+    </defs>
+    <g id="光储充及工商储管理系统V1.3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3_1.站点概览" transform="translate(-675.000000, -178.000000)">
+            <g id="main" transform="translate(212.000000, 102.000000)">
                 <g id="1" transform="translate(20.000000, 52.000000)">
-                    <g id="编组-2" transform="translate(838.000000, 0.000000)">
+                    <g id="编组-2" transform="translate(419.000000, 0.000000)">
                         <g id="icon_储能1" transform="translate(24.000000, 24.000000)">
-                            <rect id="bg备份" fill="#3DD598" x="0" y="0" width="48" height="48" rx="8"></rect>
+                            <g id="bg备份">
+                                <use fill="#3DD598" xlink:href="#path-1"></use>
+                                <use fill="#007DFF" xlink:href="#path-1"></use>
+                            </g>
                             <g id="icon_储能" transform="translate(11.000000, 12.000000)">
                                 <rect id="矩形" x="1" y="0" width="24" height="24"></rect>
                                 <g id="储能" transform="translate(0.000000, 2.000000)" fill="#FFFFFF" fill-rule="nonzero">

@@ -1,8 +1,8 @@
-import { ReactComponent as IconEnergyStorage } from '@/assets/image/station/overview/icon_储能1.svg';
+import { ReactComponent as IconEnergyStorage } from '@/assets/image/station/overview/icon_储能.svg';
 import { ReactComponent as IconLoad } from '@/assets/image/station/overview/icon_负载1.svg';
-import { ReactComponent as IconMarketElectric } from '@/assets/image/station/overview/icon_市电1.svg';
+import { ReactComponent as IconMarketElectric } from '@/assets/image/station/overview/icon_市电.svg';
 import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overview/icon_光伏1.svg';
-import type { StoredEnergy } from './type';
+import type { Load, StoredEnergy } from './type';
 import { keepTwoDecimalWithoutNull } from '../helper';
 
 export const columns = [
@@ -92,8 +92,10 @@ export const columns = [
       {
         label: '·充电桩/其他(kWh)',
         labelUnit: '/kWh',
-        field: 'chargingPileCharge',
-        value: '915.62',
+        value: (entity: Load) =>
+          `${keepTwoDecimalWithoutNull(entity?.chargingPileCharge)} / ${keepTwoDecimalWithoutNull(
+            entity?.otherLoadCharge,
+          )}`,
       },
       {
         label: '用电功率(kW)',
@@ -104,8 +106,10 @@ export const columns = [
       {
         label: '·充电桩/其他(kW)',
         labelUnit: '/kW',
-        field: 'chargingPilePower',
-        value: '915.62',
+        value: (entity: Load) =>
+          `${keepTwoDecimalWithoutNull(entity?.chargingPilePower)} / ${keepTwoDecimalWithoutNull(
+            entity?.otherLoadPower,
+          )}`,
       },
     ],
   },

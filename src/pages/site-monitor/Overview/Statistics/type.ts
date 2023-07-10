@@ -4,27 +4,29 @@ export interface ElectricityStatisticsRes {
   electricSupply: ElectricSupply;
   load: Load;
 }
-interface Load {
+export interface Load {
   charge: number;
   chargingPileCharge: number;
+  otherLoadCharge: number;
   power: number;
   chargingPilePower: number;
+  otherLoadPower: number;
 }
 
-interface ElectricSupply {
+export interface ElectricSupply {
   charge: number;
   discharge?: any;
   power: number;
 }
 
-interface StoredEnergy {
+export interface StoredEnergy {
   charge?: any;
   discharge?: any;
   power?: any;
   dischargeableCapacity?: any;
 }
 
-interface Photovoltaic {
+export interface Photovoltaic {
   charge?: any;
   power?: any;
 }

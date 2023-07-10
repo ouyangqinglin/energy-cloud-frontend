@@ -2,10 +2,6 @@ import RowBox from '../components/RowBox';
 import RealTimeData from './RealTimeData';
 import SystemDiagram from './SystemDiagram';
 import styles from './index.less';
-import { useRequest } from 'umi';
-import { getSystemDiagram } from './service';
-import { isNil } from 'lodash';
-import { useEffect } from 'react';
 
 const EnergyFlow = ({ siteId }: { siteId?: number }) => {
   return (

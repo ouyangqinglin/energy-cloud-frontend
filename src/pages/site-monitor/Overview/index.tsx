@@ -31,12 +31,14 @@ type SiteType = {
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
+  const [defaultSiteId, setDefaultSiteId] = useState<number>();
   const location = useLocation();
 
   useEffect(() => {
     const { query } = location as LocationType;
     if (query?.id) {
-      setSiteId(query?.id);
+      setDefaultSiteId(query?.id);
+      // setSiteId(siteId);
     }
   }, [location]);
 
@@ -52,7 +54,7 @@ const Index: React.FC = () => {
     <>
       <div className="bg-white card-wrap p24">
         <div className={styles.stationHeader}>
-          <SiteDropdown onChange={setSiteId} />
+          <SiteDropdown defaultSiteId={defaultSiteId} onChange={setSiteId} />
           <IconScreen className={styles.screen} onClick={onScreenClick} />
         </div>
         <Row gutter={[16, 16]}>

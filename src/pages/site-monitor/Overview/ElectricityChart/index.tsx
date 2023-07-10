@@ -11,6 +11,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [picker, setPicker] = useState<
     'year' | 'month' | 'time' | 'date' | 'week' | 'quarter' | undefined
   >();
+  const [timeType, setTimeType] = useState<TimeType>(TimeType.DAY);
   const [showDatePicker, { set }] = useToggle(true);
   const [date, setDate] = useState(moment());
 
@@ -36,6 +37,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         break;
 
       default:
+        setTimeType(type);
         break;
     }
   };
@@ -53,7 +55,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
           />
         </div>
       </div>
-      <RealTimePower date={date} siteId={siteId} />
+      <RealTimePower date={date} siteId={siteId} timeType={timeType} />
     </RowBox>
   );
 };
