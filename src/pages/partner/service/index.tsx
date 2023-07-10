@@ -17,7 +17,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   const actionRef = useRef<ActionType>(null);
 
   const customConfig: YTProTableCustomProps<ServiceInfo, any> = {
-    toolbar: {
+    toolBarRenderOptions: {
       onChange() {
         setInitialValues({} as ServiceInfo);
         setOperations(FormOperations.CREATE);

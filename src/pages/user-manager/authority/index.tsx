@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 14:00:13
- * @LastEditTime: 2023-06-19 14:18:38
+ * @LastEditTime: 2023-07-07 16:09:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
@@ -25,7 +25,7 @@ const Authority = () => {
   const actionRef = useRef<ActionType>(null);
 
   const customConfig: YTProTableCustomProps<RoleInfo, any> = {
-    toolbar: {
+    toolBarRenderOptions: {
       onChange() {
         setInitialValues({} as RoleInfo);
         setOperations(FormOperations.CREATE);

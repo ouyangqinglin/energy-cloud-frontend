@@ -454,7 +454,7 @@ export default [
         name: 'user',
         icon: 'PartitionOutlined',
         path: '/system/user',
-        component: 'system/user/index',
+        component: 'system/UserManage',
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,

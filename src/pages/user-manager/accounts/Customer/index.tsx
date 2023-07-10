@@ -17,7 +17,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   const actionRef = useRef<ActionType>(null);
 
   const customConfig: YTProTableCustomProps<CustomerInfo, any> = {
-    toolbar: {
+    toolBarRenderOptions: {
       onChange() {
         setInitialValues({} as CustomerInfo);
         setOperations(FormOperations.CREATE);
@@ -40,6 +40,9 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         set(true);
       },
       modalDeleteText: '您确认要删除该账号吗？删除之后无法恢复！',
+      columnsProp: {
+        width: 100,
+      },
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;
@@ -59,6 +62,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="userId"
+        scroll={{ y: 520 }}
         {...props}
       />
       <Update

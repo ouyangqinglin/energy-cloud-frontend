@@ -117,7 +117,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     openKeys: initialState?.openKeys,
     onOpenChange(openKeys) {
       if (Array.isArray(openKeys)) {
-        setInitialState((prevData) => {
+        if (openKeys.length < (initialState?.openKeys?.length || 0)) {
+        }
+        setInitialState?.((prevData) => {
           return { ...prevData, openKeys: getPathArrary(openKeys[openKeys.length - 1]) };
         });
       }

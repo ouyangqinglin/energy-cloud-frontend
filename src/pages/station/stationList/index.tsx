@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-04 15:30:50
+ * @LastEditTime: 2023-07-07 15:18:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -10,6 +10,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Button, Modal, message } from 'antd';
 import { useHistory } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
+import YTProTable from '@/components/YTProTable';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { StationType, StationFormType } from './data.d';
@@ -28,13 +29,7 @@ const StationList: React.FC = () => {
 
   const requestList = useCallback((params) => {
     const [countryCode, provinceCode, cityCode] = params?.area || [];
-    return getList({ ...params, countryCode, provinceCode, cityCode }).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
-    });
+    return getList({ ...params, countryCode, provinceCode, cityCode });
   }, []);
 
   const onAddClick = useCallback(() => {
@@ -216,21 +211,11 @@ const StationList: React.FC = () => {
 
   return (
     <>
-      <ProTable
+      <YTProTable
         actionRef={actionRef}
         columns={columns}
-        search={{
-          labelWidth: 'auto',
-          searchText: '搜索',
-        }}
-        rowKey="id"
         toolBarRender={toolBar}
-        options={false}
         request={requestList}
-        scroll={{ x: 1366 }}
-        pagination={{
-          showSizeChanger: true,
-        }}
       />
       <StationForm
         id={siteId}

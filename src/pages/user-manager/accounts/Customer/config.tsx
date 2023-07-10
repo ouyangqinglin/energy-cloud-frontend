@@ -57,14 +57,8 @@ export const columns: YTProColumns<CustomerInfo>[] = [
   {
     title: '电话',
     dataIndex: 'phonenumber',
-    width: 120,
+    width: 100,
     hideInSearch: true,
-  },
-  {
-    title: '服务商',
-    width: 120,
-    ellipsis: true,
-    dataIndex: 'orgName',
   },
   {
     title: '状态',
@@ -73,36 +67,11 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     valueEnum: effectStatus,
   },
   {
-    title: '备注',
-    width: 150,
-    dataIndex: 'remark',
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
     title: '创建时间',
     dataIndex: 'createTime',
+    render: (_, record) => record.createTime,
     valueType: 'dateRange',
     hideInSearch: true,
     width: 150,
-  },
-  {
-    title: '创建人',
-    width: 100,
-    dataIndex: 'createByName',
-    hideInSearch: true,
-  },
-  {
-    title: '最后更新时间',
-    dataIndex: 'updateTime',
-    valueType: 'dateTime',
-    hideInSearch: true,
-    width: 150,
-  },
-  {
-    title: '更新人',
-    width: 100,
-    dataIndex: 'updateByName',
-    hideInSearch: true,
   },
 ];

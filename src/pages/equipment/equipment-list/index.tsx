@@ -10,7 +10,7 @@ import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message, Badge } from 'antd';
 import { useHistory } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
-import ProTable from '@ant-design/pro-table';
+import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
@@ -71,13 +71,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setTabItems(items);
       }
     });
-    return getDevicePage({ ...params, ...searchParams }).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
-    });
+    return getDevicePage({ ...params, ...searchParams });
   };
 
   const onTabChange = useCallback((key: React.Key | undefined) => {
@@ -249,16 +243,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <ProTable
+      <YTProTable
         actionRef={actionRef}
         columns={columns}
-        search={{
-          labelWidth: 'auto',
-          searchText: '搜索',
-        }}
-        rowKey="id"
         toolBarRender={toolBar}
-        options={false}
         request={handleRequest}
         toolbar={{
           menu: {
@@ -268,10 +256,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onChange: onTabChange,
           },
         }}
-        scroll={{ x: 1366, y: 557 }}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        scroll={{ x: 1366, y: 553 }}
       />
       <EquipForm
         open={open}

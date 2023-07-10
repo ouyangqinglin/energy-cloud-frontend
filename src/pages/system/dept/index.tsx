@@ -8,25 +8,17 @@ import WrapContent from '@/components/WrapContent';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { DeptType, DeptListParams } from './data.d';
-import {
-  getDeptList,
-  getDeptListExcludeChild,
-  removeDept,
-  addDept,
-  updateDept,
-} from './service';
+import { getDeptList, getDeptListExcludeChild, removeDept, addDept, updateDept } from './service';
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import { buildTreeData } from '@/utils/utils';
-
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 /**
  * 添加节点
@@ -38,7 +30,7 @@ const handleAdd = async (fields: DeptType) => {
   try {
     const resp = await addDept({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -61,7 +53,7 @@ const handleUpdate = async (fields: DeptType) => {
   try {
     const resp = await updateDept(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -85,7 +77,7 @@ const handleRemove = async (selectedRows: DeptType[]) => {
   try {
     const resp = await removeDept(selectedRows.map((row) => row.deptId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -105,7 +97,7 @@ const handleRemoveOne = async (selectedRow: DeptType) => {
     const params = [selectedRow.deptId];
     const resp = await removeDept(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -129,7 +121,6 @@ const DeptTableList: React.FC = () => {
 
   const [deptTree, setDeptTree] = useState<any>([]);
   const [statusOptions, setStatusOptions] = useState<any>([]);
- 
 
   /** 国际化配置 */
   const intl = useIntl();
@@ -195,7 +186,7 @@ const DeptTableList: React.FC = () => {
             getDeptListExcludeChild(record.deptId).then((res) => {
               if (res.code === 200) {
                 let depts = buildTreeData(res.data, 'deptId', 'deptName', '', '', '');
-                if(depts.length === 0) {
+                if (depts.length === 0) {
                   depts = [{ id: 0, title: '无上级', children: undefined, key: 0, value: 0 }];
                 }
                 setDeptTree(depts);
@@ -251,7 +242,7 @@ const DeptTableList: React.FC = () => {
           rowKey="deptId"
           key="deptList"
           search={{
-            labelWidth: 120,
+            labelWidth: 'auto',
           }}
           toolBarRender={() => [
             <Button
@@ -286,7 +277,7 @@ const DeptTableList: React.FC = () => {
             >
               <DeleteOutlined />
               <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>
+            </Button>,
           ]}
           request={(params) =>
             getDeptList({ ...params } as DeptListParams).then((res) => {

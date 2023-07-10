@@ -75,7 +75,7 @@ const Account: React.FC = () => {
       <YTProTable<AccountType, Pick<AccountType, 'siteId'>>
         actionRef={actionRef}
         columns={columns}
-        toolbar={{
+        toolBarRenderOptions={{
           onChange: onAddClick,
           buttonText: '新增用户',
         }}

@@ -25,7 +25,6 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     title: '角色',
     dataIndex: 'roles',
     width: 140,
-    hideInSearch: true,
     render: (_, entity) => {
       if (isEmpty(entity)) {
         return '';
@@ -33,6 +32,21 @@ export const columns: YTProColumns<CustomerInfo>[] = [
       // eslint-disable-next-line no-param-reassign
       return entity.roles.reduce((str, cur) => (str += ' ' + cur.roleName), '');
     },
+    hideInSearch: true,
+  },
+  {
+    title: '组织',
+    dataIndex: 'orgName',
+    width: 150,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '电话',
+    dataIndex: 'phonenumber',
+    width: 100,
+    ellipsis: true,
+    hideInSearch: true,
   },
   {
     title: '状态',
@@ -41,36 +55,11 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     valueEnum: effectStatus,
   },
   {
-    title: '备注',
-    width: 150,
-    dataIndex: 'remark',
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
     title: '创建时间',
     dataIndex: 'createTime',
     valueType: 'dateRange',
+    render: (_, record) => record.createTime,
     hideInSearch: true,
     width: 150,
-  },
-  {
-    title: '创建人',
-    width: 100,
-    dataIndex: 'createByName',
-    hideInSearch: true,
-  },
-  {
-    title: '最后更新时间',
-    dataIndex: 'updateTime',
-    valueType: 'dateTime',
-    hideInSearch: true,
-    width: 150,
-  },
-  {
-    title: '更新人',
-    width: 100,
-    dataIndex: 'updateByName',
-    hideInSearch: true,
   },
 ];

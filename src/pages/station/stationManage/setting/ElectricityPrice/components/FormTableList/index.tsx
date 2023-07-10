@@ -35,7 +35,7 @@ const FormTableList = <DataType extends Record<string, any>>(
   });
 
   const customConfig: YTProTableCustomProps<DataType, any> = {
-    toolbar: {
+    toolBarRenderOptions: {
       onChange() {
         setInitialValues({} as DataType);
         setOperations(FormOperations.CREATE);

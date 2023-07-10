@@ -110,5 +110,6 @@ export const getPathArrary = (path: string): string[] => {
       }
     });
   }
+  result.shift();
   return result;
 };

@@ -2,15 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-07 14:01:05
+ * @LastEditTime: 2023-07-07 15:35:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal, message, Badge, Tabs } from 'antd';
 import { useHistory } from 'umi';
-import { PlusOutlined } from '@ant-design/icons';
-import ProTable from '@ant-design/pro-table';
+import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { DeviceType, DeviceSearchType } from './data';
 import { onlineStatus } from '@/utils/dictionary';
@@ -24,10 +23,11 @@ type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
   params?: DeviceSearchType;
   activeTabKey?: string;
+  scrollY?: number | string;
 };
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
-  const { onDetail, params, activeTabKey } = props;
+  const { onDetail, params, activeTabKey, scrollY = 508 } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab0');
@@ -71,13 +71,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setTabItems(items);
       }
     });
-    return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) }).then(({ data }) => {
-      return {
-        data: data?.list,
-        total: data?.total,
-        success: true,
-      };
-    });
+    return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) });
   };
 
   const onTabChange = useCallback((key: React.Key | undefined) => {
@@ -248,12 +242,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   return (
     <>
       <Tabs className="px24" activeKey={activeTab} items={tabItemList} onChange={onTabChange} />
-      <ProTable
+      <YTProTable
         actionRef={actionRef}
         columns={columns}
+        toolBarRender={() => []}
         search={{
-          labelWidth: 'auto',
-          searchText: '搜索',
           optionRender: (_, __, dom) => [
             ...dom,
             <Button type="primary" key="add" onClick={onAddClick}>
@@ -261,13 +254,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             </Button>,
           ],
         }}
-        rowKey="id"
-        options={false}
         request={handleRequest}
-        scroll={{ x: 1366, y: 508 }}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        scroll={{ y: scrollY }}
       />
       <EquipForm
         open={open}

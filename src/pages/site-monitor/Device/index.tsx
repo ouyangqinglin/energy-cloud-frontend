@@ -58,7 +58,7 @@ const Device: React.FC = () => {
             <>
               <div className={`${styles.tree}`}>
                 <SiteSwitch
-                  className="my12"
+                  className={`my12 ${styles.site}`}
                   initialValues={{
                     siteId,
                   }}
@@ -81,6 +81,7 @@ const Device: React.FC = () => {
                 params={{ siteId }}
                 onDetail={onDetail}
                 activeTabKey={selectNode?.type == 2 ? selectNode?.id : ''}
+                scrollY={open && siteId ? 584 : 508}
               />
             )}
             {selectNode && selectNode?.type !== 2 && selectNode?.type !== 3 && (

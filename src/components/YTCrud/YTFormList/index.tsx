@@ -56,7 +56,7 @@ export const YTFormList = <
   const actionRef = useRef<ActionType>(null);
 
   const customConfig: YTProTableCustomProps<FormListItemType, any> = {
-    toolbar: {
+    toolBarRenderOptions: {
       onChange() {
         // setInitialValues({} as FormListItemType);
         setOperations(FormOperations.CREATE);

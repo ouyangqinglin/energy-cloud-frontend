@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-06-19 14:31:47
+ * @LastEditTime: 2023-07-07 15:29:10
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\partner\service\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\system\authorization\index.tsx
  */
 import React, { useCallback } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
@@ -27,7 +27,7 @@ const RemoteUpgrade: React.FC = () => {
     <>
       <YTProTable<ListDataType, ListDataType>
         columns={columns}
-        toolbar={{
+        toolBarRenderOptions={{
           buttonText: '新增应用授权',
           onChange: () => {},
         }}

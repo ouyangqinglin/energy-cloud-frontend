@@ -15,16 +15,16 @@ const YTProTable = <
 >(
   props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
-  const { toolBarRender, columns, actionRef, toolbar, request, ...restProps } = props;
+  const { toolBarRender, columns, actionRef, toolBarRenderOptions, request, ...restProps } = props;
 
   // 新建按钮的统一模板
-  const toolBarNode = () => (
-    <Button type="primary" key="add" onClick={toolbar?.onChange}>
+  const toolBarNode = () => [
+    <Button type="primary" key="add" onClick={toolBarRenderOptions?.onChange}>
       <PlusOutlined />
-      {toolbar?.buttonText ?? '新建'}
-    </Button>
-  );
-  const toolBar = toolBarRender ?? toolBarNode;
+      {toolBarRenderOptions?.buttonText ?? '新建'}
+    </Button>,
+  ];
+  const toolBarRenderResult = toolBarRender ?? toolBarNode;
 
   // TODO: 支持选项式的请求
   const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
@@ -43,19 +43,24 @@ const YTProTable = <
       options={false}
       actionRef={actionRef}
       columns={customColumns}
-      toolBarRender={toolBar}
-      search={{
-        labelWidth: 'auto',
-        searchText: '搜索',
-      }}
+      toolBarRender={toolBarRenderResult}
       pagination={{
         showSizeChanger: true,
       }}
       request={standardRequest}
       rowKey="id"
-      {...restProps}
       className={styles.ytTable}
-      scroll={{ x: 1366, y: 557 }}
+      {...restProps}
+      scroll={{
+        x: 1366,
+        y: 557,
+        ...(restProps?.scroll || {}),
+      }}
+      search={{
+        labelWidth: 'auto',
+        searchText: '搜索',
+        ...(restProps?.search || {}),
+      }}
     />
   );
 };

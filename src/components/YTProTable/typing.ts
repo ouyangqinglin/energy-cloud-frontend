@@ -6,7 +6,7 @@ export type YTProTableProps<D, P, V = 'text'> = YTProTableCustomProps<D, P, V> &
   Omit<ProTableProps<D, P, V>, 'columns' | 'request'>;
 
 export type YTProTableCustomProps<D, P, V = 'text'> = {
-  toolbar?: {
+  toolBarRenderOptions?: {
     buttonText?: string;
     onChange: () => void;
   };

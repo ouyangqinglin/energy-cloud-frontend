@@ -5,7 +5,7 @@ ProTable api 基本一致，多了三个点
 
 ```{ts}
 const customConfig: CustomTableProps<AccountListDataType, any> = {
-  toolbar: {
+  toolBarRenderOptions: {
     onChange() {},
   },
   option: {
