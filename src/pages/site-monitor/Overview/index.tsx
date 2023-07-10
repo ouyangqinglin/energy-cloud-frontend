@@ -23,28 +23,15 @@ import SiteDropdown from './SiteDropdown';
 import SiteInfo from './SiteInfo';
 import Benefit from './Benefits';
 import ElectricityChart from './ElectricityChart';
+import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 
 type SiteType = {
   siteId?: string;
 };
 
 const Index: React.FC = () => {
-  const [siteId, setSiteId] = useState();
-  const formRef = useRef<ProFormInstance>();
+  const [siteId, setSiteId] = useState<number>();
   const location = useLocation();
-  const [siteColumn] = useSiteColumn<SiteType>({
-    title: '选择站点',
-    fieldProps: {
-      bordered: false,
-      showSearch: false,
-      showArrow: false,
-      allowClear: false,
-      onChange: (id) => {
-        setSiteId(id);
-      },
-    },
-    width: 200,
-  });
 
   useEffect(() => {
     const { query } = location as LocationType;
@@ -52,10 +39,6 @@ const Index: React.FC = () => {
       setSiteId(query?.id);
     }
   }, [location]);
-
-  const formColumns = useMemo<ProFormColumnsType<SiteType>[]>(() => {
-    return [siteColumn];
-  }, [siteColumn]);
 
   const onScreenClick = () => {
     if (siteId) {
@@ -69,26 +52,15 @@ const Index: React.FC = () => {
     <>
       <div className="bg-white card-wrap p24">
         <div className={styles.stationHeader}>
-          <SchemaForm
-            formRef={formRef}
-            open={true}
-            layoutType="Form"
-            layout="inline"
-            columns={formColumns}
-            submitter={false}
-            initialValues={{
-              siteId,
-            }}
-          />
-          {/* <SiteDropdown defaultSiteId={siteId}></SiteDropdown> */}
-          <FundProjectionScreenOutlined className={styles.screen} onClick={onScreenClick} />
+          <SiteDropdown onChange={setSiteId} />
+          <IconScreen className={styles.screen} onClick={onScreenClick} />
         </div>
         <Row gutter={[16, 16]}>
-          <Statistics />
-          <EnergyFlow />
-          <Benefit />
-          <ElectricityChart />
-          <SiteInfo />
+          <Statistics siteId={siteId} />
+          <EnergyFlow siteId={siteId} />
+          <Benefit siteId={siteId} />
+          <ElectricityChart siteId={siteId} />
+          <SiteInfo siteId={siteId} />
         </Row>
       </div>
     </>

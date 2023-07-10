@@ -1,0 +1,30 @@
+export interface SiteInfoRes {
+  id: number;
+  sn: string;
+  name: string;
+  voltageClass: number;
+  transformerCapacity: number;
+  photovoltaicInstalledCapacity: number;
+  energyStoragePower: number;
+  energyStorageCapacity: number;
+  chargingStationCapacity: number;
+  address: string;
+  longitude: number;
+  latitude: number;
+  createTime: string;
+  createBy: number;
+  deliveryTime: string;
+  deliveryBy: number;
+  countryCode: string;
+  provinceCode: string;
+  cityCode: string;
+  districtCode: string;
+  orgId?: any;
+  constructionStatus: number;
+  operator: string;
+  lastOperationTime: string;
+  thirdPartySiteNumber: string;
+  defaultSite: number;
+  operationTime: string;
+  siteAlarmStatus: number;
+}

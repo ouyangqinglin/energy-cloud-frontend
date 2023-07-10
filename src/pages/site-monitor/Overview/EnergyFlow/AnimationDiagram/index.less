@@ -6,12 +6,19 @@
   height: 10px;
   background: #ff974a;
   border-radius: 50%;
-  transform: translate(0, 0);
-  transform: rotate(180 189.312 109.077);
   animation: move linear normal infinite;
-  offset-distance: 0%;
+}
+.animationWrapper {
+  position: absolute;
+  top: 219px;
+  left: 380px;
+  transform: rotate(180deg);
+  transform-origin: center;
 }
 @keyframes move {
+  0% {
+    offset-distance: 0%;
+  }
   100% {
     offset-distance: 100%;
   }

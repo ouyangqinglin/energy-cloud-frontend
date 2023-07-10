@@ -5,36 +5,37 @@
   display: flex;
   align-items: center;
   height: 120px;
-  .icon {
-    margin-right: 20px;
-    padding: 8px;
-    font-size: 60px;
-  }
-  .svg-icon {
-    position: relative;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    vertical-align: -2px;
-    fill: currentColor;
-  }
-  .left-title {
-    margin-left: 17px;
-    color: #999;
-    font-size: 12px;
+  .boxLeft {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    margin: 24px 5px;
+    .svg-icon {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 4px;
+    }
+    .left-title {
+      margin: 0;
+      color: #999;
+      font-size: 12px;
+    }
   }
   .content {
     flex: 1;
     width: 80px;
     .card-item {
       display: flex;
+      margin: 1px 0;
       .card-left {
         width: 140px;
       }
       // .card-right {
       // }
       .card-kpi-label {
-        color: #666;
+        color: #606266;
         font-size: 14px;
       }
       .card-kpi-unit {
@@ -43,7 +44,7 @@
       }
       .card-kpi-value {
         margin-right: 3px;
-        color: #181818;
+        color: #1d2129;
         font-weight: 700;
         font-size: 14px;
       }

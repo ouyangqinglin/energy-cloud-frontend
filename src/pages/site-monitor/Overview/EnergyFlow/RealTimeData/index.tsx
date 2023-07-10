@@ -1,33 +1,47 @@
 import { useToggle } from 'ahooks';
 import { Button, Col, Radio, Row, Statistic } from 'antd';
 import classNames from 'classnames';
-import React from 'react';
-import TimeButtonGroup from '../../components/TimeButtonGroup';
+import { isNil } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { useRequest } from 'umi';
+import TimeButtonGroup, { TimeType } from '../../components/TimeButtonGroup';
+import { getPVRevenue } from '../service';
 import styles from './index.less';
 
-const RealTimeData: React.FC = () => {
+const RealTimeData = ({ siteId }: { siteId?: number }) => {
+  const { data, run } = useRequest(getPVRevenue, {
+    manual: true,
+  });
+  const [timeType, setTimeType] = useState(TimeType.DAY);
+
+  useEffect(() => {
+    if (!isNil(siteId)) {
+      run(siteId, timeType);
+    }
+  }, [run, siteId, timeType]);
+
   const [show, { toggle }] = useToggle(true);
 
   const columns = [
     {
       label: '总收益',
       unit: '(元)',
-      value: 2454.83,
+      value: data?.totalGains,
     },
     {
       label: '光伏收益',
       unit: '(元)',
-      value: 1644.43,
+      value: data?.photovoltaicGains,
     },
     {
       label: '储能收益',
       unit: '(元)',
-      value: 811.67,
+      value: data?.essGains,
     },
     {
       label: '充电桩收益',
       unit: '(元)',
-      value: 811.67,
+      value: data?.chargingPileGains,
     },
   ];
 
@@ -46,13 +60,14 @@ const RealTimeData: React.FC = () => {
       <div className={styles.realBtn}>{toggleButton}</div>
       {show && (
         <div className={classNames(styles.realContent)}>
-          <TimeButtonGroup className={styles.timeBtn} onChange={() => {}} />
+          <TimeButtonGroup className={styles.timeBtn} onChange={setTimeType} />
           <Row gutter={[16, 16]}>
             {columns.map((row) => {
               return (
                 <Col key={row.label} span={12}>
                   <Statistic
                     className={styles.boxContent}
+                    precision={2}
                     title={
                       <span
                         style={{

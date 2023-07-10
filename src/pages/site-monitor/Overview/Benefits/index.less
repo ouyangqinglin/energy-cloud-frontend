@@ -1,7 +1,15 @@
+@import '~antd/es/style/themes/default.less';
+@media screen and (max-width: @screen-xl) {
+  .benefitWrapper {
+    padding: 15px 15px !important;
+  }
+}
+
 .benefitWrapper {
   position: relative;
   padding: 15px 32px;
   background: #fff;
+
   .boxContent {
     display: flex;
     flex-flow: row;
@@ -24,7 +32,7 @@
         display: flex;
         justify-content: space-between;
         .label {
-          width: 100px;
+          // width: 100px;
           color: #606266;
           font-weight: 400;
           font-size: 14px;

@@ -9,7 +9,7 @@ export interface DescriptionCardConfig {
 export interface Statistic {
   label: string;
   labelUnit: string;
-  field: string;
-  value: string;
+  field?: string;
+  value?: string | ((entity: any) => string);
   valueUnit?: string;
 }
