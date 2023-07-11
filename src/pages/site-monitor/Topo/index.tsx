@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { message, Row } from 'antd';
+import React, { useState, useEffect, useMemo, useRef, LegacyRef } from 'react';
+import { Button, message, Row } from 'antd';
 import { useLocation } from 'umi';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
@@ -41,10 +41,11 @@ const Index: React.FC = () => {
         // ellipsis: true,
         hideInTable: true,
         valueEnum: new Map([
-          [0, '储能拓扑'],
+          [0, '电站概览'],
           [1, '光伏拓扑'],
-          [2, '市电拓扑'],
-          [3, '负载拓扑'],
+          [0, '储能拓扑'],
+          [2, '用电拓扑'],
+          [3, '通信拓扑'],
         ]),
       },
     ];
@@ -53,14 +54,35 @@ const Index: React.FC = () => {
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const svgRef = useRef<SVGElement>(null);
 
-  const handleWheel = (event) => {
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1; // 缩放因子
+      setScale((prevScale) => prevScale * scaleFactor);
+    };
+    if (svgRef.current) {
+      svgRef.current.addEventListener('wheel', handleWheel, {
+        passive: false,
+      });
+    }
+    return () => {
+      if (svgRef.current) {
+        svgRef.current.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [svgRef]);
+
+  const handleWheel = (event: WheelEvent) => {
     event.preventDefault();
+    event.stopPropagation();
     const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1; // 缩放因子
     setScale((prevScale) => prevScale * scaleFactor);
   };
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = (event: MouseEvent) => {
     const deltaX = event.movementX;
     const deltaY = event.movementY;
     setTranslateX((prevTranslateX) => prevTranslateX + deltaX);
@@ -72,7 +94,7 @@ const Index: React.FC = () => {
     document.removeEventListener('mouseup', handleMouseUp);
   };
 
-  const handleMouseDown = (event) => {
+  const handleMouseDown = (event: MouseEvent) => {
     event.preventDefault();
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -91,11 +113,13 @@ const Index: React.FC = () => {
             initialValues={{}}
             onValuesChange={() => {}}
           />
+          <Button type="primary">编辑</Button>
         </div>
         {/* <SystemDiagram className={styles.systemDiagram} /> */}
         <svg
+          ref={svgRef}
           className={styles.systemDiagram}
-          onWheel={handleWheel}
+          // onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           style={{ cursor: 'grab' }}
           width="100%"
