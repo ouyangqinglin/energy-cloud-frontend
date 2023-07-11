@@ -83,7 +83,7 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
         columns={customColumns}
         initialValues={initialValues}
         rowProps={{
-          gutter: 0,
+          gutter: [16, 0],
         }}
         {...restProps}
       />

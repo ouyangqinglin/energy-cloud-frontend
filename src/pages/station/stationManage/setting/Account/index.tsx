@@ -76,8 +76,10 @@ const Account: React.FC = () => {
         actionRef={actionRef}
         columns={columns}
         toolBarRenderOptions={{
-          onChange: onAddClick,
-          buttonText: '新增用户',
+          add: {
+            onClick: onAddClick,
+            text: '新增用户',
+          },
         }}
         option={{
           onEditChange: onEditChange,

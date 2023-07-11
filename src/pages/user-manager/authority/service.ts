@@ -1,5 +1,5 @@
 import type { RoleParam, RoleInfo } from './type';
-import { del, get, post, put } from '@/utils/request';
+import request, { del, get, post, put } from '@/utils/request';
 
 export const createRole = (data: RoleParam) => {
   return post(`/uc/role`, data);
@@ -19,4 +19,19 @@ export const deleteRole = (data: { roleIds: number[] }) => {
 
 export const getRoleList = (params: any) => {
   return get<RoleInfo[]>(`/uc/role/page`, params);
+};
+
+export const getEffectMenus = () => {
+  return request('/uc/role/menu/roleMenuTreeselect', {
+    method: 'GET',
+  });
+};
+
+export const getSelectMenu = (roleId: number) => {
+  return request('/uc/role/menu/checkedKeys', {
+    method: 'GET',
+    params: {
+      roleId,
+    },
+  });
 };

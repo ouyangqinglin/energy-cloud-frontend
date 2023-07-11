@@ -18,12 +18,14 @@ const Customer = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformS
 
   const customConfig: YTProTableCustomProps<CustomerInfo, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        setInitialValues({} as CustomerInfo);
-        setOperations(FormOperations.CREATE);
-        set(true);
+      add: {
+        onClick() {
+          setInitialValues({} as CustomerInfo);
+          setOperations(FormOperations.CREATE);
+          set(true);
+        },
+        text: '新建账号',
       },
-      buttonText: '新建账号',
     },
     option: {
       onDeleteChange(_, entity) {

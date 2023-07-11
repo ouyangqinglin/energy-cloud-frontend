@@ -14,7 +14,7 @@ import type { ProColumns } from '@ant-design/pro-table';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   props: ProColumns<TableData, ValueType> = {},
-): [siteColumn: ProColumns<TableData, ValueType>] => {
+): [siteColumn: ProColumns<TableData, ValueType>, siteOptions: OptionType[] | undefined] => {
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
 
   const requestStation = useCallback(
@@ -26,7 +26,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
               label: item.name,
               value: item.id,
             };
-          }),
+          }) || [],
         );
       });
     }, 700),
@@ -80,7 +80,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
     };
   }, [requestStation, stationOptions, props]);
 
-  return [siteColumn];
+  return [siteColumn, stationOptions];
 };
 
 export default useSiteColumn;

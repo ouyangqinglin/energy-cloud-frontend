@@ -10,13 +10,6 @@ import request from '@/utils/request';
 import type { ResponseCommonData } from '@/utils/request';
 import { TreeData } from './type';
 
-export const getSiteTree1 = (params: any) => {
-  return request<ResponseCommonData<TreeData>>(`/iot/siteSystemConfiguration/condition/tree`, {
-    method: 'GET',
-    params,
-  });
-};
-
 export const getSiteTree = (params: any) => {
   return request(`/iot/device/deviceTree`, {
     method: 'GET',

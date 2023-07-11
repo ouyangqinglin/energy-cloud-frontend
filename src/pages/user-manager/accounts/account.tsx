@@ -109,10 +109,12 @@ const Account: React.FC<AccountsProps> = (props) => {
   const [initialValues, setInitialValues] = useState<CustomerInfo>({} as CustomerInfo);
   const customConfig: YTProTableProps<AccountListDataType, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        setInitialValues({} as CustomerInfo);
-        setOperations(FormOperations.CREATE);
-        setTrue();
+      add: {
+        onClick() {
+          setInitialValues({} as CustomerInfo);
+          setOperations(FormOperations.CREATE);
+          setTrue();
+        },
       },
     },
     option: {

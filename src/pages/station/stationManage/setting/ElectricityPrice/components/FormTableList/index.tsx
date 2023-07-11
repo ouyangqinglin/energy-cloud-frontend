@@ -36,12 +36,14 @@ const FormTableList = <DataType extends Record<string, any>>(
 
   const customConfig: YTProTableCustomProps<DataType, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        setInitialValues({} as DataType);
-        setOperations(FormOperations.CREATE);
-        set(true);
+      add: {
+        onClick() {
+          setInitialValues({} as DataType);
+          setOperations(FormOperations.CREATE);
+          set(true);
+        },
+        text: '新建规则',
       },
-      buttonText: '新建规则',
     },
     option: {
       onDeleteChange(_, entity) {

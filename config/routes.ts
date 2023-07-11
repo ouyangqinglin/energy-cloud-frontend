@@ -66,6 +66,8 @@ export default [
       {
         path: 'setting',
         component: './station/Setting',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.station.setting',
       },
       {
         path: 'custom-page',

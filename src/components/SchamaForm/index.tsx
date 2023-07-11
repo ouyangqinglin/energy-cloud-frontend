@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-10 19:48:33
+ * @LastEditTime: 2023-07-11 13:41:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
-import React, { useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { Ref, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
 import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-components';
@@ -26,7 +26,7 @@ export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueTyp
   getData?: CombineService<any, any>;
   addData?: CombineService<any, any>;
   editData?: CombineService<any, any>;
-  afterRequest?: (formData: FormData) => void;
+  afterRequest?: (formData: FormData, formRef: React.Ref<ProFormInstance | undefined>) => void;
   beforeSubmit?: (formData: FormData) => void;
   onSuccess?: (formData: FormData) => boolean | void;
   extraData?: Record<string, any>;
@@ -106,7 +106,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
       if (type !== FormTypeEnum.Add && id) {
         runGet?.({ [idKey]: id })?.then?.((data) => {
           const requestData = data || {};
-          afterRequest?.(requestData);
+          afterRequest?.(requestData, myFormRef);
           myFormRef?.current?.setFieldsValue?.(requestData);
         });
       }
@@ -131,7 +131,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           open={open}
           onOpenChange={onOpenChange}
           rowProps={{
-            gutter: 0,
+            gutter: [16, 0],
           }}
           {...restProps}
         />

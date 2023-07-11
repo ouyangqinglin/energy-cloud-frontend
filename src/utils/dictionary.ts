@@ -220,10 +220,10 @@ export enum timeDimensionEnum {
 }
 
 export const timeDimension = new Map([
-  [timeDimensionEnum.Day, '按日统计'],
-  [timeDimensionEnum.Month, '按月统计'],
-  [timeDimensionEnum.Year, '按年统计'],
-  [timeDimensionEnum.Cycle, '按生命周期统计'],
+  [timeDimensionEnum.Day, { text: '按日统计', format: 'YYYY-MM-DD' }],
+  [timeDimensionEnum.Month, { text: '按月统计', format: 'YYYY-MM' }],
+  [timeDimensionEnum.Year, { text: '按年统计', format: 'YYYY' }],
+  [timeDimensionEnum.Cycle, { text: '按生命周期统计' }],
 ]);
 
 export const cleanUpType = {

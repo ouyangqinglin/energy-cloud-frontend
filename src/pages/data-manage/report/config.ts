@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-07-07 10:55:31
+ * @LastEditTime: 2023-07-11 16:19:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.ts
  */
@@ -736,7 +736,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电枪id',
-    dataIndex: 'a',
+    dataIndex: 'connectorld',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
@@ -769,28 +769,28 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电电量(kWh)',
-    dataIndex: 'a',
+    dataIndex: 'DetailPower',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
     title: '电费金额(元)',
-    dataIndex: 'a',
+    dataIndex: 'DetailElecMoney',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
   },
   {
     title: '平台服务费金额(元)',
-    dataIndex: 'a',
+    dataIndex: 'SevicePrice',
     hideInSearch: true,
     width: 170,
     ellipsis: true,
   },
   {
     title: '订单总金额(元)',
-    dataIndex: 'a',
+    dataIndex: 'totalElecMoney',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
@@ -800,6 +800,50 @@ export const chargeOrderColumns: ProColumns[] = [
     dataIndex: 'stopReason',
     hideInSearch: true,
     width: 150,
+    ellipsis: true,
+  },
+];
+
+export const chargeOrderStatColumns: ProColumns[] = [
+  {
+    title: '统计时间',
+    dataIndex: 'date',
+    hideInSearch: true,
+    width: 150,
+  },
+  {
+    title: '订单数量',
+    dataIndex: 'orderCount',
+    hideInSearch: true,
+    width: 120,
+    ellipsis: true,
+  },
+  {
+    title: '累计充电电量（kWh）',
+    dataIndex: 'chargingCapacity',
+    hideInSearch: true,
+    width: 180,
+    ellipsis: true,
+  },
+  {
+    title: '累计电费金额（元）',
+    dataIndex: 'electricityBillAmount',
+    hideInSearch: true,
+    width: 180,
+    ellipsis: true,
+  },
+  {
+    title: '累计平台服务费金额（元）',
+    dataIndex: 'serviceFeeAmount',
+    hideInSearch: true,
+    width: 200,
+    ellipsis: true,
+  },
+  {
+    title: '累计订单总金额（元）',
+    dataIndex: 'totalOrderAmount',
+    hideInSearch: true,
+    width: 180,
     ellipsis: true,
   },
 ];

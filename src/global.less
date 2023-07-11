@@ -31,6 +31,19 @@ body,
   left: unset;
 }
 
+.ant-tree .ant-tree-list {
+  .ant-tree-node-content-wrapper {
+    white-space: nowrap;
+    &.ant-tree-node-selected {
+      color: white;
+      background: @primary-color;
+    }
+  }
+  .ant-tree-title {
+    white-space: nowrap;
+  }
+}
+
 canvas {
   display: block;
 }
@@ -158,6 +171,29 @@ ol {
     padding: 0 24px;
     background-color: #fff;
     user-select: none;
+  }
+}
+
+.category-tabs {
+  .ant-tabs-ink-bar {
+    background-color: transparent;
+  }
+  .ant-tabs-tab {
+    margin: 12px 0;
+    padding: 0 8px;
+  }
+  .ant-tabs-tab-active {
+    color: @primary-color;
+    background: rgba(22, 93, 255, 0.1);
+  }
+  .ant-tabs-nav {
+    background-color: #fff;
+    &::before {
+      border-bottom: 0;
+    }
+  }
+  .ant-tabs-nav-wrap {
+    border-bottom: 1px dashed #e4e7ed;
   }
 }
 

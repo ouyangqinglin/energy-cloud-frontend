@@ -1,6 +1,5 @@
 import { effectStatus } from '@/utils/dictionary';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
-import { Tree } from 'antd';
 
 export const columns: ProFormColumnsType[] = [
   {
@@ -35,29 +34,15 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'status',
   },
   {
-    title: '备注：',
+    title: '备注',
     dataIndex: 'remark',
     valueType: 'textarea',
     fieldProps: {
       placeholder: '请输入',
       className: 'w-full',
     },
+    colProps: {
+      span: 24,
+    },
   },
-  // {
-  //   title: '菜单权限',
-  //   dataIndex: 'menuIds',
-  //   renderFormItem: () => {
-  //     return <Tree
-  //       checkable={true}
-  //       multiple={true}
-  //       checkStrictly={true}
-  //       defaultExpandAll={false}
-  //       treeData={menuTree}
-  //       checkedKeys={}
-  //       onCheck={(keys: any) => {
-  //         setMenuIds(keys.checked);
-  //       }}
-  //     />
-  //   }
-  // }
 ];

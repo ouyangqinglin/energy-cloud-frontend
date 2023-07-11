@@ -54,6 +54,7 @@ const BindDevice = <V = any,>(props: {
       proTableProps={{
         columns: tableSelectColumns,
         request: getDeviceCollection,
+        pagination: false,
       }}
       valueId="id"
       valueName="deviceName"

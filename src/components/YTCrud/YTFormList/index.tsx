@@ -57,12 +57,14 @@ export const YTFormList = <
 
   const customConfig: YTProTableCustomProps<FormListItemType, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        // setInitialValues({} as FormListItemType);
-        setOperations(FormOperations.CREATE);
-        set(true);
+      add: {
+        onClick() {
+          // setInitialValues({} as FormListItemType);
+          setOperations(FormOperations.CREATE);
+          set(true);
+        },
+        text: buttonText,
       },
-      buttonText,
     },
     option: {
       onDeleteChange(_, entity) {

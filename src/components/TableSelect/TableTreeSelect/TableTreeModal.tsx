@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-06-21 15:39:12
+ * @LastEditTime: 2023-07-11 15:32:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -16,7 +16,7 @@ import { useRequest } from 'umi';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
 import type { ProTableProps, ActionType } from '@ant-design/pro-table';
-import { defaultsDeep } from 'lodash';
+import { mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
@@ -208,18 +208,26 @@ const TableTreeModal = <
   const requestTable = useCallback(
     (params, sort, filter) => {
       if (proTableProps?.request && params.deviceId) {
-        return proTableProps.request(params, sort, filter).then(({ data = {} }) => {
-          setTableIdSet(new Set(data?.list?.map?.((item) => item[valueId])));
-          return {
-            data: data?.list,
-            total: data?.total,
-          };
+        return proTableProps.request(params, sort, filter).then(({ data }) => {
+          if (Array.isArray(data)) {
+            setTableIdSet(new Set(data?.map?.((item) => item[valueId])));
+            return {
+              data: data,
+              total: data?.length,
+            };
+          } else {
+            setTableIdSet(new Set(data?.list?.map?.((item) => item[valueId])));
+            return {
+              data: data?.list,
+              total: data?.total,
+            };
+          }
         });
       } else {
         return Promise.resolve({});
       }
     },
-    [proTableProps?.request, valueId],
+    [proTableProps?.request, proTableProps?.pagination, valueId],
   );
 
   useEffect(() => {
@@ -249,32 +257,34 @@ const TableTreeModal = <
     });
   }, [selectedTags, valueId, valueName, selectType, props.treeProps]);
 
-  const defaultTableProps: ProTableProps<DataType, Params> = {
-    ...(selectType === SelectTypeEnum.Collect
-      ? {
-          rowSelection: {
-            type: multiple ? 'checkbox' : 'radio',
-            selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
-            onChange: onSelectedChange,
-          },
-        }
-      : {}),
-    search: false,
-    rowKey: valueId,
-    pagination: {
-      defaultPageSize: 10,
-      showSizeChanger: true,
-    },
-    toolBarRender: false,
-    tableAlertRender: false,
-    tableAlertOptionRender: false,
-    size: 'small',
-  };
-
-  const tableProps: ProTableProps<DataType, Params> = defaultsDeep(
-    defaultTableProps,
-    proTableProps,
-  );
+  const tableProps = useMemo<ProTableProps<DataType, Params>>(() => {
+    const defaultProps: ProTableProps<DataType, Params> = {
+      ...(selectType === SelectTypeEnum.Collect
+        ? {
+            rowSelection: {
+              type: multiple ? 'checkbox' : 'radio',
+              selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
+              onChange: onSelectedChange,
+            },
+          }
+        : {}),
+      search: false,
+      rowKey: valueId,
+      pagination: {
+        defaultPageSize: 10,
+        showSizeChanger: true,
+      },
+      toolBarRender: false,
+      tableAlertRender: false,
+      tableAlertOptionRender: false,
+      size: 'small',
+    };
+    return mergeWith(defaultProps, proTableProps, (objValue, srcValue) => {
+      if (srcValue === false) {
+        return false;
+      }
+    });
+  }, [selectType, multiple, selectedTags, valueId, onSelectedChange, proTableProps]);
 
   return (
     <>

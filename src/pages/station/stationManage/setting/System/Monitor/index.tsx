@@ -380,7 +380,7 @@ const Monitor: React.FC = () => {
   return (
     <>
       <Collapse
-        className={`mt16 bg-white ${styles.collapse}`}
+        className={`mt16 bg-white px8 ${styles.collapse}`}
         activeKey={[...activeKeysSet]}
         expandIcon={() => <></>}
         ghost
@@ -403,6 +403,7 @@ const Monitor: React.FC = () => {
         proTableProps={{
           columns: tableSelectColumns,
           request: getDeviceCollection,
+          pagination: false,
         }}
         valueId={valueMap.valueId}
         valueName={valueMap.valueName}

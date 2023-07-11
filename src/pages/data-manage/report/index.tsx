@@ -1,8 +1,9 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useRef } from 'react';
 import { Button } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 import { useRequest, useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
+import { ProFormInstance } from '@ant-design/pro-components';
 import { useSiteColumn } from '@/hooks';
 import {
   searchColumns,
@@ -11,13 +12,15 @@ import {
   pvInverterColumns,
   energyColumns,
   chargeOrderColumns,
+  chargeOrderStatColumns,
   chargeBaseColumns,
 } from './config';
 import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
-import { reportTypeEnum } from '@/utils/dictionary';
+import { reportTypeEnum, reportType, timeDimensionEnum, timeDimension } from '@/utils/dictionary';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
+import { saveFile } from '@/utils';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -66,24 +69,61 @@ const Report: React.FC<ReportProps> = (props) => {
     },
   });
 
-  const onSubmit = useCallback((params: TableSearchType) => {
-    setSearchParams(params);
-    run({
-      ...params,
-      dimensionTime: params?.dimensionTime
+  const onSubmit = useCallback(
+    (params: TableSearchType) => {
+      setSearchParams(params);
+      run({
+        ...params,
+        dimensionTime: params?.dimensionTime
+          ? moment(params?.dimensionTime).format('YYYY-MM-DD')
+          : '',
+        ...(isStationChild ? { siteId } : {}),
+      });
+    },
+    [isStationChild, siteId],
+  );
+
+  const requestExport = useCallback(
+    (params) => {
+      const dimensionTime = params?.dimensionTime
         ? moment(params?.dimensionTime).format('YYYY-MM-DD')
-        : '',
-      ...(isStationChild ? { siteId } : {}),
-    });
+        : '';
+      return exportList({
+        ...params,
+        dimensionTime,
+        ...(isStationChild ? { siteId } : {}),
+      });
+    },
+    [isStationChild, siteId],
+  );
+
+  const getExportName = useCallback((params) => {
+    const dimensionTime = params?.dimensionTime
+      ? moment(params?.dimensionTime).format('YYYY-MM-DD')
+      : '';
+    return `${reportType.get(params?.reportType || reportTypeEnum.Site) || '电站报表'}${
+      dimensionTime
+        ? '_' +
+          moment(params?.dimensionTime).format(
+            timeDimension.get(params?.timeDimension || timeDimensionEnum.Day)?.format,
+          )
+        : ''
+    }`;
   }, []);
 
   const columns = useMemo(() => {
     const siteSearch = isStationChild ? [] : [siteSearchColumn];
-    const fieldColumns = cloneDeep(
+    let fieldColumns = cloneDeep(
       columnsMap.get(searchParams?.reportType || reportTypeEnum.Site) || siteColumns,
     );
     if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {
       fieldColumns.splice(2, 1);
+    }
+    if (
+      searchParams?.reportType === reportTypeEnum.ChargeOrder &&
+      searchParams?.timeDimension !== timeDimensionEnum.Day
+    ) {
+      fieldColumns = cloneDeep(chargeOrderStatColumns);
     }
     return [...siteSearch, ...searchColumns, ...fieldColumns];
   }, [siteSearchColumn, searchParams, isStationChild]);
@@ -92,7 +132,14 @@ const Report: React.FC<ReportProps> = (props) => {
     <>
       <YTProTable
         columns={columns}
-        toolBarRender={() => []}
+        toolBarRenderOptions={{
+          add: { show: false },
+          export: {
+            show: true,
+            requestExport: requestExport,
+            getExportName: getExportName,
+          },
+        }}
         pagination={false}
         loading={loading}
         dataSource={tableData}
@@ -101,15 +148,6 @@ const Report: React.FC<ReportProps> = (props) => {
         search={{
           collapsed: false,
           collapseRender: false,
-          optionRender: (_, __, dom) => {
-            return [
-              ...dom,
-              <Button key="export" type="primary" onClick={exportList}>
-                <ExportOutlined />
-                导出
-              </Button>,
-            ];
-          },
         }}
         form={{
           ignoreRules: false,

@@ -36,7 +36,7 @@ const OverviewSetting: React.FC = () => {
   return (
     <>
       <Card
-        className="mt16"
+        className="mt16 px24"
         title="默认监控首页"
         extra={
           <Button type="primary" loading={loading} onClick={setTrue}>

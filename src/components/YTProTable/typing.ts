@@ -1,15 +1,31 @@
+import { MutableRefObject } from 'react';
+import { ProFormInstance } from '@ant-design/pro-components';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
+import React from 'react';
+import { ButtonProps } from 'antd';
 
 export type YTProTableProps<D, P, V = 'text'> = YTProTableCustomProps<D, P, V> &
   Omit<ProTableProps<D, P, V>, 'columns' | 'request'>;
 
+export type toolBarRenderOptionType<Params> = {
+  show?: boolean;
+  text?: string;
+  onClick?: (formRef?: MutableRefObject<ProFormInstance<Params> | undefined>) => void;
+  icon?: React.ReactNode;
+  buttonProps?: ButtonProps;
+  requestExport?: (params: Params) => Promise<Blob>;
+  getExportName?: (params: Params) => string;
+};
+
+export type toolBarRenderOptionsType<Params> = {
+  add?: toolBarRenderOptionType<Params>;
+  export?: toolBarRenderOptionType<Params>;
+};
+
 export type YTProTableCustomProps<D, P, V = 'text'> = {
-  toolBarRenderOptions?: {
-    buttonText?: string;
-    onChange: () => void;
-  };
+  toolBarRenderOptions?: toolBarRenderOptionsType<P>;
   option?: {
     columnsProp?: Omit<ProColumns<D, V>, 'render'>;
     modalDeleteText?: string;

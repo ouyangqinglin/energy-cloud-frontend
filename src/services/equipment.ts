@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-05-22 15:43:37
+ * @LastEditTime: 2023-07-11 14:24:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
@@ -98,7 +98,7 @@ export const getThirdStation = (params: any) => {
 };
 
 export const getDeviceTree = (params: any) => {
-  return request(`/iot/siteSystemConfiguration/condition/tree`, {
+  return request(`/iot/siteSystemConfiguration/condition/deviceTree`, {
     method: 'GET',
     params,
   });

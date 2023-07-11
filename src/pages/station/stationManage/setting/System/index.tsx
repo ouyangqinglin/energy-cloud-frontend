@@ -11,7 +11,6 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import Monitor from './Monitor';
 import OverviewSetting from './OverviewSetting';
-import styles from '../ElectricityPrice/index.less';
 
 const System: React.FC = () => {
   const tabItems: TabsProps['items'] = [
@@ -29,7 +28,7 @@ const System: React.FC = () => {
 
   return (
     <>
-      <Tabs items={tabItems} className={styles.category} tabBarGutter={24} />
+      <Tabs items={tabItems} className="category-tabs" tabBarGutter={24} />
     </>
   );
 };

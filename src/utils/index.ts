@@ -2,6 +2,7 @@ import React from 'react';
 import type { MenuDataItem } from '@umijs/route-utils';
 import type { MenuProps } from 'antd';
 import { createIcon } from './IconUtil';
+import FileSaver from 'file-saver';
 
 export type AntMenuProps = {
   label: string;
@@ -112,4 +113,9 @@ export const getPathArrary = (path: string): string[] => {
   }
   result.shift();
   return result;
+};
+
+export const saveFile = (data: Blob, name = '导出文件') => {
+  // let blob = new Blob([data], { type: fileType.Xlxs })
+  FileSaver.saveAs(data, name + '.xlsx');
 };

@@ -18,12 +18,14 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
 
   const customConfig: YTProTableCustomProps<ServiceInfo, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        setInitialValues({} as ServiceInfo);
-        setOperations(FormOperations.CREATE);
-        set(true);
+      add: {
+        onClick() {
+          setInitialValues({} as ServiceInfo);
+          setOperations(FormOperations.CREATE);
+          set(true);
+        },
+        text: '新增服务商',
       },
-      buttonText: '新增服务商',
     },
     option: {
       onDeleteChange(_, entity) {

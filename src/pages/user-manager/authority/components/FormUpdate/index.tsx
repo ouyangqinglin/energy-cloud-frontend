@@ -23,6 +23,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
     request,
     id,
     onSuccess,
+    afterRequest,
     ...resetProps
   } = props;
   const isCreate = operations === FormOperations.CREATE;
@@ -48,6 +49,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
       form?.resetFields();
       if (id) {
         request({ roleId: id }, {}).then(({ data }) => {
+          afterRequest?.(data, form);
           form?.setFieldsValue(data);
         });
       }
@@ -56,12 +58,15 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
 
   return (
     <YTModalForm<FormData>
-      width={480}
+      width={680}
       form={form}
       title={title}
       {...DEFAULT_PROPS}
       colProps={{
-        span: 24,
+        span: 12,
+      }}
+      rowProps={{
+        gutter: [16, 0],
       }}
       layoutType={'ModalForm'}
       columns={columns}

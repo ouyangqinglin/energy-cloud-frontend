@@ -1,12 +1,15 @@
+import { useRef, useMemo } from 'react';
 import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { ProTable } from '@ant-design/pro-components';
+import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
+import { ProTable, ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { YTProTableProps } from './typing';
+import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import genDefaultOperation from './operation';
 import { normalizeRequestOption, standardRequestTableData } from './helper';
 import styles from './index.less';
 import classnames from 'classnames';
+import { merge } from 'lodash';
+import useToolBarRender from './useToolBarRender';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -17,14 +20,13 @@ const YTProTable = <
 ) => {
   const { toolBarRender, columns, actionRef, toolBarRenderOptions, request, ...restProps } = props;
 
-  // 新建按钮的统一模板
-  const toolBarNode = () => [
-    <Button type="primary" key="add" onClick={toolBarRenderOptions?.onChange}>
-      <PlusOutlined />
-      {toolBarRenderOptions?.buttonText ?? '新建'}
-    </Button>,
-  ];
-  const toolBarRenderResult = toolBarRender ?? toolBarNode;
+  const formRef = useRef<ProFormInstance<Params>>();
+
+  const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
+    toolBarRender,
+    toolBarRenderOptions,
+    formRef,
+  );
 
   // TODO: 支持选项式的请求
   const customColumns = normalizeRequestOption<DataType, ValueType>(columns);
@@ -40,8 +42,14 @@ const YTProTable = <
 
   return (
     <ProTable<DataType, Params, ValueType>
-      options={false}
       actionRef={actionRef}
+      formRef={formRef}
+      options={{
+        density: false,
+        fullScreen: false,
+        reload: false,
+        setting: true,
+      }}
       columns={customColumns}
       toolBarRender={toolBarRenderResult}
       pagination={{

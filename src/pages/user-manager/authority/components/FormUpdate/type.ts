@@ -1,5 +1,5 @@
 import type { FormOperations } from '@/components/YTModalForm/typing';
-import type { ProRequestData } from '@ant-design/pro-components';
+import type { ProRequestData, FormInstance } from '@ant-design/pro-components';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 
 export type FormUpdateBaseProps = {
@@ -18,4 +18,5 @@ export type FormUpdateProps<T, U> = {
   onFinishCreate: ProRequestData<T, U>;
   columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[];
   request?: ProRequestData<T, U>;
+  afterRequest?: (formData: T, formRef: FormInstance) => void;
 } & FormUpdateBaseProps;

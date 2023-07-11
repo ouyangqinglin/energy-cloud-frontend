@@ -28,8 +28,10 @@ const RemoteUpgrade: React.FC = () => {
       <YTProTable<ListDataType, ListDataType>
         columns={columns}
         toolBarRenderOptions={{
-          buttonText: '新增应用授权',
-          onChange: () => {},
+          add: {
+            onClick: () => {},
+            text: '新增应用授权',
+          },
         }}
         option={{
           columnsProp: {

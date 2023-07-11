@@ -103,7 +103,7 @@ const StationInfo: React.FC = () => {
 
   return (
     <>
-      {false && (
+      <div className="px24">
         <Card
           className="mt16"
           title="状态信息"
@@ -124,23 +124,23 @@ const StationInfo: React.FC = () => {
             column={3}
           />
         </Card>
-      )}
-      <Card
-        className="my16"
-        title="基础信息"
-        extra={
-          <Button type="primary" loading={loading} onClick={switchOpen}>
-            编辑
-          </Button>
-        }
-      >
-        <Detail
-          data={detailData}
-          items={baseDetailItems}
-          labelStyle={{ width: '100px' }}
-          column={3}
-        />
-      </Card>
+        <Card
+          className="my16"
+          title="基础信息"
+          extra={
+            <Button type="primary" loading={loading} onClick={switchOpen}>
+              编辑
+            </Button>
+          }
+        >
+          <Detail
+            data={detailData}
+            items={baseDetailItems}
+            labelStyle={{ width: '100px' }}
+            column={3}
+          />
+        </Card>
+      </div>
       <StationForm
         id={siteId}
         open={open}

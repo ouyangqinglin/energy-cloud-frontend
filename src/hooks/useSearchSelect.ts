@@ -27,7 +27,7 @@ export type UseSearchSelectProps<TableData, ValueType> = {
 
 const useSearchSelect = <TableData = Record<string, any>, ValueType = 'text'>(
   props: UseSearchSelectProps<TableData, ValueType>,
-): [selectColumn: ProColumns<TableData, ValueType>] => {
+): [selectColumn: ProColumns<TableData, ValueType>, options: OptionType[] | undefined] => {
   const { proColumns, request } = props;
 
   const [options, setOptions] = useState<OptionType[]>();
@@ -60,7 +60,7 @@ const useSearchSelect = <TableData = Record<string, any>, ValueType = 'text'>(
     };
   }, [options, proColumns, requestStation]);
 
-  return [selectColumn];
+  return [selectColumn, options];
 };
 
 export default useSearchSelect;

@@ -21,5 +21,6 @@ export const exportList = (params: TableSearchType) => {
   return request('/oss/reportForms/export', {
     method: 'GET',
     params,
+    responseType: 'blob',
   });
 };

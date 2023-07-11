@@ -72,43 +72,45 @@ const ParamsSetting: React.FC = () => {
 
   return (
     <>
-      <Card
-        className="my16"
-        title="历史数据"
-        extra={
-          <Button type="primary" loading={loading} onClick={setTrue}>
-            设置
-          </Button>
-        }
-      >
-        <BetaSchemaForm
-          layoutType="Form"
-          columns={columns}
-          submitter={false}
-          grid={true}
-          colProps={{
-            span: 12,
-          }}
-        />
-      </Card>
-      <Card
-        title="消息通知"
-        extra={
-          <Button type="primary" loading={loading} onClick={setTrue}>
-            设置
-          </Button>
-        }
-      >
-        <BetaSchemaForm
-          layoutType="Form"
-          columns={noticeColumns}
-          submitter={false}
-          grid={true}
-          colProps={{
-            span: 12,
-          }}
-        />
-      </Card>
+      <div className="px24">
+        <Card
+          className="my16"
+          title="历史数据"
+          extra={
+            <Button type="primary" loading={loading} onClick={setTrue}>
+              设置
+            </Button>
+          }
+        >
+          <BetaSchemaForm
+            layoutType="Form"
+            columns={columns}
+            submitter={false}
+            grid={true}
+            colProps={{
+              span: 12,
+            }}
+          />
+        </Card>
+        <Card
+          title="消息通知"
+          extra={
+            <Button type="primary" loading={loading} onClick={setTrue}>
+              设置
+            </Button>
+          }
+        >
+          <BetaSchemaForm
+            layoutType="Form"
+            columns={noticeColumns}
+            submitter={false}
+            grid={true}
+            colProps={{
+              span: 12,
+            }}
+          />
+        </Card>
+      </div>
     </>
   );
 };

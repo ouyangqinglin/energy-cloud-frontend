@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 14:00:13
- * @LastEditTime: 2023-07-10 16:45:19
+ * @LastEditTime: 2023-07-11 19:16:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
@@ -26,12 +26,14 @@ const Authority = () => {
 
   const customConfig: YTProTableCustomProps<RoleInfo, any> = {
     toolBarRenderOptions: {
-      onChange() {
-        setInitialValues({} as RoleInfo);
-        setOperations(FormOperations.CREATE);
-        set(true);
+      add: {
+        onClick() {
+          setInitialValues({} as RoleInfo);
+          setOperations(FormOperations.CREATE);
+          set(true);
+        },
+        text: '新建角色',
       },
-      buttonText: '新建角色',
     },
     option: {
       onDeleteChange(_, entity) {
