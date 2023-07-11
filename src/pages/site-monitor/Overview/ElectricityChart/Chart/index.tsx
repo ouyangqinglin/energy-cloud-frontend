@@ -94,7 +94,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         />
         {!shouldShowLine ? (
           <Interval
-            size={4}
+            size={timeType === TimeType.TOTAL ? 20 : timeType === TimeType.YEAR ? 10 : 5}
             adjust={[
               {
                 type: 'dodge',
