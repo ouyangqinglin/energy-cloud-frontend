@@ -16,8 +16,6 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [date, setDate] = useState(moment());
 
   const onChange = (value) => {
-    console.log('zcg', value);
-
     setDate(value);
   };
   const timeTypeChange = (type: TimeType) => {

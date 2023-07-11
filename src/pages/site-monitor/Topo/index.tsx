@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, LegacyRef } from 'react';
 import { Button, message, Row } from 'antd';
-import { useLocation } from 'umi';
+import { useLocation, useRequest } from 'umi';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
 import { ReactComponent as SystemDiagram } from './SystemDiagram.svg';
@@ -8,6 +8,7 @@ import useSiteColumn from '@/hooks/useSiteColumn';
 import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchamaForm';
+import { getDefaultSite } from './service';
 
 type SiteType = {
   siteId?: string;
@@ -24,12 +25,18 @@ const Index: React.FC = () => {
     }
   }, [location]);
 
+  const { data } = useRequest(getDefaultSite);
   const [siteColumn] = useSiteColumn<EquipmentType>({
     hideInTable: true,
+    colProps: {
+      sm: 8,
+      xl: 6,
+    },
     fieldProps: {
-      width: 200,
+      value: data?.id,
     },
   });
+  console.log(siteColumn);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
@@ -37,15 +44,18 @@ const Index: React.FC = () => {
       {
         title: '拓扑',
         dataIndex: 'deviceId',
+        colProps: {
+          sm: 8,
+          xl: 6,
+        },
         width: 200,
-        // ellipsis: true,
-        hideInTable: true,
+        initialValue: 1,
         valueEnum: new Map([
-          [0, '电站概览'],
-          [1, '光伏拓扑'],
-          [0, '储能拓扑'],
-          [2, '用电拓扑'],
-          [3, '通信拓扑'],
+          [1, '电站概览'],
+          [2, '光伏拓扑'],
+          [3, '储能拓扑'],
+          [4, '用电拓扑'],
+          [5, '通信拓扑'],
         ]),
       },
     ];
@@ -75,13 +85,6 @@ const Index: React.FC = () => {
     };
   }, [svgRef]);
 
-  const handleWheel = (event: WheelEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1; // 缩放因子
-    setScale((prevScale) => prevScale * scaleFactor);
-  };
-
   const handleMouseMove = (event: MouseEvent) => {
     const deltaX = event.movementX;
     const deltaY = event.movementY;
@@ -107,7 +110,9 @@ const Index: React.FC = () => {
           <SchemaForm<SiteType, 'text'>
             open={true}
             layoutType="Form"
-            layout="inline"
+            className={styles.formWrapper}
+            layout="horizontal"
+            grid={true}
             columns={columns}
             submitter={false}
             initialValues={{}}

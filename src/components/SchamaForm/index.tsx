@@ -10,8 +10,8 @@ import React, { useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
 import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-components';
-// import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
-import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
+import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
+// import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { CombineService } from '@ahooksjs/use-request/lib/types';
 
@@ -114,29 +114,25 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
   }, [open, id, type, myFormRef]);
 
   return (
-    <>
-      {open && (
-        <BetaSchemaForm<FormData, ValueType>
-          formRef={myFormRef}
-          layoutType="ModalForm"
-          width="460px"
-          autoFocusFirstInput
-          scrollToFirstError
-          modalProps={{
-            centered: true,
-          }}
-          loading={getLoading || addLoading || editLoading}
-          title={title}
-          onFinish={onFinish}
-          open={open}
-          onOpenChange={onOpenChange}
-          rowProps={{
-            gutter: 0,
-          }}
-          {...restProps}
-        />
-      )}
-    </>
+    <BetaSchemaForm<FormData, ValueType>
+      formRef={myFormRef}
+      layoutType="ModalForm"
+      width="460px"
+      autoFocusFirstInput
+      scrollToFirstError
+      modalProps={{
+        centered: true,
+      }}
+      loading={getLoading || addLoading || editLoading}
+      title={title}
+      onFinish={onFinish}
+      open={open}
+      onOpenChange={onOpenChange}
+      rowProps={{
+        gutter: 0,
+      }}
+      {...restProps}
+    />
   );
 };
 
