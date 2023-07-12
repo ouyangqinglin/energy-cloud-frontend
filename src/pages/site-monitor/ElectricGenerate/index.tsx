@@ -17,6 +17,7 @@ const Energy = () => {
     <>
       <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
         columns={columns}
+        options={false}
         toolBarRender={() => []}
         headerTitle={<EnergyStatisticCard />}
         request={requestList}
