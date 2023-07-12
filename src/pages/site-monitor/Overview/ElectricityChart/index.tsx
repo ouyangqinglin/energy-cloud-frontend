@@ -19,6 +19,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
     setDate(value);
   };
   const timeTypeChange = (type: TimeType) => {
+    setTimeType(type);
     switch (type) {
       case TimeType.DAY:
         setPicker('date');
@@ -34,10 +35,6 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         break;
       case TimeType.TOTAL:
         set(false);
-        break;
-
-      default:
-        setTimeType(type);
         break;
     }
   };

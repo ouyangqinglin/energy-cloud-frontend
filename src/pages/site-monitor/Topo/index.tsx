@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { message, Row } from 'antd';
-import { useLocation } from 'umi';
+import React, { useState, useEffect, useMemo, useRef, LegacyRef } from 'react';
+import { Button, message, Row } from 'antd';
+import { useLocation, useRequest } from 'umi';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
 import { ReactComponent as SystemDiagram } from './SystemDiagram.svg';
@@ -8,6 +8,7 @@ import useSiteColumn from '@/hooks/useSiteColumn';
 import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchamaForm';
+import { getDefaultSite } from './service';
 
 type SiteType = {
   siteId?: string;
@@ -24,12 +25,18 @@ const Index: React.FC = () => {
     }
   }, [location]);
 
+  const { data } = useRequest(getDefaultSite);
   const [siteColumn] = useSiteColumn<EquipmentType>({
     hideInTable: true,
+    colProps: {
+      sm: 8,
+      xl: 6,
+    },
     fieldProps: {
-      width: 200,
+      value: data?.id,
     },
   });
+  console.log(siteColumn);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
@@ -37,14 +44,18 @@ const Index: React.FC = () => {
       {
         title: '拓扑',
         dataIndex: 'deviceId',
+        colProps: {
+          sm: 8,
+          xl: 6,
+        },
         width: 200,
-        // ellipsis: true,
-        hideInTable: true,
+        initialValue: 1,
         valueEnum: new Map([
-          [0, '储能拓扑'],
-          [1, '光伏拓扑'],
-          [2, '市电拓扑'],
-          [3, '负载拓扑'],
+          [1, '电站概览'],
+          [2, '光伏拓扑'],
+          [3, '储能拓扑'],
+          [4, '用电拓扑'],
+          [5, '通信拓扑'],
         ]),
       },
     ];
@@ -53,14 +64,28 @@ const Index: React.FC = () => {
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const svgRef = useRef<SVGElement>(null);
 
-  const handleWheel = (event) => {
-    event.preventDefault();
-    const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1; // 缩放因子
-    setScale((prevScale) => prevScale * scaleFactor);
-  };
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1; // 缩放因子
+      setScale((prevScale) => prevScale * scaleFactor);
+    };
+    if (svgRef.current) {
+      svgRef.current.addEventListener('wheel', handleWheel, {
+        passive: false,
+      });
+    }
+    return () => {
+      if (svgRef.current) {
+        svgRef.current.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [svgRef]);
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = (event: MouseEvent) => {
     const deltaX = event.movementX;
     const deltaY = event.movementY;
     setTranslateX((prevTranslateX) => prevTranslateX + deltaX);
@@ -72,7 +97,7 @@ const Index: React.FC = () => {
     document.removeEventListener('mouseup', handleMouseUp);
   };
 
-  const handleMouseDown = (event) => {
+  const handleMouseDown = (event: MouseEvent) => {
     event.preventDefault();
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -85,17 +110,21 @@ const Index: React.FC = () => {
           <SchemaForm<SiteType, 'text'>
             open={true}
             layoutType="Form"
-            layout="inline"
+            className={styles.formWrapper}
+            layout="horizontal"
+            grid={true}
             columns={columns}
             submitter={false}
             initialValues={{}}
             onValuesChange={() => {}}
           />
+          <Button type="primary">编辑</Button>
         </div>
         {/* <SystemDiagram className={styles.systemDiagram} /> */}
         <svg
+          ref={svgRef}
           className={styles.systemDiagram}
-          onWheel={handleWheel}
+          // onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           style={{ cursor: 'grab' }}
           width="100%"
