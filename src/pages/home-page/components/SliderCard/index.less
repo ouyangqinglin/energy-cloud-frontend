@@ -1,0 +1,99 @@
+@import '~antd/es/style/themes/default.less';
+.sliderCard {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  align-items: baseline;
+  justify-content: center;
+  width: 100%;
+  margin-top: 4px;
+  font-weight: 700;
+  font-weight: 400;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition-property: transform;
+}
+.statusItem {
+  min-width: 354px;
+  min-height: 156px;
+  padding: 20px;
+  background: url('./background.png') no-repeat 0 0;
+  background-size: contain;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 1px #00000014;
+  .title {
+    width: 70px;
+    // height: 16px;
+    padding: 2px 10px;
+    color: @primary-color;
+    font-size: 12px;
+    line-height: 16px;
+    background: #f4f8ff;
+  }
+  .content {
+    display: flex;
+    justify-content: flex-start;
+    margin: 24px 0 32px;
+    .contentIcon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      margin-right: 36px;
+      background: #f4f8ff;
+      .svgIcon {
+        position: relative;
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        vertical-align: -2px;
+        fill: currentColor;
+      }
+    }
+    .contentItem {
+      .contentNumber {
+        color: #181818;
+        font-weight: 700;
+        font-size: 24px;
+      }
+      .contentDescription {
+        color: #999;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+  .detail {
+    display: flex;
+    justify-content: flex-start;
+    .detailItem {
+      position: relative;
+      margin: 0 18px 0 12px;
+      color: #999;
+      font-size: 10px;
+      &::before {
+        position: absolute;
+        top: 6px;
+        left: -12px;
+        display: block;
+        width: 6px;
+        height: 6px;
+        background: #679df5;
+        border-radius: 50%;
+        content: '';
+      }
+      .ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      span {
+        color: #666;
+        font-size: 12px;
+      }
+    }
+  }
+}

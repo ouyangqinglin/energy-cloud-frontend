@@ -1,32 +1,26 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-05-24 15:30:37
- * @LastEditTime: 2023-05-24 15:30:41
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\partner\agent\service.ts
- */
-import request from '@/utils/request';
-import { AgentFormType } from './data';
-import { requestEmptyPage } from '@/services';
+import type { ObstacleReportInfo } from './type';
+import { del, get, post, put } from '@/utils/request';
 
-export const getPage = (params: any) => {
-  return requestEmptyPage();
-  return request(`/agents`, {
-    method: 'GET',
-    params,
-  });
+// export const createObstacleReport = (data: ServiceParam) => {
+//   return post(`/oss/obstacleReport`, data);
+// };
+
+export const getObstacleReport = (data: { orgId: number }) => {
+  return get<ObstacleReportInfo>(`/oss/obstacleReport/detail`, data);
 };
 
-export const addData = (data: AgentFormType) => {
-  return request(`/station`, {
-    method: 'POST',
-    data,
-  });
+// export const updateObstacleReport = (data: ServiceParam) => {
+//   return put(`/oss/obstacleReport`, data);
+// };
+
+// export const deleteObstacleReport = (data: { orgId: number[] }) => {
+//   return del(`/oss/obstacleReport`, data);
+// };
+
+export const getObstacleReportList = (params: any) => {
+  return get<ObstacleReportInfo[]>(`/oss/obstacleReport/list`, params);
 };
 
-export const removeData = (id: string) => {
-  return request(`/station/${id}`, {
-    method: 'DELETE',
-  });
-};
+// export const getServiceId = () => {
+//   return get<number>(`/uc/obstacleReport/orgId`);
+// };

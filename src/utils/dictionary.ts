@@ -99,6 +99,17 @@ export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周�
 
 export const color = {};
 
+export const connectStatus = {
+  1: {
+    text: '正常',
+    status: 'Success',
+  },
+  0: {
+    text: '异常',
+    status: 'Error',
+  },
+};
+
 export const buildStatus = {
   1: {
     text: '已交付',
