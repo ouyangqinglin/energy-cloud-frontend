@@ -736,7 +736,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电枪id',
-    dataIndex: 'connectorld',
+    dataIndex: 'connectorId',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
@@ -750,7 +750,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '订单状态',
-    dataIndex: 'orderStatus',
+    dataIndex: 'sorderStatus',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
@@ -797,7 +797,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '充电结束原因',
-    dataIndex: 'stopReason',
+    dataIndex: 'reason',
     hideInSearch: true,
     width: 150,
     ellipsis: true,

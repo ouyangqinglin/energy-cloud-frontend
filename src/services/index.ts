@@ -4,15 +4,28 @@
 // API 唯一标识：
 import * as api from './api';
 import * as login from './session';
+import { ResponseCommonData, ResponsePageData } from '@/utils/request';
 
-export const requestEmpty = () => {
+export const requestEmptyPage = <ResponseData = Record<string, any>>(): Promise<
+  ResponsePageData<ResponseData>
+> => {
   return Promise.resolve({
-    code: 200,
+    code: '200',
     data: {
       list: [],
       total: 0,
     },
-    msg: null,
+    msg: '',
+  });
+};
+
+export const requestEmpty = <ResponseData = Record<string, any>>(): Promise<
+  ResponseCommonData<ResponseData>
+> => {
+  return Promise.resolve({
+    code: '200',
+    data: {} as any,
+    msg: '',
   });
 };
 

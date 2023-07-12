@@ -131,6 +131,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           color: active ? '#165DFF' : '#303133',
           backgroundColor: active ? '#E8F3FF' : '#F2F3F5',
         }}
+        overflowCount={999999999}
       />
     );
   };

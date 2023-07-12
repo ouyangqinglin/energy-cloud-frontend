@@ -55,7 +55,14 @@ const Search: React.FC<SearchProps> = (props) => {
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
         <YTProTable<TableSearchType, TableSearchType, TABLETREESELECTVALUETYPE>
           headerTitle="采样明细"
-          toolBarRender={() => []}
+          toolBarRenderOptions={{
+            add: {
+              show: false,
+            },
+            export: {
+              show: true,
+            },
+          }}
           columns={columns}
           onSubmit={onSubmit}
           request={getList}

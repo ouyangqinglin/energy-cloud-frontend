@@ -8,10 +8,10 @@
  */
 import request from '@/utils/request';
 import { AgentFormType } from './data.d';
-import { requestEmpty } from '@/services';
+import { requestEmptyPage } from '@/services';
 
 export const getPage = (params: any) => {
-  return requestEmpty();
+  return requestEmptyPage();
   return request(`/agents`, {
     method: 'GET',
     params,

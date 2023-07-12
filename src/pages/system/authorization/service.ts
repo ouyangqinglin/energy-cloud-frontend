@@ -1,6 +1,6 @@
 import { del, get, post, put } from '@/utils/request';
 import { ListDataType } from './type';
-import { requestEmpty } from '@/services';
+import { requestEmptyPage } from '@/services';
 
 // import type { ElectricityPriceList } from '../type';
 // import type { MarketElectricityPriceInfo } from './type';
@@ -22,6 +22,6 @@ import { requestEmpty } from '@/services';
 // };
 
 export const getApplicationAuthorizationList = (params: any) => {
-  return requestEmpty();
+  return requestEmptyPage();
   return get<ListDataType>(`/oss/authorization/list`, params);
 };

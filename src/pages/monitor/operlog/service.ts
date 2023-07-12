@@ -1,7 +1,7 @@
 import { downLoadXlsx } from '@/utils/downloadfile';
 import request from '@/utils/request';
 import type { OperlogType, OperlogListParams } from './data.d';
-import { requestEmpty } from '@/services';
+import { requestEmptyPage } from '@/services';
 
 /* *
  *
@@ -12,7 +12,7 @@ import { requestEmpty } from '@/services';
 
 // 查询操作日志记录列表
 export async function getOperlogList(params?: OperlogListParams) {
-  return requestEmpty();
+  return requestEmptyPage();
   const queryString = new URLSearchParams(params).toString();
   return request(`/monitor/operlog/list?${queryString}`, {
     data: params,

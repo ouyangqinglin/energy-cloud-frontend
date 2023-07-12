@@ -7,10 +7,10 @@
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\service.ts
  */
 import request from '@/utils/request';
-import { requestEmpty } from '@/services';
+import { requestEmptyPage } from '@/services';
 
 export const getList = (params: any) => {
-  return requestEmpty();
+  return requestEmptyPage();
   return request(`/iot/collectionData/realTimePower`, {
     method: 'GET',
     params,

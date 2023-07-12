@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 17:39:54
- * @LastEditTime: 2023-07-11 19:28:59
+ * @LastEditTime: 2023-07-12 09:33:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
@@ -30,12 +30,11 @@ const useToolBarRender = <
   formRef?: MutableRefObject<ProFormInstance<Params> | undefined>,
 ) => {
   const onExport = useCallback(() => {
-    const value = formRef?.current?.getFieldsValue?.();
-    toolBarRenderOptions?.export
-      ?.requestExport?.(formRef?.current?.getFieldsValue?.() as any)
-      .then((res) => {
+    formRef?.current?.validateFields?.()?.then((value) => {
+      toolBarRenderOptions?.export?.requestExport?.(value as any).then((res) => {
         saveFile(res, toolBarRenderOptions?.export?.getExportName?.(value as any) || '导出文件');
       });
+    });
   }, [toolBarRenderOptions, formRef]);
 
   const options = useMemo(() => {

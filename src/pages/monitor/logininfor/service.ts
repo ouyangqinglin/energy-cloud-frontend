@@ -1,7 +1,7 @@
 import { downLoadXlsx } from '@/utils/downloadfile';
 import request from '@/utils/request';
 import type { LogininforType, LogininforListParams } from './data.d';
-import { requestEmpty } from '@/services';
+import { requestEmptyPage } from '@/services';
 
 /* *
  *
@@ -12,7 +12,7 @@ import { requestEmpty } from '@/services';
 
 // 查询系统访问记录列表
 export async function getLogininforList(params?: LogininforListParams) {
-  return requestEmpty();
+  return requestEmptyPage();
   const queryString = new URLSearchParams(params).toString();
   return request(`/monitor/logininfor/list?${queryString}`, {
     data: params,
