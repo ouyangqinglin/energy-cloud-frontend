@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-12 19:55:09
+ * @LastEditTime: 2023-07-12 19:57:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
@@ -24,7 +24,6 @@ export type LineChartProps = {
   data?: {
     [key in string]: ChartDataType[];
   };
-  field?: string;
   labelKey?: string;
   valueKey?: string;
   valueTitle?: string;
@@ -74,7 +73,6 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     legendMap,
     height = 254,
     data,
-    field = 'field',
     labelKey = 'time',
     valueKey = 'value',
     valueTitle = '单位（KW）',
@@ -110,7 +108,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
       );
     });
     setChartData(result);
-  }, [data, date, step, type, labelKey, valueKey, field]);
+  }, [data, date, step, type, labelKey, valueKey]);
 
   return (
     <>
