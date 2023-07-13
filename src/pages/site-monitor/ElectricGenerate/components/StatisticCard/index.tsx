@@ -1,4 +1,5 @@
 import { StatisticCard } from '@ant-design/pro-components';
+import { ElectricGenerateStatistic } from '../../type';
 import { config } from './config';
 import styles from './index.less';
 
@@ -8,7 +9,8 @@ const imgStyle = {
   height: 42,
 };
 
-const EnergyStatisticCard = () => {
+const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic }) => {
+  console.log(data);
   return (
     <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'} gutter={20}>
       {config.map((item) => {
@@ -20,7 +22,7 @@ const EnergyStatisticCard = () => {
             key={item.title}
             statistic={{
               title: item.title,
-              value: item.value,
+              value: data[item.field] ?? 0,
               icon: <Icon style={imgStyle} />,
               suffix: <span className={styles.unit}>{item.unit}</span>,
             }}
