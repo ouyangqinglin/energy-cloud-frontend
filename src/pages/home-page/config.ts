@@ -76,12 +76,16 @@ export const config: CardInfo[] = [
     description: '告警总数/条',
     items: [
       {
-        label: '故障等级/条',
+        label: '严重等级/条',
         value: 1,
       },
       {
-        label: '报警等级/条',
+        label: '重要等级/条',
         value: 0,
+      },
+      {
+        label: '次要等级/条',
+        value: 53,
       },
       {
         label: '提示等级/条',

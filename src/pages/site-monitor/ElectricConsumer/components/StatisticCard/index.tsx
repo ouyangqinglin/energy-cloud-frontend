@@ -12,7 +12,7 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
         // const Icon = item.icon;
         return (
           <StatisticCard
-            colSpan={4}
+            colSpan={3.5}
             className={styles.statisticCardWrapper}
             key={item.title}
             statistic={{
