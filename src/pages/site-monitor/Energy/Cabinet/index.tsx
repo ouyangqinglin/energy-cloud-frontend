@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-12 19:50:41
+ * @LastEditTime: 2023-07-13 09:33:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -76,7 +76,7 @@ const Cabinet: React.FC = () => {
   });
 
   const items = useMemo(() => {
-    return unitItems.map((item) => {
+    return unitItems.map((item, index) => {
       return (
         <>
           <div
@@ -88,11 +88,11 @@ const Cabinet: React.FC = () => {
               left: item.position[1],
             }}
           >
-            <label className={styles.unitTitle}>{item.label}</label>
-            {item.data.map((field, index) => {
+            {index !== 1 && <label className={styles.unitTitle}>{item.label}</label>}
+            {item.data.map((field, fieldIndex) => {
               return (
                 <>
-                  <div key={index} className={styles.field}>
+                  <div key={fieldIndex} className={index !== 1 ? styles.field : styles.unitTitle}>
                     {field.label}
                     <span className={styles.unitNum}>{energyData?.[field.field] || 0}</span>
                   </div>
