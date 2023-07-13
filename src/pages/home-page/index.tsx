@@ -34,7 +34,7 @@ const HomePage: React.FC = () => {
       setSlidesPerRow(2);
       return;
     }
-    if (size.width > 1250 && size.width <= 1600) {
+    if (size.width > 1400 && size.width <= 1700) {
       setSlidesPerRow(3);
       return;
     }
