@@ -15,6 +15,7 @@ const Energy = () => {
 
   const [hasCacheSiteId, { set }] = useToggle(false);
   const [siteId, setSiteId] = useState<number>();
+  const defaultSiteIdRef = useRef<number>();
 
   const requestList: YTProTableCustomProps<
     ElectricGenerateInfo,
@@ -24,6 +25,7 @@ const Energy = () => {
       const siteData = await runForDefaultSiteId();
       set(true);
       setSiteId(siteData?.id);
+      defaultSiteIdRef.current = siteData?.id;
       return getElectricGenerateUnitList({ ...params, ...{ siteId: siteData?.id } });
     }
     return getElectricGenerateUnitList({ ...params });
@@ -32,9 +34,8 @@ const Energy = () => {
   const [siteColumn] = useSiteColumn<ElectricGenerateInfo>({
     hideInTable: true,
     dataIndex: 'siteId',
-    // initialValue: data?.id,
+    initialValue: defaultSiteIdRef.current,
     fieldProps: {
-      // defaultValue: data?.id,
       value: siteId,
       onChange: setSiteId,
     },
@@ -60,6 +61,7 @@ const Energy = () => {
         columns={[siteColumn, ...columns]}
         options={false}
         toolBarRender={() => []}
+        onReset={() => setSiteId(defaultSiteIdRef.current)}
         headerTitle={<EnergyStatisticCard data={statisticData} />}
         request={requestList}
         rowKey="deviceId"
