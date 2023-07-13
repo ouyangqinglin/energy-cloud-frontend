@@ -8,6 +8,7 @@
  */
 
 export type DeviceInfoType = {
+  productImg?: string;
   name?: string;
   online?: number;
   alarm?: number;

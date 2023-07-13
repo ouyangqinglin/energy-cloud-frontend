@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Detail\index.tsx
  */
 import React from 'react';
-import { Descriptions } from 'antd';
+import { Descriptions, DescriptionsProps } from 'antd';
 import { isEmpty } from '@/utils';
 
 export type DetailItem = {
@@ -20,18 +20,22 @@ export type DetailItem = {
   show?: boolean;
 };
 
-export type DetailProps = {
+export type DetailProps = DescriptionsProps & {
   items: DetailItem[];
   data: any;
-  column?: number;
-  labelStyle?: React.CSSProperties;
-  contentStyle?: React.CSSProperties;
   format?: (value: any, data?: any) => React.ReactNode;
-  colon?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
-  const { items, column = 3, labelStyle = {}, contentStyle = {}, colon = true, format } = props;
+  const {
+    items,
+    column = 3,
+    labelStyle = {},
+    contentStyle = {},
+    colon = true,
+    format,
+    ...restProps
+  } = props;
 
   const data = props?.data || {};
 
@@ -59,7 +63,13 @@ const Detail: React.FC<DetailProps> = (props) => {
   });
 
   return (
-    <Descriptions column={column} labelStyle={labelStyle} contentStyle={contentStyle} colon={colon}>
+    <Descriptions
+      column={column}
+      labelStyle={labelStyle}
+      contentStyle={contentStyle}
+      colon={colon}
+      {...restProps}
+    >
       {content}
     </Descriptions>
   );

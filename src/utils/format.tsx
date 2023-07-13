@@ -32,12 +32,12 @@ export const modelFormat = (value: number, showColor = true) => {
   };
   return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
-export const closeFormat = (value: number) => {
+export const closeFormat = (value: number, showColor = true) => {
   const map = {
     0: '断开',
     1: '闭合',
   };
-  return <span className={'cl-success'}>{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
 export const singleFormat = (value: number) => {
   const map = {
@@ -119,13 +119,13 @@ export const doorFormat = (value: number, showColor = true) => {
   };
   return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
-export const chargeFormat = (status: number) => {
+export const chargeFormat = (status: number, showColor = true) => {
   const map = {
     0: '静置',
     1: '放电',
     2: '充电',
   };
-  return <span className="cl-success">{map[status]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[status]}</span>;
 };
 export const openFormat = (status: number, showColor = true) => {
   const map = {

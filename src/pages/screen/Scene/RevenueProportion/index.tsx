@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-10 14:53:34
- * @LastEditTime: 2023-07-04 18:00:01
+ * @LastEditTime: 2023-07-13 22:40:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
@@ -119,7 +119,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
   }, [revenueData]);
 
   useEffect(() => {
-    // run({ siteId, type: timeType });
+    run({ siteId, type: timeType });
   }, [timeType, siteId]);
 
   return (

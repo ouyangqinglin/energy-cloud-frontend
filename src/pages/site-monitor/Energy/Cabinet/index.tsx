@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-13 18:57:40
+ * @LastEditTime: 2023-07-13 23:20:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -28,6 +28,7 @@ import PcsLineImg from '@/assets/image/station/energy/pcs-line.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import PackLineImg from '@/assets/image/station/energy/pack-line.png';
 import { isEmpty } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import {
   openFormat,
   tempFormat,
@@ -170,12 +171,31 @@ const getDataIds = (data: energyType[]): string[] => {
   return ids;
 };
 
+const getBatteryStack = (data: energyType[]): energyType | undefined => {
+  let result: energyType | undefined;
+  if (data && data.length) {
+    for (let i = 0; i < data?.length; i++) {
+      if (data[i]?.productId == DeviceTypeEnum.BatteryStack) {
+        result = data[i];
+        return result;
+      }
+      if (data[i]?.children && data[i]?.children?.length) {
+        result = getBatteryStack(data[i].children || []);
+        if (result) {
+          return result;
+        }
+      }
+    }
+  }
+};
+
 const Cabinet: React.FC<ComProps> = (props) => {
   const { siteId } = props;
 
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
+  const [batteryStack, setBatteryStack] = useState<energyType>();
   const deviceData = useSubscribe(deviceIds, true);
   const history = useHistory();
 
@@ -194,14 +214,15 @@ const Cabinet: React.FC<ComProps> = (props) => {
   const onMoreClick = useCallback(() => {
     history.push({
       pathname: '/site-monitor/device-detail',
-      search: `?id=${energyData?.id}&productId=${energyData?.productId}`,
+      search: `?id=${batteryStack?.id}&productId=${batteryStack?.productId}`,
     });
-  }, [energyData]);
+  }, [batteryStack]);
 
   useEffect(() => {
     if (siteId) {
       run({ siteId }).then((data) => {
         setDeviceIds(getDataIds([data]));
+        setBatteryStack(getBatteryStack([data]));
       });
     }
   }, [siteId]);

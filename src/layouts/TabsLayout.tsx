@@ -21,7 +21,14 @@ const TabsLayout: React.FC = (props) => {
     <div>
       {renderTabs()}
       <div className={styles.tabsContent}>
-        <div className={styles.contain}>{props.children}</div>
+        <div
+          className={styles.contain}
+          style={
+            props?.location?.pathname == '/site-monitor/device-detail' ? { background: 'none' } : {}
+          }
+        >
+          {props.children}
+        </div>
       </div>
     </div>
   );

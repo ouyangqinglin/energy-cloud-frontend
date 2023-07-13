@@ -117,6 +117,8 @@ export default [
       {
         path: 'device-detail',
         component: './equipment/DeviceMonitor',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.deviceDetail',
       },
       {
         path: 'run-log',
