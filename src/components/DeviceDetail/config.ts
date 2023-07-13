@@ -11,6 +11,7 @@ import HwCharge from './HwCharge';
 import HwChargeChild from './HwChargeChild';
 import HwChargeYt from './HwChargeYt';
 import PvInverter from './PvInverter';
+import BatterryStack from './BatterryStack';
 import type { PvInverterProps } from './PvInverter';
 import PvInverterCabinet from './PvInverterCabinet';
 import { DeviceTypeEnum } from '@/utils/dictionary';
@@ -66,4 +67,6 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.HwChargeChild]: { component: HwChargeChild },
   [DeviceTypeEnum.HwChargeYt]: { component: HwChargeYt },
   [DeviceTypeEnum.Device]: { component: Device },
+  [DeviceTypeEnum.BatteryStack]: { component: BatterryStack },
+  [DeviceTypeEnum.BatteryCluster]: { component: BatterryStack },
 };

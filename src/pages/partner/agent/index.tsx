@@ -36,13 +36,13 @@ const Agent: React.FC = () => {
       width: 48,
     },
     {
-      title: '代理商名称',
+      title: '服务商名称',
       dataIndex: 'name',
       width: 120,
       ellipsis: true,
     },
     {
-      title: '代理商ID',
+      title: '服务商ID',
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
@@ -115,14 +115,14 @@ const Agent: React.FC = () => {
 
   const tableSelectColumns: ProColumns<AgentType>[] = [
     {
-      title: '代理商ID',
+      title: '服务商ID',
       dataIndex: 'id',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '代理商名称',
+      title: '服务商名称',
       dataIndex: 'name',
       width: 200,
       ellipsis: true,
@@ -159,7 +159,7 @@ const Agent: React.FC = () => {
               trigger={
                 <Button type="primary">
                   <PlusOutlined />
-                  新建代理商
+                  新建服务商
                 </Button>
               }
               columns={formColumns}

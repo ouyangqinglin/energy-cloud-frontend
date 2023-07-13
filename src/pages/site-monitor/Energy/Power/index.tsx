@@ -2,38 +2,60 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-12 17:50:11
+ * @LastEditTime: 2023-07-13 14:12:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Power\index.tsx
  */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton, DatePicker } from 'antd';
 import { useRequest } from 'umi';
-import LineChart from '@/components/Chart/LineChart';
+import LineChart, { LineChartDataType } from '@/components/Chart/LineChart';
 import { getPower } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
+import { ComProps } from '../type';
 
 const legendMap = new Map([
   ['charge', '充电功率'],
-  ['disCharge', '放电功率'],
+  ['discharge', '放电功率'],
 ]);
 
-export type RealTimePowerProps = {
-  siteId?: string;
-};
-
-const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
+const Power: React.FC<ComProps> = (props) => {
   const { siteId } = props;
 
   const [date, setDate] = useState<Moment>(moment());
   const {
     loading,
-    data: energyData,
+    data: powerData,
     run,
   } = useRequest(getPower, {
     manual: true,
+    pollingInterval: 2 * 60 * 1000,
   });
+
+  const chartData = useMemo(() => {
+    const result: LineChartDataType = {
+      charge: [],
+      discharge: [],
+    };
+    powerData?.map?.((item) => {
+      result[item.doubleVal > 0 ? 'charge' : 'discharge'].push({
+        time: item.eventTs,
+        value: item.doubleVal,
+      });
+      if (item.doubleVal == 0) {
+        result.charge.push({
+          time: item.eventTs,
+          value: 0,
+        });
+        result.discharge.push({
+          time: item.eventTs,
+          value: 0,
+        });
+      }
+    });
+    return result;
+  }, [powerData]);
 
   const onChange = useCallback((value: Moment | null) => {
     setDate(value || moment());
@@ -41,9 +63,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     if (siteId) {
-      run({ siteId });
+      run({ siteId, date: date.format('YYYY-MM-DD') });
     }
-  }, [siteId]);
+  }, [siteId, date]);
 
   return (
     <>
@@ -69,7 +91,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
                 allowClear={false}
               />
             </div>
-            <LineChart date={date} legendMap={legendMap} />
+            <LineChart date={date} legendMap={legendMap} data={chartData} />
           </>
         )}
       </div>
@@ -77,4 +99,4 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   );
 };
 
-export default RealTimePower;
+export default Power;

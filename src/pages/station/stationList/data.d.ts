@@ -28,6 +28,10 @@ export type StationType = {
 
 export type StationFormType = {
   siteId?: string;
+  orgs?: {
+    orgId: string;
+    orgName: string;
+  }[];
   name: string;
   voltageClass: number;
   transformerCapacity: number;

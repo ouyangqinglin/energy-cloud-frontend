@@ -9,15 +9,6 @@ export const setComplete = (id: string) => {
   });
 };
 
-export const getDefaultPage = (id: string) => {
-  return request(`/oss/siteHomeConfig`, {
-    method: 'GET',
-    params: {
-      siteId: id,
-    },
-  });
-};
-
 export const editDefaultPage = (data: string) => {
   return request(`/oss/siteHomeConfig`, {
     method: 'POST',

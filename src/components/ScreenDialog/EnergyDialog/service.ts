@@ -9,13 +9,6 @@
 
 import request from '@/utils/request';
 
-export const getChildEquipment = (params: any) => {
-  return request(`/oss/device/subDevice`, {
-    method: 'GET',
-    params,
-  });
-};
-
 export const editSetting = (data: any) => {
   return request(`/oss/device/remote_setting`, {
     method: 'POST',

@@ -5,7 +5,7 @@ import YTModalForm from '@/components/YTModalForm';
 import type { FormOperations } from '@/components/YTModalForm/typing';
 const columns: ProFormColumnsType<CustomerInfo>[] = [
   {
-    title: '代理商',
+    title: '服务商',
     dataIndex: 'provider',
     valueType: 'select',
     formItemProps: {
