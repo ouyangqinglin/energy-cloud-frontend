@@ -12,15 +12,19 @@ export const config: CardInfo[] = [
     description: '电站总数/',
     items: [
       {
-        label: '光伏电站/个',
+        label: '光储充电站/个',
         value: 1,
       },
       {
-        label: '储能电站/个',
+        label: '光储电站/个',
         value: 0,
       },
       {
-        label: '光储电站/个',
+        label: '储充电站/个',
+        value: 0,
+      },
+      {
+        label: '储能电站/个',
         value: 0,
       },
     ],

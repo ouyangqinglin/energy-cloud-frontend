@@ -1,15 +1,12 @@
-import { useRef, useMemo } from 'react';
-import { Button } from 'antd';
-import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
+import { useRef } from 'react';
 import { ProTable, ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
+import type { YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
 import { normalizeRequestOption, standardRequestTableData } from './helper';
 import styles from './index.less';
-import classnames from 'classnames';
-import { merge } from 'lodash';
 import useToolBarRender from './useToolBarRender';
+import { useResizeTableHeight } from './useResizeTableHeight';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -40,6 +37,8 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request);
 
+  const { scrollY } = useResizeTableHeight();
+
   return (
     <ProTable<DataType, Params, ValueType>
       actionRef={actionRef}
@@ -61,7 +60,7 @@ const YTProTable = <
       {...restProps}
       scroll={{
         x: 1366,
-        y: 557,
+        y: scrollY,
         ...(restProps?.scroll || {}),
       }}
       search={{
