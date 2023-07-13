@@ -20,12 +20,19 @@ export interface ElectricGenerateInfo {
 }
 
 export interface ElectricGenerateStatistic {
-  generatingElectricityInverter: number;
-  noGenerateElectricityInverter: number;
-  generatingElectricityPv: number;
-  noGenerateElectricityPv: number;
-  lowEfficiencyGeneratingElectricityPv: number;
-  offline: number;
-  selfUseRate: number;
-  selfSufficiencyRate: number;
+  chargingPile: ChargingPile;
+  otherLoad: OtherLoad;
+}
+interface OtherLoad {
+  todayCharge: number;
+  totalCharge: number;
+  power: number;
+}
+
+interface ChargingPile {
+  totalGunNum: number;
+  beUsingGunNum: number;
+  todayCharge: number;
+  totalCharge: number;
+  power: number;
 }

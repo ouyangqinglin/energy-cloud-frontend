@@ -10,50 +10,51 @@ import { ReactNode } from 'react';
 export interface EnergyStatisticInfo {
   title: string;
   icon?: ReactNode;
-  value: number;
+  value?: (entity: any) => string;
   unit: string;
+  field?: string;
 }
 
 export const config: EnergyStatisticInfo[] = [
   {
     title: '充电枪总数/使用数',
-    value: 12,
+    value: (entity: any) =>
+      `${entity?.chargingPile?.totalGunNum ?? 0}/${entity?.chargingPile?.beUsingGunNum ?? 0} `,
     unit: '台',
   },
   {
-    title: '实时功率(kW)',
+    title: '充电桩实时功率(kW)',
+    field: 'chargingPile.power',
+    unit: '台',
+  },
+  {
+    title: '充电桩当日充电(kWh)',
     icon: icon_未发电,
-    value: 6,
+    field: 'chargingPile.todayCharge',
     unit: '台',
   },
   {
-    title: '当日充电量(kWh)',
+    title: '充电桩累计充电量(kWh)',
     icon: icon_未发电组串,
-    value: 56,
+    field: 'chargingPile.totalCharge',
     unit: '串',
   },
   {
-    title: '累计充电量(kWh)',
+    title: '其他负载实时功率(kW)',
     icon: icon_低效发电组串,
-    value: 56,
+    field: 'otherLoad.power',
     unit: '串',
   },
   {
-    title: '实时功率(kW)',
+    title: '其他负载当日用电量(kWh)',
     icon: icon_通信断链,
-    value: 6,
+    field: 'otherLoad.todayCharge',
     unit: '台',
   },
   {
-    title: '当日用电量(kWh)',
+    title: '其他负载累计用电量(kWh)',
     icon: icon_自发自用比例,
-    value: 50,
-    unit: '%',
-  },
-  {
-    title: '累计用电量(kWh)',
-    icon: icon_自给自足比例,
-    value: 50,
+    field: 'otherLoad.totalCharge',
     unit: '%',
   },
 ];
