@@ -3,6 +3,7 @@ export default {
   'menu.station.list': '站点列表',
   'menu.station.setting': '站点配置',
   'menu.device.deviceMonitor': '设备监视',
+  'menu.siteMonitor.deviceDetail': '设备详情',
   'menu.welcome': '欢迎',
   'menu.system': '系统管理',
   'menu.more-blocks': '更多区块',

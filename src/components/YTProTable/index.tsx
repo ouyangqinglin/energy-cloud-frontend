@@ -61,7 +61,7 @@ const YTProTable = <
       scroll={{
         x: 1366,
         y: scrollY,
-        ...(restProps?.scroll || {}),
+        // ...(restProps?.scroll || {}),
       }}
       search={{
         labelWidth: 'auto',

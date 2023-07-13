@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-07 16:41:03
- * @LastEditTime: 2023-07-10 11:44:29
+ * @LastEditTime: 2023-07-14 02:11:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\index.tsx
  */
@@ -21,13 +21,13 @@ const Account: React.FC = () => {
   const [selectOrg, setSelectOrg] = useState<TreeNode | null>({ id: 0, key: '0' });
 
   const selectedKeys = useMemo<string[]>(() => {
-    return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id];
+    return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id + ''];
   }, [selectOrg]);
 
   const searchParams = useMemo<PlatformSearchType>(() => {
     if (selectOrg) {
       const id = selectOrg?.id + '';
-      if (selectOrg?.type === OrgTypeEnum.Site) {
+      if (isEmpty(selectOrg?.type)) {
         return {
           siteId: id.replace(OrgTypeEnum.Site, ''),
         };
@@ -47,17 +47,26 @@ const Account: React.FC = () => {
     }
   }, []);
 
+  const afterRequest = useCallback((data) => {
+    setSelectOrg({ id: data?.[0]?.id, key: data?.[0]?.id, type: data?.[0]?.type });
+  }, []);
+
   return (
     <>
       <div className={styles.contain}>
         <div className={styles.tree}>
-          <OrgTree siteId="1" selectedKeys={selectedKeys} onSelect={onSelect} />
+          <OrgTree
+            siteId="1"
+            selectedKeys={selectedKeys}
+            onSelect={onSelect}
+            afterRequest={afterRequest}
+          />
         </div>
         <div className={styles.table}>
-          {selectOrg?.type === OrgTypeEnum.Service || selectOrg?.type === OrgTypeEnum.Site ? (
-            <Customer params={searchParams} />
-          ) : (
+          {selectOrg?.type === 0 ? (
             <Platform params={searchParams} />
+          ) : (
+            <Customer params={searchParams} />
           )}
         </div>
       </div>

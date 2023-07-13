@@ -25,7 +25,7 @@ export type statType = {
 export type energyType = {
   id?: string;
   name: string;
-  productId: string;
+  productId: number;
   children?: energyType[];
 };
 

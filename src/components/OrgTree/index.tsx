@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-10 15:15:42
+ * @LastEditTime: 2023-07-14 02:09:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
@@ -14,26 +14,41 @@ import { useRequest } from 'umi';
 import { getOrgTree } from './service';
 import { TreeNode, OrgTypeEnum } from './type';
 import styles from './index.less';
+import { isEmpty } from '@/utils';
 
 export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
   siteId?: string;
   onSelect?: TreeProps<TreeNode>['onSelect'];
+  afterRequest?: (data: any) => void;
 };
 
-const dealData = (data: any, prefix = OrgTypeEnum.Service) => {
-  data?.forEach((item: any) => {
-    item.id = prefix + item.id;
-    item.label = item.label || item.name;
-    item.type = prefix;
-    if (item.sites && item.sites.length) {
-      dealData(item.sites, OrgTypeEnum.Site);
+const dealData = (data: any) => {
+  data?.map?.((item: any) => {
+    if (!isEmpty(item?.type) && item?.id == 100) {
+      item.id = 0;
+    }
+    if (item?.type == 1) {
+      if (item?.id == 110) {
+        item.id = OrgTypeEnum.Service;
+      } else {
+        item.id = OrgTypeEnum.Service + item?.id;
+      }
+    }
+    if (isEmpty(item?.type)) {
+      item.id = OrgTypeEnum.Site + item?.id;
+      item.label = item?.name;
+    }
+    if (item?.sites && item?.sites?.length) {
+      dealData(item.sites);
       item.children = item.sites;
+    } else if (item?.children && item?.children?.length) {
+      dealData(item.children);
     }
   });
 };
 
 const OrgTree: React.FC<OrgTreeProps> = (props) => {
-  const { siteId, onSelect, ...restProps } = props;
+  const { siteId, onSelect, afterRequest, ...restProps } = props;
 
   const {
     loading,
@@ -42,16 +57,8 @@ const OrgTree: React.FC<OrgTreeProps> = (props) => {
   } = useRequest(getOrgTree, {
     manual: true,
     formatResult: ({ data }) => {
-      if (data?.[0]) {
-        data[0].id = 0;
-      }
-      if (data?.[1]) {
-        data[1].id = OrgTypeEnum.Service;
-        data[1].type = OrgTypeEnum.Service;
-        if (data[1].children && data[1].children.length) {
-          dealData(data[1].children);
-        }
-      }
+      dealData(data);
+      afterRequest?.(data);
       return data;
     },
   });
