@@ -17,7 +17,6 @@ import type { EquipFormType } from '@/components/EquipForm/data.d';
 import {
   getEquipInfo,
   editEquipConfig,
-  getThirdStation,
   getDeviceTree,
   getDeviceCollection,
 } from '@/services/equipment';

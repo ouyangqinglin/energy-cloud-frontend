@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-07-11 14:24:13
+ * @LastEditTime: 2023-07-13 17:01:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
@@ -38,6 +38,13 @@ export const getDeviceInfo = (deviceId: string | number) => {
   });
 };
 
+export const getChildEquipment = (params: any) => {
+  return request(`/oss/device/subDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getWeather = (code: string) => {
   return request(`/screen/weather/${code}`, {
     method: 'GET',
@@ -59,7 +66,7 @@ export const getLogs = (params: any) => {
 };
 
 export const getRelatedDevice = (id: string) => {
-  return request(`/oss/device/associated_device`, {
+  return request(`/oss/device/associatedDevice`, {
     method: 'GET',
     params: {
       deviceId: id,
@@ -91,7 +98,7 @@ export const editEquipConfig = (data: any) => {
 };
 
 export const getThirdStation = (params: any) => {
-  return request(`/iot/third_site/getThirdSiteList`, {
+  return request(`/iot/thirdSite/getThirdSiteList`, {
     method: 'GET',
     params,
   });

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-12 19:57:05
+ * @LastEditTime: 2023-07-13 14:11:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
@@ -13,17 +13,20 @@ import moment, { Moment } from 'moment';
 import { chartTypeEnum } from '../';
 
 export type ChartDataType = {
-  time: string;
-  value: number;
+  time?: string;
+  value?: number;
+  [key: string]: any;
+};
+
+export type LineChartDataType = {
+  [key: string]: ChartDataType[];
 };
 
 export type LineChartProps = {
   type?: chartTypeEnum;
   date: Moment;
   legendMap: Map<string, string>;
-  data?: {
-    [key in string]: ChartDataType[];
-  };
+  data?: LineChartDataType;
   labelKey?: string;
   valueKey?: string;
   valueTitle?: string;
@@ -120,9 +123,6 @@ const LineChart: React.FC<LineChartProps> = (props) => {
             label: {
               ticks: ticks,
             },
-            value: {
-              type: 'linear',
-            },
           }}
           data={chartData}
           autoFit
@@ -130,9 +130,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           <Tooltip
             domStyles={{
               'g2-tooltip': {
-                border: '1px solid rgba(21, 154, 255, 0.8)',
                 backgroundColor: 'rgba(9,12,21,0.8)',
-                'box-shadow': '0 0 6px 0 rgba(21,154,255,0.7)',
                 boxShadow: 'none',
                 color: 'white',
                 opacity: 1,
@@ -142,23 +140,11 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           <Legend
             position="top"
             marker={{
-              symbol: (x, y, radius) => {
-                const r = radius / 2;
-                return [
-                  ['M', x - 3 * r, y],
-                  ['L', x + 3 * r, y],
-                  ['M', x - r, y],
-                  ['A', r, r, 0, 0, 0, x + r, y],
-                  ['A', r, r, 0, 0, 0, x - r, y],
-                ];
-              },
-              style: {
-                fill: null,
-              },
+              symbol: 'circle',
             }}
             itemSpacing={24}
           />
-          <LineAdvance shape="smooth" area color={['field', colors]} position="time*value" />
+          <LineAdvance shape="smooth" color={['field', colors]} position="time*value" />
           <Axis
             name="value"
             title={{
