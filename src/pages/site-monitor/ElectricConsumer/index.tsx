@@ -43,12 +43,12 @@ const Energy = () => {
     if (activeKey === TabType.LOAD) {
       setConfig({
         requestList: getElectricGenerateUnitList,
-        columns: [siteColumn, ...loadColumns],
+        columns: [...loadColumns],
       });
     } else {
       setConfig({
         requestList: getElectricGenerateUnitList,
-        columns: [siteColumn, ...columns],
+        columns: [...columns],
       });
     }
     actionRef?.current?.reload();
@@ -86,7 +86,7 @@ const Energy = () => {
     <>
       <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
         actionRef={actionRef}
-        columns={config.columns}
+        columns={[siteColumn, ...config.columns]}
         options={false}
         onReset={() => setSiteId(defaultSiteIdRef.current)}
         className={styles.tableWrapper}
