@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-12 17:47:58
+ * @LastEditTime: 2023-07-13 14:31:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Electric\index.tsx
  */
@@ -11,34 +11,31 @@ import { Skeleton, DatePicker, Select } from 'antd';
 import { useRequest } from 'umi';
 import { chartTypeEnum } from '@/components/Chart';
 import LineChart from '@/components/Chart/LineChart';
-import { getPower } from '../service';
+import { getElectic } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
+import { ComProps } from '../type';
 
 const legendMap = new Map([
   ['charge', '总充电量'],
-  ['disCharge', '总放电量'],
+  ['discharge', '总放电量'],
 ]);
-
-export type RealTimePowerProps = {
-  siteId?: string;
-};
 
 const typeMap = [
   { value: chartTypeEnum.Month, label: '月' },
   { value: chartTypeEnum.Year, label: '年' },
 ];
 
-const Electric: React.FC<RealTimePowerProps> = (props) => {
+const Electric: React.FC<ComProps> = (props) => {
   const { siteId } = props;
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
   const {
     loading,
-    data: energyData,
+    data: electricData,
     run,
-  } = useRequest(getPower, {
+  } = useRequest(getElectic, {
     manual: true,
   });
 
@@ -52,9 +49,9 @@ const Electric: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     if (siteId) {
-      run({ siteId });
+      run({ siteId, type: chartType, date: date.format('YYYY-MM-DD') });
     }
-  }, [siteId]);
+  }, [siteId, chartType, date]);
 
   return (
     <>
@@ -80,6 +77,7 @@ const Electric: React.FC<RealTimePowerProps> = (props) => {
                 onSelect={onTypeSelect}
               />
               <DatePicker
+                picker={chartType == chartTypeEnum.Month ? 'month' : 'year'}
                 defaultValue={date}
                 format={chartType == chartTypeEnum.Month ? 'YYYY-MM' : 'YYYY'}
                 onChange={onChange}
@@ -91,6 +89,9 @@ const Electric: React.FC<RealTimePowerProps> = (props) => {
               date={date}
               valueTitle="单位（KWh）"
               legendMap={legendMap}
+              labelKey="eventTs"
+              valueKey="doubleVal"
+              data={electricData}
             />
           </>
         )}

@@ -2,33 +2,30 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 10:22:39
- * @LastEditTime: 2023-07-12 13:39:13
+ * @LastEditTime: 2023-07-13 11:47:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Stat\index.tsx
  */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useRequest } from 'umi';
+import {} from 'ahooks';
 import { Row, Col, Card, Badge, Skeleton } from 'antd';
 import { getStat } from '../service';
 import styles from '../index.less';
-import { isEmpty } from '@/utils';
+import { ComProps } from '../type';
 
 const statOptions = [
-  { title: '额定容量（kW/kWh）', field: '', value: 0, extrolValue: 0 },
-  { title: '当日充电（kWh）', field: '', value: 0 },
-  { title: '当日放电（kWh）', field: '', value: 0 },
-  { title: '累计充电（kWh）', field: '', value: 0 },
-  { title: '累计放电（kWh）', field: '', value: 0 },
-  { title: '当日收益（元）', field: '', value: 0 },
-  { title: '累计收益（元）', field: '', value: 0 },
+  { title: '额定容量（kW/kWh）', field: 'ratedOutputPower', extralField: 'ratedCapacity' },
+  { title: '当日充电量（kWh）', field: 'todayCharge' },
+  { title: '当日放电量（kWh）', field: 'todayDischarge' },
+  { title: '累计充电量（kWh）', field: 'totalCharge' },
+  { title: '累计放电量（kWh）', field: 'totalDischarge' },
+  { title: '当日收益（元）', field: 'todayGains' },
+  { title: '累计收益（元）', field: 'totalGains' },
 ];
 
-export type StatProps = {
-  className?: string;
-};
-
-const Stat: React.FC<StatProps> = (props) => {
-  const { className } = props;
+const Stat: React.FC<ComProps> = (props) => {
+  const { className, siteId } = props;
 
   const {
     loading,
@@ -36,17 +33,25 @@ const Stat: React.FC<StatProps> = (props) => {
     run,
   } = useRequest(getStat, {
     manual: true,
+    pollingInterval: 5 * 60 * 1000,
   });
+
+  useEffect(() => {
+    if (siteId) {
+      run({ siteId });
+    }
+  }, [siteId]);
 
   const statItems = useMemo(() => {
     return statOptions.map((item) => {
       return (
         <>
           <Col className={styles.col}>
-            <div className={`card-wrap px20 py16 ${styles.card}`}>
+            <div className={`card-wrap pl20 py16 ${styles.card}`}>
               {loading ? (
                 <>
                   <Skeleton.Input size="small" active />
+                  <div className="mb4" />
                   <Skeleton.Button size="small" active />
                 </>
               ) : (
@@ -55,16 +60,16 @@ const Stat: React.FC<StatProps> = (props) => {
                   <div className={styles.num}>
                     <Badge
                       className={styles.badge}
-                      count={item.value}
+                      count={statData?.[item.field] ?? '-'}
                       showZero
                       overflowCount={999999999}
                     />
-                    {!isEmpty(item?.extrolValue) && (
+                    {item?.extralField && (
                       <>
                         <Badge className={styles.badge} count="/" showZero />
                         <Badge
                           className={styles.badge}
-                          count={item.extrolValue}
+                          count={statData?.[item.extralField] ?? '-'}
                           showZero
                           overflowCount={999999999}
                         />

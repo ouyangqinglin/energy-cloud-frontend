@@ -8,21 +8,32 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import { statType, searchType, energyType } from './type';
-import { requestEmpty } from '@/services';
+import { statType, searchType, energyType, PowerType, ElectricType } from './type';
 
 export const getStat = (params: searchType) => {
-  return requestEmpty<statType>();
+  return request<ResponseCommonData<statType>>('/oss/site/monitor/energyStorage/statistics', {
+    method: 'GET',
+    params,
+  });
 };
 
 export const getEnergy = (params: searchType) => {
-  return requestEmpty<energyType>();
+  return request<ResponseCommonData<energyType>>('/iot/es/deviceTree', {
+    method: 'GET',
+    params,
+  });
 };
 
 export const getPower = (params: searchType) => {
-  return requestEmpty<energyType>();
+  return request<ResponseCommonData<PowerType[]>>('/oss/site/monitor/energyStorage/realTimePower', {
+    method: 'GET',
+    params,
+  });
 };
 
 export const getElectic = (params: searchType) => {
-  return requestEmpty<energyType>();
+  return request<ResponseCommonData<ElectricType>>('/oss/site/monitor/energyStorage/getData', {
+    method: 'GET',
+    params,
+  });
 };

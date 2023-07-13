@@ -18,19 +18,19 @@ export const communicateFormat = (value: number) => {
   };
   return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
-export const runFormat = (value: number) => {
+export const runFormat = (value: number, showColor = true) => {
   const map = {
     0: '待机',
     1: '运行',
   };
-  return <span className={'cl-success'}>{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
-export const modelFormat = (value: number) => {
+export const modelFormat = (value: number, showColor = true) => {
   const map = {
     0: '手动',
     1: '自动',
   };
-  return <span className={'cl-success'}>{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
 export const closeFormat = (value: number) => {
   const map = {
@@ -79,6 +79,9 @@ export const frequencyFormat = (value: string) => {
 export const tempFormat = (value: string) => {
   return getValue(value, '℃');
 };
+export const wetFormat = (value: string) => {
+  return getValue(value, '%rh');
+};
 export const percentageFormat = (value: string) => {
   return getValue(value, '%');
 };
@@ -94,27 +97,27 @@ export const hydrogenFormat = (value: string) => {
 export const moneyFormat = (value: string) => {
   return getValue(value, '元');
 };
-export const electricModel = (value: number) => {
+export const electricModel = (value: number, showColor = true) => {
   const map = {
     0: '电池恒压',
     1: '并网恒流',
     2: '电池恒流',
   };
-  return <span className="cl-success">{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
-export const workFormat = (value: number) => {
+export const workFormat = (value: number, showColor = true) => {
   const map = {
     0: '停机',
     1: '正常',
   };
-  return <span className={'cl-success'}>{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
-export const doorFormat = (value: number) => {
+export const doorFormat = (value: number, showColor = true) => {
   const map = {
     0: '关门',
     1: '开门',
   };
-  return <span className={'cl-success'}>{map[value]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };
 export const chargeFormat = (status: number) => {
   const map = {
@@ -124,12 +127,12 @@ export const chargeFormat = (status: number) => {
   };
   return <span className="cl-success">{map[status]}</span>;
 };
-export const openFormat = (status: number) => {
+export const openFormat = (status: number, showColor = true) => {
   const map = {
     0: '关闭',
     1: '开启',
   };
-  return <span className="cl-success">{map[status]}</span>;
+  return <span className={showColor ? 'cl-success' : ''}>{map[status]}</span>;
 };
 export const abnormalFormat = (value: number) => {
   const map = {

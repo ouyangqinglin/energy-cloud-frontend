@@ -8,20 +8,19 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Tabs, Button, Skeleton, Row, Col, Space } from 'antd';
+import { Tabs } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import EquipInfo from '@/components/EquipInfo';
 import type { DeviceType } from '@/components/EquipInfo/type';
-import OperationMonitor from './operationMonitor';
 import Alarm from './alarm';
 import Log from './log';
 import Setting from './setting';
-import { getChildEquipment } from './service';
+import { getChildEquipment } from '@/services/equipment';
 import EnergyImg from '@/assets/image/product/energy.png';
 import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
-import AccountCommunity from '@/components/ScreenDialog/Community/Account';
 import Community from '../Community';
+import RealTime from './RealTime';
 
 const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -50,34 +49,13 @@ const EnergyDialog: React.FC<BusinessDialogProps> = (props) => {
     {
       label: '运行监测',
       key: 'item-0',
-      children: loading ? (
-        <>
-          <Row gutter={20}>
-            <Col flex="100px">
-              <Space direction="vertical">
-                <Skeleton.Button size="small" active />
-                <Skeleton.Button size="small" active />
-                <Skeleton.Button size="small" active />
-                <Skeleton.Button size="small" active />
-                <Skeleton.Button size="small" active />
-              </Space>
-            </Col>
-            <Col flex="1">
-              <Space className="mb12" direction="vertical">
-                <Skeleton.Button size="small" active />
-                <Skeleton.Button size="small" active />
-              </Space>
-              <Skeleton paragraph={{ rows: 2 }} active />
-              <Skeleton.Button className="mb12" size="small" active />
-              <Skeleton paragraph={{ rows: 4 }} active />
-            </Col>
-          </Row>
-        </>
-      ) : (
-        <OperationMonitor
+      children: (
+        <RealTime
+          id={id}
           open={open}
+          loading={loading}
+          setSettingData={setSettingData}
           equipmentIds={equipmentIds}
-          onEmsDataChange={setSettingData}
         />
       ),
     },

@@ -46,13 +46,13 @@ export const config: EnergyStatisticInfo[] = [
     unit: '台',
   },
   {
-    title: '自发自用比例',
+    title: '自发自用率',
     icon: icon_自发自用比例,
     value: 50,
     unit: '%',
   },
   {
-    title: '自给自足比例',
+    title: '自给自足率',
     icon: icon_自给自足比例,
     value: 50,
     unit: '%',
