@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-07-04 15:12:07
- * @LastEditTime: 2023-07-04 19:38:07
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\index.tsx
- */
 import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react';
 import { message, Row } from 'antd';
 import { useLocation } from 'umi';
@@ -38,7 +30,6 @@ const Index: React.FC = () => {
     const { query } = location as LocationType;
     if (query?.id) {
       setDefaultSiteId(query?.id);
-      // setSiteId(siteId);
     }
   }, [location]);
 

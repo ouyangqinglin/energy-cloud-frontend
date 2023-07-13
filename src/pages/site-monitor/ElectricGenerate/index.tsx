@@ -1,20 +1,30 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-07-04 15:16:34
- * @LastEditTime: 2023-07-04 15:16:38
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\ElectricGenerate\index.tsx
- */
-import React from 'react';
-import EmptyPage from '@/components/EmptyPage';
+import { useCallback, useRef, useState } from 'react';
+import type { ElectricGenerateInfo } from './type';
+import YTProTable from '@/components/YTProTable';
+import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
+import { columns } from './config';
+import { getElectricGenerateUnitList } from './service';
+import EnergyStatisticCard from './components/StatisticCard';
 
-const Index: React.FC = () => {
+const Energy = () => {
+  const requestList: YTProTableCustomProps<
+    ElectricGenerateInfo,
+    ElectricGenerateInfo
+  >['request'] = (params) => {
+    return getElectricGenerateUnitList(params);
+  };
   return (
     <>
-      <EmptyPage />
+      <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+        columns={columns}
+        options={false}
+        toolBarRender={() => []}
+        headerTitle={<EnergyStatisticCard />}
+        request={requestList}
+        rowKey="deviceId"
+      />
     </>
   );
 };
 
-export default Index;
+export default Energy;

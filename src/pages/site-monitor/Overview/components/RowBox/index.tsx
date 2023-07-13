@@ -1,6 +1,6 @@
 import { Card, Col } from 'antd';
 import classnames from 'classnames';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import styles from './index.less';
 
 const RowBox = ({

@@ -1,0 +1,31 @@
+@import '~antd/es/style/themes/default.less';
+
+.sliderWrapper {
+  margin-bottom: 5px;
+  :global {
+    .slick-dots {
+      li button {
+        width: 8px;
+        height: 8px;
+        background-color: #333;
+        border-radius: 50%;
+      }
+
+      .slick-active {
+        width: 16px !important;
+        button {
+          background-color: @primary-color !important;
+        }
+      }
+    }
+  }
+
+  .sliderItem {
+    height: '250px';
+  }
+}
+.chartCard {
+  min-height: 56vh vh;
+  padding: 10px 20px;
+  box-shadow: 0 3px 6px 1px #00000014;
+}
