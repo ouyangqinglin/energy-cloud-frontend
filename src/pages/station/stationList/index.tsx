@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-12 09:37:12
+ * @LastEditTime: 2023-07-13 20:18:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -171,7 +171,7 @@ const StationList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '代理商',
+      title: '服务商',
       dataIndex: 'agent',
       hideInSearch: true,
       ellipsis: true,

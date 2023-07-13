@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useRequest, useModel } from 'umi';
 import { useBoolean } from 'ahooks';
 import { Card, Button, Image, Modal, message } from 'antd';
-import { getStation } from '@/services/station';
+import { getStation, getDefaultPage } from '@/services/station';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import CustomPageForm from '../../../info/stationInfo/components/customPageForm';
-import { setComplete, getDefaultPage } from '../../../info/stationInfo/service';
+import { setComplete } from '../../../info/stationInfo/service';
 
 const OverviewSetting: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
