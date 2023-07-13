@@ -43,11 +43,11 @@ import {
 } from '@/utils/format';
 
 const voltageNumFormat = (value: number): number => {
-  return value;
+  return (value % 24) + 1;
 };
 
 const tempNumFormat = (value: number): number => {
-  return value;
+  return (value % 13) + 1;
 };
 
 const energyPowerFormat = (value: number, data: any) => {

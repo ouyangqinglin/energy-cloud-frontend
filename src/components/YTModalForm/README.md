@@ -27,7 +27,7 @@ const columns = [
     width: 'xl',
   },
   {
-    title: '代理商',
+    title: '服务商',
     dataIndex: 'provider',
     valueType: 'select',
     hideInTable: true,

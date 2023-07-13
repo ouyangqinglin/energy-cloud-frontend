@@ -10,7 +10,8 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import { getDefaultPage, editDefaultPage, getCustomPage } from '../service';
+import { editDefaultPage, getCustomPage } from '../service';
+import { getDefaultPage } from '@/services/station';
 import { pageType } from '@/utils/dictionary';
 
 type CustomPageFormProps = {

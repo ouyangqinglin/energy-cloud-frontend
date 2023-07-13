@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-06-16 10:56:29
+ * @LastEditTime: 2023-07-13 20:16:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -16,12 +16,15 @@ import {
   ProFormTextArea,
   ProFormDigit,
   ProFormUploadButton,
+  ProFormSelect,
 } from '@ant-design/pro-form';
 import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
+import TableSelect from '@/components/TableSelect';
+import { getServicePage } from '@/services/service';
 
 type StationFOrmProps = {
   id?: string;
@@ -133,6 +136,40 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
       >
+        <Form.Item label="服务商" name="orgs">
+          <TableSelect
+            tableId="orgId"
+            tableName="orgName"
+            valueId="orgId"
+            valueName="orgName"
+            proTableProps={{
+              columns: [
+                {
+                  title: '服务商ID',
+                  dataIndex: 'orgId',
+                  width: 150,
+                  ellipsis: true,
+                  hideInSearch: true,
+                },
+                {
+                  title: '服务商名称',
+                  dataIndex: 'orgName',
+                  width: 200,
+                  ellipsis: true,
+                },
+              ],
+              request: (params: Record<string, any>) => {
+                return getServicePage(params)?.then(({ data }) => {
+                  return {
+                    data: data?.list,
+                    total: data?.total,
+                    success: true,
+                  };
+                });
+              },
+            }}
+          />
+        </Form.Item>
         <ProFormText
           label="站点名称"
           name="name"

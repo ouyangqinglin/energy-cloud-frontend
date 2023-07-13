@@ -57,14 +57,14 @@ export const Columns: (
         proTableProps: {
           columns: [
             {
-              title: '代理商ID',
+              title: '服务商ID',
               dataIndex: 'orgId',
               width: 150,
               ellipsis: true,
               hideInSearch: true,
             },
             {
-              title: '代理商名称',
+              title: '服务商名称',
               dataIndex: 'orgName',
               width: 200,
               ellipsis: true,

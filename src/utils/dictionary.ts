@@ -42,6 +42,8 @@ export enum DeviceTypeEnum {
   Cabinet = 32,
   HwChargeChild = 21,
   HwChargeYt = 22,
+  BatteryStack = 2,
+  BatteryCluster = 34,
   Device = 'default',
 }
 

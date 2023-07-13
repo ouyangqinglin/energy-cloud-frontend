@@ -18,7 +18,7 @@ const customConfig: CustomTableProps<AccountListDataType, any> = {
 
 ```{ts}
 {
-  title: '代理商',
+  title: '服务商',
   dataIndex: 'provider',
   valueType: 'select',
   hideInTable: true,
