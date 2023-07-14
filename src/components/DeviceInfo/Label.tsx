@@ -13,10 +13,11 @@ import styles from './index.less';
 export type LabelProps = {
   title?: string;
   className?: string;
+  showLine?: boolean;
 };
 
 const Label: React.FC<LabelProps> = (props) => {
-  const { title, className, children } = props;
+  const { title, className, showLine = true, children } = props;
 
   return (
     <>
@@ -24,7 +25,7 @@ const Label: React.FC<LabelProps> = (props) => {
         <label className={`flex1 ${styles.label}`}>{title}</label>
         {children}
       </div>
-      <Divider className="mt12" />
+      {showLine && <Divider className="mt12" />}
     </>
   );
 };

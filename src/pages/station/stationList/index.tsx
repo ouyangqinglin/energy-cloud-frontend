@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-13 20:18:06
+ * @LastEditTime: 2023-07-14 11:51:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
 import React, { useRef, useState, useCallback } from 'react';
 import { Button, Modal, message } from 'antd';
-import { useHistory } from 'umi';
+import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import ProTable from '@ant-design/pro-table';
@@ -26,6 +26,7 @@ const StationList: React.FC = () => {
   const history = useHistory();
   const actionRef = useRef<ActionType>();
   const { state: areaOptions } = useArea();
+  const { initialState } = useModel('@@initialState');
 
   const requestList = useCallback((params) => {
     const [countryCode, provinceCode, cityCode] = params?.area || [];
@@ -64,32 +65,38 @@ const StationList: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
-        站点配置
-      </Button>
-      <Button
-        type="link"
-        size="small"
-        key="delete"
-        onClick={() => {
-          Modal.confirm({
-            title: '删除',
-            content: '确定要删除改站点吗？',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: () => {
-              removeData({ siteId: record.id }).then(() => {
-                message.success('删除成功');
-                if (actionRef.current) {
-                  actionRef.current.reload();
-                }
-              });
-            },
-          });
-        }}
-      >
-        删除
-      </Button>
+      {(initialState?.currentUser?.permissions?.includes('system:site:config') ||
+        initialState?.currentUser?.permissions?.includes('*:*:*')) && (
+        <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
+          站点配置
+        </Button>
+      )}
+      {(initialState?.currentUser?.permissions?.includes('system:site:delete') ||
+        initialState?.currentUser?.permissions?.includes('*:*:*')) && (
+        <Button
+          type="link"
+          size="small"
+          key="delete"
+          onClick={() => {
+            Modal.confirm({
+              title: '删除',
+              content: '确定要删除改站点吗？',
+              okText: '确认',
+              cancelText: '取消',
+              onOk: () => {
+                removeData({ siteId: record.id }).then(() => {
+                  message.success('删除成功');
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
+                });
+              },
+            });
+          }}
+        >
+          删除
+        </Button>
+      )}
     </>
   );
   const columns: ProColumns<StationType>[] = [
@@ -214,7 +221,12 @@ const StationList: React.FC = () => {
       <YTProTable
         actionRef={actionRef}
         columns={columns}
-        toolBarRender={toolBar}
+        toolBarRender={
+          initialState?.currentUser?.permissions?.includes('system:site:create') ||
+          initialState?.currentUser?.permissions?.includes('*:*:*')
+            ? toolBar
+            : false
+        }
         request={requestList}
       />
       <StationForm

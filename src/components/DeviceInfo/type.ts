@@ -8,11 +8,14 @@
  */
 
 export type DeviceInfoType = {
+  key?: string;
   productImg?: string;
   name?: string;
   online?: number;
   alarm?: number;
   lastOnlineTime?: string;
+  deviceId?: number;
+  deviceName?: string;
 };
 
 export type DeviceType = {

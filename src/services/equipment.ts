@@ -2,13 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-07-13 17:01:52
+ * @LastEditTime: 2023-07-14 10:47:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
 import { ListDataType } from '@/utils/dictionary';
+import { ClusterType } from './type';
 
 export type DeviceDataType = {
   deviceId: string;
@@ -121,6 +122,13 @@ export const getDeviceCollection = (params: any) => {
 
 export const getProductTypeList = (params: any) => {
   return request<ResponseCommonData<ListDataType[]>>('/oss/product/getProductTypeList', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getClusterByStack = (params: any) => {
+  return request<ResponseCommonData<ClusterType>>('/oss/site/monitor/device/getBatteryDevices', {
     method: 'GET',
     params,
   });
