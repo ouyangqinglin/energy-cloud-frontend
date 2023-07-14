@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-14 11:51:23
+ * @LastEditTime: 2023-07-14 13:05:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -213,6 +213,10 @@ const StationList: React.FC = () => {
       width: 150,
       fixed: 'right',
       render: rowBar,
+      hideInTable:
+        !initialState?.currentUser?.permissions?.includes('system:site:config') &&
+        !initialState?.currentUser?.permissions?.includes('*:*:*') &&
+        !initialState?.currentUser?.permissions?.includes('system:site:delete'),
     },
   ];
 
@@ -225,7 +229,7 @@ const StationList: React.FC = () => {
           initialState?.currentUser?.permissions?.includes('system:site:create') ||
           initialState?.currentUser?.permissions?.includes('*:*:*')
             ? toolBar
-            : false
+            : () => [<></>]
         }
         request={requestList}
       />
