@@ -51,7 +51,8 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         // bugfix: ticks的设置会导致slider出现白屏（看来像是放大到没有tick定义的时候会出现这个问题）
         scale={{
           value: {
-            // min: shouldShowLine ? -100 : 0,
+            min: shouldShowLine ? -100 : 0,
+            max: 300,
           },
         }}
         data={chartData}

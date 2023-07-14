@@ -1,22 +1,29 @@
-export interface ElectricGenerateInfo {
-  siteId: number;
-  siteName: string;
+export interface DeviceInfo {
   deviceId: number;
-  deviceName: string;
-  connectStatus: number;
+  productId: number;
   sn: string;
-  ipv1: number;
-  ipv2: number;
-  ipv3: number;
-  ipv4: number;
-  ipv5: number;
-  ipv6: number;
-  ipv7: number;
-  ipv8: number;
-  ipv9: number;
-  ipv10: number;
-  ipv11: number;
-  ipv12: number;
+  aliasSn?: any;
+  name: string;
+  parentId: number;
+  siteId: number;
+  connectStatus: number;
+  alarmStatus: number;
+  protocolCode?: any;
+  thirdSn?: any;
+  connectDeviceId: number;
+  config?: any;
+  createTime: string;
+  associatedId?: any;
+  configStatus: number;
+  power?: any;
+  mark?: any;
+  sessionStartTime?: any;
+  productType: number;
+  productTypeName: string;
+  subsystemName: string;
+  model: string;
+  siteName: string;
+  childDeviceList: DeviceInfo[];
 }
 
 export interface ElectricGenerateStatistic {
