@@ -32,9 +32,10 @@ export const getDevicePage = (params: any) => {
   });
 };
 
-export const getDeviceInfo = (deviceId: string | number) => {
-  return request(`/screen/device/${deviceId}`, {
+export const getDeviceInfo = (params: any) => {
+  return request(`/oss/site/monitor/device/getBasicInfo`, {
     method: 'GET',
+    params,
   });
 };
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-07-14 00:12:09
+ * @LastEditTime: 2023-07-14 09:31:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\index.tsx
  */
@@ -16,7 +16,7 @@ import Dialog from '../Dialog';
 import Label from './Label';
 import EquipForm from '../EquipForm';
 import { FormTypeEnum } from '@/utils/dictionary';
-import { getEquipInfo } from '@/services/equipment';
+import { getDeviceInfo } from '@/services/equipment';
 import { onlineFormat } from '@/utils/format';
 import './index.less';
 
@@ -48,7 +48,7 @@ const DeviceInfo: React.FC<DeviceInfoProps> = (props) => {
     loading,
     data: equipData = {},
     run,
-  } = useRequest(getEquipInfo, {
+  } = useRequest(getDeviceInfo, {
     manual: true,
   });
 
