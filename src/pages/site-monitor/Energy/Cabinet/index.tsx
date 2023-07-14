@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-13 23:20:12
+ * @LastEditTime: 2023-07-14 16:01:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useRequest, useHistory } from 'umi';
 import { useSize } from 'ahooks';
-import { Skeleton } from 'antd';
+import { Skeleton, message } from 'antd';
 import { useSubscribe } from '@/hooks';
 import { getEnergy } from '../service';
 import { ComProps, energyType } from '../type';
@@ -62,6 +62,7 @@ const energyPowerFormat = (value: number, data: any) => {
 const unitItems = [
   {
     label: '空调',
+    productId: DeviceTypeEnum.Air,
     position: { top: 51, left: 14 },
     icon: AirImg,
     line: AirLineImg,
@@ -92,6 +93,7 @@ const unitItems = [
   },
   {
     label: 'EMS',
+    productId: DeviceTypeEnum.Ems,
     position: { top: 302, left: 14 },
     icon: EmsImg,
     line: EmsLineImg,
@@ -111,6 +113,7 @@ const unitItems = [
   },
   {
     label: '电池堆',
+    productId: DeviceTypeEnum.BatteryStack,
     position: { top: 450, left: 14 },
     icon: StackImg,
     line: StackLineImg,
@@ -123,6 +126,7 @@ const unitItems = [
   },
   {
     label: 'PCS',
+    productId: DeviceTypeEnum.Pcs,
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,
@@ -143,6 +147,7 @@ const unitItems = [
   },
   {
     label: '单体极值信息',
+    productId: DeviceTypeEnum.BatteryStack,
     position: { top: 175, left: 802 },
     icon: EmsImg,
     line: PackLineImg,
@@ -171,16 +176,19 @@ const getDataIds = (data: energyType[]): string[] => {
   return ids;
 };
 
-const getBatteryStack = (data: energyType[]): energyType | undefined => {
+const getUnitByProductId = (
+  data: energyType[],
+  productId: DeviceTypeEnum,
+): energyType | undefined => {
   let result: energyType | undefined;
   if (data && data.length) {
     for (let i = 0; i < data?.length; i++) {
-      if (data[i]?.productId == DeviceTypeEnum.BatteryStack) {
+      if (data[i]?.productId == productId) {
         result = data[i];
         return result;
       }
       if (data[i]?.children && data[i]?.children?.length) {
-        result = getBatteryStack(data[i].children || []);
+        result = getUnitByProductId(data[i].children || [], productId);
         if (result) {
           return result;
         }
@@ -195,7 +203,6 @@ const Cabinet: React.FC<ComProps> = (props) => {
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  const [batteryStack, setBatteryStack] = useState<energyType>();
   const deviceData = useSubscribe(deviceIds, true);
   const history = useHistory();
 
@@ -211,18 +218,25 @@ const Cabinet: React.FC<ComProps> = (props) => {
     return (bodySize?.width || 964.83) / 964.83;
   }, [bodySize]);
 
-  const onMoreClick = useCallback(() => {
-    history.push({
-      pathname: '/site-monitor/device-detail',
-      search: `?id=${batteryStack?.id}&productId=${batteryStack?.productId}`,
-    });
-  }, [batteryStack]);
+  const onMoreClick = useCallback(
+    (item) => {
+      if (energyData) {
+        const unit = item.productId ? getUnitByProductId([energyData], item.productId) : energyData;
+        history.push({
+          pathname: '/site-monitor/device-detail',
+          search: `?id=${unit?.id}&productId=${unit?.productId}`,
+        });
+      } else {
+        message.error('暂无数据');
+      }
+    },
+    [energyData, history],
+  );
 
   useEffect(() => {
     if (siteId) {
       run({ siteId }).then((data) => {
         setDeviceIds(getDataIds([data]));
-        setBatteryStack(getBatteryStack([data]));
       });
     }
   }, [siteId]);
@@ -256,7 +270,7 @@ const Cabinet: React.FC<ComProps> = (props) => {
               );
             })}
             {index !== 1 && (
-              <span className={`cursor ${styles.field}`} onClick={onMoreClick}>
+              <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
                 了解更多{'>'}
               </span>
             )}

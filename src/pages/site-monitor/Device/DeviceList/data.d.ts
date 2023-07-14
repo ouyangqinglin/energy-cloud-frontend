@@ -24,5 +24,5 @@ export type DeviceType = {
 
 export type DeviceSearchType = {
   subSystemId?: string;
-  siteId?: string;
+  siteIds?: string;
 };

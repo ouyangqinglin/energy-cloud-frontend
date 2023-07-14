@@ -1,24 +1,25 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-07-13 21:00:58
- * @LastEditTime: 2023-07-14 11:53:53
+ * @Date: 2023-07-14 14:43:38
+ * @LastEditTime: 2023-07-14 14:43:38
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\index.tsx
  */
+
 import React, { useState, useCallback, useMemo } from 'react';
 import { Tabs, TabsProps } from 'antd';
-import { DeviceDetailType } from './config';
+import { DeviceDetailType } from '../config';
 import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceInfoType } from '@/components/DeviceInfo/type';
 import Overview from '@/components/DeviceInfo/Overview';
 import StackImg from '@/assets/image/device/stack.png';
-import Stack from './components/Stack';
-import Cluster from './components/Cluster';
+import Run from './Run';
 import { getChildEquipment } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 
-const BatterryStack: React.FC<DeviceDetailType> = (props) => {
+const Ems: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
 
   const [equipmentIds, setEquipmentIds] = useState<string[]>([]);
@@ -36,13 +37,13 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
     return [
       {
         key: '1',
-        label: '电池堆信息',
-        children: <Stack realTimeData={realTimeData} />,
+        label: '运行数据',
+        children: <Run realTimeData={realTimeData} />,
       },
       {
         key: '2',
-        label: '电池簇信息',
-        children: <Cluster data={deviceData} realTimeData={realTimeData} />,
+        label: '远程控制',
+        children: <Setting id={id} settingData={realTimeData} isLineLabel showBattery={false} />,
       },
     ];
   }, [realTimeData]);
@@ -52,7 +53,7 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
       <div className="card-wrap">
         <Overview data={deviceData} />
       </div>
-      <div className="card-wrap p24 my24">
+      <div className="card-wrap px24 pb24 my24">
         <Tabs items={tabItems} />
       </div>
       <div className="card-wrap p24">
@@ -62,4 +63,4 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
   );
 };
 
-export default BatterryStack;
+export default Ems;
