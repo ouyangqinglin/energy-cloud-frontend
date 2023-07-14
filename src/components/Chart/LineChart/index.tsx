@@ -80,6 +80,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     valueKey = 'value',
     valueTitle = '单位（KW）',
     colors = defaultColors,
+    allLabel,
   } = props;
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -87,7 +88,8 @@ const LineChart: React.FC<LineChartProps> = (props) => {
   const [chartRef] = useToolTip();
 
   useEffect(() => {
-    const labels = typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any);
+    const labels =
+      typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any) || allLabel;
 
     const result: ChartDataType[] = [];
     legendMap.forEach((itemField, key) => {
