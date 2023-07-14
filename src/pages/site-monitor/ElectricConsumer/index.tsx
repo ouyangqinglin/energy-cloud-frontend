@@ -43,7 +43,7 @@ const Energy = () => {
   const actionRef = useRef<ActionType>();
   const [config, setConfig] = useState({
     requestList: getElectricGenerateUnitList,
-    columns: [siteColumn, ...columns],
+    columns: [...columns],
   });
   const tabChange = (activeKey: TabType) => {
     if (activeKey === TabType.LOAD) {

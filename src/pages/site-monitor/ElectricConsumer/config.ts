@@ -18,13 +18,6 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '站点名称',
-    key: 'search',
-    dataIndex: 'siteName',
-    width: 120,
-    hideInTable: true,
-  },
-  {
     title: '设备名称',
     dataIndex: 'deviceName',
     width: 120,
@@ -77,13 +70,6 @@ export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '站点名称',
-    key: 'search',
-    dataIndex: 'siteName',
-    width: 120,
-    hideInTable: true,
-  },
-  {
     title: '设备名称',
     dataIndex: 'deviceName',
     width: 120,
@@ -105,21 +91,15 @@ export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '电压(V)',
-    dataIndex: 'sn',
-    hideInSearch: true,
-    width: 150,
-  },
-  {
-    title: '电流(A)',
-    dataIndex: 'pv1',
+    title: 'A枪功率(kW)',
+    dataIndex: 'pv2',
     width: 150,
     hideInSearch: true,
     ellipsis: true,
   },
   {
-    title: '日用电量（kWh）',
-    dataIndex: 'pv2',
+    title: 'B枪功率(kW)',
+    dataIndex: 'pv3',
     width: 150,
     hideInSearch: true,
     ellipsis: true,

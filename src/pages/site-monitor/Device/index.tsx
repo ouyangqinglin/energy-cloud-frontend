@@ -80,8 +80,7 @@ const Device: React.FC = () => {
               <DeviceList
                 params={{ siteId }}
                 onDetail={onDetail}
-                activeTabKey={selectNode?.type == 2 ? selectNode?.id : ''}
-                scrollY={open && siteId ? 584 : 508}
+                activeTabKey={selectNode?.type == 2 ? selectNode?.id : 1}
               />
             )}
             {selectNode && selectNode?.type !== 2 && selectNode?.type !== 3 && (
