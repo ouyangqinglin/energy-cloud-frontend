@@ -27,7 +27,7 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
-  const { refresh } = useModel('@@initialState');
+  const { initialState, refresh } = useModel('@@initialState');
 
   const [captchaCode, setCaptchaCode] = useState<string>('');
   const [uuid, setUuid] = useState<string>('');
@@ -98,8 +98,14 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          logo={<img alt="logo" src={YtIcon} />}
-          title="永泰数能OSS"
+          logo={
+            initialState?.currentUser?.systemInfo?.icon ? (
+              <img alt="logo" src={initialState?.currentUser?.systemInfo?.icon} />
+            ) : (
+              ''
+            )
+          }
+          title={initialState?.currentUser?.systemInfo?.title}
           initialValues={{
             autoLogin: true,
           }}

@@ -2,15 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 19:22:37
- * @LastEditTime: 2023-07-06 19:17:54
+ * @LastEditTime: 2023-07-14 17:01:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\Logo.tsx
  */
 import React from 'react';
 import { useModel } from 'umi';
 import styles from './index.less';
-import YtShuNeng from '@/assets/image/logo-yt.png';
-import Yt from '@/assets/image/icon-yt.png';
 
 const Logo: React.FC = () => {
   const { initialState } = useModel('@@initialState');
@@ -18,7 +16,13 @@ const Logo: React.FC = () => {
   return (
     <>
       <a>
-        <img className={styles.logo} src={initialState?.collapsed ? Yt : YtShuNeng} />
+        {initialState?.collapsed
+          ? initialState?.currentUser?.systemInfo?.icon && (
+              <img className={styles.logo} src={initialState?.currentUser?.systemInfo?.icon} />
+            )
+          : initialState?.currentUser?.systemInfo?.logo && (
+              <img className={styles.logo} src={initialState?.currentUser?.systemInfo?.logo} />
+            )}
       </a>
     </>
   );

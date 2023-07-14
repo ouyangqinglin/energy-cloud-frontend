@@ -153,7 +153,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={() => [<></>]}
         options={false}
         request={handleRequest}
-        scroll={{ x: 1366 }}
         pagination={{
           showSizeChanger: true,
         }}

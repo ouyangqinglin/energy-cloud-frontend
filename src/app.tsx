@@ -11,6 +11,7 @@ import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
+import configSetting from '../config/defaultSettings';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -18,6 +19,22 @@ const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
+};
+
+const editFavicon = (data?: initialStateType) => {
+  const head = document.getElementsByTagName('head')[0];
+  const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+  if (data?.currentUser?.systemInfo?.icon) {
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = data?.currentUser?.systemInfo?.icon;
+    head.appendChild(link);
+  } else {
+    link.remove();
+  }
+  setTimeout(() => {
+    document.title = data?.currentUser?.systemInfo?.title || '';
+  }, 700);
 };
 
 export type initialStateType = {
@@ -42,7 +59,11 @@ export async function getInitialState(): Promise<initialStateType> {
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);
       } else {
-        return { ...resp.user, permissions: resp.permissions } as API.CurrentUser;
+        return {
+          ...resp.user,
+          permissions: resp.permissions,
+          systemInfo: resp?.systemInfo,
+        } as API.CurrentUser;
       }
     } catch (error) {
       history.push(loginPath);
@@ -51,6 +72,7 @@ export async function getInitialState(): Promise<initialStateType> {
   };
 
   const collapsed = window.innerWidth < 992;
+
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
@@ -73,12 +95,19 @@ export async function getInitialState(): Promise<initialStateType> {
       fetchUserInfo,
       settings: defaultSettings,
       collapsed,
+      currentUser: {
+        systemInfo: {
+          title: '新能源OSS云平台',
+        },
+      },
     };
   }
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  editFavicon(initialState);
+
   return {
     heightLayoutHeader: 56,
     headerRender: () => <MyHeader />,

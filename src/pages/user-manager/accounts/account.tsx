@@ -132,7 +132,6 @@ const Account: React.FC<AccountsProps> = (props) => {
       <YTProTable<AccountListDataType>
         columns={columns}
         {...customConfig}
-        scroll={{ x: 1366 }}
         request={(params) => getAccountList(params)}
       />
       <CustomerModal

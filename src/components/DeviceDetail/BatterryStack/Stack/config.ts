@@ -8,6 +8,7 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
+import type { ProColumns } from '@ant-design/pro-table';
 import {
   chargeFormat,
   closeFormat,
@@ -18,6 +19,7 @@ import {
   powerHourFormat,
   tempFormat,
 } from '@/utils/format';
+import { MaxUnitType } from './type';
 
 export const controlItems: DetailItem[] = [
   { label: '充放电状态', field: 'CADI', format: (value) => chargeFormat(value, false) },
@@ -78,19 +80,29 @@ export const abilityItems: DetailItem[] = [
   { label: '最大放电电流', field: 'maximumDischargeCurrent', format: currentFormat },
 ];
 
-export const maxUnitItems: DetailItem[] = [
-  { label: '最高电芯电压（V）', field: 'a' },
-  { label: '最低电芯电压（V）', field: 'b' },
-  { label: '最高温度点（℃）', field: 'c' },
-  { label: '最低温度点（℃）', field: 'd' },
-
-  { label: '电芯编号', field: 'MaxNOIV' },
-  { label: '电芯编号', field: 'MNOIV' },
-  { label: '温度点', field: 'MITN' },
-  { label: '温度点', field: 'MNOIT' },
-
-  { label: '电压', field: 'MVVOASU' },
-  { label: '电压', field: 'MVVOSU' },
-  { label: '温度', field: 'MaximumIndividualTemperature' },
-  { label: '温度', field: 'LVOMT' },
+export const maxUnitColumns: ProColumns<MaxUnitType>[] = [
+  {
+    title: '最高电芯电压（V）',
+    dataIndex: 'maxVoltage',
+    width: 150,
+    ellipsis: true,
+  },
+  {
+    title: '最低电芯电压（V）',
+    dataIndex: 'minVoltage',
+    width: 150,
+    ellipsis: true,
+  },
+  {
+    title: '最高温度点（℃）',
+    dataIndex: 'maxTemp',
+    width: 150,
+    ellipsis: true,
+  },
+  {
+    title: '最低温度点（℃）',
+    dataIndex: 'minTemp',
+    width: 150,
+    ellipsis: true,
+  },
 ];

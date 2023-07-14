@@ -61,13 +61,17 @@ const YTProTable = <
       scroll={{
         x: 1366,
         y: scrollY,
-        // ...(restProps?.scroll || {}),
+        ...(restProps?.scroll || {}),
       }}
-      search={{
-        labelWidth: 'auto',
-        searchText: '搜索',
-        ...(restProps?.search || {}),
-      }}
+      search={
+        restProps?.search === false
+          ? false
+          : {
+              labelWidth: 'auto',
+              searchText: '搜索',
+              ...(restProps?.search || {}),
+            }
+      }
     />
   );
 };

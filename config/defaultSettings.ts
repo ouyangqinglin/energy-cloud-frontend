@@ -16,7 +16,7 @@ const Settings: LayoutSettings & {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  title: '永泰数能',
+  title: '新能源OSS云平台',
   pwa: false,
   iconfontUrl: '',
   tabsLayout: true,

@@ -66,7 +66,6 @@ const Platform = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformS
         {...customConfig}
         request={requestList}
         rowKey="userId"
-        scroll={{ y: 520 }}
         {...props}
       />
       <Update
