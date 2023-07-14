@@ -7,13 +7,13 @@
  * @FilePath: \energy-cloud-frontend\src\components\EmptyPage\index.tsx
  */
 import React from 'react';
-import { Empty } from 'antd';
+import { Empty, EmptyProps } from 'antd';
 
-const EmptyPage: React.FC = () => {
+const EmptyPage: React.FC<EmptyProps> = (props) => {
   return (
     <>
       <div className="flex" style={{ marginTop: '25vh' }}>
-        <Empty className="flex1" description="页面开发中，敬请期待..." />
+        <Empty className="flex1" description="页面开发中，敬请期待..." {...props} />
       </div>
     </>
   );

@@ -36,7 +36,7 @@ const StationInfo: React.FC = () => {
         });
       },
     });
-  }, []);
+  }, [siteId]);
 
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
@@ -44,7 +44,7 @@ const StationInfo: React.FC = () => {
 
   const onSuccess = useCallback(() => {
     run(siteId);
-  }, []);
+  }, [siteId]);
 
   useEffect(() => {
     if (siteId) {

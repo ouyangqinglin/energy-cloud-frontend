@@ -33,3 +33,10 @@ export const getDefaultPage = (id: string) => {
     },
   });
 };
+
+export const getSiteUnitConfig = (params: any) => {
+  return request(`/oss/site/index/isGetUnitPermission`, {
+    method: 'GET',
+    params,
+  });
+};
