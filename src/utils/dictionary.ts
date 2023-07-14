@@ -112,6 +112,17 @@ export const connectStatus = {
   },
 };
 
+export const runningState = {
+  0: {
+    text: '正常',
+    status: 'Success',
+  },
+  1: {
+    text: '异常',
+    status: 'Error',
+  },
+};
+
 export const buildStatus = {
   1: {
     text: '已交付',
@@ -138,6 +149,17 @@ export const onlineStatus = {
   },
 };
 
+export const chargingAndDischargingStatus = {
+  1: {
+    text: '放电',
+    status: 'Processing',
+  },
+  0: {
+    text: '充电',
+    status: 'Error',
+  },
+};
+
 export const effectStatus = {
   0: {
     text: '有效',
@@ -150,11 +172,31 @@ export const effectStatus = {
 };
 
 export const alarmStatus = {
+  0: {
+    text: '正常',
+    status: 'Success',
+  },
   1: {
-    text: '已恢复',
+    text: '异常',
+    status: 'Error',
+  },
+};
+
+export const workStatus = {
+  1: {
+    text: '运行',
   },
   0: {
-    text: '未恢复',
+    text: '停机',
+  },
+};
+
+export const systemMode = {
+  1: {
+    text: '手动模式',
+  },
+  0: {
+    text: '自动模式',
   },
 };
 

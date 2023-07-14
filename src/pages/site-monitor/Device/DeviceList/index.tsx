@@ -13,11 +13,11 @@ import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { DeviceType, DeviceSearchType } from './data';
 import { onlineStatus } from '@/utils/dictionary';
-import { removeData, getTabs } from './service';
-import { getDevicePage } from '@/services/equipment';
+import { removeData, getTabs, getDevicePage } from './service';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
+import { EMScolumns, OTColumns, TabColumnsMap } from './config';
 
 type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
@@ -27,15 +27,16 @@ type DeviceListProps = {
 };
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
-  const { onDetail, params, activeTabKey, scrollY = 508 } = props;
+  const { onDetail, params, activeTabKey } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab0');
   const [tabItems, setTabItems] = useState<OptionType[]>([]);
   const actionRef = useRef<ActionType>();
   const [searchParams, setSearchParams] = useState({
-    subSystemId: '',
+    classType: 1,
   });
+  const [columns, setColumns] = useState([...EMScolumns]);
 
   const onSwitchOpen = useCallback(() => {
     setOpen((data) => !data);
@@ -63,8 +64,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       if (Array.isArray(tabData)) {
         const items = (tabData || []).map((item) => {
           return {
-            id: item.id ?? '',
-            label: item.name,
+            id: item.typeId ?? '',
+            label: item.typeName,
             value: item.count,
           };
         });
@@ -73,22 +74,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     });
     return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) });
   };
-
-  const onTabChange = useCallback((key: React.Key | undefined) => {
-    setActiveTab(key as string);
-    setSearchParams({
-      subSystemId: (key as string).replace('tab', ''),
-    });
-    actionRef.current?.reloadAndRest?.();
-  }, []);
-
-  useEffect(() => {
-    onSuccess();
-  }, [params]);
-
-  useEffect(() => {
-    onTabChange('tab' + activeTabKey);
-  }, [activeTabKey]);
 
   const rowBar = (_: any, record: DeviceType) => (
     <>
@@ -120,6 +105,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       </Button>
     </>
   );
+
   const renderBadge = (count: number | string, active = false) => {
     return (
       <Badge
@@ -135,6 +121,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       />
     );
   };
+
   const tabItemList = tabItems.map((item, index) => {
     const key = 'tab' + item.id;
     return {
@@ -149,96 +136,30 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ),
     };
   });
-  const columns = useMemo<ProColumns<DeviceType>[]>(() => {
-    return [
-      {
-        title: '设备ID',
-        dataIndex: 'deviceId',
-        width: 120,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: '设备名称',
-        dataIndex: 'name',
-        width: 120,
-        ellipsis: true,
-      },
-      {
-        title: '设备SN',
-        dataIndex: 'sn',
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title: '型号',
-        dataIndex: 'model',
-        width: 150,
-        hideInSearch: true,
-        ellipsis: true,
-      },
-      {
-        title: '产品类型',
-        dataIndex: 'productTypeName',
-        width: 150,
-        hideInSearch: true,
-        ellipsis: true,
-      },
-      {
-        title: '所属子系统',
-        dataIndex: 'subsystemName',
-        width: 120,
-        hideInSearch: true,
-        ellipsis: true,
-      },
-      {
-        title: '所属站点',
-        dataIndex: 'siteName',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: '添加时间',
-        dataIndex: 'createTime',
-        valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
-        search: {
-          transform: (value) => {
-            return {
-              beginTime: value[0],
-              endTime: value[1],
-            };
-          },
-        },
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title: '上线时间',
-        dataIndex: 'sessionStartTime',
-        valueType: 'dateTime',
-        hideInSearch: true,
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title: '通信状态',
-        dataIndex: 'connectStatus',
-        render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
-        valueType: 'select',
-        valueEnum: onlineStatus,
-        width: 120,
-      },
-      {
-        title: '操作',
-        valueType: 'option',
-        width: 150,
-        fixed: 'right',
-        render: rowBar,
-      },
-    ];
-  }, []);
+
+  const onTabChange = useCallback(
+    (key: React.Key | undefined) => {
+      setActiveTab(key as string);
+      const realKey = (key as string).replace('tab', '');
+      if (realKey) {
+        setSearchParams({
+          classType: Number(realKey),
+        });
+        setColumns(TabColumnsMap?.get(Number(realKey)));
+      }
+      actionRef.current?.reloadAndRest?.();
+    },
+    [tabItems],
+  );
+
+  useEffect(() => {
+    onSuccess();
+  }, [params]);
+
+  useEffect(() => {
+    onTabChange('tab' + activeTabKey);
+    console.log('activeTabKey', activeTabKey);
+  }, [activeTabKey]);
 
   return (
     <>
@@ -256,7 +177,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           ],
         }}
         request={handleRequest}
-        scroll={{ y: scrollY }}
       />
       <EquipForm
         open={open}

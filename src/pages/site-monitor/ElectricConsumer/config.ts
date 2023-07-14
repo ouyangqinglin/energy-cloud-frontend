@@ -18,13 +18,6 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '站点名称',
-    key: 'search',
-    dataIndex: 'siteName',
-    width: 120,
-    hideInTable: true,
-  },
-  {
     title: '设备名称',
     dataIndex: 'deviceName',
     width: 120,
@@ -75,13 +68,6 @@ export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
     width: 120,
     ellipsis: true,
     hideInSearch: true,
-  },
-  {
-    title: '站点名称',
-    key: 'search',
-    dataIndex: 'siteName',
-    width: 120,
-    hideInTable: true,
   },
   {
     title: '设备名称',

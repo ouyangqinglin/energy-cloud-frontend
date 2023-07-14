@@ -9,7 +9,7 @@
 import request from '@/utils/request';
 
 export const getTabs = (params: any) => {
-  return request(`/iot/device/summary`, {
+  return request(`/oss/site/monitor/device/productTypeCount`, {
     method: 'GET',
     params,
   });
@@ -18,6 +18,13 @@ export const getTabs = (params: any) => {
 export const removeData = (params: any) => {
   return request(`/iot/device`, {
     method: 'DELETE',
+    params,
+  });
+};
+
+export const getDevicePage = (params: any) => {
+  return request<any>(`/oss/site/monitor/device/getDeviceList`, {
+    method: 'GET',
     params,
   });
 };
