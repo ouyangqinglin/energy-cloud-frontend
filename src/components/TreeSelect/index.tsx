@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 10:21:19
- * @LastEditTime: 2023-07-11 19:32:47
+ * @LastEditTime: 2023-07-14 09:03:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TreeSelect\index.tsx
  */
@@ -21,7 +21,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
   const { value, onChange, treeData } = props;
 
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>();
-  const [checkStrictly, setCheckStrictly] = useState<boolean>(false);
+  const [checkStrictly, setCheckStrictly] = useState<boolean>(true);
 
   const options = useMemo<TreeSelectProps>(() => {
     const defaultOptions: TreeSelectProps = {
@@ -84,9 +84,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
       <Space>
         <Checkbox onChange={onOpenChange}>展开/折叠</Checkbox>
         <Checkbox onChange={onAllSelectChange}>全选/全不选</Checkbox>
-        <Checkbox defaultChecked onChange={onLinkChange}>
-          父子联动
-        </Checkbox>
+        <Checkbox onChange={onLinkChange}>父子联动</Checkbox>
       </Space>
       <div className={'ant-input mt4 ' + styles.tree}>
         <Tree

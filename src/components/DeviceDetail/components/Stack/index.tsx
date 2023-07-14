@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-14 01:32:24
+ * @LastEditTime: 2023-07-14 09:11:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\components\Stack\index.tsx
  */
@@ -40,7 +40,7 @@ const Stack: React.FC<StackProps> = (props) => {
       <Label title="能力信息" className="mt16" />
       <Detail items={abilityItems} data={data} />
       <Label title="单体极值信息" className="mt16" />
-      <Detail items={maxUnitItems} data={data} />
+      <Detail items={maxUnitItems} data={data} bordered size="small" />
       <Label title="电气一次图" className="mt16" />
       <img className={styles.elctric} src={ElectricLine} />
     </>

@@ -173,7 +173,6 @@ const Monitor: React.FC = () => {
 
   const onSaveClick = (type: string) => {
     const data: any = [];
-    let hasCollectEmpty = false;
     const tableData: TableDataType = allTableData[type];
     if (tableData.elec && tableData.elec.length) {
       [...(tableData.elec || [])].forEach((item) => {
@@ -199,37 +198,11 @@ const Monitor: React.FC = () => {
         }
       },
     );
-    if (
-      !tableData.row1 ||
-      !tableData.row1.length ||
-      (tableData.row1[0].id + '').indexOf('noData') > -1
-    ) {
-      hasCollectEmpty = true;
-    } else if (
-      !tableData.row2 ||
-      !tableData.row2.length ||
-      (tableData.row2[0].id + '').indexOf('noData') > -1
-    ) {
-      hasCollectEmpty = true;
-    }
-    if (type === 'photovoltaic' || type === 'energy') {
-      if (
-        !tableData.row3 ||
-        !tableData.row3.length ||
-        (tableData.row3[0].id + '').indexOf('noData') > -1
-      ) {
-        hasCollectEmpty = true;
+    runEditConfig(data).then((result) => {
+      if (result) {
+        message.success('保存成功');
       }
-    }
-    if (hasCollectEmpty) {
-      message.error('关联采集点必选');
-    } else {
-      runEditConfig(data).then((result) => {
-        if (result) {
-          message.success('保存成功');
-        }
-      });
-    }
+    });
   };
 
   useEffect(() => {

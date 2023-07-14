@@ -80,18 +80,17 @@ export const abilityItems: DetailItem[] = [
 
 export const maxUnitItems: DetailItem[] = [
   { label: '最高电芯电压（V）', field: 'a' },
-  { label: '电芯编号', field: 'MaxNOIV' },
-  { label: '电压', field: 'MVVOASU' },
-
   { label: '最低电芯电压（V）', field: 'b' },
-  { label: '电芯编号', field: 'MNOIV' },
-  { label: '电压', field: 'MVVOSU' },
-
   { label: '最高温度点（℃）', field: 'c' },
-  { label: '温度点', field: 'MITN' },
-  { label: '温度', field: 'MaximumIndividualTemperature' },
-
   { label: '最低温度点（℃）', field: 'd' },
+
+  { label: '电芯编号', field: 'MaxNOIV' },
+  { label: '电芯编号', field: 'MNOIV' },
+  { label: '温度点', field: 'MITN' },
   { label: '温度点', field: 'MNOIT' },
+
+  { label: '电压', field: 'MVVOASU' },
+  { label: '电压', field: 'MVVOSU' },
+  { label: '温度', field: 'MaximumIndividualTemperature' },
   { label: '温度', field: 'LVOMT' },
 ];
