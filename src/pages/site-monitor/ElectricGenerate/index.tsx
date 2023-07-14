@@ -9,6 +9,8 @@ import { getDefaultSite } from '@/hooks/useFetchDefaultSiteId';
 import { useSiteColumn } from '@/hooks';
 import { useRequest } from 'umi';
 import { useToggle } from 'ahooks';
+import { getSiteUnitConfig } from '@/services/station';
+import EmptyPage from '@/components/EmptyPage';
 
 const Energy = () => {
   const { run: runForDefaultSiteId } = useRequest(getDefaultSite, { manual: true });
@@ -16,6 +18,10 @@ const Energy = () => {
   const [hasCacheSiteId, { set }] = useToggle(false);
   const [siteId, setSiteId] = useState<number>();
   const defaultSiteIdRef = useRef<number>();
+
+  const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
+    manual: true,
+  });
 
   const requestList: YTProTableCustomProps<
     ElectricGenerateInfo,
@@ -55,17 +61,30 @@ const Energy = () => {
     };
   }, [cancel, runForStatistic, siteId]);
 
+  useEffect(() => {
+    if (siteId) {
+      run({
+        siteId,
+        unitNum: 1,
+      });
+    }
+  }, [siteId]);
+
   return (
     <>
-      <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
-        columns={[siteColumn, ...columns]}
-        options={false}
-        toolBarRender={() => []}
-        onReset={() => setSiteId(defaultSiteIdRef.current)}
-        headerTitle={<EnergyStatisticCard data={statisticData} />}
-        request={requestList}
-        rowKey="deviceId"
-      />
+      {siteConfig?.prompt ? (
+        <EmptyPage description={siteConfig?.prompt} />
+      ) : (
+        <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+          columns={[siteColumn, ...columns]}
+          options={false}
+          toolBarRender={() => []}
+          onReset={() => setSiteId(defaultSiteIdRef.current)}
+          headerTitle={<EnergyStatisticCard data={statisticData} />}
+          request={requestList}
+          rowKey="deviceId"
+        />
+      )}
     </>
   );
 };

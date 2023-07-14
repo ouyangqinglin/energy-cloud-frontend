@@ -12,6 +12,8 @@ import { getDefaultSite } from '@/hooks/useFetchDefaultSiteId';
 import { Tabs } from 'antd';
 import styles from './index.less';
 import { ActionType } from '@ant-design/pro-components';
+import { getSiteUnitConfig } from '@/services/station';
+import EmptyPage from '@/components/EmptyPage';
 
 export const enum TabType {
   CHARGE_STACK = 'CHARGE_STACK',
@@ -23,6 +25,10 @@ const Energy = () => {
   const [hasCacheSiteId, { set }] = useToggle(false);
   const [siteId, setSiteId] = useState<number>();
   const defaultSiteIdRef = useRef<number>();
+
+  const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
+    manual: true,
+  });
 
   const [siteColumn] = useSiteColumn<ElectricGenerateInfo>({
     hideInTable: true,
@@ -82,40 +88,53 @@ const Energy = () => {
     };
   }, [cancel, runForStatistic, siteId]);
 
+  useEffect(() => {
+    if (siteId) {
+      run({
+        siteId,
+        unitNum: 3,
+      });
+    }
+  }, [siteId]);
+
   return (
     <>
-      <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
-        actionRef={actionRef}
-        columns={[siteColumn, ...config.columns]}
-        options={false}
-        onReset={() => setSiteId(defaultSiteIdRef.current)}
-        className={styles.tableWrapper}
-        toolBarRender={() => []}
-        headerTitle={
-          <div className={styles.headerTitleWrapper}>
-            <EnergyStatisticCard data={statisticData} />
-            <Tabs
-              onChange={tabChange}
-              type="card"
-              className={styles.tabWrapper}
-              items={[
-                {
-                  label: `充电桩`,
-                  key: TabType.CHARGE_STACK,
-                  children: [],
-                },
-                {
-                  label: `负载`,
-                  key: TabType.LOAD,
-                  children: [],
-                },
-              ]}
-            />
-          </div>
-        }
-        request={requestList}
-        rowKey="deviceId"
-      />
+      {siteConfig?.prompt ? (
+        <EmptyPage description={siteConfig?.prompt} />
+      ) : (
+        <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+          actionRef={actionRef}
+          columns={[siteColumn, ...config.columns]}
+          options={false}
+          onReset={() => setSiteId(defaultSiteIdRef.current)}
+          className={styles.tableWrapper}
+          toolBarRender={() => []}
+          headerTitle={
+            <div className={styles.headerTitleWrapper}>
+              <EnergyStatisticCard data={statisticData} />
+              <Tabs
+                onChange={tabChange}
+                type="card"
+                className={styles.tabWrapper}
+                items={[
+                  {
+                    label: `充电桩`,
+                    key: TabType.CHARGE_STACK,
+                    children: [],
+                  },
+                  {
+                    label: `负载`,
+                    key: TabType.LOAD,
+                    children: [],
+                  },
+                ]}
+              />
+            </div>
+          }
+          request={requestList}
+          rowKey="deviceId"
+        />
+      )}
     </>
   );
 };
