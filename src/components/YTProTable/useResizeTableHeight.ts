@@ -22,6 +22,7 @@ export const useResizeTableHeight = () => {
     }, 60),
     [size],
   );
+
   return {
     scrollY,
   };
