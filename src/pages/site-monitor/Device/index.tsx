@@ -55,7 +55,7 @@ const Device: React.FC = () => {
           <div className={`${styles.content}`}>
             {(!selectNode || selectNode?.type === 2 || selectNode?.type === 3) && (
               <DeviceList
-                params={{ siteId }}
+                params={{ siteIds: siteId }}
                 activeTabKey={selectNode?.type == 2 ? selectNode?.id : 1}
               />
             )}

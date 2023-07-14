@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-20 10:40:19
- * @LastEditTime: 2023-06-20 10:41:04
+ * @LastEditTime: 2023-07-14 16:21:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationGun.tsx
  */
@@ -24,20 +24,27 @@ const StationGun: React.FC<CommunityProps> = (props) => {
 
   const modalProps = getModalProps(model);
 
-  const requestStation = useCallback(() => {
-    return getThirdStation({
-      current: 1,
-      pageSize: 10000,
-      productId: equipData?.productId,
-    }).then(({ data }) => {
-      return data?.list?.map?.((item: any) => {
-        return {
-          label: item.siteName,
-          value: item.id,
-        };
-      });
-    });
-  }, [equipData?.productId]);
+  const requestStation = useCallback(
+    (params) => {
+      if (params?.loadDevice) {
+        return getThirdStation({
+          current: 1,
+          pageSize: 10000,
+          productId: equipData?.productId,
+        }).then(({ data }) => {
+          return data?.list?.map?.((item: any) => {
+            return {
+              label: item.siteName,
+              value: item.id,
+            };
+          });
+        });
+      } else {
+        return Promise.resolve([]);
+      }
+    },
+    [equipData?.productId],
+  );
 
   useEffect(() => {
     if (open) {
@@ -50,7 +57,7 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         } catch (e) {
           config = {};
         }
-        formRef?.current?.setFieldsValue?.(config);
+        formRef?.current?.setFieldsValue?.({ ...config, loadDevice: true });
       });
     }
   }, [open]);
@@ -74,9 +81,14 @@ const StationGun: React.FC<CommunityProps> = (props) => {
 
   const columns: ProFormColumnsType<CommunityType>[] = [
     {
+      dataIndex: 'loadDevice',
+      hideInForm: true,
+    },
+    {
       title: '第三方站点',
       dataIndex: 'thirdSiteId',
       valueType: 'select',
+      dependencies: ['loadDevice'],
       request: requestStation,
       formItemProps: {
         rules: [{ required: true, message: '第三方站点ID必选' }],

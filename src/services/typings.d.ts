@@ -47,6 +47,12 @@ declare namespace API {
     updateTime?: Date;
   };
 
+  type SystemInfo = {
+    title?: string;
+    icon?: string;
+    logo?: string;
+  };
+
   type CurrentUser = {
     avatar?: string;
     userName?: string;
@@ -71,7 +77,8 @@ declare namespace API {
     phonenumber?: string;
     dept?: Dept;
     roles?: Role[];
-    permissions: string[];
+    permissions?: string[];
+    systemInfo?: SystemInfo;
   };
 
   type LoginResult = {
@@ -93,6 +100,7 @@ declare namespace API {
     permissions?: string[];
     roles?: string[];
     user?: CurrentUser;
+    systemInfo: SystemInfo;
   };
 
   type PageParams = {

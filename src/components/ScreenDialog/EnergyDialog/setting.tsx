@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-06-08 15:17:15
+ * @LastEditTime: 2023-07-14 15:27:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -22,6 +22,7 @@ import {
 } from 'antd';
 import type { FormInstance } from 'antd';
 import Label from '@/components/Detail/label';
+import { default as LineLabel } from '@/components/DeviceInfo/Label';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { useRequest } from 'umi';
@@ -43,6 +44,8 @@ const timeFormat = 'HH:mm';
 type SettingProps = {
   id: string;
   settingData?: Record<string, any>;
+  isLineLabel?: boolean;
+  showBattery?: boolean;
 };
 
 const powerMap = new Map([
@@ -102,7 +105,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id } = props;
+  const { id, isLineLabel = false, showBattery = true } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -361,7 +364,7 @@ const Setting: React.FC<SettingProps> = (props) => {
 
   return (
     <>
-      <Label title="控制指令" />
+      {isLineLabel ? <LineLabel title="控制指令" /> : <Label title="控制指令" />}
       <Form
         form={controlForm}
         className="setting-form"
@@ -401,68 +404,87 @@ const Setting: React.FC<SettingProps> = (props) => {
           </Col>
         </Row>
       </Form>
-      <Label
-        title="电池保护参数设置"
-        operate={
-          <Button type="primary" onClick={onProtectClick} loading={loading}>
-            下发参数
-          </Button>
-        }
-      />
-      <Form
-        form={protectFrom}
-        className="setting-form"
-        layout="horizontal"
-        labelCol={{ flex: '116px' }}
-        onFinish={requestProtect}
-      >
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="OverchargeProtection"
-              label="过充保护"
-              rules={[{ required: true, message: '过充保护必填' }]}
-            >
-              <InputNumber addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="OverchargeRelease"
-              label="过充释放"
-              rules={[{ required: true, message: '过充释放必填' }]}
-            >
-              <InputNumber addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="OverdischargeProtection"
-              label="过放保护"
-              rules={[{ required: true, message: '过放保护必填' }]}
-            >
-              <InputNumber addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="Overrelease"
-              label="过放释放"
-              rules={[{ required: true, message: '过放释放必填' }]}
-            >
-              <InputNumber addonAfter="V" />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-      <Label
-        title="运行参数设置"
-        operate={
+      {showBattery &&
+        (isLineLabel ? (
+          <LineLabel title="电池保护参数设置">
+            <Button type="primary" onClick={onProtectClick} loading={loading}>
+              下发参数
+            </Button>
+          </LineLabel>
+        ) : (
+          <Label
+            title="电池保护参数设置"
+            operate={
+              <Button type="primary" onClick={onProtectClick} loading={loading}>
+                下发参数
+              </Button>
+            }
+          />
+        ))}
+      {showBattery && (
+        <Form
+          form={protectFrom}
+          className="setting-form"
+          layout="horizontal"
+          labelCol={{ flex: '116px' }}
+          onFinish={requestProtect}
+        >
+          <Row>
+            <Col flex="25%">
+              <Form.Item
+                name="OverchargeProtection"
+                label="过充保护"
+                rules={[{ required: true, message: '过充保护必填' }]}
+              >
+                <InputNumber addonAfter="V" />
+              </Form.Item>
+            </Col>
+            <Col flex="25%">
+              <Form.Item
+                name="OverchargeRelease"
+                label="过充释放"
+                rules={[{ required: true, message: '过充释放必填' }]}
+              >
+                <InputNumber addonAfter="V" />
+              </Form.Item>
+            </Col>
+            <Col flex="25%">
+              <Form.Item
+                name="OverdischargeProtection"
+                label="过放保护"
+                rules={[{ required: true, message: '过放保护必填' }]}
+              >
+                <InputNumber addonAfter="V" />
+              </Form.Item>
+            </Col>
+            <Col flex="25%">
+              <Form.Item
+                name="Overrelease"
+                label="过放释放"
+                rules={[{ required: true, message: '过放释放必填' }]}
+              >
+                <InputNumber addonAfter="V" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      )}
+      {isLineLabel ? (
+        <LineLabel title="运行参数设置">
           <Button type="primary" onClick={onRunClick} loading={loading}>
             下发参数
           </Button>
-        }
-      />
+        </LineLabel>
+      ) : (
+        <Label
+          title="运行参数设置"
+          operate={
+            <Button type="primary" onClick={onRunClick} loading={loading}>
+              下发参数
+            </Button>
+          }
+        />
+      )}
       <Form
         form={runForm}
         className="setting-form"
@@ -602,14 +624,22 @@ const Setting: React.FC<SettingProps> = (props) => {
           </Col>
         </Row>
       </Form>
-      <Label
-        title="校时设置"
-        operate={
+      {isLineLabel ? (
+        <LineLabel title="校时设置">
           <Button type="primary" onClick={onTimeClick} loading={loading}>
             下发参数
           </Button>
-        }
-      />
+        </LineLabel>
+      ) : (
+        <Label
+          title="校时设置"
+          operate={
+            <Button type="primary" onClick={onTimeClick} loading={loading}>
+              下发参数
+            </Button>
+          }
+        />
+      )}
       <Form
         form={timeForm}
         layout="horizontal"

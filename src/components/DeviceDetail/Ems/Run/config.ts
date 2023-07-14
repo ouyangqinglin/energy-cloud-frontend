@@ -20,40 +20,26 @@ import {
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
-  { label: '充放电状态', field: 'CADI', format: (value) => chargeFormat(value, false) },
-  {
-    label: '主接触器状态',
-    field: 'MainContactorStatus',
-    format: (value) => closeFormat(value, false),
-  },
-  {
-    label: '预充接触器状态',
-    field: 'PrechargeContactorStatus',
-    format: (value) => chargeFormat(value, false),
-  },
-  {
-    label: '直流断路器状态',
-    field: 'DCCircuitBreakerStatus',
-    format: (value) => chargeFormat(value, false),
-  },
-  {
-    label: '交流断路器状态',
-    field: 'ACCircuitBreakerStatus',
-    format: (value) => chargeFormat(value, false),
-  },
+  { label: '系统模式', field: 'a' },
+  { label: '电气急停信号', field: 'b' },
+  { label: 'BMS急停信号', field: 'c' },
+  { label: 'BMS主接触器状态', field: 'd' },
+  { label: 'PCS通讯状态', field: 'e' },
+  { label: 'BMS通讯状态', field: 'f' },
+  { label: '电表通讯状态', field: 'g' },
+  { label: 'EMS系统状态', field: 'h' },
+  { label: '制冷状态', field: 'i' },
+  { label: '空调机组运行状态', field: 'z' },
+  { label: '气溶胶信号', field: 'j' },
 ];
 
 export const statusItems: DetailItem[] = [
-  { label: '充/放电功率', field: 'a' },
-  { label: '电流', field: 'TotalBatteryCurrent', format: currentFormat },
-  { label: '电压', field: 'TotalBatteryVoltage', format: voltageFormat },
-  { label: 'SOC', field: 'SOC', format: percentageFormat },
-  { label: 'SOH', field: 'SOH', format: percentageFormat },
-  { label: '绝缘值', field: 'InsulationValue', format: kohmFormat },
-  { label: '正极绝缘值', field: 'PositiveInsulationValue', format: kohmFormat },
-  { label: '负极绝缘值', field: 'NegativeInsulationValue', format: kohmFormat },
-  { label: '平均电压', field: 'AverageVoltage', format: voltageFormat },
-  { label: '预充总压', field: 'TPCP', format: voltageFormat },
+  { label: '实时运行状态', field: 'a' },
+  { label: '充/放电功率', field: 'b' },
+  { label: 'SOC', field: 'c' },
+  { label: 'SOH', field: 'd' },
+  { label: '可充电量', field: 'e' },
+  { label: '可放电量', field: 'f' },
 ];
 
 export const historyItems: DetailItem[] = [

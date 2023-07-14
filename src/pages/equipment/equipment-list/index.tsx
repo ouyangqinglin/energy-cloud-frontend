@@ -257,7 +257,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onChange: onTabChange,
           },
         }}
-        // scroll={{ x: 1366, y: 553 }}
       />
       <EquipForm
         open={open}
