@@ -1,8 +1,8 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { connectStatus } from '@/utils/dictionary';
-import type { ElectricGenerateInfo } from './type';
+import type { DeviceInfo } from './type';
 
-export const columns: YTProColumns<ElectricGenerateInfo>[] = [
+export const columns: YTProColumns<DeviceInfo>[] = [
   {
     title: '设备ID',
     dataIndex: 'deviceId',
@@ -19,7 +19,7 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
   },
   {
     title: '设备名称',
-    dataIndex: 'deviceName',
+    dataIndex: 'name',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -40,21 +40,21 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
   },
   {
     title: 'A枪功率(kW)',
-    dataIndex: 'pv2',
+    dataIndex: 'gunA',
     width: 150,
     hideInSearch: true,
     ellipsis: true,
   },
   {
     title: 'B枪功率(kW)',
-    dataIndex: 'pv3',
+    dataIndex: 'gunB',
     width: 150,
     hideInSearch: true,
     ellipsis: true,
   },
 ];
 
-export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
+export const loadColumns: YTProColumns<DeviceInfo>[] = [
   {
     title: '设备ID',
     dataIndex: 'deviceId',
@@ -71,7 +71,7 @@ export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
   },
   {
     title: '设备名称',
-    dataIndex: 'deviceName',
+    dataIndex: 'name',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -92,20 +92,20 @@ export const loadColumns: YTProColumns<ElectricGenerateInfo>[] = [
   },
   {
     title: '电压(V)',
-    dataIndex: 'sn',
+    dataIndex: 'v',
     hideInSearch: true,
     width: 150,
   },
   {
     title: '电流(A)',
-    dataIndex: 'pv1',
+    dataIndex: 'a',
     width: 150,
     hideInSearch: true,
     ellipsis: true,
   },
   {
     title: '日用电量（kWh）',
-    dataIndex: 'pv2',
+    dataIndex: 'totalCharge',
     width: 150,
     hideInSearch: true,
     ellipsis: true,

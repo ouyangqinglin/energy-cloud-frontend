@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ElectricGenerateInfo } from './type';
+import type { DeviceInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns, loadColumns } from './config';
-import { getElectricGenerateUnitList, getElectricGenerateUnitStatistic } from './service';
+import {
+  getChargeStackList,
+  getElectricGenerateUnitStatistic,
+  getOtherDeviceList,
+} from './service';
 import EnergyStatisticCard from './components/StatisticCard';
 import { useRequest } from 'umi';
 import useSiteColumn from '@/hooks/useSiteColumn';
@@ -17,7 +21,7 @@ import EmptyPage from '@/components/EmptyPage';
 
 export const enum TabType {
   CHARGE_STACK = 'CHARGE_STACK',
-  LOAD = 'LOAD',
+  OTHER_DEVICE = 'OTHER_DEVICE',
 }
 
 const Energy = () => {
@@ -30,7 +34,7 @@ const Energy = () => {
     manual: true,
   });
 
-  const [siteColumn] = useSiteColumn<ElectricGenerateInfo>({
+  const [siteColumn] = useSiteColumn<DeviceInfo>({
     hideInTable: true,
     dataIndex: 'siteId',
     initialValue: defaultSiteIdRef.current,
@@ -42,28 +46,25 @@ const Energy = () => {
 
   const actionRef = useRef<ActionType>();
   const [config, setConfig] = useState({
-    requestList: getElectricGenerateUnitList,
+    requestList: getChargeStackList,
     columns: [...columns],
   });
   const tabChange = (activeKey: TabType) => {
-    if (activeKey === TabType.LOAD) {
+    if (activeKey === TabType.OTHER_DEVICE) {
       setConfig({
-        requestList: getElectricGenerateUnitList,
+        requestList: getOtherDeviceList,
         columns: [...loadColumns],
       });
     } else {
       setConfig({
-        requestList: getElectricGenerateUnitList,
+        requestList: getChargeStackList,
         columns: [...columns],
       });
     }
     actionRef?.current?.reload();
   };
 
-  const requestList: YTProTableCustomProps<
-    ElectricGenerateInfo,
-    ElectricGenerateInfo
-  >['request'] = async (params) => {
+  const requestList: YTProTableCustomProps<DeviceInfo, DeviceInfo>['request'] = async (params) => {
     if (!hasCacheSiteId) {
       const siteData = await runForDefaultSiteId();
       set(true);
@@ -102,7 +103,7 @@ const Energy = () => {
       {siteConfig?.prompt ? (
         <EmptyPage description={siteConfig?.prompt} />
       ) : (
-        <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+        <YTProTable<DeviceInfo, DeviceInfo>
           actionRef={actionRef}
           columns={[siteColumn, ...config.columns]}
           options={false}
@@ -123,8 +124,8 @@ const Energy = () => {
                     children: [],
                   },
                   {
-                    label: `负载`,
-                    key: TabType.LOAD,
+                    label: `其他设备`,
+                    key: TabType.OTHER_DEVICE,
                     children: [],
                   },
                 ]}

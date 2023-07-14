@@ -1,4 +1,4 @@
-import type { ElectricGenerateInfo, ElectricGenerateStatistic } from './type';
+import type { DeviceInfo, ElectricGenerateStatistic } from './type';
 import { get } from '@/utils/request';
 
 export const getElectricGenerateUnitStatistic = (siteId: number) => {
@@ -7,6 +7,9 @@ export const getElectricGenerateUnitStatistic = (siteId: number) => {
   });
 };
 
-export const getElectricGenerateUnitList = (params: any) => {
-  return get<ElectricGenerateInfo[]>(`/oss/device/deviceList`, params);
+export const getOtherDeviceList = (params: any) => {
+  return get<DeviceInfo[]>(`/iot/device/getOtherList`, params);
 };
+
+export const getChargeStackList = (params: any) =>
+  get<DeviceInfo[]>(`/iot/device/getCSList`, params);

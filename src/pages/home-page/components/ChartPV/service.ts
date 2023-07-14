@@ -1,8 +1,5 @@
-import request from '@/utils/request';
+import request, { get } from '@/utils/request';
 
 export const getData = (params: any) => {
-  return request(`/iot/collectionData/getData`, {
-    method: 'GET',
-    params,
-  });
+  return get(`/iot/collectionData/getData`, { ...params });
 };
