@@ -9,20 +9,14 @@ import { getBarChartData, getLineChartData } from './helper';
 import { TimeType } from '@/components/TimeButtonGroup';
 
 type RealTimePowerProps = {
-  date?: Moment;
-  siteId?: number | string;
+  chartDate?: any;
   timeType: TimeType;
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId = 1, timeType } = props;
-
+  const { chartDate: powerData, timeType } = props;
   const [chartData, setChartData] = useState<any[]>();
   const [chartRef, { clear, run: runForTooltip }] = useToolTip();
-  const { data: powerData, run } = useRequest(getData, {
-    manual: true,
-    pollingInterval: 2 * 60 * 1000,
-  });
   const shouldShowLine = timeType === TimeType.DAY;
 
   useEffect(() => {
@@ -33,21 +27,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     setChartData(getBarChartData(powerData, timeType));
   }, [powerData, shouldShowLine, timeType]);
 
-  useEffect(() => {
-    if (siteId) {
-      run({
-        siteId,
-        type: timeType,
-        date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
-      });
-    }
-  }, [siteId, date, run, timeType]);
-
   return (
     <div onMouseEnter={clear} onMouseOut={runForTooltip}>
       <Chart
         ref={chartRef}
         height={384}
+        padding={40}
         // bugfix: ticks的设置会导致slider出现白屏（看来像是放大到没有tick定义的时候会出现这个问题）
         scale={{
           value: {

@@ -3,8 +3,9 @@ import moment from 'moment';
 
 type DataType = {
   time: string;
-  value: number | undefined;
+  value?: number | undefined;
   field: string;
+  total?: number | undefined;
 };
 
 type ChartDataType = {
@@ -19,11 +20,9 @@ const allMinute = Array.from({ length: (24 * 60) / 10 }).map((_, index) => {
 });
 
 export const lineLegendMap = new Map([
-  // ['me', '市电'],
-  // ['load', '其他负载'],
-  ['pv', '当日光伏收益(元)'],
-  ['es', '当日储能收益(元)'],
-  ['cs', '当日收益(元)'],
+  ['pvIncome', '当日光伏收益(元)'],
+  ['esIncome', '当日储能收益(元)'],
+  ['income', '当日收益(元)'],
 ]);
 
 const getChartData = (data: ChartDataType[], field: string): DataType[] => {
@@ -55,21 +54,21 @@ export const getLineChartData = (rawSourceData: Record<string, ChartDataType[]>)
 };
 
 export const barLegendMap = new Map([
-  ['charge', '当日光伏收益(元)'],
-  ['discharge', '当日储能收益(元)'],
-  ['pvPowerGeneration', '当日收益(元)'],
+  ['pvIncome', '当日光伏收益(元)'],
+  ['esIncome', '当日储能收益(元)'],
+  ['income', '当日收益(元)'],
 ]);
 
 export const yearBarLegendMap = new Map([
-  ['charge', '月光伏收益(元)'],
-  ['discharge', '月储能收益(元)'],
-  ['pvPowerGeneration', '月收益(元)'],
+  ['pvIncome', '月光伏收益(元)'],
+  ['esIncome', '月储能收益(元)'],
+  ['income', '月收益(元)'],
 ]);
 
 export const totalBarLegendMap = new Map([
-  ['charge', '年光伏收益(元)'],
-  ['discharge', '年储能收益(元)'],
-  ['pvPowerGeneration', '年收益(元)'],
+  ['pvIncome', '年光伏收益(元)'],
+  ['esIncome', '年储能收益(元)'],
+  ['income', '年收益(元)'],
 ]);
 
 export const TimeFormat = new Map([
@@ -95,13 +94,13 @@ export const getBarChartData = (
   legendMap().forEach((field, key) => {
     const transformData =
       rawSourceData?.[key]?.map(({ eventTs, doubleVal }) => {
+        const valueObj = key === 'income' ? { total: doubleVal } : { value: doubleVal };
         return {
           time: moment(eventTs).format(TimeFormat.get(timeType)),
-          value: doubleVal,
           field,
+          ...valueObj,
         };
       }) ?? [];
-    // console.log(rawSourceData, transformData);
     result.push(...transformData);
   });
   return result;

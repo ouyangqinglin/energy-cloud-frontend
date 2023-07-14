@@ -18,13 +18,7 @@ const allMinute = Array.from({ length: (24 * 60) / 10 }).map((_, index) => {
     .format('HH:mm');
 });
 
-export const lineLegendMap = new Map([
-  // ['me', '市电'],
-  ['pv', '光伏'],
-  // ['es', '储能'],
-  // ['cs', '充电桩'],
-  // ['load', '其他负载'],
-]);
+export const lineLegendMap = new Map([['pvPowerGeneration', '光伏']]);
 
 const getChartData = (data: ChartDataType[], field: string): DataType[] => {
   const valueMap = new Map(
@@ -54,12 +48,7 @@ export const getLineChartData = (rawSourceData: Record<string, ChartDataType[]>)
   return result;
 };
 
-export const barLegendMap = new Map([
-  // ['charge', '发电量'],
-  // ['discharge', '放电量'],
-  // ['selfUse', '自发自用电量'],
-  ['pvPowerGeneration', '发电功率(kW)'],
-]);
+export const barLegendMap = new Map([['pvPowerGeneration', '发电功率(kW)']]);
 
 export const TimeFormat = new Map([
   [TimeType.MONTH, 'YYYY-MM-DD'],

@@ -1,7 +1,7 @@
-import type { CardInfo } from '../../type';
+import type { AllCardRes, CardInfo } from '../../type';
 import styles from './index.less';
 
-const SliderCard = ({ config }: { config: CardInfo }) => {
+const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) => {
   const Icon = config.icon;
   return (
     <div className={styles.sliderCard} style={{ height: '250px', marginRight: 16 }}>
@@ -12,15 +12,15 @@ const SliderCard = ({ config }: { config: CardInfo }) => {
             <Icon className={styles.svgIcon} />
           </div>
           <div className={styles.contentItem}>
-            <div className={styles.contentNumber}>{config.value}</div>
+            <div className={styles.contentNumber}>{data?.[config.field] ?? '--'}</div>
             <div className={styles.contentDescription}>{config.description}</div>
           </div>
         </div>
         <div className={styles.detail}>
-          {config.items.map(({ label, value }) => (
+          {config.items.map(({ label, value, field }) => (
             <div key={label} className={styles.detailItem}>
               <div className={styles.ellipsis}>{label}：</div>
-              <span>{value}</span>
+              <span>{data?.[field] ?? '--'}</span>
             </div>
           ))}
         </div>
