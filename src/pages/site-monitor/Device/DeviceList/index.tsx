@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-07 15:35:13
+ * @LastEditTime: 2023-07-14 14:07:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -17,7 +17,7 @@ import { removeData, getTabs, getDevicePage } from './service';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
-import { EMScolumns, OTColumns, TabColumnsMap } from './config';
+import { EMScolumns, getOtColumns, TabColumnsMap } from './config';
 
 type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
@@ -77,9 +77,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   const rowBar = (_: any, record: DeviceType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
-        查看详情
-      </Button>
       <Button
         type="link"
         size="small"
@@ -145,7 +142,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setSearchParams({
           classType: Number(realKey),
         });
-        setColumns(TabColumnsMap?.get(Number(realKey)));
+        const tableColumns = TabColumnsMap?.get(Number(realKey)) || [];
+        setColumns([
+          ...getOtColumns(onDetailClick),
+          ...tableColumns,
+          {
+            title: '操作',
+            valueType: 'option',
+            width: 150,
+            fixed: 'right',
+            render: rowBar,
+          },
+        ]);
       }
       actionRef.current?.reloadAndRest?.();
     },
@@ -167,15 +175,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       <YTProTable
         actionRef={actionRef}
         columns={columns}
-        toolBarRender={() => []}
-        search={{
-          optionRender: (_, __, dom) => [
-            ...dom,
-            <Button type="primary" key="add" onClick={onAddClick}>
-              新建设备
-            </Button>,
-          ],
-        }}
+        toolBarRender={() => [
+          <Button type="primary" key="add" onClick={onAddClick}>
+            新建设备
+          </Button>,
+        ]}
         request={handleRequest}
       />
       <EquipForm

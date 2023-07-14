@@ -8,54 +8,58 @@ import {
 } from '@/utils/dictionary';
 
 // 其他设备
-export const OTColumns = [
-  {
-    title: '设备ID',
-    dataIndex: 'deviceId',
-    width: 120,
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
-    title: '所属站点',
-    dataIndex: 'siteName',
-    hideInSearch: true,
-    width: 120,
-    ellipsis: true,
-  },
-  {
-    title: '设备名称',
-    dataIndex: 'deviceName',
-    width: 120,
-    ellipsis: true,
-  },
-  {
-    title: '通信状态',
-    dataIndex: 'connectStatus',
-    render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
-    valueType: 'select',
-    valueEnum: onlineStatus,
-    width: 120,
-  },
-  {
-    title: '告警状态',
-    dataIndex: 'alarmStatus',
-    valueType: 'select',
-    hideInSearch: true,
-    valueEnum: alarmStatus,
-    width: 120,
-  },
-  {
-    title: '设备SN',
-    dataIndex: 'sn',
-    width: 150,
-    ellipsis: true,
-  },
-];
+export const getOtColumns = (onClick) => {
+  return [
+    {
+      title: '设备ID',
+      dataIndex: 'deviceId',
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '所属站点',
+      dataIndex: 'siteName',
+      hideInSearch: true,
+      width: 120,
+      ellipsis: true,
+    },
+    {
+      title: '设备名称',
+      dataIndex: 'deviceName',
+      width: 120,
+      ellipsis: true,
+      render: (_, record) => {
+        return <a onClick={() => onClick?.(record)}>{record.deviceName}</a>;
+      },
+    },
+    {
+      title: '通信状态',
+      dataIndex: 'connectStatus',
+      render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
+      valueType: 'select',
+      valueEnum: onlineStatus,
+      width: 120,
+    },
+    {
+      title: '告警状态',
+      dataIndex: 'alarmStatus',
+      valueType: 'select',
+      hideInSearch: true,
+      valueEnum: alarmStatus,
+      width: 120,
+    },
+    {
+      title: '设备SN',
+      dataIndex: 'sn',
+      width: 150,
+      ellipsis: true,
+    },
+  ];
+};
 
 // ems
 export const EMScolumns = [
-  ...OTColumns,
   {
     title: '系统模式',
     dataIndex: 'systemMode',
@@ -68,7 +72,6 @@ export const EMScolumns = [
 
 // 储能
 export const ESColumns = [
-  ...OTColumns,
   {
     title: '工作状态',
     dataIndex: 'workStatus',
@@ -95,7 +98,6 @@ export const ESColumns = [
 
 // batterStack电池堆
 export const BSColumns = [
-  ...OTColumns,
   {
     title: '充放状态',
     dataIndex: 'chargingAndDischargingStatus',
@@ -121,7 +123,6 @@ export const BSColumns = [
 ];
 
 export const PVInverterColumns = [
-  ...OTColumns,
   {
     title: '发电组串数',
     dataIndex: 'generatingElectricityPv',
@@ -162,7 +163,6 @@ export const PVInverterColumns = [
 
 // 充电桩
 export const CSColumns = [
-  ...OTColumns,
   {
     title: '额定功率（kW）',
     dataIndex: 'energyStoragePower',
@@ -192,5 +192,5 @@ export const TabColumnsMap = new Map([
   [2, ESColumns],
   [3, BSColumns],
   [5, CSColumns],
-  [6, OTColumns],
+  [6, []],
 ]);
