@@ -46,6 +46,9 @@ export const singleFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const clusterFormat = (value: number, showColor = true) => {
+  return value === 0 ? '断开' : '闭合';
+};
 export const powerFormat = (value: string) => {
   return getValue(value, 'KW');
 };
@@ -223,4 +226,11 @@ export const useFormat = (value: number) => {
     255: '故障',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
+};
+export const alarmFormat = (status: number) => {
+  const map = {
+    0: '正常',
+    1: '告警',
+  };
+  return <span className="cl-success">{map[status]}</span>;
 };

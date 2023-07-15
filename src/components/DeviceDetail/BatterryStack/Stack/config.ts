@@ -18,11 +18,16 @@ import {
   kohmFormat,
   powerHourFormat,
   tempFormat,
+  faultFormat,
+  fault1Format,
+  fault2Format,
+  fault3Format,
+  singleFormat,
+  doorFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
 export const controlItems: DetailItem[] = [
-  { label: '充放电状态', field: 'CADI', format: (value) => chargeFormat(value, false) },
   {
     label: '主接触器状态',
     field: 'MainContactorStatus',
@@ -43,6 +48,22 @@ export const controlItems: DetailItem[] = [
     field: 'ACCircuitBreakerStatus',
     format: (value) => chargeFormat(value, false),
   },
+  { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
+  { label: '充放电指示', field: 'CADI', format: chargeFormat },
+  { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
+  { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
+  { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },
+  { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
+  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },
+  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
+  { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
+];
+
+export const protectItems: DetailItem[] = [
+  { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
+  { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
+  { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
+  { label: '过放释放', field: 'Overrelease', format: voltageFormat },
 ];
 
 export const statusItems: DetailItem[] = [
@@ -63,6 +84,7 @@ export const historyItems: DetailItem[] = [
   { label: '单次放电', field: 'LastDischargeCapacity', format: powerHourFormat },
   { label: '累计充电', field: 'ACC', format: powerHourFormat },
   { label: '累计放电', field: 'ADC', format: powerHourFormat },
+  { label: '电池柜开门次数', field: 'NOBCDO' },
 ];
 
 export const tempItems: DetailItem[] = [

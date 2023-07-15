@@ -2,17 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-14 20:45:26
+ * @LastEditTime: 2023-07-15 18:31:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Stack\index.tsx
  */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'umi';
 import Label from '@/components/DeviceInfo/Label';
-import Detail from '@/components/Detail';
+import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
+import { ProField } from '@ant-design/pro-components';
+import { ProColumns } from '@ant-design/pro-table';
 import {
   controlItems,
+  protectItems,
   statusItems,
   historyItems,
   tempItems,
@@ -23,9 +26,14 @@ import ElectricLine from '@/assets/image/device/electric-line.png';
 import styles from './index.less';
 import { MaxUnitType } from './type';
 import { getPlaceholder, isEmpty } from '@/utils';
-import { getClusterByStack } from '@/services/equipment';
+import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equipment';
+import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
+import { clusterFormat } from '@/utils/format';
+import Button from '@/components/CollectionModal/Button';
 
 export type StackProps = {
+  id: string;
+  data?: DeviceDataType;
   realTimeData?: Record<string, any>;
 };
 
@@ -48,11 +56,32 @@ const tempNumFormat = (value: number): string => {
 };
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { realTimeData } = props;
+  const { data: deviceData, realTimeData, id } = props;
 
-  const requestPage = useCallback((params) => {
-    return getClusterByStack(params);
+  const [collectionInfo, setCollectionInfo] = useState({
+    title: '',
+    collection: '',
+  });
+  const {
+    data: clusterData,
+    loading,
+    run,
+  } = useRequest(getClusterByStack, {
+    manual: true,
+  });
+
+  const onClick = useCallback((item: DetailItem) => {
+    setCollectionInfo({
+      title: item.label as any,
+      collection: item.field,
+    });
   }, []);
+
+  useEffect(() => {
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId });
+    }
+  }, [deviceData]);
 
   const maxUnitData = useMemo<MaxUnitType[]>(() => {
     const result: MaxUnitType[] = [
@@ -72,46 +101,55 @@ const Stack: React.FC<StackProps> = (props) => {
     return result;
   }, [realTimeData]);
 
-  const columns = useMemo(() => {
+  const columns = useMemo<ProColumns<ClusterType>[]>(() => {
     return [
       {
         title: '设备名称',
-        dataIndex: 'name',
+        dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: '运行状态',
-        dataIndex: 'name',
+        dataIndex: 'runState',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
+        render: (_, { ratedCapacity }) => {
+          return clusterFormat(ratedCapacity);
+        },
       },
       {
         title: '通信状态',
-        dataIndex: 'name',
+        dataIndex: 'connectStatus',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
+        render: (_, { connectStatus }) => {
+          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
+        },
       },
       {
         title: '告警状态',
-        dataIndex: 'name',
+        dataIndex: 'alarmStatus',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
+        render: (_, { alarmStatus }) => {
+          return <ProField text={alarmStatus} mode="read" valueEnum={deviceAlarmStatus} />;
+        },
       },
       {
         title: '设备容量(kWh)',
-        dataIndex: 'name',
+        dataIndex: 'ratedCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: '当前SOC',
-        dataIndex: 'name',
+        dataIndex: 'soc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -119,18 +157,29 @@ const Stack: React.FC<StackProps> = (props) => {
     ];
   }, []);
 
+  const extral = (
+    <Button
+      title={collectionInfo.title}
+      deviceId={id}
+      collection={collectionInfo.collection}
+      onClick={onClick}
+    />
+  );
+
   return (
     <>
       <Label title="控制信息" />
-      <Detail items={controlItems} data={realTimeData} />
+      <Detail items={controlItems} data={realTimeData} extral={extral} />
+      <Label title="保护信息" className="mt16" />
+      <Detail items={protectItems} data={realTimeData} extral={extral} />
       <Label title="状态信息" className="mt16" />
-      <Detail items={statusItems} data={realTimeData} />
+      <Detail items={statusItems} data={realTimeData} extral={extral} />
       <Label title="历史信息" className="mt16" />
-      <Detail items={historyItems} data={realTimeData} />
+      <Detail items={historyItems} data={realTimeData} extral={extral} />
       <Label title="温度信息" className="mt16" />
-      <Detail items={tempItems} data={realTimeData} />
+      <Detail items={tempItems} data={realTimeData} extral={extral} />
       <Label title="能力信息" className="mt16" />
-      <Detail items={abilityItems} data={realTimeData} />
+      <Detail items={abilityItems} data={realTimeData} extral={extral} />
       <Label title="单体极值信息" className="mt16" />
       <YTProTable
         search={false}
@@ -142,12 +191,14 @@ const Stack: React.FC<StackProps> = (props) => {
       />
       <Label title="电池簇信息" className="mt16" />
       <YTProTable
+        loading={loading}
         search={false}
         options={false}
         columns={columns}
         toolBarRender={false}
-        request={requestPage}
+        dataSource={clusterData}
         scroll={{ y: 200 }}
+        pagination={false}
       />
       <Label title="电气一次图" className="mt16" />
       <img className={styles.elctric} src={ElectricLine} />

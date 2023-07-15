@@ -6,8 +6,3 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\type.ts
  */
-export type ClusterType = {
-  key: string;
-  deviceId: string;
-  deviceName: string;
-};

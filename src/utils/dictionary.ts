@@ -207,6 +207,17 @@ export const systemMode = {
   },
 };
 
+export const deviceAlarmStatus = {
+  1: {
+    text: '告警',
+    status: 'Error',
+  },
+  0: {
+    text: '正常',
+    status: 'Success',
+  },
+};
+
 export const alarmSourceStatus = {
   1: {
     text: '平台告警',
