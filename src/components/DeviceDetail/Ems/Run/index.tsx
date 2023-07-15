@@ -2,64 +2,77 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-14 15:14:48
+ * @LastEditTime: 2023-07-15 11:31:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\Run\index.tsx
  */
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRequest } from 'umi';
 import Label from '@/components/DeviceInfo/Label';
-import Detail from '@/components/Detail';
+import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
-import {
-  controlItems,
-  statusItems,
-  historyItems,
-  tempItems,
-  abilityItems,
-  maxUnitItems,
-} from './config';
-import ElectricLine from '@/assets/image/device/electric-line.png';
-import LineChart from '@/components/Chart/LineChart';
-import { chartTypeEnum } from '@/components/Chart';
-import moment from 'moment';
-import styles from './index.less';
-
-const legendMap = new Map([
-  ['energy', '储能'],
-  ['soc', 'SOC'],
-]);
+import { controlItems } from './config';
+import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
+import { ProColumns } from '@ant-design/pro-table';
+import { ProField } from '@ant-design/pro-components';
+import { onlineStatus } from '@/utils/dictionary';
+import Button from '@/components/CollectionModal/Button';
 
 export type StackProps = {
+  id: string;
   realTimeData?: Record<string, any>;
 };
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { realTimeData } = props;
+  const { realTimeData, id } = props;
 
-  const [chartData, setChartData] = useState({
-    energy: [],
-    soc: [],
+  const [collectionInfo, setCollectionInfo] = useState({
+    title: '',
+    collection: '',
+  });
+  const {
+    data: associationData,
+    run,
+    loading,
+  } = useRequest(getEmsAssociationDevice, {
+    manual: true,
   });
 
-  const columns = useMemo(() => {
+  const onClick = useCallback((item: DetailItem) => {
+    setCollectionInfo({
+      title: item.label as any,
+      collection: item.field,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      run({ deviceId: id });
+    }
+  }, [id]);
+
+  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
         title: '设备状态',
-        dataIndex: 'name',
+        dataIndex: 'connectStatus',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
+        render: (_, { connectStatus }) => {
+          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
+        },
       },
       {
         title: '产品类型',
-        dataIndex: 'name',
+        dataIndex: 'productTypeName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: '产品型号',
-        dataIndex: 'name',
+        dataIndex: 'model',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -73,7 +86,7 @@ const Stack: React.FC<StackProps> = (props) => {
       },
       {
         title: 'SN号',
-        dataIndex: 'name',
+        dataIndex: 'sn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -81,35 +94,28 @@ const Stack: React.FC<StackProps> = (props) => {
     ];
   }, []);
 
+  const extral = (
+    <Button
+      title={collectionInfo.title}
+      deviceId={id}
+      collection={collectionInfo.collection}
+      onClick={onClick}
+    />
+  );
+
   return (
     <>
       <Label title="控制信息" />
-      <Detail items={controlItems} data={realTimeData} />
-      <Label title="状态信息" className="mt16" />
-      <Detail items={statusItems} data={realTimeData} />
-      <Label title="运行状态" className="mt16" />
-      <LineChart
-        type={chartTypeEnum.Day}
-        date={moment()}
-        valueTitle="电压(V) 温度(℃)"
-        legendMap={legendMap}
-        labelKey="eventTs"
-        valueKey="doubleVal"
-        data={chartData}
-      />
+      <Detail items={controlItems} data={realTimeData} extral={extral} />
       <Label title="接入设备列表" className="mt16" />
-      <YTProTable
-        className={styles.table}
+      <YTProTable<DeviceDataType>
+        loading={loading}
         search={false}
         options={false}
         columns={columns}
         toolBarRender={false}
-        request={() =>
-          Promise.resolve({
-            data: [],
-            total: 0,
-          })
-        }
+        dataSource={associationData}
+        scroll={{ y: 200 }}
       />
     </>
   );

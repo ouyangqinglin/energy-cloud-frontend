@@ -11,7 +11,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Tabs, TabsProps } from 'antd';
 import { DeviceDetailType } from '../config';
 import DeviceInfo from '@/components/DeviceInfo';
-import { DeviceInfoType } from '@/components/DeviceInfo/type';
+import { DeviceDataType } from '@/services/equipment';
 import Overview from '@/components/DeviceInfo/Overview';
 import StackImg from '@/assets/image/device/stack.png';
 import Run from './Run';
@@ -23,13 +23,13 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
 
   const [equipmentIds, setEquipmentIds] = useState<string[]>([]);
-  const [deviceData, setDeviceData] = useState<DeviceInfoType>();
+  const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(equipmentIds, true);
 
-  const onDataChange = useCallback((value: DeviceInfoType) => {
+  const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: StackImg });
     getChildEquipment({ parentId: value?.deviceId }).then(({ data }) => {
-      setEquipmentIds(data?.map?.((item: DeviceInfoType) => item?.deviceId) || []);
+      setEquipmentIds(data?.map?.((item: DeviceDataType) => item?.deviceId) || []);
     });
   }, []);
 
@@ -38,7 +38,7 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
       {
         key: '1',
         label: '运行数据',
-        children: <Run realTimeData={realTimeData} />,
+        children: <Run id={id} realTimeData={realTimeData} />,
       },
       {
         key: '2',

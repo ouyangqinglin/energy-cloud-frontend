@@ -107,10 +107,15 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
-              removeData({ deviceId: record.deviceId }).then(() => {
-                message.success('删除成功');
-                if (actionRef.current) {
-                  actionRef.current.reload();
+              return removeData({ deviceId: record.deviceId }).then(({ data }) => {
+                if (data) {
+                  message.success('删除成功');
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
+                  return true;
+                } else {
+                  return false;
                 }
               });
             },
