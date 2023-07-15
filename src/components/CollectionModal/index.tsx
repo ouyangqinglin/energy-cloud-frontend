@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-07-15 18:15:11
+ * @LastEditTime: 2023-07-15 19:22:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -117,7 +117,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
 
   return (
     <>
-      <Modal width="1000px" footer={false} title={title} open={open} {...restProps}>
+      <Modal width="1000px" footer={false} title={title} open={open} centered {...restProps}>
         <SchemaForm<Searchtype>
           className="p0 mb24"
           formRef={formRef}

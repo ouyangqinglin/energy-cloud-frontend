@@ -37,7 +37,7 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
       {
         key: '2',
         label: '电池簇信息',
-        children: <Cluster id={id} data={deviceData} realTimeData={realTimeData} />,
+        children: <Cluster id={id} data={deviceData} />,
       },
     ];
   }, [id, deviceData, realTimeData]);

@@ -29,6 +29,7 @@ export type DeviceDataType = {
   alarmCount?: number;
   lastOnlineTime?: string;
   key?: string;
+  aliasSn?: string;
 };
 
 export type ClusterType = {
@@ -57,7 +58,7 @@ export const getDeviceInfo = (params: any) => {
 };
 
 export const getChildEquipment = (params: any) => {
-  return request(`/oss/device/subDevice`, {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/oss/device/subDevice`, {
     method: 'GET',
     params,
   });
