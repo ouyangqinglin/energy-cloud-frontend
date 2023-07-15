@@ -1,45 +1,42 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useRequest } from 'umi';
 import { Axis, Chart, LineAdvance, Legend, Tooltip, Slider, Interval } from 'bizcharts';
-import moment from 'moment';
-import type { Moment } from 'moment';
-import { getData } from './service';
-import { useToolTip } from '@/hooks';
-import { getBarChartData, getLineChartData } from './helper';
 import { TimeType } from '@/components/TimeButtonGroup';
+import { getBarChartData, getLineChartData } from '../ChartBox/helper';
 
 type RealTimePowerProps = {
-  chartDate?: any;
+  chartData?: any;
   timeType: TimeType;
 };
 
+export const lineLegendMap = new Map([['pvPower', '发电功率（kW）']]);
+
+export const barLegendMap = new Map([['pvPowerGeneration', '发电功率(kW)']]);
+
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { chartDate: powerData, timeType } = props;
+  const { chartData: powerData, timeType } = props;
   const [chartData, setChartData] = useState<any[]>();
-  const [chartRef, { clear, run: runForTooltip }] = useToolTip();
   const shouldShowLine = timeType === TimeType.DAY;
 
   useEffect(() => {
     if (shouldShowLine) {
-      setChartData(getLineChartData(powerData));
+      setChartData(getLineChartData(lineLegendMap, powerData));
       return;
     }
-    setChartData(getBarChartData(powerData, timeType));
+    setChartData(getBarChartData(barLegendMap, powerData, timeType));
   }, [powerData, shouldShowLine, timeType]);
 
   return (
-    <div onMouseEnter={clear} onMouseOut={runForTooltip}>
+    <div>
       <Chart
-        ref={chartRef}
         height={384}
-        padding={40}
+        // padding={40}
         // bugfix: ticks的设置会导致slider出现白屏（看来像是放大到没有tick定义的时候会出现这个问题）
-        scale={{
-          value: {
-            min: shouldShowLine ? -100 : 0,
-            max: 300,
-          },
-        }}
+        // scale={{
+        //   value: {
+        //     min: shouldShowLine ? -100 : 0,
+        //     max: 300,
+        //   },
+        // }}
         data={chartData}
         autoFit
       >

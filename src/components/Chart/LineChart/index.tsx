@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-13 14:11:43
+ * @LastEditTime: 2023-07-15 18:19:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
 import React, { useState, useEffect } from 'react';
-import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip } from 'bizcharts';
+import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
 import { chartTypeEnum } from '../';
@@ -35,6 +35,7 @@ export type LineChartProps = {
   step?: number;
   allLabel?: string[];
   colors?: string[];
+  showLine?: boolean;
 };
 
 const getAllMinute = (step = 2) => {
@@ -81,6 +82,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     valueTitle = '单位（KW）',
     colors = defaultColors,
     allLabel,
+    showLine = true,
   } = props;
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -142,11 +144,25 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           <Legend
             position="top"
             marker={{
-              symbol: 'circle',
+              symbol: showLine ? 'circle' : 'square',
             }}
             itemSpacing={24}
           />
-          <LineAdvance shape="smooth" color={['field', colors]} position="time*value" />
+          {showLine ? (
+            <LineAdvance shape="smooth" color={['field', colors]} position="time*value" />
+          ) : (
+            <Interval
+              size={10}
+              adjust={[
+                {
+                  type: 'dodge',
+                  marginRatio: 0,
+                },
+              ]}
+              color={['field', colors]}
+              position="time*value"
+            />
+          )}
           <Axis
             name="value"
             title={{

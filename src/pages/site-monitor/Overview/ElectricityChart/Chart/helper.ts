@@ -49,7 +49,11 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
 export const getLineChartData = (rawSourceData: Record<string, ChartDataType[]>) => {
   const result: DataType[] = [];
   lineLegendMap.forEach((item, key) => {
-    result.push(...getChartData(rawSourceData?.[key] || [], item));
+    if (!rawSourceData?.[key]?.length) {
+      return;
+    }
+    const formatValues = getChartData(rawSourceData?.[key] || [], item);
+    result.push(...formatValues);
   });
   return result;
 };

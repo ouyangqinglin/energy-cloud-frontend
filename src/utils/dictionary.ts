@@ -185,9 +185,13 @@ export const alarmStatus = {
   },
 };
 
+// 0是停机，1是故障，2是运行
 export const workStatus = {
-  1: {
+  2: {
     text: '运行',
+  },
+  1: {
+    text: '故障',
   },
   0: {
     text: '停机',
@@ -200,6 +204,17 @@ export const systemMode = {
   },
   0: {
     text: '自动模式',
+  },
+};
+
+export const deviceAlarmStatus = {
+  1: {
+    text: '告警',
+    status: 'Error',
+  },
+  0: {
+    text: '正常',
+    status: 'Success',
   },
 };
 
