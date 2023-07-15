@@ -29,7 +29,9 @@ export interface ESCardRes {
   //剩余电量
   dumpEnergy: number;
   //今日发电量
-  generatedElecToday: number;
+  chargeElecToday: number;
+  //今日放电量
+  dischargeElecTotal: number;
   //累计发电量
   generatedElecTotal: number;
 }

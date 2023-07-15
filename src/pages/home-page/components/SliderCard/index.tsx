@@ -17,7 +17,7 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
           </div>
         </div>
         <div className={styles.detail}>
-          {config.items.map(({ label, value, field }) => (
+          {config.items.map(({ label, field }) => (
             <div key={label} className={styles.detailItem}>
               <div className={styles.ellipsis}>{label}：</div>
               <span>{data?.[field] ?? '--'}</span>

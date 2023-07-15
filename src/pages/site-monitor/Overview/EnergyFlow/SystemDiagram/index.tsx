@@ -1,4 +1,4 @@
-import { ReactComponent as SVGStatic } from './SVGStatic.svg';
+import { ReactComponent as SVGStatic } from './svg/SVGStatic.svg';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
 import styles from './index.less';
@@ -18,8 +18,22 @@ const SystemDiagram = ({ siteId }: { siteId: number }) => {
   }, [run, siteId]);
 
   return (
-    <div className={styles.systemDiagram}>
-      <SVGStatic style={{ width: 557, height: 332 }} />
+    <>
+      <div className={styles.systemDiagram}>
+        <SVGStatic style={{ width: 557, height: 332 }} />
+
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: 332,
+            top: 0,
+            left: 0,
+          }}
+        >
+          <AnimationDiagram data={data} />
+        </div>
+      </div>
       <SVGActive
         data={data}
         style={{
@@ -30,18 +44,7 @@ const SystemDiagram = ({ siteId }: { siteId: number }) => {
           left: 0,
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: 332,
-          top: 0,
-          left: 0,
-        }}
-      >
-        <AnimationDiagram data={data} />
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -3,12 +3,20 @@ import { Button, message, Row } from 'antd';
 import { useLocation, useRequest } from 'umi';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
-import { ReactComponent as SystemDiagram } from './SystemDiagram.svg';
+import { ReactComponent as SystemDiagram11 } from './svg/11.svg';
+import { ReactComponent as SystemDiagram21 } from './svg/21.svg';
+import { ReactComponent as SystemDiagram31 } from './svg/31.svg';
 import useSiteColumn from '@/hooks/useSiteColumn';
 import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchamaForm';
-import { getDefaultSite } from './service';
+import { getDefaultSite, getTopo } from './service';
+
+const keyToSystemDiagram = new Map([
+  ['11', SystemDiagram11],
+  ['21', SystemDiagram21],
+  ['31', SystemDiagram31],
+]);
 
 type SiteType = {
   siteId?: string;
@@ -16,40 +24,49 @@ type SiteType = {
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
-  const location = useLocation();
+  const [type, setType] = useState<number>(1);
+  const defaultSiteIdRef = useRef<number>();
+
+  const { run: runForDefaultSiteId } = useRequest(getDefaultSite, { manual: true });
+  const { data: systemDiagramId, run } = useRequest(getTopo, { manual: true });
 
   useEffect(() => {
-    const { query } = location as LocationType;
-    if (query?.id) {
-      setSiteId(query?.id);
+    if (siteId && type) {
+      run({ siteId, type });
     }
-  }, [location]);
+  }, [run, siteId, type]);
 
-  const { data } = useRequest(getDefaultSite);
   const [siteColumn] = useSiteColumn<EquipmentType>({
     hideInTable: true,
     colProps: {
       sm: 8,
       xl: 6,
     },
+    initialValue: defaultSiteIdRef.current,
     fieldProps: {
-      value: data?.id,
+      // value: siteId,
+      onChange: setSiteId,
     },
   });
-  console.log(siteColumn);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
       siteColumn,
       {
         title: '拓扑',
-        dataIndex: 'deviceId',
+        dataIndex: 'type',
         colProps: {
           sm: 8,
           xl: 6,
         },
         width: 200,
         initialValue: 1,
+        fieldProps: {
+          value: type,
+          onChange: (value) => {
+            setType(value);
+          },
+        },
         valueEnum: new Map([
           [1, '电站概览'],
           [2, '光伏拓扑'],
@@ -59,7 +76,7 @@ const Index: React.FC = () => {
         ]),
       },
     ];
-  }, [siteColumn]);
+  }, [siteColumn, type]);
 
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
@@ -103,6 +120,14 @@ const Index: React.FC = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const requestList = async () => {
+    const siteData = await runForDefaultSiteId();
+    setSiteId(siteData?.id);
+    defaultSiteIdRef.current = siteData?.id;
+    return [];
+  };
+
   return (
     <>
       <div className="bg-white card-wrap p24">
@@ -113,10 +138,10 @@ const Index: React.FC = () => {
             className={styles.formWrapper}
             layout="horizontal"
             grid={true}
+            request={requestList}
             columns={columns}
             submitter={false}
             initialValues={{}}
-            onValuesChange={() => {}}
           />
           <Button type="primary">编辑</Button>
         </div>
@@ -142,7 +167,9 @@ const Index: React.FC = () => {
             id="Layer_1"
             transform={`scale(${scale}) translate(${translateX}, ${translateY})`}
           >
-            <SystemDiagram className={styles.systemDiagram} />
+            {systemDiagramId === '11' && <SystemDiagram11 />}
+            {systemDiagramId === '21' && <SystemDiagram21 />}
+            {systemDiagramId === '31' && <SystemDiagram31 />}
           </g>
         </svg>
       </div>

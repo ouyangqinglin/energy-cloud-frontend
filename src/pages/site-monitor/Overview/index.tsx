@@ -1,15 +1,9 @@
 import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react';
 import { message, Row, Tooltip } from 'antd';
 import { useLocation, useRequest } from 'umi';
-import { FundProjectionScreenOutlined } from '@ant-design/icons';
-import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import SchemaForm from '@/components/SchamaForm';
-import EmptyPage from '@/components/EmptyPage';
-import { useSiteColumn } from '@/hooks';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
 import Statistics from './Statistics';
-import CardDecoration from './components/CardDecoration';
 import EnergyFlow from './EnergyFlow';
 import SiteDropdown from './SiteDropdown';
 import SiteInfo from './SiteInfo';

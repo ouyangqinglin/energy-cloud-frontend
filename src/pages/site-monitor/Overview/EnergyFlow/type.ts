@@ -14,6 +14,7 @@ export type SystemDiagramRes = Record<
     // 能流方向 =-1能流流入 =0未流动 =1 能源流出
     direction: number;
     charge: number;
+    flag: boolean; //=true站点有此项，=false站点无此项
     p: number;
     soc: number;
   }
