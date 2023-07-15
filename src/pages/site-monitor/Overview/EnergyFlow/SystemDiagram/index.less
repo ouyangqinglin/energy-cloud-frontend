@@ -1,5 +1,45 @@
 .systemDiagram {
   position: relative;
   top: 37px;
-  left: 91px;
+  left: 68px;
+}
+.activeWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  .desc {
+    display: flex;
+    flex-flow: row;
+    justify-content: baseline;
+    white-space: nowrap;
+    .title {
+      width: 100px;
+      color: #606266;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 22px;
+    }
+    .value {
+      height: 22px;
+      color: #1d2129;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      line-height: 22px;
+    }
+    .unit {
+      color: #606266;
+      font-weight: 400;
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 22px;
+    }
+  }
+
+  .cell {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+  }
 }

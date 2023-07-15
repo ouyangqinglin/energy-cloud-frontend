@@ -26,22 +26,22 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
     {
       label: '总收益',
       unit: '(元)',
-      value: data?.totalGains,
+      value: data?.totalGains ?? '--',
     },
     {
       label: '光伏收益',
       unit: '(元)',
-      value: data?.photovoltaicGains,
+      value: data?.photovoltaicGains ?? '--',
     },
     {
       label: '储能收益',
       unit: '(元)',
-      value: data?.essGains,
+      value: data?.essGains ?? '--',
     },
     {
       label: '充电桩收益',
       unit: '(元)',
-      value: data?.chargingPileGains,
+      value: data?.chargingPileGains ?? '--',
     },
   ];
 

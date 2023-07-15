@@ -6,3 +6,7 @@ export const getDefaultSite = () => {
     name: string;
   }>('/uc/user/defaultSite');
 };
+
+export const getTopo = (params: any) => {
+  return get<string>('/oss/siteTopology', params);
+};

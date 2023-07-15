@@ -16,8 +16,9 @@ const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubS
   const [timeType, setTimeType] = useState<TimeType>(TimeType.DAY);
   const [showDatePicker, { set }] = useToggle(true);
   const [date, setDate] = useState(moment());
+  const resetDate = () => setDate(moment());
 
-  const { chartData, run } = useFetchChartData(date, subSystemType, timeType);
+  const { chartData } = useFetchChartData(date, subSystemType, timeType);
 
   const onChange = (value) => {
     setDate(value);
@@ -25,6 +26,7 @@ const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubS
 
   const timeTypeChange = (type: TimeType) => {
     setTimeType(type);
+    resetDate();
     switch (type) {
       case TimeType.DAY:
         setPicker('date');
@@ -48,7 +50,9 @@ const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubS
     <div className={styles.chartWrapper}>
       <div className={styles.topBar}>
         <div className={styles.timeForm}>
-          {showDatePicker && <DatePicker defaultValue={date} onChange={onChange} picker={picker} />}
+          {showDatePicker && (
+            <DatePicker defaultValue={date} value={date} onChange={onChange} picker={picker} />
+          )}
           <TimeButtonGroup
             style={{
               marginLeft: 20,
@@ -58,7 +62,7 @@ const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubS
         </div>
         <RenderTitle timeType={timeType} chartData={chartData} subSystemType={subSystemType} />
       </div>
-      <Chart chartData={chartData} typeTime={timeType} />
+      <Chart chartData={chartData} timeType={timeType} />
     </div>
   );
 };

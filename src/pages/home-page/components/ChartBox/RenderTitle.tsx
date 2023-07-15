@@ -16,9 +16,7 @@ const getDescByTimeType = (type: TimeType = TimeType.DAY) => {
 };
 
 const getCounts = (chartData: AllChartType, key: keyof AllChartType) => {
-  return sumBy(chartData?.[key], function (o) {
-    return o.amount;
-  });
+  return chartData?.[key] ?? 0;
 };
 
 const RenderTitle = ({
@@ -35,20 +33,20 @@ const RenderTitle = ({
   if (subSystemType === SubSystemType.PV)
     return (
       <div className={styles.title}>
-        {desc}发电量/kWh:<span>{getCounts(chartData, 'pvPowerGeneration')}</span>
+        {desc}发电量/kWh:<span>{getCounts(chartData, 'totalPowerGeneration')}</span>
       </div>
     );
   if (subSystemType === SubSystemType.ES)
     return (
       <div className={styles.title}>
-        {desc}充电量/kWh: <span>{getCounts(chartData, 'charge')}</span>
-        {desc}放电量/kWh: <span>{getCounts(chartData, 'discharge')}</span>
+        {desc}充电量/kWh: <span>{getCounts(chartData, 'totalCharge')}</span>
+        {desc}放电量/kWh: <span>{getCounts(chartData, 'totalDischarge')}</span>
       </div>
     );
   return (
     <div className={styles.title}>
-      {desc}光伏收益/元: <span>{getCounts(chartData, 'pvIncome')}</span>
-      {desc}储能收益/元: <span>{getCounts(chartData, 'esIncome')}</span>
+      {desc}光伏收益/元: <span>{getCounts(chartData, 'pvTotalIcome')}</span>
+      {desc}储能收益/元: <span>{getCounts(chartData, 'esTotalIcome')}</span>
     </div>
   );
 };

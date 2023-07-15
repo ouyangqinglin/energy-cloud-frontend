@@ -72,12 +72,12 @@ export const config: CardInfo[] = [
       },
       {
         label: '当日充电/kwh',
-        field: 'generatedElecToday',
+        field: 'chargeElecToday',
         value: 0,
       },
       {
         label: '当日放电/kwh',
-        field: 'generatedElecTotal',
+        field: 'dischargeElecTotal',
         value: 0,
       },
     ],
@@ -153,7 +153,7 @@ export const config: CardInfo[] = [
         value: 0.48,
       },
       {
-        label: '当日节约标准媒/t',
+        label: '当日节约标准煤/t',
         field: 'todayReduceCoal',
         value: 171.04,
       },
