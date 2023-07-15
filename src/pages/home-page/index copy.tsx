@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import EmptyPage from '@/components/EmptyPage';
 import { Carousel, Tabs } from 'antd';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
@@ -6,23 +7,15 @@ import { config } from './config';
 import { useSize } from 'ahooks';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
-import ChartEI from './components/ChartEI';
-// import ChartEI from './components/ChartEI/index-mock';
+// import ChartEI from './components/ChartEI';
+import ChartEI from './components/ChartEI/index-mock';
 import ChartBox from './components/ChartBox';
-import {
-  getAlarmMonitoring,
-  getEconomicBenefit,
-  getEnvironmentalRevenueIndex,
-  getEssIndex,
-  getPhotovoltaicIndex,
-  getPowerStationOverview,
-} from './service';
-import { assign } from 'lodash';
 
 export const enum SubSystemType {
-  PV = 0,
-  ES,
-  EI,
+  PV = 'PV',
+  ES = 'ES',
+  // economic incoming
+  EI = 'EI',
 }
 
 const HomePage: React.FC = () => {
@@ -32,33 +25,7 @@ const HomePage: React.FC = () => {
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
-  const [statistic, setStatistic] = useState({});
-
-  const getStatisticData = useCallback(
-    async () =>
-      await Promise.all([
-        getPowerStationOverview(),
-        getPhotovoltaicIndex(),
-        getEssIndex(),
-        getAlarmMonitoring(),
-        getEconomicBenefit(),
-        getEnvironmentalRevenueIndex(),
-      ]),
-    [],
-  );
-
-  useEffect(() => {
-    getStatisticData().then((res) => {
-      const rawData = {};
-      res.forEach(({ data }) => {
-        if (!data) {
-          return;
-        }
-        assign(rawData, data);
-      });
-      setStatistic({ ...rawData });
-    });
-  }, []);
+  const [subSystemType, setSubSystemType] = useState(SubSystemType.PV);
 
   useEffect(() => {
     if (!size?.width) {
@@ -82,28 +49,29 @@ const HomePage: React.FC = () => {
       <Carousel className={styles.sliderWrapper} slidesPerRow={slidesPerRow} afterChange={onChange}>
         {config.map((item) => (
           <div key={item.title} style={styles.sliderItem}>
-            <SliderCard data={statistic} config={item} />
+            <SliderCard config={item} />
           </div>
         ))}
       </Carousel>
       <Tabs
         className={styles.chartCard}
-        defaultActiveKey="1"
+        defaultActiveKey={SubSystemType.PV}
+        onChange={(key) => setSubSystemType(key as SubSystemType)}
         items={[
           {
             label: `光伏`,
-            key: '1',
-            children: <ChartBox type={SubSystemType.PV} Chart={ChartPV} />,
+            key: SubSystemType.PV,
+            children: <ChartBox type={subSystemType} Chart={ChartPV} />,
           },
           {
             label: `储能`,
-            key: '2',
-            children: <ChartBox type={SubSystemType.ES} Chart={ChartES} />,
+            key: SubSystemType.ES,
+            children: <ChartBox type={subSystemType} Chart={ChartES} />,
           },
           {
             label: `收益`,
-            key: '3',
-            children: <ChartBox type={SubSystemType.EI} Chart={ChartEI} />,
+            key: SubSystemType.EI,
+            children: <ChartBox type={subSystemType} Chart={ChartEI} />,
           },
         ]}
       />

@@ -61,7 +61,7 @@ const Energy = () => {
         columns: [...columns],
       });
     }
-    actionRef?.current?.reload();
+    actionRef?.current?.reloadAndRest();
   };
 
   const requestList: YTProTableCustomProps<DeviceInfo, DeviceInfo>['request'] = async (params) => {
@@ -107,6 +107,7 @@ const Energy = () => {
           actionRef={actionRef}
           columns={[siteColumn, ...config.columns]}
           options={false}
+          params={{ siteId }}
           onReset={() => setSiteId(defaultSiteIdRef.current)}
           className={styles.tableWrapper}
           toolBarRender={() => []}

@@ -78,6 +78,7 @@ const Energy = () => {
         <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
           columns={[siteColumn, ...columns]}
           options={false}
+          params={{ siteId }}
           toolBarRender={() => []}
           onReset={() => setSiteId(defaultSiteIdRef.current)}
           headerTitle={<EnergyStatisticCard data={statisticData} />}
