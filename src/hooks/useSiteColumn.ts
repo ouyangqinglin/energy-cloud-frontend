@@ -19,7 +19,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
 
   const requestStation = useCallback(
     debounce((searchText) => {
-      getStations({ name: searchText }).then(({ data }) => {
+      getStations({ ...(props?.params ?? {}), name: searchText }).then(({ data }) => {
         setStationOptions(
           data?.map?.((item: any) => {
             return {

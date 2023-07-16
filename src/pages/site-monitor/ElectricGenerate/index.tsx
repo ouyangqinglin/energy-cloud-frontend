@@ -40,6 +40,9 @@ const Energy = () => {
   const [siteColumn] = useSiteColumn<ElectricGenerateInfo>({
     hideInTable: true,
     dataIndex: 'siteId',
+    params: {
+      energyOptions: 1,
+    },
     initialValue: defaultSiteIdRef.current,
     fieldProps: {
       value: siteId,
