@@ -37,6 +37,9 @@ const Energy = () => {
   const [siteColumn] = useSiteColumn<DeviceInfo>({
     hideInTable: true,
     dataIndex: 'siteId',
+    params: {
+      energyOptions: 3,
+    },
     initialValue: defaultSiteIdRef.current,
     fieldProps: {
       value: siteId,
