@@ -11,6 +11,8 @@ import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchamaForm';
 import { getDefaultSite, getTopo } from './service';
+import { getTopoOffset } from './useTopoResize';
+import classnames from 'classnames';
 
 const keyToSystemDiagram = new Map([
   ['11', SystemDiagram11],
@@ -148,19 +150,21 @@ const Index: React.FC = () => {
         {/* <SystemDiagram className={styles.systemDiagram} /> */}
         <svg
           ref={svgRef}
-          className={styles.systemDiagram}
+          className={classnames(
+            styles.systemDiagram,
+            systemDiagramId === '11' ? styles.systemBackground : '',
+          )}
           // onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           style={{ cursor: 'grab' }}
           width="100%"
-          height="100%"
+          height="calc(100vh - 240px)"
           // viewBox="0 0 5000 3100"
           xmlns="http://www.w3.org/2000/svg"
           version="1.1"
           strokeLinecap="round"
           strokeLinejoin="round"
           fillRule="evenodd"
-          id="svg_No15"
         >
           <g
             className="svg_zoom"

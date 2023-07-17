@@ -1,7 +1,7 @@
 import { get } from '@/utils/request';
 
-export const getStations = () => {
-  return get<any>('/oss/site/monitor/overview/getSiteList');
+export const getStations = (params: any) => {
+  return get<any>('/oss/site/monitor/overview/getSiteList', { ...params });
 };
 
 export const getDefaultSite = () => {

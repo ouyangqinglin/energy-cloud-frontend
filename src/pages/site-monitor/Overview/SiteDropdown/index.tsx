@@ -8,12 +8,14 @@ import { getStations } from './service';
 const SiteDropdown = ({
   defaultSiteId,
   onChange,
+  params = {},
 }: {
   defaultSiteId?: number | string;
   onChange?: (siteId: number) => void;
+  params?: any;
 }) => {
   const [station, setStation] = useState<MenuItemType>({} as MenuItemType);
-  const { data } = useRequest(getStations);
+  const { data } = useRequest(() => getStations(params));
   const items: MenuItemType[] = useMemo(
     () =>
       data?.map?.((item: any) => {
