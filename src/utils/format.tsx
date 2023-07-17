@@ -49,55 +49,55 @@ export const singleFormat = (value: number) => {
 export const clusterFormat = (value: number, showColor = true) => {
   return value === 0 ? '断开' : '闭合';
 };
-export const powerFormat = (value: string) => {
+export const powerFormat = (value: string | number) => {
   return getValue(value, 'KW');
 };
-export const kWpFormat = (value: string) => {
+export const kWpFormat = (value: string | number) => {
   return getValue(value, 'kWp');
 };
-export const noPowerFormat = (value: string) => {
+export const noPowerFormat = (value: string | number) => {
   return getValue(value, 'kvar');
 };
-export const powerHourFormat = (value: string) => {
+export const powerHourFormat = (value: string | number) => {
   return getValue(value, 'KWh');
 };
-export const noPowerHourFormat = (value: string) => {
+export const noPowerHourFormat = (value: string | number) => {
   return getValue(value, 'kvar·h');
 };
-export const voltageFormat = (value: string) => {
+export const voltageFormat = (value: string | number) => {
   return getValue(value, 'V');
 };
-export const kVoltageFormat = (value: string) => {
+export const kVoltageFormat = (value: string | number) => {
   return getValue(value, 'KV');
 };
-export const kVAFormat = (value: string) => {
+export const kVAFormat = (value: string | number) => {
   return getValue(value, 'KVA');
 };
-export const currentFormat = (value: string) => {
+export const currentFormat = (value: string | number) => {
   return getValue(value, 'A');
 };
-export const frequencyFormat = (value: string) => {
+export const frequencyFormat = (value: string | number) => {
   return getValue(value, 'HZ');
 };
-export const tempFormat = (value: string) => {
+export const tempFormat = (value: string | number) => {
   return getValue(value, '℃');
 };
-export const wetFormat = (value: string) => {
+export const wetFormat = (value: string | number) => {
   return getValue(value, '%rh');
 };
-export const percentageFormat = (value: string) => {
+export const percentageFormat = (value: string | number) => {
   return getValue(value, '%');
 };
-export const kohmFormat = (value: string) => {
+export const kohmFormat = (value: string | number) => {
   return getValue(value, 'kΩ');
 };
-export const mohmFormat = (value: string) => {
+export const mohmFormat = (value: string | number) => {
   return getValue(value, 'MΩ');
 };
-export const hydrogenFormat = (value: string) => {
+export const hydrogenFormat = (value: string | number) => {
   return getValue(value, 'ppm');
 };
-export const moneyFormat = (value: string) => {
+export const moneyFormat = (value: string | number) => {
   return getValue(value, '元');
 };
 export const electricModel = (value: number, showColor = true) => {

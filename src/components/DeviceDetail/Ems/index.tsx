@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:43:38
- * @LastEditTime: 2023-07-14 14:43:38
+ * @LastEditTime: 2023-07-17 10:00:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\index.tsx
  */
@@ -15,22 +15,17 @@ import { DeviceDataType } from '@/services/equipment';
 import Overview from '@/components/DeviceInfo/Overview';
 import StackImg from '@/assets/image/device/stack.png';
 import Run from './Run';
-import { getChildEquipment } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 
 const Ems: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
 
-  const [equipmentIds, setEquipmentIds] = useState<string[]>([]);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const realTimeData = useSubscribe(equipmentIds, true);
+  const realTimeData = useSubscribe(id, true);
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: StackImg });
-    getChildEquipment({ parentId: value?.deviceId }).then(({ data }) => {
-      setEquipmentIds(data?.map?.((item: DeviceDataType) => item?.deviceId) || []);
-    });
   }, []);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
