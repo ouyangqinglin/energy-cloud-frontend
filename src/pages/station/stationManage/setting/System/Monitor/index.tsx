@@ -133,7 +133,7 @@ const Monitor: React.FC = () => {
           item.selectable = true;
         }
       }
-      item.checkable = item.productId == 516;
+      item.checkable = item.productId == 539;
     },
     [selectedRow.area],
   );

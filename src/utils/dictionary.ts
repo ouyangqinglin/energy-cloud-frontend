@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-06-29 14:58:48
+ * @LastEditTime: 2023-07-17 09:39:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -152,6 +152,21 @@ export const onlineStatus = {
   },
 };
 
+export const emsOnlineStatus = {
+  2: {
+    text: '--',
+    status: '',
+  },
+  1: {
+    text: '在线',
+    status: 'Processing',
+  },
+  0: {
+    text: '离线',
+    status: 'Error',
+  },
+};
+
 export const chargingAndDischargingStatus = {
   1: {
     text: '放电',
@@ -199,10 +214,10 @@ export const workStatus = {
 };
 
 export const systemMode = {
-  1: {
+  0: {
     text: '手动模式',
   },
-  0: {
+  1: {
     text: '自动模式',
   },
 };

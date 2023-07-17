@@ -41,6 +41,7 @@ import {
   electricModel,
   voltageFormat,
   chargeFormat,
+  powerFormat,
 } from '@/utils/format';
 
 const voltageNumFormat = (value: number): number => {
@@ -54,7 +55,7 @@ const tempNumFormat = (value: number): number => {
 const energyPowerFormat = (value: number, data: any) => {
   return (
     <span>
-      {value}({chargeFormat(data.CADI)})
+      {powerFormat(value)}({chargeFormat(data.CADI)})
     </span>
   );
 };

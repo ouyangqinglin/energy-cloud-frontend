@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-15 11:31:40
+ * @LastEditTime: 2023-07-17 10:11:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\Run\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRequest } from 'umi';
+import { useRequest, useHistory } from 'umi';
 import Label from '@/components/DeviceInfo/Label';
 import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
@@ -15,7 +15,7 @@ import { controlItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-table';
 import { ProField } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
+import { emsOnlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';
 
 export type StackProps = {
@@ -26,6 +26,7 @@ export type StackProps = {
 const Stack: React.FC<StackProps> = (props) => {
   const { realTimeData, id } = props;
 
+  const history = useHistory();
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -45,6 +46,13 @@ const Stack: React.FC<StackProps> = (props) => {
     });
   }, []);
 
+  const onDeviceClick = useCallback((record) => {
+    history.push({
+      pathname: '/site-monitor/device-detail',
+      search: `?id=${record.deviceId}&productId=${record.productId}`,
+    });
+  }, []);
+
   useEffect(() => {
     if (id) {
       run({ deviceId: id });
@@ -54,13 +62,13 @@ const Stack: React.FC<StackProps> = (props) => {
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: '设备状态',
+        title: '设备通信状态',
         dataIndex: 'connectStatus',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
         render: (_, { connectStatus }) => {
-          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
+          return <ProField text={connectStatus} mode="read" valueEnum={emsOnlineStatus} />;
         },
       },
       {
@@ -78,11 +86,14 @@ const Stack: React.FC<StackProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: '软件版本号',
+        title: '设备名称',
         dataIndex: 'name',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
+        render: (_, record) => {
+          return <a onClick={() => onDeviceClick(record)}>{record.name}</a>;
+        },
       },
       {
         title: 'SN号',
