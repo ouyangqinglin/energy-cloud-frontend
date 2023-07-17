@@ -39,7 +39,7 @@ const Index: React.FC = () => {
         <EmptyPage description={siteConfig?.prompt} />
       ) : (
         <div className="p24">
-          <SiteDropdown onChange={setSiteId} />
+          <SiteDropdown params={{ energyOptions: 2 }} onChange={setSiteId} />
           <Stat siteId={siteId} className="mb24" />
           <Row gutter={20}>
             <Col span={14}>

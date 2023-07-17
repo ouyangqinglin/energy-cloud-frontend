@@ -463,7 +463,8 @@
         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAECAYAAACk7+45AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAAqADAAQAAAABAAAABAAAAABiWEkKAAAAK0lEQVQIHWNgAIKAgAAHFhsbmwOsrKz2TD9//rRnZmZmYPr9+zfDr1+/GgGdEgyOG/LABQAAAABJRU5ErkJggg==">
     </image>
 </defs>
-<g id="光储充及工商储管理系统V1.3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="scale(0.9) translate(50, 20)" id="光储充及工商储管理系统V1.3" stroke="none" stroke-width="1" fill="none"
+    fill-rule="evenodd">
     <g id="3_2_3.设备监视_站点拓扑_光伏站点概览" transform="translate(-581.000000, -202.000000)">
         <g id="main" transform="translate(212.000000, 102.000000)">
             <g id="拓扑图" transform="translate(369.000000, 100.000000)">
