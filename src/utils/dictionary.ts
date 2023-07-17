@@ -116,11 +116,11 @@ export const connectStatus = {
 };
 
 export const runningState = {
-  0: {
+  1: {
     text: '正常',
     status: 'Success',
   },
-  1: {
+  0: {
     text: '异常',
     status: 'Error',
   },
