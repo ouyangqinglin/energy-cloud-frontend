@@ -37,7 +37,7 @@ export const config: CardInfo[] = [
   {
     title: '光伏指标',
     icon: IconPhotovoltaic,
-    field: 'generatedPower',
+    field: 'pvGeneratedPower',
     value: 1313.62,
     description: '发电功率/kw',
     items: [
@@ -61,7 +61,7 @@ export const config: CardInfo[] = [
   {
     title: '储能指标',
     icon: IconEnergyStorage,
-    field: 'generatedPower',
+    field: 'essGeneratedPower',
     value: 526.34,
     description: '储能功率/kw',
     items: [
@@ -77,7 +77,7 @@ export const config: CardInfo[] = [
       },
       {
         label: '当日放电/kwh',
-        field: 'dischargeElecTotal',
+        field: 'dischargeElecToday',
         value: 0,
       },
     ],

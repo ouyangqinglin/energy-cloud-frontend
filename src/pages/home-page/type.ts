@@ -25,20 +25,20 @@ export interface AllCardRes
 
 export interface ESCardRes {
   //发电功率
-  generatedPower: number;
+  essGeneratedPower: number;
   //剩余电量
   dumpEnergy: number;
   //今日发电量
   chargeElecToday: number;
   //今日放电量
-  dischargeElecTotal: number;
+  dischargeElecToday: number;
   //累计发电量
   generatedElecTotal: number;
 }
 
 export interface PVCardRes {
   //发电功率
-  generatedPower: number;
+  pvGeneratedPower: number;
   //组件容量
   moduleCapacity: number;
   //今日发电量
