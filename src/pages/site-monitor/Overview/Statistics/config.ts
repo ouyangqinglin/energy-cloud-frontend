@@ -5,7 +5,7 @@ import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overv
 import type { Load, StoredEnergy } from './type';
 import { keepTwoDecimalWithoutNull } from '../helper';
 
-export const columns = [
+export const config = [
   {
     icon: IconPhotovoltaic,
     title: '光伏',

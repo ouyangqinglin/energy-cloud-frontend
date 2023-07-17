@@ -139,14 +139,16 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
                 marginBottom: '2px',
               }}
             />
-            <div className={styles.desc}>
-              <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
-                {chargeStack.flag ? '其他' : '负载'}(kW)：
-              </span>
-              <span className={styles.value} style={{ fontSize: 12 }}>
-                {load.p ?? '--'}
-              </span>
-            </div>
+            {chargeStack.flag && (
+              <div className={styles.desc}>
+                <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
+                  其他(kW)：
+                </span>
+                <span className={styles.value} style={{ fontSize: 12 }}>
+                  {load.p ?? '--'}
+                </span>
+              </div>
+            )}
           </Col>
         </Row>
       </div>
