@@ -111,7 +111,8 @@ export const electricModel = (value: number, showColor = true) => {
 export const workFormat = (value: number, showColor = true) => {
   const map = {
     0: '停机',
-    1: '正常',
+    1: '故障',
+    2: '运行',
   };
   return <span className={showColor ? 'cl-success' : ''}>{map[value]}</span>;
 };

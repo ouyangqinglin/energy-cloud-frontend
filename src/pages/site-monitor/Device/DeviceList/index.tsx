@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-14 14:07:34
+ * @LastEditTime: 2023-07-17 19:01:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -18,6 +18,7 @@ import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
 import { EMScolumns, getOtColumns, TabColumnsMap } from './config';
+import { useAuthority } from '@/hooks';
 
 type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
@@ -37,6 +38,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     classType: 1,
   });
   const [columns, setColumns] = useState([...EMScolumns]);
+  const { passAuthority } = useAuthority('oss:monitor:device:delete');
 
   const onSwitchOpen = useCallback(() => {
     setOpen((data) => !data);
@@ -146,18 +148,22 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setColumns([
           ...getOtColumns(onDetailClick),
           ...tableColumns,
-          {
-            title: '操作',
-            valueType: 'option',
-            width: 150,
-            fixed: 'right',
-            render: rowBar,
-          },
+          ...(passAuthority
+            ? [
+                {
+                  title: '操作',
+                  valueType: 'option',
+                  width: 150,
+                  fixed: 'right',
+                  render: rowBar,
+                },
+              ]
+            : []),
         ]);
       }
       actionRef.current?.reloadAndRest?.();
     },
-    [tabItems],
+    [tabItems, passAuthority],
   );
 
   useEffect(() => {

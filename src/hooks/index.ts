@@ -6,6 +6,7 @@ import useMaintenance from './useMaintenance';
 import useLocation from './useLocation';
 import useWebsocket from './useWebsocket';
 import useSubscribe from './useSubscribe';
+import useAuthority from './useAuthority';
 
 export {
   useArea,
@@ -16,4 +17,5 @@ export {
   useLocation,
   useWebsocket,
   useSubscribe,
+  useAuthority,
 };

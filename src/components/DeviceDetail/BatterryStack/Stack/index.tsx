@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-15 18:31:04
+ * @LastEditTime: 2023-07-17 15:09:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Stack\index.tsx
  */
@@ -86,10 +86,10 @@ const Stack: React.FC<StackProps> = (props) => {
   const maxUnitData = useMemo<MaxUnitType[]>(() => {
     const result: MaxUnitType[] = [
       {
-        maxVoltage: `电芯编号：${voltageNumFormat(realTimeData?.MaxNOIV)}`,
-        minVoltage: `电芯编号：${voltageNumFormat(realTimeData?.MNOIV)}`,
-        maxTemp: `温度点：${tempNumFormat(realTimeData?.MITN)}`,
-        minTemp: `温度点：${tempNumFormat(realTimeData?.MNOIT)}`,
+        maxVoltage: `电芯编号：${realTimeData?.MaxNOIV}`,
+        minVoltage: `电芯编号：${realTimeData?.MNOIV}`,
+        maxTemp: `温度点：${realTimeData?.MITN}`,
+        minTemp: `温度点：${realTimeData?.MNOIT}`,
       },
       {
         maxVoltage: `电压：${getPlaceholder(realTimeData?.MVVOASU)}`,

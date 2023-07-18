@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-14 13:05:09
+ * @LastEditTime: 2023-07-17 19:25:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -18,7 +18,8 @@ import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
-import { useArea } from '@/hooks';
+import { useArea, useAuthority } from '@/hooks';
+import Authority from '@/components/Authority';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,11 @@ const StationList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const { state: areaOptions } = useArea();
   const { initialState } = useModel('@@initialState');
+  const { authorityMap } = useAuthority([
+    'system:site:config',
+    'system:site:delete',
+    'system:site:create',
+  ]);
 
   const requestList = useCallback((params) => {
     const [countryCode, provinceCode, cityCode] = params?.area || [];
@@ -65,14 +71,12 @@ const StationList: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      {(initialState?.currentUser?.permissions?.includes('system:site:config') ||
-        initialState?.currentUser?.permissions?.includes('*:*:*')) && (
+      {authorityMap.get('system:site:config') && (
         <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
           站点配置
         </Button>
       )}
-      {(initialState?.currentUser?.permissions?.includes('system:site:delete') ||
-        initialState?.currentUser?.permissions?.includes('*:*:*')) && (
+      {authorityMap.get('system:site:delete') && (
         <Button
           type="link"
           size="small"
@@ -214,9 +218,7 @@ const StationList: React.FC = () => {
       fixed: 'right',
       render: rowBar,
       hideInTable:
-        !initialState?.currentUser?.permissions?.includes('system:site:config') &&
-        !initialState?.currentUser?.permissions?.includes('*:*:*') &&
-        !initialState?.currentUser?.permissions?.includes('system:site:delete'),
+        !authorityMap.get('system:site:config') && !authorityMap.get('system:site:delete'),
     },
   ];
 
@@ -225,12 +227,7 @@ const StationList: React.FC = () => {
       <YTProTable
         actionRef={actionRef}
         columns={columns}
-        toolBarRender={
-          initialState?.currentUser?.permissions?.includes('system:site:create') ||
-          initialState?.currentUser?.permissions?.includes('*:*:*')
-            ? toolBar
-            : () => [<></>]
-        }
+        toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
         request={requestList}
       />
       <StationForm
