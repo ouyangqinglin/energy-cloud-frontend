@@ -32,8 +32,11 @@ export const getPower = (params: searchType) => {
 };
 
 export const getElectic = (params: searchType) => {
-  return request<ResponseCommonData<ElectricType>>('/oss/site/monitor/energyStorage/getData', {
-    method: 'GET',
-    params,
-  });
+  return request<ResponseCommonData<ElectricType>>(
+    '/oss/site/monitor/energyStorage/chargingDischargingTrends',
+    {
+      method: 'GET',
+      params,
+    },
+  );
 };

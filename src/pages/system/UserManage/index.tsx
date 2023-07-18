@@ -13,8 +13,11 @@ import Account from './Account.tsx';
 import Authority from '@/pages/user-manager/authority';
 import DeptTableList from '../dept';
 import styles from './index.less';
+import { useAuthority } from '@/hooks';
 
 const UserManage: React.FC = () => {
+  const { authorityMap } = useAuthority(['system:user:authority', 'system:user:org']);
+
   const items = useMemo<TabsProps['items']>(() => {
     return [
       {
@@ -22,18 +25,26 @@ const UserManage: React.FC = () => {
         label: '账号管理',
         children: <Account />,
       },
-      {
-        key: '2',
-        label: '权限管理',
-        children: <Authority />,
-      },
-      {
-        key: '3',
-        label: '组织管理',
-        children: <DeptTableList />,
-      },
+      ...(authorityMap.get('system:user:authority')
+        ? [
+            {
+              key: '2',
+              label: '权限管理',
+              children: <Authority />,
+            },
+          ]
+        : []),
+      ...(authorityMap.get('system:user:org')
+        ? [
+            {
+              key: '3',
+              label: '组织管理',
+              children: <DeptTableList />,
+            },
+          ]
+        : []),
     ];
-  }, []);
+  }, [authorityMap]);
 
   return (
     <>

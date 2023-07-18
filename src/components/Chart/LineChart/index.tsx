@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-15 18:19:47
+ * @LastEditTime: 2023-07-17 15:01:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
@@ -89,6 +89,25 @@ const LineChart: React.FC<LineChartProps> = (props) => {
 
   const [chartRef] = useToolTip();
 
+  const valueScale = useMemo(() => {
+    try {
+      const max = Math.max(...(chartData?.map?.((item) => item.value || 0) || [20]));
+      let tickInterval = Math.ceil(max / 5);
+      if (tickInterval > 5) {
+        tickInterval = Math.ceil(tickInterval / 5) * 5;
+      }
+      return {
+        max: tickInterval * 5,
+        tickInterval: tickInterval,
+      };
+    } catch (e) {
+      return {
+        max: 25,
+        tickInterval: 5,
+      };
+    }
+  }, [chartData]);
+
   useEffect(() => {
     const labels =
       typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any) || allLabel;
@@ -126,6 +145,10 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           scale={{
             label: {
               ticks: ticks,
+            },
+            value: {
+              max: valueScale.max,
+              tickInterval: valueScale.tickInterval,
             },
           }}
           data={chartData}

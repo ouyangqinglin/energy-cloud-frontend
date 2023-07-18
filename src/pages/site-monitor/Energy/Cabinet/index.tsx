@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-14 16:01:56
+ * @LastEditTime: 2023-07-17 15:11:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -45,11 +45,11 @@ import {
 } from '@/utils/format';
 
 const voltageNumFormat = (value: number): number => {
-  return (value % 24) + 1;
+  return value % 24;
 };
 
 const tempNumFormat = (value: number): number => {
-  return (value % 13) + 1;
+  return value % 13;
 };
 
 const energyPowerFormat = (value: number, data: any) => {
@@ -155,13 +155,13 @@ const unitItems = [
     linePosition: { top: 11, left: -60 },
     data: [
       { label: '最高电压：', field: 'MVVOASU', format: voltageFormat },
-      { label: '编号：', field: 'MaxNOIV', format: voltageNumFormat },
+      { label: '编号：', field: 'MaxNOIV' },
       { label: '最低电压：', field: 'MVVOSU', format: voltageFormat },
-      { label: '编号：', field: 'MNOIV', format: voltageNumFormat },
+      { label: '编号：', field: 'MNOIV' },
       { label: '最高温度：', field: 'MaximumIndividualTemperature', format: tempFormat },
-      { label: '编号：', field: 'MITN', format: tempNumFormat },
+      { label: '编号：', field: 'MITN' },
       { label: '最低温度：', field: 'LVOMT', format: tempFormat },
-      { label: '编号：', field: 'MNOIT', format: tempNumFormat },
+      { label: '编号：', field: 'MNOIT' },
     ],
   },
 ];
@@ -263,8 +263,10 @@ const Cabinet: React.FC<ComProps> = (props) => {
                     {field.label}
                     <span className={styles.unitNum}>
                       {!isEmpty(deviceData?.[field.field])
-                        ? field.format(deviceData?.[field.field], deviceData)
-                        : '-'}
+                        ? field.format
+                          ? field.format(deviceData?.[field.field], deviceData)
+                          : deviceData?.[field.field]
+                        : '--'}
                     </span>
                   </div>
                 </>
