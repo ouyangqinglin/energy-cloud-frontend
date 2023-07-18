@@ -1,8 +1,8 @@
-import { defaults, defaultsDeep, isNil, isObject, mergeWith } from 'lodash';
+import { isNil } from 'lodash';
 import { useEffect } from 'react';
 import { useRequest } from 'umi';
 import DescriptionCard from '../components/CardDescription';
-import { columns } from './config';
+import { config } from './config';
 import { getElectricityStatistics } from './service';
 
 // const DEFAULT_VALUE = {
@@ -34,17 +34,6 @@ const Statistics = ({ siteId }: { siteId?: number }) => {
     manual: true,
   });
 
-  // const data = mergeWith({ ...DEFAULT_VALUE }, rawData, (objValue, srcValue) => {
-  //   console.log(objValue, srcValue);
-  //   if (!isObject(objValue) || !isObject(srcValue)) {
-  //     if (isNil(srcValue)) {
-  //       return objValue;
-  //     }
-  //     return srcValue;
-  //   }
-  // });
-  // console.log(data);
-
   useEffect(() => {
     if (!isNil(siteId)) {
       run(siteId);
@@ -53,7 +42,7 @@ const Statistics = ({ siteId }: { siteId?: number }) => {
 
   return (
     <>
-      {columns.map((column) => {
+      {config.map((column) => {
         return (
           <DescriptionCard data={data?.[column.field] ?? {}} key={column.title} config={column} />
         );

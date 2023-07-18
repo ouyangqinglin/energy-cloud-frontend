@@ -1,6 +1,6 @@
 import { Card, Col, Row } from 'antd';
 import classnames from 'classnames';
-import { isFunction } from 'lodash';
+import { get, isFunction } from 'lodash';
 import { keepTwoDecimalWithoutNull } from '../../helper';
 import RowBox from '../RowBox';
 import styles from './index.less';
@@ -13,7 +13,13 @@ const DescriptionCard = ({
   config: DescriptionCardConfig;
   data: Record<string, any>;
 }) => {
+  // existChargingPile 为false不应该显示充电桩
+  const shouldShowCharge = (label: string) =>
+    label.includes('充电桩') && !get(data, 'existChargingPile');
   const cardItemList = config.statistics.map(({ label, labelUnit, value, valueUnit, field }) => {
+    if (shouldShowCharge(label)) {
+      return <></>;
+    }
     return (
       <div key={label} className={styles['card-item']}>
         <div className={styles['card-left']}>

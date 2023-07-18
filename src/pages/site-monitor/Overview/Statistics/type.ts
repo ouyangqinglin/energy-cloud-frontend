@@ -6,6 +6,8 @@ export interface ElectricityStatisticsRes {
 }
 export interface Load {
   charge: number;
+  //是否存在充电桩: 0-否 1-是
+  existChargingPile: number;
   chargingPileCharge: number;
   otherLoadCharge: number;
   power: number;
