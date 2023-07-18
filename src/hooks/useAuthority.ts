@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-17 15:22:08
- * @LastEditTime: 2023-07-18 09:19:52
+ * @LastEditTime: 2023-07-18 09:32:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useAuthority.ts
  */
@@ -51,8 +51,6 @@ const useAuthority = (authority: string | string[], option?: OptionsType) => {
       authoritys.forEach((item) => {
         switch (options.mode) {
           case AuthorityModeEnum.Within:
-            map.set(item, userPermission.includes(item));
-            break;
           case AuthorityModeEnum.Include:
             map.set(item, userPermission.includes(item));
             break;
@@ -68,8 +66,6 @@ const useAuthority = (authority: string | string[], option?: OptionsType) => {
           setpass(set.has(true));
           break;
         case AuthorityModeEnum.Include:
-          setpass(!set.has(false));
-          break;
         case AuthorityModeEnum.Exclude:
           setpass(!set.has(false));
           break;
