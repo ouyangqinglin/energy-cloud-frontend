@@ -2,17 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 13:46:07
- * @LastEditTime: 2023-07-14 13:46:07
+ * @LastEditTime: 2023-07-19 11:10:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\index copy.tsx
- */
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-21 10:39:54
- * @LastEditTime: 2023-07-07 11:55:26
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\index.tsx
  */
 
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
@@ -24,7 +16,7 @@ import { EquipmentType } from '@/pages/equipment/equipment-list/data.d';
 import SiteTree from '@/components/SiteTree';
 import styles from './index.less';
 import type { TreeNode } from '@/components/SiteTree/type';
-import DeviceDetail from '@/components/DeviceDetail';
+import DeviceDetail from '@/components/DeviceMonitor';
 import SiteSwitch from '@/components/SiteSwitch';
 
 const Device: React.FC = () => {
