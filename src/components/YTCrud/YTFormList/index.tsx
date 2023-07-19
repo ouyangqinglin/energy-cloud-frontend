@@ -11,6 +11,7 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import type { FormUpdateProps } from '../YTFormUpdate';
+import { FormReadComposeProps } from '../YTFormRead';
 
 export type FormListProps<
   FormListItemType,
@@ -28,6 +29,7 @@ export type FormListProps<
     YTProTableProps?: YTProTableProps<FormListItemType, FormListParamsType>;
   };
   formUpdateField: FormUpdateProps<FormUpdateType, FormUpdateParamsType>;
+  formReadField: FormReadComposeProps<FormUpdateType, FormUpdateParamsType>;
 };
 
 export const YTFormList = <

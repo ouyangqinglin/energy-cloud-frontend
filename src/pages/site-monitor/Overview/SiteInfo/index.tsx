@@ -40,7 +40,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
         </li>
         <li>
           <div className={styles.label}>地理位置：</div>
-          <Tooltip placement="topRight" title={'广东省深圳市龙华区观盛五路永泰科技园'}>
+          <Tooltip placement="topRight" title={data?.address}>
             <div className={styles.value}>{data?.address ?? '--'}</div>
           </Tooltip>
         </li>

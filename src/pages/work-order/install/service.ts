@@ -1,4 +1,4 @@
-import type { ObstacleReportInfo } from './type';
+import type { InstallListType, ObstacleReportInfo } from './type';
 import { del, get, post, put } from '@/utils/request';
 
 // export const createObstacleReport = (data: ServiceParam) => {
@@ -18,7 +18,7 @@ export const updateObstacleReportStatus = (data = {}) => {
 // };
 
 export const getObstacleReportList = (params: any) => {
-  return get<ObstacleReportInfo[]>(`/oss/obstacleReport/list`, params);
+  return get<InstallListType[]>(`/oss/installationWorkOrder/list`, params);
 };
 
 // export const getServiceId = () => {

@@ -77,11 +77,11 @@ export const YTFormUpdate = <FormData = any, Param = Record<string, any>>(
     <YTModalForm<FormData>
       form={form}
       title={title}
-      {...DEFAULT_PROPS}
       layoutType={'ModalForm'}
       columns={columns}
       operations={operations}
       onFinish={onFinish}
+      {...DEFAULT_PROPS}
       {...resetProps}
     />
   );

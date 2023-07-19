@@ -46,10 +46,13 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
   return result;
 };
 
-export const getLineChartData = (rawSourceData: Record<string, ChartDataType[]>) => {
+export const getLineChartData = (
+  rawSourceData: Record<string, ChartDataType[]>,
+  showLineRange: string[],
+) => {
   const result: DataType[] = [];
   lineLegendMap.forEach((item, key) => {
-    if (!rawSourceData?.[key]?.length) {
+    if (!showLineRange.includes(key)) {
       return;
     }
     const formatValues = getChartData(rawSourceData?.[key] || [], item);
