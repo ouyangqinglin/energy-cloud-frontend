@@ -24,9 +24,9 @@ export const Update = (props: FormUpdateBaseProps) => {
       ) as TransformCustomerUpdateInfo;
       return {
         data: rawFormData,
-      } as { data: TransformCustomerUpdateInfo };
+      };
     }
-    return { data: {} } as { data: TransformCustomerUpdateInfo };
+    return { data: {} as TransformCustomerUpdateInfo };
   };
 
   const convertUpdateParams = (params: TransformCustomerUpdateInfo): CustomerParam => {

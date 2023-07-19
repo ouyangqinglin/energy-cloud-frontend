@@ -7,12 +7,21 @@ import { getData } from '../service';
 import { useToolTip } from '@/hooks';
 import { TimeType } from '../../components/TimeButtonGroup';
 import { getBarChartData, getLineChartData } from './helper';
+import { FlagType } from '../type';
 
 type RealTimePowerProps = {
   date?: Moment;
   siteId?: number | string;
   timeType: TimeType;
 };
+
+const keyToFlag = new Map([
+  [FlagType.PHOTOVOTAIC_TYPE, 'pv'],
+  [FlagType.CHARGING_TYPE, 'cs'],
+  [FlagType.ES_TYPE, 'es'],
+  [FlagType.ELECTRIC_SUPPLY_TYPE, 'me'],
+  [FlagType.LOAD_TYPE, 'load'],
+]);
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { date, siteId, timeType } = props;
@@ -28,7 +37,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     if (shouldShowLine) {
-      setChartData(getLineChartData(powerData));
+      const lineKeysRange =
+        powerData?.flag
+          ?.filter(({ flag }) => {
+            return !!flag;
+          })
+          ?.map(({ code }) => keyToFlag.get(code)) ?? [];
+      setChartData(getLineChartData(powerData, lineKeysRange));
       return;
     }
     setChartData(getBarChartData(powerData, timeType));

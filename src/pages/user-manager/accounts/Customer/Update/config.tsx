@@ -4,7 +4,7 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
 import { isNil } from 'lodash';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { getRoleListForCurrentUser, getServiceProviderList, getSiteList } from '../service';
 import type { TransformCustomerUpdateInfo } from '../type';
 import { isEmpty } from '@/utils';

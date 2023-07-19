@@ -9,9 +9,9 @@ export const getObstacleReport = (data: { orgId: number }) => {
   return get<ObstacleReportInfo>(`/oss/obstacleReport/detail`, data);
 };
 
-// export const updateObstacleReport = (data: ServiceParam) => {
-//   return put(`/oss/obstacleReport`, data);
-// };
+export const updateObstacleReportStatus = (data = {}) => {
+  return post(`/oss/obstacleReport`, data);
+};
 
 // export const deleteObstacleReport = (data: { orgId: number[] }) => {
 //   return del(`/oss/obstacleReport`, data);
