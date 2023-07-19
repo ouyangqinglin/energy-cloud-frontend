@@ -34,6 +34,52 @@ export type InstallListType = {
   pageSize: number;
 };
 
+export interface InstallOrderUpdateParam {
+  type: number;
+  orgId: number;
+  userId: number;
+  phone: number;
+  processTime: number;
+  handlerBy: number;
+  email: string;
+  remark: string;
+  address: string;
+  timeOfAppointment: string;
+}
+
+export interface InstallOrderUpdateInfo {
+  taskId?: any;
+  id: number;
+  type: number;
+  name: string;
+  agent?: any;
+  customer?: any;
+  telephone?: any;
+  timeOfAppointment?: any;
+  processTime?: any;
+  handlerBy: number;
+  email?: any;
+  remark?: any;
+  address?: any;
+  siteId?: any;
+  status: number;
+  startTime?: any;
+  endTime?: any;
+  tails: any[];
+  taskTailId?: any;
+  objId?: any;
+  createBy: number;
+  createTime: string;
+  creatName: string;
+  closeTime?: any;
+  updateBy?: any;
+  updateTime: string;
+  updateName: string;
+  sourceId?: any;
+  current: number;
+  pageSize: number;
+}
+
 export type AgentFormType = {
   name: string;
   id: string;

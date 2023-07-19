@@ -41,7 +41,10 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   return (
     <RowBox span={18} className={styles.chartWrapper}>
       <div className={styles.topBar}>
-        <h1 className={styles.title}>站点实时功率</h1>
+        <h1 className={styles.title}>
+          {' '}
+          {timeType === TimeType.DAY ? '站点实时功率' : '站点累计电量'}
+        </h1>
         <div>
           {showDatePicker && <DatePicker defaultValue={date} onChange={onChange} picker={picker} />}
           <TimeButtonGroup

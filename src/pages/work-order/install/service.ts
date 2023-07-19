@@ -1,21 +1,21 @@
-import type { InstallListType, ObstacleReportInfo } from './type';
+import type { InstallListType, InstallOrderUpdateParam, ObstacleReportInfo } from './type';
 import { del, get, post, put } from '@/utils/request';
 
-// export const createObstacleReport = (data: ServiceParam) => {
-//   return post(`/oss/obstacleReport`, data);
-// };
-
-export const getObstacleReport = (data: { orgId: number }) => {
-  return get<ObstacleReportInfo>(`/oss/obstacleReport/detail`, data);
+export const createInstallationWorkOrder = (data: InstallOrderUpdateParam) => {
+  return post(`/oss/installationWorkOrder/create`, data);
 };
 
-export const updateObstacleReportStatus = (data = {}) => {
-  return post(`/oss/obstacleReport`, data);
+export const getInstallationWorkOrder = (data: { id: number }) => {
+  return get<ObstacleReportInfo>(`/oss/installationWorkOrder/details`, data);
 };
 
-// export const deleteObstacleReport = (data: { orgId: number[] }) => {
-//   return del(`/oss/obstacleReport`, data);
-// };
+export const updateInstallationWorkOrder = (data = {}) => {
+  return put(`/oss/installationWorkOrder/edit`, data);
+};
+
+export const deleteInstallationWorkOrder = (data: { id: string }) => {
+  return del(`/oss/installationWorkOrder`, data);
+};
 
 export const getObstacleReportList = (params: any) => {
   return get<InstallListType[]>(`/oss/installationWorkOrder/list`, params);

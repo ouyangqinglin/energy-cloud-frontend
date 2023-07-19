@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
 import type {
   YTProColumns,
@@ -30,8 +30,8 @@ export type FormListProps<
     columns: YTProColumns<FormListItemType, FormListParamsType>[];
     YTProTableProps?: YTProTableProps<FormListItemType, FormListParamsType>;
   };
-  FormUpdate?: ReactNode;
-  FormRead?: ReactNode;
+  formUpdateField: FormUpdateProps<FormUpdateType, FormUpdateParamsType>;
+  formReadField: FormReadProps<FormUpdateType, FormUpdateParamsType>;
 };
 
 export const YTFormList = <
@@ -52,8 +52,8 @@ export const YTFormList = <
       columns,
       YTProTableProps,
     },
-    FormUpdate,
-    FormRead,
+    formUpdateField,
+    formReadField,
   } = props;
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   const [readModal, { set: setReadModal }] = useToggle<boolean>(false);
@@ -109,6 +109,23 @@ export const YTFormList = <
         rowKey={rowKey}
         {...customConfig}
         {...YTProTableProps}
+      />
+      <YTFormUpdate
+        {...{
+          operations: operations,
+          visible: visibleUpdated && updateModal,
+          onVisibleChange: setUpdateModal,
+          onSuccess: onSuccess,
+          ...formUpdateField,
+        }}
+      />
+      <YTFormRead
+        {...{
+          operations: operations,
+          visible: visibleUpdated && readModal,
+          onVisibleChange: setReadModal,
+          ...formReadField,
+        }}
       />
     </>
   );

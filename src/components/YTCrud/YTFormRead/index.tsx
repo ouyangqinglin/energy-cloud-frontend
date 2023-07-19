@@ -28,7 +28,7 @@ const DEFAULT_PROPS = {
   wrapperCol: { flex: 'auto' },
 };
 
-export const FormRead = <FormData = any, Param = Record<string, any>>(
+export const YTFormRead = <FormData = any, Param = Record<string, any>>(
   props: FormReadComposeProps<FormData, Param>,
 ) => {
   const { operations, titleRead, columns, requestRead, id, ...resetProps } = props;

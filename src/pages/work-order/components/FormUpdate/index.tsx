@@ -47,7 +47,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
     if (props.visible) {
       form?.resetFields();
       if (id) {
-        request({ orgId: id }, {}).then(({ data }) => {
+        request({ id }, {}).then(({ data }) => {
           form?.setFieldsValue(data);
         });
       }
