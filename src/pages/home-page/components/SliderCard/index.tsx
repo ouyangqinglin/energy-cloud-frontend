@@ -1,3 +1,4 @@
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 import type { AllCardRes, CardInfo } from '../../type';
 import styles from './index.less';
 
@@ -12,7 +13,9 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
             <Icon className={styles.svgIcon} />
           </div>
           <div className={styles.contentItem}>
-            <div className={styles.contentNumber}>{data?.[config.field] ?? '--'}</div>
+            <div className={styles.contentNumber}>
+              {keepTwoDecimalWithUnit(data?.[config.field])}
+            </div>
             <div className={styles.contentDescription}>{config.description}</div>
           </div>
         </div>
@@ -20,7 +23,7 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
           {config.items.map(({ label, field }) => (
             <div key={label} className={styles.detailItem}>
               <div className={styles.ellipsis}>{label}：</div>
-              <span>{data?.[field] ?? '--'}</span>
+              <span>{keepTwoDecimalWithUnit(data?.[field])}</span>
             </div>
           ))}
         </div>
