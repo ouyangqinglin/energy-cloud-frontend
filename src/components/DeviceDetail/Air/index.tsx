@@ -2,21 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-14 15:04:53
+ * @LastEditTime: 2023-07-18 15:50:41
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\EnergyConverter\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Air\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import AirImg from '@/assets/image/device/air.png';
-import Detail, { DetailItem } from '@/components/Detail';
-import Label from '@/components/DeviceInfo/Label';
+import Detail, { DetailItem, GroupItem } from '@/components/Detail';
+import Label from '@/components/Detail/LineLabel';
 import { controlItems, statusItems } from './config';
 import Button from '@/components/CollectionModal/Button';
+import Page from '@/layouts/Page';
 
 const Air: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -48,20 +49,36 @@ const Air: React.FC<DeviceDetailType> = (props) => {
     />
   );
 
+  const detailGroup = useMemo<GroupItem[]>(() => {
+    return [
+      {
+        label: <Detail.Label title="控制信息" />,
+        items: controlItems,
+      },
+      {
+        label: <Detail.Label title="状态信息" />,
+        items: statusItems,
+      },
+    ];
+  }, []);
+
   return (
     <>
-      <div className="card-wrap">
-        <Overview data={deviceData} />
-      </div>
-      <div className="card-wrap p24 my24">
-        <Label title="控制信息" />
-        <Detail items={controlItems} data={realTimeData} extral={extral} />
-        <Label title="状态信息" />
-        <Detail items={statusItems} data={realTimeData} extral={extral} />
-      </div>
-      <div className="card-wrap p24">
-        <DeviceInfo id={id} onChange={onDataChange} />
-      </div>
+      <Page
+        top={<Overview data={deviceData} />}
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+      >
+        <Detail.Group
+          data={realTimeData}
+          items={detailGroup}
+          detailProps={{
+            extral,
+            colon: false,
+            labelStyle: { width: 140 },
+            valueStyle: { width: '40%' },
+          }}
+        />
+      </Page>
     </>
   );
 };

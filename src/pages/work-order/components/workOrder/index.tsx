@@ -102,7 +102,7 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       width: 150,
     },
     {
-      title: '服务商',
+      title: '安装商',
       dataIndex: 'createByName',
       width: 100,
       ellipsis: true,

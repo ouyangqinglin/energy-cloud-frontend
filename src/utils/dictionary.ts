@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-07-17 09:39:12
+ * @LastEditTime: 2023-07-18 10:58:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -105,12 +105,15 @@ export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周�
 export const color = {};
 
 export const connectStatus = {
+  2: {
+    text: '未配置',
+  },
   1: {
-    text: '正常',
+    text: '在线',
     status: 'Success',
   },
   0: {
-    text: '异常',
+    text: '离线',
     status: 'Error',
   },
 };
@@ -317,4 +320,10 @@ export const timeDimension = new Map([
 export const cleanUpType = {
   0: '正常清除',
   1: '手动清除',
+};
+
+export const logType = {
+  0: { text: '设备下行' },
+  1: { text: '设备上报' },
+  2: { text: '规则触发' },
 };

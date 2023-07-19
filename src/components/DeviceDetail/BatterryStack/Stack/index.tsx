@@ -2,14 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-17 15:09:39
+ * @LastEditTime: 2023-07-18 15:40:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Stack\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'umi';
-import Label from '@/components/DeviceInfo/Label';
-import Detail, { DetailItem } from '@/components/Detail';
+import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { ProField } from '@ant-design/pro-components';
 import { ProColumns } from '@ant-design/pro-table';
@@ -35,24 +34,6 @@ export type StackProps = {
   id: string;
   data?: DeviceDataType;
   realTimeData?: Record<string, any>;
-};
-
-const voltageNumFormat = (value: number): string => {
-  if (isEmpty(value)) {
-    return '--';
-  } else {
-    const index = Math.floor(value / 24 + 1);
-    return `#${index}-#${value % 24}`;
-  }
-};
-
-const tempNumFormat = (value: number): string => {
-  if (isEmpty(value)) {
-    return '--';
-  } else {
-    const index = Math.floor(value / 13 + 1);
-    return `#${index}-#${value % 13}`;
-  }
 };
 
 const Stack: React.FC<StackProps> = (props) => {
@@ -86,10 +67,10 @@ const Stack: React.FC<StackProps> = (props) => {
   const maxUnitData = useMemo<MaxUnitType[]>(() => {
     const result: MaxUnitType[] = [
       {
-        maxVoltage: `电芯编号：${realTimeData?.MaxNOIV}`,
-        minVoltage: `电芯编号：${realTimeData?.MNOIV}`,
-        maxTemp: `温度点：${realTimeData?.MITN}`,
-        minTemp: `温度点：${realTimeData?.MNOIT}`,
+        maxVoltage: `电芯编号：${getPlaceholder(realTimeData?.MaxNOIV)}`,
+        minVoltage: `电芯编号：${getPlaceholder(realTimeData?.MNOIV)}`,
+        maxTemp: `温度点：${getPlaceholder(realTimeData?.MITN)}`,
+        minTemp: `温度点：${getPlaceholder(realTimeData?.MNOIT)}`,
       },
       {
         maxVoltage: `电压：${getPlaceholder(realTimeData?.MVVOASU)}`,
@@ -166,21 +147,48 @@ const Stack: React.FC<StackProps> = (props) => {
     />
   );
 
+  const detailGroup = useMemo<GroupItem[]>(() => {
+    return [
+      {
+        label: <Detail.Label title="控制信息" />,
+        items: controlItems,
+      },
+      {
+        label: <Detail.Label title="保护信息" />,
+        items: protectItems,
+      },
+      {
+        label: <Detail.Label title="状态信息" />,
+        items: statusItems,
+      },
+      {
+        label: <Detail.Label title="历史信息" />,
+        items: historyItems,
+      },
+      {
+        label: <Detail.Label title="温度信息" />,
+        items: tempItems,
+      },
+      {
+        label: <Detail.Label title="能力信息" />,
+        items: abilityItems,
+      },
+    ];
+  }, []);
+
   return (
     <>
-      <Label title="控制信息" />
-      <Detail items={controlItems} data={realTimeData} extral={extral} />
-      <Label title="保护信息" className="mt16" />
-      <Detail items={protectItems} data={realTimeData} extral={extral} />
-      <Label title="状态信息" className="mt16" />
-      <Detail items={statusItems} data={realTimeData} extral={extral} />
-      <Label title="历史信息" className="mt16" />
-      <Detail items={historyItems} data={realTimeData} extral={extral} />
-      <Label title="温度信息" className="mt16" />
-      <Detail items={tempItems} data={realTimeData} extral={extral} />
-      <Label title="能力信息" className="mt16" />
-      <Detail items={abilityItems} data={realTimeData} extral={extral} />
-      <Label title="单体极值信息" className="mt16" />
+      <Detail.Group
+        data={realTimeData}
+        items={detailGroup}
+        detailProps={{
+          extral,
+          colon: false,
+          labelStyle: { width: 140 },
+          valueStyle: { width: '40%' },
+        }}
+      />
+      <Detail.Label title="单体极值信息" className="mt16" />
       <YTProTable
         search={false}
         options={false}
@@ -188,8 +196,9 @@ const Stack: React.FC<StackProps> = (props) => {
         toolBarRender={false}
         dataSource={maxUnitData}
         scroll={{ y: 200 }}
+        pagination={false}
       />
-      <Label title="电池簇信息" className="mt16" />
+      <Detail.Label title="电池簇信息" className="mt32" />
       <YTProTable
         loading={loading}
         search={false}
@@ -200,8 +209,10 @@ const Stack: React.FC<StackProps> = (props) => {
         scroll={{ y: 200 }}
         pagination={false}
       />
-      <Label title="电气一次图" className="mt16" />
-      <img className={styles.elctric} src={ElectricLine} />
+      <Detail.Label title="电气一次图" className="mt32" />
+      <div className={styles.elctric}>
+        <img src={ElectricLine} />
+      </div>
     </>
   );
 };

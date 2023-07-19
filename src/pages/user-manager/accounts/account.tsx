@@ -59,7 +59,7 @@ const Account: React.FC<AccountsProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: '服务商',
+        title: '安装商',
         width: 120,
         ellipsis: true,
         dataIndex: 'serviceOrganization',

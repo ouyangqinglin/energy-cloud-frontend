@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:02
- * @LastEditTime: 2023-05-26 17:10:30
+ * @LastEditTime: 2023-07-18 16:48:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\service.ts
  */
@@ -40,14 +40,14 @@ export const getGateway = () => {
 };
 
 export const getProductTypes = (params: any) => {
-  return request(`/iot/product/getProductType`, {
+  return request(`/iot/product/getAllProductType`, {
     method: 'GET',
     params,
   });
 };
 
 export const getProductModels = (params: any) => {
-  return request(`/iot/product/getProductModel`, {
+  return request(`/iot/product/getAllProductsByproductType`, {
     method: 'GET',
     params,
   });

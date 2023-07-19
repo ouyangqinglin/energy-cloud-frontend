@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-06-25 17:00:14
+ * @LastEditTime: 2023-07-18 19:03:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Space, Skeleton } from 'antd';
-import Detail from '../Detail';
+import Detail, { DetailProps } from '../Detail';
 import type { AnyMapType } from '@/utils/dictionary';
 import IconCurrent from '@/assets/image/meter/current.png';
 import IconVoltage from '@/assets/image/meter/voltage.png';
@@ -22,9 +22,12 @@ import IconPowerFactor from '@/assets/image/meter/power-factor.png';
 
 type MeterProps = {
   data: AnyMapType;
+  detailProps?: Omit<DetailProps, 'items' | 'data'>;
 };
 
-const Meter: React.FC<MeterProps> = ({ data = {} }) => {
+const Meter: React.FC<MeterProps> = (props) => {
+  const { data, detailProps } = props;
+
   const grid = [
     {
       title: '电流(A）',
@@ -110,22 +113,25 @@ const Meter: React.FC<MeterProps> = ({ data = {} }) => {
     },
   ];
 
-  const gridItem = grid.map((item) => {
-    return (
-      <Card.Grid hoverable={false} key={item.title} style={{ width: '20%' }}>
-        <div className="flex card-grid-title mb12">
-          {item.icon ? <img src={item.icon} className="mr12" /> : ''}
-          {item.title}
-        </div>
-        <Detail
-          data={data || {}}
-          items={item.item}
-          column={1}
-          contentStyle={{ flex: 1, display: 'inline-block', textAlign: 'right' }}
-        />
-      </Card.Grid>
-    );
-  });
+  const gridItem = useMemo(() => {
+    return grid.map((item) => {
+      return (
+        <Card.Grid hoverable={false} key={item.title} style={{ width: '20%' }}>
+          <div className="flex card-grid-title mb12">
+            {item.icon ? <img src={item.icon} className="mr12" /> : ''}
+            {item.title}
+          </div>
+          <Detail
+            data={data || {}}
+            items={item.item}
+            column={1}
+            contentStyle={{ flex: 1, display: 'inline-block', textAlign: 'right' }}
+            {...(detailProps || {})}
+          />
+        </Card.Grid>
+      );
+    });
+  }, [grid, data, detailProps]);
 
   return (
     <>

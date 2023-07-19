@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-07-04 15:51:39
+ * @LastEditTime: 2023-07-18 10:43:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
@@ -15,7 +15,7 @@ import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
-import type { OptionType } from '@/utils/dictionary';
+import { logType, type OptionType } from '@/utils/dictionary';
 import { debounce } from 'lodash';
 import { format } from 'timeago.js';
 
@@ -75,6 +75,13 @@ const OperationLog: React.FC = () => {
       width: 120,
       ellipsis: true,
       hideInSearch: true,
+    },
+    {
+      title: '日志类型',
+      dataIndex: 'type',
+      valueType: 'select',
+      valueEnum: logType,
+      width: 120,
     },
     {
       title: '日志内容',

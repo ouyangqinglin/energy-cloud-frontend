@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-17 10:11:25
+ * @LastEditTime: 2023-07-18 16:00:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\Run\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest, useHistory } from 'umi';
-import Label from '@/components/DeviceInfo/Label';
+import Label from '@/components/Detail/LineLabel';
 import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { controlItems } from './config';
@@ -117,7 +117,14 @@ const Stack: React.FC<StackProps> = (props) => {
   return (
     <>
       <Label title="控制信息" />
-      <Detail items={controlItems} data={realTimeData} extral={extral} />
+      <Detail
+        items={controlItems}
+        data={realTimeData}
+        extral={extral}
+        colon={false}
+        labelStyle={{ width: 140 }}
+        valueStyle={{ width: '40%' }}
+      />
       <Label title="接入设备列表" className="mt16" />
       <YTProTable<DeviceDataType>
         loading={loading}

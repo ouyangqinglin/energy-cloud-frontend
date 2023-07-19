@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-17 15:11:16
+ * @LastEditTime: 2023-07-18 10:49:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -216,7 +216,9 @@ const Cabinet: React.FC<ComProps> = (props) => {
   });
 
   const scaleNum = useMemo(() => {
-    return (bodySize?.width || 964.83) / 964.83;
+    const scaleWidth = (bodySize?.width || 964.83) / 964.83;
+    const scaleHeight = (bodySize?.height || 728) / 728;
+    return Math.min(scaleWidth, scaleHeight);
   }, [bodySize]);
 
   const onMoreClick = useCallback(
@@ -308,13 +310,14 @@ const Cabinet: React.FC<ComProps> = (props) => {
       ) : (
         <>
           <label className={styles.label}>{energyData?.name}</label>
-          <div ref={divRef} />
-          <div
-            className={styles.energy}
-            style={{ backgroundImage: `url(${EnergyImg})`, transform: `scale(${scaleNum})` }}
-          >
-            {items}
-            <div className={styles.parckContain}>{packItems}</div>
+          <div ref={divRef} className="tx-center">
+            <div
+              className={styles.energy}
+              style={{ backgroundImage: `url(${EnergyImg})`, transform: `scale(${scaleNum})` }}
+            >
+              {items}
+              <div className={styles.parckContain}>{packItems}</div>
+            </div>
           </div>
         </>
       )}

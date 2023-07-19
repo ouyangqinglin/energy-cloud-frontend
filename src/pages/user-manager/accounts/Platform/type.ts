@@ -39,7 +39,7 @@ export type CustomerInfo = {
   nickName: string;
   // 组织
   org: Org;
-  // 服务商名字
+  // 安装商名字
   orgName: string;
   createBy: string;
   createTime: string;

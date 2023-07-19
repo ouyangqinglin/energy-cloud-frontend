@@ -36,17 +36,17 @@ export const controlItems: DetailItem[] = [
   {
     label: '预充接触器状态',
     field: 'PrechargeContactorStatus',
-    format: (value) => chargeFormat(value, false),
+    format: (value) => closeFormat(value, false),
   },
   {
     label: '直流断路器状态',
     field: 'DCCircuitBreakerStatus',
-    format: (value) => chargeFormat(value, false),
+    format: (value) => closeFormat(value, false),
   },
   {
     label: '交流断路器状态',
     field: 'ACCircuitBreakerStatus',
-    format: (value) => chargeFormat(value, false),
+    format: (value) => closeFormat(value, false),
   },
   { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
@@ -67,7 +67,6 @@ export const protectItems: DetailItem[] = [
 ];
 
 export const statusItems: DetailItem[] = [
-  { label: '充/放电功率', field: 'a' },
   { label: '电流', field: 'TotalBatteryCurrent', format: currentFormat },
   { label: '电压', field: 'TotalBatteryVoltage', format: voltageFormat },
   { label: 'SOC', field: 'SOC', format: percentageFormat },

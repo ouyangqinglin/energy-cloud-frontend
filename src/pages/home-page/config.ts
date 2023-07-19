@@ -10,7 +10,7 @@ export const config: CardInfo[] = [
     icon: IconLoad,
     field: 'powerStationCount',
     value: 2,
-    description: '电站总数/',
+    description: '电站总数/个',
     items: [
       {
         label: '光储充电站/个',

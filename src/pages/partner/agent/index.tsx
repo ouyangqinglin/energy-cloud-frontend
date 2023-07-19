@@ -36,13 +36,13 @@ const Agent: React.FC = () => {
       width: 48,
     },
     {
-      title: '服务商名称',
+      title: '安装商名称',
       dataIndex: 'name',
       width: 120,
       ellipsis: true,
     },
     {
-      title: '服务商ID',
+      title: '安装商ID',
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
@@ -54,7 +54,7 @@ const Agent: React.FC = () => {
       valueEnum: effectStatus,
     },
     {
-      title: '关联服务商',
+      title: '关联安装商',
       dataIndex: 'service',
       valueType: TABLESELECT,
       key: 'service',
@@ -115,14 +115,14 @@ const Agent: React.FC = () => {
 
   const tableSelectColumns: ProColumns<AgentType>[] = [
     {
-      title: '服务商ID',
+      title: '安装商ID',
       dataIndex: 'id',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '服务商名称',
+      title: '安装商名称',
       dataIndex: 'name',
       width: 200,
       ellipsis: true,
@@ -138,7 +138,7 @@ const Agent: React.FC = () => {
       fieldProps: {},
     },
     {
-      title: '服务商',
+      title: '安装商',
       dataIndex: 'service',
       valueType: TABLESELECT,
       key: 'service',
@@ -159,7 +159,7 @@ const Agent: React.FC = () => {
               trigger={
                 <Button type="primary">
                   <PlusOutlined />
-                  新建服务商
+                  新建安装商
                 </Button>
               }
               columns={formColumns}

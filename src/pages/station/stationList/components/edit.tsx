@@ -136,7 +136,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
       >
-        <Form.Item label="服务商" name="orgs">
+        <Form.Item label="安装商" name="orgs">
           <TableSelect
             tableId="orgId"
             tableName="orgName"
@@ -145,14 +145,14 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             proTableProps={{
               columns: [
                 {
-                  title: '服务商ID',
+                  title: '安装商ID',
                   dataIndex: 'orgId',
                   width: 150,
                   ellipsis: true,
                   hideInSearch: true,
                 },
                 {
-                  title: '服务商名称',
+                  title: '安装商名称',
                   dataIndex: 'orgName',
                   width: 200,
                   ellipsis: true,

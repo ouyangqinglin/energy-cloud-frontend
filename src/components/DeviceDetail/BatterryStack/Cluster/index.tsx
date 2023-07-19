@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-07-15 20:04:52
+ * @LastEditTime: 2023-07-18 15:48:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Cluster\index.tsx
  */
@@ -11,7 +11,7 @@ import { Row, Col, Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
 import { useRequest } from 'umi';
 import { getClusterByStack, DeviceDataType, getChildEquipment } from '@/services/equipment';
 import Detail, { DetailItem } from '@/components/Detail';
-import Label from '@/components/DeviceInfo/Label';
+import Label from '@/components/Detail/LineLabel';
 import { isEmpty } from '@/utils';
 import { runItems, statusItems } from './config';
 import LineChart from '@/components/Chart/LineChart';
@@ -172,10 +172,24 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         </div>
         <div className={styles.content}>
           <Label className="mb26" title={selectOrg?.deviceName} showLine={false} />
-          <Detail items={runItems} data={selectOrg} extral={extral} />
-          <Label title="状态信息" />
-          <Detail items={statusItems} data={realTimeData} extral={extral} />
-          <Label title="单体信息" />
+          <Detail
+            items={runItems}
+            data={selectOrg}
+            extral={extral}
+            colon={false}
+            labelStyle={{ width: 170 }}
+            valueStyle={{ width: '40%' }}
+          />
+          <Label title="状态信息" className="mt16" />
+          <Detail
+            items={statusItems}
+            data={realTimeData}
+            extral={extral}
+            colon={false}
+            labelStyle={{ width: 170 }}
+            valueStyle={{ width: '40%' }}
+          />
+          <Label title="单体信息" className="mt16" />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
           <LineChart
             type={chartTypeEnum.Label}
