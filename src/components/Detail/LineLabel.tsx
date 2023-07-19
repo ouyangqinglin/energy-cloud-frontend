@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:29:03
- * @LastEditTime: 2023-07-18 14:08:08
+ * @LastEditTime: 2023-07-19 10:06:31
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\LineLabel.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Detail\LineLabel.tsx
  */
 import React from 'react';
 import { Divider } from 'antd';
@@ -16,7 +16,7 @@ export type LineLabelProps = {
   showLine?: boolean;
 };
 
-const LineLabel: React.FC<LineLabelProps> = (props) => {
+export const LineLabel: React.FC<LineLabelProps> = (props) => {
   const { title, className, showLine = true, children } = props;
 
   return (
