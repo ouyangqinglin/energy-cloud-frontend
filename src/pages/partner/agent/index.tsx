@@ -159,7 +159,7 @@ const Agent: React.FC = () => {
               trigger={
                 <Button type="primary">
                   <PlusOutlined />
-                  新建安装商
+                  新建
                 </Button>
               }
               columns={formColumns}

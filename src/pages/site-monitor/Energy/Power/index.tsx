@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-13 14:12:47
+ * @LastEditTime: 2023-07-19 19:47:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Power\index.tsx
  */
@@ -14,16 +14,15 @@ import { getPower } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
+import { Annotation } from 'bizcharts';
 
-const legendMap = new Map([
-  ['charge', '充电功率'],
-  ['discharge', '放电功率'],
-]);
+const legendMap = new Map([['charge', '功率']]);
 
 const Power: React.FC<ComProps> = (props) => {
   const { siteId } = props;
 
   const [date, setDate] = useState<Moment>(moment());
+  const [maxValue, setMaxValue] = useState<number>(0.1);
   const {
     loading,
     data: powerData,
@@ -36,24 +35,16 @@ const Power: React.FC<ComProps> = (props) => {
   const chartData = useMemo(() => {
     const result: LineChartDataType = {
       charge: [],
-      discharge: [],
     };
-    powerData?.map?.((item) => {
-      result[item.doubleVal > 0 ? 'charge' : 'discharge'].push({
-        time: item.eventTs,
-        value: item.doubleVal,
-      });
-      if (item.doubleVal == 0) {
+    const chartValues =
+      powerData?.map?.((item) => {
         result.charge.push({
           time: item.eventTs,
-          value: 0,
+          value: item.doubleVal,
         });
-        result.discharge.push({
-          time: item.eventTs,
-          value: 0,
-        });
-      }
-    });
+        return item.doubleVal || 0;
+      }) || [];
+    setMaxValue(Math.max(...chartValues));
     return result;
   }, [powerData]);
 
@@ -91,7 +82,46 @@ const Power: React.FC<ComProps> = (props) => {
                 allowClear={false}
               />
             </div>
-            <LineChart date={date} legendMap={legendMap} data={chartData} />
+            <LineChart
+              date={date}
+              legendMap={legendMap}
+              data={chartData}
+              colors={['#FF974A']}
+              toolTipProps={{
+                domStyles: {
+                  'g2-tooltip-marker': {
+                    display: 'none',
+                  },
+                },
+              }}
+              legendProps={{
+                offsetY: 100000000,
+              }}
+            >
+              <Annotation.RegionFilter
+                start={['min', 0]}
+                end={['max', maxValue]}
+                color={'#007DFF'}
+              />
+              <Annotation.Text
+                position={['max', 0]}
+                content="放电"
+                offsetX={-25}
+                offsetY={25}
+                style={{
+                  fill: '#FF974A',
+                }}
+              />
+              <Annotation.Text
+                position={['max', 0]}
+                content="充电"
+                offsetX={-25}
+                offsetY={-25}
+                style={{
+                  fill: '#007DFF',
+                }}
+              />
+            </LineChart>
           </>
         )}
       </div>

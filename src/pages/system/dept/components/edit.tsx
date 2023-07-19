@@ -62,7 +62,7 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
   return (
     <Modal
       width={680}
-      title={props?.values?.orgId ? '编辑组织' : '新增组织'}
+      title={props?.values?.orgId ? '编辑' : '新增'}
       visible={props.visible}
       destroyOnClose
       onOk={handleOk}

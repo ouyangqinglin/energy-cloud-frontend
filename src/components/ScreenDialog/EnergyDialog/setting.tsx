@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-07-17 10:04:28
+ * @LastEditTime: 2023-07-19 15:49:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Row,
   Col,
@@ -29,6 +29,7 @@ import { useRequest } from 'umi';
 import { editSetting } from './service';
 import { isEmpty } from '@/utils';
 import lodash from 'lodash';
+import { useBoolean } from 'ahooks';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -111,6 +112,12 @@ const Setting: React.FC<SettingProps> = (props) => {
   const [protectFrom] = Form.useForm();
   const [runForm] = Form.useForm();
   const [timeForm] = Form.useForm();
+  const [disableProtect, { setTrue: setDisableProtectTrue, setFalse: setDisableProtectFlalse }] =
+    useBoolean(true);
+  const [disableRun, { setTrue: setDisableRunTrue, setFalse: setDisableRunFalse }] =
+    useBoolean(true);
+  const [disableTime, { setTrue: setDisableTimeTrue, setFalse: setDisableTimeFalse }] =
+    useBoolean(true);
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
@@ -140,6 +147,15 @@ const Setting: React.FC<SettingProps> = (props) => {
             </span>
           );
           break;
+        case 'manualAutomaticSwitch':
+          const systemStatus = settingData?.sysModel ? '自动' : '手动';
+          content = (
+            <span>
+              当前系统模式为<span className="cl-primary">{systemStatus}状态</span>
+              是否执行手/自动模式切换指令
+            </span>
+          );
+          break;
       }
       Modal.confirm({
         title: '确认',
@@ -147,7 +163,11 @@ const Setting: React.FC<SettingProps> = (props) => {
         okText: '确认',
         cancelText: '取消',
         onOk: () =>
-          run({ deviceId: id, input: { [field]: 1 }, serviceId: field })
+          run({
+            deviceId: id,
+            input: { [field]: 1 },
+            serviceId: field == 'manualAutomaticSwitch' ? 'operateModel' : field,
+          })
             .then((data) => {
               if (data) {
                 message.success('下发成功');
@@ -178,6 +198,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           (data) => {
             if (data) {
               message.success('下发成功');
+              setDisableProtectTrue();
             }
           },
         ),
@@ -187,42 +208,6 @@ const Setting: React.FC<SettingProps> = (props) => {
   const onRunClick = useCallback(() => {
     runForm.submit();
   }, [runForm]);
-  const onRunValuesChange = useCallback((fieldValue) => {
-    const field = Object.keys(fieldValue)[0];
-    if (field === 'manualAutomaticSwitch') {
-      const systemStatus = settingData?.sysModel ? '自动' : '手动';
-      const content = (
-        <span>
-          当前系统模式为<span className="cl-primary">{systemStatus}状态</span>
-          是否执行手/自动模式切换指令
-        </span>
-      );
-      Modal.confirm({
-        title: '确认',
-        content,
-        okText: '确认',
-        cancelText: '取消',
-        onOk: () => {
-          run({
-            deviceId: id,
-            input: { manualAutomaticSwitch: 1 },
-            serviceId: 'operateModel',
-          })
-            .then((data) => {
-              if (data) {
-                message.success('下发成功');
-              }
-            })
-            .finally(() => {
-              runForm.setFieldValue('manualAutomaticSwitch', false);
-            });
-        },
-        onCancel: () => {
-          runForm.setFieldValue('manualAutomaticSwitch', false);
-        },
-      });
-    }
-  }, []);
   const requestRun = useCallback(
     (formData) => {
       Modal.confirm({
@@ -251,6 +236,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           }).then((data) => {
             if (data) {
               message.success('下发成功');
+              setDisableRunTrue();
             }
           });
         },
@@ -285,6 +271,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         }).then((data) => {
           if (data) {
             message.success('下发成功');
+            setDisableTimeTrue();
           }
         });
       },
@@ -297,10 +284,10 @@ const Setting: React.FC<SettingProps> = (props) => {
     return {
       validator: (_: any, value: Moment[]) => {
         if (value && value.length) {
-          if (nextValue && nextValue.length && value[1].isSameOrAfter(nextValue[0])) {
+          if (nextValue && nextValue.length && value[1].isAfter(nextValue[0])) {
             return Promise.reject(`时段${num}应小于时段${num + 1}`);
           }
-          if (num > 1 && prevValue && prevValue.length && value[0].isSameOrBefore(prevValue[1])) {
+          if (num > 1 && prevValue && prevValue.length && value[0].isBefore(prevValue[1])) {
             return Promise.reject(`时段${num}应大于时段${num - 1}`);
           }
         } else {
@@ -402,12 +389,27 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Switch />
             </Form.Item>
           </Col>
+          <Col flex="25%">
+            <Form.Item
+              name="manualAutomaticSwitch"
+              label="手/自动切换"
+              labelCol={{ flex: '116px' }}
+              valuePropName="checked"
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
         </Row>
       </Form>
       {showBattery &&
         (isLineLabel ? (
           <LineLabel title="电池保护参数设置">
-            <Button type="primary" onClick={onProtectClick} loading={loading}>
+            <Button
+              type="primary"
+              onClick={onProtectClick}
+              loading={loading}
+              disabled={disableProtect}
+            >
               下发参数
             </Button>
           </LineLabel>
@@ -415,7 +417,12 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Label
             title="电池保护参数设置"
             operate={
-              <Button type="primary" onClick={onProtectClick} loading={loading}>
+              <Button
+                type="primary"
+                onClick={onProtectClick}
+                loading={loading}
+                disabled={disableProtect}
+              >
                 下发参数
               </Button>
             }
@@ -428,6 +435,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           layout="horizontal"
           labelCol={{ flex: '116px' }}
           onFinish={requestProtect}
+          onValuesChange={setDisableProtectFlalse}
         >
           <Row>
             <Col flex="25%">
@@ -436,7 +444,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                 label="过充保护"
                 rules={[{ required: true, message: '过充保护必填' }]}
               >
-                <InputNumber addonAfter="V" />
+                <InputNumber className="w-full" addonAfter="V" />
               </Form.Item>
             </Col>
             <Col flex="25%">
@@ -445,7 +453,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                 label="过充释放"
                 rules={[{ required: true, message: '过充释放必填' }]}
               >
-                <InputNumber addonAfter="V" />
+                <InputNumber className="w-full" addonAfter="V" />
               </Form.Item>
             </Col>
             <Col flex="25%">
@@ -454,7 +462,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                 label="过放保护"
                 rules={[{ required: true, message: '过放保护必填' }]}
               >
-                <InputNumber addonAfter="V" />
+                <InputNumber className="w-full" addonAfter="V" />
               </Form.Item>
             </Col>
             <Col flex="25%">
@@ -463,7 +471,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                 label="过放释放"
                 rules={[{ required: true, message: '过放释放必填' }]}
               >
-                <InputNumber addonAfter="V" />
+                <InputNumber className="w-full" addonAfter="V" />
               </Form.Item>
             </Col>
           </Row>
@@ -471,7 +479,7 @@ const Setting: React.FC<SettingProps> = (props) => {
       )}
       {isLineLabel ? (
         <LineLabel title="运行参数设置">
-          <Button type="primary" onClick={onRunClick} loading={loading}>
+          <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
             下发参数
           </Button>
         </LineLabel>
@@ -479,7 +487,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         <Label
           title="运行参数设置"
           operate={
-            <Button type="primary" onClick={onRunClick} loading={loading}>
+            <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
               下发参数
             </Button>
           }
@@ -492,17 +500,12 @@ const Setting: React.FC<SettingProps> = (props) => {
         labelAlign="right"
         labelCol={{ flex: '116px' }}
         onFinish={requestRun}
-        onValuesChange={onRunValuesChange}
+        onValuesChange={setDisableRunFalse}
       >
         <Row>
           <Col flex="25%">
-            <Form.Item name="manualAutomaticSwitch" label="手/自动切换" valuePropName="checked">
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
             <Form.Item name="handOpePcsPower" label="手动PCS功率">
-              <InputNumber addonAfter="KW" />
+              <InputNumber className="w-full" addonAfter="KW" />
             </Form.Item>
           </Col>
         </Row>
@@ -514,6 +517,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 1)]}
             >
               <TimePicker.RangePicker
+                className="w-full"
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
@@ -527,9 +531,11 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
-              <InputNumber addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
+        </Row>
+        <Row>
           <Col flex="25%">
             <Form.Item
               name="time2"
@@ -537,6 +543,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 2)]}
             >
               <TimePicker.RangePicker
+                className="w-full"
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
@@ -550,9 +557,11 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
-              <InputNumber addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
+        </Row>
+        <Row>
           <Col flex="25%">
             <Form.Item
               name="time3"
@@ -560,6 +569,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 3)]}
             >
               <TimePicker.RangePicker
+                className="w-full"
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
@@ -573,9 +583,11 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
-              <InputNumber addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
+        </Row>
+        <Row>
           <Col flex="25%">
             <Form.Item
               name="time4"
@@ -583,6 +595,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 4)]}
             >
               <TimePicker.RangePicker
+                className="w-full"
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
@@ -596,9 +609,11 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
-              <InputNumber addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
+        </Row>
+        <Row>
           <Col flex="25%">
             <Form.Item
               name="time5"
@@ -606,6 +621,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 5)]}
             >
               <TimePicker.RangePicker
+                className="w-full"
                 format={timeFormat}
                 minuteStep={15}
                 placeholder={['开始', '结束']}
@@ -619,14 +635,14 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
-              <InputNumber addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>
       </Form>
       {isLineLabel ? (
         <LineLabel title="校时设置">
-          <Button type="primary" onClick={onTimeClick} loading={loading}>
+          <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
             下发参数
           </Button>
         </LineLabel>
@@ -634,7 +650,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         <Label
           title="校时设置"
           operate={
-            <Button type="primary" onClick={onTimeClick} loading={loading}>
+            <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
               下发参数
             </Button>
           }
@@ -645,6 +661,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         layout="horizontal"
         labelCol={{ flex: '116px' }}
         onFinish={onTimeFormFinish}
+        onValuesChange={setDisableTimeFalse}
       >
         <Row>
           <Col flex="25%">
@@ -654,6 +671,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               rules={[{ required: true, message: '系统时间必填' }]}
             >
               <DatePick
+                className="w-full"
                 getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
                 showTime
               />

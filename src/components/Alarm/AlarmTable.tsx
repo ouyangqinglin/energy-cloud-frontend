@@ -154,7 +154,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const detailItems: DetailItem[] = [
     { label: '告警名称', field: 'name' },
-    { label: '电站名称', field: 'siteName' },
+    { label: '站点名称', field: 'siteName' },
     { label: '设备名称', field: 'deviceName' },
     { label: '产品类型', field: 'productTypeName' },
     { label: '告警等级', field: 'level', format: (value) => alarmLevelMap.get(value) },

@@ -21,23 +21,18 @@ const Setting = () => {
       children: <System />,
     },
     {
-      key: '3',
-      label: `电价管理`,
-      children: <ElectricityPrice />,
-    },
-    {
-      key: '4',
-      label: `用户管理`,
-      children: <Account />,
-    },
-    {
       key: '5',
       label: `参数设置`,
       children: <ParamsSetting />,
     },
     {
+      key: '3',
+      label: `电价管理`,
+      children: <ElectricityPrice />,
+    },
+    {
       key: '6',
-      label: `设置记录`,
+      label: `配置日志`,
       children: <Record />,
     },
   ];

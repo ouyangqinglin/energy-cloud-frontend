@@ -86,7 +86,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     () => [
       <Button type="primary" key="add" onClick={onAddClick}>
         <PlusOutlined />
-        新建设备
+        新建
       </Button>,
     ],
     [],

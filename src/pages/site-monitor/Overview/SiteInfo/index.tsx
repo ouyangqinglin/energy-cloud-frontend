@@ -35,17 +35,17 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
     <RowBox span={6} className={styles.siteInfo}>
       <ul className={styles.desc}>
         <li>
-          <div className={styles.label}>电站名称：</div>
+          <div className={styles.label}>站点名称：</div>
           <div className={styles.value}>{data?.name ?? '--'}</div>
         </li>
         <li>
           <div className={styles.label}>地理位置：</div>
-          <Tooltip placement="topRight" title={'广东省深圳市龙华区观盛五路永泰科技园'}>
+          <Tooltip placement="topRight" title={data?.address ?? '--'}>
             <div className={styles.value}>{data?.address ?? '--'}</div>
           </Tooltip>
         </li>
         <li>
-          <div className={styles.label}>电站状态：</div>
+          <div className={styles.label}>站点状态：</div>
           <div className={styles.value}>{getAlarm(data?.siteAlarmStatus)}</div>
         </li>
         <li>

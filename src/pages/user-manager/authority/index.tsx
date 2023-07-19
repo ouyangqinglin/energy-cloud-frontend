@@ -32,7 +32,7 @@ const Authority = () => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建角色',
+        text: '新建',
       },
     },
     option: {

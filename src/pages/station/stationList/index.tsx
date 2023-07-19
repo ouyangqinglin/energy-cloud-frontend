@@ -65,7 +65,7 @@ const StationList: React.FC = () => {
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
-      新建站点
+      新建
     </Button>,
   ];
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-12 08:41:38
+ * @LastEditTime: 2023-07-19 16:16:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -10,10 +10,12 @@ import React, { Ref, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
 import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-components';
-import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
-// import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
+// import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
+import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { CombineService } from '@ahooksjs/use-request/lib/types';
+import { merge } from 'lodash';
+import { useBoolean } from 'ahooks';
 
 export { FormTypeEnum };
 
@@ -27,7 +29,7 @@ export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueTyp
   addData?: CombineService<any, any>;
   editData?: CombineService<any, any>;
   afterRequest?: (formData: FormData, formRef: React.Ref<ProFormInstance | undefined>) => void;
-  beforeSubmit?: (formData: FormData) => void;
+  beforeSubmit?: (formData: FormData) => boolean | void;
   onSuccess?: (formData: FormData) => boolean | void;
   extraData?: Record<string, any>;
   open?: boolean;
@@ -52,10 +54,17 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     extraData,
     open,
     onOpenChange,
+    layoutType = 'ModalForm',
+    submitter,
+    onValuesChange,
     ...restProps
   } = props;
 
   const schemaFormRef = useRef<ProFormInstance>();
+  const [
+    disableSubmitter,
+    { setTrue: setDisableSubmitterTrue, setFalse: setDisableSubmitterFalse },
+  ] = useBoolean(true);
 
   const { run: runGet, loading: getLoading } = useRequest(getData as any, {
     manual: true,
@@ -79,29 +88,56 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     }
   }, [type, suffixTitle]);
 
+  const mergedSubmitter = useMemo(() => {
+    if (typeof submitter == 'boolean') {
+      return submitter;
+    } else {
+      const defaultSubmitter: FormSchema['submitter'] = {
+        submitButtonProps: {
+          disabled: disableSubmitter,
+        },
+      };
+      return merge(defaultSubmitter, submitter);
+    }
+  }, [submitter, disableSubmitter]);
+
+  const mergedOnValuesChange = useCallback(
+    (changedValues, allValues) => {
+      setDisableSubmitterFalse();
+      onValuesChange?.(changedValues, allValues);
+    },
+    [onValuesChange],
+  );
+
   const onFinish = useCallback(
     (formData: FormData) => {
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
-      beforeSubmit?.(formData);
-      return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })?.then?.((data) => {
-        if (data) {
-          const result = onSuccess?.(formData);
-          if (result !== false) {
-            message.success('保存成功');
-            return true;
+      const beforeSubmitResult = beforeSubmit?.(formData);
+      if (beforeSubmitResult !== false) {
+        return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })?.then?.((data) => {
+          if (data) {
+            const result = onSuccess?.(formData);
+            if (result !== false) {
+              message.success('保存成功');
+              setDisableSubmitterTrue();
+              return true;
+            } else {
+              return false;
+            }
           } else {
             return false;
           }
-        } else {
-          return false;
-        }
-      });
+        });
+      } else {
+        return Promise.resolve(false);
+      }
     },
     [type, id, runAdd, runEdit, onSuccess, extraData],
   );
 
   useEffect(() => {
     if (open) {
+      setDisableSubmitterTrue();
       myFormRef?.current?.resetFields?.();
       if (type !== FormTypeEnum.Add && id) {
         runGet?.({ [idKey]: id })?.then?.((data) => {
@@ -117,7 +153,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     <>
       <BetaSchemaForm<FormData, ValueType>
         formRef={myFormRef}
-        layoutType="ModalForm"
+        layoutType={layoutType}
         width="460px"
         autoFocusFirstInput
         scrollToFirstError
@@ -132,6 +168,8 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
         rowProps={{
           gutter: [16, 0],
         }}
+        submitter={mergedSubmitter}
+        onValuesChange={mergedOnValuesChange}
         {...restProps}
       />
     </>

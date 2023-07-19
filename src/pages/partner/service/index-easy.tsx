@@ -29,7 +29,7 @@ export const Customer = () => {
   return (
     <YTFormList<ServiceInfo, ServiceInfo>
       formListField={{
-        buttonText: '新增安装商',
+        buttonText: '新增',
         requestDelete(entity) {
           return deleteService({ orgId: entity?.orgId });
         },
@@ -39,8 +39,8 @@ export const Customer = () => {
         modalDeleteText: '安装商',
       }}
       formUpdateField={{
-        titleCreate: '新增安装商',
-        titleUpdate: '编辑安装商',
+        titleCreate: '新增',
+        titleUpdate: '编辑',
         requestUpdate: updateService,
         requestCrate: createService,
         requestRead: getService,

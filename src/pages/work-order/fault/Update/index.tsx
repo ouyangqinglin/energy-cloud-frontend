@@ -30,8 +30,8 @@ export const Update = (props: FormUpdateBaseProps) => {
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>
-      titleCreate={`新增客户账号`}
-      titleUpdate={`编辑客户账号`}
+      titleCreate={`新增`}
+      titleUpdate={`编辑`}
       columns={getConfig()}
       request={convertRequestData}
       {...props}

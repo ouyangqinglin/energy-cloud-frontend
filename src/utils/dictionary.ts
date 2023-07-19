@@ -287,7 +287,7 @@ export enum reportTypeEnum {
 }
 
 export const reportType = new Map([
-  [reportTypeEnum.Site, '电站报表'],
+  [reportTypeEnum.Site, '站点报表'],
   [reportTypeEnum.Electric, '市电报表'],
   [reportTypeEnum.PvInverter, '光伏报表'],
   [reportTypeEnum.Energy, '储能报表'],

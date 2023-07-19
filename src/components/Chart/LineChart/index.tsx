@@ -2,12 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-17 15:01:42
+ * @LastEditTime: 2023-07-19 18:57:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
+import { TooltipCfg } from 'bizcharts/node_modules/@antv/g2/lib/interface';
+import { ILegend } from 'bizcharts/lib/components/Legend/index';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
 import { chartTypeEnum } from '../';
@@ -36,6 +38,8 @@ export type LineChartProps = {
   allLabel?: string[];
   colors?: string[];
   showLine?: boolean;
+  toolTipProps?: TooltipCfg;
+  legendProps?: ILegend;
 };
 
 const getAllMinute = (step = 2) => {
@@ -83,6 +87,8 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     colors = defaultColors,
     allLabel,
     showLine = true,
+    toolTipProps,
+    legendProps,
   } = props;
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -163,6 +169,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
                 opacity: 1,
               },
             }}
+            {...(toolTipProps || {})}
           />
           <Legend
             position="top"
@@ -170,6 +177,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
               symbol: showLine ? 'circle' : 'square',
             }}
             itemSpacing={24}
+            {...(legendProps || {})}
           />
           {showLine ? (
             <LineAdvance shape="smooth" color={['field', colors]} position="time*value" />

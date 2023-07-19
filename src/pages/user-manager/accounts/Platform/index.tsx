@@ -24,7 +24,7 @@ const Platform = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformS
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建账号',
+        text: '新建',
       },
     },
     option: {

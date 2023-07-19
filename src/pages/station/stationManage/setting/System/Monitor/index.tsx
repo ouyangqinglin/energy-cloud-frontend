@@ -170,7 +170,7 @@ const Monitor: React.FC = () => {
         };
       });
     },
-    [selectedRow],
+    [selectedRow, valueMap],
   );
 
   const onSaveClick = (type: string) => {
