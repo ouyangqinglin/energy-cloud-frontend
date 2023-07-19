@@ -66,7 +66,9 @@ const Monitor: React.FC = () => {
     (type, flag) => {
       runEdit({ siteId, type: monitorTypeMap.get(type)?.type, flag: flag }).then((data) => {
         if (data) {
-          message.success('保存成功');
+          if (!flag) {
+            message.success('保存成功');
+          }
           setActiveKeysSet((stateData) => {
             stateData[flag ? 'add' : 'delete'](type);
             return new Set(stateData);

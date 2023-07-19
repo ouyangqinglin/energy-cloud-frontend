@@ -171,7 +171,7 @@ export const Device = () => (
 
 export const Partner = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_服务商服务商_def</title>
+    <title>icon_安装商安装商_def</title>
     <g
       stroke="none"
       strokeWidth="1"

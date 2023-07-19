@@ -16,6 +16,7 @@ import StackImg from '@/assets/image/device/stack.png';
 import Stack from './Stack';
 import Cluster from './Cluster';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import Page from '@/layouts/Page';
 
 const BatterryStack: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -44,15 +45,12 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <div className="card-wrap">
-        <Overview data={deviceData} />
-      </div>
-      <div className="card-wrap px24 pb24 my24">
+      <Page
+        top={<Overview data={deviceData} />}
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+      >
         <Tabs items={tabItems} />
-      </div>
-      <div className="card-wrap p24">
-        <DeviceInfo id={id} onChange={onDataChange} />
-      </div>
+      </Page>
     </>
   );
 };

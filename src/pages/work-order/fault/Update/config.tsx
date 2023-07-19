@@ -11,7 +11,7 @@ export const Columns: (
 ) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
   return [
     {
-      title: '服务商名称',
+      title: '安装商名称',
       formItemProps: {
         rules: [
           {
@@ -23,7 +23,7 @@ export const Columns: (
       dataIndex: ['orgName'],
     },
     {
-      title: '服务商ID',
+      title: '安装商ID',
       // formItemProps: {
       //   rules: [
       //     {

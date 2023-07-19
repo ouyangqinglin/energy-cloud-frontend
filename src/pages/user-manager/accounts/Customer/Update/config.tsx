@@ -26,14 +26,14 @@ export const Columns: (
       hideInForm: true,
     },
     {
-      title: '服务商',
+      title: '安装商',
       valueType: TABLESELECT,
       dataIndex: 'serviceProvider',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请选择服务商',
+            message: '请选择安装商',
           },
         ],
       },
@@ -57,14 +57,14 @@ export const Columns: (
         proTableProps: {
           columns: [
             {
-              title: '服务商ID',
+              title: '安装商ID',
               dataIndex: 'orgId',
               width: 150,
               ellipsis: true,
               hideInSearch: true,
             },
             {
-              title: '服务商名称',
+              title: '安装商名称',
               dataIndex: 'orgName',
               width: 200,
               ellipsis: true,

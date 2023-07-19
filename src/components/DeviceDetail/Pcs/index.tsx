@@ -2,22 +2,21 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-15 17:43:11
+ * @LastEditTime: 2023-07-18 17:21:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Pcs\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
-import { getChildEquipment } from '@/services/equipment';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import ConverterImg from '@/assets/image/device/converter.png';
-import Detail, { DetailItem } from '@/components/Detail';
-import Label from '@/components/DeviceInfo/Label';
+import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import { runItems, exchargeItems, directCurrentItems, tempItems, versionItems } from './config';
 import Button from '@/components/CollectionModal/Button';
+import Page from '@/layouts/Page';
 
 const Pcs: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -49,26 +48,48 @@ const Pcs: React.FC<DeviceDetailType> = (props) => {
     />
   );
 
+  const detailGroup = useMemo<GroupItem[]>(() => {
+    return [
+      {
+        label: <Detail.Label title="运行状态" />,
+        items: runItems,
+      },
+      {
+        label: <Detail.Label title="交流侧信息" />,
+        items: exchargeItems,
+      },
+      {
+        label: <Detail.Label title="直流侧信息" />,
+        items: directCurrentItems,
+      },
+      {
+        label: <Detail.Label title="温度信息" />,
+        items: tempItems,
+      },
+      {
+        label: <Detail.Label title="版本信息" />,
+        items: versionItems,
+      },
+    ];
+  }, []);
+
   return (
     <>
-      <div className="card-wrap">
-        <Overview data={deviceData} />
-      </div>
-      <div className="card-wrap p24 my24">
-        <Label title="运行状态" />
-        <Detail items={runItems} data={realTimeData} extral={extral} />
-        <Label title="交流侧信息" />
-        <Detail items={exchargeItems} data={realTimeData} extral={extral} />
-        <Label title="直流侧信息" />
-        <Detail items={directCurrentItems} data={realTimeData} extral={extral} />
-        <Label title="温度信息" />
-        <Detail items={tempItems} data={realTimeData} extral={extral} />
-        <Label title="版本信息" />
-        <Detail items={versionItems} data={realTimeData} extral={extral} />
-      </div>
-      <div className="card-wrap p24">
-        <DeviceInfo id={id} onChange={onDataChange} />
-      </div>
+      <Page
+        top={<Overview data={deviceData} />}
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+      >
+        <Detail.Group
+          data={realTimeData}
+          items={detailGroup}
+          detailProps={{
+            extral,
+            colon: false,
+            labelStyle: { width: 140 },
+            valueStyle: { width: '40%' },
+          }}
+        />
+      </Page>
     </>
   );
 };

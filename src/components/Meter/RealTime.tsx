@@ -13,13 +13,15 @@ import Meter, { MeterSkeleton } from '@/components/Meter';
 import { RealTimeProps } from '@/components/ScreenDialog';
 import Label from '@/components/Detail/label';
 import useSubscribe from '@/pages/screen/useSubscribe';
+import { DetailProps } from '@/components/Detail';
 
 const RealTime: React.FC<
   RealTimeProps & {
-    label?: string;
+    label?: React.ReactNode;
+    detailProps?: DetailProps;
   }
 > = (props) => {
-  const { id, loading, open = true, label = '运行信息' } = props;
+  const { id, loading, open = true, label = '运行信息', detailProps } = props;
 
   const equipmentData = useSubscribe(id, open);
 
@@ -32,8 +34,8 @@ const RealTime: React.FC<
         </>
       ) : (
         <>
-          <Label title={label} />
-          <Meter data={equipmentData || {}} />
+          {typeof label == 'string' ? <Label title={label} /> : label}
+          <Meter data={equipmentData || {}} detailProps={detailProps} />
         </>
       )}
     </>

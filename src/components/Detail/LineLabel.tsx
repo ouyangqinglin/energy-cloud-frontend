@@ -2,21 +2,21 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:29:03
- * @LastEditTime: 2023-07-13 23:46:19
+ * @LastEditTime: 2023-07-18 14:08:08
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Label.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\LineLabel.tsx
  */
 import React from 'react';
 import { Divider } from 'antd';
-import styles from './index.less';
+import styles from './LineLabel.less';
 
-export type LabelProps = {
+export type LineLabelProps = {
   title?: string;
   className?: string;
   showLine?: boolean;
 };
 
-const Label: React.FC<LabelProps> = (props) => {
+const LineLabel: React.FC<LineLabelProps> = (props) => {
   const { title, className, showLine = true, children } = props;
 
   return (
@@ -30,4 +30,4 @@ const Label: React.FC<LabelProps> = (props) => {
   );
 };
 
-export default Label;
+export default LineLabel;

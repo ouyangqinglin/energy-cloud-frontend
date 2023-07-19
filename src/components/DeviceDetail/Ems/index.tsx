@@ -17,6 +17,7 @@ import StackImg from '@/assets/image/device/stack.png';
 import Run from './Run';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
+import Page from '@/layouts/Page';
 
 const Ems: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -45,15 +46,12 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <div className="card-wrap">
-        <Overview data={deviceData} />
-      </div>
-      <div className="card-wrap px24 pb24 my24">
+      <Page
+        top={<Overview data={deviceData} />}
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+      >
         <Tabs items={tabItems} />
-      </div>
-      <div className="card-wrap p24">
-        <DeviceInfo id={id} onChange={onDataChange} />
-      </div>
+      </Page>
     </>
   );
 };

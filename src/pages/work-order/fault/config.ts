@@ -49,7 +49,7 @@ export const columns: ProColumns<FaultType>[] = [
     width: 150,
   },
   {
-    title: '服务商',
+    title: '安装商',
     dataIndex: 'service',
     width: 150,
     ellipsis: true,

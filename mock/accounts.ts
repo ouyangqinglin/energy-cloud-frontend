@@ -4,9 +4,9 @@ export default {
     code: 200,
     data: {
       provider: [
-        { id: '1', name: '海南服务商' },
-        { id: '2', name: '珠海服务商' },
-        { id: '3', name: '深圳服务商' },
+        { id: '1', name: '海南安装商' },
+        { id: '2', name: '珠海安装商' },
+        { id: '3', name: '深圳安装商' },
       ],
     },
   },
@@ -16,7 +16,7 @@ export default {
     data: [
       { id: '11', role: '客户' },
       { id: '22', role: '运维人员' },
-      { id: '33', role: '服务商' },
+      { id: '33', role: '安装商' },
     ],
   },
   'GET /api/accounts/list': {

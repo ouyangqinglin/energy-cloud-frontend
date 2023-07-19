@@ -68,7 +68,7 @@ const StationInfo: React.FC = () => {
   const baseDetailItems: DetailItem[] = [
     { label: '站点名称', field: 'name' },
     { label: '站点ID', field: 'id' },
-    { label: '服务商', field: 'agentName' },
+    { label: '安装商', field: 'agentName' },
     { label: '电压等级', field: 'voltageClass', format: kVoltageFormat },
     { label: '变压器容量', field: 'transformerCapacity', format: kVAFormat },
     { label: '光伏装机量', field: 'photovoltaicInstalledCapacity', format: kWpFormat },

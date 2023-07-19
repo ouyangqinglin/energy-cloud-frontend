@@ -574,7 +574,7 @@ export default {
         component: 'Layout',
         alwaysShow: true,
         meta: {
-          title: '服务商管理',
+          title: '安装商管理',
           icon: 'YTPartnerOutlined',
           noCache: false,
           link: null,
@@ -586,7 +586,7 @@ export default {
             hidden: false,
             component: 'Layout',
             meta: {
-              title: '服务商',
+              title: '安装商',
               icon: '#',
               noCache: false,
               link: null,

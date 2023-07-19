@@ -24,7 +24,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新增服务商',
+        text: '新增安装商',
       },
     },
     option: {
@@ -41,7 +41,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         setOperations(FormOperations.UPDATE);
         set(true);
       },
-      modalDeleteText: '您确认要删除该服务商吗？删除之后无法恢复！',
+      modalDeleteText: '您确认要删除该安装商吗？删除之后无法恢复！',
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;

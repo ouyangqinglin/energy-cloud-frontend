@@ -182,7 +182,7 @@ const StationList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '服务商',
+      title: '安装商',
       dataIndex: 'agent',
       hideInSearch: true,
       ellipsis: true,

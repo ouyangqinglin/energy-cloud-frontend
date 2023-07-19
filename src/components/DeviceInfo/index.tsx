@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-07-15 09:50:52
+ * @LastEditTime: 2023-07-18 19:37:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\index.tsx
  */
@@ -13,7 +13,7 @@ import { useRequest } from 'umi';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import Dialog from '../Dialog';
-import Label from './Label';
+import Label from '../Detail/LineLabel';
 import EquipForm from '../EquipForm';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { getDeviceInfo } from '@/services/equipment';
@@ -91,7 +91,7 @@ const DeviceInfo: React.FC<DeviceInfoProps> = (props) => {
       ) : (
         <>
           <Label title="基础信息">
-            <Button type="link" onClick={onEditClick}>
+            <Button className="pr0" type="link" onClick={onEditClick}>
               修改
             </Button>
           </Label>
