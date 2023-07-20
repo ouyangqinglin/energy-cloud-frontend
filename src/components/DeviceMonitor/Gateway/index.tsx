@@ -59,6 +59,8 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
           label={<Detail.Label title="运行信息" />}
           detailProps={{
             extral,
+            colon: false,
+            valueStyle: { flex: 1, textAlign: 'right' },
           }}
         />
       </Page>

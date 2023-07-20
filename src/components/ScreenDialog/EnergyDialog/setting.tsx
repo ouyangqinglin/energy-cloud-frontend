@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-07-19 15:49:01
+ * @LastEditTime: 2023-07-20 14:10:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -46,7 +46,6 @@ type SettingProps = {
   id: string;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
-  showBattery?: boolean;
 };
 
 const powerMap = new Map([
@@ -106,7 +105,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, showBattery = true } = props;
+  const { id, isLineLabel = false } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -401,9 +400,21 @@ const Setting: React.FC<SettingProps> = (props) => {
           </Col>
         </Row>
       </Form>
-      {showBattery &&
-        (isLineLabel ? (
-          <LineLabel title="电池保护参数设置">
+      {isLineLabel ? (
+        <LineLabel title="电池保护参数设置">
+          <Button
+            type="primary"
+            onClick={onProtectClick}
+            loading={loading}
+            disabled={disableProtect}
+          >
+            下发参数
+          </Button>
+        </LineLabel>
+      ) : (
+        <Label
+          title="电池保护参数设置"
+          operate={
             <Button
               type="primary"
               onClick={onProtectClick}
@@ -412,71 +423,56 @@ const Setting: React.FC<SettingProps> = (props) => {
             >
               下发参数
             </Button>
-          </LineLabel>
-        ) : (
-          <Label
-            title="电池保护参数设置"
-            operate={
-              <Button
-                type="primary"
-                onClick={onProtectClick}
-                loading={loading}
-                disabled={disableProtect}
-              >
-                下发参数
-              </Button>
-            }
-          />
-        ))}
-      {showBattery && (
-        <Form
-          form={protectFrom}
-          className="setting-form"
-          layout="horizontal"
-          labelCol={{ flex: '116px' }}
-          onFinish={requestProtect}
-          onValuesChange={setDisableProtectFlalse}
-        >
-          <Row>
-            <Col flex="25%">
-              <Form.Item
-                name="OverchargeProtection"
-                label="过充保护"
-                rules={[{ required: true, message: '过充保护必填' }]}
-              >
-                <InputNumber className="w-full" addonAfter="V" />
-              </Form.Item>
-            </Col>
-            <Col flex="25%">
-              <Form.Item
-                name="OverchargeRelease"
-                label="过充释放"
-                rules={[{ required: true, message: '过充释放必填' }]}
-              >
-                <InputNumber className="w-full" addonAfter="V" />
-              </Form.Item>
-            </Col>
-            <Col flex="25%">
-              <Form.Item
-                name="OverdischargeProtection"
-                label="过放保护"
-                rules={[{ required: true, message: '过放保护必填' }]}
-              >
-                <InputNumber className="w-full" addonAfter="V" />
-              </Form.Item>
-            </Col>
-            <Col flex="25%">
-              <Form.Item
-                name="Overrelease"
-                label="过放释放"
-                rules={[{ required: true, message: '过放释放必填' }]}
-              >
-                <InputNumber className="w-full" addonAfter="V" />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+          }
+        />
       )}
+      <Form
+        form={protectFrom}
+        className="setting-form"
+        layout="horizontal"
+        labelCol={{ flex: '116px' }}
+        onFinish={requestProtect}
+        onValuesChange={setDisableProtectFlalse}
+      >
+        <Row>
+          <Col flex="25%">
+            <Form.Item
+              name="OverchargeProtection"
+              label="过充保护"
+              rules={[{ required: true, message: '过充保护必填' }]}
+            >
+              <InputNumber className="w-full" addonAfter="V" />
+            </Form.Item>
+          </Col>
+          <Col flex="25%">
+            <Form.Item
+              name="OverchargeRelease"
+              label="过充释放"
+              rules={[{ required: true, message: '过充释放必填' }]}
+            >
+              <InputNumber className="w-full" addonAfter="V" />
+            </Form.Item>
+          </Col>
+          <Col flex="25%">
+            <Form.Item
+              name="OverdischargeProtection"
+              label="过放保护"
+              rules={[{ required: true, message: '过放保护必填' }]}
+            >
+              <InputNumber className="w-full" addonAfter="V" />
+            </Form.Item>
+          </Col>
+          <Col flex="25%">
+            <Form.Item
+              name="Overrelease"
+              label="过放释放"
+              rules={[{ required: true, message: '过放释放必填' }]}
+            >
+              <InputNumber className="w-full" addonAfter="V" />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
       {isLineLabel ? (
         <LineLabel title="运行参数设置">
           <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>

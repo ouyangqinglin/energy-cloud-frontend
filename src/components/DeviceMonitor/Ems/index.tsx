@@ -39,7 +39,7 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
       {
         key: '2',
         label: '远程控制',
-        children: <Setting id={id} settingData={realTimeData} isLineLabel showBattery={false} />,
+        children: <Setting id={id} settingData={realTimeData} isLineLabel />,
       },
     ];
   }, [realTimeData]);

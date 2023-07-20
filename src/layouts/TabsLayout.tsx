@@ -24,7 +24,11 @@ const TabsLayout: React.FC = (props) => {
         <div
           className={styles.contain}
           style={
-            props?.location?.pathname == '/site-monitor/device-detail' ? { background: 'none' } : {}
+            ['/site-monitor/device-detail', '/equipment/device-monitor'].includes(
+              props?.location?.pathname,
+            )
+              ? { background: 'none' }
+              : {}
           }
         >
           {props.children}

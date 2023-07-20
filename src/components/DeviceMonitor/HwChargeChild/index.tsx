@@ -13,7 +13,8 @@ import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
-import RealTime from '@/components/ScreenDialog/HwCharge/RealTime';
+import RealTime from '@/components/ScreenDialog/HwChargeChild/RealTime';
+import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-child.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
@@ -57,7 +58,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
         <RealTime
           id={id}
           loading={loading}
-          label={<Detail.Label title="运行信息" />}
+          labelType={LabelTypeEnum.LineLabel}
           detailProps={{
             extral,
             colon: false,

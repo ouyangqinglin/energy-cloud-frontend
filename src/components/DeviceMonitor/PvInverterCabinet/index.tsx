@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-18 17:54:58
+ * @LastEditTime: 2023-07-20 13:58:58
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BoxSubstation\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\PvInverterCabinet\index.tsx
  */
 import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
@@ -15,8 +15,8 @@ import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/Meter/RealTime';
 import Page from '@/layouts/Page';
-import BoxSubstationImg from '@/assets/image/product/box-substation.png';
-import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
+import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
+import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -29,7 +29,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: BoxSubstationImg });
+    setDeviceData({ ...(value || {}), productImg: PvInverterCabinetImg });
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {
@@ -51,7 +51,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={BoxSubstationIntroImg} />}
+        top={<Overview data={deviceData} introImg={PvInverterCabinetIntroImg} />}
         bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime

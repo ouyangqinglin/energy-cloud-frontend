@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-20 09:35:21
+ * @LastEditTime: 2023-07-20 14:19:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\ElectricMeter\index.tsx
  */
@@ -59,6 +59,8 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
           label={<Detail.Label title="市电负载" />}
           detailProps={{
             extral,
+            colon: false,
+            valueStyle: { flex: 1, textAlign: 'right' },
           }}
         />
       </Page>

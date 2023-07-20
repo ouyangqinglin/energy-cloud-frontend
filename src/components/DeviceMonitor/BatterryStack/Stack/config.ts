@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-07-14 00:29:17
+ * @LastEditTime: 2023-07-20 15:44:53
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\components\Stack\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Stack\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
@@ -24,15 +24,11 @@ import {
   fault3Format,
   singleFormat,
   doorFormat,
+  abnormalFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
 export const controlItems: DetailItem[] = [
-  {
-    label: '主接触器状态',
-    field: 'MainContactorStatus',
-    format: (value) => closeFormat(value, false),
-  },
   {
     label: '预充接触器状态',
     field: 'PrechargeContactorStatus',
@@ -53,17 +49,7 @@ export const controlItems: DetailItem[] = [
   { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
   { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
   { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },
-  { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
-  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },
-  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
   { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
-];
-
-export const protectItems: DetailItem[] = [
-  { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
-  { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
-  { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
-  { label: '过放释放', field: 'Overrelease', format: voltageFormat },
 ];
 
 export const statusItems: DetailItem[] = [
@@ -76,6 +62,7 @@ export const statusItems: DetailItem[] = [
   { label: '负极绝缘值', field: 'NegativeInsulationValue', format: kohmFormat },
   { label: '平均电压', field: 'AverageVoltage', format: voltageFormat },
   { label: '预充总压', field: 'TPCP', format: voltageFormat },
+  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
 ];
 
 export const historyItems: DetailItem[] = [

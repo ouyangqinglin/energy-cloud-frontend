@@ -43,7 +43,6 @@ export const runItems: DetailItem[] = [
 ];
 
 export const statusItems: DetailItem[] = [
-  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
   { label: 'PACK风扇状态', field: 'b' },
   { label: 'PACK风扇状态反馈', field: 'c' },
   { label: 'BMU1风扇', field: 'BMU1Fan', format: openFormat },

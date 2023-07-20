@@ -5,7 +5,6 @@ import Device from './Device';
 import Cabinet from './Cabinet';
 import ElectricMeter from './ElectricMeter';
 import EnergyCabinet from './EnergyCabinet';
-import Energy from './Energy';
 import Gateway from './Gateway';
 import HwCharge from './HwCharge';
 import HwChargeChild from './HwChargeChild';
@@ -60,7 +59,7 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.PvInverter11]: { component: PvInverter, props: { loopNum: 12 } },
   [DeviceTypeEnum.PvInverter4]: { component: PvInverter, props: { loopNum: 4 } },
   [DeviceTypeEnum.YtCharge160]: { component: YTCharge },
-  [DeviceTypeEnum.Energy]: { component: Energy },
+  [DeviceTypeEnum.Energy]: { component: Device },
   [DeviceTypeEnum.PvInverterCabinet]: { component: PvInverterCabinet },
   [DeviceTypeEnum.HwCharge]: { component: HwCharge },
   [DeviceTypeEnum.YtCharge120]: { component: YTCharge },

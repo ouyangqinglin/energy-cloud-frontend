@@ -14,7 +14,6 @@ import { ProField } from '@ant-design/pro-components';
 import { ProColumns } from '@ant-design/pro-table';
 import {
   controlItems,
-  protectItems,
   statusItems,
   historyItems,
   tempItems,
@@ -152,10 +151,6 @@ const Stack: React.FC<StackProps> = (props) => {
       {
         label: <Detail.Label title="控制信息" />,
         items: controlItems,
-      },
-      {
-        label: <Detail.Label title="保护信息" />,
-        items: protectItems,
       },
       {
         label: <Detail.Label title="状态信息" />,

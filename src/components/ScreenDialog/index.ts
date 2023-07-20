@@ -24,11 +24,17 @@ import type { PvInverterProps } from '@/components/ScreenDialog/PvInverter';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { DetailProps } from '@/components/Detail';
 
+export enum LabelTypeEnum {
+  DotLabel,
+  LineLabel,
+}
+
 export type RealTimeProps = {
   id: string;
   loading?: boolean;
   open?: boolean;
   label?: React.ReactNode;
+  labelType?: LabelTypeEnum;
   detailProps?: Omit<DetailProps, 'items' | 'data'>;
 };
 

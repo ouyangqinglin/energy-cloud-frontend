@@ -2,21 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-18 17:54:58
+ * @LastEditTime: 2023-07-20 14:27:46
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BoxSubstation\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\YTCharge\index.tsx
  */
 import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
-import Detail, { DetailItem } from '@/components/Detail';
+import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
-import RealTime from '@/components/Meter/RealTime';
+import RealTime from '@/components/ScreenDialog/YtCharge/RealTime';
+import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
-import BoxSubstationImg from '@/assets/image/product/box-substation.png';
-import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
+import YtChargeImg from '@/assets/image/product/yt-charge.png';
+import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -29,7 +30,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: BoxSubstationImg });
+    setDeviceData({ ...(value || {}), productImg: YtChargeImg });
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {
@@ -51,17 +52,18 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={BoxSubstationIntroImg} />}
+        top={<Overview data={deviceData} introImg={YtChargeIntroImg} />}
         bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime
           id={id}
           loading={loading}
-          label={<Detail.Label title="运行信息" />}
+          labelType={LabelTypeEnum.LineLabel}
           detailProps={{
             extral,
             colon: false,
-            valueStyle: { flex: 1, textAlign: 'right' },
+            labelStyle: { width: 140 },
+            valueStyle: { width: '40%' },
           }}
         />
       </Page>

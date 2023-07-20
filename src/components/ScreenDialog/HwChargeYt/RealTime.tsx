@@ -17,9 +17,10 @@ import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat, useFormat } from '@/utils/format';
 import { getGuns } from '@/services/equipment';
 import { arrayToMap } from '@/utils';
+import { LabelTypeEnum } from '@/components/ScreenDialog';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true } = props;
+  const { id, loading, open = true, detailProps, labelType = LabelTypeEnum.DotLabel } = props;
 
   const [aGunId, setAGunId] = useState('');
   const [bGunId, setBGunId] = useState('');
@@ -60,7 +61,11 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
         </>
       ) : (
         <>
-          <Label title="状态信息" />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="状态信息" />
+          ) : (
+            <Detail.Label title="状态信息" />
+          )}
           <Row>
             <Col span={12}>
               <Detail data={aGunData} items={aStatusItems} column={2} />
@@ -69,8 +74,12 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
               <Detail data={bGunData} items={bStatusItems} column={2} />
             </Col>
           </Row>
-          <Label title="运行信息" />
-          <Detail data={equipmentData || {}} items={runItems} column={4} />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="运行信息" />
+          ) : (
+            <Detail.Label title="运行信息" />
+          )}
+          <Detail data={equipmentData || {}} items={runItems} column={4} {...(detailProps || {})} />
         </>
       )}
     </>
