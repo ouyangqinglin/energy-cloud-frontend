@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-17 15:01:42
+ * @LastEditTime: 2023-07-20 08:57:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
@@ -13,6 +13,7 @@ import { ILegend } from 'bizcharts/lib/components/Legend/index';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
 import { chartTypeEnum } from '../';
+import { merge } from 'lodash';
 
 export type ChartDataType = {
   time?: string;
@@ -114,6 +115,20 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     }
   }, [chartData]);
 
+  const mergeToolTipProps = useMemo(() => {
+    const defaultOptions: TooltipCfg = {
+      domStyles: {
+        'g2-tooltip': {
+          backgroundColor: 'rgba(9,12,21,0.8)',
+          boxShadow: 'none',
+          color: 'white',
+          opacity: 1,
+        },
+      },
+    };
+    return merge(defaultOptions, toolTipProps || {});
+  }, [toolTipProps]);
+
   useEffect(() => {
     const labels =
       typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any) || allLabel;
@@ -160,17 +175,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           data={chartData}
           autoFit
         >
-          <Tooltip
-            domStyles={{
-              'g2-tooltip': {
-                backgroundColor: 'rgba(9,12,21,0.8)',
-                boxShadow: 'none',
-                color: 'white',
-                opacity: 1,
-              },
-            }}
-            {...(toolTipProps || {})}
-          />
+          <Tooltip {...mergeToolTipProps} />
           <Legend
             position="top"
             marker={{

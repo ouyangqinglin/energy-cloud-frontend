@@ -6,14 +6,6 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\ElectricMeter.tsx
  */
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-27 13:52:34
- * @LastEditTime: 2023-06-27 13:52:38
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\EletricMeter.tsx
- */
 
 import React, { useMemo, useState, useCallback } from 'react';
 import { Tabs, Empty } from 'antd';

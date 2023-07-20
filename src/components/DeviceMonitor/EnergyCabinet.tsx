@@ -2,17 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-19 19:58:42
- * @LastEditTime: 2023-07-19 19:58:48
+ * @LastEditTime: 2023-07-20 08:49:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\EnergyCabinet.tsx
- */
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-27 14:25:13
- * @LastEditTime: 2023-06-27 14:25:18
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\EnergyCabinet.tsx
  */
 
 import React, { useMemo, useState, useCallback } from 'react';
