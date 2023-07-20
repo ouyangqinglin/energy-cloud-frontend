@@ -17,7 +17,7 @@ import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat, useFormat } from '@/utils/format';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true } = props;
+  const { id, loading, open = true, detailProps } = props;
 
   const equipmentData = useSubscribe(id, open);
 
@@ -56,9 +56,14 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
       ) : (
         <>
           <Label title="状态信息" />
-          <Detail data={equipmentData || {}} items={statusItems} column={4} />
+          <Detail
+            data={equipmentData || {}}
+            items={statusItems}
+            column={4}
+            {...(detailProps || {})}
+          />
           <Label title="运行信息" />
-          <Detail data={equipmentData || {}} items={runItems} column={4} />
+          <Detail data={equipmentData || {}} items={runItems} column={4} {...(detailProps || {})} />
         </>
       )}
     </>

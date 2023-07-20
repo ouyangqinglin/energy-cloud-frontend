@@ -13,10 +13,10 @@ import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
-import RealTime from '@/components/Meter/RealTime';
+import RealTime from '@/components/ScreenDialog/HwCharge/RealTime';
 import Page from '@/layouts/Page';
-import BoxSubstationImg from '@/assets/image/product/box-substation.png';
-import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
+import HwChargeStackImg from '@/assets/image/product/hw-charge-stack.png';
+import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -29,7 +29,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: BoxSubstationImg });
+    setDeviceData({ ...(value || {}), productImg: HwChargeStackImg });
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {
@@ -51,7 +51,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={BoxSubstationIntroImg} />}
+        top={<Overview data={deviceData} introImg={HwChargeStackIntroImg} />}
         bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime
@@ -60,6 +60,9 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
           label={<Detail.Label title="运行信息" />}
           detailProps={{
             extral,
+            colon: false,
+            labelStyle: { width: 140 },
+            valueStyle: { width: '40%' },
           }}
         />
       </Page>

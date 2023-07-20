@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-18 17:54:58
+ * @LastEditTime: 2023-07-20 09:35:21
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BoxSubstation\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\ElectricMeter\index.tsx
  */
 import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
@@ -15,8 +15,7 @@ import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/Meter/RealTime';
 import Page from '@/layouts/Page';
-import BoxSubstationImg from '@/assets/image/product/box-substation.png';
-import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
+import EmptyImg from '@/assets/image/device/empty.png';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id } = props;
@@ -29,7 +28,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: BoxSubstationImg });
+    setDeviceData({ ...(value || {}), productImg: EmptyImg });
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {
@@ -51,13 +50,13 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={BoxSubstationIntroImg} />}
+        top={<Overview data={deviceData} />}
         bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime
           id={id}
           loading={loading}
-          label={<Detail.Label title="运行信息" />}
+          label={<Detail.Label title="市电负载" />}
           detailProps={{
             extral,
           }}

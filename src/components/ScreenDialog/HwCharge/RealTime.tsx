@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:35:32
- * @LastEditTime: 2023-06-27 14:35:32
+ * @LastEditTime: 2023-07-20 10:10:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwCharge\RealTime.tsx
  */
@@ -18,7 +18,7 @@ import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat } from '@/utils/format';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true } = props;
+  const { id, loading, open = true, label = '运行信息', detailProps } = props;
 
   const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(relatedIds, open);
@@ -54,8 +54,8 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
         </>
       ) : (
         <>
-          <Label title="运行信息" />
-          <Detail data={equipmentData || {}} items={runItems} column={4} />
+          {typeof label == 'string' ? <Label title={label} /> : label}
+          <Detail data={equipmentData || {}} items={runItems} column={4} {...(detailProps || {})} />
         </>
       )}
     </>

@@ -18,14 +18,14 @@ import {
 import DetailForm from './components/detail';
 import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
+import YTProTable from '@/components/YTProTable';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 const { confirm } = Modal;
 
@@ -39,7 +39,7 @@ const handleAdd = async (fields: OperlogType) => {
   try {
     const resp = await addOperlog({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -62,7 +62,7 @@ const handleUpdate = async (fields: OperlogType) => {
   try {
     const resp = await updateOperlog(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -86,7 +86,7 @@ const handleRemove = async (selectedRows: OperlogType[]) => {
   try {
     const resp = await removeOperlog(selectedRows.map((row) => row.operId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -104,7 +104,7 @@ const handleRemoveAll = async () => {
   try {
     const resp = await cleanOperlog();
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -135,7 +135,6 @@ const handleExport = async () => {
     return false;
   }
 };
-
 
 const OperlogTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
@@ -307,7 +306,7 @@ const OperlogTableList: React.FC = () => {
             setCurrentRow(record);
           }}
         >
-          <FormattedMessage id="detaile" defaultMessage="Detail" />
+          <FormattedMessage id="detaile" defaultMessage="查看详情" />
         </Button>,
       ],
     },
@@ -316,7 +315,7 @@ const OperlogTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<OperlogType>
+        <YTProTable<OperlogType>
           headerTitle={intl.formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
@@ -325,81 +324,9 @@ const OperlogTableList: React.FC = () => {
           formRef={formTableRef}
           rowKey="operId"
           key="operlogList"
-          search={{
-            labelWidth: 120,
-          }}
-          toolBarRender={() => [
-            <Button
-              type="primary"
-              key="remove"
-              hidden={selectedRowsState?.length === 0 || !access.hasPerms('monitor:operlog:remove')}
-              onClick={async () => {
-                confirm({
-                  title: '是否确认清空所有登录日志数据项?',
-                  icon: <ExclamationCircleOutlined />,
-                  content: '请谨慎操作',
-                  async onOk() {
-                    const success = await handleRemove(selectedRowsState);
-                    if (success) {
-                      setSelectedRows([]);
-                      actionRef.current?.reloadAndRest?.();
-                    }
-                  },
-                  onCancel() {},
-                });
-              }}
-            >
-              <DeleteOutlined />
-              <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>,
-            <Button
-              type="primary"
-              key="clear"
-              hidden={!access.hasPerms('monitor:operlog:remove')}
-              onClick={async () => {
-                confirm({
-                  title: '是否确认清空所有登录日志数据项?',
-                  icon: <ExclamationCircleOutlined />,
-                  content: '请谨慎操作',
-                  async onOk() {
-                    handleRemoveAll();
-                    actionRef.current?.reloadAndRest?.();
-                  },
-                  onCancel() {},
-                });
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.clear" defaultMessage="清空" />
-            </Button>,
-            <Button
-              type="primary"
-              key="export"
-              hidden={!access.hasPerms('monitor:operlog:export')}
-              onClick={async () => {
-                handleExport();
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
-            </Button>,
-          ]}
-          request={(params) =>
-            getOperlogList({ ...params } as OperlogListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
-          }
+          toolBarRender={() => [<></>]}
+          request={(params) => getOperlogList({ ...params } as OperlogListParams)}
           columns={columns}
-          rowSelection={{
-            onChange: (_, selectedRows) => {
-              setSelectedRows(selectedRows);
-            },
-          }}
         />
       </div>
       {selectedRowsState?.length > 0 && (

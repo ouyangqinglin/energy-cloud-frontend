@@ -12,14 +12,9 @@ import { requestEmptyPage } from '@/services';
 
 // 查询操作日志记录列表
 export async function getOperlogList(params?: OperlogListParams) {
-  return requestEmptyPage();
-  const queryString = new URLSearchParams(params).toString();
-  return request(`/monitor/operlog/list?${queryString}`, {
-    data: params,
+  return request(`/uc/operlog/page`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
+    params,
   });
 }
 

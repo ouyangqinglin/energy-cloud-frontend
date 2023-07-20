@@ -53,7 +53,7 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
     title: '运行状态',
     field: 'status',
     render: (status: RealtimeStatusEnum = RealtimeStatusEnum.DEFAULT) => {
-      const statusItem = RealtimeStatusMap[status];
+      const statusItem = RealtimeStatusMap[status] || RealtimeStatusMap[0];
       return (
         <div className={styles.runningStatus}>
           <div className={styles.icon} style={{ backgroundImage: `url(${statusItem.icon})` }} />
