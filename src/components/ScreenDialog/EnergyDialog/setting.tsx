@@ -28,6 +28,7 @@ import type { Moment } from 'moment';
 import { useRequest } from 'umi';
 import { editSetting } from './service';
 import { isEmpty } from '@/utils';
+import { closeFormat, mainContactorFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
 
@@ -138,7 +139,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           break;
         case 'bmsClose':
         case 'bmsBreak':
-          const contactStatus = settingData?.MainContactorStatus ? '闭合' : '断开';
+          const contactStatus = mainContactorFormat(settingData?.MainContactorStatus);
           content = (
             <span>
               当前BMS主接触器为<span className="cl-primary">{contactStatus}状态</span>

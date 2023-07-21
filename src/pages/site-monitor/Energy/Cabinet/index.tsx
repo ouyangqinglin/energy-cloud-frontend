@@ -42,6 +42,7 @@ import {
   voltageFormat,
   chargeFormat,
   powerFormat,
+  airWorkFormat,
 } from '@/utils/format';
 
 const voltageNumFormat = (value: number): number => {
@@ -72,7 +73,7 @@ const unitItems = [
       {
         label: '运行状态：',
         field: 'AirConditioningWorkingStatus',
-        format: (value: number) => openFormat(value),
+        format: airWorkFormat,
       },
       { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
       { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },

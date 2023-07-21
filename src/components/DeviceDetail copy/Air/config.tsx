@@ -16,6 +16,7 @@ import {
   openFormat,
   booleanFormat,
   airsetFormat,
+  airAlarmFormat,
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
@@ -29,7 +30,7 @@ export const controlItems: DetailItem[] = [
   { label: '送风状态', field: 'AirSupplyStatus', format: booleanFormat },
   { label: '待机状态', field: 'PositionInReadiness', format: booleanFormat },
   { label: '空调机组运行状态', field: 'AirConditioningUnitOperationStatus', format: airsetFormat },
-  { label: '空调报警状态', field: 'a' },
+  { label: '空调报警状态', field: 'AirConditioningAlarmStatus', format: airAlarmFormat },
 ];
 
 export const statusItems: DetailItem[] = [

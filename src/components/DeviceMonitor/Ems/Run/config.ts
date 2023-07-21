@@ -8,7 +8,14 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
-import { closeFormat, modelFormat, runFormat, singleFormat, voltageFormat } from '@/utils/format';
+import {
+  closeFormat,
+  mainContactorFormat,
+  modelFormat,
+  runFormat,
+  singleFormat,
+  voltageFormat,
+} from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
   { label: '系统模式', field: 'sysModel', format: modelFormat },
@@ -16,7 +23,7 @@ export const controlItems: DetailItem[] = [
   {
     label: '主接触器状态',
     field: 'MainContactorStatus',
-    format: (value) => closeFormat(value),
+    format: (value) => mainContactorFormat(value),
   },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },

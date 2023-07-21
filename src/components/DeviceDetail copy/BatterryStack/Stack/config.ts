@@ -24,6 +24,8 @@ import {
   fault3Format,
   singleFormat,
   doorFormat,
+  mainContactorFormat,
+  externalFaultFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
@@ -31,7 +33,7 @@ export const controlItems: DetailItem[] = [
   {
     label: '主接触器状态',
     field: 'MainContactorStatus',
-    format: (value) => closeFormat(value),
+    format: (value) => mainContactorFormat(value),
   },
   {
     label: '预充接触器状态',
@@ -48,7 +50,7 @@ export const controlItems: DetailItem[] = [
     field: 'ACCircuitBreakerStatus',
     format: (value) => closeFormat(value),
   },
-  { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
+  { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
   { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },

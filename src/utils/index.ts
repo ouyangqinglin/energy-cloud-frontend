@@ -119,3 +119,13 @@ export const saveFile = (data: Blob, name = '导出文件') => {
   // let blob = new Blob([data], { type: fileType.Xlxs })
   FileSaver.saveAs(data, name + '.xlsx');
 };
+
+export const strToArray = (value: string): string[] => {
+  let result: string[] = [];
+  try {
+    result = JSON.parse(value + '');
+  } catch (e) {
+    result = [value];
+  }
+  return result;
+};
