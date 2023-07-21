@@ -2,26 +2,27 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-07-18 10:43:43
+ * @LastEditTime: 2023-07-21 17:55:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { getList, getDetail } from './service';
 import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
-import { getStations } from '@/services/station';
-import { logType, type OptionType } from '@/utils/dictionary';
-import { debounce } from 'lodash';
+import { SiteDataType } from '@/services/station';
+import { logType } from '@/utils/dictionary';
 import { format } from 'timeago.js';
+import SiteLabel from '@/components/SiteLabel';
 
 const OperationLog: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [stationOptions, setStationOptions] = useState<OptionType[]>();
+  const [siteId, setSiteId] = useState<string>();
+  const actionRef = useRef<ActionType>();
   const { data: logData, run } = useRequest(getDetail, {
     manual: true,
   });
@@ -30,33 +31,23 @@ const OperationLog: React.FC = () => {
     setOpen((value) => !value);
   }, []);
 
-  const requestList = useCallback((params: OperationLogType) => {
-    return getList(params);
-  }, []);
+  const requestList = useCallback(
+    (params: OperationLogType) => {
+      return getList({ ...params, siteId });
+    },
+    [siteId],
+  );
 
   const onDetailClick = useCallback((_, record) => {
     switchOpen();
     run(record.id);
   }, []);
 
-  const requestStation = useCallback(
-    debounce((searchText) => {
-      getStations({ name: searchText }).then(({ data }) => {
-        setStationOptions(
-          data?.map?.((item: any) => {
-            return {
-              label: item.name,
-              value: item.id,
-            };
-          }),
-        );
-      });
-    }, 700),
-    [],
-  );
-
-  useEffect(() => {
-    requestStation('');
+  const onChange = useCallback((data: SiteDataType) => {
+    if (data?.id) {
+      setSiteId(data.id);
+      actionRef.current?.reloadAndRest?.();
+    }
   }, []);
 
   const detailItems: DetailItem[] = [
@@ -93,19 +84,9 @@ const OperationLog: React.FC = () => {
     {
       title: '所属站点',
       dataIndex: 'siteName',
-      valueType: 'select',
-      render: (_, record) => record.siteName,
-      formItemProps: {
-        name: 'siteId',
-      },
-      fieldProps: {
-        showSearch: true,
-        filterOption: false,
-        onSearch: requestStation,
-        options: stationOptions,
-      },
       width: 150,
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '设备名称',
@@ -139,7 +120,9 @@ const OperationLog: React.FC = () => {
 
   return (
     <>
+      <SiteLabel className="px24 pt24" onChange={onChange} />
       <YTProTable<OperationLogType, OperationLogType>
+        actionRef={actionRef}
         columns={columns}
         request={requestList}
         toolBarRender={() => [<></>]}

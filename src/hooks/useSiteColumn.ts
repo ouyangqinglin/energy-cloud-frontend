@@ -2,39 +2,43 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:36:01
- * @LastEditTime: 2023-07-10 14:27:53
+ * @LastEditTime: 2023-07-21 17:56:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { getStations } from '@/services/station';
+import { SiteDataType, getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
 import { debounce, merge } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-table';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   props: ProColumns<TableData, ValueType> = {},
-): [siteColumn: ProColumns<TableData, ValueType>, siteOptions: OptionType[] | undefined] => {
+): [siteColumn: ProColumns<TableData, ValueType>, siteOptions: SiteDataType[] | undefined] => {
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
+  const [siteOptions, setSiteOptions] = useState<SiteDataType[]>();
 
   const requestStation = useCallback(
-    debounce((searchText) => {
-      getStations({ ...(props?.params ?? {}), name: searchText }).then(({ data }) => {
-        setStationOptions(
+    debounce((searchText, fun) => {
+      return getStations({ ...(props?.params ?? {}), name: searchText }).then(({ data }) => {
+        const result =
           data?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,
+              ...item,
             };
-          }) || [],
-        );
+          }) || [];
+        setStationOptions(result);
+        fun?.(result);
+        return result;
       });
     }, 700),
     [],
   );
 
   useEffect(() => {
-    requestStation('');
+    requestStation('', setSiteOptions);
   }, []);
 
   const siteColumn: ProColumns<TableData, ValueType> = useMemo(() => {
@@ -80,7 +84,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
     };
   }, [requestStation, stationOptions, props]);
 
-  return [siteColumn, stationOptions];
+  return [siteColumn, siteOptions];
 };
 
 export default useSiteColumn;

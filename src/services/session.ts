@@ -18,8 +18,11 @@ export async function logout(options?: Record<string, any>) {
   });
 }
 
-export async function getRouters(): Promise<API.GetRoutersResult> {
-  return request('/system/menu/getRouters');
+export async function getRouters(params?: any): Promise<API.GetRoutersResult> {
+  return request('/system/menu/getRouters', {
+    method: 'GET',
+    params,
+  });
 }
 
 export function convertCompatRouters(childrens: API.RoutersMenuItem[]): MenuDataItem[] {
@@ -38,8 +41,8 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): MenuData
   });
 }
 
-export async function getRoutersInfo(): Promise<MenuDataItem[]> {
-  return getRouters().then((res) => {
+export async function getRoutersInfo(params?: any): Promise<MenuDataItem[]> {
+  return getRouters(params).then((res) => {
     return convertCompatRouters(res.data);
   });
 }

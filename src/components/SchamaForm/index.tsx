@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-19 16:16:38
+ * @LastEditTime: 2023-07-21 15:23:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -92,21 +92,26 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     if (typeof submitter == 'boolean') {
       return submitter;
     } else {
-      const defaultSubmitter: FormSchema['submitter'] = {
-        submitButtonProps: {
-          disabled: disableSubmitter,
-        },
-      };
+      const defaultSubmitter: FormSchema['submitter'] =
+        layoutType !== 'QueryFilter'
+          ? {
+              submitButtonProps: {
+                disabled: disableSubmitter,
+              },
+            }
+          : {};
       return merge(defaultSubmitter, submitter);
     }
   }, [submitter, disableSubmitter]);
 
   const mergedOnValuesChange = useCallback(
     (changedValues, allValues) => {
-      setDisableSubmitterFalse();
+      if (layoutType !== 'QueryFilter') {
+        setDisableSubmitterFalse();
+      }
       onValuesChange?.(changedValues, allValues);
     },
-    [onValuesChange],
+    [onValuesChange, layoutType],
   );
 
   const onFinish = useCallback(
@@ -119,7 +124,9 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
             const result = onSuccess?.(formData);
             if (result !== false) {
               message.success('保存成功');
-              setDisableSubmitterTrue();
+              if (layoutType !== 'QueryFilter') {
+                setDisableSubmitterTrue();
+              }
               return true;
             } else {
               return false;
@@ -132,12 +139,14 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
         return Promise.resolve(false);
       }
     },
-    [type, id, runAdd, runEdit, onSuccess, extraData],
+    [type, id, runAdd, runEdit, onSuccess, extraData, layoutType],
   );
 
   useEffect(() => {
     if (open) {
-      setDisableSubmitterTrue();
+      if (layoutType !== 'QueryFilter') {
+        setDisableSubmitterTrue();
+      }
       myFormRef?.current?.resetFields?.();
       if (type !== FormTypeEnum.Add && id) {
         runGet?.({ [idKey]: id })?.then?.((data) => {
@@ -147,7 +156,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
         });
       }
     }
-  }, [open, id, type, myFormRef]);
+  }, [open, id, type, myFormRef, layoutType]);
 
   return (
     <>

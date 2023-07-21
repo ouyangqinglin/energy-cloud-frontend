@@ -124,6 +124,9 @@ export const strToArray = (value: string): string[] => {
   let result: string[] = [];
   try {
     result = JSON.parse(value + '');
+    if (!Array.isArray(result)) {
+      result = [result];
+    }
   } catch (e) {
     result = [value];
   }
