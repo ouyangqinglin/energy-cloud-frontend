@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-19 19:47:20
+ * @LastEditTime: 2023-07-21 09:50:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Power\index.tsx
  */
@@ -86,7 +86,7 @@ const Power: React.FC<ComProps> = (props) => {
               date={date}
               legendMap={legendMap}
               data={chartData}
-              colors={['#FF974A']}
+              colors={['#007DFF']}
               toolTipProps={{
                 domStyles: {
                   'g2-tooltip-marker': {
@@ -101,24 +101,24 @@ const Power: React.FC<ComProps> = (props) => {
               <Annotation.RegionFilter
                 start={['min', 0]}
                 end={['max', maxValue]}
-                color={'#007DFF'}
-              />
-              <Annotation.Text
-                position={['max', 0]}
-                content="放电"
-                offsetX={-25}
-                offsetY={25}
-                style={{
-                  fill: '#FF974A',
-                }}
+                color={'#FF974A'}
               />
               <Annotation.Text
                 position={['max', 0]}
                 content="充电"
                 offsetX={-25}
-                offsetY={-25}
+                offsetY={25}
                 style={{
                   fill: '#007DFF',
+                }}
+              />
+              <Annotation.Text
+                position={['max', 0]}
+                content="放电"
+                offsetX={-25}
+                offsetY={-25}
+                style={{
+                  fill: '#FF974A',
                 }}
               />
             </LineChart>

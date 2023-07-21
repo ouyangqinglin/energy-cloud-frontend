@@ -32,17 +32,17 @@ export const controlItems: DetailItem[] = [
   {
     label: '预充接触器状态',
     field: 'PrechargeContactorStatus',
-    format: (value) => closeFormat(value, false),
+    format: (value) => closeFormat(value),
   },
   {
     label: '直流断路器状态',
     field: 'DCCircuitBreakerStatus',
-    format: (value) => closeFormat(value, false),
+    format: (value) => closeFormat(value),
   },
   {
     label: '交流断路器状态',
     field: 'ACCircuitBreakerStatus',
-    format: (value) => closeFormat(value, false),
+    format: (value) => closeFormat(value),
   },
   { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },

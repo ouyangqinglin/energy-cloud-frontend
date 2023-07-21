@@ -18,7 +18,7 @@ import Page from '@/layouts/Page';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -29,6 +29,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: EnergyCabinetImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

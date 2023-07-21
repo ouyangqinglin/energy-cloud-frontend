@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-07-20 08:48:12
+ * @LastEditTime: 2023-07-20 19:31:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -96,6 +96,17 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
     [deviceId, keys],
   );
 
+  const labelFormatter = useCallback(
+    (value) => {
+      if (chartType == chartTypeEnum.Label) {
+        return moment(value).format('YYYY-MM-DD HH:mm');
+      } else {
+        return value;
+      }
+    },
+    [chartType],
+  );
+
   useEffect(() => {
     if (open && deviceId) {
       formRef?.current?.submit?.();
@@ -139,6 +150,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           valueKey="value"
           data={chartData}
           allLabel={allLabel}
+          labelFormatter={labelFormatter}
         >
           <Slider start={0} end={1} minLimit={0.2} />
         </LineChart>

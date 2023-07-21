@@ -20,7 +20,7 @@ import HwChargeStackImg from '@/assets/image/product/hw-charge-child.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -31,6 +31,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: HwChargeStackImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

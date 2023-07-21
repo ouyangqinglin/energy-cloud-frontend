@@ -16,7 +16,7 @@ export const controlItems: DetailItem[] = [
   {
     label: '主接触器状态',
     field: 'MainContactorStatus',
-    format: (value) => closeFormat(value, false),
+    format: (value) => closeFormat(value),
   },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },

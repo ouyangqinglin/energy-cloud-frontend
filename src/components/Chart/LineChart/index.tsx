@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-20 08:57:14
+ * @LastEditTime: 2023-07-20 19:21:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
@@ -41,6 +41,7 @@ export type LineChartProps = {
   showLine?: boolean;
   toolTipProps?: TooltipCfg;
   legendProps?: ILegend;
+  labelFormatter?: (value: any) => string;
 };
 
 const getAllMinute = (step = 2) => {
@@ -90,6 +91,7 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     showLine = true,
     toolTipProps,
     legendProps,
+    labelFormatter,
   } = props;
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -164,8 +166,9 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           ref={chartRef}
           height={height}
           scale={{
-            label: {
-              ticks: ticks,
+            time: {
+              formatter: labelFormatter,
+              //ticks: ticks,
             },
             value: {
               max: valueScale.max,

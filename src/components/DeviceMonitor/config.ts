@@ -17,9 +17,11 @@ import Air from './Air';
 import type { PvInverterProps } from './PvInverter';
 import PvInverterCabinet from './PvInverterCabinet';
 import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceDataType } from '@/services/equipment';
 
 export type DeviceDetailType = {
   id: string;
+  onChange?: (value: DeviceDataType) => void;
 };
 
 export type RealTimeProps = {
@@ -28,12 +30,8 @@ export type RealTimeProps = {
   open?: boolean;
 };
 
-export type BusinessDialogProps = {
-  id: string;
-};
-
 export type DeviceDialogMapType = {
-  component: React.FC<BusinessDialogProps>;
+  component: React.FC<DeviceDetailType>;
   props?: Record<string, any>;
 };
 

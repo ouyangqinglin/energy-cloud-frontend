@@ -20,7 +20,7 @@ import YtChargeImg from '@/assets/image/product/yt-charge.png';
 import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -31,6 +31,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: YtChargeImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

@@ -116,7 +116,7 @@ export default [
       },
       {
         path: 'device-detail',
-        component: './equipment/DeviceMonitor',
+        component: './site-monitor/DeviceMonitor',
         wrappers: ['@/components/KeepAlive'],
         title: 'menu.siteMonitor.deviceDetail',
       },
@@ -235,8 +235,8 @@ export default [
         wrappers: ['@/components/KeepAlive'],
       },
       {
-        path: 'device-monitor',
-        component: './equipment/DeviceMonitor',
+        path: 'device-detail',
+        component: './equipment/DeviceDetail',
         wrappers: ['@/components/KeepAlive'],
         title: 'menu.device.deviceMonitor',
       },

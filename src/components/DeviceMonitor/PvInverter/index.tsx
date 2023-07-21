@@ -24,7 +24,7 @@ export type PvInverterProps = DeviceDetailType & {
 };
 
 const BoxSubstation: React.FC<PvInverterProps> = (props) => {
-  const { id, loopNum } = props;
+  const { id, onChange, loopNum } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -35,6 +35,7 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: PvInverterImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

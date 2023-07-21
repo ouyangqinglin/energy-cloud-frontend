@@ -15,14 +15,18 @@ const DeviceMonitor: React.FC<
     productId: number;
   }
 > = (props) => {
-  const { id, productId } = props;
+  const { id, productId, onChange } = props;
 
   const deviceDialog = useMemo<DeviceDialogMapType>(() => {
     return deviceDetailMap?.[productId] || deviceDetailMap.default;
   }, [productId]);
 
   return (
-    <>{deviceDialog.component && <deviceDialog.component id={id} {...deviceDialog.props} />}</>
+    <>
+      {deviceDialog.component && (
+        <deviceDialog.component id={id} onChange={onChange} {...deviceDialog.props} />
+      )}
+    </>
   );
 };
 

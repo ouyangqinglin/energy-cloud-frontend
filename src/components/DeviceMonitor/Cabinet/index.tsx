@@ -17,12 +17,13 @@ import CabinetImg from '@/assets/image/product/cabinet.png';
 import CabinetIntroImg from '@/assets/image/product/cabinet-intro.jpg';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: CabinetImg });
+    onChange?.(value);
   }, []);
 
   return (

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-18 10:49:20
+ * @LastEditTime: 2023-07-20 16:26:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -38,7 +38,7 @@ import {
   modelFormat,
   percentageFormat,
   workFormat,
-  electricModel,
+  electricModelFormat,
   voltageFormat,
   chargeFormat,
   powerFormat,
@@ -72,7 +72,7 @@ const unitItems = [
       {
         label: '运行状态：',
         field: 'AirConditioningWorkingStatus',
-        format: (value: number) => openFormat(value, false),
+        format: (value: number) => openFormat(value),
       },
       { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
       { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },
@@ -88,7 +88,7 @@ const unitItems = [
       {
         label: '储能仓门:',
         field: 'AccessControlStatus',
-        format: (value: number) => doorFormat(value, false),
+        format: (value: number) => doorFormat(value),
       },
     ],
   },
@@ -103,12 +103,12 @@ const unitItems = [
       {
         label: '运行状态：',
         field: 'emsSysStatus',
-        format: (value: number) => runFormat(value, false),
+        format: (value: number) => runFormat(value),
       },
       {
         label: '系统模式：',
         field: 'sysModel',
-        format: (value: number) => modelFormat(value, false),
+        format: (value: number) => modelFormat(value),
       },
     ],
   },
@@ -136,12 +136,12 @@ const unitItems = [
       {
         label: '工作状态：',
         field: 'WorkStatus',
-        format: (value: number) => workFormat(value, false),
+        format: (value: number) => workFormat(value),
       },
       {
         label: '工作模式：',
         field: 'CurrentChargingAndDischargingModel',
-        format: (value: number) => electricModel(value, false),
+        format: (value: number) => electricModelFormat(value),
       },
       { label: '储能功率：', field: 'P', format: energyPowerFormat },
     ],

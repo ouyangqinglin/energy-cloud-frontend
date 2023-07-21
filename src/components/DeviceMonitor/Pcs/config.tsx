@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:25:54
- * @LastEditTime: 2023-07-14 14:25:58
+ * @LastEditTime: 2023-07-20 16:31:24
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\EnergyConverter\config.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Pcs\config.tsx
  */
 
 import type { DetailItem } from '@/components/Detail';
@@ -16,14 +16,14 @@ import {
   frequencyFormat,
   faultFormat,
   workFormat,
-  electricModel,
+  electricModelFormat,
 } from '@/utils/format';
 
 export const runItems: DetailItem[] = [
   {
     label: '当前实际充放电工作模式',
     field: 'CurrentChargingAndDischargingModel',
-    format: electricModel,
+    format: electricModelFormat,
   },
   { label: '工作状态', field: 'WorkStatus', format: workFormat },
   { label: '系统故障字', field: 'SystemFault', format: faultFormat },

@@ -100,7 +100,7 @@ export const hydrogenFormat = (value: string | number) => {
 export const moneyFormat = (value: string | number) => {
   return getValue(value, '元');
 };
-export const electricModel = (value: number) => {
+export const electricModelFormat = (value: number) => {
   const map = {
     0: '电池恒压',
     1: '并网恒流',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-07-20 14:10:46
+ * @LastEditTime: 2023-07-20 17:42:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -320,31 +320,37 @@ const Setting: React.FC<SettingProps> = (props) => {
 
   useEffect(() => {
     if (!lodash.isEmpty(settingData)) {
-      protectFrom.setFieldsValue({
-        OverchargeProtection: settingData?.OverchargeProtection ?? '',
-        OverchargeRelease: settingData?.OverchargeRelease ?? '',
-        OverdischargeProtection: settingData?.OverdischargeProtection ?? '',
-        Overrelease: settingData?.Overrelease ?? '',
-      });
-      const runData = {};
-      timeMap.forEach((item, key) => {
-        runData[key] = settingData?.[item[0]]
-          ? [
-              moment(`2023-06-07 ${settingData?.[item[0]]}:${settingData?.[item[1]]}`),
-              moment(`2023-06-07 ${settingData?.[item[2]]}:${settingData?.[item[3]]}`),
-            ]
-          : [];
-      });
-      powerMap.forEach((item, key) => {
-        runData[key] = settingData?.[item];
-      });
-      runForm.setFieldsValue({
-        handOpePcsPower: settingData?.handOpePcsPower ?? '',
-        ...runData,
-      });
-      timeForm.setFieldsValue({
-        time: settingData?.sysTem ? moment(settingData?.sysTem) : null,
-      });
+      if (disableProtect) {
+        protectFrom.setFieldsValue({
+          OverchargeProtection: settingData?.OverchargeProtection ?? '',
+          OverchargeRelease: settingData?.OverchargeRelease ?? '',
+          OverdischargeProtection: settingData?.OverdischargeProtection ?? '',
+          Overrelease: settingData?.Overrelease ?? '',
+        });
+      }
+      if (disableRun) {
+        const runData = {};
+        timeMap.forEach((item, key) => {
+          runData[key] = settingData?.[item[0]]
+            ? [
+                moment(`2023-06-07 ${settingData?.[item[0]]}:${settingData?.[item[1]]}`),
+                moment(`2023-06-07 ${settingData?.[item[2]]}:${settingData?.[item[3]]}`),
+              ]
+            : [];
+        });
+        powerMap.forEach((item, key) => {
+          runData[key] = settingData?.[item];
+        });
+        runForm.setFieldsValue({
+          handOpePcsPower: settingData?.handOpePcsPower ?? '',
+          ...runData,
+        });
+      }
+      if (disableTime) {
+        timeForm.setFieldsValue({
+          time: settingData?.sysTem ? moment(settingData?.sysTem) : null,
+        });
+      }
     }
   }, [settingData, protectFrom, runForm, timeForm]);
 

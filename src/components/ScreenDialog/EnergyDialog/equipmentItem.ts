@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-06-08 15:08:20
+ * @LastEditTime: 2023-07-20 16:31:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */
@@ -18,7 +18,6 @@ import {
   currentFormat,
   frequencyFormat,
   tempFormat,
-  electricModel,
   workFormat,
   faultFormat,
   fault1Format,
@@ -36,6 +35,7 @@ import {
   openCloseFormat,
   booleanFormat,
   airsetFormat,
+  electricModelFormat,
 } from '@/utils/format';
 
 export const statusItems: DetailItem[] = [
@@ -121,7 +121,7 @@ export const pcsStatusItems: DetailItem[] = [
   {
     label: '当前实际充放电工作模式',
     field: 'CurrentChargingAndDischargingModel',
-    format: electricModel,
+    format: electricModelFormat,
   },
   { label: '工作状态', field: 'WorkStatus', format: workFormat },
   { label: '系统故障字', field: 'SystemFault', format: faultFormat },

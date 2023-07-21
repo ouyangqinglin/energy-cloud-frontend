@@ -19,7 +19,7 @@ import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
 
 const Pcs: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
@@ -30,6 +30,7 @@ const Pcs: React.FC<DeviceDetailType> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: ConverterImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

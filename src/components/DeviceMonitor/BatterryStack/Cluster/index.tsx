@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-07-18 15:48:43
+ * @LastEditTime: 2023-07-20 16:30:34
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Cluster\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Cluster\index.tsx
  */
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { Row, Col, Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
@@ -40,7 +40,10 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: 0 as any, key: '0' });
   const [bmuMap, setBmuMap] = useState<Map<string, string>>();
   const realTimeData = useSubscribe(selectOrg?.deviceId || '', true);
-  const bmuData = useSubscribe(bmuMap?.get?.('BMU-' + (activeKey * 1 + 1) || ''), true);
+  const bmuData = useSubscribe(
+    bmuMap?.get?.('BMU-' + (Number(activeKey) * 1 + 1) || '') || '',
+    true,
+  );
 
   const {
     data: clusterData,

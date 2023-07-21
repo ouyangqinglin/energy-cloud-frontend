@@ -20,7 +20,7 @@ import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
 
 const Air: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
@@ -31,6 +31,7 @@ const Air: React.FC<DeviceDetailType> = (props) => {
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: AirImg });
+    onChange?.(value);
   }, []);
 
   const onClick = useCallback((item: DetailItem) => {

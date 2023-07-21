@@ -16,12 +16,13 @@ import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: EmptyImg });
+    onChange?.(value);
   }, []);
 
   return (

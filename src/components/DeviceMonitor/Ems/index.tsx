@@ -20,13 +20,14 @@ import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 import Page from '@/layouts/Page';
 
 const Ems: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: StackImg });
+    onChange?.(value);
   }, []);
 
   const tabItems = useMemo<TabsProps['items']>(() => {

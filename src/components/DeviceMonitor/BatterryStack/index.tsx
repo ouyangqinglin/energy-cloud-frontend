@@ -19,13 +19,14 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 import Page from '@/layouts/Page';
 
 const BatterryStack: React.FC<DeviceDetailType> = (props) => {
-  const { id } = props;
+  const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: StackImg });
+    onChange?.(value);
   }, []);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
