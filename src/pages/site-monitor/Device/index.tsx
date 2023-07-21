@@ -26,7 +26,6 @@ const Device: React.FC = () => {
       <div className="bg-white">
         <div className="px24 pt24">
           <SiteLabel onChange={onChange} />
-          <Divider className="my0" />
         </div>
         <div className={`${styles.treeContain}`}>
           <div className={`${styles.content}`}>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-07-21 17:55:54
+ * @LastEditTime: 2023-07-21 18:02:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
@@ -120,7 +120,7 @@ const OperationLog: React.FC = () => {
 
   return (
     <>
-      <SiteLabel className="px24 pt24" onChange={onChange} />
+      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
       <YTProTable<OperationLogType, OperationLogType>
         actionRef={actionRef}
         columns={columns}
