@@ -1,0 +1,29 @@
+.buttonGroupWrapper {
+  // margin-top: 8px;
+  // margin-right: 16px;
+  width: 112px;
+  height: 36px;
+  :global {
+    .ant-radio-button-wrapper:first-child {
+      border-left: 1px solid #0d437f;
+    }
+    .ant-radio-button-wrapper {
+      color: #7ec2ff;
+      background: rgba(21, 154, 255, 0.1);
+      border: 1px solid #0d437f;
+    }
+    .ant-radio-button-wrapper:not(:first-child)::before {
+      background-color: rgba(21, 154, 255, 0.4);
+    }
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+      color: #fff;
+      background: rgba(21, 154, 255, 0.6);
+      border-color: #159aff !important;
+      border-right-color: #159aff !important;
+      border-left-color: #159aff !important;
+      &::before {
+        background: rgba(21, 154, 255, 0.4);
+      }
+    }
+  }
+}

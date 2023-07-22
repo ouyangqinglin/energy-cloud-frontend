@@ -162,7 +162,7 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
         <div className={styles.desc}>
           <span className={styles.title}>用电功率(kW)：</span>
           <span className={styles.value}>
-            {keepTwoDecimalWithoutNull(load?.p ?? 0 + chargeStack?.p ?? 0)}
+            {keepTwoDecimalWithoutNull((load?.p ?? 0) + (chargeStack?.p ?? 0))}
           </span>
         </div>
       </div>

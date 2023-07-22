@@ -6,8 +6,11 @@ export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {
   width: number;
   height?: number;
   style?: CSSProperties;
-  left: number;
-  top: number;
+  left?: number;
+  top?: number;
+  className?: string;
+  bottom?: number;
+  right?: number;
   onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseOut?: () => void;
@@ -21,6 +24,8 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
       width,
       height,
       left,
+      bottom,
+      right,
       top,
       zIndex = 'auto',
       cursor = 'pointer',
@@ -30,6 +35,7 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
       onMouseOut,
       onContextMenu,
       children,
+      className,
     },
     ref,
   ) => {
@@ -38,6 +44,8 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
       height: height,
       left: left,
       top: top,
+      bottom,
+      right,
       zIndex: zIndex,
       cursor: cursor,
       position: 'absolute' as 'absolute',
@@ -53,6 +61,7 @@ const Cell = React.forwardRef<HTMLDivElement, CellProps>(
         onMouseOut={onMouseOut}
         onContextMenu={onContextMenu}
         style={cellStyle}
+        className={className}
       >
         {children}
       </div>

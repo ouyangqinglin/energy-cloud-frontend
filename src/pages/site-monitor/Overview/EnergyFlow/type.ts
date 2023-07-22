@@ -6,13 +6,20 @@ export const enum SubSystemType {
   L = '4',
   E = '5',
 }
+
+export const enum FlowDirection {
+  IN = -1,
+  OUT = 1,
+  STOP = 0,
+}
+
 export type SystemDiagramRes = Record<
   `${SubSystemType}`,
   {
     type: number;
     time: string;
     // 能流方向 =-1能流流入 =0未流动 =1 能源流出
-    direction: number;
+    direction: FlowDirection;
     charge: number;
     flag: boolean; //=true站点有此项，=false站点无此项
     p: number;

@@ -56,8 +56,8 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
       const statusItem = RealtimeStatusMap[status];
       return (
         <div className={styles.runningStatus}>
-          <div className={styles.icon} style={{ backgroundImage: `url(${statusItem.icon})` }} />
-          <span style={{ color: statusItem.color }}>{statusItem.text}</span>
+          <div className={styles.icon} style={{ backgroundImage: `url(${statusItem?.icon})` }} />
+          <span style={{ color: statusItem?.color }}>{statusItem?.text}</span>
         </div>
       );
     },

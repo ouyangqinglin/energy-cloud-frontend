@@ -11,10 +11,10 @@ type ChartDataType = {
   eventTs: string;
   doubleVal: number;
 };
-const allMinute = Array.from({ length: (24 * 60) / 10 }).map((_, index) => {
+const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
   return moment()
     .startOf('day')
-    .add(index * 10, 'minute')
+    .add(index * 2, 'minute')
     .format('HH:mm');
 });
 

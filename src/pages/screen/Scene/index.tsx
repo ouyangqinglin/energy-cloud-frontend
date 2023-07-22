@@ -18,6 +18,8 @@ import Geometry from './Geometry';
 import styles from './index.less';
 import { useMemo, useState } from 'react';
 import { useWatchingAlarm } from './Alarm/useSubscribe';
+import ButtonGroupCarousel, { SystemDiagramType } from '../components/ButtonGroupCarousel';
+import GeometrySystem from './GeometrySystem';
 
 const Scene = () => {
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
@@ -66,6 +68,11 @@ const Scene = () => {
     [revenueTimeType],
   );
 
+  const [geometryMode, setGeometryMode] = useState(SystemDiagramType.CUSTOMER);
+  const switchGeometry = (value: SystemDiagramType) => {
+    setGeometryMode(value);
+  };
+
   return (
     <>
       {[EnergyDataWidget, RevenueTimeTypeWidget]}
@@ -76,7 +83,11 @@ const Scene = () => {
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />
-      <Geometry alarmDeviceTree={alarmDeviceTree} />
+      <ButtonGroupCarousel onChange={switchGeometry}></ButtonGroupCarousel>
+      {geometryMode === SystemDiagramType.CUSTOMER && (
+        <Geometry alarmDeviceTree={alarmDeviceTree} />
+      )}
+      {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
       <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} />
       <FullScreen />
     </>

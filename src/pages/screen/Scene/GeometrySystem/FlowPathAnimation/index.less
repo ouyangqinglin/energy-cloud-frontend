@@ -1,0 +1,22 @@
+.flow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 2.5px;
+  background-image: linear-gradient(to right, rgba(66, 138, 202, 0.1), #0f6);
+  border-radius: 5px;
+  // transform: translate(0, 0);
+  animation: move linear normal infinite;
+  offset-distance: 0%;
+}
+
+.flowReverse {
+  background-image: linear-gradient(to left, rgba(66, 138, 202, 0.1), #0f6);
+}
+
+@keyframes move {
+  100% {
+    offset-distance: 100%;
+  }
+}
