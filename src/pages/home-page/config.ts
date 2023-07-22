@@ -6,29 +6,29 @@ import { CardInfo } from './type';
 
 export const config: CardInfo[] = [
   {
-    title: '电站概览',
+    title: '站点概览',
     icon: IconLoad,
     field: 'powerStationCount',
     value: 2,
-    description: '电站总数/个',
+    description: '站点总数/个',
     items: [
       {
-        label: '光储充电站/个',
+        label: '光储充站点/个',
         field: 'pvAndEssAndChargePowerStationCount',
         value: 1,
       },
       {
-        label: '光储电站/个',
+        label: '光储站点/个',
         field: 'pvAndEssPowerStationCount',
         value: 0,
       },
       {
-        label: '储充电站/个',
+        label: '储充站点/个',
         field: 'essAndChargePowerStationCount',
         value: 0,
       },
       {
-        label: '储能电站/个',
+        label: '储能站点/个',
         field: 'essPowerStationCount',
         value: 0,
       },

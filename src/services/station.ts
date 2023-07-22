@@ -7,7 +7,15 @@
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
 
-import request from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
+
+export type SiteDataType = {
+  id?: string;
+  name?: string;
+  energyOptions?: string;
+  label?: string;
+  value?: string;
+};
 
 export const getStations = (params?: any) => {
   return request(`/oss/site/getList`, {
@@ -36,6 +44,13 @@ export const getDefaultPage = (id: string) => {
 
 export const getSiteUnitConfig = (params: any) => {
   return request(`/oss/site/index/isGetUnitPermission`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getSiteList = (params?: any) => {
+  return request<ResponseCommonData<SiteDataType[]>>(`/oss/site/monitor/overview/getSiteList`, {
     method: 'GET',
     params,
   });

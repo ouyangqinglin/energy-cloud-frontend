@@ -18,7 +18,7 @@ import { DetailProps } from '@/components/Detail';
 const RealTime: React.FC<
   RealTimeProps & {
     label?: React.ReactNode;
-    detailProps?: DetailProps;
+    detailProps?: Omit<DetailProps, 'items' | 'data'>;
   }
 > = (props) => {
   const { id, loading, open = true, label = '运行信息', detailProps } = props;

@@ -1,6 +1,4 @@
 export type PvInverterType = {
-  id: number;
-  loop: string;
-  voltage?: string;
-  current?: string;
+  title: string;
+  field: string;
 };

@@ -10,6 +10,7 @@ import React from 'react';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import Alarm, { PageTypeEnum, AlarmProps } from './AlarmTable';
+import styles from './index.less';
 
 const Index: React.FC<AlarmProps> = (props) => {
   const { params, isStationChild } = props;
@@ -31,7 +32,7 @@ const Index: React.FC<AlarmProps> = (props) => {
     },
   ];
 
-  return <Tabs className="page-tabs" tabBarGutter={34} items={items} />;
+  return <Tabs className={styles.tabs} tabBarGutter={34} items={items} />;
 };
 
 export default Index;

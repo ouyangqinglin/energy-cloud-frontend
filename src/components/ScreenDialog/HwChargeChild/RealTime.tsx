@@ -15,9 +15,10 @@ import useSubscribe from '@/pages/screen/useSubscribe';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat, useFormat } from '@/utils/format';
+import { LabelTypeEnum } from '@/components/ScreenDialog';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true } = props;
+  const { id, loading, open = true, detailProps, labelType = LabelTypeEnum.DotLabel } = props;
 
   const equipmentData = useSubscribe(id, open);
 
@@ -55,10 +56,23 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
         </>
       ) : (
         <>
-          <Label title="状态信息" />
-          <Detail data={equipmentData || {}} items={statusItems} column={4} />
-          <Label title="运行信息" />
-          <Detail data={equipmentData || {}} items={runItems} column={4} />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="状态信息" />
+          ) : (
+            <Detail.Label title="状态信息" />
+          )}
+          <Detail
+            data={equipmentData || {}}
+            items={statusItems}
+            column={4}
+            {...(detailProps || {})}
+          />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="运行信息" />
+          ) : (
+            <Detail.Label title="运行信息" />
+          )}
+          <Detail data={equipmentData || {}} items={runItems} column={4} {...(detailProps || {})} />
         </>
       )}
     </>

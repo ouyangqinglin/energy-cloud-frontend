@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-07-13 20:16:14
+ * @LastEditTime: 2023-07-19 16:58:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -131,7 +131,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       <ModalForm<StationFormType>
         visible={props.open}
         form={form}
-        title={type === FormTypeEnum.Edit ? '编辑站点' : '创建站点'}
+        title={type === FormTypeEnum.Edit ? '编辑' : '新增'}
         autoFocusFirstInput
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}

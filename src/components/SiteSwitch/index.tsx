@@ -2,15 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-07-07 12:03:28
+ * @LastEditTime: 2023-07-21 18:10:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
-import React, { useMemo, useRef } from 'react';
-import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
+import React, { useEffect, useMemo, useRef, useCallback } from 'react';
+import { useModel } from 'umi';
+import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
 import SchemaForm, { SchemaFormProps } from '@/components/SchamaForm';
 import { useSiteColumn } from '@/hooks';
 import type { ProColumns } from '@ant-design/pro-table';
+import { siteType } from '@/utils/dictionary';
+import { SiteDataType } from '@/services/station';
+import { getRoutersInfo } from '@/services/session';
+import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
 
 type SiteType = {
   siteId?: string;
@@ -28,16 +33,66 @@ const SiteSwitch = <ValueType = 'text',>(
 ) => {
   const { initialValues, onChange, columnProps, ...restProps } = props;
 
+  const { dispatch } = useModel('site');
+  const { setInitialState } = useModel('@@initialState');
   const formRef = useRef<ProFormInstance>();
-  const [siteColumn] = useSiteColumn<SiteType, ValueType>({
-    title: '选择站点',
+
+  const changeSite = useCallback(
+    (data: SiteDataType) => {
+      formRef?.current?.setFieldValue?.('type', data?.energyOptions);
+      dispatch({
+        type: 'change',
+        payload: data,
+      });
+      getRoutersInfo({ siteId: data?.id }).then((menus) => {
+        const antMenus = menus && getMenus(menus);
+        setInitialState((prevData) => {
+          return {
+            ...prevData,
+            menus,
+            antMenus,
+            menuPathTitleMap: getPathTitleMap(antMenus),
+          };
+        });
+      });
+    },
+    [formRef],
+  );
+
+  const [siteColumn, siteOptions] = useSiteColumn<SiteType, ValueType>({
+    title: '站点',
     width: 200,
+    fieldProps: (form) => {
+      return {
+        allowClear: false,
+        onChange: (_: any, option: any) => {
+          changeSite(option);
+        },
+      };
+    },
     ...(columnProps || {}),
   });
 
   const formColumns = useMemo<ProFormColumnsType<SiteType, ValueType>[]>(() => {
-    return [siteColumn];
+    return [
+      siteColumn,
+      {
+        title: '类型',
+        dataIndex: 'type',
+        valueType: 'select',
+        valueEnum: siteType,
+        dependencies: ['siteId'],
+        readonly: true,
+      },
+    ];
   }, [siteColumn]);
+
+  useEffect(() => {
+    if (siteOptions?.[0]) {
+      formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
+      changeSite(siteOptions[0]);
+    }
+  }, [siteOptions]);
 
   return (
     <>

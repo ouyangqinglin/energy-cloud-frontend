@@ -15,9 +15,9 @@ export interface ChargeAndDisChargeRes {
 }
 
 export const enum RealtimeStatusEnum {
-  DEFAULT,
-  DISCHARGE,
-  CHARGE,
+  DEFAULT = 0,
+  DISCHARGE = -1,
+  CHARGE = 1,
 }
 
 export interface Statistics {

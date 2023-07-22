@@ -120,7 +120,7 @@ export const CustomerModal = (props: {
   return (
     <YTModalForm<CustomerInfo>
       layoutType={'ModalForm'}
-      title={'新增账号'}
+      title={'新增'}
       columns={columns}
       onFinish={async (values) => {
         console.log(values);

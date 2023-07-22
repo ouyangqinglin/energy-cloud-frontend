@@ -42,7 +42,7 @@ const FormTableList = <DataType extends Record<string, any>>(
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建规则',
+        text: '新建',
       },
     },
     option: {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-06-08 15:08:20
+ * @LastEditTime: 2023-07-21 14:20:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */
@@ -18,7 +18,6 @@ import {
   currentFormat,
   frequencyFormat,
   tempFormat,
-  electricModel,
   workFormat,
   faultFormat,
   fault1Format,
@@ -36,6 +35,9 @@ import {
   openCloseFormat,
   booleanFormat,
   airsetFormat,
+  electricModelFormat,
+  mainContactorFormat,
+  externalFaultFormat,
 } from '@/utils/format';
 
 export const statusItems: DetailItem[] = [
@@ -49,7 +51,7 @@ export const statusItems: DetailItem[] = [
   },
   { label: 'EMS运行状态', field: 'emsSysStatus', format: runFormat },
   { label: '系统模式', field: 'sysModel', format: modelFormat, span: 3 },
-  { label: 'BMS主接触器状态', field: 'MainContactorStatus', format: closeFormat },
+  { label: 'BMS主接触器状态', field: 'MainContactorStatus', format: mainContactorFormat },
   { label: '气溶胶信号', field: 'AerosolSignal', format: singleFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleFormat },
@@ -121,7 +123,7 @@ export const pcsStatusItems: DetailItem[] = [
   {
     label: '当前实际充放电工作模式',
     field: 'CurrentChargingAndDischargingModel',
-    format: electricModel,
+    format: electricModelFormat,
   },
   { label: '工作状态', field: 'WorkStatus', format: workFormat },
   { label: '系统故障字', field: 'SystemFault', format: faultFormat },
@@ -194,7 +196,7 @@ export const bmsStatusItems: DetailItem[] = [
   { label: 'BMU9风扇', field: 'BMU9Fan', format: openFormat },
   { label: 'BMU10风扇', field: 'BMU10Fan', format: openFormat },
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
-  { label: '对外故障', field: 'externalFaultStatus', format: faultFormat },
+  { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
   { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
   { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },

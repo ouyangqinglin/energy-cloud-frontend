@@ -8,7 +8,7 @@
  */
 
 export type EquipmentType = {
-  deviceId: string;
+  deviceId?: string;
   name: string;
   sn: string;
   model: string;

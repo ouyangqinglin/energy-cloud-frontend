@@ -101,7 +101,7 @@ const Report: React.FC<ReportProps> = (props) => {
     const dimensionTime = params?.dimensionTime
       ? moment(params?.dimensionTime).format('YYYY-MM-DD')
       : '';
-    return `${reportType.get(params?.reportType || reportTypeEnum.Site) || '电站报表'}${
+    return `${reportType.get(params?.reportType || reportTypeEnum.Site) || '站点报表'}${
       dimensionTime
         ? '_' +
           moment(params?.dimensionTime).format(

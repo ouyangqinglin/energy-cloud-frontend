@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-07 13:46:12
+ * @LastEditTime: 2023-07-20 20:01:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -15,7 +15,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
 import { removeData, getTabs } from './service';
-import { getDevicePage } from '@/services/equipment';
+import { getDevicePage, DeviceDataType } from '@/services/equipment';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
@@ -32,7 +32,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [activeTab, setActiveTab] = useState('tab0');
   const [tabItems, setTabItems] = useState<OptionType[]>([]);
   const actionRef = useRef<ActionType>();
-  const [siteColumn] = useSiteColumn<EquipmentType>({
+  const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
   });
   const [searchParams, setSearchParams] = useState({
@@ -47,12 +47,15 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     setOpen(true);
   }, []);
 
-  const onDetailClick = useCallback((rowData: EquipmentType) => {
-    history.push({
-      pathname: isStationChild ? '/site-monitor/device-detail' : '/equipment/device-monitor',
-      search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
-    });
-  }, []);
+  const onDetailClick = useCallback(
+    (rowData: DeviceDataType) => {
+      history.push({
+        pathname: isStationChild ? '/site-monitor/device-detail' : '/equipment/device-detail',
+        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
+      });
+    },
+    [isStationChild],
+  );
 
   const onSuccess = () => {
     actionRef?.current?.reload?.();
@@ -86,12 +89,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     () => [
       <Button type="primary" key="add" onClick={onAddClick}>
         <PlusOutlined />
-        新建设备
+        新建
       </Button>,
     ],
     [],
   );
-  const rowBar = (_: any, record: EquipmentType) => (
+  const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         查看详情
@@ -155,7 +158,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ),
     };
   });
-  const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
+  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       siteColumn,
       {

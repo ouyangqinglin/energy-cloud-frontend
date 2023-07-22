@@ -23,12 +23,11 @@ import { useAuthority } from '@/hooks';
 type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
   params?: DeviceSearchType;
-  activeTabKey?: string;
   scrollY?: number | string;
 };
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
-  const { onDetail, params, activeTabKey } = props;
+  const { onDetail, params } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('tab0');
@@ -62,18 +61,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (paramsData: any) => {
-    getTabs({ ...(params || {}) }).then(({ data: tabData }) => {
-      if (Array.isArray(tabData)) {
-        const items = (tabData || []).map((item) => {
-          return {
-            id: item.typeId ?? '',
-            label: item.typeName,
-            value: item.count,
-          };
-        });
-        setTabItems(items);
-      }
-    });
     return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) });
   };
 
@@ -121,21 +108,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     );
   };
 
-  const tabItemList = tabItems.map((item, index) => {
-    const key = 'tab' + item.id;
-    return {
-      key,
-      label: (
-        <>
-          <span>
-            {item.label}
-            {renderBadge(item.value, activeTab === key)}
-          </span>
-        </>
-      ),
-    };
-  });
-
   const onTabChange = useCallback(
     (key: React.Key | undefined) => {
       setActiveTab(key as string);
@@ -167,13 +139,36 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
 
   useEffect(() => {
-    onSuccess();
+    getTabs({ ...(params || {}) }).then(({ data: tabData }) => {
+      if (Array.isArray(tabData)) {
+        const items = (tabData || []).map((item) => {
+          return {
+            id: item.typeId ?? '',
+            label: item.typeName,
+            value: item.count,
+          };
+        });
+        const key = 'tab' + (items[0]?.id || 0);
+        setTabItems(items);
+        onTabChange(key);
+      }
+    });
   }, [params]);
 
-  useEffect(() => {
-    onTabChange('tab' + activeTabKey);
-    console.log('activeTabKey', activeTabKey);
-  }, [activeTabKey]);
+  const tabItemList = tabItems.map((item, index) => {
+    const key = 'tab' + item.id;
+    return {
+      key,
+      label: (
+        <>
+          <span>
+            {item.label}
+            {renderBadge(item.value, activeTab === key)}
+          </span>
+        </>
+      ),
+    };
+  });
 
   return (
     <>
@@ -183,7 +178,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         columns={columns}
         toolBarRender={() => [
           <Button type="primary" key="add" onClick={onAddClick}>
-            新建设备
+            新建
           </Button>,
         ]}
         request={handleRequest}

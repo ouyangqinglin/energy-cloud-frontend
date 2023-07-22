@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:49:21
- * @LastEditTime: 2023-06-27 10:49:25
+ * @LastEditTime: 2023-07-20 14:36:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\YtCharge\RealTime.tsx
  */
@@ -17,9 +17,10 @@ import { arrayToMap } from '@/utils';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { useFormat, powerHourFormat } from '@/utils/format';
+import { LabelTypeEnum } from '@/components/ScreenDialog';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true } = props;
+  const { id, loading, open = true, detailProps, labelType = LabelTypeEnum.DotLabel } = props;
 
   const [relatedIds, setRelatedIds] = useState([]);
   const [aGunId, setAGunId] = useState('');
@@ -76,18 +77,33 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
         </>
       ) : (
         <>
-          <Label title="状态信息" />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="状态信息" />
+          ) : (
+            <Detail.Label title="状态信息" />
+          )}
           <Row>
             <Col span={12}>
-              <Detail data={aGunData} items={aStatusItems} column={2} />
+              <Detail data={aGunData} items={aStatusItems} column={2} {...(detailProps || {})} />
             </Col>
             <Col span={12}>
-              <Detail data={bGunData} items={bStatusItems} column={2} />
+              <Detail data={bGunData} items={bStatusItems} column={2} {...(detailProps || {})} />
             </Col>
           </Row>
-          <Label title="运行信息" />
-          <Detail data={{ ...meterData }} items={runItems} column={4} />
-          <Meter data={meterData} />
+          {labelType == LabelTypeEnum.DotLabel ? (
+            <Label title="运行信息" />
+          ) : (
+            <Detail.Label title="运行信息" />
+          )}
+          <Detail data={{ ...meterData }} items={runItems} column={4} {...(detailProps || {})} />
+          <Meter
+            data={meterData}
+            detailProps={{
+              extral: detailProps?.extral || undefined,
+              colon: false,
+              valueStyle: { flex: 1, textAlign: 'right' },
+            }}
+          />
         </>
       )}
     </>

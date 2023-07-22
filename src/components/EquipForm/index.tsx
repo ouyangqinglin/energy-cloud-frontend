@@ -167,7 +167,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title={(type === FormTypeEnum.Add ? '新增' : '编辑') + '设备'}
+        title={type === FormTypeEnum.Add ? '新增' : '编辑'}
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}

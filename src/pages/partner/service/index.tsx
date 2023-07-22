@@ -24,7 +24,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新增安装商',
+        text: '新增',
       },
     },
     option: {

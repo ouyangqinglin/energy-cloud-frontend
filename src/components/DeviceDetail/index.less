@@ -1,26 +1,37 @@
-.tabs {
+.contain {
+  position: relative;
   height: 100%;
-  :global {
-    .ant-tabs-nav {
-      padding-left: 24px;
-      background: white;
-      border-radius: 4px;
+  padding-left: 0;
+  .tree {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    padding: 20px;
+    overflow: auto;
+    background: white;
+    border-radius: 4px;
+    transform: translate3d(-280px, 0, 0);
+    transition: 0.5s;
+  }
+  .content {
+    height: 100%;
+    overflow: auto;
+    background: white;
+  }
+  &.open {
+    padding-left: 292px;
+    .tree {
+      transform: translate3d(0, 0, 0);
     }
-    .ant-tabs-content {
-      height: 100%;
-      padding: 24px;
-      overflow: auto;
-      background-color: white;
-      border-radius: 4px;
-    }
-    .alarm-table,
-    .log-table {
-      .ant-pro-card-body {
-        padding: 0;
-      }
-      .ant-pro-table-list-toolbar-container {
-        padding-top: 0;
-      }
-    }
+  }
+}
+
+.tabs {
+  & > :global(.ant-tabs-nav) {
+    margin-right: 24px;
+    margin-left: 24px;
   }
 }

@@ -12,6 +12,7 @@ import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
 import configSetting from '../config/defaultSettings';
+import { SiteDataType } from './services/station';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -47,6 +48,7 @@ export type initialStateType = {
   antMenus?: MenuProps['items'];
   collapsed?: boolean;
   openKeys?: string[];
+  site?: SiteDataType;
 };
 
 /**
@@ -173,6 +175,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
         userId: initialState?.currentUser?.userId,
+        menus: initialState?.menus,
       },
       request: async () => {
         if (!initialState?.currentUser?.userId) {

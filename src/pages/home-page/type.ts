@@ -47,7 +47,7 @@ export interface PVCardRes {
   generatedElecTotal: number;
 }
 export interface OverViewCardRes {
-  //总电站数
+  //总站点数
   powerStationCount: number;
   //光储充站数
   pvAndEssAndChargePowerStationCount: number;

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-07-18 10:58:31
+ * @LastEditTime: 2023-07-21 16:15:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -287,7 +287,7 @@ export enum reportTypeEnum {
 }
 
 export const reportType = new Map([
-  [reportTypeEnum.Site, '电站报表'],
+  [reportTypeEnum.Site, '站点报表'],
   [reportTypeEnum.Electric, '市电报表'],
   [reportTypeEnum.PvInverter, '光伏报表'],
   [reportTypeEnum.Energy, '储能报表'],
@@ -326,4 +326,13 @@ export const logType = {
   0: { text: '设备下行' },
   1: { text: '设备上报' },
   2: { text: '规则触发' },
+};
+
+export const siteType = {
+  1: { text: '光伏站点' },
+  2: { text: '储能站点' },
+  3: { text: '充电站点' },
+  23: { text: '储充站点' },
+  12: { text: '光储站点' },
+  123: { text: '光储充站点' },
 };

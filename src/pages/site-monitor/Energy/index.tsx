@@ -6,15 +6,15 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\index.tsx
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col } from 'antd';
 import { useRequest } from 'umi';
 import Stat from './Stat';
 import Cabinet from './Cabinet';
 import Power from './Power';
 import Electric from './Electric';
-import SiteDropdown from '../Overview/SiteDropdown';
-import { getSiteUnitConfig } from '@/services/station';
+import SiteLabel from '@/components/SiteLabel';
+import { SiteDataType, getSiteUnitConfig } from '@/services/station';
 import EmptyPage from '@/components/EmptyPage';
 
 const Index: React.FC = () => {
@@ -23,6 +23,12 @@ const Index: React.FC = () => {
   const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
     manual: true,
   });
+
+  const onChange = useCallback((data: SiteDataType) => {
+    if (data?.id) {
+      setSiteId(Number(data.id));
+    }
+  }, []);
 
   useEffect(() => {
     if (siteId) {
@@ -39,7 +45,7 @@ const Index: React.FC = () => {
         <EmptyPage description={siteConfig?.prompt} />
       ) : (
         <div className="p24">
-          <SiteDropdown params={{ energyOptions: 2 }} onChange={setSiteId} />
+          <SiteLabel onChange={onChange} />
           <Stat siteId={siteId} className="mb24" />
           <Row gutter={20}>
             <Col span={14}>

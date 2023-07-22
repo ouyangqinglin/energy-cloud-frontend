@@ -2,15 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:51:23
- * @LastEditTime: 2023-07-17 15:01:42
+ * @LastEditTime: 2023-07-20 19:21:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\LineChart\index.tsx
  */
 import React, { useState, useEffect, useMemo } from 'react';
 import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Interval } from 'bizcharts';
+import { TooltipCfg } from 'bizcharts/node_modules/@antv/g2/lib/interface';
+import { ILegend } from 'bizcharts/lib/components/Legend/index';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
 import { chartTypeEnum } from '../';
+import { merge } from 'lodash';
 
 export type ChartDataType = {
   time?: string;
@@ -36,6 +39,9 @@ export type LineChartProps = {
   allLabel?: string[];
   colors?: string[];
   showLine?: boolean;
+  toolTipProps?: TooltipCfg;
+  legendProps?: ILegend;
+  labelFormatter?: (value: any) => string;
 };
 
 const getAllMinute = (step = 2) => {
@@ -83,6 +89,9 @@ const LineChart: React.FC<LineChartProps> = (props) => {
     colors = defaultColors,
     allLabel,
     showLine = true,
+    toolTipProps,
+    legendProps,
+    labelFormatter,
   } = props;
   const [chartData, setChartData] = useState<ChartDataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -107,6 +116,20 @@ const LineChart: React.FC<LineChartProps> = (props) => {
       };
     }
   }, [chartData]);
+
+  const mergeToolTipProps = useMemo(() => {
+    const defaultOptions: TooltipCfg = {
+      domStyles: {
+        'g2-tooltip': {
+          backgroundColor: 'rgba(9,12,21,0.8)',
+          boxShadow: 'none',
+          color: 'white',
+          opacity: 1,
+        },
+      },
+    };
+    return merge(defaultOptions, toolTipProps || {});
+  }, [toolTipProps]);
 
   useEffect(() => {
     const labels =
@@ -143,8 +166,9 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           ref={chartRef}
           height={height}
           scale={{
-            label: {
-              ticks: ticks,
+            time: {
+              formatter: labelFormatter,
+              //ticks: ticks,
             },
             value: {
               max: valueScale.max,
@@ -154,22 +178,14 @@ const LineChart: React.FC<LineChartProps> = (props) => {
           data={chartData}
           autoFit
         >
-          <Tooltip
-            domStyles={{
-              'g2-tooltip': {
-                backgroundColor: 'rgba(9,12,21,0.8)',
-                boxShadow: 'none',
-                color: 'white',
-                opacity: 1,
-              },
-            }}
-          />
+          <Tooltip {...mergeToolTipProps} />
           <Legend
             position="top"
             marker={{
               symbol: showLine ? 'circle' : 'square',
             }}
             itemSpacing={24}
+            {...(legendProps || {})}
           />
           {showLine ? (
             <LineAdvance shape="smooth" color={['field', colors]} position="time*value" />

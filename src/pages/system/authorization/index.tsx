@@ -30,7 +30,7 @@ const RemoteUpgrade: React.FC = () => {
         toolBarRenderOptions={{
           add: {
             onClick: () => {},
-            text: '新增应用授权',
+            text: '新增',
           },
         }}
         option={{
