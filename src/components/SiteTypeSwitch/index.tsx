@@ -56,6 +56,7 @@ const SiteTypeSwitch = <ValueType = 'text',>(
         valueType: 'select',
         fieldProps: {
           allowClear: false,
+          defaultValue: '0',
         },
         valueEnum: siteType,
       },
