@@ -64,6 +64,12 @@ export default [
         title: 'menu.station.list',
       },
       {
+        path: 'device-detail',
+        component: './equipment/DeviceDetail',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.deviceDetail',
+      },
+      {
         path: 'setting',
         component: './station/Setting',
         wrappers: ['@/components/KeepAlive'],

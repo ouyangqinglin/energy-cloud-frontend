@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-24 10:31:18
+ * @LastEditTime: 2023-07-24 12:48:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -49,10 +49,13 @@ const StationList: React.FC = () => {
   }, []);
 
   const onSiteClick = useCallback((record: StationType) => {
-    history.push({
-      pathname: '/site-monitor/overview',
-      search: `?id=${record.id}`,
-    });
+    if (window?.changeTopSite) {
+      window.changeTopSite?.(record);
+      history.push({
+        pathname: '/site-monitor/overview',
+        search: `?id=${record.id}`,
+      });
+    }
   }, []);
 
   const onSettingClick = useCallback((record) => {

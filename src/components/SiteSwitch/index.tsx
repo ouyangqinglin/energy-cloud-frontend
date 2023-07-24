@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-07-21 18:10:30
+ * @LastEditTime: 2023-07-24 12:56:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
@@ -15,7 +15,7 @@ import type { ProColumns } from '@ant-design/pro-table';
 import { siteType } from '@/utils/dictionary';
 import { SiteDataType } from '@/services/station';
 import { getRoutersInfo } from '@/services/session';
-import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
+import { getMenus, getPathTitleMap, getPathArrary, arrayToMap } from '@/utils';
 
 type SiteType = {
   siteId?: string;
@@ -92,6 +92,15 @@ const SiteSwitch = <ValueType = 'text',>(
       formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
       changeSite(siteOptions[0]);
     }
+  }, [siteOptions]);
+
+  // 临时解决，待优化
+  useEffect(() => {
+    window.changeTopSite = (data) => {
+      const idMap = arrayToMap(siteOptions || [], 'id', 'energyOptions');
+      formRef?.current?.setFieldValue?.('siteId', data.id);
+      changeSite({ ...data, energyOptions: idMap[data.id] });
+    };
   }, [siteOptions]);
 
   return (
