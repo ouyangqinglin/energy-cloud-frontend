@@ -4,6 +4,7 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ServiceUpdateInfo } from '../type';
+import PositionSelect from '@/components/PositionSelect';
 
 export const Columns: (
   operation: FormOperations,
@@ -64,16 +65,22 @@ export const Columns: (
       dataIndex: ['landlineNumber'],
     },
     {
-      title: '地址',
-      dataIndex: ['address'],
-    },
-    {
       title: '备注',
       colProps: {
-        span: 16,
+        span: 24,
       },
       dataIndex: ['remark'],
       valueType: 'textarea',
+    },
+    {
+      title: '位置',
+      colProps: {
+        span: 24,
+      },
+      dataIndex: ['remark'],
+      renderFormItem(schema, config, form, action) {
+        return <PositionSelect />;
+      },
     },
   ];
 };

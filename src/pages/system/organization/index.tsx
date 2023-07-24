@@ -15,7 +15,7 @@ const UserManage: React.FC = () => {
     return [
       {
         key: '1',
-        label: '安装商管理',
+        label: '安装商',
         children: <Customer />,
       },
       {
@@ -28,15 +28,11 @@ const UserManage: React.FC = () => {
         label: '业主',
         children: <Owner />,
       },
-      ...(authorityMap.get('system:user:org')
-        ? [
-            {
-              key: '4',
-              label: '系统管理',
-              children: <DeptTableList />,
-            },
-          ]
-        : []),
+      {
+        key: '4',
+        label: '系统管理',
+        children: <DeptTableList />,
+      },
     ];
   }, [authorityMap]);
 
