@@ -17,6 +17,7 @@ import RealTime from '@/components/Meter/RealTime';
 import Page from '@/layouts/Page';
 import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
+import Community from '@/components/ScreenDialog/Community';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -53,7 +54,16 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={PvInverterCabinetIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <RealTime
           id={id}

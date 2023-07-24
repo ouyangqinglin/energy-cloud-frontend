@@ -10,27 +10,21 @@ import SiteInfo from './SiteInfo';
 import Benefit from './Benefits';
 import ElectricityChart from './ElectricityChart';
 import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
-import { getDefaultPage } from '@/services/station';
-
-type SiteType = {
-  siteId?: string;
-};
+import { SiteDataType, getDefaultPage } from '@/services/station';
+import SiteLabel from '@/components/SiteLabel';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
-  const [defaultSiteId, setDefaultSiteId] = useState<number>();
-  const location = useLocation();
 
   const { data: defaultPageData, run } = useRequest(getDefaultPage, {
     manual: true,
   });
 
-  useEffect(() => {
-    const { query } = location as LocationType;
-    if (query?.id) {
-      setDefaultSiteId(query?.id);
+  const onChange = useCallback((data: SiteDataType) => {
+    if (data?.id) {
+      setSiteId(Number(data.id));
     }
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     if (siteId) {
@@ -50,7 +44,7 @@ const Index: React.FC = () => {
     <>
       <div className="bg-white card-wrap p24">
         <div className={styles.stationHeader}>
-          <SiteDropdown defaultSiteId={defaultSiteId} onChange={setSiteId} />
+          <SiteLabel onChange={onChange} />
           {defaultPageData?.homeType == 1 && defaultPageData?.customPagePath && (
             <Tooltip placement="top" title="大屏页">
               <IconScreen className={styles.screen} onClick={onScreenClick} />

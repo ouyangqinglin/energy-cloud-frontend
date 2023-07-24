@@ -124,15 +124,7 @@ const StationInfo: React.FC = () => {
             column={3}
           />
         </Card>
-        <Card
-          className="my16"
-          title="基础信息"
-          extra={
-            <Button type="primary" loading={loading} onClick={switchOpen}>
-              编辑
-            </Button>
-          }
-        >
+        <Card className="my16" title="基础信息">
           <Detail
             data={detailData}
             items={baseDetailItems}

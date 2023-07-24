@@ -13,6 +13,7 @@ import { ListDataType } from '@/utils/dictionary';
 export type DeviceDataType = {
   deviceId?: string;
   deviceName?: string;
+  siteId?: string;
   productImg?: string;
   name?: string;
   sn?: string;
@@ -30,6 +31,7 @@ export type DeviceDataType = {
   lastOnlineTime?: string;
   key?: string;
   aliasSn?: string;
+  paramConfigType?: number;
 };
 
 export type ClusterType = {

@@ -4,10 +4,10 @@ import { RoleInfo } from './type';
 
 export const dataSource = {
   1: {
-    text: '手动',
+    text: '自定义角色',
   },
   0: {
-    text: '系统预设',
+    text: '预定义角色',
   },
 };
 

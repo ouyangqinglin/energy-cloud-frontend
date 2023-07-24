@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-07-18 19:37:48
+ * @LastEditTime: 2023-07-24 11:41:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\index.tsx
  */
@@ -94,6 +94,7 @@ const DeviceInfo: React.FC<DeviceInfoProps> = (props) => {
             <Button className="pr0" type="link" onClick={onEditClick}>
               修改
             </Button>
+            {buttons}
           </Label>
           <Detail items={equipInfoItems} data={equipData} bordered size="small" />
         </>

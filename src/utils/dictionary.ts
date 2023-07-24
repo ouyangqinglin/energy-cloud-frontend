@@ -336,3 +336,14 @@ export const siteType = {
   12: { text: '光储站点' },
   123: { text: '光储充站点' },
 };
+
+export const operateUserType = {
+  0: { text: '其它' },
+  1: { text: '后台用户' },
+  2: { text: '手机端用户' },
+};
+
+export const electricMoneyMap = new Map([
+  [1, '需量电费'],
+  [0, '容量电费'],
+]);

@@ -98,16 +98,19 @@ export default [
         path: 'electric-generate',
         component: './site-monitor/ElectricGenerate',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.electricGenerate',
       },
       {
         path: 'energy',
         component: './site-monitor/Energy',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.energy',
       },
       {
         path: 'electric-consumer',
         component: './site-monitor/ElectricConsumer',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.electricConsumer',
       },
       {
         path: 'device-monitor',

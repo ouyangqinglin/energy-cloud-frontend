@@ -12,7 +12,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     },
     columns: [
       {
-        title: '电价规则名称',
+        title: '规则名称',
         fieldProps: {
           placeholder: '请输入',
         },
@@ -20,7 +20,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
           rules: [
             {
               required: true,
-              message: '请输入电价规则名称',
+              message: '请输入规则名称',
             },
           ],
         },
@@ -93,7 +93,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     ],
   },
   {
-    title: <div className={styles.title}>时段价格</div>,
+    title: <div className={styles.title}>时段电价</div>,
     valueType: 'group',
     colProps: {
       span: 24,
@@ -139,14 +139,17 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             columns: [
               timeColum,
               {
-                title: '电费',
+                title: '电价',
                 formItemProps: {
                   rules: [
                     {
                       required: true,
-                      message: '请输入电费',
+                      message: '请输入电价',
                     },
                   ],
+                },
+                fieldProps: {
+                  addonAfter: '元',
                 },
                 dataIndex: 'electricityFees',
                 valueType: 'digit',
@@ -165,6 +168,9 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                       message: '请输入服务费',
                     },
                   ],
+                },
+                fieldProps: {
+                  addonAfter: '元',
                 },
                 dataIndex: 'serviceFees',
                 valueType: 'digit',

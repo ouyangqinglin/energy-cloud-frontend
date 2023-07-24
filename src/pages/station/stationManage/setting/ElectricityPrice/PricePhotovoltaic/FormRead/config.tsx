@@ -14,12 +14,12 @@ export const columns: ProFormColumnsType[] = [
     },
     columns: [
       {
-        title: '电价规则名称:',
+        title: '规则名称:',
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请输入电价规则名称',
+              message: '请输入规则名称',
             },
           ],
           wrapperCol: {
@@ -67,7 +67,7 @@ export const columns: ProFormColumnsType[] = [
     ],
   },
   {
-    title: <div className={styles.title}>时段价格</div>,
+    title: <div className={styles.title}>时段电价</div>,
     valueType: 'group',
     colProps: {
       span: 24,

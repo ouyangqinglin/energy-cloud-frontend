@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, LegacyRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, LegacyRef, useCallback } from 'react';
 import { Button, message, Row } from 'antd';
 import { useLocation, useRequest } from 'umi';
 import styles from './index.less';
@@ -13,6 +13,8 @@ import SchemaForm from '@/components/SchamaForm';
 import { getDefaultSite, getTopo } from './service';
 import { getTopoOffset } from './useTopoResize';
 import classnames from 'classnames';
+import SiteLabel from '@/components/SiteLabel';
+import { SiteDataType } from '@/services/station';
 
 const keyToSystemDiagram = new Map([
   ['11', SystemDiagram11],
@@ -27,9 +29,7 @@ type SiteType = {
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
   const [type, setType] = useState<number>(1);
-  const defaultSiteIdRef = useRef<number>();
 
-  const { run: runForDefaultSiteId } = useRequest(getDefaultSite, { manual: true });
   const { data: systemDiagramId, run } = useRequest(getTopo, { manual: true });
 
   useEffect(() => {
@@ -38,22 +38,14 @@ const Index: React.FC = () => {
     }
   }, [run, siteId, type]);
 
-  const [siteColumn] = useSiteColumn<EquipmentType>({
-    hideInTable: true,
-    colProps: {
-      sm: 8,
-      xl: 6,
-    },
-    initialValue: defaultSiteIdRef.current,
-    fieldProps: {
-      // value: siteId,
-      onChange: setSiteId,
-    },
-  });
+  const onChange = useCallback((data: SiteDataType) => {
+    if (data?.id) {
+      setSiteId(Number(data.id));
+    }
+  }, []);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
-      siteColumn,
       {
         title: '拓扑',
         dataIndex: 'type',
@@ -78,7 +70,7 @@ const Index: React.FC = () => {
         ]),
       },
     ];
-  }, [siteColumn, type]);
+  }, [type]);
 
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
@@ -122,17 +114,10 @@ const Index: React.FC = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const requestList = async () => {
-    const siteData = await runForDefaultSiteId();
-    setSiteId(siteData?.id);
-    defaultSiteIdRef.current = siteData?.id;
-    return [];
-  };
-
   return (
     <>
       <div className="bg-white card-wrap p24">
+        <SiteLabel onChange={onChange} />
         <div className={styles.stationHeader}>
           <SchemaForm<SiteType, 'text'>
             open={true}
@@ -140,7 +125,6 @@ const Index: React.FC = () => {
             className={styles.formWrapper}
             layout="horizontal"
             grid={true}
-            request={requestList}
             columns={columns}
             submitter={false}
             initialValues={{}}

@@ -18,6 +18,7 @@ import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';
 import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
+import Community from '@/components/ScreenDialog/Community';
 
 export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
@@ -58,7 +59,16 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={PvInverterIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <RealTime
           id={id}

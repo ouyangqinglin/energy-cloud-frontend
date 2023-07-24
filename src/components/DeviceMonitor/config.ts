@@ -2,6 +2,7 @@ import type React from 'react';
 import BoxSubstation from './BoxSubstation';
 import YTCharge from './YTCharge';
 import Device from './Device';
+import Energy from './Energy';
 import Cabinet from './Cabinet';
 import ElectricMeter from './ElectricMeter';
 import EnergyCabinet from './EnergyCabinet';
@@ -57,7 +58,7 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.PvInverter11]: { component: PvInverter, props: { loopNum: 12 } },
   [DeviceTypeEnum.PvInverter4]: { component: PvInverter, props: { loopNum: 4 } },
   [DeviceTypeEnum.YtCharge160]: { component: YTCharge },
-  [DeviceTypeEnum.Energy]: { component: Device },
+  [DeviceTypeEnum.Energy]: { component: Energy },
   [DeviceTypeEnum.PvInverterCabinet]: { component: PvInverterCabinet },
   [DeviceTypeEnum.HwCharge]: { component: HwCharge },
   [DeviceTypeEnum.YtCharge120]: { component: YTCharge },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-17 19:25:24
+ * @LastEditTime: 2023-07-24 10:31:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -11,15 +11,13 @@ import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import type { StationType, StationFormType } from './data.d';
+import type { StationType } from './data.d';
 import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { useArea, useAuthority } from '@/hooks';
-import Authority from '@/components/Authority';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -32,6 +30,7 @@ const StationList: React.FC = () => {
     'system:site:config',
     'system:site:delete',
     'system:site:create',
+    'oss:site:update',
   ]);
 
   const requestList = useCallback((params) => {
@@ -42,6 +41,11 @@ const StationList: React.FC = () => {
   const onAddClick = useCallback(() => {
     setOpen(true);
     setSiteId('');
+  }, []);
+
+  const onEditClick = useCallback((record: StationType) => {
+    setOpen(true);
+    setSiteId(record.id);
   }, []);
 
   const onSiteClick = useCallback((record: StationType) => {
@@ -71,9 +75,9 @@ const StationList: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      {authorityMap.get('system:site:config') && (
-        <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
-          站点配置
+      {authorityMap.get('oss:site:update') && (
+        <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
+          编辑
         </Button>
       )}
       {authorityMap.get('system:site:delete') && (
@@ -99,6 +103,11 @@ const StationList: React.FC = () => {
           }}
         >
           删除
+        </Button>
+      )}
+      {authorityMap.get('system:site:config') && (
+        <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
+          站点配置
         </Button>
       )}
     </>
@@ -214,11 +223,13 @@ const StationList: React.FC = () => {
     {
       title: '操作',
       valueType: 'option',
-      width: 150,
+      width: 180,
       fixed: 'right',
       render: rowBar,
       hideInTable:
-        !authorityMap.get('system:site:config') && !authorityMap.get('system:site:delete'),
+        !authorityMap.get('system:site:config') &&
+        !authorityMap.get('system:site:delete') &&
+        !authorityMap.get('oss:site:update'),
     },
   ];
 

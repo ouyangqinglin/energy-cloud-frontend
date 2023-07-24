@@ -19,6 +19,7 @@ import DetailForm from './components/detail';
 import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
 import YTProTable from '@/components/YTProTable';
+import { operateUserType } from '@/utils/dictionary';
 
 /* *
  *
@@ -215,10 +216,10 @@ const OperlogTableList: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: <FormattedMessage id="monitor.Operlog.operator_type" defaultMessage="操作类别" />,
+      title: <FormattedMessage id="monitor.Operlog.user_type" defaultMessage="操作人类别" />,
       dataIndex: 'operatorType',
       valueType: 'select',
-      valueEnum: operatorTypeOptions,
+      valueEnum: operateUserType,
       hideInTable: true,
     },
     {
@@ -242,11 +243,6 @@ const OperlogTableList: React.FC = () => {
     {
       title: <FormattedMessage id="monitor.Operlog.oper_ip" defaultMessage="主机地址" />,
       dataIndex: 'operIp',
-      valueType: 'text',
-    },
-    {
-      title: <FormattedMessage id="monitor.Operlog.oper_location" defaultMessage="操作地点" />,
-      dataIndex: 'operLocation',
       valueType: 'text',
     },
     {

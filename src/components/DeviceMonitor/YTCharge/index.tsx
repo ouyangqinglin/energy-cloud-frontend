@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-20 14:27:46
+ * @LastEditTime: 2023-07-24 11:33:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\YTCharge\index.tsx
  */
@@ -18,6 +18,7 @@ import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
 import YtChargeImg from '@/assets/image/product/yt-charge.png';
 import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
+import Community from '@/components/ScreenDialog/Community';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -54,7 +55,16 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={YtChargeIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <RealTime
           id={id}

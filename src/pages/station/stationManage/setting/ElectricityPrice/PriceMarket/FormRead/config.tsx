@@ -6,6 +6,7 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
+import { electricMoneyMap } from '@/utils/dictionary';
 
 export const columns: ProFormColumnsType[] = [
   {
@@ -16,12 +17,12 @@ export const columns: ProFormColumnsType[] = [
     },
     columns: [
       {
-        title: '电价规则名称:',
+        title: '规则名称:',
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请输入电价规则名称',
+              message: '请输入规则名称',
             },
           ],
           wrapperCol: {
@@ -66,13 +67,10 @@ export const columns: ProFormColumnsType[] = [
         colProps: {
           span: 8,
         },
-        valueEnum: new Map([
-          [1, '需量电费'],
-          [0, '容量电费'],
-        ]),
+        valueEnum: electricMoneyMap,
       },
       {
-        title: '最大需量',
+        title: '最大需量/容量',
         dataIndex: 'maxDemand',
         render: (_, { value }) => value + 'kW',
         colProps: {
@@ -80,7 +78,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '需量电价',
+        title: '需量/容量电费',
         dataIndex: 'demandElectrovalency',
         render: (_, { value }) => value + '元',
         colProps: {
@@ -109,14 +107,14 @@ export const columns: ProFormColumnsType[] = [
     ],
   },
   {
-    title: <div className={styles.title}>尖峰平谷价格</div>,
+    title: <div className={styles.title}>尖峰平谷电价</div>,
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '尖价格',
+        title: '尖电价',
         dataIndex: 'sharpPrice',
         formItemProps: {
           labelCol: {
@@ -129,7 +127,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '峰价格',
+        title: '峰电价',
         dataIndex: 'peakPrice',
         formItemProps: {
           labelCol: {
@@ -142,7 +140,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '平价格',
+        title: '平电价',
         dataIndex: 'flatPrice',
         formItemProps: {
           labelCol: {
@@ -155,7 +153,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '谷价格',
+        title: '谷电价',
         dataIndex: 'valleyPrice',
         formItemProps: {
           labelCol: {
