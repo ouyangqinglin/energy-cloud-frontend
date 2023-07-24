@@ -1,5 +1,5 @@
 import { keepTwoDecimalWithUnit } from '@/utils/math';
-import { Col, Row } from 'antd';
+import { Col, Row, Tooltip } from 'antd';
 import type { AllCardRes, CardInfo } from '../../type';
 import styles from './index.less';
 
@@ -21,10 +21,12 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
           </div>
         </div>
         <Row gutter={16} className={styles.detail}>
-          {config.items.map(({ label, field }) => (
+          {config.items.map(({ label, field, render }) => (
             <Col span={8} key={label} className={styles.detailItem}>
-              <div className={styles.ellipsis}>{label}：</div>
-              <span>{keepTwoDecimalWithUnit(data?.[field])}</span>
+              <Tooltip title={label}>
+                <div className={styles.ellipsis}>{label}：</div>
+              </Tooltip>
+              {render ? render(data) : <span>{keepTwoDecimalWithUnit(data?.[field])}</span>}
             </Col>
           ))}
         </Row>

@@ -33,5 +33,5 @@ export const getEnvironmentalRevenueIndex = () => {
 };
 
 export const getElectricStack = () => {
-  return get<any>('/site/index/getChargingPileIndex', {});
+  return get<any>('/oss/site/index/getChargingPileIndex', {});
 };
