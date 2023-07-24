@@ -7,6 +7,7 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../type';
 import styles from '../index.less';
 import { PriceType } from '../type';
+import { electricMoneyMap } from '@/utils/dictionary';
 
 export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
   {
@@ -17,7 +18,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     },
     columns: [
       {
-        title: '电价规则名称',
+        title: '规则名称',
         fieldProps: {
           placeholder: '请输入',
         },
@@ -25,7 +26,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
           rules: [
             {
               required: true,
-              message: '请输入电价规则名称',
+              message: '请输入规则名称',
             },
           ],
         },
@@ -57,7 +58,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
       {
         title: '基本电费类型',
         dataIndex: 'electricityType',
-        valueType: 'digit',
+        valueType: 'select',
         formItemProps: {
           rules: [
             {
@@ -67,26 +68,22 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
           ],
         },
         fieldProps: {
-          placeholder: '请输入',
           className: 'w-full',
         },
         colProps: {
           span: 8,
         },
-        valueEnum: new Map([
-          [1, '需量电费'],
-          [0, '容量电费'],
-        ]),
+        valueEnum: electricMoneyMap,
       },
       {
-        title: '最大需量',
+        title: '最大需量/容量',
         dataIndex: 'maxDemand',
         valueType: 'digit',
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请选择最大需量',
+              message: '请选择最大需量/容量',
             },
           ],
         },
@@ -100,14 +97,14 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         },
       },
       {
-        title: '需量电价',
+        title: '需量/容量电费',
         dataIndex: 'demandElectrovalency',
         valueType: 'digit',
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请选择需量电价',
+              message: '请选择需量/容量电费',
             },
           ],
         },
@@ -184,14 +181,14 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     ],
   },
   {
-    title: <div className={styles.title}>尖峰平谷价格</div>,
+    title: <div className={styles.title}>尖峰平谷电价</div>,
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '尖价格',
+        title: '尖电价',
         dataIndex: 'sharpPrice',
         fieldProps: {
           placeholder: '请输入',
@@ -202,7 +199,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         },
       },
       {
-        title: '峰价格',
+        title: '峰电价',
         dataIndex: 'peakPrice',
         fieldProps: {
           placeholder: '请输入',
@@ -213,7 +210,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         },
       },
       {
-        title: '平价格',
+        title: '平电价',
         dataIndex: 'flatPrice',
         fieldProps: {
           placeholder: '请输入',
@@ -224,7 +221,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         },
       },
       {
-        title: '谷价格',
+        title: '谷电价',
         dataIndex: 'valleyPrice',
         fieldProps: {
           placeholder: '请输入',

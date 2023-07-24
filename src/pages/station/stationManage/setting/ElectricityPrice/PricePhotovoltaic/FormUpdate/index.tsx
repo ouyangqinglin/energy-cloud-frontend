@@ -8,8 +8,8 @@ import { FormUpdate } from '../../components/FormUpdate';
 export const FormUpdateForCharging = (props: FormUpdateBaseProps) => {
   return (
     <FormUpdate<PhotovoltaicElectricityPriceInfo, PhotovoltaicElectricityPriceParams>
-      titleCreate={`新增光伏上网电价规则`}
-      titleUpdate={`编辑光伏上网电价规则`}
+      titleCreate={`新建规则`}
+      titleUpdate={`编辑规则`}
       columns={columns}
       onFinishUpdate={updatePhotovoltaicPrice}
       onFinishCreate={createPhotovoltaicPrice}

@@ -6,18 +6,16 @@ import { columns } from './config';
 import { getElectricGenerateUnitList, getElectricGenerateUnitStatistic } from './service';
 import EnergyStatisticCard from './components/StatisticCard';
 import { getDefaultSite } from '@/hooks/useFetchDefaultSiteId';
-import { useSiteColumn } from '@/hooks';
 import { useRequest } from 'umi';
 import { useToggle } from 'ahooks';
-import { getSiteUnitConfig } from '@/services/station';
+import { SiteDataType, getSiteUnitConfig } from '@/services/station';
 import EmptyPage from '@/components/EmptyPage';
+import SiteLabel from '@/components/SiteLabel';
+import { ActionType } from '@ant-design/pro-table';
 
 const Energy = () => {
-  const { run: runForDefaultSiteId } = useRequest(getDefaultSite, { manual: true });
-
-  const [hasCacheSiteId, { set }] = useToggle(false);
   const [siteId, setSiteId] = useState<number>();
-  const defaultSiteIdRef = useRef<number>();
+  const actionRef = useRef<ActionType>();
 
   const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
     manual: true,
@@ -27,34 +25,22 @@ const Energy = () => {
     ElectricGenerateInfo,
     ElectricGenerateInfo
   >['request'] = async (params) => {
-    if (!hasCacheSiteId) {
-      const siteData = await runForDefaultSiteId();
-      set(true);
-      setSiteId(siteData?.id);
-      defaultSiteIdRef.current = siteData?.id;
-      return getElectricGenerateUnitList({ ...params, ...{ siteId: siteData?.id } });
-    }
-    return getElectricGenerateUnitList({ ...params });
+    return getElectricGenerateUnitList({ ...params, ...{ siteId } });
   };
-
-  const [siteColumn] = useSiteColumn<ElectricGenerateInfo>({
-    hideInTable: true,
-    dataIndex: 'siteId',
-    params: {
-      energyOptions: 1,
-    },
-    initialValue: defaultSiteIdRef.current,
-    fieldProps: {
-      value: siteId,
-      onChange: setSiteId,
-    },
-  });
 
   const {
     data: statisticData,
     run: runForStatistic,
     cancel,
   } = useRequest(getElectricGenerateUnitStatistic, { manual: true });
+
+  const onChange = useCallback((data: SiteDataType) => {
+    if (data?.id) {
+      setSiteId(Number(data.id));
+      actionRef.current?.reloadAndRest?.();
+    }
+  }, []);
+
   useEffect(() => {
     if (siteId) {
       runForStatistic(siteId);
@@ -78,16 +64,18 @@ const Energy = () => {
       {siteConfig?.prompt ? (
         <EmptyPage description={siteConfig?.prompt} />
       ) : (
-        <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
-          columns={[siteColumn, ...columns]}
-          options={false}
-          params={{ siteId }}
-          toolBarRender={() => []}
-          onReset={() => setSiteId(defaultSiteIdRef.current)}
-          headerTitle={<EnergyStatisticCard data={statisticData} />}
-          request={requestList}
-          rowKey="deviceId"
-        />
+        <>
+          <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+          <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+            actionRef={actionRef}
+            columns={columns}
+            options={false}
+            toolBarRender={() => []}
+            headerTitle={<EnergyStatisticCard data={statisticData} />}
+            request={requestList}
+            rowKey="deviceId"
+          />
+        </>
       )}
     </>
   );

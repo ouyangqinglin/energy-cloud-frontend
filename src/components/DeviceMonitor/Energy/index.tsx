@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-24 11:38:10
+ * @LastEditTime: 2023-07-19 14:16:45
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Cabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\index.tsx
  */
 import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
@@ -13,30 +13,36 @@ import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
-import CabinetImg from '@/assets/image/product/cabinet.png';
-import CabinetIntroImg from '@/assets/image/product/cabinet-intro.jpg';
+import EnergyImg from '@/assets/image/product/energy.png';
+import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
 
-const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
+const Energy: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: CabinetImg });
+    setDeviceData({ ...(value || {}), productImg: EnergyImg });
     onChange?.(value);
   }, []);
 
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={CabinetIntroImg} />}
+        top={<Overview data={deviceData} introImg={EnergyIntroImg} />}
         bottom={
           <DeviceInfo
             id={id}
             onChange={onDataChange}
             buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+              <Community
+                id={id}
+                siteId={deviceData?.siteId}
+                type={deviceData?.paramConfigType}
+                userLabel="EMS mqtt用户名"
+                passwordLabel="EMS mqtt密码"
+              />
             }
           />
         }
@@ -47,4 +53,4 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   );
 };
 
-export default BoxSubstation;
+export default Energy;

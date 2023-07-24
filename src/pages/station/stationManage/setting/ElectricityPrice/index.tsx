@@ -43,7 +43,7 @@ const Customer: React.FC = () => {
       children: <PricePhotovoltaicList actionRef={photovoltaicActionRef} />,
     },
     {
-      label: '充电电价设置',
+      label: '充电桩计费设置',
       key: TabKeys.CHARGING,
       children: <PriceChargingList actionRef={chargingActionRef} />,
     },

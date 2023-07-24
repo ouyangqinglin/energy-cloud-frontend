@@ -18,6 +18,7 @@ import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
+import Community from '@/components/ScreenDialog/Community';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -54,7 +55,16 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={HwChargeStackIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <RealTime
           id={id}

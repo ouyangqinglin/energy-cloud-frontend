@@ -64,6 +64,12 @@ export default [
         title: 'menu.station.list',
       },
       {
+        path: 'device-detail',
+        component: './equipment/DeviceDetail',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.deviceDetail',
+      },
+      {
         path: 'setting',
         component: './station/Setting',
         wrappers: ['@/components/KeepAlive'],
@@ -98,16 +104,19 @@ export default [
         path: 'electric-generate',
         component: './site-monitor/ElectricGenerate',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.electricGenerate',
       },
       {
         path: 'energy',
         component: './site-monitor/Energy',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.energy',
       },
       {
         path: 'electric-consumer',
         component: './site-monitor/ElectricConsumer',
         wrappers: ['@/components/KeepAlive'],
+        title: 'menu.siteMonitor.electricConsumer',
       },
       {
         path: 'device-monitor',

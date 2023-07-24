@@ -49,7 +49,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
           <div className={styles.value}>{getAlarm(data?.siteAlarmStatus)}</div>
         </li>
         <li>
-          <div className={styles.label}>组件总容量：</div>
+          <div className={styles.label}>光伏总容量：</div>
           <div className={styles.value}>{data?.photovoltaicInstalledCapacity ?? '--'}kWp</div>
         </li>
         <li>

@@ -14,8 +14,9 @@ import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
+import Community from '@/components/ScreenDialog/Community';
 
-const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
+const Device: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -29,7 +30,15 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <Empty />
       </Page>
@@ -37,4 +46,4 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   );
 };
 
-export default BoxSubstation;
+export default Device;

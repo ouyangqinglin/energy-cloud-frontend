@@ -16,8 +16,9 @@ import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/Meter/RealTime';
 import Page from '@/layouts/Page';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
+import Community from '@/components/ScreenDialog/Community';
 
-const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
+const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,16 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <RealTime
           id={id}
@@ -69,4 +79,4 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   );
 };
 
-export default BoxSubstation;
+export default EnergyCabinet;

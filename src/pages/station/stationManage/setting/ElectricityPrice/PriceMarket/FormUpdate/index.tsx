@@ -7,8 +7,8 @@ import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 export const FormUpdateForMarket = (props: FormUpdateBaseProps) => {
   return (
     <FormUpdate<MarketElectricityPriceInfo, MarketElectricityPriceParams>
-      titleCreate={`新增市电电价规则`}
-      titleUpdate={`编辑市电电价规则`}
+      titleCreate={`新建规则`}
+      titleUpdate={`编辑规则`}
       columns={columns}
       onFinishUpdate={updateMarketPrice}
       onFinishCreate={createMarketPrice}

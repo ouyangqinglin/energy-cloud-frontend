@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Modal, Descriptions, Button } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import type { OperlogType } from '../data';
+import { operateUserType } from '@/utils/dictionary';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 export type OperlogFormValueType = Record<string, unknown> & Partial<OperlogType>;
 
@@ -71,9 +71,9 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
         </Descriptions.Item>
         <Descriptions.Item
           span={12}
-          label={<FormattedMessage id="monitor.Operlog.operator_type" defaultMessage="操作类别" />}
+          label={<FormattedMessage id="monitor.Operlog.user_type" defaultMessage="操作人类别" />}
         >
-          {operatorTypeOptions[values.operatorType ? values.operatorType : 0]}
+          {operateUserType[values.operatorType ? values.operatorType : 0].text}
         </Descriptions.Item>
         <Descriptions.Item
           span={24}
@@ -104,12 +104,6 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
           label={<FormattedMessage id="monitor.Operlog.oper_ip" defaultMessage="主机地址" />}
         >
           {values.operIp}
-        </Descriptions.Item>
-        <Descriptions.Item
-          span={12}
-          label={<FormattedMessage id="monitor.Operlog.oper_location" defaultMessage="操作地点" />}
-        >
-          {values.operLocation}
         </Descriptions.Item>
         <Descriptions.Item
           span={24}

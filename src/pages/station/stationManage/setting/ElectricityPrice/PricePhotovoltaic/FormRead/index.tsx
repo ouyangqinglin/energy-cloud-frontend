@@ -7,7 +7,7 @@ import type { FormReadBaseProps } from '../../components/FormRead/type';
 export const FormReadForCharging = (props: FormReadBaseProps) => {
   return (
     <FormRead<PhotovoltaicElectricityPriceInfo, PhotovoltaicElectricityPriceParams>
-      title={'光伏上网电价规则详情'}
+      title={'查看详情'}
       columns={columns}
       request={(param) => {
         return getPhotovoltaicPrice(param).then((res) => {

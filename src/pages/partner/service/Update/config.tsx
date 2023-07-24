@@ -52,8 +52,20 @@ export const Columns: (
       valueEnum: effectStatus,
     },
     {
-      title: '电话',
-      dataIndex: ['phonenumber'],
+      title: '联系人',
+      dataIndex: ['linkman'],
+    },
+    {
+      title: '手机',
+      dataIndex: ['phone'],
+    },
+    {
+      title: '座机',
+      dataIndex: ['landlineNumber'],
+    },
+    {
+      title: '地址',
+      dataIndex: ['address'],
     },
     {
       title: '备注',

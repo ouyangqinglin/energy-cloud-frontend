@@ -1,9 +1,8 @@
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -14,6 +13,7 @@ export default {
   'monitor.Operlog.method': '方法名称',
   'monitor.Operlog.request_method': '请求方式',
   'monitor.Operlog.operator_type': '操作类别',
+  'monitor.Operlog.user_type': '操作人类别',
   'monitor.Operlog.oper_name': '操作人员',
   'monitor.Operlog.dept_name': '部门名称',
   'monitor.Operlog.oper_url': '请求URL',
