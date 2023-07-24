@@ -12,6 +12,7 @@ export type CardInfo = {
 export type CardInfoItem = {
   label: string;
   field?: keyof AllCardRes;
+  render?: (data: AllCardRes) => ReactNode;
   value?: number;
 };
 
