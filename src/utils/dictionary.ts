@@ -329,6 +329,7 @@ export const logType = {
 };
 
 export const siteType = {
+  0: { text: '全部' },
   1: { text: '光伏站点' },
   2: { text: '储能站点' },
   3: { text: '充电站点' },

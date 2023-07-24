@@ -26,7 +26,7 @@ const Install = () => {
           setOperations(FormOperations.CREATE);
           setUpdateModal(true);
         },
-        text: '新建工单',
+        text: '新建',
       },
     },
     option: {
