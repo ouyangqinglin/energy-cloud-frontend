@@ -31,3 +31,7 @@ export const getEconomicBenefit = () => {
 export const getEnvironmentalRevenueIndex = () => {
   return get<EBCardRes>(`/oss/site/index/environmentalRevenueIndex`, {});
 };
+
+export const getElectricStack = () => {
+  return get<any>('/site/index/getChargingPileIndex', {});
+};

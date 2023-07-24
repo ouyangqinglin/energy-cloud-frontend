@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
 import React, { useState, useCallback } from 'react';
-import { Drawer } from 'antd';
+import { Drawer, Select } from 'antd';
 import { useLocation } from '@/hooks';
 import { useModel } from 'umi';
 import RightContent from '@/components/header/RightContent';
@@ -17,6 +17,7 @@ import IconMenuRight from '@/assets/image/menu-right.png';
 import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
+import SiteTypeSwitch from '../SiteTypeSwitch';
 
 const MyHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -47,6 +48,10 @@ const MyHeader: React.FC = () => {
           className={`${styles.site} mx24`}
           style={location?.pathname?.startsWith?.('/site-monitor') ? {} : { display: 'none' }}
           size="small"
+        />
+        <SiteTypeSwitch
+          className={`${styles.site} mx24`}
+          style={location?.pathname?.startsWith?.('/index/station') ? {} : { display: 'none' }}
         />
         <RightContent />
       </div>

@@ -494,6 +494,14 @@ export default [
         KeepAlive: true,
       },
       {
+        name: 'organization',
+        path: '/system/organization',
+        access: 'authorize',
+        wrappers: ['@/components/KeepAlive'],
+        KeepAlive: true,
+        component: 'system/organization/index',
+      },
+      {
         name: 'post',
         icon: 'PartitionOutlined',
         path: '/system/post',

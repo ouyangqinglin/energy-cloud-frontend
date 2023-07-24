@@ -12,6 +12,7 @@ import ChartBox from './components/ChartBox';
 import {
   getAlarmMonitoring,
   getEconomicBenefit,
+  getElectricStack,
   getEnvironmentalRevenueIndex,
   getEssIndex,
   getPhotovoltaicIndex,
@@ -28,7 +29,7 @@ export const enum SubSystemType {
 const HomePage: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const size = useSize(ref);
-  const [slidesPerRow, setSlidesPerRow] = useState(3);
+  const [slidesPerRow, setSlidesPerRow] = useState(4);
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
@@ -43,6 +44,7 @@ const HomePage: React.FC = () => {
         getAlarmMonitoring(),
         getEconomicBenefit(),
         getEnvironmentalRevenueIndex(),
+        getElectricStack(),
       ]),
     [],
   );
@@ -60,22 +62,22 @@ const HomePage: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (!size?.width) {
-      return;
-    }
-    if (size.width <= 1250) {
-      setSlidesPerRow(2);
-      return;
-    }
-    if (size.width > 1400 && size.width <= 1700) {
-      setSlidesPerRow(3);
-      return;
-    }
-    if (size.width > 1600) {
-      setSlidesPerRow(4);
-    }
-  }, [size]);
+  // useEffect(() => {
+  //   if (!size?.width) {
+  //     return;
+  //   }
+  //   if (size.width <= 1250) {
+  //     setSlidesPerRow(2);
+  //     return;
+  //   }
+  //   if (size.width > 1400 && size.width <= 1700) {
+  //     setSlidesPerRow(3);
+  //     return;
+  //   }
+  //   if (size.width > 1600) {
+  //     setSlidesPerRow(4);
+  //   }
+  // }, [size]);
 
   return (
     <div ref={ref} className="bg-white card-wrap p24">
