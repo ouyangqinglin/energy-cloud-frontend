@@ -21,24 +21,10 @@ const SubsystemStatistic = () => {
 
   return (
     <Cell cursor="default" width={400} height={635} left={1515} top={426}>
-      <DecorationCarousel panelStyle={{ padding: 0 }} title="子系统运行数据">
-        <div className={styles.subsystem}>
-          <Radio.Group
-            className={styles.tabsBtn}
-            value={activeBtn}
-            onChange={(e) => setActiveBtn(e?.target?.value)}
-            buttonStyle="solid"
-          >
-            <Radio.Button value={0}>光伏</Radio.Button>
-            <Radio.Button value={1}>储能</Radio.Button>
-            <Radio.Button value={2}>充电桩</Radio.Button>
-          </Radio.Group>
-        </div>
-        <Carousel className={styles.carousel} dots={false} ref={carouselRef}>
-          <Photovoltaic />
-          <EnergyStorage />
-          <ChargingStation />
-        </Carousel>
+      <DecorationCarousel panelStyle={{ padding: 0 }} valueType={'siteType'} title="子系统运行数据">
+        <Photovoltaic />
+        <EnergyStorage />
+        <ChargingStation />
       </DecorationCarousel>
     </Cell>
   );

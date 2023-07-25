@@ -4,6 +4,7 @@ import styles from './index.less';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
 import { isNumber, isNaN, merge, isNil } from 'lodash';
+import classnames from 'classnames';
 
 TweenOne.plugins.push(Children);
 
@@ -20,22 +21,30 @@ export type DigitalFlipperItemProps<Data = any> = {
   field?: string;
   format?: (value: number | string) => any;
   titleStyle?: CSSProperties;
+  titleClassName?: string;
   numStyle?: CSSProperties;
+  numClassName?: string;
   unitStyle?: CSSProperties;
+  unitClassName?: string;
   itemStyleWrapper?: CSSProperties;
+  itemClassNameWrapper?: string;
 };
 
 const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   num: rawNum,
   format,
   itemStyleWrapper = {},
+  itemClassNameWrapper = '',
   numStyle = {},
+  numClassName = '',
   titleStyle = {},
+  titleClassName = '',
   title,
   comma = false,
   floatLength = 0,
   unit,
   unitStyle = {},
+  unitClassName = '',
   render,
   prefix,
   suffix,
@@ -61,21 +70,21 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   };
 
   return (
-    <div className={styles.wrapper} style={itemStyleWrapper}>
-      <div className={styles.title} style={titleStyle}>
+    <div className={classnames([styles.wrapper, itemClassNameWrapper])} style={itemStyleWrapper}>
+      <div className={classnames([styles.title, titleClassName])} style={titleStyle}>
         {title}
       </div>
-      <div className={styles.content}>
+      <div className={classnames([styles.content])}>
         {prefix}
         {render ? (
           render(num, data)
         ) : (
-          <div className={styles.number} style={numStyle}>
+          <div className={classnames([styles.number, numClassName])} style={numStyle}>
             {textNode()}
           </div>
         )}
         {unit && (
-          <span className={styles.unit} style={unitStyle}>
+          <span className={classnames([styles.unit, unitClassName])} style={unitStyle}>
             {unit}
           </span>
         )}

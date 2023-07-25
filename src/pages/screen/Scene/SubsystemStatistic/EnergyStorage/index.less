@@ -1,13 +1,7 @@
 .contentWrapper {
-  margin: 0 16px 0 16px;
-  .realtimeStatistic {
-    height: 48px;
-    margin-bottom: 15px;
-    color: #fff;
-    .digitalGroup {
-      justify-content: space-between;
-    }
-  }
+  margin-top: 16px;
+  margin-right: 16px;
+  margin-left: 16px;
 
   .batteryStatus {
     display: flex;
@@ -32,6 +26,37 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 12px;
+  }
+
+  .realtimeStatistic {
+    height: 70px;
+    margin: 24px 0 24px 0;
+    background: linear-gradient(
+      90deg,
+      rgba(21, 154, 255, 0.4) 0%,
+      rgba(21, 154, 255, 0.09) 24%,
+      rgba(21, 154, 255, 0) 50%,
+      rgba(21, 154, 255, 0.1) 73%,
+      rgba(21, 154, 255, 0.4) 100%
+    );
+    border: 1px solid;
+    border-image: linear-gradient(
+        270deg,
+        rgba(21, 154, 255, 1),
+        rgba(21, 154, 255, 0.18),
+        rgba(21, 154, 255, 0),
+        rgba(21, 154, 255, 0.2),
+        rgba(21, 154, 255, 0.75)
+      )
+      1 1;
+    .innerBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 100%;
+      padding: 10px 0;
+    }
   }
 
   .statisticalData {

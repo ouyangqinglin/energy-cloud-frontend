@@ -24,7 +24,7 @@ const Owner = (props: { actionRef?: React.Ref<ActionType> }) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新增',
+        text: '新建',
       },
     },
     option: {

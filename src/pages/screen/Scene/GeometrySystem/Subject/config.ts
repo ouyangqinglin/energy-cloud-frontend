@@ -1,11 +1,19 @@
-import { ReactComponent as Icon_PV } from '@/assets/image/screen/geometrySystem/icon_pv.svg';
-import { ReactComponent as Icon_PV_disable } from '@/assets/image/screen/geometrySystem/icon_pv_disable.svg';
-import { ReactComponent as Icon_PC } from '@/assets/image/screen/geometrySystem/icon_pc.svg';
-import { ReactComponent as Icon_LOAD } from '@/assets/image/screen/geometrySystem/icon_load.svg';
-import { ReactComponent as Icon_GE } from '@/assets/image/screen/geometrySystem/icon_ge.svg';
-import { ReactComponent as Icon_ES } from '@/assets/image/screen/geometrySystem/icon_es.svg';
-import { ReactComponent as Icon_ES_disable } from '@/assets/image/screen/geometrySystem/icon_es_disable.svg';
+// import { ReactComponent as Icon_PV } from '@/assets/image/screen/geometrySystem/icon_pv.svg';
+// import { ReactComponent as Icon_PV_disable } from '@/assets/image/screen/geometrySystem/icon_pv_disable.svg';
+// import { ReactComponent as Icon_PC } from '@/assets/image/screen/geometrySystem/icon_pc.svg';
+// import { ReactComponent as Icon_LOAD } from '@/assets/image/screen/geometrySystem/icon_load.svg';
+// import { ReactComponent as Icon_GE } from '@/assets/image/screen/geometrySystem/icon_ge.svg';
+// import { ReactComponent as Icon_ES } from '@/assets/image/screen/geometrySystem/icon_es.svg';
+// import { ReactComponent as Icon_ES_disable } from '@/assets/image/screen/geometrySystem/icon_es_disable.svg';
 import { ReactComponent as Icon_BASE } from '@/assets/image/screen/geometrySystem/icon_base.svg';
+import Icon_PV from '@/assets/image/screen/geometrySystem/icon_pv.png';
+import Icon_PV_disable from '@/assets/image/screen/geometrySystem/icon_pv_disable.png';
+import Icon_PC from '@/assets/image/screen/geometrySystem/icon_pc.png';
+import Icon_LOAD from '@/assets/image/screen/geometrySystem/icon_load.png';
+import Icon_GE from '@/assets/image/screen/geometrySystem/icon_ge.png';
+import Icon_ES from '@/assets/image/screen/geometrySystem/icon_es.png';
+import Icon_ES_disable from '@/assets/image/screen/geometrySystem/icon_es_disable.png';
+// import Icon_BASE from '@/assets/image/screen/geometrySystem/icon_base.png';
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { CellStyle } from '../../Geometry/type';
 import { ReactNode } from 'react';
@@ -14,6 +22,7 @@ export type CellConfig = {
   name: string;
   cellStyle: CellStyle;
   icon: ReactNode;
+  isSVG?: boolean;
   iconDisable?: ReactNode;
   subsystemType?: SubSystemType;
   hide?: boolean;
@@ -22,6 +31,7 @@ export type CellConfig = {
 export const config: CellConfig[] = [
   {
     name: '基座',
+    isSVG: true,
     cellStyle: {
       width: 340,
       height: 211,
@@ -63,6 +73,7 @@ export const config: CellConfig[] = [
       height: 229,
       left: 501,
       top: 276,
+      zIndex: 1,
     },
     subsystemType: SubSystemType.CS,
     icon: Icon_PC,
@@ -75,6 +86,7 @@ export const config: CellConfig[] = [
       height: 229,
       left: 501,
       top: 276,
+      zIndex: 1,
     },
     subsystemType: SubSystemType.L,
     icon: Icon_LOAD,

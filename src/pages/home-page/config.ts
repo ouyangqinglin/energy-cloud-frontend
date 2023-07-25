@@ -83,35 +83,57 @@ export const config: CardInfo[] = [
     ],
   },
   {
-    title: '告警监视',
-    icon: IconLoad,
-    field: 'totalNum',
-    value: 54,
-    description: '告警总数/条',
+    title: '充电桩指标',
+    icon: IconEnergyStorage,
+    field: 'chargePower',
+    value: 1947.1,
+    description: '充电功率/kw',
     items: [
       {
-        label: '严重等级/条',
-        field: 'errorNum',
-        value: 1,
+        label: '当日充电量/kwh',
+        field: 'chargeElecToday',
+        value: 3.14,
       },
       {
-        label: '重要等级/条',
-        field: 'alarmNum',
-        value: 0,
+        label: '累计充电量/kwh',
+        field: 'chargeElecTotal',
+        value: 0.48,
       },
       {
-        label: '次要等级/条',
-        field: 'warnNum',
-        value: 53,
-      },
-      {
-        label: '提示等级/条',
-        field: 'infoNum',
-        value: 53,
+        label: '充电枪使用/空闲',
+        value: 171.04,
+        render: (data) => {
+          return `${data?.beUsingGunNum}  / ${data?.leisureGunNum} `;
+        },
       },
     ],
   },
-
+  {
+    title: '充电桩指标',
+    icon: IconEnergyStorage,
+    field: 'chargePower',
+    value: 1947.1,
+    description: '充电功率/kw',
+    items: [
+      {
+        label: '当日充电量/kwh',
+        field: 'chargeElecToday',
+        value: 3.14,
+      },
+      {
+        label: '累计充电量/kwh',
+        field: 'chargeElecTotal',
+        value: 0.48,
+      },
+      {
+        label: '充电枪使用/空闲',
+        value: 171.04,
+        render: (data) => {
+          return `${data?.beUsingGunNum}  / ${data?.leisureGunNum} `;
+        },
+      },
+    ],
+  },
   {
     title: '告警监视',
     icon: IconLoad,
@@ -186,32 +208,6 @@ export const config: CardInfo[] = [
         label: '当日节约标准煤/t',
         field: 'todayReduceCoal',
         value: 171.04,
-      },
-    ],
-  },
-  {
-    title: '充电桩指标',
-    icon: IconEnergyStorage,
-    field: 'chargePower',
-    value: 1947.1,
-    description: '充电功率/kw',
-    items: [
-      {
-        label: '当日充电量/kwh',
-        field: 'chargeElecToday',
-        value: 3.14,
-      },
-      {
-        label: '累计充电量/kwh',
-        field: 'chargeElecTotal',
-        value: 0.48,
-      },
-      {
-        label: '充电枪使用/空闲',
-        value: 171.04,
-        render: (data) => {
-          return `${data?.beUsingGunNum}  / ${data?.leisureGunNum} `;
-        },
       },
     ],
   },

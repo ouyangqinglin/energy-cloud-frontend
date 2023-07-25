@@ -75,3 +75,42 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
 ];
+
+export const dataSourceRealTime: DigitalFlipperItemProps[] = [
+  {
+    title: '实时发电功率',
+    unit: 'kW',
+    floatLength: 2,
+    field: 'power',
+    numStyle: {
+      width: 'auto',
+      fontSize: 20,
+      fontWeight: 500,
+      color: '#FFE04D',
+      backgroundImage:
+        'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+  {
+    title: '组串总容量',
+    unit: 'kWp',
+    floatLength: 2,
+    field: 'totalCapacity',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+];

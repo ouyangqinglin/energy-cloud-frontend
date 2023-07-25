@@ -131,7 +131,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       <ModalForm<StationFormType>
         visible={props.open}
         form={form}
-        title={type === FormTypeEnum.Edit ? '编辑' : '新增'}
+        title={type === FormTypeEnum.Edit ? '编辑' : '新建'}
         autoFocusFirstInput
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}

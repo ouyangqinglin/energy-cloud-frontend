@@ -78,7 +78,7 @@ const Account: React.FC = () => {
         toolBarRenderOptions={{
           add: {
             onClick: onAddClick,
-            text: '新增',
+            text: '新建',
           },
         }}
         option={{

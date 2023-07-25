@@ -88,11 +88,10 @@ export const columns: ProFormColumnsType[] = [
                   {intervalStartTime} - {intervalEndTime}
                 </Col>
                 <Col span={2}>价格:</Col>
-                <Col span={10}>{electricityFees}元</Col>
+                <Col span={10}>{electricityFees}元/kWh</Col>
               </React.Fragment>
             );
           });
-
           return <Row gutter={16}>{Cols}</Row>;
         },
       },

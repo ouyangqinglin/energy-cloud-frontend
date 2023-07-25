@@ -4,6 +4,7 @@ import { config } from './config';
 import type { SystemDiagramRes } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import FlowPath from '../FlowPath';
+import styles from './index.less';
 const Subject = ({ data }: { data?: SystemDiagramRes }) => {
   const [cellList, setCellList] = useState([...config]);
 
@@ -24,18 +25,29 @@ const Subject = ({ data }: { data?: SystemDiagramRes }) => {
     }
   }
 
-  const ceils = cellList?.map(({ cellStyle, name, icon, iconDisable, subsystemType, hide }) => {
-    if (hide) {
-      return;
-    }
-    const shouldIShowDisableIcon = subsystemType ? !data?.[subsystemType]?.flag : false;
-    const Icon = shouldIShowDisableIcon && iconDisable ? iconDisable : icon;
-    return (
-      <Cell {...cellStyle} key={name}>
-        {Icon && <Icon />}
-      </Cell>
-    );
-  });
+  const ceils = cellList?.map(
+    ({ cellStyle, name, icon, iconDisable, subsystemType, hide, isSVG }) => {
+      if (hide) {
+        return;
+      }
+      const shouldIShowDisableIcon = subsystemType ? !data?.[subsystemType]?.flag : false;
+      const Icon = shouldIShowDisableIcon && iconDisable ? iconDisable : icon;
+      return (
+        <Cell {...cellStyle} key={name}>
+          {isSVG ? (
+            Icon && <Icon />
+          ) : (
+            <div
+              className={styles.iconWrapper}
+              style={{
+                backgroundImage: `url(${Icon})`,
+              }}
+            />
+          )}
+        </Cell>
+      );
+    },
+  );
   return (
     <div>
       {ceils}

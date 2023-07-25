@@ -1,10 +1,10 @@
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { TABLESELECT } from '@/components/TableSelect';
-import { FormOperations } from '@/components/YTModalForm/typing';
+import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProColumns } from '@ant-design/pro-components';
-import { isNil } from 'lodash';
 import { useEffect, useRef } from 'react';
-import { InstallOrderUpdateParam, OrderStatus, OrderType } from '../type';
+import type { InstallOrderUpdateParam } from '../type';
+import { OrderStatus, OrderType } from '../type';
 import { isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';

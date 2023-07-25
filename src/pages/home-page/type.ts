@@ -22,7 +22,8 @@ export interface AllCardRes
     OverViewCardRes,
     AlarmCardRes,
     EICardRes,
-    EBCardRes {}
+    EBCardRes,
+    CSCardRes {}
 
 export interface ESCardRes {
   //发电功率
@@ -104,4 +105,12 @@ export interface EBCardRes {
   todayReduceCO2: number;
   //当日节约标准媒
   todayReduceCoal: number;
+}
+
+export interface CSCardRes {
+  chargePower: number;
+  chargeElecToday: number;
+  chargeElecTotal: number;
+  leisureGunNum: number;
+  beUsingGunNum: number;
 }
