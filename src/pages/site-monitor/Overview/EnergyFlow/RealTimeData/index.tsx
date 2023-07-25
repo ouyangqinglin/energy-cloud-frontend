@@ -1,3 +1,4 @@
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { useToggle } from 'ahooks';
 import { Button, Col, Radio, Row, Statistic } from 'antd';
 import classNames from 'classnames';
@@ -11,6 +12,7 @@ import styles from './index.less';
 const RealTimeData = ({ siteId }: { siteId?: number }) => {
   const { data, run } = useRequest(getPVRevenue, {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const [timeType, setTimeType] = useState(TimeType.DAY);
 

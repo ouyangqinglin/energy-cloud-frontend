@@ -272,4 +272,6 @@ const request: HttpRequest['request'] = <T, U>(
     CustomRequestOptions,
 ) => httpRequest.request<T, U>(url, options);
 
+export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
+
 export default request;

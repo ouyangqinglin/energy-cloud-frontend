@@ -9,6 +9,7 @@ export const useFetchChartData = (
   date: moment.Moment,
   subSystemType: SubSystemType,
   timeType: TimeType,
+  siteType?: string,
 ) => {
   const { run: runForPV, data: dataPV } = useRequest(getPVChartData, { manual: true });
   const { run: runForES, data: dataES } = useRequest(getESChartData, { manual: true });
@@ -16,19 +17,23 @@ export const useFetchChartData = (
 
   useEffect(() => {
     const transformDate = date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
-
+    const params = {
+      type: timeType,
+      date: transformDate,
+      ...(siteType ? { energyOptions: siteType } : {}),
+    };
     switch (subSystemType) {
       case SubSystemType.EI:
-        runForEI({ type: timeType, date: transformDate });
+        runForEI(params);
         break;
       case SubSystemType.ES:
-        runForES({ type: timeType, date: transformDate });
+        runForES(params);
         break;
       case SubSystemType.PV:
-        runForPV({ type: timeType, date: transformDate });
+        runForPV(params);
         break;
     }
-  }, [date, runForEI, runForES, runForPV, subSystemType, timeType]);
+  }, [date, runForEI, runForES, runForPV, siteType, subSystemType, timeType]);
 
   const chartData = useMemo(() => {
     switch (subSystemType) {

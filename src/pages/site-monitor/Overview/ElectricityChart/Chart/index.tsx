@@ -8,6 +8,7 @@ import { useToolTip } from '@/hooks';
 import { TimeType } from '../../components/TimeButtonGroup';
 import { getBarChartData, getLineChartData } from './helper';
 import { FlagType } from '../type';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -31,7 +32,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const [chartRef, { clear, run: runForTooltip }] = useToolTip();
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
-    pollingInterval: 2 * 60 * 1000,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const shouldShowLine = timeType === TimeType.DAY;
 

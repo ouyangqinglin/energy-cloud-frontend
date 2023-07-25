@@ -9,7 +9,15 @@ import styles from './index.less';
 import RenderTitle from './RenderTitle';
 import { useFetchChartData } from './useFetchChartData';
 
-const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubSystemType }) => {
+const ChartBox = ({
+  Chart,
+  type: subSystemType,
+  siteType,
+}: {
+  Chart: ReactNode;
+  type: SubSystemType;
+  siteType?: string;
+}) => {
   const [picker, setPicker] = useState<
     'year' | 'month' | 'time' | 'date' | 'week' | 'quarter' | undefined
   >();
@@ -18,7 +26,7 @@ const ChartBox = ({ Chart, type: subSystemType }: { Chart: ReactNode; type: SubS
   const [date, setDate] = useState(moment());
   const resetDate = () => setDate(moment());
 
-  const { chartData } = useFetchChartData(date, subSystemType, timeType);
+  const { chartData } = useFetchChartData(date, subSystemType, timeType, siteType);
 
   const onChange = (value) => {
     setDate(value);

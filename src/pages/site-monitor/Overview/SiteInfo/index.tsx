@@ -6,10 +6,12 @@ import { useRequest } from 'umi';
 import { getStationInfo } from './service';
 import { isNil } from 'lodash';
 import { useEffect } from 'react';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 
 const SiteInfo = ({ siteId }: { siteId?: number }) => {
   const { data, run } = useRequest(getStationInfo, {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   useEffect(() => {

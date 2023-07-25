@@ -1,3 +1,4 @@
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { isNil } from 'lodash';
 import { useEffect } from 'react';
 import { useRequest } from 'umi';
@@ -32,6 +33,7 @@ import { getElectricityStatistics } from './service';
 const Statistics = ({ siteId }: { siteId?: number }) => {
   const { data = {}, run } = useRequest(getElectricityStatistics, {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   useEffect(() => {

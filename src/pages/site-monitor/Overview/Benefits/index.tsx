@@ -10,10 +10,12 @@ import { getBenefit } from './service';
 import { isNil } from 'lodash';
 import { useEffect } from 'react';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 
 const Benefit = ({ siteId }: { siteId?: number }) => {
   const { data, run } = useRequest(getBenefit, {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   useEffect(() => {

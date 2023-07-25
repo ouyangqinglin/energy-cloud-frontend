@@ -7,12 +7,14 @@
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
 
-import request, { ResponseCommonData } from '@/utils/request';
+import type { SiteType } from '@/components/SiteTypeSwitch';
+import type { ResponseCommonData } from '@/utils/request';
+import request from '@/utils/request';
 
 export type SiteDataType = {
   id?: string;
   name?: string;
-  siteType?: string;
+  siteType?: SiteType;
   energyOptions?: string;
   label?: string;
   value?: string;
