@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-24 17:01:05
+ * @LastEditTime: 2023-07-25 12:50:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
@@ -26,7 +26,7 @@ const StationList: React.FC = () => {
   const history = useHistory();
   const actionRef = useRef<ActionType>();
   const { state: areaOptions } = useArea();
-  const { initialState } = useModel('@@initialState');
+  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const { authorityMap } = useAuthority([
     'system:site:config',
     'system:site:delete',
@@ -34,10 +34,13 @@ const StationList: React.FC = () => {
     'oss:site:update',
   ]);
 
-  const requestList = useCallback((params) => {
-    const [countryCode, provinceCode, cityCode] = params?.area || [];
-    return getList({ ...params, countryCode, provinceCode, cityCode });
-  }, []);
+  const requestList = useCallback(
+    (params) => {
+      const [countryCode, provinceCode, cityCode] = params?.area || [];
+      return getList({ ...params, countryCode, provinceCode, cityCode, energyOptions: siteType });
+    },
+    [siteType],
+  );
 
   const onAddClick = useCallback(() => {
     setOpen(true);
