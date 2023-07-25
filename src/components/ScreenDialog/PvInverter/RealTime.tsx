@@ -11,7 +11,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Skeleton } from 'antd';
 import type { ProColumns } from '@ant-design/pro-table';
 import { RealTimeProps } from '@/components/ScreenDialog';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';

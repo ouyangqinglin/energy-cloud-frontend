@@ -11,7 +11,7 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     width: 48,
   },
   {
-    title: '账号',
+    title: '账号名',
     dataIndex: 'userName',
     width: 140,
     ellipsis: true,

@@ -13,7 +13,7 @@ import { useRequest } from 'umi';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import Dialog from '../Dialog';
-import Label from '../Detail/label';
+import Label from '../Detail/DotLabel';
 import EquipForm from '../EquipForm';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { getEquipInfo } from '@/services/equipment';

@@ -21,7 +21,7 @@ import {
   Modal,
 } from 'antd';
 import type { FormInstance } from 'antd';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import { default as LineLabel } from '@/components/Detail/LineLabel';
 import moment from 'moment';
 import type { Moment } from 'moment';

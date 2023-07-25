@@ -11,7 +11,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Tabs, Pagination } from 'antd';
 import Detail from '@/components/Detail';
 import { weekInfo, EnergyEquipmentEnum, OptionType } from '@/utils/dictionary';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import {
   statusItems,
   settingItems,

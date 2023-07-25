@@ -17,6 +17,7 @@ export type DetailItem = {
   span?: number;
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
+  valueStyle?: React.CSSProperties;
   show?: boolean;
 };
 
@@ -64,7 +65,7 @@ const Detail: React.FC<DetailProps> = (props) => {
             key={item.field}
           >
             <div className="flex w-full">
-              <span style={valueStyle}>
+              <span style={item.valueStyle || valueStyle}>
                 {!isEmpty(data[item.field])
                   ? item.format
                     ? item.format(data[item.field] ?? '', data)
@@ -80,7 +81,7 @@ const Detail: React.FC<DetailProps> = (props) => {
       }
     });
     return content;
-  }, [items, contentStyle, data, extral]);
+  }, [items, contentStyle, valueStyle, data, extral]);
 
   return (
     <Descriptions

@@ -9,6 +9,7 @@ import { setComplete } from './service';
 import { buildStatus, FormTypeEnum } from '@/utils/dictionary';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
+import PositionSelect from '@/components/PositionSelect';
 
 const StationInfo: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -71,18 +72,42 @@ const StationInfo: React.FC = () => {
     { label: '安装商', field: 'agentName' },
     { label: '电压等级', field: 'voltageClass', format: kVoltageFormat },
     { label: '变压器容量', field: 'transformerCapacity', format: kVAFormat },
-    { label: '光伏装机量', field: 'photovoltaicInstalledCapacity', format: kWpFormat },
+    { label: '光伏总容量', field: 'photovoltaicInstalledCapacity', format: kWpFormat },
     {
-      label: '储能桩机量',
+      label: '储能总容量',
       field: 'energyStorageCapacity',
-      format: (_, data) =>
-        `${powerFormat(data.energyStoragePower)}/${powerHourFormat(data.energyStorageCapacity)}`,
+      format: powerHourFormat,
     },
-    { label: '充电桩装机量', field: 'chargingStationCapacity', format: powerFormat },
-    { label: '站点地址', field: 'address' },
+    {
+      label: '储能额定功率',
+      field: 'energyStoragePower',
+      format: powerFormat,
+    },
+    { label: '充电桩额定功率', field: 'chargingStationCapacity', format: powerFormat },
+    {
+      label: '站点地址',
+      field: 'address',
+      span: 3,
+      valueStyle: { flex: 1 },
+      format: (_, data) => {
+        return (
+          <PositionSelect
+            value={{
+              address: data?.address,
+              point: {
+                lng: data?.longitude,
+                lat: data?.latitude,
+              },
+              adcode: data?.adcode,
+            }}
+            disabled
+          />
+        );
+      },
+    },
     { label: '备注', field: 'remarks', span: 3 },
     {
-      label: 'logo',
+      label: '站点图标',
       field: 'logo',
       format: (url) => (
         <Image style={{ objectFit: 'contain' }} width={200} height={200} src={url} />
@@ -120,7 +145,7 @@ const StationInfo: React.FC = () => {
           <Detail
             data={detailData}
             items={detailItems}
-            labelStyle={{ width: '100px' }}
+            labelStyle={{ width: '115px' }}
             column={3}
           />
         </Card>
@@ -128,7 +153,7 @@ const StationInfo: React.FC = () => {
           <Detail
             data={detailData}
             items={baseDetailItems}
-            labelStyle={{ width: '100px' }}
+            labelStyle={{ width: '115px' }}
             column={3}
           />
         </Card>

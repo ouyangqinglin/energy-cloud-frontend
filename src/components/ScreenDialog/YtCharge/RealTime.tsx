@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { Skeleton, Row, Col } from 'antd';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import { RealTimeProps } from '@/components/ScreenDialog';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { getRelatedDevice, getGuns } from '@/services/equipment';
 import { arrayToMap } from '@/utils';

@@ -10,7 +10,7 @@
 import React from 'react';
 import { Skeleton, Row, Col } from 'antd';
 import { RealTimeProps } from '@/components/ScreenDialog';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';

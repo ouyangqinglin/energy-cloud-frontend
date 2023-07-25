@@ -11,7 +11,7 @@ import React from 'react';
 import { Skeleton } from 'antd';
 import Meter, { MeterSkeleton } from '@/components/Meter';
 import { RealTimeProps } from '@/components/ScreenDialog';
-import Label from '@/components/Detail/label';
+import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { DetailProps } from '@/components/Detail';
 

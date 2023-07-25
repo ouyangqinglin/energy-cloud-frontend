@@ -34,15 +34,6 @@ const UserManage: React.FC = () => {
             },
           ]
         : []),
-      ...(authorityMap.get('system:user:org')
-        ? [
-            {
-              key: '3',
-              label: '组织管理',
-              children: <DeptTableList />,
-            },
-          ]
-        : []),
     ];
   }, [authorityMap]);
 

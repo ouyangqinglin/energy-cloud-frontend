@@ -9,13 +9,13 @@ export const columns: ProColumns<ServiceInfo>[] = [
     width: 48,
   },
   {
-    title: '安装商名称',
+    title: '组织名称',
     dataIndex: 'orgName',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '安装商ID',
+    title: '组织ID',
     dataIndex: 'orgId',
     width: 120,
     ellipsis: true,
