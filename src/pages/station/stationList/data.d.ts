@@ -24,6 +24,9 @@ export type StationType = {
   constructionStatus: number;
   operator: string;
   lastOperationTime: string;
+  installers: {
+    orgName: string;
+  }[];
 };
 
 export type StationFormType = {
