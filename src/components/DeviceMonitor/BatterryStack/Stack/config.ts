@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-07-20 15:44:53
+ * @LastEditTime: 2023-07-25 16:53:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Stack\config.ts
  */
@@ -26,6 +26,7 @@ import {
   doorFormat,
   abnormalFormat,
   externalFaultFormat,
+  hydrogenFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
@@ -33,18 +34,19 @@ export const controlItems: DetailItem[] = [
   {
     label: '预充接触器状态',
     field: 'PrechargeContactorStatus',
-    format: (value) => closeFormat(value),
+    format: closeFormat,
   },
   {
     label: '直流断路器状态',
     field: 'DCCircuitBreakerStatus',
-    format: (value) => closeFormat(value),
+    format: closeFormat,
   },
   {
     label: '交流断路器状态',
     field: 'ACCircuitBreakerStatus',
-    format: (value) => closeFormat(value),
+    format: closeFormat,
   },
+  { label: '接触器状态', field: 'contactorStatus', format: closeFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
@@ -63,6 +65,7 @@ export const statusItems: DetailItem[] = [
   { label: '负极绝缘值', field: 'NegativeInsulationValue', format: kohmFormat },
   { label: '平均电压', field: 'AverageVoltage', format: voltageFormat },
   { label: '预充总压', field: 'TPCP', format: voltageFormat },
+  { label: '氢气浓度', field: 'HydrogenConcentration', format: hydrogenFormat },
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
 ];
 

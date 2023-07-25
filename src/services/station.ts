@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:43:33
- * @LastEditTime: 2023-07-13 20:36:39
+ * @LastEditTime: 2023-07-25 16:33:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
@@ -53,13 +53,6 @@ export const getDefaultPage = (id: string) => {
     params: {
       siteId: id,
     },
-  });
-};
-
-export const getSiteUnitConfig = (params: any) => {
-  return request(`/oss/site/index/isGetUnitPermission`, {
-    method: 'GET',
-    params,
   });
 };
 

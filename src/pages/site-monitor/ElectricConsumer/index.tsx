@@ -9,12 +9,11 @@ import {
   getOtherDeviceList,
 } from './service';
 import EnergyStatisticCard from './components/StatisticCard';
-import { useRequest } from 'umi';
+import { useHistory, useModel, useRequest } from 'umi';
 import { Tabs } from 'antd';
 import styles from './index.less';
 import { ActionType } from '@ant-design/pro-table';
-import { SiteDataType, getSiteUnitConfig } from '@/services/station';
-import EmptyPage from '@/components/EmptyPage';
+import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 
 export const enum TabType {
@@ -24,10 +23,8 @@ export const enum TabType {
 
 const Energy = () => {
   const [siteId, setSiteId] = useState<number>();
-
-  const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
-    manual: true,
-  });
+  const { initialState } = useModel('@@initialState');
+  const history = useHistory();
 
   const actionRef = useRef<ActionType>();
   const [config, setConfig] = useState({
@@ -76,54 +73,50 @@ const Energy = () => {
   }, [cancel, runForStatistic, siteId]);
 
   useEffect(() => {
-    if (siteId) {
-      run({
-        siteId,
-        unitNum: 3,
+    if (
+      initialState?.menuPathTitleMap &&
+      !initialState?.menuPathTitleMap?.get?.('/site-monitor/electric-consumer')
+    ) {
+      history.push({
+        pathname: '/site-monitor/overview',
       });
     }
-  }, [siteId]);
+  }, [initialState?.menuPathTitleMap]);
 
   return (
     <>
-      {siteConfig?.prompt ? (
-        <EmptyPage description={siteConfig?.prompt} />
-      ) : (
-        <>
-          <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
-          <YTProTable<DeviceInfo, DeviceInfo>
-            actionRef={actionRef}
-            columns={config.columns}
-            options={false}
-            className={styles.tableWrapper}
-            toolBarRender={() => []}
-            headerTitle={
-              <div className={styles.headerTitleWrapper}>
-                <EnergyStatisticCard data={statisticData} />
-                <Tabs
-                  onChange={tabChange}
-                  type="card"
-                  className={styles.tabWrapper}
-                  items={[
-                    {
-                      label: `充电桩`,
-                      key: TabType.CHARGE_STACK,
-                      children: [],
-                    },
-                    {
-                      label: `其他设备`,
-                      key: TabType.OTHER_DEVICE,
-                      children: [],
-                    },
-                  ]}
-                />
-              </div>
-            }
-            request={requestList}
-            rowKey="deviceId"
-          />
-        </>
-      )}
+      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+      <YTProTable<DeviceInfo, DeviceInfo>
+        actionRef={actionRef}
+        columns={config.columns}
+        options={false}
+        className={styles.tableWrapper}
+        toolBarRender={() => []}
+        headerTitle={
+          <div className={styles.headerTitleWrapper}>
+            <EnergyStatisticCard data={statisticData} />
+            <Tabs
+              onChange={tabChange}
+              type="card"
+              className={styles.tabWrapper}
+              items={[
+                {
+                  label: `充电桩`,
+                  key: TabType.CHARGE_STACK,
+                  children: [],
+                },
+                {
+                  label: `其他设备`,
+                  key: TabType.OTHER_DEVICE,
+                  children: [],
+                },
+              ]}
+            />
+          </div>
+        }
+        request={requestList}
+        rowKey="deviceId"
+      />
     </>
   );
 };
