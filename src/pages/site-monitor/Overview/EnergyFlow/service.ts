@@ -8,7 +8,7 @@ export const getSystemDiagram = (siteId: number | string) => {
   });
 };
 export const getPVRevenue = (siteId: number, timeType: TimeType) => {
-  return get<PVRevenueRes>('/oss/site/pieChartRevenue', {
+  return get<PVRevenueRes>('/oss/site/monitor/overview/siteOverviewGainsStatistics', {
     siteId,
     type: timeType,
   });

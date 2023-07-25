@@ -1,25 +1,13 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-07-21 18:10:30
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
- */
-import React, { useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
 import { useModel } from 'umi';
-import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
-import SchemaForm, { SchemaFormProps } from '@/components/SchamaForm';
-import { useSiteColumn } from '@/hooks';
+import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
+import type { SchemaFormProps } from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchamaForm';
 import type { ProColumns } from '@ant-design/pro-table';
 import { siteType } from '@/utils/dictionary';
-import { SiteDataType } from '@/services/station';
-import { getRoutersInfo } from '@/services/session';
-import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
+import type { SiteDataType } from '@/services/station';
 
-type SiteType = {
-  siteId?: string;
-};
+export type SiteType = `${keyof typeof siteType}`;
 
 export type SiteSwitchProps<ValueType> = {
   initialValues?: SiteType;

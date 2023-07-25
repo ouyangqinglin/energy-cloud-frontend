@@ -3,7 +3,6 @@ import { Carousel, Tabs } from 'antd';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
 import { config } from './config';
-import { useSize } from 'ahooks';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
 import ChartEI from './components/ChartEI';
@@ -18,6 +17,8 @@ import {
   getPowerStationOverview,
 } from './service';
 import { assign } from 'lodash';
+import { useModel } from 'umi';
+import type { string } from '@/components/stringSwitch';
 
 export const enum SubSystemType {
   PV = 0,
@@ -27,27 +28,28 @@ export const enum SubSystemType {
 
 const HomePage: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
   const [statistic, setStatistic] = useState({});
 
   const getStatisticData = useCallback(
-    async () =>
+    async (params: { energyOptions?: string }) =>
       await Promise.all([
-        getPowerStationOverview(),
-        getPhotovoltaicIndex(),
-        getEssIndex(),
-        getAlarmMonitoring(),
-        getEconomicBenefit(),
-        getEnvironmentalRevenueIndex(),
-        getElectricStack(),
+        getPowerStationOverview(params),
+        getPhotovoltaicIndex(params),
+        getEssIndex(params),
+        getAlarmMonitoring(params),
+        getEconomicBenefit(params),
+        getEnvironmentalRevenueIndex(params),
+        getElectricStack(params),
       ]),
     [],
   );
 
   useEffect(() => {
-    getStatisticData().then((res) => {
+    getStatisticData(siteType ? { energyOptions: siteType } : {}).then((res) => {
       const rawData = {};
       res.forEach(({ data }) => {
         if (!data) {
@@ -57,7 +59,7 @@ const HomePage: React.FC = () => {
       });
       setStatistic({ ...rawData });
     });
-  }, []);
+  }, [getStatisticData, siteType]);
 
   return (
     <div ref={ref} className="bg-white card-wrap p24">
@@ -75,17 +77,17 @@ const HomePage: React.FC = () => {
           {
             label: `光伏`,
             key: '1',
-            children: <ChartBox type={SubSystemType.PV} Chart={ChartPV} />,
+            children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
           },
           {
             label: `储能`,
             key: '2',
-            children: <ChartBox type={SubSystemType.ES} Chart={ChartES} />,
+            children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
           },
           {
             label: `收益`,
             key: '3',
-            children: <ChartBox type={SubSystemType.EI} Chart={ChartEI} />,
+            children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
           },
         ]}
       />

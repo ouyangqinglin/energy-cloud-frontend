@@ -6,9 +6,11 @@ import { useRequest } from 'umi';
 import { getSystemDiagram } from '../service';
 import { useEffect } from 'react';
 import { isNil } from 'lodash';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 const SystemDiagram = ({ siteId }: { siteId: number }) => {
   const { data, run } = useRequest(getSystemDiagram, {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   useEffect(() => {
