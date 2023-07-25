@@ -22,10 +22,12 @@ import {
 import { isNaN } from 'lodash';
 import type { RealtimeStakeepTwoDecimalWithUnittusEnum, StatisticsRes } from './type';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
-import { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
+import DigitalFlipperItem, {
+  DigitalFlipperItemProps,
+} from '@/pages/screen/components/DigitalFlipper/Item';
 import DigitalFlipperGroup from '@/pages/screen/components/DigitalFlipper/Group';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
-import { Col, Row, Statistic } from 'antd';
+import { Col, List, Row, Statistic } from 'antd';
 import ChartProcess from '../ChartProcess';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
@@ -81,14 +83,24 @@ const EnergyStorage: FC = () => {
 
   return (
     <div className={styles.contentWrapper}>
-      <div className={styles.realtimeStatistic}>
-        <DigitalFlipperGroup
-          className={styles.digitalGroup}
-          showDivider={false}
-          config={realTimeStatisticConfig}
-          data={statisticsData}
-        />
-      </div>
+      <List
+        grid={{
+          gutter: 16,
+          column: 3,
+        }}
+        dataSource={realTimeStatisticConfig}
+        renderItem={(item) => (
+          <List.Item>
+            <div className={styles.realtimeStatistic}>
+              <DigitalFlipperItem
+                {...item}
+                itemClassNameWrapper={styles.innerBox}
+                data={statisticsData}
+              />
+            </div>
+          </List.Item>
+        )}
+      />
       <div className={styles.batteryStatus}>
         <span>SOC：{keepTwoDecimalWithUnit(statisticsData?.soc)}%</span>
         <span>SOH：{keepTwoDecimalWithUnit(statisticsData?.soh)}%</span>

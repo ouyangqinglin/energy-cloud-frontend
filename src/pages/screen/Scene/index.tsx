@@ -83,7 +83,7 @@ const Scene = () => {
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />
-      <ButtonGroupCarousel onChange={switchGeometry}></ButtonGroupCarousel>
+      <ButtonGroupCarousel onChange={switchGeometry} />
       {geometryMode === SystemDiagramType.CUSTOMER && (
         <Geometry alarmDeviceTree={alarmDeviceTree} />
       )}

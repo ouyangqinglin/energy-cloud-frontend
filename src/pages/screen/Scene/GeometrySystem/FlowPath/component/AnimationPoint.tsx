@@ -19,7 +19,6 @@ const AnimationPoint = ({
   if (direction === FlowDirection.OUT) {
     keyPointList.reverse();
   }
-  console.log(pathId, keyPointList, direction);
 
   return direction !== FlowDirection.STOP ? (
     <circle r="4" fill="#0F6">

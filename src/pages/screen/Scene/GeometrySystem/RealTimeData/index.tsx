@@ -1,6 +1,7 @@
 import Cell from '@/pages/screen/components/LayoutCell';
 import { SubSystemType, SystemDiagramRes } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { keepTwoDecimalWithoutNull } from '@/pages/site-monitor/Overview/helper';
+import classnames from 'classnames';
 import styles from './index.less';
 const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
   const pv = data?.[SubSystemType.PV];
@@ -11,14 +12,14 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
   return (
     <>
       <Cell width={170} height={42} left={40} top={90}>
-        <div className={styles.boxWrapper}>
+        <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
             <span className={styles.label}>电网功率(kW)：</span>
             <span className={styles.value}>{electricSupply?.p ?? '--'}</span>
           </div>
         </div>
       </Cell>
-      <Cell width={158} height={66} left={40} top={302}>
+      <Cell width={170} height={66} left={40} top={302}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
             <span className={styles.label}>发电功率(kW)：</span>
@@ -30,7 +31,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
           </div>
         </div>
       </Cell>
-      <Cell width={158} height={66} left={766} top={90}>
+      <Cell width={170} height={66} left={766} top={90}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
             <span className={styles.label}>储能功率(kW)：</span>
@@ -43,7 +44,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
         </div>
       </Cell>
       <Cell width={170} height={42} left={766} top={302}>
-        <div className={styles.boxWrapper}>
+        <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
             <span className={styles.label}>用电功率(kW)：</span>
             <span className={styles.value}>

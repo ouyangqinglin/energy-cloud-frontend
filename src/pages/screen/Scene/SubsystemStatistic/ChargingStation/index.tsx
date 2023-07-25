@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getChartStationChart, getChartStationPowerAndGunStatus, getStatistics } from './service';
-import { config, DEFAULT_REQUEST_INTERVAL } from './config';
+import { config, DEFAULT_REQUEST_INTERVAL, realTimeStatisticConfig } from './config';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { List } from 'antd';
 import classnames from 'classnames';
@@ -54,7 +54,25 @@ const ChargingStation: FC = () => {
 
   return (
     <div className={styles.contentWrapper}>
-      <div className={styles.realtimeStatistic}>
+      <List
+        grid={{
+          gutter: 16,
+          column: 2,
+        }}
+        dataSource={realTimeStatisticConfig}
+        renderItem={(item) => (
+          <List.Item>
+            <div className={styles.realtimeStatistic}>
+              <DigitalFlipperItem
+                {...item}
+                itemClassNameWrapper={styles.innerBox}
+                data={powerData}
+              />
+            </div>
+          </List.Item>
+        )}
+      />
+      {/* <div className={styles.realtimeStatistic}>
         <div className={styles.content}>
           实时功率：
           <div className={styles.number}>{keepTwoDecimalWithUnit(powerData?.power)}</div>
@@ -67,7 +85,7 @@ const ChargingStation: FC = () => {
             /{keepTwoDecimalWithUnit(powerData?.totalCount)}
           </span>
         </div>
-      </div>
+      </div> */}
       <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />
       </div>

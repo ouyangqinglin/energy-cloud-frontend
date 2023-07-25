@@ -35,7 +35,7 @@ export const Columns: (
       valueType: 'input',
       fieldProps: {
         value: orgId,
-        disabled: isCreate(operation),
+        disabled: true,
       },
     },
     {

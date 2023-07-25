@@ -5,8 +5,7 @@ import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getCurrentPowerGeneration, getPVChart, getStatistics } from './service';
-import PhotovoltaicChart from './Chart';
-import { dataSource, DEFAULT_REQUEST_INTERVAL } from './config';
+import { dataSource, dataSourceRealTime, DEFAULT_REQUEST_INTERVAL } from './config';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { List } from 'antd';
@@ -57,13 +56,27 @@ const Photovoltaic: FC = () => {
 
   return (
     <div className={styles.contentWrapper}>
-      <div className={styles.realtimeStatistic}>
-        <div className={styles.content}>
-          实时发电功率：
-          <div className={styles.number}>{keepTwoDecimalWithUnit(currentPowerData)}</div>
-          <span className={styles.unit}>kWh</span>
-        </div>
-      </div>
+      <List
+        grid={{
+          gutter: 16,
+          column: 2,
+        }}
+        dataSource={dataSourceRealTime}
+        renderItem={(item) => (
+          <List.Item>
+            <div className={styles.realtimeStatistic}>
+              <DigitalFlipperItem
+                {...item}
+                itemClassNameWrapper={styles.innerBox}
+                data={{
+                  power: currentPowerData,
+                  totalCapacity: 100,
+                }}
+              />
+            </div>
+          </List.Item>
+        )}
+      />
       <div className={styles.dateRange}>
         <TimeButtonGroup onChange={(type) => run(type)} />
       </div>

@@ -1,13 +1,7 @@
 .contentWrapper {
-  margin: 0 16px 0 16px;
-  .realtimeStatistic {
-    height: 48px;
-    margin-bottom: 15px;
-    color: #fff;
-    .digitalGroup {
-      justify-content: space-between;
-    }
-  }
+  margin-top: 16px;
+  margin-right: 16px;
+  margin-left: 16px;
 
   .batteryStatus {
     display: flex;
@@ -32,6 +26,24 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 12px;
+  }
+
+  .realtimeStatistic {
+    height: 70px;
+    margin: 24px 0 24px 0;
+    background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+
+    .innerBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 100%;
+      padding: 10px 0;
+    }
   }
 
   .statisticalData {

@@ -8,7 +8,7 @@ import { Update } from './Update';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
-import { ActionType } from '@ant-design/pro-components';
+import type { ActionType } from '@ant-design/pro-components';
 
 const Owner = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -24,7 +24,7 @@ const Owner = (props: { actionRef?: React.Ref<ActionType> }) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新增',
+        text: '新建',
       },
     },
     option: {

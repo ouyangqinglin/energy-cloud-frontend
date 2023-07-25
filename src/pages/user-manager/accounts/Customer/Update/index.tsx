@@ -43,7 +43,7 @@ export const Update = (props: FormUpdateBaseProps) => {
   return (
     // todo: 创建的时候无法请求到角色
     <FormUpdate<TransformCustomerUpdateInfo, CustomerParam>
-      titleCreate={`新增`}
+      titleCreate={`新建`}
       titleUpdate={`编辑`}
       columns={getConfig()}
       onFinishUpdate={(params) => {

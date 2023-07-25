@@ -85,10 +85,10 @@ export const config: DigitalFlipperItemProps[] = [
 
 export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
   {
-    title: '充电桩实时功率率：',
+    title: '充电桩实时功率：',
     field: 'power',
     unit: 'kW',
-    floatLength: 0,
+    floatLength: 2,
     numStyle: {
       width: 'auto',
       fontSize: 20,
@@ -98,7 +98,7 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
       WebkitTextFillColor: 'inherit',
     },
     unitStyle: {
-      color: '#4DD6F0',
+      color: '#ACCCEC',
       fontSize: 12,
     },
   },

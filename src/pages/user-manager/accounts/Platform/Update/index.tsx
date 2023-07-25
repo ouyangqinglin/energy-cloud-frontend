@@ -38,7 +38,7 @@ export const Update = (props: FormUpdateBaseProps) => {
 
   return (
     <FormUpdate<TransformCustomerUpdateInfo, CustomerParam>
-      titleCreate={`新增`}
+      titleCreate={`新建`}
       titleUpdate={`编辑`}
       columns={getConfig()}
       onFinishUpdate={(params) => {

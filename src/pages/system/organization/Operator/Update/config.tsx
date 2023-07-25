@@ -12,7 +12,7 @@ export const Columns: (
 ) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
   return [
     {
-      title: '安装商名称',
+      title: '运营商名称',
       formItemProps: {
         rules: [
           {
@@ -24,7 +24,7 @@ export const Columns: (
       dataIndex: ['orgName'],
     },
     {
-      title: '安装商ID',
+      title: '运营商ID',
       // formItemProps: {
       //   rules: [
       //     {
@@ -36,20 +36,8 @@ export const Columns: (
       valueType: 'input',
       fieldProps: {
         value: orgId,
-        disabled: isCreate(operation),
+        disabled: true,
       },
-    },
-    {
-      title: '联系人',
-      dataIndex: ['linkman'],
-    },
-    {
-      title: '联系电话',
-      dataIndex: ['phone'],
-    },
-    {
-      title: '联系座机',
-      dataIndex: ['landlineNumber'],
     },
     {
       title: '状态',
@@ -63,6 +51,34 @@ export const Columns: (
         ],
       },
       valueEnum: effectStatus,
+    },
+    {
+      title: '联系人',
+      dataIndex: ['linkman'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+    },
+    {
+      title: '联系电话',
+      dataIndex: ['phone'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+    },
+    {
+      title: '联系座机',
+      dataIndex: ['landlineNumber'],
     },
     {
       title: '备注',

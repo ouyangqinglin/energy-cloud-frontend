@@ -51,7 +51,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
   return (
     <FormUpdate<RoleInfo, RoleParam>
       afterRequest={afterRequest}
-      titleCreate={`新增`}
+      titleCreate={`新建`}
       titleUpdate={`编辑`}
       columns={formColumns}
       onFinishUpdate={updateRole}

@@ -16,10 +16,10 @@ import classnames from 'classnames';
 import SiteLabel from '@/components/SiteLabel';
 import { SiteDataType } from '@/services/station';
 
-const keyToSystemDiagram = new Map([
-  ['11', SystemDiagram11],
-  ['21', SystemDiagram21],
-  ['31', SystemDiagram31],
+const keyToSystemTitle = new Map([
+  ['11', '永泰光储能示范站能量流'],
+  ['31', '储能站点能量流'],
+  ['21', '光伏站点能量流'],
 ]);
 
 type SiteType = {
@@ -117,27 +117,26 @@ const Index: React.FC = () => {
   return (
     <>
       <div className="bg-white card-wrap p24">
-        <SiteLabel onChange={onChange} />
         <div className={styles.stationHeader}>
-          <SchemaForm<SiteType, 'text'>
-            open={true}
-            layoutType="Form"
-            className={styles.formWrapper}
-            layout="horizontal"
-            grid={true}
-            columns={columns}
-            submitter={false}
-            initialValues={{}}
-          />
+          <div className={styles.rightSide}>
+            <SiteLabel className={styles.siteName} onChange={onChange} />
+            <SchemaForm<SiteType, 'text'>
+              open={true}
+              layoutType="Form"
+              className={styles.formWrapper}
+              layout="horizontal"
+              grid={true}
+              columns={columns}
+              submitter={false}
+              initialValues={{}}
+            />
+          </div>
           <Button type="primary">编辑</Button>
         </div>
-        {/* <SystemDiagram className={styles.systemDiagram} /> */}
+        <div className={styles.title}>{keyToSystemTitle.get(systemDiagramId)}</div>
         <svg
           ref={svgRef}
-          className={classnames(
-            styles.systemDiagram,
-            systemDiagramId === '11' ? styles.systemBackground : '',
-          )}
+          className={classnames(styles.systemDiagram)}
           // onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           style={{ cursor: 'grab' }}
@@ -156,8 +155,8 @@ const Index: React.FC = () => {
             transform={`scale(${scale}) translate(${translateX}, ${translateY})`}
           >
             {systemDiagramId === '11' && <SystemDiagram11 />}
-            {systemDiagramId === '21' && <SystemDiagram21 />}
-            {systemDiagramId === '31' && <SystemDiagram31 />}
+            {systemDiagramId === '21' && <SystemDiagram31 />}
+            {systemDiagramId === '31' && <SystemDiagram21 />}
           </g>
         </svg>
       </div>

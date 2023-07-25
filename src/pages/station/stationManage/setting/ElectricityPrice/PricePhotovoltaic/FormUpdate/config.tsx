@@ -154,7 +154,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                   ],
                 },
                 fieldProps: {
-                  addonAfter: '元',
+                  addonAfter: '元/kWh',
                 },
                 dataIndex: 'electricityFees',
                 valueType: 'digit',

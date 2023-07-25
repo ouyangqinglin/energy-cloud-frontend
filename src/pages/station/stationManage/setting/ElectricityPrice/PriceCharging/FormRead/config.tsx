@@ -89,7 +89,7 @@ export const columns: ProFormColumnsType[] = [
                   {intervalStartTime} - {intervalEndTime}
                 </Col>
                 <Col span={2}>电价:</Col>
-                <Col span={4}>{electricityFees}元</Col>
+                <Col span={4}>{electricityFees}元/kWh</Col>
                 <Col span={2}>服务费:</Col>
                 <Col span={4}>{serviceFees}元</Col>
               </React.Fragment>
