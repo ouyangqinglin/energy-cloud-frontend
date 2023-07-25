@@ -8,7 +8,9 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
   return (
     <div className={styles.sliderCard} style={{ height: '250px', marginRight: 16 }}>
       <div className={styles.statusItem}>
-        <div className={styles.title}>{config.title}</div>
+        <div className={styles.title}>
+          <span>{config.title}</span>
+        </div>
         <div className={styles.content}>
           <div className={styles.contentIcon}>
             <Icon className={styles.svgIcon} />
