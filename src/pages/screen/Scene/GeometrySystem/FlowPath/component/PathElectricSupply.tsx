@@ -2,7 +2,6 @@ import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/typ
 import AnimationPoint from './AnimationPoint';
 
 const PathElectricSupply = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
-  console.log('es', direction);
   return show ? (
     <g stroke="url(#h)" transform="translate(302.511 121.543)">
       <path

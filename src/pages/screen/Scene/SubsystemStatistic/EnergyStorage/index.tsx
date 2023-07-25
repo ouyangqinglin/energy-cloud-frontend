@@ -101,14 +101,6 @@ const EnergyStorage: FC = () => {
           </List.Item>
         )}
       />
-      {/* <div className={styles.realtimeStatistic}>
-        <DigitalFlipperGroup
-          className={styles.digitalGroup}
-          showDivider={false}
-          config={realTimeStatisticConfig}
-          data={statisticsData}
-        />
-      </div> */}
       <div className={styles.batteryStatus}>
         <span>SOC：{keepTwoDecimalWithUnit(statisticsData?.soc)}%</span>
         <span>SOH：{keepTwoDecimalWithUnit(statisticsData?.soh)}%</span>

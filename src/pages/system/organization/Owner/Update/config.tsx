@@ -25,31 +25,11 @@ export const Columns: (
     },
     {
       title: '业主ID',
-      // formItemProps: {
-      //   rules: [
-      //     {
-      //       required: true,
-      //       message: '此项为必填项',
-      //     },
-      //   ],
-      // },
       valueType: 'input',
       fieldProps: {
         value: orgId,
-        disabled: isCreate(operation),
+        disabled: true,
       },
-    },
-    {
-      title: '联系人',
-      dataIndex: ['linkman'],
-    },
-    {
-      title: '联系电话',
-      dataIndex: ['phone'],
-    },
-    {
-      title: '联系座机',
-      dataIndex: ['landlineNumber'],
     },
     {
       title: '状态',
@@ -63,6 +43,34 @@ export const Columns: (
         ],
       },
       valueEnum: effectStatus,
+    },
+    {
+      title: '联系人',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      dataIndex: ['linkman'],
+    },
+    {
+      title: '联系电话',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      dataIndex: ['phone'],
+    },
+    {
+      title: '联系座机',
+      dataIndex: ['landlineNumber'],
     },
     {
       title: '备注',

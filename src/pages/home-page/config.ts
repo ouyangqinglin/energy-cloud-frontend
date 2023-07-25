@@ -72,12 +72,12 @@ export const config: CardInfo[] = [
       },
       {
         label: '当日充电/kwh',
-        field: 'chargeElecToday',
+        field: 'essChargeElecToday',
         value: 0,
       },
       {
         label: '当日放电/kwh',
-        field: 'dischargeElecToday',
+        field: 'essDischargeElecToday',
         value: 0,
       },
     ],
@@ -117,12 +117,12 @@ export const config: CardInfo[] = [
     items: [
       {
         label: '当日充电量/kwh',
-        field: 'chargeElecToday',
+        field: 'cpChargeElecToday',
         value: 3.14,
       },
       {
         label: '累计充电量/kwh',
-        field: 'chargeElecTotal',
+        field: 'cpChargeElecTotal',
         value: 0.48,
       },
       {

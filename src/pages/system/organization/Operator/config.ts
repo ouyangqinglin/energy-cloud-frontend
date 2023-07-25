@@ -49,18 +49,4 @@ export const columns: ProColumns<ServiceInfo>[] = [
     width: 100,
     ellipsis: true,
   },
-  // {
-  //   title: '最后更新时间',
-  //   dataIndex: 'updateTime',
-  //   valueType: 'dateTime',
-  //   hideInSearch: true,
-  //   width: 150,
-  // },
-  // {
-  //   title: '更新人',
-  //   dataIndex: 'updateBy',
-  //   hideInSearch: true,
-  //   width: 100,
-  //   ellipsis: true,
-  // },
 ];

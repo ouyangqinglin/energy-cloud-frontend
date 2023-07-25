@@ -11,7 +11,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
   const load = data?.[SubSystemType.L];
   return (
     <>
-      <Cell width={166} height={42} left={40} top={90}>
+      <Cell width={170} height={42} left={40} top={90}>
         <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
             <span className={styles.label}>电网功率(kW)：</span>
@@ -19,7 +19,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
           </div>
         </div>
       </Cell>
-      <Cell width={158} height={66} left={40} top={302}>
+      <Cell width={170} height={66} left={40} top={302}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
             <span className={styles.label}>发电功率(kW)：</span>
@@ -31,7 +31,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
           </div>
         </div>
       </Cell>
-      <Cell width={158} height={66} left={766} top={90}>
+      <Cell width={170} height={66} left={766} top={90}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
             <span className={styles.label}>储能功率(kW)：</span>
@@ -43,7 +43,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
           </div>
         </div>
       </Cell>
-      <Cell width={166} height={42} left={766} top={302}>
+      <Cell width={170} height={42} left={766} top={302}>
         <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
             <span className={styles.label}>用电功率(kW)：</span>

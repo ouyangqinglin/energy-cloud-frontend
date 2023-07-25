@@ -31,9 +31,9 @@ export interface ESCardRes {
   //剩余电量
   dumpEnergy: number;
   //今日发电量
-  chargeElecToday: number;
+  essChargeElecToday: number;
   //今日放电量
-  dischargeElecToday: number;
+  essDischargeElecToday: number;
   //累计发电量
   generatedElecTotal: number;
 }
@@ -108,9 +108,14 @@ export interface EBCardRes {
 }
 
 export interface CSCardRes {
+  //充电功率
   chargePower: number;
-  chargeElecToday: number;
-  chargeElecTotal: number;
+  //充电桩天充电量
+  cpChargeElecToday: number;
+  //充电桩累计充电量
+  cpChargeElecTotal: number;
+  //空闲枪数
   leisureGunNum: number;
+  //使用枪数
   beUsingGunNum: number;
 }
