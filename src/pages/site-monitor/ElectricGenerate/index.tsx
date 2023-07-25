@@ -6,20 +6,17 @@ import { columns } from './config';
 import { getElectricGenerateUnitList, getElectricGenerateUnitStatistic } from './service';
 import EnergyStatisticCard from './components/StatisticCard';
 import { getDefaultSite } from '@/hooks/useFetchDefaultSiteId';
-import { useRequest } from 'umi';
+import { useHistory, useModel, useRequest } from 'umi';
 import { useToggle } from 'ahooks';
-import { SiteDataType, getSiteUnitConfig } from '@/services/station';
-import EmptyPage from '@/components/EmptyPage';
+import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { ActionType } from '@ant-design/pro-table';
 
 const Energy = () => {
   const [siteId, setSiteId] = useState<number>();
   const actionRef = useRef<ActionType>();
-
-  const { data: siteConfig, run } = useRequest(getSiteUnitConfig, {
-    manual: true,
-  });
+  const { initialState } = useModel('@@initialState');
+  const history = useHistory();
 
   const requestList: YTProTableCustomProps<
     ElectricGenerateInfo,
@@ -51,32 +48,28 @@ const Energy = () => {
   }, [cancel, runForStatistic, siteId]);
 
   useEffect(() => {
-    if (siteId) {
-      run({
-        siteId,
-        unitNum: 1,
+    if (
+      initialState?.menuPathTitleMap &&
+      !initialState?.menuPathTitleMap?.get?.('/site-monitor/electric-generate')
+    ) {
+      history.push({
+        pathname: '/site-monitor/overview',
       });
     }
-  }, [siteId]);
+  }, [initialState?.menuPathTitleMap]);
 
   return (
     <>
-      {siteConfig?.prompt ? (
-        <EmptyPage description={siteConfig?.prompt} />
-      ) : (
-        <>
-          <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
-          <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
-            actionRef={actionRef}
-            columns={columns}
-            options={false}
-            toolBarRender={() => []}
-            headerTitle={<EnergyStatisticCard data={statisticData} />}
-            request={requestList}
-            rowKey="deviceId"
-          />
-        </>
-      )}
+      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+      <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
+        actionRef={actionRef}
+        columns={columns}
+        options={false}
+        toolBarRender={() => []}
+        headerTitle={<EnergyStatisticCard data={statisticData} />}
+        request={requestList}
+        rowKey="deviceId"
+      />
     </>
   );
 };

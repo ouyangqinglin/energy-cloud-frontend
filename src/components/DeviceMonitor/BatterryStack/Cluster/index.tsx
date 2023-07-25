@@ -175,14 +175,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         </div>
         <div className={styles.content}>
           <Label className="mb26" title={selectOrg?.deviceName} showLine={false} />
-          <Detail
-            items={runItems}
-            data={selectOrg}
-            extral={extral}
-            colon={false}
-            labelStyle={{ width: 170 }}
-            valueStyle={{ width: '40%' }}
-          />
+          <Detail items={runItems} data={selectOrg} colon={false} labelStyle={{ width: 170 }} />
           <Label title="状态信息" className="mt16" />
           <Detail
             items={statusItems}
