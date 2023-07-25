@@ -55,26 +55,10 @@ export const Columns: (
     {
       title: '联系人',
       dataIndex: ['linkman'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
     },
     {
       title: '手机',
       dataIndex: ['phone'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
     },
     {
       title: '座机',

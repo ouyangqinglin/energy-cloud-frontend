@@ -82,11 +82,11 @@ export const Columns: (
         ],
       },
       colProps: {
-        span: 16,
+        span: 8,
       },
       fieldProps: {
         style: {
-          width: 'calc(50% - 8px)',
+          width: '100%',
         },
       },
       valueType: 'digit',
@@ -94,26 +94,10 @@ export const Columns: (
     {
       title: '联系人',
       dataIndex: ['linkman'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
     },
     {
       title: '联系电话',
       dataIndex: ['phone'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
     },
     {
       title: '联系座机',
