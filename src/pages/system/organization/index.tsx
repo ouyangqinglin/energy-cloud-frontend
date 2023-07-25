@@ -15,13 +15,13 @@ const UserManage: React.FC = () => {
     return [
       {
         key: '1',
-        label: '安装商',
-        children: <Customer />,
+        label: '系统管理',
+        children: <DeptTableList />,
       },
       {
         key: '2',
-        label: '运营商',
-        children: <Operator />,
+        label: '安装商',
+        children: <Customer />,
       },
       {
         key: '3',
@@ -30,8 +30,8 @@ const UserManage: React.FC = () => {
       },
       {
         key: '4',
-        label: '系统管理',
-        children: <DeptTableList />,
+        label: '运营商',
+        children: <Operator />,
       },
     ];
   }, [authorityMap]);
