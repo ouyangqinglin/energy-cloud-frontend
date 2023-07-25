@@ -79,6 +79,7 @@
     "captchapng3": "^1.0.7",
     "classnames": "^2.2.6",
     "dayjs": "^1.11.7",
+    "events": "^3.3.0",
     "file-saver": "^2.0.5",
     "g2": "^2.3.13",
     "gg-editor": "^2.0.2",

@@ -16,6 +16,7 @@ import { siteType } from '@/utils/dictionary';
 import { SiteDataType } from '@/services/station';
 import { getRoutersInfo } from '@/services/session';
 import { getMenus, getPathTitleMap, getPathArrary, arrayToMap } from '@/utils';
+import eventBus from '@/utils/eventBus';
 
 type SiteType = {
   siteId?: string;
@@ -46,7 +47,7 @@ const SiteSwitch = <ValueType = 'text',>(
       });
       getRoutersInfo({ siteId: data?.id }).then((menus) => {
         const antMenus = menus && getMenus(menus);
-        setInitialState((prevData) => {
+        setInitialState((prevData: any) => {
           return {
             ...prevData,
             menus,
@@ -60,7 +61,7 @@ const SiteSwitch = <ValueType = 'text',>(
   );
 
   const [siteColumn, siteOptions] = useSiteColumn<SiteType, ValueType>({
-    title: '站点',
+    title: '站点名称',
     width: 200,
     fieldProps: (form) => {
       return {
@@ -77,7 +78,7 @@ const SiteSwitch = <ValueType = 'text',>(
     return [
       siteColumn,
       {
-        title: '类型',
+        title: '站点类型',
         dataIndex: 'type',
         valueType: 'select',
         valueEnum: siteType,
@@ -87,6 +88,24 @@ const SiteSwitch = <ValueType = 'text',>(
     ];
   }, [siteColumn]);
 
+  const siteOptionsMap = useMemo<Record<string, SiteDataType>>(() => {
+    const result = {};
+    siteOptions?.forEach((item) => {
+      if (item.id) {
+        result[item.id] = item;
+      }
+    });
+    return result;
+  }, [siteOptions]);
+
+  const changeSiteBus = useCallback(
+    (id) => {
+      formRef?.current?.setFieldValue?.('siteId', id);
+      changeSite(siteOptionsMap[id]);
+    },
+    [siteOptionsMap],
+  );
+
   useEffect(() => {
     if (siteOptions?.[0]) {
       formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
@@ -94,14 +113,12 @@ const SiteSwitch = <ValueType = 'text',>(
     }
   }, [siteOptions]);
 
-  // 临时解决，待优化
   useEffect(() => {
-    window.changeTopSite = (data) => {
-      const idMap = arrayToMap(siteOptions || [], 'id', 'energyOptions');
-      formRef?.current?.setFieldValue?.('siteId', data.id);
-      changeSite({ ...data, energyOptions: idMap[data.id] });
+    eventBus.on('changeSite', changeSiteBus);
+    return () => {
+      eventBus.off('changeSite', changeSiteBus);
     };
-  }, [siteOptions]);
+  }, [changeSiteBus]);
 
   return (
     <>

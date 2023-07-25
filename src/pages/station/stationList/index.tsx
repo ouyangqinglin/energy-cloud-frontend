@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-24 12:48:11
+ * @LastEditTime: 2023-07-24 17:01:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -18,6 +18,7 @@ import { getList, removeData } from './service';
 import StationForm from './components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { useArea, useAuthority } from '@/hooks';
+import eventBus from '@/utils/eventBus';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -49,13 +50,11 @@ const StationList: React.FC = () => {
   }, []);
 
   const onSiteClick = useCallback((record: StationType) => {
-    if (window?.changeTopSite) {
-      window.changeTopSite?.(record);
-      history.push({
-        pathname: '/site-monitor/overview',
-        search: `?id=${record.id}`,
-      });
-    }
+    eventBus.emit('changeSite', record.id);
+    history.push({
+      pathname: '/site-monitor/overview',
+      search: `?id=${record.id}`,
+    });
   }, []);
 
   const onSettingClick = useCallback((record) => {

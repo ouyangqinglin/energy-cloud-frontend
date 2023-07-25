@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-07-19 16:58:54
+ * @LastEditTime: 2023-07-25 08:56:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -25,6 +25,7 @@ import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';
 import { getServicePage } from '@/services/service';
+import Detail from '@/components/Detail';
 
 type StationFOrmProps = {
   id?: string;
@@ -136,74 +137,99 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
       >
-        <Form.Item label="安装商" name="orgs">
-          <TableSelect
-            tableId="orgId"
-            tableName="orgName"
-            valueId="orgId"
-            valueName="orgName"
-            proTableProps={{
-              columns: [
-                {
-                  title: '安装商ID',
-                  dataIndex: 'orgId',
-                  width: 150,
-                  ellipsis: true,
-                  hideInSearch: true,
-                },
-                {
-                  title: '安装商名称',
-                  dataIndex: 'orgName',
-                  width: 200,
-                  ellipsis: true,
-                },
-              ],
-              request: (params: Record<string, any>) => {
-                return getServicePage(params)?.then(({ data }) => {
-                  return {
-                    data: data?.list,
-                    total: data?.total,
-                    success: true,
-                  };
-                });
-              },
-            }}
-          />
-        </Form.Item>
-        <ProFormText
-          label="站点名称"
-          name="name"
-          placeholder="请输入"
-          rules={[{ required: true, message: '站点名称必填' }]}
-        />
+        <Detail.DotLabel title="基础信息" />
         <Row gutter={20}>
           <Col span={8}>
-            <ProFormDigit label="电压等级" name="voltageClass" addonAfter="KV" />
-          </Col>
-          <Col span={8}>
-            <ProFormDigit label="变压器容量" name="transformerCapacity" addonAfter="KVA" />
-          </Col>
-          <Col span={8}>
-            <ProFormDigit
-              label="光伏装机量"
-              name="photovoltaicInstalledCapacity"
-              addonAfter="kWp"
+            <ProFormText
+              label="站点名称"
+              name="name"
+              placeholder="请输入"
+              rules={[{ required: true, message: '站点名称必填' }]}
             />
           </Col>
           <Col span={8}>
-            <ProFormDigit label="充电桩装机量" name="chargingStationCapacity" addonAfter="KW" />
+            <ProFormText label="站点ID" name="id" placeholder="请输入" disabled />
           </Col>
           <Col span={8}>
-            <ProFormDigit label="储能总容量" name="energyStorageCapacity" addonAfter="kWh" />
+            <Form.Item label="安装商" name="orgs">
+              <TableSelect
+                tableId="orgId"
+                tableName="orgName"
+                valueId="orgId"
+                valueName="orgName"
+                limit={1}
+                proTableProps={{
+                  columns: [
+                    {
+                      title: '安装商ID',
+                      dataIndex: 'orgId',
+                      width: 150,
+                      ellipsis: true,
+                      hideInSearch: true,
+                    },
+                    {
+                      title: '安装商名称',
+                      dataIndex: 'orgName',
+                      width: 200,
+                      ellipsis: true,
+                    },
+                  ],
+                  request: (params: Record<string, any>) => {
+                    return getServicePage(params)?.then(({ data }) => {
+                      return {
+                        data: data?.list,
+                        total: data?.total,
+                        success: true,
+                      };
+                    });
+                  },
+                }}
+              />
+            </Form.Item>
           </Col>
           <Col span={8}>
-            <ProFormDigit label="储能额定功率" name="energyStoragePower" addonAfter="KW" />
+            <ProFormDigit label="电压等级" name="voltageClass" fieldProps={{ addonAfter: 'KV' }} />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="变压器容量"
+              name="transformerCapacity"
+              fieldProps={{ addonAfter: 'KVA' }}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="光伏总容量"
+              name="photovoltaicInstalledCapacity"
+              fieldProps={{ addonAfter: 'kWp' }}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="储能总容量"
+              name="energyStorageCapacity"
+              fieldProps={{ addonAfter: 'kWh' }}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="储能额定功率"
+              name="energyStoragePower"
+              fieldProps={{ addonAfter: 'KW' }}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormDigit
+              label="充电桩额定功率"
+              name="chargingStationCapacity"
+              fieldProps={{ addonAfter: 'KW' }}
+            />
           </Col>
         </Row>
         <Form.Item
-          label="位置"
+          label="站点地址"
           name="addressInfo"
-          rules={[{ required: true, message: '位置必填' }]}
+          rules={[{ required: true, message: '站点地址必填' }]}
         >
           {show && <PositionSelect />}
         </Form.Item>
