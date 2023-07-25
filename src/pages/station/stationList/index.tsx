@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-25 12:50:00
+ * @LastEditTime: 2023-07-25 15:13:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -70,6 +70,10 @@ const StationList: React.FC = () => {
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
+
+  useEffect(() => {
+    actionRef?.current?.reload?.();
+  }, [siteType]);
 
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
@@ -201,6 +205,9 @@ const StationList: React.FC = () => {
       hideInSearch: true,
       ellipsis: true,
       width: 150,
+      render: (_, record) => {
+        return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
+      },
     },
     {
       title: '建设状态',

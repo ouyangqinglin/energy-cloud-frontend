@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 14:00:13
- * @LastEditTime: 2023-07-11 19:16:59
+ * @LastEditTime: 2023-07-25 15:07:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { RoleInfo } from './type';
 import YTProTable from '@/components/YTProTable';
@@ -18,7 +18,13 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 
-const Authority = () => {
+export type AuthorityProps = {
+  type?: string;
+};
+
+const Authority: React.FC<AuthorityProps> = (props) => {
+  const { type } = props;
+
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<RoleInfo>({} as RoleInfo);
@@ -35,22 +41,26 @@ const Authority = () => {
         text: '新建',
       },
     },
-    option: {
-      onDeleteChange(_, entity) {
-        deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
-          if (data) {
-            message.success('删除成功');
-            actionRef?.current?.reload?.();
-          }
-        });
-      },
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
-      modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
-    },
+    ...(type == '1'
+      ? {
+          option: {
+            onDeleteChange(_, entity) {
+              deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
+                if (data) {
+                  message.success('删除成功');
+                  actionRef?.current?.reload?.();
+                }
+              });
+            },
+            onEditChange(_, entity) {
+              setInitialValues({ ...entity });
+              setOperations(FormOperations.UPDATE);
+              set(true);
+            },
+            modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
+          },
+        }
+      : {}),
   };
   const visibleUpdated = operations !== FormOperations.READ;
 
@@ -59,7 +69,7 @@ const Authority = () => {
   }, [actionRef]);
 
   const requestList: YTProTableCustomProps<RoleInfo, RoleInfo>['request'] = (params) => {
-    return getRoleList(params);
+    return getRoleList({ ...params, type });
   };
   return (
     <>
