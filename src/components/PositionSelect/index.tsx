@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-07-25 09:19:20
+ * @LastEditTime: 2023-07-25 15:33:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
@@ -29,11 +29,12 @@ export type PositionSelectProps = {
   value?: PositionSelectType;
   onChange?: (value: PositionSelectType) => void;
   disabled?: boolean;
+  readonly?: boolean;
   className?: string;
 };
 
 const PositionSelect: React.FC<PositionSelectProps> = (props) => {
-  const { value, onChange, disabled, className } = props;
+  const { value, onChange, disabled, readonly, className } = props;
 
   const [address, setAddress] = useState<string>();
   const [options, setOptions] = useState<OptionType[]>([]);
@@ -132,7 +133,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   };
 
   const onClick = (e: any) => {
-    if (!disabled && e && e.lnglat) {
+    if (!disabled && !readonly && e && e.lnglat) {
       getAddressByPoint(e.lnglat);
     }
   };
@@ -161,26 +162,32 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
       <div className={className}>
         <Row>
           <Col flex="auto">
-            <AutoComplete
-              className="mb8 w-full"
-              value={address}
-              options={options}
-              onSelect={onSelect}
-              onSearch={onSearch}
-              onChange={onAutoCompleteChange}
-              placeholder="请输入地址"
-              disabled={disabled}
-            />
+            {readonly ? (
+              address + inputPoint
+            ) : (
+              <AutoComplete
+                className="mb8 w-full"
+                value={address}
+                options={options}
+                onSelect={onSelect}
+                onSearch={onSearch}
+                onChange={onAutoCompleteChange}
+                placeholder="请输入地址"
+                disabled={disabled}
+              />
+            )}
           </Col>
-          <Col flex="200px">
-            <Input
-              value={inputPoint}
-              placeholder="请输入坐标:lng,lat"
-              onChange={onPointChange}
-              onBlur={onBlur}
-              disabled={disabled}
-            />
-          </Col>
+          {!readonly && (
+            <Col flex="200px">
+              <Input
+                value={inputPoint}
+                placeholder="请输入坐标:lng,lat"
+                onChange={onPointChange}
+                onBlur={onBlur}
+                disabled={disabled}
+              />
+            </Col>
+          )}
         </Row>
         <MapContain>
           <Map center={center} zoom={zoom} onClick={onClick}>
