@@ -37,7 +37,6 @@ export const runItems: DetailItem[] = [
 ];
 
 export const statusItems: DetailItem[] = [
-  { label: 'PACK风扇状态', field: 'packFanStatus', format: pankFanFormat },
   { label: 'PACK风扇状态反馈', field: 'packFanAlarmStatus', format: pankFanAlarmFormat },
   { label: 'BMU1风扇', field: 'BMU1Fan', format: openFormat },
   { label: 'PACK风扇PWM占空比1', field: 'PACKFPDC1', format: percentageFormat },

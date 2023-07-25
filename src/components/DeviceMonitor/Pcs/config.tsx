@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:25:54
- * @LastEditTime: 2023-07-20 16:31:24
+ * @LastEditTime: 2023-07-25 16:06:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Pcs\config.tsx
  */
@@ -49,8 +49,6 @@ export const exchargeItems: DetailItem[] = [
   { label: '电感A相电流', field: 'inductanceIa', format: currentFormat },
   { label: '电感B相电流', field: 'inductanceIb', format: currentFormat },
   { label: '电感C相电流', field: 'inductanceIc', format: currentFormat },
-  { label: '电网频率', field: 'Freq', format: frequencyFormat },
-  { label: '电网当前相序', field: 'GridPhaseSequence' },
   { label: '交流A相有功功率', field: 'Pa', format: powerFormat },
   { label: '交流B相有功功率', field: 'Pb', format: powerFormat },
   { label: '交流C相有功功率', field: 'Pc', format: powerFormat },
@@ -63,6 +61,8 @@ export const exchargeItems: DetailItem[] = [
   { label: '交流输出总有功功率', field: 'P', format: powerFormat },
   { label: '交流输出总无功功率', field: 'Q', format: powerFormat },
   { label: '交流输出总视在功率', field: 'S', format: powerFormat },
+  { label: '电网频率', field: 'Freq', format: frequencyFormat },
+  { label: '电网当前相序', field: 'GridPhaseSequence' },
   { label: '交流功率因数', field: 'COS' },
 ];
 

@@ -83,12 +83,12 @@ export const Columns: (
       }),
     },
     {
-      title: '账号',
+      title: '账号名',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请填写账号',
+            message: '请填写账号名',
           },
         ],
       },

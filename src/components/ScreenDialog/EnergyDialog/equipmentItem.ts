@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-07-21 14:20:05
+ * @LastEditTime: 2023-07-25 16:00:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */

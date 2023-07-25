@@ -23,12 +23,12 @@ export const Columns: (
       hideInForm: true,
     },
     {
-      title: '账号',
+      title: '账号名',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请填写账账号',
+            message: '请填写账号名',
           },
         ],
       },

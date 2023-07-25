@@ -100,7 +100,7 @@ const StationInfo: React.FC = () => {
               },
               adcode: data?.adcode,
             }}
-            disabled
+            readonly
           />
         );
       },
