@@ -7,7 +7,6 @@ import { useSize } from 'ahooks';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
 import ChartEI from './components/ChartEI';
-// import ChartEI from './components/ChartEI/index-mock';
 import ChartBox from './components/ChartBox';
 import {
   getAlarmMonitoring,
@@ -28,8 +27,6 @@ export const enum SubSystemType {
 
 const HomePage: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const size = useSize(ref);
-  const [slidesPerRow, setSlidesPerRow] = useState(4);
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
@@ -62,26 +59,9 @@ const HomePage: React.FC = () => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (!size?.width) {
-  //     return;
-  //   }
-  //   if (size.width <= 1250) {
-  //     setSlidesPerRow(2);
-  //     return;
-  //   }
-  //   if (size.width > 1400 && size.width <= 1700) {
-  //     setSlidesPerRow(3);
-  //     return;
-  //   }
-  //   if (size.width > 1600) {
-  //     setSlidesPerRow(4);
-  //   }
-  // }, [size]);
-
   return (
     <div ref={ref} className="bg-white card-wrap p24">
-      <Carousel className={styles.sliderWrapper} slidesPerRow={slidesPerRow} afterChange={onChange}>
+      <Carousel className={styles.sliderWrapper} slidesPerRow={4} afterChange={onChange}>
         {config.map((item) => (
           <div key={item.title} style={styles.sliderItem}>
             <SliderCard data={statistic} config={item} />
