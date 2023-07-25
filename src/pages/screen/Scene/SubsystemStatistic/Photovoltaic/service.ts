@@ -1,10 +1,10 @@
 import type { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { get } from '@/utils/request';
 import { getSiteId } from '../../helper';
-import type { PVChartRes, StatisticsRes } from './type';
+import type { CurrentPowerRes, PVChartRes, StatisticsRes } from './type';
 
 export const getCurrentPowerGeneration = () => {
-  return get<number>(`/iot/photovoltaic/currentPowerGeneration`, {
+  return get<CurrentPowerRes>(`/iot/photovoltaic/currentPowerGeneration`, {
     siteId: getSiteId(),
   });
 };

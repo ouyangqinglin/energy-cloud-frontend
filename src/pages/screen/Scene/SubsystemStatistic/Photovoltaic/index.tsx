@@ -19,7 +19,9 @@ import type { ChartRes } from '../Chart/type';
 import { convertToData, sortedData } from '../Chart/helper';
 
 const Photovoltaic: FC = () => {
-  const { data: currentPowerData } = useRequest(getCurrentPowerGeneration);
+  const { data: currentPowerData } = useRequest(getCurrentPowerGeneration, {
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+  });
 
   const { data: rawChartData, run: runForChart } = useRequest(getPVChart, {
     manual: true,
@@ -68,10 +70,7 @@ const Photovoltaic: FC = () => {
               <DigitalFlipperItem
                 {...item}
                 itemClassNameWrapper={styles.innerBox}
-                data={{
-                  power: currentPowerData,
-                  totalCapacity: 100,
-                }}
+                data={currentPowerData}
               />
             </div>
           </List.Item>

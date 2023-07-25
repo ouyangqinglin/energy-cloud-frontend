@@ -14,3 +14,8 @@ export type PVChartRes = {
   eventTs: string;
   doubleVal: number;
 }[];
+
+export interface CurrentPowerRes {
+  realTimePowerGeneration: number;
+  totalStringCapacity: number;
+}

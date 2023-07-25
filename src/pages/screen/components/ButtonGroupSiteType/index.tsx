@@ -17,7 +17,7 @@ export type SiteTypeButtonGroupProps = {
 };
 
 const ButtonGroupSiteType: FC<SiteTypeButtonGroupProps> = ({ onChange }) => {
-  const [size, setSize] = useState<SiteType>(SiteType.ES);
+  const [size, setSize] = useState<SiteType>(SiteType.PV);
   const handleClick = (e: RadioChangeEvent) => {
     setSize(e.target.value);
     onChange?.(e.target.value as SiteType);
