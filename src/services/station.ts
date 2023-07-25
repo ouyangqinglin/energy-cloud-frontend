@@ -12,8 +12,14 @@ import request, { ResponseCommonData } from '@/utils/request';
 export type SiteDataType = {
   id?: string;
   name?: string;
+  siteType?: string;
   energyOptions?: string;
   label?: string;
+  value?: string;
+};
+
+export type SiteTypeOptionType = {
+  name?: string;
   value?: string;
 };
 
@@ -21,6 +27,12 @@ export const getStations = (params?: any) => {
   return request(`/oss/site/getList`, {
     method: 'GET',
     params,
+  });
+};
+
+export const getSiteType = () => {
+  return request<ResponseCommonData<SiteTypeOptionType[]>>(`/oss/site/index/siteType`, {
+    method: 'GET',
   });
 };
 

@@ -29,7 +29,7 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
 
   return (
     <>
-      <div className={`${styles.label} ${className}`}>{siteData?.name}</div>
+      <div className={`${styles.label} ${className}`}>{siteData?.name || '--'}</div>
     </>
   );
 };

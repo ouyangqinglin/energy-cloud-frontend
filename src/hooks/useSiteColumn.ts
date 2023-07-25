@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:36:01
- * @LastEditTime: 2023-07-21 17:56:30
+ * @LastEditTime: 2023-07-25 10:56:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
@@ -34,12 +34,12 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         return result;
       });
     }, 700),
-    [],
+    [props?.params],
   );
 
   useEffect(() => {
     requestStation('', setSiteOptions);
-  }, []);
+  }, [props?.params]);
 
   const siteColumn: ProColumns<TableData, ValueType> = useMemo(() => {
     return {

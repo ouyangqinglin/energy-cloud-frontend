@@ -32,9 +32,9 @@ export const columns: ProColumns<ListDataType>[] = [
     title: '状态',
     valueEnum: new Map<number, string>([
       // eslint-disable-next-line react/jsx-key
-      [1, '启用'],
+      [1, '有效'],
       // eslint-disable-next-line react/jsx-key
-      [0, '禁用'],
+      [0, '无效'],
     ]),
     render(dom, entity, index, action, schema) {
       return <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={!!entity.status} />;

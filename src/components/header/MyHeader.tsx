@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 14:44:32
- * @LastEditTime: 2023-07-21 16:35:08
+ * @LastEditTime: 2023-07-25 12:39:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Drawer, Select } from 'antd';
 import { useLocation } from '@/hooks';
 import { useModel } from 'umi';
@@ -18,6 +18,8 @@ import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
 import SiteTypeSwitch from '../SiteTypeSwitch';
+
+const siteSwitchPath = ['/site-monitor', '/index/station', '/station/station-list'];
 
 const MyHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -34,6 +36,12 @@ const MyHeader: React.FC = () => {
     });
   }, []);
 
+  const siteStyles = useMemo(() => {
+    const pathName = location?.pathname || '';
+    const result = siteSwitchPath.find((item) => pathName.indexOf(item) > -1);
+    return result ? {} : { display: 'none' };
+  }, [location?.pathname]);
+
   return (
     <>
       <div className={styles.header}>
@@ -44,15 +52,7 @@ const MyHeader: React.FC = () => {
         />
         <Breadcrumb />
         {/* 站点删除等变更需要从新刷新组件 todo*/}
-        <SiteSwitch
-          className={`${styles.site} mx24`}
-          style={location?.pathname?.startsWith?.('/site-monitor') ? {} : { display: 'none' }}
-          size="small"
-        />
-        <SiteTypeSwitch
-          className={`${styles.site} mx24`}
-          style={location?.pathname?.startsWith?.('/index/station') ? {} : { display: 'none' }}
-        />
+        <SiteSwitch className={`${styles.site} mx24`} style={siteStyles} size="small" />
         <RightContent />
       </div>
       <Drawer
