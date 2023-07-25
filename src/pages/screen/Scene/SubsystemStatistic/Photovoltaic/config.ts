@@ -81,7 +81,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     title: '实时发电功率',
     unit: 'kW',
     floatLength: 2,
-    field: 'power',
+    field: 'realTimePowerGeneration',
     numStyle: {
       width: 'auto',
       fontSize: 20,
@@ -99,7 +99,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     title: '组串总容量',
     unit: 'kWp',
     floatLength: 2,
-    field: 'totalCapacity',
+    field: 'totalStringCapacity',
     numStyle: {
       width: 'auto',
       fontWeight: 500,

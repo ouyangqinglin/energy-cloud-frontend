@@ -3,7 +3,9 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
+import { buildTreeData } from '@/utils/utils';
 import type { ProColumns } from '@ant-design/pro-components';
+import { getServiceList } from '../service';
 import type { ServiceUpdateInfo } from '../type';
 
 export const Columns: (
@@ -12,7 +14,7 @@ export const Columns: (
 ) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
   return [
     {
-      title: '运营商名称',
+      title: '组织名称',
       formItemProps: {
         rules: [
           {
@@ -24,15 +26,7 @@ export const Columns: (
       dataIndex: ['orgName'],
     },
     {
-      title: '运营商ID',
-      // formItemProps: {
-      //   rules: [
-      //     {
-      //       required: true,
-      //       message: '此项为必填项',
-      //     },
-      //   ],
-      // },
+      title: '组织ID',
       valueType: 'input',
       fieldProps: {
         value: orgId,
@@ -53,8 +47,11 @@ export const Columns: (
       valueEnum: effectStatus,
     },
     {
-      title: '联系人',
-      dataIndex: ['linkman'],
+      title: '上级组织',
+      valueType: 'treeSelect',
+      fieldProps: {
+        placeholder: '请选择上级组织',
+      },
       formItemProps: {
         rules: [
           {
@@ -63,18 +60,44 @@ export const Columns: (
           },
         ],
       },
+      request: async () => {
+        const res = await getServiceList();
+        let depts = buildTreeData(res?.data as any[], 'orgId', 'orgName', '', '', '');
+        if (depts.length === 0) {
+          depts = [{ id: 0, title: '无上级', children: undefined, key: 0, value: 0 }];
+        }
+        return depts;
+      },
+      dataIndex: ['parentId'],
+    },
+    {
+      title: '显示顺序',
+      dataIndex: ['orderNum'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      colProps: {
+        span: 8,
+      },
+      fieldProps: {
+        style: {
+          width: '100%',
+        },
+      },
+      valueType: 'digit',
+    },
+    {
+      title: '联系人',
+      dataIndex: ['linkman'],
     },
     {
       title: '联系电话',
       dataIndex: ['phone'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
     },
     {
       title: '联系座机',

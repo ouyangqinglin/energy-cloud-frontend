@@ -46,26 +46,10 @@ export const Columns: (
     },
     {
       title: '联系人',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
       dataIndex: ['linkman'],
     },
     {
       title: '联系电话',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
       dataIndex: ['phone'],
     },
     {

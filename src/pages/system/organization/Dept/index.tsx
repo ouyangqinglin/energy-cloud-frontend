@@ -9,8 +9,9 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
+import { buildTreeData } from '@/utils/utils';
 
-const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
+const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
@@ -29,7 +30,7 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
     },
     option: {
       onDeleteChange(_, entity) {
-        deleteService?.({ orgId: [entity?.orgId] })?.then?.(({ data }) => {
+        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
           if (data) {
             message.success('删除成功');
             actionRef?.current?.reload?.();
@@ -41,7 +42,7 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
         setOperations(FormOperations.UPDATE);
         set(true);
       },
-      modalDeleteText: '您确认要删除该运营商吗？删除之后无法恢复！',
+      modalDeleteText: '您确认要删除该组织吗？删除之后无法恢复！',
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;
@@ -51,7 +52,13 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
   }, [actionRef]);
 
   const requestList: YTProTableCustomProps<ServiceInfo, ServiceInfo>['request'] = (params) => {
-    return getServiceList(params);
+    return getServiceList({ ...params }).then((res) => {
+      res.data = {
+        list: buildTreeData(res.data, 'orgId', '', '', '', ''),
+        total: res.data.length,
+      };
+      return res;
+    });
   };
   return (
     <>
@@ -76,4 +83,4 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
   );
 };
 
-export default Operator;
+export default Dept;
