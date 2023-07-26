@@ -28,6 +28,11 @@ export interface ServiceUpdateInfo {
   addressInfo: PositionSelectType;
 }
 
+interface OrgEf {
+  orgId: number;
+  orgName: string;
+}
+
 export interface ServiceInfo {
   createBy: string;
   createTime: string;

@@ -10,7 +10,7 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import type { ActionType } from '@ant-design/pro-components';
 
-const Owner = () => {
+const Customer = () => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
@@ -41,14 +41,12 @@ const Owner = () => {
         setOperations(FormOperations.UPDATE);
         set(true);
       },
-      modalDeleteText: '您确认要删除该业主吗？删除之后无法恢复！',
+      modalDeleteText: '您确认要删除该安装商吗？删除之后无法恢复！',
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;
 
   const onSuccess = useCallback(() => {
-    console.log(123);
-
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
@@ -77,4 +75,4 @@ const Owner = () => {
   );
 };
 
-export default Owner;
+export default Customer;

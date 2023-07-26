@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\index.tsx
  */
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, CSSProperties } from 'react';
 import { Tag, Modal } from 'antd';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
@@ -14,6 +14,7 @@ import styles from '../index.less';
 import TableModal from './TableModal';
 import type { ProTableProps } from '@ant-design/pro-table';
 import type { ProRenderFieldPropsType } from '@ant-design/pro-components';
+import classnames from 'classnames';
 
 type TableSelectProps<V, T, P> = {
   value?: V[];
@@ -30,6 +31,8 @@ type TableSelectProps<V, T, P> = {
   clearable?: boolean;
   proTableProps?: ProTableProps<T, P>;
   placeholder?: string;
+  inputClassName?: string;
+  inputStyle?: CSSProperties;
 };
 
 const TableSelect = <
@@ -54,6 +57,8 @@ const TableSelect = <
     title,
     width,
     placeholder = '请选择',
+    inputClassName = '',
+    inputStyle = {},
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -98,7 +103,11 @@ const TableSelect = <
 
   return (
     <>
-      <div className={`ant-input-affix-wrapper ${styles.input}`} onClick={onSwitchOpen}>
+      <div
+        className={classnames(['ant-input-affix-wrapper', styles.input, inputClassName])}
+        style={inputStyle}
+        onClick={onSwitchOpen}
+      >
         {tags.length ? tags : <span className={styles.placeholder}>{placeholder}</span>}
         {valueLength > limit ? '+' + (valueLength - limit) : ''}
         {clearable && (

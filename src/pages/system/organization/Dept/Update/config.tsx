@@ -3,15 +3,15 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { effectStatus } from '@/utils/dictionary';
+import { verifyPhone } from '@/utils/reg';
 import { buildTreeData } from '@/utils/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import { getServiceList } from '../service';
 import type { ServiceUpdateInfo } from '../type';
 
-export const Columns: (
-  operation: FormOperations,
-  orgId: number,
-) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
+export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (
+  orgId,
+) => {
   return [
     {
       title: '组织名称',
@@ -116,7 +116,15 @@ export const Columns: (
       colProps: {
         span: 24,
       },
-      dataIndex: ['remark'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      dataIndex: ['addressInfo'],
       renderFormItem(schema, config, form, action) {
         return <PositionSelect />;
       },

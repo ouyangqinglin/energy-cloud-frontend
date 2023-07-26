@@ -1,4 +1,4 @@
-import type { ServiceParam, ServiceInfo, ServiceUpdateInfo } from './type';
+import type { ServiceParam, ServiceInfo, ServiceUpdateInfo, ServiceProviderInfo } from './type';
 import { del, get, post, put } from '@/utils/request';
 
 export const createService = (data: ServiceParam) => {
@@ -13,7 +13,7 @@ export const updateService = (data: ServiceParam) => {
   return put(`/uc/ownerOrg`, data);
 };
 
-export const deleteService = (data: { orgId: number[] }) => {
+export const deleteService = (data: { orgId: number }) => {
   return del(`/uc/ownerOrg`, data);
 };
 
@@ -23,4 +23,8 @@ export const getServiceList = (params: any) => {
 
 export const getServiceId = () => {
   return get<number>(`/uc/ownerOrg/orgId`);
+};
+
+export const getServiceProviderList = (params: any) => {
+  return get<ServiceProviderInfo[], 'list'>('/uc/ownerOrg/installer/page', params);
 };

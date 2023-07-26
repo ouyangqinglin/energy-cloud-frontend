@@ -10,7 +10,7 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 
-const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
+const Operator = () => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
@@ -29,8 +29,8 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
     },
     option: {
       onDeleteChange(_, entity) {
-        deleteService?.({ orgId: [entity?.orgId] })?.then?.(({ data }) => {
-          if (data) {
+        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data, code }) => {
+          if (data || code === 200) {
             message.success('删除成功');
             actionRef?.current?.reload?.();
           }
@@ -61,7 +61,6 @@ const Operator = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="orgId"
-        {...props}
       />
       <Update
         {...{
