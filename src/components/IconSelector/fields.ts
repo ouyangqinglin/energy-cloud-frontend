@@ -226,6 +226,12 @@ const ytIcon = [
   'YTChargeStack',
   'YTCabinet',
   'YTAlarm',
+  'YTInstaller',
+  'YTCompany',
+  'YTSystemSetting',
+  'YTOwner',
+  'YTOperator',
+  'YTOrganize',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

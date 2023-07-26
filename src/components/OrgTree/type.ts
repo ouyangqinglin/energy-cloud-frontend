@@ -11,8 +11,10 @@ import type { BasicDataNode } from 'rc-tree';
 import type { DataNode } from 'antd/lib/tree';
 
 export enum OrgTypeEnum {
-  Site = 'site',
-  Service = 'service',
+  System,
+  Install,
+  Operator,
+  Owner,
 }
 
 export type TreeNode = BasicDataNode &

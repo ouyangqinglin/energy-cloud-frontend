@@ -32,6 +32,12 @@ import {
   Battery,
   Cabinet,
   Alarm,
+  Installer,
+  Company,
+  SystemSetting,
+  Owner,
+  Operator,
+  Organize,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -126,6 +132,30 @@ const YTAlarmOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Alarm} {...props} />
 );
 
+const YTInstallerOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Installer} {...props} />
+);
+
+const YTCompanyOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Company} {...props} />
+);
+
+const YTSystemSettingOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={SystemSetting} {...props} />
+);
+
+const YTOwnerOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Owner} {...props} />
+);
+
+const YTOperatorOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Operator} {...props} />
+);
+
+const YTOrganizeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Organize} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -150,4 +180,10 @@ export {
   YTChargeStackOutlined,
   YTCabinetOutlined,
   YTAlarmOutlined,
+  YTInstallerOutlined,
+  YTCompanyOutlined,
+  YTSystemSettingOutlined,
+  YTOwnerOutlined,
+  YTOperatorOutlined,
+  YTOrganizeOutlined,
 };
