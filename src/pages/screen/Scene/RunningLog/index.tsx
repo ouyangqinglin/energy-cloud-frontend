@@ -9,7 +9,7 @@ const RunningLog = () => {
   const listData = useSubscribe();
 
   return (
-    <Cell cursor="default" width={834} height={151} left={562} top={910}>
+    <Cell cursor="default" width={972} height={151} left={474} top={910}>
       <DecorationCarousel scroll={true} title="站点运行日志">
         {!isEmpty(listData) && (
           <List
