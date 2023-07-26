@@ -32,7 +32,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
     setChartData(getBarChartData(barLegendMap, powerData, timeType));
   }, [powerData, shouldShowLine, timeType]);
-  console.log(chartData);
 
   return (
     <Chart

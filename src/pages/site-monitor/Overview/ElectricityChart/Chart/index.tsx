@@ -77,6 +77,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         autoFit
       >
         <Tooltip
+          showCrosshairs={true}
           domStyles={{
             'g2-tooltip': {
               backgroundColor: 'rgba(9,12,21,0.8)',

@@ -28,22 +28,6 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
         text: '新建',
       },
     },
-    option: {
-      onDeleteChange(_, entity) {
-        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
-          if (data) {
-            message.success('删除成功');
-            actionRef?.current?.reload?.();
-          }
-        });
-      },
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
-      modalDeleteText: '您确认要删除该组织吗？删除之后无法恢复！',
-    },
   };
   const visibleUpdated = operations !== FormOperations.READ;
 

@@ -84,7 +84,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   useEffect(() => {
     setChartData(getBarChartData(powerData, timeType));
   }, [powerData, timeType]);
-  console.log(chartData);
 
   return (
     // <div onMouseEnter={clear} onMouseOut={runForTooltip}>

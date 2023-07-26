@@ -1,13 +1,16 @@
-import { ReactComponent as IconEnergyStorage } from '@/assets/image/station/overview/icon_储能.svg';
-import { ReactComponent as IconLoad } from '@/assets/image/station/overview/icon_负载1.svg';
-import { ReactComponent as IconMarketElectric } from '@/assets/image/station/overview/icon_市电.svg';
-import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overview/icon_光伏1.svg';
+import { ReactComponent as IconEnergyStorage } from '@/assets/image/home-page/icon_储能.svg';
+import { ReactComponent as IconPhotovoltaic } from '@/assets/image/home-page/icon_光伏.svg';
+import { ReactComponent as IconAlarm } from '@/assets/image/home-page/icon_告警.svg';
+import { ReactComponent as IconCS } from '@/assets/image/home-page/icon_充电桩.svg';
+import { ReactComponent as IconSite } from '@/assets/image/home-page/icon_站点.svg';
+import { ReactComponent as IconBenifit } from '@/assets/image/home-page/icon_当日收益.svg';
+import { ReactComponent as IconCo2 } from '@/assets/image/home-page/icon_碳减排.svg';
 import { CardInfo } from './type';
 
 export const config: CardInfo[] = [
   {
     title: '站点概览',
-    icon: IconLoad,
+    icon: IconSite,
     field: 'powerStationCount',
     value: 2,
     description: '站点总数/个',
@@ -84,19 +87,19 @@ export const config: CardInfo[] = [
   },
   {
     title: '充电桩指标',
-    icon: IconEnergyStorage,
+    icon: IconCS,
     field: 'chargePower',
     value: 1947.1,
     description: '充电功率/kw',
     items: [
       {
         label: '当日充电量/kwh',
-        field: 'chargeElecToday',
+        field: 'cpChargeElecToday',
         value: 3.14,
       },
       {
         label: '累计充电量/kwh',
-        field: 'chargeElecTotal',
+        field: 'cpChargeElecTotal',
         value: 0.48,
       },
       {
@@ -110,7 +113,7 @@ export const config: CardInfo[] = [
   },
   {
     title: '充电桩指标',
-    icon: IconEnergyStorage,
+    icon: IconCS,
     field: 'chargePower',
     value: 1947.1,
     description: '充电功率/kw',
@@ -136,7 +139,7 @@ export const config: CardInfo[] = [
   },
   {
     title: '告警监视',
-    icon: IconLoad,
+    icon: IconAlarm,
     field: 'totalNum',
     value: 54,
     description: '告警总数/条',
@@ -165,7 +168,7 @@ export const config: CardInfo[] = [
   },
   {
     title: '经济收益',
-    icon: IconPhotovoltaic,
+    icon: IconBenifit,
     field: 'gainsDay',
     value: 4755.46,
     description: '当日收益/元',
@@ -189,7 +192,7 @@ export const config: CardInfo[] = [
   },
   {
     title: '环境收益',
-    icon: IconEnergyStorage,
+    icon: IconCo2,
     field: 'totalReduceCO2',
     value: 1947.1,
     description: '累计CO2减排/t',
