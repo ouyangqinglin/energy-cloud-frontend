@@ -1,7 +1,7 @@
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { Col, Row } from 'antd';
 import dayjs from 'dayjs';
-import { isEmpty, uniqueId } from 'lodash';
+import { isEmpty, isNil, uniqueId } from 'lodash';
 import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
@@ -121,7 +121,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元',
+        render: (_, { value }) => value + '元/kWh',
         colProps: {
           span: 6,
         },
@@ -134,7 +134,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元',
+        render: (_, { value }) => value + '元/kWh',
         colProps: {
           span: 6,
         },
@@ -147,7 +147,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元',
+        render: (_, { value }) => value + '元/kWh',
         colProps: {
           span: 6,
         },
@@ -160,7 +160,7 @@ export const columns: ProFormColumnsType[] = [
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元',
+        render: (_, { value }) => value + '元/kWh',
         colProps: {
           span: 6,
         },
@@ -178,7 +178,7 @@ export const columns: ProFormColumnsType[] = [
             if (isEmpty(priceItem)) {
               return;
             }
-            if (priceItem?.type) {
+            if (!isNil(priceItem?.type)) {
               const priceList = priceTypeMap.get(priceItem.type);
               priceList?.push?.([priceItem.intervalStartTime, priceItem.intervalEndTime]);
             }

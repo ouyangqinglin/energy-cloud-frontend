@@ -43,7 +43,9 @@ const EnergyStorage: FC = () => {
     manual: true,
   });
 
-  const { data: statisticsData } = useRequest(getEnergyStorageStatistic);
+  const { data: statisticsData } = useRequest(getEnergyStorageStatistic, {
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+  });
 
   const { data: chargeData, run } = useRequest(
     (type = TimeType.DAY) => getChargeAndDischargePower(type),

@@ -5,19 +5,19 @@ import styles from './index.less';
 
 const imgStyle = {
   display: 'block',
-  width: 42,
-  height: 42,
+  width: 20,
+  height: 20,
 };
 
 const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic }) => {
   console.log(data);
   return (
-    <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'} gutter={20}>
+    <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'}>
       {config.map((item) => {
         const Icon = item.icon;
         return (
           <StatisticCard
-            colSpan={4}
+            colSpan={3.5}
             className={styles.statisticCardWrapper}
             key={item.title}
             statistic={{

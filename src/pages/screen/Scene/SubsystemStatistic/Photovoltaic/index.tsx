@@ -30,6 +30,7 @@ const Photovoltaic: FC = () => {
 
   const { data: statistics, run } = useRequest((type = TimeType.DAY) => getStatistics(type), {
     manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
@@ -51,10 +52,6 @@ const Photovoltaic: FC = () => {
         };
       })) ??
     [];
-
-  useEffect(() => {
-    run();
-  }, []);
 
   return (
     <div className={styles.contentWrapper}>

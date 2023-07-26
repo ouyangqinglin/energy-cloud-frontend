@@ -89,7 +89,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
 
       if (valueType === 'timeButtonGroup') {
         return {
-          Operation: <TimeButtonGroup onChange={goToPage} />,
+          Operation: <TimeButtonGroup onChange={onTimeButtonChange} />,
           Panel: children,
         };
       }

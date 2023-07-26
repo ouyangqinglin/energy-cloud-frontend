@@ -1,16 +1,80 @@
 import PositionSelect from '@/components/PositionSelect';
-import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
+import { TABLESELECT, TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
+import { getServiceProviderList } from '@/pages/user-manager/accounts/Platform/service';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
+import { useEffect, useRef } from 'react';
 import type { ServiceUpdateInfo } from '../type';
 
 export const Columns: (
   operation: FormOperations,
   orgId: number,
-) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
+) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId) => {
+  const orgIdRef = useRef<number>();
+  useEffect(() => {
+    orgIdRef.current = orgId;
+  }, [orgId]);
+
   return [
+    {
+      title: '安装商',
+      valueType: TABLESELECT,
+      dataIndex: 'serviceProvider',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请选择安装商',
+          },
+        ],
+      },
+      name: 'serviceProvider',
+      fieldProps: (form) => ({
+        tableId: 'orgId',
+        tableName: 'orgName',
+        valueId: 'orgId',
+        valueName: 'orgName',
+        multiple: false,
+        onChange: (value: { orgId: number }[]) => {
+          const preOrgId = orgIdRef.current;
+          const curOrgId = value[0]?.orgId;
+          if (form && curOrgId !== preOrgId) {
+            form.setFieldValue('sites', []);
+          }
+          if (value.length) {
+            orgIdRef.current = curOrgId;
+          }
+        },
+        proTableProps: {
+          columns: [
+            {
+              title: '安装商ID',
+              dataIndex: 'orgId',
+              width: 150,
+              ellipsis: true,
+              hideInSearch: true,
+            },
+            {
+              title: '安装商名称',
+              dataIndex: 'orgName',
+              width: 200,
+              ellipsis: true,
+            },
+          ],
+          request: (params: Record<string, any>) => {
+            return getServiceProviderList(params)?.then(({ data }) => {
+              return {
+                data: data?.list,
+                total: data?.total,
+                success: true,
+              };
+            });
+          },
+        },
+      }),
+    },
     {
       title: '业主名称',
       formItemProps: {
