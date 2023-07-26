@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-14 02:09:27
+ * @LastEditTime: 2023-07-25 19:21:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
@@ -14,32 +14,35 @@ import { useRequest } from 'umi';
 import { getOrgTree } from './service';
 import { TreeNode, OrgTypeEnum } from './type';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import {
+  YTInstallerOutlined,
+  YTCompanyOutlined,
+  YTOwnerOutlined,
+  YTOperatorOutlined,
+  YTOrganizeOutlined,
+} from '@/components/YTIcons';
+
+const orgIconMap = new Map([
+  [OrgTypeEnum.System, YTOrganizeOutlined],
+  [OrgTypeEnum.Install, YTInstallerOutlined],
+  [OrgTypeEnum.Operator, YTOperatorOutlined],
+  [OrgTypeEnum.Owner, YTOwnerOutlined],
+]);
 
 export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
-  siteId?: string;
   onSelect?: TreeProps<TreeNode>['onSelect'];
   afterRequest?: (data: any) => void;
 };
 
-const dealData = (data: any) => {
+const dealData = (data: any, parentId = '') => {
   data?.map?.((item: any) => {
-    if (!isEmpty(item?.type) && item?.id == 100) {
-      item.id = 0;
-    }
-    if (item?.type == 1) {
-      if (item?.id == 110) {
-        item.id = OrgTypeEnum.Service;
-      } else {
-        item.id = OrgTypeEnum.Service + item?.id;
-      }
-    }
-    if (isEmpty(item?.type)) {
-      item.id = OrgTypeEnum.Site + item?.id;
-      item.label = item?.name;
+    item.icon = orgIconMap.get(item.type) || YTCompanyOutlined;
+    if (parentId) {
+      item.id = `${item.id}-${parentId}`;
+      item.label = item.name;
     }
     if (item?.sites && item?.sites?.length) {
-      dealData(item.sites);
+      dealData(item.sites, item.id);
       item.children = item.sites;
     } else if (item?.children && item?.children?.length) {
       dealData(item.children);
@@ -48,7 +51,7 @@ const dealData = (data: any) => {
 };
 
 const OrgTree: React.FC<OrgTreeProps> = (props) => {
-  const { siteId, onSelect, afterRequest, ...restProps } = props;
+  const { onSelect, afterRequest, ...restProps } = props;
 
   const {
     loading,

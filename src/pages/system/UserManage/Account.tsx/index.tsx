@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-07 16:41:03
- * @LastEditTime: 2023-07-14 02:11:33
+ * @LastEditTime: 2023-07-25 19:13:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\index.tsx
  */
@@ -21,7 +21,7 @@ const Account: React.FC = () => {
   const [selectOrg, setSelectOrg] = useState<TreeNode | null>({ id: 0, key: '0' });
 
   const selectedKeys = useMemo<string[]>(() => {
-    return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id + ''];
+    return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id];
   }, [selectOrg]);
 
   const searchParams = useMemo<PlatformSearchType>(() => {
@@ -29,11 +29,11 @@ const Account: React.FC = () => {
       const id = selectOrg?.id + '';
       if (isEmpty(selectOrg?.type)) {
         return {
-          siteId: id.replace(OrgTypeEnum.Site, ''),
+          siteId: id.split('-')[0],
         };
       } else {
         return {
-          orgId: id.replace(OrgTypeEnum.Service, ''),
+          orgId: id,
         };
       }
     } else {
@@ -48,19 +48,14 @@ const Account: React.FC = () => {
   }, []);
 
   const afterRequest = useCallback((data) => {
-    setSelectOrg({ id: data?.[0]?.id, key: data?.[0]?.id, type: data?.[0]?.type });
+    setSelectOrg(data[0]);
   }, []);
 
   return (
     <>
       <div className={styles.contain}>
         <div className={styles.tree}>
-          <OrgTree
-            siteId="1"
-            selectedKeys={selectedKeys}
-            onSelect={onSelect}
-            afterRequest={afterRequest}
-          />
+          <OrgTree selectedKeys={selectedKeys} onSelect={onSelect} afterRequest={afterRequest} />
         </div>
         <div className={styles.table}>
           {selectOrg?.type === 0 ? (
