@@ -105,6 +105,7 @@ const Photovoltaic: FC = () => {
             unit: 'kWh',
           },
         }}
+        color={['#FFD15C']}
         chartData={sortedData(convertToData(chartData))}
       />
     </div>

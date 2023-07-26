@@ -138,6 +138,7 @@ const EnergyStorage: FC = () => {
             unit: 'kWh',
           },
         }}
+        color={['#00E0DB', '#159AFF']}
         title="储能充放电量"
         onDateChange={onDateChange}
         chartData={sortedData(convertToData(chartData))}
