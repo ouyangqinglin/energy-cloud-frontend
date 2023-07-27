@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-07-25 14:32:38
+ * @LastEditTime: 2023-07-26 17:02:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
@@ -43,21 +43,28 @@ const SiteSwitch = <ValueType = 'text',>(
       const result = type ?? (data?.energyOptions || '');
       formRef?.current?.setFieldValue?.('type', type ?? (data?.energyOptions || ''));
       formRef?.current?.setFieldValue?.('siteType', data?.energyOptions);
-      dispatch({
-        type: 'change',
-        payload: { ...data, siteType: result },
-      });
-      getRoutersInfo({ siteId: data?.id }).then((menus) => {
-        const antMenus = menus && getMenus(menus);
-        setInitialState((prevData: any) => {
-          return {
-            ...prevData,
-            menus,
-            antMenus,
-            menuPathTitleMap: getPathTitleMap(antMenus),
-          };
+      getRoutersInfo({ siteId: data?.id })
+        .then((menus) => {
+          const antMenus = menus && getMenus(menus);
+          setInitialState((prevData: any) => {
+            return {
+              ...prevData,
+              menus,
+              antMenus,
+              menuPathTitleMap: getPathTitleMap(antMenus),
+            };
+          });
+          dispatch({
+            type: 'change',
+            payload: { ...data, siteType: result },
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: 'change',
+            payload: { ...data, siteType: result },
+          });
         });
-      });
     },
     [formRef],
   );

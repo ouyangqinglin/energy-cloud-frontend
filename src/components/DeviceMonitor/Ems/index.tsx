@@ -18,6 +18,7 @@ import Run from './Run';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 import Page from '@/layouts/Page';
+import Community from '@/components/ScreenDialog/Community';
 
 const Ems: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -49,7 +50,15 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <Tabs items={tabItems} />
       </Page>

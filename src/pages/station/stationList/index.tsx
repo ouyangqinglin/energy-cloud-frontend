@@ -124,6 +124,7 @@ const StationList: React.FC = () => {
   const columns: ProColumns<StationType>[] = [
     {
       title: '序号',
+      dataIndex: 'index',
       valueType: 'index',
       width: 48,
     },

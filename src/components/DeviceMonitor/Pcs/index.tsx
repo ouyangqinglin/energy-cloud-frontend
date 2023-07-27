@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-07-18 17:21:35
+ * @LastEditTime: 2023-07-27 09:17:11
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Pcs\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Pcs\index.tsx
  */
 import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
@@ -17,6 +17,7 @@ import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import { runItems, exchargeItems, directCurrentItems, tempItems, versionItems } from './config';
 import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
+import Community from '@/components/ScreenDialog/Community';
 
 const Pcs: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -78,7 +79,15 @@ const Pcs: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <Detail.Group
           data={realTimeData}

@@ -4,6 +4,7 @@ import type { RemoteUpgradeDataRes } from './type';
 export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 48,
   },

@@ -46,6 +46,7 @@ const Alarm: React.FC = (props) => {
   const columns: ProColumns<AlarmType>[] = [
     {
       title: '序号',
+      dataIndex: 'index',
       valueType: 'index',
       width: 50,
     },

@@ -17,6 +17,7 @@ import { isEmpty } from '@/utils';
 export const columns: ProColumns<AccountType>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 50,
   },

@@ -7,6 +7,7 @@ import moment from 'moment';
 export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 50,
   },

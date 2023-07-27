@@ -6,6 +6,7 @@ import type { MarketElectricityPriceListItem } from './type';
 export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 50,
   },

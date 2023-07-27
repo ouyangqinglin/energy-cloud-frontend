@@ -7,6 +7,7 @@ import { CustomerInfo } from './type';
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 48,
   },

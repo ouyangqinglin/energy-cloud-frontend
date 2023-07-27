@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-14 10:21:12
+ * @LastEditTime: 2023-07-27 09:46:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -11,6 +11,7 @@ import { Modal, message, Space } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import { useRequest, useHistory } from 'umi';
 import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-table';
+import { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
 import { cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
@@ -35,7 +36,8 @@ export enum PageTypeEnum {
 export type AlarmProps = {
   isStationChild?: boolean;
   type?: PageTypeEnum;
-  params?: any;
+  params?: Record<string, any>;
+  formParam?: Record<string, any>;
 };
 
 export const alarmLevelMap = new Map([
@@ -52,8 +54,9 @@ export const alarmLevelMap = new Map([
 ]);
 
 const Alarm: React.FC<AlarmProps> = (props) => {
-  const { isStationChild, type = PageTypeEnum.Current, params } = props;
+  const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
 
+  const formRef = useRef<ProFormInstance>();
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
@@ -173,6 +176,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     return [
       {
         title: '序号',
+        dataIndex: 'index',
         valueType: 'index',
         width: 50,
       },
@@ -205,6 +209,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               },
               width: 150,
               ellipsis: true,
+              initialValue: formParam?.siteId && formParam?.siteId * 1,
             } as ProColumns<AlarmType>,
           ]),
       productTypeColumn,
@@ -213,6 +218,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
+        initialValue: formParam?.deviceName,
       },
       {
         title: '告警ID',
@@ -273,6 +279,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
     ];
   }, [
+    formParam,
     productTypeColumn,
     requestStation,
     isStationChild,
@@ -300,6 +307,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       <YTProTable<AlarmType, AlarmType>
         headerTitle={headerTitle}
         actionRef={actionRef}
+        formRef={formRef}
         columns={columns}
         request={requestList}
         toolBarRender={() => [<></>]}

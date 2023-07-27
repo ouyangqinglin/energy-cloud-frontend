@@ -1,7 +1,7 @@
 import type { ElectricGenerateInfo, ElectricGenerateStatistic } from './type';
 import { get } from '@/utils/request';
 
-export const getElectricGenerateUnitStatistic = (siteId: number) => {
+export const getElectricGenerateUnitStatistic = (siteId: number | string) => {
   return get<ElectricGenerateStatistic>(`/oss/site/monitor/generateElectricity/statistics`, {
     siteId,
   });

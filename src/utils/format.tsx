@@ -1,5 +1,7 @@
 import { getValue, isEmpty, strToArray } from '@/utils';
 import dayjs from 'dayjs';
+import { onlineStatus, deviceAlarmStatus } from './dictionary';
+import Field from '@/components/Field';
 
 export const timeFormat = (value: string) => {
   return value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '';
@@ -42,7 +44,7 @@ export const closeFormat = (value: string) => {
     valueArr?.map?.((item) => <span className={'cl-success mr8'}>{map[item]}</span>) || '';
   return result;
 };
-export const mainContactorFormat = (value: string) => {
+export const contactorFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map = {
     0: '断开',
@@ -426,4 +428,10 @@ export const airAlarmFormat = (value: string) => {
       <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
     )) || '';
   return result;
+};
+export const onlineStatusFormat = (value: string) => {
+  return <Field text={value} valueEnum={onlineStatus} />;
+};
+export const deviceAlarmStatusFormat = (value: string) => {
+  return <Field text={value} valueEnum={deviceAlarmStatus} />;
 };

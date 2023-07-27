@@ -35,6 +35,7 @@ const Account: React.FC<AccountsProps> = (props) => {
     () => [
       {
         title: '序号',
+        dataIndex: 'index',
         valueType: 'index',
         width: 48,
       },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-21 15:23:25
+ * @LastEditTime: 2023-07-26 19:40:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -175,7 +175,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
         open={open}
         onOpenChange={onOpenChange}
         rowProps={{
-          gutter: [16, 0],
+          gutter: [24, 0],
         }}
         submitter={mergedSubmitter}
         onValuesChange={mergedOnValuesChange}

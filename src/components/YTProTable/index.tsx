@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { ProTable, ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
@@ -15,14 +15,26 @@ const YTProTable = <
 >(
   props: YTProTableProps<DataType, Params, ValueType>,
 ) => {
-  const { toolBarRender, columns, actionRef, toolBarRenderOptions, request, ...restProps } = props;
+  const {
+    toolBarRender,
+    columns,
+    actionRef,
+    formRef,
+    toolBarRenderOptions,
+    request,
+    ...restProps
+  } = props;
 
-  const formRef = useRef<ProFormInstance<Params>>();
+  const tableFormRef = useRef<ProFormInstance<Params>>();
+
+  const mergedFormRef = useMemo(() => {
+    return formRef || tableFormRef;
+  }, [formRef, tableFormRef]);
 
   const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
     toolBarRender,
     toolBarRenderOptions,
-    formRef,
+    mergedFormRef,
   );
 
   // TODO: 支持选项式的请求
@@ -42,7 +54,7 @@ const YTProTable = <
   return (
     <ProTable<DataType, Params, ValueType>
       actionRef={actionRef}
-      formRef={formRef}
+      formRef={mergedFormRef}
       options={{
         density: false,
         fullScreen: false,

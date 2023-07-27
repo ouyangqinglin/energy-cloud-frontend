@@ -32,6 +32,7 @@ const Agent: React.FC = () => {
   const columns: ProColumns<AgentType, TABLESELECTVALUETYPE>[] = [
     {
       title: '序号',
+      dataIndex: 'index',
       valueType: 'index',
       width: 48,
     },

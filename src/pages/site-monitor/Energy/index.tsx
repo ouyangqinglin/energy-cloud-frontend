@@ -17,18 +17,17 @@ import SiteLabel from '@/components/SiteLabel';
 import { SiteDataType } from '@/services/station';
 
 const Index: React.FC = () => {
-  const [siteId, setSiteId] = useState<number>();
+  const [siteData, setSiteData] = useState<SiteDataType>();
   const { initialState } = useModel('@@initialState');
   const history = useHistory();
 
   const onChange = useCallback((data: SiteDataType) => {
-    if (data?.id) {
-      setSiteId(Number(data.id));
-    }
+    setSiteData(data);
   }, []);
 
   useEffect(() => {
     if (
+      siteData?.isLoad &&
       initialState?.menuPathTitleMap &&
       !initialState?.menuPathTitleMap?.get?.('/site-monitor/energy')
     ) {
@@ -36,20 +35,20 @@ const Index: React.FC = () => {
         pathname: '/site-monitor/overview',
       });
     }
-  }, [initialState?.menuPathTitleMap]);
+  }, [initialState?.menuPathTitleMap, siteData]);
 
   return (
     <>
       <div className="p24">
         <SiteLabel onChange={onChange} />
-        <Stat siteId={siteId} className="mb24" />
+        <Stat siteId={siteData?.id} className="mb24" />
         <Row gutter={20}>
           <Col span={14}>
-            <Cabinet siteId={siteId} />
+            <Cabinet siteId={siteData?.id} />
           </Col>
           <Col span={10}>
-            <Power siteId={siteId} />
-            <Electric siteId={siteId} />
+            <Power siteId={siteData?.id} />
+            <Electric siteId={siteData?.id} />
           </Col>
         </Row>
       </div>

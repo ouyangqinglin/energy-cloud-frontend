@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-24 12:34:46
+ * @LastEditTime: 2023-07-26 19:19:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -236,7 +236,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: '通信状态',
         dataIndex: 'connectStatus',
-        render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
         valueType: 'select',
         valueEnum: onlineStatus,
         width: 120,

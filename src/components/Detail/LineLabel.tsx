@@ -13,16 +13,17 @@ import styles from './LineLabel.less';
 export type LineLabelProps = {
   title?: string;
   className?: string;
+  labelClassName?: string;
   showLine?: boolean;
 };
 
 export const LineLabel: React.FC<LineLabelProps> = (props) => {
-  const { title, className, showLine = true, children } = props;
+  const { title, className = '', labelClassName = '', showLine = true, children } = props;
 
   return (
     <>
       <div className={`flex ${className}`}>
-        <label className={`flex1 ${styles.label}`}>{title}</label>
+        <label className={`flex1 ${styles.label} ${labelClassName}`}>{title}</label>
         {children}
       </div>
       {showLine && <Divider className="mt12" />}
