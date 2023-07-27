@@ -91,6 +91,7 @@ declare namespace API {
         menu: number;
         siteId: number;
       };
+      homePath?: string;
     };
   };
 

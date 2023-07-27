@@ -5,11 +5,14 @@ import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/login';
-import YtIcon from '@/assets/image/icon-yt.png';
 import BGImg from '@/assets/image/login-bg.png';
 import styles from './index.less';
 import { clearSessionToken, setSessionToken } from '@/access';
-import { MenuEnum } from './type';
+import { useLocation } from '@/hooks';
+
+export type QueryParams = {
+  redirect?: string;
+};
 
 const LoginMessage: React.FC<{
   content: string;
@@ -28,8 +31,8 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
   const { initialState, refresh } = useModel('@@initialState');
+  const location = useLocation<QueryParams>();
 
-  const [captchaCode, setCaptchaCode] = useState<string>('');
   const [uuid, setUuid] = useState<string>('');
 
   const intl = useIntl();
@@ -39,10 +42,7 @@ const Login: React.FC = () => {
       // 登录
       const {
         code,
-        data: {
-          access_token: accessToken,
-          homeMenu: { menu = MenuEnum.STATION_LIST, siteId = '1' } = {},
-        },
+        data: { access_token: accessToken, homePath = '' },
         msg,
       } = await login({ ...values, uuid });
       if (code === 200) {
@@ -53,22 +53,14 @@ const Login: React.FC = () => {
         const current = new Date();
         const expireTime = current.setTime(current.getTime() + 1000 * 12 * 60 * 60);
 
-        // TODO: 定制化开发，后续移除
-        setSessionToken(accessToken, accessToken, expireTime, String(siteId));
+        setSessionToken(accessToken, accessToken, expireTime);
         message.success(defaultLoginSuccessMessage);
 
-        // const { query } = history.location;
-        // const { redirect } = query as { redirect: string };
-        // TODO: 定制化开发，后续移除
-        let redirectPath = '/station/station-list';
-        if (menu === MenuEnum.SCREEN) {
-          redirectPath = '/screen';
-        }
+        const redirectPath = homePath || location.query?.redirect || '/index/station';
+        const pathArr = redirectPath.split('?');
         history.push({
           pathname: redirectPath,
-          query: {
-            siteId: String(siteId),
-          },
+          search: pathArr[1] ? '?' + pathArr[1] : '',
         });
 
         refresh();

@@ -16,6 +16,7 @@ import Page from '@/layouts/Page';
 import EnergyImg from '@/assets/image/product/energy.png';
 import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
+import EnergyInfo from '@/components/EnergyInfo';
 
 const Energy: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -47,7 +48,7 @@ const Energy: React.FC<DeviceDetailType> = (props) => {
           />
         }
       >
-        <Empty />
+        <EnergyInfo deviceData={deviceData} />
       </Page>
     </>
   );

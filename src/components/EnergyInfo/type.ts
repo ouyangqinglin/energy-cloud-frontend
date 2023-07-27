@@ -18,6 +18,19 @@ export type searchType = {
   type?: number;
 };
 
-export type statType = {
-  name?: string;
+export type energyType = {
+  id?: string;
+  name: string;
+  productId: number;
+  children?: energyType[];
+};
+
+export type PowerType = {
+  eventTs: string;
+  doubleVal: number;
+};
+
+export type ElectricType = {
+  charge?: PowerType[];
+  discharge?: PowerType[];
 };

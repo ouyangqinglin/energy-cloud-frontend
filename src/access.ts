@@ -46,7 +46,6 @@ export function setSessionToken(
   access_token: string | undefined,
   refresh_token: string | undefined,
   expireTime: number,
-  siteId: string,
 ): void {
   if (access_token) {
     localStorage.setItem('access_token', access_token);
@@ -59,7 +58,6 @@ export function setSessionToken(
     localStorage.removeItem('refresh_token');
   }
   localStorage.setItem('expireTime', `${expireTime}`);
-  localStorage.setItem('siteId', siteId);
 }
 
 export function getAccessToken() {
@@ -72,10 +70,6 @@ export function getRefreshToken() {
 
 export function getTokenExpireTime() {
   return localStorage.getItem('expireTime');
-}
-
-export function getSiteIdFromStore() {
-  return localStorage.getItem('siteId');
 }
 
 export function clearSessionToken() {

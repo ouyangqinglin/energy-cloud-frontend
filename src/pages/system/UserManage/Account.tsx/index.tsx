@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-07 16:41:03
- * @LastEditTime: 2023-07-26 14:08:50
+ * @LastEditTime: 2023-07-27 11:58:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\index.tsx
  */
 
 import React, { useState, useMemo, useCallback } from 'react';
 import OrgTree from '@/components/OrgTree';
-import { TreeNode } from '@/components/OrgTree/type';
+import { OrgTypeEnum, TreeNode } from '@/components/OrgTree/type';
 import styles from '../index.less';
 import { isEmpty } from '@/utils';
 import { PlatformSearchType } from '@/pages/user-manager/accounts/Platform/type';
@@ -24,16 +24,25 @@ const Account: React.FC = () => {
 
   const searchParams = useMemo<PlatformSearchType>(() => {
     if (selectOrg) {
-      const id = selectOrg?.id + '';
-      if (isEmpty(selectOrg?.type)) {
+      if (!isEmpty(selectOrg?.siteId)) {
         return {
-          ...selectOrg,
-          siteId: id.split('-')[0],
+          orgTypes:
+            selectOrg.type == OrgTypeEnum.Install
+              ? [OrgTypeEnum.Install, OrgTypeEnum.Operator, OrgTypeEnum.Owner]
+              : [selectOrg.type],
+          orgId: selectOrg?.parentId,
+          siteId: selectOrg?.siteId,
+          siteName: selectOrg?.siteName,
+          parentId: selectOrg.parentId,
         };
       } else {
         return {
-          ...selectOrg,
-          orgId: id,
+          orgTypes:
+            selectOrg.type == OrgTypeEnum.Install
+              ? [OrgTypeEnum.Install, OrgTypeEnum.Operator, OrgTypeEnum.Owner]
+              : [selectOrg.type],
+          orgId: selectOrg?.id as string,
+          parentId: selectOrg.parentId,
         };
       }
     } else {
