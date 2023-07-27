@@ -7,15 +7,29 @@ import { ReactComponent as LoadCSIcon } from './svg/load_cs.svg';
 import { ReactComponent as LoadOtherIcon } from './svg/load_other.svg';
 import styles from './index.less';
 import { keepTwoDecimalWithoutNull } from '../../helper';
-import { SubSystemType, SystemDiagramRes } from '../type';
+import type { SystemDiagramRes } from '../type';
+import { SubSystemType } from '../type';
 import { Col, Row } from 'antd';
-const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes }) => {
-  const { data } = props;
+import { deviceAlarmStatusFormat } from '@/utils/format';
+import type { AlarmTreeData } from './useWatchingAlarmForSystem';
+import { SubsystemType } from './type';
+const SvgComponent = (
+  props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes; alarmData: AlarmTreeData },
+) => {
+  const { data, alarmData } = props;
   const pv = data?.[SubSystemType.PV] ?? {};
   const electricSupply = data?.[SubSystemType.E] ?? {};
   const energyStore = data?.[SubSystemType.ES] ?? {};
   const chargeStack = data?.[SubSystemType.CS] ?? {};
   const load = data?.[SubSystemType.L] ?? {};
+
+  const esAlarmNum = alarmData?.[String(SubsystemType.ES)]?.length;
+  const esAlarmStatus = !!esAlarmNum ? '1' : '0';
+  const pgAlarmNum = alarmData?.[String(SubsystemType.PG)]?.length;
+  const pgAlarmStatus = !!pgAlarmNum ? '1' : '0';
+  const ecAlarmNum = alarmData?.[String(SubsystemType.EC)]?.length;
+  const ecAlarmStatus = !!ecAlarmNum ? '1' : '0';
+
   return (
     <div className={styles.activeWrapper}>
       <div
@@ -64,6 +78,13 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
                 <span className={styles.unit}>%</span>
               </span>
             </div>
+            <div className={styles.desc}>
+              <span className={styles.title}>运行状态：</span>
+              <span className={styles.alarm}>
+                {deviceAlarmStatusFormat(esAlarmStatus)}
+                <span className={styles.number}>{!!esAlarmNum ? esAlarmNum : ''}</span>
+              </span>
+            </div>
           </>
         )}
       </div>
@@ -92,6 +113,13 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
                 当日发电量(kWh)：
               </span>
               <span className={styles.value}>{pv.charge ?? '--'}</span>
+            </div>
+            <div className={styles.desc}>
+              <span className={styles.title}>运行状态：</span>
+              <span className={styles.alarm}>
+                {deviceAlarmStatusFormat(pgAlarmStatus)}
+                <span className={styles.number}>{!!pgAlarmNum ? pgAlarmNum : ''}</span>
+              </span>
             </div>
           </>
         )}
@@ -163,6 +191,14 @@ const SvgComponent = (props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes 
           <span className={styles.title}>用电功率(kW)：</span>
           <span className={styles.value}>
             {keepTwoDecimalWithoutNull((load?.p ?? 0) + (chargeStack?.p ?? 0))}
+          </span>
+        </div>
+
+        <div className={styles.desc}>
+          <span className={styles.title}>运行状态：</span>
+          <span className={styles.alarm}>
+            {deviceAlarmStatusFormat(ecAlarmStatus)}
+            <span className={styles.number}>{!!ecAlarmNum ? ecAlarmNum : ''}</span>
           </span>
         </div>
       </div>
