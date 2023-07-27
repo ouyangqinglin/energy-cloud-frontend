@@ -1,8 +1,17 @@
 .cardGroupWrapper {
   width: 100%;
+  :global {
+    .ant-pro-card-col {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 }
 .statisticCardWrapper {
   height: 112px;
+  margin-right: 10px;
   background: #fff;
   border: 1px solid #e4e7ed;
   border-radius: 4px;

@@ -43,7 +43,9 @@ const EnergyStorage: FC = () => {
     manual: true,
   });
 
-  const { data: statisticsData } = useRequest(getEnergyStorageStatistic);
+  const { data: statisticsData } = useRequest(getEnergyStorageStatistic, {
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+  });
 
   const { data: chargeData, run } = useRequest(
     (type = TimeType.DAY) => getChargeAndDischargePower(type),
@@ -136,6 +138,7 @@ const EnergyStorage: FC = () => {
             unit: 'kWh',
           },
         }}
+        color={['#00E0DB', '#159AFF']}
         title="储能充放电量"
         onDateChange={onDateChange}
         chartData={sortedData(convertToData(chartData))}

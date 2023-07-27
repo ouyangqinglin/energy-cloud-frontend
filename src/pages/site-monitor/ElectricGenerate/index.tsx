@@ -11,6 +11,7 @@ import { useToggle } from 'ahooks';
 import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { ActionType } from '@ant-design/pro-table';
+import styles from './index.less';
 
 const Energy = () => {
   const [siteData, setSiteData] = useState<SiteDataType>();
@@ -64,6 +65,7 @@ const Energy = () => {
         actionRef={actionRef}
         columns={columns}
         options={false}
+        className={styles.tableWrapper}
         toolBarRender={() => []}
         headerTitle={<EnergyStatisticCard data={statisticData} />}
         request={requestList}

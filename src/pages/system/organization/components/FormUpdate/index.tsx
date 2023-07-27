@@ -21,7 +21,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
     onFinishCreate,
     columns,
     request,
-    id,
+    orgId,
     onSuccess,
     ...resetProps
   } = props;
@@ -32,27 +32,29 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
   const onFinish = useCallback(
     (formData) => {
       const run = isCreate ? onFinishCreate : onFinishUpdate;
-      return run({ ...formData, ...{ orgId: id } }, {}).then(({ data }) => {
-        if (data) {
+      console.log({ ...formData, ...{ orgId: orgId } });
+
+      return run({ ...formData, ...{ orgId: orgId } }, {}).then(({ data, code }) => {
+        if (data || code === 200) {
           message.success('保存成功');
           onSuccess?.();
           return true;
         }
       });
     },
-    [id, isCreate, onFinishCreate, onFinishUpdate, onSuccess],
+    [orgId, isCreate, onFinishCreate, onFinishUpdate, onSuccess],
   );
 
   useEffect(() => {
     if (props.visible) {
       form?.resetFields();
-      if (id) {
-        request({ orgId: id }, {}).then(({ data }) => {
+      if (!isCreate && orgId) {
+        request({ orgId: orgId }, {}).then(({ data }) => {
           form?.setFieldsValue(data);
         });
       }
     }
-  }, [props.visible, form, id, request]);
+  }, [props.visible, form, orgId, request, isCreate]);
 
   return (
     <YTModalForm<FormData>

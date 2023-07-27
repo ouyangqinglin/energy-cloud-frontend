@@ -118,6 +118,7 @@ const ChargingStation: FC = () => {
             unit: 'kWh',
           },
         }}
+        color={['#01CFA1']}
         chartData={convertToData(chartData)}
       />
     </div>

@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 type Props = {
   chartData: ChartData;
+  color?: string[];
   chartConfigMap?: Record<
     string,
     {
@@ -28,6 +29,7 @@ const defaultValue = [dayjs().subtract(1, 'w'), dayjs()] as any;
 const StatisticChart: FC<Props> = ({
   chartData: rawChartData,
   title,
+  color = ['#46F9EA'],
   showLegend,
   chartConfigMap,
   onDateChange,
@@ -66,7 +68,7 @@ const StatisticChart: FC<Props> = ({
               marginRatio: 0,
             },
           ]}
-          color="field"
+          color={['field', color]}
           position="date*value"
         />
         <Axis

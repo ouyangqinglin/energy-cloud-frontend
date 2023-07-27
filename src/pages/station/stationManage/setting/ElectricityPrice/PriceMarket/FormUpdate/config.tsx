@@ -192,7 +192,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'sharpPrice',
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -203,7 +203,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'peakPrice',
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -214,7 +214,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'flatPrice',
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -225,7 +225,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'valleyPrice',
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -426,7 +426,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -442,7 +442,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -458,7 +458,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,
@@ -474,7 +474,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: '请输入',
-          addonAfter: '元',
+          addonAfter: '元/kWh',
         },
         colProps: {
           span: 6,

@@ -53,10 +53,8 @@ export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
     title: '当前操作状态',
     dataIndex: 'status',
     valueEnum: new Map<number, ReactNode>([
-      // eslint-disable-next-line react/jsx-key
-      [1, <Badge status="success" text="生效" />],
-      // eslint-disable-next-line react/jsx-key
-      [0, <Badge status="error" text="未生效" />],
+      [1, <Badge status="success" key="success" text="生效" />],
+      [0, <Badge status="error" key="error" text="未生效" />],
     ]),
   },
 ];

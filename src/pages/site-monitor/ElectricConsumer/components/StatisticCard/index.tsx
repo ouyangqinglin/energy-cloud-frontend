@@ -13,6 +13,7 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
         return (
           <StatisticCard
             colSpan={3.5}
+            bodyStyle={{ paddingRight: 0 }}
             className={styles.statisticCardWrapper}
             key={item.title}
             statistic={{

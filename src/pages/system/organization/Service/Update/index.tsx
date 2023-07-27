@@ -21,7 +21,7 @@ export const Update = (props: FormUpdateBaseProps) => {
         point: {
           lng: longitude,
           lat: latitude,
-        } as unknown,
+        } as any,
       };
       set(res.data, 'addressInfo', addressInfo);
 
