@@ -18,6 +18,7 @@ import Label from '@/components/Detail/LineLabel';
 import { controlItems, statusItems } from './config';
 import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
+import Community from '@/components/ScreenDialog/Community';
 
 const Air: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -67,7 +68,15 @@ const Air: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
+        bottom={
+          <DeviceInfo
+            id={id}
+            onChange={onDataChange}
+            buttons={
+              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+            }
+          />
+        }
       >
         <Detail.Group
           data={realTimeData}

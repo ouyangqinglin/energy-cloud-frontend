@@ -13,7 +13,7 @@ import SiteLabel from '@/components/SiteLabel';
 import { ActionType } from '@ant-design/pro-table';
 
 const Energy = () => {
-  const [siteId, setSiteId] = useState<number>();
+  const [siteData, setSiteData] = useState<SiteDataType>();
   const actionRef = useRef<ActionType>();
   const { initialState } = useModel('@@initialState');
   const history = useHistory();
@@ -22,7 +22,7 @@ const Energy = () => {
     ElectricGenerateInfo,
     ElectricGenerateInfo
   >['request'] = async (params) => {
-    return getElectricGenerateUnitList({ ...params, ...{ siteId } });
+    return getElectricGenerateUnitList({ ...params, ...{ siteId: siteData?.id } });
   };
 
   const {
@@ -32,23 +32,22 @@ const Energy = () => {
   } = useRequest(getElectricGenerateUnitStatistic, { manual: true });
 
   const onChange = useCallback((data: SiteDataType) => {
-    if (data?.id) {
-      setSiteId(Number(data.id));
-      actionRef.current?.reloadAndRest?.();
-    }
+    setSiteData(data);
+    actionRef.current?.reloadAndRest?.();
   }, []);
 
   useEffect(() => {
-    if (siteId) {
-      runForStatistic(siteId);
+    if (siteData?.id) {
+      runForStatistic(siteData?.id);
     }
     return () => {
       cancel();
     };
-  }, [cancel, runForStatistic, siteId]);
+  }, [cancel, runForStatistic, siteData]);
 
   useEffect(() => {
     if (
+      siteData?.isLoad &&
       initialState?.menuPathTitleMap &&
       !initialState?.menuPathTitleMap?.get?.('/site-monitor/electric-generate')
     ) {
@@ -56,7 +55,7 @@ const Energy = () => {
         pathname: '/site-monitor/overview',
       });
     }
-  }, [initialState?.menuPathTitleMap]);
+  }, [initialState?.menuPathTitleMap, siteData]);
 
   return (
     <>

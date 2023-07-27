@@ -18,6 +18,7 @@ export type SiteDataType = {
   energyOptions?: string;
   label?: string;
   value?: string;
+  isLoad?: boolean;
 };
 
 export type SiteTypeOptionType = {

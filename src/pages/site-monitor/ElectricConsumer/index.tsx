@@ -22,7 +22,7 @@ export const enum TabType {
 }
 
 const Energy = () => {
-  const [siteId, setSiteId] = useState<number>();
+  const [siteData, setSiteData] = useState<SiteDataType>();
   const { initialState } = useModel('@@initialState');
   const history = useHistory();
 
@@ -47,7 +47,7 @@ const Energy = () => {
   };
 
   const requestList: YTProTableCustomProps<DeviceInfo, DeviceInfo>['request'] = async (params) => {
-    return config.requestList({ ...params, ...{ siteId } });
+    return config.requestList({ ...params, ...{ siteId: siteData?.id } });
   };
 
   const {
@@ -57,23 +57,22 @@ const Energy = () => {
   } = useRequest(getElectricGenerateUnitStatistic, { manual: true });
 
   const onChange = useCallback((data: SiteDataType) => {
-    if (data?.id) {
-      setSiteId(Number(data.id));
-      actionRef.current?.reloadAndRest?.();
-    }
+    setSiteData(data);
+    actionRef.current?.reloadAndRest?.();
   }, []);
 
   useEffect(() => {
-    if (siteId) {
-      runForStatistic(siteId);
+    if (siteData?.id) {
+      runForStatistic(siteData?.id);
     }
     return () => {
       cancel();
     };
-  }, [cancel, runForStatistic, siteId]);
+  }, [cancel, runForStatistic, siteData]);
 
   useEffect(() => {
     if (
+      siteData?.isLoad &&
       initialState?.menuPathTitleMap &&
       !initialState?.menuPathTitleMap?.get?.('/site-monitor/electric-consumer')
     ) {
@@ -81,7 +80,7 @@ const Energy = () => {
         pathname: '/site-monitor/overview',
       });
     }
-  }, [initialState?.menuPathTitleMap]);
+  }, [initialState?.menuPathTitleMap, siteData]);
 
   return (
     <>

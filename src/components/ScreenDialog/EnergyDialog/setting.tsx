@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-07-20 17:42:12
+ * @LastEditTime: 2023-07-26 11:27:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -28,7 +28,7 @@ import type { Moment } from 'moment';
 import { useRequest } from 'umi';
 import { editSetting } from './service';
 import { isEmpty } from '@/utils';
-import { closeFormat, mainContactorFormat } from '@/utils/format';
+import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
 
@@ -139,7 +139,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           break;
         case 'bmsClose':
         case 'bmsBreak':
-          const contactStatus = mainContactorFormat(settingData?.MainContactorStatus);
+          const contactStatus = closeFormat(settingData?.MainContactorStatus);
           content = (
             <span>
               当前BMS主接触器为<span className="cl-primary">{contactStatus}状态</span>

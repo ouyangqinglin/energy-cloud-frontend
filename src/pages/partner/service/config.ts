@@ -5,6 +5,7 @@ import { ServiceInfo } from './type';
 export const columns: ProColumns<ServiceInfo>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 48,
   },

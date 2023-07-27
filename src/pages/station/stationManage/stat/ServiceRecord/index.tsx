@@ -59,6 +59,7 @@ const ServiceRecord: React.FC<ServiceRecordProps> = (props) => {
     return [
       {
         title: '序号',
+        dataIndex: 'index',
         valueType: 'index',
         width: 50,
       },

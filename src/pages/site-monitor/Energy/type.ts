@@ -8,12 +8,12 @@
  */
 
 export type ComProps = {
-  siteId?: number;
+  siteId?: string;
   className?: string;
 };
 
 export type searchType = {
-  siteId: number;
+  siteId: string;
   date?: string;
   type?: number;
 };

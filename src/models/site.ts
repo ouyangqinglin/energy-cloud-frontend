@@ -10,11 +10,13 @@ import { useReducer } from 'react';
 import { SiteDataType } from '@/services/station';
 
 const useSiteModel = () => {
-  const initState = {};
+  const initState = {
+    isLoad: false,
+  };
 
   const reducer = (state: SiteDataType, action: { type: string; payload: SiteDataType }) => {
     if (action.type == 'change') {
-      return action.payload;
+      return { ...action.payload, isLoad: true };
     } else {
       return state;
     }

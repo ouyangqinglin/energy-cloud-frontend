@@ -1,6 +1,11 @@
 // @ts-ignore
 /* eslint-disable */
-import request from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
+
+export type RoleDataType = {
+  roleId?: string;
+  roleName?: string;
+};
 
 export const uploadFile = (formData: any) => {
   return request(`/uc/upload`, {
@@ -28,9 +33,10 @@ export const getMaintenancePeople = (params: any) => {
   });
 };
 
-export const getRoles = () => {
-  return request('/uc/site/detail/customerUser/role/list', {
+export const getRoles = (params: any) => {
+  return request<ResponseCommonData<RoleDataType[]>>('/uc/user/role/list', {
     method: 'GET',
+    params,
   });
 };
 

@@ -27,6 +27,7 @@ import {
   abnormalFormat,
   externalFaultFormat,
   hydrogenFormat,
+  contactorFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
@@ -46,7 +47,7 @@ export const controlItems: DetailItem[] = [
     field: 'ACCircuitBreakerStatus',
     format: closeFormat,
   },
-  { label: '接触器状态', field: 'contactorStatus', format: closeFormat },
+  { label: '接触器状态', field: 'contactorStatus', format: contactorFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },

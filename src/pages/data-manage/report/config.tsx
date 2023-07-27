@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-07-11 16:19:34
+ * @LastEditTime: 2023-07-26 15:26:01
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
 
 import type { ProColumns } from '@ant-design/pro-table';
@@ -18,6 +18,7 @@ import {
 } from '@/utils/dictionary';
 import { getDevicePage } from '@/services/equipment';
 import moment from 'moment';
+import { DatePicker } from 'antd';
 
 const pickerMap = new Map([
   [timeDimensionEnum.Day, { picker: 'date', format: 'YYYY-MM-DD' }],
@@ -66,8 +67,8 @@ export const searchColumns: ProColumns[] = [
           }).then(({ data }) => {
             data?.list?.forEach((item) => {
               options.push({
-                label: item.name,
-                value: item.deviceId,
+                label: item?.name || '',
+                value: item?.deviceId || '',
               });
             });
             return options;
@@ -103,12 +104,9 @@ export const searchColumns: ProColumns[] = [
     dataIndex: 'dimensionTime',
     valueType: 'date',
     dependencies: ['timeDimension'],
-    fieldProps: (form) => {
+    renderFormItem: (_, __, form) => {
       const config = pickerMap.get(form?.getFieldValue?.('timeDimension'));
-      return {
-        picker: config?.picker,
-        format: config?.format,
-      };
+      return <DatePicker picker={config?.picker as any} format={config?.format} />;
     },
     formItemProps: (form) => {
       const time = form?.getFieldValue?.('timeDimension');
@@ -718,6 +716,7 @@ export const energyColumns: ProColumns[] = [
 export const chargeOrderColumns: ProColumns[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
   },
   {

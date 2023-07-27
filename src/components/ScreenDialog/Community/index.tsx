@@ -53,7 +53,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
     <>
       {type ? (
         <Button type="link" onClick={setTrue}>
-          设置通信参数
+          设置
         </Button>
       ) : (
         <></>

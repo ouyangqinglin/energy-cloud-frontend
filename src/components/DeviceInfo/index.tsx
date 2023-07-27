@@ -75,10 +75,10 @@ const DeviceInfo: React.FC<DeviceInfoProps> = (props) => {
       { label: '产品型号', field: 'model' },
       { label: '产品名称', field: 'name' },
       { label: '软件版本号', field: 'a' },
-      { label: '录入时间', field: 'createTime' },
-      { label: '录入人', field: 'updateUserName' },
       { label: '软件包名称', field: 'b' },
+      { label: '录入时间', field: 'createTime' },
       { label: '激活时间', field: 'activeTime' },
+      { label: '录入人', field: 'updateUserName' },
     ];
   }, []);
 

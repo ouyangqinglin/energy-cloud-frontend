@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-07-21 16:15:42
+ * @LastEditTime: 2023-07-26 19:17:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -142,30 +142,17 @@ export const buildStatus = {
 
 export const onlineStatus = {
   2: {
-    text: '没有状态',
+    text: '未配置',
     status: '',
   },
   1: {
     text: '在线',
+    icon: 'green',
     status: 'Processing',
   },
   0: {
     text: '离线',
-    status: 'Error',
-  },
-};
-
-export const emsOnlineStatus = {
-  2: {
-    text: '--',
-    status: '',
-  },
-  1: {
-    text: '在线',
-    status: 'Processing',
-  },
-  0: {
-    text: '离线',
+    icon: 'red',
     status: 'Error',
   },
 };
@@ -229,10 +216,12 @@ export const deviceAlarmStatus = {
   1: {
     text: '告警',
     status: 'Error',
+    icon: 'red',
   },
   0: {
     text: '正常',
     status: 'Success',
+    icon: 'green',
   },
 };
 

@@ -224,7 +224,7 @@ const OperlogTableList: React.FC = () => {
     },
     {
       title: <FormattedMessage id="monitor.Operlog.oper_name" defaultMessage="操作人员" />,
-      dataIndex: 'operName',
+      dataIndex: 'operNickName',
       valueType: 'text',
     },
     {

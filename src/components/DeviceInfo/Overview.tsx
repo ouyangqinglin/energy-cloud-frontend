@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-07-18 19:31:28
+ * @LastEditTime: 2023-07-26 16:08:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -16,6 +16,7 @@ import { onlineStatus, deviceAlarmStatus } from '@/utils/dictionary';
 import styles from './index.less';
 import { Button } from 'antd';
 import Dialog from '@/components/Dialog';
+import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 
 export type OverviewProps = {
   data?: DeviceDataType;
@@ -31,16 +32,19 @@ const Overview: React.FC<OverviewProps> = (props) => {
     {
       label: '通信',
       field: 'status',
-      format: (value) => <ProField text={value} mode="read" valueEnum={onlineStatus} />,
+      format: onlineStatusFormat,
     },
     {
       label: '告警',
       field: 'alarmStatus',
-      format: (value) => (
-        <>
-          <ProField text={value} mode="read" valueEnum={deviceAlarmStatus} /> {data?.alarmCount}
-        </>
-      ),
+      format: (value) => {
+        return (
+          <>
+            {deviceAlarmStatusFormat(value)}
+            {data?.alarmCount}
+          </>
+        );
+      },
     },
     { label: '最近上线时间', field: 'sessionStartTime' },
   ];

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-20 16:26:36
+ * @LastEditTime: 2023-07-26 17:28:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -12,6 +12,7 @@ import { useSize } from 'ahooks';
 import { Skeleton, message } from 'antd';
 import { useSubscribe } from '@/hooks';
 import { getEnergy } from '../service';
+import { getDeviceInfo } from '@/services/equipment';
 import { ComProps, energyType } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
@@ -43,15 +44,9 @@ import {
   chargeFormat,
   powerFormat,
   airWorkFormat,
+  deviceAlarmStatusFormat,
 } from '@/utils/format';
-
-const voltageNumFormat = (value: number): number => {
-  return value % 24;
-};
-
-const tempNumFormat = (value: number): number => {
-  return value % 13;
-};
+import Detail from '@/components/Detail';
 
 const energyPowerFormat = (value: number, data: any) => {
   return (
@@ -216,6 +211,10 @@ const Cabinet: React.FC<ComProps> = (props) => {
     manual: true,
   });
 
+  const { data: deviceInfo, run: runGetDeviceInfo } = useRequest(getDeviceInfo, {
+    manual: true,
+  });
+
   const scaleNum = useMemo(() => {
     const scaleWidth = (bodySize?.width || 964.83) / 964.83;
     const scaleHeight = (bodySize?.height || 728) / 728;
@@ -237,10 +236,18 @@ const Cabinet: React.FC<ComProps> = (props) => {
     [energyData, history],
   );
 
+  const onAlarmClick = useCallback(() => {
+    history.push({
+      pathname: '/alarm/current',
+      search: `?siteId=${siteId}&deviceName=${energyData?.name}`,
+    });
+  }, [siteId, deviceInfo]);
+
   useEffect(() => {
     if (siteId) {
       run({ siteId }).then((data) => {
         setDeviceIds(getDataIds([data]));
+        runGetDeviceInfo({ deviceId: data.id });
       });
     }
   }, [siteId]);
@@ -310,7 +317,13 @@ const Cabinet: React.FC<ComProps> = (props) => {
         </>
       ) : (
         <>
-          <label className={styles.label}>{energyData?.name}</label>
+          <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
+            告警：
+            <span className={styles.alarm} onClick={onAlarmClick}>
+              {deviceAlarmStatusFormat((deviceInfo?.alarmStatus ?? '') as string)}
+              <span className="cursor">{deviceInfo?.alarmCount}</span>
+            </span>
+          </Detail.Label>
           <div ref={divRef} className="tx-center">
             <div
               className={styles.energy}

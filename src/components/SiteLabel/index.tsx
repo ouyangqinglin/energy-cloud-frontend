@@ -22,7 +22,7 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
   const { state: siteData } = useModel('site');
 
   useEffect(() => {
-    if (siteData?.id) {
+    if (siteData?.isLoad) {
       onChange?.(siteData);
     }
   }, [siteData]);

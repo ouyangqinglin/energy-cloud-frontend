@@ -6,6 +6,7 @@ import type { PhotovoltaicElectricityPriceInfo } from './type';
 export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 50,
   },

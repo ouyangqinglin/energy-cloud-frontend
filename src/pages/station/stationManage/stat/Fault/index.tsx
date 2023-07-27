@@ -51,6 +51,7 @@ const Fault: React.FC = () => {
     return [
       {
         title: '序号',
+        dataIndex: 'index',
         valueType: 'index',
         width: 50,
       },

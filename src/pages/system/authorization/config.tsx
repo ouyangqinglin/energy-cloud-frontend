@@ -5,6 +5,7 @@ import type { ListDataType } from './type';
 export const columns: ProColumns<ListDataType>[] = [
   {
     title: '序号',
+    dataIndex: 'index',
     valueType: 'index',
     width: 48,
   },

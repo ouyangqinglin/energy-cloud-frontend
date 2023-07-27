@@ -15,7 +15,7 @@ import { controlItems, protectItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-table';
 import { ProField } from '@ant-design/pro-components';
-import { emsOnlineStatus } from '@/utils/dictionary';
+import { onlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';
 
 export type StackProps = {
@@ -68,7 +68,7 @@ const Stack: React.FC<StackProps> = (props) => {
         ellipsis: true,
         hideInSearch: true,
         render: (_, { connectStatus }) => {
-          return <ProField text={connectStatus} mode="read" valueEnum={emsOnlineStatus} />;
+          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
         },
       },
       {
