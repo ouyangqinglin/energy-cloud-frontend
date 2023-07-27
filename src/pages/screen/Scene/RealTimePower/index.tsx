@@ -125,7 +125,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     <div className={styles.chartWrapper}>
       <Chart
         ref={chartRef}
-        height={249}
+        height={266}
         scale={{
           time: {
             ticks: ticks,

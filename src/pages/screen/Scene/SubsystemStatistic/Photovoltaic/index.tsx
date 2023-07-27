@@ -48,7 +48,7 @@ const Photovoltaic: FC = () => {
         return {
           ts: it.eventTs,
           value: it.doubleVal,
-          field: 'discharge',
+          field: '发电量',
         };
       })) ??
     [];
@@ -99,12 +99,12 @@ const Photovoltaic: FC = () => {
       <StatisticChart
         title="光伏发电量"
         onDateChange={onDateChange}
-        chartConfigMap={{
-          discharge: {
-            name: '发电量',
-            unit: 'kWh',
-          },
-        }}
+        // chartConfigMap={{
+        //   discharge: {
+        //     name: '发电量',
+        //     unit: 'kWh',
+        //   },
+        // }}
         color={['#FFD15C']}
         chartData={sortedData(convertToData(chartData))}
       />

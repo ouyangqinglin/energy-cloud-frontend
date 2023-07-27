@@ -20,6 +20,8 @@ import { useMemo, useState } from 'react';
 import { useWatchingAlarm } from './Alarm/useSubscribe';
 import ButtonGroupCarousel, { SystemDiagramType } from '../components/ButtonGroupCarousel';
 import GeometrySystem from './GeometrySystem';
+import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselInSystemData';
+import AccumulatedPowerChart from './AccumulatedPowerChart';
 
 const Scene = () => {
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
@@ -36,10 +38,13 @@ const Scene = () => {
           onTimeButtonChange={setEnergyTimeType}
         >
           <EnergyData timeType={energyTimeType} />
-          <div className={styles.topBar}>
+          <ButtonGroupCarouselInSystemData>
+            <RealTimePower />
+            <AccumulatedPowerChart />
+          </ButtonGroupCarouselInSystemData>
+          {/* <div className={styles.topBar}>
             <h3 className={styles.chartTitle}>系统实时功率</h3>
-          </div>
-          <RealTimePower />
+          </div> */}
         </DecorationCarousel>
       </Cell>
     ),
