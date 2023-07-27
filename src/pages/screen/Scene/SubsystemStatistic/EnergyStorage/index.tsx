@@ -37,6 +37,17 @@ import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import type { ChartRes } from '../Chart/type';
 import { convertToData, sortedData } from '../Chart/helper';
 
+const chartConfigMap = {
+  charge: {
+    name: '充电量',
+    unit: 'kWh',
+  },
+  discharge: {
+    name: '放电量',
+    unit: 'kWh',
+  },
+};
+
 const EnergyStorage: FC = () => {
   const { data: rawChartData, run: runForChart } = useRequest(getEnergyStorageChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -77,7 +88,7 @@ const EnergyStorage: FC = () => {
         chartData.push({
           ts: it.eventTs,
           value: it.doubleVal,
-          field: key,
+          field: chartConfigMap[key]?.name,
         });
       });
     });
@@ -128,17 +139,17 @@ const EnergyStorage: FC = () => {
       </div>
       <StatisticChart
         showLegend={true}
-        chartConfigMap={{
-          charge: {
-            name: '充电量',
-            unit: 'kWh',
-          },
-          discharge: {
-            name: '充电量',
-            unit: 'kWh',
-          },
-        }}
-        color={['#00E0DB', '#159AFF']}
+        // chartConfigMap={{
+        //   charge: {
+        //     name: '充电量',
+        //     unit: 'kWh',
+        //   },
+        //   discharge: {
+        //     name: '放电量',
+        //     unit: 'kWh',
+        //   },
+        // }}
+        color={['#159AFF', '#00E0DB']}
         title="储能充放电量"
         onDateChange={onDateChange}
         chartData={sortedData(convertToData(chartData))}

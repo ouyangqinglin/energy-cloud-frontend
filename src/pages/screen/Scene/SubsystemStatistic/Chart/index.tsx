@@ -1,6 +1,6 @@
-import { Axis, Chart, Legend, Tooltip, Interval } from 'bizcharts';
+import { Axis, Chart, Legend, Tooltip, Interval, Interaction } from 'bizcharts';
 import type { Moment } from 'moment';
-import { FC, memo } from 'react';
+import type { FC } from 'react';
 import { useEffect } from 'react';
 import type { ChartData } from './type';
 import styles from './index.less';
@@ -8,8 +8,11 @@ import { DatePicker } from 'antd';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
+import type { LegendCfg } from 'bizcharts/lib/interface';
+import useToolTip from '@/hooks/useTooltip';
 type Props = {
   chartData: ChartData;
+  legendLayout?: LegendCfg['layout'];
   color?: string[];
   chartConfigMap?: Record<
     string,
@@ -18,8 +21,11 @@ type Props = {
       unit: string;
     }
   >;
+  showDatePicker?: boolean;
   showLegend?: boolean;
   title?: string;
+  height?: number;
+  barSize?: number;
   onDateChange?: RangePickerSharedProps<Moment>['onChange'];
 };
 
@@ -30,10 +36,23 @@ const StatisticChart: FC<Props> = ({
   chartData: rawChartData,
   title,
   color = ['#46F9EA'],
+  barSize = 8,
   showLegend,
+  legendLayout = 'horizontal',
   chartConfigMap,
+  height = 200,
+  showDatePicker = true,
   onDateChange,
 }) => {
+  // const [chartRef, { run, clear }] = useToolTip();
+
+  // useEffect(() => {
+  //   run();
+  //   return () => {
+  //     clear();
+  //   };
+  // }, []);
+
   useEffect(() => {
     if (onDateChange) {
       onDateChange(defaultValue, [dateFormat, dateFormat]);
@@ -47,21 +66,23 @@ const StatisticChart: FC<Props> = ({
 
   return (
     <div className={styles.chartWrapper}>
-      <div className={styles.topBar}>
-        <h3 className={styles.chartTitle}>{title}</h3>
-        <DatePicker.RangePicker
-          defaultValue={defaultValue}
-          format={dateFormat}
-          popupClassName={styles.rangePickerPanel}
-          size={'small'}
-          onChange={onDateChange}
-          className={styles.rangePicker}
-        />
-      </div>
+      {showDatePicker && (
+        <div className={styles.topBar}>
+          <h3 className={styles.chartTitle}>{title}</h3>
+          <DatePicker.RangePicker
+            defaultValue={defaultValue}
+            format={dateFormat}
+            popupClassName={styles.rangePickerPanel}
+            size={'small'}
+            onChange={onDateChange}
+            className={styles.rangePicker}
+          />
+        </div>
+      )}
       <div className={styles.axisTitle}>单位(kW·h)</div>
-      <Chart height={180} data={chartData} autoFit>
+      <Chart height={height} data={chartData} ref={chartRef} autoFit>
         <Interval
-          size={8}
+          size={barSize}
           adjust={[
             {
               type: 'dodge',
@@ -71,6 +92,8 @@ const StatisticChart: FC<Props> = ({
           color={['field', color]}
           position="date*value"
         />
+        <Tooltip shared />
+        <Interaction type="active-region" />
         <Axis
           name="value"
           label={{
@@ -109,47 +132,33 @@ const StatisticChart: FC<Props> = ({
           }}
           tickLine={null}
         />
-        {chartConfigMap && (
-          <Tooltip showCrosshairs>
-            {(t, items: any) => {
-              return (
-                <>
-                  <div style={{ paddingTop: 10 }}>{t}</div>
-                  {items.map((it: any, idx: number) => {
-                    const name = chartConfigMap[it.data.field]?.name;
-                    const unit = chartConfigMap[it.data.field]?.unit;
-                    return (
-                      <div key={name}>
-                        <div style={{ paddingTop: 10 }} key={idx}>
-                          {name}: {it.value + ' ' + unit}
-                        </div>
-                        <br />
-                      </div>
-                    );
-                  })}
-                </>
-              );
-            }}
-          </Tooltip>
-        )}
-        {chartConfigMap && (
-          <Legend
-            itemName={{
-              spacing: 5,
-              style: {
-                fill: '#6C8097',
-              },
-              formatter: (text) => {
-                return chartConfigMap[text]?.name ?? '';
-              },
-            }}
-            visible={!!showLegend}
-            offsetX={0}
-            offsetY={0}
-            itemSpacing={5}
-            position="top-right"
-          />
-        )}
+        <Tooltip
+          domStyles={{
+            'g2-tooltip': {
+              border: '1px solid rgba(21, 154, 255, 0.8)',
+              backgroundColor: 'rgba(9,12,21,0.8)',
+              'box-shadow': '0 0 6px 0 rgba(21,154,255,0.7)',
+              boxShadow: 'none',
+              color: 'white',
+              opacity: 1,
+            },
+          }}
+        />
+        <Legend
+          flipPage={false}
+          position="top-right"
+          layout={legendLayout}
+          itemName={{
+            spacing: 5,
+            style: {
+              fill: '#6C8097',
+            },
+          }}
+          visible={!!showLegend}
+          offsetX={0}
+          offsetY={0}
+          itemSpacing={5}
+        />
       </Chart>
     </div>
   );

@@ -2,12 +2,12 @@ import dayjs from 'dayjs';
 import { isEmpty, isNumber, sortBy } from 'lodash';
 import type { ChartData, ChartRes } from './type';
 
-export const convertToData = (arr: ChartRes) => {
+export const convertToData = (arr: ChartRes, dateFormat = 'MM-DD') => {
   if (isEmpty(arr)) {
     return [];
   }
   return arr.map((item) => {
-    const date = dayjs(item.ts).format('MM-DD');
+    const date = dayjs(item.ts).format(dateFormat);
     const value = Math.floor(item.value * 100) / 100;
 
     return {

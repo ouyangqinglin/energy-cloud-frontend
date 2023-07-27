@@ -16,6 +16,13 @@ import type { ChartRes } from '../Chart/type';
 import { convertToData } from '../Chart/helper';
 import type { Moment } from 'moment';
 
+const chartConfigMap = {
+  discharge: {
+    name: '发电量',
+    unit: 'kWh',
+  },
+};
+
 const ChargingStation: FC = () => {
   const { data: powerData } = useRequest(getChartStationPowerAndGunStatus);
 
@@ -43,7 +50,7 @@ const ChargingStation: FC = () => {
         return {
           ts: it.key,
           value: it.value,
-          field: 'discharge',
+          field: '发电量',
         };
       })) ??
     [];
@@ -112,12 +119,12 @@ const ChargingStation: FC = () => {
       <StatisticChart
         title="充电桩充电量"
         onDateChange={onDateChange}
-        chartConfigMap={{
-          discharge: {
-            name: '发电量',
-            unit: 'kWh',
-          },
-        }}
+        // chartConfigMap={{
+        //   discharge: {
+        //     name: '发电量',
+        //     unit: 'kWh',
+        //   },
+        // }}
         color={['#01CFA1']}
         chartData={convertToData(chartData)}
       />
