@@ -1,16 +1,25 @@
 import moment from 'moment';
-import { TimeType } from '../../components/TimeButtonGroup';
+import type { TimeType } from '../../components/TimeButtonGroup';
+import type { ChartConfigType, ChartItemType, ChartType, DataType, Flag } from '../type';
+import { TimeFormat } from './config';
 
-type DataType = {
-  time: string;
-  value: number | undefined;
-  field: string;
+export const makeDataVisibleAccordingFlag = (config: ChartConfigType[], flags: Flag[]) => {
+  const configForVisible = config.map((item) => {
+    const shouldIShow = flags.some(({ code, flag: show }) => {
+      if (item.flag === code) {
+        return show;
+      }
+      return false;
+    });
+    item.show = false;
+    if (shouldIShow) {
+      item.show = true;
+    }
+    return item;
+  });
+  return configForVisible;
 };
 
-type ChartDataType = {
-  eventTs: string;
-  doubleVal: number;
-};
 const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
   return moment()
     .startOf('day')
@@ -18,15 +27,7 @@ const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
     .format('HH:mm');
 });
 
-export const lineLegendMap = new Map([
-  ['me', '市电'],
-  ['pv', '光伏'],
-  ['es', '储能'],
-  ['cs', '充电桩'],
-  ['load', '其他负载'],
-]);
-
-const getChartData = (data: ChartDataType[], field: string): DataType[] => {
+const getChartData = (data: ChartItemType[], field: string): DataType[] => {
   const valueMap = new Map(
     data.map((item) => {
       return [moment(item?.eventTs).format('HH:mm'), item?.doubleVal];
@@ -46,49 +47,36 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
   return result;
 };
 
-export const getLineChartData = (
-  rawSourceData: Record<string, ChartDataType[]>,
-  showLineRange: string[],
-) => {
+export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartConfigType[]) => {
   const result: DataType[] = [];
-  lineLegendMap.forEach((item, key) => {
-    if (!showLineRange.includes(key)) {
+  fieldConfig.forEach(({ show, field, name }) => {
+    if (!show) {
       return;
     }
-    const formatValues = getChartData(rawSourceData?.[key] || [], item);
+    const formatValues = getChartData(rawSourceData?.[field] || [], name);
     result.push(...formatValues);
   });
   return result;
 };
 
-export const barLegendMap = new Map([
-  ['charge', '充电量'],
-  ['discharge', '放电量'],
-  ['selfUse', '自发自用电量'],
-  ['pvPowerGeneration', '光伏发电量'],
-]);
-
-export const TimeFormat = new Map([
-  [TimeType.MONTH, 'YYYY-MM-DD'],
-  [TimeType.YEAR, 'YYYY-MM'],
-  [TimeType.TOTAL, 'YYYY'],
-]);
-
 export const getBarChartData = (
-  rawSourceData: Record<string, ChartDataType[]>,
+  rawSourceData: ChartType,
+  fieldConfig: ChartConfigType[],
   timeType: TimeType,
 ) => {
   const result: DataType[] = [];
-  barLegendMap.forEach((field, key) => {
+  fieldConfig.forEach(({ field, show, name }) => {
+    if (!show) {
+      return;
+    }
     const transformData =
-      rawSourceData?.[key]?.map(({ eventTs, doubleVal }) => {
+      rawSourceData?.[field]?.map(({ eventTs, doubleVal }) => {
         return {
           time: moment(eventTs).format(TimeFormat.get(timeType)),
           value: doubleVal,
-          field,
+          field: name,
         };
       }) ?? [];
-    console.log(rawSourceData, transformData);
     result.push(...transformData);
   });
   return result;

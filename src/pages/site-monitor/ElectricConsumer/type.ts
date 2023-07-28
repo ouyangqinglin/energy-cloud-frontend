@@ -24,6 +24,10 @@ export interface DeviceInfo {
   model: string;
   siteName: string;
   childDeviceList: DeviceInfo[];
+  //当日用电量
+  dailyElectricityConsumption: number;
+  //累计用电量
+  accumulatedElectricityConsumption: number;
 }
 
 export interface ElectricGenerateStatistic {

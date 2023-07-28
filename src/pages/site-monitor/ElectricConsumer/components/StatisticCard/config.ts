@@ -28,7 +28,7 @@ export const config: EnergyStatisticInfo[] = [
     unit: '台',
   },
   {
-    title: '充电桩当日充电(kWh)',
+    title: '充电桩当日充电量(kWh)',
     icon: icon_未发电,
     field: 'chargingPile.todayCharge',
     unit: '台',

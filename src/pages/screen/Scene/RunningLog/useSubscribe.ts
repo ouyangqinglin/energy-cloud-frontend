@@ -12,7 +12,7 @@ export default () => {
     if (MessageEventType.DEVICE_LOG === res?.type) {
       const { data: msgData } = res;
       try {
-        setData((prevData) => [...prevData, ...msgData]);
+        setData((prevData) => [...msgData, ...prevData]);
       } catch (e) {}
     }
   }, []);
