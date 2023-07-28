@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-27 15:48:44
+ * @LastEditTime: 2023-07-28 15:23:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -156,6 +156,10 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           myFormRef?.current?.setFieldsValue?.(requestData);
         });
       } else if (initialValues) {
+        myFormRef?.current?.setFieldsValue?.(initialValues as any);
+      }
+    } else {
+      if (layoutType === 'QueryFilter' && initialValues) {
         myFormRef?.current?.setFieldsValue?.(initialValues as any);
       }
     }
