@@ -1,10 +1,10 @@
-import type { ProColumns } from '@ant-design/pro-table';
 import { Button, Modal } from 'antd';
 import type { ParamsType } from '@ant-design/pro-provider';
 import { isFunction, isEmpty } from 'lodash';
 import type { ReactNode } from 'react';
 import type { YTProTableCustomProps } from './typing';
 import styles from './index.less';
+import type { ProColumns } from '@ant-design/pro-components';
 
 const operationsMap = new Map([
   [
@@ -64,6 +64,7 @@ export default function genDefaultOperation<
   const {
     columnsProp = {},
     modalDeleteText,
+    renderInterceptor,
     onEditChange,
     onDetailChange,
     onDeleteChange,
@@ -88,6 +89,12 @@ export default function genDefaultOperation<
       const renderButtonGroup: ReactNode[] = [];
       if (render) {
         renderButtonGroup.push(render(...renderProp));
+      }
+      if (isFunction(renderInterceptor)) {
+        const showIContinue = renderInterceptor(renderProp[1]);
+        if (!showIContinue) {
+          return <></>;
+        }
       }
       ['onEnterChange', 'onDetailChange', 'onEditChange', 'onDeleteChange'].forEach((buttonKey) => {
         const fn = option[buttonKey];
