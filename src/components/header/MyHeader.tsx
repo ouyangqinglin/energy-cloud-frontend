@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 14:44:32
- * @LastEditTime: 2023-07-25 12:39:59
+ * @LastEditTime: 2023-07-28 17:45:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
@@ -52,7 +52,7 @@ const MyHeader: React.FC = () => {
         />
         <Breadcrumb />
         {/* 站点删除等变更需要从新刷新组件 todo*/}
-        <SiteSwitch className={`${styles.site} mx24`} style={siteStyles} size="small" />
+        <SiteSwitch className={`${styles.site} mx24`} style={siteStyles} />
         <RightContent />
       </div>
       <Drawer

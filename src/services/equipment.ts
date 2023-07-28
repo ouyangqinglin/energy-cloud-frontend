@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-07-20 16:12:11
+ * @LastEditTime: 2023-07-28 16:41:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
@@ -155,6 +155,13 @@ export const getClusterByStack = (params: any) => {
 
 export const getEmsAssociationDevice = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/oss/site/monitor/device/getDescendants', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getEnergeListBySite = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/oss/site/monitor/energyStorage/esList', {
     method: 'GET',
     params,
   });

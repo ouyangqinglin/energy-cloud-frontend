@@ -1,4 +1,4 @@
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
@@ -17,6 +17,7 @@ import {
   exportDictType,
 } from './service';
 import UpdateForm from './components/edit';
+import YTProTable from '@/components/YTProTable';
 
 /* *
  *
@@ -35,7 +36,7 @@ const handleAdd = async (fields: DictTypeType) => {
   try {
     const resp = await addDictType({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -58,7 +59,7 @@ const handleUpdate = async (fields: DictTypeType) => {
   try {
     const resp = await updateDictType(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -82,7 +83,7 @@ const handleRemove = async (selectedRows: DictTypeType[]) => {
   try {
     const resp = await removeDictType(selectedRows.map((row) => row.dictId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -102,7 +103,7 @@ const handleRemoveOne = async (selectedRow: DictTypeType) => {
     const params = [selectedRow.dictId];
     const resp = await removeDictType(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -144,7 +145,7 @@ const DictTypeTableList: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<DictTypeType[]>([]);
 
   const [statusOptions, setStatusOptions] = useState<any>([]);
-  
+
   const access = useAccess();
 
   /** 国际化配置 */
@@ -252,7 +253,7 @@ const DictTypeTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<DictTypeType>
+        <YTProTable<DictTypeType>
           headerTitle={intl.formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
@@ -261,9 +262,6 @@ const DictTypeTableList: React.FC = () => {
           formRef={formTableRef}
           rowKey="dictId"
           key="dictTypeList"
-          search={{
-            labelWidth: 120,
-          }}
           toolBarRender={() => [
             <Button
               type="primary"
@@ -299,18 +297,20 @@ const DictTypeTableList: React.FC = () => {
                 handleExport();
               }}
             >
-              <PlusOutlined />
+              <ExportOutlined />
               <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
             </Button>,
           ]}
           request={(params) =>
             getDictTypeList({ ...params } as DictTypeListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
+              return {
+                code: '200',
+                data: {
+                  list: res.rows,
+                  total: res.total,
+                },
+                msg: '',
               };
-              return result;
             })
           }
           columns={columns}

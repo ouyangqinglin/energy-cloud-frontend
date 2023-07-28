@@ -3,7 +3,7 @@
   align-items: center;
   height: 56px;
   padding: 0 12px;
-  color: white;
+  color: #adb0b8;
   background: #252e3d;
   .menu {
     width: 20px;
@@ -19,7 +19,26 @@
   :global {
     .ant-form-item-label label,
     .ant-form-item-control-input-content {
-      color: white;
+      color: #adb0b8;
+    }
+    .ant-select-selector {
+      color: #adb0b8;
+      background-color: #3a424f !important;
+      border: none !important;
+    }
+    .ant-select-arrow {
+      color: #adb0b8;
+      &:hover {
+        color: white;
+      }
+    }
+    .ant-select:hover {
+      .ant-select-selector {
+        color: white;
+      }
+      .ant-select-arrow {
+        color: white;
+      }
     }
   }
 }

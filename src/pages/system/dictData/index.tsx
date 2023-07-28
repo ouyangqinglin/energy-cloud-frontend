@@ -1,4 +1,4 @@
-import { PlusOutlined, DeleteOutlined, RollbackOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, RollbackOutlined, ExportOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
@@ -17,6 +17,7 @@ import {
 } from './service';
 import UpdateForm from './components/edit';
 import { getDict, getDictType, getDictTypeList } from '../dict/service';
+import YTProTable from '@/components/YTProTable';
 
 /* *
  *
@@ -35,7 +36,7 @@ const handleAdd = async (fields: DictDataType) => {
   try {
     const resp = await addDictData({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -58,7 +59,7 @@ const handleUpdate = async (fields: DictDataType) => {
   try {
     const resp = await updateDictData(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -82,7 +83,7 @@ const handleRemove = async (selectedRows: DictDataType[]) => {
   try {
     const resp = await removeDictData(selectedRows.map((row) => row.dictCode).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -102,7 +103,7 @@ const handleRemoveOne = async (selectedRow: DictDataType) => {
     const params = [selectedRow.dictCode];
     const resp = await removeDictData(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -120,10 +121,10 @@ export type DictTypeArgs = {
 };
 
 export type DictDataProps = {
- match?: {
-   params: any
- }
-} ;
+  match?: {
+    params: any;
+  };
+};
 
 const DictDataTableList: React.FC<DictDataProps> = (props) => {
   const formTableRef = useRef<FormInstance>();
@@ -140,7 +141,7 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
 
   const [dictTypeOptions, setDictTypeOptions] = useState<any>([]);
   const [statusOptions, setStatusOptions] = useState<any>([]);
-  
+
   const access = useAccess();
 
   /** 国际化配置 */
@@ -185,7 +186,6 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
     }
   }, [dictId, dictType, props.match?.params]);
 
-    
   /**
    * 导出数据
    *
@@ -194,9 +194,9 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
   const handleExport = async () => {
     const hide = message.loading('正在导出');
     try {
-      await exportDictData({dictType});
+      await exportDictData({ dictType });
       hide();
-      message.success('导出成功');    
+      message.success('导出成功');
       return true;
     } catch (error) {
       hide();
@@ -304,7 +304,7 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<DictDataType>
+        <YTProTable<DictDataType>
           headerTitle={intl.formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
@@ -313,9 +313,6 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
           formRef={formTableRef}
           rowKey="dictCode"
           key="dictDataList"
-          search={{
-            labelWidth: 120,
-          }}
           toolBarRender={() => [
             <Button
               type="primary"
@@ -351,7 +348,7 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
                 handleExport();
               }}
             >
-              <PlusOutlined />
+              <ExportOutlined />
               <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
             </Button>,
             <Button
@@ -368,16 +365,22 @@ const DictDataTableList: React.FC<DictDataProps> = (props) => {
           request={async (params) => {
             if (dictType.length === 0) {
               return {
-                data: [],
-                total: 0,
-                success: true,
+                code: '200',
+                data: {
+                  list: [],
+                  total: 0,
+                },
+                msg: '',
               };
             }
             const res = await getDictDataList({ dictType, ...params } as DictDataListParams);
             return {
-              data: res.rows,
-              total: res.total,
-              success: true,
+              code: '200',
+              data: {
+                list: res.rows,
+                total: res.total,
+              },
+              msg: '',
             };
           }}
           columns={columns}

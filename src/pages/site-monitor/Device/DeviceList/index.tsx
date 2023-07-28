@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-17 19:01:12
+ * @LastEditTime: 2023-07-28 17:15:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -117,21 +117,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           classType: Number(realKey),
         });
         const tableColumns = TabColumnsMap?.get(Number(realKey)) || [];
-        setColumns([
-          ...getOtColumns(onDetailClick),
-          ...tableColumns,
-          ...(passAuthority
-            ? [
-                {
-                  title: '操作',
-                  valueType: 'option',
-                  width: 150,
-                  fixed: 'right',
-                  render: rowBar,
-                },
-              ]
-            : []),
-        ]);
+        setColumns([...getOtColumns(onDetailClick), ...tableColumns]);
       }
       actionRef.current?.reloadAndRest?.();
     },
@@ -176,11 +162,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       <YTProTable
         actionRef={actionRef}
         columns={columns}
-        toolBarRender={() => [
-          <Button type="primary" key="add" onClick={onAddClick}>
-            新建
-          </Button>,
-        ]}
+        toolBarRender={() => [<></>]}
         request={handleRequest}
       />
       <EquipForm

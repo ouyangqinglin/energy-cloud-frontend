@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-18 16:00:22
+ * @LastEditTime: 2023-07-28 17:26:46
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\Run\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Ems\Run\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest, useHistory } from 'umi';
 import Label from '@/components/Detail/LineLabel';
-import Detail, { DetailItem, GroupItem } from '@/components/Detail';
+import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { controlItems, protectItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
@@ -114,30 +114,24 @@ const Stack: React.FC<StackProps> = (props) => {
     />
   );
 
-  const detailGroup = useMemo<GroupItem[]>(() => {
-    return [
-      {
-        label: <Detail.Label title="控制信息" />,
-        items: controlItems,
-      },
-      {
-        label: <Detail.Label title="保护信息" />,
-        items: protectItems,
-      },
-    ];
-  }, []);
-
   return (
     <>
-      <Detail.Group
+      <Detail.Label title="控制信息" className="mt16" />
+      <Detail
         data={realTimeData}
-        items={detailGroup}
-        detailProps={{
-          extral,
-          colon: false,
-          labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
-        }}
+        items={controlItems}
+        extral={extral}
+        colon={false}
+        labelStyle={{ width: 140 }}
+        valueStyle={{ width: '40%' }}
+      />
+      <Detail.Label title="保护信息" className="mt16" />
+      <Detail
+        data={realTimeData}
+        items={protectItems}
+        colon={false}
+        labelStyle={{ width: 140 }}
+        valueStyle={{ width: '40%' }}
       />
       <Label title="接入设备列表" className="mt16" />
       <YTProTable<DeviceDataType>

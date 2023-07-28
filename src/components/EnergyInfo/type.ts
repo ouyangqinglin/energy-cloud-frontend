@@ -7,13 +7,16 @@
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\type.ts
  */
 
+import { DeviceDataType } from '@/services/equipment';
+
 export type ComProps = {
-  siteId?: string;
+  deviceData?: DeviceDataType;
   className?: string;
+  loading?: boolean;
 };
 
 export type searchType = {
-  siteId: string;
+  deviceId: string;
   date?: string;
   type?: number;
 };
