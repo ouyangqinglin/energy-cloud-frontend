@@ -28,6 +28,25 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
         text: '新建',
       },
     },
+    option: {
+      onDeleteChange(_, entity) {
+        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
+          if (data) {
+            message.success('删除成功');
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+      onEditChange(_, entity) {
+        setInitialValues({ ...entity });
+        setOperations(FormOperations.UPDATE);
+        set(true);
+      },
+      renderInterceptor(entity) {
+        return entity.parentId !== 0;
+      },
+      modalDeleteText: '您确认要删除该管理员吗？删除之后无法恢复！',
+    },
   };
   const visibleUpdated = operations !== FormOperations.READ;
 
@@ -52,6 +71,9 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="orgId"
+        expandable={{
+          defaultExpandAllRows: true,
+        }}
         {...props}
       />
       <Update
@@ -60,7 +82,7 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
           visible: visibleUpdated && state,
           onVisibleChange: set,
           onSuccess: onSuccess,
-          id: initialValues?.orgId,
+          orgId: initialValues?.orgId,
         }}
       />
     </>

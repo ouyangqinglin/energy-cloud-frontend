@@ -70,7 +70,7 @@ const Owner = () => {
           visible: visibleUpdated && state,
           onVisibleChange: set,
           onSuccess: onSuccess,
-          id: initialValues?.orgId,
+          orgId: initialValues?.orgId,
         }}
       />
     </>
