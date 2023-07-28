@@ -105,7 +105,7 @@ const Energy = () => {
                   children: [],
                 },
                 {
-                  label: `其他设备`,
+                  label: `其他负载`,
                   key: TabType.OTHER_DEVICE,
                   children: [],
                 },

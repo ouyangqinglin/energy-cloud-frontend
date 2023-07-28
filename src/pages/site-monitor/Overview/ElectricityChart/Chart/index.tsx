@@ -1,14 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip, Slider, Interval } from 'bizcharts';
+import {
+  Axis,
+  Chart,
+  LineAdvance,
+  Legend,
+  Tooltip,
+  Slider,
+  Interval,
+  Interaction,
+} from 'bizcharts';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { getData } from '../service';
 import { useToolTip } from '@/hooks';
 import { TimeType } from '../../components/TimeButtonGroup';
-import { getBarChartData, getLineChartData } from './helper';
-import { FlagType } from '../type';
+import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
+import type { DataType } from '../type';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
+import { barFieldMap, lineFieldMap } from './config';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -16,19 +26,11 @@ type RealTimePowerProps = {
   timeType: TimeType;
 };
 
-const keyToFlag = new Map([
-  [FlagType.PHOTOVOTAIC_TYPE, 'pv'],
-  [FlagType.CHARGING_TYPE, 'cs'],
-  [FlagType.ES_TYPE, 'es'],
-  [FlagType.ELECTRIC_SUPPLY_TYPE, 'me'],
-  [FlagType.LOAD_TYPE, 'load'],
-]);
-
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { date, siteId, timeType } = props;
 
   const [chartData, setChartData] = useState<DataType[]>();
-  const [ticks, setTicks] = useState<string[]>();
+  // const [ticks, setTicks] = useState<string[]>();
   const [chartRef, { clear, run: runForTooltip }] = useToolTip();
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
@@ -37,17 +39,17 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const shouldShowLine = timeType === TimeType.DAY;
 
   useEffect(() => {
-    if (shouldShowLine) {
-      const lineKeysRange =
-        powerData?.flag
-          ?.filter(({ flag }) => {
-            return !!flag;
-          })
-          ?.map(({ code }) => keyToFlag.get(code)) ?? [];
-      setChartData(getLineChartData(powerData, lineKeysRange));
+    if (!powerData) {
       return;
     }
-    setChartData(getBarChartData(powerData, timeType));
+    if (shouldShowLine) {
+      const fieldConfig = makeDataVisibleAccordingFlag([...lineFieldMap], powerData.flag);
+      setChartData(getLineChartData(powerData, fieldConfig));
+      return;
+    }
+    const fieldConfig = makeDataVisibleAccordingFlag([...barFieldMap], powerData.flag);
+    const convertData = getBarChartData(powerData, fieldConfig, timeType);
+    setChartData(convertData);
   }, [powerData, shouldShowLine, timeType]);
 
   useEffect(() => {
@@ -62,43 +64,18 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   return (
     <div onMouseEnter={clear} onMouseOut={runForTooltip}>
-      {/* <div className={styles.axisTitle}>单位(kW·h)</div> */}
       <Chart
         ref={chartRef}
-        height={340}
+        height={!chartData?.length ? 320 : 340}
         // bugfix: ticks的设置会导致slider出现白屏（看来像是放大到没有tick定义的时候会出现这个问题）
-        scale={{
-          value: {
-            // min: shouldShowLine ? -100 : 0,
-            // max: shouldShowLine ? 100 : 0,
-          },
-        }}
+        scale={{}}
         data={chartData}
         autoFit
       >
-        <Tooltip
-          showCrosshairs={true}
-          domStyles={{
-            'g2-tooltip': {
-              backgroundColor: 'rgba(9,12,21,0.8)',
-              boxShadow: 'none',
-              color: 'white',
-              opacity: 1,
-            },
-          }}
-        />
-        {/* <Annotation.Text
-          position={['min', 'max']}
-          content="单位(KW)"
-          offsetX={-25}
-          offsetY={0}
-          style={{
-            textAlign: 'left',
-            fontSize: 12,
-            fill: '#909399',
-          }}
-        /> */}
+        <Tooltip shared />
+        <Interaction type="active-region" />
         <Legend
+          visible={!!chartData?.length}
           position="top"
           marker={{
             symbol: shouldShowLine ? 'circle' : 'square',
