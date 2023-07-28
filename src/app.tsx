@@ -13,6 +13,7 @@ import Logo from '@/components/header/Logo';
 import styles from './app.less';
 import configSetting from '../config/defaultSettings';
 import { SiteDataType } from './services/station';
+import { defaultSystemInfo } from '@/utils/config';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -64,7 +65,10 @@ export async function getInitialState(): Promise<initialStateType> {
         return {
           ...resp.user,
           permissions: resp.permissions,
-          systemInfo: resp?.systemInfo,
+          systemInfo: {
+            ...defaultSystemInfo,
+            ...resp?.systemInfo,
+          },
         } as API.CurrentUser;
       }
     } catch (error) {
@@ -98,9 +102,7 @@ export async function getInitialState(): Promise<initialStateType> {
       settings: defaultSettings,
       collapsed,
       currentUser: {
-        systemInfo: {
-          title: '新能源OSS云平台',
-        },
+        systemInfo: defaultSystemInfo,
       },
     };
   }
