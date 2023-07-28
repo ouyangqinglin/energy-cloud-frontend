@@ -21,6 +21,6 @@ import { requestEmptyPage } from '@/services';
 // };
 
 export const getRemoteUpgradeList = (params: any) => {
-  requestEmptyPage();
+  return requestEmptyPage();
   return get<RemoteUpgradeDataRes>(`/oss/remote-upgrade/list`, params);
 };
