@@ -71,6 +71,9 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
             lineHeight: '36px',
             fontSize: '14px',
           }}
+          valueStyle={{
+            display: 'flex',
+          }}
         />
         <List
           grid={{

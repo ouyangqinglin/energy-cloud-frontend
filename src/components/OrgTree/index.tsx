@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-25 19:21:57
+ * @LastEditTime: 2023-07-27 14:33:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
@@ -34,18 +34,25 @@ export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
   afterRequest?: (data: any) => void;
 };
 
-const dealData = (data: any, parentId = '') => {
+const dealData = (data: any, siteParentItem?: any, parentItem?: any) => {
   data?.map?.((item: any) => {
     item.icon = orgIconMap.get(item.type) || YTCompanyOutlined;
-    if (parentId) {
-      item.id = `${item.id}-${parentId}`;
+    if (siteParentItem) {
+      item.siteId = item.id;
+      item.siteName = item.name;
+      item.id = `${item.id}-${siteParentItem.id}`;
       item.label = item.name;
+      item.type = siteParentItem.type;
+      item.parentId = siteParentItem.id;
+    }
+    if (parentItem) {
+      item.parentId = parentItem.id;
     }
     if (item?.sites && item?.sites?.length) {
-      dealData(item.sites, item.id);
+      dealData(item.sites, item);
       item.children = item.sites;
     } else if (item?.children && item?.children?.length) {
-      dealData(item.children);
+      dealData(item.children, undefined, item);
     }
   });
 };

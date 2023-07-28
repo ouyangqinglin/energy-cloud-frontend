@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-07-26 19:53:11
+ * @LastEditTime: 2023-07-27 15:49:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { getTableColumns, getFormColumns, AccountDataType } from './config';
 import { ProConfigProvider } from '@ant-design/pro-components';
@@ -17,6 +17,10 @@ import { getPage, getData, addData, editData, deleteData } from './service';
 import { message } from 'antd';
 import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
+import { OrgTypeEnum } from '@/components/OrgTree/type';
+import { api } from '@/services';
+import { OptionType } from '@/utils/dictionary';
+import { arrayToMap } from '@/utils';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -27,18 +31,35 @@ const Account: React.FC<AccountProps> = (props) => {
 
   const actionRef = useRef<ActionType>();
   const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
+  const [systemRoleOptions, setSystemRoleOptions] = useState<OptionType[]>([]);
+  const [partnerRoleOptions, setPartnerRoleOptions] = useState<OptionType[]>([]);
   const [formInfo, setFormInfo] = useState({
     type: FormTypeEnum.Add,
     id: '',
   });
 
   const tableColumns = useMemo(() => {
-    return getTableColumns(params?.type);
+    return getTableColumns(params?.orgTypes);
   }, [params]);
 
   const formColumns = useMemo(() => {
-    return getFormColumns(params?.type);
+    return getFormColumns(params?.orgTypes, systemRoleOptions, partnerRoleOptions);
   }, [params]);
+
+  const initialValues = useMemo(() => {
+    const result: AccountDataType = {};
+    if (OrgTypeEnum.System != params?.orgTypes?.[0]) {
+      const typeRoleMap = arrayToMap(partnerRoleOptions, 'orgType', 'roleId');
+      result.roleId = typeRoleMap[params?.orgTypes?.[0]];
+    }
+    if (params?.parentId) {
+      result.orgId = params?.orgId;
+    }
+    if (params?.siteId) {
+      result.sites = [{ id: params?.siteId, name: params?.siteName }];
+    }
+    return result;
+  }, [params, partnerRoleOptions]);
 
   const requestPage = useCallback(
     (tableParams) => {
@@ -76,19 +97,56 @@ const Account: React.FC<AccountProps> = (props) => {
     });
   }, []);
 
-  const beforeSubmit = useCallback((formData: AccountDataType) => {
-    formData.roleIds = [formData.roleId];
-  }, []);
+  const beforeSubmit = useCallback(
+    (formData: AccountDataType) => {
+      formData.roleIds = [formData?.roleId || ''];
+      formData.siteIds = formData?.sites?.map?.((item) => item.id) || [];
+    },
+    [params],
+  );
 
-  const afterRequest = useCallback((formData: AccountDataType) => {
-    formData.userId = formData?.user?.userId;
-    formData.nickName = formData?.user?.nickName;
-    formData.userName = formData?.user?.userName;
-    formData.roleId = formData?.user?.roles?.[0]?.roleId || '';
-    formData.orgId = formData?.user?.orgId;
-    formData.status = formData?.user?.status;
-    formData.phone = formData?.user?.phone;
-    formData.remark = formData?.user?.remark;
+  const afterRequest = useCallback(
+    (formData: AccountDataType) => {
+      formData.userId = formData?.user?.userId;
+      formData.nickName = formData?.user?.nickName;
+      formData.userName = formData?.user?.userName;
+      formData.roleId = formData?.user?.roles?.[0]?.roleId || '';
+      formData.orgId = formData?.user?.orgId;
+      formData.status = formData?.user?.status;
+      formData.phone = formData?.user?.phone;
+      formData.remark = formData?.user?.remark;
+      formData.sites = formData?.user?.sites;
+    },
+    [params],
+  );
+
+  useEffect(() => {
+    actionRef?.current?.reloadAndRest?.();
+  }, [params]);
+
+  useEffect(() => {
+    api.getRoles({ builtInRole: 0 }).then(({ data }) => {
+      const result =
+        data?.map?.((item: any) => {
+          return {
+            ...item,
+            label: item?.roleName,
+            value: item?.roleId,
+          };
+        }) || [];
+      setSystemRoleOptions(result);
+    });
+    api.getRoles({ builtInRole: 1 }).then(({ data }) => {
+      const result =
+        data?.map?.((item: any) => {
+          return {
+            ...item,
+            label: item?.roleName,
+            value: item?.roleId,
+          };
+        }) || [];
+      setPartnerRoleOptions(result);
+    });
   }, []);
 
   return (
@@ -133,6 +191,7 @@ const Account: React.FC<AccountProps> = (props) => {
           colProps={{
             span: 8,
           }}
+          initialValues={initialValues}
         />
       </ProConfigProvider>
     </>

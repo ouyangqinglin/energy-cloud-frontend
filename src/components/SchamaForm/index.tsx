@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-26 19:40:01
+ * @LastEditTime: 2023-07-27 15:48:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -57,6 +57,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     layoutType = 'ModalForm',
     submitter,
     onValuesChange,
+    initialValues,
     ...restProps
   } = props;
 
@@ -154,9 +155,11 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           afterRequest?.(requestData, myFormRef);
           myFormRef?.current?.setFieldsValue?.(requestData);
         });
+      } else if (initialValues) {
+        myFormRef?.current?.setFieldsValue?.(initialValues as any);
       }
     }
-  }, [open, id, type, myFormRef, layoutType]);
+  }, [open, id, type, myFormRef, layoutType, initialValues]);
 
   return (
     <>

@@ -22,7 +22,9 @@ export type TreeNode = BasicDataNode &
     id?: string | number;
     name?: string;
     type?: OrgTypeEnum;
-    parentId?: number;
+    siteId?: string;
+    siteName?: string;
+    parentId?: string;
     children?: TreeNode[];
   };
 

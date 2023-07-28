@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-26 17:28:03
+ * @LastEditTime: 2023-07-27 16:54:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
  */
@@ -82,7 +82,7 @@ const unitItems = [
     linePosition: { top: 11, left: 140 },
     data: [
       {
-        label: '储能仓门:',
+        label: '储能仓门：',
         field: 'AccessControlStatus',
         format: (value: number) => doorFormat(value),
       },
@@ -115,11 +115,7 @@ const unitItems = [
     icon: StackImg,
     line: StackLineImg,
     linePosition: { top: -74, left: 85 },
-    data: [
-      { label: 'SoC：', field: 'SOC', format: percentageFormat },
-      // { label: '单体最高温度：', field: 0 },
-      // { label: '单体最低温度：', field: 0 },
-    ],
+    data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
   },
   {
     label: 'PCS',
@@ -194,8 +190,12 @@ const getUnitByProductId = (
   }
 };
 
-const Cabinet: React.FC<ComProps> = (props) => {
-  const { siteId } = props;
+export type CabinetProps = ComProps & {
+  showLabel?: boolean;
+};
+
+const Cabinet: React.FC<CabinetProps> = (props) => {
+  const { siteId, showLabel } = props;
 
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
@@ -317,13 +317,17 @@ const Cabinet: React.FC<ComProps> = (props) => {
         </>
       ) : (
         <>
-          <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
-            告警：
-            <span className={styles.alarm} onClick={onAlarmClick}>
-              {deviceAlarmStatusFormat((deviceInfo?.alarmStatus ?? '') as string)}
-              <span className="cursor">{deviceInfo?.alarmCount}</span>
-            </span>
-          </Detail.Label>
+          {showLabel && (
+            <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
+              告警：
+              <span className={styles.alarm}>
+                {deviceAlarmStatusFormat((deviceInfo?.alarmStatus ?? '') as string)}
+                <span className="cursor" onClick={onAlarmClick}>
+                  {deviceInfo?.alarmCount}
+                </span>
+              </span>
+            </Detail.Label>
+          )}
           <div ref={divRef} className="tx-center">
             <div
               className={styles.energy}

@@ -13,6 +13,7 @@ import type { AccountDataType } from './config';
 export type OrgDataType = {
   orgId?: string;
   orgName?: string;
+  orgType?: string;
 };
 
 export type SiteDataType = {

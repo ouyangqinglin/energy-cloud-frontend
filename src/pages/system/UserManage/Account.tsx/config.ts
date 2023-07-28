@@ -2,22 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2023-07-26 19:56:03
+ * @LastEditTime: 2023-07-27 14:29:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.ts
  */
-import { effectStatus } from '@/utils/dictionary';
+import { OptionType, effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
-import { isEmpty } from '@/utils';
+import { arrayToMap, isEmpty } from '@/utils';
 import { verifyPassword, verifyPhone } from '@/utils/reg';
 import { api } from '@/services';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
-import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
+import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { getPage, getOrgByRole, getSiteByOrg } from './service';
+import { getOrgByRole, getSiteByOrg } from './service';
 
 export type AccountDataType = {
   userId?: string;
@@ -28,17 +28,23 @@ export type AccountDataType = {
   phone?: string;
   status?: string;
   createTime?: string;
-  roleIds: string[];
-  roleId: string;
+  orgType?: string;
+  roleIds?: string[];
+  roleId?: string;
   remark?: string;
   roles?: {
     roleId?: string;
     roleName?: string;
   }[];
-  user: AccountDataType;
+  user?: AccountDataType;
+  siteIds?: string[];
+  sites?: {
+    id: string;
+    name: string;
+  }[];
 };
 
-export const getTableColumns = (type: OrgTypeEnum) => {
+export const getTableColumns = (types: OrgTypeEnum[]) => {
   const tableColumns: ProColumns<AccountDataType>[] = [
     {
       title: '序号',
@@ -64,19 +70,21 @@ export const getTableColumns = (type: OrgTypeEnum) => {
       valueType: 'select',
       width: 150,
       ellipsis: true,
-      hideInSearch: type === OrgTypeEnum.Operator || type === OrgTypeEnum.Owner,
+      hideInSearch: [OrgTypeEnum.Operator, OrgTypeEnum.Owner].includes(types[0]),
       render: (_, record) => {
         return record?.roles?.map?.((item) => item.roleName)?.join('，');
       },
       request: () => {
-        return api.getRoles({ builtInRole: type }).then(({ data }) => {
-          return data?.map?.((item: any) => {
-            return {
-              label: item?.roleName,
-              value: item?.roleId,
-            };
+        return api
+          .getRoles({ builtInRole: types[0] === OrgTypeEnum.System ? 0 : 1 })
+          .then(({ data }) => {
+            return data?.map?.((item: any) => {
+              return {
+                label: item?.roleName,
+                value: item?.roleId,
+              };
+            });
           });
-        });
       },
     },
     {
@@ -145,7 +153,11 @@ const requestTable = (params: Record<string, any>) => {
   });
 };
 
-export const getFormColumns = (type: OrgTypeEnum) => {
+export const getFormColumns = (
+  types: OrgTypeEnum[],
+  systemRoleOptions: OptionType[],
+  partnerRoleOptions: OptionType[],
+) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
       title: '账号名',
@@ -177,22 +189,15 @@ export const getFormColumns = (type: OrgTypeEnum) => {
       dataIndex: 'roleId',
       valueType: 'select',
       request: () => {
-        return api
-          .getRoles({ builtInRole: type === OrgTypeEnum.System ? 0 : 1 })
-          .then(({ data }) => {
-            return data?.map?.((item: any) => {
-              return {
-                label: item?.roleName,
-                value: item?.roleId,
-              };
-            });
-          });
+        return Promise.resolve(
+          types[0] === OrgTypeEnum.System ? systemRoleOptions : partnerRoleOptions,
+        );
       },
       formItemProps: {
         rules: [{ required: true, message: '请选择角色' }],
       },
     },
-    type === OrgTypeEnum.System
+    types[0] === OrgTypeEnum.System
       ? {
           title: '组织',
           dataIndex: 'orgId',
@@ -211,12 +216,13 @@ export const getFormColumns = (type: OrgTypeEnum) => {
           dataIndex: 'orgId',
           valueType: 'select',
           dependencies: ['roleId'],
-          request: () => {
-            return getOrgByRole({ type }).then(({ data }) => {
+          request: (params) => {
+            const roleOrgTypeMap = arrayToMap(partnerRoleOptions, 'roleId', 'orgType');
+            return getOrgByRole({ type: roleOrgTypeMap[params.roleId] }).then(({ data }) => {
               return data?.map?.((item) => {
                 return {
-                  label: item?.orgId,
-                  value: item?.orgName,
+                  label: item?.orgName,
+                  value: item?.orgId,
                 };
               });
             });
@@ -324,14 +330,21 @@ export const getFormColumns = (type: OrgTypeEnum) => {
     },
     {
       title: '关联站点',
-      dataIndex: 'siteIds',
+      dataIndex: 'sites',
       valueType: TABLESELECT,
-      hideInForm: type === OrgTypeEnum.System,
+      hideInForm: types[0] === OrgTypeEnum.System,
       colProps: {
         span: 24,
       },
-      fieldProps: {
-        proTableProps: { columns: tableSelectColumns, request: requestTable },
+      dependencies: ['orgId'],
+      fieldProps: (form) => {
+        return {
+          proTableProps: {
+            columns: tableSelectColumns,
+            request: (params: any) =>
+              requestTable({ ...params, orgId: form?.getFieldValue?.('orgId') }),
+          },
+        };
       },
     },
     {

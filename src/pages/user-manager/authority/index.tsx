@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-19 14:00:13
- * @LastEditTime: 2023-07-25 15:07:09
+ * @LastEditTime: 2023-07-27 13:50:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
@@ -41,9 +41,9 @@ const Authority: React.FC<AuthorityProps> = (props) => {
         text: '新建',
       },
     },
-    ...(type == '1'
-      ? {
-          option: {
+    option: {
+      ...(type == '1'
+        ? {
             onDeleteChange(_, entity) {
               deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
                 if (data) {
@@ -52,16 +52,17 @@ const Authority: React.FC<AuthorityProps> = (props) => {
                 }
               });
             },
-            onEditChange(_, entity) {
-              setInitialValues({ ...entity });
-              setOperations(FormOperations.UPDATE);
-              set(true);
-            },
-            modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
-          },
-        }
-      : {}),
+          }
+        : {}),
+      onEditChange(_, entity) {
+        setInitialValues({ ...entity });
+        setOperations(FormOperations.UPDATE);
+        set(true);
+      },
+      modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
+    },
   };
+
   const visibleUpdated = operations !== FormOperations.READ;
 
   const onSuccess = useCallback(() => {
