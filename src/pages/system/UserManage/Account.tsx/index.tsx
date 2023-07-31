@@ -12,7 +12,7 @@ import OrgTree from '@/components/OrgTree';
 import { OrgTypeEnum, TreeNode } from '@/components/OrgTree/type';
 import styles from '../index.less';
 import { isEmpty } from '@/utils';
-import { PlatformSearchType } from '@/pages/user-manager/accounts/Platform/type';
+import { AccountDataType } from './config';
 import { default as UserAccount } from './Account';
 
 const Account: React.FC = () => {
@@ -22,7 +22,7 @@ const Account: React.FC = () => {
     return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id as string];
   }, [selectOrg]);
 
-  const searchParams = useMemo<PlatformSearchType>(() => {
+  const searchParams = useMemo<AccountDataType>(() => {
     if (selectOrg) {
       if (!isEmpty(selectOrg?.siteId)) {
         return {

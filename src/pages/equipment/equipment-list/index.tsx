@@ -175,12 +175,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       productTypeColumn,
       {
-        title: '产品类型',
-        dataIndex: 'productTypeName',
-        width: 150,
-        ellipsis: true,
-      },
-      {
         title: '所属站点',
         dataIndex: 'siteName',
         width: 150,

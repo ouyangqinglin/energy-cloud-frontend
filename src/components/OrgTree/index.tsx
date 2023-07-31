@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-27 14:33:54
+ * @LastEditTime: 2023-07-31 09:50:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
 
-import React, { useEffect, useCallback, useState } from 'react';
-import { Tree, Spin } from 'antd';
+import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import { Tree, Spin, Input } from 'antd';
 import type { TreeProps } from 'antd';
 import { useRequest } from 'umi';
 import { getOrgTree } from './service';
@@ -57,8 +57,29 @@ const dealData = (data: any, siteParentItem?: any, parentItem?: any) => {
   });
 };
 
+const filterData = (data: TreeNode[], searchValue: string) => {
+  const result: TreeNode[] = [];
+  data.forEach((item) => {
+    const obj = { ...item };
+    if (obj.label?.indexOf && obj.label?.indexOf?.(searchValue) > -1) {
+      result.push(obj);
+    } else {
+      if (obj.children && obj.children.length) {
+        const arr = filterData(obj.children, searchValue);
+        if (arr && arr.length) {
+          obj.children = arr;
+          result.push(obj);
+        }
+      }
+    }
+  });
+  return result;
+};
+
 const OrgTree: React.FC<OrgTreeProps> = (props) => {
   const { onSelect, afterRequest, ...restProps } = props;
+
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const {
     loading,
@@ -73,6 +94,18 @@ const OrgTree: React.FC<OrgTreeProps> = (props) => {
     },
   });
 
+  const filterTreeData = useMemo(() => {
+    if (searchValue) {
+      return filterData(treeData, searchValue);
+    } else {
+      return treeData;
+    }
+  }, [treeData, searchValue]);
+
+  const onSearch = useCallback((value) => {
+    setSearchValue(value);
+  }, []);
+
   useEffect(() => {
     run();
   }, []);
@@ -84,19 +117,22 @@ const OrgTree: React.FC<OrgTreeProps> = (props) => {
           <Spin className="flex1" />
         </div>
       ) : (
-        <Tree<TreeNode>
-          className={styles.tree}
-          treeData={treeData}
-          defaultExpandAll={true}
-          fieldNames={{
-            title: 'label',
-            key: 'id',
-            children: 'children',
-          }}
-          onSelect={onSelect}
-          showIcon
-          {...restProps}
-        />
+        <>
+          <Input.Search className={styles.search} onSearch={onSearch} />
+          <Tree<TreeNode>
+            className={styles.tree}
+            treeData={filterTreeData}
+            defaultExpandAll={true}
+            fieldNames={{
+              title: 'label',
+              key: 'id',
+              children: 'children',
+            }}
+            onSelect={onSelect}
+            showIcon
+            {...restProps}
+          />
+        </>
       )}
     </>
   );
