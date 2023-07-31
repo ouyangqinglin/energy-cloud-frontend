@@ -25,6 +25,7 @@ export type toolBarRenderOptionsType<Params> = {
 };
 
 export type YTProTableCustomProps<D, P, V = 'text'> = {
+  tableRef?: React.MutableRefObject<HTMLDivElement | undefined>;
   toolBarRenderOptions?: toolBarRenderOptionsType<P>;
   option?: {
     columnsProp?: Omit<ProColumns<D, V>, 'render'>;

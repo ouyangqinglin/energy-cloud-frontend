@@ -190,7 +190,7 @@ const Stack: React.FC<StackProps> = (props) => {
         columns={maxUnitColumns}
         toolBarRender={false}
         dataSource={maxUnitData}
-        scroll={{ y: 200 }}
+        scroll={{ y: 'auto' }}
         pagination={false}
       />
       <Detail.Label title="电池簇信息" className="mt32" />
@@ -201,7 +201,7 @@ const Stack: React.FC<StackProps> = (props) => {
         columns={columns}
         toolBarRender={false}
         dataSource={clusterData}
-        scroll={{ y: 200 }}
+        scroll={{ y: 'auto' }}
         pagination={false}
       />
       <Detail.Label title="电气一次图" className="mt32" />

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-28 17:26:46
+ * @LastEditTime: 2023-07-31 15:36:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Ems\Run\index.tsx
  */
@@ -141,7 +141,7 @@ const Stack: React.FC<StackProps> = (props) => {
         columns={columns}
         toolBarRender={false}
         dataSource={associationData}
-        scroll={{ y: 200 }}
+        scroll={{ y: 'auto' }}
       />
     </>
   );
