@@ -31,8 +31,18 @@ export const config: CardInfo[] = [
         value: 0,
       },
       {
+        label: '光伏站点/个',
+        field: 'pvPowerStationCount',
+        value: 0,
+      },
+      {
         label: '储能站点/个',
         field: 'essPowerStationCount',
+        value: 0,
+      },
+      {
+        label: '充电站点/个',
+        field: 'chargePowerStationCount',
         value: 0,
       },
     ],

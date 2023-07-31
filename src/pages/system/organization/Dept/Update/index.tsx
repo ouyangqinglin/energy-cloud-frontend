@@ -6,7 +6,7 @@ import { isCreate } from '@/components/YTModalForm/helper';
 import { set, unset } from 'lodash';
 import type { PositionSelectType } from '@/components/PositionSelect';
 import { FormUpdate } from '../../components/FormUpdate';
-import { FormUpdateBaseProps } from '../../components/FormUpdate/type';
+import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>();

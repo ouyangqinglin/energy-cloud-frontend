@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, LegacyRef, useCallback } from 'react';
 import { Button, message, Row } from 'antd';
-import { useLocation, useRequest } from 'umi';
+import { MicroApp, useLocation, useRequest } from 'umi';
 import styles from './index.less';
 import type { LocationType } from '@/utils/dictionary';
 import { ReactComponent as SystemDiagram11 } from './svg/11.svg';
@@ -117,6 +117,7 @@ const Index: React.FC = () => {
   return (
     <>
       <div className="bg-white card-wrap p24">
+        {/* <MicroApp name="goView" /> */}
         <div className={styles.stationHeader}>
           <div className={styles.rightSide}>
             <SiteLabel className={styles.siteName} onChange={onChange} />

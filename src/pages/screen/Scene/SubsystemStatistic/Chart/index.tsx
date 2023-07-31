@@ -79,7 +79,7 @@ const StatisticChart: FC<Props> = ({
           />
         </div>
       )}
-      <div className={styles.axisTitle}>单位(kW·h)</div>
+      {/* <div className={styles.axisTitle}>单位(kW·h)</div> */}
       <Chart height={height} data={chartData} autoFit>
         <Interval
           size={barSize}
@@ -101,6 +101,18 @@ const StatisticChart: FC<Props> = ({
               fill: '#6C8097',
               fontSize: 12,
               fontWeight: 400,
+            },
+          }}
+          title={{
+            text: '单位(kW·h)',
+            position: 'end',
+            autoRotate: false,
+            offset: 0,
+            style: {
+              fill: '#ACCCEC ',
+              rotate: 90,
+              y: 10,
+              x: 30,
             },
           }}
           grid={{

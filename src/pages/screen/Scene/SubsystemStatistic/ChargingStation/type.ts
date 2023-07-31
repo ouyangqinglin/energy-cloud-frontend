@@ -12,6 +12,6 @@ export interface StatisticsRes {
 }
 
 export type ChartStationChartRes = {
-  key: string;
-  value: number;
+  eventTs: string;
+  doubleVal: number;
 }[];
