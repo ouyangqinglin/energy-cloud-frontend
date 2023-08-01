@@ -6,20 +6,19 @@ import { useAccess } from 'umi';
 import { useIntl, FormattedMessage } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { NoticeType, NoticeListParams } from './data.d';
 import { getNoticeList, removeNotice, addNotice, updateNotice } from './service';
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
+import YTProTable from '@/components/YTProTable';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 /**
  * 添加节点
@@ -31,7 +30,7 @@ const handleAdd = async (fields: NoticeType) => {
   try {
     const resp = await addNotice({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -53,8 +52,8 @@ const handleUpdate = async (fields: NoticeType) => {
   const hide = message.loading('正在配置');
   try {
     const resp = await updateNotice(fields);
-    hide();   
-    if(resp.code === 200) {
+    hide();
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -78,7 +77,7 @@ const handleRemove = async (selectedRows: NoticeType[]) => {
   try {
     const resp = await removeNotice(selectedRows.map((row) => row.noticeId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -98,7 +97,7 @@ const handleRemoveOne = async (selectedRow: NoticeType) => {
     const params = [selectedRow.noticeId];
     const resp = await removeNotice(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -235,7 +234,7 @@ const NoticeTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<NoticeType>
+        <YTProTable<NoticeType>
           headerTitle={intl.formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
@@ -244,9 +243,6 @@ const NoticeTableList: React.FC = () => {
           formRef={formTableRef}
           rowKey="noticeId"
           key="noticeList"
-          search={{
-            labelWidth: 120,
-          }}
           toolBarRender={() => [
             <Button
               type="primary"
@@ -273,16 +269,18 @@ const NoticeTableList: React.FC = () => {
             >
               <DeleteOutlined />
               <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>
+            </Button>,
           ]}
           request={(params) =>
             getNoticeList({ ...params } as NoticeListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
+              return {
+                code: '200',
+                data: {
+                  list: res.rows,
+                  total: res.total,
+                },
+                msg: '',
               };
-              return result;
             })
           }
           columns={columns}

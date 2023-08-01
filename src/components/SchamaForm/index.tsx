@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-27 15:48:44
+ * @LastEditTime: 2023-07-28 15:23:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -10,8 +10,7 @@ import React, { Ref, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
 import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-components';
-import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
-// import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
+import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
@@ -156,6 +155,10 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           myFormRef?.current?.setFieldsValue?.(requestData);
         });
       } else if (initialValues) {
+        myFormRef?.current?.setFieldsValue?.(initialValues as any);
+      }
+    } else {
+      if (layoutType === 'QueryFilter' && initialValues) {
         myFormRef?.current?.setFieldsValue?.(initialValues as any);
       }
     }

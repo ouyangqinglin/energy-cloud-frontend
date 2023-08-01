@@ -2,18 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2023-06-20 13:17:09
+ * @LastEditTime: 2023-07-28 15:18:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
 
-import React from 'react';
-import { Button } from 'antd';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
+import { Button, Spin } from 'antd';
 import { useBoolean } from 'ahooks';
-import AccountCom from './Account';
-import MeterCom from './Meter';
-import StationCom from './Station';
-import StationGunCom from './StationGun';
 
 export enum CommunityTypeEnum {
   Account = 1,
@@ -23,10 +19,10 @@ export enum CommunityTypeEnum {
 }
 
 export const communityTypeMap = new Map([
-  [CommunityTypeEnum.Account, AccountCom],
-  [CommunityTypeEnum.Meter, MeterCom],
-  [CommunityTypeEnum.StationGun, StationGunCom],
-  [CommunityTypeEnum.Station, StationCom],
+  [CommunityTypeEnum.Account, 'Account'],
+  [CommunityTypeEnum.Meter, 'Meter'],
+  [CommunityTypeEnum.StationGun, 'StationGun'],
+  [CommunityTypeEnum.Station, 'Station'],
 ]);
 
 export type CommunityProps = {
@@ -44,10 +40,16 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   const { type, ...restProps } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
+  const [Component, setComponent] = useState<React.FC<CommunityProps>>();
 
-  const Empty = () => <></>;
-
-  const Component = type ? communityTypeMap.get(type) || Empty : Empty;
+  useEffect(() => {
+    if (type) {
+      const result = communityTypeMap.get(type);
+      if (result) {
+        setComponent(lazy(() => import('./' + result)));
+      }
+    }
+  }, [type]);
 
   return (
     <>
@@ -58,7 +60,15 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
       ) : (
         <></>
       )}
-      <Component open={open} onOpenChange={set} {...restProps} />
+      <Suspense
+        fallback={
+          <div className="tx-center">
+            <Spin />
+          </div>
+        }
+      >
+        {Component && <Component open={open} onOpenChange={set} {...restProps} />}
+      </Suspense>
     </>
   );
 };

@@ -20,7 +20,7 @@ export enum OrgTypeEnum {
 export type TreeNode = BasicDataNode &
   DataNode & {
     id?: string | number;
-    name?: string;
+    label?: string;
     type?: OrgTypeEnum;
     siteId?: string;
     siteName?: string;

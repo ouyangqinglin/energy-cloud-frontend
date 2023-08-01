@@ -10,7 +10,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import { SiteDataType, getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
 import { debounce, merge } from 'lodash';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   props: ProColumns<TableData, ValueType> = {},

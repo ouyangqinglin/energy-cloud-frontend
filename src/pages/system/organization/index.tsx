@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Tabs, TabsProps } from 'antd';
-import Authority from '@/pages/user-manager/authority';
 // import DeptTableList from '../dept';
 import styles from './index.less';
 import { useAuthority } from '@/hooks';

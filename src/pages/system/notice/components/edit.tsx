@@ -14,9 +14,8 @@ import type { NoticeType } from '../data.d';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 export type NoticeFormValueType = Record<string, unknown> & Partial<NoticeType>;
 
@@ -64,7 +63,7 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
 
   return (
     <Modal
-      width={640}
+      width={552}
       title={intl.formatMessage({
         id: 'system.Notice.modify',
         defaultMessage: '编辑通知公告',
@@ -74,134 +73,96 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} onFinish={handleFinish} initialValues={props.values}>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormDigit
-              name="noticeId"
-              label={intl.formatMessage({
-                id: 'system.Notice.notice_id',
-                defaultMessage: '公告ID',
-              })}
-              width="xl"
-              placeholder="请输入公告ID"
-              disabled
-              hidden={!props.values.noticeId}
-              rules={[
-                {
-                  required: false,
-                  message: <FormattedMessage id="请输入公告ID！" defaultMessage="请输入公告ID！" />,
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormText
-              name="noticeTitle"
-              label={intl.formatMessage({
-                id: 'system.Notice.notice_title',
-                defaultMessage: '公告标题',
-              })}
-              width="xl"
-              placeholder="请输入公告标题"
-              rules={[
-                {
-                  required: true,
-                  message: (
-                    <FormattedMessage id="请输入公告标题！" defaultMessage="请输入公告标题！" />
-                  ),
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormSelect
-              valueEnum={noticeTypeOptions}
-              name="noticeType"
-              label={intl.formatMessage({
-                id: 'system.Notice.notice_type',
-                defaultMessage: '公告类型',
-              })}
-              width="xl"
-              placeholder="请输入公告类型"
-              rules={[
-                {
-                  required: true,
-                  message: (
-                    <FormattedMessage id="请输入公告类型！" defaultMessage="请输入公告类型！" />
-                  ),
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormTextArea
-              name="noticeContent"
-              label={intl.formatMessage({
-                id: 'system.Notice.notice_content',
-                defaultMessage: '公告内容',
-              })}
-              width="xl"
-              placeholder="请输入公告内容"
-              rules={[
-                {
-                  required: false,
-                  message: (
-                    <FormattedMessage id="请输入公告内容！" defaultMessage="请输入公告内容！" />
-                  ),
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormRadio.Group
-              valueEnum={statusOptions}
-              name="status"
-              label={intl.formatMessage({
-                id: 'system.Notice.status',
-                defaultMessage: '公告状态',
-              })}
-              width="xl"
-              labelCol={{ span: 24 }}
-              placeholder="请输入公告状态"
-              rules={[
-                {
-                  required: false,
-                  message: (
-                    <FormattedMessage id="请输入公告状态！" defaultMessage="请输入公告状态！" />
-                  ),
-                },
-              ]}
-            />
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24} order={1}>
-            <ProFormText
-              name="remark"
-              label={intl.formatMessage({
-                id: 'system.Notice.remark',
-                defaultMessage: '备注',
-              })}
-              width="xl"
-              placeholder="请输入备注"
-              rules={[
-                {
-                  required: false,
-                  message: <FormattedMessage id="请输入备注！" defaultMessage="请输入备注！" />,
-                },
-              ]}
-            />
-          </Col>
-        </Row>
+      <Form form={form} onFinish={handleFinish} initialValues={props.values} layout="vertical">
+        <ProFormDigit
+          name="noticeId"
+          label={intl.formatMessage({
+            id: 'system.Notice.notice_id',
+            defaultMessage: '公告ID',
+          })}
+          placeholder="请输入公告ID"
+          disabled
+          hidden={!props.values.noticeId}
+          rules={[
+            {
+              required: false,
+              message: <FormattedMessage id="请输入公告ID！" defaultMessage="请输入公告ID！" />,
+            },
+          ]}
+        />
+        <ProFormText
+          name="noticeTitle"
+          label={intl.formatMessage({
+            id: 'system.Notice.notice_title',
+            defaultMessage: '公告标题',
+          })}
+          placeholder="请输入公告标题"
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="请输入公告标题！" defaultMessage="请输入公告标题！" />,
+            },
+          ]}
+        />
+        <ProFormSelect
+          valueEnum={noticeTypeOptions}
+          name="noticeType"
+          label={intl.formatMessage({
+            id: 'system.Notice.notice_type',
+            defaultMessage: '公告类型',
+          })}
+          placeholder="请输入公告类型"
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="请输入公告类型！" defaultMessage="请输入公告类型！" />,
+            },
+          ]}
+        />
+        <ProFormTextArea
+          name="noticeContent"
+          label={intl.formatMessage({
+            id: 'system.Notice.notice_content',
+            defaultMessage: '公告内容',
+          })}
+          placeholder="请输入公告内容"
+          rules={[
+            {
+              required: false,
+              message: <FormattedMessage id="请输入公告内容！" defaultMessage="请输入公告内容！" />,
+            },
+          ]}
+        />
+        <ProFormRadio.Group
+          valueEnum={statusOptions}
+          name="status"
+          label={intl.formatMessage({
+            id: 'system.Notice.status',
+            defaultMessage: '公告状态',
+          })}
+          labelCol={{ span: 24 }}
+          placeholder="请输入公告状态"
+          rules={[
+            {
+              required: false,
+              message: <FormattedMessage id="请输入公告状态！" defaultMessage="请输入公告状态！" />,
+            },
+          ]}
+        />
+        <ProFormText
+          name="remark"
+          label={intl.formatMessage({
+            id: 'system.Notice.remark',
+            defaultMessage: '备注',
+          })}
+          placeholder="请输入备注"
+          rules={[
+            {
+              required: false,
+              message: <FormattedMessage id="请输入备注！" defaultMessage="请输入备注！" />,
+            },
+          ]}
+        />
       </Form>
     </Modal>
   );

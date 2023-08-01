@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-07-27 15:49:57
+ * @LastEditTime: 2023-07-31 09:10:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import YTProTable from '@/components/YTProTable';
 import { getTableColumns, getFormColumns, AccountDataType } from './config';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { ActionType } from '@ant-design/pro-table';
+import { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
@@ -174,7 +174,7 @@ const Account: React.FC<AccountProps> = (props) => {
       />
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <SchemaForm<AccountDataType, TABLESELECTVALUETYPE>
-          width="800px"
+          width="816px"
           type={formInfo.type}
           columns={formColumns}
           open={openForm}

@@ -52,7 +52,7 @@ export const config: CardInfo[] = [
     icon: IconPhotovoltaic,
     field: 'pvGeneratedPower',
     value: 1313.62,
-    description: '发电功率/kw',
+    description: '发电功率/kW',
     items: [
       {
         label: '组件容量/kWp',
@@ -76,7 +76,7 @@ export const config: CardInfo[] = [
     icon: IconEnergyStorage,
     field: 'essGeneratedPower',
     value: 526.34,
-    description: '储能功率/kw',
+    description: '储能功率/kW',
     items: [
       {
         label: '剩余电量/kwh',
@@ -100,7 +100,7 @@ export const config: CardInfo[] = [
     icon: IconCS,
     field: 'chargePower',
     value: 1947.1,
-    description: '充电功率/kw',
+    description: '充电功率/kW',
     items: [
       {
         label: '当日充电量/kwh',
@@ -126,7 +126,7 @@ export const config: CardInfo[] = [
     icon: IconCS,
     field: 'chargePower',
     value: 1947.1,
-    description: '充电功率/kw',
+    description: '充电功率/kW',
     items: [
       {
         label: '当日充电量/kwh',

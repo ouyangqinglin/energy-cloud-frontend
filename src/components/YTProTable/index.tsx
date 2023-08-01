@@ -6,7 +6,7 @@ import genDefaultOperation from './operation';
 import { normalizeRequestOption, standardRequestTableData } from './helper';
 import styles from './index.less';
 import useToolBarRender from './useToolBarRender';
-import { useResizeTableHeight } from './useResizeTableHeight';
+import useTableSize from './useTableSize';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -22,14 +22,20 @@ const YTProTable = <
     formRef,
     toolBarRenderOptions,
     request,
+    tableRef,
     ...restProps
   } = props;
 
   const tableFormRef = useRef<ProFormInstance<Params>>();
+  const myTableRef = useRef<HTMLDivElement>();
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;
   }, [formRef, tableFormRef]);
+
+  const mergedTableRef = useMemo<any>(() => {
+    return tableRef || myTableRef;
+  }, [formRef, myTableRef]);
 
   const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
     toolBarRender,
@@ -49,42 +55,44 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request);
 
-  const { scrollY } = useResizeTableHeight();
+  const { scrollX } = useTableSize(mergedTableRef, restProps.scroll);
 
   return (
-    <ProTable<DataType, Params, ValueType>
-      actionRef={actionRef}
-      formRef={mergedFormRef}
-      options={{
-        density: false,
-        fullScreen: false,
-        reload: false,
-        setting: true,
-      }}
-      columns={customColumns}
-      toolBarRender={toolBarRenderResult}
-      pagination={{
-        showSizeChanger: true,
-      }}
-      request={standardRequest}
-      rowKey="id"
-      className={styles.ytTable}
-      {...restProps}
-      scroll={{
-        x: 1366,
-        y: scrollY,
-        ...(restProps?.scroll || {}),
-      }}
-      search={
-        restProps?.search === false
-          ? false
-          : {
-              labelWidth: 'auto',
-              searchText: '搜索',
-              ...(restProps?.search || {}),
-            }
-      }
-    />
+    <div ref={mergedTableRef}>
+      <ProTable<DataType, Params, ValueType>
+        actionRef={actionRef}
+        formRef={mergedFormRef}
+        options={{
+          density: false,
+          fullScreen: false,
+          reload: false,
+          setting: true,
+        }}
+        columns={customColumns}
+        toolBarRender={toolBarRenderResult}
+        pagination={{
+          showSizeChanger: true,
+        }}
+        request={standardRequest}
+        rowKey="id"
+        className={styles.ytTable}
+        {...restProps}
+        scroll={{
+          x: scrollX,
+          y: 100,
+          ...restProps?.scroll,
+        }}
+        search={
+          restProps?.search === false
+            ? false
+            : {
+                labelWidth: 'auto',
+                searchText: '搜索',
+                ...(restProps?.search || {}),
+              }
+        }
+      />
+    </div>
   );
 };
 

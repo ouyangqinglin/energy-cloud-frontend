@@ -1,4 +1,4 @@
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import { tableTreeSelectValueTypeMap, TABLETREESELECT } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE, TableTreeModalProps } from '@/components/TableSelect';
 import { TableSearchType, CollectionValueType } from './type';
@@ -32,7 +32,7 @@ export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE
       rules: [{ required: true, message: '请选择采集点' }],
     },
     fieldProps: (form) => {
-      const value = form.getFieldValue('siteId');
+      const value = form?.getFieldValue?.('siteId');
       const tableTreeSelectProps: TableTreeModalProps<
         CollectionValueType,
         TableSearchType,
@@ -55,6 +55,9 @@ export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE
         valueId: 'selectName',
         valueName: 'paramName',
         limit: 2,
+        onFocus: () => {
+          return form?.validateFields(['siteId']);
+        },
       };
       return tableTreeSelectProps;
     },
@@ -70,8 +73,8 @@ export const timeColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          startTime: value[0] + '00:00',
+          endTime: value[1] + '23:59',
         };
       },
     },

@@ -27,12 +27,12 @@ const typeMap = [
 ];
 
 const Electric: React.FC<ComProps> = (props) => {
-  const { siteId } = props;
+  const { deviceData, loading } = props;
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
   const {
-    loading,
+    loading: electricLoading,
     data: electricData,
     run,
   } = useRequest(getElectic, {
@@ -48,15 +48,15 @@ const Electric: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (siteId) {
-      run({ siteId, type: chartType, date: date.format('YYYY-MM-DD') });
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId, type: chartType, date: date.format('YYYY-MM-DD') });
     }
-  }, [siteId, chartType, date]);
+  }, [deviceData?.deviceId, chartType, date]);
 
   return (
     <>
       <div className="card-wrap shadow p20">
-        {loading ? (
+        {loading || electricLoading ? (
           <>
             <div className="flex mb16">
               <div className="flex1">

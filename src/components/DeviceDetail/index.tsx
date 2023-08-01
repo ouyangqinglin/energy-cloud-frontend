@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-07-28 10:40:41
+ * @LastEditTime: 2023-07-28 17:06:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -73,7 +73,7 @@ export type DeviceDetailProps = {
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id, productId } = props;
 
-  const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: id, key: id });
+  const [selectOrg, setSelectOrg] = useState<DeviceDataType>();
   const {
     data: childData,
     loading,
@@ -123,6 +123,10 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     }
   }, [id]);
 
+  useEffect(() => {
+    setSelectOrg({ deviceId: id, key: id, productId });
+  }, [id, productId]);
+
   const items = useMemo<TabsProps['items']>(() => {
     return [
       {
@@ -130,10 +134,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         key: '1',
         children: (
           <>
-            <DeviceMonitor
-              id={selectOrg?.deviceId || ''}
-              productId={selectOrg?.productId || productId}
-            />
+            <DeviceMonitor id={selectOrg?.deviceId || ''} productId={selectOrg?.productId || 0} />
           </>
         ),
       },

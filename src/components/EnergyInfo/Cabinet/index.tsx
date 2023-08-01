@@ -12,151 +12,16 @@ import { useSize } from 'ahooks';
 import { Skeleton, message } from 'antd';
 import { useSubscribe } from '@/hooks';
 import { getEnergy } from '../service';
-import { getDeviceInfo } from '@/services/equipment';
 import { ComProps, energyType } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
-import AirImg from '@/assets/image/station/energy/air.png';
-import AirLineImg from '@/assets/image/station/energy/air-line.png';
-import DoorImg from '@/assets/image/station/energy/door.png';
-import DoorLineImg from '@/assets/image/station/energy/door-line.png';
-import EmsImg from '@/assets/image/station/energy/ems.png';
-import EmsLineImg from '@/assets/image/station/energy/ems-line.png';
-import StackImg from '@/assets/image/station/energy/stack.png';
-import StackLineImg from '@/assets/image/station/energy/stack-line.png';
-import PcsImg from '@/assets/image/station/energy/pcs.png';
-import PcsLineImg from '@/assets/image/station/energy/pcs-line.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import PackLineImg from '@/assets/image/station/energy/pack-line.png';
 import { isEmpty } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
-import {
-  openFormat,
-  tempFormat,
-  wetFormat,
-  doorFormat,
-  runFormat,
-  modelFormat,
-  percentageFormat,
-  workFormat,
-  electricModelFormat,
-  voltageFormat,
-  chargeFormat,
-  powerFormat,
-  airWorkFormat,
-  deviceAlarmStatusFormat,
-} from '@/utils/format';
+import { deviceAlarmStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
-
-const energyPowerFormat = (value: number, data: any) => {
-  return (
-    <span>
-      {powerFormat(value)}({chargeFormat(data.CADI)})
-    </span>
-  );
-};
-
-const unitItems = [
-  {
-    label: '空调',
-    productId: DeviceTypeEnum.Air,
-    position: { top: 51, left: 14 },
-    icon: AirImg,
-    line: AirLineImg,
-    linePosition: { top: 11, left: 82 },
-    data: [
-      {
-        label: '运行状态：',
-        field: 'AirConditioningWorkingStatus',
-        format: airWorkFormat,
-      },
-      { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
-      { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },
-    ],
-  },
-  {
-    label: '储能仓门',
-    position: { top: 203, left: 14 },
-    icon: DoorImg,
-    line: DoorLineImg,
-    linePosition: { top: 11, left: 140 },
-    data: [
-      {
-        label: '储能仓门：',
-        field: 'AccessControlStatus',
-        format: (value: number) => doorFormat(value),
-      },
-    ],
-  },
-  {
-    label: 'EMS',
-    productId: DeviceTypeEnum.Ems,
-    position: { top: 302, left: 14 },
-    icon: EmsImg,
-    line: EmsLineImg,
-    linePosition: { top: 11, left: 75 },
-    data: [
-      {
-        label: '运行状态：',
-        field: 'emsSysStatus',
-        format: (value: number) => runFormat(value),
-      },
-      {
-        label: '系统模式：',
-        field: 'sysModel',
-        format: (value: number) => modelFormat(value),
-      },
-    ],
-  },
-  {
-    label: '电池堆',
-    productId: DeviceTypeEnum.BatteryStack,
-    position: { top: 450, left: 14 },
-    icon: StackImg,
-    line: StackLineImg,
-    linePosition: { top: -74, left: 85 },
-    data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
-  },
-  {
-    label: 'PCS',
-    productId: DeviceTypeEnum.Pcs,
-    position: { top: 487, left: 802 },
-    icon: PcsImg,
-    line: PcsLineImg,
-    linePosition: { top: 11, left: -233 },
-    data: [
-      {
-        label: '工作状态：',
-        field: 'WorkStatus',
-        format: (value: number) => workFormat(value),
-      },
-      {
-        label: '工作模式：',
-        field: 'CurrentChargingAndDischargingModel',
-        format: (value: number) => electricModelFormat(value),
-      },
-      { label: '储能功率：', field: 'P', format: energyPowerFormat },
-    ],
-  },
-  {
-    label: '单体极值信息',
-    productId: DeviceTypeEnum.BatteryStack,
-    position: { top: 175, left: 802 },
-    icon: EmsImg,
-    line: PackLineImg,
-    linePosition: { top: 11, left: -60 },
-    data: [
-      { label: '最高电压：', field: 'MVVOASU', format: voltageFormat },
-      { label: '编号：', field: 'MaxNOIV' },
-      { label: '最低电压：', field: 'MVVOSU', format: voltageFormat },
-      { label: '编号：', field: 'MNOIV' },
-      { label: '最高温度：', field: 'MaximumIndividualTemperature', format: tempFormat },
-      { label: '编号：', field: 'MITN' },
-      { label: '最低温度：', field: 'LVOMT', format: tempFormat },
-      { label: '编号：', field: 'MNOIT' },
-    ],
-  },
-];
+import { unitItems } from './config';
+import { EnergySourceEnum } from '../';
 
 const getDataIds = (data: energyType[]): string[] => {
   const ids: string[] = [];
@@ -192,26 +57,23 @@ const getUnitByProductId = (
 
 export type CabinetProps = ComProps & {
   showLabel?: boolean;
+  source?: EnergySourceEnum;
 };
 
 const Cabinet: React.FC<CabinetProps> = (props) => {
-  const { siteId, showLabel } = props;
+  const { deviceData, showLabel, loading, source = EnergySourceEnum.DeviceManage } = props;
 
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  const deviceData = useSubscribe(deviceIds, true);
+  const realTimeData = useSubscribe(deviceIds, true);
   const history = useHistory();
 
   const {
-    loading,
+    loading: loadingEnergy,
     data: energyData,
     run,
   } = useRequest(getEnergy, {
-    manual: true,
-  });
-
-  const { data: deviceInfo, run: runGetDeviceInfo } = useRequest(getDeviceInfo, {
     manual: true,
   });
 
@@ -226,7 +88,10 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
       if (energyData) {
         const unit = item.productId ? getUnitByProductId([energyData], item.productId) : energyData;
         history.push({
-          pathname: '/site-monitor/device-detail',
+          pathname:
+            source === EnergySourceEnum.SiteMonitor
+              ? '/site-monitor/device-detail'
+              : '/equipment/device-detail',
           search: `?id=${unit?.id}&productId=${unit?.productId}`,
         });
       } else {
@@ -239,18 +104,17 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const onAlarmClick = useCallback(() => {
     history.push({
       pathname: '/alarm/current',
-      search: `?siteId=${siteId}&deviceName=${energyData?.name}`,
+      search: `?siteId=${deviceData?.siteId}&deviceName=${energyData?.name}`,
     });
-  }, [siteId, deviceInfo]);
+  }, [deviceData?.siteId]);
 
   useEffect(() => {
-    if (siteId) {
-      run({ siteId }).then((data) => {
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId }).then((data) => {
         setDeviceIds(getDataIds([data]));
-        runGetDeviceInfo({ deviceId: data.id });
       });
     }
-  }, [siteId]);
+  }, [deviceData?.deviceId]);
 
   const items = useMemo(() => {
     return unitItems.map((item, index) => {
@@ -272,10 +136,10 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
                   <div key={fieldIndex} className={index !== 1 ? styles.field : styles.unitTitle}>
                     {field.label}
                     <span className={styles.unitNum}>
-                      {!isEmpty(deviceData?.[field.field])
+                      {!isEmpty(realTimeData?.[field.field])
                         ? field.format
-                          ? field.format(deviceData?.[field.field], deviceData)
-                          : deviceData?.[field.field]
+                          ? field.format(realTimeData?.[field.field], realTimeData)
+                          : realTimeData?.[field.field]
                         : '--'}
                     </span>
                   </div>
@@ -291,7 +155,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         </>
       );
     });
-  }, [deviceData]);
+  }, [realTimeData]);
 
   const packItems = useMemo(() => {
     return Array.from({ length: 10 }).map((_, index) => {
@@ -310,7 +174,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   return (
     <>
-      {loading ? (
+      {loading || loadingEnergy ? (
         <>
           <Skeleton.Button size="small" active />
           <Skeleton.Image className="w-full mt12" style={{ height: 600 }} active />
@@ -321,9 +185,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
               告警：
               <span className={styles.alarm}>
-                {deviceAlarmStatusFormat((deviceInfo?.alarmStatus ?? '') as string)}
+                {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
                 <span className="cursor" onClick={onAlarmClick}>
-                  {deviceInfo?.alarmCount}
+                  {deviceData?.alarmCount}
                 </span>
               </span>
             </Detail.Label>

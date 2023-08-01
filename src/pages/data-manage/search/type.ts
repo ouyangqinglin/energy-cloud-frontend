@@ -10,6 +10,11 @@
 export type CollectionValueType = {
   selectName: string;
   paramName: string;
+  node?: {
+    deviceId?: string;
+    paramCode?: string;
+    deviceName?: string;
+  };
 };
 
 export type TableSearchType = {

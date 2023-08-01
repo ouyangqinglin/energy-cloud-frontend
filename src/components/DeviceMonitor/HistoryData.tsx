@@ -12,7 +12,7 @@ import Search from '@/pages/data-manage/search';
 const HistoryData: React.FC = () => {
   return (
     <>
-      <Search />
+      <Search isStationChild />
     </>
   );
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-26 19:19:32
+ * @LastEditTime: 2023-07-28 17:33:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -15,11 +15,12 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { EquipmentType } from './data.d';
 import { onlineStatus } from '@/utils/dictionary';
 import { removeData, getTabs } from './service';
-import { getDevicePage, DeviceDataType } from '@/services/equipment';
+import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn } from '@/hooks';
+import { useSiteColumn, useSearchSelect } from '@/hooks';
+import { SearchParams } from '@/hooks/useSearchSelect';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -36,8 +37,29 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
   });
-  const [searchParams, setSearchParams] = useState({
-    subSystemId: '',
+
+  const requestProductType = useCallback((searchParams: SearchParams) => {
+    return getProductTypeList(searchParams).then(({ data }) => {
+      return data?.map?.((item) => {
+        return {
+          label: item?.name || '',
+          value: item?.id || '',
+        };
+      });
+    });
+  }, []);
+
+  const [productTypeColumn] = useSearchSelect<DeviceDataType>({
+    proColumns: {
+      title: '产品类型',
+      dataIndex: 'productTypeName',
+      width: 150,
+      ellipsis: true,
+      formItemProps: {
+        name: 'productTypeId',
+      },
+    },
+    request: requestProductType,
   });
 
   const onSwitchOpen = useCallback(() => {
@@ -75,16 +97,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         setTabItems(items);
       }
     });
-    return getDevicePage({ ...params, ...searchParams, ...(isStationChild ? { siteId } : {}) });
+    return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
-
-  const onTabChange = useCallback((key: React.Key | undefined) => {
-    setActiveTab(key as string);
-    setSearchParams({
-      subSystemId: (key as string).replace('tab', ''),
-    });
-    actionRef.current?.reloadAndRest?.();
-  }, []);
 
   const toolBar = useCallback(
     () => [
@@ -130,35 +144,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       </Button>
     </>
   );
-  const renderBadge = (count: number | string, active = false) => {
-    return (
-      <Badge
-        showZero
-        count={count}
-        style={{
-          marginBlockStart: -2,
-          marginInlineStart: 4,
-          color: active ? '#165DFF' : '#303133',
-          backgroundColor: active ? '#E8F3FF' : '#F2F3F5',
-        }}
-        overflowCount={999999999}
-      />
-    );
-  };
-  const tabItemList = tabItems.map((item, index) => {
-    const key = 'tab' + item.id;
-    return {
-      key,
-      label: (
-        <>
-          <span>
-            {item.label}
-            {renderBadge(item.value, activeTab === key)}
-          </span>
-        </>
-      ),
-    };
-  });
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       ...(isStationChild ? [] : [siteColumn]),
@@ -188,20 +173,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
         ellipsis: true,
       },
-      {
-        title: '产品类型',
-        dataIndex: 'productTypeName',
-        width: 150,
-        hideInSearch: true,
-        ellipsis: true,
-      },
-      {
-        title: '所属子系统',
-        dataIndex: 'subsystemName',
-        width: 80,
-        hideInSearch: true,
-        ellipsis: true,
-      },
+      productTypeColumn,
       {
         title: '所属站点',
         dataIndex: 'siteName',
@@ -248,7 +220,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         render: rowBar,
       },
     ];
-  }, [siteColumn]);
+  }, [siteColumn, productTypeColumn]);
 
   return (
     <>
@@ -257,14 +229,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         columns={columns}
         toolBarRender={toolBar}
         request={handleRequest}
-        toolbar={{
-          menu: {
-            type: 'tab',
-            activeKey: activeTab,
-            items: tabItemList,
-            onChange: onTabChange,
-          },
-        }}
       />
       <EquipForm
         open={open}

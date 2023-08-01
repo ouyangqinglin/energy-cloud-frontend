@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-08 09:26:37
- * @LastEditTime: 2023-06-21 17:15:34
+ * @LastEditTime: 2023-07-31 16:37:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\index.tsx
  */
@@ -32,6 +32,7 @@ const TableTreeSelect = <
     valueName = 'name',
     clearable = true,
     placeholder = '请选择',
+    onFocus,
     ...restProps
   } = props;
 
@@ -57,8 +58,25 @@ const TableTreeSelect = <
   }, []);
 
   const onSwitchOpen = useCallback(() => {
-    setOpen(!open);
-  }, [open]);
+    if (!disabled) {
+      setOpen(!open);
+    }
+  }, [open, disabled]);
+
+  const onClick = useCallback(() => {
+    if (onFocus) {
+      const result = onFocus();
+      if (result) {
+        result?.then?.(() => {
+          onSwitchOpen();
+        });
+      } else {
+        onSwitchOpen();
+      }
+    } else {
+      onSwitchOpen();
+    }
+  }, [onSwitchOpen]);
 
   const tags = useMemo(() => {
     const result: React.ReactNode[] = [];
@@ -82,7 +100,12 @@ const TableTreeSelect = <
 
   return (
     <>
-      <div className={`ant-input-affix-wrapper ${styles.input}`} onClick={onSwitchOpen}>
+      <div
+        className={`ant-input-affix-wrapper ${styles.input} ${
+          disabled ? 'ant-input-affix-wrapper-disabled' : ''
+        }`}
+        onClick={onClick}
+      >
         {tags.length ? tags : <span className={styles.placeholder}>{placeholder}</span>}
         {valueLength > limit ? '+' + (valueLength - limit) : ''}
         {clearable && (

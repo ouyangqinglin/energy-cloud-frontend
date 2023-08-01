@@ -59,7 +59,7 @@ const Login: React.FC = () => {
         const redirectPath = homePath || location.query?.redirect || '/index/station';
         const pathArr = redirectPath.split('?');
         history.push({
-          pathname: redirectPath,
+          pathname: pathArr[0],
           search: pathArr[1] ? '?' + pathArr[1] : '',
         });
 

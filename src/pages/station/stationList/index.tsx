@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-25 15:13:26
+ * @LastEditTime: 2023-07-31 13:56:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -11,7 +11,7 @@ import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { StationType } from './data.d';
 import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
@@ -25,6 +25,7 @@ const StationList: React.FC = () => {
   const [siteId, setSiteId] = useState('');
   const history = useHistory();
   const actionRef = useRef<ActionType>();
+  const tableRef = useRef();
   const { state: areaOptions } = useArea();
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const { authorityMap } = useAuthority([
@@ -43,6 +44,7 @@ const StationList: React.FC = () => {
   );
 
   const onAddClick = useCallback(() => {
+    console.log(tableRef);
     setOpen(true);
     setSiteId('');
   }, []);

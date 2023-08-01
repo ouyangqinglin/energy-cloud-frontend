@@ -14,11 +14,15 @@
 }
 
 :global {
+  // 格式化进度条
+  .ant-pro-sider .ant-layout-sider-children {
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
   .ant-layout-sider {
     background: #1e222d;
-    ::-webkit-scrollbar {
-      background-color: #263849;
-    }
     .ant-pro-sider-logo {
       height: 56px;
       background: #252e3d;

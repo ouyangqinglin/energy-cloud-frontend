@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:50:00
- * @LastEditTime: 2023-07-20 16:01:50
+ * @LastEditTime: 2023-07-31 15:33:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverter\RealTime.tsx
  */
@@ -129,6 +129,7 @@ const RealTime: React.FC<
             dataSource={tableData}
             pagination={false}
             rowKey="field"
+            scroll={{ y: 'auto' }}
           />
           {labelType == LabelTypeEnum.DotLabel ? (
             <Label title="交流输出" />

@@ -19,12 +19,12 @@ import { Annotation } from 'bizcharts';
 const legendMap = new Map([['charge', '功率']]);
 
 const Power: React.FC<ComProps> = (props) => {
-  const { siteId } = props;
+  const { deviceData, loading } = props;
 
   const [date, setDate] = useState<Moment>(moment());
   const [maxValue, setMaxValue] = useState<number>(0.1);
   const {
-    loading,
+    loading: powerLoading,
     data: powerData,
     run,
   } = useRequest(getPower, {
@@ -53,15 +53,15 @@ const Power: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (siteId) {
-      run({ siteId, date: date.format('YYYY-MM-DD') });
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId, date: date.format('YYYY-MM-DD') });
     }
-  }, [siteId, date]);
+  }, [deviceData?.deviceId, date]);
 
   return (
     <>
       <div className="card-wrap shadow p20 mb20">
-        {loading ? (
+        {loading || powerLoading ? (
           <>
             <div className="flex mb16">
               <div className="flex1">

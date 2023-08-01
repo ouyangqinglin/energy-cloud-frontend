@@ -8,7 +8,7 @@
  */
 import { useCallback } from 'react';
 import { api } from '@/services';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import useSearchSelect from './useSearchSelect';
 import type { UseSearchSelectProps, SearchParams } from './useSearchSelect';
 import type { OptionType } from '@/utils/dictionary';

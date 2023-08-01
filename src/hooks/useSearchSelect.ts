@@ -10,7 +10,7 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { OptionType } from '@/utils/dictionary';
 import { debounce } from 'lodash';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 
 export type SearchParams = {
   name?: string;
