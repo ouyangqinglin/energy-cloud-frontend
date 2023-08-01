@@ -508,7 +508,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         <Row>
           <Col flex="25%">
             <Form.Item name="handOpePcsPower" label="手动PCS功率">
-              <InputNumber className="w-full" addonAfter="KW" />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -534,7 +534,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
-              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>
@@ -560,7 +560,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
-              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>
@@ -586,7 +586,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
-              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>
@@ -612,7 +612,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
-              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>
@@ -638,7 +638,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               label="执行功率"
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
-              <InputNumber className="w-full" addonAfter="KW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
             </Form.Item>
           </Col>
         </Row>

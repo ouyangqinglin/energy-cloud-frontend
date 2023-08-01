@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import YTProTable from '@/components/YTProTable';
 import { getTableColumns, getFormColumns, AccountDataType } from './config';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { ActionType } from '@ant-design/pro-table';
+import { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
@@ -174,7 +174,7 @@ const Account: React.FC<AccountProps> = (props) => {
       />
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <SchemaForm<AccountDataType, TABLESELECTVALUETYPE>
-          width="800px"
+          width="816px"
           type={formInfo.type}
           columns={formColumns}
           open={openForm}

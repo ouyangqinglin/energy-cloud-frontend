@@ -16,7 +16,7 @@ export type CollectionDataType = {
 };
 
 export type CollectionSearchType = {
-  devices: {
+  devices?: {
     deviceId?: string;
     keys?: string[];
   }[];

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2023-07-27 14:29:12
+ * @LastEditTime: 2023-07-31 16:13:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.ts
  */
 import { OptionType, effectStatus } from '@/utils/dictionary';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import { ProFormColumnsType } from '@ant-design/pro-form';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
@@ -182,7 +182,6 @@ export const getFormColumns = (
       fieldProps: {
         disabled: true,
       },
-      hideInForm: true,
     },
     {
       title: '角色',

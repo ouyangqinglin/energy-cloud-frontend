@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
 
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import {
   reportType,
   reportTypeEnum,

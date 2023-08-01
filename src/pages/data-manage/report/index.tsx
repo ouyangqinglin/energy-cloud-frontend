@@ -1,9 +1,6 @@
-import React, { useMemo, useCallback, useState, useRef } from 'react';
-import { Button } from 'antd';
-import { ExportOutlined } from '@ant-design/icons';
+import React, { useMemo, useCallback, useState } from 'react';
 import { useRequest, useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { ProFormInstance } from '@ant-design/pro-components';
 import { useSiteColumn } from '@/hooks';
 import {
   searchColumns,
@@ -16,11 +13,10 @@ import {
   chargeBaseColumns,
 } from './config';
 import { getList, exportList } from './service';
-import type { TableDataType, TableSearchType } from './type';
+import type { TableSearchType } from './type';
 import { reportTypeEnum, reportType, timeDimensionEnum, timeDimension } from '@/utils/dictionary';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
-import { saveFile } from '@/utils';
 
 type ReportProps = {
   isStationChild?: boolean;

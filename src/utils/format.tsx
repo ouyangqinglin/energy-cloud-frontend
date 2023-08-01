@@ -69,7 +69,7 @@ export const clusterFormat = (value: number) => {
   return value === 0 ? '断开' : '闭合';
 };
 export const powerFormat = (value: string | number) => {
-  return getValue(value, 'KW');
+  return getValue(value, 'kW');
 };
 export const kWpFormat = (value: string | number) => {
   return getValue(value, 'kWp');

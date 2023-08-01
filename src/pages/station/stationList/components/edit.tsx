@@ -215,14 +215,14 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             <ProFormDigit
               label="储能额定功率"
               name="energyStoragePower"
-              fieldProps={{ addonAfter: 'KW' }}
+              fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
           <Col span={8}>
             <ProFormDigit
               label="充电桩额定功率"
               name="chargingStationCapacity"
-              fieldProps={{ addonAfter: 'KW' }}
+              fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
         </Row>

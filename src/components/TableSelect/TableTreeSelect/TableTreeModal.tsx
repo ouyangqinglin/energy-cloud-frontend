@@ -39,6 +39,7 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   onChange?: (value: V[]) => void;
   title?: string; // 弹窗标题
   open?: boolean;
+  onFocus?: () => void | Promise<any>;
   onCancel?: () => void;
   width?: string; // 弹窗宽度
   proTableProps?: Omit<ProTableProps<T, U>, 'actionRef' | 'request'> & {

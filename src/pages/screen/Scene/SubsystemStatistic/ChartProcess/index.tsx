@@ -34,14 +34,14 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
       type: '电池状态',
       field: '可充电量',
       value: charge ?? 0,
-      unit: 'kwh',
+      unit: 'kWh',
       color: '#01CFA1',
     },
     {
       type: '电池状态',
       field: '可放电量',
       value: discharge ?? 0,
-      unit: 'kwh',
+      unit: 'kWh',
       color: '#FFE04D',
     },
   ];

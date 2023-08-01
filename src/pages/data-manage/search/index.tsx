@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback, useState } from 'react';
-import { useModel } from 'umi';
+import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { searchColumns, timeColumns } from './config';
@@ -8,7 +8,16 @@ import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList } from './service';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
+import { CollectionSearchType, getCollectionData } from '@/services/data';
+
+type DeviceMapDataType = {
+  deviceName: string;
+  collection: {
+    name: string;
+    id: string;
+  }[];
+};
 
 type SearchProps = {
   isStationChild?: boolean;
@@ -21,6 +30,9 @@ const Search: React.FC<SearchProps> = (props) => {
   const [collectionColumns, setCollectionColumns] = useState<
     ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[]
   >([]);
+  const { run } = useRequest(getCollectionData, {
+    manual: true,
+  });
   const [siteSearchColumn] = useSiteColumn<TableSearchType, TABLETREESELECTVALUETYPE>({
     hideInTable: true,
     formItemProps: {
@@ -50,6 +62,62 @@ const Search: React.FC<SearchProps> = (props) => {
     );
   }, []);
 
+  const onRequest = useCallback(
+    (params: TableSearchType & CollectionSearchType) => {
+      if (isStationChild) {
+        params.siteId = siteId;
+      }
+      if (params.siteId && params?.collection && params?.collection?.length) {
+        const deviceDataMap = new Map<string, DeviceMapDataType>();
+        params?.collection?.map?.((item) => {
+          const collection = deviceDataMap.get(item?.node?.deviceId || '');
+          if (collection) {
+            collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
+            deviceDataMap.set(item?.node?.deviceId || '', collection);
+          } else {
+            deviceDataMap.set(item?.node?.deviceId || '', {
+              deviceName: item?.node?.deviceName || '',
+              collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
+            });
+          }
+        });
+        const deviceData: CollectionSearchType['devices'] = [];
+        const cols: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [];
+        deviceDataMap.forEach((value, key) => {
+          deviceData.push({ deviceId: key, keys: value.collection.map((item) => item.id) });
+          const arr: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [];
+          value.collection.map((item) => {
+            arr.push({
+              title: item.name,
+              dataIndex: item.id,
+              width: 120,
+              ellipsis: true,
+            });
+          });
+          cols.push({
+            title: value.deviceName,
+            hideInSearch: true,
+            children: arr,
+          });
+        });
+        setCollectionColumns(cols);
+        params.devices = deviceData;
+        const result = getCollectionData(params).then(({ data }) => {});
+        return result;
+      } else {
+        return Promise.resolve({
+          code: '200',
+          data: {
+            list: [],
+            total: 0,
+          },
+          msg: '',
+        });
+      }
+    },
+    [isStationChild, siteId],
+  );
+
   return (
     <>
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
@@ -64,8 +132,7 @@ const Search: React.FC<SearchProps> = (props) => {
             },
           }}
           columns={columns}
-          onSubmit={onSubmit}
-          request={getList}
+          request={onRequest}
           search={{
             collapsed: false,
             collapseRender: false,
@@ -73,6 +140,7 @@ const Search: React.FC<SearchProps> = (props) => {
           form={{
             ignoreRules: false,
           }}
+          bordered
         />
       </ProConfigProvider>
     </>
