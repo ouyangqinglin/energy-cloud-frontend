@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-08-01 19:28:03
+ * @LastEditTime: 2023-08-02 08:57:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Cluster\index.tsx
  */
@@ -92,6 +92,9 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     });
     const result = {};
     merge(result, defaultLineOption, {
+      grid: {
+        bottom: 50,
+      },
       legend: {
         icon: 'rect',
       },
@@ -122,12 +125,13 @@ const Cluster: React.FC<ClusterProps> = (props) => {
           },
         },
       ],
-      // dataZoom: [
-      //   {
-      //     start: 0,
-      //     end: 100
-      //   }
-      // ],
+      dataZoom: [
+        {
+          start: 0,
+          end: 100,
+          height: 15,
+        },
+      ],
       dataset: {
         source,
       },
@@ -229,7 +233,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
           />
           <Label title="单体信息" className="mt16" />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
-          <Chart option={chartOption} />
+          <Chart option={chartOption} style={{ height: 300 }} />
         </div>
       </div>
     </>
