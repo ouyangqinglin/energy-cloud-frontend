@@ -10,6 +10,17 @@ const { REACT_APP_ENV } = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
+  // qiankun: {
+  //   master: {
+  //     // 注册子应用信息
+  //     apps: [
+  //       {
+  //         name: 'goView', // 唯一 id
+  //         entry: '//localhost:5173/', // html entry
+  //       },
+  //     ],
+  //   },
+  // },
   dva: {
     hmr: true,
   },

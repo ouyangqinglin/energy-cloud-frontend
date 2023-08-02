@@ -18,7 +18,6 @@ import {
 } from './service';
 import { assign } from 'lodash';
 import { useModel } from 'umi';
-import type { string } from '@/components/stringSwitch';
 
 export const enum SubSystemType {
   PV = 0,

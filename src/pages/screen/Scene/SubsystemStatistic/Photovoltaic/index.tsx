@@ -32,6 +32,9 @@ const Photovoltaic: FC = () => {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
+  useEffect(() => {
+    run();
+  }, []);
 
   const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
     if (rangeDate) {
