@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-08-01 19:20:43
+ * @LastEditTime: 2023-08-02 09:36:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -55,7 +55,7 @@ export const defaultLineOption = {
     },
   },
   yAxis: {
-    name: '单位',
+    name: '',
     nameTextStyle: {
       align: 'left',
     },
@@ -70,12 +70,12 @@ export const defaultLineOption = {
   tooltip: {
     show: true,
     trigger: 'axis',
-    backgroundColor: 'rgba(9, 12, 21, 0.8)',
-    borderColor: 'rgba(21,154,255,0.8)',
-    extraCssText: 'box-shadow: 0 0 6px 0 rgba(21,154,255,0.7);',
-    textStyle: {
-      color: 'white',
-    },
+    // backgroundColor: 'rgba(9, 12, 21, 0.8)',
+    // borderColor: 'rgba(21,154,255,0.8)',
+    // extraCssText: 'box-shadow: 0 0 6px 0 rgba(21,154,255,0.7);',
+    // textStyle: {
+    //   color: 'white',
+    // },
     axisPointer: {
       type: 'line',
     },
