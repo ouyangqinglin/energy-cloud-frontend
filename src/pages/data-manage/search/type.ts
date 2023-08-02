@@ -20,5 +20,22 @@ export type CollectionValueType = {
 export type TableSearchType = {
   siteId?: string;
   collection?: CollectionValueType[];
-  date?: string;
+  date?: string[];
+  startTime?: string;
+  endTime?: string;
+  keyValue?: {
+    key?: string;
+    name?: string;
+    deviceId?: string;
+    deviceName?: string;
+  }[];
+};
+
+export type TableDataType = TableSearchType & {
+  time?: string;
+  devices?: {
+    deviceId?: string;
+    key?: string;
+    value?: number;
+  }[];
 };

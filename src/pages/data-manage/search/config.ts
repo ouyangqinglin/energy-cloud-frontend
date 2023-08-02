@@ -1,11 +1,11 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { tableTreeSelectValueTypeMap, TABLETREESELECT } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE, TableTreeModalProps } from '@/components/TableSelect';
-import { TableSearchType, CollectionValueType } from './type';
+import { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
 import moment from 'moment';
 
-const tableSelectColumns: ProColumns[] = [
+const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: '采集点ID',
     dataIndex: 'paramCode',
@@ -21,7 +21,7 @@ const tableSelectColumns: ProColumns[] = [
   },
 ];
 
-export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [
+export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: '采集点',
     dataIndex: 'collection',
@@ -35,7 +35,7 @@ export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE
       const value = form?.getFieldValue?.('siteId');
       const tableTreeSelectProps: TableTreeModalProps<
         CollectionValueType,
-        TableSearchType,
+        TableDataType,
         TableSearchType,
         any
       > = {
@@ -64,12 +64,12 @@ export const searchColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE
   },
 ];
 
-export const timeColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[] = [
+export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: '日期时间',
     dataIndex: 'date',
     valueType: 'dateRange',
-    render: (_, record) => record.date,
+    render: (_, record) => record.time,
     search: {
       transform: (value) => {
         return {

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-08-02 09:36:13
+ * @LastEditTime: 2023-08-02 15:47:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
-
-import { EChartsReactProps } from 'echarts-for-react';
+import React from 'react';
+import EChartsReact, { EChartsReactProps } from 'echarts-for-react';
 
 export enum chartTypeEnum {
   Day,
@@ -20,6 +20,7 @@ export type ChartProps = Omit<EChartsReactProps, 'option'> & {
   option?: any;
   min?: number;
   max?: number;
+  chartRef?: React.LegacyRef<EChartsReact>;
 };
 
 export const defaultOption = {};
@@ -48,6 +49,9 @@ export const defaultLineOption = {
     type: 'category',
     axisLine: {
       show: true,
+    },
+    axisLabel: {
+      showMaxLabel: true,
     },
     axisTick: {
       alignWithLabel: true,

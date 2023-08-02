@@ -2,17 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 17:39:51
- * @LastEditTime: 2023-08-01 17:24:32
+ * @LastEditTime: 2023-08-02 10:42:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\index.tsx
  */
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
+import { useBoolean } from 'ahooks';
 import EChartsReact from 'echarts-for-react';
 import { defaultOption, ChartProps } from './config';
 import { merge } from 'lodash';
 
 const Chart: React.FC<ChartProps> = (props) => {
-  const { option, min, max, ...restProps } = props;
+  const { option, min, max, chartRef, ...restProps } = props;
+
+  const [show, { setTrue }] = useBoolean(false);
 
   const chartOptions = useMemo(() => {
     const result: any = { yAxis: {} };
@@ -40,9 +43,15 @@ const Chart: React.FC<ChartProps> = (props) => {
     return result;
   }, [option]);
 
+  useEffect(() => {
+    setTrue();
+  }, []);
+
   return (
     <>
-      <EChartsReact option={chartOptions} style={{ height: 254 }} {...restProps} />
+      {show && (
+        <EChartsReact ref={chartRef} option={chartOptions} style={{ height: 254 }} {...restProps} />
+      )}
     </>
   );
 };

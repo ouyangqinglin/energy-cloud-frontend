@@ -127,6 +127,9 @@ const Cluster: React.FC<ClusterProps> = (props) => {
       ],
       dataZoom: [
         {
+          type: 'inside',
+        },
+        {
           start: 0,
           end: 100,
           height: 15,

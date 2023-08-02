@@ -14,8 +14,9 @@ import moment, { Moment } from 'moment';
 import { typeMap } from './config';
 
 export type TypeChartDataType = {
-  name: string;
+  name: string; //系列名称
   data?: {
+    //系列对应的数据
     label: string;
     value?: number;
   }[];
@@ -23,7 +24,7 @@ export type TypeChartDataType = {
 
 export type TypeChartProps = ChartProps & {
   type?: chartTypeEnum;
-  date: Moment;
+  date?: Moment;
   data?: TypeChartDataType[];
   step?: number;
   allLabel?: string[];

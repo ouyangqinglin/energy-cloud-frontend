@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-08-01 17:42:18
+ * @LastEditTime: 2023-08-02 19:23:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -36,6 +36,11 @@ const Power: React.FC<ComProps> = (props) => {
 
   const chartOption = useMemo(() => {
     return {
+      grid: {
+        top: 30,
+        bottom: 50,
+        right: 40,
+      },
       tooltip: {
         trigger: 'axis',
         formatter: (params: any) => {
@@ -44,8 +49,8 @@ const Power: React.FC<ComProps> = (props) => {
           if (typeof value[1] === 'number') {
             result.push(
               value[1] > 0
-                ? value[1] + `(<span style="color:${colorEnum.Charge}">充电</span>)`
-                : -value[1] + `(<span style="color:${colorEnum.DisCharge}">放电</span>)`,
+                ? value[1] + `kW（<span style="color:${colorEnum.Charge}">充电</span>）`
+                : -value[1] + `kW（<span style="color:${colorEnum.DisCharge}">放电</span>）`,
             );
           } else {
             result.push('-');
@@ -53,10 +58,16 @@ const Power: React.FC<ComProps> = (props) => {
           return result.join('<br/>');
         },
       },
-      grid: {
-        top: 10,
-        right: 40,
-      },
+      dataZoom: [
+        {
+          type: 'inside',
+        },
+        {
+          start: 0,
+          end: 100,
+          height: 15,
+        },
+      ],
       visualMap: {
         show: false,
         pieces: [

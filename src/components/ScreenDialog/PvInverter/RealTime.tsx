@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:50:00
- * @LastEditTime: 2023-07-31 15:33:52
+ * @LastEditTime: 2023-08-02 10:21:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverter\RealTime.tsx
  */
@@ -65,9 +65,9 @@ const RealTime: React.FC<
       { label: '输出方式', field: 'outputMethod' },
       { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
       { label: '内部温度', field: 'temperature', format: tempFormat },
-      { label: '逆变器开机时间', field: 'openTime', format: timeFormat },
+      { label: '逆变器开机时间', field: 'openTime', format: timeFormat, showExtra: false },
       { label: '绝缘阻抗值', field: 'insulationImpedanceValue', format: mohmFormat },
-      { label: '逆变器关机时间', field: 'closeTime', format: timeFormat },
+      { label: '逆变器关机时间', field: 'closeTime', format: timeFormat, showExtra: false },
     ];
   }, []);
 
