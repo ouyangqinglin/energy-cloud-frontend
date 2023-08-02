@@ -6,20 +6,15 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Electric\index.tsx
  */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton, DatePicker, Select } from 'antd';
 import { useRequest } from 'umi';
-import { chartTypeEnum } from '@/components/Chart';
-import LineChart from '@/components/Chart/LineChart';
+import { chartTypeEnum } from '@/components/Chart/config';
+import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { getElectic } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
-
-const legendMap = new Map([
-  ['charge', '总充电量'],
-  ['discharge', '总放电量'],
-]);
 
 const typeMap = [
   { value: chartTypeEnum.Month, label: '月' },
@@ -31,13 +26,26 @@ const Electric: React.FC<ComProps> = (props) => {
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
-  const {
-    loading: electricLoading,
-    data: electricData,
-    run,
-  } = useRequest(getElectic, {
-    manual: true,
-  });
+  const [chartData, setChartData] = useState<TypeChartDataType[]>();
+  const { loading: electricLoading, run } = useRequest(getElectic, { manual: true });
+
+  const chartOption = useMemo(() => {
+    return {
+      yAxis: {
+        name: '单位（kWh）',
+      },
+      series: [
+        {
+          type: 'line',
+          color: 'rgba(21, 154, 255, 1)',
+        },
+        {
+          type: 'line',
+          color: 'rgba(255, 151, 74, 1)',
+        },
+      ],
+    };
+  }, []);
 
   const onTypeSelect = useCallback((value) => {
     setChartType(value);
@@ -49,7 +57,22 @@ const Electric: React.FC<ComProps> = (props) => {
 
   useEffect(() => {
     if (deviceData?.deviceId) {
-      run({ deviceId: deviceData?.deviceId, type: chartType, date: date.format('YYYY-MM-DD') });
+      run({
+        deviceId: deviceData?.deviceId,
+        type: chartType,
+        date: date.format('YYYY-MM-DD'),
+      }).then((data) => {
+        const result: TypeChartDataType[] = [];
+        result.push({
+          name: '总充电量',
+          data: data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+        });
+        result.push({
+          name: '总放电量',
+          data: data?.discharge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+        });
+        setChartData(result);
+      });
     }
   }, [deviceData?.deviceId, chartType, date]);
 
@@ -84,15 +107,7 @@ const Electric: React.FC<ComProps> = (props) => {
                 allowClear={false}
               />
             </div>
-            <LineChart
-              type={chartType}
-              date={date}
-              valueTitle="单位（KWh）"
-              legendMap={legendMap}
-              labelKey="eventTs"
-              valueKey="doubleVal"
-              data={electricData}
-            />
+            <TypeChart type={chartType} date={date} option={chartOption} data={chartData} />
           </>
         )}
       </div>

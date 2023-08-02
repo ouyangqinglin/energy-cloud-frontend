@@ -13,7 +13,7 @@ import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { controlItems, protectItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
-import { ProColumns } from '@ant-design/pro-table';
+import { ProColumns } from '@ant-design/pro-components';
 import { ProField } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';

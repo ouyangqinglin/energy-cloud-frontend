@@ -73,8 +73,8 @@ export const timeColumns: ProColumns<TableSearchType, TABLETREESELECTVALUETYPE>[
     search: {
       transform: (value) => {
         return {
-          startTime: value[0] + '00:00',
-          endTime: value[1] + '23:59',
+          startTime: value[0] + ' 00:00:00',
+          endTime: value[1] + ' 23:59:59',
         };
       },
     },

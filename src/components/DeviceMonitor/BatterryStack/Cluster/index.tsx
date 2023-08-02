@@ -2,32 +2,29 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-07-20 16:30:34
+ * @LastEditTime: 2023-08-01 19:28:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Cluster\index.tsx
  */
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
-import { Row, Col, Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
+import { Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
 import { useRequest } from 'umi';
 import { getClusterByStack, DeviceDataType, getChildEquipment } from '@/services/equipment';
 import Detail, { DetailItem } from '@/components/Detail';
 import Label from '@/components/Detail/LineLabel';
 import { isEmpty } from '@/utils';
 import { runItems, statusItems } from './config';
-import LineChart from '@/components/Chart/LineChart';
-import { chartTypeEnum } from '@/components/Chart';
-import moment from 'moment';
+import Chart from '@/components/Chart';
+import { defaultLineOption } from '@/components/Chart/config';
 import styles from './index.less';
 import Button from '@/components/CollectionModal/Button';
 import { useSubscribe } from '@/hooks';
-import { Slider } from 'bizcharts';
+import { merge } from 'lodash';
 
 export type ClusterProps = {
   id: string;
   data?: DeviceDataType;
 };
-
-const legendMap = new Map([['voltage', '']]);
 
 const Cluster: React.FC<ClusterProps> = (props) => {
   const { id, data: deviceData } = props;
@@ -73,28 +70,73 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     return result;
   }, []);
 
-  const chartData = useMemo(() => {
-    const result = {
-      voltage: allLabel.map((item) => {
-        const num = item.replace('电芯', '').replace('温度', '');
-        if (item.indexOf('电芯') > -1) {
-          return {
-            label: item,
-            value: bmuData?.['Voltage' + num],
-          };
-        } else {
-          return {
-            label: item,
-            value: bmuData?.['Temperature' + num],
-          };
+  const chartOption = useMemo(() => {
+    const source = [['product', '电压', '温度']];
+    allLabel.forEach((item) => {
+      const num = item.replace('电芯', '').replace('温度', '');
+      let value: any = '',
+        resultValue;
+      if (item.indexOf('电芯') > -1) {
+        value = bmuData?.['Voltage' + num] || '';
+      } else {
+        value = bmuData?.['Temperature' + num] || '';
+      }
+      resultValue = value;
+      if (resultValue) {
+        resultValue = resultValue * 1;
+        if (isNaN(resultValue)) {
+          resultValue = value;
         }
-      }),
-    };
+      }
+      source.push([item, ...(item.indexOf('电芯') > -1 ? [resultValue, ''] : ['', resultValue])]);
+    });
+    const result = {};
+    merge(result, defaultLineOption, {
+      legend: {
+        icon: 'rect',
+      },
+      tooltip: {
+        formatter: (params: any) => {
+          const { value, name } = (params || {})[0];
+          return name + '：' + (value[1] === '' ? value[2] + '℃' : value[1] + 'V');
+        },
+      },
+      yAxis: {
+        name: '电压(V)\n\n温度(℃)',
+      },
+      series: [
+        {
+          type: 'bar',
+          barMaxWidth: 10,
+          stack: 'Total',
+          itemStyle: {
+            color: 'rgba(0, 125, 255, 1)',
+          },
+        },
+        {
+          type: 'bar',
+          barMaxWidth: 10,
+          stack: 'Total',
+          itemStyle: {
+            color: 'rgba(61, 213, 152, 1)',
+          },
+        },
+      ],
+      // dataZoom: [
+      //   {
+      //     start: 0,
+      //     end: 100
+      //   }
+      // ],
+      dataset: {
+        source,
+      },
+    });
     return result;
   }, [bmuData, allLabel, activeKey]);
 
   const selectedKeys = useMemo<string[]>(() => {
-    return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId];
+    return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId ?? ''];
   }, [selectOrg]);
 
   const onSelect = useCallback(
@@ -187,19 +229,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
           />
           <Label title="单体信息" className="mt16" />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
-          <LineChart
-            type={chartTypeEnum.Label}
-            date={moment()}
-            valueTitle="电压(V) 温度(℃)"
-            legendMap={legendMap}
-            labelKey="label"
-            valueKey="value"
-            data={chartData}
-            allLabel={allLabel}
-            showLine={false}
-          >
-            <Slider start={0} end={1} minLimit={0.2} />
-          </LineChart>
+          <Chart option={chartOption} />
         </div>
       </div>
     </>

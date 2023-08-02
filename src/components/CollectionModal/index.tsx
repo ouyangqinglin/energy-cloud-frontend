@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-07-26 10:48:51
+ * @LastEditTime: 2023-08-01 09:55:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -12,7 +12,7 @@ import { ProFormColumnsType } from '@ant-design/pro-form';
 import { getCollectionData, CollectionSearchType } from '@/services/data';
 import { useRequest } from 'umi';
 import LineChart from '@/components/Chart/LineChart';
-import { chartTypeEnum } from '@/components/Chart';
+import { chartTypeEnum } from '@/components/Chart/config';
 import moment, { Moment } from 'moment';
 import SchemaForm from '@/components/SchamaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
@@ -127,6 +127,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         formItemProps: {
           rules: [{ required: true }],
         },
+        initialValue: [moment(), moment()],
       },
     ];
   }, []);
@@ -141,9 +142,6 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           layout="inline"
           layoutType="QueryFilter"
           onFinish={onFinish}
-          initialValues={{
-            date: [moment(), moment()],
-          }}
         />
         <LineChart
           valueTitle=""

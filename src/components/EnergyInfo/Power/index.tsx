@@ -2,27 +2,29 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-21 09:50:58
+ * @LastEditTime: 2023-08-01 17:42:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Power\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton, DatePicker } from 'antd';
 import { useRequest } from 'umi';
-import LineChart, { LineChartDataType } from '@/components/Chart/LineChart';
+import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { getPower } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
-import { Annotation } from 'bizcharts';
 
-const legendMap = new Map([['charge', '功率']]);
+enum colorEnum {
+  Charge = 'rgba(255, 151, 74, 1)',
+  DisCharge = 'rgba(0, 125, 255, 1)',
+}
 
 const Power: React.FC<ComProps> = (props) => {
   const { deviceData, loading } = props;
 
   const [date, setDate] = useState<Moment>(moment());
-  const [maxValue, setMaxValue] = useState<number>(0.1);
+  const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const {
     loading: powerLoading,
     data: powerData,
@@ -32,21 +34,72 @@ const Power: React.FC<ComProps> = (props) => {
     pollingInterval: 2 * 60 * 1000,
   });
 
-  const chartData = useMemo(() => {
-    const result: LineChartDataType = {
-      charge: [],
+  const chartOption = useMemo(() => {
+    return {
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          const { value, name } = (params || [{}])[0];
+          const result = [name];
+          if (typeof value[1] === 'number') {
+            result.push(
+              value[1] > 0
+                ? value[1] + `(<span style="color:${colorEnum.Charge}">充电</span>)`
+                : -value[1] + `(<span style="color:${colorEnum.DisCharge}">放电</span>)`,
+            );
+          } else {
+            result.push('-');
+          }
+          return result.join('<br/>');
+        },
+      },
+      grid: {
+        top: 10,
+        right: 40,
+      },
+      visualMap: {
+        show: false,
+        pieces: [
+          {
+            gt: 0.1,
+            color: colorEnum.Charge,
+          },
+          {
+            lte: 0,
+            color: colorEnum.DisCharge,
+          },
+        ],
+      },
+      yAxis: {
+        name: '单位（kW）',
+      },
+      series: [
+        {
+          type: 'line',
+          markLine: {
+            data: [
+              {
+                yAxis: 0,
+                label: {
+                  show: true,
+                  color: colorEnum.Charge,
+                  formatter: '充电\n\n\n\n\n{dis|放电}',
+                  rich: {
+                    dis: {
+                      color: colorEnum.DisCharge,
+                    },
+                  },
+                },
+                lineStyle: {
+                  color: 'transparent',
+                },
+              },
+            ],
+          },
+        },
+      ],
     };
-    const chartValues =
-      powerData?.map?.((item) => {
-        result.charge.push({
-          time: item.eventTs,
-          value: item.doubleVal,
-        });
-        return item.doubleVal || 0;
-      }) || [];
-    setMaxValue(Math.max(...chartValues));
-    return result;
-  }, [powerData]);
+  }, []);
 
   const onChange = useCallback((value: Moment | null) => {
     setDate(value || moment());
@@ -57,6 +110,14 @@ const Power: React.FC<ComProps> = (props) => {
       run({ deviceId: deviceData?.deviceId, date: date.format('YYYY-MM-DD') });
     }
   }, [deviceData?.deviceId, date]);
+
+  useEffect(() => {
+    const result: TypeChartDataType = {
+      name: '',
+      data: powerData?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+    };
+    setChartData([result]);
+  }, [powerData]);
 
   return (
     <>
@@ -82,46 +143,7 @@ const Power: React.FC<ComProps> = (props) => {
                 allowClear={false}
               />
             </div>
-            <LineChart
-              date={date}
-              legendMap={legendMap}
-              data={chartData}
-              colors={['#007DFF']}
-              toolTipProps={{
-                domStyles: {
-                  'g2-tooltip-marker': {
-                    display: 'none',
-                  },
-                },
-              }}
-              legendProps={{
-                offsetY: 100000000,
-              }}
-            >
-              <Annotation.RegionFilter
-                start={['min', 0]}
-                end={['max', maxValue]}
-                color={'#FF974A'}
-              />
-              <Annotation.Text
-                position={['max', 0]}
-                content="充电"
-                offsetX={-25}
-                offsetY={25}
-                style={{
-                  fill: '#007DFF',
-                }}
-              />
-              <Annotation.Text
-                position={['max', 0]}
-                content="放电"
-                offsetX={-25}
-                offsetY={-25}
-                style={{
-                  fill: '#FF974A',
-                }}
-              />
-            </LineChart>
+            <TypeChart date={date} option={chartOption} data={chartData} min={-10} />
           </>
         )}
       </div>

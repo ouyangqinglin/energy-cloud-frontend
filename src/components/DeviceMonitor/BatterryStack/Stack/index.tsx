@@ -11,7 +11,7 @@ import { useRequest } from 'umi';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { ProField } from '@ant-design/pro-components';
-import { ProColumns } from '@ant-design/pro-table';
+import { ProColumns } from '@ant-design/pro-components';
 import {
   controlItems,
   statusItems,
