@@ -44,7 +44,12 @@ const Setting = () => {
   ];
 
   return (
-    <Tabs className={styles.tabsWrapper} tabBarGutter={34} defaultActiveKey="1" items={items} />
+    <Tabs
+      className={`${styles.tabsWrapper}`}
+      tabBarGutter={34}
+      defaultActiveKey="1"
+      items={items}
+    />
   );
 };
 

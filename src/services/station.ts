@@ -26,6 +26,12 @@ export type SiteTypeOptionType = {
   value?: string;
 };
 
+export type ConfigDataType = {
+  siteId?: string;
+  status?: number;
+  flowDiagramId?: string;
+};
+
 export const getStations = (params?: any) => {
   return request(`/oss/site/getList`, {
     method: 'GET',
@@ -59,6 +65,13 @@ export const getDefaultPage = (id: string) => {
 
 export const getSiteList = (params?: any) => {
   return request<ResponseCommonData<SiteDataType[]>>(`/oss/site/monitor/overview/getSiteList`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getSiteScreenConfig = (params: any) => {
+  return request<ResponseCommonData<ConfigDataType>>(`/oss/site/energyFlowDiagram/getSiteConfig`, {
     method: 'GET',
     params,
   });

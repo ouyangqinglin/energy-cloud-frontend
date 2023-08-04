@@ -1,59 +1,53 @@
-import React, { useEffect } from 'react';
-import { useRequest, useModel } from 'umi';
+import React, { useCallback, useRef } from 'react';
+import { useModel } from 'umi';
 import { useBoolean } from 'ahooks';
-import { Card, Button, Image, Modal, message } from 'antd';
-import { getStation, getDefaultPage } from '@/services/station';
-import Detail from '@/components/Detail';
-import type { DetailItem } from '@/components/Detail';
-import CustomPageForm from '../../../info/stationInfo/components/customPageForm';
-import { setComplete } from '../../../info/stationInfo/service';
+import { Card, Button } from 'antd';
+import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
+import { columns } from './config';
+import { ProFormInstance } from '@ant-design/pro-components';
+import { editData } from './service';
+import { ConfigDataType, getSiteScreenConfig as getData } from '@/services/station';
 
 const OverviewSetting: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
-  const [openCustomPage, { set, setTrue }] = useBoolean(false);
-  const {
-    loading,
-    data: pageData,
-    run: runGetDefaultPage,
-  } = useRequest(getDefaultPage, {
-    manual: true,
-  });
+  const formRef = useRef<ProFormInstance>(null);
+  const [loading, { setTrue, setFalse }] = useBoolean(true);
 
-  useEffect(() => {
-    if (siteId) {
-      runGetDefaultPage(siteId);
-    }
-  }, [siteId]);
-
-  const pageDetailItems: DetailItem[] = [
-    {
-      label: '当前设置',
-      field: 'homeType',
-      format: () => (pageData?.homeType ? pageData?.customPageName : '默认首页'),
-    },
-  ];
+  const onSaveClick = useCallback(() => {
+    formRef?.current?.submit?.();
+  }, []);
 
   return (
     <>
       <Card
-        className="mt16 px24"
-        title="默认监控首页"
+        className="mt16 mx24"
+        title="大屏页"
         extra={
-          <Button type="primary" loading={loading} onClick={setTrue}>
-            编辑
+          <Button type="primary" loading={loading} onClick={onSaveClick}>
+            保存
           </Button>
         }
       >
-        <Detail
-          data={pageData}
-          items={pageDetailItems}
-          labelStyle={{ width: '100px' }}
-          column={3}
+        <SchemaForm<ConfigDataType>
+          formRef={formRef}
+          layoutType="Form"
+          type={FormTypeEnum.Edit}
+          columns={columns}
+          submitter={false}
+          id={siteId}
+          idKey="siteId"
+          editData={editData}
+          getData={getData}
+          afterRequest={setFalse}
+          beforeSubmit={setTrue}
+          onSuccess={setFalse}
+          onError={setFalse}
+          grid={true}
+          colProps={{
+            span: 12,
+          }}
         />
       </Card>
-      {openCustomPage && (
-        <CustomPageForm open={openCustomPage} onOpenChange={set} siteId={siteId} />
-      )}
     </>
   );
 };

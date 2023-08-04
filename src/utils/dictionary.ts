@@ -179,6 +179,17 @@ export const effectStatus = {
   },
 };
 
+export const enableStatus = {
+  0: {
+    text: '禁用',
+    status: 'Success',
+  },
+  1: {
+    text: '启用',
+    status: 'Error',
+  },
+};
+
 export const alarmStatus = {
   0: {
     text: '正常',

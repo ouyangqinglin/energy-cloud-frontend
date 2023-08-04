@@ -7,12 +7,12 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\Setting\index.tsx
  */
 import React, { useMemo, useEffect } from 'react';
-import { useLocation, useModel, useHistory } from 'umi';
+import { useLocation, useModel } from 'umi';
 import Setting from '../stationManage/setting';
 import type { LocationType } from '@/utils/dictionary';
 
 const Index: React.FC = () => {
-  const { state, dispatch } = useModel('station');
+  const { dispatch } = useModel('station');
   const location = useLocation<LocationType>();
   const id = useMemo(
     () => (location as LocationType).query?.id,

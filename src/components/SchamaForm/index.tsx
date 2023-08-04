@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-07-28 15:23:58
+ * @LastEditTime: 2023-08-03 10:46:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
@@ -30,6 +30,7 @@ export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueTyp
   afterRequest?: (formData: FormData, formRef: React.Ref<ProFormInstance | undefined>) => void;
   beforeSubmit?: (formData: FormData) => boolean | void;
   onSuccess?: (formData: FormData) => boolean | void;
+  onError?: (data: any) => void;
   extraData?: Record<string, any>;
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
@@ -50,6 +51,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     afterRequest,
     beforeSubmit,
     onSuccess,
+    onError,
     extraData,
     open,
     onOpenChange,
@@ -119,22 +121,27 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       const beforeSubmitResult = beforeSubmit?.(formData);
       if (beforeSubmitResult !== false) {
-        return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })?.then?.((data) => {
-          if (data) {
-            const result = onSuccess?.(formData);
-            if (result !== false) {
-              message.success('保存成功');
-              if (layoutType !== 'QueryFilter') {
-                setDisableSubmitterTrue();
+        return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })
+          ?.then?.((data) => {
+            if (data) {
+              const result = onSuccess?.(formData);
+              if (result !== false) {
+                message.success('保存成功');
+                if (layoutType !== 'QueryFilter') {
+                  setDisableSubmitterTrue();
+                }
+                return true;
+              } else {
+                return false;
               }
-              return true;
             } else {
+              onError?.(data);
               return false;
             }
-          } else {
-            return false;
-          }
-        });
+          })
+          .catch((data) => {
+            onError?.(data);
+          });
       } else {
         return Promise.resolve(false);
       }
@@ -143,7 +150,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
   );
 
   useEffect(() => {
-    if (open) {
+    if (open || layoutType === 'QueryFilter' || layoutType === 'Form') {
       if (layoutType !== 'QueryFilter') {
         setDisableSubmitterTrue();
       }
@@ -155,10 +162,6 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
           myFormRef?.current?.setFieldsValue?.(requestData);
         });
       } else if (initialValues) {
-        myFormRef?.current?.setFieldsValue?.(initialValues as any);
-      }
-    } else {
-      if (layoutType === 'QueryFilter' && initialValues) {
         myFormRef?.current?.setFieldsValue?.(initialValues as any);
       }
     }

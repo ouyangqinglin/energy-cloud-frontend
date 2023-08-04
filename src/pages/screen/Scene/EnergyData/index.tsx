@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 15:23:35
- * @LastEditTime: 2023-06-25 15:51:34
+ * @LastEditTime: 2023-08-03 11:25:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\EnergyData\index.tsx
  */
@@ -13,14 +13,14 @@ import type { TimeType } from '../../components/TimeButtonGroup';
 import { getData } from './service';
 import { getSiteId } from '../helper';
 import { getPlaceholder } from '@/utils';
-import pvInvinter from '@/assets/image/screen/energy-data/pvInvinter.svg';
-import transmission from '@/assets/image/screen/energy-data/transmission.svg';
-import energyDischarge from '@/assets/image/screen/energy-data/energy-discharge.svg';
-import charge from '@/assets/image/screen/energy-data/charge.svg';
-import energyCharge from '@/assets/image/screen/energy-data/energy-charge.svg';
-import load from '@/assets/image/screen/energy-data/load.svg';
-import arrowRight from '@/assets/image/screen/energy-data/arrow-right.svg';
-import floor from '@/assets/image/screen/energy-data/floor.svg';
+import pvInvinter from '@/assets/image/screen/energy-data/pvInvinter.gif';
+import transmission from '@/assets/image/screen/energy-data/transmission.gif';
+import energyDischarge from '@/assets/image/screen/energy-data/energy-discharge.gif';
+import charge from '@/assets/image/screen/energy-data/charge.gif';
+import energyCharge from '@/assets/image/screen/energy-data/energy-charge.gif';
+import load from '@/assets/image/screen/energy-data/load.gif';
+import arrowRight from '@/assets/image/screen/energy-data/arrow-right.gif';
+import floor from '@/assets/image/screen/energy-data/floor.gif';
 import styles from './index.less';
 
 type EnergyDataProps = {

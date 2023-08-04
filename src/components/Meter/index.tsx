@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-07-20 14:25:13
+ * @LastEditTime: 2023-08-03 11:14:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
@@ -19,6 +19,7 @@ import IconApparentPower from '@/assets/image/meter/apparent-power.png';
 import IconTodayElectric from '@/assets/image/meter/today-electric.png';
 import IconFrequency from '@/assets/image/meter/frequency.png';
 import IconPowerFactor from '@/assets/image/meter/power-factor.png';
+import styles from './index.less';
 
 type MeterProps = {
   data: AnyMapType;
@@ -118,7 +119,7 @@ const Meter: React.FC<MeterProps> = (props) => {
       return (
         <Card.Grid hoverable={false} key={item.title} style={{ width: '20%' }}>
           <div className="flex card-grid-title mb12">
-            {item.icon ? <img src={item.icon} className="mr12" /> : ''}
+            {item.icon ? <img src={item.icon} className={`mr12 ${styles.img}`} /> : ''}
             {item.title}
           </div>
           <Detail
