@@ -8,6 +8,8 @@
  */
 
 export type CollectionValueType = {
+  id: string;
+  name: string;
   selectName: string;
   paramName: string;
   node?: {
@@ -20,6 +22,7 @@ export type CollectionValueType = {
 export type TableSearchType = {
   siteId?: string;
   collection?: CollectionValueType[];
+  deviceCollection?: {}[];
   date?: string[];
   startTime?: string;
   endTime?: string;

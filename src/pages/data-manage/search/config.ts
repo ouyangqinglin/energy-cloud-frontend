@@ -1,6 +1,10 @@
 import type { ProColumns } from '@ant-design/pro-components';
-import { tableTreeSelectValueTypeMap, TABLETREESELECT } from '@/components/TableSelect';
-import type { TABLETREESELECTVALUETYPE, TableTreeModalProps } from '@/components/TableSelect';
+import { TABLETREESELECT, TABLESELECT } from '@/components/TableSelect';
+import type {
+  TABLETREESELECTVALUETYPE,
+  TABLESELECTVALUETYPE,
+  TableTreeModalProps,
+} from '@/components/TableSelect';
 import { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
 import moment from 'moment';
@@ -49,6 +53,7 @@ export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[
           request: () => getDeviceTree({ siteId: value }),
         },
         proTableProps: {
+          pagination: false,
           columns: tableSelectColumns,
           request: getDeviceCollection,
         },
@@ -63,6 +68,34 @@ export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[
     },
   },
 ];
+export const getDeviceSearchColumns = (deviceId: string) => {
+  const deviceSearchColumns: ProColumns<TableDataType, TABLESELECTVALUETYPE>[] = [
+    {
+      title: '采集点',
+      dataIndex: 'collection',
+      valueType: TABLESELECT,
+      hideInTable: true,
+      formItemProps: {
+        rules: [{ required: true, message: '请选择采集点' }],
+      },
+      fieldProps: (form) => {
+        return {
+          tableId: 'paramCode',
+          tableName: 'paramName',
+          proTableProps: {
+            columns: tableSelectColumns,
+            request: (params: any) => getDeviceCollection({ deviceId }),
+            pagination: false,
+            scroll: {
+              y: 'calc(100vh - 400px)',
+            },
+          },
+        };
+      },
+    },
+  ];
+  return deviceSearchColumns;
+};
 
 export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {

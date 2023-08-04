@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-08-02 17:56:45
+ * @LastEditTime: 2023-08-04 15:32:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -13,10 +13,12 @@ import { getCollectionData, CollectionSearchType } from '@/services/data';
 import { useRequest } from 'umi';
 import TypeChart, { TypeChartDataType } from '../Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import SchemaForm from '@/components/SchamaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
 import EChartsReact from 'echarts-for-react';
+import { DeviceModelType } from '@/types/device';
+import { DeviceModelTypeEnum } from '@/utils/dictionary';
 
 type Searchtype = CollectionSearchType & {
   date: string[];
@@ -26,10 +28,11 @@ export type CollectionModalProps = Omit<ModalProps, 'title'> & {
   title: string;
   deviceId: string;
   keys: string[];
+  model?: DeviceModelType;
 };
 
 const CollectionModal: React.FC<CollectionModalProps> = (props) => {
-  const { deviceId, keys, title, open, ...restProps } = props;
+  const { deviceId, keys, model, title, open, ...restProps } = props;
 
   const formRef = useRef<ProFormInstance>(null);
   const chartRef = useRef<EChartsReact>(null);
@@ -38,6 +41,27 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
   const { run } = useRequest(getCollectionData, {
     manual: true,
   });
+
+  const modelData = useMemo(() => {
+    let enumObj = {},
+      enumKeys: string[] = [];
+    if (model?.type === DeviceModelTypeEnum.Enum) {
+      try {
+        enumObj = JSON.parse(model?.specs);
+        if (typeof enumObj !== 'object') {
+          enumObj = {};
+        }
+      } catch {
+        enumObj = {};
+      }
+      enumKeys = ['wahaha'].concat(Object.keys(enumObj));
+    }
+    return {
+      type: model?.type,
+      keys: enumKeys,
+      data: enumObj,
+    };
+  }, [model]);
 
   const chartOption = useMemo(() => {
     return {
@@ -49,6 +73,15 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
       legend: {
         show: false,
       },
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          const { value, name } = (params || [{}])[0];
+          const result = [name];
+          result.push(title + '：' + (modelData.data[modelData.keys[value[1]]] || '-'));
+          return result.join('<br/>');
+        },
+      },
       xAxis: {
         axisLabel: {
           formatter: (value: string) => {
@@ -56,6 +89,17 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           },
         },
       },
+      yAxis:
+        modelData.type === DeviceModelTypeEnum.Enum
+          ? {
+              interval: 1,
+              axisLabel: {
+                formatter: (value: string) => {
+                  return modelData.data?.[modelData.keys[value]] || '';
+                },
+              },
+            }
+          : {},
       dataZoom: [
         {
           type: 'inside',
@@ -78,7 +122,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         },
       ],
     };
-  }, []);
+  }, [title, modelData]);
 
   const allLabel = useMemo(() => {
     return chartData?.[0]?.data?.map?.((item) => item.label);
@@ -106,17 +150,27 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
             data?.details?.forEach((device) => {
               device?.data?.forEach((row) => {
                 row?.collection?.forEach((collection) => {
-                  result?.data?.push?.({
-                    label: row?.time || '',
-                    value: collection?.value,
-                  });
+                  if (modelData.type == DeviceModelTypeEnum.Enum) {
+                    const index = modelData.keys.findIndex(
+                      (item) => item == (collection?.value as any),
+                    );
+                    result?.data?.push?.({
+                      label: row?.time || '',
+                      value: index,
+                    });
+                  } else {
+                    result?.data?.push?.({
+                      label: row?.time || '',
+                      value: collection?.value,
+                    });
+                  }
                 });
               });
             });
             setChartData([result]);
           } else {
             setChartType(chartTypeEnum.Label);
-            const result = {
+            const resultData = {
               dataset: {
                 source: [['product', title]],
               },
@@ -124,11 +178,20 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
             data?.details?.forEach((device) => {
               device?.data?.forEach((row) => {
                 row?.collection?.forEach((collection) => {
-                  result.dataset.source.push([row?.time || '', collection?.value as any]);
+                  if (modelData.type == DeviceModelTypeEnum.Enum) {
+                    const index = modelData.keys.findIndex(
+                      (item) => item == (collection?.value as any),
+                    );
+                    resultData.dataset.source.push([row?.time || '', index as any]);
+                  } else {
+                    resultData.dataset.source.push([row?.time || '', collection?.value as any]);
+                  }
                 });
               });
             });
-            chartRef?.current?.getEchartsInstance().setOption(result);
+            setTimeout(() => {
+              chartRef?.current?.getEchartsInstance().setOption(resultData);
+            }, 300);
           }
           return true;
         });
@@ -136,7 +199,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         return Promise.resolve(true);
       }
     },
-    [deviceId, keys],
+    [deviceId, keys, modelData],
   );
 
   useEffect(() => {
@@ -177,6 +240,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           style={{ height: 400 }}
           data={chartData}
           allLabel={allLabel}
+          max={modelData.type == DeviceModelTypeEnum.Enum ? modelData.keys.length - 1 : 0}
         />
       </Modal>
     </>

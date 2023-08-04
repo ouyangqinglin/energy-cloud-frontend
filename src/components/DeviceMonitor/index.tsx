@@ -13,7 +13,7 @@ import type { DeviceDialogMapType } from './config';
 
 const DeviceMonitor: React.FC<
   DeviceDetailType & {
-    productId: number;
+    productId: string;
   }
 > = (props) => {
   const { id, productId, onChange } = props;
@@ -37,7 +37,7 @@ const DeviceMonitor: React.FC<
             </div>
           }
         >
-          <Component id={id} onChange={onChange} {...componentProps} />
+          <Component id={id} productId={productId} onChange={onChange} {...componentProps} />
         </Suspense>
       )}
     </>

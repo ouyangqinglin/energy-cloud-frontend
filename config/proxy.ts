@@ -9,26 +9,29 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://192.168.3.18',
+      target: 'https://192.168.3.18',
       // target: 'http://ytoss.yotaienergy.com',
       changeOrigin: true,
       pathRewrite: { '^/api': '/prod-api' },
-      // pathRewrite: { '^/api': '' },
+      secure: false,
     },
     '/file/': {
-      target: 'http://192.168.3.18',
+      target: 'https://192.168.3.18',
       changeOrigin: true,
+      secure: false,
     },
     '/profile/avatar/': {
-      target: 'http://192.168.3.18',
+      target: 'https://192.168.3.18',
       changeOrigin: true,
+      secure: false,
     },
   },
   test: {
     '/api/': {
-      target: 'http://192.168.3.18',
+      target: 'https://192.168.3.18',
       changeOrigin: true,
       pathRewrite: { '^/api': '/prod-api' },
+      secure: false,
     },
   },
   pre: {
@@ -36,6 +39,7 @@ export default {
       target: 'your pre url',
       changeOrigin: true,
       pathRewrite: { '^': '' },
+      secure: false,
     },
   },
 };

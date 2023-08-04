@@ -2,14 +2,15 @@ import React, { useMemo, useCallback, useState } from 'react';
 import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { searchColumns, timeColumns } from './config';
+import { searchColumns, timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { useSiteColumn } from '@/hooks';
-import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
+import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
+import { DeviceDataType } from '@/services/equipment';
 
 type DeviceMapDataType = {
   deviceName: string;
@@ -20,53 +21,84 @@ type DeviceMapDataType = {
 };
 
 type SearchProps = {
-  isStationChild?: boolean;
+  isDeviceChild?: boolean;
+  deviceData?: DeviceDataType;
 };
 
-const dealParams = (params: TableSearchType) => {
-  const deviceDataMap = new Map<string, DeviceMapDataType>();
-  params?.collection?.map?.((item) => {
-    const collection = deviceDataMap.get(item?.node?.deviceId || '');
-    if (collection) {
-      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
-      deviceDataMap.set(item?.node?.deviceId || '', collection);
-    } else {
-      deviceDataMap.set(item?.node?.deviceId || '', {
-        deviceName: item?.node?.deviceName || '',
-        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
-      });
-    }
-  });
-  const deviceData: TableSearchType['keyValue'] = [];
+const dealParams = (
+  params: TableSearchType,
+  isDeviceChild?: boolean,
+  deviceId?: string,
+  deviceName?: string,
+) => {
   const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-  deviceDataMap.forEach((value, key) => {
-    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-    value.collection.forEach((item) => {
+  const deviceData: TableSearchType['keyValue'] = [];
+  if (isDeviceChild) {
+    const deviceChildren: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+    params?.collection?.forEach((item) => {
       deviceData.push({
         key: item.id,
         name: item.name,
-        deviceId: key,
-        deviceName: value.deviceName,
+        deviceId: deviceId,
+        deviceName: deviceName,
       });
-      arr.push({
+      deviceChildren.push({
         title: item.name,
-        dataIndex: item.id + '-' + key,
+        dataIndex: item.id + '-' + deviceId,
         width: 120,
         ellipsis: true,
       });
     });
     cols.push({
-      title: value.deviceName,
+      title: deviceName,
       hideInSearch: true,
-      children: arr,
+      children: deviceChildren,
     });
-  });
-  params.keyValue = deviceData;
-  return cols;
+    params.keyValue = deviceData;
+    return cols;
+  } else {
+    const deviceDataMap = new Map<string, DeviceMapDataType>();
+    params?.collection?.forEach?.((item) => {
+      const collection = deviceDataMap.get(item?.node?.deviceId || '');
+      if (collection) {
+        collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
+        deviceDataMap.set(item?.node?.deviceId || '', collection);
+      } else {
+        deviceDataMap.set(item?.node?.deviceId || '', {
+          deviceName: item?.node?.deviceName || '',
+          collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
+        });
+      }
+    });
+    deviceDataMap.forEach((value, key) => {
+      const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+      value.collection.forEach((item) => {
+        deviceData.push({
+          key: item.id,
+          name: item.name,
+          deviceId: key,
+          deviceName: value.deviceName,
+        });
+        arr.push({
+          title: item.name,
+          dataIndex: item.id + '-' + key,
+          width: 120,
+          ellipsis: true,
+        });
+      });
+      cols.push({
+        title: value.deviceName,
+        hideInSearch: true,
+        children: arr,
+      });
+    });
+    params.keyValue = deviceData;
+    return cols;
+  }
 };
 
 const Search: React.FC<SearchProps> = (props) => {
-  const { isStationChild } = props;
+  const { isDeviceChild, deviceData } = props;
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const [collectionColumns, setCollectionColumns] = useState<
@@ -81,21 +113,25 @@ const Search: React.FC<SearchProps> = (props) => {
   });
 
   const columns = useMemo(() => {
-    const siteSearch = isStationChild ? [] : [siteSearchColumn];
-    return [...siteSearch, ...searchColumns, ...timeColumns, ...collectionColumns];
-  }, [siteSearchColumn, collectionColumns]);
+    const siteSearch = isDeviceChild ? [] : [siteSearchColumn];
+    return [
+      ...siteSearch,
+      ...(isDeviceChild ? getDeviceSearchColumns(deviceData?.deviceId || '') : searchColumns),
+      ...timeColumns,
+      ...collectionColumns,
+    ];
+  }, [siteSearchColumn, collectionColumns, deviceData]);
 
   const onRequest = useCallback(
     (params: TableSearchType) => {
-      if (params.siteId && params?.collection && params?.collection?.length) {
-        const cols = dealParams(params);
+      if (params?.collection && params?.collection?.length) {
+        const cols = dealParams(params, isDeviceChild, deviceData?.deviceId, deviceData?.name);
         setCollectionColumns(cols);
         const result = getList({
           ...params,
-          ...(isStationChild ? { siteId } : {}),
+          ...(isDeviceChild ? { siteId } : {}),
         }).then(({ data }) => {
           data?.list?.forEach?.((item) => {
-            item.date = item.time;
             item?.devices?.forEach?.((child) => {
               item[child?.key + '-' + child?.deviceId] = child?.value;
             });
@@ -118,21 +154,21 @@ const Search: React.FC<SearchProps> = (props) => {
         });
       }
     },
-    [isStationChild, siteId],
+    [isDeviceChild, deviceData, siteId],
   );
 
   const requestExport = useCallback(
     (params: TableSearchType) => {
-      dealParams(params);
+      dealParams(params, isDeviceChild, deviceData?.deviceId, deviceData?.name);
       const date = params?.date || [];
       return exportList({
         ...params,
         startTime: moment(date[0]).format('YYYY-MM-DD HH:mm:ss'),
         endTime: moment(date[1]).format('YYYY-MM-DD HH:mm:ss'),
-        ...(isStationChild ? { siteId } : {}),
+        ...(isDeviceChild ? { siteId } : {}),
       });
     },
-    [isStationChild, siteId],
+    [isDeviceChild, siteId, deviceData],
   );
 
   const getExportName = useCallback((params: TableSearchType) => {
@@ -148,29 +184,31 @@ const Search: React.FC<SearchProps> = (props) => {
   return (
     <>
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
-        <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
-          headerTitle="采样明细"
-          toolBarRenderOptions={{
-            add: {
-              show: false,
-            },
-            export: {
-              show: true,
-              requestExport: requestExport,
-              getExportName: getExportName,
-            },
-          }}
-          columns={columns}
-          request={onRequest}
-          search={{
-            collapsed: false,
-            collapseRender: false,
-          }}
-          form={{
-            ignoreRules: false,
-          }}
-          bordered
-        />
+        <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
+          <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
+            headerTitle="采样明细"
+            toolBarRenderOptions={{
+              add: {
+                show: false,
+              },
+              export: {
+                show: true,
+                requestExport: requestExport,
+                getExportName: getExportName,
+              },
+            }}
+            columns={columns}
+            request={onRequest}
+            search={{
+              collapsed: false,
+              collapseRender: false,
+            }}
+            form={{
+              ignoreRules: false,
+            }}
+            bordered
+          />
+        </ProConfigProvider>
       </ProConfigProvider>
     </>
   );

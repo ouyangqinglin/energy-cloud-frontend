@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:43:38
- * @LastEditTime: 2023-07-17 10:00:08
+ * @LastEditTime: 2023-08-04 14:13:01
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Ems\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Ems\index.tsx
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
@@ -21,7 +21,7 @@ import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
 
 const Ems: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+  const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
@@ -36,7 +36,7 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
       {
         key: '1',
         label: '运行数据',
-        children: <Run id={id} realTimeData={realTimeData} />,
+        children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
       },
       {
         key: '2',

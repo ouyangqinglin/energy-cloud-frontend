@@ -3,6 +3,7 @@ import { DeviceDataType } from '@/services/equipment';
 
 export type DeviceDetailType = {
   id: string;
+  productId: string;
   onChange?: (value: DeviceDataType) => void;
 };
 

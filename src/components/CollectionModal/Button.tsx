@@ -13,17 +13,19 @@ import styles from './index.less';
 import CollectionModal from '.';
 import { useBoolean } from 'ahooks';
 import { DetailItem } from '@/components/Detail';
+import { DeviceModelType } from '@/types/device';
 
 export type ButtonProps = {
   title: string;
   className?: string;
   deviceId: string;
   collection: string;
+  model?: DeviceModelType;
   onClick?: (item: DetailItem, value?: any) => void;
 };
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const { title, children, className, deviceId, collection, onClick, ...restProps } = props;
+  const { title, children, className, deviceId, collection, model, onClick, ...restProps } = props;
 
   const [open, { setTrue, setFalse }] = useBoolean(false);
 
@@ -48,6 +50,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         onCancel={setFalse}
         deviceId={deviceId}
         keys={[collection]}
+        model={model}
       />
     </>
   );

@@ -19,9 +19,10 @@ import { controlItems, statusItems } from './config';
 import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
+import useDeviceModel from '../useDeviceModel';
 
 const Air: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+  const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
@@ -29,6 +30,7 @@ const Air: React.FC<DeviceDetailType> = (props) => {
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: AirImg });
@@ -44,9 +46,10 @@ const Air: React.FC<DeviceDetailType> = (props) => {
 
   const extral = (
     <Button
-      title={collectionInfo.title}
       deviceId={id}
+      title={collectionInfo.title}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

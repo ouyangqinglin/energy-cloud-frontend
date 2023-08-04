@@ -2,17 +2,17 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-06-08 09:25:36
+ * @LastEditTime: 2023-08-04 17:01:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { Modal, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
 import type { ProTableProps } from '@ant-design/pro-table';
-import { defaultsDeep } from 'lodash';
+import { defaultsDeep, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 
@@ -44,7 +44,7 @@ const TableModal = <
     onCancel,
     width = '1000px',
     multiple = true,
-    proTableProps = {},
+    proTableProps,
     valueId = 'id',
     valueName = 'name',
     tableId = 'id',
@@ -111,29 +111,34 @@ const TableModal = <
     [selectedTags],
   );
 
-  const defaultTableProps: ProTableProps<DataType, Params> = {
-    rowSelection: {
-      type: multiple ? 'checkbox' : 'radio',
-      alwaysShowAlert: true,
-      selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
-      onChange: onSelectedChange,
-    },
-    search: { labelWidth: 'auto' },
-    rowKey: tableId,
-    pagination: {
-      pageSize: 10,
-      showSizeChanger: true,
-    },
-    toolBarRender: false,
-    tableAlertRender,
-    tableAlertOptionRender: false,
-    size: 'small',
-  };
+  const defaultTableProps = useMemo<ProTableProps<DataType, Params>>(() => {
+    return {
+      rowSelection: {
+        type: multiple ? 'checkbox' : 'radio',
+        alwaysShowAlert: true,
+        selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
+        onChange: onSelectedChange,
+      },
+      search: { labelWidth: 'auto' },
+      rowKey: tableId,
+      pagination: {
+        pageSize: 10,
+        showSizeChanger: true,
+      },
+      toolBarRender: false,
+      tableAlertRender,
+      tableAlertOptionRender: false,
+      size: 'small',
+    };
+  }, [multiple, selectedTags, valueId, onSelectedChange, tableId, tableAlertRender]);
 
-  const tableProps: ProTableProps<DataType, Params> = defaultsDeep(
-    defaultTableProps,
-    proTableProps,
-  );
+  const tableProps = useMemo<ProTableProps<DataType, Params>>(() => {
+    return mergeWith(defaultTableProps, proTableProps, (objValue, srcValue) => {
+      if (srcValue === false) {
+        return false;
+      }
+    });
+  }, [defaultTableProps, proTableProps]);
 
   return (
     <>

@@ -56,6 +56,16 @@ export enum FormTypeEnum {
   Detail = 'detail',
 }
 
+export enum DeviceModelTypeEnum {
+  Long = 'long',
+  Double = 'double',
+  String = 'string',
+  Boolean = 'boolean',
+  Enum = 'enum',
+  Struct = 'struct',
+  Array = 'array',
+}
+
 export type FileType = {
   url: string;
 };
