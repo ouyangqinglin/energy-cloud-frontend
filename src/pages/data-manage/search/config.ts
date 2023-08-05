@@ -84,7 +84,7 @@ export const getDeviceSearchColumns = (deviceId: string) => {
           tableName: 'paramName',
           proTableProps: {
             columns: tableSelectColumns,
-            request: (params: any) => getDeviceCollection({ deviceId }),
+            request: (params: any) => getDeviceCollection({ deviceId, ...params }),
             pagination: false,
             scroll: {
               y: 'calc(100vh - 400px)',

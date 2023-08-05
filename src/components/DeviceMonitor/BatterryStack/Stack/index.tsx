@@ -28,16 +28,19 @@ import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equip
 import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
 import { clusterFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
+import useDeviceModel from '../../useDeviceModel';
 
 export type StackProps = {
   id: string;
+  productId: string;
   data?: DeviceDataType;
   realTimeData?: Record<string, any>;
 };
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { data: deviceData, realTimeData, id } = props;
+  const { data: deviceData, realTimeData, id, productId } = props;
 
+  const { modelMap } = useDeviceModel({ productId });
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -142,6 +145,7 @@ const Stack: React.FC<StackProps> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

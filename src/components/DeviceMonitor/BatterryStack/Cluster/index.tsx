@@ -23,6 +23,7 @@ import { merge } from 'lodash';
 
 export type ClusterProps = {
   id: string;
+  productId: string;
   data?: DeviceDataType;
 };
 
