@@ -26,7 +26,7 @@ export type PvInverterDeviceDialogMapType = {
 };
 
 type GetValue<T extends keyof any, V> = {
-  [p in T]: V;
+  [p in T]?: V;
 };
 
 export const deviceDetailMap: Omit<
@@ -48,7 +48,6 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.YtCharge120]: { component: 'YTCharge' },
   [DeviceTypeEnum.EnergyCabinet]: { component: 'EnergyCabinet' },
   [DeviceTypeEnum.BoxSubstation]: { component: 'BoxSubstation' },
-  [DeviceTypeEnum.Cabinet]: { component: 'Cabinet' },
   [DeviceTypeEnum.HwChargeChild]: { component: 'HwChargeChild' },
   [DeviceTypeEnum.HwChargeYt]: { component: 'HwChargeYt' },
   [DeviceTypeEnum.Device]: { component: 'Device' },

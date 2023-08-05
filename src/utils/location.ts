@@ -1,7 +1,11 @@
+import defaultSettings from '../../config/defaultSettings';
+
 const isDev = process.env.NODE_ENV === 'development';
-const COMMON_PATH = '/prod-api';
 const getWsProtocol = () => {
-  const { protocol } = location;
+  const { protocol, hostname } = location;
+  if (hostname == 'localhost') {
+    return 'wss://';
+  }
   if (protocol.match(/https/gi)) {
     return 'wss://';
   }
@@ -9,5 +13,5 @@ const getWsProtocol = () => {
 };
 export const getWebSocketHost = () => {
   const host = isDev ? '192.168.3.18' : location.host;
-  return getWsProtocol() + host + COMMON_PATH;
+  return getWsProtocol() + host + '/prod-api';
 };

@@ -29,7 +29,7 @@ export type SiteTypeOptionType = {
 export type ConfigDataType = {
   siteId?: string;
   status?: number;
-  flowDiagramId?: string;
+  energyFlowDiagramIds?: string;
 };
 
 export const getStations = (params?: any) => {

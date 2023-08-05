@@ -31,7 +31,7 @@ const ButtonGroupCarousel: FC<{
   };
 
   useEffect(() => {
-    const value = typeMap[screenConfigData?.flowDiagramId?.[0] || ''];
+    const value = typeMap[screenConfigData?.energyFlowDiagramIds?.[0] || '']; //TotalBatteryVoltage
     if (value) {
       setType(value);
       onChange?.(value);
@@ -46,14 +46,14 @@ const ButtonGroupCarousel: FC<{
         value={type}
         onChange={handleClick}
       >
-        {screenConfigData?.flowDiagramId?.includes?.('2') && (
+        {screenConfigData?.energyFlowDiagramIds?.includes?.(2 as any) && (
           <Tooltip placement="top" title="定制能流图" color="#0f60a7">
             <Radio.Button value={SystemDiagramType.CUSTOMER}>
               <CodeSandboxOutlined />
             </Radio.Button>
           </Tooltip>
         )}
-        {screenConfigData?.flowDiagramId?.includes?.('1') && (
+        {screenConfigData?.energyFlowDiagramIds?.includes?.(1 as any) && (
           <Tooltip placement="top" title="标准能流图" color="#0f60a7">
             <Radio.Button value={SystemDiagramType.NORMAL}>
               <AppstoreOutlined />

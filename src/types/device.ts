@@ -18,7 +18,7 @@ export type DevicePropsType = {
   name?: string;
   groupName?: string;
   dataType?: DeviceModelType;
-  properties?: DevicePropsType;
+  properties?: DevicePropsType[];
 };
 
 export type DeviceServiceType = {};
