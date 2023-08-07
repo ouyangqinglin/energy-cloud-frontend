@@ -56,6 +56,16 @@ export enum FormTypeEnum {
   Detail = 'detail',
 }
 
+export enum DeviceModelTypeEnum {
+  Long = 'long',
+  Double = 'double',
+  String = 'string',
+  Boolean = 'boolean',
+  Enum = 'enum',
+  Struct = 'struct',
+  Array = 'array',
+}
+
 export type FileType = {
   url: string;
 };
@@ -175,6 +185,17 @@ export const effectStatus = {
   },
   1: {
     text: '无效',
+    status: 'Error',
+  },
+};
+
+export const enableStatus = {
+  0: {
+    text: '禁用',
+    status: 'Success',
+  },
+  1: {
+    text: '启用',
     status: 'Error',
   },
 };

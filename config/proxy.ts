@@ -14,25 +14,24 @@ export default {
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/api': '/prod-api' },
-      // pathRewrite: { '^/api': '' },
     },
     '/file/': {
       target: 'https://192.168.3.18',
-      secure: false,
       changeOrigin: true,
+      secure: false,
     },
     '/profile/avatar/': {
       target: 'https://192.168.3.18',
-      secure: false,
       changeOrigin: true,
+      secure: false,
     },
   },
   test: {
     '/api/': {
       target: 'https://192.168.3.18',
-      secure: false,
       changeOrigin: true,
       pathRewrite: { '^/api': '/prod-api' },
+      secure: false,
     },
   },
   pre: {
@@ -40,6 +39,7 @@ export default {
       target: 'your pre url',
       changeOrigin: true,
       pathRewrite: { '^': '' },
+      secure: false,
     },
   },
 };

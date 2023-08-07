@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-31 15:36:06
+ * @LastEditTime: 2023-08-04 14:12:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Ems\Run\index.tsx
  */
@@ -13,19 +13,22 @@ import Detail, { DetailItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
 import { controlItems, protectItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
-import { ProColumns } from '@ant-design/pro-table';
+import { ProColumns } from '@ant-design/pro-components';
 import { ProField } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';
+import useDeviceModel from '../../useDeviceModel';
 
 export type StackProps = {
   id: string;
+  productId: string;
   realTimeData?: Record<string, any>;
 };
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { realTimeData, id } = props;
+  const { realTimeData, id, productId } = props;
 
+  const { modelMap } = useDeviceModel({ productId });
   const history = useHistory();
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
@@ -110,6 +113,7 @@ const Stack: React.FC<StackProps> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

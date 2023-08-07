@@ -6,7 +6,7 @@ export type CollectionDataType = {
       time?: string;
       collection?: {
         eventTs?: string;
-        doubleVal?: number;
+        value?: number;
       }[];
     }[];
     deviceName?: string;
@@ -22,7 +22,7 @@ export type CollectionSearchType = {
   }[];
   startTime?: string;
   endTime?: string;
-  pageNum?: number;
+  current?: number;
   pageSize?: number;
 };
 

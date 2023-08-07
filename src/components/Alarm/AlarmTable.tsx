@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-07-27 09:46:05
+ * @LastEditTime: 2023-08-04 11:41:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -125,7 +125,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
-        return requestCleanUpAlarm({ id: record.id }).then(({ data }) => {
+        return requestCleanUpAlarm({ ids: [record.id] }).then(({ data }) => {
           if (data) {
             message.success('保存成功');
             actionRef?.current?.reload?.();

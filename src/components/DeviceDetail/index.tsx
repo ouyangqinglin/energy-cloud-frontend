@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-07-28 17:06:13
+ * @LastEditTime: 2023-08-04 16:32:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -11,7 +11,7 @@ import { Empty, Skeleton, Space, Tabs, TabsProps, Tree } from 'antd';
 import { useRequest } from 'umi';
 import DeviceMonitor from '@/components/DeviceMonitor';
 import { getChildEquipment, DeviceDataType } from '@/services/equipment';
-import HistoryData from '@/components/DeviceMonitor/HistoryData';
+import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import LogTable from '@/components/LogTable';
 import { getLogs, getDeviceInfo } from '@/services/equipment';
@@ -58,7 +58,7 @@ const deviceMap = new Map([
 
 const dealTreeData = (data: TreeNode[]) => {
   data?.forEach?.((item) => {
-    item.icon = deviceMap.get(item.productId as number) || null;
+    item.icon = deviceMap.get(item.productId as any) || null;
     if (item.children && item.children.length) {
       dealTreeData(item.children);
     }
@@ -67,7 +67,7 @@ const dealTreeData = (data: TreeNode[]) => {
 
 export type DeviceDetailProps = {
   id: string;
-  productId: number;
+  productId: string;
 };
 
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
@@ -90,7 +90,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   });
 
   const selectedKeys = useMemo<string[]>(() => {
-    return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId];
+    return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId as string];
   }, [selectOrg]);
 
   const treeData = useMemo(() => {
@@ -134,14 +134,14 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         key: '1',
         children: (
           <>
-            <DeviceMonitor id={selectOrg?.deviceId || ''} productId={selectOrg?.productId || 0} />
+            <DeviceMonitor id={selectOrg?.deviceId || ''} productId={selectOrg?.productId || '0'} />
           </>
         ),
       },
       {
         label: '历史数据',
         key: '2',
-        children: <HistoryData />,
+        children: <Search isDeviceChild deviceData={deviceData} />,
       },
       {
         label: '告警',
@@ -159,7 +159,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         children: <Empty />,
       },
     ];
-  }, [selectOrg, productId, id]);
+  }, [selectOrg, productId, id, deviceData]);
 
   return (
     <>

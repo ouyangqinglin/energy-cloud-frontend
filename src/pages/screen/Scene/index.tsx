@@ -15,7 +15,6 @@ import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import AlarmInfo from './Alarm';
 import Geometry from './Geometry';
-import styles from './index.less';
 import { useMemo, useState } from 'react';
 import { useWatchingAlarm } from './Alarm/useSubscribe';
 import ButtonGroupCarousel, { SystemDiagramType } from '../components/ButtonGroupCarousel';
@@ -73,7 +72,7 @@ const Scene = () => {
     [revenueTimeType],
   );
 
-  const [geometryMode, setGeometryMode] = useState(SystemDiagramType.CUSTOMER);
+  const [geometryMode, setGeometryMode] = useState<SystemDiagramType>();
   const switchGeometry = (value: SystemDiagramType) => {
     setGeometryMode(value);
   };

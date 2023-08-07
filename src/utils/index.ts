@@ -3,6 +3,8 @@ import type { MenuDataItem } from '@umijs/route-utils';
 import type { MenuProps } from 'antd';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
+import { DeviceModelTypeEnum } from './dictionary';
+import { DeviceModelType } from '@/types/device';
 
 export type AntMenuProps = {
   label: string;
@@ -43,7 +45,7 @@ export const getPathTitleMap = (data?: AntMenuProps[]): Map<string, string> => {
 
 export function arrayToMap(array: any[], key = 'value', value = 'label') {
   const map = {};
-  array.forEach((item) => {
+  array?.forEach?.((item) => {
     map['' + item[key]] = item[value];
   });
   return map;
@@ -129,6 +131,34 @@ export const strToArray = (value: string): string[] => {
     }
   } catch (e) {
     result = [value];
+  }
+  return result;
+};
+
+export const formatModelValue = (value: string, model: DeviceModelType): string => {
+  let specs: Record<string, any> = {};
+  try {
+    specs = JSON.parse(model?.specs);
+    if (typeof specs !== 'object') {
+      specs = {};
+    }
+  } catch {
+    specs = {};
+  }
+  let result = '';
+  switch (model?.type) {
+    case DeviceModelTypeEnum.Long:
+    case DeviceModelTypeEnum.Double:
+      result = value + specs?.unit;
+      break;
+    case DeviceModelTypeEnum.Boolean:
+    case DeviceModelTypeEnum.Enum:
+      result = specs[value];
+      break;
+    case DeviceModelTypeEnum.String:
+    default:
+      result = value;
+      break;
   }
   return result;
 };

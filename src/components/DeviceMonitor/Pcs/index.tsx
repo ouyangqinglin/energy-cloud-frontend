@@ -18,10 +18,12 @@ import { runItems, exchargeItems, directCurrentItems, tempItems, versionItems } 
 import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
+import useDeviceModel from '../useDeviceModel';
 
 const Pcs: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+  const { id, productId, onChange } = props;
 
+  const { modelMap } = useDeviceModel({ productId });
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
   const [collectionInfo, setCollectionInfo] = useState({
@@ -46,6 +48,7 @@ const Pcs: React.FC<DeviceDetailType> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

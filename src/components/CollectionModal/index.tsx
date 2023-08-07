@@ -2,21 +2,23 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-07-26 10:48:51
+ * @LastEditTime: 2023-08-04 15:32:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, ModalProps, Skeleton } from 'antd';
-import { ProFormColumnsType } from '@ant-design/pro-form';
+import { Modal, ModalProps } from 'antd';
+import { ProFormColumnsType } from '@ant-design/pro-components';
 import { getCollectionData, CollectionSearchType } from '@/services/data';
 import { useRequest } from 'umi';
-import LineChart from '@/components/Chart/LineChart';
-import { chartTypeEnum } from '@/components/Chart';
-import moment, { Moment } from 'moment';
+import TypeChart, { TypeChartDataType } from '../Chart/TypeChart';
+import { chartTypeEnum } from '@/components/Chart/config';
+import moment from 'moment';
 import SchemaForm from '@/components/SchamaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
-import { Slider } from 'bizcharts';
+import EChartsReact from 'echarts-for-react';
+import { DeviceModelType } from '@/types/device';
+import { DeviceModelTypeEnum } from '@/utils/dictionary';
 
 type Searchtype = CollectionSearchType & {
   date: string[];
@@ -26,33 +28,104 @@ export type CollectionModalProps = Omit<ModalProps, 'title'> & {
   title: string;
   deviceId: string;
   keys: string[];
-};
-
-type ChartDataType = {
-  collection: {
-    time: string;
-    value?: number;
-  }[];
+  model?: DeviceModelType;
 };
 
 const CollectionModal: React.FC<CollectionModalProps> = (props) => {
-  const { deviceId, keys, title, open, ...restProps } = props;
+  const { deviceId, keys, model, title, open, ...restProps } = props;
 
   const formRef = useRef<ProFormInstance>(null);
-  const [chartData, setChartData] = useState<ChartDataType>({
-    collection: [],
-  });
+  const chartRef = useRef<EChartsReact>(null);
+  const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Day);
   const { run } = useRequest(getCollectionData, {
     manual: true,
   });
 
-  const legendMap = useMemo(() => {
-    return new Map([['collection', title]]);
-  }, [title]);
+  const modelData = useMemo(() => {
+    let enumObj = {},
+      enumKeys: string[] = [];
+    if (model?.type === DeviceModelTypeEnum.Enum) {
+      try {
+        enumObj = JSON.parse(model?.specs);
+        if (typeof enumObj !== 'object') {
+          enumObj = {};
+        }
+      } catch {
+        enumObj = {};
+      }
+      enumKeys = ['wahaha'].concat(Object.keys(enumObj));
+    }
+    return {
+      type: model?.type,
+      keys: enumKeys,
+      data: enumObj,
+    };
+  }, [model]);
+
+  const chartOption = useMemo(() => {
+    return {
+      grid: {
+        top: 10,
+        bottom: 50,
+        right: 35,
+      },
+      legend: {
+        show: false,
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          const { value, name } = (params || [{}])[0];
+          const result = [name];
+          result.push(title + '：' + (modelData.data[modelData.keys[value[1]]] || '-'));
+          return result.join('<br/>');
+        },
+      },
+      xAxis: {
+        axisLabel: {
+          formatter: (value: string) => {
+            return value.replace(' ', '\n');
+          },
+        },
+      },
+      yAxis:
+        modelData.type === DeviceModelTypeEnum.Enum
+          ? {
+              interval: 1,
+              axisLabel: {
+                formatter: (value: string) => {
+                  return modelData.data?.[modelData.keys[value]] || '';
+                },
+              },
+            }
+          : {},
+      dataZoom: [
+        {
+          type: 'inside',
+          realtime: false,
+        },
+        {
+          start: 0,
+          end: 100,
+          height: 15,
+          realtime: false,
+        },
+      ],
+      series: [
+        {
+          type: 'line',
+          showAllSymbol: true,
+          symbolSize: 1,
+          large: true,
+          sampling: 'average',
+        },
+      ],
+    };
+  }, [title, modelData]);
 
   const allLabel = useMemo(() => {
-    return chartData?.collection?.map?.((item) => item.time);
+    return chartData?.[0]?.data?.map?.((item) => item.label);
   }, [chartData]);
 
   const onFinish = useCallback(
@@ -62,7 +135,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           devices: [{ deviceId, keys }],
           startTime: formData.date[0] + ' 00:00:00',
           endTime: formData.date[1] + ' 23:59:59',
-          pageNum: 1,
+          current: 1,
           pageSize: 2147483647,
         }).then((data) => {
           if (
@@ -70,46 +143,63 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
             moment(formData.date[1]).format('YYYY-MM-DD')
           ) {
             setChartType(chartTypeEnum.Day);
-          } else {
-            setChartType(chartTypeEnum.Label);
-          }
-          const result: ChartDataType = {
-            collection: [],
-          };
-          data?.details?.forEach((device) => {
-            device?.data?.forEach((row) => {
-              row?.collection?.forEach((collection) => {
-                result.collection.push({
-                  time: collection?.eventTs || '',
-                  value: collection?.doubleVal,
+            const result: TypeChartDataType = {
+              name: title,
+              data: [],
+            };
+            data?.details?.forEach((device) => {
+              device?.data?.forEach((row) => {
+                row?.collection?.forEach((collection) => {
+                  if (modelData.type == DeviceModelTypeEnum.Enum) {
+                    const index = modelData.keys.findIndex(
+                      (item) => item == (collection?.value as any),
+                    );
+                    result?.data?.push?.({
+                      label: row?.time || '',
+                      value: index,
+                    });
+                  } else {
+                    result?.data?.push?.({
+                      label: row?.time || '',
+                      value: collection?.value,
+                    });
+                  }
                 });
               });
             });
-          });
-          setChartData(result);
+            setChartData([result]);
+          } else {
+            setChartType(chartTypeEnum.Label);
+            const resultData = {
+              dataset: {
+                source: [['product', title]],
+              },
+            };
+            data?.details?.forEach((device) => {
+              device?.data?.forEach((row) => {
+                row?.collection?.forEach((collection) => {
+                  if (modelData.type == DeviceModelTypeEnum.Enum) {
+                    const index = modelData.keys.findIndex(
+                      (item) => item == (collection?.value as any),
+                    );
+                    resultData.dataset.source.push([row?.time || '', index as any]);
+                  } else {
+                    resultData.dataset.source.push([row?.time || '', collection?.value as any]);
+                  }
+                });
+              });
+            });
+            setTimeout(() => {
+              chartRef?.current?.getEchartsInstance().setOption(resultData);
+            }, 300);
+          }
           return true;
         });
       } else {
         return Promise.resolve(true);
       }
     },
-    [deviceId, keys],
-  );
-
-  const labelFormatter = useCallback(
-    (value) => {
-      if (chartType == chartTypeEnum.Label) {
-        const result = moment(value).format('YYYY-MM-DD HH:mm');
-        if (result == 'Invalid date') {
-          return '';
-        } else {
-          return result;
-        }
-      } else {
-        return value;
-      }
-    },
-    [chartType],
+    [deviceId, keys, modelData],
   );
 
   useEffect(() => {
@@ -127,6 +217,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         formItemProps: {
           rules: [{ required: true }],
         },
+        initialValue: [moment(), moment()],
       },
     ];
   }, []);
@@ -141,24 +232,16 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           layout="inline"
           layoutType="QueryFilter"
           onFinish={onFinish}
-          initialValues={{
-            date: [moment(), moment()],
-          }}
         />
-        <LineChart
-          valueTitle=""
-          height={340}
+        <TypeChart
+          chartRef={chartRef}
           type={chartType}
-          date={moment()}
-          legendMap={legendMap}
-          labelKey="time"
-          valueKey="value"
+          option={chartOption}
+          style={{ height: 400 }}
           data={chartData}
           allLabel={allLabel}
-          labelFormatter={labelFormatter}
-        >
-          <Slider start={0} end={1} minLimit={0.2} />
-        </LineChart>
+          max={modelData.type == DeviceModelTypeEnum.Enum ? modelData.keys.length - 1 : 0}
+        />
       </Modal>
     </>
   );

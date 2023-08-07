@@ -8,7 +8,7 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import {
   chargeFormat,
   closeFormat,

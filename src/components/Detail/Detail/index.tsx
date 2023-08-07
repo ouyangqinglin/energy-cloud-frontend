@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2023-07-19 09:51:01
+ * @LastEditTime: 2023-08-02 09:50:32
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\Detail.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
 import React, { cloneElement, useMemo } from 'react';
 import { Descriptions, DescriptionsProps } from 'antd';
@@ -19,6 +19,7 @@ export type DetailItem = {
   contentStyle?: React.CSSProperties;
   valueStyle?: React.CSSProperties;
   show?: boolean;
+  showExtra?: boolean;
 };
 
 export type DetailProps = DescriptionsProps & {
@@ -74,7 +75,7 @@ const Detail: React.FC<DetailProps> = (props) => {
                     : data[item.field] ?? ''
                   : '--'}
               </span>
-              {extralNode}
+              {item.showExtra !== false && extralNode}
             </div>
           </Descriptions.Item>,
         );

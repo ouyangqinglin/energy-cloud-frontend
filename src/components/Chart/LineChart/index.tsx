@@ -12,7 +12,7 @@ import { TooltipCfg } from 'bizcharts/node_modules/@antv/g2/lib/interface';
 import { ILegend } from 'bizcharts/lib/components/Legend/index';
 import { useToolTip } from '@/hooks';
 import moment, { Moment } from 'moment';
-import { chartTypeEnum } from '../';
+import { chartTypeEnum } from '../config';
 import { merge } from 'lodash';
 
 export type ChartDataType = {

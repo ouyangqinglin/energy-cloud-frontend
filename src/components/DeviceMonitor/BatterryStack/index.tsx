@@ -20,7 +20,7 @@ import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
 
 const BatterryStack: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+  const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const realTimeData = useSubscribe(id, true);
@@ -35,12 +35,14 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
       {
         key: '1',
         label: '电池堆信息',
-        children: <Stack id={id} data={deviceData} realTimeData={realTimeData} />,
+        children: (
+          <Stack id={id} productId={productId} data={deviceData} realTimeData={realTimeData} />
+        ),
       },
       {
         key: '2',
         label: '电池簇信息',
-        children: <Cluster id={id} data={deviceData} />,
+        children: <Cluster id={id} productId={productId} data={deviceData} />,
       },
     ];
   }, [id, deviceData, realTimeData]);

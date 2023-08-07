@@ -8,7 +8,7 @@
  */
 import { OptionType, effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
-import { ProFormColumnsType } from '@ant-design/pro-form';
+import { ProFormColumnsType } from '@ant-design/pro-components';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
 import { arrayToMap, isEmpty } from '@/utils';

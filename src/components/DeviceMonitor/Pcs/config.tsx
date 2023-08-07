@@ -73,6 +73,7 @@ export const directCurrentItems: DetailItem[] = [
   { label: '电池电压', field: 'BatteryVoltage', format: voltageFormat },
   { label: '电池电流', field: 'batteryCurrent', format: currentFormat },
   { label: '直流功率', field: 'PDC', format: powerFormat },
+  { label: '直流总电流', field: 'TotalDcI', format: currentFormat },
 ];
 
 export const tempItems: DetailItem[] = [

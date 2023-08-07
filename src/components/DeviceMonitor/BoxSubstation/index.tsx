@@ -18,10 +18,12 @@ import Page from '@/layouts/Page';
 import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
+import useDeviceModel from '../useDeviceModel';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+  const { id, productId, onChange } = props;
 
+  const { modelMap } = useDeviceModel({ productId });
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const [collectionInfo, setCollectionInfo] = useState({
@@ -46,6 +48,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

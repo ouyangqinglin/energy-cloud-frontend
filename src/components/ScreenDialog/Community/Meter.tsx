@@ -131,6 +131,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       request: requestTree,
     },
     proTableProps: {
+      pagination: false,
       columns: tableSelectColumns,
       request: getDeviceCollection,
     },

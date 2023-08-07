@@ -2,13 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-07-28 16:41:01
+ * @LastEditTime: 2023-08-04 16:48:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
 import { ListDataType } from '@/utils/dictionary';
+import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
   deviceId?: string;
@@ -18,7 +19,7 @@ export type DeviceDataType = {
   name?: string;
   sn?: string;
   model?: string;
-  productId?: number;
+  productId?: string;
   productTypeName?: string;
   subsystemName?: string;
   childSystem?: string;
@@ -162,6 +163,20 @@ export const getEmsAssociationDevice = (params: any) => {
 
 export const getEnergeListBySite = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/oss/site/monitor/energyStorage/esList', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getDeviceGroupModel = (params: any) => {
+  return request<ResponseCommonData<DeviceModelDataType>>('/oss/product/getThingsModeByProductId', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getDeviceModel = (params: any) => {
+  return request<ResponseCommonData<DeviceModelDataType>>('/iot/model/getThingsModeByProductId', {
     method: 'GET',
     params,
   });

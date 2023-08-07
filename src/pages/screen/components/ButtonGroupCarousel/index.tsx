@@ -1,34 +1,42 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useRequest } from 'umi';
 import styles from './index.less';
-import classnames from 'classnames';
-import decoration from './lottie/decoration.json';
-import play from './lottie/play.json';
-import { Lottie } from '@/components/Lottie';
-import { Carousel, Radio, RadioChangeEvent } from 'antd';
-import { CarouselRef } from 'antd/lib/carousel';
+import { Radio, RadioChangeEvent, Tooltip } from 'antd';
 import { AppstoreOutlined, CodeSandboxOutlined } from '@ant-design/icons';
 import Cell from '../LayoutCell';
+import { getSiteScreenConfig } from '@/services/station';
+import { getSiteId } from '../../Scene/helper';
 
 export const enum SystemDiagramType {
   NORMAL = 'NORMAL',
   CUSTOMER = 'CUSTOMER',
 }
 
+const typeMap = {
+  2: SystemDiagramType.CUSTOMER,
+  1: SystemDiagramType.NORMAL,
+};
+
 const ButtonGroupCarousel: FC<{
   onChange?: (value: SystemDiagramType) => void;
 }> = ({ onChange }) => {
-  const carouselRef = useRef<CarouselRef>(null);
-  const [type, setType] = useState<SystemDiagramType>(SystemDiagramType.CUSTOMER);
-
-  const goNextPage = () => {
-    carouselRef?.current?.next();
-  };
+  const [type, setType] = useState<SystemDiagramType>();
+  const { data: screenConfigData } = useRequest(getSiteScreenConfig, {
+    defaultParams: [{ siteId: getSiteId() }],
+  });
 
   const handleClick = (e: RadioChangeEvent) => {
     setType(e.target.value);
     onChange?.(e.target.value as SystemDiagramType);
-    // goNextPage();
   };
+
+  useEffect(() => {
+    const value = typeMap[screenConfigData?.energyFlowDiagramIds?.[0] || '']; //TotalBatteryVoltage
+    if (value) {
+      setType(value);
+      onChange?.(value);
+    }
+  }, [screenConfigData]);
 
   return (
     <Cell width={112} height={36} left={474} top={253} zIndex={3}>
@@ -38,16 +46,21 @@ const ButtonGroupCarousel: FC<{
         value={type}
         onChange={handleClick}
       >
-        <Radio.Button value={SystemDiagramType.CUSTOMER}>
-          <CodeSandboxOutlined />
-        </Radio.Button>
-        <Radio.Button value={SystemDiagramType.NORMAL}>
-          <AppstoreOutlined />
-        </Radio.Button>
+        {screenConfigData?.energyFlowDiagramIds?.includes?.(2 as any) && (
+          <Tooltip placement="top" title="定制能流图" color="#0f60a7">
+            <Radio.Button value={SystemDiagramType.CUSTOMER}>
+              <CodeSandboxOutlined />
+            </Radio.Button>
+          </Tooltip>
+        )}
+        {screenConfigData?.energyFlowDiagramIds?.includes?.(1 as any) && (
+          <Tooltip placement="top" title="标准能流图" color="#0f60a7">
+            <Radio.Button value={SystemDiagramType.NORMAL}>
+              <AppstoreOutlined />
+            </Radio.Button>
+          </Tooltip>
+        )}
       </Radio.Group>
-      {/* <Carousel className={styles.carousel} dots={false} ref={carouselRef}>
-        {children}
-      </Carousel> */}
     </Cell>
   );
 };
