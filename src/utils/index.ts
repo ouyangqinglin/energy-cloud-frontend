@@ -192,6 +192,26 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Enum:
       result = specs[value];
       break;
+    case DeviceModelTypeEnum.Array:
+      if (specs?.aliseRule) {
+        try {
+          result =
+            parseToArray(value)
+              ?.map?.((item: string, index: number) => {
+                let itemValue = '--';
+                if (item) {
+                  itemValue = formatModelValue(item, specs?.item);
+                }
+                return specs?.aliseRule?.replace('$array.{index+1}', index + 1) + '：' + itemValue;
+              })
+              .join('，') || '--';
+        } catch {
+          result = value;
+        }
+      } else {
+        result = value;
+      }
+      break;
     case DeviceModelTypeEnum.String:
     default:
       result = value;

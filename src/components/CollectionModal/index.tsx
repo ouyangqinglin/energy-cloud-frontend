@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-08-04 15:32:56
+ * @LastEditTime: 2023-08-08 15:53:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -19,6 +19,7 @@ import { ProFormInstance } from '@ant-design/pro-components';
 import EChartsReact from 'echarts-for-react';
 import { DeviceModelType } from '@/types/device';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { parseToObj } from '@/utils';
 
 type Searchtype = CollectionSearchType & {
   date: string[];
@@ -27,12 +28,12 @@ type Searchtype = CollectionSearchType & {
 export type CollectionModalProps = Omit<ModalProps, 'title'> & {
   title: string;
   deviceId: string;
-  keys: string[];
+  collection: string;
   model?: DeviceModelType;
 };
 
 const CollectionModal: React.FC<CollectionModalProps> = (props) => {
-  const { deviceId, keys, model, title, open, ...restProps } = props;
+  const { deviceId, collection, model, title, open, ...restProps } = props;
 
   const formRef = useRef<ProFormInstance>(null);
   const chartRef = useRef<EChartsReact>(null);
@@ -46,14 +47,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
     let enumObj = {},
       enumKeys: string[] = [];
     if (model?.type === DeviceModelTypeEnum.Enum) {
-      try {
-        enumObj = JSON.parse(model?.specs);
-        if (typeof enumObj !== 'object') {
-          enumObj = {};
-        }
-      } catch {
-        enumObj = {};
-      }
+      enumObj = parseToObj(model?.specs);
       enumKeys = ['wahaha'].concat(Object.keys(enumObj));
     }
     return {
@@ -78,7 +72,13 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         formatter: (params: any) => {
           const { value, name } = (params || [{}])[0];
           const result = [name];
-          result.push(title + '：' + (modelData.data[modelData.keys[value[1]]] || '-'));
+          result.push(
+            title +
+              '：' +
+              (modelData.type === DeviceModelTypeEnum.Enum
+                ? modelData.data[modelData.keys[value?.[1]]] ?? '--'
+                : value?.[1]),
+          );
           return result.join('<br/>');
         },
       },
@@ -118,7 +118,7 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           showAllSymbol: true,
           symbolSize: 1,
           large: true,
-          sampling: 'average',
+          sampling: 'lttb',
         },
       ],
     };
@@ -130,13 +130,13 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
 
   const onFinish = useCallback(
     (formData: Searchtype) => {
-      if (keys && keys.length) {
+      if (collection) {
         return run({
-          devices: [{ deviceId, keys }],
+          deviceId: deviceId,
+          key: collection,
           startTime: formData.date[0] + ' 00:00:00',
           endTime: formData.date[1] + ' 23:59:59',
-          current: 1,
-          pageSize: 2147483647,
+          msgType: 1,
         }).then((data) => {
           if (
             moment(formData.date[0]).format('YYYY-MM-DD') ==
@@ -147,25 +147,21 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
               name: title,
               data: [],
             };
-            data?.details?.forEach((device) => {
-              device?.data?.forEach((row) => {
-                row?.collection?.forEach((collection) => {
-                  if (modelData.type == DeviceModelTypeEnum.Enum) {
-                    const index = modelData.keys.findIndex(
-                      (item) => item == (collection?.value as any),
-                    );
-                    result?.data?.push?.({
-                      label: row?.time || '',
-                      value: index,
-                    });
-                  } else {
-                    result?.data?.push?.({
-                      label: row?.time || '',
-                      value: collection?.value,
-                    });
-                  }
+            data?.forEach?.((collectionValue) => {
+              if (modelData.type == DeviceModelTypeEnum.Enum) {
+                const index = modelData.keys.findIndex(
+                  (item) => item == (collectionValue?.value as any),
+                );
+                result?.data?.push?.({
+                  label: collectionValue?.eventTs || '',
+                  value: index,
                 });
-              });
+              } else {
+                result?.data?.push?.({
+                  label: collectionValue?.eventTs || '',
+                  value: collectionValue?.value,
+                });
+              }
             });
             setChartData([result]);
           } else {
@@ -175,19 +171,18 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
                 source: [['product', title]],
               },
             };
-            data?.details?.forEach((device) => {
-              device?.data?.forEach((row) => {
-                row?.collection?.forEach((collection) => {
-                  if (modelData.type == DeviceModelTypeEnum.Enum) {
-                    const index = modelData.keys.findIndex(
-                      (item) => item == (collection?.value as any),
-                    );
-                    resultData.dataset.source.push([row?.time || '', index as any]);
-                  } else {
-                    resultData.dataset.source.push([row?.time || '', collection?.value as any]);
-                  }
-                });
-              });
+            data?.forEach?.((collectionValue) => {
+              if (modelData.type == DeviceModelTypeEnum.Enum) {
+                const index = modelData.keys.findIndex(
+                  (item) => item == (collectionValue?.value as any),
+                );
+                resultData.dataset.source.push([collectionValue?.eventTs || '', index as any]);
+              } else {
+                resultData.dataset.source.push([
+                  collectionValue?.eventTs || '',
+                  collectionValue?.value as any,
+                ]);
+              }
             });
             setTimeout(() => {
               chartRef?.current?.getEchartsInstance().setOption(resultData);
@@ -199,14 +194,14 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
         return Promise.resolve(true);
       }
     },
-    [deviceId, keys, modelData],
+    [deviceId, collection, modelData],
   );
 
   useEffect(() => {
     if (open && deviceId) {
       formRef?.current?.submit?.();
     }
-  }, [deviceId, keys, open]);
+  }, [deviceId, collection, open]);
 
   const searchColumns = useMemo<ProFormColumnsType<Searchtype>[]>(() => {
     return [

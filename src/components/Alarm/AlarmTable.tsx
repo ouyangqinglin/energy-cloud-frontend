@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-07 17:06:41
+ * @LastEditTime: 2023-08-08 09:52:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -119,7 +119,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = useCallback(
     (paramsData) => {
-      const requestParams = { ...paramsData, ...(params || {}), status: type, level: alarmLevel };
+      const requestParams = { ...paramsData, ...(params || {}), status: type, levels: alarmLevel };
       runGetAlarmNum(requestParams);
       return getList(requestParams);
     },

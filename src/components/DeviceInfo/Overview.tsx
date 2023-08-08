@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-07-26 16:08:20
+ * @LastEditTime: 2023-08-08 09:31:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -41,7 +41,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
         return (
           <>
             {deviceAlarmStatusFormat(value)}
-            {data?.alarmCount}
+            <span className="ml8">{data?.alarmCount}</span>
           </>
         );
       },

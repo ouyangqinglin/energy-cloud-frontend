@@ -58,4 +58,26 @@
   .ant-pro-table-search {
     margin-bottom: 0 !important;
   }
+  .ant-menu-sub {
+    .ant-menu-item {
+      .ant-pro-menu-item {
+        &::before {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-right: 10px;
+          border: 2px solid;
+          border-radius: 50%;
+          content: '';
+        }
+      }
+      &.ant-menu-item-selected {
+        .ant-pro-menu-item {
+          &::before {
+            background: currentColor;
+          }
+        }
+      }
+    }
+  }
 }

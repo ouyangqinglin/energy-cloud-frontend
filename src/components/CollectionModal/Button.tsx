@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:15
- * @LastEditTime: 2023-07-15 16:47:19
+ * @LastEditTime: 2023-08-08 10:09:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\Button.tsx
  */
@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         open={open}
         onCancel={setFalse}
         deviceId={deviceId}
-        keys={[collection]}
+        collection={collection}
         model={model}
       />
     </>

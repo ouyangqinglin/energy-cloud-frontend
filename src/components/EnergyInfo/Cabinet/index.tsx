@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-07-27 16:54:46
+ * @LastEditTime: 2023-08-08 09:37:16
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Cabinet\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useRequest, useHistory } from 'umi';
@@ -18,7 +18,7 @@ import EnergyImg from '@/assets/image/station/energy/enery.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import { isEmpty } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
-import { deviceAlarmStatusFormat } from '@/utils/format';
+import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import { unitItems } from './config';
 import { EnergySourceEnum } from '../';
@@ -183,10 +183,12 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         <>
           {showLabel && (
             <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
+              通信：
+              <span className="mr24">{onlineStatusFormat(deviceData?.status as any)}</span>
               告警：
               <span className={styles.alarm}>
                 {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
-                <span className="cursor" onClick={onAlarmClick}>
+                <span className="cursor ml8" onClick={onAlarmClick}>
                   {deviceData?.alarmCount}
                 </span>
               </span>

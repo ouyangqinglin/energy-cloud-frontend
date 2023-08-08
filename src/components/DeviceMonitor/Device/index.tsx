@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-08-07 14:16:17
+ * @LastEditTime: 2023-08-08 15:26:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\index.tsx
  */
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import { Spin, Tabs, TabsProps } from 'antd';
 import Overview from '@/components/DeviceInfo/Overview';
@@ -21,14 +21,18 @@ import Button from '@/components/CollectionModal/Button';
 import { formatModelValue, parseToArray } from '@/utils';
 import { deviceProductDataMap } from './config';
 import { DevicePropsType } from '@/types/device';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import styles from './index.less';
 
 const Device: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const realTimeData = useSubscribe(id, true);
+  const openSubscribe = useMemo(
+    () => deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
+  const realTimeData = useSubscribe(id, openSubscribe);
   const { data: deviceGroupData, loading, modelMap } = useDeviceModel({ productId, isGroup: true });
   const [detailGroup, setDetailGroup] = useState<GroupItem[]>([]);
   const [collectionInfo, setCollectionInfo] = useState({
@@ -115,7 +119,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
       });
     });
     setDetailGroup(group);
-  }, [deviceGroupData, modelMap]);
+  }, [deviceGroupData, modelMap, collectionInfo, realTimeData]);
 
   return (
     <>
