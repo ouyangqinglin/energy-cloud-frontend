@@ -1,0 +1,67 @@
+.boxContent {
+  display: flex;
+
+  .boxImage {
+    display: flex;
+    flex-flow: column;
+    margin-right: 25px;
+
+    .boxTitle {
+      display: flex;
+      justify-content: center;
+      color: #191919;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      line-height: 22px;
+    }
+
+    .boxSoc {
+      display: flex;
+      justify-content: center;
+      color: #00b42a;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      line-height: 22px;
+    }
+  }
+
+  .boxTextContent {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    padding-bottom: 22px;
+  }
+
+  .boxItem {
+    display: flex;
+    flex-flow: row;
+    margin-top: 8px;
+
+    .label {
+      width: 120px;
+      color: #606266;
+      font-weight: 400;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      line-height: 22px;
+    }
+    .value {
+      color: #1d2129;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      line-height: 22px;
+    }
+  }
+}
+.horizontal {
+  flex-flow: row;
+  justify-content: flex-start;
+}
+
+.vertical {
+  flex-flow: column;
+  align-items: flex-start;
+}

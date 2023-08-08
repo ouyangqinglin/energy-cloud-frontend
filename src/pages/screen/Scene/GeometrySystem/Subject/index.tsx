@@ -1,5 +1,5 @@
 import Cell from '@/pages/screen/components/LayoutCell';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { config } from './config';
 import type { SystemDiagramRes } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
@@ -9,21 +9,23 @@ const Subject = ({ data }: { data?: SystemDiagramRes }) => {
   const [cellList, setCellList] = useState([...config]);
 
   // 切换充电桩和负载
-  if (data) {
-    const shouldHideChargeStack = !data[SubSystemType.CS].flag;
-    if (shouldHideChargeStack) {
-      const newCellList = [...cellList];
-      const csCell = newCellList.find((item) => item.subsystemType === SubSystemType.CS);
-      const loadCell = newCellList.find((item) => item.subsystemType === SubSystemType.L);
-      if (csCell) {
-        csCell.hide = true;
+  useEffect(() => {
+    if (data) {
+      const shouldHideChargeStack = !data[SubSystemType.CS].flag;
+      if (shouldHideChargeStack) {
+        const newCellList = [...cellList];
+        const csCell = newCellList.find((item) => item.subsystemType === SubSystemType.CS);
+        const loadCell = newCellList.find((item) => item.subsystemType === SubSystemType.L);
+        if (csCell) {
+          csCell.hide = true;
+        }
+        if (loadCell) {
+          loadCell.hide = false;
+        }
+        setCellList(newCellList);
       }
-      if (loadCell) {
-        loadCell.hide = false;
-      }
-      setCellList(newCellList);
     }
-  }
+  }, [data]);
 
   const ceils = cellList?.map(
     ({ cellStyle, name, icon, iconDisable, subsystemType, hide, isSVG }) => {
@@ -48,6 +50,7 @@ const Subject = ({ data }: { data?: SystemDiagramRes }) => {
       );
     },
   );
+
   return (
     <div>
       {ceils}

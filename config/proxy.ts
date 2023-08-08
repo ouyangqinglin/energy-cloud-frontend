@@ -12,8 +12,8 @@ export default {
       target: 'https://192.168.3.18',
       // target: 'http://ytoss.yotaienergy.com',
       changeOrigin: true,
-      pathRewrite: { '^/api': '/prod-api' },
       secure: false,
+      pathRewrite: { '^/api': '/prod-api' },
     },
     '/file/': {
       target: 'https://192.168.3.18',
