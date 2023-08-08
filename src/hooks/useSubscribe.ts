@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 14:44:03
- * @LastEditTime: 2023-07-13 15:54:42
+ * @LastEditTime: 2023-08-07 19:04:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSubscribe.ts
  */
@@ -10,6 +10,24 @@ import { useEffect, useCallback, useState, useMemo } from 'react';
 import useWebsocket from './useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
+import { parseToObj } from '@/utils';
+
+const flatObj = (data: object, parentField = '') => {
+  let result = {};
+  if (typeof data !== 'object' || Array.isArray(data)) {
+    result = {};
+  } else {
+    for (const key in data) {
+      const field = parentField ? parentField + '.' + key : key;
+      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+        result = { ...result, ...flatObj(data[key], field) };
+      } else {
+        result[field] = data[key];
+      }
+    }
+  }
+  return result;
+};
 
 const useSubscribe = (id: string | string[], open: boolean) => {
   const ids = useMemo(() => {
@@ -26,8 +44,12 @@ const useSubscribe = (id: string | string[], open: boolean) => {
       ) {
         const { data: msgData } = res;
         try {
-          const obj = {};
+          let obj = {};
           msgData?.keyValues?.forEach?.((item: EquipPropType) => {
+            if (item.type == 'JSON') {
+              const value = parseToObj(item.value + '');
+              obj = { ...obj, ...flatObj(value, item?.key) };
+            }
             obj[item.key] = item.value;
           });
           if (Object.keys(obj).length) {

@@ -135,18 +135,55 @@ export const strToArray = (value: string): string[] => {
   return result;
 };
 
+export const parseToArray = (value: string) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  let result = [];
+  try {
+    result = JSON.parse(value + '');
+    if (!Array.isArray(result)) {
+      result = [];
+    }
+  } catch (e) {
+    result = [];
+  }
+  return result;
+};
+
+export const parseToObj = (value: string) => {
+  if (typeof value === 'object') {
+    return value;
+  }
+  let result = {};
+  try {
+    result = JSON.parse(value + '');
+    if (typeof result !== 'object' || Array.isArray(result)) {
+      result = {};
+    }
+  } catch (e) {
+    result = {};
+  }
+  return result;
+};
+
 export const formatModelValue = (value: string, model: DeviceModelType): string => {
   let specs: Record<string, any> = {};
-  try {
-    specs = JSON.parse(model?.specs);
-    if (typeof specs !== 'object') {
+  if (typeof model?.specs !== 'object') {
+    try {
+      specs = JSON.parse(model?.specs);
+      if (typeof specs !== 'object') {
+        specs = {};
+      }
+    } catch {
       specs = {};
     }
-  } catch {
-    specs = {};
+  } else {
+    specs = model?.specs;
   }
   let result = '';
   switch (model?.type) {
+    case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
       result = value + specs?.unit;

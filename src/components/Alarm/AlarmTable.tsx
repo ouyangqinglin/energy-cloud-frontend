@@ -2,15 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-04 11:41:09
+ * @LastEditTime: 2023-08-07 17:06:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Modal, message, Space } from 'antd';
+import { Modal, message, Space, Checkbox } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import { useRequest, useHistory } from 'umi';
-import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-table';
+import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-components';
 import { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
 import { cleanUpType } from '@/utils/dictionary';
@@ -27,6 +27,8 @@ import { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
+import { isEmpty } from '@/utils';
+import eventBus from '@/utils/eventBus';
 
 export enum PageTypeEnum {
   Current,
@@ -40,22 +42,41 @@ export type AlarmProps = {
   formParam?: Record<string, any>;
 };
 
+const levelMap = new Map([
+  ['error', '严重'],
+  ['alarm', '重要'],
+  ['warn', '次要'],
+  ['info', '提示'],
+]);
+
+const getLevelByType = (type: string, num?: string) => {
+  return (
+    <span className={`${styles.alarmWrap} ${styles[type]}`}>
+      {isEmpty(num) ? (
+        <>
+          <YTAlarmOutlined /> {levelMap.get(type)}
+        </>
+      ) : (
+        <Checkbox className="py2" value={type}>
+          <YTAlarmOutlined />
+          {levelMap.get(type)} {num}
+        </Checkbox>
+      )}
+    </span>
+  );
+};
+
 export const alarmLevelMap = new Map([
-  [
-    'error',
-    <span className={`${styles.alarmWrap} ${styles.error}`}>{<YTAlarmOutlined />}严重</span>,
-  ],
-  [
-    'alarm',
-    <span className={`${styles.alarmWrap} ${styles.alarm}`}>{<YTAlarmOutlined />}重要</span>,
-  ],
-  ['warn', <span className={`${styles.alarmWrap} ${styles.warn}`}>{<YTAlarmOutlined />}次要</span>],
-  ['info', <span className={`${styles.alarmWrap} ${styles.info}`}>{<YTAlarmOutlined />}提示</span>],
+  ['error', getLevelByType('error')],
+  ['alarm', getLevelByType('alarm')],
+  ['warn', getLevelByType('warn')],
+  ['info', getLevelByType('info')],
 ]);
 
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
 
+  const [alarmLevel, setaAlarmLevel] = useState<string[]>([]);
   const formRef = useRef<ProFormInstance>();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -96,21 +117,27 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     request: requestProductType,
   });
 
-  const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = (paramsData) => {
-    const requestParams = { ...paramsData, ...(params || {}), status: type };
-    runGetAlarmNum(requestParams);
-    return getList(requestParams);
-  };
+  const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = useCallback(
+    (paramsData) => {
+      const requestParams = { ...paramsData, ...(params || {}), status: type, level: alarmLevel };
+      runGetAlarmNum(requestParams);
+      return getList(requestParams);
+    },
+    [params, type, alarmLevel],
+  );
 
   const requestCleanUpAlarm = useCallback((paramsData) => {
     return cleanUpAlarm(paramsData);
   }, []);
 
   const onSiteClick = useCallback((record: AlarmType) => {
-    history.push({
-      pathname: '/station-manage/operation-monitor',
-      search: `?id=${record.siteId}`,
-    });
+    if (record.siteId) {
+      eventBus.emit('changeSite', record.siteId);
+      history.push({
+        pathname: '/site-monitor/overview',
+        search: `?id=${record.siteId}`,
+      });
+    }
   }, []);
 
   const onDetailClick = useCallback((_, record) => {
@@ -151,6 +178,11 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     [],
   );
 
+  const onCheckChange = useCallback((value) => {
+    setaAlarmLevel(value);
+    actionRef?.current?.reload?.();
+  }, []);
+
   useEffect(() => {
     requestStation('');
   }, []);
@@ -160,7 +192,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     { label: '站点名称', field: 'siteName' },
     { label: '设备名称', field: 'deviceName' },
     { label: '产品类型', field: 'productTypeName' },
-    { label: '告警等级', field: 'level', format: (value) => alarmLevelMap.get(value) },
+    { label: '告警等级', field: 'level', format: (value) => getLevelByType(value) },
     { label: '告警ID', field: 'id' },
     { label: '发生时间', field: 'alarmTime' },
     { label: '清除时间', field: 'recoveryTime', show: type === PageTypeEnum.History },
@@ -196,7 +228,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               dataIndex: 'siteName',
               valueType: 'select',
               render: (_, record) => {
-                return <a onClick={() => onSiteClick(record)}>{record.siteName}</a>;
+                return <a onClick={() => onSiteClick(record)}>{record.siteName ?? '-'}</a>;
               },
               formItemProps: {
                 name: 'siteId',
@@ -292,14 +324,14 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const headerTitle = useMemo(() => {
     const nums: React.ReactNode[] = [];
-    alarmLevelMap.forEach((text, key) => {
-      nums.push(
-        <span>
-          {text} {alarmNumData?.[key + 'Num'] || 0}
-        </span>,
-      );
+    levelMap.forEach((_, key) => {
+      nums.push(getLevelByType(key, alarmNumData?.[key + 'Num'] || 0));
     });
-    return <Space size="large">{nums}</Space>;
+    return (
+      <Checkbox.Group onChange={onCheckChange} defaultValue={Array.from(levelMap.keys())}>
+        <Space size="large">{nums}</Space>
+      </Checkbox.Group>
+    );
   }, [alarmNumData]);
 
   return (

@@ -57,6 +57,7 @@ export enum FormTypeEnum {
 }
 
 export enum DeviceModelTypeEnum {
+  Int = 'int',
   Long = 'long',
   Double = 'double',
   String = 'string',
