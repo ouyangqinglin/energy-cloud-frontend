@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-07-26 15:26:01
+ * @LastEditTime: 2023-08-08 16:20:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -718,6 +718,7 @@ export const chargeOrderColumns: ProColumns[] = [
     title: '序号',
     dataIndex: 'index',
     valueType: 'index',
+    width: 50,
   },
   {
     title: '站点名称',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-08-08 15:53:57
+ * @LastEditTime: 2023-08-08 19:07:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -169,6 +169,13 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
             const resultData = {
               dataset: {
                 source: [['product', title]],
+              },
+              yAxis: {
+                max:
+                  modelData.type == DeviceModelTypeEnum.Enum
+                    ? modelData.keys.length - 1
+                    : undefined,
+                min: undefined,
               },
             };
             data?.forEach?.((collectionValue) => {

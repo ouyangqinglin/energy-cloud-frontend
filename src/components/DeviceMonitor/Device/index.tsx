@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-08-08 15:26:29
+ * @LastEditTime: 2023-08-08 16:43:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\index.tsx
  */
@@ -23,6 +23,12 @@ import { deviceProductDataMap } from './config';
 import { DevicePropsType } from '@/types/device';
 import { DeviceModelTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import styles from './index.less';
+
+const getShowExtral = (type?: DeviceModelTypeEnum) => {
+  return !(
+    [DeviceModelTypeEnum.Array, DeviceModelTypeEnum.Struct, DeviceModelTypeEnum.String] as any
+  ).includes(type);
+};
 
 const Device: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -100,6 +106,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
             label: item?.name,
             field: field || Math.random() + '',
             format: (value: string) => formatModelValue(value, modelMap[field || '']),
+            showExtra: getShowExtral(modelMap[field || '']?.type),
           });
         }
       });
