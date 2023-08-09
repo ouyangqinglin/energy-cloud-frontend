@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\HwChargeYt\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
@@ -19,6 +19,7 @@ import Page from '@/layouts/Page';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';
 import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
@@ -29,6 +30,10 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -73,6 +78,7 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
         <RealTime
           id={id}
           loading={loading}
+          open={openSubscribe}
           labelType={LabelTypeEnum.LineLabel}
           loopNum={loopNum}
           detailProps={{

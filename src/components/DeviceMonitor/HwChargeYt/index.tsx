@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\HwChargeYt\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
@@ -19,12 +19,17 @@ import Page from '@/layouts/Page';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -69,6 +74,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
         <RealTime
           id={id}
           loading={loading}
+          open={openSubscribe}
           labelType={LabelTypeEnum.LineLabel}
           detailProps={{
             extral,

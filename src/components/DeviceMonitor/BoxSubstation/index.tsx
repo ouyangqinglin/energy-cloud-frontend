@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BoxSubstation\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
@@ -19,6 +19,7 @@ import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import Community from '@/components/ScreenDialog/Community';
 import useDeviceModel from '../useDeviceModel';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -26,6 +27,10 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { modelMap } = useDeviceModel({ productId });
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -72,6 +77,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
           id={id}
           loading={loading}
           label={<Detail.Label title="运行信息" />}
+          open={openSubscribe}
           detailProps={{
             extral,
             colon: false,

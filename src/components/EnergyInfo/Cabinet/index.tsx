@@ -17,7 +17,7 @@ import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import { isEmpty } from '@/utils';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import { unitItems } from './config';
@@ -66,7 +66,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  const realTimeData = useSubscribe(deviceIds, true);
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
+  const realTimeData = useSubscribe(deviceIds, openSubscribe);
   const history = useHistory();
 
   const {

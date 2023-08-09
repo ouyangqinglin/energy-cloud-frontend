@@ -18,12 +18,17 @@ import Cluster from './Cluster';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BatterryStack: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const realTimeData = useSubscribe(id, true);
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
+  const realTimeData = useSubscribe(id, openSubscribe);
 
   const onDataChange = useCallback((value: DeviceDataType) => {
     setDeviceData({ ...(value || {}), productImg: StackImg });

@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\ElectricMeter\index.tsx
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
 import DeviceInfo from '@/components/DeviceInfo';
@@ -17,12 +17,17 @@ import RealTime from '@/components/Meter/RealTime';
 import Page from '@/layouts/Page';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import Community from '@/components/ScreenDialog/Community';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -67,6 +72,7 @@ const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
         <RealTime
           id={id}
           loading={loading}
+          open={openSubscribe}
           label={<Detail.Label title="运行信息" />}
           detailProps={{
             extral,

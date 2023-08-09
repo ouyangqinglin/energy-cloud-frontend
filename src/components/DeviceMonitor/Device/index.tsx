@@ -35,7 +35,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
   const openSubscribe = useMemo(
-    () => deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);
