@@ -13,15 +13,16 @@ export type PageProps = {
   top?: React.ReactNode;
   bottom?: React.ReactNode;
   hasProTable?: boolean;
+  className?: string;
 };
 
 const Page: React.FC<PageProps> = (props) => {
-  const { top, bottom, children, hasProTable = false } = props;
+  const { top, bottom, children, hasProTable = false, className = '' } = props;
 
   return (
     <>
       {top && <div className="card-wrap p24 mb24">{top}</div>}
-      {<div className={`card-wrap ${hasProTable ? '' : 'p24'}`}>{children}</div>}
+      {<div className={`card-wrap ${className} ${hasProTable ? '' : 'p24'}`}>{children}</div>}
       {bottom && <div className="card-wrap p24 mt24">{bottom}</div>}
     </>
   );

@@ -183,32 +183,32 @@ const Search: React.FC<SearchProps> = (props) => {
 
   return (
     <>
-      <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
-        <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
-          <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
-            headerTitle="采样明细"
-            toolBarRenderOptions={{
-              add: {
-                show: false,
-              },
-              export: {
-                show: true,
-                requestExport: requestExport,
-                getExportName: getExportName,
-              },
-            }}
-            columns={columns}
-            request={onRequest}
-            search={{
-              collapsed: false,
-              collapseRender: false,
-            }}
-            form={{
-              ignoreRules: false,
-            }}
-            bordered
-          />
-        </ProConfigProvider>
+      <ProConfigProvider
+        valueTypeMap={{ ...tableTreeSelectValueTypeMap, ...tableSelectValueTypeMap }}
+      >
+        <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
+          headerTitle="采样明细"
+          toolBarRenderOptions={{
+            add: {
+              show: false,
+            },
+            export: {
+              show: true,
+              requestExport: requestExport,
+              getExportName: getExportName,
+            },
+          }}
+          columns={columns}
+          request={onRequest}
+          search={{
+            collapsed: false,
+            collapseRender: false,
+          }}
+          form={{
+            ignoreRules: false,
+          }}
+          bordered
+        />
       </ProConfigProvider>
     </>
   );

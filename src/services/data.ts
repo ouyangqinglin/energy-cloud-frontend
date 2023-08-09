@@ -1,13 +1,15 @@
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
 
+export type CollectionValueType = {
+  eventTs?: string;
+  value?: number;
+};
+
 export type CollectionDataType = {
   details?: {
     data?: {
       time?: string;
-      collection?: {
-        eventTs?: string;
-        value?: number;
-      }[];
+      collection?: CollectionValueType[];
     }[];
     deviceName?: string;
     startTime?: string;
@@ -16,6 +18,9 @@ export type CollectionDataType = {
 };
 
 export type CollectionSearchType = {
+  msgType?: number;
+  deviceId?: string;
+  key?: string;
   devices?: {
     deviceId?: string;
     keys?: string[];
@@ -26,12 +31,12 @@ export type CollectionSearchType = {
   pageSize?: number;
 };
 
-export const getCollectionData = (data: CollectionSearchType) => {
-  return request<ResponseCommonData<CollectionDataType>>(
-    `/iot/deviceData/deviceHistoryInformation`,
+export const getCollectionData = (params: CollectionSearchType) => {
+  return request<ResponseCommonData<CollectionValueType[]>>(
+    `/iot/processRealData/queryDeviceDataForHistoryList`,
     {
-      method: 'POST',
-      data,
+      method: 'GET',
+      params,
     },
   );
 };

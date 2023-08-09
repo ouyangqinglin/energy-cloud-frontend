@@ -2,16 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2023-07-18 11:55:22
+ * @LastEditTime: 2023-08-07 10:35:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
 import React, { useMemo } from 'react';
 import Detail, { DetailItem, DetailProps } from './Detail';
+import { Tabs, TabsProps } from 'antd';
 
 export type GroupItem = {
   label?: React.ReactNode;
   items: DetailItem[];
+  tabItems?: TabsProps['items'];
 };
 
 export type GroupProps = {
@@ -28,13 +30,18 @@ const Group: React.FC<GroupProps> = (props) => {
       return (
         <>
           {item.label}
-          <Detail
-            className="mb16"
-            key={index}
-            data={data}
-            items={item.items}
-            {...(detailProps || {})}
-          />
+          {item.items?.length ? (
+            <Detail
+              className="mb16"
+              key={index}
+              data={data}
+              items={item.items}
+              {...(detailProps || {})}
+            />
+          ) : (
+            <></>
+          )}
+          {item?.tabItems?.length ? <Tabs items={item.tabItems} /> : <></>}
         </>
       );
     });

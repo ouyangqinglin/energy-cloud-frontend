@@ -29,7 +29,7 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): MenuData
   return childrens.map((item: API.RoutersMenuItem) => {
     return {
       path: item.path,
-      icon: createIcon(item?.meta?.icon),
+      icon: createIcon(item?.meta?.icon?.replace?.('#', 'YTDotOutlined') || 'YTDotOutlined'),
       name: item?.meta?.title,
       children: item.children ? convertCompatRouters(item.children) : undefined,
       hideChildrenInMenu: item.hidden,

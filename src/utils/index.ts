@@ -135,18 +135,55 @@ export const strToArray = (value: string): string[] => {
   return result;
 };
 
+export const parseToArray = (value: string) => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  let result = [];
+  try {
+    result = JSON.parse(value + '');
+    if (!Array.isArray(result)) {
+      result = [];
+    }
+  } catch (e) {
+    result = [];
+  }
+  return result;
+};
+
+export const parseToObj = (value: string) => {
+  if (typeof value === 'object') {
+    return value;
+  }
+  let result = {};
+  try {
+    result = JSON.parse(value + '');
+    if (typeof result !== 'object' || Array.isArray(result)) {
+      result = {};
+    }
+  } catch (e) {
+    result = {};
+  }
+  return result;
+};
+
 export const formatModelValue = (value: string, model: DeviceModelType): string => {
   let specs: Record<string, any> = {};
-  try {
-    specs = JSON.parse(model?.specs);
-    if (typeof specs !== 'object') {
+  if (typeof model?.specs !== 'object') {
+    try {
+      specs = JSON.parse(model?.specs);
+      if (typeof specs !== 'object') {
+        specs = {};
+      }
+    } catch {
       specs = {};
     }
-  } catch {
-    specs = {};
+  } else {
+    specs = model?.specs;
   }
   let result = '';
   switch (model?.type) {
+    case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
       result = value + specs?.unit;
@@ -154,6 +191,26 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Boolean:
     case DeviceModelTypeEnum.Enum:
       result = specs[value];
+      break;
+    case DeviceModelTypeEnum.Array:
+      if (specs?.aliseRule) {
+        try {
+          result =
+            parseToArray(value)
+              ?.map?.((item: string, index: number) => {
+                let itemValue = '--';
+                if (item) {
+                  itemValue = formatModelValue(item, specs?.item);
+                }
+                return specs?.aliseRule?.replace('$array.{index+1}', index + 1) + '：' + itemValue;
+              })
+              .join('，') || '--';
+        } catch {
+          result = value;
+        }
+      } else {
+        result = value;
+      }
       break;
     case DeviceModelTypeEnum.String:
     default:

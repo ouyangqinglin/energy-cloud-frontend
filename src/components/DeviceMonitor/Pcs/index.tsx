@@ -19,13 +19,18 @@ import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
 import useDeviceModel from '../useDeviceModel';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const Pcs: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
 
   const { modelMap } = useDeviceModel({ productId });
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const realTimeData = useSubscribe(id, true);
+  const openSubscribe = useMemo(
+    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    [deviceData],
+  );
+  const realTimeData = useSubscribe(id, openSubscribe);
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',

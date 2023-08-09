@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-08-04 17:01:11
+ * @LastEditTime: 2023-08-07 16:02:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -54,15 +54,28 @@ const TableModal = <
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
+  const [tableIdSet, setTableIdSet] = useState<Set<string>>();
 
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
-      const result = selectedRows.map(
-        (item) => ({ [valueId]: item[tableId], [valueName]: item[tableName] } as ValueType),
-      );
-      setSelectedTags(result);
+      setSelectedTags((prevData) => {
+        const map = prevData.reduce((result, item) => {
+          result.set(item[valueId], item);
+          return result;
+        }, new Map());
+        tableIdSet?.forEach((item) => {
+          map.delete(item);
+        });
+        selectedRows.forEach((item) => {
+          map.set(item[valueId], {
+            [valueId]: item[tableId],
+            [valueName]: item[tableName],
+          });
+        });
+        return [...map.values()];
+      });
     },
-    [],
+    [tableIdSet, valueId, tableId, valueName, tableName],
   );
 
   const onClose = useCallback(
@@ -78,6 +91,20 @@ const TableModal = <
     onChange?.(selectedTags);
     onCancel?.();
   };
+
+  const requestTable = useCallback(
+    (params, sort, filter) => {
+      if (proTableProps?.request) {
+        return proTableProps.request(params, sort, filter).then((res) => {
+          setTableIdSet(new Set(res?.data?.map?.((item: any) => item[tableId])));
+          return res;
+        });
+      } else {
+        return Promise.resolve({});
+      }
+    },
+    [proTableProps?.request, proTableProps?.pagination, tableId],
+  );
 
   useEffect(() => {
     if (open) {
@@ -143,7 +170,7 @@ const TableModal = <
   return (
     <>
       <Modal title={title} open={open} width={width} onCancel={onCancel} onOk={onOk} destroyOnClose>
-        <ProTable className={styles.proTable} {...tableProps} />
+        <ProTable className={styles.proTable} {...tableProps} request={requestTable} />
       </Modal>
     </>
   );

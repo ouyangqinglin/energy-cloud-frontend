@@ -232,6 +232,7 @@ const ytIcon = [
   'YTOwner',
   'YTOperator',
   'YTOrganize',
+  'YTDot',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

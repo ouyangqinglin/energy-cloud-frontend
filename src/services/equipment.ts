@@ -27,6 +27,7 @@ export type DeviceDataType = {
   createTime?: string;
   sessionStartTime?: string;
   connectStatus?: number;
+  status?: number;
   alarmStatus?: number;
   alarmCount?: number;
   lastOnlineTime?: string;

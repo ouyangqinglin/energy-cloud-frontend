@@ -57,6 +57,7 @@ export enum FormTypeEnum {
 }
 
 export enum DeviceModelTypeEnum {
+  Int = 'int',
   Long = 'long',
   Double = 'double',
   String = 'string',
@@ -150,17 +151,23 @@ export const buildStatus = {
   },
 };
 
+export enum OnlineStatusEnum {
+  Offline,
+  Online,
+  None,
+}
+
 export const onlineStatus = {
-  2: {
+  [OnlineStatusEnum.None]: {
     text: '未配置',
     status: '',
   },
-  1: {
+  [OnlineStatusEnum.Online]: {
     text: '在线',
     icon: 'green',
     status: 'Processing',
   },
-  0: {
+  [OnlineStatusEnum.Offline]: {
     text: '离线',
     icon: 'red',
     status: 'Error',
