@@ -28,8 +28,6 @@ export default [
     path: '/screen',
     name: 'screen',
     layout: false,
-    // menu: 'top',
-    // component: '@/layouts',
     routes: [
       {
         path: '/screen',

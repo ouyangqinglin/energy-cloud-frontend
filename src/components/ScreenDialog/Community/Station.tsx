@@ -91,7 +91,7 @@ const Station: React.FC<CommunityProps> = (props) => {
       dependencies: ['loadDevice'],
       request: requestStation,
       formItemProps: {
-        rules: [{ required: true, message: '第三方站点ID必选' }],
+        rules: [{ required: true, message: '请选择第三方站点ID' }],
       },
       fieldProps: {
         getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,

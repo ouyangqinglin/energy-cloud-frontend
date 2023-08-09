@@ -34,6 +34,7 @@ export type DeviceDataType = {
   key?: string;
   aliasSn?: string;
   paramConfigType?: number;
+  productConfigType?: number;
 };
 
 export type ClusterType = {
@@ -178,6 +179,13 @@ export const getDeviceGroupModel = (params: any) => {
 
 export const getDeviceModel = (params: any) => {
   return request<ResponseCommonData<DeviceModelDataType>>('/iot/model/getThingsModeByProductId', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getChargeHost = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/device/getChargingPileHost', {
     method: 'GET',
     params,
   });

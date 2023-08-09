@@ -75,6 +75,7 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
               model={model}
               siteId={deviceData?.siteId}
               type={deviceData?.paramConfigType}
+              productConfigType={deviceData?.productConfigType}
             />
           }
           onChange={onDataChange}

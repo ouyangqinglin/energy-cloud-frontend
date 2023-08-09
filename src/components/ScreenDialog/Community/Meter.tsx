@@ -148,14 +148,14 @@ const Meter: React.FC<CommunityProps> = (props) => {
       title: 'mqtt用户名',
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: 'mqtt用户名必填' }],
+        rules: [{ required: true, message: '请填写mqtt用户名' }],
       },
     },
     {
       title: 'mqtt密码',
       dataIndex: 'password',
       formItemProps: {
-        rules: [{ required: true, message: 'mqtt密码必填' }],
+        rules: [{ required: true, message: '请填写mqtt密码' }],
       },
     },
     {
@@ -163,7 +163,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       dataIndex: 'currentRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '电流变比必填' }],
+        rules: [{ required: true, message: '请填写电流变比' }],
       },
     },
     {
@@ -171,7 +171,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       dataIndex: 'voltageRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '电压变比必填' }],
+        rules: [{ required: true, message: '请填写电压变比' }],
       },
     },
     {
@@ -179,7 +179,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       dataIndex: 'energyRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '电能变比必填' }],
+        rules: [{ required: true, message: '请填写电能变比' }],
       },
     },
     {
@@ -187,7 +187,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       dataIndex: 'powerRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '功率变比必填' }],
+        rules: [{ required: true, message: '请填写功率变比' }],
       },
     },
     {
@@ -195,7 +195,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
       dataIndex: 'associateDevices',
       valueType: TABLETREESELECT,
       formItemProps: {
-        rules: [{ required: true, message: '关联设备必选' }],
+        rules: [{ required: true, message: '请选择关联设备' }],
       },
       fieldProps: tableTreeSelectProps,
       colProps: {

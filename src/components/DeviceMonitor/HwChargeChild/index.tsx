@@ -66,7 +66,12 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
             onChange={onDataChange}
             setLoading={setLoading}
             buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
+              <Community
+                id={id}
+                siteId={deviceData?.siteId}
+                type={deviceData?.paramConfigType}
+                productConfigType={deviceData?.productConfigType}
+              />
             }
           />
         }

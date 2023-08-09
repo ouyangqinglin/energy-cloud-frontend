@@ -8,7 +8,7 @@
  */
 
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { Button, Spin } from 'antd';
+import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 
 export enum CommunityTypeEnum {
@@ -34,6 +34,7 @@ export type CommunityProps = {
   userLabel?: string;
   passwordLabel?: string;
   type?: CommunityTypeEnum;
+  productConfigType?: number;
 };
 
 const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (props) => {
@@ -60,13 +61,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
       ) : (
         <></>
       )}
-      <Suspense
-        fallback={
-          <div className="tx-center">
-            <Spin />
-          </div>
-        }
-      >
+      <Suspense fallback={<></>}>
         {Component && <Component open={open} onOpenChange={set} {...restProps} />}
       </Suspense>
     </>

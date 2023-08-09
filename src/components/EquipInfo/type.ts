@@ -10,4 +10,5 @@
 export type DeviceType = {
   siteId?: string;
   paramConfigType?: number;
+  productConfigType?: number;
 };

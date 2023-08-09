@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 19:08:46
- * @LastEditTime: 2023-06-20 14:33:25
+ * @LastEditTime: 2023-08-09 14:27:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwChargeYt\index.tsx
  */
@@ -75,6 +75,7 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
               model={model}
               siteId={deviceData?.siteId}
               type={deviceData?.paramConfigType}
+              productConfigType={deviceData?.productConfigType}
             />
           }
           onChange={onDataChange}

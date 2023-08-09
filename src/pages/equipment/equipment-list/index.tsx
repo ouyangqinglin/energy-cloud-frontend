@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-28 17:33:13
+ * @LastEditTime: 2023-08-09 15:39:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -11,12 +11,10 @@ import { Button, Modal, message, Badge } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import type { EquipmentType } from './data.d';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import { removeData, getTabs } from './service';
 import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
-import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect } from '@/hooks';
@@ -30,9 +28,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('tab0');
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
-  const [tabItems, setTabItems] = useState<OptionType[]>([]);
   const actionRef = useRef<ActionType>();
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
@@ -85,18 +81,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    getTabs(isStationChild ? { siteId } : {}).then(({ data: tabData }) => {
-      if (Array.isArray(tabData)) {
-        const items = (tabData || []).map((item) => {
-          return {
-            id: item.id ?? '',
-            label: item.name,
-            value: item.count,
-          };
-        });
-        setTabItems(items);
-      }
-    });
     return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
 

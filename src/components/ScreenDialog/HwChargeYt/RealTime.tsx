@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:45:21
- * @LastEditTime: 2023-06-27 14:45:25
+ * @LastEditTime: 2023-08-09 14:36:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwChargeYt\RealTime.tsx
  */
@@ -68,10 +68,10 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
           )}
           <Row>
             <Col span={12}>
-              <Detail data={aGunData} items={aStatusItems} column={2} />
+              <Detail data={aGunData} items={aStatusItems} column={2} {...(detailProps || {})} />
             </Col>
             <Col span={12}>
-              <Detail data={bGunData} items={bStatusItems} column={2} />
+              <Detail data={bGunData} items={bStatusItems} column={2} {...(detailProps || {})} />
             </Col>
           </Row>
           {labelType == LabelTypeEnum.DotLabel ? (

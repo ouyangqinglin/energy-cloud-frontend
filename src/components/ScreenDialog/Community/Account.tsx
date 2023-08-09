@@ -73,7 +73,7 @@ const Account: React.FC<AccountType> = (props) => {
       title: userLabel,
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: userLabel + '必填' }],
+        rules: [{ required: true, message: '请填写' + userLabel }],
       },
     },
     {
@@ -81,7 +81,7 @@ const Account: React.FC<AccountType> = (props) => {
       dataIndex: 'password',
       valueType: 'password',
       formItemProps: {
-        rules: [{ required: true, message: passwordLabel + '必填' }],
+        rules: [{ required: true, message: '请填写' + passwordLabel }],
       },
     },
   ];
