@@ -3,26 +3,58 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProColumns } from '@ant-design/pro-components';
 import { useEffect, useRef } from 'react';
-import type { InstallOrderUpdateParam } from '../type';
+import type { MaintenanceOrderUpdateParam } from '../type';
 import { OrderStatus, OrderType } from '../type';
 import { isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
 import { getServiceProviderList } from '@/pages/user-manager/accounts/Customer/service';
-import { getInstallerList } from '../service';
+import { getCustomerList, getInstallerList } from '../service';
 import { isNil } from 'lodash';
-import dayjs, { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 export const Columns: (
   operation: FormOperations,
-  orgId: number,
-) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
-  const orgIdRef = useRef<number>();
-  useEffect(() => {
-    orgIdRef.current = orgId;
-  }, [orgId]);
+  // orgId: number,
+) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation) => {
+  // const orgIdRef = useRef<number>();
+  // useEffect(() => {
+  //   orgIdRef.current = orgId;
+  // }, [orgId]);
 
   return [
+    {
+      title: '故障标题',
+      dataIndex: ['name'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请输入',
+          },
+        ],
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: '故障描述',
+      dataIndex: ['content'],
+      valueType: 'textarea',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请输入',
+          },
+        ],
+      },
+      colProps: {
+        span: 24,
+      },
+    },
     {
       title: '工单类型',
       dataIndex: 'type',
@@ -32,7 +64,7 @@ export const Columns: (
       fieldProps: {
         disabled: true,
       },
-      initialValue: OrderType.INSTALL,
+      initialValue: OrderType.MAINTENANCE,
     },
     {
       title: '工单ID',
@@ -67,24 +99,18 @@ export const Columns: (
           },
         ],
       },
-      name: 'serviceProvider',
-      fieldProps: (form) => ({
+      fieldProps: () => ({
         tableId: 'orgId',
         tableName: 'orgName',
         valueId: 'orgId',
         valueName: 'orgName',
         multiple: false,
-        onChange: (value: { orgId: number }[]) => {
-          // const preOrgId = orgIdRef.current;
-          const curOrgId = value[0]?.orgId;
-          // 重置安装人
-          // if (form && curOrgId !== preOrgId) {
-          //   form.setFieldValue('handlerBy', []);
-          // }
-          if (value.length) {
-            orgIdRef.current = curOrgId;
-          }
-        },
+        // onChange: (value: { orgId: number }[]) => {
+        //   const curOrgId = value[0]?.orgId;
+        //   if (value.length) {
+        //     orgIdRef.current = curOrgId;
+        //   }
+        // },
         proTableProps: {
           columns: [
             {
@@ -115,15 +141,55 @@ export const Columns: (
     },
     {
       title: '客户名称',
+      valueType: TABLESELECT,
+      dataIndex: 'customer',
+      colProps: {
+        span: 8,
+      },
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请填写客户名称',
+            message: '请选择客户名称',
           },
         ],
       },
-      dataIndex: 'userName',
+      fieldProps: () => {
+        return {
+          tableId: 'userId',
+          tableName: 'userName',
+          valueId: 'userId',
+          valueName: 'userName',
+          multiple: false,
+          proTableProps: {
+            rowKey: 'userId',
+            columns: [
+              {
+                title: '用户名',
+                dataIndex: 'userId',
+                width: 150,
+                ellipsis: true,
+              },
+              {
+                title: '账号',
+                dataIndex: 'userName',
+                width: 200,
+                ellipsis: true,
+                hideInSearch: true,
+              },
+            ],
+            request: (params: Record<string, any>) => {
+              return getCustomerList({ ...params })?.then(({ data }) => {
+                return {
+                  data: data?.list,
+                  total: data?.total,
+                  success: true,
+                };
+              });
+            },
+          },
+        };
+      },
     },
     {
       title: '联系电话',
@@ -198,56 +264,68 @@ export const Columns: (
       },
     },
     {
-      title: '安装人',
+      title: '维护人',
       valueType: TABLESELECT,
       dataIndex: 'handler',
       colProps: {
         span: 8,
       },
-      fieldProps: (form) => {
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请选择',
+          },
+        ],
+      },
+      fieldProps: () => {
         return {
-          tableId: 'userId',
-          tableName: 'userName',
-          valueId: 'userId',
-          valueName: 'userName',
+          tableId: 'handlerBy',
+          tableName: 'handlerName',
+          valueId: 'handlerBy',
+          valueName: 'handlerName',
           multiple: false,
           proTableProps: {
-            rowKey: 'userId',
+            rowKey: 'handlerBy',
             columns: [
               {
                 title: '用户名',
-                dataIndex: 'userName',
+                dataIndex: 'handlerBy',
                 width: 150,
                 ellipsis: true,
               },
               {
                 title: '账号',
-                dataIndex: 'userId',
+                dataIndex: 'handlerName',
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
               },
               {
                 title: '用户类型',
-                dataIndex: 'orgName',
+                dataIndex: 'service',
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
               },
             ],
             request: (params: Record<string, any>) => {
-              if (isNil(orgIdRef.current)) {
-                return;
-              }
-              return getInstallerList({ ...params, ...{ orgId: orgIdRef.current } })?.then(
-                ({ data }) => {
-                  return {
-                    data: data?.list,
-                    total: data?.total,
-                    success: true,
-                  };
-                },
-              );
+              // if (isNil(orgIdRef.current)) {
+              //   return;
+              // }
+              return getInstallerList({ ...params })?.then(({ data }) => {
+                return {
+                  data: data?.list.map(({ userId, userName, ...rest }) => {
+                    return {
+                      ...rest,
+                      handlerBy: userId,
+                      handlerName: userName,
+                    };
+                  }),
+                  total: data?.total,
+                  success: true,
+                };
+              });
             },
           },
         };

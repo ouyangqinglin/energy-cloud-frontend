@@ -1,5 +1,6 @@
-import { ProColumns } from '@ant-design/pro-components';
-import { InstallListType, OrderStatus, OrderType } from './type';
+import type { ProColumns } from '@ant-design/pro-components';
+import type { MaintenanceListType } from './type';
+import { OrderStatus, OrderType } from './type';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
@@ -15,7 +16,7 @@ export const orderType = new Map([
   [OrderType.REPAIR, '修复'],
 ]);
 
-export const columns: ProColumns<InstallListType>[] = [
+export const columns: ProColumns<MaintenanceListType>[] = [
   {
     title: '工单ID',
     dataIndex: 'id',

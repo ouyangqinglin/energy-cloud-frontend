@@ -107,7 +107,7 @@ interface HttpRequestType<R = false> {
 }
 
 export class HttpRequest implements HttpRequestType {
-  instance: RequestMethod<false> | null = null;
+  instance: RequestMethod<false> = extend({});
 
   init(option?: ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) {
     this.instance = extend({
@@ -210,7 +210,7 @@ export class HttpRequest implements HttpRequestType {
 const httpRequest = new HttpRequest();
 httpRequest.init();
 
-export const get = <R = any, U = 'common'>(
+export const get = <R, U = 'common'>(
   url: string,
   params?: object | URLSearchParams,
   options?: RequestOptionsInit,

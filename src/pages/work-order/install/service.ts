@@ -1,4 +1,9 @@
-import type { InstallListType, InstallOrderUpdateParam, ObstacleReportInfo } from './type';
+import type {
+  Installer,
+  InstallListType,
+  InstallOrderUpdateParam,
+  InstallOrderUpdateInfo,
+} from './type';
 import { del, get, post, put } from '@/utils/request';
 
 export const createInstallationWorkOrder = (data: InstallOrderUpdateParam) => {
@@ -6,7 +11,7 @@ export const createInstallationWorkOrder = (data: InstallOrderUpdateParam) => {
 };
 
 export const getInstallationWorkOrder = (data: { id: number }) => {
-  return get<ObstacleReportInfo>(`/oss/installationWorkOrder/details`, data);
+  return get<InstallOrderUpdateInfo>(`/oss/installationWorkOrder/details`, data);
 };
 
 export const updateInstallationWorkOrder = (data = {}) => {
@@ -19,6 +24,10 @@ export const deleteInstallationWorkOrder = (data: { id: string }) => {
 
 export const getObstacleReportList = (params: any) => {
   return get<InstallListType[]>(`/oss/installationWorkOrder/list`, params);
+};
+
+export const getInstallerList = (params: any) => {
+  return get<Installer[]>(`/uc/customerUser/installer/page`, params);
 };
 
 // export const getServiceId = () => {
