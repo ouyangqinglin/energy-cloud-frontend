@@ -6,29 +6,35 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
  */
-import React, { Ref, useMemo, useEffect, useCallback, useRef } from 'react';
+import React, { useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
-import { BetaSchemaForm, ProFormInstance } from '@ant-design/pro-components';
-import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
+import type { ProFormInstance } from '@ant-design/pro-components';
+import { BetaSchemaForm, ProConfigProvider } from '@ant-design/pro-components';
 import { FormTypeEnum } from '@/utils/dictionary';
-import { CombineService } from '@ahooksjs/use-request/lib/types';
+import type { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
+import { tableSelectValueTypeMap } from '../TableSelect';
+import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
+import type { InferResponseData } from '@/utils/request';
 
 export { FormTypeEnum };
 
-export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueType> & {
+export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormData, ValueType> & {
   formRef?: React.Ref<ProFormInstance | undefined>;
   type?: FormTypeEnum;
   suffixTitle?: string;
   id?: string | number;
   idKey?: string;
-  getData?: CombineService<any, any>;
+  getData: CombineService<InferResponseData<FormData>, any>;
   addData?: CombineService<any, any>;
   editData?: CombineService<any, any>;
-  afterRequest?: (formData: FormData, formRef: React.Ref<ProFormInstance | undefined>) => void;
-  beforeSubmit?: (formData: FormData) => boolean | void;
+  afterRequest?: (
+    formData: FormData,
+    formRef: React.Ref<ProFormInstance | undefined>,
+  ) => FormData | void;
+  beforeSubmit?: (formData: FormData) => boolean | void | ParamData;
   onSuccess?: (formData: FormData) => boolean | void;
   onError?: (data: any) => void;
   extraData?: Record<string, any>;
@@ -36,8 +42,12 @@ export type SchemaFormProps<FormData, ValueType> = FormSchema<FormData, ValueTyp
   onOpenChange?: (value: boolean) => void;
 };
 
-const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
-  props: SchemaFormProps<FormData, ValueType>,
+const SchemaForm = <
+  FormData = Record<string, any>,
+  ValueType = 'text',
+  ParamData = Record<string, any>,
+>(
+  props: SchemaFormProps<FormData, ValueType, ParamData>,
 ) => {
   const {
     formRef,
@@ -68,7 +78,7 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
     { setTrue: setDisableSubmitterTrue, setFalse: setDisableSubmitterFalse },
   ] = useBoolean(true);
 
-  const { run: runGet, loading: getLoading } = useRequest(getData as any, {
+  const { run: runGet, loading: getLoading } = useRequest(getData, {
     manual: true,
   });
   const { run: runAdd, loading: addLoading } = useRequest(addData as any, {
@@ -121,8 +131,14 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       const beforeSubmitResult = beforeSubmit?.(formData);
       if (beforeSubmitResult !== false) {
-        return request?.({ ...formData, [idKey]: id, ...(extraData || {}) })
+        return request?.({
+          ...((beforeSubmitResult as ParamData) ?? formData),
+          [idKey]: id,
+          ...(extraData || {}),
+        })
           ?.then?.((data) => {
+            console.log(data);
+
             if (data) {
               const result = onSuccess?.(formData);
               if (result !== false) {
@@ -157,9 +173,9 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
       myFormRef?.current?.resetFields?.();
       if (type !== FormTypeEnum.Add && id) {
         runGet?.({ [idKey]: id })?.then?.((data) => {
-          const requestData = data || {};
-          afterRequest?.(requestData, myFormRef);
-          myFormRef?.current?.setFieldsValue?.(requestData);
+          const requestData = data || ({} as FormData);
+          const processResult = afterRequest?.(requestData, myFormRef);
+          myFormRef?.current?.setFieldsValue?.(processResult ?? (requestData as any));
         });
       } else if (initialValues) {
         myFormRef?.current?.setFieldsValue?.(initialValues as any);
@@ -168,29 +184,41 @@ const SchemaForm = <FormData = Record<string, any>, ValueType = 'text'>(
   }, [open, id, type, myFormRef, layoutType, initialValues]);
 
   return (
-    <>
-      <BetaSchemaForm<FormData, ValueType>
-        formRef={myFormRef}
-        layoutType={layoutType}
-        width="460px"
-        autoFocusFirstInput
-        scrollToFirstError
-        modalProps={{
-          centered: true,
-        }}
-        loading={getLoading || addLoading || editLoading}
-        title={title}
-        onFinish={onFinish}
-        open={open}
-        onOpenChange={onOpenChange}
-        rowProps={{
-          gutter: [24, 0],
-        }}
-        submitter={mergedSubmitter}
-        onValuesChange={mergedOnValuesChange}
-        {...restProps}
-      />
-    </>
+    <BetaSchemaForm<FormData, ValueType>
+      formRef={myFormRef}
+      layoutType={layoutType}
+      width="460px"
+      autoFocusFirstInput
+      scrollToFirstError
+      modalProps={{
+        centered: true,
+      }}
+      loading={getLoading || addLoading || editLoading}
+      title={title}
+      onFinish={onFinish}
+      open={open}
+      onOpenChange={onOpenChange}
+      rowProps={{
+        gutter: [24, 0],
+      }}
+      submitter={mergedSubmitter}
+      onValuesChange={mergedOnValuesChange}
+      {...restProps}
+    />
+  );
+};
+
+export const SchemaFormProvider = <
+  FormData = Record<string, any>,
+  ValueType = 'text',
+  ParamData = Record<string, any>,
+>(
+  props: SchemaFormProps<FormData, ValueType, ParamData>,
+) => {
+  return (
+    <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
+      <SchemaForm<FormData, ValueType, ParamData> {...props} />
+    </ProConfigProvider>
   );
 };
 

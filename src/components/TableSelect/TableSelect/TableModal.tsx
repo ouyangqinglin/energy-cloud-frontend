@@ -11,10 +11,10 @@ import { Modal, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
-import type { ProTableProps } from '@ant-design/pro-table';
 import { defaultsDeep, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
+import { ProTableProps } from '@ant-design/pro-components';
 
 export type TableModalProps<V, T, U> = {
   title?: string;

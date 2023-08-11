@@ -9,39 +9,36 @@ import { FormUpdate } from '../../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { omit } from 'lodash';
 import { useCallback, useState } from 'react';
-import { InstallOrderUpdateParam } from '../type';
+import type { InstallOrderUpdateParam, InstallOrderUpdateInfo } from '../type';
 
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>(0);
 
-  // const convertRequestData = async (param: { userId: number }) => {
-  //   const res = await getCustomer(param);
-  //   if (res) {
-  //     const { user } = res.data;
-  //     setOrgId(user.orgId);
-  //     const rawFormData = omit(
-  //       {
-  //         ...user,
-  //         ...{ serviceProvider: [{ orgId: user.orgId, orgName: user.orgName }] },
-  //         ...{ roleIds: user.roles.map((it) => it.roleId) },
-  //       },
-  //       'password',
-  //     ) as TransformCustomerUpdateInfo;
-  //     return {
-  //       data: rawFormData,
-  //     };
-  //   }
-  //   return { data: {} as TransformCustomerUpdateInfo };
-  // };
+  const convertRequestData = async (param: { id: number }) => {
+    const res = await getInstallationWorkOrder(param);
+    if (res) {
+      const { service, orgId: rawOrgId, handlerBy, handlerName } = res.data;
+      setOrgId(rawOrgId);
+      return {
+        data: {
+          ...res.data,
+          ...{ serviceProvider: [{ orgId: rawOrgId, orgName: service }] },
+          ...{ handler: [{ handlerBy, handlerName }] },
+        } as InstallOrderUpdateInfo,
+      };
+    }
+    return { data: {} as InstallOrderUpdateInfo };
+  };
 
-  // const convertUpdateParams = (params: TransformCustomerUpdateInfo): CustomerParam => {
-  //   const siteIds = params.sites?.map((it) => it.id) ?? [];
-  //   return {
-  //     ...omit(params, 'serviceProvider', 'sites'),
-  //     ...{ orgId: params.serviceProvider?.[0]?.orgId, siteIds },
-  //     roleIds: [params.roleId],
-  //   } as CustomerParam;
-  // };
+  const convertUpdateParams = (params: InstallOrderUpdateInfo): InstallOrderUpdateParam => {
+    const { orgId: rawOrgId, orgName: service } = params.serviceProvider?.[0] ?? {};
+    const { handlerBy } = params.handler?.[0] ?? {};
+
+    return {
+      ...omit(params, 'serviceProvider', 'handler'),
+      ...{ orgId: rawOrgId, service, handlerBy, userId: props.id },
+    } as InstallOrderUpdateParam;
+  };
 
   const getConfig = useCallback(() => Columns(props?.operations, orgId), [props.operations, orgId]);
 
@@ -51,12 +48,12 @@ export const Update = (props: FormUpdateBaseProps) => {
       titleUpdate={`编辑安装工单`}
       columns={getConfig()}
       onFinishUpdate={(params) => {
-        return updateInstallationWorkOrder(params);
+        return updateInstallationWorkOrder(convertUpdateParams(params));
       }}
       onFinishCreate={(params) => {
-        return createInstallationWorkOrder(params);
+        return createInstallationWorkOrder(convertUpdateParams(params));
       }}
-      request={(params) => getInstallationWorkOrder(params)}
+      request={(params) => convertRequestData(params)}
       {...props}
     />
   );

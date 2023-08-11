@@ -5,7 +5,7 @@ import SchemaModalFormChild from './SchemaFormChild';
 import ModalFormChild from './ModalFormChild';
 import type { ModalFormProps } from '@ant-design/pro-form';
 
-const DEFAULT_PROPS = {
+export const DEFAULT_PROPS = {
   title: '新增',
   width: 950,
   rowProps: {
@@ -19,7 +19,7 @@ const DEFAULT_PROPS = {
   wrapperCol: { flex: '1 1 auto' },
   labelAlign: 'left',
   grid: true,
-} as FormSchema & ModalFormProps;
+};
 
 const YTModalForm = <T, ValueType = 'text'>(props: YTModalFormProps<T, ValueType>) => {
   const mergeProps = { ...props };

@@ -85,7 +85,7 @@ const Install = () => {
           operations: operations,
           visible: updateModal,
           onVisibleChange: setUpdateModal,
-          id: initialValues?.id,
+          id: initialValues?.userId,
           onSuccess: onSuccess,
           // keyForId: 'faultId',
         }}
@@ -95,7 +95,7 @@ const Install = () => {
           operations: operations,
           visible: readModal,
           onVisibleChange: setReadModal,
-          id: initialValues?.id,
+          id: initialValues?.userId,
           // keyForId: 'faultId',
         }}
       />

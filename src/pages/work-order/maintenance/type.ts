@@ -1,4 +1,4 @@
-export type InstallListType = {
+export type MaintenanceListType = {
   id: number;
   // 时间维度  0日 1月 2年 3总
   type: number;
@@ -65,7 +65,7 @@ export const enum OrderType {
   REPAIR,
 }
 
-export interface InstallOrderUpdateParam {
+export interface MaintenanceOrderUpdateParam {
   type: number;
   orgId: number;
   userId: number;
@@ -76,16 +76,18 @@ export interface InstallOrderUpdateParam {
   remark: string;
   address: string;
   timeOfAppointment: string;
+  siteId: number;
 }
 
-export interface InstallOrderUpdateInfo {
+export interface MaintenanceOrderUpdateInfo {
   id: number;
   type: number;
   name: string;
   service?: any;
   orgId: number;
+  orgName: string;
   userId: number;
-  userName?: any;
+  userName?: string;
   phone: string;
   timeOfAppointment: string;
   processTime?: any;
@@ -123,6 +125,10 @@ export interface InstallOrderUpdateInfo {
     handlerBy: number;
     handlerName: string;
   }[];
+  customer: {
+    userId: number;
+    userName?: string;
+  }[];
 }
 
 export interface Tail {
@@ -138,7 +144,7 @@ export interface Tail {
   createTime: string;
 }
 
-export interface Installer {
+export interface Maintainer {
   createBy: string;
   createTime: string;
   updateBy: string;
@@ -222,4 +228,9 @@ interface Org {
   latitude?: any;
   parentName?: any;
   type: number;
+}
+
+export interface SiteInfo extends Record<string, number | string> {
+  id: number;
+  name: string;
 }

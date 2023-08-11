@@ -2,12 +2,12 @@ import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProRequestData } from '@ant-design/pro-components';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 
-export type FormUpdateBaseProps = {
+export type FormUpdateBaseProps<D = Record<string, any>> = {
   visible: boolean;
   onVisibleChange: (state: boolean) => void;
   operations: FormOperations;
-  initialValues?: any;
-  id?: number | string;
+  initialValues?: D;
+  id?: number;
   onSuccess?: () => void;
 };
 

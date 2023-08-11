@@ -12,11 +12,10 @@ import { CloseCircleFilled } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
 import styles from '../index.less';
 import TableModal from './TableModal';
-import type { ProTableProps } from '@ant-design/pro-table';
-import type { ProRenderFieldPropsType } from '@ant-design/pro-components';
+import type { ProRenderFieldPropsType, ProTableProps } from '@ant-design/pro-components';
 import classnames from 'classnames';
 
-type TableSelectProps<V, T, P> = {
+export type TableSelectProps<V, T, P> = {
   value?: V[];
   onChange?: (value: V[]) => void;
   title?: string;
