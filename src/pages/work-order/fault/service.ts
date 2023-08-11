@@ -5,7 +5,7 @@ import { del, get, post, put } from '@/utils/request';
 //   return post(`/oss/obstacleReport`, data);
 // };
 
-export const getObstacleReport = (data: { orgId: number }) => {
+export const getObstacleReport = (data: { faultId: number }) => {
   return get<ObstacleReportInfo>(`/oss/obstacleReport/detail`, data);
 };
 
@@ -19,6 +19,10 @@ export const updateObstacleReportStatus = (data = {}) => {
 
 export const getObstacleReportList = (params: any) => {
   return get<ObstacleReportInfo[]>(`/oss/obstacleReport/list`, params);
+};
+
+export const handleOrderComplete = (params: any = {}) => {
+  return put(`/oss/obstacleReport/complete`, params);
 };
 
 // export const getServiceId = () => {

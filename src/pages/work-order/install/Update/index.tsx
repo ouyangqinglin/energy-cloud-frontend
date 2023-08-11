@@ -5,56 +5,66 @@ import {
   getInstallationWorkOrder,
   updateInstallationWorkOrder,
 } from '../service';
-import { FormUpdate } from '../../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
+import type { AnyKindOfDictionary } from 'lodash';
 import { omit } from 'lodash';
-import { useCallback, useState } from 'react';
-import type { InstallOrderUpdateParam, InstallOrderUpdateInfo } from '../type';
+import { useCallback, useEffect, useState } from 'react';
+import type { InstallListType, InstallOrderUpdateParam, InstallOrderUpdateInfo } from '../type';
+import { FormTypeEnum, SchemaFormProvider } from '@/components/SchamaForm';
+import { isCreate } from '@/components/YTModalForm/helper';
+import { useToggle } from 'ahooks';
+import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 
-export const Update = (props: FormUpdateBaseProps) => {
-  const [orgId, setOrgId] = useState<number>(0);
+export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
+  // const [orgId, setOrgId] = useState<number>(props?.initialValues?.siteId);
+  const [modalVisible, { set }] = useToggle(false);
 
-  const convertRequestData = async (param: { id: number }) => {
-    const res = await getInstallationWorkOrder(param);
+  const convertRequestData = (res: InstallOrderUpdateInfo) => {
     if (res) {
-      const { service, orgId: rawOrgId, handlerBy, handlerName } = res.data;
-      setOrgId(rawOrgId);
+      const { orgId, orgName, handlerBy, handlerName, userId, userName } = res;
+      // setOrgId(rawOrgId);
       return {
-        data: {
-          ...res.data,
-          ...{ serviceProvider: [{ orgId: rawOrgId, orgName: service }] },
-          ...{ handler: [{ handlerBy, handlerName }] },
-        } as InstallOrderUpdateInfo,
-      };
+        ...res,
+        ...{ serviceProvider: [{ orgId, orgName }] },
+        ...{ handler: [{ handlerBy, handlerName }] },
+        ...{ customer: [{ userId, userName }] },
+      } as InstallOrderUpdateInfo;
     }
-    return { data: {} as InstallOrderUpdateInfo };
+    return {} as InstallOrderUpdateInfo;
   };
 
-  const convertUpdateParams = (params: InstallOrderUpdateInfo): InstallOrderUpdateParam => {
-    const { orgId: rawOrgId, orgName: service } = params.serviceProvider?.[0] ?? {};
+  const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
+    const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
     const { handlerBy } = params.handler?.[0] ?? {};
+    const { userId, userName } = params.customer?.[0] ?? {};
 
     return {
-      ...omit(params, 'serviceProvider', 'handler'),
-      ...{ orgId: rawOrgId, service, handlerBy, userId: props.id },
+      ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
+      ...{ orgId, orgName, handlerBy, userId, userName },
     } as InstallOrderUpdateParam;
   };
 
-  const getConfig = useCallback(() => Columns(props?.operations, orgId), [props.operations, orgId]);
-
+  const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
   return (
-    <FormUpdate<any, InstallOrderUpdateParam>
-      titleCreate={`创建安装工单`}
-      titleUpdate={`编辑安装工单`}
+    <SchemaFormProvider<InstallOrderUpdateInfo, TABLESELECTVALUETYPE, InstallOrderUpdateParam>
+      width="900px"
+      id={props.id}
+      type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
       columns={getConfig()}
-      onFinishUpdate={(params) => {
-        return updateInstallationWorkOrder(convertUpdateParams(params));
+      open={props.visible}
+      onOpenChange={props.onVisibleChange}
+      addData={createInstallationWorkOrder}
+      editData={updateInstallationWorkOrder}
+      getData={getInstallationWorkOrder}
+      beforeSubmit={convertUpdateParams}
+      afterRequest={convertRequestData}
+      // extraData={{ siteId }}
+      onSuccess={props?.onSuccess}
+      grid={true}
+      colProps={{
+        span: 8,
       }}
-      onFinishCreate={(params) => {
-        return createInstallationWorkOrder(convertUpdateParams(params));
-      }}
-      request={(params) => convertRequestData(params)}
-      {...props}
+      initialValues={props?.initialValues}
     />
   );
 };

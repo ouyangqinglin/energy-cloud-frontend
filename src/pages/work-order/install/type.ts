@@ -84,6 +84,7 @@ export interface InstallOrderUpdateInfo {
   name: string;
   service?: any;
   orgId: number;
+  orgName: string;
   userId: number;
   userName?: any;
   phone: string;
@@ -122,6 +123,10 @@ export interface InstallOrderUpdateInfo {
   handler: {
     handlerBy: number;
     handlerName: string;
+  }[];
+  customer: {
+    userId: number;
+    userName?: string;
   }[];
 }
 

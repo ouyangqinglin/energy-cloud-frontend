@@ -1,20 +1,22 @@
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { ObstacleReportInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
-import { getObstacleReport, getObstacleReportList, updateObstacleReportStatus } from './service';
+import { getObstacleReport, getObstacleReportList, handleOrderComplete } from './service';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
-import { ActionType } from '@ant-design/pro-components';
+import type { ActionType } from '@ant-design/pro-components';
 import { useSiteColumn } from '@/hooks';
 import { FormRead } from '../components/FormRead';
 import { columnsRead } from './configRead';
 import { Button } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
+import { MaintenanceUpdate } from '../maintenance/Update';
 
 const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
+  const [maintenanceModal, { set: setMaintenanceModal }] = useToggle<boolean>(false);
   const [statusModal, { set: setStatusModal }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.READ);
   const [initialValues, setInitialValues] = useState<ObstacleReportInfo>({} as ObstacleReportInfo);
@@ -30,10 +32,6 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
     },
   };
 
-  // const onSuccess = useCallback(() => {
-  //   actionRef?.current?.reload?.();
-  // }, [actionRef]);
-
   const [siteSearchColumn] = useSiteColumn({
     hideInTable: true,
     formItemProps: {
@@ -46,6 +44,17 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
     params,
   ) => {
     return getObstacleReportList(params);
+  };
+
+  const toggleModal = (visible: boolean) => {
+    setStatusModal(visible);
+    set(!visible);
+  };
+
+  const completeOrder = async (params: any) => {
+    await handleOrderComplete({ ...params, ...{ id: initialValues?.id } });
+    set(false);
+    setStatusModal(false);
   };
 
   return (
@@ -78,7 +87,8 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                 key="ok"
                 type="primary"
                 onClick={() => {
-                  // props.submit();
+                  set(false);
+                  setMaintenanceModal(true);
                 }}
               >
                 创建维修工单
@@ -95,16 +105,23 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
           keyForId: 'faultId',
         }}
       />
+      <MaintenanceUpdate
+        visible={maintenanceModal}
+        onVisibleChange={setMaintenanceModal}
+        siteId={initialValues?.siteId}
+        operations={FormOperations.CREATE}
+      />
       <YTModalForm<any, any>
         title={'完成原因'}
         visible={statusModal}
-        onVisibleChange={setStatusModal}
+        onVisibleChange={toggleModal}
         layoutType={'ModalForm'}
-        onFinish={updateObstacleReportStatus}
+        onFinish={completeOrder}
         columns={[
           {
             title: '原因',
             valueType: 'textarea',
+            dataIndex: 'description',
             colProps: {
               span: 24,
             },

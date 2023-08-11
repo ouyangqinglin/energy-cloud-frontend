@@ -21,10 +21,9 @@ import { isCreate } from '@/components/YTModalForm/helper';
 import { useToggle } from 'ahooks';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 
-export const Update = (props: FormUpdateBaseProps<MaintenanceListType>) => {
-  // const [orgId, setOrgId] = useState<number>(props?.initialValues?.siteId);
-  const [modalVisible, { set }] = useToggle(false);
-
+export const MaintenanceUpdate = (
+  props: FormUpdateBaseProps<MaintenanceListType> & { siteId: number },
+) => {
   const convertRequestData = (res: MaintenanceOrderUpdateInfo) => {
     if (res) {
       const { orgId, orgName, handlerBy, handlerName, userId, userName } = res;
@@ -52,47 +51,30 @@ export const Update = (props: FormUpdateBaseProps<MaintenanceListType>) => {
 
   const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
 
-  const [siteId, setSiteId] = useState<number>();
-  const ensureSite = (value: SiteInfo[]) => {
-    if (value.length) {
-      setSiteId(value[0]?.id);
-      set(true);
-    }
-  };
-
   return (
-    <>
-      {isCreate(props.operations) && (
-        <SelectSiteModal
-          onChange={ensureSite}
-          open={props.visible}
-          onCancel={() => props?.onVisibleChange(false)}
-        />
-      )}
-      <SchemaFormProvider<
-        MaintenanceOrderUpdateInfo,
-        TABLESELECTVALUETYPE,
-        MaintenanceOrderUpdateParam
-      >
-        width="900px"
-        id={props.id}
-        type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
-        columns={getConfig()}
-        open={isCreate(props.operations) ? modalVisible : props.visible}
-        onOpenChange={isCreate(props.operations) ? set : props.onVisibleChange}
-        addData={createMaintenanceWorkOrder}
-        editData={updateMaintenanceWorkOrder}
-        getData={getMaintenanceWorkOrder}
-        beforeSubmit={convertUpdateParams}
-        afterRequest={convertRequestData}
-        extraData={{ siteId }}
-        onSuccess={props?.onSuccess}
-        grid={true}
-        colProps={{
-          span: 8,
-        }}
-        initialValues={props?.initialValues}
-      />
-    </>
+    <SchemaFormProvider<
+      MaintenanceOrderUpdateInfo,
+      TABLESELECTVALUETYPE,
+      MaintenanceOrderUpdateParam
+    >
+      width="900px"
+      id={props.id}
+      type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
+      columns={getConfig()}
+      open={props.visible}
+      onOpenChange={props.onVisibleChange}
+      addData={createMaintenanceWorkOrder}
+      editData={updateMaintenanceWorkOrder}
+      getData={getMaintenanceWorkOrder}
+      beforeSubmit={convertUpdateParams}
+      afterRequest={convertRequestData}
+      extraData={{ siteId: props.siteId }}
+      onSuccess={props?.onSuccess}
+      grid={true}
+      colProps={{
+        span: 8,
+      }}
+      initialValues={props?.initialValues}
+    />
   );
 };

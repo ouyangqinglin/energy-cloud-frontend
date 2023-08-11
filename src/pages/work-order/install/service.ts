@@ -18,7 +18,7 @@ export const updateInstallationWorkOrder = (data = {}) => {
   return put(`/oss/installationWorkOrder/edit`, data);
 };
 
-export const deleteInstallationWorkOrder = (data: { id: string }) => {
+export const deleteInstallationWorkOrder = (data: { id?: string }) => {
   return del(`/oss/installationWorkOrder`, data);
 };
 
@@ -27,7 +27,19 @@ export const getObstacleReportList = (params: any) => {
 };
 
 export const getInstallerList = (params: any) => {
-  return get<Installer[]>(`/uc/customerUser/installer/page`, params);
+  return get<Installer, 'list'>(`/uc/customerUser/installer/page`, params);
+};
+
+export const getCustomerList = (params: any) => {
+  return get<Installer, 'list'>(`/uc/customerUser/maintainer/user/page`, params);
+};
+
+export const handleOrderAccept = (params: any = {}) => {
+  return put(`/oss/installationWorkOrder/accept`, params);
+};
+
+export const handleOrderComplete = (params: any = {}) => {
+  return put(`/oss/installationWorkOrder/complete`, params);
 };
 
 // export const getServiceId = () => {

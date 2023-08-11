@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import type { MaintenanceListType } from './type';
+import type { MaintenanceListType, SiteInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
@@ -8,13 +8,15 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import type { ActionType } from '@ant-design/pro-components';
 import { useSiteColumn } from '@/hooks';
-import { Update } from './Update';
+import { MaintenanceUpdate } from './Update';
 import Read from './Read';
 import { message } from 'antd';
+import SelectSiteModal from './SelectSite';
 
 const Maintenance = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   const [readModal, { set: setReadModal }] = useToggle<boolean>(false);
+  const [siteModal, { set: setSiteModal }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const actionRef = useRef<ActionType>(null);
   const [initialValues, setInitialValues] = useState<MaintenanceListType>(
@@ -25,9 +27,9 @@ const Maintenance = () => {
     toolBarRenderOptions: {
       add: {
         onClick() {
-          // setInitialValues({} as InstallListType);
+          setInitialValues({} as MaintenanceListType);
           setOperations(FormOperations.CREATE);
-          setUpdateModal(true);
+          setSiteModal(true);
         },
         text: '新建',
       },
@@ -73,6 +75,14 @@ const Maintenance = () => {
     return getMaintenanceWorkOrderList(params);
   };
 
+  const [siteId, setSiteId] = useState<number>();
+  const ensureSite = (value: SiteInfo[]) => {
+    if (value.length) {
+      setSiteId(value[0]?.id);
+      setUpdateModal(true);
+    }
+  };
+
   return (
     <>
       <YTProTable<MaintenanceListType, MaintenanceListType>
@@ -83,13 +93,19 @@ const Maintenance = () => {
         rowKey="id"
         {...customConfig}
       />
-      <Update
+      <SelectSiteModal
+        onChange={ensureSite}
+        open={siteModal}
+        onCancel={() => setSiteModal(false)}
+      />
+      <MaintenanceUpdate
         {...{
           operations: operations,
           visible: updateModal,
           onVisibleChange: setUpdateModal,
           id: initialValues?.id,
           onSuccess: onSuccess,
+          siteId: initialValues?.siteId ?? siteId,
         }}
       />
       <Read
