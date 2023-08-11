@@ -10,10 +10,11 @@ import type { AnyKindOfDictionary } from 'lodash';
 import { omit } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import type { InstallListType, InstallOrderUpdateParam, InstallOrderUpdateInfo } from '../type';
-import { FormTypeEnum, SchemaFormProvider } from '@/components/SchamaForm';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { useToggle } from 'ahooks';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
+import { FormTypeEnum } from '@/utils/dictionary';
+import { SchemaFormProvider } from '@/components/SchemaForm';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   // const [orgId, setOrgId] = useState<number>(props?.initialValues?.siteId);

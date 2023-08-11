@@ -11,6 +11,8 @@ import type { ExtraNodeData, GraphNode } from '../type';
 import { StatisticCard } from '../components/StatisticCard';
 import { StatisticCardForME } from '../components/StatisticCardForME';
 import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
+import { useRequest } from 'umi';
+import { getTypeAllTopo } from './service';
 
 const nodeTypes = {
   imageNode: ImageNode,
@@ -77,9 +79,11 @@ const { nodes: defaultLayoutedNodes, edges: defaultLayoutedEdges } = getLayouted
   initialEdges,
 );
 
-const TopoTypeAll: FC = () => {
+const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
   const [nodes] = useNodesState(defaultLayoutedNodes);
   const [edges] = useEdgesState(defaultLayoutedEdges);
+  // const { data } = useRequest(() => getTypeAllTopo({ siteId }));
+  // console.log(data);
 
   return (
     <ReactFlowReactivity

@@ -7,9 +7,48 @@ import IconPV from './svg-icon/icon_光伏.svg';
 import IconLoadCS from './svg-icon/icon_负载_充电桩.svg';
 import IconLoadOther from './svg-icon/icon_负载.svg';
 import { ExtraNodeData } from '../type';
+import { AllTypeData } from './type';
+import { uniqueId } from 'lodash';
+import { SiteDataType } from '@/services/station';
+import { SiteType, SiteTypeEnum } from '@/components/SiteTypeSwitch';
 
 const position = { x: 0, y: 0 };
 const edgeType = 'smoothstep';
+
+const hasPVInSiteType = (energyOptions: SiteTypeEnum) =>
+  [SiteTypeEnum.PV, SiteTypeEnum.PV_ES, SiteTypeEnum.PV_ES_CS].includes(energyOptions);
+
+// 获取概览统计
+const genOverViewStatistic = (data: AllTypeData) => ({
+  id: uniqueId(),
+  type: 'statisticCard',
+  position: {
+    x: 31,
+    y: 0,
+  },
+  data: {
+    label: '市电',
+    width: 220,
+    height: 76,
+    textContent: {
+      column: [
+        {
+          label: '园区总用电（kWh）',
+          value: data.siteTotal,
+          field: 'todayConsumption',
+        },
+        hasPVInSiteType(data.energyOptions)
+          ? {
+              label: '光伏总发电（kWh）',
+              value: data.photovoltaicTotal,
+              field: 'todayConsumption',
+            }
+          : null,
+      ],
+      direction: 'horizontal',
+    },
+  },
+});
 
 export const immutableNodes: Node<ExtraNodeData>[] = [
   {
@@ -225,7 +264,7 @@ export const initialNodes: Node<ExtraNodeData>[] = [
         height: 80,
         icon: IconES,
       },
-      width: 70,
+      width: 180,
       height: 80,
       title: '储能（剩余电量:92%）',
       textContent: {
@@ -292,7 +331,7 @@ export const initialNodes: Node<ExtraNodeData>[] = [
         height: 78,
         icon: IconLoadCS,
       },
-      width: 80,
+      width: 180,
       height: 78,
       title: '充电桩',
       textContent: {
@@ -323,7 +362,7 @@ export const initialNodes: Node<ExtraNodeData>[] = [
         height: 78,
         icon: IconLoadOther,
       },
-      width: 80,
+      width: 180,
       height: 78,
       title: '其他用电设备',
       textContent: {

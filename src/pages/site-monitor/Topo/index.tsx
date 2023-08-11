@@ -28,7 +28,7 @@ type SiteType = {
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
-  const [type, setType] = useState<number>(5);
+  const [type, setType] = useState<number>(1);
 
   const { data: systemDiagramId, run } = useRequest(getTopo, { manual: true });
 
@@ -94,10 +94,10 @@ const Index: React.FC = () => {
         </div>
         <div className={styles.title}>{keyToSystemTitle.get(type)}</div>
         <div className={classnames(styles.systemDiagram)} style={{ width: '100%' }}>
-          {type === 1 && <TopoTypeAll />}
-          {type === 2 && <TopoTypePhotovoltaic />}
-          {type === 3 && <TopoTypeEnergyStorage />}
-          {type === 5 && <TypeCommunication />}
+          {type === 1 && <TopoTypeAll siteId={siteId} />}
+          {type === 2 && <TopoTypePhotovoltaic siteId={siteId} />}
+          {type === 3 && <TopoTypeEnergyStorage siteId={siteId} />}
+          {type === 5 && <TypeCommunication siteId={siteId} />}
         </div>
       </div>
     </>
