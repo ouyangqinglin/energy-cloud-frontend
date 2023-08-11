@@ -12,7 +12,7 @@ import { getTableColumns, getFormColumns, AccountDataType } from './config';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
-import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
 import { message } from 'antd';
 import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';

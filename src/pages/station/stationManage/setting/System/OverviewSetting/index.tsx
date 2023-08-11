@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { useModel } from 'umi';
 import { useBoolean } from 'ahooks';
 import { Card, Button } from 'antd';
-import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { columns } from './config';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { editData } from './service';

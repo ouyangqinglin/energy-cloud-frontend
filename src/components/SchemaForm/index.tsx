@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-08-03 10:46:45
+ * @LastEditTime: 2023-08-11 10:21:25
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\SchamaForm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
 import React, { useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
@@ -22,6 +22,7 @@ import type { InferResponseData } from '@/utils/request';
 export { FormTypeEnum };
 
 export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormData, ValueType> & {
+  reactRef?: React.Ref<ProFormInstance | undefined>;
   formRef?: React.Ref<ProFormInstance | undefined>;
   type?: FormTypeEnum;
   suffixTitle?: string;
@@ -40,6 +41,7 @@ export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormDat
   extraData?: Record<string, any>;
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
+  onRef?: (value: React.Ref<ProFormInstance | undefined>) => void;
 };
 
 const SchemaForm = <
@@ -69,6 +71,7 @@ const SchemaForm = <
     submitter,
     onValuesChange,
     initialValues,
+    onRef,
     ...restProps
   } = props;
 
@@ -89,7 +92,9 @@ const SchemaForm = <
   });
 
   const myFormRef = useMemo(() => {
-    return formRef || schemaFormRef;
+    const result = formRef || schemaFormRef;
+    onRef?.(result);
+    return result;
   }, [formRef, schemaFormRef]);
 
   const title = useMemo(() => {

@@ -19,7 +19,7 @@ import YTProTable from '@/components/YTProTable';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
-import SchemaForm from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchemaForm';
 
 const Fault: React.FC = () => {
   const [openDetail, { setTrue, setFalse }] = useBoolean(false);
