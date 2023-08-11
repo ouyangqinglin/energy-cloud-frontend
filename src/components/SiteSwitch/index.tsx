@@ -9,7 +9,7 @@
 import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useModel } from 'umi';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
-import SchemaForm, { SchemaFormProps } from '@/components/SchamaForm';
+import SchemaForm, { SchemaFormProps } from '@/components/SchemaForm';
 import { useLocation, useSiteColumn } from '@/hooks';
 import type { ProColumns } from '@ant-design/pro-table';
 import { SiteDataType, getSiteType } from '@/services/station';

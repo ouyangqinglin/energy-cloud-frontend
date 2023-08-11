@@ -14,7 +14,7 @@ import { useRequest } from 'umi';
 import TypeChart, { TypeChartDataType } from '../Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
 import moment from 'moment';
-import SchemaForm from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchemaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
 import EChartsReact from 'echarts-for-react';
 import { DeviceModelType } from '@/types/device';

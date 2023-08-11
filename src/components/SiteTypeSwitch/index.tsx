@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useCallback } from 'react';
 import { useModel } from 'umi';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
-import type { SchemaFormProps } from '@/components/SchamaForm';
-import SchemaForm from '@/components/SchamaForm';
+import type { SchemaFormProps } from '@/components/SchemaForm';
+import SchemaForm from '@/components/SchemaForm';
 import type { ProColumns } from '@ant-design/pro-table';
 import { siteType } from '@/utils/dictionary';
 import type { SiteDataType } from '@/services/station';

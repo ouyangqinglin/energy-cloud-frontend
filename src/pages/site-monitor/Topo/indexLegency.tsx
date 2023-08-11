@@ -9,7 +9,7 @@ import { ReactComponent as SystemDiagram31 } from './svg/31.svg';
 import useSiteColumn from '@/hooks/useSiteColumn';
 import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
-import SchemaForm from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchemaForm';
 import { getDefaultSite, getTopo } from './service';
 import { getTopoOffset } from './useTopoResize';
 import classnames from 'classnames';

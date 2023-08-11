@@ -4,7 +4,7 @@ import { useLocation, useRequest } from 'umi';
 import styles from './index.less';
 import type { EquipmentType } from '@/pages/equipment/equipment-list/data';
 import type { ProColumns } from '@ant-design/pro-components';
-import SchemaForm from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchemaForm';
 import { getDefaultSite, getTopo } from './service';
 import classnames from 'classnames';
 import SiteLabel from '@/components/SiteLabel';

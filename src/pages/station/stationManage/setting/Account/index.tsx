@@ -15,7 +15,7 @@ import type { ActionType } from '@ant-design/pro-table';
 import type { AccountType } from './type';
 import { getPage, getData, addData, editData, deleteData } from './service';
 import YTProTable from '@/components/YTProTable';
-import SchemaForm, { FormTypeEnum } from '@/components/SchamaForm';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { columns, formColumns } from './config';
 
 const Account: React.FC = () => {

@@ -2,34 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-08-11 09:10:06
+ * @LastEditTime: 2023-08-11 13:38:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\Control\index.tsx
  */
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState, createRef, RefObject } from 'react';
 import { useRequest } from 'umi';
-import {
-  Button,
-  Col,
-  Form,
-  FormInstance,
-  Input,
-  Row,
-  Select,
-  SelectProps,
-  Switch,
-  Tabs,
-  TabsProps,
-  message,
-} from 'antd';
+import { Button, Col, Form, Input, Row, Select, SelectProps, Tabs, TabsProps, message } from 'antd';
 import Detail from '@/components/Detail';
-import { DeviceModelDataType, DeviceModelType, DeviceServiceModelType } from '@/types/device';
+import { DeviceModelDataType, DeviceServiceModelType } from '@/types/device';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import SchemaForm from '@/components/SchamaForm';
+import SchemaForm from '@/components/SchemaForm';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import { editSetting } from '@/services/equipment';
-import { useBoolean } from 'ahooks';
 import { isEmpty } from 'lodash';
 
 export type ControlProps = {
@@ -38,7 +24,7 @@ export type ControlProps = {
 };
 
 type FormInfo = {
-  [key: string]: FormInstance | ProFormInstance;
+  [key: string]: RefObject<ProFormInstance>;
 };
 
 const Control: React.FC<ControlProps> = (props) => {
@@ -55,10 +41,10 @@ const Control: React.FC<ControlProps> = (props) => {
     (formData, name?: string) => {
       const keys = Object.keys(formData);
       if (keys && keys.length) {
-        run({ deviceId, serviceId: keys[0] }).then(({ data }) => {
+        run({ deviceId, serviceId: keys[0] }).then((data) => {
           if (data) {
             message.success('操作成功');
-            schamaFormsRef.current?.[name || '']?.setFieldValue(keys[0], false);
+            schamaFormsRef.current?.[name || '']?.current?.setFieldValue(keys[0], false);
           }
         });
       }
@@ -72,9 +58,9 @@ const Control: React.FC<ControlProps> = (props) => {
 
   const onPushClick = useCallback((key?: string) => {
     const form = formsRef.current?.[key || ''];
-    const result = form?.getFieldsValue?.();
+    const result = form.current?.getFieldsValue?.();
     if (!isEmpty(result)) {
-      run({ deviceId, serviceId: key, input: result }).then(({ data }) => {
+      run({ deviceId, serviceId: key, input: result }).then((data) => {
         if (data) {
           message.success('操作成功');
           setDisableBtns((prevData) => ({ ...prevData, [key || '']: true }));
@@ -83,7 +69,7 @@ const Control: React.FC<ControlProps> = (props) => {
     }
   }, []);
 
-  const getColumns = useCallback((data: DeviceServiceModelType[], parentNames?: string[]) => {
+  const getColumns = useCallback((data: DeviceServiceModelType[], index?: number[]) => {
     // 循环生成表单
     const formItems: React.ReactNode[] = [];
     const tabItems: TabsProps['items'] = [];
@@ -92,14 +78,20 @@ const Control: React.FC<ControlProps> = (props) => {
         item?.dataType?.type === DeviceModelTypeEnum.Struct ||
         item?.dataType?.type === DeviceModelTypeEnum.Array
       ) {
-        const result = getColumns(item?.dataType?.specs || [], [item?.id || '']);
+        const result = getColumns(item?.dataType?.specs || [], [0]);
         tabItems.push({
           key: item?.id || '',
           label: item?.name,
           children: (
             <>
-              <Row gutter={24}>{result.formItems}</Row>
-              {result.tabs}
+              <Form.List name={item?.id || ''}>
+                {() => [
+                  <>
+                    <Row gutter={24}>{result.formItems}</Row>
+                    {result.tabs}
+                  </>,
+                ]}
+              </Form.List>
             </>
           ),
         });
@@ -130,7 +122,7 @@ const Control: React.FC<ControlProps> = (props) => {
         formItems.push(
           <Col span={8}>
             <Form.Item
-              name={[...(parentNames || []), item?.id || '']}
+              name={[...(index || []), item?.id || '']}
               label={item?.name}
               style={{ maxWidth: '350px' }}
               labelAlign="left"
@@ -162,8 +154,7 @@ const Control: React.FC<ControlProps> = (props) => {
       item?.services?.forEach?.((form) => {
         if (form?.outputData && form?.outputData?.length) {
           const result = getColumns(form?.outputData);
-          // eslint-disable-next-line
-          const [formRef] = Form.useForm();
+          const formRef = createRef<ProFormInstance>();
           formsRef.current = { ...formsRef.current, [form?.id || '']: formRef };
           tabItems.push({
             key: form?.id || '',
@@ -183,7 +174,7 @@ const Control: React.FC<ControlProps> = (props) => {
                   下发参数
                 </Button>
                 <Form
-                  form={formRef}
+                  ref={formRef}
                   layout="horizontal"
                   onValuesChange={() => onFormChange(form?.id)}
                 >
@@ -204,15 +195,14 @@ const Control: React.FC<ControlProps> = (props) => {
           });
         }
       });
-      // eslint-disable-next-line
-      const schameForm = Form.useForm();
+      const schameForm = createRef<ProFormInstance>();
       schamaFormsRef.current = { ...schamaFormsRef.current, [item.groupName as any]: schameForm };
       return (
         <>
           <div className="mb8">
             <Detail.Label title={item.groupName} />
             <SchemaForm
-              form={schameForm[0]}
+              reactRef={schameForm}
               columns={switchColumns}
               layout="horizontal"
               layoutType="Form"

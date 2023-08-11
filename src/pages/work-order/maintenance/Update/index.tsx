@@ -16,7 +16,7 @@ import type {
   MaintenanceListType,
 } from '../type';
 import SelectSiteModal from '../SelectSite';
-import { FormTypeEnum, SchemaFormProvider } from '@/components/SchamaForm';
+import { FormTypeEnum, SchemaFormProvider } from '@/components/SchemaForm';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { useToggle } from 'ahooks';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
