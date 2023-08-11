@@ -21,7 +21,24 @@ export type DevicePropsType = {
   properties?: DevicePropsType[];
 };
 
-export type DeviceServiceType = {};
+export type DeviceServiceModelType = {
+  id?: string;
+  name?: string;
+  dataType?: {
+    type?: DeviceModelTypeEnum;
+    specs?: DeviceServiceModelType[];
+  };
+};
+
+export type DeviceServiceType = {
+  groupName?: string;
+  services?: {
+    id?: string;
+    name?: string;
+    groupName?: string;
+    outputData?: DeviceServiceModelType[];
+  }[];
+};
 
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];

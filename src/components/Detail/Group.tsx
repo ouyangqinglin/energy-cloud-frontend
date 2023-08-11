@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2023-08-07 10:35:43
+ * @LastEditTime: 2023-08-10 16:03:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
@@ -41,7 +41,7 @@ const Group: React.FC<GroupProps> = (props) => {
           ) : (
             <></>
           )}
-          {item?.tabItems?.length ? <Tabs items={item.tabItems} /> : <></>}
+          {item?.tabItems?.length ? <Tabs className="mb16" items={item.tabItems} /> : <></>}
         </>
       );
     });

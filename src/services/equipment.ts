@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-08-04 16:48:29
+ * @LastEditTime: 2023-08-10 16:24:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
@@ -188,5 +188,11 @@ export const getChargeHost = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/iot/device/getChargingPileHost', {
     method: 'GET',
     params,
+  });
+};
+export const editSetting = (data: any) => {
+  return request(`/oss/device/remote_setting`, {
+    method: 'POST',
+    data,
   });
 };

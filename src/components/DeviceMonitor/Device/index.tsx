@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-08-08 16:43:14
+ * @LastEditTime: 2023-08-10 15:20:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\index.tsx
  */
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DeviceDetailType } from '../config';
 import { Spin, Tabs, TabsProps } from 'antd';
 import Overview from '@/components/DeviceInfo/Overview';
@@ -15,20 +15,12 @@ import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import Community from '@/components/ScreenDialog/Community';
 import useDeviceModel from '../useDeviceModel';
-import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import { useSubscribe } from '@/hooks';
-import Button from '@/components/CollectionModal/Button';
-import { formatModelValue, parseToArray } from '@/utils';
 import { deviceProductDataMap } from './config';
-import { DevicePropsType } from '@/types/device';
-import { DeviceModelTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 import styles from './index.less';
-
-const getShowExtral = (type?: DeviceModelTypeEnum) => {
-  return !(
-    [DeviceModelTypeEnum.Array, DeviceModelTypeEnum.Struct, DeviceModelTypeEnum.String] as any
-  ).includes(type);
-};
+import Run from './Run';
+import Control from './Control';
 
 const Device: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -40,11 +32,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
   );
   const realTimeData = useSubscribe(id, openSubscribe);
   const { data: deviceGroupData, loading, modelMap } = useDeviceModel({ productId, isGroup: true });
-  const [detailGroup, setDetailGroup] = useState<GroupItem[]>([]);
-  const [collectionInfo, setCollectionInfo] = useState({
-    title: '',
-    collection: '',
-  });
+  const [activeTab, setActiveTab] = useState<string>('run');
 
   const onDataChange = useCallback(
     (value: DeviceDataType) => {
@@ -54,79 +42,22 @@ const Device: React.FC<DeviceDetailType> = (props) => {
     [productId],
   );
 
-  const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+  const onTabChange = useCallback((key) => {
+    setActiveTab(key);
   }, []);
 
-  const extral = (
-    <Button
-      deviceId={id}
-      title={collectionInfo.title}
-      collection={collectionInfo.collection}
-      model={modelMap?.[collectionInfo.collection]}
-      onClick={onClick}
-    />
-  );
-
-  const getDetailByProps = useCallback(
-    (data: DevicePropsType[], parentField = '') => {
-      const items: DetailItem[] = [];
-      const tabItems: TabsProps['items'] = [];
-      data?.forEach?.((item) => {
-        const field = parentField ? parentField + '.' + item?.id : item?.id;
-        if (item?.dataType?.type == DeviceModelTypeEnum.Struct) {
-          const child = parseToArray(item?.dataType?.specs);
-          const result = getDetailByProps(child, field);
-          tabItems.push({
-            key: field || Math.random() + '',
-            label: item?.name,
-            children: (
-              <>
-                {result.items?.length ? (
-                  <Detail
-                    items={result.items}
-                    data={realTimeData}
-                    extral={extral}
-                    colon={false}
-                    labelStyle={{ width: 140 }}
-                    valueStyle={{ width: '40%' }}
-                  />
-                ) : (
-                  <></>
-                )}
-                {result.tabItems?.length ? <Tabs items={result.tabItems} /> : <></>}
-              </>
-            ),
-          });
-        } else {
-          items.push({
-            label: item?.name,
-            field: field || Math.random() + '',
-            format: (value: string) => formatModelValue(value, modelMap[field || '']),
-            showExtra: getShowExtral(modelMap[field || '']?.type),
-          });
-        }
-      });
-      return { items, tabItems };
-    },
-    [modelMap, realTimeData, extral],
-  );
-
-  useEffect(() => {
-    const group: GroupItem[] = [];
-    deviceGroupData?.properties?.forEach?.((item) => {
-      const result = getDetailByProps(item?.properties || []);
-      group.push({
-        label: <Detail.Label title={item?.groupName} />,
-        items: result.items,
-        tabItems: result.tabItems,
-      });
-    });
-    setDetailGroup(group);
-  }, [deviceGroupData, modelMap, collectionInfo, realTimeData]);
+  const tabItems = useMemo<TabsProps['items']>(() => {
+    return [
+      {
+        key: 'run',
+        label: '运行数据',
+      },
+      {
+        key: 'control',
+        label: '远程控制',
+      },
+    ];
+  }, []);
 
   return (
     <>
@@ -148,16 +79,19 @@ const Device: React.FC<DeviceDetailType> = (props) => {
             <Spin />
           </div>
         ) : (
-          <Detail.Group
-            data={realTimeData}
-            items={detailGroup}
-            detailProps={{
-              extral,
-              colon: false,
-              labelStyle: { width: 140 },
-              valueStyle: { width: '40%' },
-            }}
-          />
+          <>
+            {deviceGroupData?.services?.length && <Tabs items={tabItems} onChange={onTabChange} />}
+            {activeTab == 'run' ? (
+              <Run
+                deviceId={id}
+                realTimeData={realTimeData}
+                groupData={deviceGroupData}
+                modelMap={modelMap}
+              />
+            ) : (
+              <Control deviceId={id} groupData={deviceGroupData} />
+            )}
+          </>
         )}
       </Page>
     </>

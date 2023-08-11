@@ -26,7 +26,7 @@ import { default as LineLabel } from '@/components/Detail/LineLabel';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { useRequest } from 'umi';
-import { editSetting } from './service';
+import { editSetting } from '@/services/equipment';
 import { isEmpty } from '@/utils';
 import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
