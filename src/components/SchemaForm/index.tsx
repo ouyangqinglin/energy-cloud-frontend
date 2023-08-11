@@ -41,6 +41,7 @@ export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormDat
   extraData?: Record<string, any>;
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
+  onRef?: (value: React.Ref<ProFormInstance | undefined>) => void;
 };
 
 const SchemaForm = <
@@ -51,7 +52,6 @@ const SchemaForm = <
   props: SchemaFormProps<FormData, ValueType, ParamData>,
 ) => {
   const {
-    reactRef,
     formRef,
     type = FormTypeEnum.Add,
     suffixTitle = '',
@@ -71,6 +71,7 @@ const SchemaForm = <
     submitter,
     onValuesChange,
     initialValues,
+    onRef,
     ...restProps
   } = props;
 
@@ -91,7 +92,9 @@ const SchemaForm = <
   });
 
   const myFormRef = useMemo(() => {
-    return formRef || schemaFormRef;
+    const result = formRef || schemaFormRef;
+    onRef?.(result);
+    return result;
   }, [formRef, schemaFormRef]);
 
   const title = useMemo(() => {
@@ -187,7 +190,6 @@ const SchemaForm = <
 
   return (
     <BetaSchemaForm<FormData, ValueType>
-      ref={reactRef}
       formRef={myFormRef}
       layoutType={layoutType}
       width="460px"

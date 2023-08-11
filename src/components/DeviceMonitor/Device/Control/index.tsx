@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-08-11 13:38:47
+ * @LastEditTime: 2023-08-11 13:55:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\Control\index.tsx
  */
@@ -67,6 +67,10 @@ const Control: React.FC<ControlProps> = (props) => {
         }
       });
     }
+  }, []);
+
+  const onRef = useCallback((value, ref) => {
+    schamaFormsRef.current = { ...schamaFormsRef.current, [value]: ref };
   }, []);
 
   const getColumns = useCallback((data: DeviceServiceModelType[], index?: number[]) => {
@@ -195,14 +199,11 @@ const Control: React.FC<ControlProps> = (props) => {
           });
         }
       });
-      const schameForm = createRef<ProFormInstance>();
-      schamaFormsRef.current = { ...schamaFormsRef.current, [item.groupName as any]: schameForm };
       return (
         <>
           <div className="mb8">
             <Detail.Label title={item.groupName} />
             <SchemaForm
-              reactRef={schameForm}
               columns={switchColumns}
               layout="horizontal"
               layoutType="Form"
@@ -215,6 +216,7 @@ const Control: React.FC<ControlProps> = (props) => {
               colProps={{
                 span: 8,
               }}
+              onRef={(ref) => onRef(item.groupName, ref)}
             />
             <Tabs
               className={styles.formTab}
