@@ -6,6 +6,10 @@ export type GraphNode = ExtraNode & Node;
 export type ExtraNode = {
   data: ExtraNodeData;
   pId?: string;
+  // children 下的节点需要生成edges
+  children?: GraphNode[];
+  // relation 下的节点不需要生成edges
+  relation?: GraphNode[];
 };
 
 export type ExtraNodeData = {

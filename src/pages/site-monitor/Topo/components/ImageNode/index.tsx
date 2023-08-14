@@ -1,3 +1,4 @@
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 import classnames from 'classnames';
 import { Handle, Position } from 'reactflow';
 import type { ExtraNodeData } from '../../type';
@@ -53,7 +54,7 @@ export function ImageNode({ data }: { data: ExtraNodeData }) {
             return (
               <div key={label} className={styles.boxItem}>
                 <div className={styles.label}>{label}</div>
-                <span className={styles.value}>{value}</span>
+                <span className={styles.value}>{keepTwoDecimalWithUnit(value)}</span>
               </div>
             );
           })}

@@ -19,7 +19,7 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
         duration: 60,
       });
     }
-  }, [size]);
+  }, [size, restProps.nodes]);
 
   return (
     <div

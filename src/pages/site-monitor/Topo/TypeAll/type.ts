@@ -1,5 +1,15 @@
 import { SiteType, SiteTypeEnum } from '@/components/SiteTypeSwitch';
 
+// (1, '光伏'), (2, '储能'), (3, '充电桩'), (4, '其他负载'), (5, '市电'), (6, '配电柜');
+export const enum SubsystemTypeForNode {
+  PV = 1,
+  ES,
+  CS,
+  OTHER,
+  SUPPLY,
+  DC,
+}
+
 export interface AllTypeData {
   //光伏总发电量
   photovoltaicTotal: number;
@@ -12,7 +22,7 @@ export interface AllTypeData {
 
 export interface MainsSupply {
   //(1, "光伏"),(2, "储能"),(3, "充电桩"),(4, "其他负载"),(5, "市电"),(6, "配电柜")
-  type: number;
+  type: SubsystemTypeForNode;
   //今日购电量/今日充电量/今日用电量
   todayConsumption: number;
   //今日售电量/今日放电量
