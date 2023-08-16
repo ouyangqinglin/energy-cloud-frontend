@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-06-26 17:43:20
+ * @LastEditTime: 2023-08-15 16:00:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -27,10 +27,11 @@ export type EquipFormProps = {
   type: FormTypeEnum;
   onSuccess?: () => void;
   isStationChild?: boolean;
+  initialValues?: Record<string, any>;
 };
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
-  const { id, model, open, onCancel, type, onSuccess, isStationChild } = props;
+  const { id, model, open, onCancel, type, onSuccess, isStationChild, initialValues } = props;
   const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
@@ -102,18 +103,29 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     [],
   );
 
-  const requestProductType = useCallback((subsystemId) => {
-    getProductTypes({ subsystemId }).then(({ data = {} }) => {
-      setTypeOption(
-        data?.map?.((item: any) => {
-          return {
-            label: item.name,
-            value: item.id,
-          };
-        }),
-      );
-    });
-  }, []);
+  const requestProductType = useCallback(
+    (subsystemId) => {
+      getProductTypes({ subsystemId }).then(({ data = {} }) => {
+        const result: OptionType[] = [];
+        data?.forEach?.((item: any) => {
+          let config: Record<string, any> = {};
+          try {
+            config = JSON.parse(item.config);
+          } catch {
+            config = {};
+          }
+          if (config?.selectDisplay != 0 || FormTypeEnum.Edit == type) {
+            result.push({
+              label: item.name,
+              value: item.id,
+            });
+          }
+        });
+        setTypeOption(result);
+      });
+    },
+    [type],
+  );
 
   const requestProductModel = useCallback((productType) => {
     if (productType) {
@@ -183,6 +195,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           colProps={{
             span: 12,
           }}
+          initialValues={initialValues}
         >
           {isStationChild ? (
             <></>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-07-26 19:17:23
+ * @LastEditTime: 2023-08-15 10:07:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -12,9 +12,9 @@ export const aks = [
 ];
 
 export enum ChildSystemEnum {
-  Charge = 1,
+  Pv = 1,
   Energy,
-  Pv,
+  Charge,
   Electric,
   Cabinet,
 }

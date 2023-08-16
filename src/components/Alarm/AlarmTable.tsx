@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-08 09:52:55
+ * @LastEditTime: 2023-08-15 16:43:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -186,6 +186,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   useEffect(() => {
     requestStation('');
   }, []);
+
+  useEffect(() => {
+    actionRef?.current?.reloadAndRest?.();
+  }, [params]);
 
   const detailItems: DetailItem[] = [
     { label: '告警名称', field: 'name' },

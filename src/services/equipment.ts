@@ -20,6 +20,7 @@ export type DeviceDataType = {
   sn?: string;
   model?: string;
   productId?: string;
+  productTypeId?: string;
   productTypeName?: string;
   subsystemName?: string;
   childSystem?: string;

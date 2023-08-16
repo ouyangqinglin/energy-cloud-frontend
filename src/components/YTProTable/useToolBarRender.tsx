@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 17:39:54
- * @LastEditTime: 2023-07-26 15:26:54
+ * @LastEditTime: 2023-08-15 14:58:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
@@ -14,6 +14,7 @@ import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
 import { isEmpty, saveFile } from '@/utils';
+import { useBoolean } from 'ahooks';
 
 enum optionsType {
   Add = 'add',
@@ -29,11 +30,24 @@ const useToolBarRender = <
   toolBarRenderOptions?: toolBarRenderOptionsType<Params>,
   formRef?: MutableRefObject<ProFormInstance<Params> | undefined>,
 ) => {
+  const [exportLoading, { setTrue, setFalse }] = useBoolean(false);
+
   const onExport = useCallback(() => {
     formRef?.current?.validateFields?.()?.then((value) => {
-      toolBarRenderOptions?.export?.requestExport?.(value as any).then((res) => {
-        saveFile(res, toolBarRenderOptions?.export?.getExportName?.(value as any) || '导出文件');
-      });
+      if (toolBarRenderOptions?.export?.requestExport) {
+        setTrue();
+        toolBarRenderOptions?.export
+          ?.requestExport?.(value as any)
+          .then((res) => {
+            saveFile(
+              res,
+              toolBarRenderOptions?.export?.getExportName?.(value as any) || '导出文件',
+            );
+          })
+          .finally(() => {
+            setFalse();
+          });
+      }
     });
   }, [toolBarRenderOptions, formRef]);
 
@@ -65,6 +79,7 @@ const useToolBarRender = <
               key={item}
               type="primary"
               onClick={() => options[item]?.onClick?.(formRef)}
+              loading={exportLoading}
               {...(options[item]?.buttonProps || {})}
             >
               {options[item]?.icon}
@@ -77,7 +92,7 @@ const useToolBarRender = <
     } else {
       return toolBarRender;
     }
-  }, [toolBarRender, options, formRef]);
+  }, [toolBarRender, options, formRef, exportLoading]);
 
   return toolBarRenderResult;
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-08-08 09:31:52
+ * @LastEditTime: 2023-08-14 11:57:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -51,7 +51,10 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   return (
     <>
-      <div className={`${styles.overview}`} style={{ backgroundImage: `url(${data?.productImg})` }}>
+      <div
+        className={`${styles.overview}`}
+        style={data?.productImg ? { backgroundImage: `url(${data?.productImg})` } : {}}
+      >
         <Detail.Label className="mb16" title={data?.name} showLine={false}>
           {introImg && (
             <Button className="pr0" type="link" onClick={setTrue}>

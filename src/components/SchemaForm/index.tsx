@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-08-11 10:21:25
+ * @LastEditTime: 2023-08-15 15:25:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
@@ -36,7 +36,7 @@ export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormDat
     formRef: React.Ref<ProFormInstance | undefined>,
   ) => FormData | void;
   beforeSubmit?: (formData: FormData) => boolean | void | ParamData;
-  onSuccess?: (formData: FormData) => boolean | void;
+  onSuccess?: (formData: FormData | ParamData) => boolean | void;
   onError?: (data: any) => void;
   extraData?: Record<string, any>;
   open?: boolean;
@@ -142,10 +142,8 @@ const SchemaForm = <
           ...(extraData || {}),
         })
           ?.then?.((data) => {
-            console.log(data);
-
             if (data) {
-              const result = onSuccess?.(formData);
+              const result = onSuccess?.((beforeSubmitResult as ParamData) ?? formData);
               if (result !== false) {
                 message.success('保存成功');
                 if (layoutType !== 'QueryFilter') {
@@ -160,7 +158,7 @@ const SchemaForm = <
               return false;
             }
           })
-          .catch((data) => {
+          ?.catch((data) => {
             onError?.(data);
           });
       } else {

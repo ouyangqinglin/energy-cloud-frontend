@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-08-09 15:39:37
+ * @LastEditTime: 2023-08-15 15:20:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -49,11 +49,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     proColumns: {
       title: '产品类型',
       dataIndex: 'productTypeName',
-      width: 150,
-      ellipsis: true,
       formItemProps: {
         name: 'productTypeId',
       },
+      hideInTable: true,
     },
     request: requestProductType,
   });
@@ -138,6 +137,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         ellipsis: true,
         hideInSearch: true,
       },
+      productTypeColumn,
       {
         title: '设备名称',
         dataIndex: 'name',
@@ -157,7 +157,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
         ellipsis: true,
       },
-      productTypeColumn,
+      {
+        title: '产品类型',
+        dataIndex: 'productTypeName',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
       {
         title: '所属站点',
         dataIndex: 'siteName',
@@ -219,6 +225,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         onCancel={onSwitchOpen}
         type={FormTypeEnum.Add}
         onSuccess={onSuccess}
+        initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
       />
     </>
   );
