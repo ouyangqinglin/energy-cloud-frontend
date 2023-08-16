@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import type { Node } from 'reactflow';
 import { BoxTextProp } from './components/BoxText';
 
@@ -15,8 +16,8 @@ export type ExtraNode = {
 export type ExtraNodeData = {
   label: string;
   title?: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   layout?: 'start' | 'center' | 'end';
   rawData?: any;
   handle?: {
@@ -52,5 +53,6 @@ export type ExtraNodeTextContent = {
 export type ExtraNodeColumn = {
   label: string;
   value?: number | string;
+  render?: () => ReactNode;
   field?: string;
 };

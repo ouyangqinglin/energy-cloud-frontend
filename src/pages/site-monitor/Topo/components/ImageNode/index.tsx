@@ -50,11 +50,13 @@ export function ImageNode({ data }: { data: ExtraNodeData }) {
       {textContent && (
         <div className={styles.boxTextContent}>
           {textContent.boxText && <BoxText {...textContent.boxText} />}
-          {textContent.column?.map(({ label, value, field }) => {
+          {textContent.column?.map(({ label, value, render }) => {
             return (
               <div key={label} className={styles.boxItem}>
                 <div className={styles.label}>{label}</div>
-                <span className={styles.value}>{keepTwoDecimalWithUnit(value)}</span>
+                <span className={styles.value}>
+                  {render ? render() : keepTwoDecimalWithUnit(value)}
+                </span>
               </div>
             );
           })}

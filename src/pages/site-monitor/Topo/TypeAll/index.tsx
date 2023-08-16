@@ -67,8 +67,8 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
     const size = getNodeRealSize(node);
     if (!node.parentNode) {
       node.position = {
-        x: nodeWithPosition.x - size.width / 2,
-        y: nodeWithPosition.y - size.height / 2,
+        x: nodeWithPosition!.x - size.width / 2,
+        y: nodeWithPosition!.y - size.height / 2,
       };
     }
 
@@ -77,11 +77,6 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
 
   return { nodes, edges };
 };
-
-// const { nodes: defaultLayoutedNodes, edges: defaultLayoutedEdges } = getLayoutedElements(
-//   initialNodes,
-//   initialEdges,
-// );
 
 const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
   const [nodes, resetNodes, onNodesChange] = useNodesState([]);
@@ -100,7 +95,6 @@ const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
       );
       resetNodes([...immutableNodes, ...nodesLayout]);
       resetEdges(edgesLayout);
-      console.log([...immutableNodes, ...nodesLayout]);
     }
   }, [data, resetEdges, resetNodes]);
 
@@ -112,7 +106,7 @@ const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
 
   return (
     <ReactFlowReactivity
-      nodes={[...nodes]}
+      nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}

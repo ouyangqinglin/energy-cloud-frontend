@@ -1,10 +1,10 @@
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import type { Edge, Node } from 'reactflow';
 import { Position } from 'reactflow';
 import { useNodesState, useEdgesState } from 'reactflow';
 import dagre from 'dagre';
 
-import { initialNodes, initialEdges, immutableNodes } from './nodes-edges';
+import { getNodesAndEdges } from './nodes-edges';
 
 import { ImageNode } from '../components/ImageNode/index';
 import type { ExtraNodeData, GraphNode } from '../type';
@@ -14,6 +14,8 @@ import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
 import ACBus from './components/ACBus';
 import BatterySystem from './components/BatterySystem';
 import { BatteryCluster } from './components/BatteryCluster';
+import { getTopo } from './service';
+import { useRequest } from 'umi';
 
 const nodeTypes = {
   imageNode: ImageNode,
@@ -23,9 +25,6 @@ const nodeTypes = {
   BatterySystem: BatterySystem,
   BatteryCluster: BatteryCluster,
 };
-
-const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const getNodeRealSize = (node: Node<ExtraNodeData>) => {
   const { data } = node;
@@ -37,6 +36,11 @@ const getNodeRealSize = (node: Node<ExtraNodeData>) => {
 };
 
 const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direction = 'TB') => {
+  if (!nodes.length) {
+    return { nodes, edges };
+  }
+  const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: direction, nodesep: 100, ranksep: 100 });
 
   nodes.forEach((node) => {
@@ -58,33 +62,52 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
     node.targetPosition = Position.Top;
     node.sourcePosition = Position.Bottom;
 
-    // We are shifting the dagre node position (anchor=center center) to the top left
-    // so it matches the React Flow node anchor point (top left).
     const size = getNodeRealSize(node);
-    node.position = {
-      x: nodeWithPosition.x - size.width / 2,
-      y: nodeWithPosition.y - size.height / 2,
-    };
-
+    if (!node.parentNode) {
+      node.position = {
+        x: nodeWithPosition!.x - size.width / 2,
+        y: nodeWithPosition!.y - size.height / 2,
+      };
+    }
     return node;
   });
 
   return { nodes, edges };
 };
 
-const { nodes: defaultLayoutedNodes, edges: defaultLayoutedEdges } = getLayoutedElements(
-  initialNodes,
-  initialEdges,
-);
+const TopoTypeEnergyStorage: FC<{ siteId: number }> = ({ siteId }) => {
+  const [nodes, resetNodes] = useNodesState([]);
+  const [edges, resetEdges] = useEdgesState([]);
 
-const TopoTypeEnergyStorage: FC = () => {
-  const [nodes] = useNodesState(defaultLayoutedNodes);
-  const [edges] = useEdgesState(defaultLayoutedEdges);
+  const { data, run } = useRequest(getTopo, {
+    manual: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      const { initialNodes, initialEdges } = getNodesAndEdges(data);
+      const { nodes: nodesLayout, edges: edgesLayout } = getLayoutedElements(
+        initialNodes,
+        initialEdges,
+      );
+      resetNodes([...nodesLayout]);
+      resetEdges(edgesLayout);
+      console.log(initialNodes);
+    }
+  }, [data, resetEdges, resetNodes]);
+
+  useEffect(() => {
+    if (siteId) {
+      run({ siteId });
+    }
+  }, [siteId]);
 
   return (
     <ReactFlowReactivity
-      nodes={[...immutableNodes, ...nodes]}
+      nodes={nodes}
       edges={edges}
+      // onNodesChange={onNodesChange}
+      // onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
     />
   );
