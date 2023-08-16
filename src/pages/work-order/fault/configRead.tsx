@@ -6,9 +6,10 @@ import { effectStatus } from '@/utils/dictionary';
 import { orderStatus } from './config';
 import { ObstacleReportInfo } from './type';
 import styles from './index.less';
+import Detail from '@/components/Detail';
 export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
   {
-    title: <div className={styles.title}>基础信息</div>,
+    title: <Detail.DotLabel title="工单详情" />,
     valueType: 'group',
     colProps: {
       span: 24,
@@ -16,30 +17,33 @@ export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
     columns: [
       {
         title: '故障标题',
-        dataIndex: ['title'],
+        dataIndex: ['name'],
       },
       {
         title: '故障代码',
-        dataIndex: ['errorCode'],
+        dataIndex: ['id'],
       },
       {
         title: '故障描述',
-        dataIndex: ['description'],
+        dataIndex: ['content'],
+        colProps: {
+          span: 24,
+        },
       },
       {
         title: '所属站点',
         dataIndex: ['siteName'],
       },
       {
-        title: '代理商',
-        dataIndex: ['service'],
+        title: '安装商',
+        dataIndex: ['orgName'],
       },
       {
         title: '客户',
-        dataIndex: ['customer'],
+        dataIndex: ['userName'],
       },
       {
-        title: '电话',
+        title: '联系电话',
         dataIndex: ['phone'],
       },
       {

@@ -46,8 +46,8 @@ const Read = (props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const showAccept = tails.length >= 1;
-  const showComplete = tails.length >= 2;
+  const showAccept = tails.length >= 2;
+  const showComplete = tails.length >= 3;
   const stepsConfig = useMemo(() => {
     return [
       {
@@ -84,7 +84,7 @@ const Read = (props: FormUpdateBaseProps) => {
     ];
   }, [step, tails]);
 
-  const runForOrderStatus = (params: { id: number }) => {
+  const runForOrderStatus = (params: { id?: number }) => {
     if (step === OrderStatus.READY) {
       return runForAccept(params);
     }

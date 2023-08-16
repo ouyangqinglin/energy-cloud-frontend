@@ -7,7 +7,15 @@ import type { ProColumns } from '@ant-design/pro-table';
 import { siteType } from '@/utils/dictionary';
 import type { SiteDataType } from '@/services/station';
 
-export type SiteType = `${keyof typeof siteType}`;
+export type SiteType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
+export const enum SiteTypeEnum {
+  PV = 1,
+  ES = 2,
+  CS = 3,
+  ES_CS = 23,
+  PV_ES = 12,
+  PV_ES_CS = 123,
+}
 
 export type SiteSwitchProps<ValueType> = {
   initialValues?: SiteType;

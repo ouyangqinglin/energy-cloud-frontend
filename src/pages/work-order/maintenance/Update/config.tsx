@@ -2,7 +2,6 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProColumns } from '@ant-design/pro-components';
-import { useEffect, useRef } from 'react';
 import type { MaintenanceOrderUpdateParam } from '../type';
 import { OrderStatus, OrderType } from '../type';
 import { isEmpty } from '@/utils';
@@ -10,19 +9,12 @@ import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
 import { getServiceProviderList } from '@/pages/user-manager/accounts/Customer/service';
 import { getCustomerList, getInstallerList } from '../service';
-import { isNil } from 'lodash';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
 export const Columns: (
   operation: FormOperations,
-  // orgId: number,
-) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation) => {
-  // const orgIdRef = useRef<number>();
-  // useEffect(() => {
-  //   orgIdRef.current = orgId;
-  // }, [orgId]);
-
+) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = () => {
   return [
     {
       title: '故障标题',

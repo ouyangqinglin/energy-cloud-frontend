@@ -7,7 +7,7 @@ export type FormUpdateBaseProps<D = Record<string, any>> = {
   onVisibleChange: (state: boolean) => void;
   operations: FormOperations;
   initialValues?: D;
-  id?: number;
+  id: number;
   onSuccess?: () => void;
 };
 

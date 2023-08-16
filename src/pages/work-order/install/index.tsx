@@ -22,7 +22,7 @@ const Install = () => {
     toolBarRenderOptions: {
       add: {
         onClick() {
-          // setInitialValues({} as InstallListType);
+          setInitialValues({} as InstallListType);
           setOperations(FormOperations.CREATE);
           setUpdateModal(true);
         },
@@ -39,12 +39,12 @@ const Install = () => {
         });
       },
       onEditChange(_, entity) {
-        // setInitialValues({ ...entity });
+        setInitialValues({ ...entity });
         setOperations(FormOperations.UPDATE);
         setUpdateModal(true);
       },
       onDetailChange(_, entity) {
-        // setInitialValues({ ...entity });
+        setInitialValues({ ...entity });
         setOperations(FormOperations.READ);
         setReadModal(true);
       },
@@ -85,7 +85,7 @@ const Install = () => {
           operations: operations,
           visible: updateModal,
           onVisibleChange: setUpdateModal,
-          id: initialValues?.userId,
+          id: initialValues?.id,
           onSuccess: onSuccess,
           // keyForId: 'faultId',
         }}
@@ -95,7 +95,7 @@ const Install = () => {
           operations: operations,
           visible: readModal,
           onVisibleChange: setReadModal,
-          id: initialValues?.userId,
+          id: initialValues?.id,
           // keyForId: 'faultId',
         }}
       />
