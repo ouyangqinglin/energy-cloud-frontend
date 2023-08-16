@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { ProConfigProvider } from '@ant-design/pro-components';
@@ -8,7 +8,7 @@ import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
-import type { ProColumns } from '@ant-design/pro-components';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 
@@ -101,6 +101,7 @@ const Search: React.FC<SearchProps> = (props) => {
   const { isDeviceChild, deviceData } = props;
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const actionRef = useRef<ActionType>();
   const [collectionColumns, setCollectionColumns] = useState<
     ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[]
   >([]);
@@ -181,12 +182,17 @@ const Search: React.FC<SearchProps> = (props) => {
     );
   }, []);
 
+  useEffect(() => {
+    actionRef?.current?.reloadAndRest?.();
+  }, [deviceData]);
+
   return (
     <>
       <ProConfigProvider
         valueTypeMap={{ ...tableTreeSelectValueTypeMap, ...tableSelectValueTypeMap }}
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
+          actionRef={actionRef}
           headerTitle="采样明细"
           toolBarRenderOptions={{
             add: {

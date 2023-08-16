@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-08-10 15:20:45
+ * @LastEditTime: 2023-08-14 10:27:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\index.tsx
  */
@@ -80,7 +80,11 @@ const Device: React.FC<DeviceDetailType> = (props) => {
           </div>
         ) : (
           <>
-            {deviceGroupData?.services?.length && <Tabs items={tabItems} onChange={onTabChange} />}
+            {deviceGroupData?.services?.length ? (
+              <Tabs items={tabItems} onChange={onTabChange} />
+            ) : (
+              <></>
+            )}
             {activeTab == 'run' ? (
               <Run
                 deviceId={id}

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-08-07 16:02:15
+ * @LastEditTime: 2023-08-15 17:11:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -67,7 +67,7 @@ const TableModal = <
           map.delete(item);
         });
         selectedRows.forEach((item) => {
-          map.set(item[valueId], {
+          map.set(item[tableId], {
             [valueId]: item[tableId],
             [valueName]: item[tableName],
           });

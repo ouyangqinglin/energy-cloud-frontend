@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-06-26 14:55:48
+ * @LastEditTime: 2023-08-15 16:47:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import { format } from 'timeago.js';
@@ -93,6 +93,10 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
       }}
     />,
   ];
+
+  useEffect(() => {
+    actionRef?.current?.reloadAndRest?.();
+  }, [params]);
 
   return (
     <>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 09:34:45
- * @LastEditTime: 2023-08-10 09:34:50
+ * @LastEditTime: 2023-08-14 11:53:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\Run\index.tsx
  */
@@ -13,6 +13,7 @@ import Button from '@/components/CollectionModal/Button';
 import { formatModelValue, parseToArray } from '@/utils';
 import { DeviceModelDataType, DeviceModelType, DevicePropsType } from '@/types/device';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import Empty from 'antd/es/empty';
 
 const getShowExtral = (type?: DeviceModelTypeEnum) => {
   return !(
@@ -112,16 +113,20 @@ const Run: React.FC<RunProps> = (props) => {
 
   return (
     <>
-      <Detail.Group
-        data={realTimeData}
-        items={detailGroup}
-        detailProps={{
-          extral,
-          colon: false,
-          labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
-        }}
-      />
+      {detailGroup.length ? (
+        <Detail.Group
+          data={realTimeData}
+          items={detailGroup}
+          detailProps={{
+            extral,
+            colon: false,
+            labelStyle: { width: 140 },
+            valueStyle: { width: '40%' },
+          }}
+        />
+      ) : (
+        <Empty />
+      )}
     </>
   );
 };

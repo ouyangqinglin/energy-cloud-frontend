@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-08-04 16:32:13
+ * @LastEditTime: 2023-08-16 08:49:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -57,12 +57,21 @@ const deviceMap = new Map([
 ]);
 
 const dealTreeData = (data: TreeNode[]) => {
+  const result: TreeNode[] = [];
   data?.forEach?.((item) => {
-    item.icon = deviceMap.get(item.productId as any) || null;
+    const node: TreeNode = {
+      key: item?.deviceId + '',
+      deviceId: item?.deviceId,
+      name: item?.name,
+      productId: item?.productId,
+      icon: deviceMap.get(item.productId as any) || '',
+    };
     if (item.children && item.children.length) {
-      dealTreeData(item.children);
+      node.children = dealTreeData(item.children as any);
     }
+    result.push(node);
   });
+  return result;
 };
 
 export type DeviceDetailProps = {
@@ -73,7 +82,7 @@ export type DeviceDetailProps = {
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id, productId } = props;
 
-  const [selectOrg, setSelectOrg] = useState<DeviceDataType>();
+  const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: id, key: id, productId });
   const {
     data: childData,
     loading,
@@ -103,8 +112,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         key: id,
       },
     ];
-    dealTreeData(result);
-    return result;
+    return dealTreeData(result as any);
   }, [id, deviceData, childData]);
 
   const onSelect = useCallback(
@@ -119,12 +127,10 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   useEffect(() => {
     if (id) {
       run({ parentId: id, maxDepth: 1 });
-      runDevice({ deviceId: id });
+      runDevice({ deviceId: id }).then((data) => {
+        setSelectOrg({ deviceId: id, key: id, productId, name: data?.name });
+      });
     }
-  }, [id]);
-
-  useEffect(() => {
-    setSelectOrg({ deviceId: id, key: id, productId });
   }, [id, productId]);
 
   const items = useMemo<TabsProps['items']>(() => {
@@ -141,17 +147,17 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '历史数据',
         key: '2',
-        children: <Search isDeviceChild deviceData={deviceData} />,
+        children: <Search isDeviceChild deviceData={selectOrg} />,
       },
       {
         label: '告警',
         key: '3',
-        children: <Alarm isStationChild={true} params={{ deviceId: id }} />,
+        children: <Alarm isStationChild={true} params={{ deviceId: selectOrg?.deviceId }} />,
       },
       {
         label: '日志',
         key: '4',
-        children: <LogTable params={{ id }} request={getLogs} />,
+        children: <LogTable params={{ id: selectOrg?.deviceId || '' }} request={getLogs} />,
       },
       {
         label: '配置',
@@ -159,7 +165,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         children: <Empty />,
       },
     ];
-  }, [selectOrg, productId, id, deviceData]);
+  }, [selectOrg, productId, id]);
 
   return (
     <>
