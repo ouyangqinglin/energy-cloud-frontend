@@ -12,7 +12,7 @@ import { StatisticCard } from '../components/StatisticCard';
 import { StatisticCardForME } from '../components/StatisticCardForME';
 import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
 import { useRequest } from 'umi';
-import { getTypeAllTopo } from './service';
+import { getTopo } from './service';
 
 const nodeTypes = {
   imageNode: ImageNode,
@@ -27,10 +27,10 @@ const getNodeRealSize = (node: Node<ExtraNodeData>) => {
     height: data.height,
   };
   if (data.textContent) {
-    size.width = size.width + 180;
+    size.width = size.width;
   }
   if (data.title) {
-    size.height = size.height + 20;
+    size.height = size.height;
   }
   return size;
 };
@@ -78,22 +78,22 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
   return { nodes, edges };
 };
 
-const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
+const TypePowerConsumption: FC<{ siteId: number }> = ({ siteId }) => {
   const [nodes, resetNodes] = useNodesState([]);
   const [edges, resetEdges] = useEdgesState([]);
 
-  const { data, run } = useRequest(getTypeAllTopo, {
+  const { data, run } = useRequest(getTopo, {
     manual: true,
   });
 
   useEffect(() => {
     if (data) {
-      const { initialEdges, initialNodes, immutableNodes } = getNodesAndEdges(data);
+      const { initialEdges, initialNodes } = getNodesAndEdges(data);
       const { nodes: nodesLayout, edges: edgesLayout } = getLayoutedElements(
         initialNodes,
         initialEdges,
       );
-      resetNodes([...immutableNodes, ...nodesLayout]);
+      resetNodes(nodesLayout);
       resetEdges(edgesLayout);
     }
   }, [data, resetEdges, resetNodes]);
@@ -108,4 +108,4 @@ const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
 };
 
 // export default LayoutFlow;
-export default TopoTypeAll;
+export default TypePowerConsumption;

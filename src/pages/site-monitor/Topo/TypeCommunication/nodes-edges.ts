@@ -17,6 +17,7 @@ export const initialNodes: Node<ExtraNodeData>[] = [
       width: 110,
       height: 120,
       layout: 'center',
+      title: '光储充及工商储运维管理云平台',
       imageContent: {
         width: 110,
         height: 120,
@@ -29,11 +30,11 @@ export const initialNodes: Node<ExtraNodeData>[] = [
     type: 'BoxTextNode',
     position,
     data: {
-      label: '1#储能变流器PCS',
+      label: '1#储能EMS',
       width: 136,
       height: 42,
       boxText: {
-        label: '1#储能变流器PCS',
+        label: '1#储能EMS',
         width: 136,
         height: 42,
       },
@@ -44,9 +45,9 @@ export const initialNodes: Node<ExtraNodeData>[] = [
     type: 'BatterySystem',
     position,
     data: {
-      label: '电池系统',
-      width: 744,
-      height: 540,
+      label: '储能',
+      width: 310,
+      height: 240,
     },
   },
 ];

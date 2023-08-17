@@ -4,7 +4,12 @@ import type { ExtraNodeData, GraphNode } from './type';
 
 const edgeType = 'smoothstep';
 
-export const buildEdges = (nodes: GraphNode[] = [], edges: Edge[] = [], sourceId?: string) => {
+export const buildEdges = (
+  nodes: GraphNode[] = [],
+  edges: Edge[] = [],
+  sourceId?: string,
+  sourceHandle?: string,
+) => {
   if (!nodes.length) {
     return;
   }
@@ -14,12 +19,14 @@ export const buildEdges = (nodes: GraphNode[] = [], edges: Edge[] = [], sourceId
         id: uniqueId(),
         source: sourceId,
         target: node.id,
+        targetHandle: node.targetHandle,
+        sourceHandle,
         type: edgeType,
         animated: true,
       });
     }
     if (node.children) {
-      buildEdges(node.children, edges, node.id);
+      buildEdges(node.children, edges, node.id, node.sourceHandle);
     }
   });
   return edges;

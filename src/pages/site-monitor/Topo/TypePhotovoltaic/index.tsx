@@ -1,16 +1,18 @@
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import type { Edge, Node } from 'reactflow';
 import { Position } from 'reactflow';
 import { useNodesState, useEdgesState } from 'reactflow';
 import dagre from 'dagre';
 
-import { initialNodes, initialEdges } from './nodes-edges';
+import { getNodesAndEdges } from './nodes-edges';
 
 import { ImageNode } from '../components/ImageNode/index';
 import type { ExtraNodeData, GraphNode } from '../type';
 import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
 import EmptyRootNode from './components/EmptyRootNode';
 import PhotovoltaicPanelGroup from './components/PhotovoltaicPanelGroup';
+import { useRequest } from 'umi';
+import { getTopo } from './service';
 
 const nodeTypes = {
   imageNode: ImageNode,
@@ -18,33 +20,36 @@ const nodeTypes = {
   PhotovoltaicPanelGroup: PhotovoltaicPanelGroup,
 };
 
-const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
+const TopoTypePhotovoltaic: FC<{ siteId: number }> = ({ siteId }) => {
+  const [nodes, resetNodes] = useNodesState([]);
+  const [edges, resetEdges] = useEdgesState([]);
 
-const getNodeRealSize = (node: Node<ExtraNodeData>) => {
-  const { data } = node;
-  const size = {
-    width: data.width ?? 0,
-    height: data.height ?? 0,
-  };
-  return size;
-};
+  const { data, run } = useRequest(getTopo, {
+    manual: true,
+  });
 
-const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direction = 'BT') => {
-  return { nodes, edges };
-};
+  useEffect(() => {
+    if (data) {
+      const { initialEdges, initialNodes } = getNodesAndEdges(data);
+      console.log(initialNodes);
+      resetNodes(initialNodes);
+      resetEdges(initialEdges);
+    }
+  }, [data, resetEdges, resetNodes]);
 
-const { nodes: defaultLayoutedNodes, edges: defaultLayoutedEdges } = getLayoutedElements(
-  initialNodes,
-  initialEdges,
-);
-
-const TopoTypePhotovoltaic: FC = () => {
-  const [nodes] = useNodesState(defaultLayoutedNodes);
-  const [edges] = useEdgesState(defaultLayoutedEdges);
+  useEffect(() => {
+    if (siteId) {
+      run({ siteId });
+    }
+  }, [siteId]);
 
   return (
-    <ReactFlowReactivity nodes={[...initialNodes]} edges={initialEdges} nodeTypes={nodeTypes} />
+    <ReactFlowReactivity
+      nodes={nodes}
+      edges={edges}
+      nodeTypes={nodeTypes}
+      // attributionPosition="left-right"
+    />
   );
 };
 

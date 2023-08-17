@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import type { Node } from 'reactflow';
 import { BoxTextProp } from './components/BoxText';
+import { PvPanelVoList } from './TypePhotovoltaic/type';
 
-export type GraphNode = ExtraNode & Node;
+export type GraphNode = ExtraNode & Node<ExtraNodeData>;
 
 export type ExtraNode = {
   data: ExtraNodeData;
@@ -11,6 +12,10 @@ export type ExtraNode = {
   children?: GraphNode[];
   // relation 下的节点不需要生成edges
   relation?: GraphNode[];
+
+  // edges
+  targetHandle?: string;
+  sourceHandle?: string;
 };
 
 export type ExtraNodeData = {
@@ -32,7 +37,7 @@ export type ExtraNodeData = {
   };
 
   // pv
-  pvPanel?: {};
+  pvPanelData?: PvPanelVoList[];
   // common
   textContent?: ExtraNodeTextContent;
   boxText?: BoxTextProp;
