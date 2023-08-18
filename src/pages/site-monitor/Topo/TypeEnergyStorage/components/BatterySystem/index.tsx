@@ -4,7 +4,7 @@ import BoxText from '../../../components/BoxText';
 import type { ExtraNodeData } from '../../../type';
 import styles from './index.less';
 const BatterySystem = ({ data }: { data: ExtraNodeData }) => {
-  const { width = 80, height = 100 } = data;
+  const { width = 80, height = 600 } = data;
   return (
     <>
       <div

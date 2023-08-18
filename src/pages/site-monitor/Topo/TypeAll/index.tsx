@@ -1,10 +1,10 @@
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import type { Edge, Node } from 'reactflow';
 import { Position } from 'reactflow';
 import { useNodesState, useEdgesState } from 'reactflow';
 import dagre from 'dagre';
 
-import { initialNodes, initialEdges, immutableNodes } from './nodes-edges';
+import { getNodesAndEdges } from './nodes-edges';
 
 import { ImageNode } from '../components/ImageNode/index';
 import type { ExtraNodeData, GraphNode } from '../type';
@@ -20,9 +20,6 @@ const nodeTypes = {
   statisticCardForME: StatisticCardForME,
 };
 
-const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-
 const getNodeRealSize = (node: Node<ExtraNodeData>) => {
   const { data } = node;
   const size = {
@@ -33,12 +30,17 @@ const getNodeRealSize = (node: Node<ExtraNodeData>) => {
     size.width = size.width + 180;
   }
   if (data.title) {
-    size.height = size.height + 22;
+    size.height = size.height + 20;
   }
   return size;
 };
 
 const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direction = 'TB') => {
+  if (nodes.length <= 3) {
+    return { nodes, edges };
+  }
+  const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: direction, nodesep: 100, ranksep: 100 });
 
   nodes.forEach((node) => {
@@ -63,10 +65,12 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
     const size = getNodeRealSize(node);
-    node.position = {
-      x: nodeWithPosition.x - size.width / 2,
-      y: nodeWithPosition.y - size.height / 2,
-    };
+    if (!node.parentNode) {
+      node.position = {
+        x: nodeWithPosition!.x - size.width / 2,
+        y: nodeWithPosition!.y - size.height / 2,
+      };
+    }
 
     return node;
   });
@@ -74,24 +78,33 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
   return { nodes, edges };
 };
 
-const { nodes: defaultLayoutedNodes, edges: defaultLayoutedEdges } = getLayoutedElements(
-  initialNodes,
-  initialEdges,
-);
-
 const TopoTypeAll: FC<{ siteId: number }> = ({ siteId }) => {
-  const [nodes] = useNodesState(defaultLayoutedNodes);
-  const [edges] = useEdgesState(defaultLayoutedEdges);
-  // const { data } = useRequest(() => getTypeAllTopo({ siteId }));
-  // console.log(data);
+  const [nodes, resetNodes] = useNodesState([]);
+  const [edges, resetEdges] = useEdgesState([]);
 
-  return (
-    <ReactFlowReactivity
-      nodes={[...immutableNodes, ...nodes]}
-      edges={edges}
-      nodeTypes={nodeTypes}
-    />
-  );
+  const { data, run } = useRequest(getTypeAllTopo, {
+    manual: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      const { initialEdges, initialNodes, immutableNodes } = getNodesAndEdges(data);
+      const { nodes: nodesLayout, edges: edgesLayout } = getLayoutedElements(
+        initialNodes,
+        initialEdges,
+      );
+      resetNodes([...immutableNodes, ...nodesLayout]);
+      resetEdges(edgesLayout);
+    }
+  }, [data, resetEdges, resetNodes]);
+
+  useEffect(() => {
+    if (siteId) {
+      run({ siteId });
+    }
+  }, [siteId]);
+
+  return <ReactFlowReactivity nodes={nodes} edges={edges} nodeTypes={nodeTypes} />;
 };
 
 // export default LayoutFlow;

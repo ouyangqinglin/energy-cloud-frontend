@@ -11,32 +11,32 @@ import type { ExtraNodeData, GraphNode } from '../type';
 import { StatisticCard } from '../components/StatisticCard';
 import { StatisticCardForME } from '../components/StatisticCardForME';
 import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
-import ACBus from './components/ACBus';
-import BatterySystem from './components/BatterySystem';
-import { BatteryCluster } from './components/BatteryCluster';
-import { getTopo } from './service';
 import { useRequest } from 'umi';
+import { getTopo } from './service';
 
 const nodeTypes = {
   imageNode: ImageNode,
   statisticCard: StatisticCard,
   statisticCardForME: StatisticCardForME,
-  ACBus: ACBus,
-  BatterySystem: BatterySystem,
-  BatteryCluster: BatteryCluster,
 };
 
 const getNodeRealSize = (node: Node<ExtraNodeData>) => {
   const { data } = node;
   const size = {
-    width: data.width ?? 0,
-    height: data.height ?? 0,
+    width: data.width,
+    height: data.height,
   };
+  if (data.textContent) {
+    size.width = size.width;
+  }
+  if (data.title) {
+    size.height = size.height;
+  }
   return size;
 };
 
 const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direction = 'TB') => {
-  if (!nodes.length) {
+  if (nodes.length <= 3) {
     return { nodes, edges };
   }
   const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
@@ -62,6 +62,8 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
     node.targetPosition = Position.Top;
     node.sourcePosition = Position.Bottom;
 
+    // We are shifting the dagre node position (anchor=center center) to the top left
+    // so it matches the React Flow node anchor point (top left).
     const size = getNodeRealSize(node);
     if (!node.parentNode) {
       node.position = {
@@ -69,13 +71,14 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
         y: nodeWithPosition!.y - size.height / 2,
       };
     }
+
     return node;
   });
 
   return { nodes, edges };
 };
 
-const TopoTypeEnergyStorage: FC<{ siteId: number }> = ({ siteId }) => {
+const TypePowerConsumption: FC<{ siteId: number }> = ({ siteId }) => {
   const [nodes, resetNodes] = useNodesState([]);
   const [edges, resetEdges] = useEdgesState([]);
 
@@ -85,14 +88,13 @@ const TopoTypeEnergyStorage: FC<{ siteId: number }> = ({ siteId }) => {
 
   useEffect(() => {
     if (data) {
-      const { initialNodes, initialEdges } = getNodesAndEdges(data);
+      const { initialEdges, initialNodes } = getNodesAndEdges(data);
       const { nodes: nodesLayout, edges: edgesLayout } = getLayoutedElements(
         initialNodes,
         initialEdges,
       );
-      resetNodes([...nodesLayout]);
+      resetNodes(nodesLayout);
       resetEdges(edgesLayout);
-      console.log(initialNodes);
     }
   }, [data, resetEdges, resetNodes]);
 
@@ -102,16 +104,8 @@ const TopoTypeEnergyStorage: FC<{ siteId: number }> = ({ siteId }) => {
     }
   }, [siteId]);
 
-  return (
-    <ReactFlowReactivity
-      nodes={nodes}
-      edges={edges}
-      // onNodesChange={onNodesChange}
-      // onEdgesChange={onEdgesChange}
-      nodeTypes={nodeTypes}
-    />
-  );
+  return <ReactFlowReactivity nodes={nodes} edges={edges} nodeTypes={nodeTypes} />;
 };
 
 // export default LayoutFlow;
-export default TopoTypeEnergyStorage;
+export default TypePowerConsumption;

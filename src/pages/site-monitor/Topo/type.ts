@@ -1,18 +1,28 @@
+import { ReactNode } from 'react';
 import type { Node } from 'reactflow';
 import { BoxTextProp } from './components/BoxText';
+import { PvPanelVoList } from './TypePhotovoltaic/type';
 
-export type GraphNode = ExtraNode & Node;
+export type GraphNode = ExtraNode & Node<ExtraNodeData>;
 
 export type ExtraNode = {
   data: ExtraNodeData;
   pId?: string;
+  // children 下的节点需要生成edges
+  children?: GraphNode[];
+  // relation 下的节点不需要生成edges
+  relation?: GraphNode[];
+
+  // edges
+  targetHandle?: string;
+  sourceHandle?: string;
 };
 
 export type ExtraNodeData = {
   label: string;
   title?: string;
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
   layout?: 'start' | 'center' | 'end';
   rawData?: any;
   handle?: {
@@ -27,7 +37,7 @@ export type ExtraNodeData = {
   };
 
   // pv
-  pvPanel?: {};
+  pvPanelData?: PvPanelVoList[];
   // common
   textContent?: ExtraNodeTextContent;
   boxText?: BoxTextProp;
@@ -48,5 +58,6 @@ export type ExtraNodeTextContent = {
 export type ExtraNodeColumn = {
   label: string;
   value?: number | string;
+  render?: () => ReactNode;
   field?: string;
 };

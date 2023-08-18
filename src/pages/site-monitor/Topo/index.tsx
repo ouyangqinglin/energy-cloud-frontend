@@ -14,6 +14,7 @@ import TopoTypeAll from './TypeAll';
 import TopoTypeEnergyStorage from './TypeEnergyStorage';
 import TopoTypePhotovoltaic from './TypePhotovoltaic';
 import TypeCommunication from './TypeCommunication';
+import TypePowerConsumption from './TypePowerComsumption';
 
 const keyToSystemTitle = new Map([
   [1, '永泰光储能示范站能量流'],
@@ -97,6 +98,7 @@ const Index: React.FC = () => {
           {type === 1 && <TopoTypeAll siteId={siteId} />}
           {type === 2 && <TopoTypePhotovoltaic siteId={siteId} />}
           {type === 3 && <TopoTypeEnergyStorage siteId={siteId} />}
+          {type === 4 && <TypePowerConsumption siteId={siteId} />}
           {type === 5 && <TypeCommunication siteId={siteId} />}
         </div>
       </div>

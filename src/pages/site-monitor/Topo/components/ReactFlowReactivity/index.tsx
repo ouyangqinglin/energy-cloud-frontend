@@ -7,7 +7,6 @@ import styles from './index.less';
 
 type RFType = typeof ReactFlow;
 
-// export default LayoutFlow;
 export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps }) => {
   const flowWrapper = useRef<HTMLDivElement>(null);
   const size = useSize(flowWrapper.current);
@@ -19,7 +18,7 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
         duration: 60,
       });
     }
-  }, [size]);
+  }, [size, restProps.nodes]);
 
   return (
     <div
@@ -33,6 +32,8 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
         panOnDrag={false}
         fitView
         connectionLineType={ConnectionLineType.SmoothStep}
+        minZoom={0.2}
+        maxZoom={3}
         {...restProps}
       >
         <Panel position="bottom-right" className={styles.coverTagPanel}>

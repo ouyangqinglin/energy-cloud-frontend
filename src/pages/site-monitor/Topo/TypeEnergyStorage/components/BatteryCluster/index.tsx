@@ -6,6 +6,7 @@ import IconBatteryCluster from '../../svg-icon/icon_电池簇.svg';
 import IconBatteryClusterEmpty from '../../svg-icon/icon_电池簇(1).svg';
 
 import styles from './index.less';
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 
 export function BatteryCluster({ data }: { data: ExtraNodeData }) {
   const { width = 80, height = 100, imageContent, textContent, boxText, handle } = data;
@@ -24,7 +25,7 @@ export function BatteryCluster({ data }: { data: ExtraNodeData }) {
       {boxText && <BoxText {...boxText} />}
       {imageContent && (
         <div className={styles.boxImage}>
-          <div className={styles.boxSoc}>{imageContent.soc}%</div>
+          <div className={styles.boxSoc}>{imageContent?.soc ?? 0}%</div>
           <div
             style={{
               width: imageContent.width ?? 80,
@@ -46,7 +47,7 @@ export function BatteryCluster({ data }: { data: ExtraNodeData }) {
             return (
               <div key={label} className={styles.boxItem}>
                 <div className={styles.label}>{label}</div>
-                <span className={styles.value}>{value}</span>
+                <span className={styles.value}>{keepTwoDecimalWithUnit(value)}</span>
               </div>
             );
           })}

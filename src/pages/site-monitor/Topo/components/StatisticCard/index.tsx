@@ -1,3 +1,4 @@
+import { keepTwoDecimalWithUnit } from '@/utils/math';
 import classnames from 'classnames';
 import { ExtraNodeData } from '../../type';
 import styles from './index.less';
@@ -19,7 +20,7 @@ export function StatisticCard({ data }: { data: ExtraNodeData }) {
             return (
               <div key={label} className={styles.boxItem}>
                 <div className={styles.label}>{label}</div>
-                <span className={styles.value}>{value}</span>
+                <span className={styles.value}>{keepTwoDecimalWithUnit(value)}</span>
               </div>
             );
           })}
