@@ -45,10 +45,3 @@ export const getProductTypes = (params: any) => {
     params,
   });
 };
-
-export const getProductModels = (params: any) => {
-  return request(`/iot/product/getAllProductsByproductType`, {
-    method: 'GET',
-    params,
-  });
-};

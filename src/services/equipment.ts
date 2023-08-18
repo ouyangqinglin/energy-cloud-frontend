@@ -49,6 +49,12 @@ export type ClusterType = {
   soc: number;
 };
 
+export type ProductModelType = {
+  id?: string;
+  model?: string;
+  name?: string;
+};
+
 export const getDevicePage = (params: any) => {
   return request<ResponsePageData<DeviceDataType>>(`/iot/device/deviceList`, {
     method: 'GET',
@@ -191,9 +197,20 @@ export const getChargeHost = (params: any) => {
     params,
   });
 };
+
 export const editSetting = (data: any) => {
   return request(`/oss/device/remote_setting`, {
     method: 'POST',
     data,
   });
+};
+
+export const getProductModelByType = (params: any) => {
+  return request<ResponseCommonData<ProductModelType[]>>(
+    `/iot/product/getAllProductsByproductType`,
+    {
+      method: 'GET',
+      params,
+    },
+  );
 };

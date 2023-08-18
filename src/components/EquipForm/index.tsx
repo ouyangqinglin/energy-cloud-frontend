@@ -13,11 +13,12 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import type { EquipFormType } from './data.d';
-import { editData, getData, addData, getProductTypes, getProductModels } from './service';
+import { editData, getData, addData, getProductTypes } from './service';
 import { getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
+import { getProductModelByType } from '@/services/equipment';
 
 export type EquipFormProps = {
   id?: string;
@@ -129,7 +130,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
 
   const requestProductModel = useCallback((productType) => {
     if (productType) {
-      getProductModels({ productType }).then(({ data = {} }) => {
+      getProductModelByType({ productType }).then(({ data }) => {
         setModelOption(
           data?.map?.((item: any) => {
             return {

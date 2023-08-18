@@ -17,5 +17,8 @@ export type TableSearchType = {
 };
 
 export type TableDataType = {
+  index?: number;
   id: number;
+  rowSpan?: number;
+  chargeDetails?: string;
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2023-08-08 16:20:56
+ * @LastEditTime: 2023-08-16 14:31:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -713,12 +713,21 @@ export const energyColumns: ProColumns[] = [
   },
 ];
 
+const onCell = (record: any) => {
+  if ('rowSpan' in record) {
+    return {
+      rowSpan: record.rowSpan,
+    };
+  }
+  return {};
+};
+
 export const chargeOrderColumns: ProColumns[] = [
   {
     title: '序号',
     dataIndex: 'index',
-    valueType: 'index',
     width: 50,
+    onCell,
   },
   {
     title: '站点名称',
@@ -726,6 +735,7 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
   {
     title: '设备名称',
@@ -733,6 +743,7 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
   {
     title: '充电枪id',
@@ -740,6 +751,7 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
   {
     title: '充电订单号',
@@ -747,6 +759,7 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
   {
     title: '订单状态',
@@ -754,16 +767,17 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 120,
     ellipsis: true,
+    onCell,
   },
   {
     title: '开始充电时间',
-    dataIndex: 'startTime',
+    dataIndex: 'DetailStartTime',
     hideInSearch: true,
     width: 150,
   },
   {
     title: '结束时间',
-    dataIndex: 'endTime',
+    dataIndex: 'DetailEndTime',
     hideInSearch: true,
     width: 150,
   },
@@ -783,17 +797,18 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title: '平台服务费金额(元)',
-    dataIndex: 'SevicePrice',
+    dataIndex: 'DetailSeviceMoney',
     hideInSearch: true,
     width: 170,
     ellipsis: true,
   },
   {
     title: '订单总金额(元)',
-    dataIndex: 'totalElecMoney',
+    dataIndex: 'totalMoney',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
   {
     title: '充电结束原因',
@@ -801,6 +816,7 @@ export const chargeOrderColumns: ProColumns[] = [
     hideInSearch: true,
     width: 150,
     ellipsis: true,
+    onCell,
   },
 ];
 

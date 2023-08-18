@@ -9,6 +9,7 @@ export default {
   'menu.siteMonitor.electricConsumer': '用电单元监测',
   'menu.welcome': '欢迎',
   'menu.system': '系统管理',
+  'menu.system.productDetail': '产品详情',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',

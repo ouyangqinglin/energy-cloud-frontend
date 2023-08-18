@@ -13,7 +13,7 @@ import {
   chargeBaseColumns,
 } from './config';
 import { getList, exportList } from './service';
-import type { TableSearchType } from './type';
+import type { TableDataType, TableSearchType } from './type';
 import { reportTypeEnum, reportType, timeDimensionEnum, timeDimension } from '@/utils/dictionary';
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
@@ -61,7 +61,35 @@ const Report: React.FC<ReportProps> = (props) => {
   } = useRequest(getList, {
     manual: true,
     formatResult: ({ data }) => {
-      return data;
+      const result: TableDataType[] = [];
+      data?.forEach((item, itemIndex) => {
+        if ('chargeDetails' in item) {
+          let details = [];
+          try {
+            details = JSON.parse(item?.chargeDetails || '');
+            if (!Array.isArray(details)) {
+              details = [];
+            }
+          } catch {
+            details = [];
+          }
+          if (details.length) {
+            details.forEach((detail, index) => {
+              result.push({
+                index: itemIndex + 1,
+                ...item,
+                ...(detail || {}),
+                rowSpan: index ? 0 : details.length,
+              });
+            });
+          } else {
+            result.push({ index: itemIndex + 1, ...item });
+          }
+        } else {
+          result.push({ index: itemIndex + 1, ...item });
+        }
+      });
+      return result;
     },
   });
 

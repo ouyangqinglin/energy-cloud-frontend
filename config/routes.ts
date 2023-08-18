@@ -568,6 +568,21 @@ export default [
         KeepAlive: true,
         title: 'menu.title.operlog',
       },
+      {
+        path: 'product',
+        name: 'product',
+        component: 'product-manage/Product',
+        wrappers: ['@/components/KeepAlive'],
+        KeepAlive: true,
+      },
+      {
+        path: 'product-detail',
+        name: 'productDetail',
+        component: 'product-manage/ProductDetail',
+        wrappers: ['@/components/KeepAlive'],
+        KeepAlive: true,
+        title: 'menu.system.productDetail',
+      },
     ],
   },
   {
