@@ -55,6 +55,11 @@ export type ProductModelType = {
   name?: string;
 };
 
+export type FactoryDataType = {
+  id?: string;
+  name?: string;
+};
+
 export const getDevicePage = (params: any) => {
   return request<ResponsePageData<DeviceDataType>>(`/iot/device/deviceList`, {
     method: 'GET',
@@ -213,4 +218,9 @@ export const getProductModelByType = (params: any) => {
       params,
     },
   );
+};
+export const getFactoryList = () => {
+  return request<ResponseCommonData<FactoryDataType[]>>(`/iot/product/getFactoryList`, {
+    method: 'GET',
+  });
 };

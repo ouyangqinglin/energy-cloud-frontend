@@ -113,6 +113,7 @@
     "umi-plugin-keep-alive": "^0.0.1-beta.18",
     "umi-request": "^1.0.8",
     "umi-serve": "^1.9.10",
+    "word-wrap": "^1.2.5",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

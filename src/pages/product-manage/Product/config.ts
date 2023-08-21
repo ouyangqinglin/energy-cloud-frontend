@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-17 16:31:45
- * @LastEditTime: 2023-08-17 18:51:17
+ * @LastEditTime: 2023-08-18 11:24:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\Product\config.ts
  */
 
-import { getProductModelByType } from '@/services/equipment';
+import { getFactoryList, getProductModelByType } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-components';
 
 export type ProductDataType = {
@@ -56,12 +56,27 @@ export const getColumns = (
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '产品厂商',
       dataIndex: 'productFactory',
+      valueType: 'select',
+      formItemProps: {
+        name: 'factoryId',
+      },
       width: 150,
       ellipsis: true,
+      request: () => {
+        return getFactoryList().then(({ data }) => {
+          return data?.map?.((item) => {
+            return {
+              label: item?.name || '',
+              value: item?.id || '',
+            };
+          });
+        });
+      },
     },
     {
       title: '录入时间',

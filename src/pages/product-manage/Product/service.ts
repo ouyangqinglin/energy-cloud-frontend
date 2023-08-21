@@ -16,3 +16,12 @@ export const getPage = (params: any) => {
     params,
   });
 };
+
+export const getData = (id: string) => {
+  return request(`/iot/product`, {
+    method: 'GET',
+    params: {
+      productId: id,
+    },
+  });
+};

@@ -2,26 +2,31 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-08-15 15:25:01
+ * @LastEditTime: 2023-08-18 16:58:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
 import React, { useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
-import type { ProFormInstance } from '@ant-design/pro-components';
+import type { ProFormInstance, ProFormLayoutType } from '@ant-design/pro-components';
 import { BetaSchemaForm, ProConfigProvider } from '@ant-design/pro-components';
 import { FormTypeEnum } from '@/utils/dictionary';
 import type { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import { tableSelectValueTypeMap } from '../TableSelect';
-import type { FormSchema } from '@ant-design/pro-form/lib/components/SchemaForm';
+import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
 
 export { FormTypeEnum };
 
-export type SchemaFormProps<FormData, ValueType, ParamData> = FormSchema<FormData, ValueType> & {
+export type SchemaFormProps<FormData, ValueType, ParamData> = Omit<
+  FormSchema<FormData, ValueType>,
+  'LayoutType'
+> & {
+  width?: string | number;
+  LayoutType?: ProFormLayoutType;
   reactRef?: React.Ref<ProFormInstance | undefined>;
   formRef?: React.Ref<ProFormInstance | undefined>;
   type?: FormTypeEnum;
