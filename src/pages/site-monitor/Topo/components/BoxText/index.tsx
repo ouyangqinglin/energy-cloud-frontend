@@ -11,13 +11,7 @@ export type BoxTextProp = {
   labelStyle?: CSSProperties;
 };
 
-const BoxText = ({
-  label,
-  width = 74,
-  height = 42,
-  boxStyle = {},
-  labelStyle = {},
-}: BoxTextProp) => {
+const BoxText = ({ label, width, height = 42, boxStyle = {}, labelStyle = {} }: BoxTextProp) => {
   return (
     <div
       className={styles.boxWrapper}

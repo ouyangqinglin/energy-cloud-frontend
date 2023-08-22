@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import type { Node } from 'reactflow';
 import { BoxTextProp } from './components/BoxText';
+import { TypeCommunicationData } from './TypeCommunication/type';
 import { PvPanelVoList } from './TypePhotovoltaic/type';
 
 export type GraphNode = ExtraNode & Node<ExtraNodeData>;
@@ -47,6 +48,9 @@ export type ExtraNodeData = {
     height?: number;
     soc?: number;
   };
+  // communication
+  boxData?: TypeCommunicationData[];
+  colSpan?: number;
 };
 
 export type ExtraNodeTextContent = {
