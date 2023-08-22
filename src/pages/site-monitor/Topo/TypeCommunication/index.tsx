@@ -93,7 +93,6 @@ const TypePowerConsumption: FC<{ siteId: number }> = ({ siteId }) => {
         initialNodes,
         initialEdges,
       );
-      console.log(nodesLayout);
 
       resetNodes(nodesLayout);
       resetEdges(edgesLayout);
