@@ -84,7 +84,7 @@ export const config: DeviceConfigItem[] = [
     child: [
       {
         dividerSpan: 0,
-        title: '充电主机',
+        title: '充电堆',
         field: 'chargingHostNumber',
         unit: '个',
         span: 5,

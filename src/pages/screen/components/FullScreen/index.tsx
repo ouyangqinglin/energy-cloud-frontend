@@ -1,5 +1,5 @@
 import { useFullscreen, useEventListener } from 'ahooks';
-import Cell from '../../components/LayoutCell';
+import Cell from '../LayoutCell';
 import styles from './index.less';
 
 import { ReactComponent as EnterFullScreenIcon } from '@/assets/image/screen/fullscreen/icon_进入全屏.svg';

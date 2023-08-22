@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-08-15 15:20:42
+ * @LastEditTime: 2023-08-22 10:02:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -179,7 +179,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              beginTime: value[0],
+              startTime: value[0],
               endTime: value[1],
             };
           },

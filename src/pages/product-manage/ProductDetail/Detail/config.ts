@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-18 14:51:19
- * @LastEditTime: 2023-08-18 14:51:19
+ * @LastEditTime: 2023-08-22 11:52:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\ProductDetail\Detail\config.ts
  */
@@ -10,6 +10,12 @@
 import { DetailItem } from '@/components/Detail';
 import { DevicePropsType } from '@/types/device';
 import { ProColumns } from '@ant-design/pro-components';
+
+export type CollectionDetailType = {
+  value?: string;
+  unit?: string;
+  type?: string;
+};
 
 export type CollectionDataType = {
   properties?: DevicePropsType[];
@@ -43,9 +49,21 @@ export const columns: ProColumns[] = [
     ellipsis: true,
   },
   {
-    title: '值',
+    title: '值范围',
     dataIndex: 'value',
     width: 120,
+    ellipsis: true,
+  },
+  {
+    title: '单位',
+    dataIndex: 'unit',
+    width: 100,
+    ellipsis: true,
+  },
+  {
+    title: '属性类型',
+    dataIndex: 'type',
+    width: 100,
     ellipsis: true,
   },
 ];

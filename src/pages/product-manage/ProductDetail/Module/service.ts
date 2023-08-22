@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-18 15:07:09
- * @LastEditTime: 2023-08-18 17:00:25
+ * @LastEditTime: 2023-08-22 13:38:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\ProductDetail\Module\service.ts
  */
@@ -11,7 +11,7 @@ import request, { ResponsePageData } from '@/utils/request';
 import { ModuleDataType } from './config';
 
 export const getPage = (params: any) => {
-  return request<ResponsePageData<ModuleDataType>>(`/iot/productModule/list`, {
+  return request<ResponsePageData<ModuleDataType>>(`/iot/productModule/page`, {
     method: 'GET',
     params,
   });

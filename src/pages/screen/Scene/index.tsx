@@ -10,7 +10,7 @@ import { TimeType } from '../components/TimeButtonGroup';
 import Cell from '../components/LayoutCell';
 import RealTimePower from './RealTimePower';
 import RevenueProportion from './RevenueProportion';
-import FullScreen from './FullScreen';
+import FullScreen from '../components/FullScreen';
 import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import AlarmInfo from './Alarm';

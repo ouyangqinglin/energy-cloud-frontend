@@ -160,7 +160,7 @@ export default {
                     deviceSN: null,
                   },
                 ],
-                deviceName: '充电堆主机',
+                deviceName: '充电堆',
                 deviceSN: null,
               },
               {

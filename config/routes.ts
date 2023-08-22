@@ -34,9 +34,14 @@ export default [
         redirect: '/screen/demo-station',
       },
       {
-        path: '/screen/demo-station',
+        path: 'demo-station',
         name: 'demoStation',
         component: './screen/index',
+      },
+      {
+        path: 'multi-site',
+        name: 'multiSite',
+        component: './screen/MultiSite',
       },
     ],
   },
