@@ -16,7 +16,6 @@ import type { ExtraNodeColumn, ExtraNodeData, ExtraNodeTextContent, GraphNode } 
 import { AllTypeData, deviceType, MainsSupply, TypePowerConsumptionData } from './type';
 import { SubsystemTypeForNode } from './type';
 import { isEmpty, uniqueId } from 'lodash';
-import { SiteTypeEnum } from '@/components/SiteTypeSwitch';
 import { buildEdges, flattenTree } from '../helper';
 
 const position = { x: 0, y: 0 };

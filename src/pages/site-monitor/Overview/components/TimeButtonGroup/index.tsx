@@ -34,7 +34,7 @@ const TimeButtonGroup: FC<TimeButtonGroupProps> = ({ onChange, className, style 
       <Radio.Button value={TimeType.DAY}>日</Radio.Button>
       <Radio.Button value={TimeType.MONTH}>月</Radio.Button>
       <Radio.Button value={TimeType.YEAR}>年</Radio.Button>
-      <Radio.Button value={TimeType.TOTAL}>总</Radio.Button>
+      <Radio.Button value={TimeType.TOTAL}>累计</Radio.Button>
     </Radio.Group>
   );
 };

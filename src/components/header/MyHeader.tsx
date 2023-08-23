@@ -17,7 +17,6 @@ import IconMenuRight from '@/assets/image/menu-right.png';
 import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
-import SiteTypeSwitch from '../SiteTypeSwitch';
 
 const siteSwitchPath = ['/site-monitor', '/index/station', '/station/station-list'];
 

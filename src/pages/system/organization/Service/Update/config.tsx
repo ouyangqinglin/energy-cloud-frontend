@@ -2,9 +2,41 @@ import PositionSelect from '@/components/PositionSelect';
 import { effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ServiceUpdateInfo } from '../type';
+import Detail from '@/components/Detail';
 
 export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[] = (orgId) => {
   return [
+    {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="状态信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: ['status'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      valueEnum: effectStatus,
+    },
+    {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="基础信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
     {
       title: '安装商名称',
       formItemProps: {
@@ -24,19 +56,6 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
         value: orgId,
         disabled: true,
       },
-    },
-    {
-      title: '状态',
-      dataIndex: ['status'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
-      valueEnum: effectStatus,
     },
     {
       title: '联系人',

@@ -3,6 +3,7 @@ import { sumBy } from 'lodash';
 import { SubSystemType } from '../..';
 import styles from './index.less';
 import { AllChartType, PVChart } from './type';
+import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dictionary';
 
 const descByTimeType = new Map([
   [TimeType.DAY, '日'],
@@ -23,10 +24,12 @@ const RenderTitle = ({
   subSystemType,
   timeType,
   chartData,
+  siteType,
 }: {
   subSystemType: SubSystemType;
   timeType: TimeType;
   chartData: AllChartType;
+  siteType?: SiteTypeEnumType;
 }) => {
   const desc = getDescByTimeType(timeType);
 
@@ -45,8 +48,22 @@ const RenderTitle = ({
     );
   return (
     <div className={styles.title}>
-      {desc}光伏收益/元: <span>{getCounts(chartData, 'pvTotalIcome')}</span>
-      {desc}储能收益/元: <span>{getCounts(chartData, 'esTotalIcome')}</span>
+      {![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
+        siteType || '',
+      ) ? (
+        <>
+          {desc}光伏收益/元: <span>{getCounts(chartData, 'pvTotalIcome')}</span>
+        </>
+      ) : (
+        <></>
+      )}
+      {![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '') ? (
+        <>
+          {desc}储能收益/元: <span>{getCounts(chartData, 'esTotalIcome')}</span>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

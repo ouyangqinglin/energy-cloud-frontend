@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-08-15 10:07:54
+ * @LastEditTime: 2023-08-22 16:40:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -345,14 +345,25 @@ export const logType = {
   2: { text: '规则触发' },
 };
 
+export const enum SiteTypeEnum {
+  PV = 1,
+  ES = 2,
+  CS = 3,
+  ES_CS = 23,
+  PV_ES = 12,
+  PV_ES_CS = 123,
+}
+
+export type SiteTypeEnumType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
+
 export const siteType = {
   0: { text: '全部' },
-  1: { text: '光伏站点' },
-  2: { text: '储能站点' },
-  3: { text: '充电站点' },
-  23: { text: '储充站点' },
-  12: { text: '光储站点' },
-  123: { text: '光储充站点' },
+  [SiteTypeEnum.PV]: { text: '光伏站点' },
+  [SiteTypeEnum.ES]: { text: '储能站点' },
+  [SiteTypeEnum.CS]: { text: '充电站点' },
+  [SiteTypeEnum.ES_CS]: { text: '储充站点' },
+  [SiteTypeEnum.PV_ES]: { text: '光储站点' },
+  [SiteTypeEnum.PV_ES_CS]: { text: '光储充站点' },
 };
 
 export const operateUserType = {

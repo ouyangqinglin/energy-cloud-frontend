@@ -18,6 +18,8 @@ import {
 } from './service';
 import { assign } from 'lodash';
 import { useModel } from 'umi';
+import { SiteTypeEnum } from '@/utils/dictionary';
+import { TabsProps } from 'rc-tabs';
 
 export const enum SubSystemType {
   PV = 0,
@@ -36,7 +38,41 @@ const HomePage: React.FC = () => {
   const getStatisticData = useCallback(
     async (params: { energyOptions?: string }) =>
       await Promise.all([
-        getPowerStationOverview(params),
+        getPowerStationOverview(params).then((res) => {
+          let originalData: Record<string, any> = {
+            pvAndEssAndChargePowerStationCount: '--',
+            pvAndEssPowerStationCount: '--',
+            essAndChargePowerStationCount: '--',
+            pvPowerStationCount: '--',
+            essPowerStationCount: '--',
+            chargePowerStationCount: '--',
+          };
+          switch (siteType) {
+            case SiteTypeEnum.PV + '':
+              originalData.pvPowerStationCount = res?.data?.pvPowerStationCount;
+              break;
+            case SiteTypeEnum.ES + '':
+              originalData.essPowerStationCount = res?.data?.essPowerStationCount;
+              break;
+            case SiteTypeEnum.CS + '':
+              originalData.chargePowerStationCount = res?.data?.chargePowerStationCount;
+              break;
+            case SiteTypeEnum.ES_CS + '':
+              originalData.essAndChargePowerStationCount = res?.data?.essAndChargePowerStationCount;
+              break;
+            case SiteTypeEnum.PV_ES + '':
+              originalData.pvAndEssPowerStationCount = res?.data?.pvAndEssPowerStationCount;
+              break;
+            case SiteTypeEnum.PV_ES_CS + '':
+              originalData.pvAndEssAndChargePowerStationCount =
+                res?.data?.pvAndEssAndChargePowerStationCount;
+              break;
+            default:
+              originalData = {};
+          }
+          res.data = Object.assign({}, res.data, originalData);
+          return res;
+        }),
         getPhotovoltaicIndex(params),
         getEssIndex(params),
         getAlarmMonitoring(params),
@@ -44,7 +80,7 @@ const HomePage: React.FC = () => {
         getEnvironmentalRevenueIndex(params),
         getElectricStack(params),
       ]),
-    [],
+    [siteType],
   );
 
   useEffect(() => {
@@ -60,36 +96,78 @@ const HomePage: React.FC = () => {
     });
   }, [getStatisticData, siteType]);
 
+  const items = useMemo(() => {
+    const result: React.ReactNode[] = [];
+    config.forEach((item) => {
+      if (item.field == 'pvGeneratedPower') {
+        if (
+          [SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
+            siteType || '',
+          )
+        ) {
+          return;
+        }
+      } else if (item.field == 'essGeneratedPower') {
+        if ([SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+          return;
+        }
+      } else if (item.field == 'chargePower') {
+        if (
+          [SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
+            siteType || '',
+          )
+        ) {
+          return;
+        }
+      }
+      result.push(
+        <div key={item.title} style={styles.sliderItem}>
+          <SliderCard data={statistic} config={item} />
+        </div>,
+      );
+    });
+    if (4 < result.length && result.length < 8) {
+      const nextPageItems = result.slice(4, 8);
+      const fillPageItems = result.slice(4 - (4 - nextPageItems.length), 4);
+      return [...result.slice(0, 4), ...fillPageItems, ...nextPageItems];
+    }
+    return result;
+  }, [siteType, statistic]);
+
+  const tabsItem = useMemo(() => {
+    const result: TabsProps['items'] = [];
+    if (
+      ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
+        siteType || '',
+      )
+    ) {
+      result.push({
+        label: `光伏`,
+        key: '1',
+        children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
+      });
+    }
+    if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+      result.push({
+        label: `储能`,
+        key: '2',
+        children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
+      });
+    }
+    result.push({
+      label: `收益`,
+      key: '3',
+      children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
+    });
+    return result;
+  }, [siteType]);
+
   return (
     <div ref={ref} className="bg-white card-wrap p24">
       <Carousel className={styles.sliderWrapper} slidesPerRow={4} afterChange={onChange}>
-        {config.map((item) => (
-          <div key={item.title} style={styles.sliderItem}>
-            <SliderCard data={statistic} config={item} />
-          </div>
-        ))}
+        {items}
       </Carousel>
-      <Tabs
-        className={styles.chartCard}
-        defaultActiveKey="1"
-        items={[
-          {
-            label: `光伏`,
-            key: '1',
-            children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
-          },
-          {
-            label: `储能`,
-            key: '2',
-            children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
-          },
-          {
-            label: `收益`,
-            key: '3',
-            children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
-          },
-        ]}
-      />
+      <Tabs className={styles.chartCard} items={tabsItem} />
     </div>
   );
 };

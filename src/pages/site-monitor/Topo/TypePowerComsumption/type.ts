@@ -1,5 +1,3 @@
-import { SiteType, SiteTypeEnum } from '@/components/SiteTypeSwitch';
-
 export enum deviceType {
   DistributionCabinet = 0,
   LoadCS = 1,

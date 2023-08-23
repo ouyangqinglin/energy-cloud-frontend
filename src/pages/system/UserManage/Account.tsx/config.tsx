@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2023-07-31 16:13:40
+ * @LastEditTime: 2023-08-22 18:58:00
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
 import { OptionType, effectStatus } from '@/utils/dictionary';
 import type { ProColumns } from '@ant-design/pro-components';
@@ -18,6 +18,7 @@ import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg } from './service';
+import Detail from '@/components/Detail';
 
 export type AccountDataType = {
   userId?: string;
@@ -160,6 +161,33 @@ export const getFormColumns = (
 ) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="状态信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      valueType: 'select',
+      valueEnum: effectStatus,
+      formItemProps: {
+        rules: [{ required: true, message: '请选择状态' }],
+      },
+    },
+    {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="基础信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
       title: '账号名',
       dataIndex: 'userName',
       formItemProps: {
@@ -230,15 +258,6 @@ export const getFormColumns = (
             rules: [{ required: true, message: '请选择组织' }],
           },
         },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: effectStatus,
-      formItemProps: {
-        rules: [{ required: true, message: '请选择状态' }],
-      },
-    },
     {
       title: '手机',
       dataIndex: 'phone',

@@ -8,11 +8,43 @@ import { buildTreeData } from '@/utils/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import { getServiceList } from '../service';
 import type { ServiceUpdateInfo } from '../type';
+import Detail from '@/components/Detail';
 
 export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (
   orgId,
 ) => {
   return [
+    {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="状态信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: ['status'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+        ],
+      },
+      valueEnum: effectStatus,
+    },
+    {
+      title: '',
+      renderFormItem: () => {
+        return <Detail.DotLabel title="基础信息" className="mb0" />;
+      },
+      colProps: {
+        span: 24,
+      },
+    },
     {
       title: '组织名称',
       formItemProps: {
@@ -32,19 +64,6 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
         value: orgId,
         disabled: true,
       },
-    },
-    {
-      title: '状态',
-      dataIndex: ['status'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '此项为必填项',
-          },
-        ],
-      },
-      valueEnum: effectStatus,
     },
     {
       title: '上级组织',

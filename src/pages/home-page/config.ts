@@ -122,32 +122,6 @@ export const config: CardInfo[] = [
     ],
   },
   {
-    title: '充电桩指标',
-    icon: IconCS,
-    field: 'chargePower',
-    value: 1947.1,
-    description: '充电功率/kW',
-    items: [
-      {
-        label: '当日充电量/kwh',
-        field: 'cpChargeElecToday',
-        value: 3.14,
-      },
-      {
-        label: '累计充电量/kwh',
-        field: 'cpChargeElecTotal',
-        value: 0.48,
-      },
-      {
-        label: '充电枪使用/空闲',
-        value: 171.04,
-        render: (data) => {
-          return `${data?.beUsingGunNum}  / ${data?.leisureGunNum} `;
-        },
-      },
-    ],
-  },
-  {
     title: '告警监视',
     icon: IconAlarm,
     field: 'totalNum',
@@ -177,7 +151,7 @@ export const config: CardInfo[] = [
     ],
   },
   {
-    title: '经济收益',
+    title: '经济效益',
     icon: IconBenifit,
     field: 'gainsDay',
     value: 4755.46,
@@ -201,7 +175,7 @@ export const config: CardInfo[] = [
     ],
   },
   {
-    title: '环境收益',
+    title: '社会贡献',
     icon: IconCo2,
     field: 'totalReduceCO2',
     value: 1947.1,

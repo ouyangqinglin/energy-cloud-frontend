@@ -6,10 +6,12 @@ import { DataType, getChartData, TimeFormat } from '../ChartBox/helper';
 import { ChartItem } from '../ChartBox/type';
 import moment from 'moment';
 // import { getBarChartData } from '../ChartBox/helper';
+import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dictionary';
 
 type RealTimePowerProps = {
   chartData?: any;
   timeType: TimeType;
+  siteType?: SiteTypeEnumType;
 };
 
 export const barLegendMap = new Map([
@@ -37,7 +39,11 @@ const barSizeMap = new Map([
   [TimeType.TOTAL, 20],
 ]);
 
-export const getBarChartData = (rawSourceData: Record<string, ChartItem[]>, timeType: TimeType) => {
+export const getBarChartData = (
+  rawSourceData: Record<string, ChartItem[]>,
+  timeType: TimeType,
+  siteType?: SiteTypeEnumType,
+) => {
   const result: DataType[] = [];
   const legendMap = () => {
     if (timeType === TimeType.YEAR) {
@@ -50,14 +56,42 @@ export const getBarChartData = (rawSourceData: Record<string, ChartItem[]>, time
   };
   if (timeType === TimeType.DAY) {
     legendMap().forEach((item, key) => {
-      result.push(
-        ...getChartData(
-          rawSourceData?.[key] || [],
-          item,
-          { time: 'timeDimension', value: 'amount' },
-          key === 'income' ? 'total' : 'value',
-        ),
-      );
+      if (key == 'pvIncome') {
+        if (
+          ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
+            siteType || '',
+          )
+        ) {
+          result.push(
+            ...getChartData(
+              rawSourceData?.[key] || [],
+              item,
+              { time: 'timeDimension', value: 'amount' },
+              'value',
+            ),
+          );
+        }
+      } else if (key == 'esIncome') {
+        if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+          result.push(
+            ...getChartData(
+              rawSourceData?.[key] || [],
+              item,
+              { time: 'timeDimension', value: 'amount' },
+              'value',
+            ),
+          );
+        }
+      } else {
+        result.push(
+          ...getChartData(
+            rawSourceData?.[key] || [],
+            item,
+            { time: 'timeDimension', value: 'amount' },
+            'total',
+          ),
+        );
+      }
     });
     return result;
   }
@@ -77,12 +111,12 @@ export const getBarChartData = (rawSourceData: Record<string, ChartItem[]>, time
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { chartData: powerData, timeType } = props;
+  const { chartData: powerData, timeType, siteType } = props;
   const [chartData, setChartData] = useState<any[]>();
   // const [chartRef, { clear, run: runForTooltip }] = useToolTip();
 
   useEffect(() => {
-    setChartData(getBarChartData(powerData, timeType));
+    setChartData(getBarChartData(powerData, timeType, siteType));
   }, [powerData, timeType]);
 
   return (

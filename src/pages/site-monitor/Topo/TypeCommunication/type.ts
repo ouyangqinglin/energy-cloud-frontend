@@ -1,5 +1,3 @@
-import { SiteType, SiteTypeEnum } from '@/components/SiteTypeSwitch';
-
 export const enum VirtualDeviceType {
   MQTT = 10000,
   XJ,

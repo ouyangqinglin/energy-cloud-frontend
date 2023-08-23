@@ -12,7 +12,7 @@ const DEFAULT_PROPS = {
   title: '新增',
   width: 950,
   rowProps: {
-    gutter: [16, 16],
+    gutter: [24, 0],
   },
   colProps: {
     span: 8,
@@ -83,7 +83,7 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
         columns={customColumns}
         initialValues={initialValues}
         rowProps={{
-          gutter: [16, 0],
+          gutter: [24, 0],
         }}
         {...restProps}
       />

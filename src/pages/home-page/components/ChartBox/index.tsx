@@ -68,9 +68,14 @@ const ChartBox = ({
             onChange={timeTypeChange}
           />
         </div>
-        <RenderTitle timeType={timeType} chartData={chartData} subSystemType={subSystemType} />
+        <RenderTitle
+          timeType={timeType}
+          chartData={chartData}
+          subSystemType={subSystemType}
+          siteType={siteType}
+        />
       </div>
-      <Chart chartData={chartData} timeType={timeType} />
+      <Chart chartData={chartData} timeType={timeType} siteType={siteType} />
     </div>
   );
 };
