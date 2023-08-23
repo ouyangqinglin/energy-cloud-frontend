@@ -23,7 +23,7 @@ const BenefitSocial: FC<Props> = (props) => {
     },
     {
       title: '等效植树量',
-      unit: '颗',
+      unit: '棵',
       comma: true,
       num: props.cumulativeTree,
     },

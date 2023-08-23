@@ -116,7 +116,7 @@ export const config: CardInfo[] = [
         label: '充电枪使用/空闲',
         value: 171.04,
         render: (data) => {
-          return `${data?.beUsingGunNum}  / ${data?.leisureGunNum} `;
+          return `${data?.beUsingGunNum ?? '--'}  / ${data?.leisureGunNum ?? '--'} `;
         },
       },
     ],

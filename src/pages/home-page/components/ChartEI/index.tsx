@@ -17,18 +17,21 @@ type RealTimePowerProps = {
 export const barLegendMap = new Map([
   ['pvIncome', '当日光伏收益(元)'],
   ['esIncome', '当日储能收益(元)'],
+  ['csIncome', '当日充电桩收益(元)'],
   ['income', '当日收益(元)'],
 ]);
 
 export const yearBarLegendMap = new Map([
   ['pvIncome', '月光伏收益(元)'],
   ['esIncome', '月储能收益(元)'],
+  ['csIncome', '月充电桩收益(元)'],
   ['income', '月收益(元)'],
 ]);
 
 export const totalBarLegendMap = new Map([
   ['pvIncome', '年光伏收益(元)'],
   ['esIncome', '年储能收益(元)'],
+  ['csIncome', '年充电桩收益(元)'],
   ['income', '年收益(元)'],
 ]);
 
@@ -73,6 +76,21 @@ export const getBarChartData = (
         }
       } else if (key == 'esIncome') {
         if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+          result.push(
+            ...getChartData(
+              rawSourceData?.[key] || [],
+              item,
+              { time: 'timeDimension', value: 'amount' },
+              'value',
+            ),
+          );
+        }
+      } else if (key == 'csIncome') {
+        if (
+          ![SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
+            siteType || '',
+          )
+        ) {
           result.push(
             ...getChartData(
               rawSourceData?.[key] || [],

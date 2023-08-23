@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useEffect, useMemo } from 'react';
 import { useRequest } from 'umi';
 import { SubSystemType } from '../..';
-import { getEIChartData, getESChartData, getPVChartData } from './service';
+import { getEIChartData, getESChartData, getPVChartData, getCSChartData } from './service';
 
 export const useFetchChartData = (
   date: moment.Moment,
@@ -14,6 +14,7 @@ export const useFetchChartData = (
   const { run: runForPV, data: dataPV } = useRequest(getPVChartData, { manual: true });
   const { run: runForES, data: dataES } = useRequest(getESChartData, { manual: true });
   const { run: runForEI, data: dataEI } = useRequest(getEIChartData, { manual: true });
+  const { run: runForCS, data: dataCS } = useRequest(getCSChartData, { manual: true });
 
   useEffect(() => {
     const transformDate = date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
@@ -32,6 +33,9 @@ export const useFetchChartData = (
       case SubSystemType.PV:
         runForPV(params);
         break;
+      case SubSystemType.CS:
+        runForCS(params);
+        break;
     }
   }, [date, runForEI, runForES, runForPV, siteType, subSystemType, timeType]);
 
@@ -43,10 +47,12 @@ export const useFetchChartData = (
         return dataES;
       case SubSystemType.PV:
         return dataPV;
+      case SubSystemType.CS:
+        return dataCS;
       default:
         return dataPV;
     }
-  }, [dataEI, dataES, dataPV, subSystemType]);
+  }, [dataEI, dataES, dataPV, dataCS, subSystemType]);
 
   return {
     chartData,

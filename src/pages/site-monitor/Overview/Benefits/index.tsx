@@ -66,11 +66,11 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
-            <span className={styles.label}>年等效植树(颗)：</span>
+            <span className={styles.label}>年等效植树(棵)：</span>
             <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCumulativeTree)}</span>
           </div>
           <div className={styles.desc}>
-            <span className={styles.label}>累计等效植树(颗)：</span>
+            <span className={styles.label}>累计等效植树(棵)：</span>
             <span className={styles.value}>{keepTwoDecimalWithUnit(data?.cumulativeTree)}</span>
           </div>
         </Col>

@@ -16,12 +16,19 @@ export type ESChart = {
 export type EIChart = {
   esIncome: ChartItem[];
   pvIncome: ChartItem[];
+  csIncome: ChartItem[];
   income: ChartItem[];
   pvTotalIcome: number;
   esTotalIcome: number;
+  csTotalIcome: number;
 };
 
-export type AllChartType = PVChart & EIChart & ESChart;
+export type CSChart = {
+  powerConsumption: ChartItem[];
+  totalPowerConsumption: number;
+};
+
+export type AllChartType = PVChart & EIChart & ESChart & CSChart;
 
 export type ChartItem = {
   timeDimension: string;

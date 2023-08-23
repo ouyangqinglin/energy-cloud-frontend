@@ -65,7 +65,7 @@ export const items: DigitStatItemType[] = [
   {
     icon: IconTree,
     title: '等效植树量',
-    unit: '颗',
+    unit: '棵',
     field: 'f',
     valueStyle: {
       background:

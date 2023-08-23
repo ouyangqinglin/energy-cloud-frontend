@@ -46,6 +46,12 @@ const RenderTitle = ({
         {desc}放电量/kWh: <span>{getCounts(chartData, 'totalDischarge')}</span>
       </div>
     );
+  if (subSystemType === SubSystemType.CS)
+    return (
+      <div className={styles.title}>
+        {desc}充电量/kWh: <span>{getCounts(chartData, 'totalPowerConsumption')}</span>
+      </div>
+    );
   return (
     <div className={styles.title}>
       {![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -60,6 +66,15 @@ const RenderTitle = ({
       {![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '') ? (
         <>
           {desc}储能收益/元: <span>{getCounts(chartData, 'esTotalIcome')}</span>
+        </>
+      ) : (
+        <></>
+      )}
+      {![SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
+        siteType || '',
+      ) ? (
+        <>
+          {desc}充电桩收益/元: <span>{getCounts(chartData, 'csTotalIcome')}</span>
         </>
       ) : (
         <></>

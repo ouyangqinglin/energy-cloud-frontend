@@ -5,6 +5,7 @@ import SliderCard from './components/SliderCard';
 import { config } from './config';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
+import ChartCS from './components/ChartCS';
 import ChartEI from './components/ChartEI';
 import ChartBox from './components/ChartBox';
 import {
@@ -25,6 +26,7 @@ export const enum SubSystemType {
   PV = 0,
   ES,
   EI,
+  CS,
 }
 
 const HomePage: React.FC = () => {
@@ -152,6 +154,17 @@ const HomePage: React.FC = () => {
         label: `储能`,
         key: '2',
         children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
+      });
+    }
+    if (
+      ![SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
+        siteType || '',
+      )
+    ) {
+      result.push({
+        label: `充电桩`,
+        key: '4',
+        children: <ChartBox siteType={siteType} type={SubSystemType.CS} Chart={ChartCS} />,
       });
     }
     result.push({

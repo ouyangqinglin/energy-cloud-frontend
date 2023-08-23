@@ -91,7 +91,7 @@ const Index: React.FC = () => {
               initialValues={{}}
             />
           </div>
-          <Button type="primary">编辑</Button>
+          {/* <Button type="primary">编辑</Button> */}
         </div>
         <div className={styles.title}>{keyToSystemTitle.get(type)}</div>
         <div className={classnames(styles.systemDiagram)} style={{ width: '100%' }}>
