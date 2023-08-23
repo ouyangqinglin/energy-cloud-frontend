@@ -8,7 +8,7 @@ type RealTimePowerProps = {
   timeType: TimeType;
 };
 
-export const lineLegendMap = new Map([['powerConsumption', '充电功率（kW）']]);
+export const lineLegendMap = new Map([['csPower', '充电功率（kW）']]);
 
 export const barLegendMap = new Map([['powerConsumption', '充电量(kW)']]);
 
