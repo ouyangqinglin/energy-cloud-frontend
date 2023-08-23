@@ -6450,7 +6450,7 @@
       <text x="-172.919192" y="-87.815316" transform="matrix(15.0306,0,0,18.7882,4978.28,2426.61) "
         font-family="SimSun,'sans-serif'" font-size="1.43" id="svg_4316">华为充电堆1#电源</text>
       <text x="-161.19189" y="-87.726606" transform="matrix(15.0306,0,0,18.7882,5251.3,2426.56) "
-        font-family="SimSun,'sans-serif'" font-size="1.43" id="svg_4317">5#一体直流桩（160kw）</text>
+        font-family="SimSun,'sans-serif'" font-size="1.43" id="svg_4317">5#一体直流桩（160kW）</text>
       <text x="-158.344466" y="-87.726606" transform="matrix(15.0306,0,0,18.7882,5447.96,2426.56) "
         font-family="SimSun,'sans-serif'" font-size="1.43" id="svg_4318">6#一体直流桩（120kW）</text>
       <text x="-157.013818" y="-88.428201" transform="matrix(15.0306,0,0,18.7882,5670.83,2426.66) "
@@ -6578,7 +6578,7 @@
         font-size="1.43" id="svg_4373">永泰储能</text>
       <text x="-114.818445" y="-59.377718"
         transform="matrix(22.139299999999995,0,0,27.674099999999996,7264.659921875001,3875.2) " font-family=" gbenor"
-        font-size="1.43" id="svg_4374">100kw</text>
+        font-size="1.43" id="svg_4374">100kW</text>
     </g>
     <g stroke-width="2.25" fill="none" stroke="rgb(255,255,255)" id="svg_4375">
       <polyline
@@ -7421,7 +7421,7 @@
     </g>
     <g stroke-width="1.62" fill="rgb(255,255,255)" id="svg_4933">
       <text x="-66.135398" y="-32.063926" transform="matrix(38.4363,0,0,51.24839999999999,4460.6499218750005,2856.56) "
-        font-family=" superos" font-size="1" id="svg_4934">600kw华为液冷超充</text>
+        font-family=" superos" font-size="1" id="svg_4934">600kW华为液冷超充</text>
       <text transform="matrix(38.4363,0,0,51.24839999999999,4271.76333671093,3160.79) " font-family=" superos"
         font-size="1" id="svg_4935" y="-32.063926" x="-69.235678">直流终端1</text>
     </g>
@@ -7502,7 +7502,7 @@
       <text x="-158.026658" y="-88.059246" id="svg_4964" font-size="1.43" font-family="SimSun,'sans-serif'"
         transform="matrix(15.0306,0,0,18.7882,5251.3,2690.48) ">5#一体直流桩</text>
       <text x="-157.610847" y="-86.063345" id="svg_4964" font-size="1.43" font-family="SimSun,'sans-serif'"
-        transform="matrix(15.0306,0,0,18.7882,5261.3,2690.48) ">（160kw）</text>
+        transform="matrix(15.0306,0,0,18.7882,5261.3,2690.48) ">（160kW）</text>
     </g>
     <g stroke-width="2.25" fill="none" stroke="rgb(255,255,255)" id="svg_4965">
       <polyline

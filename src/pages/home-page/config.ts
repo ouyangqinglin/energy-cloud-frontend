@@ -60,7 +60,7 @@ export const config: CardInfo[] = [
         value: 1831.2,
       },
       {
-        label: '当日发电/kwh',
+        label: '当日发电/kWh',
         field: 'generatedElecToday',
         value: 3697.0,
       },
@@ -79,17 +79,17 @@ export const config: CardInfo[] = [
     description: '储能功率/kW',
     items: [
       {
-        label: '剩余电量/kwh',
+        label: '剩余电量/kWh',
         field: 'dumpEnergy',
         value: 1,
       },
       {
-        label: '当日充电/kwh',
+        label: '当日充电/kWh',
         field: 'essChargeElecToday',
         value: 0,
       },
       {
-        label: '当日放电/kwh',
+        label: '当日放电/kWh',
         field: 'essDischargeElecToday',
         value: 0,
       },
@@ -103,12 +103,12 @@ export const config: CardInfo[] = [
     description: '充电功率/kW',
     items: [
       {
-        label: '当日充电量/kwh',
+        label: '当日充电量/kWh',
         field: 'cpChargeElecToday',
         value: 3.14,
       },
       {
-        label: '累计充电量/kwh',
+        label: '累计充电量/kh',
         field: 'cpChargeElecTotal',
         value: 0.48,
       },

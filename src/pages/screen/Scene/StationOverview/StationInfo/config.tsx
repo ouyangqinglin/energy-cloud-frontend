@@ -46,7 +46,7 @@ export const stationBoxConfig = [
         <div className={styles.boxDescription}>
           <span className={styles.boxValue}>{data.energyStoragePower}</span>
           <span className={styles.boxUnit} style={{ marginRight: 4 }}>
-            kw
+            kW
           </span>
           <span className={styles.boxValue}>/</span>
           <span className={styles.boxValue}>{data.energyStorageCapacity}</span>

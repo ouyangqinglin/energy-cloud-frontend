@@ -17,14 +17,14 @@ const BindDevice = <V = any,>(props: {
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '采集点ID',
+      title: '设备采集点ID',
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '采集点',
+      title: '设备采集点',
       dataIndex: 'paramName',
       width: 200,
       ellipsis: true,
