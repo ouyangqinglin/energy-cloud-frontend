@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Carousel, Tabs } from 'antd';
+import { Carousel, Tabs, Tooltip } from 'antd';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
 import { config } from './config';
+import ChartELEC from './components/ChartElec';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
 import ChartCS from './components/ChartCS';
 import ChartEI from './components/ChartEI';
 import ChartBox from './components/ChartBox';
+import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 import {
   getAlarmMonitoring,
   getEconomicBenefit,
@@ -27,6 +29,7 @@ export const enum SubSystemType {
   ES,
   EI,
   CS,
+  ELEC,
 }
 
 const HomePage: React.FC = () => {
@@ -85,6 +88,10 @@ const HomePage: React.FC = () => {
     [siteType],
   );
 
+  const onScreenClick = useCallback(() => {
+    window.open(`/screen/multi-site1`);
+  }, []);
+
   useEffect(() => {
     getStatisticData(siteType ? { energyOptions: siteType } : {}).then((res) => {
       const rawData = {};
@@ -138,6 +145,11 @@ const HomePage: React.FC = () => {
 
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];
+    result.push({
+      label: `市电`,
+      key: '5',
+      children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} Chart={ChartELEC} />,
+    });
     if (
       ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
         siteType || '',
@@ -176,7 +188,10 @@ const HomePage: React.FC = () => {
   }, [siteType]);
 
   return (
-    <div ref={ref} className="bg-white card-wrap p24">
+    <div ref={ref} className={`bg-white card-wrap p24 ${styles.page}`}>
+      <Tooltip placement="top" title="大屏页">
+        <IconScreen className={styles.screen} onClick={onScreenClick} />
+      </Tooltip>
       <Carousel className={styles.sliderWrapper} slidesPerRow={4} afterChange={onChange}>
         {items}
       </Carousel>

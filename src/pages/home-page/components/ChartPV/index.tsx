@@ -8,9 +8,9 @@ type RealTimePowerProps = {
   timeType: TimeType;
 };
 
-export const lineLegendMap = new Map([['pvPower', '发电功率（kW）']]);
+export const lineLegendMap = new Map([['pvPower', '发电功率']]);
 
-export const barLegendMap = new Map([['pvPowerGeneration', '发电功率(kW)']]);
+export const barLegendMap = new Map([['pvPowerGeneration', '发电量']]);
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { chartData: powerData, timeType } = props;

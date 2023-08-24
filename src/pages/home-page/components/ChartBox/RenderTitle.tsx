@@ -52,6 +52,12 @@ const RenderTitle = ({
         {desc}充电量/kWh: <span>{getCounts(chartData, 'totalPowerConsumption')}</span>
       </div>
     );
+  if (subSystemType === SubSystemType.ELEC)
+    return (
+      <div className={styles.title}>
+        {desc}用电量/kWh: <span>{getCounts(chartData, 'totalConsumption')}</span>
+      </div>
+    );
   return (
     <div className={styles.title}>
       {![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(

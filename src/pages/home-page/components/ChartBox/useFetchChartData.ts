@@ -3,7 +3,13 @@ import moment from 'moment';
 import { useEffect, useMemo } from 'react';
 import { useRequest } from 'umi';
 import { SubSystemType } from '../..';
-import { getEIChartData, getESChartData, getPVChartData, getCSChartData } from './service';
+import {
+  getEIChartData,
+  getESChartData,
+  getPVChartData,
+  getCSChartData,
+  getELECChartData,
+} from './service';
 
 export const useFetchChartData = (
   date: moment.Moment,
@@ -11,6 +17,7 @@ export const useFetchChartData = (
   timeType: TimeType,
   siteType?: string,
 ) => {
+  const { run: runForELEC, data: dataELEC } = useRequest(getELECChartData, { manual: true });
   const { run: runForPV, data: dataPV } = useRequest(getPVChartData, { manual: true });
   const { run: runForES, data: dataES } = useRequest(getESChartData, { manual: true });
   const { run: runForEI, data: dataEI } = useRequest(getEIChartData, { manual: true });
@@ -24,6 +31,9 @@ export const useFetchChartData = (
       ...(siteType ? { energyOptions: siteType } : {}),
     };
     switch (subSystemType) {
+      case SubSystemType.ELEC:
+        runForELEC(params);
+        break;
       case SubSystemType.EI:
         runForEI(params);
         break;
@@ -37,10 +47,12 @@ export const useFetchChartData = (
         runForCS(params);
         break;
     }
-  }, [date, runForEI, runForES, runForPV, siteType, subSystemType, timeType]);
+  }, [date, runForEI, runForES, runForPV, runForELEC, siteType, subSystemType, timeType]);
 
   const chartData = useMemo(() => {
     switch (subSystemType) {
+      case SubSystemType.ELEC:
+        return dataELEC;
       case SubSystemType.EI:
         return dataEI;
       case SubSystemType.ES:
@@ -52,7 +64,7 @@ export const useFetchChartData = (
       default:
         return dataPV;
     }
-  }, [dataEI, dataES, dataPV, dataCS, subSystemType]);
+  }, [dataELEC, dataEI, dataES, dataPV, dataCS, subSystemType]);
 
   return {
     chartData,

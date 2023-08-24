@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 10:34:31
- * @LastEditTime: 2023-08-22 15:24:05
+ * @LastEditTime: 2023-08-23 18:55:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\DigitStat\index.tsx
  */
@@ -12,10 +12,11 @@ import './index.less';
 
 export type DigitStatItemType = {
   icon?: string;
-  title: string;
-  field: string;
+  title?: string;
+  field?: string;
   unit?: string;
   items?: DigitStatItemType[];
+  fields?: DigitStatItemType[];
   valueStyle?: React.CSSProperties;
 };
 
@@ -35,15 +36,27 @@ const getContentByItem = (
   return (
     <>
       {item.icon ? <img src={item.icon} key={item.field} /> : ''}
-      <div key={'digit' + item.field}>
-        <label>
+      <div className="digit-stat-content flex1" key={'digit' + item.field}>
+        <div className="digit-stat-title">
           {item.title}
           {unitLinkValue ? '' : `(${item.unit})`}
-        </label>
-        <div className="digit-stat-num" style={item.valueStyle}>
-          {data?.[item.field] ?? '--'}
-          {unitLinkValue ? <span className="digit-stat-unit">{item.unit}</span> : ''}
         </div>
+        {item.fields ? (
+          item.fields?.map?.((child, index) => {
+            return (
+              <span className="digit-stat-num" style={item.valueStyle}>
+                {index ? '/' : ''}
+                {data?.[child.field || ''] ?? '--'}
+                {unitLinkValue ? <span className="digit-stat-unit">{child.unit}</span> : ''}
+              </span>
+            );
+          })
+        ) : (
+          <span className="digit-stat-num" style={item.valueStyle}>
+            {data?.[item.field || ''] ?? '--'}
+            {unitLinkValue ? <span className="digit-stat-unit">{item.unit}</span> : ''}
+          </span>
+        )}
       </div>
     </>
   );
@@ -58,9 +71,9 @@ const DigitStat: React.FC<DigitStatProps> = memo((props) => {
         <Col span={span} key={item.field}>
           <div className="flex digit-stat-wrap">
             {item.items
-              ? item.items?.map?.((child) => {
+              ? item.items?.map?.((child, index) => {
                   const content = getContentByItem(child, data, unitLinkValue);
-                  return [content, <span className="digit-stat-separator"></span>];
+                  return [index ? <span className="digit-stat-separator"></span> : <></>, content];
                 })
               : getContentByItem(item, data, unitLinkValue)}
           </div>

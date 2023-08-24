@@ -15,3 +15,7 @@ export const getEIChartData = (params: any) => {
 export const getCSChartData = (params: any) => {
   return get(`/oss/site/index/cs`, { ...params });
 };
+
+export const getELECChartData = (params: any) => {
+  return get(`/oss/site/index/me`, { ...params });
+};

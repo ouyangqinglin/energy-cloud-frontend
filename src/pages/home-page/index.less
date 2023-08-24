@@ -1,5 +1,4 @@
 @import '~antd/es/style/themes/default.less';
-
 .sliderWrapper {
   left: -8px;
   width: calc(100% + 16px);
@@ -12,7 +11,6 @@
         background-color: #333;
         border-radius: 50%;
       }
-
       .slick-active {
         width: 16px !important;
         button {
@@ -21,14 +19,25 @@
       }
     }
   }
-
   .sliderItem {
     height: '264px';
     margin-right: 16px;
   }
 }
+
 .chartCard {
   min-height: 56vh vh;
   padding: 10px 20px;
   box-shadow: 0 3px 6px 1px #00000014;
+}
+
+.page {
+  position: relative;
+  .screen {
+    position: absolute;
+    top: 8px;
+    right: 24px;
+    font-size: 24px;
+    cursor: pointer;
+  }
 }

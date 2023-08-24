@@ -25,10 +25,17 @@ export type EIChart = {
 
 export type CSChart = {
   powerConsumption: ChartItem[];
+  csPower: ChartPowerItem;
   totalPowerConsumption: number;
 };
 
-export type AllChartType = PVChart & EIChart & ESChart & CSChart;
+export type ELECChart = {
+  meConsumption: ChartItem[];
+  mePower: ChartPowerItem;
+  totalConsumption: number;
+};
+
+export type AllChartType = PVChart & EIChart & ESChart & CSChart & ELECChart;
 
 export type ChartItem = {
   timeDimension: string;
