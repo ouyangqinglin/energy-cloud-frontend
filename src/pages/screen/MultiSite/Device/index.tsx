@@ -18,7 +18,7 @@ const Device: React.FC = () => {
     <>
       <Cell cursor="default" width={400} height={223} right={24} top={546}>
         <DecorationCarousel panelStyle={{ padding: 0 }} title="设备">
-          <DigitStat className={styles.digit} items={items} span={24} />
+          <DigitStat className={styles.digit} items={items} span={12} />
         </DecorationCarousel>
       </Cell>
     </>

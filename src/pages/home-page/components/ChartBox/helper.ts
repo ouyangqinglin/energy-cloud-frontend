@@ -27,8 +27,6 @@ export const getChartData = (
   fieldMap = DEFAULT_FIELD_MAP,
   valueResField = 'value',
 ): DataType[] => {
-  console.log(fieldMap);
-
   const valueMap = new Map(
     data.map((item) => {
       return [moment(item[fieldMap.time]).format('HH:mm'), item[fieldMap.value]];

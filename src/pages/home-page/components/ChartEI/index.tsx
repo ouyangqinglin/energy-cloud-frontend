@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Axis, Chart, Legend, Tooltip, Interval, View, Line, Point } from 'bizcharts';
+import { Axis, Chart, Legend, Tooltip, Interval, View, Line, Point, LineAdvance } from 'bizcharts';
 // import { useToolTip } from '@/hooks';
 import { TimeType } from '@/components/TimeButtonGroup';
 import { DataType, getChartData, TimeFormat } from '../ChartBox/helper';
@@ -15,24 +15,10 @@ type RealTimePowerProps = {
 };
 
 export const barLegendMap = new Map([
-  ['pvIncome', '当日光伏收益(元)'],
-  ['esIncome', '当日储能收益(元)'],
-  ['csIncome', '当日充电桩收益(元)'],
-  ['income', '当日收益(元)'],
-]);
-
-export const yearBarLegendMap = new Map([
-  ['pvIncome', '月光伏收益(元)'],
-  ['esIncome', '月储能收益(元)'],
-  ['csIncome', '月充电桩收益(元)'],
-  ['income', '月收益(元)'],
-]);
-
-export const totalBarLegendMap = new Map([
-  ['pvIncome', '年光伏收益(元)'],
-  ['esIncome', '年储能收益(元)'],
-  ['csIncome', '年充电桩收益(元)'],
-  ['income', '年收益(元)'],
+  ['pvIncome', '光伏收益(元)'],
+  ['esIncome', '储能收益(元)'],
+  ['csIncome', '充电桩收益(元)'],
+  ['income', '总收益(元)'],
 ]);
 
 const barSizeMap = new Map([
@@ -49,12 +35,6 @@ export const getBarChartData = (
 ) => {
   const result: DataType[] = [];
   const legendMap = () => {
-    if (timeType === TimeType.YEAR) {
-      return yearBarLegendMap;
-    }
-    if (timeType === TimeType.TOTAL) {
-      return totalBarLegendMap;
-    }
     return barLegendMap;
   };
   if (timeType === TimeType.DAY) {
@@ -155,12 +135,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           },
         }}
       />
-      <View data={powerData} padding={0}>
+      {/* <View data={powerData} padding={0}>
         <Axis name="time" visible={false} />
         <Axis name="total" visible={false} />
         <Line position="time*total" color={['field', ['#FFD15C', '#00C9EC']]} />
         <Point position="time*total" color={['field', ['#FFD15C', '#00C9EC']]} />
-      </View>
+      </View> */}
       <Interval
         adjust={[
           {
@@ -168,9 +148,10 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           },
         ]}
         size={barSizeMap.get(timeType)}
-        color={['field', ['#18b1f7', '#01c1b2']]}
+        color={['field', ['#ffd15c', '#159aff', '#01cfa1', '#FF7B7B']]}
         position="time*value"
       />
+      <Line position="time*total" color={['field', ['#FF7B7B']]} />
       <Axis
         name="time"
         label={{

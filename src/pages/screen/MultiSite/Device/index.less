@@ -1,10 +1,16 @@
 .digit {
   :global {
     .digit-stat-wrap {
-      /* stylelint-disable-next-line */
-      background-image: url(~@/assets/image/multi-site/device-block.png);
+      .digit-stat-content {
+        padding: 7px;
+        background: linear-gradient(90deg, #003755 0%, rgba(0, 29, 45, 0) 100%);
+      }
+      img {
+        width: 64px;
+        margin-right: 0;
+      }
       .digit-stat-num {
-        font-size: 20px;
+        line-height: 28px;
       }
     }
   }
