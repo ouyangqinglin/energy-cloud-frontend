@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-07-25 08:56:35
+ * @LastEditTime: 2023-08-25 13:36:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -21,7 +21,7 @@ import {
 import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum, siteType } from '@/utils/dictionary';
 import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';
 import { getServicePage } from '@/services/service';
@@ -148,7 +148,16 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             />
           </Col>
           <Col span={8}>
-            <ProFormText label="站点ID" name="id" placeholder="请输入" disabled />
+            <ProFormText label="站点编码" name="id" placeholder="请输入" disabled />
+          </Col>
+          <Col span={8}>
+            <ProFormSelect
+              label="站点类型"
+              name="energyOptions"
+              placeholder="请选择"
+              valueEnum={siteType}
+              disabled
+            />
           </Col>
           <Col span={8}>
             <Form.Item label="安装商" name="orgs">

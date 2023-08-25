@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-03 09:54:35
- * @LastEditTime: 2023-08-03 10:40:21
+ * @LastEditTime: 2023-08-25 16:24:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\OverviewSetting\config.ts
  */
@@ -22,12 +22,13 @@ export const columns: ProFormColumnsType<ConfigDataType>[] = [
     dataIndex: 'status',
     valueType: 'radio',
     valueEnum: enableStatus,
+    initialValue: '0',
     formItemProps: {
       rules: [{ required: true, message: '请选择状态' }],
     },
   },
   {
-    title: '能流图',
+    title: '架构图',
     dataIndex: 'energyFlowDiagramIds',
     valueType: 'select',
     request: () => {

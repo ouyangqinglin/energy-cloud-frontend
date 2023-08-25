@@ -4,22 +4,29 @@ import type { DeviceInfo } from './type';
 
 export const columns: YTProColumns<DeviceInfo>[] = [
   {
-    title: '设备ID',
+    title: '设备名称',
+    dataIndex: 'name',
+    width: 120,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '设备编码',
     dataIndex: 'deviceId',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '所属站点',
-    dataIndex: 'siteName',
+    title: '设备序列号',
+    dataIndex: 'sn',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '设备名称',
-    dataIndex: 'name',
+    title: '所属站点',
+    dataIndex: 'siteName',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -39,7 +46,7 @@ export const columns: YTProColumns<DeviceInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '当日用电量(kWh)',
+    title: '日用电量(kWh)',
     dataIndex: 'dailyElectricityConsumption',
     width: 150,
     hideInSearch: true,
@@ -56,22 +63,29 @@ export const columns: YTProColumns<DeviceInfo>[] = [
 
 export const loadColumns: YTProColumns<DeviceInfo>[] = [
   {
-    title: '设备ID',
+    title: '设备名称',
+    dataIndex: 'name',
+    width: 120,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '设备编码',
     dataIndex: 'deviceId',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '所属站点',
-    dataIndex: 'siteName',
+    title: '设备序列号',
+    dataIndex: 'sn',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '设备名称',
-    dataIndex: 'name',
+    title: '所属站点',
+    dataIndex: 'siteName',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -91,7 +105,7 @@ export const loadColumns: YTProColumns<DeviceInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: '当日用电量(kWh)',
+    title: '日用电量(kWh)',
     dataIndex: 'dailyElectricityConsumption',
     width: 150,
     hideInSearch: true,

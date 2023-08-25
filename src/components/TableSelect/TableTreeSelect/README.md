@@ -4,7 +4,7 @@
 <TableTreeModal
     model={'screen'}
     selectType={selectedRow.area === 'elec' ? SelectTypeEnum.Device : SelectTypeEnum.Collect}
-    title={selectedRow.area === 'elec' ? '选择设备' : '选择设备采集点'}
+    title={selectedRow.area === 'elec' ? '选择设备' : '选择数据采集点'}
     open={openTableSelect}
     onCancel={setLeft}
     treeProps={{

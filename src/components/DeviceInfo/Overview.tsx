@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-08-14 11:57:34
+ * @LastEditTime: 2023-08-25 13:56:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -29,6 +29,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
 
   const equipInfoItems: DetailItem[] = [
+    { label: '所属站点', field: 'siteName' },
     {
       label: '通信',
       field: 'status',
@@ -62,7 +63,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
             </Button>
           )}
         </Detail.Label>
-        <Detail items={equipInfoItems} data={data} />
+        <Detail items={equipInfoItems} data={data} column={4} />
       </div>
       <Dialog title="产品介绍" open={openIntro} onCancel={setFalse} footer={null}>
         <img className="w-full" src={introImg} />

@@ -59,13 +59,13 @@ export const config = [
     field: 'electricSupply',
     statistics: [
       {
-        label: '当日购电量(kWh)',
+        label: '当日用电量(kWh)',
         labelUnit: '/kWh',
         field: 'charge',
         value: '14024.9',
       },
       {
-        label: '当日售电量(kWh)',
+        label: '当日馈电量(kWh)',
         labelUnit: '/kWh',
         field: 'discharge',
         value: '0',

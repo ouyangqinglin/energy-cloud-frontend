@@ -52,7 +52,7 @@ const Index: React.FC = () => {
   return (
     <>
       <div className="p24">
-        <SiteLabel onChange={onChange} />
+        <SiteLabel onChange={onChange}> 储能单元</SiteLabel>
         <Stat siteId={siteData?.id} className="mb24" />
         <EnergyInfo
           deviceData={energeList?.[0]}

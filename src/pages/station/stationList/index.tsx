@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-07-31 13:56:56
+ * @LastEditTime: 2023-08-25 11:48:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -16,7 +16,7 @@ import type { StationType } from './data.d';
 import { buildStatus } from '@/utils/dictionary';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum, siteType as siteTypeEnum } from '@/utils/dictionary';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
 
@@ -140,11 +140,20 @@ const StationList: React.FC = () => {
       },
     },
     {
-      title: '站点ID',
+      title: '站点编码',
       dataIndex: 'id',
       hideInSearch: true,
       width: 150,
       ellipsis: true,
+    },
+    {
+      title: '站点类型',
+      dataIndex: 'energyOptions',
+      valueType: 'select',
+      valueEnum: siteTypeEnum,
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '创建时间',
@@ -162,7 +171,7 @@ const StationList: React.FC = () => {
       width: 150,
     },
     {
-      title: '交付时间',
+      title: '上线时间',
       dataIndex: 'deliveryTime',
       valueType: 'dateTime',
       hideInSearch: true,
@@ -203,6 +212,15 @@ const StationList: React.FC = () => {
       hideInSearch: true,
     },
     {
+      title: '建设状态',
+      dataIndex: 'constructionStatus',
+      valueType: 'select',
+      valueEnum: buildStatus,
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
       title: '安装商',
       dataIndex: 'agent',
       hideInSearch: true,
@@ -211,15 +229,6 @@ const StationList: React.FC = () => {
       render: (_, record) => {
         return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
       },
-    },
-    {
-      title: '建设状态',
-      dataIndex: 'constructionStatus',
-      valueType: 'select',
-      valueEnum: buildStatus,
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
     },
     {
       title: '操作人',

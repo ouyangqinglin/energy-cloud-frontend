@@ -213,7 +213,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         dataIndex: 'status',
       },
       {
-        title: '功率因素考核',
+        title: '功率因数考核',
         fieldProps: {
           placeholder: '请输入',
         },

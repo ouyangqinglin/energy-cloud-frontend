@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-08-15 16:47:22
+ * @LastEditTime: 2023-08-25 16:02:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
-import React, { useRef, useContext, useEffect } from 'react';
-import ProTable from '@ant-design/pro-table';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import React, { useRef, useContext, useEffect, useMemo } from 'react';
+import YTProTable from '../YTProTable';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { format } from 'timeago.js';
 import { DatePicker, Empty as AntEmpty } from 'antd';
 import moment from 'moment';
@@ -35,64 +35,63 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
 
   const actionRef = useRef<ActionType>();
   const dialogContext = useContext(DialogContext);
-  const Component: any = DatePicker.RangePicker;
-  const dateFormat = 'YYYY-MM-DD';
   const searchParams = {
     ...(params || {}),
     deviceId: params?.id,
-    startTime: moment().subtract(1, 'day').format(dateFormat),
-    endTime: moment().format(dateFormat),
   };
 
-  const columns: ProColumns<LogType>[] = [
-    {
-      title: '日志ID',
-      dataIndex: 'id',
-      width: 100,
-      ellipsis: true,
-    },
-    {
-      title: '日志内容',
-      dataIndex: 'serviceName',
-      width: 100,
-      ellipsis: true,
-    },
-    {
-      title: '操作用户',
-      dataIndex: 'createByName',
-      width: 150,
-      ellipsis: true,
-    },
-    {
-      title: '发生时间',
-      dataIndex: 'createTime',
-      width: 200,
-      ellipsis: true,
-      render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
-    },
-  ];
-
-  const onQueryChange = (_: any, date: string[]) => {
-    searchParams.startTime = date[0];
-    searchParams.endTime = date[1];
-    actionRef.current?.reloadAndRest?.();
-  };
-
-  const toolBar = () => [
-    <Component
-      key="date"
-      format={dateFormat}
-      defaultValue={[moment().subtract(1, 'day'), moment()]}
-      onChange={onQueryChange}
-      getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
-      ranges={{
-        近24小时: [moment().subtract(1, 'day'), moment()],
-        最近7天: [moment().subtract(6, 'day'), moment()],
-        本月: [moment().startOf('month'), moment()],
-        最近3个月: [moment().subtract(3, 'month'), moment()],
-      }}
-    />,
-  ];
+  const columns = useMemo<ProColumns<LogType>[]>(() => {
+    return [
+      {
+        title: '时间',
+        dataIndex: 'createTime',
+        valueType: 'dateRange',
+        width: 200,
+        ellipsis: true,
+        render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
+        search: {
+          transform: (value) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+        initialValue: [moment(), moment()],
+        fieldProps: {
+          format: 'YYYY-MM-DD',
+          getPopupContainer: (triggerNode: any) => triggerNode.parentElement,
+          ranges: {
+            近24小时: [moment().subtract(1, 'day'), moment()],
+            最近7天: [moment().subtract(6, 'day'), moment()],
+            本月: [moment().startOf('month'), moment()],
+            最近3个月: [moment().subtract(3, 'month'), moment()],
+          },
+        },
+      },
+      {
+        title: '日志内容',
+        dataIndex: 'serviceName',
+        width: 100,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: '日志编码',
+        dataIndex: 'id',
+        width: 100,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: '操作用户',
+        dataIndex: 'createByName',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+    ];
+  }, []);
 
   useEffect(() => {
     actionRef?.current?.reloadAndRest?.();
@@ -100,31 +99,13 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
 
   return (
     <>
-      <ProTable
+      <YTProTable
         className="log-table"
         actionRef={actionRef}
         columns={columns}
-        search={false}
-        options={false}
-        rowKey="id"
-        toolBarRender={toolBar}
+        toolBarRender={() => [<></>]}
         params={searchParams}
-        request={
-          request && params?.id
-            ? (query) =>
-                request(query).then(({ data = {} }) => {
-                  return {
-                    data: data.list,
-                    total: data.total,
-                    success: true,
-                  };
-                })
-            : undefined
-        }
-        scroll={{ x: 1000 }}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        request={request && params?.id ? (query) => request(query) : undefined}
         locale={{
           emptyText: dialogContext.model == 'screen' ? <Empty /> : <AntEmpty />,
         }}

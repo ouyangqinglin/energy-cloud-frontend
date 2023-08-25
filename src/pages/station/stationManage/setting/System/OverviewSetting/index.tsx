@@ -7,6 +7,7 @@ import { columns } from './config';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { editData } from './service';
 import { ConfigDataType, getSiteScreenConfig as getData } from '@/services/station';
+import { isEmpty } from '@/utils';
 
 const OverviewSetting: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -17,11 +18,18 @@ const OverviewSetting: React.FC = () => {
     formRef?.current?.submit?.();
   }, []);
 
+  const afterRequest = useCallback((formData) => {
+    if (!isEmpty(formData?.status)) {
+      formData.status = formData.status + '';
+    }
+    setFalse();
+  }, []);
+
   return (
     <>
       <Card
         className="mt16 mx24"
-        title="大屏页"
+        title="大屏架构图"
         extra={
           <Button type="primary" loading={loading} onClick={onSaveClick}>
             保存
@@ -38,7 +46,7 @@ const OverviewSetting: React.FC = () => {
           idKey="siteId"
           editData={editData}
           getData={getData}
-          afterRequest={setFalse}
+          afterRequest={afterRequest}
           beforeSubmit={setTrue}
           onSuccess={setFalse}
           onError={setFalse}

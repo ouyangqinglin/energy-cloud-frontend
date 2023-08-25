@@ -11,29 +11,29 @@ import moment from 'moment';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '设备采集点ID',
+    title: '数据采集点',
+    dataIndex: 'paramName',
+    width: 200,
+    ellipsis: true,
+  },
+  {
+    title: '数据采集点标识',
     dataIndex: 'paramCode',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
-  {
-    title: '设备采集点',
-    dataIndex: 'paramName',
-    width: 200,
-    ellipsis: true,
-  },
 ];
 
 export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '设备采集点',
+    title: '数据采集点',
     dataIndex: 'collection',
     valueType: TABLETREESELECT,
     hideInTable: true,
     dependencies: ['siteId'],
     formItemProps: {
-      rules: [{ required: true, message: '请选择设备采集点' }],
+      rules: [{ required: true, message: '请选择数据采集点' }],
     },
     fieldProps: (form) => {
       const value = form?.getFieldValue?.('siteId');
@@ -43,7 +43,7 @@ export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[
         TableSearchType,
         any
       > = {
-        title: '选择设备采集点',
+        title: '选择数据采集点',
         treeProps: {
           fieldNames: {
             title: 'deviceName',
@@ -71,12 +71,12 @@ export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[
 export const getDeviceSearchColumns = (deviceId: string) => {
   const deviceSearchColumns: ProColumns<TableDataType, TABLESELECTVALUETYPE>[] = [
     {
-      title: '设备采集点',
+      title: '数据采集点',
       dataIndex: 'collection',
       valueType: TABLESELECT,
       hideInTable: true,
       formItemProps: {
-        rules: [{ required: true, message: '请选择设备采集点' }],
+        rules: [{ required: true, message: '请选择数据采集点' }],
       },
       fieldProps: (form) => {
         return {
@@ -99,7 +99,7 @@ export const getDeviceSearchColumns = (deviceId: string) => {
 
 export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '日期时间',
+    title: '时间',
     dataIndex: 'date',
     valueType: 'dateRange',
     render: (_, record) => record.time,

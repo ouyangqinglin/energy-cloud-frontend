@@ -34,6 +34,15 @@ export const columns: ProFormColumnsType[] = [
         },
         dataIndex: 'name',
       },
+    ],
+  },
+  {
+    title: <div className={styles.title}>基本电费</div>,
+    valueType: 'group',
+    colProps: {
+      span: 24,
+    },
+    columns: [
       {
         title: '生效状态',
         colProps: {
@@ -49,7 +58,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'status',
       },
       {
-        title: '功率因素考核',
+        title: '功率因数考核',
         fieldProps: {
           placeholder: '请输入',
         },

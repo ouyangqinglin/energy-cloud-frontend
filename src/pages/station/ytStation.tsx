@@ -139,17 +139,17 @@ const YtStation: React.FC = (props) => {
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '设备采集点ID',
+      title: '数据采集点',
+      dataIndex: 'paramName',
+      width: 200,
+      ellipsis: true,
+    },
+    {
+      title: '数据采集点标识',
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
-    },
-    {
-      title: '设备采集点',
-      dataIndex: 'paramName',
-      width: 200,
-      ellipsis: true,
     },
   ];
 

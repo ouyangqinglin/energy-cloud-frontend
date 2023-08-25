@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-07-24 09:41:56
+ * @LastEditTime: 2023-08-25 17:49:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
@@ -61,7 +61,42 @@ const OperationLog: React.FC = () => {
 
   const columns: ProColumns<OperationLogType>[] = [
     {
-      title: '日志ID',
+      title: '日志类型',
+      dataIndex: 'type',
+      valueType: 'select',
+      valueEnum: logType,
+      width: 120,
+      hideInTable: true,
+    },
+    {
+      title: '时间',
+      dataIndex: 'createTime',
+      width: 150,
+      ellipsis: true,
+      render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
+      hideInSearch: true,
+    },
+    {
+      title: '设备名称',
+      dataIndex: 'deviceName',
+      width: 150,
+      ellipsis: true,
+    },
+    {
+      title: '设备序列号',
+      dataIndex: 'sn',
+      width: 120,
+      ellipsis: true,
+    },
+    {
+      title: '日志内容',
+      dataIndex: 'content',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '日志编码',
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
@@ -73,36 +108,10 @@ const OperationLog: React.FC = () => {
       valueType: 'select',
       valueEnum: logType,
       width: 120,
-    },
-    {
-      title: '日志内容',
-      dataIndex: 'content',
-      width: 150,
-      ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '所属站点',
-      dataIndex: 'siteName',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '设备名称',
-      dataIndex: 'deviceName',
-      width: 150,
-      ellipsis: true,
-    },
-    {
-      title: '操作人',
-      dataIndex: 'createByName',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '发生时间',
+      title: '时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       width: 150,
@@ -115,6 +124,21 @@ const OperationLog: React.FC = () => {
           };
         },
       },
+      hideInTable: true,
+    },
+    {
+      title: '所属站点',
+      dataIndex: 'siteName',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '操作人',
+      dataIndex: 'createByName',
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
     },
   ];
 

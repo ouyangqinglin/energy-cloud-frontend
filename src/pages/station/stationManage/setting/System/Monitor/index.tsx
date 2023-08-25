@@ -24,7 +24,7 @@ const bingData = (data: MonitorDataType[], type: string, index: number) => {
       id: type + 'noData' + index,
       rowId: type + 'noData' + index,
       project: monitorTypeMap.get(type)?.data[index].name,
-      deviceName: index ? '关联设备采集点' : '关联设备',
+      deviceName: index ? '关联数据采集点' : '关联设备',
       area: monitorTypeMap.get(type)?.data[index].area || '',
       type: type,
       span: 1,
@@ -152,7 +152,7 @@ const Monitor: React.FC = () => {
         return {
           id: item[valueMap.valueId],
           rowId: selectedRow.type + item[valueMap.valueId],
-          collection: selectedRow.area === 'elec' ? '全部设备采集点' : item?.node?.paramName,
+          collection: selectedRow.area === 'elec' ? '全部数据采集点' : item?.node?.paramName,
           deviceName: item?.node?.deviceName,
           sn: item?.node?.deviceSN,
           area: selectedRow.area,
@@ -229,7 +229,7 @@ const Monitor: React.FC = () => {
                 return {
                   id: row.area == 'elec' ? record.deviceId : record?.selectName,
                   rowId: row.area == 'elec' ? record.deviceId : record?.selectName,
-                  collection: row.area == 'elec' ? '全部设备采集点' : record?.paramName,
+                  collection: row.area == 'elec' ? '全部数据采集点' : record?.paramName,
                   deviceName: record?.deviceName,
                   sn: record?.deviceSN,
                   area: row.area,
@@ -278,7 +278,7 @@ const Monitor: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: '设备采集点',
+      title: '数据采集点',
       dataIndex: 'collection',
       width: 150,
       ellipsis: true,
@@ -295,17 +295,17 @@ const Monitor: React.FC = () => {
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '设备采集点ID',
+      title: '数据采集点',
+      dataIndex: 'paramName',
+      width: 200,
+      ellipsis: true,
+    },
+    {
+      title: '数据采集点标识',
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
-    },
-    {
-      title: '设备采集点',
-      dataIndex: 'paramName',
-      width: 200,
-      ellipsis: true,
     },
   ];
 
@@ -364,7 +364,7 @@ const Monitor: React.FC = () => {
       </Collapse>
       <TableTreeModal
         selectType={selectedRow.area === 'elec' ? SelectTypeEnum.Device : SelectTypeEnum.Collect}
-        title={selectedRow.area === 'elec' ? '选择设备' : '选择设备采集点'}
+        title={selectedRow.area === 'elec' ? '选择设备' : '选择数据采集点'}
         open={openTableSelect}
         onCancel={setLeft}
         treeProps={{

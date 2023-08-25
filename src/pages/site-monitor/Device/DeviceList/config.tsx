@@ -11,20 +11,6 @@ import {
 export const getOtColumns = (onClick) => {
   return [
     {
-      title: '设备ID',
-      dataIndex: 'deviceId',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: '所属站点',
-      dataIndex: 'siteName',
-      hideInSearch: true,
-      width: 120,
-      ellipsis: true,
-    },
-    {
       title: '设备名称',
       dataIndex: 'deviceName',
       width: 120,
@@ -32,6 +18,26 @@ export const getOtColumns = (onClick) => {
       render: (_, record) => {
         return <a onClick={() => onClick?.(record)}>{record.deviceName}</a>;
       },
+    },
+    {
+      title: '设备编码',
+      dataIndex: 'deviceId',
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '设备序列号',
+      dataIndex: 'sn',
+      width: 150,
+      ellipsis: true,
+    },
+    {
+      title: '所属站点',
+      dataIndex: 'siteName',
+      hideInSearch: true,
+      width: 120,
+      ellipsis: true,
     },
     {
       title: '通信状态',
@@ -48,12 +54,6 @@ export const getOtColumns = (onClick) => {
       hideInSearch: true,
       valueEnum: alarmStatus,
       width: 120,
-    },
-    {
-      title: '设备SN',
-      dataIndex: 'sn',
-      width: 150,
-      ellipsis: true,
     },
   ];
 };

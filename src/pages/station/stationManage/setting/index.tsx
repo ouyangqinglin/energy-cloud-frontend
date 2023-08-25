@@ -28,7 +28,7 @@ const Setting = () => {
     },
     {
       key: '4',
-      label: `参数设置`,
+      label: `系统参数设置`,
       children: <ParamsSetting />,
     },
     {

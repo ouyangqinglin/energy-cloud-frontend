@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-15 16:43:17
+ * @LastEditTime: 2023-08-25 15:32:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -73,10 +73,21 @@ export const alarmLevelMap = new Map([
   ['info', getLevelByType('info')],
 ]);
 
+const alarmStatusOptions: OptionType[] = [
+  {
+    label: '产生',
+    value: 0,
+  },
+  {
+    label: '消除',
+    value: 1,
+  },
+];
+
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
 
-  const [alarmLevel, setaAlarmLevel] = useState<string[]>([]);
+  const [headParams, setHeadParams] = useState<Record<string, string[]>>({});
   const formRef = useRef<ProFormInstance>();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -89,41 +100,28 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     manual: true,
   });
 
+  const cleanUpOptions = useMemo<OptionType[]>(() => {
+    const result: OptionType[] = [];
+    for (const key in cleanUpType) {
+      result.push({
+        label: cleanUpType[key],
+        value: key,
+      });
+    }
+    return result;
+  }, []);
+
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
   }, []);
 
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
-    });
-  }, []);
-
-  const [productTypeColumn] = useSearchSelect<AlarmType>({
-    proColumns: {
-      title: '产品类型',
-      dataIndex: 'productTypeName',
-      width: 150,
-      ellipsis: true,
-      formItemProps: {
-        name: 'productTypeId',
-      },
-    },
-    request: requestProductType,
-  });
-
   const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = useCallback(
     (paramsData) => {
-      const requestParams = { ...paramsData, ...(params || {}), status: type, levels: alarmLevel };
+      const requestParams = { ...paramsData, ...(params || {}), status: type, ...headParams };
       runGetAlarmNum(requestParams);
       return getList(requestParams);
     },
-    [params, type, alarmLevel],
+    [params, type, headParams],
   );
 
   const requestCleanUpAlarm = useCallback((paramsData) => {
@@ -178,8 +176,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     [],
   );
 
-  const onCheckChange = useCallback((value) => {
-    setaAlarmLevel(value);
+  const onHeadChange = useCallback((value, field) => {
+    setHeadParams((prevData) => {
+      return { ...prevData, [field]: value };
+    });
     actionRef?.current?.reload?.();
   }, []);
 
@@ -216,14 +216,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'index',
         width: 50,
       },
-      {
-        title: '告警级别',
-        dataIndex: 'level',
-        valueType: 'select',
-        valueEnum: alarmLevelMap,
-        width: 120,
-        hideInSearch: true,
-      },
       ...(isStationChild
         ? []
         : [
@@ -246,9 +238,23 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               width: 150,
               ellipsis: true,
               initialValue: formParam?.siteId && formParam?.siteId * 1,
+              hideInTable: true,
             } as ProColumns<AlarmType>,
           ]),
-      productTypeColumn,
+      {
+        title: '时间',
+        dataIndex: 'alarmTime',
+        width: 150,
+        hideInSearch: true,
+      },
+      {
+        title: '告警级别',
+        dataIndex: 'level',
+        valueType: 'select',
+        valueEnum: alarmLevelMap,
+        width: 120,
+        hideInSearch: true,
+      },
       {
         title: '设备名称',
         dataIndex: 'deviceName',
@@ -257,13 +263,30 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         initialValue: formParam?.deviceName,
       },
       {
-        title: '告警ID',
-        dataIndex: 'id',
-        width: 120,
+        title: '设备序列号',
+        dataIndex: 'sn',
+        width: 150,
         ellipsis: true,
+        initialValue: formParam?.deviceName,
       },
       {
-        title: '告警内容',
+        title: '站点名称',
+        dataIndex: 'siteName',
+        width: 120,
+        ellipsis: true,
+        hideInSearch: true,
+        hideInTable: isStationChild,
+      },
+      {
+        title: '状态',
+        dataIndex: 'a',
+        width: 120,
+        ellipsis: true,
+        hideInSearch: true,
+        hideInTable: type == PageTypeEnum.History,
+      },
+      {
+        title: '告警信息',
         dataIndex: 'content',
         width: 150,
         ellipsis: true,
@@ -271,6 +294,28 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         render: (_, record) => {
           return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
         },
+      },
+      {
+        title: '告警编码',
+        dataIndex: 'id',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title: '时间',
+        dataIndex: 'alarmTime',
+        valueType: 'dateRange',
+        width: 150,
+        render: (_, record) => record.alarmTime,
+        search: {
+          transform: (value) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+        hideInTable: true,
       },
       {
         title: '清除类型',
@@ -289,19 +334,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: '发生时间',
-        dataIndex: 'alarmTime',
-        valueType: 'dateRange',
-        width: 150,
-        render: (_, record) => record.alarmTime,
-        search: {
-          transform: (value) => {
-            return {
-              startTime: value[0],
-              endTime: value[1],
-            };
-          },
-        },
+        title: '清除人',
+        dataIndex: 'recoveryPeople',
+        width: 120,
+        ellipsis: true,
+        hideInSearch: true,
+        hideInTable: type == PageTypeEnum.Current,
       },
       {
         title: '操作',
@@ -316,7 +354,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     ];
   }, [
     formParam,
-    productTypeColumn,
     requestStation,
     isStationChild,
     stationOptions,
@@ -332,21 +369,54 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       nums.push(getLevelByType(key, alarmNumData?.[key + 'Num'] || 0));
     });
     return (
-      <Checkbox.Group onChange={onCheckChange} defaultValue={Array.from(levelMap.keys())}>
-        <Space size="large">{nums}</Space>
-      </Checkbox.Group>
+      <>
+        <span>告警级别：</span>
+        <Checkbox.Group
+          className="mr24"
+          onChange={(value) => onHeadChange(value, 'levels')}
+          defaultValue={Array.from(levelMap.keys())}
+        >
+          <Space>{nums}</Space>
+        </Checkbox.Group>
+        {type == PageTypeEnum.Current ? (
+          <>
+            <span>告警状态：</span>
+            <Checkbox.Group
+              options={alarmStatusOptions}
+              defaultValue={alarmStatusOptions.map((item) => item.value)}
+              onChange={(value) => onHeadChange(value, 'alarmStatus')}
+            />
+          </>
+        ) : (
+          <>
+            <span>清除类型：</span>
+            <Checkbox.Group
+              options={cleanUpOptions}
+              defaultValue={cleanUpOptions.map((item) => item.value)}
+              onChange={(value) => onHeadChange(value, 'recoverType')}
+            />
+          </>
+        )}
+      </>
     );
-  }, [alarmNumData]);
+  }, [alarmNumData, type]);
 
   return (
     <>
       <YTProTable<AlarmType, AlarmType>
+        className={styles.table}
         headerTitle={headerTitle}
         actionRef={actionRef}
         formRef={formRef}
         columns={columns}
         request={requestList}
         toolBarRender={() => [<></>]}
+        search={{
+          labelWidth: 84,
+        }}
+        form={{
+          labelAlign: 'left',
+        }}
       />
       <DetailDialog
         width="700px"

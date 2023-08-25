@@ -6,7 +6,7 @@ import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
 import { setComplete } from './service';
-import { buildStatus, FormTypeEnum } from '@/utils/dictionary';
+import { buildStatus, FormTypeEnum, siteType } from '@/utils/dictionary';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
@@ -68,7 +68,8 @@ const StationInfo: React.FC = () => {
 
   const baseDetailItems: DetailItem[] = [
     { label: '站点名称', field: 'name' },
-    { label: '站点ID', field: 'id' },
+    { label: '站点编码', field: 'id' },
+    { label: '站点类型', field: 'energyOptions', format: (value) => siteType[value]?.text },
     { label: '安装商', field: 'agentName' },
     { label: '电压等级', field: 'voltageClass', format: kVoltageFormat },
     { label: '变压器容量', field: 'transformerCapacity', format: kVAFormat },
@@ -83,7 +84,7 @@ const StationInfo: React.FC = () => {
       field: 'energyStoragePower',
       format: powerFormat,
     },
-    { label: '充电桩额定功率', field: 'chargingStationCapacity', format: powerFormat },
+    { label: '充电桩额定功率', field: 'chargingStationCapacity', format: powerFormat, span: 3 },
     {
       label: '站点地址',
       field: 'address',

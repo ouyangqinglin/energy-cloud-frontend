@@ -18,6 +18,8 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
   {
     title: '生效日期',
     dataIndex: 'effectiveTimeList',
+    valueType: 'dateRange',
+    ellipsis: true,
     render: (_, record) => {
       return record?.effectiveTimeList
         ?.map?.((item) => {
@@ -27,14 +29,6 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
         })
         .join('，');
     },
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
-    title: '最后更新时间',
-    dataIndex: 'lastOperationTime',
-    valueType: 'dateRange',
-    render: (_, record) => <span>{record.lastOperationTime}</span>,
     search: {
       transform: (value) => {
         return {
@@ -43,6 +37,11 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
         };
       },
     },
+  },
+  {
+    title: '最后更新时间',
+    dataIndex: 'lastOperationTime',
+    hideInSearch: true,
   },
   {
     title: '操作人',

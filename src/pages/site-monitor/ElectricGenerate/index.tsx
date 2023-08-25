@@ -60,7 +60,10 @@ const Energy = () => {
 
   return (
     <>
-      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+      <SiteLabel className="px24 pt24 mb0" onChange={onChange}>
+        {' '}
+        发电单元
+      </SiteLabel>
       <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
         actionRef={actionRef}
         columns={columns}

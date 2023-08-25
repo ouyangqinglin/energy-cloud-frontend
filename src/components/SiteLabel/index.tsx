@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-21 16:52:47
- * @LastEditTime: 2023-07-21 17:59:02
+ * @LastEditTime: 2023-08-25 17:18:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteLabel\index.tsx
  */
@@ -17,7 +17,7 @@ export type SiteLabelProps = {
 };
 
 const SiteLabel: React.FC<SiteLabelProps> = (props) => {
-  const { onChange, className } = props;
+  const { onChange, className, children } = props;
 
   const { state: siteData } = useModel('site');
 
@@ -29,7 +29,10 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
 
   return (
     <>
-      <div className={`${styles.label} ${className}`}>{siteData?.name || '--'}</div>
+      <div className={`${styles.label} ${className}`}>
+        {siteData?.name || '--'}
+        {children}
+      </div>
     </>
   );
 };

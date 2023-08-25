@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-08-02 19:23:58
+ * @LastEditTime: 2023-08-25 11:34:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -16,8 +16,8 @@ import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
 
 enum colorEnum {
-  Charge = 'rgba(255, 151, 74, 1)',
-  DisCharge = 'rgba(0, 125, 255, 1)',
+  Charge = 'rgba(0, 125, 255, 1)',
+  DisCharge = 'rgba(255, 151, 74, 1)',
 }
 
 const Power: React.FC<ComProps> = (props) => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-08-22 16:40:44
+ * @LastEditTime: 2023-08-25 15:09:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -335,7 +335,7 @@ export const timeDimension = new Map([
 ]);
 
 export const cleanUpType = {
-  0: '正常清除',
+  0: '自动恢复',
   1: '手动清除',
 };
 

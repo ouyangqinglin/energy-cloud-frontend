@@ -4,22 +4,28 @@ import type { ElectricGenerateInfo } from './type';
 
 export const columns: YTProColumns<ElectricGenerateInfo>[] = [
   {
-    title: '设备ID',
+    title: '设备名称',
+    dataIndex: 'deviceName',
+    width: 120,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '设备编码',
     dataIndex: 'deviceId',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '所属站点',
-    dataIndex: 'siteName',
-    width: 120,
-    ellipsis: true,
+    title: '设备序列号',
+    dataIndex: 'sn',
     hideInSearch: true,
+    width: 150,
   },
   {
-    title: '设备名称',
-    dataIndex: 'deviceName',
+    title: '所属站点',
+    dataIndex: 'siteName',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -37,12 +43,6 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
     width: 120,
     ellipsis: true,
     hideInSearch: true,
-  },
-  {
-    title: '设备SN',
-    dataIndex: 'sn',
-    hideInSearch: true,
-    width: 150,
   },
   {
     title: '组串1',

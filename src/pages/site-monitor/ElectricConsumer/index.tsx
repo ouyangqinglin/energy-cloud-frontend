@@ -84,7 +84,10 @@ const Energy = () => {
 
   return (
     <>
-      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+      <SiteLabel className="px24 pt24 mb0" onChange={onChange}>
+        {' '}
+        用电单元
+      </SiteLabel>
       <YTProTable<DeviceInfo, DeviceInfo>
         actionRef={actionRef}
         columns={config.columns}
