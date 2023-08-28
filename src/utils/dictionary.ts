@@ -32,6 +32,7 @@ export enum DeviceTypeEnum {
   ElectricMeter = 17,
   PvInverter11 = 11,
   PvInverter4 = 28,
+  PvInverter36 = 36,
   YtCharge160 = 13,
   Energy = 16,
   PvInverterCabinet = 18,
@@ -215,6 +216,15 @@ export const alarmStatus = {
   1: {
     text: '异常',
     status: 'Error',
+  },
+};
+
+export const alarmClearStatus = {
+  0: {
+    text: '产生',
+  },
+  1: {
+    text: '消除',
   },
 };
 

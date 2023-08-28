@@ -33,10 +33,13 @@ export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          effectiveTime: value[0],
+          expirationTime: value[1],
         };
       },
+    },
+    fieldProps: {
+      format: 'MM-DD',
     },
   },
   {

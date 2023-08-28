@@ -20,7 +20,7 @@ export const config = [
       {
         label: '自发自用电量(kWh)',
         labelUnit: '/kWh',
-        field: 'selefCharge',
+        field: 'selfElec',
         value: '0',
       },
       {
