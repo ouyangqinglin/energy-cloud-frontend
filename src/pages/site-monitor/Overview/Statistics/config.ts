@@ -18,6 +18,12 @@ export const config = [
         value: '1366.8',
       },
       {
+        label: '自发自用电量(kWh)',
+        labelUnit: '/kWh',
+        field: 'selefCharge',
+        value: '0',
+      },
+      {
         label: '发电功率(kW)',
         labelUnit: '/kW',
         field: 'power',
@@ -59,13 +65,13 @@ export const config = [
     field: 'electricSupply',
     statistics: [
       {
-        label: '当日用电量(kWh)',
+        label: '当日供电量(kWh)',
         labelUnit: '/kWh',
         field: 'charge',
         value: '14024.9',
       },
       {
-        label: '当日馈电量(kWh)',
+        label: '当日馈网电量(kWh)',
         labelUnit: '/kWh',
         field: 'discharge',
         value: '0',

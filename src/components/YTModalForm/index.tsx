@@ -6,7 +6,7 @@ import ModalFormChild from './ModalFormChild';
 import type { ModalFormProps } from '@ant-design/pro-form';
 
 export const DEFAULT_PROPS = {
-  title: '新增',
+  title: '新建',
   width: 950,
   rowProps: {
     gutter: [24, 0],

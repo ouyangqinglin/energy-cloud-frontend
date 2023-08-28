@@ -17,8 +17,15 @@ export const orderType = new Map([
 
 export const columns: ProColumns<InstallListType>[] = [
   {
-    title: '工单ID',
+    title: '工单编码',
     dataIndex: 'id',
+    width: 150,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '安装标题',
+    dataIndex: 'name',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
@@ -32,24 +39,33 @@ export const columns: ProColumns<InstallListType>[] = [
     hideInSearch: true,
   },
   {
-    title: '工单状态',
-    dataIndex: 'status',
-    valueType: 'select',
-    valueEnum: orderStatus,
-    width: 100,
-  },
-  {
-    title: '客户',
+    title: '客户名称',
     dataIndex: 'userName',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
   },
   {
-    title: ' 维护人员',
+    title: '工单状态',
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: orderStatus,
+    width: 100,
+    hideInTable: true,
+  },
+  {
+    title: '安装人员',
     dataIndex: 'handlerName',
     width: 120,
     ellipsis: true,
+  },
+  {
+    title: '工单状态',
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: orderStatus,
+    width: 100,
+    hideInSearch: true,
   },
   {
     title: '预约时间',
@@ -59,14 +75,14 @@ export const columns: ProColumns<InstallListType>[] = [
     width: 150,
   },
   {
-    title: '工单接收时间',
+    title: '接收时间',
     dataIndex: 'processTime',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '工单完成时间',
+    title: '完成时间',
     dataIndex: 'closeTime',
     hideInSearch: true,
     valueType: 'dateTime',
@@ -75,12 +91,12 @@ export const columns: ProColumns<InstallListType>[] = [
   {
     title: '安装商',
     dataIndex: 'service',
-    // hideInSearch: true,
+    hideInSearch: true,
     width: 100,
     ellipsis: true,
   },
   {
-    title: '工单创建时间',
+    title: '创建时间',
     dataIndex: 'createTime',
     valueType: 'dateTime',
     width: 150,

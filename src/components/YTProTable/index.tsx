@@ -88,6 +88,7 @@ const YTProTable = <
             : {
                 labelWidth: 'auto',
                 searchText: '搜索',
+                showHiddenNum: true,
                 ...(restProps?.search || {}),
               }
         }

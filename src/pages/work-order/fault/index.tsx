@@ -65,6 +65,12 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         actionRef={actionRef}
         request={requestList}
         rowKey="id"
+        search={{
+          labelWidth: 70,
+        }}
+        form={{
+          labelAlign: 'left',
+        }}
         {...customConfig}
         {...props}
       />

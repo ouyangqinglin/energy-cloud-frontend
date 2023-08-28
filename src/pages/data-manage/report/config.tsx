@@ -46,7 +46,7 @@ export const searchColumns: ProColumns[] = [
     },
   },
   {
-    title: '选中设备',
+    title: '所选设备',
     dataIndex: 'deviceId',
     valueType: 'select',
     dependencies: ['reportType', 'siteId'],
@@ -80,7 +80,7 @@ export const searchColumns: ProColumns[] = [
     hideInTable: true,
   },
   {
-    title: '时间维度',
+    title: '统计维度',
     dataIndex: 'timeDimension',
     valueType: 'select',
     valueEnum: timeDimension,

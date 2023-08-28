@@ -9,6 +9,13 @@ export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
     width: 48,
   },
   {
+    title: '软件包名称',
+    dataIndex: 'softwarePackage',
+    width: 150,
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
     title: '版本号',
     dataIndex: 'version',
     width: 120,
@@ -21,11 +28,10 @@ export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
     ellipsis: true,
   },
   {
-    title: '软件包',
-    dataIndex: 'softwarePackage',
-    width: 150,
+    title: '产品类型',
+    dataIndex: 'deviceModel',
+    width: 120,
     ellipsis: true,
-    hideInSearch: true,
   },
   {
     title: '描述',
@@ -33,19 +39,5 @@ export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
     width: 150,
     ellipsis: true,
     hideInSearch: true,
-  },
-  {
-    title: '上传时间',
-    dataIndex: 'uploadTime',
-    valueType: 'dateTime',
-    hideInSearch: true,
-    width: 150,
-  },
-  {
-    title: '上传人',
-    dataIndex: 'uploader',
-    hideInSearch: true,
-    width: 100,
-    ellipsis: true,
   },
 ];
