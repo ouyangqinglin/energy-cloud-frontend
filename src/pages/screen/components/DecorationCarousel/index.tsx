@@ -18,6 +18,7 @@ import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { CarouselRef } from 'antd/lib/carousel';
 import { noop } from 'lodash';
 import ButtonGroupSiteType, { SiteType } from '../ButtonGroupSiteType';
+import { useInterval } from 'ahooks';
 
 export type DecorationValueType =
   | 'pagination'
@@ -56,9 +57,16 @@ const DecorationCarousel: FC<DecorationProp> = memo(
       onSiteTypeButtonChange?.(value);
       carouselSiteTypeRef?.current?.goTo(value);
     };
-    const changePagination = (currentSlider: number) => {
-      setCurrentPage(currentSlider + 1);
-    };
+
+    useInterval(() => {
+      let index = currentPage + 1;
+      if (index > 2) {
+        index = 1;
+      }
+      carouselRef?.current?.goTo(index - 1);
+      setCurrentPage(index);
+    }, 5 * 1000);
+
     const getValueType = useMemo(() => {
       if (valueType === 'pagination') {
         return {
@@ -74,13 +82,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
             />
           ),
           Panel: (
-            <Carousel
-              // autoplay={true}
-              // beforeChange={changePagination}
-              className={styles.carousel}
-              dots={false}
-              ref={carouselRef}
-            >
+            <Carousel className={styles.carousel} dots={false} ref={carouselRef}>
               {children}
             </Carousel>
           ),
