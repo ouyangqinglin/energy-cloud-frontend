@@ -36,4 +36,6 @@ export interface PVRevenueRes {
   chargingPileProportion: string;
   photovoltaicProportion: string;
   essProportion: string;
+  selfUseRate: string;
+  selfSufficiencyRate: string;
 }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 14:38:48
- * @LastEditTime: 2023-08-22 15:46:14
+ * @LastEditTime: 2023-08-29 14:10:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\IncomeStat\config.ts
  */
@@ -19,57 +19,88 @@ export const items: DigitStatItemType[] = [
     icon: IconMonth,
     title: '当月收益',
     unit: '元',
-    field: 'a',
+    field: 'monthEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+    isformatNum: true,
   },
   {
     icon: IconYear,
-    title: '当月收益',
+    title: '当年收益',
     unit: '元',
-    field: 'b',
+    field: 'yearEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+    isformatNum: true,
   },
   {
     icon: IconTotal,
     title: '累计收益',
     unit: '元',
-    field: 'c',
+    field: 'cumulativeEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+    isformatNum: true,
   },
   {
     icon: IconCoal,
     title: '节约标准煤',
     unit: '吨',
-    field: 'd',
+    field: 'coal',
     valueStyle: {
       background:
         'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+    isformatNum: true,
   },
   {
     icon: IconCo2,
     title: 'CO₂减排量',
     unit: '吨',
-    field: 'e',
+    field: 'conserveEnergyReduceEmissions',
     valueStyle: {
       background:
         'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+    isformatNum: true,
   },
   {
     icon: IconTree,
     title: '等效植树量',
     unit: '棵',
-    field: 'f',
+    field: 'cumulativeTree',
     valueStyle: {
       background:
         'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
+    isformatNum: true,
   },
 ];

@@ -130,7 +130,7 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
 
 const tableSelectColumns: ProColumns[] = [
   {
-    title: '站点ID',
+    title: '站点编码',
     dataIndex: 'id',
     width: 150,
     ellipsis: true,

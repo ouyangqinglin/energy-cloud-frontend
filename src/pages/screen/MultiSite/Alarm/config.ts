@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-23 15:56:10
- * @LastEditTime: 2023-08-23 15:56:14
+ * @LastEditTime: 2023-08-29 10:48:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Alarm\config.ts
  */
@@ -14,7 +14,7 @@ export const items: DigitStatItemType[] = [
     icon: IconAlarm,
     title: '告警',
     unit: '条',
-    field: 'a',
+    field: 'total',
     valueStyle: {
       color: '#FF5656',
     },
@@ -23,7 +23,7 @@ export const items: DigitStatItemType[] = [
     icon: IconAlarm,
     title: '超24h未处理报警',
     unit: '条',
-    field: 'b',
+    field: 'timeOut',
     valueStyle: {
       color: '#FFD15C',
     },

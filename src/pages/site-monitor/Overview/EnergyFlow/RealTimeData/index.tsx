@@ -49,12 +49,12 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
     {
       label: '自发自用率',
       unit: '',
-      value: data?.a ?? '--',
+      value: data?.selfUseRate ?? '--',
     },
     {
       label: '负载用电自给率',
       unit: '',
-      value: data?.b ?? '--',
+      value: data?.selfSufficiencyRate ?? '--',
     },
   ];
 

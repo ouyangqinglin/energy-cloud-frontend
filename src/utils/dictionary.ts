@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-08-25 15:09:44
+ * @LastEditTime: 2023-08-30 09:47:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -176,11 +176,15 @@ export const onlineStatus = {
 };
 
 export const chargingAndDischargingStatus = {
+  0: {
+    text: '静置',
+    status: 'Default',
+  },
   1: {
     text: '放电',
     status: 'Processing',
   },
-  0: {
+  2: {
     text: '充电',
     status: 'Error',
   },

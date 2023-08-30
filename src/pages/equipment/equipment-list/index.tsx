@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-08-25 13:50:47
+ * @LastEditTime: 2023-08-29 14:05:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -130,6 +130,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       ...(isStationChild ? [] : [siteColumn]),
+      productTypeColumn,
       {
         title: '设备名称',
         dataIndex: 'name',
@@ -156,7 +157,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
         ellipsis: true,
       },
-      productTypeColumn,
       {
         title: '产品类型',
         dataIndex: 'productTypeName',

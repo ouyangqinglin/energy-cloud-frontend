@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-21 15:07:56
- * @LastEditTime: 2023-08-23 14:58:48
+ * @LastEditTime: 2023-08-29 10:08:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\index.tsx
  */
@@ -11,7 +11,6 @@ import React from 'react';
 import Layout, { ScaleMode } from '../components/Layout';
 import ScreenTime from './Time';
 import Title from './Title';
-import ScreenWeather from './Weather';
 import bg from '@/assets/image/multi-site/bg.png';
 import FullScreen from '../components/FullScreen';
 import SiteRange from './SiteRange';
@@ -36,7 +35,6 @@ const MultiSite: React.FC = () => {
       >
         <Title />
         <ScreenTime />
-        <ScreenWeather />
         <FullScreen />
         <SiteRange />
         <SystemRun />

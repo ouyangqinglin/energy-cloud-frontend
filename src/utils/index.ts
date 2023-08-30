@@ -219,3 +219,23 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
   }
   return result;
 };
+
+export const formatNum = (num: number, separator = '--', floatLength = 2) => {
+  if (isEmpty(num)) {
+    return { value: separator, unit: '' };
+  } else {
+    let unit = '',
+      value = num;
+    if (-100000000 > num || num > 100000000) {
+      unit = '千万';
+      value = num / 100000000;
+    } else if (-10000 > num || num > 10000) {
+      unit = '万';
+      value = num / 10000;
+    }
+    return {
+      value: value?.toFixed?.(floatLength) || value,
+      unit,
+    };
+  }
+};

@@ -2,17 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-07-11 15:32:46
+ * @LastEditTime: 2023-08-29 10:01:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
-import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
-import { Modal, Tag, Tree, Row, Col, Empty as AntEmpty } from 'antd';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { TreeDataNode, TreeProps } from 'antd';
+import type { TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
-import { useRequest } from 'umi';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import ProTable from '@ant-design/pro-table';
 import type { ProTableProps, ActionType } from '@ant-design/pro-table';
@@ -21,6 +20,7 @@ import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
+import { useBoolean } from 'ahooks';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -114,6 +114,7 @@ const TableTreeModal = <
   const [treeData, setTreeData] = useState<any[]>();
   const [tableParams, setTableParams] = useState<any>({});
   const [tableIdSet, setTableIdSet] = useState<Set<string>>();
+  const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
 
   const treeSelectAndCheckData = useMemo(() => {
     if (selectType === SelectTypeEnum.Device) {
@@ -237,10 +238,18 @@ const TableTreeModal = <
       if (selectType === SelectTypeEnum.Device && value && value.length) {
         setTableParams({ deviceId: value[0][valueId] });
       }
-      props?.treeProps?.request?.()?.then?.(({ data }) => {
-        runDealTreeData(data, dealTreeData);
-        setTreeData(data);
-      });
+      if (props?.treeProps?.request) {
+        setTrue();
+        props?.treeProps
+          ?.request?.()
+          ?.then?.(({ data }) => {
+            runDealTreeData(data, dealTreeData);
+            setTreeData(data);
+          })
+          .finally(() => {
+            setFalse();
+          });
+      }
     }
   }, [open, value, props?.treeProps?.request, selectType, valueId]);
 
@@ -309,18 +318,24 @@ const TableTreeModal = <
         </div>
         <Row gutter={20}>
           <Col className={styles.treeCol} flex="250px">
-            <Tree
-              className={styles.tree}
-              treeData={treeData}
-              onSelect={onTreeSelect}
-              onCheck={onTreeCheck}
-              blockNode
-              checkable={selectType === SelectTypeEnum.Device && multiple}
-              {...treeSelectAndCheckData}
-              checkStrictly
-              defaultExpandAll={true}
-              {...props?.treeProps}
-            />
+            {loadingTreeData ? (
+              <div className="flex h-full">
+                <Spin className="flex1" />
+              </div>
+            ) : (
+              <Tree
+                className={styles.tree}
+                treeData={treeData}
+                onSelect={onTreeSelect}
+                onCheck={onTreeCheck}
+                blockNode
+                checkable={selectType === SelectTypeEnum.Device && multiple}
+                {...treeSelectAndCheckData}
+                checkStrictly
+                defaultExpandAll={true}
+                {...props?.treeProps}
+              />
+            )}
           </Col>
           <Col className={styles.treeCol} flex="1">
             <ProTable<DataType, Params>
