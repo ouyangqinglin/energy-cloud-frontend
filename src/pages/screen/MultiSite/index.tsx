@@ -22,6 +22,7 @@ import Task from './Task';
 import SaveEnergy from './SaveEnergy';
 import IncomeStat from './IncomeStat';
 import InstallCapacity from './InstallCapacity';
+import ChinaMap from './ChinaMap';
 
 const MultiSite: React.FC = () => {
   return (
@@ -38,6 +39,7 @@ const MultiSite: React.FC = () => {
         <ScreenTime />
         <ScreenWeather />
         <FullScreen />
+        {/* 站点排名 */}
         <SiteRange />
         <SystemRun />
         <Alarm />
@@ -45,6 +47,7 @@ const MultiSite: React.FC = () => {
         <Device />
         <SaveEnergy />
         <IncomeStat />
+        <ChinaMap />
         <InstallCapacity />
       </Layout>
     </>
