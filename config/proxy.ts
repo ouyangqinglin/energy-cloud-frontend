@@ -10,7 +10,8 @@ export default {
   dev: {
     '/api/': {
       target: 'https://192.168.3.18',
-      // target: 'http://ytoss.yotaienergy.com',
+      // target: 'https://ytoss.yotaienergy.com',
+      // target: 'https://120.78.129.213',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/api': '/prod-api' },

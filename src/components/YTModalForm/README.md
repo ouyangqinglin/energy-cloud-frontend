@@ -44,7 +44,7 @@ const columns = [
 ]
 <YTModalForm<CustomerInfo>
   layoutType={'ModalForm'}
-  title={'新增账号'}
+  title={'新建账号'}
   columns={列}
   onFinish={async (values) => {
     await saveCustomerInfo(values);

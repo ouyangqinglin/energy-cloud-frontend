@@ -16,7 +16,7 @@ export const items: DigitStatItemType[] = [
     icon: IconMark,
     title: '可再生能源消纳指数',
     unit: '%',
-    field: 'a',
+    field: 'storageRatio',
     valueStyle: {
       color: '#fff',
     },
@@ -25,7 +25,7 @@ export const items: DigitStatItemType[] = [
     icon: IconCard,
     title: '绿证数量',
     unit: '张',
-    field: 'b',
+    field: 'greenCertificate',
     valueStyle: {
       color: 'rgba(182, 255, 167, 1)',
     },
@@ -34,7 +34,7 @@ export const items: DigitStatItemType[] = [
     icon: IconCCER,
     title: 'CCER持有量',
     unit: '吨',
-    field: 'c',
+    field: 'ccerhold',
     valueStyle: {
       color: '#FFf',
     },

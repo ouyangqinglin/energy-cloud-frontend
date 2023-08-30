@@ -334,6 +334,7 @@ export const useFormat = (value: number) => {
     2: '占用（未充电）',
     3: '占用（充电中）',
     4: '占用（预约锁定）',
+    5: '充电完成',
     255: '故障',
   };
   return <span className={'cl-success'}>{map[value]}</span>;

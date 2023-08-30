@@ -56,14 +56,6 @@ const Install = () => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-  const [siteSearchColumn] = useSiteColumn({
-    hideInTable: true,
-    formItemProps: {
-      rules: [{ required: true }],
-      name: 'siteId',
-    },
-  });
-
   const requestList: YTProTableCustomProps<ObstacleReportInfo, ObstacleReportInfo>['request'] = (
     params,
   ) => {
@@ -73,7 +65,7 @@ const Install = () => {
   return (
     <>
       <YTProTable<InstallListType, InstallListType>
-        columns={[siteSearchColumn, ...columns]}
+        columns={columns}
         // toolBarRender={() => []}
         actionRef={actionRef}
         request={requestList}

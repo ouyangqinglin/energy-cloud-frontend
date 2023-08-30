@@ -8,6 +8,7 @@ import { useRequest } from 'umi';
 import TimeButtonGroup, { TimeType } from '../../components/TimeButtonGroup';
 import { getPVRevenue } from '../service';
 import styles from './index.less';
+import Detail from '@/components/Detail';
 
 const RealTimeData = ({ siteId }: { siteId?: number }) => {
   const { data, run } = useRequest(getPVRevenue, {
@@ -45,6 +46,16 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
       unit: '(元)',
       value: data?.chargingPileGains ?? '--',
     },
+    {
+      label: '自发自用率',
+      unit: '',
+      value: data?.selfUseRate ?? '--',
+    },
+    {
+      label: '负载用电自给率',
+      unit: '',
+      value: data?.selfSufficiencyRate ?? '--',
+    },
   ];
 
   const toggleButton = show ? (
@@ -70,22 +81,12 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
                   <Statistic
                     className={styles.boxContent}
                     precision={2}
-                    title={
-                      <span
-                        style={{
-                          color: '#606266',
-                          fontSize: 14,
-                          fontWeight: 400,
-                        }}
-                      >
-                        {row.label + row.unit}
-                      </span>
-                    }
+                    title={<Detail.DotLabel title={row.label + row.unit} />}
                     value={row.value}
                     valueStyle={{
                       fontWeight: 600,
                       color: '#1D2129',
-                      fontSize: 20,
+                      fontSize: 18,
                     }}
                   />
                 </Col>

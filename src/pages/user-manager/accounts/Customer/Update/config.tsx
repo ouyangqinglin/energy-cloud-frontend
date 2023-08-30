@@ -253,7 +253,7 @@ export const Columns: (
             rowKey: 'id',
             columns: [
               {
-                title: '站点ID',
+                title: '站点编码',
                 dataIndex: 'id',
                 width: 150,
                 ellipsis: true,

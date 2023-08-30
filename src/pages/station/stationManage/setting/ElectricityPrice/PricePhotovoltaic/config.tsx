@@ -29,11 +29,14 @@ export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
         })
         .join('，');
     },
+    fieldProps: {
+      format: 'MM-DD',
+    },
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          effectiveTime: value[0],
+          expirationTime: value[1],
         };
       },
     },

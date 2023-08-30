@@ -9,7 +9,7 @@ import { ProConfigProvider, ProFormColumnsType, BetaSchemaForm } from '@ant-desi
 import { tableSelectValueTypeMap } from '../TableSelect';
 
 const DEFAULT_PROPS = {
-  title: '新增',
+  title: '新建',
   width: 950,
   rowProps: {
     gutter: [24, 0],
@@ -57,7 +57,7 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
     mergeProps.onFinish = async () => await true;
   }
 
-  // 新增操作，忽略请求数据
+  // 新建操作，忽略请求数据
   if (isCreate(operations)) {
     mergeProps = omit(mergeProps, ['request']);
   }

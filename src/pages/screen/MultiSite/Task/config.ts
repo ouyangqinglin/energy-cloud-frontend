@@ -14,7 +14,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '安装工单',
         unit: '单',
-        field: 'a',
+        field: 'installationInfo.total',
         valueStyle: {
           color: '#34E1B6',
         },
@@ -22,7 +22,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '待处理',
         unit: '单',
-        field: 'b',
+        field: 'installationInfo.pendingProcessing',
         valueStyle: {
           color: '#FFD15C',
         },
@@ -30,7 +30,10 @@ export const items: DigitStatItemType[] = [
       {
         title: '超24h未处理工单',
         unit: '单',
-        field: 'c',
+        field: 'installationInfo.timeout',
+        valueStyle: {
+          color: '#4DD6F0',
+        },
       },
     ],
   },
@@ -39,7 +42,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '维护工单',
         unit: '单',
-        field: 'd',
+        field: 'maintenanceInfo.total',
         valueStyle: {
           color: '#34E1B6',
         },
@@ -47,7 +50,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '待处理',
         unit: '单',
-        field: 'e',
+        field: 'maintenanceInfo.pendingProcessing',
         valueStyle: {
           color: '#FFD15C',
         },
@@ -55,7 +58,10 @@ export const items: DigitStatItemType[] = [
       {
         title: '超24h未处理工单',
         unit: '单',
-        field: 'f',
+        field: 'maintenanceInfo.timeout',
+        valueStyle: {
+          color: '#4DD6F0',
+        },
       },
     ],
   },
@@ -64,7 +70,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '客户报障单',
         unit: '单',
-        field: 'g',
+        field: 'obstacleInfo.total',
         valueStyle: {
           color: '#34E1B6',
         },
@@ -72,7 +78,7 @@ export const items: DigitStatItemType[] = [
       {
         title: '待处理',
         unit: '单',
-        field: 'h',
+        field: 'obstacleInfo.pendingProcessing',
         valueStyle: {
           color: '#FFD15C',
         },
@@ -80,7 +86,10 @@ export const items: DigitStatItemType[] = [
       {
         title: '超24h未处理工单',
         unit: '单',
-        field: 'i',
+        field: 'obstacleInfo.timeout',
+        valueStyle: {
+          color: '#4DD6F0',
+        },
       },
     ],
   },

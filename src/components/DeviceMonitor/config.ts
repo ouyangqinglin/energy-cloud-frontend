@@ -31,16 +31,17 @@ type GetValue<T extends keyof any, V> = {
 
 export const deviceDetailMap: Omit<
   GetValue<DeviceTypeEnum, DeviceDialogMapType>,
-  DeviceTypeEnum.PvInverter11 | DeviceTypeEnum.PvInverter4
+  DeviceTypeEnum.PvInverter11 | DeviceTypeEnum.PvInverter4 | DeviceTypeEnum.PvInverter36
 > &
   Pick<
     GetValue<DeviceTypeEnum, PvInverterDeviceDialogMapType>,
-    DeviceTypeEnum.PvInverter11 | DeviceTypeEnum.PvInverter4
+    DeviceTypeEnum.PvInverter11 | DeviceTypeEnum.PvInverter4 | DeviceTypeEnum.PvInverter36
   > = {
   [DeviceTypeEnum.Gateway]: { component: 'Gateway' },
   [DeviceTypeEnum.ElectricMeter]: { component: 'ElectricMeter' },
   [DeviceTypeEnum.PvInverter11]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.PvInverter4]: { component: 'PvInverter', props: { loopNum: 4 } },
+  [DeviceTypeEnum.PvInverter36]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.YtCharge160]: { component: 'YTCharge' },
   [DeviceTypeEnum.Energy]: { component: 'Energy' },
   [DeviceTypeEnum.PvInverterCabinet]: { component: 'PvInverterCabinet' },

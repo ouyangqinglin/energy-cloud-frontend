@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-25 15:32:21
+ * @LastEditTime: 2023-08-28 15:42:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -13,7 +13,7 @@ import { useRequest, useHistory } from 'umi';
 import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-components';
 import { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
-import { cleanUpType } from '@/utils/dictionary';
+import { alarmClearStatus, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum } from './service';
@@ -117,7 +117,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const requestList: YTProTableCustomProps<AlarmType, AlarmType>['request'] = useCallback(
     (paramsData) => {
-      const requestParams = { ...paramsData, ...(params || {}), status: type, ...headParams };
+      const requestParams = {
+        ...paramsData,
+        ...(params || {}),
+        isHistoryAlarm: type,
+        ...headParams,
+      };
       runGetAlarmNum(requestParams);
       return getList(requestParams);
     },
@@ -176,9 +181,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     [],
   );
 
-  const onHeadChange = useCallback((value, field) => {
+  const onHeadChange = useCallback((value: string[], field) => {
     setHeadParams((prevData) => {
-      return { ...prevData, [field]: value };
+      if (field === 'levels') {
+        return { ...prevData, [field]: value };
+      } else {
+        return { ...prevData, [field]: value.length == 1 ? value[0] : '' };
+      }
     });
     actionRef?.current?.reload?.();
   }, []);
@@ -261,13 +270,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         width: 150,
         ellipsis: true,
         initialValue: formParam?.deviceName,
+        hideInSearch: isStationChild,
       },
       {
         title: '设备序列号',
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,
-        initialValue: formParam?.deviceName,
+        initialValue: formParam?.sn,
+        hideInSearch: isStationChild,
       },
       {
         title: '站点名称',
@@ -279,7 +290,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
       {
         title: '状态',
-        dataIndex: 'a',
+        dataIndex: 'status',
+        valueType: 'select',
+        valueEnum: alarmClearStatus,
         width: 120,
         ellipsis: true,
         hideInSearch: true,
@@ -384,7 +397,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
             <Checkbox.Group
               options={alarmStatusOptions}
               defaultValue={alarmStatusOptions.map((item) => item.value)}
-              onChange={(value) => onHeadChange(value, 'alarmStatus')}
+              onChange={(value) => onHeadChange(value, 'status')}
             />
           </>
         ) : (
@@ -411,12 +424,20 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         columns={columns}
         request={requestList}
         toolBarRender={() => [<></>]}
-        search={{
-          labelWidth: 84,
-        }}
-        form={{
-          labelAlign: 'left',
-        }}
+        search={
+          isStationChild
+            ? {}
+            : {
+                labelWidth: 84,
+              }
+        }
+        form={
+          isStationChild
+            ? {}
+            : {
+                labelAlign: 'left',
+              }
+        }
       />
       <DetailDialog
         width="700px"

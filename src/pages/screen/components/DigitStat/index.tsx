@@ -2,13 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 10:34:31
- * @LastEditTime: 2023-08-23 18:55:59
+ * @LastEditTime: 2023-08-30 09:59:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\DigitStat\index.tsx
  */
 import React, { memo, useMemo } from 'react';
 import { Col, Row } from 'antd';
 import './index.less';
+import TweenOne, { AnimObjectOrArray } from 'rc-tween-one';
+import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
+import { isEmpty } from '@/utils';
+import { merge } from 'lodash';
+import { formatNum } from '@/utils';
+
+TweenOne.plugins.push(Children);
 
 export type DigitStatItemType = {
   icon?: string;
@@ -18,6 +25,8 @@ export type DigitStatItemType = {
   items?: DigitStatItemType[];
   fields?: DigitStatItemType[];
   valueStyle?: React.CSSProperties;
+  animation?: AnimObjectOrArray;
+  isformatNum?: boolean;
 };
 
 export type DigitStatProps = {
@@ -28,33 +37,77 @@ export type DigitStatProps = {
   unitLinkValue?: boolean;
 };
 
+const animation = {
+  Children: { floatLength: 0 },
+  duration: 1000,
+  delay: 300,
+};
+
 const getContentByItem = (
   item: DigitStatItemType,
   data?: Record<string, any>,
   unitLinkValue?: boolean,
+  index?: number,
 ) => {
+  let itemValue;
+  const formatValue = formatNum(data?.[item.field || '']);
+  if (isEmpty(data?.[item.field || ''])) {
+    itemValue = '--';
+  } else {
+    itemValue = (
+      <TweenOne
+        className="digit-stat-num-value"
+        animation={merge({}, animation, { Children: { value: formatValue.value } }, item.animation)}
+      />
+    );
+  }
   return (
     <>
-      {item.icon ? <img src={item.icon} key={item.field} /> : ''}
-      <div className="digit-stat-content flex1" key={'digit' + item.field}>
+      {item.icon ? <img src={item.icon} key={item.field || index} /> : ''}
+      <div className="digit-stat-content flex1" key={'digit' + (item.field || index)}>
         <div className="digit-stat-title">
           {item.title}
-          {unitLinkValue ? '' : `(${item.unit})`}
+          {unitLinkValue ? '' : `(${formatValue.unit}${item.unit})`}
         </div>
         {item.fields ? (
-          item.fields?.map?.((child, index) => {
+          item.fields?.map?.((child, childIndex) => {
+            let childValue;
+            const childFormatValue = formatNum(data?.[child.field || '']);
+            if (isEmpty(data?.[child.field || ''])) {
+              childValue = '--';
+            } else {
+              childValue = (
+                <TweenOne
+                  className="digit-stat-num-value"
+                  animation={merge(
+                    {},
+                    animation,
+                    { Children: { value: childFormatValue.value } },
+                    child.animation,
+                  )}
+                />
+              );
+            }
             return (
-              <span className="digit-stat-num" style={item.valueStyle}>
-                {index ? '/' : ''}
-                {data?.[child.field || ''] ?? '--'}
-                {unitLinkValue ? <span className="digit-stat-unit">{child.unit}</span> : ''}
+              <span key={child.field} className="digit-stat-num" style={item.valueStyle}>
+                {childIndex ? '/' : ''}
+                {childValue}
+                {unitLinkValue ? (
+                  <span className="digit-stat-unit">{childFormatValue.unit + child.unit}</span>
+                ) : (
+                  ''
+                )}
               </span>
             );
           })
         ) : (
           <span className="digit-stat-num" style={item.valueStyle}>
-            {data?.[item.field || ''] ?? '--'}
-            {unitLinkValue ? <span className="digit-stat-unit">{item.unit}</span> : ''}
+            {itemValue}
+            {unitLinkValue ? (
+              <span className="digit-stat-unit">{formatValue.unit + item.unit}</span>
+            ) : (
+              ''
+            )}
           </span>
         )}
       </div>
@@ -66,14 +119,21 @@ const DigitStat: React.FC<DigitStatProps> = memo((props) => {
   const { span = 24, items, data, unitLinkValue = true, className } = props;
 
   const cols = useMemo(() => {
-    return items?.map?.((item) => {
+    return items?.map?.((item, index) => {
       return (
-        <Col span={span} key={item.field}>
+        <Col span={span} key={item.field || index}>
           <div className="flex digit-stat-wrap">
             {item.items
-              ? item.items?.map?.((child, index) => {
-                  const content = getContentByItem(child, data, unitLinkValue);
-                  return [index ? <span className="digit-stat-separator"></span> : <></>, content];
+              ? item.items?.map?.((child, childIndex) => {
+                  const content = getContentByItem(child, data, unitLinkValue, childIndex);
+                  return [
+                    childIndex ? (
+                      <span key={childIndex} className="digit-stat-separator"></span>
+                    ) : (
+                      <></>
+                    ),
+                    content,
+                  ];
                 })
               : getContentByItem(item, data, unitLinkValue)}
           </div>

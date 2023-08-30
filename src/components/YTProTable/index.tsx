@@ -23,6 +23,7 @@ const YTProTable = <
     toolBarRenderOptions,
     request,
     tableRef,
+    className,
     ...restProps
   } = props;
 
@@ -75,7 +76,7 @@ const YTProTable = <
         }}
         request={standardRequest}
         rowKey="id"
-        className={styles.ytTable}
+        className={styles.ytTable + ' ' + className}
         {...restProps}
         scroll={{
           x: scrollX,
@@ -88,6 +89,7 @@ const YTProTable = <
             : {
                 labelWidth: 'auto',
                 searchText: '搜索',
+                showHiddenNum: true,
                 ...(restProps?.search || {}),
               }
         }

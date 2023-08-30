@@ -25,7 +25,7 @@ export const columns: YTProColumns<RoleInfo>[] = [
     ellipsis: true,
   },
   {
-    title: '数据来源',
+    title: '角色类型',
     dataIndex: 'type',
     valueType: 'select',
     valueEnum: dataSource,

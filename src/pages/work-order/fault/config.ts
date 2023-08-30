@@ -10,7 +10,25 @@ export const orderStatus = new Map([
 
 export const columns: ProColumns<FaultType>[] = [
   {
-    title: '故障ID',
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'dateTime',
+    width: 150,
+  },
+  {
+    title: '创建人',
+    dataIndex: 'createName',
+    width: 100,
+    ellipsis: true,
+  },
+  {
+    title: '客户名称',
+    dataIndex: 'userName',
+    width: 120,
+    ellipsis: true,
+  },
+  {
+    title: '故障编码',
     dataIndex: 'id',
     width: 150,
     ellipsis: true,
@@ -24,13 +42,6 @@ export const columns: ProColumns<FaultType>[] = [
     hideInSearch: true,
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    valueType: 'select',
-    valueEnum: orderStatus,
-    width: 100,
-  },
-  {
     title: '站点',
     dataIndex: 'siteName',
     hideInSearch: true,
@@ -38,14 +49,15 @@ export const columns: ProColumns<FaultType>[] = [
     ellipsis: true,
   },
   {
-    title: '客户',
-    dataIndex: 'userName',
-    width: 120,
-    ellipsis: true,
+    title: '状态',
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: orderStatus,
+    width: 100,
     hideInSearch: true,
   },
   {
-    title: '工单完成时间',
+    title: '完成时间',
     dataIndex: 'completeTime',
     valueType: 'dateTime',
     hideInSearch: true,
@@ -58,17 +70,12 @@ export const columns: ProColumns<FaultType>[] = [
     ellipsis: true,
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    valueType: 'dateTime',
-    width: 150,
-  },
-  {
-    title: '创建人',
-    dataIndex: 'createName',
-    hideInSearch: true,
+    title: '状态',
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: orderStatus,
     width: 100,
-    ellipsis: true,
+    hideInTable: true,
   },
   {
     title: '最后更新时间',

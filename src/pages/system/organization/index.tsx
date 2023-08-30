@@ -15,7 +15,7 @@ const UserManage: React.FC = () => {
     return [
       {
         key: '1',
-        label: '系统管理',
+        label: '系统管理员',
         children: <Dept />,
       },
       {

@@ -19,14 +19,17 @@
       margin-bottom: 16px;
     }
     .boxContent {
-      // margin-top: 16px;
-      padding: 18px 20px;
-      // color: #606266;
-      // font-weight: 400;
-      // font-size: 14px;
-      // font-family: PingFangSC-Regular, PingFang SC;
-      // line-height: 22px;
+      padding: 16px 20px;
       background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+      :global {
+        .label-wrap {
+          margin-bottom: 0;
+          font-weight: 400;
+          font-size: 14px;
+        }
+      }
     }
   }
 }

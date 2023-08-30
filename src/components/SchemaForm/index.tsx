@@ -106,7 +106,7 @@ const SchemaForm = <
     if (type === FormTypeEnum.Detail) {
       return suffixTitle + '详情';
     } else {
-      return (type === FormTypeEnum.Add ? '新增' : '编辑') + suffixTitle;
+      return (type === FormTypeEnum.Add ? '新建' : '编辑') + suffixTitle;
     }
   }, [type, suffixTitle]);
 
