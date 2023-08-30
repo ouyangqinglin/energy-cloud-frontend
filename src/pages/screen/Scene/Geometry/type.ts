@@ -111,12 +111,13 @@ export type AlarmStatus = {
   context?: string;
 };
 
-// 0：离网 1：空闲 2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
+// 0：离网 1：空闲 2：占用（未充电）3：占用（充电中）4：占用（预约锁定）5:充电完成 255：故障
 export const enum GunStatus {
   OFFLINE = 0,
   IDLE = 1,
   IDLE_WITH_FILLED = 2,
   CHARGING = 3,
+  ChargeFull = 5,
 }
 
 export const enum GunMark {

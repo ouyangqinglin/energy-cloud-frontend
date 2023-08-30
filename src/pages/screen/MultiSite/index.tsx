@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-21 15:07:56
- * @LastEditTime: 2023-08-29 10:08:03
+ * @LastEditTime: 2023-08-30 19:02:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\index.tsx
  */
@@ -21,7 +21,6 @@ import Task from './Task';
 import SaveEnergy from './SaveEnergy';
 import IncomeStat from './IncomeStat';
 import InstallCapacity from './InstallCapacity';
-import ChinaMap from './ChinaMap';
 
 const MultiSite: React.FC = () => {
   return (
@@ -45,7 +44,7 @@ const MultiSite: React.FC = () => {
         <Device />
         <SaveEnergy />
         <IncomeStat />
-        <ChinaMap />
+        {/* <ChinaMap /> */}
         <InstallCapacity />
       </Layout>
     </>

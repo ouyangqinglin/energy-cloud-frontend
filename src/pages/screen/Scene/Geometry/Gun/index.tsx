@@ -16,10 +16,12 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
     const bGunConfig = charingGunsConfig.find((gun) => gun.mark === GunMark.B_GUN);
 
     const isAGunCharging = aGun?.status === GunStatus.CHARGING;
-    const isAGunFullCharge = aGun?.status === GunStatus.IDLE_WITH_FILLED;
+    const isAGunFullCharge =
+      aGun?.status === GunStatus.IDLE_WITH_FILLED || aGun?.status === GunStatus.ChargeFull;
 
     const isBGunCharging = bGun?.status === GunStatus.CHARGING;
-    const isBGunFullCharge = bGun?.status === GunStatus.IDLE_WITH_FILLED;
+    const isBGunFullCharge =
+      bGun?.status === GunStatus.IDLE_WITH_FILLED || bGun?.status === GunStatus.ChargeFull;
 
     if (
       window.DEVTOOL &&
@@ -49,12 +51,12 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
             </div>
           )}
           {isBGunCharging && (
-            <div className={styles.leftGun} {...aGunConfig}>
+            <div className={styles.leftGun} {...bGunConfig}>
               <Lottie width={14} height={32} animationData={ChargingLeft} />
             </div>
           )}
           {isAGunFullCharge && (
-            <div className={styles.rightGun} {...bGunConfig}>
+            <div className={styles.rightGun} {...aGunConfig}>
               <Lottie width={14} height={32} animationData={ChargeCompleteLeft} />
             </div>
           )}
@@ -74,12 +76,12 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
           </div>
         )}
         {isBGunCharging && (
-          <div className={styles.leftGun} {...aGunConfig}>
+          <div className={styles.leftGun} {...bGunConfig}>
             <Lottie width={14} height={32} animationData={ChargingRight} />
           </div>
         )}
         {isAGunFullCharge && (
-          <div className={styles.rightGun} {...bGunConfig}>
+          <div className={styles.rightGun} {...aGunConfig}>
             <Lottie width={14} height={32} animationData={ChargeCompleteRight} />
           </div>
         )}
