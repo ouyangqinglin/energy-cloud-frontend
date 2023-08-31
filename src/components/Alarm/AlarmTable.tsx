@@ -309,7 +309,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         },
       },
       {
-        title: '告警编码',
+        title: '告警码',
         dataIndex: 'id',
         width: 120,
         ellipsis: true,

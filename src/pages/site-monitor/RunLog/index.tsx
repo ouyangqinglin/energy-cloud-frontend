@@ -19,7 +19,11 @@ import { logType } from '@/utils/dictionary';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 
-const OperationLog: React.FC = () => {
+export type LogTableProps = {
+  deviceId?: string;
+};
+const OperationLog: React.FC<LogTableProps> = (props) => {
+  const { deviceId } = props;
   const [open, setOpen] = useState(false);
   const [siteId, setSiteId] = useState<string>();
   const actionRef = useRef<ActionType>();
@@ -33,9 +37,9 @@ const OperationLog: React.FC = () => {
 
   const requestList = useCallback(
     (params: OperationLogType) => {
-      return getList({ ...params, siteId });
+      return getList({ ...params, siteId, deviceId });
     },
-    [siteId],
+    [siteId, deviceId],
   );
 
   const onDetailClick = useCallback((_, record) => {
@@ -95,13 +99,13 @@ const OperationLog: React.FC = () => {
       ellipsis: true,
       hideInSearch: true,
     },
-    {
-      title: '日志编码',
-      dataIndex: 'id',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
+    // {
+    //   title: '日志编码',
+    //   dataIndex: 'id',
+    //   width: 120,
+    //   ellipsis: true,
+    //   hideInSearch: true,
+    // },
     {
       title: '日志类型',
       dataIndex: 'type',
