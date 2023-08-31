@@ -28,25 +28,18 @@ export const columns: ProColumns<FaultType>[] = [
     ellipsis: true,
   },
   {
-    title: '故障编码',
-    dataIndex: 'id',
-    width: 150,
+    title: '站点名称',
+    dataIndex: 'siteName',
+    width: 120,
     ellipsis: true,
-    hideInSearch: true,
   },
+
   {
     title: '故障标题',
     dataIndex: 'title',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
-  },
-  {
-    title: '站点',
-    dataIndex: 'siteName',
-    hideInSearch: true,
-    width: 120,
-    ellipsis: true,
   },
   {
     title: '状态',

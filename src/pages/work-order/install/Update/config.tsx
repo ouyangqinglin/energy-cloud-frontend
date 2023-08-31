@@ -18,6 +18,16 @@ export const Columns: (
 ) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation) => {
   return [
     {
+      title: '站点名称',
+      dataIndex: 'siteName',
+      formItemProps: {
+        rules: [{ required: true, message: '请输入' }],
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
       title: '安装标题',
       dataIndex: 'name',
       formItemProps: {

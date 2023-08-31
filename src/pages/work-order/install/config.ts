@@ -46,6 +46,13 @@ export const columns: ProColumns<InstallListType>[] = [
     ellipsis: true,
   },
   {
+    title: '站点名称',
+    dataIndex: 'siteName',
+    hideInSearch: true,
+    width: 120,
+    ellipsis: true,
+  },
+  {
     title: '工单状态',
     dataIndex: 'status',
     valueType: 'select',

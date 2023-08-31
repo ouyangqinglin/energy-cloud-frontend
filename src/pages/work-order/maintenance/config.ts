@@ -47,7 +47,7 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     ellipsis: true,
   },
   {
-    title: '站点',
+    title: '站点名称',
     dataIndex: 'siteName',
     hideInSearch: true,
     width: 120,
