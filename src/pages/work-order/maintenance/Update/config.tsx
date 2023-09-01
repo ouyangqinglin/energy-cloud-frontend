@@ -20,6 +20,9 @@ export const Columns: (
       title: '站点名称',
       dataIndex: ['siteName'],
       disable: true,
+      fieldProps: {
+        disabled: true,
+      },
       formItemProps: {
         rules: [
           {

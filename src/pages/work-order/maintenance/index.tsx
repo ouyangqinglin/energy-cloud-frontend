@@ -79,6 +79,7 @@ const Maintenance = () => {
   const ensureSite = (value: SiteInfo[]) => {
     if (value.length) {
       setSiteId(value[0]?.id);
+      setInitialValues({ ...initialValues, siteName: value[0]?.name ?? '' });
       setUpdateModal(true);
     }
   };
@@ -105,6 +106,7 @@ const Maintenance = () => {
           onVisibleChange: setUpdateModal,
           id: initialValues?.id,
           onSuccess: onSuccess,
+          initialValues: initialValues,
           siteId: initialValues?.siteId ?? siteId,
         }}
       />

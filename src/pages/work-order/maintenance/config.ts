@@ -108,6 +108,7 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     dataIndex: 'createTime',
     valueType: 'dateTime',
     width: 150,
+    hideInSearch: true,
   },
   {
     title: '创建人',
@@ -129,5 +130,20 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     hideInSearch: true,
     width: 100,
     ellipsis: true,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    width: 150,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
+    hideInTable: true,
   },
 ];

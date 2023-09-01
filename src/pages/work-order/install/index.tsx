@@ -6,8 +6,7 @@ import { columns } from './config';
 import { deleteInstallationWorkOrder, getObstacleReportList } from './service';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
-import { ActionType } from '@ant-design/pro-components';
-import { useSiteColumn } from '@/hooks';
+import type { ActionType } from '@ant-design/pro-components';
 import { Update } from './Update';
 import Read from './Read';
 
