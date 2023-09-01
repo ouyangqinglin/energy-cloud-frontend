@@ -35,6 +35,67 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         },
         dataIndex: 'name',
       },
+      {
+        title: '生效日期',
+        valueType: 'formList',
+        dataIndex: 'effectiveTimeList',
+        initialValue: [{ effectiveTime: [] }],
+        fieldProps: {
+          copyIconProps: false,
+          creatorButtonProps: {
+            creatorButtonText: '新增生效日期',
+            icon: <PlusCircleOutlined />,
+            type: 'link',
+            style: { width: 'unset' },
+          },
+          min: 1,
+          deleteIconProps: {
+            Icon: (prop: any) => {
+              return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
+            },
+            tooltipText: '删除',
+          },
+          itemRender: ({ listDom, action }) => {
+            return (
+              <Col style={{ display: 'inline-flex' }} span={8}>
+                {listDom}
+                {action}
+              </Col>
+            );
+          },
+        },
+        colProps: {
+          span: 24,
+        },
+        columns: [
+          {
+            valueType: 'group',
+            columns: [
+              {
+                formItemProps: {
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入生效日期',
+                    },
+                  ],
+                },
+                fieldProps: {
+                  format: 'MM/DD',
+                },
+                convertValue: (value, field) => {
+                  return value;
+                },
+                dataIndex: 'effectiveDateScoped',
+                valueType: 'dateRange',
+                colProps: {
+                  span: 24,
+                },
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -125,67 +186,6 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         colProps: {
           span: 8,
         },
-      },
-      {
-        title: '生效日期',
-        valueType: 'formList',
-        dataIndex: 'effectiveTimeList',
-        initialValue: [{ effectiveTime: [] }],
-        fieldProps: {
-          copyIconProps: false,
-          creatorButtonProps: {
-            creatorButtonText: '新增生效日期',
-            icon: <PlusCircleOutlined />,
-            type: 'link',
-            style: { width: 'unset' },
-          },
-          min: 1,
-          deleteIconProps: {
-            Icon: (prop: any) => {
-              return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
-            },
-            tooltipText: '删除',
-          },
-          itemRender: ({ listDom, action }) => {
-            return (
-              <Col style={{ display: 'inline-flex' }} span={8}>
-                {listDom}
-                {action}
-              </Col>
-            );
-          },
-        },
-        colProps: {
-          span: 24,
-        },
-        columns: [
-          {
-            valueType: 'group',
-            columns: [
-              {
-                formItemProps: {
-                  rules: [
-                    {
-                      required: true,
-                      message: '请输入生效日期',
-                    },
-                  ],
-                },
-                fieldProps: {
-                  format: 'MM/DD',
-                },
-                convertValue: (value, field) => {
-                  return value;
-                },
-                dataIndex: 'effectiveDateScoped',
-                valueType: 'dateRange',
-                colProps: {
-                  span: 24,
-                },
-              },
-            ],
-          },
-        ],
       },
     ],
   },

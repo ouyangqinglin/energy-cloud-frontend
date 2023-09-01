@@ -1,5 +1,6 @@
-import { ProColumns } from '@ant-design/pro-components';
+import type { ProColumns } from '@ant-design/pro-components';
 import { InstallListType, OrderStatus, OrderType } from './type';
+import { format } from 'timeago.js';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
@@ -41,6 +42,13 @@ export const columns: ProColumns<InstallListType>[] = [
   {
     title: '客户名称',
     dataIndex: 'userName',
+    hideInSearch: true,
+    width: 120,
+    ellipsis: true,
+  },
+  {
+    title: '站点名称',
+    dataIndex: 'siteName',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
@@ -100,6 +108,7 @@ export const columns: ProColumns<InstallListType>[] = [
     dataIndex: 'createTime',
     valueType: 'dateTime',
     width: 150,
+    hideInSearch: true,
   },
   {
     title: '创建人',
@@ -121,5 +130,20 @@ export const columns: ProColumns<InstallListType>[] = [
     hideInSearch: true,
     width: 100,
     ellipsis: true,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    width: 150,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
+    hideInTable: true,
   },
 ];

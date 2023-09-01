@@ -14,12 +14,16 @@ import { getList, getDetail } from './service';
 import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
-import { SiteDataType } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
 import { logType } from '@/utils/dictionary';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 
-const OperationLog: React.FC = () => {
+export type LogTableProps = {
+  deviceId?: string;
+};
+const OperationLog: React.FC<LogTableProps> = (props) => {
+  const { deviceId } = props;
   const [open, setOpen] = useState(false);
   const [siteId, setSiteId] = useState<string>();
   const actionRef = useRef<ActionType>();
@@ -33,9 +37,9 @@ const OperationLog: React.FC = () => {
 
   const requestList = useCallback(
     (params: OperationLogType) => {
-      return getList({ ...params, siteId });
+      return getList({ ...params, siteId, deviceId });
     },
-    [siteId],
+    [siteId, deviceId],
   );
 
   const onDetailClick = useCallback((_, record) => {
@@ -89,19 +93,19 @@ const OperationLog: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: '日志内容',
+      title: '日志文件名称',
       dataIndex: 'content',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
-    {
-      title: '日志编码',
-      dataIndex: 'id',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
+    // {
+    //   title: '日志编码',
+    //   dataIndex: 'id',
+    //   width: 120,
+    //   ellipsis: true,
+    //   hideInSearch: true,
+    // },
     {
       title: '日志类型',
       dataIndex: 'type',
@@ -134,7 +138,7 @@ const OperationLog: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '操作人',
+      title: '操作用户',
       dataIndex: 'createByName',
       width: 120,
       ellipsis: true,

@@ -24,6 +24,7 @@ export type MaintenanceListType = {
   remark?: any;
   address?: any;
   siteId?: any;
+  siteName?: string;
   status: OrderStatus;
   startTime?: any;
   endTime?: any;
