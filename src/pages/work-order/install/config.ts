@@ -1,4 +1,4 @@
-import { ProColumns } from '@ant-design/pro-components';
+import type { ProColumns } from '@ant-design/pro-components';
 import { InstallListType, OrderStatus, OrderType } from './type';
 
 export const orderStatus = new Map([

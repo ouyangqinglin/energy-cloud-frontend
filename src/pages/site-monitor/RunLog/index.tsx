@@ -14,7 +14,7 @@ import { getList, getDetail } from './service';
 import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
-import { SiteDataType } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
 import { logType } from '@/utils/dictionary';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
@@ -93,7 +93,7 @@ const OperationLog: React.FC<LogTableProps> = (props) => {
       ellipsis: true,
     },
     {
-      title: '日志内容',
+      title: '日志文件名称',
       dataIndex: 'content',
       width: 150,
       ellipsis: true,
@@ -138,7 +138,7 @@ const OperationLog: React.FC<LogTableProps> = (props) => {
       hideInSearch: true,
     },
     {
-      title: '操作人',
+      title: '操作用户',
       dataIndex: 'createByName',
       width: 120,
       ellipsis: true,
