@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-20 10:40:19
- * @LastEditTime: 2023-08-09 14:24:02
+ * @LastEditTime: 2023-09-01 11:54:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationGun.tsx
  */
@@ -13,17 +13,13 @@ import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import type { CommunityType } from './data.d';
 import type { EquipFormType } from '@/components/EquipForm/data.d';
-import {
-  getEquipInfo,
-  editEquipConfig,
-  getThirdStation,
-  getChargeHost,
-} from '@/services/equipment';
+import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
+import { OptionType } from '@/utils/dictionary';
 
 const StationGun: React.FC<CommunityProps> = (props) => {
-  const { id, siteId, productConfigType, open, onOpenChange, model } = props;
+  const { id, productConfigType, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
@@ -100,8 +96,19 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         formItemProps: {
           rules: [{ required: true, message: '请选择第三方站点ID' }],
         },
-        fieldProps: {
-          getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
+        fieldProps: (form) => {
+          return {
+            onChange: (_: any, option: OptionType) => {
+              form?.setFieldValue('thirdSiteName', option?.label);
+            },
+            getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
+          };
+        },
+      },
+      {
+        dataIndex: 'thirdSiteName',
+        formItemProps: {
+          hidden: true,
         },
       },
       {
@@ -112,31 +119,6 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         },
       },
     ];
-    if (productConfigType === 0) {
-      result.push({
-        title: '关联充电堆',
-        dataIndex: 'parentId',
-        valueType: 'select',
-        request: () => {
-          return getChargeHost({
-            siteId,
-          }).then(({ data }) => {
-            return data?.map?.((item: any) => {
-              return {
-                label: item?.name,
-                value: item?.deviceId,
-              };
-            });
-          });
-        },
-        formItemProps: {
-          rules: [{ required: true, message: '请选择关联充电堆' }],
-        },
-        fieldProps: {
-          getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
-        },
-      });
-    }
     return result;
   }, [requestStation, productConfigType]);
 

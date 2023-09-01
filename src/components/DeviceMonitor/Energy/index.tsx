@@ -32,21 +32,7 @@ const Energy: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={EnergyIntroImg} />}
-        bottom={
-          <DeviceInfo
-            id={id}
-            onChange={onDataChange}
-            buttons={
-              <Community
-                id={id}
-                siteId={deviceData?.siteId}
-                type={deviceData?.paramConfigType}
-                userLabel="EMS mqtt用户名"
-                passwordLabel="EMS mqtt密码"
-              />
-            }
-          />
-        }
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
       >
         <EnergyInfo deviceData={deviceData} />
       </Page>

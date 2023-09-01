@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-08-09 08:53:44
+ * @LastEditTime: 2023-09-01 14:00:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\YTCharge\index.tsx
  */
@@ -60,16 +60,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} introImg={YtChargeIntroImg} />}
-        bottom={
-          <DeviceInfo
-            id={id}
-            onChange={onDataChange}
-            setLoading={setLoading}
-            buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
-            }
-          />
-        }
+        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime
           id={id}

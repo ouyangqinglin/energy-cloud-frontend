@@ -9,7 +9,7 @@
 import React from 'react';
 import Cell from '../../components/LayoutCell';
 import DecorationCarousel from '../../components/DecorationCarousel';
-import { items } from './config';
+import { items, onlineItems } from './config';
 import DigitStat from '../../components/DigitStat';
 import styles from './index.less';
 
@@ -19,6 +19,7 @@ const Device: React.FC = () => {
       <Cell cursor="default" width={400} height={223} right={24} top={546}>
         <DecorationCarousel panelStyle={{ padding: 0 }} title="设备">
           <DigitStat className={styles.digit} items={items} span={12} />
+          <DigitStat className={styles.digit} items={onlineItems} span={24} />
         </DecorationCarousel>
       </Cell>
     </>

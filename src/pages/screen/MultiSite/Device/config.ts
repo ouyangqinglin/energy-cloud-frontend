@@ -23,14 +23,25 @@ export const items: DigitStatItemType[] = [
     },
   },
   {
+    icon: IconOffline,
+    title: '离线设备',
+    unit: '台',
+    field: 'i',
+    valueStyle: {
+      color: '#86A4B3',
+    },
+  },
+];
+
+export const onlineItems: DigitStatItemType[] = [
+  {
     icon: IconOnline,
     title: '在线设备',
     unit: '台',
     field: 'b',
   },
   {
-    icon: IconAlarm,
-    title: '告警设备',
+    title: '正常设备',
     unit: '台',
     field: 'c',
     valueStyle: {
@@ -38,8 +49,7 @@ export const items: DigitStatItemType[] = [
     },
   },
   {
-    icon: IconOffline,
-    title: '离线设备',
+    title: '告警设备',
     unit: '台',
     field: 'i',
     valueStyle: {

@@ -29,6 +29,7 @@ import {
   YTCabinetOutlined,
 } from '@/components/YTIcons';
 import { TreeNode } from './config';
+import Configuration from './Configuration';
 
 const deviceMap = new Map([
   [1, YTEmsOutlined],
@@ -162,7 +163,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '配置',
         key: '5',
-        children: <Empty />,
+        children: <Configuration deviceId={id} />,
       },
     ];
   }, [selectOrg, productId, id]);
