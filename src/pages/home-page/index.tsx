@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
   );
 
   const onScreenClick = useCallback(() => {
-    window.open(`/screen/multi-site1`);
+    window.open(`/screen/multi-site`);
   }, []);
 
   useEffect(() => {

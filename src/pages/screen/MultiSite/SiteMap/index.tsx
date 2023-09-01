@@ -85,7 +85,7 @@ const convertData = function (value: any[]) {
   return res;
 };
 
-const ChinaMap: React.FC = () => {
+const SiteMap: React.FC = () => {
   const init = () => {
     const chartDom = document.getElementById('chinaMap');
     const myChart = echarts.init(chartDom);
@@ -394,4 +394,4 @@ const ChinaMap: React.FC = () => {
   );
 };
 
-export default ChinaMap;
+export default SiteMap;
