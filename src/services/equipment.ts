@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-08-10 16:24:40
+ * @LastEditTime: 2023-09-01 11:09:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
@@ -12,6 +12,7 @@ import { ListDataType } from '@/utils/dictionary';
 import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
+  id?: string;
   deviceId?: string;
   deviceName?: string;
   siteId?: string;
@@ -36,6 +37,7 @@ export type DeviceDataType = {
   aliasSn?: string;
   paramConfigType?: number;
   productConfigType?: number;
+  config?: string;
 };
 
 export type ClusterType = {
@@ -127,7 +129,7 @@ export const getEquipInfo = (params: any) => {
 };
 
 export const editEquipConfig = (data: any) => {
-  return request(`/iot/device/updateDeviceConfig`, {
+  return request(`/iot/device/updateDeviceCommunicationConfig`, {
     method: 'put',
     data,
   });
@@ -219,8 +221,33 @@ export const getProductModelByType = (params: any) => {
     },
   );
 };
+
 export const getFactoryList = () => {
   return request<ResponseCommonData<FactoryDataType[]>>(`/iot/product/getFactoryList`, {
     method: 'GET',
+  });
+};
+
+export const getAssociateDevice = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(
+    `/iot/device/getAssociateDevicesByDeviceIdAndType`,
+    {
+      method: 'GET',
+      params,
+    },
+  );
+};
+
+export const updateAssociateDevice = (data: any) => {
+  return request(`/iot/device/updateDeviceProductConfig`, {
+    method: 'PUT',
+    data,
+  });
+};
+
+export const getChargeStack = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/device/getChargingPileHost`, {
+    method: 'GET',
+    params,
   });
 };

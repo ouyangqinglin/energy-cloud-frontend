@@ -7,18 +7,31 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Device\index.tsx
  */
 import React from 'react';
+import { useRequest } from 'umi';
 import Cell from '../../components/LayoutCell';
 import DecorationCarousel from '../../components/DecorationCarousel';
-import { items } from './config';
+import { items, onlineItems } from './config';
 import DigitStat from '../../components/DigitStat';
 import styles from './index.less';
+import { getData } from './service';
+import { REQUEST_INTERVAL_5_MINUTE } from '../config';
 
 const Device: React.FC = () => {
+  const { data: deviceData } = useRequest(getData, { pollingInterval: REQUEST_INTERVAL_5_MINUTE });
+
   return (
     <>
       <Cell cursor="default" width={400} height={223} right={24} top={546}>
         <DecorationCarousel panelStyle={{ padding: 0 }} title="设备">
-          <DigitStat className={styles.digit} items={items} span={12} />
+          <DigitStat className={styles.digit} items={items} span={12} data={deviceData} />
+          <div className="px12">
+            <DigitStat
+              className={styles.onlineDigit}
+              items={onlineItems}
+              span={24}
+              data={deviceData}
+            />
+          </div>
         </DecorationCarousel>
       </Cell>
     </>

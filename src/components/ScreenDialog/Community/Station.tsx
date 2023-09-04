@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 15:14:53
- * @LastEditTime: 2023-08-29 16:09:51
+ * @LastEditTime: 2023-09-01 11:43:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\Station.tsx
  */
@@ -16,6 +16,7 @@ import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
+import { OptionType } from '@/utils/dictionary';
 
 const Station: React.FC<CommunityProps> = (props) => {
   const { id, open, onOpenChange, model } = props;
@@ -93,8 +94,19 @@ const Station: React.FC<CommunityProps> = (props) => {
       formItemProps: {
         rules: [{ required: true, message: '请选择第三方站点ID' }],
       },
-      fieldProps: {
-        getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
+      fieldProps: (form) => {
+        return {
+          onChange: (_: any, option: OptionType) => {
+            form?.setFieldValue('thirdSiteName', option?.label);
+          },
+          getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
+        };
+      },
+    },
+    {
+      dataIndex: 'thirdSiteName',
+      formItemProps: {
+        hidden: true,
       },
     },
   ];

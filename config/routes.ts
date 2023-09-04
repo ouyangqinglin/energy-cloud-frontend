@@ -43,11 +43,6 @@ export default [
         name: 'multiSite',
         component: './screen/MultiSite',
       },
-      {
-        path: 'multi-site1',
-        name: 'multiSite1',
-        component: './screen/MultiSite1',
-      },
     ],
   },
   {

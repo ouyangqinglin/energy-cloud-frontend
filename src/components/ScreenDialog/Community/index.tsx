@@ -56,7 +56,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
     <>
       {type ? (
         <Button type="link" onClick={setTrue}>
-          设置
+          修改
         </Button>
       ) : (
         <></>

@@ -1,3 +1,17 @@
+/*
+ * @Description:
+ * @Author: YangJianFei
+ * @Date: 2023-09-01 15:27:03
+ * @LastEditTime: 2023-09-01 15:27:07
+ * @LastEditors: YangJianFei
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\SiteStatus\service.ts
+ */
+
+export enum MapTypeEnum {
+  Country,
+  Province,
+}
+
 export const chinaMap = {
   type: 'FeatureCollection',
   features: [

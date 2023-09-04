@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:49:21
- * @LastEditTime: 2023-08-30 15:34:34
+ * @LastEditTime: 2023-09-01 08:51:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\YtCharge\RealTime.tsx
  */
@@ -47,8 +47,8 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   const aStatusItems: DetailItem[] = [{ label: 'A枪状态', field: 'Status', format: useFormat }];
   const bStatusItems: DetailItem[] = [{ label: 'B枪状态', field: 'Status', format: useFormat }];
   const runItems: DetailItem[] = [
-    { label: '今日用电量', field: 'todayCharge', format: powerHourFormat, showExtra: false },
-    { label: '累计用电量', field: 'Pimp', format: powerHourFormat },
+    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat, showExtra: false },
+    { label: '累计充电量', field: 'Pimp', format: powerHourFormat },
   ];
 
   return (

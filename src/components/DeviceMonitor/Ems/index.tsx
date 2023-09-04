@@ -55,15 +55,7 @@ const Ems: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={
-          <DeviceInfo
-            id={id}
-            onChange={onDataChange}
-            buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
-            }
-          />
-        }
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
       >
         <Tabs items={tabItems} />
       </Page>

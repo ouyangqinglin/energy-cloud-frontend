@@ -13,7 +13,7 @@ export type PowerSiteDataType = {
   id?: string;
   name?: string;
   sort?: number;
-  mainsElec?: string;
+  mainsElec?: number;
 };
 
 export type PowerDataType = {
@@ -21,9 +21,33 @@ export type PowerDataType = {
   sites?: PowerSiteDataType[];
 };
 
+export type SiteDataType = {
+  name: string;
+  sort: number;
+  income?: number;
+};
+
+export type SiteIncomeType = {
+  charge?: SiteDataType[];
+  energy?: SiteDataType[];
+};
+
 export const getPowerData = () => {
   return request<ResponseCommonData<PowerDataType[]>>(
     `/oss/sitesBigScreen/getIndexSiteRankingMains`,
+    {
+      method: 'GET',
+      params: {
+        type: 0,
+        code: 100000,
+      },
+    },
+  );
+};
+
+export const getIncomeData = () => {
+  return request<ResponseCommonData<SiteIncomeType>>(
+    `/oss/sitesBigScreen/getIndexSiteRankingIncome`,
     {
       method: 'GET',
       params: {

@@ -9,29 +9,15 @@
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { message } from 'antd';
-import type { ProColumns } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import type { MeterCommunityType, TreeDataType } from './data';
+import type { MeterCommunityType } from './data';
 import type { EquipFormType } from '@/components/EquipForm/data.d';
-import {
-  getEquipInfo,
-  editEquipConfig,
-  getDeviceTree,
-  getDeviceCollection,
-} from '@/services/equipment';
+import { getEquipInfo, editEquipConfig } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
-import {
-  tableTreeSelectValueTypeMap,
-  SelectTypeEnum,
-  TABLETREESELECT,
-} from '@/components/TableSelect';
-import type {
-  TableTreeModalProps,
-  dealTreeDataType,
-  TABLETREESELECTVALUETYPE,
-} from '@/components/TableSelect';
+import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
+import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { omit } from 'lodash';
 
 type DeviceDataType = {
@@ -40,7 +26,7 @@ type DeviceDataType = {
 };
 
 const Meter: React.FC<CommunityProps> = (props) => {
-  const { id, siteId, open, onOpenChange, model } = props;
+  const { id, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
@@ -66,16 +52,6 @@ const Meter: React.FC<CommunityProps> = (props) => {
     [id, equipData],
   );
 
-  const requestTree = useCallback(() => {
-    if (siteId) {
-      return getDeviceTree({ siteId });
-    }
-  }, [siteId]);
-
-  const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>((item) => {
-    item.checkable = !!item.productId;
-  }, []);
-
   useEffect(() => {
     if (open) {
       formRef?.current?.resetFields?.();
@@ -97,48 +73,6 @@ const Meter: React.FC<CommunityProps> = (props) => {
       });
     }
   }, [open]);
-
-  const tableSelectColumns: ProColumns[] = [
-    {
-      title: '数据采集点',
-      dataIndex: 'paramName',
-      width: 200,
-      ellipsis: true,
-    },
-    {
-      title: '数据采集点标识',
-      dataIndex: 'paramCode',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-  ];
-
-  const tableTreeSelectProps: TableTreeModalProps<
-    Record<string, any>,
-    Record<string, any>,
-    Record<string, any>,
-    TreeDataType
-  > = {
-    selectType: SelectTypeEnum.Device,
-    title: '选择设备',
-    treeProps: {
-      fieldNames: {
-        title: 'deviceName',
-        key: 'id',
-        children: 'children',
-      },
-      request: requestTree,
-    },
-    proTableProps: {
-      pagination: false,
-      columns: tableSelectColumns,
-      request: getDeviceCollection,
-    },
-    valueId: 'id',
-    valueName: 'deviceName',
-    dealTreeData: dealTreeData,
-  };
 
   const columns: ProFormColumnsType<
     MeterCommunityType<DeviceDataType[]>,
@@ -188,18 +122,6 @@ const Meter: React.FC<CommunityProps> = (props) => {
       valueType: 'digit',
       formItemProps: {
         rules: [{ required: true, message: '请填写功率变比' }],
-      },
-    },
-    {
-      title: '关联设备',
-      dataIndex: 'associateDevices',
-      valueType: TABLETREESELECT,
-      formItemProps: {
-        rules: [{ required: true, message: '请选择关联设备' }],
-      },
-      fieldProps: tableTreeSelectProps,
-      colProps: {
-        span: 24,
       },
     },
   ];

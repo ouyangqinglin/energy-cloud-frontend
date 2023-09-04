@@ -58,16 +58,7 @@ const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
     <>
       <Page
         top={<Overview data={deviceData} />}
-        bottom={
-          <DeviceInfo
-            id={id}
-            onChange={onDataChange}
-            setLoading={setLoading}
-            buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
-            }
-          />
-        }
+        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
       >
         <RealTime
           id={id}

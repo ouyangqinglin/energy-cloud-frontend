@@ -64,15 +64,7 @@ const Device: React.FC<DeviceDetailType> = (props) => {
       <Page
         className={styles.page}
         top={<Overview data={deviceData} introImg={deviceProductDataMap[productId]?.introImg} />}
-        bottom={
-          <DeviceInfo
-            id={id}
-            onChange={onDataChange}
-            buttons={
-              <Community id={id} siteId={deviceData?.siteId} type={deviceData?.paramConfigType} />
-            }
-          />
-        }
+        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
       >
         {loading ? (
           <div className="tx-center my24">

@@ -1,8 +1,18 @@
+/*
+ * @Description:
+ * @Author: YangJianFei
+ * @Date: 2023-09-01 15:10:57
+ * @LastEditTime: 2023-09-01 15:11:02
+ * @LastEditors: YangJianFei
+ * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\SiteStatus\index.tsx
+ */
+
 import React, { useEffect } from 'react';
 import Cell from '../../components/LayoutCell';
 import { request } from 'umi';
 import * as echarts from 'echarts';
-import { chinaMapOutline, chinaMap } from './config';
+import { chinaMapOutline, chinaMap, MapTypeEnum } from './config';
+import SiteStatus from './SiteStatus';
 
 const geoCoordMap = {
   台湾: [121.5135, 25.0308],
@@ -85,7 +95,7 @@ const convertData = function (value: any[]) {
   return res;
 };
 
-const ChinaMap: React.FC = () => {
+const SiteMap: React.FC = () => {
   const init = () => {
     const chartDom = document.getElementById('chinaMap');
     const myChart = echarts.init(chartDom);
@@ -380,6 +390,7 @@ const ChinaMap: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={1026} height={660} left={447} top={200}>
+        <SiteStatus type={MapTypeEnum.Country} code="100000" />
         <div
           id="chinaMap"
           style={{
@@ -394,4 +405,4 @@ const ChinaMap: React.FC = () => {
   );
 };
 
-export default ChinaMap;
+export default SiteMap;
