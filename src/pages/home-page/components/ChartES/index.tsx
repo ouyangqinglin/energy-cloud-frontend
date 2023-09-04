@@ -10,7 +10,7 @@ type RealTimePowerProps = {
 };
 
 export const lineLegendMap = new Map([
-  ['power', '储能总功率'],
+  ['esPower', '储能总功率'],
   // ['chargePower', '储能总充电功率(kW)'],
   // ['dischargePower', '储能总放电功率(kW)'],
 ]);
