@@ -18,7 +18,7 @@ export const updateInstallationWorkOrder = (data = {}) => {
   return put(`/oss/installationWorkOrder/edit`, data);
 };
 
-export const deleteInstallationWorkOrder = (data: { id?: string }) => {
+export const deleteInstallationWorkOrder = (data: { id?: string | number }) => {
   return del(`/oss/installationWorkOrder`, data);
 };
 

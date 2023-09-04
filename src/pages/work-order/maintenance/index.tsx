@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import type { MaintenanceListType, SiteInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
@@ -6,10 +6,11 @@ import { columns } from './config';
 import { deleteMaintenanceWorkOrder, getMaintenanceWorkOrderList } from './service';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
-import type { ActionType } from '@ant-design/pro-components';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { useSiteColumn } from '@/hooks';
 import { MaintenanceUpdate } from './Update';
 import Read from './Read';
+import { getInstallerList } from './service';
 import { message } from 'antd';
 import SelectSiteModal from './SelectSite';
 
@@ -19,6 +20,7 @@ const Maintenance = () => {
   const [siteModal, { set: setSiteModal }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const actionRef = useRef<ActionType>(null);
+  const [maintenanceOptions, setMaintenanceOptions] = useState<OptionType[]>();
   const [initialValues, setInitialValues] = useState<MaintenanceListType>(
     {} as MaintenanceListType,
   );
@@ -83,11 +85,43 @@ const Maintenance = () => {
       setUpdateModal(true);
     }
   };
-
+  const requestMaintenanceList = useCallback((searchText?: string) => {
+    const params = { pageSize: 20, current: 1, userName: searchText };
+    getInstallerList(params).then(({ data }) => {
+      setMaintenanceOptions(
+        data.list?.map?.((item: any) => {
+          return {
+            label: item?.userName || '',
+            value: item?.userId || '',
+          };
+        }),
+      );
+    });
+  }, []);
+  useEffect(() => {
+    requestMaintenanceList();
+  }, [requestMaintenanceList]);
+  const maintenanceColumns = {
+    title: '维护人员',
+    dataIndex: 'handlerName',
+    valueType: 'select',
+    hideInTable: true,
+    formItemProps: {
+      name: 'handlerBy',
+    },
+    fieldProps: {
+      showSearch: true,
+      filterOption: false,
+      onSearch: requestMaintenanceList,
+      options: maintenanceOptions,
+    },
+    width: 150,
+    ellipsis: true,
+  } as ProColumns<MaintenanceListType>;
   return (
     <>
       <YTProTable<MaintenanceListType, MaintenanceListType>
-        columns={[siteSearchColumn, ...columns]}
+        columns={[siteSearchColumn, maintenanceColumns, ...columns]}
         // toolBarRender={() => []}
         actionRef={actionRef}
         request={requestList}

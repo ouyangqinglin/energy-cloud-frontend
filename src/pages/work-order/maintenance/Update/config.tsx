@@ -301,7 +301,7 @@ export const Columns: (
             columns: [
               {
                 title: '用户名',
-                dataIndex: 'handlerBy',
+                dataIndex: 'userName',
                 width: 150,
                 ellipsis: true,
               },

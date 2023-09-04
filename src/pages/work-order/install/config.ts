@@ -1,6 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-components';
-import { InstallListType, OrderStatus, OrderType } from './type';
-import { format } from 'timeago.js';
+import type { InstallListType } from './type';
+import { OrderStatus, OrderType } from './type';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
@@ -66,6 +66,7 @@ export const columns: ProColumns<InstallListType>[] = [
     dataIndex: 'handlerName',
     width: 120,
     ellipsis: true,
+    hideInSearch: true,
   },
   {
     title: '工单状态',

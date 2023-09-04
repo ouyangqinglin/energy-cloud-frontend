@@ -1,21 +1,25 @@
-import { useCallback, useRef, useState } from 'react';
-import type { InstallListType, ObstacleReportInfo } from './type';
+import { useCallback, useRef, useState, useMemo, useEffect } from 'react';
+import type { InstallListType } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
 import { deleteInstallationWorkOrder, getObstacleReportList } from './service';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
-import type { ActionType } from '@ant-design/pro-components';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { Update } from './Update';
 import Read from './Read';
+import { getInstallerList } from './service';
+import type { OptionType } from '@/utils/dictionary';
+import { message } from 'antd';
 
 const Install = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   const [readModal, { set: setReadModal }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const actionRef = useRef<ActionType>(null);
-  const [initialValues, setInitialValues] = useState<ObstacleReportInfo>({} as ObstacleReportInfo);
+  const [initialValues, setInitialValues] = useState<InstallListType>({} as InstallListType);
+  const [serviceProviderOptions, setServiceProviderOptions] = useState<OptionType[]>();
 
   const customConfig: YTProTableCustomProps<InstallListType, any> = {
     toolBarRenderOptions: {
@@ -31,7 +35,7 @@ const Install = () => {
     option: {
       onDeleteChange(_, entity) {
         deleteInstallationWorkOrder({ id: entity.id })?.then?.(({ code, data }) => {
-          if (code === 200 || data) {
+          if (code == '200' || data) {
             message.success('删除成功');
             actionRef?.current?.reload?.();
           }
@@ -55,16 +59,53 @@ const Install = () => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-  const requestList: YTProTableCustomProps<ObstacleReportInfo, ObstacleReportInfo>['request'] = (
+  const requestList: YTProTableCustomProps<InstallListType, InstallListType>['request'] = (
     params,
   ) => {
     return getObstacleReportList(params);
   };
+  const requestServiceProviderList = useCallback((searchText?: string) => {
+    const params = { pageSize: 20, current: 1, userName: searchText };
+    getInstallerList(params).then(({ data }) => {
+      setServiceProviderOptions(
+        data.list?.map?.((item: any) => {
+          return {
+            label: item?.userName || '',
+            value: item?.userId || '',
+          };
+        }),
+      );
+    });
+  }, []);
+  useEffect(() => {
+    requestServiceProviderList();
+  }, [requestServiceProviderList]);
+  const serviceProviderColumns = {
+    title: '安装人员',
+    dataIndex: 'handlerName',
+    valueType: 'select',
+    hideInTable: true,
+    formItemProps: {
+      name: 'handlerBy',
+    },
+    fieldProps: {
+      showSearch: true,
+      filterOption: false,
+      onSearch: requestServiceProviderList,
+      options: serviceProviderOptions,
+    },
+    width: 150,
+    ellipsis: true,
+  } as ProColumns<InstallListType>;
+
+  const combinColumns = useMemo<ProColumns<InstallListType>[]>(() => {
+    return [...columns, serviceProviderColumns];
+  }, [serviceProviderOptions]);
 
   return (
     <>
       <YTProTable<InstallListType, InstallListType>
-        columns={columns}
+        columns={combinColumns}
         // toolBarRender={() => []}
         actionRef={actionRef}
         request={requestList}

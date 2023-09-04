@@ -66,6 +66,7 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     dataIndex: 'handlerName',
     width: 120,
     ellipsis: true,
+    hideInSearch: true,
   },
   {
     title: '工单状态',
@@ -106,9 +107,17 @@ export const columns: ProColumns<MaintenanceListType>[] = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    valueType: 'dateTime',
+    valueType: 'dateRange',
     width: 150,
-    hideInSearch: true,
+    render: (_, record) => record.createTime,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
   },
   {
     title: '创建人',
@@ -130,20 +139,5 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     hideInSearch: true,
     width: 100,
     ellipsis: true,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    valueType: 'dateRange',
-    width: 150,
-    search: {
-      transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
-    },
-    hideInTable: true,
   },
 ];
