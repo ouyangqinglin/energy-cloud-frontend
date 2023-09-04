@@ -14,6 +14,7 @@ export const columns: ProColumns<FaultType>[] = [
     dataIndex: 'createTime',
     valueType: 'dateTime',
     width: 150,
+    hideInSearch: true,
   },
   {
     title: '创建人',
@@ -28,25 +29,18 @@ export const columns: ProColumns<FaultType>[] = [
     ellipsis: true,
   },
   {
-    title: '故障编码',
-    dataIndex: 'id',
-    width: 150,
+    title: '站点名称',
+    dataIndex: 'siteName',
+    width: 120,
     ellipsis: true,
-    hideInSearch: true,
   },
+
   {
     title: '故障标题',
     dataIndex: 'title',
     width: 120,
     ellipsis: true,
     hideInSearch: true,
-  },
-  {
-    title: '站点',
-    dataIndex: 'siteName',
-    hideInSearch: true,
-    width: 120,
-    ellipsis: true,
   },
   {
     title: '状态',
@@ -90,5 +84,20 @@ export const columns: ProColumns<FaultType>[] = [
     hideInSearch: true,
     width: 100,
     ellipsis: true,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    width: 150,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
+    hideInTable: true,
   },
 ];

@@ -13,7 +13,7 @@ import DeviceMonitor from '@/components/DeviceMonitor';
 import { getChildEquipment, DeviceDataType } from '@/services/equipment';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
-import LogTable from '@/components/LogTable';
+import RunLog from '@/pages/site-monitor/RunLog';
 import { getLogs, getDeviceInfo } from '@/services/equipment';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
@@ -158,7 +158,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '日志',
         key: '4',
-        children: <LogTable params={{ id: selectOrg?.deviceId || '' }} request={getLogs} />,
+        children: <RunLog deviceId={selectOrg?.deviceId || ''} />,
       },
       {
         label: '配置',

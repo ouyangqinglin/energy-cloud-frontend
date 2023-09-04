@@ -17,6 +17,25 @@ export const Columns: (
 ) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = () => {
   return [
     {
+      title: '站点名称',
+      dataIndex: ['siteName'],
+      disable: true,
+      fieldProps: {
+        disabled: true,
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '请输入',
+          },
+        ],
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
       title: '故障标题',
       dataIndex: ['name'],
       formItemProps: {
