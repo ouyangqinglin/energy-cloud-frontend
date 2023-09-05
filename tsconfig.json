@@ -12,7 +12,7 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
+    // "suppressImplicitAnyIndexErrors": true,//是否抑制隐式any索引的错误
     "noUnusedLocals": true,
     "allowJs": true,
     "skipLibCheck": true,

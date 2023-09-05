@@ -251,7 +251,7 @@ export const Columns: (
       },
     },
     {
-      title: '维护人',
+      title: '安装人',
       valueType: TABLESELECT,
       dataIndex: 'handler',
       colProps: {
