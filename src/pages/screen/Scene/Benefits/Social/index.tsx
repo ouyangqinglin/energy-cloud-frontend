@@ -26,6 +26,7 @@ const BenefitSocial: FC<Props> = (props) => {
       unit: '棵',
       comma: true,
       num: props.cumulativeTree,
+      floatLength: 0,
     },
   ];
 

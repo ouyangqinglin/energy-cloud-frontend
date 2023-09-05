@@ -60,7 +60,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     title: '上网电量',
     unit: 'kWh',
     floatLength: 2,
-    field: 'discharge',
+    field: 'disCharge',
     numStyle: {
       width: 'auto',
       fontWeight: 500,

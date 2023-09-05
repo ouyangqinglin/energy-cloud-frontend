@@ -19,10 +19,10 @@ import { logType } from '@/utils/dictionary';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 
-export type LogTableProps = {
+export type OperationLogProps = {
   deviceId?: string;
 };
-const OperationLog: React.FC<LogTableProps> = (props) => {
+const OperationLog: React.FC<OperationLogProps> = (props) => {
   const { deviceId } = props;
   const [open, setOpen] = useState(false);
   const [siteId, setSiteId] = useState<string>();
@@ -85,12 +85,14 @@ const OperationLog: React.FC<LogTableProps> = (props) => {
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '设备序列号',
       dataIndex: 'sn',
       width: 120,
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '日志文件名称',

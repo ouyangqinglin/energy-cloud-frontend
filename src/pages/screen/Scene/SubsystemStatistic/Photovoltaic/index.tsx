@@ -1,12 +1,10 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { useMemo } from 'react';
 import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getCurrentPowerGeneration, getPVChart, getStatistics } from './service';
 import { dataSource, dataSourceRealTime, DEFAULT_REQUEST_INTERVAL } from './config';
-import { keepTwoDecimalWithUnit } from '@/utils/math';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
 import { List } from 'antd';
 import classnames from 'classnames';

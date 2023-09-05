@@ -1,5 +1,6 @@
-import { ProColumns } from '@ant-design/pro-components';
-import { FaultType, OrderStatus } from './type';
+import type { ProColumns } from '@ant-design/pro-components';
+import type { FaultType } from './type';
+import { OrderStatus } from './type';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
@@ -12,9 +13,17 @@ export const columns: ProColumns<FaultType>[] = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    valueType: 'dateTime',
+    valueType: 'dateRange',
     width: 150,
-    hideInSearch: true,
+    render: (_, record) => record.createTime,
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
   },
   {
     title: '创建人',
@@ -84,20 +93,5 @@ export const columns: ProColumns<FaultType>[] = [
     hideInSearch: true,
     width: 100,
     ellipsis: true,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    valueType: 'dateRange',
-    width: 150,
-    search: {
-      transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
-    },
-    hideInTable: true,
   },
 ];

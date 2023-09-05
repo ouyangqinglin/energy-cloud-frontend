@@ -3,7 +3,6 @@ import BenefitsEconomic from './Economic';
 import { useRequest } from 'umi';
 import { getBenefits } from './service';
 import BenefitSocial from './Social';
-import { isEmpty } from 'lodash';
 import type { BenefitsRes } from './type';
 
 const Benefit: FC = () => {
@@ -15,15 +14,14 @@ const Benefit: FC = () => {
     }
     const excludeKeys = ['siteId'];
     Reflect.ownKeys(resData).forEach((key) => {
-      let value = resData[key];
+      const value = resData[key];
       if (!excludeKeys.includes(value)) {
-        value = isEmpty(value) ? undefined : Math.floor(Number(value));
+        // value = isEmpty(value) ? undefined : Math.floor(Number(value));
       }
       transformData[key] = value;
     });
     return transformData;
   }, [resData]);
-
   return (
     <>
       <BenefitSocial {...data} />

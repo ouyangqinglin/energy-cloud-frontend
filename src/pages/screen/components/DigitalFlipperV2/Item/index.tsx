@@ -8,7 +8,7 @@ import { isNumber, isNaN, merge } from 'lodash';
 TweenOne.plugins.push(Children);
 
 export type DigitalFlipperItemProps = {
-  num: string;
+  num: string | number;
   title: string;
   floatLength?: number;
   comma?: boolean;
@@ -26,7 +26,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   titleStyle = {},
   title,
   comma = false,
-  floatLength = 0,
+  floatLength = 2,
   unit = '元',
   unitStyle = {},
 }) => {

@@ -117,9 +117,9 @@ const RealTime: React.FC<
       ) : (
         <>
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="直流输入" />
+            <Label title="直流侧" />
           ) : (
-            <Detail.Label title="直流输入" />
+            <Detail.Label title="直流侧" />
           )}
           <YTProTable
             className="mb32"
@@ -132,9 +132,9 @@ const RealTime: React.FC<
             scroll={{ y: 'auto' }}
           />
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="交流输出" />
+            <Label title="交流侧" />
           ) : (
-            <Detail.Label title="交流输出" />
+            <Detail.Label title="交流侧" />
           )}
           <Detail data={equipmentData} items={runItems} {...(detailProps || {})} />
         </>
