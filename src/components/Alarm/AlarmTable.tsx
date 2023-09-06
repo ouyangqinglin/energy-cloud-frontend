@@ -10,8 +10,8 @@ import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { Modal, message, Space, Checkbox } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
 import { useRequest, useHistory } from 'umi';
-import type { ProColumns, ProTableProps, ActionType } from '@ant-design/pro-components';
-import { ProFormInstance } from '@ant-design/pro-components';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
 import { alarmClearStatus, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
@@ -22,9 +22,6 @@ import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
 import type { OptionType } from '@/utils/dictionary';
-import { useSearchSelect } from '@/hooks';
-import { SearchParams } from '@/hooks/useSearchSelect';
-import { getProductTypeList } from '@/services/equipment';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
@@ -361,7 +358,11 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         fixed: 'right',
         hideInTable: type == PageTypeEnum.History,
         render: (_, record) => {
-          return <ClearOutlined className={styles.cleanUp} onClick={() => onCleanClick(record)} />;
+          return !record.status ? (
+            <ClearOutlined className={styles.cleanUp} onClick={() => onCleanClick(record)} />
+          ) : (
+            ''
+          );
         },
       },
     ];

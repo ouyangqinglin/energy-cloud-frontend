@@ -64,7 +64,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
           <span>{item.label}</span>
           <div>
             <span className={styles.field}>
-              {getPlaceholder(Math.floor(energyData?.[item.field] || 0))}
+              {getPlaceholder(Number(energyData?.[item.field] || 0).toFixed(2))}
             </span>
           </div>
         </div>
@@ -80,7 +80,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
           <span>{item.label}</span>
           <div>
             <span className={styles.field}>
-              {getPlaceholder(Math.floor(energyData?.[item.field]) || 0)}
+              {getPlaceholder(Number(energyData?.[item.field] || 0).toFixed(2))}
             </span>
           </div>
         </div>

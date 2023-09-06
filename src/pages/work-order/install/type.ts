@@ -41,6 +41,17 @@ export type InstallListType = {
   site?: any;
   current: number;
   pageSize: number;
+  parentId: number;
+  ancestors: string;
+  orgName: string;
+  orderNum: number;
+  leader?: any;
+  phone: string;
+  delFlag: string;
+  parentName?: any;
+  types?: any;
+  createByName: string;
+  children: any[];
 };
 
 export type AgentFormType = {
