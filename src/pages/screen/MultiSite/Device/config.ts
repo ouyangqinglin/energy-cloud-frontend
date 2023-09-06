@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-23 18:59:57
- * @LastEditTime: 2023-09-01 14:46:20
+ * @LastEditTime: 2023-09-05 09:25:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Device\config.ts
  */
@@ -19,7 +19,7 @@ export const items: DigitStatItemType[] = [
     unit: '台',
     field: 'allDeviceNum',
     valueStyle: {
-      color: '#34E1B6',
+      color: 'white',
     },
   },
   {

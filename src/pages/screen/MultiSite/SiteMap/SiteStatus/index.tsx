@@ -16,7 +16,7 @@ import { MapTypeEnum } from '../config';
 
 export type SiteStatusProps = {
   type: MapTypeEnum;
-  code: string;
+  code: number;
 };
 
 const SiteStatus: React.FC<SiteStatusProps> = memo((props) => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-03-13 19:26:34
- * @LastEditTime: 2023-05-23 15:57:49
+ * @LastEditTime: 2023-09-04 19:52:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\map.ts
  */

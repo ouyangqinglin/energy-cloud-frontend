@@ -47,7 +47,6 @@ const dealParams = (
         dataIndex: item.id + '-' + deviceId,
         width: 120,
         ellipsis: true,
-        hideInSearch: true,
       });
     });
     cols.push({
@@ -56,7 +55,7 @@ const dealParams = (
       children: deviceChildren,
     });
     params.keyValue = deviceData;
-    return deviceChildren;
+    return cols;
   } else {
     const deviceDataMap = new Map<string, DeviceMapDataType>();
     params?.collection?.forEach?.((item) => {
@@ -194,7 +193,7 @@ const Search: React.FC<SearchProps> = (props) => {
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}
-          headerTitle={(isDeviceChild ? deviceData?.name + '：' : '') + '采样明细'}
+          headerTitle="采样明细"
           toolBarRenderOptions={{
             add: {
               show: false,

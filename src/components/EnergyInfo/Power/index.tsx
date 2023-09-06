@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-08-29 16:40:07
+ * @LastEditTime: 2023-09-04 14:22:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -49,7 +49,7 @@ const Power: React.FC<ComProps> = (props) => {
           if (typeof value[1] === 'number') {
             result.push(
               value[1] > 0
-                ? -value[1] + `kW（<span style="color:${colorEnum.DisCharge}">放电</span>）`
+                ? value[1] + `kW（<span style="color:${colorEnum.DisCharge}">放电</span>）`
                 : value[1] + `kW（<span style="color:${colorEnum.Charge}">充电</span>）`,
             );
           } else {

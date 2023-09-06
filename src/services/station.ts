@@ -18,6 +18,8 @@ export type SiteDataType = {
   label?: string;
   value?: string;
   isLoad?: boolean;
+  longitude?: number;
+  latitude?: number;
 };
 
 export type SiteTypeOptionType = {

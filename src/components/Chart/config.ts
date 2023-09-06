@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-08-31 16:20:10
+ * @LastEditTime: 2023-09-04 19:11:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -163,4 +163,148 @@ export const defaultPolarBar: any = {
       color: 'white',
     },
   },
+};
+
+export const defaultMapOption: any = {
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(12,23,39,0.8)',
+    padding: [16, 30],
+    borderColor: '#00DEFF',
+    borderWidth: 1,
+    textStyle: {
+      color: '#fff',
+      fontSize: 18,
+    },
+    formatter: (params: any) => {
+      const { data } = params;
+      return `${data?.name}-${data?.value?.[2]}个站点`;
+    },
+  },
+  geo: {
+    map: 'china',
+    show: true,
+    roam: false,
+    zoom: 1.5,
+    top: 210,
+    z: 10,
+    label: {
+      show: true,
+      color: 'rgba(118,138,162)',
+    },
+    itemStyle: {
+      areaColor: '#082b56',
+      borderColor: '#4873a6', //线
+      shadowColor: 'none', //外发光
+      shadowBlur: 0,
+    },
+    emphasis: {
+      label: {
+        show: true,
+        color: 'white',
+      },
+      itemStyle: {
+        areaColor: 'rgba(52,185,255,1)', //悬浮区背景
+      },
+    },
+  },
+  series: [
+    // 标记点
+    {
+      type: 'scatter',
+      coordinateSystem: 'geo',
+      //symbol: 'image://http://localhost:8000/dot.png',
+      symbolSize: [30, 30],
+      z: 20,
+      label: {
+        show: true,
+        backgroundColor: 'rgba(0,22,48,0.1)',
+        color: '#34E1B6',
+        fontWeight: 500,
+        offset: [0, -20],
+        fontSize: 16,
+        formatter(value: any) {
+          return value.data.value[2];
+        },
+      },
+      itemStyle: {
+        opacity: 1,
+      },
+      showEffectOn: 'render',
+      rippleEffect: {
+        brushType: 'stroke',
+      },
+      hoverAnimation: true,
+    },
+    {
+      map: 'chinaMapOutline',
+      silent: true,
+      type: 'map',
+      zoom: 1,
+      top: 63,
+      z: 15,
+      label: {
+        normal: {
+          show: false,
+          textStyle: {
+            color: '#fff',
+          },
+        },
+        emphasis: {
+          textStyle: {
+            color: '#fff',
+          },
+        },
+      },
+      roam: false,
+      itemStyle: {
+        normal: {
+          areaColor: 'transparent',
+          borderColor: '#1390f0',
+          borderWidth: 1.5,
+          shadowBlur: 10,
+        },
+        emphasis: {
+          areaColor: 'transparent', //悬浮背景
+          textStyle: {
+            color: '#fff',
+          },
+        },
+      },
+    },
+    {
+      map: 'chinaMapOutline1',
+      silent: true,
+      type: 'map',
+      zoom: 1,
+      label: {
+        normal: {
+          show: false,
+          textStyle: {
+            color: '#fff',
+          },
+        },
+        emphasis: {
+          textStyle: {
+            color: '#fff',
+          },
+        },
+      },
+      roam: false,
+      itemStyle: {
+        normal: {
+          areaColor: '#0d1c29',
+          borderColor: '#094981',
+          borderWidth: 1.5,
+          shadowBlur: 0,
+        },
+        emphasis: {
+          areaColor: 'transparent', //悬浮背景
+          textStyle: {
+            color: '#fff',
+          },
+        },
+      },
+    },
+  ],
 };
