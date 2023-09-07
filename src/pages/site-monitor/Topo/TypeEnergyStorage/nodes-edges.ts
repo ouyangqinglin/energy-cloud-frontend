@@ -121,24 +121,29 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
         width: 180,
         height: 102,
         imageContent: {
-          width: 40,
-          height: 40,
+          width: 74,
+          height: 101,
           soc: 12,
         },
         textContent: {
           boxText: {
             width: 146,
-            height: 36,
+            height: 74,
             label: data.voltaicPileName,
           },
           column: [
             {
-              label: '簇电压(V):',
+              label: 'SOC(%):',
+              value: data.soc,
+              field: 'todayConsumption',
+            },
+            {
+              label: '总电压(V):',
               value: data.totalBatteryVoltage,
               field: 'todayConsumption',
             },
             {
-              label: '簇电流(A):',
+              label: '总电流(A):',
               value: data.totalBatteryCurrent,
               field: 'todayConsumption',
             },

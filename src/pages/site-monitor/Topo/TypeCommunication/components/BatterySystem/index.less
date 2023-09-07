@@ -1,26 +1,19 @@
 .wrapper {
   height: 100%;
   border: 1px dashed #00b42a;
-
   .line {
     width: 45px;
     height: 4px;
     background-color: #ececec;
   }
-
   .boxContent {
     padding: 27px;
-
     .boxImage {
       display: flex;
       flex-flow: column;
       align-items: center;
       justify-content: center;
-
       .boxTitle {
-        display: flex;
-        justify-content: center;
-        // margin-right: 25px;
         margin-top: 11px;
         margin-bottom: 24px;
         color: #191919;
@@ -28,9 +21,13 @@
         font-size: 14px;
         font-family: PingFangSC-Medium, PingFang SC;
         line-height: 22px;
-        text-wrap: nowrap;
-        word-wrap: nowrap;
       }
     }
+  }
+  .connectIcon {
+    position: absolute;
+    top: 0;
+    left: 110%;
+    width: 20px;
   }
 }

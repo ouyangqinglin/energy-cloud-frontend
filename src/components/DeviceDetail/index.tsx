@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-08-16 08:49:53
+ * @LastEditTime: 2023-09-06 09:56:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -129,7 +129,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     if (id) {
       run({ parentId: id, maxDepth: 1 });
       runDevice({ deviceId: id }).then((data) => {
-        setSelectOrg({ deviceId: id, key: id, productId, name: data?.name });
+        setSelectOrg({ deviceId: id, key: id, productId, name: data?.name, sn: data?.sn });
       });
     }
   }, [id, productId]);
@@ -158,7 +158,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '日志',
         key: '4',
-        children: <RunLog deviceId={selectOrg?.deviceId || ''} />,
+        children: <RunLog deviceId={selectOrg?.deviceId || ''} isDeviceChild />,
       },
       {
         label: '配置',

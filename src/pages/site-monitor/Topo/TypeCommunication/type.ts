@@ -1,4 +1,8 @@
+import { OnlineStatusEnum } from '@/utils/dictionary';
+
 export const enum VirtualDeviceType {
+  System = 0,
+  Energy = 1,
   MQTT = 10000,
   XJ,
   HW,
@@ -40,4 +44,5 @@ export interface TypeCommunicationData {
   name: string;
   type: DeviceType & VirtualDeviceType;
   children: TypeCommunicationData[] | null;
+  connectStatus: OnlineStatusEnum;
 }

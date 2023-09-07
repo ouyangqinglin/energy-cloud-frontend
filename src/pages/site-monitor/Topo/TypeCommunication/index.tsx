@@ -41,7 +41,7 @@ const getLayoutedElements = (nodes: Node<ExtraNodeData>[], edges: Edge[], direct
   }
   const dagreGraph = new dagre.graphlib.Graph<Node<ExtraNodeData>, Edge>();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: direction, nodesep: 100, ranksep: 100 });
+  dagreGraph.setGraph({ rankdir: direction, nodesep: 200, ranksep: 100 });
 
   nodes.forEach((node) => {
     const size = getNodeRealSize(node);

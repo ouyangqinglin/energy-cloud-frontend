@@ -16,10 +16,15 @@ import Icon_CHARGING_STATION_AC from '../../svg-icon/icon_交流充电桩.svg';
 
 import Icon_ELECTRICITY_METER from '../../svg-icon/icon_电表.svg';
 
+import IconOffline from '../../svg-icon/icon_设备离线.svg';
+import IconOnline from '../../svg-icon/icon_设备在线.svg';
+
 import type { ExtraNodeData } from '../../../type';
 import styles from './index.less';
 import { DeviceType } from '../../type';
 import { uniqueId } from 'lodash';
+import { OnlineStatusEnum } from '@/utils/dictionary';
+import { isEmpty } from '@/utils';
 
 const iconMap = new Map([
   [DeviceType.PV_INVERTER_HW_40KWP, Icon_PV_INVERTER_HW],
@@ -41,6 +46,10 @@ const iconMap = new Map([
   [DeviceType.ELECTRICITY_METER, Icon_ELECTRICITY_METER],
   [DeviceType.ELECTRICITY_METER_215, Icon_ELECTRICITY_METER],
   [DeviceType.ELECTRICITY_METER_RAIG200, Icon_ELECTRICITY_METER],
+]);
+const connectStatusIconMap = new Map([
+  [OnlineStatusEnum.Offline, IconOffline],
+  [OnlineStatusEnum.Online, IconOnline],
 ]);
 
 const BatterySystem = ({ data }: { data: ExtraNodeData }) => {
@@ -76,8 +85,18 @@ const BatterySystem = ({ data }: { data: ExtraNodeData }) => {
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
                       backgroundSize: '100% 100%',
+                      position: 'relative',
                     }}
-                  />
+                  >
+                    {isEmpty(d.connectStatus) ? (
+                      <></>
+                    ) : (
+                      <img
+                        className={styles.connectIcon}
+                        src={connectStatusIconMap.get(d.connectStatus)}
+                      />
+                    )}
+                  </div>
                   <div className={styles.boxTitle}>{d.name}</div>
                 </div>
               </Col>

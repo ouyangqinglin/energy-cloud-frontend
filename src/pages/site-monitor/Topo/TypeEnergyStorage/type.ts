@@ -7,6 +7,7 @@ export interface AllTypeData {
 
 export interface VoltaicPileVo {
   voltaicPileName: string;
+  soc?: number;
   totalBatteryVoltage?: any;
   totalBatteryCurrent?: any;
   maximumIndividualTemperature?: any;

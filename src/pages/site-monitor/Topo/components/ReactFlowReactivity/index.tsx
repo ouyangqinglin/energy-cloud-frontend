@@ -29,7 +29,7 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
       }}
     >
       <ReactFlow
-        panOnDrag={false}
+        panOnDrag={true}
         fitView
         connectionLineType={ConnectionLineType.SmoothStep}
         minZoom={0.2}

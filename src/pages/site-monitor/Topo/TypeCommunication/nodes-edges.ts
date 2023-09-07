@@ -78,6 +78,7 @@ const getNodeByType = (type: VirtualDeviceType, data: TypeCommunicationData) => 
   switch (type) {
     case VirtualDeviceType.MQTT:
       return genMQTT(data);
+    case VirtualDeviceType.Energy:
     case VirtualDeviceType.HW:
     case VirtualDeviceType.EM:
     case VirtualDeviceType.XJ:
@@ -89,31 +90,26 @@ const getNodeByType = (type: VirtualDeviceType, data: TypeCommunicationData) => 
   }
 };
 
-const buildTreeByData = (
-  data: TypeCommunicationData | TypeCommunicationData[],
-  nodes: GraphNode[] = [],
-) => {
-  // 二级
-  if (!Array.isArray(data) && data.type === VirtualDeviceType.MQTT) {
-    const root = genSystemCloud() as GraphNode;
-    root.children = [];
-    nodes.push(root);
-
-    const node = getNodeByType(data.type, data) as GraphNode;
-    node.children = [];
-    root.children.push(node);
-    buildTreeByData(data.children as TypeCommunicationData[], node.children);
-  }
-
-  if (Array.isArray(data)) {
-    data?.forEach((it) => {
-      const node = getNodeByType(it.type, it) as GraphNode;
-      if (node) {
-        nodes.push(node);
+const buildTreeByData = (data: TypeCommunicationData[], nodes: GraphNode[] = []) => {
+  data?.forEach?.((item) => {
+    let node;
+    if (item.type === VirtualDeviceType.System) {
+      node = genSystemCloud() as GraphNode;
+    } else {
+      node = getNodeByType(item.type, item) as GraphNode;
+    }
+    if (node) {
+      if (
+        item.children &&
+        item.children.length &&
+        [VirtualDeviceType.System, VirtualDeviceType.MQTT].includes(item.type)
+      ) {
+        node.children = [];
+        buildTreeByData(item.children, node.children);
       }
-    });
-  }
-
+      nodes.push(node);
+    }
+  });
   return nodes;
 };
 
@@ -124,7 +120,7 @@ export const getNodesAndEdges = (data: TypeCommunicationData) => {
       initialEdges: [],
     };
   }
-  const initialNodes = buildTreeByData(data);
+  const initialNodes = buildTreeByData([data]);
   const initialEdges = buildEdges(initialNodes) as Edge[];
   return {
     initialNodes: flattenTree(initialNodes),

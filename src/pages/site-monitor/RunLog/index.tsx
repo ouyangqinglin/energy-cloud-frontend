@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-08-25 17:49:30
+ * @LastEditTime: 2023-09-06 09:55:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
@@ -20,10 +20,11 @@ import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 
 export type OperationLogProps = {
+  isDeviceChild?: boolean;
   deviceId?: string;
 };
 const OperationLog: React.FC<OperationLogProps> = (props) => {
-  const { deviceId } = props;
+  const { isDeviceChild, deviceId } = props;
   const [open, setOpen] = useState(false);
   const [siteId, setSiteId] = useState<string>();
   const actionRef = useRef<ActionType>();
@@ -85,14 +86,14 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
-      hideInSearch: true,
+      hideInSearch: isDeviceChild,
     },
     {
       title: '设备序列号',
       dataIndex: 'sn',
       width: 120,
       ellipsis: true,
-      hideInSearch: true,
+      hideInSearch: isDeviceChild,
     },
     {
       title: '日志文件名称',
@@ -101,13 +102,6 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       ellipsis: true,
       hideInSearch: true,
     },
-    // {
-    //   title: '日志编码',
-    //   dataIndex: 'id',
-    //   width: 120,
-    //   ellipsis: true,
-    //   hideInSearch: true,
-    // },
     {
       title: '日志类型',
       dataIndex: 'type',
@@ -150,7 +144,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
 
   return (
     <>
-      <SiteLabel className="px24 pt24 mb0" onChange={onChange} />
+      {isDeviceChild ? <></> : <SiteLabel className="px24 pt24 mb0" onChange={onChange} />}
       <YTProTable<OperationLogType, OperationLogType>
         actionRef={actionRef}
         columns={columns}

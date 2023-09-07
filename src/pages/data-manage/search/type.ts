@@ -16,6 +16,7 @@ export type CollectionValueType = {
     deviceId?: string;
     paramCode?: string;
     deviceName?: string;
+    deviceSN?: string;
   };
 };
 
@@ -31,6 +32,7 @@ export type TableSearchType = {
     name?: string;
     deviceId?: string;
     deviceName?: string;
+    sn?: string;
   }[];
 };
 

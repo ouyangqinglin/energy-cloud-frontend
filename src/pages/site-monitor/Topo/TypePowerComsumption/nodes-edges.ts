@@ -81,7 +81,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.LoadCS:
       return getDefaultConfig({
-        title: '充电桩',
+        title: '充电桩总计',
         imageContent: {
           icon: IconLoadCS,
           width: 80,

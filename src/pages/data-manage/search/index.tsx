@@ -13,6 +13,7 @@ import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 
 type DeviceMapDataType = {
+  sn: string;
   deviceName: string;
   collection: {
     name: string;
@@ -28,8 +29,7 @@ type SearchProps = {
 const dealParams = (
   params: TableSearchType,
   isDeviceChild?: boolean,
-  deviceId?: string,
-  deviceName?: string,
+  paramsDeviceData?: DeviceDataType,
 ) => {
   const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
   const deviceData: TableSearchType['keyValue'] = [];
@@ -39,18 +39,18 @@ const dealParams = (
       deviceData.push({
         key: item.id,
         name: item.name,
-        deviceId: deviceId,
-        deviceName: deviceName,
+        deviceId: paramsDeviceData?.deviceId,
+        deviceName: paramsDeviceData?.name,
       });
       deviceChildren.push({
         title: item.name,
-        dataIndex: item.id + '-' + deviceId,
+        dataIndex: item.id + '-' + paramsDeviceData?.deviceId,
         width: 120,
         ellipsis: true,
       });
     });
     cols.push({
-      title: deviceName,
+      title: `${paramsDeviceData?.name}(${paramsDeviceData?.sn})`,
       hideInSearch: true,
       children: deviceChildren,
     });
@@ -66,6 +66,7 @@ const dealParams = (
       } else {
         deviceDataMap.set(item?.node?.deviceId || '', {
           deviceName: item?.node?.deviceName || '',
+          sn: item?.node?.deviceSN || '',
           collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
         });
       }
@@ -78,6 +79,7 @@ const dealParams = (
           name: item.name,
           deviceId: key,
           deviceName: value.deviceName,
+          sn: value.sn,
         });
         arr.push({
           title: item.name,
@@ -87,7 +89,7 @@ const dealParams = (
         });
       });
       cols.push({
-        title: value.deviceName,
+        title: `${value.deviceName}(${value.sn})`,
         hideInSearch: true,
         children: arr,
       });
@@ -126,7 +128,7 @@ const Search: React.FC<SearchProps> = (props) => {
   const onRequest = useCallback(
     (params: TableSearchType) => {
       if (params?.collection && params?.collection?.length) {
-        const cols = dealParams(params, isDeviceChild, deviceData?.deviceId, deviceData?.name);
+        const cols = dealParams(params, isDeviceChild, deviceData);
         setCollectionColumns(cols);
         const result = getList({
           ...params,
@@ -160,7 +162,7 @@ const Search: React.FC<SearchProps> = (props) => {
 
   const requestExport = useCallback(
     (params: TableSearchType) => {
-      dealParams(params, isDeviceChild, deviceData?.deviceId, deviceData?.name);
+      dealParams(params, isDeviceChild, deviceData);
       const date = params?.date || [];
       return exportList({
         ...params,

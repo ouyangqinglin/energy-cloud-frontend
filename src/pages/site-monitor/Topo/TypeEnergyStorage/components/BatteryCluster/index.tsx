@@ -3,7 +3,7 @@ import { Handle, Position } from 'reactflow';
 import BoxText from '../../../components/BoxText';
 import { ExtraNodeData } from '../../../type';
 import IconBatteryCluster from '../../svg-icon/icon_电池簇.svg';
-import IconBatteryClusterEmpty from '../../svg-icon/icon_电池簇(1).svg';
+import IconBatteryClusterEmpty from '../../svg-icon/icon_电池簇.svg';
 
 import styles from './index.less';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
