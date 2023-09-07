@@ -41,6 +41,7 @@ const iconMap = new Map([
 
   [DeviceType.PCS_215, Icon_PCS_215],
   [DeviceType.EMS_215, Icon_EMS_215],
+  [DeviceType.BATTERY_STACK_215, Icon_EMS_215],
   [DeviceType.AIR_CONDITIONING_215, Icon_AIR_CONDITIONING_215],
 
   [DeviceType.ELECTRICITY_METER, Icon_ELECTRICITY_METER],
