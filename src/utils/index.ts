@@ -43,13 +43,13 @@ export const getPathTitleMap = (data?: AntMenuProps[]): Map<string, string> => {
   return map;
 };
 
-export function arrayToMap(array: any[], key = 'value', value = 'label') {
-  const map = {};
+export const arrayToMap = (array: any[], key = 'value', value = 'label') => {
+  const map: Record<string, any> = {};
   array?.forEach?.((item) => {
     map['' + item[key]] = item[value];
   });
   return map;
-}
+};
 
 export const isEmpty = (value: any) => {
   return value === null || value === undefined || value === '';

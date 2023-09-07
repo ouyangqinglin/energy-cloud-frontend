@@ -22,6 +22,7 @@ import SaveEnergy from './SaveEnergy';
 import IncomeStat from './IncomeStat';
 import InstallCapacity from './InstallCapacity';
 import SiteMap from './SiteMap';
+import '@/assets/styles/font.less';
 
 const MultiSite: React.FC = () => {
   return (

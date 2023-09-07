@@ -76,6 +76,10 @@ const SiteMap: React.FC = () => {
     }
   }, []);
 
+  const onLinkChinaMap = useCallback(() => {
+    setAdCode(100000);
+  }, []);
+
   useEffect(() => {
     const chart = echarts.init(chartRef?.current);
     setChartInstance(chart);
@@ -116,7 +120,11 @@ const SiteMap: React.FC = () => {
             display: adCode == 100000 ? 'block' : 'none',
           }}
         ></div>
-        <ProvinceMap adCode={adCode} style={{ display: adCode == 100000 ? 'none' : 'block' }} />
+        <ProvinceMap
+          adCode={adCode}
+          style={{ display: adCode == 100000 ? 'none' : 'block' }}
+          onBack={onLinkChinaMap}
+        />
       </Cell>
     </>
   );

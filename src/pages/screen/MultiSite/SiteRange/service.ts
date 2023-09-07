@@ -27,11 +27,6 @@ export type SiteDataType = {
   income?: number;
 };
 
-export type SiteIncomeType = {
-  charge?: SiteDataType[];
-  energy?: SiteDataType[];
-};
-
 export const getPowerData = () => {
   return request<ResponseCommonData<PowerDataType[]>>(
     `/oss/sitesBigScreen/getIndexSiteRankingMains`,
@@ -46,7 +41,7 @@ export const getPowerData = () => {
 };
 
 export const getIncomeData = () => {
-  return request<ResponseCommonData<SiteIncomeType>>(
+  return request<ResponseCommonData<SiteDataType[]>>(
     `/oss/sitesBigScreen/getIndexSiteRankingIncome`,
     {
       method: 'GET',

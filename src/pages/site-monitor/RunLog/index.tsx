@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-09-06 09:55:43
+ * @LastEditTime: 2023-09-07 16:57:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { getList, getDetail } from './service';
 import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
@@ -54,6 +54,10 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       actionRef.current?.reloadAndRest?.();
     }
   }, []);
+
+  useEffect(() => {
+    actionRef?.current?.reloadAndRest?.();
+  }, [deviceId]);
 
   const detailItems: DetailItem[] = [
     { label: '日志ID', field: 'id' },

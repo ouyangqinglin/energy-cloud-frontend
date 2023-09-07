@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-09-06 09:56:13
+ * @LastEditTime: 2023-09-07 17:01:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -30,6 +30,7 @@ import {
 } from '@/components/YTIcons';
 import { TreeNode } from './config';
 import Configuration from './Configuration';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 const deviceMap = new Map([
   [1, YTEmsOutlined],
@@ -127,7 +128,9 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
 
   useEffect(() => {
     if (id) {
-      run({ parentId: id, maxDepth: 1 });
+      if ((productId as any) != DeviceTypeEnum.BatteryStack) {
+        run({ parentId: id, maxDepth: 1 });
+      }
       runDevice({ deviceId: id }).then((data) => {
         setSelectOrg({ deviceId: id, key: id, productId, name: data?.name, sn: data?.sn });
       });
@@ -163,7 +166,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '配置',
         key: '5',
-        children: <Configuration deviceId={id} />,
+        children: <Configuration deviceId={selectOrg?.deviceId || ''} />,
       },
     ];
   }, [selectOrg, productId, id]);

@@ -28,7 +28,7 @@ export type GeoCoordDataType = {
 export const geoCoordData: GeoCoordDataType[] = [
   { name: '台湾省', adCode: 710000, lnglat: [121.5135, 25.0308] },
   { name: '黑龙江省', adCode: 230000, lnglat: [127.9688, 45.368] },
-  { name: '内蒙古', adCode: 150000, lnglat: [110.3467, 41.4899] },
+  { name: '内蒙古自治区', adCode: 150000, lnglat: [110.3467, 41.4899] },
   { name: '吉林省', adCode: 220000, lnglat: [125.8154, 44.2584] },
   { name: '北京市', adCode: 110000, lnglat: [116.4551, 40.2539] },
   { name: '辽宁省', adCode: 210000, lnglat: [123.1238, 42.1216] },
@@ -58,5 +58,6 @@ export const geoCoordData: GeoCoordDataType[] = [
   { name: '广西省', adCode: 450000, lnglat: [108.479, 23.1152] },
   { name: '海南省', adCode: 460000, lnglat: [110.3893, 19.8516] },
   { name: '上海市', adCode: 310000, lnglat: [121.4648, 31.2891] },
-  // 香港，澳门
+  { name: '香港', adCode: 810000, lnglat: [114.173355, 22.320048] },
+  { name: '澳门', adCode: 820000, lnglat: [113.54909, 22.198951] },
 ];

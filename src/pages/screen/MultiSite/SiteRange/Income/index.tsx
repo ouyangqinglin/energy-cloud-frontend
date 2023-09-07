@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2023-08-31 16:13:29
+ * @LastEditTime: 2023-09-07 17:15:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -39,24 +39,17 @@ const Income: React.FC = () => {
   });
 
   const chargeOptions = useMemo(() => {
-    return getOptionsByData(chargeData?.charge || []);
-  }, [chargeData]);
-
-  const energyOptions = useMemo(() => {
-    return getOptionsByData(chargeData?.energy || []);
+    return getOptionsByData(chargeData || []);
   }, [chargeData]);
 
   return (
     <>
       <Row className="mt24" gutter={64}>
-        <Col span={12}>
-          <Title className="mb16" title="充电桩收益" unit="单位(元)" />
+        <Col span={24}>
+          <Title className="mb16" title="站点收益" unit="单位(元)" />
           <Chart option={chargeOptions} style={{ height: 156 }} calculateMax={false} />
         </Col>
-        <Col span={12}>
-          <Title className="mb16" title="储能收益" unit="单位(元)" />
-          <Chart option={energyOptions} style={{ height: 156 }} calculateMax={false} />
-        </Col>
+        <Col span={0}></Col>
       </Row>
     </>
   );
