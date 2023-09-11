@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-08-04 14:12:20
+ * @LastEditTime: 2023-09-11 19:12:36
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Ems\Run\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest, useHistory } from 'umi';

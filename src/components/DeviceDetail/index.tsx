@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-09-07 17:01:35
+ * @LastEditTime: 2023-09-11 17:59:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -17,46 +17,11 @@ import RunLog from '@/pages/site-monitor/RunLog';
 import { getLogs, getDeviceInfo } from '@/services/equipment';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
-import {
-  YTPVInverterOutlined,
-  YTEnergyOutlined,
-  YTEmsOutlined,
-  YTBmsOutlined,
-  YTAirOutlined,
-  YTMeterOutlined,
-  YTChargeOutlined,
-  YTChargeStackOutlined,
-  YTCabinetOutlined,
-} from '@/components/YTIcons';
-import { TreeNode } from './config';
+import { TreeNode, deviceMap } from './config';
 import Configuration from './Configuration';
 import { DeviceTypeEnum } from '@/utils/dictionary';
-
-const deviceMap = new Map([
-  [1, YTEmsOutlined],
-  [2, YTBmsOutlined],
-  [3, YTCabinetOutlined],
-  [6, YTMeterOutlined],
-  [7, YTAirOutlined],
-  [11, YTPVInverterOutlined],
-  [13, YTChargeOutlined],
-  [14, YTChargeOutlined],
-  [16, YTEnergyOutlined],
-  [17, YTMeterOutlined],
-  [18, YTMeterOutlined],
-  [19, YTChargeStackOutlined],
-  [20, YTChargeOutlined],
-  [21, YTChargeOutlined],
-  [22, YTChargeOutlined],
-  [24, YTChargeOutlined],
-  [25, YTChargeOutlined],
-  [26, YTMeterOutlined],
-  [28, YTPVInverterOutlined],
-  [30, YTMeterOutlined],
-  [31, YTMeterOutlined],
-  [32, YTCabinetOutlined],
-  [33, YTChargeStackOutlined],
-]);
+import DeviceRealTime from '@/components/DeviceRealTime';
+import Overview from '@/components/DeviceInfo/Overview';
 
 const dealTreeData = (data: TreeNode[]) => {
   const result: TreeNode[] = [];
@@ -85,10 +50,11 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id, productId } = props;
 
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: id, key: id, productId });
+  const [deviceOverviewloading, setDeviceOverviewloading] = useState(false);
   const {
     data: childData,
     loading,
-    run,
+    run: runGetChildDevice,
   } = useRequest(getChildEquipment, {
     manual: true,
   });
@@ -126,10 +92,21 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     [],
   );
 
+  const onDeviceChange = useCallback(
+    (data) => {
+      if ((productId as any) != DeviceTypeEnum.BatteryStack) {
+        runGetChildDevice({ parentId: id, maxDepth: 1 });
+      }
+      runDevice({ deviceId: id });
+      setSelectOrg({ ...(data || {}) });
+    },
+    [id, productId],
+  );
+
   useEffect(() => {
     if (id) {
       if ((productId as any) != DeviceTypeEnum.BatteryStack) {
-        run({ parentId: id, maxDepth: 1 });
+        runGetChildDevice({ parentId: id, maxDepth: 1 });
       }
       runDevice({ deviceId: id }).then((data) => {
         setSelectOrg({ deviceId: id, key: id, productId, name: data?.name, sn: data?.sn });
@@ -144,7 +121,14 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         key: '1',
         children: (
           <>
-            <DeviceMonitor id={selectOrg?.deviceId || ''} productId={selectOrg?.productId || '0'} />
+            <div className="px24">
+              <DeviceRealTime
+                id={selectOrg?.deviceId || ''}
+                productId={selectOrg?.productId || '0'}
+                deviceData={selectOrg}
+                loading={deviceOverviewloading}
+              />
+            </div>
           </>
         ),
       },
@@ -169,7 +153,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         children: <Configuration deviceId={selectOrg?.deviceId || ''} />,
       },
     ];
-  }, [selectOrg, productId, id]);
+  }, [selectOrg, productId, id, deviceOverviewloading]);
 
   return (
     <>
@@ -201,6 +185,13 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
           )}
         </div>
         <div className={styles.content}>
+          <div className="px24 pt24">
+            <Overview
+              deviceId={id}
+              onChange={onDeviceChange}
+              setLoading={setDeviceOverviewloading}
+            />
+          </div>
           <Tabs className={styles.tabs} items={items} />
         </div>
       </div>

@@ -6,20 +6,14 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\HwChargeYt\index.tsx
  */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
-import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
-import { DetailItem } from '@/components/Detail';
-import Button from '@/components/CollectionModal/Button';
-import RealTime from '@/components/ScreenDialog/PvInverter/RealTime';
-import { LabelTypeEnum } from '@/components/ScreenDialog';
 import Page from '@/layouts/Page';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';
 import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
-import Community from '@/components/ScreenDialog/Community';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import RealTime from '@/components/DeviceRealTime/PvInverter';
 
 export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
@@ -30,55 +24,25 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const [collectionInfo, setCollectionInfo] = useState({
-    title: '',
-    collection: '',
-  });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: PvInverterImg });
+    setDeviceData({ ...(value || {}) });
     onChange?.(value);
   }, []);
-
-  const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
-
-  const extral = (
-    <Button
-      title={collectionInfo.title}
-      deviceId={id}
-      collection={collectionInfo.collection}
-      onClick={onClick}
-    />
-  );
 
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={PvInverterIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        top={
+          <Overview
+            deviceId={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            introImg={PvInverterIntroImg}
+          />
+        }
       >
-        <RealTime
-          id={id}
-          loading={loading}
-          open={openSubscribe}
-          labelType={LabelTypeEnum.LineLabel}
-          loopNum={loopNum}
-          detailProps={{
-            extral,
-            colon: false,
-            labelStyle: { width: 140 },
-            valueStyle: { width: '40%' },
-          }}
-        />
+        <RealTime id={id} deviceData={deviceData} loading={loading} loopNum={loopNum} />
       </Page>
     </>
   );

@@ -6,76 +6,42 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BoxSubstation\index.tsx
  */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
-import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
-import Detail, { DetailItem } from '@/components/Detail';
-import Button from '@/components/CollectionModal/Button';
-import RealTime from '@/components/ScreenDialog/HwCharge/RealTime';
 import Page from '@/layouts/Page';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-stack.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
-import Community from '@/components/ScreenDialog/Community';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import RealTime from '@/components/DeviceRealTime/HwCharge';
 
-const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
+const HwCharge: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const [collectionInfo, setCollectionInfo] = useState({
-    title: '',
-    collection: '',
-  });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: HwChargeStackImg });
+    setDeviceData({ ...(value || {}) });
     onChange?.(value);
   }, []);
-
-  const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
-
-  const extral = (
-    <Button
-      title={collectionInfo.title}
-      deviceId={id}
-      collection={collectionInfo.collection}
-      onClick={onClick}
-    />
-  );
 
   return (
     <>
       <Page
-        top={<Overview data={deviceData} introImg={HwChargeStackIntroImg} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} setLoading={setLoading} />}
+        top={
+          <Overview
+            deviceId={id}
+            onChange={onDataChange}
+            setLoading={setLoading}
+            introImg={HwChargeStackIntroImg}
+          />
+        }
       >
-        <RealTime
-          id={id}
-          loading={loading}
-          open={openSubscribe}
-          label={<Detail.Label title="运行信息" />}
-          detailProps={{
-            extral,
-            colon: false,
-            labelStyle: { width: 140 },
-            valueStyle: { width: '40%' },
-          }}
-        />
+        <RealTime id={id} deviceData={deviceData} loading={loading} />
       </Page>
     </>
   );
 };
 
-export default BoxSubstation;
+export default HwCharge;

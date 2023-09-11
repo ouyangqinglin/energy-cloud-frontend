@@ -11,7 +11,7 @@ import { Divider } from 'antd';
 import styles from './LineLabel.less';
 
 export type LineLabelProps = {
-  title?: string;
+  title?: React.ReactNode;
   className?: string;
   labelClassName?: string;
   showLine?: boolean;

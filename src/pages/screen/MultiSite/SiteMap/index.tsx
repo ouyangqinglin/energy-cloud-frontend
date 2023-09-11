@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2023-09-06 09:23:41
+ * @LastEditTime: 2023-09-11 15:40:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
@@ -112,7 +112,10 @@ const SiteMap: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={1026} height={730} left={447} top={222}>
-        <SiteStatus type={MapTypeEnum.Country} code={adCode} />
+        <SiteStatus
+          type={adCode == 100000 ? MapTypeEnum.Country : MapTypeEnum.Province}
+          code={adCode}
+        />
         <div
           ref={chartRef}
           style={{

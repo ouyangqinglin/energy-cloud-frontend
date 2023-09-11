@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 11:12:10
- * @LastEditTime: 2023-08-07 15:09:01
+ * @LastEditTime: 2023-09-11 11:27:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\useDeviceModel.ts
  */
@@ -11,7 +11,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import { getDeviceModel, getDeviceGroupModel } from '@/services/equipment';
 import { DeviceModelType, DevicePropsType } from '@/types/device';
-import { arrayToMap, parseToArray } from '@/utils';
+import { parseToArray } from '@/utils';
 import { isEmpty } from 'lodash';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
 
@@ -29,7 +29,7 @@ const useDeviceModel = (props: useDeviceModelProps) => {
   });
 
   const getModelByProps = useCallback((items: DevicePropsType[], parentField = '') => {
-    let result = {};
+    let result: any = {};
     items?.forEach?.((item) => {
       const field = parentField ? parentField + '.' + item?.id : item?.id;
       if (item?.dataType?.type == DeviceModelTypeEnum.Struct) {

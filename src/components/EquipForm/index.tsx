@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-08-15 16:00:56
+ * @LastEditTime: 2023-09-08 17:58:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */

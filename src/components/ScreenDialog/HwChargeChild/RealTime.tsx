@@ -27,8 +27,8 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
     { label: 'B枪状态', field: 'b', format: useFormat },
   ];
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
-    { label: '累计充电量', field: 'Pimp', format: powerHourFormat },
+    { label: '今日充电量', field: 'dayChargeElec', format: powerHourFormat },
+    { label: '累计充电量', field: 'totalChargeElec', format: powerHourFormat },
   ];
 
   return (

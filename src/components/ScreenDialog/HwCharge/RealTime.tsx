@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:35:32
- * @LastEditTime: 2023-07-20 10:10:07
+ * @LastEditTime: 2023-09-11 09:21:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwCharge\RealTime.tsx
  */
@@ -34,8 +34,8 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   }, [id, open]);
 
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'todayCharge', format: powerHourFormat },
-    { label: '累计充电量', field: 'cumulativeCharge', format: powerHourFormat },
+    { label: '今日充电量', field: 'dayChargeElec', format: powerHourFormat },
+    { label: '累计充电量', field: 'totalChargeElec', format: powerHourFormat },
   ];
 
   return (

@@ -17,12 +17,21 @@
 }
 
 .overview {
+  position: relative;
   padding-left: 170px !important;
-  /* stylelint-disable-next-line */
-  background-image: url(~@/assets/image/device/empty.png);
-  background-repeat: no-repeat;
-  background-position: 23px center;
-  background-size: 100px 100%;
+  .productImg {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    :global {
+      .ant-image-img {
+        width: auto !important;
+        max-width: 100%;
+        height: auto !important;
+        max-height: 100%;
+      }
+    }
+  }
   .title {
     margin-bottom: 16px;
     color: #1d2129;

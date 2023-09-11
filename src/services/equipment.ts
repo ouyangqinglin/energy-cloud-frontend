@@ -38,6 +38,7 @@ export type DeviceDataType = {
   paramConfigType?: number;
   productConfigType?: number;
   config?: string;
+  photos?: string;
 };
 
 export type ClusterType = {
@@ -73,6 +74,13 @@ export const getDeviceInfo = (params: any) => {
   return request<ResponseCommonData<DeviceDataType>>(`/oss/site/monitor/device/getBasicInfo`, {
     method: 'GET',
     params,
+  });
+};
+
+export const editDeviceInfo = (data: DeviceDataType) => {
+  return request(`/iot/device/update`, {
+    method: 'POST',
+    data,
   });
 };
 

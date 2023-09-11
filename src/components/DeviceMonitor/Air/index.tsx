@@ -6,88 +6,28 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Air\index.tsx
  */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DeviceDetailType } from '../config';
 import Overview from '@/components/DeviceInfo/Overview';
-import DeviceInfo from '@/components/DeviceInfo';
 import { DeviceDataType } from '@/services/equipment';
-import useSubscribe from '@/pages/screen/useSubscribe';
 import AirImg from '@/assets/image/device/air.png';
-import Detail, { DetailItem, GroupItem } from '@/components/Detail';
-import Label from '@/components/Detail/LineLabel';
-import { controlItems, statusItems } from './config';
-import Button from '@/components/CollectionModal/Button';
 import Page from '@/layouts/Page';
-import Community from '@/components/ScreenDialog/Community';
-import useDeviceModel from '../useDeviceModel';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import RealTime from '@/components/DeviceRealTime/Air';
 
 const Air: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
 
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
-  const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(id, openSubscribe);
-  const [collectionInfo, setCollectionInfo] = useState({
-    title: '',
-    collection: '',
-  });
-  const { modelMap } = useDeviceModel({ productId });
 
   const onDataChange = useCallback((value: DeviceDataType) => {
-    setDeviceData({ ...(value || {}), productImg: AirImg });
+    setDeviceData({ ...(value || {}) });
     onChange?.(value);
-  }, []);
-
-  const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
-
-  const extral = (
-    <Button
-      deviceId={id}
-      title={collectionInfo.title}
-      collection={collectionInfo.collection}
-      model={modelMap?.[collectionInfo.collection]}
-      onClick={onClick}
-    />
-  );
-
-  const detailGroup = useMemo<GroupItem[]>(() => {
-    return [
-      {
-        label: <Detail.Label title="控制信息" />,
-        items: controlItems,
-      },
-      {
-        label: <Detail.Label title="状态信息" />,
-        items: statusItems,
-      },
-    ];
   }, []);
 
   return (
     <>
-      <Page
-        top={<Overview data={deviceData} />}
-        bottom={<DeviceInfo id={id} onChange={onDataChange} />}
-      >
-        <Detail.Group
-          data={realTimeData}
-          items={detailGroup}
-          detailProps={{
-            extral,
-            colon: false,
-            labelStyle: { width: 140 },
-            valueStyle: { width: '40%' },
-          }}
-        />
+      <Page top={<Overview deviceId={id} onChange={onDataChange} />}>
+        <RealTime id={id} productId={productId} deviceData={deviceData} />
       </Page>
     </>
   );
