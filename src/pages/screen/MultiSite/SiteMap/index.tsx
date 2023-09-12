@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2023-09-11 15:40:53
+ * @LastEditTime: 2023-09-12 16:01:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
@@ -22,6 +22,7 @@ import { REQUEST_INTERVAL_5_MINUTE } from '../config';
 import { arrayToMap } from '@/utils';
 import IconDot from '@/assets/image/multi-site/dot.png';
 import ProvinceMap from './ProvinceMap';
+import { Spin } from 'antd';
 
 const geoCodeMap = arrayToMap(geoCoordData, 'adCode', 'lnglat');
 
@@ -56,6 +57,8 @@ const SiteMap: React.FC = () => {
   const chartRef = useRef(null);
   const [chartInstance, setChartInstance] = useState<ECharts>();
   const [isRegisterMap, { setTrue }] = useBoolean(false);
+  const [mapLoading, { setTrue: setMapLoadingTrue, setFalse: setMapLoadingFalse }] =
+    useBoolean(false);
   const [adCode, setAdCode] = useState(100000);
 
   const options = useMemo(() => {
@@ -92,9 +95,11 @@ const SiteMap: React.FC = () => {
   }, [options, chartInstance]);
 
   useEffect(() => {
+    setMapLoadingTrue();
     request('/chinaMap/china.json').then((chinaRes) => {
       echarts.registerMap('china', chinaRes);
       request('/chinaMap/china-outline.json').then((res) => {
+        setMapLoadingFalse();
         echarts.registerMap('chinaMapOutline', res);
         echarts.registerMap('chinaMapOutline1', res);
         setTrue();
@@ -120,9 +125,16 @@ const SiteMap: React.FC = () => {
           ref={chartRef}
           style={{
             height: '100%',
-            display: adCode == 100000 ? 'block' : 'none',
+            display: adCode == 100000 && !mapLoading ? 'block' : 'none',
           }}
         ></div>
+        {mapLoading ? (
+          <div className="flex flex-center h-full">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <></>
+        )}
         <ProvinceMap
           adCode={adCode}
           style={{ display: adCode == 100000 ? 'none' : 'block' }}

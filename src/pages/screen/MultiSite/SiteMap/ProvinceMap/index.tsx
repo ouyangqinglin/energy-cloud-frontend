@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-05 09:43:40
- * @LastEditTime: 2023-09-07 17:58:27
+ * @LastEditTime: 2023-09-12 15:49:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\ProvinceMap\index.tsx
  */
@@ -19,6 +19,7 @@ import Cell from '@/pages/screen/components/LayoutCell';
 import { adCodeGeoJsonMap } from './config';
 import IconBack from '@/assets/image/multi-site/icon_返回@2x.png';
 import styles from './index.less';
+import { Spin } from 'antd';
 
 export type ProvinceMapProps = {
   adCode: number;
@@ -56,6 +57,8 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
   const chartRef = useRef(null);
   const [chartInstance, setChartInstance] = useState<ECharts>();
   const [isRegisterMap, { setTrue, setFalse }] = useBoolean(false);
+  const [mapLoading, { setTrue: setMapLoadingTrue, setFalse: setMapLoadingFalse }] =
+    useBoolean(false);
   const { data: provinceData, run } = useRequest(() => getProvinceData({ type: 1, code: adCode }), {
     pollingInterval: REQUEST_INTERVAL_5_MINUTE,
   });
@@ -104,6 +107,7 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
   useEffect(() => {
     const link = adCodeGeoJsonMap.get(adCode);
     if (link) {
+      setMapLoadingTrue();
       request(link).then((provinceRes) => {
         echarts.registerMap('' + adCode, provinceRes);
         request('/chinaMap/china.json').then((res) => {
@@ -111,6 +115,7 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
           echarts.registerMap('Outline' + adCode, provinceGeoData);
           echarts.registerMap('Outline1' + adCode, provinceGeoData);
           setTrue();
+          setMapLoadingFalse();
         });
       });
     } else {
@@ -125,7 +130,17 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
           <img src={IconBack} />
           返回
         </div>
-        <div ref={chartRef} style={{ height: '100%' }}></div>
+        <div
+          ref={chartRef}
+          style={{ height: '100%', display: mapLoading ? 'none' : 'block' }}
+        ></div>
+        {mapLoading ? (
+          <div className="flex flex-center h-full">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <></>
+        )}
       </Cell>
     </>
   );
