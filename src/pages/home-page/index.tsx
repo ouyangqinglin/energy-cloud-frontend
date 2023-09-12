@@ -23,6 +23,7 @@ import { assign } from 'lodash';
 import { useModel } from 'umi';
 import { SiteTypeEnum } from '@/utils/dictionary';
 import { TabsProps } from 'rc-tabs';
+import { useAuthority } from '@/hooks';
 
 export const enum SubSystemType {
   PV = 0,
@@ -39,6 +40,7 @@ const HomePage: React.FC = () => {
     console.log(currentSlide);
   };
   const [statistic, setStatistic] = useState({});
+  const { authorityMap } = useAuthority(['index:multiSite']);
 
   const getStatisticData = useCallback(
     async (params: { energyOptions?: string }) =>
@@ -189,9 +191,13 @@ const HomePage: React.FC = () => {
 
   return (
     <div ref={ref} className={`bg-white card-wrap p24 ${styles.page}`}>
-      <Tooltip placement="top" title="大屏页">
-        <IconScreen className={styles.screen} onClick={onScreenClick} />
-      </Tooltip>
+      {authorityMap.get('index:multiSite') ? (
+        <Tooltip placement="top" title="大屏页">
+          <IconScreen className={styles.screen} onClick={onScreenClick} />
+        </Tooltip>
+      ) : (
+        <></>
+      )}
       <Carousel className={styles.sliderWrapper} slidesPerRow={4} afterChange={onChange}>
         {items}
       </Carousel>

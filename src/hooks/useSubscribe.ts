@@ -29,7 +29,7 @@ const flatObj = (data: object, parentField = '') => {
   return result;
 };
 
-const useSubscribe = (id: string | string[], open: boolean) => {
+const useSubscribe = (id: undefined | string | string[], open: boolean) => {
   const ids = useMemo(() => {
     return Array.isArray(id) ? id : id ? [id] : [];
   }, [id]);

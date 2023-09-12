@@ -33,7 +33,7 @@ export type SchemaFormProps<FormData, ValueType, ParamData> = Omit<
   suffixTitle?: string;
   id?: string | number;
   idKey?: string;
-  getData: CombineService<InferResponseData<FormData>, any>;
+  getData?: CombineService<InferResponseData<FormData>, any>;
   addData?: CombineService<any, any>;
   editData?: CombineService<any, any>;
   afterRequest?: (

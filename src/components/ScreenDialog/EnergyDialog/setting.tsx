@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-07-26 11:27:50
+ * @LastEditTime: 2023-09-12 11:09:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -47,6 +47,7 @@ type SettingProps = {
   id: string;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
+  isDeviceChild?: boolean;
 };
 
 const powerMap = new Map([
@@ -106,7 +107,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false } = props;
+  const { id, isLineLabel = false, isDeviceChild } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -216,7 +217,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          const inputData = { handOpePcsPower: formData.handOpePcsPower };
+          const inputData: any = { handOpePcsPower: formData.handOpePcsPower };
           let fields = [];
           for (const key in formData) {
             if (key.includes('power')) {
@@ -321,7 +322,7 @@ const Setting: React.FC<SettingProps> = (props) => {
 
   useEffect(() => {
     if (!lodash.isEmpty(settingData)) {
-      if (disableProtect) {
+      if (disableProtect && !isDeviceChild) {
         protectFrom.setFieldsValue({
           OverchargeProtection: settingData?.OverchargeProtection ?? '',
           OverchargeRelease: settingData?.OverchargeRelease ?? '',
@@ -330,7 +331,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         });
       }
       if (disableRun) {
-        const runData = {};
+        const runData: any = {};
         timeMap.forEach((item, key) => {
           runData[key] = settingData?.[item[0]]
             ? [
@@ -347,7 +348,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           ...runData,
         });
       }
-      if (disableTime) {
+      if (disableTime && !isDeviceChild) {
         timeForm.setFieldsValue({
           time: settingData?.sysTem ? moment(settingData?.sysTem) : null,
         });
@@ -407,79 +408,85 @@ const Setting: React.FC<SettingProps> = (props) => {
           </Col>
         </Row>
       </Form>
-      {isLineLabel ? (
-        <LineLabel title="电池保护参数设置">
-          <Button
-            type="primary"
-            onClick={onProtectClick}
-            loading={loading}
-            disabled={disableProtect}
+      {!isDeviceChild ? (
+        <>
+          {isLineLabel ? (
+            <LineLabel title="电池保护参数设置">
+              <Button
+                type="primary"
+                onClick={onProtectClick}
+                loading={loading}
+                disabled={disableProtect}
+              >
+                下发参数
+              </Button>
+            </LineLabel>
+          ) : (
+            <Label
+              title="电池保护参数设置"
+              operate={
+                <Button
+                  type="primary"
+                  onClick={onProtectClick}
+                  loading={loading}
+                  disabled={disableProtect}
+                >
+                  下发参数
+                </Button>
+              }
+            />
+          )}
+          <Form
+            form={protectFrom}
+            className="setting-form"
+            layout="horizontal"
+            labelCol={{ flex: '116px' }}
+            onFinish={requestProtect}
+            onValuesChange={setDisableProtectFlalse}
           >
-            下发参数
-          </Button>
-        </LineLabel>
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="OverchargeProtection"
+                  label="过充保护"
+                  rules={[{ required: true, message: '过充保护必填' }]}
+                >
+                  <InputNumber className="w-full" addonAfter="V" />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="OverchargeRelease"
+                  label="过充释放"
+                  rules={[{ required: true, message: '过充释放必填' }]}
+                >
+                  <InputNumber className="w-full" addonAfter="V" />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="OverdischargeProtection"
+                  label="过放保护"
+                  rules={[{ required: true, message: '过放保护必填' }]}
+                >
+                  <InputNumber className="w-full" addonAfter="V" />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="Overrelease"
+                  label="过放释放"
+                  rules={[{ required: true, message: '过放释放必填' }]}
+                >
+                  <InputNumber className="w-full" addonAfter="V" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </>
       ) : (
-        <Label
-          title="电池保护参数设置"
-          operate={
-            <Button
-              type="primary"
-              onClick={onProtectClick}
-              loading={loading}
-              disabled={disableProtect}
-            >
-              下发参数
-            </Button>
-          }
-        />
+        <></>
       )}
-      <Form
-        form={protectFrom}
-        className="setting-form"
-        layout="horizontal"
-        labelCol={{ flex: '116px' }}
-        onFinish={requestProtect}
-        onValuesChange={setDisableProtectFlalse}
-      >
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="OverchargeProtection"
-              label="过充保护"
-              rules={[{ required: true, message: '过充保护必填' }]}
-            >
-              <InputNumber className="w-full" addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="OverchargeRelease"
-              label="过充释放"
-              rules={[{ required: true, message: '过充释放必填' }]}
-            >
-              <InputNumber className="w-full" addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="OverdischargeProtection"
-              label="过放保护"
-              rules={[{ required: true, message: '过放保护必填' }]}
-            >
-              <InputNumber className="w-full" addonAfter="V" />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="Overrelease"
-              label="过放释放"
-              rules={[{ required: true, message: '过放释放必填' }]}
-            >
-              <InputNumber className="w-full" addonAfter="V" />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
       {isLineLabel ? (
         <LineLabel title="运行参数设置">
           <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
@@ -643,45 +650,56 @@ const Setting: React.FC<SettingProps> = (props) => {
           </Col>
         </Row>
       </Form>
-      {isLineLabel ? (
-        <LineLabel title="校时设置">
-          <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
-            下发参数
-          </Button>
-        </LineLabel>
+      {!isDeviceChild ? (
+        <>
+          {isLineLabel ? (
+            <LineLabel title="校时设置">
+              <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
+                下发参数
+              </Button>
+            </LineLabel>
+          ) : (
+            <Label
+              title="校时设置"
+              operate={
+                <Button
+                  type="primary"
+                  onClick={onTimeClick}
+                  loading={loading}
+                  disabled={disableTime}
+                >
+                  下发参数
+                </Button>
+              }
+            />
+          )}
+          <Form
+            form={timeForm}
+            layout="horizontal"
+            labelCol={{ flex: '116px' }}
+            onFinish={onTimeFormFinish}
+            onValuesChange={setDisableTimeFalse}
+          >
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="time"
+                  label="系统时间"
+                  rules={[{ required: true, message: '系统时间必填' }]}
+                >
+                  <DatePick
+                    className="w-full"
+                    getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
+                    showTime
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </>
       ) : (
-        <Label
-          title="校时设置"
-          operate={
-            <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
-              下发参数
-            </Button>
-          }
-        />
+        <></>
       )}
-      <Form
-        form={timeForm}
-        layout="horizontal"
-        labelCol={{ flex: '116px' }}
-        onFinish={onTimeFormFinish}
-        onValuesChange={setDisableTimeFalse}
-      >
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time"
-              label="系统时间"
-              rules={[{ required: true, message: '系统时间必填' }]}
-            >
-              <DatePick
-                className="w-full"
-                getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
-                showTime
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
     </>
   );
 };

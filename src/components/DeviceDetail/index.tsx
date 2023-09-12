@@ -2,23 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-09-11 17:59:35
+ * @LastEditTime: 2023-09-12 09:15:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Empty, Skeleton, Space, Tabs, TabsProps, Tree } from 'antd';
+import { Skeleton, Space, Tabs, TabsProps, Tree } from 'antd';
 import { useRequest } from 'umi';
-import DeviceMonitor from '@/components/DeviceMonitor';
 import { getChildEquipment, DeviceDataType } from '@/services/equipment';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
-import { getLogs, getDeviceInfo } from '@/services/equipment';
+import { getDeviceInfo } from '@/services/equipment';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
 import { TreeNode, deviceMap } from './config';
-import Configuration from './Configuration';
+import Configuration from '@/components/Device/Configuration';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import DeviceRealTime from '@/components/DeviceRealTime';
 import Overview from '@/components/DeviceInfo/Overview';

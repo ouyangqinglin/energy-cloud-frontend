@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-09-11 14:44:27
+ * @LastEditTime: 2023-09-12 11:08:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\index.tsx
  */
@@ -34,7 +34,7 @@ const Ems: React.FC<DeviceRealTimeType> = (props) => {
       {
         key: '2',
         label: '远程控制',
-        children: <Setting id={id} settingData={realTimeData} isLineLabel />,
+        children: <Setting id={id} settingData={realTimeData} isLineLabel isDeviceChild />,
       },
     ];
   }, [realTimeData]);
