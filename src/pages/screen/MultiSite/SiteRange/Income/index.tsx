@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2023-09-07 17:15:22
+ * @LastEditTime: 2023-09-13 17:43:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -15,12 +15,18 @@ import { merge } from 'lodash';
 import { SiteDataType, getIncomeData } from '../service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import { Col, Row } from 'antd';
+import { formatNum } from '@/utils';
+import styles from './index.less';
 
 const colors = ['#FF8144', '#FF7B7B', '#FFD15C', '#01CFA1', '#159AFF'];
 
-const getOptionsByData = (data: SiteDataType[]) => {
+const getOptionsByData = (data: SiteDataType[], totalNum: number) => {
   const result = merge({}, defaultPolarBar);
+  result.tooltip.formatter = '{b}<br/>{c}';
   result.angleAxis.max = ((data?.[0]?.income || 4) * 4) / 3;
+  const value = formatNum(totalNum || 0);
+  result.title[0].text = `总收益(${value.unit}元)`;
+  result.title[1].text = value.value;
   data?.reverse()?.forEach?.((item, index) => {
     result.radiusAxis.data.push(item.name);
     result.series.data.push({
@@ -39,17 +45,34 @@ const Income: React.FC = () => {
   });
 
   const chargeOptions = useMemo(() => {
-    return getOptionsByData(chargeData || []);
+    return getOptionsByData(chargeData?.sitesRankingIncomeList || [], chargeData?.totalIncome);
+  }, [chargeData]);
+
+  const legend = useMemo(() => {
+    const legendColors = [...colors].reverse();
+    return chargeData?.sitesRankingIncomeList?.reverse?.()?.map?.((item, index) => {
+      return (
+        <div className={styles.bar}>
+          <span className={styles.title}>
+            <span style={{ backgroundColor: legendColors[index] }} />
+            {item.name}
+          </span>
+          {item.income || 0}
+        </div>
+      );
+    });
   }, [chargeData]);
 
   return (
     <>
-      <Row className="mt24" gutter={64}>
-        <Col span={24}>
-          <Title className="mb16" title="站点收益" unit="单位(元)" />
+      <Title className="my16" title="站点收益" unit="单位(元)" />
+      <Row className="" gutter={32}>
+        <Col span={12}>
           <Chart option={chargeOptions} style={{ height: 156 }} calculateMax={false} />
         </Col>
-        <Col span={0}></Col>
+        <Col span={12}>
+          <div className={styles.legend}>{legend}</div>
+        </Col>
       </Row>
     </>
   );

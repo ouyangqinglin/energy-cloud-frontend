@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-09-07 18:51:14
+ * @LastEditTime: 2023-09-13 17:37:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -113,8 +113,28 @@ export const defaultSankey: any = {
 
 export const defaultPolarBar: any = {
   polar: {
-    radius: ['10%', '100%'],
+    radius: ['40%', '100%'],
   },
+  title: [
+    {
+      text: '',
+      x: 'center',
+      top: '50%',
+      textStyle: {
+        color: '#ACCCEC',
+        fontSize: 12,
+      },
+    },
+    {
+      text: '',
+      x: 'center',
+      top: '38%',
+      textStyle: {
+        fontSize: '12',
+        color: '#fff',
+      },
+    },
+  ],
   angleAxis: {
     clockwise: false,
     max: 12,
@@ -126,27 +146,40 @@ export const defaultPolarBar: any = {
       show: false,
     },
     axisLine: {
-      lineStyle: {
-        color: '#2E3A45',
-      },
+      show: false,
     },
     splitLine: {
-      lineStyle: {
-        color: '#2E3A45',
-      },
+      show: false,
     },
   },
   radiusAxis: {
     type: 'category',
     data: [], //['a', 'b', 'c', 'd', 'e']
+    axisTick: {
+      show: false,
+    },
+    axisLine: {
+      show: false,
+    },
+    axisLabel: {
+      show: false,
+    },
   },
-  tooltip: {},
+  tooltip: {
+    backgroundColor: 'rgba(9, 12, 21, 0.8)',
+    borderColor: 'rgba(21,154,255,0.8)',
+    extraCssText: 'box-shadow: 0 0 6px 0 rgba(21,154,255,0.7);',
+    textStyle: {
+      color: 'white',
+    },
+  },
   series: {
     type: 'bar',
     barWidth: 6,
     barGap: 8,
     barMinAngle: 4,
     coordinateSystem: 'polar',
+    roundCap: true,
     data: [
       // {
       //   value: 2,
@@ -156,11 +189,15 @@ export const defaultPolarBar: any = {
       // }
     ],
     label: {
-      show: true,
-      formatter: '{b}: {c}',
-      position: 'insideStart',
-      rotate: 0,
-      color: 'white',
+      show: false,
+      // formatter: '{b}: {c}',
+      // position: 'insideStart',
+      // rotate: 0,
+      // color: 'white',
+    },
+    showBackground: true,
+    backgroundStyle: {
+      color: '#1c2b42',
     },
   },
 };
