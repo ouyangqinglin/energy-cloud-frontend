@@ -28,6 +28,7 @@ const getDefaultConfig = ({
   height = 82,
   data,
   layout = 'start',
+  toCenter = false,
 }: {
   width?: number;
   height?: number;
@@ -40,6 +41,7 @@ const getDefaultConfig = ({
   direction?: string;
   layout?: ExtraNodeData['layout'];
   data: TypePowerConsumptionData;
+  toCenter?: boolean;
 }): GraphNode => ({
   id: uniqueId(),
   type: 'imageNode',
@@ -63,6 +65,7 @@ const getDefaultConfig = ({
       direction: direction,
     },
     layout,
+    toCenter,
   },
   position,
 });
@@ -78,6 +81,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           height: 90,
         },
         data,
+        toCenter: true,
       });
     case deviceType.LoadCS:
       return getDefaultConfig({
@@ -88,6 +92,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           height: 80,
         },
         data,
+        toCenter: true,
       });
     case deviceType.ChargingStackHW:
       return getDefaultConfig({
@@ -97,6 +102,8 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           width: 80,
           height: 80,
         },
+        height: 160,
+        direction: 'vertical',
         data,
       });
     case deviceType.ChargingStack:
@@ -107,8 +114,9 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           width: 80,
           height: 80,
         },
-        width: 600,
-        layout: 'center',
+        height: 160,
+        // layout: 'start',
+        direction: 'vertical',
         data,
       });
     case deviceType.SuperChargingTerminalHW:
@@ -153,6 +161,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           width: 42,
           height: 80,
         },
+        height: 160,
         direction: 'vertical',
         data,
       });
@@ -164,6 +173,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
           width: 42,
           height: 80,
         },
+        height: 160,
         direction: 'vertical',
         data,
       });

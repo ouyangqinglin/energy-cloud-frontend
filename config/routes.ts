@@ -70,7 +70,7 @@ export default [
         path: 'device-detail',
         component: './equipment/DeviceDetail',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.siteMonitor.deviceDetail',
+        title: 'menu.device.deviceMonitor',
       },
       {
         path: 'setting',

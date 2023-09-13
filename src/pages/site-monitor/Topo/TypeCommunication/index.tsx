@@ -105,7 +105,14 @@ const TypePowerConsumption: FC<{ siteId: number }> = ({ siteId }) => {
     }
   }, [siteId]);
 
-  return <ReactFlowReactivity nodes={nodes} edges={edges} nodeTypes={nodeTypes} />;
+  return (
+    <ReactFlowReactivity
+      nodes={nodes}
+      edges={edges}
+      nodeTypes={nodeTypes}
+      height="calc(100vh - 100px)"
+    />
+  );
 };
 
 // export default LayoutFlow;

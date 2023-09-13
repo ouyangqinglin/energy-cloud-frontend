@@ -51,6 +51,7 @@ export type ExtraNodeData = {
   // communication
   boxData?: TypeCommunicationData[];
   colSpan?: number;
+  toCenter?: boolean;
 };
 
 export type ExtraNodeTextContent = {

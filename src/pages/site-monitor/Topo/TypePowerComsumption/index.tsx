@@ -13,6 +13,7 @@ import { StatisticCardForME } from '../components/StatisticCardForME';
 import { ReactFlowReactivity } from '../components/ReactFlowReactivity';
 import { useRequest } from 'umi';
 import { getTopo } from './service';
+import { toCenterTree } from '../helper';
 
 const nodeTypes = {
   imageNode: ImageNode,
@@ -93,6 +94,7 @@ const TypePowerConsumption: FC<{ siteId: number }> = ({ siteId }) => {
         initialNodes,
         initialEdges,
       );
+      toCenterTree(nodesLayout);
       resetNodes(nodesLayout);
       resetEdges(edgesLayout);
     }

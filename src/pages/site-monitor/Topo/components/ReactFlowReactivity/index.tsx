@@ -7,7 +7,11 @@ import styles from './index.less';
 
 type RFType = typeof ReactFlow;
 
-export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps }) => {
+export type LayoutFlowType = RFType['defaultProps'] & {
+  height?: string;
+};
+
+export const LayoutFlow: FC<LayoutFlowType> = ({ children, height, ...restProps }) => {
   const flowWrapper = useRef<HTMLDivElement>(null);
   const size = useSize(flowWrapper.current);
   const reactFlowInstance = useReactFlow();
@@ -24,7 +28,7 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
     <div
       ref={flowWrapper}
       style={{
-        height: 'calc(100vh - 275px)',
+        height: height || 'calc(100vh - 232px)',
         width: '100%',
       }}
     >
@@ -45,7 +49,7 @@ export const LayoutFlow: FC<RFType['defaultProps']> = ({ children, ...restProps 
   );
 };
 
-export const ReactFlowReactivity: FC<RFType['defaultProps']> = (props) => (
+export const ReactFlowReactivity: FC<LayoutFlowType> = (props) => (
   <ReactFlowProvider>
     <LayoutFlow {...props} />
   </ReactFlowProvider>

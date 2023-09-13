@@ -47,3 +47,20 @@ export const flattenTree = (nodes: GraphNode[] = [], arr: Node<ExtraNodeData>[] 
   }
   return arr;
 };
+
+export const toCenterTree = (nodes: GraphNode[]) => {
+  let centerX: number = 0;
+  nodes.forEach((node, index) => {
+    if (node.children && node.children.length && node?.data?.toCenter) {
+      const childrenCenterX = toCenterTree(node.children);
+      node.position.x = childrenCenterX;
+    }
+    if (index === 0 || index === nodes.length - 1) {
+      centerX += node.position.x;
+    }
+  });
+  if (nodes.length > 1) {
+    centerX = centerX / 2;
+  }
+  return centerX;
+};

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 09:28:09
- * @LastEditTime: 2023-09-11 17:29:37
+ * @LastEditTime: 2023-09-12 16:44:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\DeviceImg\index.tsx
  */
@@ -97,7 +97,7 @@ const DeviceImg: React.FC<DeviceImgProps> = (props) => {
         {deviceImg || deviceData?.photos ? (
           <></>
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无图片" />
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无照片" />
         )}
       </Modal>
     </>

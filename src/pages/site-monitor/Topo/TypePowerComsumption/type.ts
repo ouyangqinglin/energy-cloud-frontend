@@ -21,4 +21,5 @@ export interface TypePowerConsumptionData {
   type: number;
   name?: string;
   children?: TypePowerConsumptionData[];
+  toCenter?: boolean;
 }
