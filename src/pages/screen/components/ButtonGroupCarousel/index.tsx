@@ -2,7 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import styles from './index.less';
 import { Radio, RadioChangeEvent, Tooltip } from 'antd';
-import { AppstoreOutlined, CodeSandboxOutlined } from '@ant-design/icons';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { YTStoreOutlined } from '@/components/YTIcons';
 import Cell from '../LayoutCell';
 import { getSiteScreenConfig } from '@/services/station';
 import { getSiteId } from '../../Scene/helper';
@@ -49,7 +50,7 @@ const ButtonGroupCarousel: FC<{
         {screenConfigData?.energyFlowDiagramIds?.includes?.(2 as any) && (
           <Tooltip placement="top" title="定制能流图" color="#0f60a7">
             <Radio.Button value={SystemDiagramType.CUSTOMER}>
-              <CodeSandboxOutlined />
+              <YTStoreOutlined />
             </Radio.Button>
           </Tooltip>
         )}

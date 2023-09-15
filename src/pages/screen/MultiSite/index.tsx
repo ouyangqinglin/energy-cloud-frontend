@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-21 15:07:56
- * @LastEditTime: 2023-08-30 19:02:31
+ * @LastEditTime: 2023-09-15 13:59:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\index.tsx
  */
@@ -33,7 +33,7 @@ const MultiSite: React.FC = () => {
         palette={{
           backgroundImage: bg,
         }}
-        scaleMode={ScaleMode.H_SCALE}
+        scaleMode={ScaleMode.EQUAL}
       >
         <Title />
         <ScreenTime />

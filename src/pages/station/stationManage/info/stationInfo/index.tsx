@@ -84,7 +84,7 @@ const StationInfo: React.FC = () => {
       field: 'energyStoragePower',
       format: powerFormat,
     },
-    { label: '充电桩额定功率', field: 'chargingStationCapacity', format: powerFormat, span: 3 },
+    { label: '充电桩总功率', field: 'chargingStationCapacity', format: powerFormat, span: 3 },
     {
       label: '站点地址',
       field: 'address',

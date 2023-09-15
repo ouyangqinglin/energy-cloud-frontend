@@ -39,6 +39,7 @@ import {
   Operator,
   Organize,
   Dot,
+  Store,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -161,6 +162,10 @@ const YTDotOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Dot} {...props} />
 );
 
+const YTStoreOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Store} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -192,4 +197,5 @@ export {
   YTOperatorOutlined,
   YTOrganizeOutlined,
   YTDotOutlined,
+  YTStoreOutlined,
 };

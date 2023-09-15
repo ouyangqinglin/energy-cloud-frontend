@@ -20,7 +20,7 @@ import styles from './index.less';
 
 const colors = ['#FF8144', '#FF7B7B', '#FFD15C', '#01CFA1', '#159AFF'];
 
-const getOptionsByData = (data: SiteDataType[], totalNum: number) => {
+const getOptionsByData = (data: SiteDataType[], totalNum?: number) => {
   const result = merge({}, defaultPolarBar);
   result.tooltip.formatter = '{b}<br/>{c}';
   result.angleAxis.max = ((data?.[0]?.income || 4) * 4) / 3;

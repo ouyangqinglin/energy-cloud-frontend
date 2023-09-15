@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-08-25 13:36:46
+ * @LastEditTime: 2023-09-15 09:14:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -229,7 +229,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="充电桩额定功率"
+              label="充电桩总功率"
               name="chargingStationCapacity"
               fieldProps={{ addonAfter: 'kW' }}
             />

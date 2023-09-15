@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 14:38:48
- * @LastEditTime: 2023-08-29 14:10:32
+ * @LastEditTime: 2023-09-14 14:37:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\IncomeStat\config.ts
  */
@@ -66,8 +66,7 @@ export const items: DigitStatItemType[] = [
     unit: '吨',
     field: 'coal',
     valueStyle: {
-      background:
-        'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
+      background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
     animation: {
       Children: {
@@ -82,8 +81,7 @@ export const items: DigitStatItemType[] = [
     unit: '吨',
     field: 'conserveEnergyReduceEmissions',
     valueStyle: {
-      background:
-        'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
+      background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
     animation: {
       Children: {
@@ -98,8 +96,7 @@ export const items: DigitStatItemType[] = [
     unit: '棵',
     field: 'cumulativeTree',
     valueStyle: {
-      background:
-        'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%), linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
+      background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
     isformatNum: true,
   },

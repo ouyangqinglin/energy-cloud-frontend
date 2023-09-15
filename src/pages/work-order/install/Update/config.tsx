@@ -128,8 +128,7 @@ export const Columns: (
     },
     {
       title: '客户名称',
-      valueType: TABLESELECT,
-      dataIndex: 'customer',
+      dataIndex: 'userName',
       colProps: {
         span: 8,
       },
@@ -137,45 +136,9 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '请选择客户名称',
+            message: '请输入客户名称',
           },
         ],
-      },
-      fieldProps: () => {
-        return {
-          tableId: 'userId',
-          tableName: 'userName',
-          valueId: 'userId',
-          valueName: 'userName',
-          multiple: false,
-          proTableProps: {
-            rowKey: 'userId',
-            columns: [
-              {
-                title: '用户名',
-                dataIndex: 'userId',
-                width: 150,
-                ellipsis: true,
-              },
-              {
-                title: '账号',
-                dataIndex: 'userName',
-                width: 200,
-                ellipsis: true,
-                hideInSearch: true,
-              },
-            ],
-            request: (params: Record<string, any>) => {
-              return getCustomerList({ ...params })?.then(({ data }) => {
-                return {
-                  data: data?.list,
-                  total: data?.total,
-                  success: true,
-                };
-              });
-            },
-          },
-        };
       },
     },
     {

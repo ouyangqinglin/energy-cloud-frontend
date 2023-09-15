@@ -81,4 +81,7 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   externals: {},
+  chainWebpack: (config) => {
+    config.module.rule('otf').test(/.otf$/).use('file-loader').loader('file-loader');
+  },
 });

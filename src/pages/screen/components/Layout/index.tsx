@@ -1,6 +1,6 @@
 import { throttle } from 'lodash';
 import type { FC } from 'react';
-import { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 
@@ -22,7 +22,7 @@ export type LayoutProps = {
 };
 const Layout: FC<LayoutProps> = (props) => {
   const [overflow, setOverflow] = useState('hidden');
-  const [transform, setTransform] = useState('scale(1)');
+  const [transform, setTransform] = useState('translate(-50%,-50%) scale(1)');
   const refContainer = useRef<HTMLDivElement>(null);
 
   const backgroundImage = props.palette?.backgroundImage ?? 'none';
@@ -34,7 +34,7 @@ const Layout: FC<LayoutProps> = (props) => {
     backgroundColor: '#111111',
   };
 
-  const getContentStyle = () => {
+  const contentStyle = useMemo<React.CSSProperties>(() => {
     return {
       width: `${props.screenW}px`,
       height: `${props.screenH}px`,
@@ -44,7 +44,7 @@ const Layout: FC<LayoutProps> = (props) => {
       backgroundSize: '100% 100%',
       backgroundPosition: 'left top',
     };
-  };
+  }, [props, backgroundImage, backgroundColor, transform]);
 
   const [docClientHeight, setDocClientHeight] = useState(0);
   const [docClientWidth, setDocClientWidth] = useState(0);
@@ -61,7 +61,8 @@ const Layout: FC<LayoutProps> = (props) => {
     if (props.scaleMode === ScaleMode.EQUAL) {
       const scaleH = docClientHeight / props.screenH;
       const scaleW = docClientWidth / props.screenW;
-      setTransform(`scale(${scaleW}, ${scaleH})`);
+      const scale = Math.min(scaleH, scaleW);
+      setTransform(`translate(-50%,-50%) scale(${scale}, ${scale})`);
       setOverflow('hidden');
     }
 
@@ -123,7 +124,7 @@ const Layout: FC<LayoutProps> = (props) => {
           height: docClientHeight,
         }}
       >
-        <div className={styles.content} id="screen" style={getContentStyle()}>
+        <div className={styles.content} id="screen" style={contentStyle}>
           {props.children}
         </div>
       </div>

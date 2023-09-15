@@ -12,7 +12,7 @@ const Screen: FC = () => {
       palette={{
         backgroundImage: LayoutBg,
       }}
-      scaleMode={ScaleMode.H_SCALE}
+      scaleMode={ScaleMode.EQUAL}
     >
       <Scene />
     </Layout>

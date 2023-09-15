@@ -22,13 +22,12 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
 
   const convertRequestData = (res: InstallOrderUpdateInfo) => {
     if (res) {
-      const { orgId, orgName, handlerBy, handlerName, userId, userName } = res;
+      const { orgId, orgName, handlerBy, handlerName } = res;
       // setOrgId(rawOrgId);
       return {
         ...res,
         ...{ serviceProvider: [{ orgId, orgName }] },
         ...{ handler: [{ handlerBy, handlerName }] },
-        ...{ customer: [{ userId, userName }] },
       } as InstallOrderUpdateInfo;
     }
     return {} as InstallOrderUpdateInfo;
@@ -37,11 +36,10 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
     const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
     const { handlerBy } = params.handler?.[0] ?? {};
-    const { userId, userName } = params.customer?.[0] ?? {};
 
     return {
-      ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
-      ...{ orgId, orgName, handlerBy, userId, userName },
+      ...omit(params, 'serviceProvider', 'handler', 'status'),
+      ...{ orgId, orgName, handlerBy },
     } as InstallOrderUpdateParam;
   };
 

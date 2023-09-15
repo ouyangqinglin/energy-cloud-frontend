@@ -3,14 +3,14 @@ import { orderStatus, orderType } from '../config';
 import { InstallOrderUpdateInfo, OrderStatus, OrderType } from '../type';
 export const columnsRead: ProColumns<InstallOrderUpdateInfo, 'text'>[] = [
   {
-    title: '故障标题',
+    title: '安装标题',
     dataIndex: 'name',
     colProps: {
       span: 24,
     },
   },
   {
-    title: '故障描述',
+    title: '安装描述',
     dataIndex: 'content',
     colProps: {
       span: 24,
