@@ -113,7 +113,6 @@ const Search: React.FC<SearchProps> = (props) => {
       rules: [{ required: true }],
       name: 'siteId',
     },
-    showAllOption: true,
   });
 
   const columns = useMemo(() => {
