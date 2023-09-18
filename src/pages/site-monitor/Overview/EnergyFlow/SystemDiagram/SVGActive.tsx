@@ -1,6 +1,6 @@
 import { isNumber } from 'lodash';
 import type { SVGProps } from 'react';
-import { ReactComponent as MarketEleIcon } from './svg/market_ele.svg';
+import MarketEleIcon from './svg/market_ele.svg';
 import { ReactComponent as EsIcon } from './svg/es.svg';
 import { ReactComponent as PVcon } from './svg/pv.svg';
 import { ReactComponent as LoadCSIcon } from './svg/load_cs.svg';
@@ -39,7 +39,8 @@ const SvgComponent = (
           left: 91,
         }}
       >
-        <MarketEleIcon
+        <img
+          src={MarketEleIcon}
           style={{
             width: 82,
             height: 102,

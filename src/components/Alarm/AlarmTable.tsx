@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-08-28 15:42:16
+ * @LastEditTime: 2023-09-18 10:49:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -441,15 +441,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         }
       />
       <DetailDialog
-        width="700px"
+        width="600px"
         title="告警详情"
         open={open}
         onCancel={switchOpen}
         detailProps={{
           data: detailData,
           items: detailItems,
-          column: 2,
-          labelStyle: { width: '90px' },
+          column: 1,
+          labelStyle: { width: '80px' },
         }}
       />
     </>
