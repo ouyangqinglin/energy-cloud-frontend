@@ -23,13 +23,6 @@ const SvgComponent = (
   const chargeStack = data?.[SubSystemType.CS] ?? {};
   const load = data?.[SubSystemType.L] ?? {};
 
-  const esAlarmNum = alarmData?.[String(SubsystemType.ES)]?.length;
-  const esAlarmStatus = !!esAlarmNum ? '1' : '0';
-  const pgAlarmNum = alarmData?.[String(SubsystemType.PG)]?.length;
-  const pgAlarmStatus = !!pgAlarmNum ? '1' : '0';
-  const ecAlarmNum = alarmData?.[String(SubsystemType.EC)]?.length;
-  const ecAlarmStatus = !!ecAlarmNum ? '1' : '0';
-
   return (
     <div className={styles.activeWrapper}>
       <div
@@ -82,8 +75,10 @@ const SvgComponent = (
             <div className={styles.desc}>
               <span className={styles.title}>运行状态：</span>
               <span className={styles.alarm}>
-                {deviceAlarmStatusFormat(esAlarmStatus)}
-                <span className={styles.number}>{!!esAlarmNum ? esAlarmNum : ''}</span>
+                {deviceAlarmStatusFormat(alarmData?.[SubsystemType.ES] ? '1' : '0')}
+                <span className={styles.number}>
+                  {alarmData?.[SubsystemType.ES] ? alarmData?.[SubsystemType.ES] : ''}
+                </span>
               </span>
             </div>
           </>
@@ -118,8 +113,10 @@ const SvgComponent = (
             <div className={styles.desc}>
               <span className={styles.title}>运行状态：</span>
               <span className={styles.alarm}>
-                {deviceAlarmStatusFormat(pgAlarmStatus)}
-                <span className={styles.number}>{!!pgAlarmNum ? pgAlarmNum : ''}</span>
+                {deviceAlarmStatusFormat(alarmData?.[SubsystemType.PG] ? '1' : '0')}
+                <span className={styles.number}>
+                  {alarmData?.[SubsystemType.PG] ? alarmData?.[SubsystemType.PG] : ''}
+                </span>
               </span>
             </div>
           </>
@@ -198,8 +195,10 @@ const SvgComponent = (
         <div className={styles.desc}>
           <span className={styles.title}>运行状态：</span>
           <span className={styles.alarm}>
-            {deviceAlarmStatusFormat(ecAlarmStatus)}
-            <span className={styles.number}>{!!ecAlarmNum ? ecAlarmNum : ''}</span>
+            {deviceAlarmStatusFormat(alarmData?.[SubsystemType.EC] ? '1' : '0')}
+            <span className={styles.number}>
+              {alarmData?.[SubsystemType.EC] ? alarmData?.[SubsystemType.EC] : ''}
+            </span>
           </span>
         </div>
       </div>
