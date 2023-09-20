@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 15:25:00
- * @LastEditTime: 2023-09-11 15:25:01
+ * @LastEditTime: 2023-09-19 14:23:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTCharge\index.tsx
  */
@@ -13,9 +13,10 @@ import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/ScreenDialog/YtCharge/RealTime';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
+import useDeviceModel from '../useDeviceModel';
 
-const YTCharge: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
-  const { id, deviceData, loading } = props;
+const YTCharge: React.FC<DeviceRealTimeType> = (props) => {
+  const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -25,6 +26,7 @@ const YTCharge: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -38,6 +40,7 @@ const YTCharge: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

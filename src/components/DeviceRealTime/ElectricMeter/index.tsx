@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:40:23
- * @LastEditTime: 2023-09-11 14:40:24
+ * @LastEditTime: 2023-09-19 14:18:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\ElectricMeter\index.tsx
  */
@@ -12,9 +12,10 @@ import RealTime from '@/components/Meter/RealTime';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import useDeviceModel from '../useDeviceModel';
 
-const ElectricMeter: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
-  const { id, deviceData, loading } = props;
+const ElectricMeter: React.FC<DeviceRealTimeType> = (props) => {
+  const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -24,6 +25,7 @@ const ElectricMeter: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) =
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -37,6 +39,7 @@ const ElectricMeter: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) =
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

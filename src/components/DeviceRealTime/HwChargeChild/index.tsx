@@ -13,9 +13,10 @@ import { DetailItem } from '@/components/Detail';
 import RealTime from '@/components/ScreenDialog/HwChargeChild/RealTime';
 import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
+import useDeviceModel from '../useDeviceModel';
 
-const HwChargeChild: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
-  const { id, deviceData, loading } = props;
+const HwChargeChild: React.FC<DeviceRealTimeType> = (props) => {
+  const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -25,6 +26,7 @@ const HwChargeChild: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) =
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -38,6 +40,7 @@ const HwChargeChild: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) =
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

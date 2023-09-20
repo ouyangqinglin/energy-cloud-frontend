@@ -13,13 +13,14 @@ import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import RealTime from '@/components/ScreenDialog/PvInverter/RealTime';
+import useDeviceModel from '../useDeviceModel';
 
-export type PvInverterProps = Omit<DeviceRealTimeType, 'productId'> & {
+export type PvInverterProps = DeviceRealTimeType & {
   loopNum: number;
 };
 
 const PvInverter: React.FC<PvInverterProps> = (props) => {
-  const { id, deviceData, loading, loopNum } = props;
+  const { id, productId, deviceData, loading, loopNum } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -29,6 +30,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -42,6 +44,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

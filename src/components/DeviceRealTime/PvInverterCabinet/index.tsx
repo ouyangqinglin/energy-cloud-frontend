@@ -12,9 +12,10 @@ import { OnlineStatusEnum } from '@/utils/dictionary';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/Meter/RealTime';
+import useDeviceModel from '../useDeviceModel';
 
-const PvInverterCabinet: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (props) => {
-  const { id, deviceData, loading } = props;
+const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
+  const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -24,6 +25,7 @@ const PvInverterCabinet: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (prop
     title: '',
     collection: '',
   });
+  const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -37,6 +39,7 @@ const PvInverterCabinet: React.FC<Omit<DeviceRealTimeType, 'productId'>> = (prop
       title={collectionInfo.title}
       deviceId={id}
       collection={collectionInfo.collection}
+      model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
     />
   );

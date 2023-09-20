@@ -421,29 +421,12 @@ export const airSwitchFormat = (value: string) => {
 };
 export const airAlarmFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
-    0: { text: '正常', color: 'cl-success' },
-    1: { text: '回风温度传感器故障告警', color: 'cl-error' },
-    2: { text: '回风湿度传感器故障告警', color: 'cl-error' },
-    3: { text: '送风温度传感器故障告警', color: 'cl-error' },
-    4: { text: '高温告警', color: 'cl-error' },
-    5: { text: '低温告警', color: 'cl-error' },
-    6: { text: '高湿告警', color: 'cl-error' },
-    7: { text: '低湿告警', color: 'cl-error' },
-    8: { text: '高压告警', color: 'cl-error' },
-    9: { text: '高压锁定告警', color: 'cl-error' },
-    11: { text: '低压锁定告警', color: 'cl-error' },
-    10: { text: '低压告警', color: 'cl-error' },
-    12: { text: '冷凝温度传感器故障告警', color: 'cl-error' },
-    13: { text: '蒸发温度传感器故障告警', color: 'cl-error' },
-    14: { text: '冷凝高温告警', color: 'cl-error' },
-    15: { text: '蒸发低温告警', color: 'cl-error' },
-  };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
+  const isRight = valueArr.includes(0);
+  return (
+    <span className={`${isRight ? 'cl-success' : 'cl-error'} mr8`}>
+      {isRight ? '正常' : '故障'}
+    </span>
+  );
 };
 export const onlineStatusFormat = (value: string) => {
   return <Field text={value} valueEnum={onlineStatus} />;

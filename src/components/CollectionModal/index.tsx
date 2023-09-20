@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-08-08 19:07:22
+ * @LastEditTime: 2023-09-20 11:21:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -44,16 +44,16 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
   });
 
   const modelData = useMemo(() => {
-    let enumObj = {},
-      enumKeys: string[] = [];
+    const enumObj: any = parseToObj(model?.specs);
+    let enumKeys: string[] = [];
     if (model?.type === DeviceModelTypeEnum.Enum) {
-      enumObj = parseToObj(model?.specs);
       enumKeys = ['wahaha'].concat(Object.keys(enumObj));
     }
     return {
       type: model?.type,
       keys: enumKeys,
       data: enumObj,
+      unit: enumObj?.unit,
     };
   }, [model]);
 
@@ -226,7 +226,14 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
 
   return (
     <>
-      <Modal width="1000px" footer={false} title={title} open={open} centered {...restProps}>
+      <Modal
+        width="1000px"
+        footer={false}
+        title={title + (modelData.unit ? `（${modelData.unit}）` : '')}
+        open={open}
+        centered
+        {...restProps}
+      >
         <SchemaForm<Searchtype>
           className="p0 mb24"
           formRef={formRef}
