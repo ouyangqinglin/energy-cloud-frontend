@@ -68,6 +68,14 @@ const Log: React.FC = () => {
       },
       hideInTable: true,
       dependencies: ['productTypeId'],   
+      fieldProps: (form) => {
+        return {
+          onChange: () => {
+            form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
+            form?.setFieldValue?.('id', '');//清空版本号数据
+          },
+        };
+      },
       request: requestProductSn,
   };
   //获取站点信息
@@ -95,7 +103,7 @@ const Log: React.FC = () => {
       title: '模块',
       dataIndex: 'moduleName',
       formItemProps: {
-        name: 'moduleName',
+        name: 'moduleMark',//模块id
       },
       hideInTable: true,
       dependencies: ['productModel'],   
@@ -103,28 +111,42 @@ const Log: React.FC = () => {
   };
 //获取升级版本号--依赖产品型号id
 const requestVersion = useCallback((params) => {
-  return getVersionList(params?.productModel).then(({ data }) => {
-    return data?.map?.((item) => {
-      return {
-        label: item?.version || '',
-        value: item?.id || '',
-      };
+  if(params?.productModel) {
+    return getVersionList({productId:params?.productModel,current:1,pageSize:2000}).then(({ data }) => {
+      return data?.map?.((item) => {
+        return {
+          label: item?.version || '',
+          value: item?.id || '',
+        };
+      });
     });
-  });
+  } else {
+    return Promise.resolve([]);
+  } 
 }, []);
-
-const [versionList] = useSearchSelect<DeviceDataType>({
-  proColumns: {
+const versionList= {
     title: '升级版本',
     dataIndex: 'version',
     formItemProps: {
-      name: 'version',
+      name: 'id',
     },
     hideInTable: true,
     dependencies: ['productModel'],
-  },
-  request: requestVersion,
-});
+    request: requestVersion,
+};
+
+// const [versionList] = useSearchSelect<DeviceDataType>({
+//   proColumns: {
+//     title: '升级版本',
+//     dataIndex: 'version',
+//     formItemProps: {
+//       name: 'id',
+//     },
+//     hideInTable: true,
+//     dependencies: ['productModel'],
+//   },
+//   request: requestVersion,
+// });
 //升级时间
 const upgradTime = {
   title: '升级时间',
@@ -242,7 +264,7 @@ const upgradTime = {
     },
     {
       title: '升级人',
-      dataIndex: 'upgrader',
+      dataIndex: 'upgraderName',
       hideInSearch: true,
       width: 100,
       ellipsis: true,

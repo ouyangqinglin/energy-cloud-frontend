@@ -17,6 +17,7 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { log } from 'lodash-decorators/utils';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -25,7 +26,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   });
   const [snList, setSnList] = useState();//产品型号下拉框列表
   const [modelList, setModelList] = useState();//模块下拉框列表
-  
+  const [updateType, setUpdateType] = useState(2);//升级类型
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -43,14 +44,14 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     dataIndex: 'productType',//产品类型id
     formItemProps: {
       name: 'productType',//产品类型id
+      rules: [{ required: true, message: '请输入' }], 
     },
     fieldProps: {
       rules: [{ required: true, message: '请输入' }],
       onChange: (productType: any) => {
         requestProductSn(productType).then((list) => {
-          setSnList(list)
-        });//获取产品型号
-
+        setSnList(list);
+      });//获取产品型号
       },
     },
     hideInTable: true,
@@ -78,9 +79,10 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     title: '产品型号',
     dataIndex: 'productId',
     valueType: 'select',
-    // formItemProps: {
-    //   name: 'productId',
-    // },
+    formItemProps: {
+      name: 'productId',//产品型号id
+      rules: [{ required: true, message: '请输入' }], 
+    },
     hideInTable: true,
     dependencies: ['productType'],   //依赖产品类型--dataIndex
     fieldProps: {
@@ -114,7 +116,8 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     dataIndex: 'moduleName',
     valueType: 'select',
     formItemProps: {
-      name: 'moduleName',
+      name: 'moduleMark',
+      rules: [{ required: true, message: '请输入' }], 
     },
     hideInTable: true,
     dependencies: ['productModel'],
@@ -161,6 +164,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     dataIndex: 'packageName',
     formItemProps: {
       name: 'packageName',
+      rules: [{ required: true, message: '请输入' }],
     },
     hideInTable: true,
     dependencies: ['moduleName', 'productModel'],
@@ -202,6 +206,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       hideInSearch: true,
     },
   ];
+
   const columns = [
     {
       title: '任务名称',
@@ -227,13 +232,23 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       valueType: 'radio',
       valueEnum: updateTimeList,
       formItemProps: {
+        initialValue:'2',
         rules: [{ required: true, message: '请选择升级类型' }],
+      },
+      fieldProps: (form) => {
+        return {
+          onChange: (e) => {
+            //隐藏日期表单
+            setUpdateType(e.target.value);
+          },
+        };
       },
     },
     {
       title: '升级时间',
       dataIndex: ['upgradeTime'],
       formItemProps: {
+        hidden: updateType == 1,//稍后升级时才显示时间表单
         rules: [
           {
             required: true,
@@ -248,7 +263,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
         showTime: true,
         format: 'YYYY-MM-DD hh:mm:ss',
         disabledDate: (current: Dayjs) => {
-          return current && current < dayjs().startOf('day');
+          return current && current < dayjs().startOf('day');//只能选择今天以及之后的时间
         },
       },
       valueType: 'date',
@@ -272,6 +287,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
           },
           //为啥聚焦时走不到这里来
           onFocus: () => {
+            
             return form?.validateFields(['siteId']);
           },
         };

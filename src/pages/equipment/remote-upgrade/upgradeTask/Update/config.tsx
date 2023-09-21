@@ -288,6 +288,14 @@ export const Columns: (
       formItemProps: {
         rules: [{ required: true, message: '请选择升级类型' }],
       },
+      fieldProps: (form) => {
+        return {
+          onChange: () => {
+            // form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
+            // form?.setFieldValue?.('id', '');//清空版本号数据
+          },
+        };
+      },
     },
     {
       title: '升级时间',

@@ -30,7 +30,7 @@ const UpgradeTask: React.FC = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   
   const onAddClick = useCallback(() => {
-    setInitialValues({});
+    setInitialValues({type:'2'});
     setUpdateModal(true);//打开弹窗
   }, []);
   const customListConfig: YTProTableCustomProps<UpgradeListType, any> = {
@@ -71,10 +71,12 @@ const UpgradeTask: React.FC = () => {
       formItemProps: {
         name: 'productTypeId',
       },
-      fieldProps: {
-        onChange: (productTypeId:any) => {
-          
-        },
+      fieldProps: (form) => {
+        return {
+          onChange: () => {
+            form?.setFieldValue?.('productModel', ''); //清空产品型号的数据
+          },
+        };
       },
       hideInTable: true,
       request: requestProductType,
@@ -105,6 +107,14 @@ const UpgradeTask: React.FC = () => {
       hideInTable: true,
       dependencies: ['productTypeId'],   
       request: requestProductSn,
+      fieldProps: (form) => {
+        return {
+          onChange: () => {
+            form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
+            form?.setFieldValue?.('id', '');//清空版本号数据
+          },
+        };
+      },
   };
   //获取模块下拉框数据--依赖产品型号id
   const requestModule = useCallback((params) => {
@@ -127,35 +137,37 @@ const UpgradeTask: React.FC = () => {
       title: '模块',
       dataIndex: 'moduleName',
       formItemProps: {
-        name: 'moduleName',
+        name: 'moduleMark',
       },
       hideInTable: true,
       dependencies: ['productModel'],   
       request: requestModule,
   };
-//获取版本号--依赖产品型号id
+  //获取升级版本号--依赖产品型号id
 const requestVersion = useCallback((params) => {
-  return getVersionList(params?.productModel).then(({ data }) => {
-    return data?.map?.((item) => {
-      return {
-        label: item?.version || '',
-        value: item?.id || '',
-      };
+  if(params?.productModel) {
+    return getVersionList({productId:params?.productModel,current:1,pageSize:2000}).then(({ data }) => {
+      return data?.map?.((item) => {
+        return {
+          label: item?.version || '',
+          value: item?.id || '',
+        };
+      });
     });
-  });
+  } else {
+    return Promise.resolve([]);
+  } 
 }, []);
-const [versionList] = useSearchSelect<DeviceDataType>({
-  proColumns: {
-    title: '版本号',
+const versionList= {
+    title: '升级版本',
     dataIndex: 'version',
     formItemProps: {
-      name: 'version',
+      name: 'id',
     },
     hideInTable: true,
     dependencies: ['productModel'],
-  },
-  request: requestVersion,
-});
+    request: requestVersion,
+};
 //升级时间
 const upgradTime = {
   title: '升级时间',

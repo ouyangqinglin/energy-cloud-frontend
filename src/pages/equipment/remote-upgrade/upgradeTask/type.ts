@@ -21,6 +21,7 @@ export interface UpgradeListType {
   updater:string;
   updateBy:string;
   status:number,
+  type:number;
 }
 export interface SelectedDeviceType {
   deviceId: number;

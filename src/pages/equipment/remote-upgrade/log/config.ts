@@ -106,7 +106,7 @@ export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
   },
   {
     title: '升级人',
-    dataIndex: 'upgrader',
+    dataIndex: 'upgraderName',
     hideInSearch: true,
     width: 100,
     ellipsis: true,
