@@ -6,7 +6,6 @@ export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
   [OrderStatus.DEALING, '维修中'],
   [OrderStatus.COMPLETE, '维修完成'],
-  [OrderStatus.REJECT, '拒绝处理'],
 ]);
 
 // 工单类型 0：安装工单 1：维护工单 2修复工单

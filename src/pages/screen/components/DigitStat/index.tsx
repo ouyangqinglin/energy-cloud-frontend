@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 10:34:31
- * @LastEditTime: 2023-08-30 09:59:30
+ * @LastEditTime: 2023-09-21 16:21:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\DigitStat\index.tsx
  */
@@ -13,7 +13,7 @@ import TweenOne, { AnimObjectOrArray } from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
 import { isEmpty } from '@/utils';
 import { merge } from 'lodash';
-import { formatNum } from '@/utils';
+import { formatNum, ValueUnitType } from '@/utils';
 
 TweenOne.plugins.push(Children);
 
@@ -27,6 +27,7 @@ export type DigitStatItemType = {
   valueStyle?: React.CSSProperties;
   animation?: AnimObjectOrArray;
   isformatNum?: boolean;
+  format?: (value: number) => ValueUnitType;
 };
 
 export type DigitStatProps = {
@@ -50,7 +51,7 @@ const getContentByItem = (
   index?: number,
 ) => {
   let itemValue;
-  const formatValue = formatNum(data?.[item.field || '']);
+  const formatValue = (item.format || formatNum)(data?.[item.field || '']);
   if (isEmpty(data?.[item.field || ''])) {
     itemValue = '--';
   } else {
@@ -72,7 +73,7 @@ const getContentByItem = (
         {item.fields ? (
           item.fields?.map?.((child, childIndex) => {
             let childValue;
-            const childFormatValue = formatNum(data?.[child.field || '']);
+            const childFormatValue = (child.format || formatNum)(data?.[child.field || '']);
             if (isEmpty(data?.[child.field || ''])) {
               childValue = '--';
             } else {

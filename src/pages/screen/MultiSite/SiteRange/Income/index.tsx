@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2023-09-13 17:43:38
+ * @LastEditTime: 2023-09-21 16:48:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -45,12 +45,16 @@ const Income: React.FC = () => {
   });
 
   const chargeOptions = useMemo(() => {
-    return getOptionsByData(chargeData?.sitesRankingIncomeList || [], chargeData?.totalIncome);
+    return getOptionsByData(
+      (chargeData?.sitesRankingIncomeList || []).slice(0, 5),
+      chargeData?.totalIncome,
+    );
   }, [chargeData]);
 
   const legend = useMemo(() => {
     const legendColors = [...colors].reverse();
-    return chargeData?.sitesRankingIncomeList?.reverse?.()?.map?.((item, index) => {
+    legendColors.push('#00C9EC');
+    return chargeData?.sitesRankingIncomeList?.map?.((item, index) => {
       return (
         <div className={styles.bar}>
           <span className={styles.title}>
@@ -65,10 +69,14 @@ const Income: React.FC = () => {
 
   return (
     <>
-      <Title className="my16" title="站点收益" unit="单位(元)" />
+      <Title className="mt6 mb8" title="站点收益" unit="单位(元)" />
       <Row className="" gutter={32}>
-        <Col span={12}>
-          <Chart option={chargeOptions} style={{ height: 156 }} calculateMax={false} />
+        <Col span={12} className="flex flex-center">
+          <Chart
+            option={chargeOptions}
+            style={{ width: '100%', height: 156 }}
+            calculateMax={false}
+          />
         </Col>
         <Col span={12}>
           <div className={styles.legend}>{legend}</div>

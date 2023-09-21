@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-05 09:45:18
- * @LastEditTime: 2023-09-07 17:44:08
+ * @LastEditTime: 2023-09-21 16:43:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\ProvinceMap\config.ts
  */

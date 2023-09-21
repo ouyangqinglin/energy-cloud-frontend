@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:27:03
- * @LastEditTime: 2023-09-04 19:53:05
+ * @LastEditTime: 2023-09-21 16:46:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\config.ts
  */
@@ -58,6 +58,6 @@ export const geoCoordData: GeoCoordDataType[] = [
   { name: '广西省', adCode: 450000, lnglat: [108.479, 23.1152] },
   { name: '海南省', adCode: 460000, lnglat: [110.3893, 19.8516] },
   { name: '上海市', adCode: 310000, lnglat: [121.4648, 31.2891] },
-  { name: '香港', adCode: 810000, lnglat: [114.173355, 22.320048] },
+  { name: '香港特别行政区', adCode: 810000, lnglat: [114.173355, 22.320048] },
   { name: '澳门', adCode: 820000, lnglat: [113.54909, 22.198951] },
 ];

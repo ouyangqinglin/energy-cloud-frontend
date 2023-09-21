@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-09-13 17:37:51
+ * @LastEditTime: 2023-09-21 17:32:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -102,7 +102,7 @@ export const defaultSankey: any = {
     left: 0,
     right: 0,
     lineStyle: {
-      color: 'target',
+      color: 'gradient',
       opacity: 0.5,
       curveness: 0.5,
     },

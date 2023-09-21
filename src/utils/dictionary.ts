@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-08-30 09:47:25
+ * @LastEditTime: 2023-09-21 18:49:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -51,6 +51,13 @@ export enum DeviceTypeEnum {
   Pcs = 3,
   Ems = 1,
   Air = 7,
+  BWattEms = 37,
+  BWattBatteryStack = 38,
+  BWattPcs = 39,
+  BWattElectricMeter = 40,
+  BWattAir = 41,
+  BWattBatteryCluster = 42,
+  BWattEnergy = 44,
   Device = 'default',
 }
 

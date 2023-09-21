@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 09:36:55
- * @LastEditTime: 2023-08-31 15:53:02
+ * @LastEditTime: 2023-09-21 16:40:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\ElecPower\index.tsx
  */
@@ -72,11 +72,33 @@ const targetItem = {
     },
   },
 };
-
+// [2,3,1,1,4]
 const ElecPower: React.FC = () => {
   const { data: installData } = useRequest(getPowerData, {
     pollingInterval: REQUEST_INTERVAL_5_MINUTE,
   });
+
+  const transform = (nums: number[]) => {
+    const length = nums.length;
+    if (length == 1) {
+      return 0;
+    }
+    let maxStance = 0;
+    let step = 1;
+    let prevStance = 0;
+    for (let i = 0; i < length; i++) {
+      if (maxStance < nums[i] + i + 1) {
+        if (i > prevStance) {
+          step++;
+        }
+        prevStance = maxStance;
+        maxStance = nums[i] + i + 1;
+      }
+      if (maxStance >= length) {
+        return step;
+      }
+    }
+  };
 
   const options = useMemo(() => {
     const result: any = merge({}, defaultSankey);
@@ -141,7 +163,7 @@ const ElecPower: React.FC = () => {
 
   return (
     <>
-      <Title className="mb16" title="市电用电量" unit="单位(kWh)" />
+      <Title className="mb8" title="市电用电量" unit="单位(kWh)" />
       <Chart option={options} style={{ height: 300 }} calculateMax={false} />
     </>
   );

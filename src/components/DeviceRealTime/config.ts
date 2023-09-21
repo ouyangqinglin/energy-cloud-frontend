@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-09-11 18:53:23
+ * @LastEditTime: 2023-09-21 18:47:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */
@@ -47,4 +47,11 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.Pcs]: { component: 'Pcs' },
   [DeviceTypeEnum.Ems]: { component: 'Ems' },
   [DeviceTypeEnum.Air]: { component: 'Air' },
+  [DeviceTypeEnum.BWattBatteryStack]: { component: 'BatterryStack' },
+  [DeviceTypeEnum.BWattBatteryCluster]: { component: 'BatterryStack' },
+  [DeviceTypeEnum.BWattPcs]: { component: 'Pcs' },
+  [DeviceTypeEnum.BWattEms]: { component: 'Ems' },
+  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.BWattAir]: { component: 'Air' },
+  [DeviceTypeEnum.BWattEnergy]: { component: 'Energy' },
 };

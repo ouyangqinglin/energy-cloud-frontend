@@ -6,7 +6,6 @@ export const orderStatus = new Map([
   [OrderStatus.READY, '待处理'],
   [OrderStatus.DEALING, '维修中'],
   [OrderStatus.CLOSE, '维修完成'],
-  [OrderStatus.REJECT, '拒绝处理'],
 ]);
 
 export const columns: ProColumns<FaultType>[] = [

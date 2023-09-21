@@ -13,6 +13,11 @@ export type AntMenuProps = {
   children?: AntMenuProps[];
 };
 
+export type ValueUnitType = {
+  value: string | number;
+  unit: string;
+};
+
 export const getMenus = (data: MenuDataItem[], prePath = ''): AntMenuProps[] => {
   const arr: AntMenuProps[] = [];
   data.forEach((item) => {
@@ -220,7 +225,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
   return result;
 };
 
-export const formatNum = (num: number, separator = '--', floatLength = 2) => {
+export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {
   if (isEmpty(num)) {
     return { value: separator, unit: '' };
   } else {
@@ -232,6 +237,31 @@ export const formatNum = (num: number, separator = '--', floatLength = 2) => {
     } else if (-10000 > num || num > 10000) {
       unit = '万';
       value = num / 10000;
+    }
+    return {
+      value: value?.toFixed?.(floatLength) || value,
+      unit,
+    };
+  }
+};
+
+export const formatWattNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {
+  if (isEmpty(num)) {
+    return { value: separator, unit: '' };
+  } else {
+    let unit = '',
+      value = num;
+    if (-1000000000 > num || num > 1000000000) {
+      unit = 'T';
+      value = num / 100000000;
+    } else if (-1000000 > num || num > 1000000) {
+      unit = 'G';
+      value = num / 100000000;
+    } else if (-1000 > num || num > 1000) {
+      unit = 'M';
+      value = num / 1000;
+    } else {
+      unit = 'k';
     }
     return {
       value: value?.toFixed?.(floatLength) || value,
