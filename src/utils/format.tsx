@@ -2,33 +2,52 @@ import { getValue, isEmpty, strToArray } from '@/utils';
 import dayjs from 'dayjs';
 import { onlineStatus, deviceAlarmStatus } from './dictionary';
 import Field from '@/components/Field';
+import { number } from 'echarts';
+
+type MapType = {
+  [k: number]: string;
+};
+
+type MapDataType = {
+  [k: number]: {
+    text: string;
+    color: string;
+  };
+};
 
 export const timeFormat = (value: string) => {
   return value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '';
 };
 export const onlineFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '离线',
     1: '在线',
   };
   return <span className={value == 0 ? 'cl-error' : 'cl-success'}>{map[value]}</span>;
 };
 export const communicateFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '正常',
     1: '失联',
   };
   return <span className={value == 0 ? 'cl-success' : 'cl-error'}>{map[value]}</span>;
 };
 export const runFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '待机',
     1: '运行',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const airRunFormat = (value: number) => {
+  const map: MapType = {
+    0: '运行',
+    1: '待机',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const modelFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '手动',
     1: '自动',
   };
@@ -36,7 +55,7 @@ export const modelFormat = (value: number) => {
 };
 export const closeFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapType = {
     0: '断开',
     1: '闭合',
   };
@@ -46,7 +65,7 @@ export const closeFormat = (value: string) => {
 };
 export const contactorFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapType = {
     0: '断开',
     1: '主接触器闭合',
     2: '预充接触器闭合',
@@ -59,7 +78,7 @@ export const contactorFormat = (value: string) => {
   return result;
 };
 export const singleFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '断开',
     1: '正常',
   };
@@ -120,7 +139,7 @@ export const moneyFormat = (value: string | number) => {
   return getValue(value, '元');
 };
 export const electricModelFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '电池恒压',
     1: '并网恒流',
     2: '电池恒流',
@@ -128,7 +147,7 @@ export const electricModelFormat = (value: number) => {
   return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const workFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '停机',
     1: '故障',
     2: '运行',
@@ -136,14 +155,14 @@ export const workFormat = (value: number) => {
   return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const doorFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '关门',
     1: '开门',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const chargeFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '静置',
     1: '放电',
     2: '充电',
@@ -151,7 +170,7 @@ export const chargeFormat = (status: number) => {
   return <span className={'cl-success'}>{map[status]}</span>;
 };
 export const openFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '关闭',
     1: '开启',
   };
@@ -159,7 +178,7 @@ export const openFormat = (status: number) => {
 };
 export const abnormalFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: 'BMU1通信故障', color: 'cl-error' },
     2: { text: 'BMU2通信故障', color: 'cl-error' },
@@ -179,7 +198,7 @@ export const abnormalFormat = (value: string) => {
   return result;
 };
 export const faultFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     0: '正常',
   };
   return (
@@ -190,7 +209,7 @@ export const faultFormat = (value: number) => {
 };
 export const externalFaultFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: 'BMU硬件故障', color: 'cl-error' },
     2: { text: 'BCU硬件故障', color: 'cl-error' },
@@ -216,7 +235,7 @@ export const externalFaultFormat = (value: string) => {
 };
 export const fault1Format = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: '总电压过压一级报警', color: 'cl-error' },
     2: { text: '总电压欠压一级报警', color: 'cl-error' },
@@ -243,7 +262,7 @@ export const fault1Format = (value: string) => {
 };
 export const fault2Format = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: '总电压过压二级报警', color: 'cl-error' },
     2: { text: '总电压欠压二级报警', color: 'cl-error' },
@@ -270,7 +289,7 @@ export const fault2Format = (value: string) => {
 };
 export const fault3Format = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: '总电压过压三级报警', color: 'cl-error' },
     2: { text: '总电压欠压三级报警', color: 'cl-error' },
@@ -296,28 +315,28 @@ export const fault3Format = (value: string) => {
   return result;
 };
 export const outputFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '停止',
     1: '输出',
   };
   return <span className="cl-success">{map[status]}</span>;
 };
 export const openCloseFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '关闭',
     1: '打开',
   };
   return <span className="cl-success">{map[status]}</span>;
 };
 export const booleanFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '否',
     1: '是',
   };
   return <span className="cl-success">{map[status]}</span>;
 };
 export const airsetFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '机组关闭',
     1: '机组开启',
     2: '机组待机',
@@ -327,7 +346,7 @@ export const airsetFormat = (status: number) => {
   return <span className={status == 3 ? 'cl-error' : 'cl-success'}>{map[status]}</span>;
 };
 export const useFormat = (value: number) => {
-  const map = {
+  const map: MapType = {
     // 0：离网1：空闲2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
     0: '离网',
     1: '空闲',
@@ -340,7 +359,7 @@ export const useFormat = (value: number) => {
   return <span className={'cl-success'}>{map[value]}</span>;
 };
 export const alarmFormat = (status: number) => {
-  const map = {
+  const map: MapType = {
     0: '正常',
     1: '告警',
   };
@@ -348,7 +367,7 @@ export const alarmFormat = (status: number) => {
 };
 export const pankFanFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '关', color: 'cl-success' },
     1: { text: 'BMU1风扇开', color: 'cl-success' },
     2: { text: 'BMU2风扇开', color: 'cl-success' },
@@ -369,7 +388,7 @@ export const pankFanFormat = (value: string) => {
 };
 export const pankFanAlarmFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
     1: { text: 'BMU1风扇故障', color: 'cl-error' },
     2: { text: 'BMU2风扇故障', color: 'cl-error' },
@@ -390,7 +409,7 @@ export const pankFanAlarmFormat = (value: string) => {
 };
 export const airWorkFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '否', color: 'cl-success' },
     1: { text: '制冷', color: 'cl-success' },
     2: { text: '制热', color: 'cl-success' },
@@ -406,7 +425,7 @@ export const airWorkFormat = (value: string) => {
 };
 export const airSwitchFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map = {
+  const map: MapDataType = {
     0: { text: '停止', color: 'cl-success' },
     1: { text: '室内风机开关输出', color: 'cl-error' },
     2: { text: '压缩机开关输出', color: 'cl-error' },

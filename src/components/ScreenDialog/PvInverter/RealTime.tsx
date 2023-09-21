@@ -62,7 +62,7 @@ const RealTime: React.FC<
       { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
       { label: '功率因数', field: 'powerFactor' },
       { label: '逆变器额定功率', field: 'ratedPowerOfInverter', format: powerFormat },
-      { label: '输出方式', field: 'outputMethod' },
+      { label: '输出方式', field: 'outputMethod', showExtra: false },
       { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
       { label: '内部温度', field: 'temperature', format: tempFormat },
       { label: '逆变器开机时间', field: 'openTime', format: timeFormat, showExtra: false },

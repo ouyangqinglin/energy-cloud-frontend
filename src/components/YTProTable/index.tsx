@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { ProTable, ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps } from './typing';
@@ -7,6 +7,7 @@ import { normalizeRequestOption, standardRequestTableData } from './helper';
 import styles from './index.less';
 import useToolBarRender from './useToolBarRender';
 import useTableSize from './useTableSize';
+import { useBoolean } from 'ahooks';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -29,6 +30,7 @@ const YTProTable = <
 
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const myTableRef = useRef<HTMLDivElement>();
+  const [collapsed, { set: setCollapse }] = useBoolean(false);
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;
@@ -37,6 +39,16 @@ const YTProTable = <
   const mergedTableRef = useMemo<any>(() => {
     return tableRef || myTableRef;
   }, [formRef, myTableRef]);
+
+  const mergedOnCollapse = useCallback(
+    (value: boolean) => {
+      if (restProps?.search) {
+        restProps?.search?.onCollapse?.(value);
+      }
+      setCollapse(value);
+    },
+    [restProps],
+  );
 
   const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
     toolBarRender,
@@ -56,7 +68,7 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request);
 
-  const { scrollX } = useTableSize(mergedTableRef, restProps.scroll);
+  const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed);
 
   return (
     <div ref={mergedTableRef}>
@@ -91,6 +103,7 @@ const YTProTable = <
                 searchText: '搜索',
                 showHiddenNum: true,
                 ...(restProps?.search || {}),
+                onCollapse: mergedOnCollapse,
               }
         }
       />

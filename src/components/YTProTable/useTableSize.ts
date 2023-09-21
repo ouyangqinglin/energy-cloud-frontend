@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-31 11:23:15
- * @LastEditTime: 2023-07-31 14:22:07
+ * @LastEditTime: 2023-09-21 13:42:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useTableSize.ts
  */
@@ -24,6 +24,7 @@ export function getTableScroll(contain: HTMLDivElement, extraHeight = 78) {
 const useTableSize = (
   contain: React.MutableRefObject<HTMLDivElement | undefined>,
   scroll?: RcTableProps['scroll'],
+  collapsed?: boolean,
 ) => {
   const [scrollX, setScrollX] = useState<number | undefined>();
 
@@ -53,7 +54,7 @@ const useTableSize = (
         }
       }
     }, 300),
-    [contain, scroll, size],
+    [contain, scroll, size, collapsed],
   );
 
   return {

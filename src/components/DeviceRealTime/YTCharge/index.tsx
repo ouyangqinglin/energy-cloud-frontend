@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 15:25:00
- * @LastEditTime: 2023-09-19 14:23:21
+ * @LastEditTime: 2023-09-20 11:45:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTCharge\index.tsx
  */
