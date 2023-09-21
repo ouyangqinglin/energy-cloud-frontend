@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 09:51:58
- * @LastEditTime: 2023-06-08 09:26:06
+ * @LastEditTime: 2023-09-21 14:55:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\index.tsx
  */
@@ -18,6 +18,7 @@ import classnames from 'classnames';
 export type TableSelectProps<V, T, P> = {
   value?: V[];
   onChange?: (value: V[]) => void;
+  onFocus?: () => void | Promise<any>;
   title?: string;
   width?: string;
   multiple?: boolean;
@@ -44,6 +45,7 @@ const TableSelect = <
   const {
     value: rawValue = [],
     onChange,
+    onFocus,
     multiple = true,
     limit = 3,
     disabled = false,
@@ -77,7 +79,18 @@ const TableSelect = <
   }, []);
 
   const onSwitchOpen = useCallback(() => {
-    setOpen(!open);
+    if (onFocus) {
+      const result = onFocus();
+      if (result) {
+        result?.then?.(() => {
+          setOpen(!open);
+        });
+      } else {
+        setOpen(!open);
+      }
+    } else {
+      setOpen(!open);
+    }
   }, [open]);
 
   const tags = useMemo(() => {
