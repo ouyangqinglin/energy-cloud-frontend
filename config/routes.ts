@@ -247,32 +247,39 @@ export default [
         wrappers: ['@/components/KeepAlive'],
       },
       {
+        path: 'remote-upgrade',
+        name: 'remoteUpgrade',
+        component: './equipment/remote-upgrade',
+        wrappers: ['@/components/KeepAlive'],
+      },
+      {
         path: 'device-detail',
         component: './equipment/DeviceDetail',
         wrappers: ['@/components/KeepAlive'],
         title: 'menu.device.deviceMonitor',
       },
-      {
-        path: 'upgrade',
-        routes: [
-          {
-            path: '/equipment/upgrade',
-            redirect: '/equipment/upgrade/package',
-          },
-          {
-            path: 'package',
-            name: 'remoteUpgradePackage',
-            component: './remote-upgrade/package',
-            wrappers: ['@/components/KeepAlive'],
-          },
-          {
-            path: 'log',
-            name: 'remoteUpgradeLog',
-            component: './remote-upgrade/log',
-            wrappers: ['@/components/KeepAlive'],
-          },
-        ],
-      },
+
+      // {
+      //   path: 'upgrade',
+      //   routes: [
+      //     {
+      //       path: '/equipment/upgrade',
+      //       redirect: '/equipment/upgrade/package',
+      //     },
+      //     {
+      //       path: 'package',
+      //       name: 'remoteUpgradePackage',
+      //       component: './remote-upgrade/package',
+      //       wrappers: ['@/components/KeepAlive'],
+      //     },
+      //     {
+      //       path: 'log',
+      //       name: 'remoteUpgradeLog',
+      //       component: './remote-upgrade/log',
+      //       wrappers: ['@/components/KeepAlive'],
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -298,6 +305,7 @@ export default [
       },
     ],
   },
+  //升级管理
   {
     path: '/remote-upgrade',
     name: 'remote-upgrade',
