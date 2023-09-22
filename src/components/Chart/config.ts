@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-09-21 17:32:25
+ * @LastEditTime: 2023-09-22 09:10:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -255,10 +255,32 @@ export const defaultMapOption: any = {
       z: 20,
       label: {
         show: true,
-        backgroundColor: 'rgba(0,22,48,0.1)',
+        padding: [2, 12],
+        backgroundColor: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: 'rgba(0,22,48,0.1)', // 0% 处的颜色
+            },
+            {
+              offset: 0.5,
+              color: '#001630',
+            },
+            {
+              offset: 1,
+              color: 'rgba(0,22,48,0.1)', // 100% 处的颜色
+            },
+          ],
+          global: false, // 缺省为 false
+        },
         color: '#34E1B6',
         fontWeight: 500,
-        offset: [0, -20],
+        offset: [0, -30],
         fontSize: 16,
         formatter(value: any) {
           return value.data.value[2];
