@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-09-12 09:15:28
+ * @LastEditTime: 2023-09-25 10:32:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -186,7 +186,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         <div className={styles.content}>
           <div className="px24 pt24">
             <Overview
-              deviceId={id}
+              deviceId={selectOrg?.deviceId || ''}
               onChange={onDeviceChange}
               setLoading={setDeviceOverviewloading}
             />

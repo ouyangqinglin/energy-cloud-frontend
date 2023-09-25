@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-09-12 11:09:16
+ * @LastEditTime: 2023-09-25 10:47:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -31,6 +31,7 @@ import { isEmpty } from '@/utils';
 import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -48,6 +49,7 @@ type SettingProps = {
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
   isDeviceChild?: boolean;
+  type?: DeviceTypeEnum;
 };
 
 const powerMap = new Map([
@@ -107,7 +109,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, isDeviceChild } = props;
+  const { id, isLineLabel = false, isDeviceChild, type } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -157,14 +159,22 @@ const Setting: React.FC<SettingProps> = (props) => {
             </span>
           );
           break;
+        case 'reset':
+          content = <span>是否执行系统复位指令</span>;
+          break;
       }
       Modal.confirm({
         title: '确认',
         content: content,
         okText: '确认',
         cancelText: '取消',
-        onOk: () =>
-          run({
+        onOk: () => {
+          if (field == 'reset') {
+            message.success('下发成功');
+            controlForm.setFieldValue(field, false);
+            return Promise.resolve();
+          }
+          return run({
             deviceId: id,
             input: { [field]: 1 },
             serviceId: field == 'manualAutomaticSwitch' ? 'operateModel' : field,
@@ -176,7 +186,8 @@ const Setting: React.FC<SettingProps> = (props) => {
             })
             .finally(() => {
               controlForm.setFieldValue(field, false);
-            }),
+            });
+        },
         onCancel: () => {
           controlForm.setFieldValue(field, false);
         },
@@ -406,6 +417,20 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Switch />
             </Form.Item>
           </Col>
+          {type === DeviceTypeEnum.BWattEms ? (
+            <Col flex="25%">
+              <Form.Item
+                name="reset"
+                label="系统复位"
+                labelCol={{ flex: '116px' }}
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+          ) : (
+            <></>
+          )}
         </Row>
       </Form>
       {!isDeviceChild ? (

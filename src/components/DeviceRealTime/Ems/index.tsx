@@ -11,12 +11,16 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import styles from './index.less';
 
-const Ems: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+export type EmsType = DeviceRealTimeType & {
+  type?: DeviceTypeEnum;
+};
+
+const Ems: React.FC<EmsType> = (props) => {
+  const { id, productId, deviceData, type } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
@@ -34,7 +38,9 @@ const Ems: React.FC<DeviceRealTimeType> = (props) => {
       {
         key: '2',
         label: '远程控制',
-        children: <Setting id={id} settingData={realTimeData} isLineLabel isDeviceChild />,
+        children: (
+          <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
+        ),
       },
     ];
   }, [realTimeData]);

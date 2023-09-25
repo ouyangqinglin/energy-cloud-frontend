@@ -259,3 +259,24 @@ export const getChargeStack = (params: any) => {
     params,
   });
 };
+
+export const getUpgradeVersion = (params: any) => {
+  return request(`/iot/otaPackage/getVersionByDeviceId`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const upgradeDevice = (data: any) => {
+  return request(`/iot/otaUpgrade/sendUpgrade`, {
+    method: 'POST',
+    data,
+  });
+};
+
+export const getUpgradeRecord = (params: any) => {
+  return request(`/iot/otaRecord/page`, {
+    method: 'GET',
+    params,
+  });
+};
