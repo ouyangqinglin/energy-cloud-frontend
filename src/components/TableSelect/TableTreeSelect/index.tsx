@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-08 09:26:37
- * @LastEditTime: 2023-07-31 16:37:12
+ * @LastEditTime: 2023-09-25 09:25:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\index.tsx
  */
@@ -30,6 +30,7 @@ const TableTreeSelect = <
     disabled = false,
     valueId = 'id',
     valueName = 'name',
+    valueFormat,
     clearable = true,
     placeholder = '请选择',
     onFocus,
@@ -83,10 +84,13 @@ const TableTreeSelect = <
     if (value && valueLength) {
       for (let i = 0; i < valueLength; i++) {
         if (i < limit) {
+          const tagValue = valueFormat
+            ? valueFormat(value[i][valueName], value[i])
+            : value[i][valueName];
           result.push(
             <Tag key={value[i][valueId]} closable={!disabled} onClose={(e) => onClose(e, i)}>
-              <div className={styles.tag} title={value[i][valueName]}>
-                {value[i][valueName]}
+              <div className={styles.tag} title={tagValue}>
+                {tagValue}
               </div>
             </Tag>,
           );
@@ -120,6 +124,7 @@ const TableTreeSelect = <
         open={open}
         valueId={valueId}
         valueName={valueName}
+        valueFormat={valueFormat}
         value={value}
         onChange={onChange}
         onCancel={onSwitchOpen}

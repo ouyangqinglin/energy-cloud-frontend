@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-08-29 10:01:57
+ * @LastEditTime: 2023-09-25 09:36:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -59,6 +59,7 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   limit?: number; //  表单输入框显示已选项的数量，多余的数字显示
   valueId?: string; // 数据字段id既表格id或者树id
   valueName?: string; // 数据字段name既表格name或者树name
+  valueFormat?: (value: string, item: V) => string;
   clearable?: boolean; // 表单输入框是否可清空
   placeholder?: string; // 表单输入框placshoder
   treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'> & {
@@ -104,6 +105,7 @@ const TableTreeModal = <
     proTableProps = {},
     valueId = 'id',
     valueName = 'name',
+    valueFormat,
     value,
     onChange,
     selectType = SelectTypeEnum.Collect,
@@ -255,12 +257,18 @@ const TableTreeModal = <
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
+      let tagValue;
+      if (selectType === SelectTypeEnum.Collect) {
+        tagValue = valueFormat
+          ? valueFormat(item[valueName], item)
+          : item?.node?.[props.treeProps?.fieldNames?.title || 'name'] + '-' + item[valueName];
+      } else {
+        tagValue = valueFormat ? valueFormat(item[valueName], item) : item[valueName];
+      }
       return (
         <Tag className="mb4" key={item[valueId]} closable onClose={() => onClose(index)}>
-          <div className={styles.tag} title={item[valueName]}>
-            {selectType === SelectTypeEnum.Collect
-              ? item?.node?.[props.treeProps?.fieldNames?.title || 'name'] + '-' + item[valueName]
-              : item[valueName]}
+          <div className={styles.tag} title={tagValue}>
+            {tagValue}
           </div>
         </Tag>
       );
