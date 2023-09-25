@@ -1,142 +1,47 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Form, message, Row, Col } from 'antd';
-import { useRequest } from 'umi';
-import { PlusOutlined } from '@ant-design/icons';
 import {
-  ModalForm,
-  ProFormText,
-  ProFormTextArea,
-  ProFormDigit,
-  ProFormUploadButton,
-  ProFormSelect,
-  ProFormDependency
-} from '@ant-design/pro-form';
-import type { StationFormType } from '../config';
-import { getDetailData, addData, editData } from '../service';
-import PositionSelect from '@/components/PositionSelect';
-import { FormTypeEnum, siteType } from '@/utils/dictionary';//定义的一些全局变量
-import { api } from '@/services';//公用API
-import TableSelect from '@/components/TableSelect';
-import { getServicePage } from '@/services/service';
-import Detail from '@/components/Detail';
-import { getProductTypeList } from '@/services/equipment';
-import { SearchParams } from '@/hooks/useSearchSelect';
-import {getProductSnList } from '../../comService';
-
-type StationFOrmProps = {
-  id?: string;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  type: FormTypeEnum;
+  getDetailData, addPackageData, editPackageData
+} from '../service';
+import { useCallback, useState,useMemo } from 'react';
+import type { PackageListType,InstallOrderUpdateInfo, FormUpdateBaseProps, UpdatePackageParam, } from '../type';
+import { isCreate } from '@/components/YTModalForm/helper';
+import type { dealTreeDataType } from '@/components/TableSelect';
+import { FormTypeEnum } from '@/utils/dictionary';
+import SchemaForm, { SchemaFormProvider } from '@/components/SchemaForm';
+import { TABLESELECT, TABLETREESELECT, tableSelectValueTypeMap, tableTreeSelectValueTypeMap } from '@/components/TableSelect';
+import { getStations } from '../service';
+import { getProductSnList, getModuleList, getSelectedVersionList, getVersionList,getDeviceListBySiteId } from '../../comService';
+// import type { Dayjs } from 'dayjs';
+// import dayjs from 'dayjs';
+import { useSiteColumn } from '@/hooks';
+import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { UpdateTaskParam } from '../../upgradeTask/type';
+import { ProFormUploadButton } from '@ant-design/pro-form';
+import { api } from '@/services';
+import { Form, Button, Upload } from 'antd';
+import TreeDataType from '../config'
+import { ProConfigProvider } from '@ant-design/pro-components';
+export type ConfigFormProps = {
+  deviceData: DeviceDataType;
   onSuccess?: () => void;
 };
 
-const StationForm: React.FC<StationFOrmProps> = (props) => {
-  const { type, id, onSuccess } = props;
+const dealTreeData: dealTreeDataType<TreeDataType> = (item) => {
+  item.selectable=true;
+};
 
-  const [form] = Form.useForm<StationFormType>();
-  const [show, setShow] = useState(false);
-  const { run: runGet } = useRequest(getDetailData, {
-    manual: true,
+export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) => {
+  const [siteColumn] = useSiteColumn<DeviceDataType>({
+    hideInTable: true,
+    showAllOption: true,
   });
-  const { run: runAdd } = useRequest(addData, {
-    manual: true,
-  });
-  const { run: runEdit } = useRequest(editData, {
-    manual: true,
-  });
-
-  const getValueFromEvent = useCallback((e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  }, []);
-
-  const beforeUpload = useCallback((file, field) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const fieldList = field + 'List';
-    let photosList: string[];
-    if (field === 'photos') {
-      photosList = form.getFieldValue(fieldList) || [];
-    }
-    api.uploadFile(formData).then(({ data }) => {
-      if (data.url) {
-        if (field === 'photos') {
-          form.setFieldValue(fieldList, [...photosList, { url: data.url }]);
-        } else {
-          form.setFieldValue(fieldList, [{ url: data.url }]);
-        }
-      }
-    });
-    return false;
-  }, []);
-
-  const onFinish = useCallback(
-    (formData: StationFormType) => {
-      const request = type == FormTypeEnum.Add ? runAdd : runEdit;
-      return request({
-        ...formData,
-        siteId: id,
-        logo: formData.logoList ? formData.logoList.map((item) => item.url).join(',') : '',
-        photos: formData.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
-        address: formData?.addressInfo?.address,
-        longitude: formData?.addressInfo?.point?.lng,
-        latitude: formData?.addressInfo?.point?.lat,
-        countryCode: formData?.addressInfo?.countryCode,
-        provinceCode: formData?.addressInfo?.provinceCode,
-        cityCode: formData?.addressInfo?.cityCode,
-        adcode: formData?.addressInfo?.adcode,
-      }).then((data) => {
-        if (data) {
-          message.success('保存成功');
-          onSuccess?.();
-          return true;
-        }
-      });
-    },
-    [type, id],
-  );
-
-  useEffect(() => {
-    if (props.open) {
-      form.resetFields();
-      setShow(true);
-      if ((type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) && id) {
-        runGet(id).then((data) => {
-          form.setFieldsValue({
-            ...(data || {}),
-            addressInfo: {
-              address: data?.address,
-              point: {
-                lng: data?.longitude,
-                lat: data?.latitude,
-              },
-              adcode: data?.adcode,
-            },
-            logoList: data?.logo ? [{ url: data.logo }] : [],
-            photosList: data?.photos ? data.photos.split(',').map((url: string) => ({ url })) : [],
-          });
-        });
-      }
-    }
-  }, [props.open, id, type, form]);
-  const isEditUpgradePackage = type === FormTypeEnum.Edit ? true : false;
-  // const requestDeviceSubsystem = useCallback(
-  //   () =>
-  //     api.getDeviceSubsystem().then(({ data }) => {
-  //       return data?.map?.((item: any) => {
-  //         return {
-  //           label: item.name,
-  //           value: item.id,
-  //         };
-  //       });
-  //     }),
-  //   [],
-  // );
+  const [snList, setSnList] = useState();//产品型号下拉框列表
+  const [modelList, setModelList] = useState();//模块下拉框列表
+  const [selectDevice, setSelectDevice] = useState(true);//是否选择设备
+  const [selectVersion, setSelectVersion] = useState(true);//是否选择可升级版本
+  const [softwareList, setSoftwareList] = useState();//软件包路径回显
+  const [productModel, setProductModel] = useState();//回显产品型号名字
   //获取产品类型
-  const requestProductType = useCallback((searchParams: SearchParams) => {
+  const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
       return data?.map?.((item) => {
         return {
@@ -146,141 +51,522 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       });
     });
   }, []);
+
+  const productTypeColumn = {
+    title: '产品类型',
+    dataIndex: 'productType',//产品类型id
+    formItemProps: {
+      name: 'productType',//产品类型id
+      rules: [{ required: true, message: '请输入' }], 
+    },
+    colProps: {
+      span: 12,
+    },
+    fieldProps: {
+      rules: [{ required: true, message: '请输入' }],
+      onChange: (productType: any) => {
+        requestProductSn(productType).then((list) => {
+          setSnList(list);
+        });//获取产品型号
+      },
+    },
+    hideInTable: true,
+    request: requestProductType,
+  };
   //获取产品型号--依赖产品类型
   const requestProductSn = useCallback((params) => {
-    if(params?.productTypeId) {
+    if (params) {
       return getProductSnList({
-        productTypeId:params?.productTypeId
+        productType: params//传递产品类型id
       }).then(({ data }) => {
-        return data?.map?.((item:any) => {
+        return data?.map?.((item: any) => {
           return {
+            ...item,
             label: item?.model || '',
             value: item?.id || '',
+            //value:item
           };
         });
       });
-    }else {
+    } else {
       return Promise.resolve([]);
-    }   
+    }
   }, []);
-  // const productSnColumn = {
-  //     title: '产品型号',
-  //     dataIndex: 'productModel',
-  //     formItemProps: {
-  //       name: 'productModel',
-  //     },
-  //     hideInTable: true,
-  //     dependencies: ['productTypeId'],   
-  //     request: requestProductSn,
-  // };
+
+  const productSnColumn = {
+    title: '产品型号',
+    dataIndex: 'productId',
+    valueType: 'select',
+    formItemProps: {
+      name: 'productId',//产品型号名称
+      rules: [{ required: true, message: '请输入' }], 
+    },
+    colProps: {
+      span: 12,
+    },
+    hideInTable: true,
+    dependencies: ['productType'],   //依赖产品类型--dataIndex
+    fieldProps: {
+      options: snList,
+      rules: [{ required: true, message: '请输入' }],
+      onChange: (productId: any, item) => {
+        requestModule(productId).then((list) => {
+          setModelList(list);
+        })//获取模块
+        setProductModel(item?.label);
+        console.log(item,'铲平型号item');
+      },
+    },
+    //request: requestProductSn,
+  };
+  //获取模块下拉框数据--依赖产品型号id
+  const requestModule = useCallback((params) => {
+    if (params) {
+      return getModuleList({
+        productId: params
+      }).then(({ data }) => {
+        return data?.map?.((item: any) => {
+          return {
+            label: item?.moduleName || '',
+            value: item?.id || '',//模块id
+          };
+        });
+      });
+    } else {
+      return Promise.resolve([]);
+    }
+  }, []);
+  const moduleColumn = {
+    title: '模块',
+    dataIndex: 'moduleName',
+    valueType: 'select',
+    formItemProps: {
+      name: 'moduleId',//改了后回显有问题
+      rules: [{ required: true, message: '请输入' }], 
+    },
+    colProps: {
+      span: 12,
+    },
+    hideInTable: true,
+    dependencies: ['productModel'],
+    fieldProps: {
+      options: modelList,
+      rules: [{ required: true, message: '请输入' }],
+      onChange: (moduleName: any) => {
+        //requestVersionName(moduleName);//获取软件包名
+      },
+    },
+    //request: requestModule,
+  };
+  //状态表单
+  const statusList = {
+    [1]: '启用',
+    [0]: '禁用',
+  };
+  //
+  const algorithmList= {
+    1: 'MD5',
+    0: '无',
+  };
+  const [packageForm] = Form.useForm<PackageListType>();
+
+  const beforeUpload = useCallback((file, field) => {
+    debugger
+    const formData = new FormData();
+    formData.append('file', file);
+    api.uploadFile(formData).then(({ data}) => {
+      if (data.url) {
+        packageForm.setFieldValue(field,  data.url);
+        console.log(packageForm,22233344);
+        setSoftwareList([{ url: data.url, name: data.name}]);
+      }
+    });
+    return false;
+  }, []);
+   //关联设备字段
+   const deviceSelectColumns = [
+    {
+      title: '设备名称',
+      dataIndex: 'deviceName',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '设备序列号',
+      dataIndex: 'deviceSn',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '当前版本',
+      dataIndex: 'version',
+      width: 100,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '站点名称',
+      dataIndex: 'siteName',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+  ];
+  //可升级版本列表
+  const versionSelectColumns = [
+    {
+      title: '软件包名',
+      dataIndex: 'packageName',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '当前版本',
+      dataIndex: 'version',
+      width: 100,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
+      title: '上传时间',
+      dataIndex: 'uploadTime',
+      width: 150,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+  ];
+  const requestTree = useCallback(() => {
+      return getStations().then(({data})=>{
+        let list = [{
+          name:"全部",
+          id:-1,
+          children:data
+        }];
+        return {data:list};
+      });
+  }, []);
+
+  const uploadProps = {
+    beforeUpload: (file) => beforeUpload(file, 'softwarePackageUrl'),
+    onChange: (info) => {
+      console.log(info.fileList);
+    },
+  };
+  const columns = [
+    {
+      title: '版本号',
+      dataIndex: 'version',
+      formItemProps: {
+        rules: [{ required: true, message: '请输入' }],
+      },
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      title: '软件包名',
+      dataIndex: 'packageName',
+      formItemProps: {
+        rules: [{ required: true, message: '请输入' }],
+      },
+      colProps: {
+        span: 12,
+      },
+    },
+    productTypeColumn,
+    productSnColumn,
+    moduleColumn,
+    {
+      title: '软件包',
+      dataIndex: 'softwareList',
+      valueType: "uploadFile",
+      formItemProps: {
+        name: 'softwarePackageUrl',
+        //rules: [{ required: true, message: '请上传软件包' }],//软件包地址
+      },
+      labelAlign:"left",
+      renderFormItem: () => {
+        return (<Upload {...uploadProps}
+          accept="*"
+          name="softwarePackageUrl"
+          maxCount={1}
+          fileList={softwareList}
+          >
+        <Button  type="primary">上传</Button>
+      </Upload>)
+      },
+      colProps: {
+        span: 12,
+      },
+    },
+    {
+      title: '选择设备',
+      dataIndex: 'isSelectDevice',
+      valueType: "switch",
+      //valueEnum: isSelectDeviceList,
+      formItemProps: {
+        initialValue:true,
+        rules: [{ required: true, message: '请选择' }],
+        //labelAlign:"left",
+      },
+      fieldProps: (form) => {
+        return {
+          onChange: (e:boolean) => {
+            setSelectDevice(e);
+          },
+        };
+      },
+      colProps: {
+        span: 12,
+      },  
+    },
+    //选择设备表单：列表
+    {
+      title: '',
+      dataIndex: 'upgradeDeviceDetailList',
+      valueType: TABLETREESELECT,
+      colProps: {
+        span: 12,
+      },
+      formItemProps: {
+        hidden: selectDevice == false,
+        //rules: [{ required: true, message: '请选择关联设备' }],
+      },
+      dependencies: ['packageName'],
+      fieldProps: (form:any) => {
+        return {
+          title: '选择设备',
+          treeProps: {
+            fieldNames: {
+              title: 'name',
+              key: 'id',
+              children: 'children',
+            },
+            request: requestTree,
+          },
+          proTableProps: {
+            pagination: false,
+            columns: deviceSelectColumns,
+            request: (params: any) =>{
+              return getDeviceListBySiteId({ ...params, productId: form?.getFieldValue?.('productId'),siteId: params.deviceId == -1? '':params.deviceId,current:1,pageSize:20})
+            }
+          },
+          onFocus: () => {       
+            return form?.validateFields(['productId']);
+          },
+          valueId: 'deviceId',
+          valueName: 'deviceName',   
+          valueFormat: (value: any,item: any) => {
+            if(item.siteName) {
+              return item.siteName + '-' + item.deviceName;
+            }
+            return value;
+          },
+          dealTreeData       
+        };
+      },
+      //fieldProps: tableTreeSelectProps,
+    },
+    {
+      title: '可升级版本',
+      dataIndex: 'isSelecteVersion',
+      valueType: "switch",
+      formItemProps: {
+        initialValue:true,
+        //rules: [{ required: true, message: '请选择' }],
+      },
+      fieldProps: (form) => {
+        return {
+          onChange: (e:boolean) => {
+            setSelectVersion(e);
+          },
+        };
+      },
+      colProps: {
+        span: 12,
+      },
+    },
+     //选择可升级版本号
+     {
+      title: '',
+      dataIndex: 'upgradeDeviceVersionDetailList',
+      valueType: TABLESELECT,
+      colProps: {
+        span: 12,
+      },
+      dependencies: ['productId'],
+      formItemProps: {
+        hidden: selectVersion == false,
+        //rules: [{ required: true, message: '请选择版本号' }],
+      },
+      fieldProps: (form:any) => {
+        return {
+          proTableProps: {
+            columns: versionSelectColumns,
+            request: (params: any) => {
+              //return getVersionList({ ...params, productId: form?.getFieldValue?.('productId'), current: 1, pageSize:2000});
+              return getVersionList({ ...params, productId: form?.getFieldValue?.('productId')}).then(({ data }) => {
+                return {
+                  data: data?.list,
+                  total: data?.total,
+                  success: true,
+                };
+              });
+            }
+          },
+          onFocus: () => {       
+            return form?.validateFields(['productId']);
+          },
+          // valueId: 'versionId',
+          valueName: 'version',
+          // tableId: 'versionId',
+          tableName: 'version',
+          // valueFormat: (value: any,item: any) => {
+          //   debugger
+          //   console.log(value,1111);
+          //   return value;
+          // },
+        };
+      },
+    },
+    {
+      title: '签名算法',
+      dataIndex: 'signature',
+      valueType:'select',
+      valueEnum: algorithmList,
+      formItemProps: {
+        rules: [{ required: true, message: '请选择签名算法' }],
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',//升级包状态 1 启动 0禁用
+      colProps: {
+        span: 24,
+      },
+      valueType: 'radio',
+      valueEnum: statusList,
+      formItemProps: {
+        initialValue: '1',
+        rules: [{ required: true, message: '请选择' }],
+      },
+      fieldProps: (form) => {
+
+      },
+    },
+    {
+      title: '描述（选填）',
+      dataIndex: 'description',
+      valueType:'textarea',
+      formItemProps: {
+        //rules: [{ required: true, message: '请输入内容' }],
+      },
+      colProps: {
+        span: 24,
+      },
+    }, 
+  ];
+  //回显数据处理
+  const convertRequestData = useCallback((res: UpdateTaskParam) => {
+    if (res) {
+      
+      requestProductSn(res?.productType).then((list) => {
+        setSnList(list);
+      });//获取产品型号
+      requestModule(res?.productId).then((data) => {
+        setModelList(data);
+      });//获取模块
+      
+      res.signature = res.signature + '';
+      res.status = res.status + '';
+
+      if(res?.upgradeDeviceDetailList && res.upgradeDeviceDetailList.length>1) {
+        res.isSelectDevice = true;
+      } else {
+        res.isSelectDevice = false;
+      }
+
+      if(res?.upgradeDeviceVersionDetailList && res.upgradeDeviceVersionDetailList.length>1) {
+        res.isSelecteVersion = true;
+      } else {
+        res.isSelecteVersion = false;
+      } 
+      if(res?.productModel) {
+        setProductModel(res?.productModel);
+      }
+      //对软件包上传路径进行回显
+      if(res?.softwarePackageUrl) {
+        let pathList = res.softwarePackageUrl.split("/");
+        let pathName = pathList[pathList.length - 1];
+        res.softwareList = [{ url: res?.softwarePackageUrl,name: pathName}];
+        setSoftwareList(res.softwareList);
+      }
+      
+    };
+    return res;
+  },[productModel,softwareList]);
+
+  //提交前的处理函数
+  const convertUpdateParams =useCallback ((params: UpdateTaskParam) => {
+    debugger
+    params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
+    params.upgradableVersion = params.upgradeDeviceVersionDetailList.map((item) => item.versionId).join(',') || '';
+    params.productTypeId = params.productType;
+    params.platform = '';
+    params.productModel = productModel || '';
+    params.signature = +params.signature;
+    params.status = +params.status;
+    params.softwarePackageUrl = softwareList[0].url;
+    const allowedKeys = ['version', 'packageName', 'productTypeId','productModel','moduleId','softwarePackageUrl', 'upgradeDevice', 'upgradableVersion', 
+    'signature','status', 'description','platform','productId'];
+    const filteredObj = Object.keys(params).filter(key => allowedKeys.includes(key))
+  .reduce((result, key) => {
+    result[key] = params[key];
+    return result;
+  }, {});
+    // return {
+    //   ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
+    //   ...{ orgId, orgName, handlerBy, userId, userName },
+    // } as InstallOrderUpdateParam;
+    return filteredObj;
+  },[productModel,softwareList]);
+
+  //const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
   return (
     <>
-      <ModalForm<StationFormType>
-        visible={props.open}
-        form={form}
-        title={type === FormTypeEnum.Edit ? '编辑' : '新建'}
-        autoFocusFirstInput
-        onFinish={onFinish}
-        onVisibleChange={props.onOpenChange}
+    <ProConfigProvider
+        valueTypeMap={{ ...tableTreeSelectValueTypeMap, ...tableSelectValueTypeMap }}
       >
-        <Row gutter={20}>
-          <Col span={12}>
-            <ProFormText
-              label="版本号"
-              name="version"
-              placeholder="请输入"
-              disabled={isEditUpgradePackage}
-              rules={[{ required: true, message: '版本号必填' }]}
-            />
-          </Col>
-          <Col span={12}>
-            <ProFormText label="软件包名" name="packageName" placeholder="请输入" disabled={isEditUpgradePackage}/>
-          </Col>
-          <Col span={12}>
-            <ProFormSelect
-              label="产品类型"
-              name="productTypeName"
-              disabled={isEditUpgradePackage}
-              request={requestProductType}
-            />
-          </Col>
-          <Col span={12}>
-          <ProFormSelect
-                label="产品型号"
-                name="productModel"
-                placeholder="请选择"
-                disabled={isEditUpgradePackage}
-                request={requestProductSn}
-                dependencies={['productTypeId']}  
-              /> 
-          </Col>
-          <Col span={12}>
-            <ProFormSelect
-                label="模块"
-                name="moduleName"
-                placeholder="请选择"
-                disabled={isEditUpgradePackage}
-                request={requestProductType}
-              />
-          </Col>
-          {/* 软件包 */}
-          <Col span={12}>
-            <ProFormDigit label="电压等级" name="voltageClass" fieldProps={{ addonAfter: 'KV' }} />
-          </Col>
-        </Row>
-        <Form.Item
-          label="站点地址"
-          name="addressInfo"
-          rules={[{ required: true, message: '站点地址必填' }]}
-        >
-          {show && <PositionSelect />}
-        </Form.Item>
-        <ProFormTextArea label="备注" name="remarks" placeholder="请输入" />
-        <Row gutter={20}>
-          <Col span={8}>
-            <ProFormUploadButton
-              label="站点图标"
-              name="logoList"
-              title="上传图片"
-              max={1}
-              accept="image/*"
-              fieldProps={{
-                name: 'file',
-                listType: 'picture-card',
-                beforeUpload: (file) => beforeUpload(file, 'logo'),
-              }}
-              icon={
-                <div>
-                  <PlusOutlined />
-                </div>
-              }
-            />
-          </Col>
-          <Col span={16}>
-            <ProFormUploadButton
-              label="站点照片"
-              name="photosList"
-              valuePropName="fileList"
-              getValueFromEvent={getValueFromEvent}
-              title="上传图片"
-              max={3}
-              accept="image/*"
-              fieldProps={{
-                name: 'file',
-                listType: 'picture-card',
-                beforeUpload: (file) => beforeUpload(file, 'photos'),
-              }}
-              icon={
-                <div>
-                  <PlusOutlined />
-                </div>
-              }
-            />
-          </Col>
-        </Row>
-      </ModalForm>
+      <SchemaForm
+        width="900px"
+        id={props.id}
+        type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
+        columns={columns as any}
+        open={props.visible}
+        onOpenChange={props.onVisibleChange}
+        addData={addPackageData}
+        editData={editPackageData}
+        //获取编辑的接口
+        getData={getDetailData}
+        beforeSubmit={convertUpdateParams}
+        afterRequest={convertRequestData}//获取编辑详情后执行的函数--对回显数据进行处理
+        // extraData={{ siteId }}
+        onSuccess={props?.onSuccess}
+        onFocus={props?.onFocus}
+        grid={true}
+        colProps={{
+          span: 8,
+        }}
+        initialValues={props?.initialValues}
+      />
+      </ProConfigProvider>
     </>
   );
 };
-
-export default StationForm;
+export default UpdatePackageForm;

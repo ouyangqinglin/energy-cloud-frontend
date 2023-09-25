@@ -23,9 +23,23 @@ export const getModuleList = (params: any) => {
     params,
   });
 };
-//根据模块id获取可选择版本
+//根据模块id获取可选择软件包
 export const getSelectedVersionList = (params: any) => {
   return request(`/iot/otaPackage/selectUpgradePackage`, {
+    method: 'GET',
+    params,
+  });
+};
+//获取升级包可支持的设备列表
+export const getSelectDeviceList = (params: any) => {
+  return request(`/iot/otaUpgrade/selectedDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+//根据站点id获取设备列表
+export const getDeviceListBySiteId = (params: any) => {
+  return request(`/iot/otaPackage/deviceListBySiteId`, {
     method: 'GET',
     params,
   });

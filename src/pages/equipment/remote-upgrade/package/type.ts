@@ -1,3 +1,23 @@
+import type { FormOperations } from '@/components/YTModalForm/typing'
+
+export interface UpdatePackageParam {
+  id:number,
+  taskName: string;
+  packageId: number;
+  productType:number;//产品类型id
+  productId:number;
+  upgradeTime: any;
+  upgradeDevice: any;
+  type:number;
+}
+export type FormUpdateBaseProps = {
+  visible: boolean;
+  onVisibleChange: (state: boolean) => void;
+  operations: FormOperations;
+  initialValues?: any;
+  id?: number;
+  onSuccess?: () => void;
+};
 export interface RemoteUpgradeDataRes {
   id: number;
   version: string;
@@ -7,9 +27,21 @@ export interface RemoteUpgradeDataRes {
   uploadTime: string;
   uploader: string;
 }
-export type InstallListType = {
+export type PackageListType = {
   id: number;
-  // 时间维度  0日 1月 2年 3总
+  packageName:string;
+  productTypeName:string;
+  productModel:string;
+  productId:number;
+  moduleId:number;
+  moduleName:string;
+  version:string;
+  softwarePackageUrl:string;
+  description:string;
+  uploadTime:string;
+  uploader:string;
+  uploaderName:string;
+  status:number;
   type: number;
   name: string;
   // 服务商名字
@@ -33,38 +65,40 @@ export type InstallListType = {
   remark?: any;
   address?: any;
   siteId?: any;
-  status: OrderStatus;
+};
+export interface InstallOrderUpdateInfo {
+  id: number;
+  type: number;
+  name: string;
+  service?: any;
+  orgId: number;
+  orgName: string;
+  userId: number;
+  userName?: any;
+  phone: string;
+  timeOfAppointment: string;
+  processTime?: any;
+  handlerBy: number;
+  handlerName?: string;
+  email?: any;
+  content?: any;
+  remark?: any;
+  address?: any;
+  siteId?: any;
   startTime?: any;
   endTime?: any;
-  tails?: any;
   taskTailId?: any;
-  objId: number;
+  objId?: any;
   createBy: number;
   createTime: string;
-  creatName: string;
+  creatName?: any;
   closeTime: string;
-  updateBy: number;
+  updateBy?: any;
   updateTime: string;
-  updateName: string;
+  updateName?: any;
   sourceId?: any;
   site?: any;
   current: number;
   pageSize: number;
-  parentId: number;
-  ancestors: string;
-  orgName: string;
-  orderNum: number;
-  leader?: any;
-  phone: string;
-  delFlag: string;
-  parentName?: any;
-  types?: any;
-  createByName: string;
-  children: any[];
-};
-export const enum OrderStatus {
-  READY = 0,
-  DEALING,
-  COMPLETE,
-  REJECT,
 }
+

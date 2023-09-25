@@ -42,6 +42,15 @@ export const packageStatus = {
     icon: 'green',
   },
 };
+export type TreeDataType = {
+  deviceName: string;
+  deviceSN: string;
+  id: string;
+  parentId: string;
+  children: TreeDataType[];
+  selectFlag: boolean;
+  productId: number;
+};
 export type StationFormType = {
   siteId?: string;
   orgs?: {

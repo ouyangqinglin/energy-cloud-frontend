@@ -1,26 +1,30 @@
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
-import { useHistory, useModel } from 'umi';
+import {useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { StationType, packageStatus } from './config';
-import { getPackageList, removeData } from './service';
-import StationForm from './components/editDialog';
-import { FormTypeEnum, siteType as siteTypeEnum } from '@/utils/dictionary';
+import { getPackageList, removePackageData } from './service';
+import UpdatePackageForm from './components/editDialog';
 import { useAuthority } from '@/hooks';
+import { useToggle } from 'ahooks';
 import eventBus from '@/utils/eventBus';
 import { getProductTypeList } from '@/services/equipment';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import {getProductSnList } from '../comService';
+import { FormOperations } from '@/components/YTModalForm/typing';
+import { debug } from 'console';
 
 const Package: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [siteId, setSiteId] = useState('');
-  const history = useHistory();
+  const [initialValues, setInitialValues] = useState<UpgradeListType>({} as UpgradeListType);
+  const [operations, setOperations] = useState(FormOperations.CREATE);
+  const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
+
   const actionRef = useRef<ActionType>();
-  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
+  const { siteType } = useModel('site', (model:any) => ({ siteType: model?.state?.siteType }));
+  //控制权限相关变量
   const { authorityMap } = useAuthority([
     'system:site:config',
     'system:site:delete',
@@ -73,7 +77,7 @@ const requestProductSn = useCallback((params) => {
         };
       });
     });
-  }else {
+  } else {
     return Promise.resolve([]);
   }   
 }, []);
@@ -88,24 +92,15 @@ const productSnColumn = {
     request: requestProductSn,
 };
 
-
-
   const onAddClick = useCallback(() => {
-    setOpen(true);
-    setSiteId('');
+    setInitialValues({type:'2'});
+    setUpdateModal(true);//打开弹窗
   }, []);
-
+//编辑升级包
   const onEditClick = useCallback((record: StationType) => {
-    setOpen(true);
-    setSiteId(record.id);
-  }, []);
-
-  const onSiteClick = useCallback((record: StationType) => {
-    eventBus.emit('changeSite', record.id);
-    history.push({
-      pathname: '/site-monitor/overview',
-      search: `?id=${record.id}`,
-    });
+    setInitialValues({ ...record });
+    setOperations(FormOperations.UPDATE);
+    setUpdateModal(true);
   }, []);
 
   const onSuccess = () => {
@@ -138,11 +133,11 @@ const productSnColumn = {
           onClick={() => {
             Modal.confirm({
               title: '删除',
-              content: '确定要删除改站点吗？',
+              content: '你确定要删除该升级包吗？删除之后无法恢复！',
               okText: '确认',
               cancelText: '取消',
               onOk: () => {
-                removeData({ siteId: record.id }).then(() => {
+                removePackageData({ id: record.id }).then(() => {
                   message.success('删除成功');
                   if (actionRef.current) {
                     actionRef.current.reload();
@@ -172,9 +167,9 @@ const productSnColumn = {
       width: 150,
       ellipsis: true,
       hideInSearch: true,
-      render: (_, record) => {
-        return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
-      },
+      // render: (_, record) => {
+      //   return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
+      // },
     },
     {
       title: '版本号',
@@ -254,12 +249,15 @@ const productSnColumn = {
         toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
         request={requestList}
       />
-      <StationForm
-        id={siteId}
-        open={open}
-        onOpenChange={setOpen}
-        type={siteId ? FormTypeEnum.Edit : FormTypeEnum.Add}
-        onSuccess={onSuccess}
+      <UpdatePackageForm
+        {...{
+          operations: operations,
+          visible: updateModal,
+          onVisibleChange: setUpdateModal,
+          id: initialValues?.id,
+          initialValues:initialValues,
+          onSuccess: onSuccess,
+        }}
       />
     </>
   );

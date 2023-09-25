@@ -1,9 +1,7 @@
-// import { del, get, post, put } from '@/utils/request';
-// import { RemoteUpgradeDataRes } from './type';
-import { requestEmptyPage } from '@/services';
 import request from '@/utils/request';
 import type { StationFormType } from './config';
 
+//获取升级包列表数据
 export const getPackageList = (params: any) => {
   return request(`/iot/otaPackage/page`, {
     method: 'GET',
@@ -11,33 +9,45 @@ export const getPackageList = (params: any) => {
   });
 };
 //点击编辑--获取升级包详情
-export const getDetailData = (id: string) => {
+export const getDetailData = (params: any) => {
   return request(`/iot/otaPackage`, {
     method: 'GET',
-    params: {
-      id: id,
-    },
+    params
   });
 };
-export const removeData = (params: any) => {
-  return request(`/oss/site/delete`, {
+//删除升级包
+export const removePackageData = (params: any) => {
+  return request(`/iot/otaPackage`, {
     method: 'DELETE',
     params,
   });
 };
-
-
-export const addData = (data: StationFormType) => {
-  return request(`/uc/site/create`, {
-    method: 'POST',
-    data,
+//新增升级包
+export const addPackageData = (params: any) => {
+  return request(`/iot/otaPackage`, {
+    method: 'post',
+    data: params,
   });
 };
-
-export const editData = (data: StationFormType) => {
-  return request(`/oss/site`, {
-    method: 'PUT',
-    data,
+//编辑升级包
+export const editPackageData = (params: any) => {
+  return request(`/iot/otaPackage`, {
+    method: 'put',
+    data: params,
+  });
+};
+//获取升级包可支持的设备列表
+export const getSelectDeviceList = (params: any) => {
+  return request(`/iot/otaUpgrade/selectedDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+//获取树形结构数据--站点
+export const getStations = (params?: any) => {
+  return request(`/oss/site/getList`, {
+    method: 'GET',
+    params,
   });
 };
 
