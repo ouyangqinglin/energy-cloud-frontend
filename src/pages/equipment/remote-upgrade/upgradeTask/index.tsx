@@ -6,7 +6,6 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { getUpgradeTaskList, getProductSnList, getVersionList, getModuleList, deleteTaskList } from './service';
 import { UpgradeListType } from './type';
 import { taskStatus, taskDetailColumns } from './config';
-import { useSearchSelect} from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';

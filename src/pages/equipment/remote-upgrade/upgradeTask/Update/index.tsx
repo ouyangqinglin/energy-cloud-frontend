@@ -17,7 +17,6 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
-import { log } from 'lodash-decorators/utils';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -26,6 +25,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   });
   const [snList, setSnList] = useState();//产品型号下拉框列表
   const [modelList, setModelList] = useState();//模块下拉框列表
+  const [packageList, setPackageList] = useState();//软件包名下拉框列表
   const [updateType, setUpdateType] = useState(2);//升级类型
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
@@ -89,11 +89,41 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       options: snList,
       rules: [{ required: true, message: '请输入' }],
       onChange: (productId: any) => {
-        requestModule(productId);//获取模块
+        requestModule(productId).then((list) => {
+          setModelList(list);
+        });//获取模块
       },
     },
     //request: requestProductSn,
   };
+  //获取软件包名--依赖模块
+  const requestVersionName = useCallback((params) => {
+    if (params?.moduleId) {
+      return getSelectedVersionList({
+        moduleId: params?.moduleName
+      }).then(({ data }) => {
+        return data?.map?.((item: any) => {
+          return {
+            label: item?.packageName || '',
+            value: item?.id || '',
+          };
+        });
+      });
+    } else if (params?.productId) {
+      return getSelectedVersionList({
+        productId: params?.productId
+      }).then(({ data }) => {
+        return data?.map?.((item: any) => {
+          return {
+            label: item?.packageName || '',
+            value: item?.id || '',
+          };
+        });
+      });
+    } else {
+      return Promise.resolve([]);
+    }
+  }, []);
   //获取模块下拉框数据--依赖产品型号id
   const requestModule = useCallback((params) => {
     if (params) {
@@ -103,7 +133,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
         return data?.map?.((item: any) => {
           return {
             label: item?.moduleName || '',
-            value: item?.moduleMark || '',
+            value: item?.id || '',
           };
         });
       });
@@ -116,7 +146,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     dataIndex: 'moduleName',
     valueType: 'select',
     formItemProps: {
-      name: 'moduleMark',
+      name: 'moduleId',
       rules: [{ required: true, message: '请输入' }], 
     },
     hideInTable: true,
@@ -125,50 +155,29 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       options: modelList,
       rules: [{ required: true, message: '请输入' }],
       onChange: (moduleName: any) => {
-        requestVersionName(moduleName);//获取软件包名
+        requestVersionName(moduleName).then((list) => {
+          setPackageList(list);
+        });//获取软件包名
       },
     },
     //request: requestModule,
   };
 
-  //获取软件包名--依赖模块
-  const requestVersionName = useCallback((params) => {
-    if (params?.moduleName) {
-      return getSelectedVersionList({
-        moduleId: params?.moduleName
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.packageName || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    }
-    if (params?.productModel) {
-      return getSelectedVersionList({
-        productId: params?.productModel
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.packageName || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    }
-  }, []);
-
   const versionNameColumn = {
     title: '软件包名',
     dataIndex: 'packageName',
+    valueType:"select",
     formItemProps: {
       name: 'packageName',
       rules: [{ required: true, message: '请输入' }],
     },
     hideInTable: true,
     dependencies: ['moduleName', 'productModel'],
-    request: requestVersionName,
+    //request: requestVersionName,
+    fieldProps: {
+      options: packageList,
+      rules: [{ required: true, message: '请输入' }],
+    },
   };
   //升级时间表单
   const updateTimeList = {
@@ -285,10 +294,8 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
             request: (params: any) =>
               getSelectDeviceList({ ...params, packageId: form?.getFieldValue?.('packageName'), siteId: form?.getFieldValue?.('siteId'), }),
           },
-          //为啥聚焦时走不到这里来
-          onFocus: () => {
-            
-            return form?.validateFields(['siteId']);
+          onFocus: () => {       
+            return form?.validateFields(['packageName']);
           },
         };
       },
@@ -298,23 +305,28 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const convertRequestData = (res: UpdateTaskParam) => {
     if (res) {
       requestProductSn(res?.productType).then((list) => {
-        setSnList(list)
+        setSnList(list);
       });//获取产品型号
       requestModule(res?.productId).then((data) => {
-        setModelList(data)
-      });//获取模块
+        setModelList(data);
+      });//获取模块11111
+      requestVersionName(res).then((data) => {
+        setPackageList(data);
+      });//获取软件包名
+      res.type = res.type + '';
     };
+    return res;
   };
-
+ //提交前的处理函数
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
-    const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
-    const { handlerBy } = params.handler?.[0] ?? {};
-    const { userId, userName } = params.customer?.[0] ?? {};
+    // const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
+    // const { handlerBy } = params.handler?.[0] ?? {};
+    // const { userId, userName } = params.customer?.[0] ?? {};
 
-    return {
-      ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
-      ...{ orgId, orgName, handlerBy, userId, userName },
-    } as InstallOrderUpdateParam;
+    // return {
+    //   ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
+    //   ...{ orgId, orgName, handlerBy, userId, userName },
+    // } as InstallOrderUpdateParam;
   };
 
   //const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);

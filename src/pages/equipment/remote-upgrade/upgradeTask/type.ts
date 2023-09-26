@@ -1,12 +1,28 @@
 export interface UpdateTaskParam {
+  upgradeDeviceDetailList: any;
+  signature: any;
   id:number,
+  version:string;
   taskName: string;
   packageId: number;
   productType:number;//产品类型id
+  productTypeName:string;//产品类型名称
   productId:number;
+  productModel:string;
+  moduleId:number;
+  moduleName:string;
   upgradeTime: any;
   upgradeDevice: any;
-  type:number;
+  type:any;
+  status:any;
+  description:string;
+  upgradeDeviceVersionDetailList:any;
+  softwarePackageUrl:string;
+  platform:any;
+  isSelectDevice:boolean;
+  isSelecteVersion:boolean;
+  upgradableVersion:any;
+  productTypeId:any;
 }
 export interface UpgradeListType {
   id: number;
