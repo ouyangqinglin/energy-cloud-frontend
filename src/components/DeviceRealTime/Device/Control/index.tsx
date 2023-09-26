@@ -2,36 +2,61 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-08-11 13:55:09
+ * @LastEditTime: 2023-09-26 12:13:21
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\Control\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Control\index.tsx
  */
-import React, { useCallback, useMemo, useRef, useState, createRef, RefObject } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  createRef,
+  RefObject,
+  useEffect,
+} from 'react';
 import { useRequest } from 'umi';
-import { Button, Col, Form, Input, Row, Select, SelectProps, Tabs, TabsProps, message } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  SelectProps,
+  Tabs,
+  TabsProps,
+  TimePicker,
+  message,
+} from 'antd';
 import Detail from '@/components/Detail';
-import { DeviceModelDataType, DeviceServiceModelType } from '@/types/device';
+import { DeviceModelDataType, DeviceModelType, DeviceServiceModelType } from '@/types/device';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import { editSetting } from '@/services/equipment';
-import { isEmpty } from 'lodash';
+import { isEmpty, merge } from 'lodash';
+import moment from 'moment';
 
 export type ControlProps = {
   deviceId: string;
   groupData?: DeviceModelDataType;
+  realTimeData?: Record<string, any>;
 };
 
 type FormInfo = {
   [key: string]: RefObject<ProFormInstance>;
 };
 
+const TimeRangeFormat = 'HH:mm';
+
 const Control: React.FC<ControlProps> = (props) => {
-  const { deviceId, groupData } = props;
+  const { deviceId, groupData, realTimeData } = props;
 
   const formsRef = useRef<FormInfo>({});
   const schamaFormsRef = useRef<FormInfo>({});
+  const serviceModelMapRef = useRef<Record<string, DeviceModelType | undefined>>({});
   const [disableBtns, setDisableBtns] = useState<Record<string, boolean>>({});
   const { loading, run } = useRequest(editSetting, {
     manual: true,
@@ -59,6 +84,16 @@ const Control: React.FC<ControlProps> = (props) => {
   const onPushClick = useCallback((key?: string) => {
     const form = formsRef.current?.[key || ''];
     const result = form.current?.getFieldsValue?.();
+    for (const formDataKey in result) {
+      if (serviceModelMapRef?.current?.[formDataKey]?.type == 'timeRange') {
+        if (result[formDataKey] && result[formDataKey][0] && result[formDataKey][1]) {
+          result[formDataKey] =
+            moment(result[formDataKey][0]).format(TimeRangeFormat) +
+            '-' +
+            moment(result[formDataKey][1]).format(TimeRangeFormat);
+        }
+      }
+    }
     if (!isEmpty(result)) {
       run({ deviceId, serviceId: key, input: result }).then((data) => {
         if (data) {
@@ -73,11 +108,33 @@ const Control: React.FC<ControlProps> = (props) => {
     schamaFormsRef.current = { ...schamaFormsRef.current, [value]: ref };
   }, []);
 
+  useEffect(() => {
+    try {
+      const disabledIndex = Object.values(disableBtns).findIndex((item) => item === false);
+      if (disabledIndex == -1) {
+        for (const key in formsRef?.current) {
+          const result = merge({}, realTimeData);
+          for (const modelKey in result) {
+            if (serviceModelMapRef?.current?.[modelKey]?.type == 'timeRange' && result[modelKey]) {
+              const valueArr = result[modelKey].split('-');
+              result[modelKey] = [
+                moment('2023-01-01 ' + valueArr[0]),
+                moment('2023-01-01 ' + valueArr[1]),
+              ];
+            }
+          }
+          formsRef?.current?.[key]?.current?.setFieldsValue(result);
+        }
+      }
+    } catch {}
+  }, [realTimeData, disableBtns]);
+
   const getColumns = useCallback((data: DeviceServiceModelType[], index?: number[]) => {
     // 循环生成表单
     const formItems: React.ReactNode[] = [];
     const tabItems: TabsProps['items'] = [];
     data?.forEach?.((item) => {
+      serviceModelMapRef.current[item.id || ''] = item?.dataType;
       if (
         item?.dataType?.type === DeviceModelTypeEnum.Struct ||
         item?.dataType?.type === DeviceModelTypeEnum.Array
@@ -118,6 +175,16 @@ const Control: React.FC<ControlProps> = (props) => {
               options = [];
             }
             field = <Select options={options} />;
+            break;
+          case DeviceModelTypeEnum.TimeRange:
+            field = (
+              <TimePicker.RangePicker
+                className="w-full"
+                format={TimeRangeFormat}
+                placeholder={['开始', '结束']}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+              />
+            );
             break;
           default:
             field = <Input placeholder="请输入" />;
