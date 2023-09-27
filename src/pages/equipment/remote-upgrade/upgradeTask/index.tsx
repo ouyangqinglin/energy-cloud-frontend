@@ -29,6 +29,7 @@ const UpgradeTask: React.FC = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   
   const onAddClick = useCallback(() => {
+    setOperations(FormOperations.CREATE);
     setInitialValues({type:'2'});
     setUpdateModal(true);//打开弹窗
   }, []);

@@ -339,8 +339,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         colProps: {
           span: 12,
         },
+        hideInForm: selectDevice == false,
         formItemProps: {
-          hidden: selectDevice == false,
+          //hidden: selectDevice == false,
           //rules: [{ required: true, message: '请选择关联设备' }],
         },
         dependencies: ['packageName'],
@@ -407,8 +408,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
           span: 12,
         },
         dependencies: ['productId'],
+        hideInForm: selectVersion == false,
         formItemProps: {
-          hidden: selectVersion == false,
+          //hidden: selectVersion == false,
           //rules: [{ required: true, message: '请选择版本号' }],
         },
         fieldProps: (form:any) => {
@@ -428,9 +430,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
             onFocus: () => {       
               return form?.validateFields(['productId']);
             },
-            // valueId: 'versionId',
+            valueId: 'id',
             valueName: 'version',
-            // tableId: 'versionId',
+            //tableId: 'id',
             tableName: 'version',
           };
         },
@@ -503,6 +505,10 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         res.upgradeDeviceVersionDetailList =[];
       } else {
         res.selectVersion = true;
+        res.upgradeDeviceVersionDetailList.map(item=>{
+          item.id = item.versionId
+          delete (item.versionId);
+        })
       } 
       if(res?.productModel) {
         setProductModel(res?.productModel);
