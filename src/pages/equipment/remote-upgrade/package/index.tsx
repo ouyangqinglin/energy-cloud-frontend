@@ -91,8 +91,9 @@ const productSnColumn = {
     dependencies: ['productTypeId'],   
     request: requestProductSn,
 };
-
+//添加升级包
   const onAddClick = useCallback(() => {
+    setOperations(FormOperations.CREATE);
     setInitialValues({type:'2'});
     setUpdateModal(true);//打开弹窗
   }, []);

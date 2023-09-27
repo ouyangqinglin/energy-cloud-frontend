@@ -62,7 +62,7 @@ export const addTaskList = (data: UpdateTaskParam) => {
 };
 //编辑升级任务
 export const updateTaskList = (data: UpdateTaskParam) => {
-  return post(`/iot/otaUpgrade/edit`, data);
+  return put(`/iot/otaUpgrade/edit`, data);
 };
 
 

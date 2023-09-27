@@ -20,6 +20,7 @@ import { api } from '@/services';
 import { Form, Button, Upload } from 'antd';
 import TreeDataType from '../config'
 import { ProConfigProvider } from '@ant-design/pro-components';
+import { FormOperations } from '@/components/YTModalForm/typing';
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
   onSuccess?: () => void;
@@ -34,6 +35,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     hideInTable: true,
     showAllOption: true,
   });
+  const { operations } = props;//操作弹窗的类型
   const [snList, setSnList] = useState();//产品型号下拉框列表
   const [modelList, setModelList] = useState();//模块下拉框列表
   const [selectDevice, setSelectDevice] = useState(true);//是否选择设备
@@ -63,6 +65,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       span: 12,
     },
     fieldProps: {
+      disabled: operations == FormOperations.UPDATE,
       rules: [{ required: true, message: '请输入' }],
       onChange: (productType: any) => {
         requestProductSn(productType).then((list) => {
@@ -107,6 +110,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     hideInTable: true,
     dependencies: ['productType'],   //依赖产品类型--dataIndex
     fieldProps: {
+      disabled: operations == FormOperations.UPDATE,
       options: snList,
       rules: [{ required: true, message: '请输入' }],
       onChange: (productId: any, item) => {
@@ -114,7 +118,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
           setModelList(list);
         })//获取模块
         setProductModel(item?.label);
-        console.log(item,'铲平型号item');
       },
     },
     //request: requestProductSn,
@@ -150,6 +153,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     hideInTable: true,
     dependencies: ['productModel'],
     fieldProps: {
+      disabled: operations == FormOperations.UPDATE,
       options: modelList,
       rules: [{ required: true, message: '请输入' }],
       onChange: (moduleName: any) => {
@@ -171,18 +175,17 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   const [packageForm] = Form.useForm<PackageListType>();
 
   const beforeUpload = useCallback((file, field) => {
-    debugger
     const formData = new FormData();
     formData.append('file', file);
     api.uploadFile(formData).then(({ data}) => {
       if (data.url) {
-        packageForm.setFieldValue(field,  data.url);
-        console.log(packageForm,22233344);
-        setSoftwareList([{ url: data.url, name: data.name}]);
+        packageForm.setFieldValue(field,  data.url);        
+        packageForm.setFieldValue('softwareList', [{ url: data.url, name: data.name}]);
+        setSoftwareList([{ url: data.url, name: data.name}]);//上传后回显
       }
     });
     return false;
-  }, []);
+  }, [softwareList]);
    //关联设备字段
    const deviceSelectColumns = [
     {
@@ -255,247 +258,252 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       console.log(info.fileList);
     },
   };
-  const columns = [
-    {
-      title: '版本号',
-      dataIndex: 'version',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
+  const columns =  [
+      {
+        title: '版本号',
+        dataIndex: 'version',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入' }],
+        },
+        fieldProps: {
+          disabled: operations == FormOperations.UPDATE,
+        },
+        colProps: {
+          span: 12,
+        },
       },
-      colProps: {
-        span: 12,
+      {
+        title: '软件包名',
+        dataIndex: 'packageName',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入' }],
+        },
+        fieldProps: {
+          disabled: operations == FormOperations.UPDATE,
+        },
+        colProps: {
+          span: 12,
+        },
       },
-    },
-    {
-      title: '软件包名',
-      dataIndex: 'packageName',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
+      productTypeColumn,
+      productSnColumn,
+      moduleColumn,
+      {
+        title: '软件包',
+        dataIndex: 'softwareList',
+        valueType: "uploadFile",
+        formItemProps: {
+          name: 'softwarePackageUrl',
+          //rules: [{ required: true, message: '请上传软件包' }],//软件包地址
+        },
+        labelAlign:"left",
+        renderFormItem: () => {
+          return (<Upload {...uploadProps}
+            accept="*"
+            name="softwarePackageUrl"
+            maxCount={1}
+            fileList={softwareList}
+            >
+          <Button  type="primary">上传</Button>
+        </Upload>)
+        },
+        colProps: {
+          span: 12,
+        },
       },
-      colProps: {
-        span: 12,
-      },
-    },
-    productTypeColumn,
-    productSnColumn,
-    moduleColumn,
-    {
-      title: '软件包',
-      dataIndex: 'softwareList',
-      valueType: "uploadFile",
-      formItemProps: {
-        name: 'softwarePackageUrl',
-        //rules: [{ required: true, message: '请上传软件包' }],//软件包地址
-      },
-      labelAlign:"left",
-      renderFormItem: () => {
-        return (<Upload {...uploadProps}
-          accept="*"
-          name="softwarePackageUrl"
-          maxCount={1}
-          fileList={softwareList}
-          >
-        <Button  type="primary">上传</Button>
-      </Upload>)
-      },
-      colProps: {
-        span: 12,
-      },
-    },
-    {
-      title: '选择设备',
-      dataIndex: 'isSelectDevice',
-      valueType: "switch",
-      //valueEnum: isSelectDeviceList,
-      formItemProps: {
-        initialValue:true,
-        rules: [{ required: true, message: '请选择' }],
-        //labelAlign:"left",
-      },
-      fieldProps: (form) => {
-        return {
-          onChange: (e:boolean) => {
-            setSelectDevice(e);
-          },
-        };
-      },
-      colProps: {
-        span: 12,
-      },  
-    },
-    //选择设备表单：列表
-    {
-      title: '',
-      dataIndex: 'upgradeDeviceDetailList',
-      valueType: TABLETREESELECT,
-      colProps: {
-        span: 12,
-      },
-      formItemProps: {
-        hidden: selectDevice == false,
-        //rules: [{ required: true, message: '请选择关联设备' }],
-      },
-      dependencies: ['packageName'],
-      fieldProps: (form:any) => {
-        return {
-          title: '选择设备',
-          treeProps: {
-            fieldNames: {
-              title: 'name',
-              key: 'id',
-              children: 'children',
+      {
+        title: '选择设备',
+        dataIndex: 'selectDevice',
+        valueType: "switch",
+        formItemProps: {
+          name: "selectDevice",
+          initialValue:true,
+          rules: [{ required: true, message: '请选择' }],
+          //labelAlign:"left",
+        },
+        fieldProps: (form) => {
+          return {
+            onChange: (e:boolean) => {
+              setSelectDevice(e);
             },
-            request: requestTree,
-          },
-          proTableProps: {
-            pagination: false,
-            columns: deviceSelectColumns,
-            request: (params: any) =>{
-              return getDeviceListBySiteId({ ...params, productId: form?.getFieldValue?.('productId'),siteId: params.deviceId == -1? '':params.deviceId,current:1,pageSize:20})
-            }
-          },
-          onFocus: () => {       
-            return form?.validateFields(['productId']);
-          },
-          valueId: 'deviceId',
-          valueName: 'deviceName',   
-          valueFormat: (value: any,item: any) => {
-            if(item.siteName) {
-              return item.siteName + '-' + item.deviceName;
-            }
-            return value;
-          },
-          dealTreeData       
-        };
+          };
+        },
+        colProps: {
+          span: 12,
+        },  
       },
-      //fieldProps: tableTreeSelectProps,
-    },
-    {
-      title: '可升级版本',
-      dataIndex: 'isSelecteVersion',
-      valueType: "switch",
-      formItemProps: {
-        initialValue:true,
-        //rules: [{ required: true, message: '请选择' }],
+      //选择设备表单：列表
+      {
+        title: '',
+        dataIndex: 'upgradeDeviceDetailList',
+        valueType: TABLETREESELECT,
+        colProps: {
+          span: 12,
+        },
+        formItemProps: {
+          hidden: selectDevice == false,
+          //rules: [{ required: true, message: '请选择关联设备' }],
+        },
+        dependencies: ['packageName'],
+        fieldProps: (form:any) => {
+          return {
+            title: '选择设备',
+            treeProps: {
+              fieldNames: {
+                title: 'name',
+                key: 'id',
+                children: 'children',
+              },
+              request: requestTree,
+            },
+            proTableProps: {
+              pagination: false,
+              columns: deviceSelectColumns,
+              request: (params: any) =>{
+                return getDeviceListBySiteId({ ...params, productId: form?.getFieldValue?.('productId'),siteId: params.deviceId == -1? '':params.deviceId,current:1,pageSize:20})
+              }
+            },
+            onFocus: () => {       
+              return form?.validateFields(['productId']);
+            },
+            valueId: 'deviceId',
+            valueName: 'deviceName',   
+            valueFormat: (value: any,item: any) => {
+              if(item.siteName) {
+                return item.siteName + '-' + item.deviceName;
+              }
+              return value;
+            },
+            dealTreeData       
+          };
+        },
+        //fieldProps: tableTreeSelectProps,
       },
-      fieldProps: (form) => {
-        return {
-          onChange: (e:boolean) => {
-            setSelectVersion(e);
-          },
-        };
+      {
+        title: '可升级版本',
+        dataIndex: 'selectVersion',
+        valueType: "switch",
+        formItemProps: {
+          name: 'selectVersion',
+          initialValue: true,
+          //rules: [{ required: true, message: '请选择' }],
+        },
+        fieldProps: (form) => {
+          return {
+            onChange: (e:boolean) => {
+              setSelectVersion(e);
+            },
+          };
+        },
+        colProps: {
+          span: 12,
+        },
       },
-      colProps: {
-        span: 12,
+       //选择可升级版本号
+       {
+        title: '',
+        dataIndex: 'upgradeDeviceVersionDetailList',
+        valueType: TABLESELECT,
+        colProps: {
+          span: 12,
+        },
+        dependencies: ['productId'],
+        formItemProps: {
+          hidden: selectVersion == false,
+          //rules: [{ required: true, message: '请选择版本号' }],
+        },
+        fieldProps: (form:any) => {
+          return {
+            proTableProps: {
+              columns: versionSelectColumns,
+              request: (params: any) => {
+                return getVersionList({ ...params, productId: form?.getFieldValue?.('productId')}).then(({ data }) => {
+                  return {
+                    data: data?.list,
+                    total: data?.total,
+                    success: true,
+                  };
+                });
+              }
+            },
+            onFocus: () => {       
+              return form?.validateFields(['productId']);
+            },
+            // valueId: 'versionId',
+            valueName: 'version',
+            // tableId: 'versionId',
+            tableName: 'version',
+          };
+        },
       },
-    },
-     //选择可升级版本号
-     {
-      title: '',
-      dataIndex: 'upgradeDeviceVersionDetailList',
-      valueType: TABLESELECT,
-      colProps: {
-        span: 12,
+      {
+        title: '签名算法',
+        dataIndex: 'signature',
+        valueType:'select',
+        valueEnum: algorithmList,
+        formItemProps: {
+          rules: [{ required: true, message: '请选择签名算法' }],
+        },
+        colProps: {
+          span: 24,
+        },
       },
-      dependencies: ['productId'],
-      formItemProps: {
-        hidden: selectVersion == false,
-        //rules: [{ required: true, message: '请选择版本号' }],
+      {
+        title: '状态',
+        dataIndex: 'status',//升级包状态 1 启动 0禁用
+        colProps: {
+          span: 24,
+        },
+        valueType: 'radio',
+        valueEnum: statusList,
+        formItemProps: {
+          initialValue: '1',
+          rules: [{ required: true, message: '请选择' }],
+        },
+        fieldProps: (form) => {
+  
+        },
       },
-      fieldProps: (form:any) => {
-        return {
-          proTableProps: {
-            columns: versionSelectColumns,
-            request: (params: any) => {
-              //return getVersionList({ ...params, productId: form?.getFieldValue?.('productId'), current: 1, pageSize:2000});
-              return getVersionList({ ...params, productId: form?.getFieldValue?.('productId')}).then(({ data }) => {
-                return {
-                  data: data?.list,
-                  total: data?.total,
-                  success: true,
-                };
-              });
-            }
-          },
-          onFocus: () => {       
-            return form?.validateFields(['productId']);
-          },
-          // valueId: 'versionId',
-          valueName: 'version',
-          // tableId: 'versionId',
-          tableName: 'version',
-          // valueFormat: (value: any,item: any) => {
-          //   debugger
-          //   console.log(value,1111);
-          //   return value;
-          // },
-        };
-      },
-    },
-    {
-      title: '签名算法',
-      dataIndex: 'signature',
-      valueType:'select',
-      valueEnum: algorithmList,
-      formItemProps: {
-        rules: [{ required: true, message: '请选择签名算法' }],
-      },
-      colProps: {
-        span: 24,
-      },
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',//升级包状态 1 启动 0禁用
-      colProps: {
-        span: 24,
-      },
-      valueType: 'radio',
-      valueEnum: statusList,
-      formItemProps: {
-        initialValue: '1',
-        rules: [{ required: true, message: '请选择' }],
-      },
-      fieldProps: (form) => {
-
-      },
-    },
-    {
-      title: '描述（选填）',
-      dataIndex: 'description',
-      valueType:'textarea',
-      formItemProps: {
-        //rules: [{ required: true, message: '请输入内容' }],
-      },
-      colProps: {
-        span: 24,
-      },
-    }, 
-  ];
+      {
+        title: '描述（选填）',
+        dataIndex: 'description',
+        valueType:'textarea',
+        formItemProps: {
+          //rules: [{ required: true, message: '请输入内容' }],
+        },
+        colProps: {
+          span: 24,
+        },
+      }, 
+    ];
   //回显数据处理
   const convertRequestData = useCallback((res: UpdateTaskParam) => {
-    if (res) {
-      
+    if (res) {     
       requestProductSn(res?.productType).then((list) => {
         setSnList(list);
       });//获取产品型号
       requestModule(res?.productId).then((data) => {
         setModelList(data);
       });//获取模块
-      
-      res.signature = res.signature + '';
-      res.status = res.status + '';
-
-      if(res?.upgradeDeviceDetailList && res.upgradeDeviceDetailList.length>1) {
-        res.isSelectDevice = true;
+      res.signature = res.signature? res.signature + '' : '0';
+      res.status = res.status? res.status + '' : '0';
+      if(res?.upgradeDeviceDetailList && res.upgradeDeviceDetailList.length>0) {   
+        res.selectDevice = true;
       } else {
-        res.isSelectDevice = false;
+        res.selectDevice = false;
+        res.upgradeDeviceDetailList = [];
       }
 
-      if(res?.upgradeDeviceVersionDetailList && res.upgradeDeviceVersionDetailList.length>1) {
-        res.isSelecteVersion = true;
+      // if(res?.upgradeDeviceVersionDetailList && res.upgradeDeviceVersionDetailList.length>0) {
+      //   res.selectVersion = true;
+      // } else {
+      //   res.selectVersion = false;
+      // } 
+      if(!res.upgradeDeviceVersionDetailList) {
+        res.selectVersion = false;
+        res.upgradeDeviceVersionDetailList =[];
       } else {
-        res.isSelecteVersion = false;
+        res.selectVersion = true;
       } 
       if(res?.productModel) {
         setProductModel(res?.productModel);
@@ -506,15 +514,13 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         let pathName = pathList[pathList.length - 1];
         res.softwareList = [{ url: res?.softwarePackageUrl,name: pathName}];
         setSoftwareList(res.softwareList);
-      }
-      
+      }     
     };
     return res;
-  },[productModel,softwareList]);
+  },[productModel, softwareList, selectDevice, selectVersion]);
 
   //提交前的处理函数
-  const convertUpdateParams =useCallback ((params: UpdateTaskParam) => {
-    debugger
+  const convertUpdateParams = useCallback ((params: UpdateTaskParam) => {
     params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
     params.upgradableVersion = params.upgradeDeviceVersionDetailList.map((item) => item.versionId).join(',') || '';
     params.productTypeId = params.productType;
@@ -522,7 +528,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     params.productModel = productModel || '';
     params.signature = +params.signature;
     params.status = +params.status;
-    params.softwarePackageUrl = softwareList[0].url;
+    params.softwarePackageUrl = softwareList? softwareList[0].url : '';
     const allowedKeys = ['version', 'packageName', 'productTypeId','productModel','moduleId','softwarePackageUrl', 'upgradeDevice', 'upgradableVersion', 
     'signature','status', 'description','platform','productId'];
     const filteredObj = Object.keys(params).filter(key => allowedKeys.includes(key))
@@ -535,7 +541,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     //   ...{ orgId, orgName, handlerBy, userId, userName },
     // } as InstallOrderUpdateParam;
     return filteredObj;
-  },[productModel,softwareList]);
+  },[productModel, softwareList]);
 
   //const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
   return (

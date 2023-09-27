@@ -168,7 +168,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     dataIndex: 'packageName',
     valueType:"select",
     formItemProps: {
-      name: 'packageName',
+      name: 'packageId',
       rules: [{ required: true, message: '请输入' }],
     },
     hideInTable: true,
@@ -286,17 +286,29 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       colProps: {
         span: 24,
       },
+      
       dependencies: ['siteId', 'packageName'],
       fieldProps: (form:any) => {
         return {
           proTableProps: {
             columns: deviceSelectColumns,
-            request: (params: any) =>
-              getSelectDeviceList({ ...params, packageId: form?.getFieldValue?.('packageName'), siteId: form?.getFieldValue?.('siteId'), }),
+            request: (params: any) => {
+              return getSelectDeviceList({ ...params, packageId: form?.getFieldValue?.('packageId'), siteId: form?.getFieldValue?.('siteId'),}).then(({ data }) => {
+                return {
+                  data: data?.list,
+                  total: data?.total,
+                  success: true,
+                };
+              });
+            }
           },
           onFocus: () => {       
             return form?.validateFields(['packageName']);
           },
+          valueId: 'deviceId',
+          valueName: 'deviceName',
+          tableName: 'deviceName',
+          tableId:'deviceId',
         };
       },
     },
@@ -319,6 +331,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
  //提交前的处理函数
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
+    console.log(params,'zhjssgggg');
     // const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
     // const { handlerBy } = params.handler?.[0] ?? {};
     // const { userId, userName } = params.customer?.[0] ?? {};

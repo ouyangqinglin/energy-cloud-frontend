@@ -50,4 +50,12 @@ export const getStations = (params?: any) => {
     params,
   });
 };
+//上传文件
+export const uploadPackageFile = (formData: any) => {
+  return request(`/prodApi/uc/upload`, {
+    method: 'POST',
+    data: formData,
+  });
+};
+
 
