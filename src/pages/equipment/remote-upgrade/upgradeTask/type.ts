@@ -8,7 +8,7 @@ export interface UpdateTaskParam {
   productType:number;//产品类型id
   productTypeName:string;//产品类型名称
   productId:number;
-  productModel:string;
+  productModel:any;
   moduleId:number;
   moduleName:string;
   upgradeTime: any;
@@ -19,10 +19,11 @@ export interface UpdateTaskParam {
   upgradeDeviceVersionDetailList:any;
   softwarePackageUrl:string;
   platform:any;
-  isSelectDevice:boolean;
-  isSelecteVersion:boolean;
+  selectDevice:boolean;
+  selectVersion:boolean;
   upgradableVersion:any;
   productTypeId:any;
+  softwareList:any;
 }
 export interface UpgradeListType {
   id: number;
