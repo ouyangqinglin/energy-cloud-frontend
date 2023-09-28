@@ -26,7 +26,7 @@ const RunForm: React.FC<RunFormType> = (props) => {
       const result: RemoteSettingDataType<RunFormType['runData']> = {
         deviceId,
         input: formData,
-        serviceId: 'SettingOfOperatingConstantValue',
+        serviceId: 'OperatingParameterSettings',
       };
       return result;
     },

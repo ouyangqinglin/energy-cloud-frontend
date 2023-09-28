@@ -3,7 +3,7 @@ import {
   getEditTaskList, addTaskList, updateTaskList
 } from '../service';
 import { omit } from 'lodash';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import type { InstallListType, InstallOrderUpdateParam, InstallOrderUpdateInfo, FormUpdateBaseProps, UpdateTaskParam, } from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
@@ -17,6 +17,8 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { Modal, message,Button} from 'antd';
+import type { ProFormInstance } from '@ant-design/pro-components';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -27,6 +29,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const [modelList, setModelList] = useState();//模块下拉框列表
   const [packageList, setPackageList] = useState();//软件包名下拉框列表
   const [updateType, setUpdateType] = useState(2);//升级类型
+  const formRef = useRef<ProFormInstance>();
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -98,9 +101,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
   //获取软件包名--依赖模块
   const requestVersionName = useCallback((params) => {
-    if (params?.moduleId) {
+    if (params) {
       return getSelectedVersionList({
-        moduleId: params?.moduleName
+        moduleId: params
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -109,18 +112,20 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
           };
         });
       });
-    } else if (params?.productId) {
-      return getSelectedVersionList({
-        productId: params?.productId
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.packageName || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    } else {
+    } 
+    // else if (params?.productId) {
+    //   return getSelectedVersionList({
+    //     productId: params?.productId
+    //   }).then(({ data }) => {
+    //     return data?.map?.((item: any) => {
+    //       return {
+    //         label: item?.packageName || '',
+    //         value: item?.id || '',
+    //       };
+    //     });
+    //   });
+    // } 
+    else {
       return Promise.resolve([]);
     }
   }, []);
@@ -149,16 +154,32 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       name: 'moduleId',
       rules: [{ required: true, message: '请输入' }], 
     },
+    colProps: {
+      span: 12,
+    },
     hideInTable: true,
     dependencies: ['productModel'],
-    fieldProps: {
-      options: modelList,
-      rules: [{ required: true, message: '请输入' }],
-      onChange: (moduleName: any) => {
-        requestVersionName(moduleName).then((list) => {
-          setPackageList(list);
-        });//获取软件包名
-      },
+    // fieldProps: {
+    //   options: modelList,
+    //   rules: [{ required: true, message: '请输入' }],
+    //   onChange: (moduleName: any) => {
+    //     debugger
+    //     requestVersionName(moduleName).then((list) => {
+    //       console.log(list);
+    //       setPackageList(list);
+    //     });//获取软件包名
+    //   },
+    // },
+    fieldProps: (form:any) => {
+      return {
+        options: modelList,
+        rules: [{ required: true, message: '请输入' }],
+        onChange: (e) => {
+          requestVersionName(e).then((list) => {
+            setPackageList(list);
+          });//获取软件包名
+        },
+      };
     },
     //request: requestModule,
   };
@@ -171,8 +192,11 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       name: 'packageId',
       rules: [{ required: true, message: '请输入' }],
     },
+    colProps: {
+      span: 12,
+    },
     hideInTable: true,
-    dependencies: ['moduleName', 'productModel'],
+    //dependencies: ['moduleName', 'productId'],
     //request: requestVersionName,
     fieldProps: {
       options: packageList,
@@ -227,7 +251,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
         span: 8,
       },
     },
-    siteColumn,
+    //siteColumn,
     productTypeColumn,
     productSnColumn,
     moduleColumn,
@@ -256,8 +280,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     {
       title: '升级时间',
       dataIndex: ['upgradeTime'],
+      hideInForm: updateType == 1,//稍后升级时才显示时间表单
       formItemProps: {
-        hidden: updateType == 1,//稍后升级时才显示时间表单
+        //hidden: updateType == 1,//稍后升级时才显示时间表单
         rules: [
           {
             required: true,
@@ -281,12 +306,11 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     //关联设备
     {
       title: '关联设备',
-      dataIndex: 'upgradeDevice',
+      dataIndex: 'upgradeDeviceDetailList',
       valueType: TABLESELECT,
       colProps: {
         span: 24,
       },
-      
       dependencies: ['siteId', 'packageName'],
       fieldProps: (form:any) => {
         return {
@@ -322,7 +346,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       requestModule(res?.productId).then((data) => {
         setModelList(data);
       });//获取模块11111
-      requestVersionName(res).then((data) => {
+      requestVersionName(res?.moduleId).then((data) => {
         setPackageList(data);
       });//获取软件包名
       res.type = res.type + '';
@@ -331,15 +355,25 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
  //提交前的处理函数
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
-    console.log(params,'zhjssgggg');
-    // const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
-    // const { handlerBy } = params.handler?.[0] ?? {};
-    // const { userId, userName } = params.customer?.[0] ?? {};
-
-    // return {
-    //   ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
-    //   ...{ orgId, orgName, handlerBy, userId, userName },
-    // } as InstallOrderUpdateParam;
+    params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
+  };
+  const submitFormEvents =(props: any) => {
+    let updateType = props.form?.getFieldValue?.('type');
+    //立即升级处理逻辑
+    if (updateType == 1) {
+      Modal.confirm({
+        title: <strong>升级确认</strong>,
+        content: '立即执行升级操作可能会影响正在运行的设备，是否执行立即升级操作？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: (close) => {
+          formRef.current?.submit();
+          Modal.destroyAll();
+        }
+      });
+    } else {
+      formRef.current?.submit();
+    }
   };
 
   //const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
@@ -366,6 +400,17 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
           span: 8,
         }}
         initialValues={props?.initialValues}
+        formRef={formRef}
+        submitter={{
+          render: (props, doms) => {
+            return [
+              doms[0],
+              <Button type="primary" onClick={() => submitFormEvents(props)} key="submit">
+                执行
+              </Button>
+            ];
+          },
+        }}
       />
     </>
   );

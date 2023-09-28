@@ -1,21 +1,20 @@
 import {
   getDetailData, addPackageData, editPackageData
 } from '../service';
-import { useCallback, useState,useMemo } from 'react';
-import type { PackageListType,InstallOrderUpdateInfo, FormUpdateBaseProps, UpdatePackageParam, } from '../type';
+import { useCallback, useState} from 'react';
+import type { PackageListType,FormUpdateBaseProps} from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { dealTreeDataType } from '@/components/TableSelect';
 import { FormTypeEnum } from '@/utils/dictionary';
 import SchemaForm, { SchemaFormProvider } from '@/components/SchemaForm';
 import { TABLESELECT, TABLETREESELECT, tableSelectValueTypeMap, tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import { getStations } from '../service';
-import { getProductSnList, getModuleList, getSelectedVersionList, getVersionList,getDeviceListBySiteId } from '../../comService';
+import { getProductSnList, getModuleList, getVersionList,getDeviceListBySiteId } from '../../comService';
 // import type { Dayjs } from 'dayjs';
 // import dayjs from 'dayjs';
 import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { UpdateTaskParam } from '../../upgradeTask/type';
-import { ProFormUploadButton } from '@ant-design/pro-form';
 import { api } from '@/services';
 import { Form, Button, Upload } from 'antd';
 import TreeDataType from '../config'
@@ -340,8 +339,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         colProps: {
           span: 12,
         },
+        hideInForm: selectDevice == false,
         formItemProps: {
-          hidden: selectDevice == false,
+          //hidden: selectDevice == false,
           //rules: [{ required: true, message: '请选择关联设备' }],
         },
         dependencies: ['packageName'],
@@ -408,8 +408,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
           span: 12,
         },
         dependencies: ['productId'],
+        hideInForm: selectVersion == false,
         formItemProps: {
-          hidden: selectVersion == false,
+          //hidden: selectVersion == false,
           //rules: [{ required: true, message: '请选择版本号' }],
         },
         fieldProps: (form:any) => {
@@ -429,9 +430,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
             onFocus: () => {       
               return form?.validateFields(['productId']);
             },
-            // valueId: 'versionId',
+            valueId: 'id',
             valueName: 'version',
-            // tableId: 'versionId',
+            //tableId: 'id',
             tableName: 'version',
           };
         },
@@ -504,6 +505,10 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         res.upgradeDeviceVersionDetailList =[];
       } else {
         res.selectVersion = true;
+        res.upgradeDeviceVersionDetailList.map(item=>{
+          item.id = item.versionId
+          delete (item.versionId);
+        })
       } 
       if(res?.productModel) {
         setProductModel(res?.productModel);
@@ -522,7 +527,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   //提交前的处理函数
   const convertUpdateParams = useCallback ((params: UpdateTaskParam) => {
     params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
-    params.upgradableVersion = params.upgradeDeviceVersionDetailList.map((item) => item.versionId).join(',') || '';
+    params.upgradableVersion = params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',') || '';
     params.productTypeId = params.productType;
     params.platform = '';
     params.productModel = productModel || '';

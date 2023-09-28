@@ -76,7 +76,6 @@ export enum DeviceModelTypeEnum {
   Enum = 'enum',
   Struct = 'struct',
   Array = 'array',
-  TimeRange = 'timeRange',
 }
 
 export type FileType = {

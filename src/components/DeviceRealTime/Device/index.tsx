@@ -65,7 +65,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
               modelMap={modelMap}
             />
           ) : (
-            <Control deviceId={id} groupData={deviceGroupData} realTimeData={realTimeData} />
+            <Control deviceId={id} groupData={deviceGroupData} />
           )}
         </>
       )}
