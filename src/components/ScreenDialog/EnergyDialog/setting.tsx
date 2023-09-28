@@ -159,7 +159,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             </span>
           );
           break;
-        case 'reset':
+        case 'sysReset':
           content = <span>是否执行系统复位指令</span>;
           break;
       }
@@ -169,7 +169,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          if (field == 'reset') {
+          if (field == 'sysReset') {
             message.success('下发成功');
             controlForm.setFieldValue(field, false);
             return Promise.resolve();
@@ -420,7 +420,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           {type === DeviceTypeEnum.BWattEms ? (
             <Col flex="25%">
               <Form.Item
-                name="reset"
+                name="sysReset"
                 label="系统复位"
                 labelCol={{ flex: '116px' }}
                 valuePropName="checked"

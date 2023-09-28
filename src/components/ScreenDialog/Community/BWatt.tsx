@@ -1,10 +1,10 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2023-06-20 10:40:19
- * @LastEditTime: 2023-09-01 11:54:04
+ * @Date: 2023-09-28 09:02:14
+ * @LastEditTime: 2023-09-28 09:09:28
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationGun.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\BWatt.tsx
  */
 
 import React, { useCallback, useState, useRef, useEffect, useMemo } from 'react';
@@ -18,7 +18,7 @@ import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
 import { OptionType } from '@/utils/dictionary';
 
-const StationGun: React.FC<CommunityProps> = (props) => {
+const BWatt: React.FC<CommunityProps> = (props) => {
   const { id, type, productConfigType, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
@@ -88,6 +88,69 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         hideInForm: true,
       },
       {
+        title: '项目 ID',
+        dataIndex: 'projectId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入项目 ID' }],
+        },
+      },
+      {
+        title: 'BMS ID',
+        dataIndex: 'bmsId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入BMS ID' }],
+        },
+      },
+      {
+        title: 'EMS ID',
+        dataIndex: 'emsId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入EMS ID' }],
+        },
+      },
+      {
+        title: 'PCS ID',
+        dataIndex: 'pcsId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入PCS ID' }],
+        },
+      },
+      {
+        title: '单体温度 ID',
+        dataIndex: 'temperatureDeviceId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入单体温度 ID' }],
+        },
+      },
+      {
+        title: '单体电压 ID',
+        dataIndex: 'voltageDeviceId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入单体电压 ID' }],
+        },
+      },
+      {
+        title: '空调 ID',
+        dataIndex: 'airConditionerId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入空调 ID' }],
+        },
+      },
+      {
+        title: '系统时钟 ID',
+        dataIndex: 'clockDeviceId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入系统时钟 ID' }],
+        },
+      },
+      {
+        title: '能耗统计 ID',
+        dataIndex: 'statisticsDeviceId',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入能耗统计 ID' }],
+        },
+      },
+      {
         title: '第三方站点',
         dataIndex: 'thirdSiteId',
         valueType: 'select',
@@ -111,13 +174,6 @@ const StationGun: React.FC<CommunityProps> = (props) => {
           hidden: true,
         },
       },
-      {
-        title: '任一充电枪序列码',
-        dataIndex: 'anyGnSn',
-        formItemProps: {
-          rules: [{ required: true, message: '请填写任一充电枪序列码' }],
-        },
-      },
     ];
     return result;
   }, [requestStation, productConfigType]);
@@ -128,7 +184,7 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         formRef={formRef}
         layoutType="ModalForm"
         title="设置通信信息"
-        width="460px"
+        width={552}
         visible={open}
         onVisibleChange={onOpenChange}
         columns={columns}
@@ -138,9 +194,13 @@ const StationGun: React.FC<CommunityProps> = (props) => {
           destroyOnClose: true,
           ...modalProps,
         }}
+        grid={true}
+        colProps={{
+          span: 12,
+        }}
       />
     </>
   );
 };
 
-export default StationGun;
+export default BWatt;

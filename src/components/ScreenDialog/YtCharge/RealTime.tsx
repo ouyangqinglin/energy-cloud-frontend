@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:49:21
- * @LastEditTime: 2023-09-01 08:51:23
+ * @LastEditTime: 2023-09-27 11:25:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\YtCharge\RealTime.tsx
  */
@@ -22,7 +22,7 @@ import { LabelTypeEnum } from '@/components/ScreenDialog';
 const RealTime: React.FC<RealTimeProps> = (props) => {
   const { id, loading, open = true, detailProps, labelType = LabelTypeEnum.DotLabel } = props;
 
-  const [relatedIds, setRelatedIds] = useState([]);
+  const [relatedIds, setRelatedIds] = useState<string[]>([]);
   const [aGunId, setAGunId] = useState('');
   const [bGunId, setBGunId] = useState('');
   const aGunData = useSubscribe(aGunId, open);
@@ -32,9 +32,7 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   useEffect(() => {
     if (open && id) {
       getRelatedDevice(id).then((res) => {
-        if (res?.data?.associatedIds) {
-          setRelatedIds(res.data.associatedIds);
-        }
+        setRelatedIds([...(res?.data?.associatedIds || []), id]);
       });
       getGuns(id).then(({ data = [] }) => {
         const gunMap: Record<string, any> = arrayToMap(data || [], 'key', 'deviceId');

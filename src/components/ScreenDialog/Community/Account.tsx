@@ -24,6 +24,7 @@ type AccountType = CommunityProps & {
 const Account: React.FC<AccountType> = (props) => {
   const {
     id,
+    type,
     open,
     onOpenChange,
     model,
@@ -56,7 +57,7 @@ const Account: React.FC<AccountType> = (props) => {
       return editEquipConfig({
         deviceId: id,
         productId: equipData?.productId,
-        paramConfigType: 1,
+        paramConfigType: type,
         config: JSON.stringify(formData),
       }).then(({ data }) => {
         if (data) {

@@ -19,7 +19,7 @@ import type { CommunityProps } from './index';
 import { OptionType } from '@/utils/dictionary';
 
 const Station: React.FC<CommunityProps> = (props) => {
-  const { id, open, onOpenChange, model } = props;
+  const { id, type, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
@@ -68,7 +68,7 @@ const Station: React.FC<CommunityProps> = (props) => {
       return editEquipConfig({
         deviceId: id,
         productId: equipData?.productId,
-        paramConfigType: 4,
+        paramConfigType: type,
         config: JSON.stringify(formData),
       }).then(({ data }) => {
         if (data) {
