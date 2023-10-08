@@ -280,7 +280,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     {
       title: '升级时间',
       dataIndex: ['upgradeTime'],
-      hideInForm: updateType == 1,//稍后升级时才显示时间表单
+      hideInForm: updateType == 1,//稍后升级时才显示时间表单--彻底隐藏，去除校验
       formItemProps: {
         //hidden: updateType == 1,//稍后升级时才显示时间表单
         rules: [
@@ -295,7 +295,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
           width: '100%',
         },
         showTime: true,
-        format: 'YYYY-MM-DD hh:mm:ss',
+        format: 'YYYY/MM/DD HH:mm:ss',
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');//只能选择今天以及之后的时间
         },
@@ -354,8 +354,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     return res;
   };
  //提交前的处理函数
-  const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
-    params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
+  const convertUpdateParams = (params: InstallOrderUpdateInfo) => { 
+    params.upgradeTime = params.upgradeTime.replace(/\//g, "-");
+    params.upgradeDevice = params.upgradeDeviceDetailList? params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') : null;
   };
   const submitFormEvents =(props: any) => {
     let updateType = props.form?.getFieldValue?.('type');

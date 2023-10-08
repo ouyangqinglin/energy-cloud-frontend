@@ -117,10 +117,10 @@ const SchemaForm = <
       const defaultSubmitter: FormSchema['submitter'] =
         layoutType !== 'QueryFilter'
           ? {
-              submitButtonProps: {
-                disabled: disableSubmitter,
-              },
-            }
+            submitButtonProps: {
+              disabled: disableSubmitter,
+            },
+          }
           : {};
       return merge(defaultSubmitter, submitter);
     }
@@ -170,7 +170,7 @@ const SchemaForm = <
         return Promise.resolve(false);
       }
     },
-    [type, id, runAdd, runEdit, onSuccess, extraData, layoutType],
+    [type, id, runAdd, runEdit, onSuccess, extraData, layoutType, beforeSubmit],
   );
 
   useEffect(() => {

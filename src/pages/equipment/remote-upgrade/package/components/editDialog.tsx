@@ -178,13 +178,14 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     formData.append('file', file);
     api.uploadFile(formData).then(({ data}) => {
       if (data.url) {
-        packageForm.setFieldValue(field,  data.url);        
+        packageForm.setFieldValue(field,  data.url);       
         packageForm.setFieldValue('softwareList', [{ url: data.url, name: data.name}]);
         setSoftwareList([{ url: data.url, name: data.name}]);//上传后回显
       }
     });
     return false;
-  }, [softwareList]);
+  }, []);
+
    //关联设备字段
    const deviceSelectColumns = [
     {
@@ -328,7 +329,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
           };
         },
         colProps: {
-          span: 12,
+          span: 24,
         },  
       },
       //选择设备表单：列表
@@ -337,12 +338,12 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         dataIndex: 'upgradeDeviceDetailList',
         valueType: TABLETREESELECT,
         colProps: {
-          span: 12,
+          span: 24,
         },
         hideInForm: selectDevice == false,
         formItemProps: {
           //hidden: selectDevice == false,
-          //rules: [{ required: true, message: '请选择关联设备' }],
+          rules: [{ required: true, message: '请选择关联设备' }],
         },
         dependencies: ['packageName'],
         fieldProps: (form:any) => {
@@ -396,7 +397,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
           };
         },
         colProps: {
-          span: 12,
+          span: 24,
         },
       },
        //选择可升级版本号
@@ -405,13 +406,13 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         dataIndex: 'upgradeDeviceVersionDetailList',
         valueType: TABLESELECT,
         colProps: {
-          span: 12,
+          span: 24,
         },
         dependencies: ['productId'],
         hideInForm: selectVersion == false,
         formItemProps: {
           //hidden: selectVersion == false,
-          //rules: [{ required: true, message: '请选择版本号' }],
+          rules: [{ required: true, message: '请选择版本号' }],
         },
         fieldProps: (form:any) => {
           return {
@@ -479,6 +480,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     ];
   //回显数据处理
   const convertRequestData = useCallback((res: UpdateTaskParam) => {
+    //编辑才会走到这里
     if (res) {     
       requestProductSn(res?.productType).then((list) => {
         setSnList(list);
@@ -490,8 +492,10 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       res.status = res.status? res.status + '' : '0';
       if(res?.upgradeDeviceDetailList && res.upgradeDeviceDetailList.length>0) {   
         res.selectDevice = true;
+        setSelectDevice(true);
       } else {
         res.selectDevice = false;
+        setSelectDevice(false);
         res.upgradeDeviceDetailList = [];
       }
 
@@ -502,9 +506,11 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       // } 
       if(!res.upgradeDeviceVersionDetailList) {
         res.selectVersion = false;
+        setSelectVersion(false);
         res.upgradeDeviceVersionDetailList =[];
       } else {
         res.selectVersion = true;
+        setSelectVersion(true);
         res.upgradeDeviceVersionDetailList.map(item=>{
           item.id = item.versionId
           delete (item.versionId);
@@ -522,12 +528,12 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       }     
     };
     return res;
-  },[productModel, softwareList, selectDevice, selectVersion]);
+  },[productModel, selectDevice, selectVersion]);
 
   //提交前的处理函数
-  const convertUpdateParams = useCallback ((params: UpdateTaskParam) => {
-    params.upgradeDevice = params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') || '';
-    params.upgradableVersion = params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',') || '';
+  const convertUpdateParams = useCallback((params: UpdateTaskParam) => {
+    params.upgradeDevice = params.upgradeDeviceDetailList? params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') : '';
+    params.upgradableVersion = params.upgradeDeviceVersionDetailList? params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',') : '';
     params.productTypeId = params.productType;
     params.platform = '';
     params.productModel = productModel || '';
@@ -541,10 +547,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     result[key] = params[key];
     return result;
   }, {});
-    // return {
-    //   ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
-    //   ...{ orgId, orgName, handlerBy, userId, userName },
-    // } as InstallOrderUpdateParam;
     return filteredObj;
   },[productModel, softwareList]);
 
