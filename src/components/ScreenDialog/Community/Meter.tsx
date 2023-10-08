@@ -26,7 +26,7 @@ type DeviceDataType = {
 };
 
 const Meter: React.FC<CommunityProps> = (props) => {
-  const { id, open, onOpenChange, model } = props;
+  const { id, type, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
 
@@ -40,7 +40,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
         deviceId: id,
         name: equipData?.name,
         productId: equipData?.productId,
-        paramConfigType: 2,
+        paramConfigType: type,
         config: JSON.stringify(formParams),
       }).then(({ data }) => {
         if (data) {

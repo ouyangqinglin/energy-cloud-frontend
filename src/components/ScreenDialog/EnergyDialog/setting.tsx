@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-09-25 10:47:14
+ * @LastEditTime: 2023-09-28 09:57:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -159,7 +159,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             </span>
           );
           break;
-        case 'reset':
+        case 'sysReset':
           content = <span>是否执行系统复位指令</span>;
           break;
       }
@@ -169,11 +169,6 @@ const Setting: React.FC<SettingProps> = (props) => {
         okText: '确认',
         cancelText: '取消',
         onOk: () => {
-          if (field == 'reset') {
-            message.success('下发成功');
-            controlForm.setFieldValue(field, false);
-            return Promise.resolve();
-          }
           return run({
             deviceId: id,
             input: { [field]: 1 },
@@ -420,7 +415,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           {type === DeviceTypeEnum.BWattEms ? (
             <Col flex="25%">
               <Form.Item
-                name="reset"
+                name="sysReset"
                 label="系统复位"
                 labelCol={{ flex: '116px' }}
                 valuePropName="checked"

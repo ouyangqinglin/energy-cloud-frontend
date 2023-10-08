@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2023-09-12 11:14:12
+ * @LastEditTime: 2023-09-28 09:14:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
@@ -16,6 +16,7 @@ export enum CommunityTypeEnum {
   Meter,
   StationGun,
   Station,
+  BWatt,
 }
 
 export const communityTypeMap = new Map([
@@ -23,6 +24,7 @@ export const communityTypeMap = new Map([
   [CommunityTypeEnum.Meter, 'Meter'],
   [CommunityTypeEnum.StationGun, 'StationGun'],
   [CommunityTypeEnum.Station, 'Station'],
+  [CommunityTypeEnum.BWatt, 'BWatt'],
 ]);
 
 export type CommunityProps = {
@@ -62,7 +64,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
         <></>
       )}
       <Suspense fallback={<></>}>
-        {Component && <Component open={open} onOpenChange={set} {...restProps} />}
+        {Component && <Component type={type} open={open} onOpenChange={set} {...restProps} />}
       </Suspense>
     </>
   );

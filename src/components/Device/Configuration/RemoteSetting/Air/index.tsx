@@ -2,16 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-12 09:39:40
- * @LastEditTime: 2023-09-12 11:38:12
+ * @LastEditTime: 2023-09-27 09:23:08
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Ems\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Air\index.tsx
  */
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { AirType } from './typing';
 import Detail, { GroupItem } from '@/components/Detail';
 import { runItems } from './helper';
 import { useSubscribe } from '@/hooks';
-import { message } from 'antd';
 import RunForm from './RunForm';
 
 const Air: React.FC<AirType> = (props) => {
@@ -19,16 +18,12 @@ const Air: React.FC<AirType> = (props) => {
 
   const realTimeData = useSubscribe(deviceId, true);
 
-  const onSuccess = useCallback(() => {
-    message.success('下发成功');
-  }, []);
-
   const groupItems = useMemo<GroupItem[]>(() => {
     return [
       {
         label: (
           <Detail.Label title="运行定值设置">
-            <RunForm deviceId={deviceId} runData={realTimeData} onSuccess={onSuccess} />
+            <RunForm deviceId={deviceId} runData={realTimeData} />
           </Detail.Label>
         ),
         items: runItems,
