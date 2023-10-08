@@ -12,10 +12,6 @@
         background-repeat: no-repeat;
         background-position: center bottom;
         background-size: 100% auto;
-        &:nth-of-type(2) {
-          /* stylelint-disable-next-line */
-          background-image: url(~@/assets/image/multi-site/save-energy/card-line.png);
-        }
       }
       img {
         width: 60px;
@@ -25,9 +21,25 @@
         font-size: 24px;
         line-height: 1;
       }
+      .digit-stat-num-value {
+        background: linear-gradient(180deg, #fff 0%, #aadcff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
     .ant-col + .ant-col {
       margin-top: 8px;
+    }
+    .ant-col:nth-child(2) {
+      .digit-stat-content {
+        /* stylelint-disable-next-line */
+        background-image: url(~@/assets/image/multi-site/save-energy/card-line.png);
+      }
+      .digit-stat-num-value {
+        background: linear-gradient(180deg, #fff 0%, #b6ffa7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 10:34:31
- * @LastEditTime: 2023-09-21 16:21:15
+ * @LastEditTime: 2023-10-08 10:07:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\DigitStat\index.tsx
  */
