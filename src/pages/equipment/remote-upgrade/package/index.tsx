@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import {useModel } from 'umi';
@@ -10,15 +9,14 @@ import { getPackageList, removePackageData } from './service';
 import UpdatePackageForm from './components/editDialog';
 import { useAuthority } from '@/hooks';
 import { useToggle } from 'ahooks';
-import eventBus from '@/utils/eventBus';
 import { getProductTypeList } from '@/services/equipment';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import {getProductSnList } from '../comService';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { debug } from 'console';
+import {PackageListType} from './type'
 
 const Package: React.FC = () => {
-  const [initialValues, setInitialValues] = useState<UpgradeListType>({} as UpgradeListType);
+  const [initialValues, setInitialValues] = useState<PackageListType>({} as PackageListType);//初始值为空对象
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
 
@@ -94,7 +92,8 @@ const productSnColumn = {
 //添加升级包
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
-    setInitialValues({type:'2'});
+    setInitialValues({} as PackageListType);
+    //setInitialValues({type:'2'});
     setUpdateModal(true);//打开弹窗
   }, []);
 //编辑升级包
@@ -153,7 +152,7 @@ const productSnColumn = {
       )}
     </>
   );
-  const columns: ProColumns<StationType>[] = [
+  const columns: ProColumns<PackageListType>[] = [
     productTypeColumn,
     productSnColumn,
     {
@@ -244,7 +243,7 @@ const productSnColumn = {
 
   return (
     <>
-      <YTProTable
+      <YTProTable<PackageListType,PackageListType>
         actionRef={actionRef}
         columns={columns}
         toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}

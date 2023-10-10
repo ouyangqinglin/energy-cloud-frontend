@@ -37,6 +37,11 @@ export type PackageListType = {
   moduleName:string;
   version:string;
   softwarePackageUrl:string;
+  softwareList:any,
+  selectDevice:boolean,
+  upgradeDeviceDetailList:any,
+  selectVersion:boolean,
+  upgradeDeviceVersionDetailList:any,
   description:string;
   uploadTime:string;
   uploader:string;
