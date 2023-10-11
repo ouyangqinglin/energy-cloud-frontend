@@ -19,6 +19,7 @@ import loginInfo from './en-US/loginInfo';
 import operLog from './en-US/operLog';
 import server from './en-US/server';
 import onlineUser from './en-US/onlineUser';
+import index from './en-US/index';
 
 export default {
   'navBar.lang': 'Languages',
@@ -29,6 +30,7 @@ export default {
   'app.preview.down.block': 'Download this page to your local project',
   'app.welcome.link.fetch-blocks': 'Get all block',
   'app.welcome.link.block-list': 'Quickly build standard, pages based on `block` development',
+  ...index,
   ...globalHeader,
   ...menu,
   ...settingDrawer,

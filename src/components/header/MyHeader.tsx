@@ -17,7 +17,6 @@ import IconMenuRight from '@/assets/image/menu-right.png';
 import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
-import Workbench from './Workbench';
 
 const siteSwitchPath = ['/site-monitor', '/index/station', '/station/station-list'];
 
@@ -54,7 +53,6 @@ const MyHeader: React.FC = () => {
         {/* 站点删除等变更需要从新刷新组件 todo*/}
         <SiteSwitch className={`${styles.site} mx24`} style={siteStyles} />
         <div className="flex1" />
-        <Workbench />
         <RightContent />
       </div>
       <Drawer

@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Carousel, Tabs, Tooltip } from 'antd';
+import { useModel, useIntl } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
-import { config } from './config';
+import { getConfig } from './config';
 import ChartELEC from './components/ChartElec';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
@@ -20,7 +21,6 @@ import {
   getPowerStationOverview,
 } from './service';
 import { assign } from 'lodash';
-import { useModel } from 'umi';
 import { SiteTypeEnum } from '@/utils/dictionary';
 import { TabsProps } from 'rc-tabs';
 import { useAuthority } from '@/hooks';
@@ -34,6 +34,8 @@ export const enum SubSystemType {
 }
 
 const HomePage: React.FC = () => {
+  const intl = useIntl();
+
   const ref = useRef<HTMLDivElement>(null);
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const onChange = (currentSlide: number) => {
@@ -109,7 +111,7 @@ const HomePage: React.FC = () => {
 
   const items = useMemo(() => {
     const result: React.ReactNode[] = [];
-    config.forEach((item) => {
+    getConfig(intl).forEach((item) => {
       if (item.field == 'pvGeneratedPower') {
         if (
           [SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -143,7 +145,7 @@ const HomePage: React.FC = () => {
       return [...result.slice(0, 4), ...fillPageItems, ...nextPageItems];
     }
     return result;
-  }, [siteType, statistic]);
+  }, [siteType, statistic, intl]);
 
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];

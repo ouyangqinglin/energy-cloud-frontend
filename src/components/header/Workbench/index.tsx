@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 14:49:28
- * @LastEditTime: 2023-10-10 15:40:07
+ * @LastEditTime: 2023-10-11 15:00:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\Workbench\index.tsx
  */
@@ -23,7 +23,7 @@ const Workbench: React.FC = memo(() => {
   return (
     <>
       <Tooltip placement="bottom" title="工作台">
-        <div className="mr4 head-icon" onClick={onClick}>
+        <div className="head-icon" onClick={onClick}>
           <YTCellFourOutlined />
         </div>
       </Tooltip>

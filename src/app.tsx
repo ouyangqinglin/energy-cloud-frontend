@@ -52,6 +52,12 @@ export type initialStateType = {
   site?: SiteDataType;
 };
 
+// export const locale = {
+//   getLocale() {
+//     return 'en-US';
+//   },
+// };
+
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */

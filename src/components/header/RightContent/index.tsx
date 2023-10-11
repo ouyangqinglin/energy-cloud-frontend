@@ -6,6 +6,7 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../../HeaderSearch';
 import styles from './index.less';
 import NoticeIconView from '../../NoticeIcon';
+import Workbench from '../Workbench';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -24,9 +25,10 @@ const GlobalHeaderRight: React.FC = () => {
   }
 
   return (
-    <Space className={className}>
+    <Space className={className} size={16}>
+      <Workbench />
       <Avatar menu />
-      <SelectLang className={styles.action} />
+      <SelectLang className={`${styles.action} p0`} />
     </Space>
   );
 };
