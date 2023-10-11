@@ -355,7 +355,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
  //提交前的处理函数
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => { 
-    params.upgradeTime = params.upgradeTime.replace(/\//g, "-");
+    if (params.upgradeTime) {
+      params.upgradeTime = params.upgradeTime.replace(/\//g, "-");
+    }
     params.upgradeDevice = params.upgradeDeviceDetailList? params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') : null;
   };
   const submitFormEvents =(props: any) => {

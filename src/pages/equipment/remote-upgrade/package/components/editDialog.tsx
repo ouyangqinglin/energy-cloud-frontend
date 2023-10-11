@@ -1,7 +1,7 @@
 import {
   getDetailData, addPackageData, editPackageData
 } from '../service';
-import { useCallback, useState} from 'react';
+import { useCallback, useState, useEffect} from 'react';
 import type { PackageListType,FormUpdateBaseProps} from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { dealTreeDataType } from '@/components/TableSelect';
@@ -12,7 +12,6 @@ import { getStations } from '../service';
 import { getProductSnList, getModuleList, getVersionList,getDeviceListBySiteId } from '../../comService';
 // import type { Dayjs } from 'dayjs';
 // import dayjs from 'dayjs';
-import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { UpdateTaskParam } from '../../upgradeTask/type';
 import { api } from '@/services';
@@ -30,11 +29,8 @@ const dealTreeData: dealTreeDataType<TreeDataType> = (item) => {
 };
 
 export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) => {
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-    showAllOption: true,
-  });
-  const { operations } = props;//操作弹窗的类型
+  const { operations } = props;//获取操作弹窗的类型
+  const { visible} = props; //弹窗是否可见
   const [snList, setSnList] = useState();//产品型号下拉框列表
   const [modelList, setModelList] = useState();//模块下拉框列表
   const [selectDevice, setSelectDevice] = useState(true);//是否选择设备
@@ -52,6 +48,14 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       });
     });
   }, []);
+  //监听operations的变化--当为新建弹窗时，清空软件包;不影响编辑弹窗
+  useEffect(() => {
+    if (!visible) {
+      setSoftwareList([]);
+      setSelectDevice(true);
+      setSelectVersion(true);
+    }
+  }, [operations, visible]);
 
   const productTypeColumn = {
     title: '产品类型',
@@ -498,12 +502,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         setSelectDevice(false);
         res.upgradeDeviceDetailList = [];
       }
-
-      // if(res?.upgradeDeviceVersionDetailList && res.upgradeDeviceVersionDetailList.length>0) {
-      //   res.selectVersion = true;
-      // } else {
-      //   res.selectVersion = false;
-      // } 
       if(!res.upgradeDeviceVersionDetailList) {
         res.selectVersion = false;
         setSelectVersion(false);
@@ -561,7 +559,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         id={props.id}
         type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
         columns={columns as any}
-        open={props.visible}
+        open={visible}
         onOpenChange={props.onVisibleChange}
         addData={addPackageData}
         editData={editPackageData}
