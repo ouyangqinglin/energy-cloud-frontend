@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-23 14:44:32
- * @LastEditTime: 2023-07-28 17:45:17
+ * @LastEditTime: 2023-10-10 14:46:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\MyHeader.tsx
  */
@@ -17,6 +17,7 @@ import IconMenuRight from '@/assets/image/menu-right.png';
 import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
+import Workbench from './Workbench';
 
 const siteSwitchPath = ['/site-monitor', '/index/station', '/station/station-list'];
 
@@ -52,6 +53,8 @@ const MyHeader: React.FC = () => {
         <Breadcrumb />
         {/* 站点删除等变更需要从新刷新组件 todo*/}
         <SiteSwitch className={`${styles.site} mx24`} style={siteStyles} />
+        <div className="flex1" />
+        <Workbench />
         <RightContent />
       </div>
       <Drawer

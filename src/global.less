@@ -184,6 +184,10 @@ div {
   justify-content: space-between;
 }
 
+.float {
+  float: left;
+}
+
 .flex1 {
   flex: 1;
 }
@@ -215,6 +219,29 @@ div {
 
 .bg-white {
   background: white !important;
+}
+
+.head-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(245, 245, 245, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    color: white;
+  }
+}
+
+.page-label {
+  margin-bottom: 12px;
+  color: #1d2129;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  line-height: 24px;
 }
 
 .page-tabs {

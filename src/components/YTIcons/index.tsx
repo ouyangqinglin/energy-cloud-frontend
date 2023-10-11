@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-06-26 11:06:29
+ * @LastEditTime: 2023-10-10 14:10:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
@@ -40,6 +40,10 @@ import {
   Organize,
   Dot,
   Store,
+  CellOne,
+  CellFour,
+  CellSix,
+  CellNine,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -166,6 +170,22 @@ const YTStoreOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Store} {...props} />
 );
 
+const YTCellOneOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={CellOne} {...props} />
+);
+
+const YTCellFourOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={CellFour} {...props} />
+);
+
+const YTCellSixOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={CellSix} {...props} />
+);
+
+const YTCellNineOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={CellNine} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -198,4 +218,8 @@ export {
   YTOrganizeOutlined,
   YTDotOutlined,
   YTStoreOutlined,
+  YTCellOneOutlined,
+  YTCellFourOutlined,
+  YTCellSixOutlined,
+  YTCellNineOutlined,
 };

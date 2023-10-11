@@ -748,7 +748,21 @@ export default [
   },
   {
     path: '/',
-    redirect: '/index',
+    component: '@/layouts/TabsLayout',
+    routes: [
+      {
+        path: '/',
+        redirect: '/index',
+      },
+      {
+        path: 'workbench',
+        name: 'workbench',
+        component: 'workbench',
+        wrappers: ['@/components/KeepAlive'],
+        title: 'menu.workbench',
+        access: 'workbench',
+      },
+    ],
   },
   {
     component: './404',

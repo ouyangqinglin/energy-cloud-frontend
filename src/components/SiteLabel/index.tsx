@@ -9,7 +9,6 @@
 import React, { useEffect } from 'react';
 import { useModel } from 'umi';
 import { SiteDataType } from '@/services/station';
-import styles from './index.less';
 
 export type SiteLabelProps = {
   onChange?: (value: SiteDataType) => void;
@@ -29,7 +28,7 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
 
   return (
     <>
-      <div className={`${styles.label} ${className}`}>
+      <div className={`page-label ${className}`}>
         {siteData?.name || '--'}
         {children}
       </div>

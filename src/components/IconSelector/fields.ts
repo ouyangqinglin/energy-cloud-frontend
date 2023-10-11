@@ -234,6 +234,10 @@ const ytIcon = [
   'YTOrganize',
   'YTDot',
   'YTStore',
+  'YTCellOne',
+  'YTCellFour',
+  'YTCellSix',
+  'YTCellNine',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

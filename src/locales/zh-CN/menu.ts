@@ -1,4 +1,5 @@
 export default {
+  'menu.workbench': '工作台',
   'menu.index': '首页',
   'menu.station.list': '站点列表',
   'menu.station.setting': '站点配置',

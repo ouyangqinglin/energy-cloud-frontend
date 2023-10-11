@@ -39,10 +39,7 @@ export const config = [
       {
         label: '当日充/放电量(kWh)',
         labelUnit: '/kWh',
-        value: (entity: StoredEnergy) =>
-          `${keepTwoDecimalWithoutNull(entity?.charge)} / ${keepTwoDecimalWithoutNull(
-            entity?.discharge,
-          )}`,
+        value: (entity: StoredEnergy) => `${entity?.charge} / ${entity?.discharge}`,
       },
       {
         label: '剩余电量(kWh)',
@@ -98,10 +95,7 @@ export const config = [
       {
         label: '·充电桩/其他(kWh)',
         labelUnit: '/kWh',
-        value: (entity: Load) =>
-          `${keepTwoDecimalWithoutNull(entity?.chargingPileCharge)} / ${keepTwoDecimalWithoutNull(
-            entity?.otherLoadCharge,
-          )}`,
+        value: (entity: Load) => `${entity?.chargingPileCharge} / ${entity?.otherLoadCharge}`,
       },
       {
         label: '用电功率(kW)',
@@ -112,10 +106,7 @@ export const config = [
       {
         label: '·充电桩/其他(kW)',
         labelUnit: '/kW',
-        value: (entity: Load) =>
-          `${keepTwoDecimalWithoutNull(entity?.chargingPilePower)} / ${keepTwoDecimalWithoutNull(
-            entity?.otherLoadPower,
-          )}`,
+        value: (entity: Load) => `${entity?.chargingPilePower} / ${entity?.otherLoadPower}`,
       },
     ],
   },
