@@ -13,6 +13,7 @@ import HeaderDropdown from '../../HeaderDropdown';
 import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import { logout } from '@/services/session';
+import { formatMessage } from '@/utils';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -81,14 +82,14 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       {menu && (
         <Menu.Item key="/account/center">
           <UserOutlined />
-          个人中心
+          {formatMessage({ id: 'user.center', defaultMessage: '个人中心' })}
         </Menu.Item>
       )}
       {menu && <Menu.Divider />}
 
       <Menu.Item key="logout">
         <LogoutOutlined />
-        退出登录
+        {formatMessage({ id: 'user.loginOut', defaultMessage: '退出登录' })}
       </Menu.Item>
     </Menu>
   );

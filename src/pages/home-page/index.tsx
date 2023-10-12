@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Carousel, Tabs, Tooltip } from 'antd';
-import { useModel, useIntl, setLocale } from 'umi';
+import { useModel, useIntl, FormattedMessage } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
 import { config } from './config';
@@ -196,7 +196,7 @@ const HomePage: React.FC = () => {
       {authorityMap.get('index:multiSite') ? (
         <Tooltip
           placement="top"
-          title={intl.formatMessage({ id: 'common.screen', defaultMessage: '大屏页' })}
+          title={<FormattedMessage id="common.screen" defaultMessage="大屏页" />}
         >
           <IconScreen className={styles.screen} onClick={onScreenClick} />
         </Tooltip>

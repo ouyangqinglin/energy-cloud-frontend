@@ -7,7 +7,7 @@ import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
-import { getMenus, getPathTitleMap, getPathArrary } from '@/utils';
+import { getMenus, getPathTitleMap, getPathArrary, getLocaleMenus } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
@@ -84,7 +84,8 @@ export async function getInitialState(): Promise<initialStateType> {
     const currentUser = await fetchUserInfo();
     let menus;
     if (currentUser) {
-      menus = await getRoutersInfo();
+      const requestMenus = await getRoutersInfo();
+      menus = getLocaleMenus(requestMenus);
     }
     const antMenus = menus && getMenus(menus);
     return {

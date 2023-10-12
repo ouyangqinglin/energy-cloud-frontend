@@ -4,12 +4,18 @@
  * @datetime  2022/02/22
  *
  * */
+import { MenuDataItem } from '@ant-design/pro-components';
 
-export default [
+export type RouterType = Omit<MenuDataItem, 'routes'> & {
+  routes?: MenuDataItem[];
+};
+
+const routers: RouterType[] = [
   {
     path: '/index',
     name: 'index',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.index',
     routes: [
       {
         path: '/index',
@@ -20,7 +26,7 @@ export default [
         name: 'indexStation',
         component: './home-page',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.index',
+        locale: 'menu.index',
       },
     ],
   },
@@ -49,6 +55,7 @@ export default [
     path: '/station',
     name: 'station',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.station',
     routes: [
       {
         path: '/station',
@@ -64,19 +71,19 @@ export default [
         name: 'stationList',
         component: './station/stationList',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.station.list',
+        locale: 'menu.station.list',
       },
       {
         path: 'device-detail',
         component: './equipment/DeviceDetail',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.device.deviceMonitor',
+        locale: 'menu.device.deviceMonitor',
       },
       {
         path: 'setting',
         component: './station/Setting',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.station.setting',
+        locale: 'menu.station.setting',
       },
       {
         path: 'custom-page',
@@ -88,6 +95,7 @@ export default [
   {
     path: '/site-monitor',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.siteMonitor',
     routes: [
       {
         path: '/site-monitor',
@@ -97,45 +105,49 @@ export default [
         path: 'overview',
         component: './site-monitor/Overview',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.siteMonitor.overview',
       },
       {
         path: 'topo',
         component: './site-monitor/Topo',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.siteMonitor.topo',
       },
       {
         path: 'electric-generate',
         component: './site-monitor/ElectricGenerate',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.siteMonitor.electricGenerate',
+        locale: 'menu.siteMonitor.electricGenerate',
       },
       {
         path: 'energy',
         component: './site-monitor/Energy',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.siteMonitor.energy',
+        locale: 'menu.siteMonitor.energy',
       },
       {
         path: 'electric-consumer',
         component: './site-monitor/ElectricConsumer',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.siteMonitor.electricConsumer',
+        locale: 'menu.siteMonitor.electricConsumer',
       },
       {
         path: 'device-monitor',
         component: './site-monitor/Device',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.siteMonitor.deviceMonitor',
       },
       {
         path: 'device-detail',
         component: './site-monitor/DeviceMonitor',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.siteMonitor.deviceDetail',
+        locale: 'menu.siteMonitor.deviceDetail',
       },
       {
         path: 'run-log',
         component: './site-monitor/RunLog',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.siteMonitor.runLog',
       },
     ],
   },
@@ -179,6 +191,7 @@ export default [
     path: '/data-manage',
     name: 'dataManage',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.dataManage',
     routes: [
       {
         path: '/data-manage',
@@ -189,12 +202,14 @@ export default [
         name: 'search',
         component: './data-manage/search',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.dataManage.search',
       },
       {
         path: 'report',
         name: 'report',
         component: './data-manage/report',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.dataManage.report',
       },
       {
         path: 'fault-tracing',
@@ -213,21 +228,25 @@ export default [
   {
     path: '/alarm',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.alarm',
     routes: [
       {
         path: 'current',
         component: './alarm/Current',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.alarm.current',
       },
       {
         path: 'history',
         component: './alarm/History',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.alarm.history',
       },
       {
         path: 'setting',
         component: './alarm/Setting',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.alarm.setting',
       },
     ],
   },
@@ -235,6 +254,7 @@ export default [
     path: '/equipment',
     name: 'equipment',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.deviceManage',
     routes: [
       {
         path: '/equipment',
@@ -245,18 +265,20 @@ export default [
         name: 'equipmentList',
         component: './equipment/equipment-list',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.deviceManage.deviceList',
       },
       {
         path: 'remote-upgrade',
         name: 'remoteUpgrade',
         component: './equipment/remote-upgrade',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.deviceManage.upgradeManage',
       },
       {
         path: 'device-detail',
         component: './equipment/DeviceDetail',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.device.deviceMonitor',
+        locale: 'menu.device.deviceMonitor',
       },
 
       // {
@@ -333,6 +355,7 @@ export default [
     path: '/work-order',
     name: 'workOrder',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.workOrder',
     routes: [
       {
         path: '/work-order',
@@ -343,18 +366,21 @@ export default [
         name: 'install',
         component: './work-order/install',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.workOrder.install',
       },
       {
         path: 'maintenance',
         name: 'maintenance',
         component: './work-order/maintenance',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.workOrder.maintenance',
       },
       {
         path: 'fault',
         name: 'fault',
         component: './work-order/fault',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.workOrder.fault',
       },
     ],
   },
@@ -406,7 +432,7 @@ export default [
         component: './dashboard/analysis',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.dashboard.analysis',
+        locale: 'menu.dashboard.analysis',
       },
       {
         name: 'monitor',
@@ -415,7 +441,7 @@ export default [
         component: './dashboard/monitor',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.dashboard.monitor',
+        locale: 'menu.dashboard.monitor',
       },
       {
         name: 'workplace',
@@ -424,7 +450,7 @@ export default [
         component: './dashboard/workplace',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.dashboard.workplace',
+        locale: 'menu.dashboard.workplace',
       },
     ],
   },
@@ -445,7 +471,7 @@ export default [
         component: './account/center',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.account.center',
+        locale: 'menu.account.center',
       },
       {
         name: 'settings',
@@ -454,15 +480,16 @@ export default [
         component: './account/settings',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.account.settings',
+        locale: 'menu.account.settings',
       },
     ],
   },
   {
+    path: '/system',
     name: 'system',
     icon: 'BugOutlined',
-    path: '/system',
     component: '@/layouts/TabsLayout',
+    locale: 'menu.systemManage',
     routes: [
       {
         path: '/system',
@@ -473,6 +500,7 @@ export default [
         name: 'authorization',
         component: 'system/authorization',
         wrappers: ['@/components/KeepAlive'],
+        locale: 'menu.systemManage.authorization',
       },
       {
         name: 'user',
@@ -482,7 +510,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.user',
+        locale: 'menu.title.user',
       },
       {
         name: 'menu',
@@ -492,7 +520,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.menu',
+        locale: 'menu.title.menu',
       },
       {
         name: 'role',
@@ -502,7 +530,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.role',
+        locale: 'menu.title.role',
       },
       {
         name: 'org',
@@ -520,6 +548,7 @@ export default [
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
         component: 'system/organization/index',
+        locale: 'menu.systemManage.organization',
       },
       {
         name: 'post',
@@ -529,7 +558,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.post',
+        locale: 'menu.title.post',
       },
       {
         name: 'dict',
@@ -539,7 +568,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.dict',
+        locale: 'menu.title.dict',
       },
       {
         name: 'dictData',
@@ -549,7 +578,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.dictData',
+        locale: 'menu.title.dictData',
       },
       {
         name: 'config',
@@ -559,7 +588,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.config',
+        locale: 'menu.title.config',
       },
       {
         name: 'notice',
@@ -569,7 +598,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.notice',
+        locale: 'menu.title.notice',
       },
       {
         name: 'operlog',
@@ -579,7 +608,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.operlog',
+        locale: 'menu.title.operlog',
       },
       {
         path: 'product',
@@ -587,6 +616,7 @@ export default [
         component: 'product-manage/Product',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
+        locale: 'menu.systemManage.product',
       },
       {
         path: 'product-detail',
@@ -594,7 +624,7 @@ export default [
         component: 'product-manage/ProductDetail',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.system.productDetail',
+        locale: 'menu.system.productDetail',
       },
     ],
   },
@@ -640,7 +670,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.onlineUser',
+        locale: 'menu.title.onlineUser',
       },
       {
         name: 'job',
@@ -650,7 +680,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.job',
+        locale: 'menu.title.job',
       },
       {
         name: 'joblog',
@@ -660,7 +690,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.joblog',
+        locale: 'menu.title.joblog',
       },
       {
         name: 'druid',
@@ -670,7 +700,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.druid',
+        locale: 'menu.title.druid',
       },
       {
         name: 'serverInfo',
@@ -680,7 +710,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.serverInfo',
+        locale: 'menu.title.serverInfo',
       },
       {
         name: 'cacheInfo',
@@ -690,7 +720,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.cacheInfo',
+        locale: 'menu.title.cacheInfo',
       },
       {
         name: 'cacheList',
@@ -700,7 +730,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.cacheList',
+        locale: 'menu.title.cacheList',
       },
     ],
   },
@@ -722,7 +752,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.gen',
+        locale: 'menu.title.gen',
       },
       {
         name: 'design',
@@ -732,7 +762,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.design',
+        locale: 'menu.title.design',
       },
       {
         name: 'swagger',
@@ -742,7 +772,7 @@ export default [
         access: 'authorize',
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
-        title: 'menu.title.swagger',
+        locale: 'menu.title.swagger',
       },
     ],
   },
@@ -759,7 +789,7 @@ export default [
         name: 'workbench',
         component: 'workbench',
         wrappers: ['@/components/KeepAlive'],
-        title: 'menu.workbench',
+        locale: 'menu.workbench',
         access: 'workbench',
       },
     ],
@@ -768,3 +798,22 @@ export default [
     component: './404',
   },
 ];
+
+const getPathLocaleMap = (data: RouterType[], parentPath = ''): Record<string, string> => {
+  let pathLocalMap: Record<string, string> = {};
+  data?.forEach((item) => {
+    const path = item?.path?.startsWith?.('/') ? item?.path : parentPath + '/' + item?.path;
+    if (item?.locale) {
+      pathLocalMap[path] = item?.locale;
+    }
+    if (item?.routes && item?.routes?.length) {
+      const result = getPathLocaleMap(item.routes, path);
+      Object.assign(pathLocalMap, result);
+    }
+  });
+  return pathLocalMap;
+};
+
+export default routers;
+
+export { getPathLocaleMap };

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form, message, Row } from 'antd';
-import { FormattedMessage } from 'react-intl';
 import ProForm, { ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import { useIntl } from 'umi';
+import { useIntl, FormattedMessage } from 'umi';
 import { updateUserProfile } from '@/pages/system/user/service';
 
 export type BaseInfoProps = {

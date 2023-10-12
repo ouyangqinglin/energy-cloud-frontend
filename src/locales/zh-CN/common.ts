@@ -9,4 +9,7 @@ export default {
   'common.time.year': '年',
   'common.time.total': '累计',
   'common.unit': '单位',
+  'common.site.siteName': '站点名称',
+  'common.site.siteType': '站点类型',
+  'common.workbentch': '工作台',
 };

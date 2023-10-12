@@ -20,8 +20,8 @@ export default function KeepAlivePage(props: any) {
     if (isExit < 0) {
       const obj = {
         ...props.location,
-        title: props.route?.title
-          ? intl.formatMessage({ id: props.route?.title })
+        title: props.route?.locale
+          ? intl.formatMessage({ id: props.route?.locale })
           : initialState?.menuPathTitleMap?.get?.(props.route?.path),
         keepAliveName: props.route.name,
       };
