@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
-import {useModel } from 'umi';
+import {useModel, useIntl, FormattedMessage, } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
@@ -19,7 +19,7 @@ const Package: React.FC = () => {
   const [initialValues, setInitialValues] = useState<PackageListType>({} as PackageListType);//初始值为空对象
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
-
+  const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const { siteType } = useModel('site', (model:any) => ({ siteType: model?.state?.siteType }));
   //控制权限相关变量
@@ -48,7 +48,7 @@ const requestProductType = useCallback((searchParams: SearchParams) => {
 }, []);
 
 const productTypeColumn = {
-    title: '产品类型',
+    title: intl.formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
     dataIndex: 'productTypeName',
     formItemProps: {
       name: 'productTypeId',
@@ -80,7 +80,7 @@ const requestProductSn = useCallback((params) => {
   }   
 }, []);
 const productSnColumn = {
-    title: '产品型号',
+    title: intl.formatMessage({id: 'common.model',defaultMessage:'产品型号'}),
     dataIndex: 'productModel',
     formItemProps: {
       name: 'productModel',
@@ -114,7 +114,7 @@ const productSnColumn = {
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
-      新建
+      <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
     </Button>,
   ];
 
@@ -122,7 +122,7 @@ const productSnColumn = {
     <>
       {authorityMap.get('oss:site:update') && (
         <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
-          编辑
+          <FormattedMessage id="common.edit" defaultMessage="编辑" />
         </Button>
       )}
       {authorityMap.get('system:site:delete') && (
@@ -132,10 +132,10 @@ const productSnColumn = {
           key="delete"
           onClick={() => {
             Modal.confirm({
-              title: '删除',
-              content: '你确定要删除该升级包吗？删除之后无法恢复！',
-              okText: '确认',
-              cancelText: '取消',
+              title: intl.formatMessage({id: 'common.delete',defaultMessage:'删除'}),
+              content:  intl.formatMessage({id: 'upgradeManage.deleteTips',defaultMessage: '你确定要删除该升级包吗？删除之后无法恢复！'}),
+              okText: intl.formatMessage({id: 'common.confirm',defaultMessage:'确认'}),
+              cancelText: intl.formatMessage({id: 'common.cancel',defaultMessage:'取消'}),
               onOk: () => {
                 removePackageData({ id: record.id }).then(() => {
                   message.success('删除成功');
@@ -147,7 +147,7 @@ const productSnColumn = {
             });
           }}
         >
-          删除
+          <FormattedMessage id="common.delete" defaultMessage="删除" />
         </Button>
       )}
     </>
@@ -156,13 +156,13 @@ const productSnColumn = {
     productTypeColumn,
     productSnColumn,
     {
-      title: '序号',
+      title: intl.formatMessage({id: 'common.index',defaultMessage: '序号'}),
       dataIndex: 'index',
       valueType: 'index',
       width: 48,
     },
     {
-      title: '产品型号',
+      title: intl.formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
       dataIndex: 'productModel',
       width: 150,
       ellipsis: true,
@@ -172,35 +172,35 @@ const productSnColumn = {
       // },
     },
     {
-      title: '版本号',
+      title: intl.formatMessage({id: 'common.version',defaultMessage: '版本号',}),
       dataIndex: 'version',
       hideInSearch: true,
       width: 120,
       ellipsis: true,
     },
     {
-      title: '软件包名',
+      title: intl.formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
       dataIndex: 'packageName',
       width: 100,
       ellipsis: true,
       hideInSearch: false,
     },
     {
-      title: '产品类型',
+      title: intl.formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
       dataIndex: 'productTypeName',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '描述',
+      title: intl.formatMessage({ id: 'common.description' ,defaultMessage:  '描述'}),
       dataIndex: 'description',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '上传时间',
+      title: intl.formatMessage({ id: 'common.uploadDate' ,defaultMessage:  '上传时间'}),
       dataIndex: 'uploadTime',
       valueType: 'dateRange',
       render: (_, record) => <span>{record.uploadTime}</span>,
@@ -215,21 +215,21 @@ const productSnColumn = {
       width: 150,
     },
     {
-      title: '上传人',
+      title: intl.formatMessage({ id: 'common.uploader' ,defaultMessage:  '上传人'}),
       dataIndex: 'uploaderName',
       width: 100,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'common.status' ,defaultMessage:  '状态'}),
       dataIndex: 'status',
       hideInSearch: true,
       width: 100,
       valueEnum: packageStatus,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'common.operate' ,defaultMessage:  '操作',}),
       valueType: 'option',
       width: 180,
       fixed: 'right',

@@ -18,9 +18,10 @@ import jobLog from './en-US/jobLog';
 import loginInfo from './en-US/loginInfo';
 import operLog from './en-US/operLog';
 import server from './en-US/server';
-import onlineUser from './en-US/onlineUser';
-import index from './en-US/index';
+import onlineUser from './en-US/onlineUser';;
 import common from './en-US/common';
+import index from './en-US/index'; //首页
+import upgradeManage from './en-US/upgradeManage';//升级管理
 
 export default {
   'navBar.lang': 'Languages',
@@ -33,6 +34,7 @@ export default {
   'app.welcome.link.block-list': 'Quickly build standard, pages based on `block` development',
   ...common,
   ...index,
+  ...upgradeManage,
   ...globalHeader,
   ...menu,
   ...settingDrawer,
