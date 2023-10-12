@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Carousel, Tabs, Tooltip } from 'antd';
-import { useModel, useIntl } from 'umi';
+import { useModel, useIntl, setLocale } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
-import { getConfig } from './config';
+import { config } from './config';
 import ChartELEC from './components/ChartElec';
 import ChartPV from './components/ChartPV';
 import ChartES from './components/ChartES';
@@ -111,7 +111,7 @@ const HomePage: React.FC = () => {
 
   const items = useMemo(() => {
     const result: React.ReactNode[] = [];
-    getConfig(intl).forEach((item) => {
+    config.forEach((item) => {
       if (item.field == 'pvGeneratedPower') {
         if (
           [SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -150,7 +150,7 @@ const HomePage: React.FC = () => {
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];
     result.push({
-      label: `市电`,
+      label: intl.formatMessage({ id: 'index.tab.electric', defaultMessage: '市电' }),
       key: '5',
       children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} Chart={ChartELEC} />,
     });
@@ -160,14 +160,14 @@ const HomePage: React.FC = () => {
       )
     ) {
       result.push({
-        label: `光伏`,
+        label: intl.formatMessage({ id: 'index.tab.pv', defaultMessage: '光伏' }),
         key: '1',
         children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
       });
     }
     if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
       result.push({
-        label: `储能`,
+        label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
         key: '2',
         children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
       });
@@ -178,13 +178,13 @@ const HomePage: React.FC = () => {
       )
     ) {
       result.push({
-        label: `充电桩`,
+        label: intl.formatMessage({ id: 'index.tab.charge', defaultMessage: '充电桩' }),
         key: '4',
         children: <ChartBox siteType={siteType} type={SubSystemType.CS} Chart={ChartCS} />,
       });
     }
     result.push({
-      label: `收益`,
+      label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
       key: '3',
       children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
     });
@@ -194,7 +194,10 @@ const HomePage: React.FC = () => {
   return (
     <div ref={ref} className={`bg-white card-wrap p24 ${styles.page}`}>
       {authorityMap.get('index:multiSite') ? (
-        <Tooltip placement="top" title="大屏页">
+        <Tooltip
+          placement="top"
+          title={intl.formatMessage({ id: 'common.screen', defaultMessage: '大屏页' })}
+        >
           <IconScreen className={styles.screen} onClick={onScreenClick} />
         </Tooltip>
       ) : (

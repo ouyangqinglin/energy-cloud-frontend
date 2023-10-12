@@ -1,6 +1,7 @@
 import React from 'react';
 import type { MenuDataItem } from '@umijs/route-utils';
 import type { MenuProps } from 'antd';
+import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
 import { DeviceModelTypeEnum } from './dictionary';
@@ -17,6 +18,8 @@ export type ValueUnitType = {
   value: string | number;
   unit: string;
 };
+const formatMessage = umiFormatMessage;
+export { formatMessage };
 
 export const getMenus = (data: MenuDataItem[], prePath = ''): AntMenuProps[] => {
   const arr: AntMenuProps[] = [];
