@@ -19,8 +19,9 @@ import loginInfo from './zh-CN/loginInfo';
 import operLog from './zh-CN/operLog';
 import server from './zh-CN/server';
 import onlineUser from './zh-CN/onlineUser';
-import index from './zh-CN/index';
 import common from './zh-CN/common';
+import index from './zh-CN/index'; //首页
+import upgradeManage from './zh-CN/upgradeManage'; //升级管理
 
 export default {
   'navBar.lang': '语言',
@@ -33,6 +34,7 @@ export default {
   'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
   ...common,
   ...index,
+  ...upgradeManage,
   ...pages,
   ...globalHeader,
   ...menu,
