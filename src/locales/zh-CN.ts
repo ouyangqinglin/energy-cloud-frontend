@@ -20,6 +20,7 @@ import operLog from './zh-CN/operLog';
 import server from './zh-CN/server';
 import onlineUser from './zh-CN/onlineUser';
 import index from './zh-CN/index';
+import common from './zh-CN/common';
 
 export default {
   'navBar.lang': '语言',
@@ -30,6 +31,7 @@ export default {
   'app.preview.down.block': '下载此页面到本地项目',
   'app.welcome.link.fetch-blocks': '获取全部区块',
   'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
+  ...common,
   ...index,
   ...pages,
   ...globalHeader,
