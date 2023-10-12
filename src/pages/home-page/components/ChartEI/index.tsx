@@ -7,6 +7,7 @@ import { ChartItem } from '../ChartBox/type';
 import moment from 'moment';
 // import { getBarChartData } from '../ChartBox/helper';
 import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   chartData?: any;
@@ -15,10 +16,10 @@ type RealTimePowerProps = {
 };
 
 export const barLegendMap = new Map([
-  ['pvIncome', '光伏收益(元)'],
-  ['esIncome', '储能收益(元)'],
-  ['csIncome', '充电桩收益(元)'],
-  ['income', '总收益(元)'],
+  ['pvIncome', formatMessage({ id: 'index.chart.pvIncome', defaultMessage: '光伏收益/元' })],
+  ['esIncome', formatMessage({ id: 'index.chart.energyIncome', defaultMessage: '储能收益/元' })],
+  ['csIncome', formatMessage({ id: 'index.chart.chargeIncome', defaultMessage: '充电桩收益/元' })],
+  ['income', formatMessage({ id: 'index.chart.totalIncome', defaultMessage: '总收益/元' })],
 ]);
 
 const barSizeMap = new Map([

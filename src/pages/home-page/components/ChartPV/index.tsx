@@ -2,15 +2,26 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Axis, Chart, LineAdvance, Legend, Tooltip, Slider, Interval } from 'bizcharts';
 import { TimeType } from '@/components/TimeButtonGroup';
 import { getBarChartData, getLineChartData } from '../ChartBox/helper';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   chartData?: any;
   timeType: TimeType;
 };
 
-export const lineLegendMap = new Map([['pvPower', '发电功率']]);
+export const lineLegendMap = new Map([
+  [
+    'pvPower',
+    formatMessage({ id: 'index.chart.powerGenerationEffective', defaultMessage: '发电功率' }),
+  ],
+]);
 
-export const barLegendMap = new Map([['pvPowerGeneration', '发电量']]);
+export const barLegendMap = new Map([
+  [
+    'pvPowerGeneration',
+    formatMessage({ id: 'index.chart.powerGeneration', defaultMessage: '发电量' }),
+  ],
+]);
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { chartData: powerData, timeType } = props;
@@ -91,7 +102,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             },
           }}
           title={{
-            text: shouldShowLine ? '单位(kW)' : '单位(kWh)',
+            text: `${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}${
+              shouldShowLine ? '(kW)' : '(kWh)'
+            }`,
             position: 'end',
             autoRotate: false,
             offset: 0,

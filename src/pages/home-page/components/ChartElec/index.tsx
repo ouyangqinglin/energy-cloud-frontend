@@ -1,28 +1,44 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useIntl } from 'umi';
 import { Axis, Chart, LineAdvance, Legend, Tooltip, Slider, Interval } from 'bizcharts';
 import { TimeType } from '@/components/TimeButtonGroup';
 import { getBarChartData, getLineChartData } from '../ChartBox/helper';
+import { IntlShape } from '@/types/util';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   chartData?: any;
   timeType: TimeType;
 };
 
-export const lineLegendMap = new Map([['mePower', '功率']]);
+export const getLineLegendMap = (intl: IntlShape) => {
+  return new Map([
+    ['mePower', intl.formatMessage({ id: 'index.chart.power', defaultMessage: '功率' })],
+  ]);
+};
 
-export const barLegendMap = new Map([['meConsumption', '用电量']]);
+export const getBarLegendMap = (intl: IntlShape) => {
+  return new Map([
+    [
+      'meConsumption',
+      intl.formatMessage({ id: 'index.chart.powerConsum', defaultMessage: '用电量' }),
+    ],
+  ]);
+};
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
+  const intl = useIntl();
+
   const { chartData: powerData, timeType } = props;
   const [chartData, setChartData] = useState<any[]>();
   const shouldShowLine = timeType === TimeType.DAY;
 
   useEffect(() => {
     if (shouldShowLine) {
-      setChartData(getLineChartData(lineLegendMap, powerData));
+      setChartData(getLineChartData(getLineLegendMap(intl), powerData));
       return;
     }
-    setChartData(getBarChartData(barLegendMap, powerData, timeType));
+    setChartData(getBarChartData(getBarLegendMap(intl), powerData, timeType));
   }, [powerData, shouldShowLine, timeType]);
 
   return (
@@ -91,7 +107,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             },
           }}
           title={{
-            text: shouldShowLine ? '单位(kW)' : '单位(kWh)',
+            text: `${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}${
+              shouldShowLine ? '(kW)' : '(kWh)'
+            }`,
             position: 'end',
             autoRotate: false,
             offset: 0,

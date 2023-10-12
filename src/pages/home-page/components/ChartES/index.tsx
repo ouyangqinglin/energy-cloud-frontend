@@ -3,6 +3,7 @@ import { Axis, Chart, LineAdvance, Legend, Tooltip, Interval } from 'bizcharts';
 import { useToolTip } from '@/hooks';
 import { TimeType } from '@/components/TimeButtonGroup';
 import { getBarChartData, getLineChartData } from '../ChartBox/helper';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   chartData?: any;
@@ -10,14 +11,14 @@ type RealTimePowerProps = {
 };
 
 export const lineLegendMap = new Map([
-  ['esPower', '储能总功率'],
+  ['esPower', formatMessage({ id: 'index.chart.energyTotalPower', defaultMessage: '储能总功率' })],
   // ['chargePower', '储能总充电功率(kW)'],
   // ['dischargePower', '储能总放电功率(kW)'],
 ]);
 
 export const barLegendMap = new Map([
-  ['charge', '发电量'],
-  ['discharge', '放电量'],
+  ['charge', formatMessage({ id: 'index.chart.powerGeneration', defaultMessage: '发电量' })],
+  ['discharge', formatMessage({ id: 'index.chart.powerDischarge', defaultMessage: '放电量' })],
 ]);
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
@@ -92,7 +93,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           },
         }}
         title={{
-          text: shouldShowLine ? '单位(kW)' : '单位(kWh)',
+          text: `${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}${
+            shouldShowLine ? '(kW)' : '(kWh)'
+          }`,
           position: 'end',
           autoRotate: false,
           offset: 0,
