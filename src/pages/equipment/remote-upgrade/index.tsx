@@ -27,7 +27,7 @@ const UpgradeManage: React.FC = () => {
       },
       {
         key: '3',
-        label: intl.formatMessage({ id: 'upgradeManage.upgradeTask', defaultMessage: '升级记录' }),
+        label: intl.formatMessage({ id: 'upgradeManage.upgradeLog', defaultMessage: '升级记录' }),
         children: <Log />,
       },
     ];

@@ -32,7 +32,7 @@ export const ReadDetail: React.FC<OperationLogProps> = (props) => {
     <>
       <DetailDialog
         width="420px"
-        title={<FormattedMessage id='common.viewdetail' defaultMessage="查看详情" />}
+        title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
         open={open}
         onCancel={switchOpen}
         detailProps={{

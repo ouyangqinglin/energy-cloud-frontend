@@ -15,6 +15,7 @@ import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
 import { isEmpty, saveFile } from '@/utils';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils'
 
 enum optionsType {
   Add = 'add',
@@ -55,12 +56,12 @@ const useToolBarRender = <
     const defaultOptions: toolBarRenderOptionsType<Params> = {
       [optionsType.Add]: {
         show: true,
-        text: '新建',
+        text: formatMessage({ id: 'common.add' ,defaultMessage: '新建'}), 
         icon: <PlusOutlined />,
       },
       [optionsType.Export]: {
         show: false,
-        text: '导出',
+        text: formatMessage({ id: 'common.export' ,defaultMessage: '导出'}), 
         icon: <ExportOutlined />,
         onClick: onExport,
       },

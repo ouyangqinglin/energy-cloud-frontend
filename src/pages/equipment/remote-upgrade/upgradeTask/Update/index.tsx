@@ -60,6 +60,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     },
     hideInTable: true,
     request: requestProductType,
+    colProps: {
+      span: 12,
+    },
   };
   //获取产品型号--依赖产品类型
   const requestProductSn = useCallback((params) => {
@@ -97,6 +100,9 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
           setModelList(list);
         });//获取模块
       },
+    },
+    colProps: {
+      span: 12,
     },
     //request: requestProductSn,
   };
@@ -148,7 +154,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     }
   }, []);
   const moduleColumn = {
-    title: formatMessage({id: 'common.softwarePackage',defaultMessage: '模块',}),
+    title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
     dataIndex: 'moduleName',
     valueType: 'select',
     formItemProps: {
@@ -190,7 +196,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     //request: requestVersionName,
     fieldProps: {
       options: packageList,
-      rules: [{ required: true, message: '请输入' }],
+      rules: [{ required: true}],
     },
   };
   //升级时间表单
@@ -238,7 +244,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
         rules: [{ required: true, message: '请输入' }],
       },
       colProps: {
-        span: 8,
+        span: 12,
       },
     },
     //siteColumn,
@@ -247,10 +253,10 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     moduleColumn,
     versionNameColumn,
     {
-      title: '',
+      title: formatMessage({ id: 'upgradeManage.upgradeType' ,defaultMessage:  '升级类型'}),
       dataIndex: 'type',//升级类型 1现在升级 2稍后升级
       colProps: {
-        span: 8,
+        span: 12,
       },
       valueType: 'radio',
       valueEnum: updateTimeList,
@@ -291,13 +297,17 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       },
       valueType: 'date',
       dependencies: ['type'],
+      colProps: {
+        span: 12,
+      },
     },
     //关联设备
     {
       title: formatMessage({ id: 'upgradeManage.assoDevice' ,defaultMessage:  '关联设备'}),
       valueType: TABLESELECT,
+      dataIndex: 'upgradeDeviceDetailList',
       colProps: {
-        span: 24,
+        span: 12,
       },
       dependencies: ['siteId', 'packageName'],
       fieldProps: (form:any) => {
@@ -315,13 +325,20 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
             }
           },
           onFocus: () => {       
-            return form?.validateFields(['packageName']);
+            return form?.validateFields(['packageId']);
           },
           valueId: 'deviceId',
           valueName: 'deviceName',
           tableName: 'deviceName',
           tableId:'deviceId',
         };
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
       },
     },
   ];

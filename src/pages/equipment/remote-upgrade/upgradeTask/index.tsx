@@ -382,7 +382,7 @@ const requestDetailList = useCallback(
       {/* 查看详情弹窗 */}
       <DetailDialog
         width="50%"
-        title={<FormattedMessage id='common.viewdetail' defaultMessage="查看详情" />}
+        title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
         open={open}
         onCancel={switchOpen}
         detailProps={{
