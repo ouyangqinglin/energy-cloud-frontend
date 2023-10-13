@@ -20,7 +20,8 @@ import {
 } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import Detail from '@/components/Detail';
-
+import { formatMessage } from '@/utils'
+import { FormattedMessage, } from 'umi';
 
 const UpgradeTask: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
@@ -66,7 +67,7 @@ const UpgradeTask: React.FC = () => {
   }, []);
  
   const productTypeColumn = {
-      title: '产品类型',
+      title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
       dataIndex: 'productTypeName',
       formItemProps: {
         name: 'productTypeId',
@@ -99,7 +100,7 @@ const UpgradeTask: React.FC = () => {
     }   
   }, []);
   const productSnColumn = {
-      title: '产品型号',
+      title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
       dataIndex: 'productModel',
       formItemProps: {
         name: 'productModel',
@@ -134,7 +135,7 @@ const UpgradeTask: React.FC = () => {
     }   
   }, []);
   const moduleColumn = {
-      title: '模块',
+      title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
       dataIndex: 'moduleName',
       formItemProps: {
         name: 'moduleMark',
@@ -159,7 +160,7 @@ const requestVersion = useCallback((params) => {
   } 
 }, []);
 const versionList= {
-    title: '升级版本',
+    title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}), 
     dataIndex: 'version',
     formItemProps: {
       name: 'id',
@@ -170,7 +171,7 @@ const versionList= {
 };
 //升级时间
 const upgradTime = {
-  title: '升级时间',
+  title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间'}), 
   dataIndex: 'upgradeTime',
   valueType: 'dateTimeRange',
   width: 150,
@@ -187,14 +188,14 @@ const upgradTime = {
 //删除升级任务
 const onCleanClick = useCallback((record: any) => {
   Modal.confirm({
-    title: <strong>清除确认</strong>,
-    content: '您确认要删除该升级任务吗？删除之后无法恢复！',
-    okText: '确认',
-    cancelText: '取消',
+    title: <strong><FormattedMessage id='upgradeManage.clearConfirm' defaultMessage="清除确认"/></strong>,
+    content: formatMessage({ id: 'upgradeManage.clearConfirmTips', defaultMessage: '您确认要删除该升级任务吗？删除之后无法恢复'}), 
+    okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认'}),
+    cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消'}),
     onOk: () => {
       return deleteTaskList({ id: record.id })?.then?.(({ code, data }) => {
         if (code == '200' || data) {
-          message.success('删除成功');
+          message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功'}));
           actionRef?.current?.reload?.();
         }
     })
@@ -241,68 +242,68 @@ const requestDetailList = useCallback(
       moduleColumn,
       versionList,
       {
-        title: '序号',
+        title: formatMessage({id: 'common.index',defaultMessage: '序号'}),
         dataIndex: 'index',
         valueType: 'index',
-        width: 48,
+        width: 80,
       },
       {
-        title: '产品型号',
+        title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
         dataIndex: 'productModel',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '版本号',
+        title: formatMessage({id: 'common.version',defaultMessage: '版本号',}),
         dataIndex: 'version',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '软件包名',
+        title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
         dataIndex: 'packageName',
         width: 120,
         ellipsis: true,
       },
       {
-        title: '模块',
+        title: formatMessage({id: 'common.softwarePackage',defaultMessage: '模块',}),
         dataIndex: 'moduleName',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '产品类型',
+        title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
         dataIndex: 'productTypeName',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '创建时间',
+        title: formatMessage({ id: 'common.createTime' ,defaultMessage: '创建时间'}), 
         dataIndex: 'createTime',
         valueType: 'dateTime',
         hideInSearch: true,
         width: 150,
       },
     {
-      title: '升级时间',
+      title:  formatMessage({ id: 'upgradeManage.upgradeTime' ,defaultMessage: '升级时间'}), 
       dataIndex: 'upgradeTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '最后更新人',
+      title: formatMessage({ id: 'common.lastPer' ,defaultMessage: '最后更新人'}), 
       dataIndex: 'updater',
       hideInSearch: true,
       width: 100,
       ellipsis: true,
     },
     {
-      title: '任务状态',
+      title: formatMessage({ id: 'upgradeManage.statusTask',defaultMessage: '任务状态'}), 
       dataIndex: 'status',
       width: 100,
       ellipsis: true,
@@ -312,22 +313,22 @@ const requestDetailList = useCallback(
     upgradTime,
     //自定义操作栏
     {
-      title: '操作',
+      title: formatMessage({ id: 'common.operate' ,defaultMessage:  '操作',}),
       valueType: 'option',
       width: 100,
       fixed: 'right',
       render: (_, record, action) => {
         return record.status ==1 ? ( 
             <Button type="link" size="small" key="detail" onClick={() => onViewEvents(record)}>
-             查看详情
+             <FormattedMessage id="common.detail" defaultMessage="查看详情" />
            </Button>     
         ) : (
          <div>
             <Button type="link" size="small" key="edit" onClick={() => onEditEvents(record)}>
-             编辑
+              <FormattedMessage id="common.edit" defaultMessage="编辑"/>
            </Button>
            <Button type="link" size="small" key="del" onClick={() =>onCleanClick(record)}>
-             删除
+            <FormattedMessage id="common.delete" defaultMessage="删除" />
            </Button>
          </div>        
         );
@@ -343,7 +344,7 @@ const requestDetailList = useCallback(
 
 //查看详情--设备列表
   const viewDetailTable = <>
-  <Detail.DotLabel title="升级结果"/>
+  <Detail.DotLabel title={<FormattedMessage id='upgradeManage.upgradeRes' defaultMessage="升级结果" />}/>
   <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
     columns = {taskDetailColumns}
     request = {requestDetailList}
@@ -381,7 +382,7 @@ const requestDetailList = useCallback(
       {/* 查看详情弹窗 */}
       <DetailDialog
         width="50%"
-        title="查看详情"
+        title={<FormattedMessage id='common.viewdetail' defaultMessage="查看详情" />}
         open={open}
         onCancel={switchOpen}
         detailProps={{
@@ -390,7 +391,7 @@ const requestDetailList = useCallback(
           column: 4,
           labelStyle: { width: '90px' },
         }}
-        prepend={<Detail.DotLabel title="任务详情"/>}
+        prepend={<Detail.DotLabel title={<FormattedMessage id='upgradeManage.taskDetail' defaultMessage="任务详情" />}/>}
         append={viewDetailTable}
       />  
     </>

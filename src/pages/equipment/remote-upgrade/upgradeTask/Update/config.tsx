@@ -14,8 +14,6 @@ import { useCallback, useState } from 'react';
 export const Columns: (
   operation: FormOperations,list:any
 ) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation,list) => {
-  console.log(operation, 222223333)
-  console.log(list);
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
     showAllOption: true,

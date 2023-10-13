@@ -19,6 +19,8 @@ import { Form, Button, Upload } from 'antd';
 import TreeDataType from '../config'
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { FormOperations } from '@/components/YTModalForm/typing';
+import { formatMessage } from '@/utils'
+import { FormattedMessage, } from 'umi';
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
   onSuccess?: () => void;
@@ -58,7 +60,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   }, [operations, visible]);
 
   const productTypeColumn = {
-    title: '产品类型',
+    title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
     dataIndex: 'productType',//产品类型id
     formItemProps: {
       name: 'productType',//产品类型id
@@ -100,7 +102,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   }, []);
 
   const productSnColumn = {
-    title: '产品型号',
+    title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
     dataIndex: 'productId',
     valueType: 'select',
     formItemProps: {
@@ -143,7 +145,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     }
   }, []);
   const moduleColumn = {
-    title: '模块',
+    title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
     dataIndex: 'moduleName',
     valueType: 'select',
     formItemProps: {
@@ -167,13 +169,12 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   };
   //状态表单
   const statusList = {
-    [1]: '启用',
-    [0]: '禁用',
+    [1]: formatMessage({id: 'common.enable',defaultMessage: '启用',}),
+    [0]: formatMessage({id: 'common.disable',defaultMessage: '禁用',}),
   };
-  //
   const algorithmList= {
     1: 'MD5',
-    0: '无',
+    0: formatMessage({id: 'common.not',defaultMessage: '无',}),
   };
   const [packageForm] = Form.useForm<PackageListType>();
 
@@ -193,28 +194,28 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
    //关联设备字段
    const deviceSelectColumns = [
     {
-      title: '设备名称',
+      title: formatMessage({id: 'common.deviceName',defaultMessage: '设备名称',}),
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '设备序列号',
+      title:  formatMessage({id: 'common.equipmentSerial',defaultMessage: '设备序列号',}),
       dataIndex: 'deviceSn',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '当前版本',
+      title: formatMessage({id: 'common.currentVersion',defaultMessage: '当前版本',}),
       dataIndex: 'version',
       width: 100,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '站点名称',
+      title: formatMessage({id: 'common.siteName',defaultMessage: '站点名称',}),
       dataIndex: 'siteName',
       width: 150,
       ellipsis: true,
@@ -224,21 +225,21 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   //可升级版本列表
   const versionSelectColumns = [
     {
-      title: '软件包名',
+      title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
       dataIndex: 'packageName',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '当前版本',
+      title: formatMessage({id: 'common.currentVersion',defaultMessage: '当前版本',}),
       dataIndex: 'version',
       width: 100,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '上传时间',
+      title: formatMessage({id: 'common.uploadDate',defaultMessage: '上传时间',}),
       dataIndex: 'uploadTime',
       width: 150,
       ellipsis: true,
@@ -248,7 +249,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   const requestTree = useCallback(() => {
       return getStations().then(({data})=>{
         let list = [{
-          name:"全部",
+          name: formatMessage({id: 'common.all',defaultMessage: '全部',}),
           id:-1,
           children:data
         }];
@@ -264,7 +265,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   };
   const columns =  [
       {
-        title: '版本号',
+        title: formatMessage({id: 'common.version', defaultMessage: '版本号',}),
         dataIndex: 'version',
         formItemProps: {
           rules: [{ required: true, message: '请输入' }],
@@ -277,7 +278,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         },
       },
       {
-        title: '软件包名',
+        title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
         dataIndex: 'packageName',
         formItemProps: {
           rules: [{ required: true, message: '请输入' }],
@@ -293,7 +294,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       productSnColumn,
       moduleColumn,
       {
-        title: '软件包',
+        title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包',}),
         dataIndex: 'softwareList',
         valueType: "uploadFile",
         formItemProps: {
@@ -308,7 +309,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
             maxCount={1}
             fileList={softwareList}
             >
-          <Button  type="primary">上传</Button>
+          <Button  type="primary">
+            <FormattedMessage id="common.upload" defaultMessage="上传" />
+          </Button>
         </Upload>)
         },
         colProps: {
@@ -316,14 +319,13 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         },
       },
       {
-        title: '选择设备',
+        title: formatMessage({id: 'common.selectDevice',defaultMessage: '选择设备',}),
         dataIndex: 'selectDevice',
         valueType: "switch",
         formItemProps: {
           name: "selectDevice",
           initialValue:true,
-          rules: [{ required: true, message: '请选择' }],
-          //labelAlign:"left",
+          rules: [{ required: true }],
         },
         fieldProps: (form) => {
           return {
@@ -352,7 +354,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         dependencies: ['packageName'],
         fieldProps: (form:any) => {
           return {
-            title: '选择设备',
+            title: formatMessage({id: 'common.selectDevice',defaultMessage: '选择设备',}),
             treeProps: {
               fieldNames: {
                 title: 'name',
@@ -385,7 +387,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         //fieldProps: tableTreeSelectProps,
       },
       {
-        title: '可升级版本',
+        title: formatMessage({id: 'upgradeManage.upgradable',defaultMessage: '可升级版本',}),
         dataIndex: 'selectVersion',
         valueType: "switch",
         formItemProps: {
@@ -416,7 +418,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         hideInForm: selectVersion == false,
         formItemProps: {
           //hidden: selectVersion == false,
-          rules: [{ required: true, message: '请选择版本号' }],
+          rules: [{ required: true}],
         },
         fieldProps: (form:any) => {
           return {
@@ -443,19 +445,19 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         },
       },
       {
-        title: '签名算法',
+        title: formatMessage({id:  'upgradeManage.signature',defaultMessage: '签名算法',}),
         dataIndex: 'signature',
         valueType:'select',
         valueEnum: algorithmList,
         formItemProps: {
-          rules: [{ required: true, message: '请选择签名算法' }],
+          rules: [{ required: true,}],
         },
         colProps: {
           span: 24,
         },
       },
       {
-        title: '状态',
+        title: formatMessage({id: 'common.status',defaultMessage: '状态',}),
         dataIndex: 'status',//升级包状态 1 启动 0禁用
         colProps: {
           span: 24,
@@ -471,7 +473,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         },
       },
       {
-        title: '描述（选填）',
+        title: formatMessage({id: 'upgradeManage.refer',defaultMessage: '描述（选填）'}),
         dataIndex: 'description',
         valueType:'textarea',
         formItemProps: {

@@ -9,7 +9,7 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { Modal, message, Space, Checkbox } from 'antd';
 import { ClearOutlined } from '@ant-design/icons';
-import { useRequest, useHistory } from 'umi';
+import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
@@ -147,7 +147,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const onCleanClick = useCallback((record: AlarmType) => {
     Modal.confirm({
-      title: <strong>清除确认</strong>,
+      title: <strong><FormattedMessage id='upgradeManage.clearConfirm' defaultMessage="清除确认"/></strong>,
       content: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
       okText: '确认',
       cancelText: '取消',
