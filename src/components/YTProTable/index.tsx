@@ -100,12 +100,12 @@ const YTProTable = <
           restProps?.search === false
             ? false
             : {
-                labelWidth: 'auto',
-                searchText: formatMessage({ id: 'common.search' ,defaultMessage: '搜索'}), 
-                showHiddenNum: true,
-                ...(restProps?.search || {}),
-                onCollapse: mergedOnCollapse,
-              }
+              labelWidth: 'auto',
+              searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+              showHiddenNum: true,
+              ...(restProps?.search || {}),
+              onCollapse: mergedOnCollapse,
+            }
         }
       />
     </div>

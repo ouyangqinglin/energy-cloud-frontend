@@ -7,6 +7,7 @@ import FileSaver from 'file-saver';
 import { DeviceModelTypeEnum } from './dictionary';
 import { DeviceModelType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
+import { constant } from 'lodash';
 
 export type AntMenuProps = {
   label: string;
@@ -285,5 +286,16 @@ export const formatWattNum = (num: number, separator = '--', floatLength = 2): V
       value: value?.toFixed?.(floatLength) || value,
       unit,
     };
+  }
+};
+
+export const getBrowserLang = () => {
+  const language = (navigator.language || navigator.browserLanguage).toLowerCase();
+  if (language.indexOf('zh') != -1) {
+    return 'zh-CN';
+  } else if (language.indexOf('en') != -1) {
+    return 'en-US';
+  } else {
+    return 'zh-CN';
   }
 };

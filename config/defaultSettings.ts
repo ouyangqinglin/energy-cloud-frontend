@@ -6,6 +6,7 @@ const Settings: LayoutSettings & {
   logo?: string;
   tabsLayout?: boolean;
   apiBasePath?: string;
+  locale?: string;
 } = {
   navTheme: 'dark',
   headerTheme: 'light',
@@ -21,6 +22,7 @@ const Settings: LayoutSettings & {
   iconfontUrl: '',
   tabsLayout: true,
   apiBasePath: isDev ? '/api' : '/prod-api',
+  locale: 'zh-CN',
 };
 
 export default Settings;
