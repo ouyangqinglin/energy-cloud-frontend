@@ -20,9 +20,8 @@ import operLog from './zh-CN/operLog';
 import server from './zh-CN/server';
 import onlineUser from './zh-CN/onlineUser';
 import common from './zh-CN/common';
-import index from './zh-CN/index';//首页
-import upgradeManage from './zh-CN/upgradeManage';//升级管理
-
+import index from './zh-CN/index'; //首页
+import upgradeManage from './zh-CN/upgradeManage'; //升级管理
 
 export default {
   'navBar.lang': '语言',

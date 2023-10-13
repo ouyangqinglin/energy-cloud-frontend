@@ -42,4 +42,3 @@ export default {
     'upgradeManage.clearConfirm':'清除确认',
     'upgradeManage.clearConfirmTips': '您确认要删除该升级任务吗？删除之后无法恢复！',
 };
-  

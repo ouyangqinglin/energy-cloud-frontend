@@ -6,6 +6,7 @@ import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
 import { DeviceModelTypeEnum } from './dictionary';
 import { DeviceModelType } from '@/types/device';
+import routers, { getPathLocaleMap } from '../../config/routes';
 
 export type AntMenuProps = {
   label: string;
@@ -21,13 +22,27 @@ export type ValueUnitType = {
 const formatMessage = umiFormatMessage;
 export { formatMessage };
 
+const routePathLocaleMap = getPathLocaleMap(routers);
+
+export const getLocaleMenus = (data: MenuDataItem[], parentPath = ''): MenuDataItem[] => {
+  data?.forEach((item) => {
+    const path = item?.path?.startsWith?.('/') ? item?.path : parentPath + '/' + item?.path;
+    const locale = routePathLocaleMap[path || ''];
+    item.name = locale ? formatMessage({ id: locale, defaultMessage: item?.name }) : item?.name;
+    if (item?.children && item?.children?.length) {
+      getLocaleMenus(item.children, path);
+    }
+  });
+  return data;
+};
+
 export const getMenus = (data: MenuDataItem[], prePath = ''): AntMenuProps[] => {
   const arr: AntMenuProps[] = [];
   data.forEach((item) => {
     const path = item?.path?.split('')[0] === '/' ? item.path : `${prePath}/${item.path}`;
     if (!item.hideInMenu) {
       arr.push({
-        label: item?.meta?.title,
+        label: item?.name || '',
         key: path,
         icon: createIcon(item?.meta?.icon, { style: { fontSize: '20px' } }),
         ...(item.children ? { children: getMenus(item.children, path) } : {}),

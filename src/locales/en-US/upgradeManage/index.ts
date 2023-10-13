@@ -42,4 +42,3 @@ export default {
     'upgradeManage.clearConfirm':'Clear confirmation',
     'upgradeManage.clearConfirmTips': 'Are you sure you want to delete the upgrade task? Cannot recover after deletion!',
 };
-  

@@ -18,10 +18,10 @@ import jobLog from './en-US/jobLog';
 import loginInfo from './en-US/loginInfo';
 import operLog from './en-US/operLog';
 import server from './en-US/server';
-import onlineUser from './en-US/onlineUser';;
+import onlineUser from './en-US/onlineUser';
 import common from './en-US/common';
 import index from './en-US/index'; //首页
-import upgradeManage from './en-US/upgradeManage';//升级管理
+import upgradeManage from './en-US/upgradeManage'; //升级管理
 
 export default {
   'navBar.lang': 'Languages',

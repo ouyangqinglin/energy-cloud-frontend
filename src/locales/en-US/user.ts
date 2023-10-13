@@ -1,9 +1,8 @@
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -28,4 +27,6 @@ export default {
   'system.User.remark': 'Remark',
   'system.User.reset.password': 'Reset Password',
   'system.User.modify_info': 'Edit',
+  'user.center': 'User Center',
+  'user.loginOut': 'Login Out',
 };

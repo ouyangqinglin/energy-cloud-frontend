@@ -1,9 +1,8 @@
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -32,4 +31,6 @@ export default {
   'system.User.new_password': '新密码',
   'system.User.confirm_password': '确认密码',
   'system.User.modify_avatar': '修改头像',
+  'user.center': '个人中心',
+  'user.loginOut': '退出登录',
 };

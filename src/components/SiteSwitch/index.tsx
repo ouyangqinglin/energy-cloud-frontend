@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-07-28 17:41:30
+ * @LastEditTime: 2023-10-12 13:37:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
@@ -14,7 +14,7 @@ import { useLocation, useSiteColumn } from '@/hooks';
 import type { ProColumns } from '@ant-design/pro-table';
 import { SiteDataType, getSiteType } from '@/services/station';
 import { getRoutersInfo } from '@/services/session';
-import { getMenus, getPathTitleMap } from '@/utils';
+import { formatMessage, getLocaleMenus, getMenus, getPathTitleMap } from '@/utils';
 import eventBus from '@/utils/eventBus';
 
 type SiteType = {
@@ -44,7 +44,8 @@ const SiteSwitch = <ValueType = 'text',>(
       formRef?.current?.setFieldValue?.('type', type ?? (data?.energyOptions || ''));
       formRef?.current?.setFieldValue?.('siteType', data?.energyOptions);
       getRoutersInfo({ siteId: data?.id })
-        .then((menus) => {
+        .then((requestMenus) => {
+          const menus = getLocaleMenus(requestMenus);
           const antMenus = menus && getMenus(menus);
           setInitialState((prevData: any) => {
             return {
@@ -71,7 +72,7 @@ const SiteSwitch = <ValueType = 'text',>(
 
   const siteColumnOption = useMemo<ProColumns<SiteType, ValueType>>(() => {
     return {
-      title: '站点名称',
+      title: formatMessage({ id: 'common.site.siteName', defaultMessage: '站点名称' }),
       width: 200,
       fieldProps: (form) => {
         return {
@@ -149,7 +150,7 @@ const SiteSwitch = <ValueType = 'text',>(
     return [
       siteColumn,
       {
-        title: '站点类型',
+        title: formatMessage({ id: 'common.site.siteType', defaultMessage: '站点类型' }),
         dataIndex: 'siteType',
         valueType: 'select',
         request: requestSiteType,
@@ -159,7 +160,7 @@ const SiteSwitch = <ValueType = 'text',>(
           location?.pathname?.indexOf?.('/station/station-list') > -1,
       },
       {
-        title: '站点类型',
+        title: formatMessage({ id: 'common.site.siteType', defaultMessage: '站点类型' }),
         dataIndex: 'type',
         valueType: 'select',
         request: requestSiteType,

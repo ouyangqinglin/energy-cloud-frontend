@@ -3,8 +3,8 @@ export default {
   'common.delete': '删除',
   'common.edit': '编辑',
   'common.detail': '详情',
-  'common.productType': '产品类型', 
-  'common.model': '产品型号', 
+  'common.productType': '产品类型',
+  'common.model': '产品型号',
   'common.softwarePackage': '软件包名',
   'common.uploadDate': '上传时间',
   'common.index': '序号',
@@ -43,4 +43,7 @@ export default {
   'common.upgradeFai':'升级失败',
   'common.execute': "执行",
   'common.search': "搜索",
+  'common.site.siteName': '站点名称',
+  'common.site.siteType': '站点类型',
+  'common.workbentch': '工作台',
 };
