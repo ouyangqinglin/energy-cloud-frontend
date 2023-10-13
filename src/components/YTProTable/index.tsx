@@ -8,6 +8,7 @@ import styles from './index.less';
 import useToolBarRender from './useToolBarRender';
 import useTableSize from './useTableSize';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -100,7 +101,7 @@ const YTProTable = <
             ? false
             : {
                 labelWidth: 'auto',
-                searchText: '搜索',
+                searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
                 showHiddenNum: true,
                 ...(restProps?.search || {}),
                 onCollapse: mergedOnCollapse,

@@ -79,6 +79,7 @@ declare namespace API {
     roles?: Role[];
     permissions?: string[];
     systemInfo?: SystemInfo;
+    lang?: string;
   };
 
   type LoginResult = {

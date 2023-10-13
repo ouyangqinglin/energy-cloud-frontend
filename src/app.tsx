@@ -2,16 +2,15 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { MenuDataItem } from '@umijs/route-utils';
-import { history } from 'umi';
+import { history, setLocale } from 'umi';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
-import { getMenus, getPathTitleMap, getPathArrary, getLocaleMenus } from '@/utils';
+import { getMenus, getPathTitleMap, getPathArrary, getLocaleMenus, getBrowserLang } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
-import configSetting from '../config/defaultSettings';
 import { SiteDataType } from './services/station';
 import { defaultSystemInfo } from '@/utils/config';
 
@@ -52,6 +51,16 @@ export type initialStateType = {
   site?: SiteDataType;
 };
 
+const initLocale = (userLocale?: string) => {
+  const localLocale = localStorage.getItem('umi_locale');
+  const locale =
+    userLocale || localLocale || getBrowserLang() || defaultSettings?.locale || 'zh-CN';
+  if (localLocale != locale) {
+    localStorage.setItem('umi_locale', locale);
+    window.location.reload();
+  }
+};
+
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
@@ -59,6 +68,7 @@ export async function getInitialState(): Promise<initialStateType> {
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo({ showMessage: false });
+      initLocale(resp?.user?.lang);
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);
       } else {

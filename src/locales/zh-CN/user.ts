@@ -33,4 +33,6 @@ export default {
   'system.User.modify_avatar': '修改头像',
   'user.center': '个人中心',
   'user.loginOut': '退出登录',
+  'user.localeLoading': '切换语言中...',
+  'user.localeDone': '切换完成',
 };

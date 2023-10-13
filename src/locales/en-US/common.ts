@@ -34,4 +34,5 @@ export default {
   'common.upload': 'upload',
   'common.confirm': 'confirm',
   'common.cancel': 'cancel',
+  'common.search': 'Search',
 };

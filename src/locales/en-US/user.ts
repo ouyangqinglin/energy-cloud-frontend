@@ -29,4 +29,6 @@ export default {
   'system.User.modify_info': 'Edit',
   'user.center': 'User Center',
   'user.loginOut': 'Login Out',
+  'user.localeLoading': 'Change Language ...',
+  'user.localeDone': 'Change Done',
 };
