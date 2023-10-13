@@ -2,7 +2,6 @@
 import {
   getEditTaskList, addTaskList, updateTaskList
 } from '../service';
-import { omit } from 'lodash';
 import { useCallback, useState, useRef } from 'react';
 import type { InstallListType, InstallOrderUpdateParam, InstallOrderUpdateInfo, FormUpdateBaseProps, UpdateTaskParam, } from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
@@ -19,6 +18,8 @@ import { useSiteColumn } from '@/hooks';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { Modal, message,Button} from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-components';
+import { formatMessage } from '@/utils'
+import { FormattedMessage, } from 'umi';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -43,14 +44,14 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   }, []);
 
   const productTypeColumn = {
-    title: '产品类型',
+    title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
     dataIndex: 'productType',//产品类型id
     formItemProps: {
       name: 'productType',//产品类型id
-      rules: [{ required: true, message: '请输入' }], 
+      rules: [{ required: true}], 
     },
     fieldProps: {
-      rules: [{ required: true, message: '请输入' }],
+      rules: [{ required: true }],
       onChange: (productType: any) => {
         requestProductSn(productType).then((list) => {
         setSnList(list);
@@ -79,18 +80,18 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   }, []);
 
   const productSnColumn = {
-    title: '产品型号',
+    title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
     dataIndex: 'productId',
     valueType: 'select',
     formItemProps: {
       name: 'productId',//产品型号id
-      rules: [{ required: true, message: '请输入' }], 
+      rules: [{ required: true }], 
     },
     hideInTable: true,
     dependencies: ['productType'],   //依赖产品类型--dataIndex
     fieldProps: {
       options: snList,
-      rules: [{ required: true, message: '请输入' }],
+      rules: [{ required: true }],
       onChange: (productId: any) => {
         requestModule(productId).then((list) => {
           setModelList(list);
@@ -147,33 +148,22 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     }
   }, []);
   const moduleColumn = {
-    title: '模块',
+    title: formatMessage({id: 'common.softwarePackage',defaultMessage: '模块',}),
     dataIndex: 'moduleName',
     valueType: 'select',
     formItemProps: {
       name: 'moduleId',
-      rules: [{ required: true, message: '请输入' }], 
+      rules: [{ required: true}], 
     },
     colProps: {
       span: 12,
     },
     hideInTable: true,
     dependencies: ['productModel'],
-    // fieldProps: {
-    //   options: modelList,
-    //   rules: [{ required: true, message: '请输入' }],
-    //   onChange: (moduleName: any) => {
-    //     debugger
-    //     requestVersionName(moduleName).then((list) => {
-    //       console.log(list);
-    //       setPackageList(list);
-    //     });//获取软件包名
-    //   },
-    // },
     fieldProps: (form:any) => {
       return {
         options: modelList,
-        rules: [{ required: true, message: '请输入' }],
+        rules: [{ required: true}],
         onChange: (e) => {
           requestVersionName(e).then((list) => {
             setPackageList(list);
@@ -185,12 +175,12 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
 
   const versionNameColumn = {
-    title: '软件包名',
+    title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
     dataIndex: 'packageName',
     valueType:"select",
     formItemProps: {
       name: 'packageId',
-      rules: [{ required: true, message: '请输入' }],
+      rules: [{ required: true }],
     },
     colProps: {
       span: 12,
@@ -205,34 +195,34 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
   };
   //升级时间表单
   const updateTimeList = {
-    1: '现在升级',
-    2: '稍后升级',
+    1: formatMessage({id: 'upgradeManage.nowUpgra',defaultMessage: '现在升级',}),
+    2: formatMessage({id: 'upgradeManage.laterUpgra',defaultMessage: '稍后升级',}),
   };
   //关联设备字段
   const deviceSelectColumns = [
     {
-      title: '设备名称',
+      title: formatMessage({id: 'common.deviceName',defaultMessage: '设备名称',}),
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
       //hideInSearch: true,
     },
     {
-      title: '设备序列号',
+      title: formatMessage({id: 'common.equipmentSerial',defaultMessage: '设备序列号',}),
       dataIndex: 'deviceSn',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '当前版本',
+      title: formatMessage({id: 'common.currentVersion',defaultMessage: '当前版本',}),
       dataIndex: 'version',
       width: 100,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '站点名称',
+      title: formatMessage({id: 'common.siteName',defaultMessage: '站点名称',}),
       dataIndex: 'siteName',
       width: 150,
       ellipsis: true,
@@ -242,7 +232,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
 
   const columns = [
     {
-      title: '任务名称',
+      title: formatMessage({id: 'upgradeManage.taskName',defaultMessage: '任务名称',}),
       dataIndex: 'taskName',
       formItemProps: {
         rules: [{ required: true, message: '请输入' }],
@@ -266,7 +256,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       valueEnum: updateTimeList,
       formItemProps: {
         initialValue:'2',
-        rules: [{ required: true, message: '请选择升级类型' }],
+        rules: [{ required: true}],
       },
       fieldProps: (form) => {
         return {
@@ -278,7 +268,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       },
     },
     {
-      title: '升级时间',
+      title: formatMessage({ id: 'upgradeManage.upgradeTime' ,defaultMessage:  '升级时间'}),
       dataIndex: ['upgradeTime'],
       hideInForm: updateType == 1,//稍后升级时才显示时间表单--彻底隐藏，去除校验
       formItemProps: {
@@ -286,7 +276,6 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
         rules: [
           {
             required: true,
-            message: '请选择升级时间',
           },
         ],
       },
@@ -305,8 +294,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     },
     //关联设备
     {
-      title: '关联设备',
-      dataIndex: 'upgradeDeviceDetailList',
+      title: formatMessage({ id: 'upgradeManage.assoDevice' ,defaultMessage:  '关联设备'}),
       valueType: TABLESELECT,
       colProps: {
         span: 24,
@@ -345,7 +333,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       });//获取产品型号
       requestModule(res?.productId).then((data) => {
         setModelList(data);
-      });//获取模块11111
+      });//获取模块
       requestVersionName(res?.moduleId).then((data) => {
         setPackageList(data);
       });//获取软件包名
@@ -365,10 +353,10 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
     //立即升级处理逻辑
     if (updateType == 1) {
       Modal.confirm({
-        title: <strong>升级确认</strong>,
-        content: '立即执行升级操作可能会影响正在运行的设备，是否执行立即升级操作？',
-        okText: '确认',
-        cancelText: '取消',
+        title: <strong><FormattedMessage id='upgradeManage.upgradeConfirm' defaultMessage="升级确认" /></strong>,
+        content: formatMessage({id: 'upgradeManage.upgradeTips',defaultMessage: '立即执行升级操作可能会影响正在运行的设备，是否执行立即升级操作？',}),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认'}),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消'}),
         onOk: (close) => {
           formRef.current?.submit();
           Modal.destroyAll();
@@ -409,7 +397,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
             return [
               doms[0],
               <Button type="primary" onClick={() => submitFormEvents(props)} key="submit">
-                执行
+                <FormattedMessage id='common.execute' defaultMessage="执行" /> 
               </Button>
             ];
           },

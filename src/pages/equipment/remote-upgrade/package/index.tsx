@@ -159,7 +159,7 @@ const productSnColumn = {
       title: intl.formatMessage({id: 'common.index',defaultMessage: '序号'}),
       dataIndex: 'index',
       valueType: 'index',
-      width: 48,
+      width: 80,
     },
     {
       title: intl.formatMessage({id: 'common.model',defaultMessage: '产品型号',}),

@@ -8,6 +8,7 @@ import { upgradeStatus } from './config';
 import { useSiteColumn, useSearchSelect} from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { formatMessage } from '@/utils'
 
 const Log: React.FC = () => {
   const requestList = useCallback(
@@ -29,7 +30,7 @@ const Log: React.FC = () => {
   }, []);
  
   const productTypeColumn = {
-      title: '产品类型',
+      title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
       dataIndex: 'productTypeName',
       formItemProps: {
         name: 'productTypeId',
@@ -61,7 +62,7 @@ const Log: React.FC = () => {
     }   
   }, []);
   const productSnColumn = {
-      title: '产品型号',
+      title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
       dataIndex: 'productModel',
       formItemProps: {
         name: 'productModel',
@@ -100,7 +101,7 @@ const Log: React.FC = () => {
     }   
   }, []);
   const moduleColumn = {
-      title: '模块',
+      title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
       dataIndex: 'moduleName',
       formItemProps: {
         name: 'moduleMark',//模块id
@@ -125,7 +126,7 @@ const requestVersion = useCallback((params) => {
   } 
 }, []);
 const versionList= {
-    title: '升级版本',
+    title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}), 
     dataIndex: 'version',
     formItemProps: {
       name: 'id',
@@ -149,7 +150,7 @@ const versionList= {
 // });
 //升级时间
 const upgradTime = {
-  title: '升级时间',
+  title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间'}), 
   dataIndex: 'upgradeTime',
   valueType: 'dateTimeRange',
   width: 150,
@@ -172,47 +173,47 @@ const upgradTime = {
       moduleColumn,
       versionList,
       {
-        title: '序号',
+        title: formatMessage({id: 'common.index',defaultMessage: '序号'}),
         dataIndex: 'index',
         valueType: 'index',
-        width: 48,
+        width: 80,
       },
       {
-        title: '设备名称',
+        title: formatMessage({id: 'common.deviceName',defaultMessage: '设备名称',}),
         dataIndex: 'deviceName',
         width: 120,
         ellipsis: true,
       },
       {
-        title: '设备序列号',
+        title: formatMessage({id: 'common.equipmentSerial',defaultMessage: '设备序列号',}),
         dataIndex: 'deviceSn',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '产品型号',
+        title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
         dataIndex: 'productModel',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '模块',
+        title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
         dataIndex: 'moduleName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '产品类型',
+        title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}),
         dataIndex: 'typeName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '站点',
+        title:formatMessage({id: 'common.siteName',defaultMessage: '站点名称',}),
         dataIndex: 'siteName',
         width: 150,
         ellipsis: true,
@@ -220,42 +221,42 @@ const upgradTime = {
       },
       
     {
-      title: '软件包名',
+      title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
       dataIndex: 'packageName',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '原始版本',
+      title: formatMessage({id: 'common.original',defaultMessage: '原始版本',}), 
       dataIndex: 'oldVersion',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '升级版本',
+      title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}), 
       dataIndex: 'newVersion',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '当前版本',
+      title: formatMessage({id: 'common.currentVersion',defaultMessage: '当前版本',}),
       dataIndex: 'nowVersion',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '升级时间',
+      title: formatMessage({id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间',}), 
       dataIndex: 'upgradeTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '升级状态',
+      title: formatMessage({id: 'upgradeManage.upgradeStatus', defaultMessage: '升级状态',}), 
       dataIndex: 'status',
       width: 150,
       ellipsis: true,
@@ -263,7 +264,7 @@ const upgradTime = {
       valueEnum: upgradeStatus,
     },
     {
-      title: '升级人',
+      title: formatMessage({id: 'upgradeManage.upgradePer', defaultMessage: '升级人',}), 
       dataIndex: 'upgraderName',
       hideInSearch: true,
       width: 100,

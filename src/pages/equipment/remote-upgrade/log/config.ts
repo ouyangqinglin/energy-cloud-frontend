@@ -113,24 +113,3 @@ export const columns: YTProColumns<RemoteUpgradeDataRes>[] = [
   },
 ];   
 
-
-
-//下拉框
-// export const searchColumns: ProColumns[] = [
-//   {
-//     title: '报表类型',
-//     dataIndex: 'reportType',
-//     valueType: 'select',
-//     valueEnum: reportType,
-//     hideInTable: true,
-//     formItemProps: {
-//       rules: [{ required: true }],
-//     },
-//     fieldProps: (form) => {
-//       return {
-//         onChange: () => {
-//           form?.setFieldValue?.('deviceId', '');
-//         },
-//       };
-//     },
-//   },]
