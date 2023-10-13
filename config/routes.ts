@@ -231,6 +231,10 @@ const routers: RouterType[] = [
     locale: 'menu.alarm',
     routes: [
       {
+        path: '/alarm',
+        redirect: '/alarm/current',
+      },
+      {
         path: 'current',
         component: './alarm/Current',
         wrappers: ['@/components/KeepAlive'],

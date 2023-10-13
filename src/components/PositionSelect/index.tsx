@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-07-25 15:33:43
+ * @LastEditTime: 2023-10-13 16:24:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
@@ -14,7 +14,7 @@ import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/utils/dictionary';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
-import { getAreaCodeByAdCode } from '@/utils';
+import { formatMessage, getAreaCodeByAdCode } from '@/utils';
 
 export type PositionSelectType = {
   address?: string;
@@ -172,7 +172,10 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
                 onSelect={onSelect}
                 onSearch={onSearch}
                 onChange={onAutoCompleteChange}
-                placeholder="请输入地址"
+                placeholder={
+                  formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                  formatMessage({ id: 'common.address', defaultMessage: '地址' })
+                }
                 disabled={disabled}
               />
             )}
@@ -181,7 +184,11 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
             <Col flex="200px">
               <Input
                 value={inputPoint}
-                placeholder="请输入坐标:lng,lat"
+                placeholder={
+                  formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                  formatMessage({ id: 'common.coordinate', defaultMessage: '坐标' }) +
+                  ':lng,lat'
+                }
                 onChange={onPointChange}
                 onBlur={onBlur}
                 disabled={disabled}

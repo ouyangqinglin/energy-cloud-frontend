@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-08-25 11:48:10
+ * @LastEditTime: 2023-10-13 15:36:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -19,6 +19,7 @@ import StationForm from './components/edit';
 import { FormTypeEnum, siteType as siteTypeEnum } from '@/utils/dictionary';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
+import { formatMessage } from '@/utils';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -80,7 +81,7 @@ const StationList: React.FC = () => {
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
-      新建
+      {formatMessage({ id: 'common.add', defaultMessage: '新建' })}
     </Button>,
   ];
 
@@ -88,7 +89,7 @@ const StationList: React.FC = () => {
     <>
       {authorityMap.get('oss:site:update') && (
         <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
-          编辑
+          {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
         </Button>
       )}
       {authorityMap.get('system:site:delete') && (
@@ -98,13 +99,16 @@ const StationList: React.FC = () => {
           key="delete"
           onClick={() => {
             Modal.confirm({
-              title: '删除',
-              content: '确定要删除改站点吗？',
-              okText: '确认',
-              cancelText: '取消',
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'common.confirmDelete',
+                defaultMessage: '请确认是否删除',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
               onOk: () => {
                 removeData({ siteId: record.id }).then(() => {
-                  message.success('删除成功');
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
                   if (actionRef.current) {
                     actionRef.current.reload();
                   }
@@ -113,25 +117,25 @@ const StationList: React.FC = () => {
             });
           }}
         >
-          删除
+          {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
         </Button>
       )}
       {authorityMap.get('system:site:config') && (
         <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
-          站点配置
+          {formatMessage({ id: 'common.delete', defaultMessage: '站点配置' })}
         </Button>
       )}
     </>
   );
   const columns: ProColumns<StationType>[] = [
     {
-      title: '序号',
+      title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',
       valueType: 'index',
       width: 48,
     },
     {
-      title: '站点名称',
+      title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
       dataIndex: 'name',
       width: 150,
       ellipsis: true,
@@ -140,14 +144,14 @@ const StationList: React.FC = () => {
       },
     },
     {
-      title: '站点编码',
+      title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
       dataIndex: 'id',
       hideInSearch: true,
       width: 150,
       ellipsis: true,
     },
     {
-      title: '站点类型',
+      title: formatMessage({ id: 'siteManage.siteList.siteType', defaultMessage: '站点类型' }),
       dataIndex: 'energyOptions',
       valueType: 'select',
       valueEnum: siteTypeEnum,
@@ -156,7 +160,7 @@ const StationList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '创建时间',
+      title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => <span>{record.createTime}</span>,
@@ -171,14 +175,14 @@ const StationList: React.FC = () => {
       width: 150,
     },
     {
-      title: '上线时间',
+      title: formatMessage({ id: 'common.upTime', defaultMessage: '上线时间' }),
       dataIndex: 'deliveryTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '地区',
+      title: formatMessage({ id: 'common.area', defaultMessage: '地区' }),
       dataIndex: 'area',
       valueType: 'cascader',
       hideInTable: true,
@@ -191,37 +195,40 @@ const StationList: React.FC = () => {
       },
     },
     {
-      title: '国家',
+      title: formatMessage({ id: 'common.country', defaultMessage: '国家' }),
       dataIndex: 'country',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '省份',
+      title: formatMessage({ id: 'common.province', defaultMessage: '省份' }),
       dataIndex: 'province',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '城市',
+      title: formatMessage({ id: 'common.city', defaultMessage: '城市' }),
       dataIndex: 'city',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '建设状态',
+      title: formatMessage({
+        id: 'siteManage.siteList.constructionStatus',
+        defaultMessage: '建设状态',
+      }),
       dataIndex: 'constructionStatus',
       valueType: 'select',
       valueEnum: buildStatus,
-      width: 120,
+      width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '安装商',
+      title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
       dataIndex: 'agent',
       hideInSearch: true,
       ellipsis: true,
@@ -231,21 +238,21 @@ const StationList: React.FC = () => {
       },
     },
     {
-      title: '操作人',
+      title: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
       dataIndex: 'operator',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '最后操作时间',
+      title: formatMessage({ id: 'common.lastOperationTime', defaultMessage: '最后操作时间' }),
       dataIndex: 'lastOperationTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '操作',
+      title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
       valueType: 'option',
       width: 180,
       fixed: 'right',

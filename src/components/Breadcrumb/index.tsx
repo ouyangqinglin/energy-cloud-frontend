@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:01:50
- * @LastEditTime: 2023-07-06 15:50:49
+ * @LastEditTime: 2023-10-13 11:49:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Breadcrumb\index.tsx
  */
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Breadcrumb as AntBreadcrumb } from 'antd';
-import { useLocation, useModel } from 'umi';
+import { useLocation, useModel, history } from 'umi';
 import styles from './index.less';
 
 const findMenuByKey = (menus: any[], key: string, preItems: any[] = []) => {
@@ -37,13 +37,17 @@ const Breadcrumb: React.FC = () => {
     return findMenuByKey(initialState?.antMenus || [], location.pathname);
   }, [initialState?.antMenus, location?.pathname]);
 
+  const onClick = useCallback((path) => {
+    history.push({ pathname: path });
+  }, []);
+
   const breadItems = useMemo(() => {
     return menus.map((item, index) => {
       if (index === menus.length - 1) {
         return <AntBreadcrumb.Item key={item.key}>{item.label}</AntBreadcrumb.Item>;
       } else {
         return (
-          <AntBreadcrumb.Item href={item.key} key={item.key}>
+          <AntBreadcrumb.Item key={item.key} onClick={() => onClick(item.key)}>
             {item.label}
           </AntBreadcrumb.Item>
         );

@@ -20,8 +20,10 @@ import operLog from './en-US/operLog';
 import server from './en-US/server';
 import onlineUser from './en-US/onlineUser';
 import common from './en-US/common';
+import system from './en-US/system';
 import index from './en-US/index'; //首页
 import upgradeManage from './en-US/upgradeManage'; //升级管理
+import siteManage from './en-US/siteManage';
 
 export default {
   'navBar.lang': 'Languages',
@@ -32,6 +34,7 @@ export default {
   'app.preview.down.block': 'Download this page to your local project',
   'app.welcome.link.fetch-blocks': 'Get all block',
   'app.welcome.link.block-list': 'Quickly build standard, pages based on `block` development',
+  ...system,
   ...common,
   ...index,
   ...upgradeManage,
@@ -56,4 +59,5 @@ export default {
   ...operLog,
   ...server,
   ...onlineUser,
+  ...siteManage,
 };

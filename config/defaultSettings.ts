@@ -17,7 +17,7 @@ const Settings: LayoutSettings & {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  title: '新能源OSS云平台',
+  title: 'system.title',
   pwa: false,
   iconfontUrl: '',
   tabsLayout: true,
