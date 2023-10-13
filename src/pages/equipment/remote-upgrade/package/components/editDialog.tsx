@@ -39,6 +39,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
   const [selectVersion, setSelectVersion] = useState(true);//是否选择可升级版本
   const [softwareList, setSoftwareList] = useState();//软件包路径回显
   const [productModel, setProductModel] = useState();//回显产品型号名字
+  const [platform, setPlatform] = useState('1');//回显平台类型字段
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -176,11 +177,16 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     1: 'MD5',
     0: formatMessage({id: 'common.not',defaultMessage: '无',}),
   };
+  const platformList= {
+    1: 'minio ',
+    2: 'oss',
+  };
   const [packageForm] = Form.useForm<PackageListType>();
 
   const beforeUpload = useCallback((file, field) => {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('platform',platform);
     api.uploadFile(formData).then(({ data}) => {
       if (data.url) {
         packageForm.setFieldValue(field,  data.url);       
@@ -189,7 +195,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       }
     });
     return false;
-  }, []);
+  }, [platform]);
 
    //关联设备字段
    const deviceSelectColumns = [
@@ -294,7 +300,28 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       productSnColumn,
       moduleColumn,
       {
-        title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包',}),
+        title: formatMessage({id: 'upgradeManage.platform',defaultMessage: '平台类型',}),
+        dataIndex: 'platform',
+        valueType:'select',
+        valueEnum: platformList,
+        formItemProps: {
+          //rules: [{ required: true,}],
+        },
+        initialValue: '1',
+        colProps: {
+          span: 6,
+        },
+        fieldProps: (form) => {
+          return {
+            onChange: (e:any) => {
+              setPlatform(e);
+            },
+            disabled: softwareList.length>0,
+          };
+        },
+      },
+      {
+        title: formatMessage({id: 'common.software',defaultMessage: '软件包',}),
         dataIndex: 'softwareList',
         valueType: "uploadFile",
         formItemProps: {
@@ -315,7 +342,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         </Upload>)
         },
         colProps: {
-          span: 12,
+          span: 6,
         },
       },
       {
@@ -473,7 +500,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
         },
       },
       {
-        title: formatMessage({id: 'upgradeManage.refer',defaultMessage: '描述（选填）'}),
+        title: formatMessage({id: 'common.description',defaultMessage: '描述'}),
         dataIndex: 'description',
         valueType:'textarea',
         formItemProps: {
@@ -496,6 +523,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
       });//获取模块
       res.signature = res.signature? res.signature + '' : '0';
       res.status = res.status? res.status + '' : '0';
+      res.platform = res.platform? res.platform + '' : '1';
       if(res?.upgradeDeviceDetailList && res.upgradeDeviceDetailList.length>0) {   
         res.selectDevice = true;
         setSelectDevice(true);
@@ -535,11 +563,11 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps<PackageListType>) =
     params.upgradeDevice = params.upgradeDeviceDetailList? params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',') : '';
     params.upgradableVersion = params.upgradeDeviceVersionDetailList? params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',') : '';
     params.productTypeId = params.productType;
-    params.platform = '';
     params.productModel = productModel || '';
     params.signature = +params.signature;
     params.status = +params.status;
     params.softwarePackageUrl = softwareList? softwareList[0].url : '';
+    params.platform = +params.platform;
     const allowedKeys = ['version', 'packageName', 'productTypeId','productModel','moduleId','softwarePackageUrl', 'upgradeDevice', 'upgradableVersion', 
     'signature','status', 'description','platform','productId'];
     const filteredObj = Object.keys(params).filter(key => allowedKeys.includes(key))

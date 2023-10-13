@@ -1,5 +1,5 @@
 
-import React, { useCallback,useMemo } from 'react';
+import React, { useCallback,useMemo, useState  } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { getLogList, getProductSnList, getVersionList, getModuleList } from './service';
@@ -9,8 +9,25 @@ import { useSiteColumn, useSearchSelect} from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { formatMessage } from '@/utils'
+import { FormattedMessage } from 'umi';
+import { Modal } from 'antd';
 
 const Log: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [failReason, setFailReason] = useState();
+  //打开升级失败的弹窗
+  const statusClick = useCallback((record: DeviceDataType) => {
+    setIsModalOpen(true);
+    let reason = record?.statusDesc || '';
+    setFailReason(reason);
+  }, []);
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const requestList = useCallback(
     (params) => {
       return getLogList({ ...params});
@@ -164,7 +181,6 @@ const upgradTime = {
     },
   },
 };
-
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       siteColumn,
@@ -261,7 +277,18 @@ const upgradTime = {
       width: 150,
       ellipsis: true,
       hideInSearch: true,
-      valueEnum: upgradeStatus,
+      //valueEnum: upgradeStatus,
+      render: (_, record) => {
+        if(record.status == 2) {
+          return <a onClick={() => statusClick(record)}><FormattedMessage id='upgradeManage.upgradeFailed' defaultMessage="升级失败" /> </a>;
+        } else if (record.status == 1) {
+          return <span><FormattedMessage id='upgradeManage.upgradeSuc' defaultMessage="升级成功"/></span>;
+        } else if (record.status == 0) {
+          return <span><FormattedMessage id='upgradeManage.upgrading' defaultMessage="升级中"/></span>;
+        } else {
+          return <span><FormattedMessage id='common.unknown' defaultMessage="未知"/></span>;
+        }
+      },
     },
     {
       title: formatMessage({id: 'upgradeManage.upgradePer', defaultMessage: '升级人',}), 
@@ -282,16 +309,12 @@ const upgradTime = {
             show:false
           },
         }}
-        //影藏掉操作栏
-        // option={{
-        //   columnsProp: {
-        //     width: '120px',
-        //   },
-          
-        //   //onEditChange: onEditClick,
-        // }}
         request={requestList}
       />
+      <Modal title={<FormattedMessage id='upgradeManage.upgradeFailed' defaultMessage="升级失败" />}
+        open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p><FormattedMessage id='upgradeManage.failReason' defaultMessage="失败原因:" />{failReason}</p>
+      </Modal>
     </>
   );
 };

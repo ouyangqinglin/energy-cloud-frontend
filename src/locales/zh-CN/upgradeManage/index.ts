@@ -2,6 +2,7 @@ export default {
     'upgradeManage.upgradePack': '升级包管理',
     'upgradeManage.upgradeTask': '升级任务',
     'upgradeManage.upgradeRecord': '升级记录',
+    'upgradeManage.upgradeLog': '升级记录',
     'upgradeManage.productType': '产品类型', 
     'upgradeManage.model': '产品型号', 
     'upgradeManage.softwarePackage': '软件包名',
@@ -41,4 +42,11 @@ export default {
     'upgradeManage.upgradePer':'升级人',
     'upgradeManage.clearConfirm':'清除确认',
     'upgradeManage.clearConfirmTips': '您确认要删除该升级任务吗？删除之后无法恢复！',
+    'upgradeManage.platform':'平台类型',
+    'upgradeManage.upgradeType':'升级类型',
+    'upgradeManage.upgradeFailed':'升级失败',
+    'upgradeManage.upgradeSuc':'升级成功',
+    'upgradeManage.upgrading':'升级中',
+    'upgradeManage.failReason':'失败原因: ',
+    
 };

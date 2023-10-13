@@ -22,6 +22,7 @@ import onlineUser from './en-US/onlineUser';
 import common from './en-US/common';
 import index from './en-US/index'; //首页
 import upgradeManage from './en-US/upgradeManage'; //升级管理
+import equipmentList from './en-US/equipmentList';//设备列表
 
 export default {
   'navBar.lang': 'Languages',
@@ -35,6 +36,7 @@ export default {
   ...common,
   ...index,
   ...upgradeManage,
+  ...equipmentList,
   ...globalHeader,
   ...menu,
   ...settingDrawer,
