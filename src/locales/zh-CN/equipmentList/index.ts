@@ -2,6 +2,7 @@ export default {
     'equipmentList.deleteTips':'确定要删除该设备吗？',
     'equipmentList.affSite':'所属站点',
     'equipmentList.comStatus':'通信状态',
-     
-
+    'equipmentList.affSubsys':'所属子系统',
+    'equipmentList.subRequire':'子系统必选',
+    'equipmentList.devicePhoto':'设备照片',
 };

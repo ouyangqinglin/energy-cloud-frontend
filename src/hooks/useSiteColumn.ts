@@ -11,6 +11,7 @@ import { SiteDataType, getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
 import { debounce, merge } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-components';
+import { formatMessage } from '@/utils'
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   props: ProColumns<TableData, ValueType> & {
@@ -34,7 +35,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         if (props?.showAllOption) {
           result = [
             {
-              label: '全部',
+              label: formatMessage({id: 'common.all',defaultMessage: '全部',}),
               value: '',
             },
           ].concat(result);
@@ -53,7 +54,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
 
   const siteColumn = useMemo<ProColumns<TableData, ValueType>>(() => {
     return {
-      title: '站点名称',
+      title: formatMessage({ id: 'common.site.siteName', defaultMessage: '站点名称' }),
       dataIndex: 'siteName',
       valueType: 'select',
       width: 150,
@@ -79,7 +80,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
           filterOption: false,
           onSearch: requestStation,
           options: stationOptions,
-          placeholder: '请选择',
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择'}),
         };
         if (typeof props?.fieldProps === 'function') {
           const result = props.fieldProps(form, config);

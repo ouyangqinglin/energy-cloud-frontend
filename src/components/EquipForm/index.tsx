@@ -19,6 +19,8 @@ import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
 import { getProductModelByType } from '@/services/equipment';
+import { formatMessage } from '@/utils'
+import { FormattedMessage, } from 'umi';
 
 export type EquipFormProps = {
   id?: string;
@@ -71,7 +73,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
     }).then((data) => {
       if (data) {
-        message.success('保存成功');
+        message.success(formatMessage({ id: 'common.successSaved' ,defaultMessage: '保存成功'}));
         onSuccess?.();
         onCancel?.();
       }
@@ -180,7 +182,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title={type === FormTypeEnum.Add ? '新建' : '编辑'}
+        title={ type === FormTypeEnum.Add ? formatMessage({ id: 'common.add' ,defaultMessage: '新建'}) : formatMessage({ id: 'common.edit' ,defaultMessage: '编辑'}) }
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
@@ -202,9 +204,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             <></>
           ) : (
             <ProFormSelect
-              label="所属站点"
+              label={<FormattedMessage id="equipmentList.affSite" defaultMessage="所属站点" />}
               name="siteId"
-              placeholder="请选择"
+              //placeholder="请选择"
               request={requestStations}
               fieldProps={{
                 getPopupContainer: (triggerNode) => triggerNode.parentElement,
@@ -212,56 +214,55 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             />
           )}
           <ProFormSelect
-            label="所属子系统"
+            label={<FormattedMessage id='equipmentList.affSubsys' defaultMessage="所属子系统" />}
             name="subsystemId"
-            placeholder="请选择"
+            //placeholder="请选择"
             request={requestDeviceSubsystem}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true, message: '子系统必选' }]}
+            rules={[{ required: true, message: formatMessage({ id: 'equipmentList.subRequire',defaultMessage: '子系统必选'}) }]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label="产品类型"
+            label={<FormattedMessage id='common.productType' defaultMessage="产品类型" />}
             name="productType"
-            placeholder="请选择"
+            //placeholder="请选择"
             options={typeOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true, message: '产品类型必选' }]}
+            rules={[{ required: true }]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label="产品型号"
+            label={<FormattedMessage id='common.model' defaultMessage="产品型号" />}
             name="productId"
-            placeholder="请选择"
+            //placeholder="请选择"
             options={modelOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true, message: '产品型号必选' }]}
+            rules={[{ required: true,}]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormText
-            label="设备名称"
+            label={<FormattedMessage id='common.deviceName' defaultMessage="设备名称" />}
             name="name"
-            placeholder="请输入"
-            rules={[{ required: true, message: '设备名称必填' }]}
+            //placeholder="请输入"
+            rules={[{ required: true,}]}
           />
           <ProFormText
-            label="设备SN"
+            label={<FormattedMessage id='common.equipmentSerial' defaultMessage="设备SN" />}
             name="sn"
-            placeholder="请输入"
-            rules={[{ required: true, message: '设备SN必填' }]}
+            rules={[{ required: true}]}
           />
           <ProFormUploadButton
-            label="设备照片"
+            label={<FormattedMessage id='equipmentList.devicePhoto' defaultMessage="设备照片" />}
             name="photosList"
             valuePropName="fileList"
             getValueFromEvent={getValueFromEvent}
-            title="上传图片"
+            title={<FormattedMessage id='common.uploadPhoto' defaultMessage="上传图片"/>}
             max={1}
             accept="image/*"
             fieldProps={{

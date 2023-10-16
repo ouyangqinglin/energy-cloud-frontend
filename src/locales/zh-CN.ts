@@ -23,7 +23,7 @@ import common from './zh-CN/common';
 import index from './zh-CN/index'; //首页
 import upgradeManage from './zh-CN/upgradeManage'; //升级管理
 import equipmentList from './zh-CN/equipmentList';//设备列表
-
+import taskManage from './zh-CN/taskManage';//任务管理
 
 export default {
   'navBar.lang': '语言',
@@ -38,6 +38,7 @@ export default {
   ...index,
   ...upgradeManage,
   ...equipmentList,
+  ...taskManage,
   ...pages,
   ...globalHeader,
   ...menu,

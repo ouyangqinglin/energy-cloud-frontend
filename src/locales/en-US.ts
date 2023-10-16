@@ -23,6 +23,7 @@ import common from './en-US/common';
 import index from './en-US/index'; //首页
 import upgradeManage from './en-US/upgradeManage'; //升级管理
 import equipmentList from './en-US/equipmentList';//设备列表
+import taskManage from './en-US/taskManage';//设备列表
 
 export default {
   'navBar.lang': 'Languages',
@@ -37,6 +38,7 @@ export default {
   ...index,
   ...upgradeManage,
   ...equipmentList,
+  ...taskManage,
   ...globalHeader,
   ...menu,
   ...settingDrawer,

@@ -12,44 +12,45 @@ import { getCustomerList, getInstallerList } from '../service';
 import { isNil } from 'lodash';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import { formatMessage } from '@/utils'
 
 export const Columns: (
   operation: FormOperations,
 ) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation) => {
   return [
     {
-      title: '站点名称',
+      title: formatMessage({ id: 'common.site.siteName', defaultMessage: '站点名称' }),
       dataIndex: 'siteName',
       formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}], 
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '安装标题',
+      title: formatMessage({ id: 'taskManage.installTitle', defaultMessage: '安装标题' }),
       dataIndex: 'name',
       formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) }],
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '安装描述',
+      title: formatMessage({ id: 'taskManage.installDesc', defaultMessage: '安装描述' }),
       dataIndex: 'content',
       valueType: 'textarea',
       formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) }],
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '工单类型',
+      title: formatMessage({ id: 'taskManage.workOrderType', defaultMessage: '工单类型' }),
       dataIndex: 'type',
       valueEnum: orderType,
       hideInSearch: true,
@@ -60,7 +61,7 @@ export const Columns: (
       initialValue: OrderType.INSTALL,
     },
     {
-      title: '工单ID',
+      title: formatMessage({ id: 'taskManage.workOrderId', defaultMessage: '工单ID' }),
       dataIndex: 'id',
       ellipsis: true,
       fieldProps: {
@@ -70,7 +71,7 @@ export const Columns: (
       disable: true,
     },
     {
-      title: '工单状态',
+      title: formatMessage({ id: 'taskManage.workOrderStatus', defaultMessage: '工单状态' }),
       dataIndex: 'status',
       valueType: 'select',
       fieldProps: {
@@ -81,14 +82,14 @@ export const Columns: (
       initialValue: OrderStatus.READY,
     },
     {
-      title: '安装商',
+      title: formatMessage({ id: 'taskManage.installManu', defaultMessage: '安装商' }),
       valueType: TABLESELECT,
       dataIndex: 'serviceProvider',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请选择安装商',
+            message: formatMessage({ id: 'taskManage.installManuTips', defaultMessage: '请选择安装商' }),
           },
         ],
       },
@@ -101,14 +102,14 @@ export const Columns: (
         proTableProps: {
           columns: [
             {
-              title: '安装商ID',
+              title: formatMessage({ id: 'taskManage.installerId', defaultMessage: '安装商ID' }),
               dataIndex: 'orgId',
               width: 150,
               ellipsis: true,
               hideInSearch: true,
             },
             {
-              title: '安装商名称',
+              title: formatMessage({ id: 'taskManage.installerName', defaultMessage: '安装商名称' }),
               dataIndex: 'orgName',
               width: 200,
               ellipsis: true,
@@ -127,7 +128,7 @@ export const Columns: (
       }),
     },
     {
-      title: '客户名称',
+      title: formatMessage({ id: 'taskManage.customerName', defaultMessage: '客户名称' }),
       dataIndex: 'userName',
       colProps: {
         span: 8,
@@ -136,13 +137,13 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '请输入客户名称',
+            message: formatMessage({ id: 'taskManage. customerNameTips', defaultMessage: '请输入客户名称' }),
           },
         ],
       },
     },
     {
-      title: '联系电话',
+      title: formatMessage({ id: 'common.telephone', defaultMessage: '联系电话' }),
       dataIndex: 'phone',
       formItemProps: {
         required: true,
@@ -155,7 +156,7 @@ export const Columns: (
                 } else if (verifyPhone(value)) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject(`电话格式错误`);
+                  return Promise.reject(formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }));
                 }
               },
             };
@@ -164,13 +165,13 @@ export const Columns: (
       },
     },
     {
-      title: '预约时间',
+      title: formatMessage({ id: 'common.appointTime', defaultMessage: '预约时间' }),
       dataIndex: ['timeOfAppointment'],
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请选择预约时间',
+            message: formatMessage({ id: 'taskManage.selectAppointTime', defaultMessage: '请选择预约时间' }),
           },
         ],
       },
@@ -187,17 +188,17 @@ export const Columns: (
       valueType: 'date',
     },
     {
-      title: '邮箱',
+      title: formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' }),
       dataIndex: ['email'],
     },
     {
-      title: '客户地址',
+      title: formatMessage({ id: 'common.customerAddress', defaultMessage: '客户地址' }),
       dataIndex: ['address'],
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '请输入客户地址',
+            message: formatMessage({ id: 'taskManage.customerAddressTips', defaultMessage: '请输入客户地址' }),
           },
         ],
       },
@@ -206,7 +207,7 @@ export const Columns: (
       },
     },
     {
-      title: '备注（选填）',
+      title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
       dataIndex: ['remark'],
       valueType: 'textarea',
       colProps: {
@@ -214,7 +215,7 @@ export const Columns: (
       },
     },
     {
-      title: '安装人',
+      title: formatMessage({ id: 'taskManage.installer', defaultMessage: '安装人' }),
       valueType: TABLESELECT,
       dataIndex: 'handler',
       colProps: {
@@ -224,7 +225,7 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: '请选择',
+            message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
           },
         ],
       },
@@ -239,20 +240,20 @@ export const Columns: (
             rowKey: 'handlerBy',
             columns: [
               {
-                title: '用户名',
+                title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
                 dataIndex: 'userName',
                 width: 150,
                 ellipsis: true,
               },
               {
-                title: '账号',
+                title: formatMessage({ id: 'common.account', defaultMessage: '账号' }),
                 dataIndex: 'handlerName',
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
               },
               {
-                title: '用户类型',
+                title: formatMessage({ id: 'taskManage.userType', defaultMessage: '用户类型' }),
                 dataIndex: 'service',
                 width: 200,
                 ellipsis: true,
