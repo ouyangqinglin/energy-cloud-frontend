@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-09-15 09:14:40
+ * @LastEditTime: 2023-10-13 15:57:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -26,6 +26,7 @@ import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';
 import { getServicePage } from '@/services/service';
 import Detail from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 type StationFOrmProps = {
   id?: string;
@@ -132,35 +133,68 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       <ModalForm<StationFormType>
         visible={props.open}
         form={form}
-        title={type === FormTypeEnum.Edit ? '编辑' : '新建'}
+        title={
+          type === FormTypeEnum.Edit
+            ? formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
+            : formatMessage({ id: 'common.add', defaultMessage: '新建' })
+        }
         autoFocusFirstInput
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
       >
-        <Detail.DotLabel title="基础信息" />
+        <Detail.DotLabel
+          title={formatMessage({ id: 'common.baseInfo', defaultMessage: '基础信息' })}
+        />
         <Row gutter={20}>
           <Col span={8}>
             <ProFormText
-              label="站点名称"
+              label={formatMessage({
+                id: 'siteManage.siteList.siteName',
+                defaultMessage: '站点名称',
+              })}
               name="name"
-              placeholder="请输入"
-              rules={[{ required: true, message: '站点名称必填' }]}
+              rules={[
+                {
+                  required: true,
+                  message:
+                    formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                    formatMessage({
+                      id: 'siteManage.siteList.siteName',
+                      defaultMessage: '站点名称',
+                    }),
+                },
+              ]}
             />
           </Col>
           <Col span={8}>
-            <ProFormText label="站点编码" name="id" placeholder="请输入" disabled />
+            <ProFormText
+              label={formatMessage({
+                id: 'siteManage.siteList.siteCode',
+                defaultMessage: '站点编码',
+              })}
+              name="id"
+              disabled
+            />
           </Col>
           <Col span={8}>
             <ProFormSelect
-              label="站点类型"
+              label={formatMessage({
+                id: 'siteManage.siteList.siteType',
+                defaultMessage: '站点类型',
+              })}
               name="energyOptions"
-              placeholder="请选择"
               valueEnum={siteType}
               disabled
             />
           </Col>
           <Col span={8}>
-            <Form.Item label="安装商" name="orgs">
+            <Form.Item
+              label={formatMessage({
+                id: 'siteManage.siteList.installer',
+                defaultMessage: '安装商',
+              })}
+              name="orgs"
+            >
               <TableSelect
                 tableId="orgId"
                 tableName="orgName"
@@ -170,14 +204,21 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 proTableProps={{
                   columns: [
                     {
-                      title: '安装商ID',
+                      title:
+                        formatMessage({
+                          id: 'siteManage.siteList.installer',
+                          defaultMessage: '安装商',
+                        }) + 'ID',
                       dataIndex: 'orgId',
                       width: 150,
                       ellipsis: true,
                       hideInSearch: true,
                     },
                     {
-                      title: '安装商名称',
+                      title: formatMessage({
+                        id: 'siteManage.siteList.installerName',
+                        defaultMessage: '安装商名称',
+                      }),
                       dataIndex: 'orgName',
                       width: 200,
                       ellipsis: true,
@@ -197,58 +238,99 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             </Form.Item>
           </Col>
           <Col span={8}>
-            <ProFormDigit label="电压等级" name="voltageClass" fieldProps={{ addonAfter: 'KV' }} />
+            <ProFormDigit
+              label={formatMessage({
+                id: 'siteManage.siteList.voltageLevel',
+                defaultMessage: '电压等级',
+              })}
+              name="voltageClass"
+              fieldProps={{ addonAfter: 'KV' }}
+            />
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="变压器容量"
+              label={formatMessage({
+                id: 'siteManage.siteList.transformerCapacity',
+                defaultMessage: '变压器容量',
+              })}
               name="transformerCapacity"
               fieldProps={{ addonAfter: 'KVA' }}
             />
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="光伏总容量"
+              label={formatMessage({
+                id: 'siteManage.siteList.totalPhotovoltaicCapacity',
+                defaultMessage: '光伏总容量',
+              })}
               name="photovoltaicInstalledCapacity"
               fieldProps={{ addonAfter: 'kWp' }}
             />
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="储能总容量"
+              label={formatMessage({
+                id: 'siteManage.siteList.totalEnergyStorageCapacity',
+                defaultMessage: '储能总容量',
+              })}
               name="energyStorageCapacity"
               fieldProps={{ addonAfter: 'kWh' }}
             />
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="储能额定功率"
+              label={formatMessage({
+                id: 'siteManage.siteList.energyStoragePower',
+                defaultMessage: '储能额定功率',
+              })}
               name="energyStoragePower"
               fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
           <Col span={8}>
             <ProFormDigit
-              label="充电桩总功率"
+              label={formatMessage({
+                id: 'siteManage.siteList.chargingStationCapacity',
+                defaultMessage: '充电桩总功率',
+              })}
               name="chargingStationCapacity"
               fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
         </Row>
         <Form.Item
-          label="站点地址"
+          label={formatMessage({
+            id: 'siteManage.siteList.siteAddress',
+            defaultMessage: '站点地址',
+          })}
           name="addressInfo"
-          rules={[{ required: true, message: '站点地址必填' }]}
+          rules={[
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({
+                  id: 'siteManage.siteList.siteAddress',
+                  defaultMessage: '站点地址',
+                }),
+            },
+          ]}
         >
           {show && <PositionSelect />}
         </Form.Item>
-        <ProFormTextArea label="备注" name="remarks" placeholder="请输入" />
+        <ProFormTextArea
+          label={formatMessage({ id: 'common.remark', defaultMessage: '备注' })}
+          name="remarks"
+        />
         <Row gutter={20}>
           <Col span={8}>
             <ProFormUploadButton
-              label="站点图标"
+              label={formatMessage({
+                id: 'siteManage.siteList.siteLogo',
+                defaultMessage: '站点图标',
+              })}
               name="logoList"
-              title="上传图片"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               max={1}
               accept="image/*"
               fieldProps={{
@@ -265,11 +347,14 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           </Col>
           <Col span={16}>
             <ProFormUploadButton
-              label="站点照片"
+              label={formatMessage({
+                id: 'siteManage.siteList.siteLogo',
+                defaultMessage: '站点照片',
+              })}
               name="photosList"
               valuePropName="fileList"
               getValueFromEvent={getValueFromEvent}
-              title="上传图片"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               max={3}
               accept="image/*"
               fieldProps={{

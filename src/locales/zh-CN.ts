@@ -20,8 +20,10 @@ import operLog from './zh-CN/operLog';
 import server from './zh-CN/server';
 import onlineUser from './zh-CN/onlineUser';
 import common from './zh-CN/common';
+import system from './zh-CN/system';
 import index from './zh-CN/index'; //首页
 import upgradeManage from './zh-CN/upgradeManage'; //升级管理
+import siteManage from './zh-CN/siteManage';
 import equipmentList from './zh-CN/equipmentList';//设备列表
 import taskManage from './zh-CN/taskManage';//任务管理
 
@@ -34,6 +36,7 @@ export default {
   'app.preview.down.block': '下载此页面到本地项目',
   'app.welcome.link.fetch-blocks': '获取全部区块',
   'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
+  ...system,
   ...common,
   ...index,
   ...upgradeManage,
@@ -60,4 +63,5 @@ export default {
   ...operLog,
   ...server,
   ...onlineUser,
+  ...siteManage,
 };

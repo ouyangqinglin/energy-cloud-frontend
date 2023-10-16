@@ -7,12 +7,32 @@ import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
-import { getMenus, getPathTitleMap, getPathArrary, getLocaleMenus, getBrowserLang } from '@/utils';
+import {
+  getMenus,
+  getPathTitleMap,
+  getPathArrary,
+  getLocaleMenus,
+  getBrowserLang,
+  formatMessage,
+} from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
 import { SiteDataType } from './services/station';
 import { defaultSystemInfo } from '@/utils/config';
+
+export type initialStateType = {
+  settings?: Partial<LayoutSettings>;
+  currentUser?: API.CurrentUser;
+  loading?: boolean;
+  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  menus?: MenuDataItem[];
+  menuPathTitleMap?: Map<string, string>;
+  antMenus?: MenuProps['items'];
+  collapsed?: boolean;
+  openKeys?: string[];
+  site?: SiteDataType;
+};
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -34,21 +54,10 @@ const editFavicon = (data?: initialStateType) => {
     link.remove();
   }
   setTimeout(() => {
-    document.title = data?.currentUser?.systemInfo?.title || '';
+    document.title =
+      data?.currentUser?.systemInfo?.title ||
+      formatMessage({ id: 'system.title', defaultMessage: '新能源OSS云平台' });
   }, 700);
-};
-
-export type initialStateType = {
-  settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
-  loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
-  menus?: MenuDataItem[];
-  menuPathTitleMap?: Map<string, string>;
-  antMenus?: MenuProps['items'];
-  collapsed?: boolean;
-  openKeys?: string[];
-  site?: SiteDataType;
 };
 
 const initLocale = (userLocale?: string) => {
