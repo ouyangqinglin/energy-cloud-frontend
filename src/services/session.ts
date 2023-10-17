@@ -91,8 +91,8 @@ export const updateUserLang = (lang: string) => {
   //     });
   //   }, 2000);
   // });
-  return request(`/system/userLanguage?lang=${lang}`, {
+  return request(`/system/userLanguage`, {
     method: 'PUT',
-    //data: {lang: lang},
+    data: {lang: lang},
   });
 };
