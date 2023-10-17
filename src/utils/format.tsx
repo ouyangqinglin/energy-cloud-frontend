@@ -77,6 +77,13 @@ export const contactorFormat = (value: string) => {
     valueArr?.map?.((item) => <span className={'cl-success mr8'}>{map[item]}</span>) || '';
   return result;
 };
+export const singleBFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '断开',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const singleFormat = (value: number) => {
   const map: MapType = {
     0: '断开',
