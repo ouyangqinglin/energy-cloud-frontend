@@ -13,6 +13,7 @@ import Read from './Read';
 import { getInstallerList } from './service';
 import { message } from 'antd';
 import SelectSiteModal from './SelectSite';
+import { formatMessage } from '@/utils'
 
 const Maintenance = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
@@ -33,14 +34,14 @@ const Maintenance = () => {
           setOperations(FormOperations.CREATE);
           setSiteModal(true);
         },
-        text: '新建',
+        text: formatMessage({ id: 'common.add' ,defaultMessage: '新建'}),
       },
     },
     option: {
       onDeleteChange(_, entity) {
         deleteMaintenanceWorkOrder({ id: entity.id })?.then?.(({ data }) => {
           if (data) {
-            message.success('删除成功');
+            message.success(formatMessage({ id: 'common.del' ,defaultMessage: '删除成功'}));
             actionRef?.current?.reload?.();
           }
         });

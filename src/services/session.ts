@@ -80,15 +80,19 @@ export function getMatchMenuItem(
 }
 
 export const updateUserLang = (lang: string) => {
-  return new Promise<{
-    code: number;
-    data: boolean;
-  }>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        code: 200,
-        data: true,
-      });
-    }, 2000);
+  // return new Promise<{
+  //   code: number;
+  //   data: boolean;
+  // }>((resolve) => {
+  //   setTimeout(() => {
+  //     resolve({
+  //       code: 200,
+  //       data: true,
+  //     });
+  //   }, 2000);
+  // });
+  return request(`/system/userLanguage`, {
+    method: 'PUT',
+    data: {lang: lang},
   });
 };

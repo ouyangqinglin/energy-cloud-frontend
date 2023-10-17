@@ -13,6 +13,8 @@ import styles from './index.less';
 import { useToggle } from 'ahooks';
 import StationForm from '@/pages/station/stationList/components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils'
+import { FormattedMessage, } from 'umi';
 
 const submitTextMap = new Map([
   [OrderStatus.READY, '提交工单'],
@@ -56,7 +58,7 @@ const Read = (props: FormUpdateBaseProps) => {
   const stepsConfig = useMemo(() => {
     return [
       {
-        title: '任务创建',
+        title: formatMessage({ id: 'taskManage.createTask' ,defaultMessage: '任务创建'}), 
         description: (
           <div className={styles.stepDesc}>
             <span>{tails[0]?.processorName}</span>
@@ -65,7 +67,7 @@ const Read = (props: FormUpdateBaseProps) => {
         ),
       },
       {
-        title: '工单接收',
+        title:  formatMessage({ id: 'taskManage.workOrderRecept' ,defaultMessage: '工单接收'}),
         description: showAccept ? (
           <div className={styles.stepDesc}>
             <span>{tails[1]?.processorName}</span>
@@ -76,7 +78,7 @@ const Read = (props: FormUpdateBaseProps) => {
         ),
       },
       {
-        title: '工单完成',
+        title:  formatMessage({ id: 'taskManage.workOrderComplete' ,defaultMessage: '工单完成'}), 
         description: showComplete ? (
           <div className={styles.stepDesc}>
             <span>{tails[2]?.processorName}</span>
@@ -99,7 +101,7 @@ const Read = (props: FormUpdateBaseProps) => {
   return (
     <>
       <ModalForm<InstallOrderUpdateInfo>
-        title="查看"
+        title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
         formRef={formRef}
         layout={'vertical'}
         readonly={true}
@@ -133,7 +135,7 @@ const Read = (props: FormUpdateBaseProps) => {
             span: 24,
           }}
         >
-          <Detail.DotLabel title="进度" />
+          <Detail.DotLabel title={<FormattedMessage id='taskManage.schedule' defaultMessage="进度" />}/>
         </ProForm.Group>
         <ProForm.Group
           colProps={{
@@ -147,7 +149,7 @@ const Read = (props: FormUpdateBaseProps) => {
             span: 24,
           }}
         >
-          <Detail.DotLabel title="工单详情" />
+          <Detail.DotLabel title={<FormattedMessage id='taskManage.workOrderDetails' defaultMessage="工单详情" />}/>
         </ProForm.Group>
         <BetaSchemaForm<any> layoutType="Embed" columns={columnsRead} />
       </ModalForm>
