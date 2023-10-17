@@ -423,6 +423,16 @@ export const airWorkFormat = (value: string) => {
     )) || '';
   return result;
 };
+export const bwattAirWorkFormat = (value: number) => {
+  const map: MapDataType = {
+    0: { text: '机组关闭', color: 'cl-success' },
+    1: { text: '机组开启', color: 'cl-success' },
+    2: { text: '机组待机', color: 'cl-success' },
+    3: { text: '机组锁定', color: 'cl-success' },
+    4: { text: '远程关闭', color: 'cl-success' },
+  };
+  return <span>{map[value]?.text}</span>;
+};
 export const airSwitchFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 11:12:10
- * @LastEditTime: 2023-09-11 11:27:11
+ * @LastEditTime: 2023-10-16 09:28:32
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\useDeviceModel.ts
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\useDeviceModel.ts
  */
 
 import { useCallback, useEffect, useState } from 'react';
@@ -50,7 +50,7 @@ const useDeviceModel = (props: useDeviceModelProps) => {
             result = { ...result, ...getModelByProps(item?.properties || []) };
           });
         } else {
-          result = getModelByProps(res.properties || []);
+          result = getModelByProps(res?.properties || []);
         }
         if (!isEmpty(result)) {
           setModelMap(result);

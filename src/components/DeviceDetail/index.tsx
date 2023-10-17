@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-09-25 10:32:12
+ * @LastEditTime: 2023-10-16 17:45:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -72,7 +72,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const treeData = useMemo(() => {
     const result = [
       {
-        deviceId: id,
+        deviceId: parseInt(id),
         name: deviceData?.name,
         productId: deviceData?.productId,
         children: childData || [],
@@ -107,7 +107,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       if ((productId as any) != DeviceTypeEnum.BatteryStack) {
         runGetChildDevice({ parentId: id, maxDepth: 1 });
       }
-      runDevice({ deviceId: id }).then((data) => {
+      getDeviceInfo({ deviceId: id }).then(({ data }) => {
         setSelectOrg({ deviceId: id, key: id, productId, name: data?.name, sn: data?.sn });
       });
     }

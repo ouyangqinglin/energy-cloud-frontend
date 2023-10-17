@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-09-25 10:30:40
+ * @LastEditTime: 2023-10-16 09:43:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */
@@ -35,6 +35,7 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.HwCharge]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge360]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge120]: { component: 'YTCharge' },
+  [DeviceTypeEnum.YunCharge120]: { component: 'HwChargeYt' },
   [DeviceTypeEnum.YtCharge7]: { component: 'YTCharge' },
   [DeviceTypeEnum.EnergyCabinet]: { component: 'EnergyCabinet' },
   [DeviceTypeEnum.BoxSubstation]: { component: 'BoxSubstation' },

@@ -48,6 +48,7 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.HwCharge]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge360]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge120]: { component: 'YTCharge' },
+  [DeviceTypeEnum.YunCharge120]: { component: 'HwChargeYt' },
   [DeviceTypeEnum.YtCharge7]: { component: 'YTCharge' },
   [DeviceTypeEnum.EnergyCabinet]: { component: 'EnergyCabinet' },
   [DeviceTypeEnum.BoxSubstation]: { component: 'BoxSubstation' },

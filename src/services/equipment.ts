@@ -157,6 +157,12 @@ export const getDeviceTree = (params: any) => {
   });
 };
 
+export const getMultipleDeviceTree = () => {
+  return request(`/iot/siteSystemConfiguration/allSites/deviceTree`, {
+    method: 'GET',
+  });
+};
+
 export const getDeviceCollection = (params: any) => {
   return request('/iot/siteSystemConfiguration/dataSource/deviceParamList', {
     method: 'GET',

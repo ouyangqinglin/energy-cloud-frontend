@@ -58,6 +58,7 @@ export enum DeviceTypeEnum {
   BWattAir = 41,
   BWattBatteryCluster = 42,
   BWattEnergy = 44,
+  YunCharge120 = 45,
   Device = 'default',
 }
 

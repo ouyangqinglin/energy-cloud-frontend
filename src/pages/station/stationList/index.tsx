@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-10-13 15:36:22
+ * @LastEditTime: 2023-10-17 08:58:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -122,7 +122,7 @@ const StationList: React.FC = () => {
       )}
       {authorityMap.get('system:site:config') && (
         <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
-          {formatMessage({ id: 'common.delete', defaultMessage: '站点配置' })}
+          {formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}
         </Button>
       )}
     </>
