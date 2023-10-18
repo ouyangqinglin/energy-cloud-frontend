@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  height: calc(100vh - 218px);
+  height: calc(100vh - 220px);
   border-radius: 2px;
   .gutterCol,
   .gutterRow {
@@ -22,20 +22,31 @@
     cursor: row-resize;
   }
   .content {
+    padding-bottom: 68px;
+    overflow: hidden;
     border: 1px solid #d9d9d9;
   }
+  .gutterCol1 {
+    grid-column: 2;
+  }
+  .gutterCol3 {
+    grid-column: 4;
+  }
+  .gutterRow1 {
+    grid-row: 2;
+  }
+  .gutterRow3 {
+    grid-row: 4;
+  }
   :global {
-    .gutter-col-1 {
-      grid-column: 2;
-    }
-    .gutter-col-3 {
-      grid-column: 4;
-    }
-    .gutter-row-1 {
-      grid-row: 2;
-    }
-    .gutter-row-3 {
-      grid-row: 4;
+    .ant-form-item {
+      .ant-tag div {
+        max-width: 100%;
+      }
     }
   }
+}
+
+.radio {
+  margin-right: -12px;
 }

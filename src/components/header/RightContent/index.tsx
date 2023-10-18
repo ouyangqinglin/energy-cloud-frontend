@@ -55,7 +55,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className} size={16}>
-      {/* <Workbench /> */}
+      <Workbench />
       <Avatar menu />
       {/* <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} /> */}
     </Space>

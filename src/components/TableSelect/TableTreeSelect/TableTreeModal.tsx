@@ -115,6 +115,7 @@ const TableTreeModal = <
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
   const [treeData, setTreeData] = useState<any[]>();
   const [tableParams, setTableParams] = useState<any>({});
+  const [selectedTree, setSelectedTree] = useState<TreeData>();
   const [tableIdSet, setTableIdSet] = useState<Set<string>>();
   const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
 
@@ -148,6 +149,7 @@ const TableTreeModal = <
             [valueId]: item[valueId],
             [valueName]: item[valueName],
             node: item,
+            tree: selectedTree,
           });
         });
         return [...map.values()];
@@ -176,6 +178,7 @@ const TableTreeModal = <
 
   const onTreeSelect = useCallback(
     (selectedKeys, { selectedNodes }) => {
+      setSelectedTree(selectedNodes[0]);
       if (selectedKeys && selectedKeys.length) {
         setTableParams({ deviceId: selectedKeys[0] });
       }

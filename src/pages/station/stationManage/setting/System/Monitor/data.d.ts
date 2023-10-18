@@ -6,6 +6,7 @@ export type TreeDataType = {
   children: TreeDataType[];
   selectFlag: boolean;
   productId: number;
+  productTypeId: number;
 };
 
 export type MonitorDataType = {

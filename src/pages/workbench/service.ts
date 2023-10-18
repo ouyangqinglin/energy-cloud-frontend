@@ -14,6 +14,7 @@ export type WorkbenchDataType = {
   siteName?: string;
   deviceId?: string;
   deviceName?: string;
+  productId?: string;
   collectionCode?: string;
   collectionName?: string;
   layout?: number;

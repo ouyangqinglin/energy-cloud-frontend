@@ -10,3 +10,21 @@
 export type SearchType = {
   date: string[];
 };
+
+export type CollectionDataType = {
+  id?: string;
+  name?: string;
+  paramCode?: string;
+  paramName?: string;
+  tree?: {
+    id?: string;
+    siteId?: string;
+    siteName?: string;
+    deviceName?: string;
+    productId?: string;
+  };
+};
+
+export type CollectionSearchType = {
+  collection?: CollectionDataType[];
+};

@@ -7,13 +7,12 @@
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\useDeviceModel.ts
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import { getDeviceModel, getDeviceGroupModel } from '@/services/equipment';
-import { DeviceModelType, DevicePropsType } from '@/types/device';
-import { parseToArray } from '@/utils';
+import { DeviceModelType } from '@/types/device';
+import { getModelByProps } from '@/utils';
 import { isEmpty } from 'lodash';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
 
 export type useDeviceModelProps = {
   productId: string;
@@ -27,19 +26,6 @@ const useDeviceModel = (props: useDeviceModelProps) => {
   const { loading, run, data } = useRequest(isGroup ? getDeviceGroupModel : getDeviceModel, {
     manual: true,
   });
-
-  const getModelByProps = useCallback((items: DevicePropsType[], parentField = '') => {
-    let result: any = {};
-    items?.forEach?.((item) => {
-      const field = parentField ? parentField + '.' + item?.id : item?.id;
-      if (item?.dataType?.type == DeviceModelTypeEnum.Struct) {
-        result = { ...result, ...getModelByProps(parseToArray(item?.dataType?.specs), field) };
-      } else {
-        result[field || ''] = item?.dataType;
-      }
-    });
-    return result;
-  }, []);
 
   useEffect(() => {
     if (productId) {
