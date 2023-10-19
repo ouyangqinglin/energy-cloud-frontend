@@ -42,6 +42,7 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.PvInverter11]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.PvInverter4]: { component: 'PvInverter', props: { loopNum: 4 } },
   [DeviceTypeEnum.PvInverter36]: { component: 'PvInverter', props: { loopNum: 12 } },
+  [DeviceTypeEnum.GRWTPvInverter]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.YtCharge160]: { component: 'YTCharge' },
   [DeviceTypeEnum.Energy]: { component: 'Energy' },
   [DeviceTypeEnum.PvInverterCabinet]: { component: 'PvInverterCabinet' },

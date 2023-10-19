@@ -24,7 +24,7 @@ export const column: ProFormColumnsType<SearchType>[] = [
     dataIndex: 'date',
     valueType: 'dateRange',
     formItemProps: {
-      rules: [{ required: true, message: '请输入查询日期' }],
+      rules: [{ required: true, message: '请选择查询日期' }],
     },
     initialValue: [moment(), moment()],
   },

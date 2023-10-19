@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 15:23:23
- * @LastEditTime: 2023-10-18 16:48:10
+ * @LastEditTime: 2023-10-19 13:50:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\workbench\index.tsx
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Radio, Tooltip, Spin, RadioChangeEvent } from 'antd';
 import { useRequest } from 'umi';
 import SchemaForm from '@/components/SchemaForm';
@@ -20,7 +20,8 @@ import Chart from './chart';
 import moment from 'moment';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
-import FullScreen from '../screen/components/FullScreen';
+import FullScreen from './FullScreen';
+import { useBoolean } from 'ahooks';
 
 const layoutGridMap = new Map([
   [4, { row: 2, col: 2 }],
@@ -29,8 +30,10 @@ const layoutGridMap = new Map([
 ]);
 
 const Workbench: React.FC = () => {
+  const contentRef = useRef(null);
   const [layoutDataMap, setLayoutDataMap] = useState<Map<number, WorkbenchDataType>>();
   const [layoutValue, setLayoutValue] = useState<number>(4);
+  const [isFullScreen, { set }] = useBoolean(false);
   const [date, setDate] = useState<string[]>([
     moment().format('YYYY-MM-DD'),
     moment().format('YYYY-MM-DD'),
@@ -82,6 +85,10 @@ const Workbench: React.FC = () => {
     },
     [layoutDataMap],
   );
+
+  const onFullScreenChange = useCallback((value: boolean) => {
+    set(value);
+  }, []);
 
   useEffect(() => {
     if (layoutDataMap?.size) {
@@ -165,7 +172,7 @@ const Workbench: React.FC = () => {
 
   return (
     <>
-      <div className="p24">
+      <div ref={contentRef} className="p24 bg-white">
         <div className="flex page-label mr12 mt2 mb0 float">设备监控</div>
         <SchemaForm<SearchType>
           className="p0 mb24"
@@ -174,10 +181,15 @@ const Workbench: React.FC = () => {
           layoutType="QueryFilter"
           submitter={{
             render: () => [
-              <Radio.Group className={styles.radio} value={layoutValue} onChange={onLayoutChange}>
+              <Radio.Group value={layoutValue} onChange={onLayoutChange}>
                 {radioButtons}
               </Radio.Group>,
-              // <FullScreen/>
+              <FullScreen
+                className={styles.screenIcon}
+                key="fullScreen"
+                target={contentRef}
+                onChange={onFullScreenChange}
+              />,
             ],
           }}
           onValuesChange={onValuesChange}
@@ -199,7 +211,10 @@ const Workbench: React.FC = () => {
                     .join(' ');
                 }
                 return (
-                  <div className={styles.grid} {...resultProps}>
+                  <div
+                    className={`${styles.grid} ${isFullScreen ? styles.fullScreen : ''}`}
+                    {...resultProps}
+                  >
                     {getSplitItem(getGutterProps)}
                   </div>
                 );

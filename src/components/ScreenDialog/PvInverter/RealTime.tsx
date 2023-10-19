@@ -2,14 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:50:00
- * @LastEditTime: 2023-08-02 10:21:59
+ * @LastEditTime: 2023-10-19 09:45:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\PvInverter\RealTime.tsx
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Skeleton } from 'antd';
-import type { ProColumns } from '@ant-design/pro-table';
 import { RealTimeProps } from '@/components/ScreenDialog';
 import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
@@ -30,14 +29,18 @@ import {
 import type { PvInverterType } from './data';
 import { isEmpty } from '@/utils';
 import YTProTable from '@/components/YTProTable';
+import { ProColumns } from '@ant-design/pro-components';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 const RealTime: React.FC<
   RealTimeProps & {
+    productId: string;
     loopNum: number;
   }
 > = (props) => {
   const {
     id,
+    productId,
     loading,
     open = true,
     detailProps,
@@ -61,15 +64,37 @@ const RealTime: React.FC<
       { label: '无功功率', field: 'reactivePower', format: noPowerFormat },
       { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
       { label: '功率因数', field: 'powerFactor' },
-      { label: '逆变器额定功率', field: 'ratedPowerOfInverter', format: powerFormat },
+      {
+        label: '逆变器额定功率',
+        field: 'ratedPowerOfInverter',
+        format: powerFormat,
+        show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
+      },
       { label: '输出方式', field: 'outputMethod', showExtra: false },
       { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
       { label: '内部温度', field: 'temperature', format: tempFormat },
-      { label: '逆变器开机时间', field: 'openTime', format: timeFormat, showExtra: false },
-      { label: '绝缘阻抗值', field: 'insulationImpedanceValue', format: mohmFormat },
-      { label: '逆变器关机时间', field: 'closeTime', format: timeFormat, showExtra: false },
+      {
+        label: '逆变器开机时间',
+        field: 'openTime',
+        format: timeFormat,
+        showExtra: false,
+        show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
+      },
+      {
+        label: '绝缘阻抗值',
+        field: 'insulationImpedanceValue',
+        format: mohmFormat,
+        show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
+      },
+      {
+        label: '逆变器关机时间',
+        field: 'closeTime',
+        format: timeFormat,
+        showExtra: false,
+        show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
+      },
     ];
-  }, []);
+  }, [productId]);
 
   const tableData = useMemo(() => {
     const data: PvInverterType[] = [

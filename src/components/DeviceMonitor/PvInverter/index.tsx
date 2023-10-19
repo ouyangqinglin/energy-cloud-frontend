@@ -19,8 +19,8 @@ export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
 };
 
-const BoxSubstation: React.FC<PvInverterProps> = (props) => {
-  const { id, onChange, loopNum } = props;
+const PvInverter: React.FC<PvInverterProps> = (props) => {
+  const { id, productId, onChange, loopNum } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -42,10 +42,16 @@ const BoxSubstation: React.FC<PvInverterProps> = (props) => {
           />
         }
       >
-        <RealTime id={id} deviceData={deviceData} loading={loading} loopNum={loopNum} />
+        <RealTime
+          id={id}
+          productId={productId}
+          deviceData={deviceData}
+          loading={loading}
+          loopNum={loopNum}
+        />
       </Page>
     </>
   );
 };
 
-export default BoxSubstation;
+export default PvInverter;
