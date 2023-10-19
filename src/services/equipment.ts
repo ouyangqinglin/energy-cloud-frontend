@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-09-01 11:09:52
+ * @LastEditTime: 2023-10-19 14:31:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */

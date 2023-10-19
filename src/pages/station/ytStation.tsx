@@ -134,7 +134,7 @@ const YtStation: React.FC = (props) => {
   }, []);
 
   const dealTreeData = useCallback<dealTreeDataType>((item) => {
-    item.checkable = item.productId == 516;
+    item.checkable = item.productTypeId == 516;
   }, []);
 
   const tableSelectColumns: ProColumns[] = [

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-09-25 09:36:58
+ * @LastEditTime: 2023-10-19 14:25:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -137,13 +137,17 @@ const TableTreeModal = <
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
       setSelectedTags((prevData) => {
-        const map = prevData.reduce((result, item) => {
-          result.set(item[valueId], item);
-          return result;
-        }, new Map());
-        tableIdSet?.forEach((item) => {
-          map.delete(item);
-        });
+        const map = multiple
+          ? prevData.reduce((result, item) => {
+              result.set(item[valueId], item);
+              return result;
+            }, new Map())
+          : new Map();
+        if (multiple) {
+          tableIdSet?.forEach((item) => {
+            map.delete(item);
+          });
+        }
         selectedRows.forEach((item) => {
           map.set(item[valueId], {
             [valueId]: item[valueId],
@@ -155,7 +159,7 @@ const TableTreeModal = <
         return [...map.values()];
       });
     },
-    [valueId, valueName, tableIdSet],
+    [valueId, valueName, tableIdSet, multiple],
   );
 
   const onCleanSelected = useCallback(() => {

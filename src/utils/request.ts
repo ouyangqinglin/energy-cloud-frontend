@@ -119,6 +119,7 @@ export class HttpRequest implements HttpRequestType {
 
     this.instance.interceptors.request.use((url, options) => {
       const headers = options.headers ? options.headers : [];
+      headers['Accept-Language'] = localStorage.getItem('umi_locale');
       if (headers['Authorization'] === '' || headers['Authorization'] == null) {
         const expireTime = getTokenExpireTime();
         if (expireTime) {
