@@ -38,16 +38,36 @@ const Index: React.FC = () => {
     }
   }, [siteId]);
 
+ const onCustomScreenClick = useCallback(() => {
+  if (siteId) {
+    window.open(`/screen/jiecheng?id=${siteId}`);
+  } else {
+    message.success('请选择站点');
+  }
+}, [siteId]);
+
   return (
     <>
       <div className="bg-white card-wrap p24">
         <div className={styles.stationHeader}>
           <SiteLabel onChange={onChange} />
           {screenConfig?.status == 1 && (
+            <>
             <Tooltip placement="top" title="大屏页">
               <IconScreen className={styles.screen} onClick={onScreenClick} />
             </Tooltip>
+            <Tooltip placement="top" title="定制大屏页">
+              <IconScreen className={styles.screen} onClick={onCustomScreenClick} />
+            </Tooltip>
+            </>
           )}
+          {/* {screenConfig?.status != 1 && (
+            <>
+            <Tooltip placement="top" title="定制大屏页">
+              <IconScreen className={styles.screen} onClick={onScreenClick} />
+            </Tooltip>
+            </>
+          )} */}
         </div>
         <Row gutter={[16, 16]}>
           <Statistics siteId={siteId} />

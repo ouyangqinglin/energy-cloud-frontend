@@ -24,4 +24,6 @@ export default {
     'taskManage.schedule':'进度',
     'taskManage.workOrderDetails':'工单详情',
     'taskManage.workOrderNumber':'工单编号',
+    'taskManage.delMaintenanceJob':'您确认要删除该维护工单吗？删除之后无法恢复！',
+    
 };

@@ -83,5 +83,6 @@ export default defineConfig({
   externals: {},
   chainWebpack: (config) => {
     config.module.rule('otf').test(/.otf$/).use('file-loader').loader('file-loader');
+    config.module.rule('mp4').test(/.mp4$/).use('file-loader').loader('file-loader');
   },
 });
