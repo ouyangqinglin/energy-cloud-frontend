@@ -31,6 +31,9 @@ export type ConfigDataType = {
   siteId?: string;
   status?: number;
   energyFlowDiagramIds?: string;
+  screen?: {
+    url?: string;
+  }[];
 };
 
 export const getStations = (params?: any) => {
