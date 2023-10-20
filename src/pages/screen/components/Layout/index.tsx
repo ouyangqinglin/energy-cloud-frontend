@@ -31,7 +31,7 @@ const Layout: FC<LayoutProps> = (props) => {
   const dashBoardStyle = {
     overflow: overflow,
     height: '100vh',
-    backgroundColor: '#111111',
+    backgroundColor: backgroundColor,
   };
 
   const contentStyle = useMemo<React.CSSProperties>(() => {

@@ -24,4 +24,5 @@ export default {
     'taskManage.schedule':'schedule',
     'taskManage.workOrderDetails':'Work Order Details',
     'taskManage.workOrderNumber':'Work Order Number',
+    'taskManage.delMaintenanceJob':'Are you sure you want to delete this maintenance job? Cannot recover after deletion! ',
 };

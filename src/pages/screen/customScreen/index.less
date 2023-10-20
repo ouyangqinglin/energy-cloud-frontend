@@ -1,0 +1,257 @@
+.fillWidth {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
+    z-index: -1;
+  }
+  .fontColor {
+    color: red;
+  }
+  .titleBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background-image: url('~@/assets/image/custom-screen/header-back.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+  }
+  .titleFont {
+    //width: 1200px;
+    height: 60px;
+    line-height: 60px;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    cursor: default;
+    background-color: initial;
+    border: none;
+    border-radius: 0px;
+    justify-content: center;
+    font-weight: bold;
+    font-family: "Microsoft Yahei", Arial, "sans-serif";
+    font-size: 40px;
+    writing-mode: horizontal-tb;
+    letter-spacing: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+  }
+  .enFont {
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    color: #ffffff;
+    font-family: "Microsoft Yahei", Arial, "sans-serif";
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .realtimeStatistic {
+    height: 70px;
+    //margin: 24px 0 24px 0;
+    //background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    color: #ffffff;
+    background-color: none;
+    // .innerBox {
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   width: 100%;
+    //   max-width: 100%;
+    //   padding: 10px 0;
+    // }
+    :global {
+      .ant-card {
+        color: #ffffff;
+        //background-image: url('~@/assets/image/custom-screen/data-box.png');
+        background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        background-color: transparent;
+        padding: 0 15px;
+        .ant-card-head {
+          color: #ffffff;
+          border-bottom: none;
+          font-size: 20px;
+          padding: 0 15px;
+        }
+        .ant-card-body {
+          padding: 15px;
+          font-size: 30px;
+        }
+      }
+    }
+  }
+  :global {
+    .ant-list {
+      position: absolute;
+      top: 30px;
+      left: 10px;
+    }
+  }
+  
+  .statisticCard {
+    
+  }
+  .chartBox {
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    .chartDiv {
+      float: left;
+      margin-left: 20px;
+      height: 410px;
+      width: 570px;
+      pointer-events: auto;
+      image-rendering: -webkit-optimize-contrast;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      //background-image: url('~@/assets/image/custom-screen/chart-back.png');
+      background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+      background-color: initial;
+      border-radius: 0px;
+    }
+    
+  }
+  .chartLable {
+    font-size: 25px;
+    color: #ffffff;
+    padding: 20px 0 0 16px;
+  }
+  //右上角的曲线
+  
+  .energyChart {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url(~@/assets/image/custom-screen/chart-back.png);
+    //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+    background-color: initial;
+    height: 520px;
+    margin-top: 20px; 
+  }
+  
+  .scrollLayout {
+    position: relative;
+    .scrollTableBox {
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+      //background-image: url('~@/assets/image/custom-screen/chart-back.png');
+      background-color: initial;
+      height: 410px;
+      overflow: hidden;
+      margin-top: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      //表格样式的修改
+      :global {
+        .ant-table-wrapper {
+          clear: none;
+        }
+        .ant-table {
+          color: rgba(255,255, 255, 0.85);
+          background: transparent;
+        }
+        .ant-table-body {
+          &::-webkit-scrollbar {
+            height: 5px;
+            width: 10px;
+            overflow-y: auto;
+          }
+          &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(89, 89, 89, 0.2);
+            background: rgba(10, 115, 255, 0.55);
+          }
+          &::-webkit-scrollbar-track {
+            -webkit-box-shadow: 0;
+            border-radius: 0;
+            background: rgba(10, 115, 255, 0.15);
+          }
+        }
+        .ant-table-tbody > tr > td {
+          border-bottom: none;
+        }
+        .ant-table-tbody > tr.ant-table-row:hover > td, 
+        .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+          background: rgba(10, 115, 255, 0.15);
+        }
+    
+      }
+      .leftBox {
+        float: left;
+        width: calc(50% - 15px);
+        .title {
+          color: #ffffff; 
+          font-size: 25px;
+          margin-top: 20px;
+          padding-left: 15px;
+        }
+        .subDiv{
+          display: flex;
+          color: #ffffff; 
+          font-size: 15px;
+          line-height: 20px;
+          .subLeft{
+            flex: 1;
+            padding-left: 20px;
+            .numSize {
+              font-size: 25px;
+              margin: 10px 0px 10px 0px;
+            }
+          }
+        }
+        .leftDiv {
+          .leftTable {
+            
+          }
+        }
+        
+      }
+      .rightBox {
+        float: right;
+        width: calc(50% - 15px);
+        .title {
+          color: #ffffff; 
+          font-size: 25px;
+          margin-top: 20px;
+          padding-left: 15px;
+        }
+        .subDiv{
+          display: flex;
+          color: #ffffff; 
+          font-size: 15px;
+          line-height: 20px;
+          .subLeft{
+            flex: 1;
+            padding-left: 20px;
+            .numSize {
+              font-size: 25px;
+              margin: 10px 0px 10px 0px;
+            }
+          }
+        }
+        .rightDiv {
+          .rightTable {
+            
+          }
+        }
+      }
+    }
+  }
+  
+  
+
+  

@@ -49,6 +49,11 @@ const routers: RouterType[] = [
         name: 'multiSite',
         component: './screen/MultiSite',
       },
+      {
+        path: 'jiecheng',
+        name: 'customScreen',
+        component: './screen/customScreen',
+      },
     ],
   },
   {

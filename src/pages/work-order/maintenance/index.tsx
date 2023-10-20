@@ -56,7 +56,7 @@ const Maintenance = () => {
         setOperations(FormOperations.READ);
         setReadModal(true);
       },
-      modalDeleteText: `您确认要删除该维护工单吗？删除之后无法恢复！`,
+      modalDeleteText: formatMessage({ id: 'taskManage.delMaintenanceJob' ,defaultMessage: `您确认要删除该维护工单吗？删除之后无法恢复！`}),
     },
   };
 
