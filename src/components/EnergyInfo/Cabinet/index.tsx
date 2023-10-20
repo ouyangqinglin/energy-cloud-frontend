@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-08-08 09:37:16
+ * @LastEditTime: 2023-10-17 11:14:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -20,7 +20,7 @@ import { isEmpty } from '@/utils';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
-import { unitItems } from './config';
+import { airItem, bwattAirItem, unitItems } from './config';
 import { EnergySourceEnum } from '../';
 
 const getDataIds = (data: energyType[]): string[] => {
@@ -36,17 +36,17 @@ const getDataIds = (data: energyType[]): string[] => {
 
 const getUnitByProductId = (
   data: energyType[],
-  productId: DeviceTypeEnum,
+  productIds: [DeviceTypeEnum],
 ): energyType | undefined => {
   let result: energyType | undefined;
   if (data && data.length) {
     for (let i = 0; i < data?.length; i++) {
-      if (data[i]?.productId == productId) {
+      if (productIds.includes(data[i]?.productId)) {
         result = data[i];
         return result;
       }
       if (data[i]?.children && data[i]?.children?.length) {
-        result = getUnitByProductId(data[i].children || [], productId);
+        result = getUnitByProductId(data[i].children || [], productIds);
         if (result) {
           return result;
         }
@@ -90,7 +90,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const onMoreClick = useCallback(
     (item) => {
       if (energyData) {
-        const unit = item.productId ? getUnitByProductId([energyData], item.productId) : energyData;
+        const unit = item.productIds
+          ? getUnitByProductId([energyData], item.productIds)
+          : energyData;
         history.push({
           pathname:
             source === EnergySourceEnum.SiteMonitor
@@ -121,7 +123,10 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   }, [deviceData?.deviceId]);
 
   const items = useMemo(() => {
-    return unitItems.map((item, index) => {
+    return [
+      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ? bwattAirItem : airItem,
+      ...unitItems,
+    ].map((item, index) => {
       return (
         <>
           <div
@@ -159,7 +164,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         </>
       );
     });
-  }, [realTimeData]);
+  }, [realTimeData, deviceData]);
 
   const packItems = useMemo(() => {
     return Array.from({ length: 10 }).map((_, index) => {

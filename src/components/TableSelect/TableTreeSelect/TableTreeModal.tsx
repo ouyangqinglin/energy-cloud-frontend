@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-09-25 09:36:58
+ * @LastEditTime: 2023-10-19 14:25:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -115,6 +115,7 @@ const TableTreeModal = <
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
   const [treeData, setTreeData] = useState<any[]>();
   const [tableParams, setTableParams] = useState<any>({});
+  const [selectedTree, setSelectedTree] = useState<TreeData>();
   const [tableIdSet, setTableIdSet] = useState<Set<string>>();
   const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
 
@@ -136,24 +137,29 @@ const TableTreeModal = <
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
       setSelectedTags((prevData) => {
-        const map = prevData.reduce((result, item) => {
-          result.set(item[valueId], item);
-          return result;
-        }, new Map());
-        tableIdSet?.forEach((item) => {
-          map.delete(item);
-        });
+        const map = multiple
+          ? prevData.reduce((result, item) => {
+              result.set(item[valueId], item);
+              return result;
+            }, new Map())
+          : new Map();
+        if (multiple) {
+          tableIdSet?.forEach((item) => {
+            map.delete(item);
+          });
+        }
         selectedRows.forEach((item) => {
           map.set(item[valueId], {
             [valueId]: item[valueId],
             [valueName]: item[valueName],
             node: item,
+            tree: selectedTree,
           });
         });
         return [...map.values()];
       });
     },
-    [valueId, valueName, tableIdSet],
+    [valueId, valueName, tableIdSet, multiple],
   );
 
   const onCleanSelected = useCallback(() => {
@@ -176,6 +182,7 @@ const TableTreeModal = <
 
   const onTreeSelect = useCallback(
     (selectedKeys, { selectedNodes }) => {
+      setSelectedTree(selectedNodes[0]);
       if (selectedKeys && selectedKeys.length) {
         setTableParams({ deviceId: selectedKeys[0] });
       }

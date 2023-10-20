@@ -58,6 +58,8 @@ export enum DeviceTypeEnum {
   BWattAir = 41,
   BWattBatteryCluster = 42,
   BWattEnergy = 44,
+  YunCharge120 = 45,
+  GRWTPvInverter = 47,
   Device = 'default',
 }
 
@@ -76,6 +78,7 @@ export enum DeviceModelTypeEnum {
   Enum = 'enum',
   Struct = 'struct',
   Array = 'array',
+  TimeRange = 'timeRange',
 }
 
 export type FileType = {

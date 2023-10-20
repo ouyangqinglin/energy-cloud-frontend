@@ -44,3 +44,14 @@ export type DeviceModelDataType = {
   properties?: DevicePropsType[];
   services?: DeviceServiceType[];
 };
+
+export type DeviceTreeDataType = {
+  id?: string;
+  deviceName?: string;
+  deviceSN?: string;
+  parentId?: string;
+  productId?: string;
+  siteId?: string;
+  siteName?: string;
+  children?: DeviceTreeDataType[];
+};

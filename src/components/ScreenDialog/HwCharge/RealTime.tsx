@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:35:32
- * @LastEditTime: 2023-09-11 09:21:39
+ * @LastEditTime: 2023-10-16 09:48:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\HwCharge\RealTime.tsx
  */
@@ -21,17 +21,17 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   const { id, loading, open = true, label = '运行信息', detailProps } = props;
 
   const [relatedIds, setRelatedIds] = useState([]);
-  const equipmentData = useSubscribe(relatedIds, open);
+  const equipmentData = useSubscribe(id, open);
 
-  useEffect(() => {
-    if (open && id) {
-      getRelatedDevice(id).then((res) => {
-        if (res?.data?.associatedIds) {
-          setRelatedIds(res.data.associatedIds);
-        }
-      });
-    }
-  }, [id, open]);
+  // useEffect(() => {
+  //   if (open && id) {
+  //     getRelatedDevice(id).then((res) => {
+  //       if (res?.data?.associatedIds) {
+  //         setRelatedIds(res.data.associatedIds);
+  //       }
+  //     });
+  //   }
+  // }, [id, open]);
 
   const runItems: DetailItem[] = [
     { label: '今日充电量', field: 'dayChargeElec', format: powerHourFormat },

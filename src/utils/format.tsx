@@ -77,6 +77,13 @@ export const contactorFormat = (value: string) => {
     valueArr?.map?.((item) => <span className={'cl-success mr8'}>{map[item]}</span>) || '';
   return result;
 };
+export const singleBFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '断开',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const singleFormat = (value: number) => {
   const map: MapType = {
     0: '断开',
@@ -422,6 +429,16 @@ export const airWorkFormat = (value: string) => {
       <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
     )) || '';
   return result;
+};
+export const bwattAirWorkFormat = (value: number) => {
+  const map: MapDataType = {
+    0: { text: '机组关闭', color: 'cl-success' },
+    1: { text: '机组开启', color: 'cl-success' },
+    2: { text: '机组待机', color: 'cl-success' },
+    3: { text: '机组锁定', color: 'cl-success' },
+    4: { text: '远程关闭', color: 'cl-success' },
+  };
+  return <span>{map[value]?.text}</span>;
 };
 export const airSwitchFormat = (value: string) => {
   const valueArr = strToArray(value);

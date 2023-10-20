@@ -5,7 +5,7 @@ import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
 import { DeviceModelTypeEnum } from './dictionary';
-import { DeviceModelType } from '@/types/device';
+import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import { constant } from 'lodash';
 
@@ -298,4 +298,17 @@ export const getBrowserLang = () => {
   } else {
     return 'zh-CN';
   }
+};
+
+export const getModelByProps = (items: DevicePropsType[], parentField = '') => {
+  let result: any = {};
+  items?.forEach?.((item) => {
+    const field = parentField ? parentField + '.' + item?.id : item?.id;
+    if (item?.dataType?.type == DeviceModelTypeEnum.Struct) {
+      result = { ...result, ...getModelByProps(parseToArray(item?.dataType?.specs), field) };
+    } else {
+      result[field || ''] = item?.dataType;
+    }
+  });
+  return result;
 };

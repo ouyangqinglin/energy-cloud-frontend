@@ -7,41 +7,26 @@
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, ModalProps } from 'antd';
+import { Modal } from 'antd';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { getCollectionData, CollectionSearchType } from '@/services/data';
-import { useRequest } from 'umi';
-import TypeChart, { TypeChartDataType } from '../Chart/TypeChart';
-import { chartTypeEnum } from '@/components/Chart/config';
+import { CollectionSearchType } from '@/services/data';
 import moment from 'moment';
 import SchemaForm from '@/components/SchemaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
-import EChartsReact from 'echarts-for-react';
-import { DeviceModelType } from '@/types/device';
 import { DeviceModelTypeEnum } from '@/utils/dictionary';
 import { parseToObj } from '@/utils';
+import CollectionChart from './CollectionChart';
+import { CollectionModalType } from './helper';
 
 type Searchtype = CollectionSearchType & {
   date: string[];
 };
 
-export type CollectionModalProps = Omit<ModalProps, 'title'> & {
-  title: string;
-  deviceId: string;
-  collection: string;
-  model?: DeviceModelType;
-};
-
-const CollectionModal: React.FC<CollectionModalProps> = (props) => {
+const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => {
   const { deviceId, collection, model, title, open, ...restProps } = props;
 
   const formRef = useRef<ProFormInstance>(null);
-  const chartRef = useRef<EChartsReact>(null);
-  const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Day);
-  const { run } = useRequest(getCollectionData, {
-    manual: true,
-  });
+  const [date, setDate] = useState<string[]>();
 
   const modelData = useMemo(() => {
     const enumObj: any = parseToObj(model?.specs);
@@ -57,152 +42,10 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
     };
   }, [model]);
 
-  const chartOption = useMemo(() => {
-    return {
-      grid: {
-        top: 10,
-        bottom: 50,
-        right: 35,
-      },
-      legend: {
-        show: false,
-      },
-      tooltip: {
-        trigger: 'axis',
-        formatter: (params: any) => {
-          const { value, name } = (params || [{}])[0];
-          const result = [name];
-          result.push(
-            title +
-              '：' +
-              (modelData.type === DeviceModelTypeEnum.Enum
-                ? modelData.data[modelData.keys[value?.[1]]] ?? '--'
-                : value?.[1]),
-          );
-          return result.join('<br/>');
-        },
-      },
-      xAxis: {
-        axisLabel: {
-          formatter: (value: string) => {
-            return value.replace(' ', '\n');
-          },
-        },
-      },
-      yAxis:
-        modelData.type === DeviceModelTypeEnum.Enum
-          ? {
-              interval: 1,
-              axisLabel: {
-                formatter: (value: string) => {
-                  return modelData.data?.[modelData.keys[value]] || '';
-                },
-              },
-            }
-          : {},
-      dataZoom: [
-        {
-          type: 'inside',
-          realtime: false,
-        },
-        {
-          start: 0,
-          end: 100,
-          height: 15,
-          realtime: false,
-        },
-      ],
-      series: [
-        {
-          type: 'line',
-          showAllSymbol: true,
-          symbolSize: 1,
-          large: true,
-          sampling: 'lttb',
-        },
-      ],
-    };
-  }, [title, modelData]);
-
-  const allLabel = useMemo(() => {
-    return chartData?.[0]?.data?.map?.((item) => item.label);
-  }, [chartData]);
-
-  const onFinish = useCallback(
-    (formData: Searchtype) => {
-      if (collection) {
-        return run({
-          deviceId: deviceId,
-          key: collection,
-          startTime: formData.date[0] + ' 00:00:00',
-          endTime: formData.date[1] + ' 23:59:59',
-          msgType: 1,
-        }).then((data) => {
-          if (
-            moment(formData.date[0]).format('YYYY-MM-DD') ==
-            moment(formData.date[1]).format('YYYY-MM-DD')
-          ) {
-            setChartType(chartTypeEnum.Day);
-            const result: TypeChartDataType = {
-              name: title,
-              data: [],
-            };
-            data?.forEach?.((collectionValue) => {
-              if (modelData.type == DeviceModelTypeEnum.Enum) {
-                const index = modelData.keys.findIndex(
-                  (item) => item == (collectionValue?.value as any),
-                );
-                result?.data?.push?.({
-                  label: collectionValue?.eventTs || '',
-                  value: index,
-                });
-              } else {
-                result?.data?.push?.({
-                  label: collectionValue?.eventTs || '',
-                  value: collectionValue?.value,
-                });
-              }
-            });
-            setChartData([result]);
-          } else {
-            setChartType(chartTypeEnum.Label);
-            const resultData = {
-              dataset: {
-                source: [['product', title]],
-              },
-              yAxis: {
-                max:
-                  modelData.type == DeviceModelTypeEnum.Enum
-                    ? modelData.keys.length - 1
-                    : undefined,
-                min: undefined,
-              },
-            };
-            data?.forEach?.((collectionValue) => {
-              if (modelData.type == DeviceModelTypeEnum.Enum) {
-                const index = modelData.keys.findIndex(
-                  (item) => item == (collectionValue?.value as any),
-                );
-                resultData.dataset.source.push([collectionValue?.eventTs || '', index as any]);
-              } else {
-                resultData.dataset.source.push([
-                  collectionValue?.eventTs || '',
-                  collectionValue?.value as any,
-                ]);
-              }
-            });
-            setTimeout(() => {
-              chartRef?.current?.getEchartsInstance().setOption(resultData);
-            }, 300);
-          }
-          return true;
-        });
-      } else {
-        return Promise.resolve(true);
-      }
-    },
-    [deviceId, collection, modelData],
-  );
+  const onFinish = useCallback((formData: Searchtype) => {
+    setDate(formData.date);
+    return Promise.resolve(true);
+  }, []);
 
   useEffect(() => {
     if (open && deviceId) {
@@ -242,14 +85,12 @@ const CollectionModal: React.FC<CollectionModalProps> = (props) => {
           layoutType="QueryFilter"
           onFinish={onFinish}
         />
-        <TypeChart
-          chartRef={chartRef}
-          type={chartType}
-          option={chartOption}
-          style={{ height: 400 }}
-          data={chartData}
-          allLabel={allLabel}
-          max={modelData.type == DeviceModelTypeEnum.Enum ? modelData.keys.length - 1 : 0}
+        <CollectionChart
+          title={title}
+          deviceId={deviceId}
+          collection={collection}
+          model={model}
+          date={date}
         />
       </Modal>
     </>

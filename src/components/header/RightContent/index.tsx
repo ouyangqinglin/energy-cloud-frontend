@@ -10,7 +10,6 @@ import Workbench from '../Workbench';
 import { updateUserLang } from '@/services/session';
 import { formatMessage } from '@/utils';
 import { localeInfo } from 'umi';
-console.log(localeInfo);
 export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
@@ -58,7 +57,7 @@ const GlobalHeaderRight: React.FC = () => {
     <Space className={className} size={16}>
       <Workbench />
       <Avatar menu />
-      <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} />
+      {/* <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} /> */}
     </Space>
   );
 };

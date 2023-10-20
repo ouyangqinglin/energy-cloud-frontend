@@ -53,6 +53,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     <>
       <RealTime
         id={id}
+        productId={productId}
         loading={loading}
         open={openSubscribe}
         labelType={LabelTypeEnum.LineLabel}

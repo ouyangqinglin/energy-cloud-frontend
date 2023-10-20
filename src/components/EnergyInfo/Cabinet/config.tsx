@@ -23,6 +23,7 @@ import {
   airWorkFormat,
   powerFormat,
   chargeFormat,
+  bwattAirWorkFormat,
 } from '@/utils/format';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
@@ -34,24 +35,43 @@ const energyPowerFormat = (value: number, data: any) => {
   );
 };
 
+export const airItem = {
+  label: '空调',
+  productIds: [DeviceTypeEnum.Air],
+  position: { top: 51, left: 14 },
+  icon: AirImg,
+  line: AirLineImg,
+  linePosition: { top: 11, left: 82 },
+  data: [
+    {
+      label: '运行状态：',
+      field: 'AirConditioningWorkingStatus',
+      format: airWorkFormat,
+    },
+    { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
+    { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },
+  ],
+};
+
+export const bwattAirItem = {
+  label: '空调',
+  productIds: [DeviceTypeEnum.BWattAir],
+  position: { top: 51, left: 14 },
+  icon: AirImg,
+  line: AirLineImg,
+  linePosition: { top: 11, left: 82 },
+  data: [
+    {
+      label: '运行状态：',
+      field: 'AirConditioningUnitOperationStatus',
+      format: bwattAirWorkFormat,
+    },
+    { label: '室内温度：', field: 'IndoorTemperature', format: tempFormat },
+    { label: '湿度：', field: 'Humidity', format: wetFormat },
+  ],
+};
+
 export const unitItems = [
-  {
-    label: '空调',
-    productId: DeviceTypeEnum.Air,
-    position: { top: 51, left: 14 },
-    icon: AirImg,
-    line: AirLineImg,
-    linePosition: { top: 11, left: 82 },
-    data: [
-      {
-        label: '运行状态：',
-        field: 'AirConditioningWorkingStatus',
-        format: airWorkFormat,
-      },
-      { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
-      { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },
-    ],
-  },
   {
     label: '储能仓门',
     position: { top: 203, left: 14 },
@@ -68,7 +88,7 @@ export const unitItems = [
   },
   {
     label: 'EMS',
-    productId: DeviceTypeEnum.Ems,
+    productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms],
     position: { top: 302, left: 14 },
     icon: EmsImg,
     line: EmsLineImg,
@@ -88,7 +108,7 @@ export const unitItems = [
   },
   {
     label: '电池堆',
-    productId: DeviceTypeEnum.BatteryStack,
+    productIds: [DeviceTypeEnum.BatteryStack, DeviceTypeEnum.BWattBatteryStack],
     position: { top: 450, left: 14 },
     icon: StackImg,
     line: StackLineImg,
@@ -97,7 +117,7 @@ export const unitItems = [
   },
   {
     label: 'PCS',
-    productId: DeviceTypeEnum.Pcs,
+    productIds: [DeviceTypeEnum.Pcs, DeviceTypeEnum.BWattPcs],
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,
@@ -118,7 +138,7 @@ export const unitItems = [
   },
   {
     label: '单体极值信息',
-    productId: DeviceTypeEnum.BatteryStack,
+    productIds: [DeviceTypeEnum.BatteryStack, DeviceTypeEnum.BWattBatteryStack],
     position: { top: 175, left: 802 },
     icon: EmsImg,
     line: PackLineImg,

@@ -7,6 +7,7 @@ import useLocation from './useLocation';
 import useWebsocket from './useWebsocket';
 import useSubscribe from './useSubscribe';
 import useAuthority from './useAuthority';
+import useFullScreen from './useFullScreen';
 
 export {
   useArea,
@@ -18,4 +19,5 @@ export {
   useWebsocket,
   useSubscribe,
   useAuthority,
+  useFullScreen,
 };
