@@ -6,16 +6,24 @@
 export const photovoltaicOption = (
     data: any, title: any
   ) : {} => {
+  let xdata: any[] = [];//横坐标
+  let ydata: any[] = [];//纵坐标
+  if (data) {
+    data.forEach((element: any) => {
+      xdata.push(element.x+'' || '-');
+      ydata.push(element.y+'' || '-');
+    });
+  }
   return {
     title: [
-      {
-        right: '10',
-        text: title,
-        textStyle: {
-          lineHeight: '45',
-          color: 'white'
-        }
-      }
+      // {
+      //   right: '10',
+      //   text: title,
+      //   textStyle: {
+      //     lineHeight: '45',
+      //     color: 'white'
+      //   }
+      // }
     ],
     tooltip: {
       trigger: 'axis',
@@ -33,7 +41,7 @@ export const photovoltaicOption = (
     },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: xdata,
       color:'#323e52',
       axisLabel: {
         textStyle: {
@@ -58,7 +66,7 @@ export const photovoltaicOption = (
       }
     },
     yAxis: {
-      name: '单位（kWh）',
+      name: '',
       type: 'value',
       silent: true,
       axisLabel: {
@@ -88,7 +96,7 @@ export const photovoltaicOption = (
       {
         //name: '盈利资金(万)',
         type: 'line', // 折现/面积图
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: ydata,
         itemStyle: {
           color: '#24def3'
         },
@@ -126,34 +134,21 @@ export const photovoltaicOption = (
   },
   };
 };
-export const energyStorageOption = (
-  data: any, title: any
-) : {} => {
-  let xdata: any[] = [];
-  let ydata: any[] = [];
-  let zdata: any[] = [];
-  if (data) {
-    data.forEach((element: any) => {
-      xdata.push(element.x || '-');
-      ydata.push(element.y || '-');
-      zdata.push(element.z || '-');
-    });
-  }
-  
-return {
+export const energyStorageOption = 
+ {
   title: [
-    {
-      right: '10',
-      text: title,
-      textStyle: {
-        lineHeight: '45',
-        color: 'white'
-      }
-    }
+    // {
+    //   left: '50',
+    //   text: title,
+    //   textStyle: {
+    //     lineHeight: '45',
+    //     color: 'white'
+    //   }
+    // },
   ],
   xAxis: {
     type: 'category',
-    data: xdata,
+    data: [],
     color:'#323e52',
     axisLabel: {
       textStyle: {
@@ -178,7 +173,7 @@ return {
     }
   },
   yAxis: {
-    name: '单位（kWh）',
+    name: '',
     type: 'value',
     silent: true,
     axisLabel: {
@@ -203,7 +198,7 @@ return {
       }
     }
   },
-  legend:{
+  legend: {
     icon: 'rect',
     itemWidth: 10,
     itemHeight: 10,
@@ -218,7 +213,7 @@ return {
       name: '充电量',
       type: 'line', // 折现/面积图
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
-      data: ydata,
+      data: [],
       itemStyle: {
         color: '#24def3'
       },
@@ -250,7 +245,7 @@ return {
       name: '放电量',
       type: 'line',
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
-      data: zdata,
+      data: [],
       itemStyle: {
         color: '#24def3'
       },
@@ -287,7 +282,6 @@ return {
     backgroundColor: 'transparent'
 },
 };
-};
 export const energyOption = (
   data: any, title: any
 ) : {} => {
@@ -296,9 +290,9 @@ export const energyOption = (
   let zdata: any[] = [];
   if (data) {
     data.forEach((element: any) => {
-      xdata.push(element.x || '-');
-      ydata.push(element.y || '-');
-      zdata.push(element.z || '-');
+      xdata.push(element.x+'' || '-');
+      ydata.push(element.y+'' || '-');
+      zdata.push(element.z+'' || '-');
     });
   }
   
@@ -377,7 +371,7 @@ return {
   },
   series: [
     {
-      name: '充电量',
+      name: '今日',
       type: 'line', // 折现/面积图
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: ydata,
@@ -409,9 +403,8 @@ return {
       xAxisIndex: 0 
     },
     {
-      name: '放电量',
+      name: '昨日',
       type: 'line',
-      //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: zdata,
       itemStyle: {
         color: '#24def3'
