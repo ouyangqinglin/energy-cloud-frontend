@@ -217,22 +217,31 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = specs[value];
       break;
     case DeviceModelTypeEnum.Array:
-      if (specs?.aliseRule) {
-        try {
-          result =
-            parseToArray(value)
-              ?.map?.((item: string, index: number) => {
-                let itemValue = '--';
-                if (item) {
-                  itemValue = formatModelValue(item, specs?.item);
-                }
+      try {
+        result =
+          parseToArray(value)
+            ?.map?.((item: string, index: number) => {
+              let itemValue = '--';
+              if (!isEmpty(item)) {
+                itemValue = formatModelValue(item, specs?.item);
+              }
+              if (specs?.aliseRule) {
                 return specs?.aliseRule?.replace('$array.{index+1}', index + 1) + '：' + itemValue;
-              })
-              .join('，') || '--';
-        } catch {
-          result = value;
-        }
-      } else {
+              } else {
+                return itemValue;
+              }
+            })
+            .join('，') || '--';
+      } catch {
+        result = value;
+      }
+      break;
+    case DeviceModelTypeEnum.Struct:
+      try {
+        const map = arrayToMap(specs, 'id', 'name');
+        map[0] = '正常';
+        result = map[value] ?? value;
+      } catch {
         result = value;
       }
       break;

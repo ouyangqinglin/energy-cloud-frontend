@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 14:44:03
- * @LastEditTime: 2023-08-07 19:04:09
+ * @LastEditTime: 2023-10-19 17:43:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSubscribe.ts
  */
@@ -12,8 +12,8 @@ import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
 import { parseToObj } from '@/utils';
 
-const flatObj = (data: object, parentField = '') => {
-  let result = {};
+const flatObj = (data: Record<string, any>, parentField = '') => {
+  let result: Record<string, any> = {};
   if (typeof data !== 'object' || Array.isArray(data)) {
     result = {};
   } else {
@@ -44,7 +44,7 @@ const useSubscribe = (id: undefined | string | string[], open: boolean) => {
       ) {
         const { data: msgData } = res;
         try {
-          let obj = {};
+          let obj: Record<string, any> = {};
           msgData?.keyValues?.forEach?.((item: EquipPropType) => {
             if (item.type == 'JSON') {
               const value = parseToObj(item.value + '');
