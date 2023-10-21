@@ -54,7 +54,7 @@ export const photovoltaicOption = (
       position: 'bottom',
       axisLine: {
         lineStyle: {
-          color: '#b7ccff',
+          color: 'rgba(255,255,255,0.1)',
           type: 'solid'
         }
       },
@@ -161,7 +161,7 @@ export const energyStorageOption =
     position: 'bottom',
     axisLine: {
       lineStyle: {
-        color: '#b7ccff',
+        color: 'rgba(255,255,255,0.1)',
         type: 'solid'
       }
     },
@@ -215,7 +215,7 @@ export const energyStorageOption =
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: [],
       itemStyle: {
-        color: '#24def3'
+        color: 'rgb(10,115,255)'
       },
       symbol: 'emptyCircle', // 几何圆
       symbolSize: 5,
@@ -229,7 +229,7 @@ export const energyStorageOption =
           colorStops: [
             {
               offset: 0,
-              color: '#25eaff', // 0% 处的颜色
+              color: 'rgb(10,115,255)', // 0% 处的颜色
             },
             {
               offset: 1,
@@ -322,7 +322,7 @@ return {
     position: 'bottom',
     axisLine: {
       lineStyle: {
-        color: '#b7ccff',
+        color: 'rgba(255,255,255,0.1)',
         type: 'solid'
       }
     },
@@ -373,10 +373,9 @@ return {
     {
       name: '今日',
       type: 'line', // 折现/面积图
-      //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: ydata,
       itemStyle: {
-        color: '#24def3'
+        color: 'rgb(10,115,255)'
       },
       symbol: 'emptyCircle', // 几何圆
       symbolSize: 5,
@@ -390,7 +389,7 @@ return {
           colorStops: [
             {
               offset: 0,
-              color: '#25eaff', // 0% 处的颜色
+              color: 'rgb(10,115,255)', // 0% 处的颜色
             },
             {
               offset: 1,

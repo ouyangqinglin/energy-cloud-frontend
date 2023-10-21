@@ -11,6 +11,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { Table } from 'antd';
+import styles from '../index.less';
 
 const ScrollTable = (
     props: any,
@@ -45,6 +46,12 @@ const ScrollTable = (
             setTimer(time); // 定时器保存变量 利于停止
         }
     };
+    //设置奇偶行颜色不同
+    const getRowClassName = (record: any, index: number) => {
+        let className = '';
+        className = index % 2 === 0 ? "oddRow" : "evenRow";
+        return className;
+    }
     return (
         <div
             onMouseOver={() => {
@@ -63,6 +70,7 @@ const ScrollTable = (
                     x: '50%',
                     scrollToFirstRowOnChange: true,
                 }}
+                rowClassName={getRowClassName}
                 {...props}
             />
         </div>

@@ -15,12 +15,15 @@ import  ScrollTable from '../components/scrollTable';
 // import { AllBatteryDataType } from './type'
 // import { Data } from '@/components/YTIcons/YTSvg';
 import { merge } from 'lodash';
+import Counter from '../components/numCounter';
 const CustomLayout = () => {
   const [storageChartData, setStorageChartData] = useState<TypeChartDataType[]>();//储能图表数据
   const [chargeTotalNum, setChargeTotalNum]  = useState();//储能充电量
   const [disChargeTotalNum, setDisChargeTotalNum]  = useState();//储能放电量
 
   const [energyChartData, setEnergyChartData] = useState<TypeChartDataType[]>();
+  const [energyChartTotalNum, setEnergyChartTotalNum] = useState();
+
   const [voltaicData, setVoltaicData] = useState<TypeChartDataType[]>();
   const [voltaicTotalNum, setVoltaicTotalNum] = useState();
   
@@ -59,10 +62,9 @@ const CustomLayout = () => {
         {
           name: '充电量',
           type: 'line', // 折现/面积图
-          //data: [820, 932, 901, 934, 1290, 1330, 1320],
           data: ydata,
           itemStyle: {
-            color: '#24def3'
+            color: 'rgb(10,115,255)'
           },
           symbol: 'emptyCircle', // 几何圆
           symbolSize: 5,
@@ -76,7 +78,7 @@ const CustomLayout = () => {
               colorStops: [
                 {
                   offset: 0,
-                  color: '#25eaff', // 0% 处的颜色
+                  color: 'rgb(10,115,255)', // 0% 处的颜色
                 },
                 {
                   offset: 1,
@@ -91,7 +93,6 @@ const CustomLayout = () => {
         {
           name: '放电量',
           type: 'line',
-          //data: [820, 932, 901, 934, 1290, 1330, 1320],
           data: zdata,
           itemStyle: {
             color: '#24def3'
@@ -132,6 +133,8 @@ const CustomLayout = () => {
         }
       },
     };
+    // option.series[0].data = ydata;
+    // option.series[1].data = zdata;
     return merge({}, energyStorageOption, option);
   }, [energyStorageOption, storageChartData]);
 
@@ -157,6 +160,15 @@ const CustomLayout = () => {
       field: 'income'
     },
   ]; 
+  const getStorageDataFn = getStorageData().then(({ data }) => {
+    let list = data?.list || [];
+    setStorageChartData(list);
+
+    let chargeTotal = data?.otherTotal || "--" ;
+    let disChargeTotal = data?.total || "--" ;
+    setChargeTotalNum(chargeTotal);
+    setDisChargeTotalNum(disChargeTotal);
+  });
   useEffect(() => {
     //获取储能数据
     const energyStorageTimer = setInterval(() => {
@@ -175,11 +187,13 @@ const CustomLayout = () => {
           clearInterval(energyStorageTimer);
         };
       });
-     }, 1000*60);
-    
+     }, 1000*60*5);
+
+    getStorageDataFn;
     getEnergyConsumptionData().then(({ data }) => {
       let list = data?.list || [];
       setEnergyChartData(list);
+      setEnergyChartTotalNum(data?.total || '--');
     }); 
     getPvData().then(({ data }) => {
       let list = data?.list || [];
@@ -193,7 +207,10 @@ const CustomLayout = () => {
     getChargePileData().then(({ data }) => {
       let list = data?.list || [];
       if(list&&list.length>0) {
-       
+        list = list.map((item:any) => {
+          item.y = '充电'+ item.y + '千瓦时';
+          return item;
+        });
       }
       setBatteryData(list);
       setBatteryChargeData(data?.total || '--');
@@ -202,6 +219,12 @@ const CustomLayout = () => {
     //获取站点收益数据
     getSiteIncomeData().then(({ data }) => {
       let siteIncomelist = data?.list || [];
+      if(siteIncomelist&&siteIncomelist.length>0) {
+        siteIncomelist = siteIncomelist.map((item:any) => {
+          item.y = item.y + '元';
+          return item;
+        });
+      }
       setSiteIncomeData(siteIncomelist);
       setSiteIncomeTotal(data?.total || '--');
     }); 
@@ -216,11 +239,7 @@ const CustomLayout = () => {
       dataIndex: 'y',
     },
   ];
-  const getRowClassName = (record: any, index: number) => {
-    let className = '';
-    className = index % 2 === 0 ? "oddRow" : "evenRow";
-    return className;
-  }
+  
   return (
     <>
       <Header /> 
@@ -237,7 +256,7 @@ const CustomLayout = () => {
         renderItem={(item) => (
           <List.Item className={styles.realtimeStatistic}>
             <div>
-             <Card title={item.title} bordered={false} className={styles.realtimeStatistiCard}>{totalData[item.field] || ''}</Card>
+             <Card title={item.title} bordered={false} className={styles.realtimeStatistiCard}><Counter counts={totalData[item.field] || ''} /></Card>
             </div>
           </List.Item>
         )}
@@ -252,7 +271,7 @@ const CustomLayout = () => {
                 <div className={styles.numSize}>{voltaicTotalNum}</div>
               </div>
             </div>
-            <Chart  option={getPhotovoltaicOption()} style={{ height: 'calc(100% - 30px)' }} calculateMax={false}/>
+            <Chart  option={getPhotovoltaicOption()} style={{ height: 'calc(100% - 40px)' }} calculateMax={false}/>
         </div>
         <div className={styles.chartDiv}>
             <div className={styles.chartLable}>储能 (近30天充、放电量/kWh)</div>
@@ -266,7 +285,7 @@ const CustomLayout = () => {
                 <div className={styles.numSize}>{disChargeTotalNum}</div>
               </div>
             </div>
-            <TypeChart option={newStorageOption}  style={{ height: 'calc(100% - 30px)',marginTop: '0px',}} calculateMax={false} ref={chartRef}/>
+            <TypeChart option={newStorageOption}  style={{ height: 'calc(100% - 20px)',marginTop: '0px',}} calculateMax={false}/>
         </div>
       </div>
             
@@ -276,6 +295,12 @@ const CustomLayout = () => {
           <div className={styles.rightCol}>
             <div className={styles.energyChart}>
                 <div className={styles.chartLable}>能耗（kwh）</div>
+                <div className={styles.energySubtitle}>
+                  <div className={styles.subLeft}>
+                    <div>近30天总能耗/kWh</div>
+                    <div className={styles.numSize}>{energyChartTotalNum}</div>
+                  </div>
+                </div>
                 <TypeChart option={getEnergyOption()} data={storageChartData} style={{ height: 'calc(100% - 30px)' }} calculateMax={false}/>
             </div>
             {/* 滚动table */}
@@ -309,7 +334,7 @@ const CustomLayout = () => {
                     </div>
                   </div>
                   <div className={styles.rightDiv}>
-                    <ScrollTable columns={columns} dataSource={siteIncomeData} scroll={{ y: 300 }} className={styles.rightTable} rowClassName={getRowClassName()}/>
+                    <ScrollTable columns={columns} dataSource={siteIncomeData} scroll={{ y: 300 }} className={styles.rightTable}/>
                   </div>
                 </div>
 
