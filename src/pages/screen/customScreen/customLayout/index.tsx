@@ -185,19 +185,6 @@ const CustomLayout = () => {
     setChargeTotalNum(chargeTotal);
     setDisChargeTotalNum(disChargeTotal);
   });
-  energyStorageTimer = setInterval(() => {
-    getStorageData().then(({ data }) => {
-      const list = data?.list || [];
-      setStorageChartData(list);
-      const chargeTotal = data?.otherTotal || '--';
-      const disChargeTotal = data?.total || '--';
-      setChargeTotalNum(chargeTotal);
-      setDisChargeTotalNum(disChargeTotal);
-    });
-    // return () => {
-    //   clearInterval(energyStorageTimer);
-    // };
-  }, 1000 * 60);
 
   useEffect(() => {
     //getStorageDataFn;
@@ -239,6 +226,19 @@ const CustomLayout = () => {
       setSiteIncomeData(siteIncomelist);
       setSiteIncomeTotal(data?.total || '--');
     });
+    energyStorageTimer = setInterval(() => {
+      getStorageData().then(({ data }) => {
+        const list = data?.list || [];
+        setStorageChartData(list);
+        const chargeTotal = data?.otherTotal || '--';
+        const disChargeTotal = data?.total || '--';
+        setChargeTotalNum(chargeTotal);
+        setDisChargeTotalNum(disChargeTotal);
+      });
+    }, 1000 * 60);
+    return () => {
+      clearInterval(energyStorageTimer);
+    };
   }, []);
   const columns = [
     {
