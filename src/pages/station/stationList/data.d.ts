@@ -65,4 +65,5 @@ export type StationFormType = {
   photos: string;
   photosList: FileType[];
   remarks: string;
+  taskId?: string;
 };

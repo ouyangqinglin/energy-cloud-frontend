@@ -6,29 +6,24 @@ import { useRequest } from 'umi';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { getInstallationWorkOrder, handleOrderAccept, handleOrderComplete } from '../service';
-import type { InstallOrderUpdateInfo } from '../type';
+import type { InstallOrderUpdateInfo, Tail } from '../type';
 import { OrderStatus } from '../type';
 import { columnsRead } from './config';
 import styles from './index.less';
 import { useToggle } from 'ahooks';
 import StationForm from '@/pages/station/stationList/components/edit';
 import { FormTypeEnum } from '@/utils/dictionary';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
-
-const submitTextMap = new Map([
-  [OrderStatus.READY, '提交工单'],
-  [OrderStatus.DEALING, '完成工单'],
-  [OrderStatus.COMPLETE, '创建站点'],
-]);
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
+import { addDataByWorkOrder } from '@/pages/station/stationList/service';
 
 const Read = (props: FormUpdateBaseProps) => {
-  const [step, setStep] = useState(OrderStatus.READY);
+  const { id, onSuccess, onVisibleChange } = props;
   const [modalVisible, { set }] = useToggle(false);
 
-  const [tails, setTails] = useState<InstallOrderUpdateInfo['tails']>([]);
+  const [tailMap, setTailMap] = useState<Map<OrderStatus, Tail>>();
 
-  const { run } = useRequest(getInstallationWorkOrder, {
+  const { data: detailData, run } = useRequest(getInstallationWorkOrder, {
     manual: true,
   });
   const { run: runForAccept } = useRequest(handleOrderAccept, {
@@ -37,15 +32,63 @@ const Read = (props: FormUpdateBaseProps) => {
   const { run: runForComplete } = useRequest(handleOrderComplete, {
     manual: true,
   });
+
+  const requestSave = useCallback(
+    (formData) => {
+      return addDataByWorkOrder({ ...formData, taskId: detailData?.id });
+    },
+    [detailData],
+  );
+
   const formRef = useRef<ProFormInstance>(null);
   const fetchFormData = useCallback(() => {
     run({ id: props.id })?.then((data) => {
-      setTails(data?.tails);
-      const convertStep = data?.tails?.length - 1 ?? 0;
-      setStep(convertStep);
+      const map = new Map();
+      data?.tails?.forEach?.((item) => {
+        map.set(item.eventId, item);
+      });
+      setTailMap(map);
       formRef?.current?.setFieldsValue?.(data);
     });
   }, [props.id]);
+
+  const submitText = useMemo(() => {
+    if (OrderStatus.READY == detailData?.status) {
+      return '接收工单';
+    } else if (OrderStatus.DEALING == detailData?.status) {
+      if (detailData?.siteId) {
+        return '完成工单';
+      } else {
+        return '创建站点';
+      }
+    } else {
+      return '';
+    }
+  }, [detailData]);
+
+  const onSiteFormSuccess = useCallback(() => {
+    onSuccess?.();
+    fetchFormData();
+  }, [onSuccess, fetchFormData]);
+
+  const onSubmit = useCallback(() => {
+    switch (detailData?.status) {
+      case OrderStatus.READY:
+        runForAccept({ id }).then(() => {
+          fetchFormData();
+        });
+        break;
+      case OrderStatus.DEALING:
+        if (detailData?.siteId) {
+          runForComplete({ id });
+        } else {
+          set(true);
+        }
+        break;
+      default:
+        break;
+    }
+  }, [id, detailData, fetchFormData, onVisibleChange]);
 
   useEffect(() => {
     if (props.visible) {
@@ -53,55 +96,49 @@ const Read = (props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const showAccept = tails.length >= 2;
-  const showComplete = tails.length >= 3;
   const stepsConfig = useMemo(() => {
     return [
       {
-        title: formatMessage({ id: 'taskManage.createTask' ,defaultMessage: '任务创建'}), 
+        title: formatMessage({ id: 'taskManage.createTask', defaultMessage: '任务创建' }),
         description: (
           <div className={styles.stepDesc}>
-            <span>{tails[0]?.processorName}</span>
-            <span>{tails[0]?.createTime}</span>
+            <span>{tailMap?.get?.(OrderStatus.READY)?.processorName}</span>
+            <span>{tailMap?.get?.(OrderStatus.READY)?.createTime}</span>
           </div>
         ),
       },
       {
-        title:  formatMessage({ id: 'taskManage.workOrderRecept' ,defaultMessage: '工单接收'}),
-        description: showAccept ? (
-          <div className={styles.stepDesc}>
-            <span>{tails[1]?.processorName}</span>
-            <span>{tails[1]?.createTime}</span>
-          </div>
-        ) : (
-          ''
-        ),
+        title: formatMessage({ id: 'taskManage.workOrderRecept', defaultMessage: '工单接收' }),
+        description:
+          detailData?.status == OrderStatus.DEALING ||
+          detailData?.status == OrderStatus.COMPLETE ? (
+            <div className={styles.stepDesc}>
+              <span>{tailMap?.get?.(OrderStatus.DEALING)?.processorName}</span>
+              <span>{tailMap?.get?.(OrderStatus.DEALING)?.createTime}</span>
+            </div>
+          ) : (
+            ''
+          ),
       },
       {
-        title:  formatMessage({ id: 'taskManage.workOrderComplete' ,defaultMessage: '工单完成'}), 
-        description: showComplete ? (
-          <div className={styles.stepDesc}>
-            <span>{tails[2]?.processorName}</span>
-            <span>{tails[2]?.createTime}</span>
-          </div>
-        ) : (
-          ''
-        ),
+        title: formatMessage({ id: 'taskManage.workOrderComplete', defaultMessage: '工单完成' }),
+        description:
+          OrderStatus.COMPLETE == detailData?.status ? (
+            <div className={styles.stepDesc}>
+              <span>{tailMap?.get?.(OrderStatus.COMPLETE)?.processorName}</span>
+              <span>{tailMap?.get?.(OrderStatus.COMPLETE)?.createTime}</span>
+            </div>
+          ) : (
+            ''
+          ),
       },
     ];
-  }, [step, tails]);
-
-  const runForOrderStatus = (params: { id?: number }) => {
-    if (step === OrderStatus.READY) {
-      return runForAccept(params);
-    }
-    return runForComplete(params);
-  };
+  }, [tailMap, detailData]);
 
   return (
     <>
       <ModalForm<InstallOrderUpdateInfo>
-        title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
+        title={<FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />}
         formRef={formRef}
         layout={'vertical'}
         readonly={true}
@@ -115,17 +152,10 @@ const Read = (props: FormUpdateBaseProps) => {
           grid: true,
         }}
         submitter={{
-          searchConfig: { submitText: submitTextMap.get(step) },
-          onSubmit: async () => {
-            if (step === OrderStatus.COMPLETE) {
-              set(true);
-              props?.onVisibleChange(false);
-              return;
-            }
-            const res = await runForOrderStatus({ id: props.id });
-            if (res) {
-              fetchFormData();
-            }
+          searchConfig: { submitText },
+          onSubmit,
+          submitButtonProps: {
+            hidden: OrderStatus.COMPLETE == detailData?.status,
           },
         }}
         {...props}
@@ -135,21 +165,30 @@ const Read = (props: FormUpdateBaseProps) => {
             span: 24,
           }}
         >
-          <Detail.DotLabel title={<FormattedMessage id='taskManage.schedule' defaultMessage="进度" />}/>
+          <Detail.DotLabel
+            title={<FormattedMessage id="taskManage.schedule" defaultMessage="进度" />}
+          />
         </ProForm.Group>
         <ProForm.Group
           colProps={{
             span: 24,
           }}
         >
-          <Steps progressDot={true} current={step} labelPlacement="vertical" items={stepsConfig} />
+          <Steps
+            progressDot={true}
+            current={detailData?.status}
+            labelPlacement="vertical"
+            items={stepsConfig}
+          />
         </ProForm.Group>
         <ProForm.Group
           colProps={{
             span: 24,
           }}
         >
-          <Detail.DotLabel title={<FormattedMessage id='taskManage.workOrderDetails' defaultMessage="工单详情" />}/>
+          <Detail.DotLabel
+            title={<FormattedMessage id="taskManage.workOrderDetails" defaultMessage="工单详情" />}
+          />
         </ProForm.Group>
         <BetaSchemaForm<any> layoutType="Embed" columns={columnsRead} />
       </ModalForm>
@@ -157,7 +196,9 @@ const Read = (props: FormUpdateBaseProps) => {
         open={modalVisible}
         onOpenChange={set}
         type={FormTypeEnum.Add}
-        onSuccess={props?.onSuccess}
+        onSuccess={onSiteFormSuccess}
+        requestSave={requestSave}
+        initValues={{ name: detailData?.siteName || '' } as any}
       />
     </>
   );

@@ -32,6 +32,7 @@ export type YTProTableCustomProps<D, P, V = 'text'> = {
     modalDeleteText?: string;
     // 渲染拦截器，决定是否继续渲染，主要用于对于每一行决定是否需要显示操作
     renderInterceptor?: (entity: D) => boolean;
+    btnInterceptor?: (entity: D, buttonKey: string) => boolean | void;
     onDeleteChange?: ProColumns<D, V>['render'];
     onEditChange?: ProColumns<D, V>['render'];
     onDetailChange?: ProColumns<D, V>['render'];

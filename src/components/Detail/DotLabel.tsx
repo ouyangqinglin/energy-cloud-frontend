@@ -11,7 +11,7 @@ import React from 'react';
 import './index.less';
 
 export type DotLabelProps = {
-  title: string;
+  title: React.ReactNode;
   className?: string;
   operate?: React.ReactNode;
 };

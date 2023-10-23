@@ -7,21 +7,20 @@ import { useRequest } from 'umi';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { getMaintenanceWorkOrder, handleOrderAccept, handleOrderComplete } from '../service';
-import type { MaintenanceOrderUpdateInfo } from '../type';
+import type { MaintenanceOrderUpdateInfo, Tail } from '../type';
 import { OrderStatus } from '../type';
 import { columnsRead } from './config';
 import styles from './index.less';
 
 const submitTextMap = new Map([
-  [OrderStatus.READY, '提交工单'],
+  [OrderStatus.READY, '接收工单'],
   [OrderStatus.DEALING, '完成工单'],
 ]);
 
 const Read = (props: FormUpdateBaseProps) => {
-  const [step, setStep] = useState(OrderStatus.READY);
-  const [tails, setTails] = useState<MaintenanceOrderUpdateInfo['tails']>([]);
+  const [tailMap, setTailMap] = useState<Map<OrderStatus, Tail>>();
 
-  const { run } = useRequest(getMaintenanceWorkOrder, {
+  const { data: detailData, run } = useRequest(getMaintenanceWorkOrder, {
     manual: true,
   });
   const { run: runForAccept } = useRequest(handleOrderAccept, {
@@ -33,9 +32,11 @@ const Read = (props: FormUpdateBaseProps) => {
   const formRef = useRef<ProFormInstance>(null);
   const fetchFormData = useCallback(() => {
     run({ id: props.id })?.then((data) => {
-      setTails(data?.tails);
-      const convertStep = data?.tails?.length - 1 ?? 0;
-      setStep(convertStep);
+      const map = new Map();
+      data?.tails?.forEach?.((item) => {
+        map.set(item.eventId, item);
+      });
+      setTailMap(map);
       formRef?.current?.setFieldsValue?.(data);
     });
   }, [props.id]);
@@ -46,46 +47,47 @@ const Read = (props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const showAccept = tails.length >= 2;
-  const showComplete = tails.length >= 3;
   const stepsConfig = useMemo(() => {
     return [
       {
         title: '任务创建',
         description: (
           <div className={styles.stepDesc}>
-            <span>{tails[0]?.processorName}</span>
-            <span>{tails[0]?.createTime}</span>
+            <span>{tailMap?.get?.(OrderStatus.READY)?.processorName}</span>
+            <span>{tailMap?.get?.(OrderStatus.READY)?.createTime}</span>
           </div>
         ),
       },
       {
         title: '工单接收',
-        description: showAccept ? (
-          <div className={styles.stepDesc}>
-            <span>{tails[1]?.processorName}</span>
-            <span>{tails[1]?.createTime}</span>
-          </div>
-        ) : (
-          ''
-        ),
+        description:
+          detailData?.status == OrderStatus?.DEALING ||
+          detailData?.status == OrderStatus?.COMPLETE ? (
+            <div className={styles.stepDesc}>
+              <span>{tailMap?.get?.(OrderStatus.DEALING)?.processorName}</span>
+              <span>{tailMap?.get?.(OrderStatus.DEALING)?.createTime}</span>
+            </div>
+          ) : (
+            ''
+          ),
       },
       {
         title: '工单完成',
-        description: showComplete ? (
-          <div className={styles.stepDesc}>
-            <span>{tails[2]?.processorName}</span>
-            <span>{tails[2]?.createTime}</span>
-          </div>
-        ) : (
-          ''
-        ),
+        description:
+          detailData?.status == OrderStatus.COMPLETE ? (
+            <div className={styles.stepDesc}>
+              <span>{tailMap?.get?.(OrderStatus.COMPLETE)?.processorName}</span>
+              <span>{tailMap?.get?.(OrderStatus.COMPLETE)?.createTime}</span>
+            </div>
+          ) : (
+            ''
+          ),
       },
     ];
-  }, [step, tails]);
+  }, [detailData, tailMap]);
 
   const runForOrderStatus = (params: { id?: number }) => {
-    if (step === OrderStatus.READY) {
+    if (detailData?.status === OrderStatus.READY) {
       return runForAccept(params);
     }
     return runForComplete(params);
@@ -107,11 +109,9 @@ const Read = (props: FormUpdateBaseProps) => {
         grid: true,
       }}
       submitter={{
-        searchConfig: { submitText: submitTextMap.get(step) },
+        searchConfig: { submitText: submitTextMap.get(detailData?.status ?? OrderStatus.COMPLETE) },
         submitButtonProps: {
-          style: {
-            display: !showComplete ? 'block' : 'none',
-          },
+          hidden: detailData?.status == OrderStatus.COMPLETE,
         },
         onSubmit: async () => {
           const res = await runForOrderStatus({ id: props.id });
@@ -134,7 +134,12 @@ const Read = (props: FormUpdateBaseProps) => {
           span: 24,
         }}
       >
-        <Steps progressDot={true} current={step} labelPlacement="vertical" items={stepsConfig} />
+        <Steps
+          progressDot={true}
+          current={detailData?.status}
+          labelPlacement="vertical"
+          items={stepsConfig}
+        />
       </ProForm.Group>
       <ProForm.Group
         colProps={{

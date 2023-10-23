@@ -5,6 +5,8 @@ export const areaMap = new Map([
   ['row3', 3],
 ]);
 
+export const defaultOpenKeys = ['electric', 'load'];
+
 export const monitorTypeMap = new Map([
   // subType =1 电气 =2充/发/用电量  =3 放/馈电量 =4 功率
   [

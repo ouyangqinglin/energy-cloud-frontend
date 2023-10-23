@@ -32,6 +32,13 @@ export const addData = (data: StationFormType) => {
   });
 };
 
+export const addDataByWorkOrder = (data: StationFormType) => {
+  return request(`/oss/installationWorkOrder/createSite`, {
+    method: 'POST',
+    data,
+  });
+};
+
 export const editData = (data: StationFormType) => {
   return request(`/oss/site`, {
     method: 'PUT',
