@@ -55,26 +55,17 @@
   }
   .realtimeStatistic {
     height: 70px;
-    //margin: 24px 0 24px 0;
-    //background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100% 100%;
     color: #ffffff;
     background-color: none;
-    // .innerBox {
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: center;
-    //   width: 100%;
-    //   max-width: 100%;
-    //   padding: 10px 0;
-    // }
     :global {
       .ant-card {
         color: #ffffff;
-        //background-image: url('~@/assets/image/custom-screen/data-box.png');
-        background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+        background-image: url(~@/assets/image/custom-screen/data-box.png);
+        //background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+        //background-image: url('https://img.alicdn.com/tfs/TB1rNH2tNjaK1RjSZKzXXXVwXXa-1270-840.png');
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% 100%;
@@ -88,9 +79,15 @@
         }
         .ant-card-body {
           padding: 15px;
-          font-size: 30px;
+          font-size: 40px;
+          padding-top: 0px;
         }
       }
+    }
+
+    .realtimeStatistiCard {
+      // width: 240px;
+      // background-color: red;
     }
   }
   :global {
@@ -117,28 +114,84 @@
       image-rendering: -webkit-optimize-contrast;
       background-repeat: no-repeat;
       background-size: 100% 100%;
-      //background-image: url('~@/assets/image/custom-screen/chart-back.png');
-      background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+      background-image: url(~@/assets/image/custom-screen/chart-back.png);
+      //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
       background-color: initial;
       border-radius: 0px;
+      position: relative;
+      .energyDiv {
+        display: flex;
+        color: #ffffff; 
+        font-size: 15px;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 60px;
+        width: 60%;
+        .subLeft{
+          flex: 1;
+          padding-left: 20px;
+          .numSize {
+            font-size: 25px;
+            margin: 10px 0px 10px 0px;
+          }
+        }
+      }
+      .voltaicDiv {
+        display: flex;
+        color: #ffffff; 
+        font-size: 15px;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 60px;
+        width: 30%;
+        .subLeft{
+          flex: 1;
+          padding-left: 20px;
+          .numSize {
+            font-size: 25px;
+            margin: 10px 0px 10px 0px;
+          }
+        }
+      }
     }
     
   }
+  
   .chartLable {
     font-size: 25px;
     color: #ffffff;
     padding: 20px 0 0 16px;
   }
-  //右上角的曲线
-  
+  //右上角的曲线 
   .energyChart {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-image: url(~@/assets/image/custom-screen/chart-back.png);
     //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
-    background-color: initial;
+    background-color: rgba(18,19,20,0.8);
     height: 520px;
     margin-top: 20px; 
+    position: relative;
+    .energySubtitle {
+      display: flex;
+      color: #ffffff; 
+      font-size: 15px;
+      line-height: 20px;
+      position: absolute;
+      right: 0px;
+      top: 40px;
+      width: 180px;
+      .subLeft{
+        flex: 1;
+        padding-left: 20px;
+        .numSize {
+          font-size: 25px;
+          margin: 10px 0px 10px 0px;
+        }
+      }
+    }
   }
   
   .scrollLayout {
@@ -146,8 +199,8 @@
     .scrollTableBox {
       background-repeat: no-repeat;
       background-size: 100% 100%;
-      background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
-      //background-image: url('~@/assets/image/custom-screen/chart-back.png');
+      //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+      background-image: url('~@/assets/image/custom-screen/chart-back.png');
       background-color: initial;
       height: 410px;
       overflow: hidden;
@@ -165,6 +218,7 @@
           background: transparent;
         }
         .ant-table-body {
+          //修改滚动条颜色
           &::-webkit-scrollbar {
             height: 5px;
             width: 10px;
@@ -173,16 +227,24 @@
           &::-webkit-scrollbar-thumb {
             border-radius: 5px;
             -webkit-box-shadow: inset 0 0 5px rgba(89, 89, 89, 0.2);
-            background: rgba(10, 115, 255, 0.55);
+            background: transparent;
           }
           &::-webkit-scrollbar-track {
             -webkit-box-shadow: 0;
             border-radius: 0;
-            background: rgba(10, 115, 255, 0.15);
+            background: transparent;
+          }
+          //修改奇偶行背景色
+          .oddRow {
+            background-color: rgba(10, 115, 255, 0.15);
+          }
+          .evenRow {
+            background-color: transparent;
           }
         }
         .ant-table-tbody > tr > td {
           border-bottom: none;
+          font-size: 15px;
         }
         .ant-table-tbody > tr.ant-table-row:hover > td, 
         .ant-table-tbody > tr > td.ant-table-cell-row-hover {
@@ -250,6 +312,11 @@
         }
       }
     }
+  }
+  .rightCol {
+    background-color: rgba(18,19,20,0.8);
+    position: relative;
+    height: 1080px;
   }
   
   

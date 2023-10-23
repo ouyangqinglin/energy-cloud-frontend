@@ -1,54 +1,39 @@
 import request from '@/utils/request';
 
-//获取储能历史数据
-export const getStorageData = (params: any) => {
-  return request(`/statistics/custom/jieCheng/getStorageData`, {
+//获取储能历史数据--暂时不传siteId
+export const getStorageData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getStorageData`, {
     method: 'GET',
-    params,
   });
 };
-
-//删除升级包
-export const removePackageData = (params: any) => {
-  return request(`/iot/otaPackage`, {
-    method: 'DELETE',
-    params,
-  });
-};
-//新增升级包
-export const addPackageData = (params: any) => {
-  return request(`/iot/otaPackage`, {
-    method: 'post',
-    data: params,
-  });
-};
-//编辑升级包
-export const editPackageData = (params: any) => {
-  return request(`/iot/otaPackage`, {
-    method: 'put',
-    data: params,
-  });
-};
-//获取升级包可支持的设备列表
-export const getSelectDeviceList = (params: any) => {
-  return request(`/iot/otaUpgrade/selectedDevice`, {
+//获取能耗历史数据--暂时不传siteId
+export const getEnergyConsumptionData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getEnergyConsumptionData`, {
     method: 'GET',
-    params,
   });
 };
-//获取树形结构数据--站点
-export const getStations = (params?: any) => {
-  return request(`/oss/site/getList`, {
+//获取光伏历史数据
+export const getPvData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getPvData`, {
     method: 'GET',
-    params,
   });
 };
-//上传文件
-export const uploadPackageFile = (formData: any) => {
-  return request(`/prodApi/uc/upload`, {
-    method: 'POST',
-    data: formData,
+//获取充电桩历史数据
+export const getChargePileData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getChargePileData`, {
+    method: 'GET',
   });
 };
-
+//获取所有汇总数据
+export const getTotalData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getTotalData`, {
+    method: 'GET',
+  });
+};
+//获取站点收益数据
+export const getSiteIncomeData = () => {
+  return request(`/oss/statistics/custom/jieCheng/getSiteIncomeData`, {
+    method: 'GET',
+  });
+};
 
