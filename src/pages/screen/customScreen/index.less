@@ -1,324 +1,307 @@
 .fillWidth {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit:fill;
-    z-index: -1;
-  }
-  .fontColor {
-    color: red;
-  }
-  .titleBg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    background-image: url('~@/assets/image/custom-screen/header-back.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
-  }
-  .titleFont {
-    //width: 1200px;
-    height: 60px;
-    line-height: 60px;
-    pointer-events: auto;
-    display: flex;
-    align-items: center;
-    cursor: default;
-    background-color: initial;
-    border: none;
-    border-radius: 0px;
-    justify-content: center;
-    font-weight: bold;
-    font-family: "Microsoft Yahei", Arial, "sans-serif";
-    font-size: 40px;
-    writing-mode: horizontal-tb;
-    letter-spacing: 18px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #ffffff;
-  }
-  .enFont {
-    height: 30px;
-    line-height: 30px;
-    font-size: 20px;
-    color: #ffffff;
-    font-family: "Microsoft Yahei", Arial, "sans-serif";
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-align: center;
-  }
-  .realtimeStatistic {
-    height: 70px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
-    color: #ffffff;
-    background-color: none;
-    :global {
-      .ant-card {
-        color: #ffffff;
-        background-image: url(~@/assets/image/custom-screen/data-box.png);
-        //background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
-        //background-image: url('https://img.alicdn.com/tfs/TB1rNH2tNjaK1RjSZKzXXXVwXXa-1270-840.png');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100% 100%;
-        background-color: transparent;
-        padding: 0 15px;
-        .ant-card-head {
-          color: #ffffff;
-          border-bottom: none;
-          font-size: 20px;
-          padding: 0 15px;
-        }
-        .ant-card-body {
-          padding: 15px;
-          font-size: 40px;
-          padding-top: 0px;
-        }
-      }
-    }
-
-    .realtimeStatistiCard {
-      // width: 240px;
-      // background-color: red;
-    }
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.fontColor {
+  color: red;
+}
+.titleBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background-image: url('~@/assets/image/custom-screen/header-back.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+.titleFont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //width: 1200px;
+  height: 60px;
+  overflow: hidden;
+  color: #fff;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: 'Microsoft Yahei', Arial, 'sans-serif';
+  line-height: 60px;
+  letter-spacing: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: initial;
+  border: none;
+  border-radius: 0;
+  cursor: default;
+  pointer-events: auto;
+  writing-mode: horizontal-tb;
+}
+.enFont {
+  height: 30px;
+  color: #fff;
+  font-size: 20px;
+  font-family: 'Microsoft Yahei', Arial, 'sans-serif';
+  line-height: 30px;
+  white-space: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+.realtimeStatistic {
+  height: 70px;
+  color: #fff;
+  background-color: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   :global {
-    .ant-list {
-      position: absolute;
-      top: 30px;
-      left: 10px;
-    }
-  }
-  
-  .statisticCard {
-    
-  }
-  .chartBox {
-    position: fixed;
-    bottom: 20px;
-    left: 0px;
-    .chartDiv {
-      float: left;
-      margin-left: 20px;
-      height: 410px;
-      width: 570px;
-      pointer-events: auto;
-      image-rendering: -webkit-optimize-contrast;
+    .ant-card {
+      padding: 0 10px;
+      color: #fff;
+      background-color: transparent;
+      background-image: url('~@/assets/image/custom-screen/data-box.png');
+      //background-image: url('~@/assets/image/screen/subsystemStatistic/realtimeStatisticBG.png');
+      //background-image: url('https://img.alicdn.com/tfs/TB1rNH2tNjaK1RjSZKzXXXVwXXa-1270-840.png');
       background-repeat: no-repeat;
+      background-position: center;
       background-size: 100% 100%;
-      background-image: url(~@/assets/image/custom-screen/chart-back.png);
-      //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
-      background-color: initial;
-      border-radius: 0px;
-      position: relative;
-      .energyDiv {
-        display: flex;
-        color: #ffffff; 
-        font-size: 15px;
-        line-height: 20px;
-        position: absolute;
-        right: 20px;
-        top: 60px;
-        width: 60%;
-        .subLeft{
-          flex: 1;
-          padding-left: 20px;
-          .numSize {
-            font-size: 25px;
-            margin: 10px 0px 10px 0px;
-          }
-        }
+      .ant-card-head {
+        padding: 0 15px;
+        color: #fff;
+        font-size: 20px;
+        border-bottom: none;
       }
-      .voltaicDiv {
-        display: flex;
-        color: #ffffff; 
-        font-size: 15px;
-        line-height: 20px;
-        position: absolute;
-        right: 20px;
-        top: 60px;
-        width: 30%;
-        .subLeft{
-          flex: 1;
-          padding-left: 20px;
-          .numSize {
-            font-size: 25px;
-            margin: 10px 0px 10px 0px;
-          }
-        }
+      .ant-card-body {
+        padding: 0 15px;
+        font-size: 40px;
       }
     }
-    
   }
-  
-  .chartLable {
-    font-size: 25px;
-    color: #ffffff;
-    padding: 20px 0 0 16px;
+}
+:global {
+  .ant-list {
+    position: absolute;
+    top: 30px;
+    left: 10px;
   }
-  //右上角的曲线 
-  .energyChart {
+}
+.chartBox {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  .chartDiv {
+    position: relative;
+    float: left;
+    width: 580px;
+    height: 410px;
+    margin-left: 20px;
+    //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+    background-color: initial;
+    background-image: url('~@/assets/image/custom-screen/chart-back.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-image: url(~@/assets/image/custom-screen/chart-back.png);
-    //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
-    background-color: rgba(18,19,20,0.8);
-    height: 520px;
-    margin-top: 20px; 
-    position: relative;
-    .energySubtitle {
+    border-radius: 0;
+    pointer-events: auto;
+    image-rendering: -webkit-optimize-contrast;
+    .energyDiv {
+      position: absolute;
+      top: 60px;
+      right: 20px;
       display: flex;
-      color: #ffffff; 
+      width: 60%;
+      color: #fff;
       font-size: 15px;
       line-height: 20px;
-      position: absolute;
-      right: 0px;
-      top: 40px;
-      width: 180px;
-      .subLeft{
+      .subLeft {
         flex: 1;
         padding-left: 20px;
         .numSize {
+          margin: 10px 0 10px 0;
           font-size: 25px;
-          margin: 10px 0px 10px 0px;
         }
       }
     }
-  }
-  
-  .scrollLayout {
-    position: relative;
-    .scrollTableBox {
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
-      background-image: url('~@/assets/image/custom-screen/chart-back.png');
-      background-color: initial;
-      height: 410px;
-      overflow: hidden;
-      margin-top: 20px;
+    .voltaicDiv {
       position: absolute;
-      top: 0;
-      left: 0;
-      //表格样式的修改
-      :global {
-        .ant-table-wrapper {
-          clear: none;
-        }
-        .ant-table {
-          color: rgba(255,255, 255, 0.85);
-          background: transparent;
-        }
-        .ant-table-body {
-          //修改滚动条颜色
-          &::-webkit-scrollbar {
-            height: 5px;
-            width: 10px;
-            overflow-y: auto;
-          }
-          &::-webkit-scrollbar-thumb {
-            border-radius: 5px;
-            -webkit-box-shadow: inset 0 0 5px rgba(89, 89, 89, 0.2);
-            background: transparent;
-          }
-          &::-webkit-scrollbar-track {
-            -webkit-box-shadow: 0;
-            border-radius: 0;
-            background: transparent;
-          }
-          //修改奇偶行背景色
-          .oddRow {
-            background-color: rgba(10, 115, 255, 0.15);
-          }
-          .evenRow {
-            background-color: transparent;
-          }
-        }
-        .ant-table-tbody > tr > td {
-          border-bottom: none;
-          font-size: 15px;
-        }
-        .ant-table-tbody > tr.ant-table-row:hover > td, 
-        .ant-table-tbody > tr > td.ant-table-cell-row-hover {
-          background: rgba(10, 115, 255, 0.15);
-        }
-    
-      }
-      .leftBox {
-        float: left;
-        width: calc(50% - 15px);
-        .title {
-          color: #ffffff; 
+      top: 60px;
+      right: 20px;
+      display: flex;
+      width: 30%;
+      color: #fff;
+      font-size: 15px;
+      line-height: 20px;
+      .subLeft {
+        flex: 1;
+        padding-left: 20px;
+        .numSize {
+          margin: 10px 0 10px 0;
           font-size: 25px;
-          margin-top: 20px;
-          padding-left: 15px;
-        }
-        .subDiv{
-          display: flex;
-          color: #ffffff; 
-          font-size: 15px;
-          line-height: 20px;
-          .subLeft{
-            flex: 1;
-            padding-left: 20px;
-            .numSize {
-              font-size: 25px;
-              margin: 10px 0px 10px 0px;
-            }
-          }
-        }
-        .leftDiv {
-          .leftTable {
-            
-          }
-        }
-        
-      }
-      .rightBox {
-        float: right;
-        width: calc(50% - 15px);
-        .title {
-          color: #ffffff; 
-          font-size: 25px;
-          margin-top: 20px;
-          padding-left: 15px;
-        }
-        .subDiv{
-          display: flex;
-          color: #ffffff; 
-          font-size: 15px;
-          line-height: 20px;
-          .subLeft{
-            flex: 1;
-            padding-left: 20px;
-            .numSize {
-              font-size: 25px;
-              margin: 10px 0px 10px 0px;
-            }
-          }
-        }
-        .rightDiv {
-          .rightTable {
-            
-          }
         }
       }
     }
   }
-  .rightCol {
-    background-color: rgba(18,19,20,0.8);
-    position: relative;
-    height: 1080px;
-  }
-  
-  
+}
 
-  
+.chartLable {
+  padding: 20px 0 0 16px;
+  color: #fff;
+  font-size: 25px;
+}
+//右上角的曲线
+.energyChart {
+  position: relative;
+  height: 520px;
+  margin-top: 20px;
+  //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+  background-color: rgba(18, 19, 20, 0.8);
+  background-image: url('~@/assets/image/custom-screen/chart-back.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  .energySubtitle {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    display: flex;
+    width: 180px;
+    color: #fff;
+    font-size: 15px;
+    line-height: 20px;
+    .subLeft {
+      flex: 1;
+      padding-left: 20px;
+      .numSize {
+        margin: 10px 0 10px 0;
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+.scrollLayout {
+  position: relative;
+  .scrollTableBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 410px;
+    margin-top: 20px;
+    overflow: hidden;
+    background-color: initial;
+    //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
+    background-image: url('~@/assets/image/custom-screen/chart-back.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    //表格样式的修改
+    :global {
+      .ant-table-wrapper {
+        clear: none;
+      }
+      .ant-table {
+        color: rgba(255, 255, 255, 0.85);
+        background: transparent;
+      }
+      .ant-table-body {
+        //修改滚动条颜色
+        &::-webkit-scrollbar {
+          width: 10px;
+          height: 5px;
+          overflow-y: auto;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: transparent;
+          border-radius: 5px;
+          -webkit-box-shadow: inset 0 0 5px rgba(89, 89, 89, 0.2);
+        }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+          border-radius: 0;
+          -webkit-box-shadow: 0;
+        }
+        //修改奇偶行背景色
+        .oddRow {
+          background-color: rgba(10, 115, 255, 0.15);
+        }
+        .evenRow {
+          background-color: transparent;
+        }
+      }
+      .ant-table-tbody > tr > td {
+        font-size: 15px;
+        border-bottom: none;
+      }
+      .ant-table-tbody > tr.ant-table-row:hover > td,
+      .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+        background: rgba(10, 115, 255, 0.15);
+      }
+    }
+    .leftBox {
+      float: left;
+      width: calc(50% - 15px);
+      .title {
+        margin-top: 20px;
+        padding-left: 15px;
+        color: #fff;
+        font-size: 25px;
+      }
+      .subDiv {
+        display: flex;
+        color: #fff;
+        font-size: 15px;
+        line-height: 20px;
+        .subLeft {
+          flex: 1;
+          padding-left: 20px;
+          .numSize {
+            margin: 10px 0 10px 0;
+            font-size: 25px;
+          }
+        }
+      }
+      // .leftDiv {
+      //   .leftTable {
+
+      //   }
+      // }
+    }
+    .rightBox {
+      float: right;
+      width: calc(50% - 15px);
+      .title {
+        margin-top: 20px;
+        padding-left: 15px;
+        color: #fff;
+        font-size: 25px;
+      }
+      .subDiv {
+        display: flex;
+        color: #fff;
+        font-size: 15px;
+        line-height: 20px;
+        .subLeft {
+          flex: 1;
+          padding-left: 20px;
+          .numSize {
+            margin: 10px 0 10px 0;
+            font-size: 25px;
+          }
+        }
+      }
+      // .rightDiv {
+      //   .rightTable {
+
+      //   }
+      // }
+    }
+  }
+}
+.rightCol {
+  position: relative;
+  height: 1080px;
+  background-color: rgba(18, 19, 20, 0.8);
+}
