@@ -217,7 +217,7 @@ const genESNode = (data: MainsSupply) => ({
       height: 80,
       icon: IconES,
     },
-    width: 200,
+    width: 70,
     height: 80,
     title: `储能（剩余电量:${(data?.dischargeableCapacity ?? 0) * 0.01}%）`,
     textContent: {
@@ -254,7 +254,7 @@ const genLoadCSNode = (data: MainsSupply) => ({
       height: 78,
       icon: IconLoadCS,
     },
-    width: 180,
+    width: 70,
     height: 78,
     title: '充电桩',
     textContent: {
@@ -286,7 +286,7 @@ const genLoadOtherNode = (data: MainsSupply) => ({
       height: 78,
       icon: IconLoadOther,
     },
-    width: 180,
+    width: 70,
     height: 78,
     title: '其他用电设备',
     textContent: {
