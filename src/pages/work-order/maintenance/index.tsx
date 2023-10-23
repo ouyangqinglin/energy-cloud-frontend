@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
-import type { MaintenanceListType, SiteInfo } from './type';
+import { OrderStatus, type MaintenanceListType, type SiteInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
@@ -13,7 +13,7 @@ import Read from './Read';
 import { getInstallerList } from './service';
 import { message } from 'antd';
 import SelectSiteModal from './SelectSite';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 
 const Maintenance = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
@@ -34,14 +34,14 @@ const Maintenance = () => {
           setOperations(FormOperations.CREATE);
           setSiteModal(true);
         },
-        text: formatMessage({ id: 'common.add' ,defaultMessage: '新建'}),
+        text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
       },
     },
     option: {
       onDeleteChange(_, entity) {
         deleteMaintenanceWorkOrder({ id: entity.id })?.then?.(({ data }) => {
           if (data) {
-            message.success(formatMessage({ id: 'common.del' ,defaultMessage: '删除成功'}));
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
             actionRef?.current?.reload?.();
           }
         });
@@ -56,7 +56,17 @@ const Maintenance = () => {
         setOperations(FormOperations.READ);
         setReadModal(true);
       },
-      modalDeleteText: formatMessage({ id: 'taskManage.delMaintenanceJob' ,defaultMessage: `您确认要删除该维护工单吗？删除之后无法恢复！`}),
+      modalDeleteText: formatMessage({
+        id: 'taskManage.delMaintenanceJob',
+        defaultMessage: `您确认要删除该维护工单吗？删除之后无法恢复！`,
+      }),
+      btnInterceptor(entity, buttonKey) {
+        if (buttonKey == 'onEditChange') {
+          if (entity?.status != OrderStatus.READY) {
+            return false;
+          }
+        }
+      },
     },
   };
 
