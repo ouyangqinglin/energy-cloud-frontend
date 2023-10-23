@@ -12,7 +12,7 @@ import { getCustomerList, getInstallerList } from '../service';
 import { isNil } from 'lodash';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 
 export const Columns: (
   operation: FormOperations,
@@ -22,7 +22,12 @@ export const Columns: (
       title: formatMessage({ id: 'common.site.siteName', defaultMessage: '站点名称' }),
       dataIndex: 'siteName',
       formItemProps: {
-        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}], 
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+          },
+        ],
       },
       colProps: {
         span: 24,
@@ -32,7 +37,12 @@ export const Columns: (
       title: formatMessage({ id: 'taskManage.installTitle', defaultMessage: '安装标题' }),
       dataIndex: 'name',
       formItemProps: {
-        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) }],
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+          },
+        ],
       },
       colProps: {
         span: 24,
@@ -43,7 +53,12 @@ export const Columns: (
       dataIndex: 'content',
       valueType: 'textarea',
       formItemProps: {
-        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) }],
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+          },
+        ],
       },
       colProps: {
         span: 24,
@@ -89,7 +104,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.installManuTips', defaultMessage: '请选择安装商' }),
+            message: formatMessage({
+              id: 'taskManage.installManuTips',
+              defaultMessage: '请选择安装商',
+            }),
           },
         ],
       },
@@ -109,7 +127,10 @@ export const Columns: (
               hideInSearch: true,
             },
             {
-              title: formatMessage({ id: 'taskManage.installerName', defaultMessage: '安装商名称' }),
+              title: formatMessage({
+                id: 'taskManage.installerName',
+                defaultMessage: '安装商名称',
+              }),
               dataIndex: 'orgName',
               width: 200,
               ellipsis: true,
@@ -137,7 +158,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage. customerNameTips', defaultMessage: '请输入客户名称' }),
+            message: formatMessage({
+              id: 'taskManage. customerNameTips',
+              defaultMessage: '请输入客户名称',
+            }),
           },
         ],
       },
@@ -156,7 +180,9 @@ export const Columns: (
                 } else if (verifyPhone(value)) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject(formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }));
+                  return Promise.reject(
+                    formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }),
+                  );
                 }
               },
             };
@@ -171,7 +197,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.selectAppointTime', defaultMessage: '请选择预约时间' }),
+            message: formatMessage({
+              id: 'taskManage.selectAppointTime',
+              defaultMessage: '请选择预约时间',
+            }),
           },
         ],
       },
@@ -198,7 +227,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.customerAddressTips', defaultMessage: '请输入客户地址' }),
+            message: formatMessage({
+              id: 'taskManage.customerAddressTips',
+              defaultMessage: '请输入客户地址',
+            }),
           },
         ],
       },
@@ -221,6 +253,7 @@ export const Columns: (
       colProps: {
         span: 8,
       },
+      dependencies: ['serviceProvider'],
       formItemProps: {
         rules: [
           {
@@ -229,7 +262,7 @@ export const Columns: (
           },
         ],
       },
-      fieldProps: () => {
+      fieldProps: (form) => {
         return {
           tableId: 'handlerBy',
           tableName: 'handlerName',
@@ -264,19 +297,26 @@ export const Columns: (
               // if (isNil(orgIdRef.current)) {
               //   return;
               // }
-              return getInstallerList({ ...params })?.then(({ data }) => {
-                return {
-                  data: data?.list.map(({ userId, userName, ...rest }) => {
+              const orgId = form?.getFieldValue?.('serviceProvider')?.[0]?.orgId;
+              return orgId
+                ? getInstallerList({ ...params, orgId })?.then(({ data }) => {
                     return {
-                      ...rest,
-                      handlerBy: userId,
-                      handlerName: userName,
+                      data: data?.list.map(({ userId, userName, ...rest }) => {
+                        return {
+                          ...rest,
+                          handlerBy: userId,
+                          handlerName: userName,
+                        };
+                      }),
+                      total: data?.total,
+                      success: true,
                     };
-                  }),
-                  total: data?.total,
-                  success: true,
-                };
-              });
+                  })
+                : Promise.resolve({
+                    success: true,
+                    data: [],
+                    total: 0,
+                  });
             },
           },
         };

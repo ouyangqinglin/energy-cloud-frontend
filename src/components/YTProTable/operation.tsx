@@ -5,15 +5,15 @@ import type { ReactNode } from 'react';
 import type { YTProTableCustomProps } from './typing';
 import styles from './index.less';
 import type { ProColumns } from '@ant-design/pro-components';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
 
 const operationsMap = new Map([
   [
     'onEnterChange',
     (onChange: React.MouseEventHandler<HTMLElement>) => (
       <Button type="link" size="small" key="in" onClick={onChange}>
-        <FormattedMessage id='common.enter' defaultMessage="进入" />
+        <FormattedMessage id="common.enter" defaultMessage="进入" />
       </Button>
     ),
   ],
@@ -21,7 +21,7 @@ const operationsMap = new Map([
     'onDetailChange',
     (onChange: React.MouseEventHandler<HTMLElement>) => (
       <Button type="link" size="small" key="detail" onClick={onChange}>
-        <FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />
+        <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
     ),
   ],
@@ -30,7 +30,7 @@ const operationsMap = new Map([
     'onEditChange',
     (onChange: React.MouseEventHandler<HTMLElement>) => (
       <Button type="link" size="small" key="edit" onClick={onChange}>
-        <FormattedMessage id='common.edit' defaultMessage="编辑" />
+        <FormattedMessage id="common.edit" defaultMessage="编辑" />
       </Button>
     ),
   ],
@@ -43,15 +43,19 @@ const operationsMap = new Map([
         key="delete"
         onClick={() => {
           Modal.confirm({
-            title: <strong><FormattedMessage id='common.deleteConfirm' defaultMessage="删除确认" /></strong>,
+            title: (
+              <strong>
+                <FormattedMessage id="common.deleteConfirm" defaultMessage="删除确认" />
+              </strong>
+            ),
             content,
-            okText: formatMessage({id: 'common.confirm',defaultMessage: '确认',}),
-            cancelText: formatMessage({id: 'common.cancel',defaultMessage: '取消',}),
+            okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+            cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
             onOk: onChange,
           });
         }}
       >
-        <FormattedMessage id='common.delete' defaultMessage="删除" />
+        <FormattedMessage id="common.delete" defaultMessage="删除" />
       </Button>
     ),
   ],
@@ -67,6 +71,7 @@ export default function genDefaultOperation<
     columnsProp = {},
     modalDeleteText,
     renderInterceptor,
+    btnInterceptor,
     onEditChange,
     onDetailChange,
     onDeleteChange,
@@ -81,7 +86,7 @@ export default function genDefaultOperation<
 
   // 设置默认的option
   const defaultOptionConfig: ProColumns<DataType, ValueType> = {
-    title: formatMessage({id: 'common.operate',defaultMessage: '操作',}),
+    title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
     dataIndex: 'option',
     valueType: 'option',
     width: widthLength * 50 + 50,
@@ -99,6 +104,9 @@ export default function genDefaultOperation<
         }
       }
       ['onEnterChange', 'onDetailChange', 'onEditChange', 'onDeleteChange'].forEach((buttonKey) => {
+        if (btnInterceptor?.(renderProp[1], buttonKey) === false) {
+          return;
+        }
         const fn = option[buttonKey];
         if (buttonKey && isFunction(fn)) {
           const renderButton = operationsMap.get(buttonKey);

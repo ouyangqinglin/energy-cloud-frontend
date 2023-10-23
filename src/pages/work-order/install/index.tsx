@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, useMemo, useEffect } from 'react';
-import type { InstallListType } from './type';
+import { OrderStatus, type InstallListType } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
@@ -12,7 +12,7 @@ import Read from './Read';
 import { getInstallerList } from './service';
 import type { OptionType } from '@/utils/dictionary';
 import { message } from 'antd';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 
 const Install = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
@@ -30,14 +30,14 @@ const Install = () => {
           setOperations(FormOperations.CREATE);
           setUpdateModal(true);
         },
-        text: formatMessage({ id: 'common.add' ,defaultMessage: '新建'}), 
+        text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
       },
     },
     option: {
       onDeleteChange(_, entity) {
         deleteInstallationWorkOrder({ id: entity.id })?.then?.(({ code, data }) => {
           if (code == '200' || data) {
-            message.success(formatMessage({ id: 'common.del' ,defaultMessage: '删除成功'}), );
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
             actionRef?.current?.reload?.();
           }
         });
@@ -52,7 +52,17 @@ const Install = () => {
         setOperations(FormOperations.READ);
         setReadModal(true);
       },
-      modalDeleteText: formatMessage({ id: 'taskManage.delWorkOrderTips' ,defaultMessage: `您确认要删除该安装工单吗？删除之后无法恢复！`}),  
+      modalDeleteText: formatMessage({
+        id: 'taskManage.delWorkOrderTips',
+        defaultMessage: `您确认要删除该安装工单吗？删除之后无法恢复！`,
+      }),
+      btnInterceptor(entity, buttonKey) {
+        if (buttonKey == 'onEditChange') {
+          if (entity?.status != OrderStatus.READY) {
+            return false;
+          }
+        }
+      },
     },
   };
 
@@ -82,7 +92,7 @@ const Install = () => {
     requestServiceProviderList();
   }, [requestServiceProviderList]);
   const serviceProviderColumns = {
-    title: formatMessage({ id: 'taskManage.installer' ,defaultMessage: '安装人员'}), 
+    title: formatMessage({ id: 'taskManage.installer', defaultMessage: '安装人员' }),
     dataIndex: 'handlerName',
     valueType: 'select',
     hideInTable: true,

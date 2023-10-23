@@ -16,7 +16,7 @@ import type {
   AllTableDataType,
   TableTreeDataType,
 } from './data.d';
-import { areaMap, monitorTypeMap } from './config';
+import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
 
 const bingData = (data: MonitorDataType[], type: string, index: number) => {
   if (!data.length) {
@@ -210,7 +210,7 @@ const Monitor: React.FC = () => {
   useEffect(() => {
     if (siteId) {
       run({ siteId }).then((data) => {
-        const keys = new Set<string>();
+        const keys = new Set<string>([...defaultOpenKeys]);
         const datas: AllTableDataType = {
           electric: { elec: [], row1: [], row2: [] },
           photovoltaic: { elec: [], row1: [], row2: [] },
@@ -287,10 +287,10 @@ const Monitor: React.FC = () => {
 
   const panelData = [
     { key: 'electric', title: '市电监测' },
+    { key: 'load', title: '其他负载' },
     { key: 'photovoltaic', title: '光伏监测' },
     { key: 'energy', title: '储能监测' },
     { key: 'charge', title: '充电桩监测' },
-    { key: 'load', title: '其他负载' },
   ];
 
   const tableSelectColumns: ProColumns[] = [
@@ -317,11 +317,15 @@ const Monitor: React.FC = () => {
           header={item.title}
           key={item.key}
           extra={
-            <Switch
-              checked={activeKeysSet.has(item.key)}
-              loading={loading || editStatusLoading || editConfigLoading}
-              onChange={(checked) => onSwitchChange(item.key, checked)}
-            />
+            defaultOpenKeys.includes(item.key) ? (
+              <></>
+            ) : (
+              <Switch
+                checked={activeKeysSet.has(item.key)}
+                loading={loading || editStatusLoading || editConfigLoading}
+                onChange={(checked) => onSwitchChange(item.key, checked)}
+              />
+            )
           }
         >
           <Divider className="mt0" />

@@ -34,10 +34,12 @@ type StationFOrmProps = {
   onOpenChange?: (open: boolean) => void;
   type: FormTypeEnum;
   onSuccess?: () => void;
+  requestSave?: (data: StationFormType) => Promise<any>;
+  initValues?: StationFormType;
 };
 
 const StationForm: React.FC<StationFOrmProps> = (props) => {
-  const { type, id, onSuccess } = props;
+  const { type, id, onSuccess, requestSave, initValues } = props;
 
   const [form] = Form.useForm<StationFormType>();
   const [show, setShow] = useState(false);
@@ -80,7 +82,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
 
   const onFinish = useCallback(
     (formData: StationFormType) => {
-      const request = type == FormTypeEnum.Add ? runAdd : runEdit;
+      const request = requestSave || (type == FormTypeEnum.Add ? runAdd : runEdit);
       return request({
         ...formData,
         siteId: id,
@@ -101,7 +103,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         }
       });
     },
-    [type, id],
+    [type, id, onSuccess, requestSave],
   );
 
   useEffect(() => {
@@ -124,9 +126,11 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             photosList: data?.photos ? data.photos.split(',').map((url: string) => ({ url })) : [],
           });
         });
+      } else if (initValues) {
+        form.setFieldsValue(initValues);
       }
     }
-  }, [props.open, id, type, form]);
+  }, [props.open, id, type, form, initValues]);
 
   return (
     <>
