@@ -7,11 +7,14 @@
 
 import React, { useEffect } from 'react';
 import { KeepAlive, useIntl, useModel } from 'umi';
+import { useLocation } from '@/hooks';
 
 export default function KeepAlivePage(props: any) {
   const intl = useIntl();
   const { dispatch, tabList, showTabs, tarnslateX, tabsWidth, tabWidth } = useModel('system');
   const { initialState } = useModel('@@initialState');
+  const { query } = useLocation();
+
   useEffect(() => {
     // 去重
     const localTablist = JSON.parse(JSON.stringify(tabList));
@@ -23,7 +26,7 @@ export default function KeepAlivePage(props: any) {
         title: props.route?.locale
           ? intl.formatMessage({ id: props.route?.locale })
           : initialState?.menuPathTitleMap?.get?.(props.route?.path),
-        keepAliveName: props.route.name,
+        keepAliveName: props.route.name || props.route.path,
       };
       localTablist.push(obj);
       let x = 0;
@@ -67,7 +70,8 @@ export default function KeepAlivePage(props: any) {
     return (
       <KeepAlive
         saveScrollPosition={props.route.saveScrollPosition ?? 'screen'}
-        name={props.route.name}
+        id={query?.id}
+        name={props.route.name || props.route.path}
       >
         {props.children}
       </KeepAlive>

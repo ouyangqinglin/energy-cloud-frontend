@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-08-29 14:05:18
+ * @LastEditTime: 2023-10-24 09:26:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -19,8 +19,8 @@ import { FormTypeEnum } from '@/utils/dictionary';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -49,7 +49,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   const [productTypeColumn] = useSearchSelect<DeviceDataType>({
     proColumns: {
-      title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
+      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
       dataIndex: 'productTypeName',
       formItemProps: {
         name: 'productTypeId',
@@ -97,7 +97,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
-      <FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />
+        <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
       <Button
         type="link"
@@ -105,14 +105,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         key="delete"
         onClick={() => {
           Modal.confirm({
-            title: formatMessage({id: 'common.delete',defaultMessage: '删除',}),
-            content: formatMessage({id: 'equipmentList.deleteTips',defaultMessage: '确定要删除该设备吗？'}),
-            okText: formatMessage({id: 'common.confirm',defaultMessage: '确认',}),
-            cancelText: formatMessage({id: 'common.cancel',defaultMessage: '取消',}),
+            title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+            content: formatMessage({
+              id: 'equipmentList.deleteTips',
+              defaultMessage: '确定要删除该设备吗？',
+            }),
+            okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+            cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
             onOk: () => {
               return removeData({ deviceId: record.deviceId }).then(({ data }) => {
                 if (data) {
-                  message.success(formatMessage({id: 'common.del',defaultMessage: '删除成功',}));
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
                   if (actionRef.current) {
                     actionRef.current.reload();
                   }
@@ -134,47 +137,47 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ...(isStationChild ? [] : [siteColumn]),
       productTypeColumn,
       {
-        title: formatMessage({id: 'common.deviceName',defaultMessage: '设备名称',}),
+        title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
         width: 120,
         ellipsis: true,
       },
       {
-        title: formatMessage({id: 'common.deviceCode',defaultMessage: '设备编码',}),
+        title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
         dataIndex: 'deviceId',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({id: 'common.equipmentSerial',defaultMessage: '设备序列号',}),
+        title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,
       },
       {
-        title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
+        title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'model',
         width: 150,
         hideInSearch: true,
         ellipsis: true,
       },
       {
-        title: formatMessage({id: 'common.productType',defaultMessage: '产品类型',}),
+        title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
         dataIndex: 'productTypeName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({id: 'equipmentList.affSite',defaultMessage: '所属站点',}),
+        title: formatMessage({ id: 'equipmentList.affSite', defaultMessage: '所属站点' }),
         dataIndex: 'siteName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({id: 'common.addTime',defaultMessage: '添加时间',}),
+        title: formatMessage({ id: 'common.addTime', defaultMessage: '添加时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
@@ -190,7 +193,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         ellipsis: true,
       },
       {
-        title: formatMessage({id: 'common.upTime',defaultMessage: '上线时间',}),
+        title: formatMessage({ id: 'common.upTime', defaultMessage: '上线时间' }),
         dataIndex: 'sessionStartTime',
         valueType: 'dateTime',
         hideInSearch: true,
@@ -198,14 +201,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         ellipsis: true,
       },
       {
-        title: formatMessage({id: 'equipmentList.comStatus',defaultMessage: '通信状态',}),
+        title: formatMessage({ id: 'equipmentList.comStatus', defaultMessage: '通信状态' }),
         dataIndex: 'connectStatus',
         valueType: 'select',
         valueEnum: onlineStatus,
         width: 120,
       },
       {
-        title: formatMessage({id: 'common.operate',defaultMessage: '操作',}),
+        title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
         width: 150,
         fixed: 'right',
