@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import Layout, { ScaleMode } from '../components/Layout';
 import CustomLayout from './customLayout';
-import LayoutVideo from '@/assets/image/custom-screen/background-video.mp4';
+import LayoutVideo from '@/assets/image/customScreen/background-video.mp4';
 import styles from './index.less';
 
 const JiechengScreen: FC = () => {
