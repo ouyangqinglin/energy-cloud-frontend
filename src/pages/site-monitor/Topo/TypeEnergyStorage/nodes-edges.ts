@@ -32,7 +32,7 @@ const genPSC = (data: PcsVo) => ({
     boxText: {
       width: 136,
       height: 42,
-      label: data.pcsName ?? '储能变流器PCS',
+      label: data?.pcsName ?? '储能变流器PCS',
     },
     imageContent: {
       width: 100,
@@ -43,17 +43,17 @@ const genPSC = (data: PcsVo) => ({
       column: [
         {
           label: '运行状态：',
-          render: () => WorkStatusMap.get(data.workStatus),
+          render: () => WorkStatusMap.get(data?.workStatus),
           field: 'todayConsumption',
         },
         {
           label: '有功功率(kW)：',
-          value: data.p,
+          value: data?.p,
           field: 'todayConsumption',
         },
         {
           label: '无功功率(kW)：',
-          value: data.q,
+          value: data?.q,
           field: 'todayConsumption',
         },
       ],
@@ -129,22 +129,22 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
           boxText: {
             width: 146,
             height: 74,
-            label: data.voltaicPileName,
+            label: data?.voltaicPileName,
           },
           column: [
             {
               label: 'SOC(%):',
-              value: data.soc,
+              value: data?.soc,
               field: 'todayConsumption',
             },
             {
               label: '总电压(V):',
-              value: data.totalBatteryVoltage,
+              value: data?.totalBatteryVoltage,
               field: 'todayConsumption',
             },
             {
               label: '总电流(A):',
-              value: data.totalBatteryCurrent,
+              value: data?.totalBatteryCurrent,
               field: 'todayConsumption',
             },
           ],
@@ -170,22 +170,22 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
           column: [
             {
               label: '单体最高温度(℃):',
-              value: data.maximumIndividualTemperature,
+              value: data?.maximumIndividualTemperature,
               field: 'todayConsumption',
             },
             {
               label: '单体最低温度(℃):',
-              value: data.lvomt,
+              value: data?.lvomt,
               field: 'todayConsumption',
             },
             {
               label: '单体最高电压(V):',
-              value: data.mvvoasu,
+              value: data?.mvvoasu,
               field: 'todayConsumption',
             },
             {
               label: '单体最低电压(V):',
-              value: data.mvvosu,
+              value: data?.mvvosu,
               field: 'todayConsumption',
             },
           ],
@@ -214,12 +214,12 @@ const buildTreeByData = (data: AllTypeData[], nodes: GraphNode[] = []): GraphNod
   if (!nodes.length) {
     const node = getRootNode() as GraphNode;
     node.children =
-      data.map(({ pcsVo, voltaicPileVos }) => {
+      data?.map?.(({ pcsVo, voltaicPileVos }) => {
         const child = genPSC(pcsVo) as GraphNode;
         const controlBoxNode = genBatteryControlBox() as GraphNode;
         child.children = [controlBoxNode];
         controlBoxNode.children =
-          voltaicPileVos.map((voltaicPile) => {
+          voltaicPileVos?.map?.((voltaicPile) => {
             const listNode = genBatteryCluster(voltaicPile);
             return convertListToTree(listNode);
           }) ?? [];

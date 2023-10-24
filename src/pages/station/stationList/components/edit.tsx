@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-10-13 15:57:19
+ * @LastEditTime: 2023-10-23 17:46:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -352,7 +352,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
           <Col span={16}>
             <ProFormUploadButton
               label={formatMessage({
-                id: 'siteManage.siteList.siteLogo',
+                id: 'siteManage.siteList.sitePhotos',
                 defaultMessage: '站点照片',
               })}
               name="photosList"
