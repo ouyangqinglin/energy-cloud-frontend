@@ -354,7 +354,9 @@ const CustomLayout = () => {
                 </div>
 
                 <div className={styles.rightBox}>
-                  <div className={styles.title}>站点产生收益（近30天收益）</div>
+                  <div className={styles.title} style={{ paddingLeft: 0 }}>
+                    站点产生收益（近30天收益）
+                  </div>
                   <div className={styles.subDiv}>
                     <div className={styles.subLeft}>
                       <div>近30天总收益/元</div>
