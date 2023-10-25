@@ -176,18 +176,27 @@ const CustomLayout = () => {
       field: 'income',
     },
   ];
-  const getStorageDataFn = getStorageData().then(({ data }) => {
-    const list = data?.list || [];
-    setStorageChartData(list);
+  // const getStorageDataFn = getStorageData().then(({ data }) => {
+  //   const list = data?.list || [];
+  //   setStorageChartData(list);
 
-    const chargeTotal = data?.otherTotal || '--';
-    const disChargeTotal = data?.total || '--';
-    setChargeTotalNum(chargeTotal);
-    setDisChargeTotalNum(disChargeTotal);
-  });
-
+  //   const chargeTotal = data?.otherTotal || '--';
+  //   const disChargeTotal = data?.total || '--';
+  //   setChargeTotalNum(chargeTotal);
+  //   setDisChargeTotalNum(disChargeTotal);
+  // });
+  function getStorageDataFn() {
+    getStorageData().then(({ data }) => {
+      const list = data?.list || [];
+      setStorageChartData(list);
+      const chargeTotal = data?.otherTotal || '--';
+      const disChargeTotal = data?.total || '--';
+      setChargeTotalNum(chargeTotal);
+      setDisChargeTotalNum(disChargeTotal);
+    });
+  }
   useEffect(() => {
-    //getStorageDataFn;
+    getStorageDataFn();
     getEnergyConsumptionData().then(({ data }) => {
       const list = data?.list || [];
       setEnergyChartData(list);
@@ -227,14 +236,7 @@ const CustomLayout = () => {
       setSiteIncomeTotal(data?.total || '--');
     });
     energyStorageTimer = setInterval(() => {
-      getStorageData().then(({ data }) => {
-        const list = data?.list || [];
-        setStorageChartData(list);
-        const chargeTotal = data?.otherTotal || '--';
-        const disChargeTotal = data?.total || '--';
-        setChargeTotalNum(chargeTotal);
-        setDisChargeTotalNum(disChargeTotal);
-      });
+      getStorageDataFn();
     }, 1000 * 60);
     return () => {
       clearInterval(energyStorageTimer);
