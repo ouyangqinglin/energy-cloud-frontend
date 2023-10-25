@@ -1,23 +1,22 @@
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ConfigType, ConfigListParams } from './data.d';
 import { getConfigList, removeConfig, addConfig, updateConfig, exportConfig } from './service';
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
+import YTProTable from '@/components/YTProTable';
 
 /**
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
  * */
-
 
 /**
  * 添加节点
@@ -29,7 +28,7 @@ const handleAdd = async (fields: ConfigType) => {
   try {
     const resp = await addConfig({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -52,7 +51,7 @@ const handleUpdate = async (fields: ConfigType) => {
   try {
     const resp = await updateConfig(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -76,7 +75,7 @@ const handleRemove = async (selectedRows: ConfigType[]) => {
   try {
     const resp = await removeConfig(selectedRows.map((row) => row.configId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -96,7 +95,7 @@ const handleRemoveOne = async (selectedRow: ConfigType) => {
     const params = [selectedRow.configId];
     const resp = await removeConfig(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -117,7 +116,7 @@ const handleRemoveOne = async (selectedRow: ConfigType) => {
 const handleExport = async () => {
   const hide = message.loading('正在导出');
   try {
-    await exportConfig();    
+    await exportConfig();
     hide();
     message.success('导出成功');
     return true;
@@ -127,7 +126,6 @@ const handleExport = async () => {
     return false;
   }
 };
-
 
 const ConfigTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
@@ -148,7 +146,7 @@ const ConfigTableList: React.FC = () => {
   useEffect(() => {
     getDict('sys_yes_no').then((res) => {
       if (res.code === 200) {
-        const opts = {};
+        const opts: Record<string, any> = {};
         res.data.forEach((item: any) => {
           opts[item.dictValue] = item.dictLabel;
         });
@@ -162,28 +160,38 @@ const ConfigTableList: React.FC = () => {
       title: <FormattedMessage id="system.Config.config_name" defaultMessage="参数名称" />,
       dataIndex: 'configName',
       valueType: 'text',
+      width: 200,
+      ellipsis: true,
     },
     {
       title: <FormattedMessage id="system.Config.config_key" defaultMessage="参数键名" />,
       dataIndex: 'configKey',
       valueType: 'text',
+      width: 200,
+      ellipsis: true,
     },
     {
       title: <FormattedMessage id="system.Config.config_value" defaultMessage="参数键值" />,
       dataIndex: 'configValue',
       valueType: 'textarea',
+      width: 120,
+      ellipsis: true,
     },
     {
       title: <FormattedMessage id="system.Config.config_type" defaultMessage="系统内置" />,
       dataIndex: 'configType',
       valueType: 'select',
       valueEnum: configTypeOptions,
+      width: 120,
+      ellipsis: true,
     },
     {
       title: <FormattedMessage id="system.Config.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true,
+      width: 200,
+      ellipsis: true,
     },
     {
       title: <FormattedMessage id="system.Config.create_time" defaultMessage="创建时间" />,
@@ -198,11 +206,12 @@ const ConfigTableList: React.FC = () => {
           };
         },
       },
+      width: 150,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
       dataIndex: 'option',
-      width: '220px',
+      width: 120,
       valueType: 'option',
       render: (_, record) => [
         <Button
@@ -249,7 +258,7 @@ const ConfigTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<ConfigType>
+        <YTProTable<ConfigType>
           headerTitle={intl.formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
@@ -258,9 +267,6 @@ const ConfigTableList: React.FC = () => {
           formRef={formTableRef}
           rowKey="configId"
           key="configList"
-          search={{
-            labelWidth: 120,
-          }}
           toolBarRender={() => [
             <Button
               type="primary"
@@ -271,7 +277,8 @@ const ConfigTableList: React.FC = () => {
                 setModalVisible(true);
               }}
             >
-              <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+              <PlusOutlined />
+              <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
             </Button>,
             <Button
               type="primary"
@@ -296,18 +303,20 @@ const ConfigTableList: React.FC = () => {
                 handleExport();
               }}
             >
-              <PlusOutlined />
+              <ExportOutlined />
               <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
             </Button>,
           ]}
           request={(params) =>
             getConfigList({ ...params } as ConfigListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
+              return {
+                code: '200',
+                data: {
+                  list: res.rows,
+                  total: res.total,
+                },
+                msg: '',
               };
-              return result;
             })
           }
           columns={columns}

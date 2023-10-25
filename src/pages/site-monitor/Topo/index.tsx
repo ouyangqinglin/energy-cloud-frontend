@@ -17,8 +17,8 @@ import TypeCommunication from './TypeCommunication';
 import TypePowerConsumption from './TypePowerComsumption';
 
 const keyToSystemTitle = new Map([
-  [1, '永泰光储能示范站能量流'],
-  [2, '光伏站点能量流'],
+  [1, '站点能量流'],
+  [2, '光伏系统能量流'],
   [3, '储能系统能量流'],
   [4, '用电设备能量流'],
   [5, '通信拓扑'],
