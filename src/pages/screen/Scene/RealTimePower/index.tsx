@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 17:23:28
- * @LastEditTime: 2023-06-30 18:28:02
+ * @LastEditTime: 2023-10-24 17:22:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
@@ -65,14 +65,13 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
   const length = allMinute.length;
   const nowMinute = getNowMinute();
   for (let i = 0; i < length; i++) {
+    result.push({
+      time: allMinute[i],
+      value: valueMap.get(allMinute[i]),
+      field,
+    });
     if (nowMinute == allMinute[i]) {
       break;
-    } else {
-      result.push({
-        time: allMinute[i],
-        value: valueMap.get(allMinute[i]),
-        field,
-      });
     }
   }
 

@@ -5,8 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, history, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { DictTypeType, DictTypeListParams } from './data.d';
 import {
   getDictTypeList,
@@ -154,7 +153,7 @@ const DictTypeTableList: React.FC = () => {
   useEffect(() => {
     getDict('sys_normal_disable').then((res) => {
       if (res.code === 200) {
-        const opts = {};
+        const opts: Record<string, any> = {};
         res.data.forEach((item: any) => {
           opts[item.dictValue] = item.dictLabel;
         });
@@ -272,7 +271,8 @@ const DictTypeTableList: React.FC = () => {
                 setModalVisible(true);
               }}
             >
-              <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+              <PlusOutlined />
+              <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
             </Button>,
             <Button
               type="primary"
