@@ -22,6 +22,9 @@ const OverviewSetting: React.FC = () => {
     if (!isEmpty(formData?.status)) {
       formData.status = formData.status + '';
     }
+    if (formData && isEmpty(formData?.energyFlowDiagramIds)) {
+      delete formData?.energyFlowDiagramIds;
+    }
     setFalse();
   }, []);
 

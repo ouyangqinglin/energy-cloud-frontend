@@ -2,7 +2,7 @@ import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message, Row } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import { useIntl, history, FormattedMessage, SelectLang, useModel, useAliveController } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/login';
 import BGImg from '@/assets/image/login-bg.png';
@@ -32,6 +32,7 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const { initialState, refresh } = useModel('@@initialState');
   const location = useLocation<QueryParams>();
+  const { clear } = useAliveController();
 
   const [uuid, setUuid] = useState<string>('');
 
@@ -58,11 +59,12 @@ const Login: React.FC = () => {
 
         const redirectPath = homePath || location.query?.redirect || '/index/station';
         const pathArr = redirectPath.split('?');
+
+        await clear();
         history.push({
           pathname: pathArr[0],
           search: pathArr[1] ? '?' + pathArr[1] : '',
         });
-
         refresh();
         return;
       } else {
