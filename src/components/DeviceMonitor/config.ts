@@ -69,4 +69,9 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter' },
   [DeviceTypeEnum.BWattAir]: { component: 'Air' },
   [DeviceTypeEnum.BWattEnergy]: { component: 'Energy' },
+  [DeviceTypeEnum.YTEnergy]: { component: 'Energy' },
+  [DeviceTypeEnum.YTEnergyPcs]: { component: 'Pcs' },
+  [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
+  [DeviceTypeEnum.YTEnergyMetter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
 };
