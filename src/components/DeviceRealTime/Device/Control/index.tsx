@@ -167,7 +167,7 @@ const Control: React.FC<ControlProps> = (props) => {
               options =
                 keys?.map?.((key) => {
                   return {
-                    label: item?.dataType?.specs?.[key],
+                    label: item?.dataType?.specs?.[key as any],
                     value: key,
                   };
                 }) || [];
@@ -277,7 +277,7 @@ const Control: React.FC<ControlProps> = (props) => {
               labelAlign="left"
               labelCol={{ flex: '130px' }}
               submitter={false}
-              onValuesChange={(data) => onSwtichFormChange(data, item.groupName)}
+              onValuesChange={(data: any) => onSwtichFormChange(data, item.groupName)}
               autoFocusFirstInput={false}
               grid={true}
               colProps={{
