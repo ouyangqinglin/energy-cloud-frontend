@@ -8,7 +8,7 @@
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
-import { ListDataType } from '@/utils/dictionary';
+import { DeviceMasterMode, ListDataType } from '@/utils/dictionary';
 import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
@@ -39,6 +39,7 @@ export type DeviceDataType = {
   productConfigType?: number;
   config?: string;
   photos?: string;
+  masterSlaveMode?: DeviceMasterMode;
 };
 
 export type ClusterType = {

@@ -9,9 +9,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest, useHistory } from 'umi';
 import Label from '@/components/Detail/LineLabel';
-import Detail, { DetailItem } from '@/components/Detail';
+import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
-import { controlItems, protectItems } from './config';
+import { controlItems, protectItems, strategyItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-components';
 import { ProField } from '@ant-design/pro-components';
@@ -118,24 +118,34 @@ const Stack: React.FC<StackProps> = (props) => {
     />
   );
 
+  const detailGroup = useMemo<GroupItem[]>(() => {
+    return [
+      {
+        label: <Detail.Label title="控制信息" />,
+        items: controlItems,
+      },
+      {
+        label: <Detail.Label title="策略信息" />,
+        items: strategyItems,
+      },
+      {
+        label: <Detail.Label title="保护信息" />,
+        items: protectItems,
+      },
+    ];
+  }, []);
+
   return (
     <>
-      <Detail.Label title="控制信息" className="mt16" />
-      <Detail
+      <Detail.Group
         data={realTimeData}
-        items={controlItems}
-        extral={extral}
-        colon={false}
-        labelStyle={{ width: 140 }}
-        valueStyle={{ width: '40%' }}
-      />
-      <Detail.Label title="保护信息" className="mt16" />
-      <Detail
-        data={realTimeData}
-        items={protectItems}
-        colon={false}
-        labelStyle={{ width: 140 }}
-        valueStyle={{ width: '40%' }}
+        items={detailGroup}
+        detailProps={{
+          extral,
+          colon: false,
+          labelStyle: { width: 140 },
+          valueStyle: { width: '40%' },
+        }}
       />
       <Label title="接入设备列表" className="mt16" />
       <YTProTable<DeviceDataType>

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-09-12 11:08:09
+ * @LastEditTime: 2023-10-27 08:19:09
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
 import React, { useMemo } from 'react';
 import { DeviceRealTimeType } from '../config';
@@ -19,7 +19,7 @@ export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
 };
 
-const Ems: React.FC<EmsType> = (props) => {
+const YTEnergyEms: React.FC<EmsType> = (props) => {
   const { id, productId, deviceData, type } = props;
 
   const openSubscribe = useMemo(
@@ -29,27 +29,33 @@ const Ems: React.FC<EmsType> = (props) => {
   const realTimeData = useSubscribe(id, openSubscribe);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
-    return [
-      {
-        key: '1',
-        label: '运行数据',
-        children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
-      },
-      {
-        key: '2',
-        label: '远程控制',
-        children: (
-          <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
-        ),
-      },
-    ];
-  }, [realTimeData]);
+    return deviceData?.masterSlaveMode == 1
+      ? []
+      : [
+          {
+            key: '1',
+            label: '运行数据',
+            children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
+          },
+          {
+            key: '2',
+            label: '远程控制',
+            children: (
+              <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
+            ),
+          },
+        ];
+  }, [realTimeData, deviceData]);
 
   return (
     <>
-      <Tabs className={styles.tabs} items={tabItems} />
+      {deviceData?.masterSlaveMode == 1 ? (
+        <Run id={id} productId={productId} realTimeData={realTimeData} />
+      ) : (
+        <Tabs className={styles.tabs} items={tabItems} />
+      )}
     </>
   );
 };
 
-export default Ems;
+export default YTEnergyEms;

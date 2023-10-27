@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-10-16 09:43:19
+ * @LastEditTime: 2023-10-27 14:01:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */

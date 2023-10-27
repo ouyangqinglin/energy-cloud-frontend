@@ -69,6 +69,11 @@ export enum DeviceTypeEnum {
   Device = 'default',
 }
 
+export enum DeviceMasterMode {
+  Master,
+  Slave,
+}
+
 export enum FormTypeEnum {
   Add = 'add',
   Edit = 'edit',

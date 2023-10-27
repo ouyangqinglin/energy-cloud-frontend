@@ -10,10 +10,13 @@
 import type { DetailItem } from '@/components/Detail';
 import {
   closeFormat,
+  currentFormat,
   modelFormat,
+  powerFormat,
   runFormat,
   singleBFormat,
   singleFormat,
+  tempFormat,
   voltageFormat,
 } from '@/utils/format';
 
@@ -26,9 +29,42 @@ export const controlItems: DetailItem[] = [
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
 ];
 
+export const strategyItems: DetailItem[] = [
+  { label: '防逆流阈值', field: 'antiRefluxThreshold', format: powerFormat },
+  { label: '变压器最大负荷', field: 'maxLoadOfTransformer', format: powerFormat },
+];
+
 export const protectItems: DetailItem[] = [
-  { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
-  { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
-  { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
-  { label: '过放释放', field: 'Overrelease', format: voltageFormat },
+  { label: '单体最高允许充电电压', field: 'maxAllowableChargingVoltage', format: voltageFormat },
+  {
+    label: '单体过压故障消除回差值',
+    field: 'overVoltageErrorClearDifference',
+    format: voltageFormat,
+  },
+  { label: '单体最低允许充电电压', field: 'minAllowableChargingVoltage', format: voltageFormat },
+  {
+    label: '单体欠压故障消除回差值',
+    field: 'lowVoltageErrorClearDifference',
+    format: voltageFormat,
+  },
+  { label: '单体最高允许温度', field: 'maxAllowableTemperature', format: tempFormat },
+  { label: '单体过温故障消除回差值', field: 'overTempErrorClearDifference', format: tempFormat },
+  { label: '单体最低允许温度', field: 'minAllowableTemp', format: tempFormat },
+  { label: '单体欠温故障消除回差值', field: 'lowTempErrorClearDifference', format: tempFormat },
+  { label: '电池组最高允许电压', field: 'maxAllowableVoltageOfBatteryPack', format: voltageFormat },
+  {
+    label: '电池组过压故障回差值',
+    field: 'overVoltageErrorDifferenceOfBatteryPack',
+    format: voltageFormat,
+  },
+  {
+    label: '电池组最高允许充电电流',
+    field: 'maxAllowableChargingCurrentOfBatteryPack',
+    format: currentFormat,
+  },
+  {
+    label: '电池组最高允许放电电流',
+    field: 'maxAllowableDischargeCurrentOfBatteryPack',
+    format: currentFormat,
+  },
 ];
