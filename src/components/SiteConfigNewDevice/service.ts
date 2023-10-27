@@ -8,7 +8,7 @@
  */
 
 import request from '@/utils/request';
-import type { EquipFormType } from './data.d';
+import type { EquipFormType } from './data';
 
 export const addData = (data: EquipFormType) => {
   return request(`/iot/device`, {
@@ -45,10 +45,10 @@ export const getProductTypes = (params: any) => {
     params,
   });
 };
-//根据产品id获取通信信息类型和配置信息类型
-export const configTypeByProductId = (params: any) => {
-  return request(`/iot/device/configTypeByProductId`, {
-    method: 'GET',
-    params,
+//将设备绑定到站点
+export const bindDevice = (data: any) => {
+  return request('/iot/device/bindDevice', {
+    method: 'PUT',
+    data,
   });
 };

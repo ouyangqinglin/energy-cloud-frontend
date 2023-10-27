@@ -3,6 +3,8 @@ export default {
     'equipmentList.affSite':'Affiliated site',
     'equipmentList.comStatus':'Communication status',
     'equipmentList.affSubsys':'Affiliated Subsystem',
+    'equipmentList.affTeam':'Affiliated Team',
     'equipmentList.subRequire':'Subsystem Required',
     'equipmentList.devicePhoto':'Equipment Photos',
+    'equipmentList.snForEms':'EMS SN',
 };

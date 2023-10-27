@@ -21,6 +21,7 @@ import { useSiteColumn, useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
+import DeviceSn from './deviceSn';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -30,6 +31,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [snOpen, setSnOpen] = useState(false);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -58,12 +60,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     },
     request: requestProductType,
   });
+  const onCancelSn = useCallback(() => {
+    setSnOpen(false);
+  }, []);
 
   const onSwitchOpen = useCallback(() => {
     setOpen((data) => !data);
   }, []);
 
-  const onAddClick = useCallback(() => {
+  const onAddClick = useCallback(() => {   
+    if(isStationChild) {
+      setSnOpen(true);
+    }
     setOpen(true);
   }, []);
 
@@ -225,13 +233,27 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={toolBar}
         request={handleRequest}
       />
+      {isStationChild ? (
+        <>
+          <DeviceSn 
+            open={snOpen}
+            onCancel={onCancelSn}
+            isStationChild={isStationChild}
+            onSuccess={onSuccess}
+            //onOk={triggerSubmit}
+          />
+          
+        </>  
+        ) : (
       <EquipForm
         open={open}
         onCancel={onSwitchOpen}
         type={FormTypeEnum.Add}
         onSuccess={onSuccess}
         initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
-      />
+         />
+        )}
+      
     </>
   );
 };

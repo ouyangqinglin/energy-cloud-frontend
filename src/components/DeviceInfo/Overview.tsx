@@ -9,7 +9,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Image, Input, InputProps, Skeleton, message } from 'antd';
 import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
-import { useBoolean } from 'ahooks';
+import { useBoolean,useToggle } from 'ahooks';
 import { useRequest } from 'umi';
 import { editDeviceInfo, getDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
@@ -20,6 +20,7 @@ import Dialog from '@/components/Dialog';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
+import DeviceNameDialog from './DeviceNameDialog'
 
 export type OverviewProps = {
   deviceId: string;
@@ -33,6 +34,8 @@ type DeviceNameInfoType = {
   name?: string;
   showEdit?: boolean;
   status?: InputProps['status'];
+  masterSlaveMode:any; //判断是否为自研EMS
+  masterSlaveSystemName:any;
 };
 
 const Overview: React.FC<OverviewProps> = (props) => {
@@ -44,7 +47,12 @@ const Overview: React.FC<OverviewProps> = (props) => {
     name: '',
     showEdit: false,
     status: '',
+    masterSlaveMode:'',
+    masterSlaveSystemName:'',
   });
+
+  const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
+  const [emsNameValues, setEmsNameValues] = useState({});
   const {
     loading: getLoading,
     data: deviceData,
@@ -59,9 +67,13 @@ const Overview: React.FC<OverviewProps> = (props) => {
     manual: true,
   });
 
-  const onEditNameClick = useCallback(() => {
-    setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true }));
-  }, []);
+  const onEditNameClick = useCallback(() => {    
+    setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true }));//input输入框出现
+    if (deviceNameInfo.masterSlaveMode !==''&& deviceNameInfo.masterSlaveMode == 0) {//ems修改名字弹窗出现
+      setEditNameOpen(true);
+      setEmsNameValues(deviceNameInfo);
+    }
+  }, [deviceNameInfo]);
 
   const onDeviceNameChange = useCallback((e: ChangeEvent) => {
     setDeviceNameInfo((prevData) => ({
@@ -97,12 +109,23 @@ const Overview: React.FC<OverviewProps> = (props) => {
     message.success('保存成功');
     runGetDevice({ deviceId: deviceId });
   }, []);
-
+  //更新ems名字
+  const onEditEmsNameSuccess = useCallback(() => {
+    setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
+    runGetDevice({ deviceId: deviceData?.deviceId });
+  }, [deviceData]);
+const beforeSubmitEditName = useCallback((params) => {
+   params.id = deviceData?.deviceId,
+   params.deviceId = deviceData?.deviceId;
+   return params;
+}, [deviceData]);
   useEffect(() => {
     setDeviceNameInfo({
       name: deviceData?.name,
       showEdit: false,
       status: '',
+      masterSlaveMode: deviceData?.masterSlaveMode,
+      masterSlaveSystemName:deviceData?.masterSlaveSystemName
     });
   }, [deviceData]);
 
@@ -164,7 +187,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
           onBlur={editName}
           onPressEnter={editName}
         />
-      );
+      );  
     } else {
       return (
         <>
@@ -211,6 +234,15 @@ const Overview: React.FC<OverviewProps> = (props) => {
         onOpenChange={setOpenImg}
         deviceData={deviceData}
         onSuccess={onEditImgSuccess}
+      />
+      {/* 修改设备名字弹窗 */}
+      <DeviceNameDialog
+        id={deviceData?.id}
+        open={editNameOpen}
+        onOpenChange={setEditNameOpen}
+        onSuccess={onEditEmsNameSuccess}
+        initialValues={emsNameValues}
+        beforeSubmit={beforeSubmitEditName}
       />
     </>
   );

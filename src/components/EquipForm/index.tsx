@@ -13,7 +13,7 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import type { EquipFormType } from './data.d';
-import { editData, getData, addData, getProductTypes } from './service';
+import { editData, getData, addData, getProductTypes, configTypeByProductId } from './service';
 import { getStations } from '@/services/station';
 import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
@@ -38,6 +38,8 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
+  const [isShowEmsSn, setIsShowEmsSn] = useState(true);
+
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
   });
@@ -145,15 +147,26 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  const onValuesChange = useCallback(({ productType, subsystemId }) => {
+  const requestConfigTypeByProductId = useCallback((productId) => {
+    if (productId == '66') {
+      setIsShowEmsSn(false);
+    } else {
+      setIsShowEmsSn(true);
+    }
+  },[]);
+
+  const onValuesChange = useCallback(({ productType, subsystemId, productId }) => {
     if (subsystemId) {
-      requestProductType(subsystemId);
+      requestProductType(subsystemId);//获取产品类型
       form.setFieldValue('productType', undefined);
       form.setFieldValue('productId', undefined);
     }
     if (productType) {
-      requestProductModel(productType);
+      requestProductModel(productType);//获取产品型号
       form.setFieldValue('productId', undefined);
+    }
+    if (productId) {
+      requestConfigTypeByProductId(productId);
     }
   }, []);
 
@@ -174,6 +187,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           requestProductModel(data?.productType);
         });
       }
+      setIsShowEmsSn(true);
     }
   }, [open]);
 
@@ -200,7 +214,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           }}
           initialValues={initialValues}
         >
-          {isStationChild ? (
+          {/* {isStationChild ? (
             <></>
           ) : (
             <ProFormSelect
@@ -212,11 +226,10 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
                 getPopupContainer: (triggerNode) => triggerNode.parentElement,
               }}
             />
-          )}
+          )} */}
           <ProFormSelect
-            label={<FormattedMessage id='equipmentList.affSubsys' defaultMessage="所属子系统" />}
+            label={<FormattedMessage id='equipmentList.affTeam' defaultMessage="所属单元" />}
             name="subsystemId"
-            //placeholder="请选择"
             request={requestDeviceSubsystem}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
@@ -256,6 +269,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             label={<FormattedMessage id='common.equipmentSerial' defaultMessage="设备SN" />}
             name="sn"
             rules={[{ required: true}]}
+          />
+          <ProFormText
+            label={<FormattedMessage id='equipmentList.snForEms' defaultMessage="EMS 设备SN" />}
+            name="emsSn"
+            rules={[{ required: true}]}
+            hidden={isShowEmsSn}
           />
           <ProFormUploadButton
             label={<FormattedMessage id='equipmentList.devicePhoto' defaultMessage="设备照片" />}
