@@ -22,7 +22,6 @@ enum colorEnum {
 
 const Power: React.FC<ComProps> = (props) => {
   const { deviceData, loading } = props;
-
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const {
@@ -117,7 +116,8 @@ const Power: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceData?.deviceId) {
+    if (deviceData?.deviceId && deviceData?.children) {
+      //只有点击父节点才调此接口
       run({ deviceId: deviceData?.deviceId, date: date.format('YYYY-MM-DD') });
     }
   }, [deviceData?.deviceId, date]);
