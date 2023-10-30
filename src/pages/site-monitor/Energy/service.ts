@@ -16,3 +16,10 @@ export const getStat = (params: searchType) => {
     params,
   });
 };
+//储能分组列表
+export const getGroupList = (params: searchType) => {
+  return request<ResponseCommonData<statType>>('/iot/es/group_list', {
+    method: 'GET',
+    params,
+  });
+};

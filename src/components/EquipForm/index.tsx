@@ -19,8 +19,8 @@ import type { OptionType } from '@/utils/dictionary';
 import { FormTypeEnum } from '@/utils/dictionary';
 import { api } from '@/services';
 import { getProductModelByType } from '@/services/equipment';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
 
 export type EquipFormProps = {
   id?: string;
@@ -38,7 +38,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
-  const [isShowEmsSn, setIsShowEmsSn] = useState(true);
+  // const [isShowEmsSn, setIsShowEmsSn] = useState(true);
 
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
@@ -75,7 +75,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
     }).then((data) => {
       if (data) {
-        message.success(formatMessage({ id: 'common.successSaved' ,defaultMessage: '保存成功'}));
+        message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
         onSuccess?.();
         onCancel?.();
       }
@@ -147,27 +147,27 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  const requestConfigTypeByProductId = useCallback((productId) => {
-    if (productId == '66') {
-      setIsShowEmsSn(false);
-    } else {
-      setIsShowEmsSn(true);
-    }
-  },[]);
+  // const requestConfigTypeByProductId = useCallback((productId) => {
+  //   if (productId == '66') {
+  //     setIsShowEmsSn(false);
+  //   } else {
+  //     setIsShowEmsSn(true);
+  //   }
+  // },[]);
 
   const onValuesChange = useCallback(({ productType, subsystemId, productId }) => {
     if (subsystemId) {
-      requestProductType(subsystemId);//获取产品类型
+      requestProductType(subsystemId); //获取产品类型
       form.setFieldValue('productType', undefined);
       form.setFieldValue('productId', undefined);
     }
     if (productType) {
-      requestProductModel(productType);//获取产品型号
+      requestProductModel(productType); //获取产品型号
       form.setFieldValue('productId', undefined);
     }
-    if (productId) {
-      requestConfigTypeByProductId(productId);
-    }
+    // if (productId) {
+    //   requestConfigTypeByProductId(productId);
+    // }
   }, []);
 
   const getValueFromEvent = useCallback((e) => {
@@ -187,7 +187,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           requestProductModel(data?.productType);
         });
       }
-      setIsShowEmsSn(true);
+      //setIsShowEmsSn(true);
     }
   }, [open]);
 
@@ -196,7 +196,11 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title={ type === FormTypeEnum.Add ? formatMessage({ id: 'common.add' ,defaultMessage: '新建'}) : formatMessage({ id: 'common.edit' ,defaultMessage: '编辑'}) }
+        title={
+          type === FormTypeEnum.Add
+            ? formatMessage({ id: 'common.add', defaultMessage: '新建' })
+            : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
+        }
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
@@ -228,17 +232,25 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             />
           )} */}
           <ProFormSelect
-            label={<FormattedMessage id='equipmentList.affTeam' defaultMessage="所属单元" />}
+            label={<FormattedMessage id="equipmentList.affTeam" defaultMessage="所属单元" />}
             name="subsystemId"
             request={requestDeviceSubsystem}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true, message: formatMessage({ id: 'equipmentList.subRequire',defaultMessage: '子系统必选'}) }]}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({
+                  id: 'equipmentList.subRequire',
+                  defaultMessage: '子系统必选',
+                }),
+              },
+            ]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label={<FormattedMessage id='common.productType' defaultMessage="产品类型" />}
+            label={<FormattedMessage id="common.productType" defaultMessage="产品类型" />}
             name="productType"
             //placeholder="请选择"
             options={typeOption}
@@ -249,39 +261,39 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label={<FormattedMessage id='common.model' defaultMessage="产品型号" />}
+            label={<FormattedMessage id="common.model" defaultMessage="产品型号" />}
             name="productId"
             //placeholder="请选择"
             options={modelOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true,}]}
+            rules={[{ required: true }]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormText
-            label={<FormattedMessage id='common.deviceName' defaultMessage="设备名称" />}
+            label={<FormattedMessage id="common.deviceName" defaultMessage="设备名称" />}
             name="name"
             //placeholder="请输入"
-            rules={[{ required: true,}]}
+            rules={[{ required: true }]}
           />
           <ProFormText
-            label={<FormattedMessage id='common.equipmentSerial' defaultMessage="设备SN" />}
+            label={<FormattedMessage id="common.equipmentSerial" defaultMessage="设备SN" />}
             name="sn"
-            rules={[{ required: true}]}
+            rules={[{ required: true }]}
           />
-          <ProFormText
+          {/* <ProFormText
             label={<FormattedMessage id='equipmentList.snForEms' defaultMessage="EMS 设备SN" />}
             name="emsSn"
             rules={[{ required: true}]}
             hidden={isShowEmsSn}
-          />
+          /> */}
           <ProFormUploadButton
-            label={<FormattedMessage id='equipmentList.devicePhoto' defaultMessage="设备照片" />}
+            label={<FormattedMessage id="equipmentList.devicePhoto" defaultMessage="设备照片" />}
             name="photosList"
             valuePropName="fileList"
             getValueFromEvent={getValueFromEvent}
-            title={<FormattedMessage id='common.uploadPhoto' defaultMessage="上传图片"/>}
+            title={<FormattedMessage id="common.uploadPhoto" defaultMessage="上传图片" />}
             max={1}
             accept="image/*"
             fieldProps={{
