@@ -18,6 +18,11 @@ import {
   singleFormat,
   tempFormat,
   voltageFormat,
+  systemOperatingModeFormat,
+  converterFormat,
+  converterStauesFormat,
+  batteryWorkFormat,
+  batteryWorkingStatusFormat,
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
@@ -67,4 +72,23 @@ export const protectItems: DetailItem[] = [
     field: 'maxAllowableDischargeCurrentOfBatteryPack',
     format: currentFormat,
   },
+];
+export const emsOperationItems: DetailItem[] = [
+  { label: '系统工作模式', field: 'systemOperatingMode', format: systemOperatingModeFormat },
+  { label: '系统工作状态', field: 'emsSysStatus', format: runFormat },
+  { label: '变流器工作模式', field: 'converterOperatingMode', format: converterFormat },
+  { label: '变流器工作状态', field: 'converterWorkingStatus', format: converterStauesFormat },
+  { label: '电池组工作模式', field: 'batteryPackOperatingMode', format: batteryWorkFormat },
+  {
+    label: '电池组工作状态',
+    field: 'batteryPackWorkingStatus',
+    format: batteryWorkingStatusFormat,
+  },
+  { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
+  { label: '预充触器状态', field: 'prechargeContactStatus', format: closeFormat },
+  { label: '直流断路器状态', field: 'DCCircuitBreakerStatus', format: closeFormat },
+  { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: closeFormat },
+  { label: '气溶胶信号', field: 'AerosolSignal', format: singleBFormat },
+  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
+  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
 ];

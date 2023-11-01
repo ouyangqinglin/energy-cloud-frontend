@@ -53,6 +53,43 @@ export const modelFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const converterFormat = (value: number) => {
+  const map: MapType = {
+    0: '离网工作',
+    1: '并网工作',
+    2: '市电充电',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
+export const converterStauesFormat = (value: number) => {
+  const map: MapType = {
+    0: '启动',
+    1: '待机',
+    2: '停止',
+    3: '复位',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
+export const batteryWorkFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '核容',
+    2: '均衡',
+    3: '充电',
+    4: '放电',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
+export const batteryWorkingStatusFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '核容',
+    2: '均衡',
+    3: '充电',
+    4: '放电',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const closeFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapType = {
@@ -332,6 +369,14 @@ export const openCloseFormat = (status: number) => {
   const map: MapType = {
     0: '关闭',
     1: '打开',
+  };
+  return <span className="cl-success">{map[status]}</span>;
+};
+export const systemOperatingModeFormat = (status: number) => {
+  const map: MapType = {
+    0: '削峰填谷',
+    1: '备电',
+    2: '手动控制',
   };
   return <span className="cl-success">{map[status]}</span>;
 };
