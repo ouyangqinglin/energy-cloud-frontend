@@ -1,14 +1,13 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRequest, useHistory } from 'umi';
-import { Skeleton} from 'antd';
+import { Skeleton } from 'antd';
 import { useSubscribe } from '@/hooks';
 import { getEnergy } from '../service';
-import {energyType } from '../type';
+import { energyType } from '../type';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { Tabs, TabsProps } from 'antd';
 import { DeviceDataType } from '@/services/equipment';
-import GroupItem from "./groupItem";
+import GroupItem from './groupItem';
 
 //获取实时数据订阅id
 const getDataIds = (data: energyType[]): string[] => {
@@ -23,18 +22,12 @@ const getDataIds = (data: energyType[]): string[] => {
 };
 export type MasterSlaveGroupProp = {
   deviceData?: DeviceDataType;
-  emsGroupData: any;//分组数据
-  loadingEmsTabs:boolean;
+  emsGroupData: any; //分组数据
+  loadingEmsTabs: boolean;
 };
 const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
-  const { loadingEmsTabs, emsGroupData, deviceData, } = props;
+  const { loadingEmsTabs, emsGroupData, deviceData } = props;
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  //const [allDeviceData, setAllDeviceData] = useState([]);
-  // const openSubscribe = useMemo(
-  //   () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
-  //   [deviceData],
-  // );
-  //const realTimeData = useSubscribe(deviceIds, openSubscribe);
 
   const history = useHistory();
 
@@ -45,47 +38,39 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
   } = useRequest(getEnergy, {
     manual: true,
   });
-
-  // useEffect(() => {
-  //   if (deviceData?.deviceId) {
-  //     runDeviceTree({ deviceId: deviceData?.deviceId }).then((data) => {
-  //       setDeviceIds(getDataIds([data]));
-  //     });
-  //   }
-  // }, [deviceData?.deviceId]);
   //获取实时数据
   const allDeviceData = useMemo(() => {
     if (emsGroupData) {
       emsGroupData.map((item: any, index: any) => {
-        if(item.devices) {
-          item.devices.forEach((deviceItem:any,i:any)=> {
-            runDeviceTree({ deviceId: deviceItem.deviceId }).then((data) => {
+        if (item.devices) {
+          item.devices.forEach((deviceItem: any, i: any) => {
+            runDeviceTree({ deviceId: deviceItem.deviceId }).then((data: any) => {
               const allDeviceIds = getDataIds([data]);
               setDeviceIds(allDeviceIds);
               if (deviceItem.networkStatus == 1) {
-                deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
+                //deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
               } else {
                 deviceItem.realTimeData = {
-                  "TotalBatteryVoltage": 10,
-                  "TotalBatteryCurrent": 10,
-                  "P": 20,
-                  "DischargeableCapacity": 45,
-                  "RechargeableCapacity": 14,
-                  "SOH": 8,
-                  "SOC": 20,
-                  "MaximumIndividualTemperature": 9,
-                  "LVOMT": 8,
-                  "MVVOASU": 7,
-                  "MVVOSU": 6,   
-               };
+                  TotalBatteryVoltage: 10,
+                  TotalBatteryCurrent: 10,
+                  P: 20,
+                  DischargeableCapacity: 45,
+                  RechargeableCapacity: 14,
+                  SOH: 8,
+                  SOC: 20,
+                  MaximumIndividualTemperature: 9,
+                  LVOMT: 8,
+                  MVVOASU: 7,
+                  MVVOSU: 6,
+                };
               }
             });
-          })
+          });
           return item;
         }
       });
       return emsGroupData;
-    }  
+    }
   }, [emsGroupData]);
 
   // const items = useMemo(() => {
@@ -134,129 +119,127 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     if (allDeviceData) {
-      let data =[
-        {
-            "deviceId": 20852,
-            "productId": 66,
-            "deviceName": "储能主设备",
-            "masterSlaveMode": 0,
-            "networkStatus": 0,
-            "groupId": 2,
-            "groupName": "五单元",
-            "realTimeData": {
-                "TotalBatteryVoltage": 10,
-                "TotalBatteryCurrent": 10,
-                "P": 20,
-                "DischargeableCapacity": 45,
-                "RechargeableCapacity": 14,
-                "SOH": 8,
-                "SOC": 20,
-                "MaximumIndividualTemperature": 9,
-                "LVOMT": 8,
-                "MVVOASU": 7,
-                "MVVOSU": 6
-            }
-        },
-        {
-          "deviceId": 20852,
-          "productId": 66,
-          "deviceName": "储能主设备",
-          "masterSlaveMode": 0,
-          "networkStatus": 0,
-          "groupId": 2,
-          "groupName": "五单元",
-          "realTimeData": {
-              "TotalBatteryVoltage": 10,
-              "TotalBatteryCurrent": 10,
-              "P": 20,
-              "DischargeableCapacity": 45,
-              "RechargeableCapacity": 14,
-              "SOH": 8,
-              "SOC": 20,
-              "MaximumIndividualTemperature": 9,
-              "LVOMT": 8,
-              "MVVOASU": 7,
-              "MVVOSU": 6
-          }
-      },
-        {
-            "deviceId": 20854,
-            "productId": 66,
-            "deviceName": "储能从设备",
-            "masterSlaveMode": 1,
-            "networkStatus": 0,
-            "groupId": 2,
-            "groupName": "五单元",
-            "realTimeData": {
-                "TotalBatteryVoltage": 10,
-                "TotalBatteryCurrent": 10,
-                "P": 20,
-                "DischargeableCapacity": 45,
-                "RechargeableCapacity": 14,
-                "SOH": 8,
-                "SOC": 20,
-                "MaximumIndividualTemperature": 9,
-                "LVOMT": 8,
-                "MVVOASU": 7,
-                "MVVOSU": 6
-            }
-        },
-        {
-          "deviceId": 20852,
-          "productId": 66,
-          "deviceName": "储能主设备",
-          "masterSlaveMode": 0,
-          "networkStatus": 0,
-          "groupId": 2,
-          "groupName": "五单元",
-          "realTimeData": {
-              "TotalBatteryVoltage": 10,
-              "TotalBatteryCurrent": 10,
-              "P": 20,
-              "DischargeableCapacity": 45,
-              "RechargeableCapacity": 14,
-              "SOH": 8,
-              "SOC": 20,
-              "MaximumIndividualTemperature": 9,
-              "LVOMT": 8,
-              "MVVOASU": 7,
-              "MVVOSU": 6
-          }
-      },
-      {
-        "deviceId": 20852,
-        "productId": 66,
-        "deviceName": "储能主设备",
-        "masterSlaveMode": 0,
-        "networkStatus": 0,
-        "groupId": 2,
-        "groupName": "五单元",
-        "realTimeData": {
-            "TotalBatteryVoltage": 10,
-            "TotalBatteryCurrent": 10,
-            "P": 20,
-            "DischargeableCapacity": 45,
-            "RechargeableCapacity": 14,
-            "SOH": 8,
-            "SOC": 20,
-            "MaximumIndividualTemperature": 9,
-            "LVOMT": 8,
-            "MVVOASU": 7,
-            "MVVOSU": 6
-        }
-    },
-    ];
-      return  (
-        allDeviceData.map((item:any, index: any) => {
-          return {
-            label: item.groupName,
-            key: String(item.groupId),
-            //children: <GroupItem data={item.devices} allData={item}/>,
-            children: <GroupItem data={data} allData={item}/>,
-          };
-        })
-      );
-    } 
+      //   let data =[
+      //     {
+      //         "deviceId": 20852,
+      //         "productId": 66,
+      //         "deviceName": "储能主设备",
+      //         "masterSlaveMode": 0,
+      //         "networkStatus": 0,
+      //         "groupId": 2,
+      //         "groupName": "五单元",
+      //         "realTimeData": {
+      //             "TotalBatteryVoltage": 10,
+      //             "TotalBatteryCurrent": 10,
+      //             "P": 20,
+      //             "DischargeableCapacity": 45,
+      //             "RechargeableCapacity": 14,
+      //             "SOH": 8,
+      //             "SOC": 20,
+      //             "MaximumIndividualTemperature": 9,
+      //             "LVOMT": 8,
+      //             "MVVOASU": 7,
+      //             "MVVOSU": 6
+      //         }
+      //     },
+      //     {
+      //       "deviceId": 20852,
+      //       "productId": 66,
+      //       "deviceName": "储能主设备",
+      //       "masterSlaveMode": 0,
+      //       "networkStatus": 0,
+      //       "groupId": 2,
+      //       "groupName": "五单元",
+      //       "realTimeData": {
+      //           "TotalBatteryVoltage": 10,
+      //           "TotalBatteryCurrent": 10,
+      //           "P": 20,
+      //           "DischargeableCapacity": 45,
+      //           "RechargeableCapacity": 14,
+      //           "SOH": 8,
+      //           "SOC": 20,
+      //           "MaximumIndividualTemperature": 9,
+      //           "LVOMT": 8,
+      //           "MVVOASU": 7,
+      //           "MVVOSU": 6
+      //       }
+      //   },
+      //     {
+      //         "deviceId": 20854,
+      //         "productId": 66,
+      //         "deviceName": "储能从设备",
+      //         "masterSlaveMode": 1,
+      //         "networkStatus": 0,
+      //         "groupId": 2,
+      //         "groupName": "五单元",
+      //         "realTimeData": {
+      //             "TotalBatteryVoltage": 10,
+      //             "TotalBatteryCurrent": 10,
+      //             "P": 20,
+      //             "DischargeableCapacity": 45,
+      //             "RechargeableCapacity": 14,
+      //             "SOH": 8,
+      //             "SOC": 20,
+      //             "MaximumIndividualTemperature": 9,
+      //             "LVOMT": 8,
+      //             "MVVOASU": 7,
+      //             "MVVOSU": 6
+      //         }
+      //     },
+      //     {
+      //       "deviceId": 20852,
+      //       "productId": 66,
+      //       "deviceName": "储能主设备",
+      //       "masterSlaveMode": 0,
+      //       "networkStatus": 0,
+      //       "groupId": 2,
+      //       "groupName": "五单元",
+      //       "realTimeData": {
+      //           "TotalBatteryVoltage": 10,
+      //           "TotalBatteryCurrent": 10,
+      //           "P": 20,
+      //           "DischargeableCapacity": 45,
+      //           "RechargeableCapacity": 14,
+      //           "SOH": 8,
+      //           "SOC": 20,
+      //           "MaximumIndividualTemperature": 9,
+      //           "LVOMT": 8,
+      //           "MVVOASU": 7,
+      //           "MVVOSU": 6
+      //       }
+      //   },
+      //   {
+      //     "deviceId": 20852,
+      //     "productId": 66,
+      //     "deviceName": "储能主设备",
+      //     "masterSlaveMode": 0,
+      //     "networkStatus": 0,
+      //     "groupId": 2,
+      //     "groupName": "五单元",
+      //     "realTimeData": {
+      //         "TotalBatteryVoltage": 10,
+      //         "TotalBatteryCurrent": 10,
+      //         "P": 20,
+      //         "DischargeableCapacity": 45,
+      //         "RechargeableCapacity": 14,
+      //         "SOH": 8,
+      //         "SOC": 20,
+      //         "MaximumIndividualTemperature": 9,
+      //         "LVOMT": 8,
+      //         "MVVOASU": 7,
+      //         "MVVOSU": 6
+      //     }
+      // },
+      // ];
+      return allDeviceData.map((item: any, index: any) => {
+        return {
+          label: item.groupName,
+          key: String(item.groupId),
+          children: <GroupItem data={item.devices} allData={item} />,
+          //children: <GroupItem data={data} allData={item}/>,
+        };
+      });
+    }
   }, [allDeviceData]);
 
   return (
@@ -267,7 +250,7 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
         </>
       ) : (
         <>
-          <Tabs className="category-tabs" items={tabItems} tabBarGutter={24} size='large'/>
+          <Tabs className="category-tabs" items={tabItems} tabBarGutter={24} size="large" />
         </>
       )}
     </>

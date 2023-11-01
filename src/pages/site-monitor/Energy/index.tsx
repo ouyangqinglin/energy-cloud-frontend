@@ -13,6 +13,7 @@ import EnergyInfo, { EnergySourceEnum } from '@/components/EnergyInfo';
 import SiteLabel from '@/components/SiteLabel';
 import { SiteDataType } from '@/services/station';
 import { getEnergeListBySite } from '@/services/equipment';
+import { getGroupList } from './service';
 
 const Index: React.FC = () => {
   const [siteData, setSiteData] = useState<SiteDataType>();
@@ -26,7 +27,13 @@ const Index: React.FC = () => {
   } = useRequest(getEnergeListBySite, {
     manual: true,
   });
-
+  const {
+    data: groupData,
+    run: getGroupData,
+    loading: loadingGroupData,
+  } = useRequest(getGroupList, {
+    manual: true,
+  });
   const onChange = useCallback((data: SiteDataType) => {
     setSiteData(data);
   }, []);
@@ -46,6 +53,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     if (siteData?.id) {
       run({ siteId: siteData.id });
+      getGroupData({ siteId: siteData.id }); //新接口，兼容所有设备
     }
   }, [siteData]);
 
@@ -59,6 +67,8 @@ const Index: React.FC = () => {
           showLabel
           loading={loading}
           source={EnergySourceEnum.SiteMonitor}
+          emsGroupData={groupData}
+          loadingGroupData={loadingGroupData}
         />
       </div>
     </>

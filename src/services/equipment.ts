@@ -41,6 +41,15 @@ export type DeviceDataType = {
   photos?: string;
   masterSlaveMode?: DeviceMasterMode;
 };
+export type EmsDevicesType = {
+  deviceId: any;
+  productId: any;
+  deviceName: string;
+  masterSlaveMode: any;
+  groupId: any;
+  groupName: any;
+  networkStatus: any;
+};
 
 export type ClusterType = {
   key: string;
