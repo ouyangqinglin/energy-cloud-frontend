@@ -48,7 +48,8 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
               const allDeviceIds = getDataIds([data]);
               setDeviceIds(allDeviceIds);
               if (deviceItem.networkStatus == 1) {
-                //deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
+                // eslint-disable-next-line
+                deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
               } else {
                 deviceItem.realTimeData = {
                   TotalBatteryVoltage: 10,
