@@ -28,7 +28,7 @@ export type MasterSlaveGroupProp = {
 const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
   const { loadingEmsTabs, emsGroupData, deviceData } = props;
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
-
+  const realTimeData = useSubscribe(deviceIds, true);
   const history = useHistory();
 
   const {
@@ -48,22 +48,23 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
               const allDeviceIds = getDataIds([data]);
               setDeviceIds(allDeviceIds);
               if (deviceItem.networkStatus == 1) {
-                // eslint-disable-next-line
-                deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
+                //deviceItem.realTimeData = useSubscribe(allDeviceIds, true);
+                deviceItem.realTimeData = realTimeData;
               } else {
-                deviceItem.realTimeData = {
-                  TotalBatteryVoltage: 10,
-                  TotalBatteryCurrent: 10,
-                  P: 20,
-                  DischargeableCapacity: 45,
-                  RechargeableCapacity: 14,
-                  SOH: 8,
-                  SOC: 20,
-                  MaximumIndividualTemperature: 9,
-                  LVOMT: 8,
-                  MVVOASU: 7,
-                  MVVOSU: 6,
-                };
+                // deviceItem.realTimeData = {
+                //   TotalBatteryVoltage: 10,
+                //   TotalBatteryCurrent: 10,
+                //   P: 20,
+                //   DischargeableCapacity: 45,
+                //   RechargeableCapacity: 14,
+                //   SOH: 8,
+                //   SOC: 20,
+                //   MaximumIndividualTemperature: 9,
+                //   LVOMT: 8,
+                //   MVVOASU: 7,
+                //   MVVOSU: 6,
+                // };
+                deviceItem.realTimeData = {};
               }
             });
           });

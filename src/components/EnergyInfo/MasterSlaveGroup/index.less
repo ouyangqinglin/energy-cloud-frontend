@@ -9,12 +9,12 @@
     .ant-card {
       padding: 0 10px;
       color: black;
+      line-height: 20px;
       background-color: transparent;
       //background-image: url(~@/assets/image/customScreen/data-box.png);
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100% 100%;
-      line-height: 20px;
       .ant-card-head {
         padding: 0 15px;
         color: black;
@@ -23,8 +23,8 @@
       }
       .ant-card-body {
         padding: 0 15px;
-        font-size: 16px;
         font-weight: 600;
+        font-size: 16px;
       }
     }
   }
@@ -40,56 +40,56 @@
 .tabConent {
   position: relative;
   .totalList {
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     height: 82px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   }
   .leftArrowBox {
-    width: 48px;
-    height: 48px;
-    border: 1px solid #E4E7ED;
-    border-radius: 24px;
-    cursor: pointer;
     position: absolute;
     top: 50%;
     left: 0;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e4e7ed;
+    border-radius: 24px;
+    cursor: pointer;
     &:hover {
       border: 1px solid #008ccf;
     }
   }
   .disLeftCss {
-    width: 48px;
-    height: 48px;
-    border: 1px solid #E4E7ED;
-    border-radius: 24px;
-    cursor: not-allowed;
-    pointer-events: none;
     position: absolute;
     top: 50%;
     left: 0;
-  }
-  .rightArrowBox {
     width: 48px;
     height: 48px;
-    border: 1px solid #E4E7ED;
+    border: 1px solid #e4e7ed;
     border-radius: 24px;
-    cursor: pointer;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .rightArrowBox {
     position: absolute;
     top: 50%;
     right: 0;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e4e7ed;
+    border-radius: 24px;
+    cursor: pointer;
     &:hover {
       border: 1px solid #008ccf;
     }
   }
   .disRightAbledCss {
-    width: 48px;
-    height: 48px;
-    border: 1px solid #E4E7ED;
-    border-radius: 24px;
-    cursor: not-allowed;
-    pointer-events: none;
     position: absolute;
     top: 50%;
     right: 0;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e4e7ed;
+    border-radius: 24px;
+    cursor: not-allowed;
+    pointer-events: none;
     :hover {
       cursor: not-allowed;
     }
@@ -113,27 +113,27 @@
       }
     }
   }
-  .groupItemDiv { 
+  .groupItemDiv {
     // position: absolute;
     // top: 140px;
     // left: 0;
     margin-top: 20px;
   }
 }
-.allDeviceDiv{
-  display: flex;
+.allDeviceDiv {
   position: relative;
+  display: flex;
   width: calc(100% - 100px);
   margin: 0 auto;
   .deviceItemDiv {
-    flex:1;
     position: relative;
+    flex: 1;
     .topDeviceDiv {
       position: relative;
       .verticalDiv {
+        width: 1px;
         height: 86px;
         margin: 0 auto;
-        width: 1px;
         :global {
           .ant-divider-vertical {
             height: 86px;
@@ -155,11 +155,11 @@
         top: 20px;
         right: 58px;
         .deviceName {
+          color: #191919;
+          font-weight: 600;
           font-size: 14px;
           font-family: PingFangSC-Medium, PingFang SC;
-          font-weight: 500;
-          color: #191919;
-          line-height: 22px
+          line-height: 22px;
         }
         .chargeImg {
           width: 32px;
@@ -171,64 +171,77 @@
       width: 200px;
       //height: calc(100% - 10px);
       margin: 0 auto;
-      border: 1px solid #E4E7ED;
-      border-radius: 8px;
       padding: 10px;
+      border: 1px solid #e4e7ed;
+      border-radius: 8px;
       .battery {
         position: relative;
-        height: 30px;
         width: 100%;
+        height: 30px;
         :global {
           .ant-progress-bg {
             height: 20px !important;
-            border-radius: 0px;
+            border-radius: 0;
           }
           .ant-progress-show-info .ant-progress-outer {
             padding-right: 0;
           }
           .ant-progress-inner {
-            background-color: #C9CDD4;
-            border-radius: 0px;
+            background-color: #c9cdd4;
+            border-radius: 0;
           }
           .ant-progress-text {
-            color: #fff;
             position: absolute;
-            left: calc(50% - 35px);
             top: 6px;
+            left: calc(50% - 35px);
+            color: #fff;
           }
         }
       }
       .deviceParameterBox {
         display: flex;
-        background: #F5F5FA;
-        border-radius: 4px;
         margin-top: 15px;
+        background: #f5f5fa;
+        border-radius: 4px;
         .pressureCard {
           flex: 1;
           padding: 10px;
         }
         .verticalDiv {
-          height: 40px;
           width: 1px;
+          height: 40px;
           margin-top: 15px;
           margin-left: -3px;
           :global {
             .ant-divider-vertical {
               height: 40px;
+              margin-left: -6px;
             }
           }
         }
       }
       .peakBox {
-        display: flex;
         position: relative;
+        display: flex;
         margin-top: 10px;
+        :global {
+          .anticon {
+            margin-left: 6px;
+          }
+          .anticon-arrow-up {
+            color: red;
+          }
+          .anticon-arrow-down {
+            color: #00b42a;
+          }
+        }
         .leftpeakBox {
           flex: 1;
           padding: 6px;
           .voltageImg {
             width: 16px;
             height: 16px;
+            margin-right: 10px;
           }
           .iconTop {
             margin-top: 15px;
@@ -246,7 +259,12 @@
           }
         }
       }
+      .pressFont {
+        font-weight: 600;
+      }
+      .unitFont {
+        font-size: 10px;
+      }
     }
-    
   }
 }

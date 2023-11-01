@@ -95,23 +95,23 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
       setCurrentList(list);
     }
   }, [data]);
-  //箭头切换逻辑-右边
+  //箭头切换逻辑-右边-需修改
   const onRightClick = useCallback(() => {
-    const source = data;
-    let newIndex: number;
-    let newList: [];
-    setCurrentList([]);
-    if (source.length - targetIndex >= 3) {
-      newIndex = targetIndex + 3;
-      newList = source.slice(targetIndex, newIndex);
-    } else {
-      newIndex = source.length;
-      newList = source.slice(targetIndex, newIndex);
-      setRightArrowCss(styles.disRightAbledCss);
-    }
-    setTargetIndex(newIndex);
-    setCurrentList(newList);
-    setIsChangeWidth(true);
+    // const source = data;
+    // let newIndex: number;
+    // let newList: [];
+    // setCurrentList([]);
+    // if (source.length - targetIndex >= 3) {
+    //   newIndex = targetIndex + 3;
+    //   newList = source.slice(targetIndex, newIndex);
+    // } else {
+    //   newIndex = source.length;
+    //   newList = source.slice(targetIndex, newIndex);
+    //   setRightArrowCss(styles.disRightAbledCss);
+    // }
+    // setTargetIndex(newIndex);
+    // setCurrentList(newList);
+    // setIsChangeWidth(true);
   }, [currentList, targetIndex, rightArrowCss, lineWidth, boxWidth]);
   //箭头切换逻辑-左边
   const onLeftClick = useCallback(() => {
@@ -175,6 +175,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
                 realtimeData={item.realTimeData}
                 onChildData={handleChildData}
                 isChangeWidth={isChangeWidth}
+                allDeviceData={item}
               />
             );
           })}
