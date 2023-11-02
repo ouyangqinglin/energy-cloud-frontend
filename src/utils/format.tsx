@@ -39,6 +39,15 @@ export const runFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const systemRunFormat = (value: number) => {
+  const map: MapType = {
+    0: '启动',
+    1: '待机',
+    2: '停止',
+    3: '急停',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const airRunFormat = (value: number) => {
   const map: MapType = {
     0: '运行',
@@ -82,11 +91,9 @@ export const batteryWorkFormat = (value: number) => {
 };
 export const batteryWorkingStatusFormat = (value: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '核容',
-    2: '均衡',
-    3: '充电',
-    4: '放电',
+    0: '启动',
+    1: '待机',
+    2: '停止',
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
