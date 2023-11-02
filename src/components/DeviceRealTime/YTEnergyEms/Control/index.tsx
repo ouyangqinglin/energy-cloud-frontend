@@ -30,20 +30,22 @@ const Setting: React.FC<SettingProps> = (props) => {
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
-  const btnClick = useCallback((formData) => {
+  const btnClick = useCallback((item, btnItem) => {
     Modal.confirm({
-      title: '确认',
-      content: '是否执行当前保护参数下发',
+      title: item.label || '确认',
+      content: '是否执行当前参数下发',
       okText: '确认',
       cancelText: '取消',
       onOk: () =>
-        run({ deviceId: id, input: { ...formData }, serviceId: 'setChargeReleaseProtect' }).then(
-          (data: any) => {
-            if (data) {
-              message.success('下发成功');
-            }
-          },
-        ),
+        run({
+          deviceId: id,
+          input: { paramList: [{ [item.field]: btnItem.value }] },
+          serviceId: item?.field,
+        }).then((data: any) => {
+          if (data) {
+            message.success('下发成功');
+          }
+        }),
     });
   }, []);
   return (
@@ -61,7 +63,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                       type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
                       disabled={btnDisabled}
                       onClick={() => {
-                        btnClick(btnItem);
+                        btnClick(item, btnItem);
                       }}
                       loading={loading}
                     >
