@@ -15,10 +15,11 @@ export enum EnergySourceEnum {
 export type GroupItemProps = {
   data: any; //设备数据
   allData: any;
+  isShowDeviceDetail: any; //传递数据给父组件告诉如何显示
 };
 
 const GroupItem: React.FC<GroupItemProps> = (props) => {
-  const { data, allData } = props;
+  const { data, allData, isShowDeviceDetail } = props;
   const lineRef = useRef(null);
   const [lineWidth, setLineWidth] = useState(0);
   const [boxWidth, setBoxWidth] = useState(0);
@@ -59,6 +60,9 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
   const handleChildData = useCallback((line: any) => {
     setBoxWidth(line);
   }, []);
+  const childDataForShow = useCallback((bool, deviceId) => {
+    isShowDeviceDetail(bool, deviceId);
+  }, []);
   //计算总电流和总电压
   const totoalObj = useMemo(() => {
     if (data) {
@@ -93,43 +97,51 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
     if (data) {
       const list = data.length < 4 ? data : data.slice(0, 3);
       setCurrentList(list);
+      const rightCss = data.length < 4 ? styles.disRightAbledCss : styles.rightArrowBox;
+      const leftCss = data.length < 4 ? styles.disLeftCss : styles.leftArrowBox;
+      setRightArrowCss(rightCss);
+      setLeftArrowCss(leftCss);
     }
   }, [data]);
-  //箭头切换逻辑-右边-需修改
-  const onRightClick = useCallback(() => {
-    // const source = data;
-    // let newIndex: number;
-    // let newList: [];
-    // setCurrentList([]);
-    // if (source.length - targetIndex >= 3) {
-    //   newIndex = targetIndex + 3;
-    //   newList = source.slice(targetIndex, newIndex);
-    // } else {
-    //   newIndex = source.length;
-    //   newList = source.slice(targetIndex, newIndex);
-    //   setRightArrowCss(styles.disRightAbledCss);
-    // }
-    // setTargetIndex(newIndex);
-    // setCurrentList(newList);
-    // setIsChangeWidth(true);
-  }, [currentList, targetIndex, rightArrowCss, lineWidth, boxWidth]);
+  //箭头切换逻辑
+  const onArrowClick = useCallback(
+    (btnstr) => {
+      const source = data;
+      let newIndex: number;
+      let newList: [];
+      setCurrentList([]);
+      if (source.length - targetIndex >= 3) {
+        newIndex = targetIndex + 3;
+        newList = source.slice(targetIndex, newIndex);
+      } else {
+        newIndex = source.length;
+        newList = source.slice(targetIndex, newIndex);
+        setRightArrowCss(styles.disRightAbledCss);
+        setLeftArrowCss(styles.disLeftCss);
+      }
+      setTargetIndex(newIndex);
+      setCurrentList(newList);
+      setIsChangeWidth(true);
+    },
+    [currentList, targetIndex, rightArrowCss, lineWidth, boxWidth],
+  );
   //箭头切换逻辑-左边
-  const onLeftClick = useCallback(() => {
-    // const source = data;
-    // let newIndex:number;
-    // let newList:[];
-    // if (targetIndex - 3 > 0 ) {
-    //   newIndex = targetIndex - 3;
-    //   newList = source.slice(newIndex-2, newIndex+1);
-    // } else {
-    //   newIndex = source.length;
-    //   newList =  source.slice(targetIndex, newIndex);
-    //   setRightArrowCss(styles.disRightAbledCss)
-    // }
-    // setTargetIndex(newIndex);
-    // setCurrentList(newList);
-    // setIsChangeWidth(true);
-  }, [currentList, targetIndex, leftArrowCss]);
+  // const onLeftClick = useCallback(() => {
+  //   const source = data;
+  //   let newIndex:number;
+  //   let newList:[];
+  //   if (source.length - targetIndex >= 3 ) {
+  //     newIndex = targetIndex - 3;
+  //     newList = source.slice(newIndex-2, newIndex+1);
+  //   } else {
+  //     newIndex = source.length;
+  //     newList =  source.slice(targetIndex, newIndex);
+  //     setRightArrowCss(styles.disRightAbledCss)
+  //   }
+  //   setTargetIndex(newIndex);
+  //   setCurrentList(newList);
+  //   setIsChangeWidth(true);
+  // }, [currentList, targetIndex, leftArrowCss]);
   return (
     <>
       <div className={styles.tabConent} ref={lineRef}>
@@ -160,11 +172,11 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
           <Divider />
         </div>
         {/* 左边箭头 */}
-        <div className={leftArrowCss} onClick={onLeftClick}>
+        <div className={leftArrowCss} onClick={() => onArrowClick('left')}>
           <ArrowLeftOutlined style={{ fontSize: '25px', padding: '10px' }} />
         </div>
         {/* 右边箭头 */}
-        <div className={rightArrowCss} onClick={onRightClick}>
+        <div className={rightArrowCss} onClick={() => onArrowClick('right')}>
           <ArrowRightOutlined style={{ fontSize: '25px', padding: '10px' }} />
         </div>
         {/* 所有的设备 */}
@@ -176,9 +188,11 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
                 onChildData={handleChildData}
                 isChangeWidth={isChangeWidth}
                 allDeviceData={item}
+                onClickDeviceData={childDataForShow}
               />
             );
           })}
+          {/* 显示设备详情 */}
         </div>
       </div>
     </>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useRequest, useHistory } from 'umi';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useRequest } from 'umi';
 import { Skeleton } from 'antd';
 import { useSubscribe } from '@/hooks';
 import { getEnergy } from '../service';
 import { energyType } from '../type';
-import { OnlineStatusEnum } from '@/utils/dictionary';
 import { Tabs, TabsProps } from 'antd';
 import { DeviceDataType } from '@/services/equipment';
 import GroupItem from './groupItem';
+import DeviceItemDetail from './deviceItemDetail';
 
 //获取实时数据订阅id
 const getDataIds = (data: energyType[]): string[] => {
@@ -29,8 +29,15 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
   const { loadingEmsTabs, emsGroupData, deviceData } = props;
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
   const realTimeData = useSubscribe(deviceIds, true);
-  const history = useHistory();
-
+  const [showDiv, setShowDiv] = useState(false);
+  const [showId, setShowId] = useState(false);
+  const isShowDeviceDetail = useCallback((bool, id) => {
+    setShowDiv(bool);
+    setShowId(id);
+  }, []);
+  const changeShowDiv = useCallback(() => {
+    setShowDiv(false);
+  }, []);
   const {
     loading: loadingEnergy,
     data: energyData,
@@ -74,8 +81,6 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
       return emsGroupData;
     }
   }, [emsGroupData]);
-
-  // const items = useMemo(() => {
   //   return [
   //     (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ? bwattAirItem : airItem,
   //     ...unitItems,
@@ -237,12 +242,19 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
         return {
           label: item.groupName,
           key: String(item.groupId),
-          children: <GroupItem data={item.devices} allData={item} />,
-          //children: <GroupItem data={data} allData={item}/>,
+          children: showDiv ? (
+            <DeviceItemDetail
+              deviceData={item.devices.find((obj: any) => obj.deviceId == showId)}
+              allDeviceData={item}
+              changeShowDiv={changeShowDiv}
+            />
+          ) : (
+            <GroupItem data={item.devices} allData={item} isShowDeviceDetail={isShowDeviceDetail} />
+          ),
         };
       });
     }
-  }, [allDeviceData]);
+  }, [allDeviceData, showDiv, showId]);
 
   return (
     <>
