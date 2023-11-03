@@ -10,8 +10,13 @@ import React, { useMemo } from 'react';
 
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
-import { protectParamsItems, powerParamsItems } from './config';
-import Button from 'antd/lib/button';
+import {
+  protectParamsItems,
+  powerParamsItems,
+  protectParamsColumns,
+  powerParamsColumns,
+} from './config';
+import ConfigModal from '../ConfigModal';
 
 export type StackProps = {
   deviceId: string;
@@ -19,19 +24,37 @@ export type StackProps = {
   realTimeData?: Record<string, any>;
 };
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId } = props;
+  const { realTimeData, deviceId, productId } = props;
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
         label: (
           <Detail.Label title="变流器保护参数设置">
-            <Button type="primary">配置参数</Button>
+            <ConfigModal
+              title={'配置电池保护参数'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={protectParamsColumns}
+              serviceId={'converterProtectionParameterSettings'}
+            />
           </Detail.Label>
         ),
         items: protectParamsItems,
       },
       {
-        label: <Detail.Label title="电网参数设置" />,
+        label: (
+          <Detail.Label title="电网参数设置">
+            <ConfigModal
+              title={'配置电网设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={powerParamsColumns}
+              serviceId={'GridParameterSettings'}
+            />
+          </Detail.Label>
+        ),
         items: powerParamsItems,
       },
     ];
@@ -45,7 +68,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           items={detailGroup}
           detailProps={{
             colon: false,
-            labelStyle: { width: 140 },
+            labelStyle: { width: 200 },
             valueStyle: { width: '40%' },
           }}
         />

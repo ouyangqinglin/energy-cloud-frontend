@@ -30,12 +30,34 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
     [deviceData],
   );
   let realTimeData = useSubscribe(deviceId, openSubscribe);
+  realTimeData.emsSn = (deviceData.config && JSON.parse(deviceData.config)?.emsSn) || '';
+  realTimeData.paramConfigType = deviceData.paramConfigType;
   // mock
   realTimeData = {
     SysEnableSelfStartFunction: 0,
     MunicipalChargingFunctionEnabled: 1,
     EnableOffGridOperationFunction: 0,
     EnableGridConnectionFunction: 1,
+    emsSn: 123456,
+    paramConfigType: 6,
+    generalChargingPowerLimit: 1,
+    severeChargingPowerLimit: 2,
+    generalInverterPowerLimit: 3,
+    severeInverterPowerLimitation: 4,
+    converterGeneralOvervoltageLimit: 5,
+    converterSevereOvervoltageLimit: 6,
+    converterGeneralUndervoltageLimit: 7,
+    converterSevereUndervoltageLimit: 8,
+    converterGeneralChargingCurrentLimit: 9,
+    converterSevereChargingCurrentLimit: 10,
+    generalInverterCurrentLimit: 11,
+    severeInverterCurrentLimit: 12,
+    converterGeneralOverTemperatureLimit: 13,
+    converterSevereOverTemperatureLimit: 14,
+    converterGeneralLowTemperatureLimit: 15,
+    converterSevereLowTemperatureLimit: 16,
+    antiBackflowThreshold: 11,
+    maximumLoadOfTransformer: 22,
   };
   const items: TabsProps['items'] = [
     {
