@@ -39,6 +39,13 @@ export const runFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const enableFormat = (status: number) => {
+  const map: MapType = {
+    0: '使能',
+    1: '禁用',
+  };
+  return <span className="cl-success">{map[status]}</span>;
+};
 export const airRunFormat = (value: number) => {
   const map: MapType = {
     0: '运行',
