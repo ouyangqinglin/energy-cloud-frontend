@@ -1,15 +1,7 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-07-04 10:04:53
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
- */
 import React, { useMemo } from 'react';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import ConfigurationTab from './ConfigurationTab';
+import EnergyManageTab from './EnergyManageTab';
 import SystemSetting from './SystemSetting';
 import ConverterSetting from './ConverterSetting';
 import BatterySetting from './BatterySetting';
@@ -62,7 +54,7 @@ const Index: React.FC<ConfigProps> = (props) => {
     {
       key: '4',
       label: `能量管理`,
-      children: <ConfigurationTab deviceData={deviceData} />,
+      children: <EnergyManageTab deviceId={deviceId} productId={productId} />,
     },
   ];
 
