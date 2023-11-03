@@ -11,6 +11,7 @@ import React, { useMemo } from 'react';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import { protectParamsItems, powerParamsItems } from './config';
+import Button from 'antd/lib/button';
 
 export type StackProps = {
   deviceId: string;
@@ -22,7 +23,11 @@ const SystemSetting: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="变流器保护参数设置">112233</Detail.Label>,
+        label: (
+          <Detail.Label title="变流器保护参数设置">
+            <Button type="primary">配置参数</Button>
+          </Detail.Label>
+        ),
         items: protectParamsItems,
       },
       {
