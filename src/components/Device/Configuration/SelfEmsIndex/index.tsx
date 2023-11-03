@@ -9,7 +9,7 @@
 import React, { useMemo } from 'react';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import ConfigurationTab from './ConfigurationTab';
+import EnergyManageTab from './EnergyManageTab';
 import SystemSetting from './SystemSetting';
 import ConverterSetting from './ConverterSetting';
 import BatterySetting from './BatterySetting';
@@ -62,7 +62,9 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
     {
       key: '4',
       label: `能量管理`,
-      children: <ConfigurationTab deviceData={deviceData} />,
+      children: (
+        <EnergyManageTab productId={productId} deviceId={deviceId} realTimeData={realTimeData} />
+      ),
     },
   ];
 

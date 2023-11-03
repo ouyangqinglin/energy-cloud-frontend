@@ -11,6 +11,7 @@ import React, { useMemo } from 'react';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import { protectParamsItems, powerParamsItems } from './config';
+import Button from 'antd/lib/button';
 
 export type StackProps = {
   deviceId: string;
@@ -18,27 +19,19 @@ export type StackProps = {
   realTimeData?: Record<string, any>;
 };
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData } = props;
+  const { realTimeData, deviceId } = props;
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="手动模式设置">112233</Detail.Label>,
+        label: (
+          <Detail.Label title="变流器保护参数设置">
+            <Button type="primary">配置参数</Button>
+          </Detail.Label>
+        ),
         items: protectParamsItems,
       },
       {
-        label: <Detail.Label title="削峰填谷模式设置">112233</Detail.Label>,
-        items: protectParamsItems,
-      },
-      {
-        label: <Detail.Label title="备电模式设置">112233</Detail.Label>,
-        items: protectParamsItems,
-      },
-      {
-        label: <Detail.Label title="尖峰平谷时段设置">112233</Detail.Label>,
-        items: protectParamsItems,
-      },
-      {
-        label: <Detail.Label title="校时设置" />,
+        label: <Detail.Label title="电网参数设置" />,
         items: powerParamsItems,
       },
     ];
