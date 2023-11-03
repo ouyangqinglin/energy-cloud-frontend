@@ -74,7 +74,7 @@ declare namespace API {
       city?: { label?: string; key?: string };
     };
     address?: string;
-    phonenumber?: string;
+    phone?: string;
     dept?: Dept;
     roles?: Role[];
     permissions?: string[];

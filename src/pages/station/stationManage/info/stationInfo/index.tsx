@@ -1,18 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Card, Button, Image, Modal, message } from 'antd';
 import { ProField } from '@ant-design/pro-components';
-import { useRequest, useModel } from 'umi';
+import { useRequest, useModel, useLocation } from 'umi';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
 import { setComplete } from './service';
-import { buildStatus, FormTypeEnum, siteType } from '@/utils/dictionary';
+import { buildStatus, FormTypeEnum, LocationType, siteType } from '@/utils/dictionary';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
 
 const StationInfo: React.FC = () => {
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const location = useLocation<LocationType>();
+  const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
   const {
     loading,

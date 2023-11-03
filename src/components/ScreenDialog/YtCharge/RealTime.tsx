@@ -28,6 +28,7 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   const aGunData = useSubscribe(aGunId, open);
   const bGunData = useSubscribe(bGunId, open);
   const meterData = useSubscribe(id, open);
+  console.log('meterData--------->', meterData);
 
   useEffect(() => {
     if (open && id) {
