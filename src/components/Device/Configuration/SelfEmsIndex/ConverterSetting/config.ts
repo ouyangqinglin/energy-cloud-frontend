@@ -9,6 +9,7 @@
 
 import type { DetailItem } from '@/components/Detail';
 import { powerFormat } from '@/utils/format';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 export const protectParamsItems: DetailItem[] = [
   { label: '一般充电功率限值', field: 'generalChargingPowerLimit', format: powerFormat },

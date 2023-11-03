@@ -9,7 +9,7 @@
 
 import type { DetailItem } from '@/components/Detail';
 import { enableFormat } from '@/utils/format';
-import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 const options = [
   {
