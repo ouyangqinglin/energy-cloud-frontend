@@ -42,13 +42,7 @@ const Center: React.FC = () => {
   const currentUser = userInfo?.user;
 
   //  渲染用户信息
-  const renderUserInfo = ({
-    userName,
-    phonenumber,
-    email,
-    sex,
-    dept,
-  }: Partial<API.CurrentUser>) => {
+  const renderUserInfo = ({ userName, phone, email, sex, dept }: Partial<API.CurrentUser>) => {
     return (
       <List>
         <List.Item>
@@ -82,7 +76,7 @@ const Center: React.FC = () => {
             />
             电话
           </div>
-          <div>{phonenumber}</div>
+          <div>{phone}</div>
         </List.Item>
         <List.Item>
           <div>

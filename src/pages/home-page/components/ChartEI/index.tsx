@@ -35,6 +35,7 @@ export const getBarChartData = (
   siteType?: SiteTypeEnumType,
 ) => {
   const result: DataType[] = [];
+  if (!rawSourceData) return result;
   const legendMap = () => {
     return barLegendMap;
   };
@@ -115,7 +116,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   // const [chartRef, { clear, run: runForTooltip }] = useToolTip();
 
   useEffect(() => {
-    setChartData(getBarChartData(powerData, timeType, siteType));
+    (async () => {
+      setChartData(await getBarChartData(powerData, timeType, siteType));
+    })();
   }, [powerData, timeType]);
 
   return (

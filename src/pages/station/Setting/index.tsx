@@ -21,7 +21,7 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch({ type: 'get', payload: { id } });
+      return dispatch({ type: 'get', payload: { id } });
     }
     return () => {
       dispatch({ type: 'get', payload: { id: '' } });
