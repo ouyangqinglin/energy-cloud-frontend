@@ -2,9 +2,17 @@ import React, { useMemo, useCallback } from 'react';
 import { Button, Row, Col, Form, InputNumber, Select, TimePicker, Space, DatePicker } from 'antd';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
-import { manaulParamsItems, backupModeItems, peakTimeItems } from './config';
+import {
+  manaulParamsItems,
+  backupModeItems,
+  peakTimeItems,
+  manulSetColumns,
+  BackupPowerSetColumns,
+  PeakSetColumns,
+} from './config';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import type { DeviceDataType } from '@/services/equipment';
+import ConfigModal from '../ConfigModal';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -15,16 +23,21 @@ const DatePick: any = DatePicker;
 const timeFormat = 'HH:mm';
 const { Option } = Select;
 export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
-  const { realTimeData, deviceId } = props;
+  const { realTimeData, deviceId, productId } = props;
   const peakLoadSubmit = useCallback((formData: any) => {}, [deviceId]);
   const manaulModeSetting = useMemo<GroupItem[]>(() => {
     return [
       {
         label: (
           <Detail.Label title="手动模式设置">
-            <Button className="pr0" type="link" onClick={peakLoadSubmit}>
-              下发参数
-            </Button>
+            <ConfigModal
+              title={'手动模式设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={manulSetColumns}
+              serviceId={'ManualModeSetting'}
+            />
           </Detail.Label>
         ),
         items: manaulParamsItems,
@@ -36,15 +49,31 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
       {
         label: (
           <Detail.Label title="备电模式设置">
-            <Button className="pr0" type="link" onClick={peakLoadSubmit}>
-              下发参数
-            </Button>
+            <ConfigModal
+              title={'备电模式设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={BackupPowerSetColumns}
+              serviceId={'BackupPowerModeSetting'}
+            />
           </Detail.Label>
         ),
         items: backupModeItems,
       },
       {
-        label: <Detail.Label title="尖峰平谷时段设置" />,
+        label: (
+          <Detail.Label title="尖峰平谷时段设置">
+            <ConfigModal
+              title={'尖峰平谷时段设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={PeakSetColumns}
+              serviceId={'PeakAndValleyTimeSettings'}
+            />
+          </Detail.Label>
+        ),
         items: peakTimeItems,
       },
     ];
