@@ -9,6 +9,7 @@
 
 import type { DetailItem } from '@/components/Detail';
 import { powerFormat } from '@/utils/format';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 export const protectParamsItems: DetailItem[] = [
   { label: '一般充电功率限值', field: 'generalChargingPowerLimit', format: powerFormat },
@@ -48,7 +49,158 @@ export const protectParamsItems: DetailItem[] = [
   },
   { label: '变流器严重低温限值', field: 'converterSevereLowTemperatureLimit', format: powerFormat },
 ];
+
+export const protectParamsColumns: ProFormColumnsType[] = [
+  {
+    title: '一般充电功率限值',
+    dataIndex: 'generalChargingPowerLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入一般充电功率限值' }],
+    },
+  },
+  {
+    title: '严重充电功率限值',
+    dataIndex: 'severeChargingPowerLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入严重充电功率限值' }],
+    },
+  },
+  {
+    title: '一般逆变功率限值',
+    dataIndex: 'generalInverterPowerLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入一般逆变功率限值' }],
+    },
+  },
+  {
+    title: '严重逆变功率限制',
+    dataIndex: 'severeInverterPowerLimitation',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入严重逆变功率限制' }],
+    },
+  },
+  {
+    title: '变流器一般过压限值',
+    dataIndex: 'converterGeneralOvervoltageLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器一般过压限值' }],
+    },
+  },
+  {
+    title: '变流器严重过压限值',
+    dataIndex: 'converterSevereOvervoltageLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器严重过压限值' }],
+    },
+  },
+  {
+    title: '变流器一般欠压限值',
+    dataIndex: 'converterGeneralUndervoltageLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器一般欠压限值' }],
+    },
+  },
+  {
+    title: '变流器严重欠压限值',
+    dataIndex: 'converterSevereUndervoltageLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器严重欠压限值' }],
+    },
+  },
+  {
+    title: '变流器一般充电电流限值',
+    dataIndex: 'converterGeneralChargingCurrentLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器一般充电电流限值' }],
+    },
+  },
+  {
+    title: '变流器严重充电电流限值',
+    dataIndex: 'converterSevereChargingCurrentLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器严重充电电流限值' }],
+    },
+  },
+  {
+    title: '一般逆变电流限值',
+    dataIndex: 'generalInverterCurrentLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入一般逆变电流限值' }],
+    },
+  },
+  {
+    title: '严重逆变电流限值',
+    dataIndex: 'severeInverterCurrentLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入严重逆变电流限值' }],
+    },
+  },
+  {
+    title: '变流器一般过温限值',
+    dataIndex: 'converterGeneralOverTemperatureLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器一般过温限值' }],
+    },
+  },
+  {
+    title: '变流器严重过温限值',
+    dataIndex: 'converterSevereOverTemperatureLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器严重过温限值' }],
+    },
+  },
+  {
+    title: '变流器一般低温限值',
+    dataIndex: 'converterGeneralLowTemperatureLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器一般低温限值' }],
+    },
+  },
+  {
+    title: '变流器严重低温限值',
+    dataIndex: 'converterSevereLowTemperatureLimit',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变流器严重低温限值' }],
+    },
+  },
+];
+
 export const powerParamsItems: DetailItem[] = [
   { label: '防逆流阈值', field: 'antiBackflowThreshold', format: powerFormat },
   { label: '变压器最大负荷', field: 'maximumLoadOfTransformer', format: powerFormat },
+];
+
+export const powerParamsColumns: ProFormColumnsType[] = [
+  {
+    title: '防逆流阈值',
+    dataIndex: 'antiBackflowThreshold',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入防逆流阈值' }],
+    },
+  },
+  {
+    title: '变压器最大负荷',
+    dataIndex: 'maximumLoadOfTransformer',
+    valueType: 'text',
+    formItemProps: {
+      rules: [{ required: true, message: '请输入变压器最大负荷' }],
+    },
+  },
 ];

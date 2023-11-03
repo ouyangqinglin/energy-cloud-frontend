@@ -1,19 +1,15 @@
 /*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-09-11 19:12:36
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\index.tsx
+ *@Author: aoshilin
+ *@Date: 2023-11-03 15:25:48
+ *@parms: 自研ems详情-配置--系统化设置
+ *@Description:
  */
-import React, { useCallback, useMemo } from 'react';
-
+import React, { useMemo } from 'react';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
-import { emsSystemEnabletems, reportItems } from './config';
+import { emsSystemEnabletems, reportItems, systemColumns, reportColumns } from './config';
+import ConfigModal from '../ConfigModal';
 import RemoteUpgrade from '../../RemoteUpgrade';
-import Button from 'antd/lib/button';
-
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -21,28 +17,20 @@ export type StackProps = {
 };
 
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId } = props;
-
-  const serSystemEnable = useCallback(() => {
-    console.log('系统使能设置');
-
-    // run(record.id);
-  }, []);
-
-  const serCommunicationParams = useCallback(() => {
-    console.log('通信参数设置');
-
-    // run(record.id);
-  }, []);
-
+  const { realTimeData, deviceId, productId } = props;
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
         label: (
           <Detail.Label title="系统使能设置">
-            <Button type="primary" onClick={() => serSystemEnable()}>
-              配置参数
-            </Button>
+            <ConfigModal
+              title={'使能设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={systemColumns}
+              serviceId={'SettingSysEnable'}
+            />
           </Detail.Label>
         ),
         items: emsSystemEnabletems,
@@ -50,15 +38,20 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       {
         label: (
           <Detail.Label title="通信参数设置">
-            <Button type="primary" onClick={() => serCommunicationParams()}>
-              配置参数
-            </Button>
+            <ConfigModal
+              title={'参数设置'}
+              deviceId={deviceId}
+              productId={productId}
+              realTimeData={realTimeData}
+              columns={reportColumns}
+              serviceId={'report'}
+            />
           </Detail.Label>
         ),
         items: reportItems,
       },
     ];
-  }, []);
+  }, [deviceId, productId, realTimeData]);
 
   return (
     <>
@@ -70,10 +63,9 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             colon: false,
             labelStyle: { width: 140 },
             valueStyle: { width: '40%' },
-            // column: 2,
           }}
         />
-        {/* <RemoteUpgrade deviceId={deviceId} /> */}
+        <RemoteUpgrade deviceId={deviceId} />
       </div>
     </>
   );
