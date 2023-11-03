@@ -1,5 +1,3 @@
-import defaultSettings from '../../config/defaultSettings';
-
 const isDev = process.env.NODE_ENV === 'development';
 const getWsProtocol = () => {
   const { protocol, hostname } = location;

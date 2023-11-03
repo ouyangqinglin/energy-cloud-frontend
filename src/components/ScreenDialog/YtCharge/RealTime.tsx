@@ -27,14 +27,13 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   const [bGunId, setBGunId] = useState('');
   const aGunData = useSubscribe(aGunId, open);
   const bGunData = useSubscribe(bGunId, open);
-  const meterData = useSubscribe(id, open);
-  console.log('meterData--------->', meterData);
+  const meterData = useSubscribe(relatedIds, open);
 
   useEffect(() => {
     if (open && id) {
-      // getRelatedDevice(id).then((res) => {
-      //   setRelatedIds([...(res?.data?.associatedIds || []), id]);
-      // });
+      getRelatedDevice(id).then((res) => {
+        setRelatedIds([...(res?.data?.associatedIds || []), id]);
+      });
       getGuns(id).then(({ data = [] }) => {
         const gunMap: Record<string, any> = arrayToMap(data || [], 'key', 'deviceId');
         setAGunId(gunMap.AGun);
