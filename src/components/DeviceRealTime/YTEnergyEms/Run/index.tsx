@@ -124,14 +124,6 @@ const Stack: React.FC<StackProps> = (props) => {
         label: <Detail.Label title="运行信息" />,
         items: emsOperationItems,
       },
-      // {
-      //   label: <Detail.Label title="策略信息" />,
-      //   items: strategyItems,
-      // },
-      // {
-      //   label: <Detail.Label title="保护信息" />,
-      //   items: protectItems,
-      // },
     ];
   }, []);
 

@@ -23,6 +23,7 @@ import {
   converterStauesFormat,
   batteryWorkFormat,
   batteryWorkingStatusFormat,
+  systemRunFormat,
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
@@ -75,7 +76,7 @@ export const protectItems: DetailItem[] = [
 ];
 export const emsOperationItems: DetailItem[] = [
   { label: '系统工作模式', field: 'systemOperatingMode', format: systemOperatingModeFormat },
-  { label: '系统工作状态', field: 'emsSysStatus', format: runFormat },
+  { label: '系统工作状态', field: 'emsSysStatus', format: systemRunFormat },
   { label: '变流器工作模式', field: 'converterOperatingMode', format: converterFormat },
   { label: '变流器工作状态', field: 'converterWorkingStatus', format: converterStauesFormat },
   { label: '电池组工作模式', field: 'batteryPackOperatingMode', format: batteryWorkFormat },
