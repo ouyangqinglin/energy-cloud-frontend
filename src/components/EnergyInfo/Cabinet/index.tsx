@@ -67,7 +67,10 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () =>
+      !!deviceData &&
+      (deviceData?.status !== OnlineStatusEnum.Offline ||
+        deviceData?.networkStatus !== OnlineStatusEnum.Offline),
     [deviceData],
   );
   const realTimeData = useSubscribe(deviceIds, openSubscribe);
@@ -193,7 +196,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
           {showLabel && (
             <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
               通信：
-              <span className="mr24">{onlineStatusFormat(deviceData?.status as any)}</span>
+              <span className="mr24">
+                {onlineStatusFormat(deviceData?.status || (deviceData?.networkStatus as any))}
+              </span>
               告警：
               <span className={styles.alarm}>
                 {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}

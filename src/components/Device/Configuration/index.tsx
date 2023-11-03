@@ -6,48 +6,45 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
-import React, { useEffect, useMemo } from 'react';
-import { useRequest } from 'umi';
+import React from 'react';
 import Community from './Community';
 import DeviceConfig from './DeviceConfig';
-import { getEquipInfo } from '@/services/equipment';
 import { isEmpty } from '@/utils';
-import Empty from 'antd/es/empty';
 import RemoteSetting from './RemoteSetting';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import RemoteUpgrade from './RemoteUpgrade';
+import SelfEmsIndex from './SelfEmsIndex';
 
 export type ConfigProps = {
+  deviceData: any;
+  productId: string;
   deviceId: string;
 };
-
 const remoteSettingType = [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattAir];
-
-const Configuration: React.FC<ConfigProps> = (props) => {
-  const { deviceId } = props;
-
-  const { data: deviceData, run } = useRequest(getEquipInfo, { manual: true });
-
-  useEffect(() => {
-    if (deviceId) {
-      run({ deviceId });
-    }
-  }, [deviceId]);
-
+const ConfigurationTab: React.FC<ConfigProps> = (props) => {
+  const { deviceData, productId, deviceId } = props;
   return (
     <>
-      <div className="px24">
-        {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
-        {!isEmpty(deviceData?.productConfigType) ? <DeviceConfig deviceData={deviceData} /> : <></>}
-        {remoteSettingType.includes(deviceData?.productId) ? (
-          <RemoteSetting deviceData={deviceData} />
-        ) : (
-          <></>
-        )}
-        <RemoteUpgrade deviceId={deviceData?.deviceId} />
-      </div>
+      {productId == '59' ? (
+        <SelfEmsIndex deviceData={deviceData} productId={productId} deviceId={deviceId} />
+      ) : (
+        <div className="px24">
+          {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
+          {!isEmpty(deviceData?.productConfigType) ? (
+            <DeviceConfig deviceData={deviceData} />
+          ) : (
+            <></>
+          )}
+          {remoteSettingType.includes(deviceData?.productId) ? (
+            <RemoteSetting deviceData={deviceData} />
+          ) : (
+            <></>
+          )}
+          <RemoteUpgrade deviceId={deviceData?.deviceId} />
+        </div>
+      )}
     </>
   );
 };
 
-export default Configuration;
+export default ConfigurationTab;

@@ -10,10 +10,11 @@ import React, { useMemo } from 'react';
 import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
-import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
+// import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import styles from './index.less';
+import Setting from './Control';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;

@@ -149,7 +149,13 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '配置',
         key: '5',
-        children: <Configuration deviceId={selectOrg?.deviceId || ''} />,
+        children: (
+          <Configuration
+            productId={selectOrg?.productId || '0'}
+            deviceId={selectOrg?.deviceId || ''}
+            deviceData={selectOrg}
+          />
+        ),
       },
     ];
   }, [selectOrg, productId, id, deviceOverviewloading]);

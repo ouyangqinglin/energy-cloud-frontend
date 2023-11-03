@@ -11,7 +11,7 @@ import { useRequest, useHistory } from 'umi';
 import Label from '@/components/Detail/LineLabel';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import YTProTable from '@/components/YTProTable';
-import { controlItems, protectItems, strategyItems } from './config';
+import { emsOperationItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-components';
 import { ProField } from '@ant-design/pro-components';
@@ -121,16 +121,8 @@ const Stack: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="控制信息" />,
-        items: controlItems,
-      },
-      {
-        label: <Detail.Label title="策略信息" />,
-        items: strategyItems,
-      },
-      {
-        label: <Detail.Label title="保护信息" />,
-        items: protectItems,
+        label: <Detail.Label title="运行信息" />,
+        items: emsOperationItems,
       },
     ];
   }, []);

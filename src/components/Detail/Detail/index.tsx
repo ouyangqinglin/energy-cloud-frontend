@@ -20,6 +20,8 @@ export type DetailItem = {
   valueStyle?: React.CSSProperties;
   show?: boolean;
   showExtra?: boolean;
+  unit?: string;
+  parentField?: string;
 };
 
 export type DetailProps = DescriptionsProps & {
@@ -75,6 +77,7 @@ const Detail: React.FC<DetailProps> = (props) => {
                     : data[item.field] ?? ''
                   : '--'}
               </span>
+              <span>{item.unit || ''}</span>
               {item.showExtra !== false && extralNode}
             </div>
           </Descriptions.Item>,

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import styles from '../index.less';
 import { Divider, Progress } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
@@ -15,19 +15,24 @@ export type DeviceItemProps = {
   onChildData: any; //传给父组件数据
   isChangeWidth: Boolean; //是否改变线条宽度
   allDeviceData: EmsDevicesType;
+  onClickDeviceData: any;
 };
 
 const DeviceItem: React.FC<DeviceItemProps> = (props) => {
-  const { realtimeData, onChildData, isChangeWidth, allDeviceData } = props;
+  const { realtimeData, onChildData, isChangeWidth, allDeviceData, onClickDeviceData } = props;
   const deviceRef = useRef(null);
   const [deviceWidth, setDeviceWidth] = useState('');
-  console.log(allDeviceData, 'item所有的数据');
   useEffect(() => {
     if (deviceRef.current || isChangeWidth) {
       setDeviceWidth(deviceRef.current.offsetWidth);
     }
     onChildData(deviceWidth);
   }, [deviceWidth, deviceRef.current, isChangeWidth]);
+  //点击进入设备详情
+  const onDeviceDetail = useCallback(() => {
+    onClickDeviceData(true, allDeviceData?.deviceId);
+  }, [allDeviceData]);
+
   return (
     <>
       <div className={styles.deviceItemDiv} ref={deviceRef}>
@@ -36,7 +41,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           <div className={styles.verticalDiv}>
             <Divider type="vertical" />
           </div>
-          <div className={styles.imgBox}>
+          <div className={styles.imgBox} onClick={onDeviceDetail}>
             <img src={DeviceImg} alt="设备图" className={styles.imgDiv} />
           </div>
           {/* 充放电状态 */}

@@ -40,6 +40,7 @@ export type DeviceDataType = {
   config?: string;
   photos?: string;
   masterSlaveMode?: DeviceMasterMode;
+  networkStatus?: number;
 };
 export type EmsDevicesType = {
   deviceId: any;
@@ -48,7 +49,9 @@ export type EmsDevicesType = {
   masterSlaveMode: any;
   groupId: any;
   groupName: any;
-  networkStatus: any;
+  networkStatus?: any;
+  alarmStatus?: number;
+  alarmCount?: number;
 };
 
 export type ClusterType = {
