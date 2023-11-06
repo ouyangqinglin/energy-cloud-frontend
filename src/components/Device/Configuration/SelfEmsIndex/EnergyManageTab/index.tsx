@@ -1,5 +1,16 @@
 import React, { useMemo, useCallback } from 'react';
-import { Button, Row, Col, Form, InputNumber, Select, TimePicker, Space, DatePicker } from 'antd';
+import {
+  Button,
+  Row,
+  Col,
+  Form,
+  InputNumber,
+  Select,
+  TimePicker,
+  Space,
+  DatePicker,
+  message,
+} from 'antd';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import {
@@ -13,6 +24,8 @@ import {
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import type { DeviceDataType } from '@/services/equipment';
 import ConfigModal from '../ConfigModal';
+import { editSetting } from '@/services/equipment';
+import { useRequest } from 'umi';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -24,7 +37,16 @@ const timeFormat = 'HH:mm';
 const { Option } = Select;
 export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   const { realTimeData, deviceId, productId } = props;
-  const peakLoadSubmit = useCallback((formData: any) => {}, [deviceId]);
+  const [runPeakForm] = Form.useForm();
+  const { loading, run: runSubmitFrom } = useRequest(editSetting, {
+    manual: true,
+  });
+  const peakLoadSubmit = useCallback(
+    (formData: any) => {
+      runPeakForm?.submit();
+    },
+    [deviceId],
+  );
   const manaulModeSetting = useMemo<GroupItem[]>(() => {
     return [
       {
@@ -78,8 +100,18 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
       },
     ];
   }, []);
-  const [runPeakForm] = Form.useForm();
 
+  const onFinish = useCallback((formData) => {
+    runSubmitFrom({
+      deviceId,
+      input: { ...formData },
+      serviceId: 'PeakShavingAndValleyFillingModeSetting',
+    }).then((data) => {
+      if (data) {
+        message.success('操作成功');
+      }
+    });
+  }, []);
   return (
     <>
       <div className="px24">
@@ -94,7 +126,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
         />
         <div>
           <Detail.Label title="削峰填谷模式设置">
-            <Button className="pr0" type="link" onClick={peakLoadSubmit}>
+            <Button type="primary" onClick={peakLoadSubmit}>
               下发参数
             </Button>
           </Detail.Label>
@@ -107,22 +139,23 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             layout="horizontal"
             labelAlign="right"
             labelCol={{ flex: '116px' }}
-            // onFinish={requestRun}
+            onFinish={onFinish}
+            key="PeakShavingAndValleyFillingModeSetting"
             // onValuesChange={setDisableRunFalse}
           >
             <Row>
               <Col flex="25%">
-                <Form.Item name="handOpePcsPower" label="最高SOC">
+                <Form.Item name="peakShavingAndValleyFillingModeMaximumSOC" label="最高SOC">
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
               </Col>
               <Col flex="25%">
-                <Form.Item name="handOpePcsPower" label="最低SOC">
+                <Form.Item name="peakShavingAndValleyFillingModeLowestSOC" label="最低SOC">
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
               </Col>
             </Row>
-            <Form.List name="users">
+            <Form.List name="PeriodOfTime">
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
@@ -130,7 +163,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                       <Form.Item
                         label="时段1"
                         {...restField}
-                        name={[name, 'first']}
+                        name={[name, 'pcsRunningTimeFrame']}
                         //rules={[{ required: true, message: 'Missing first name' }]}
                       >
                         <TimePicker.RangePicker
@@ -143,18 +176,13 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                           }
                         />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'last']} label="充电模式">
-                        <Select placeholder="请选择充电模式">
-                          <Option value="china">放电</Option>
-                          <Option value="usa">充电</Option>
+                      <Form.Item {...restField} name={[name, 'powerMode']} label="充电模式">
+                        <Select placeholder="请选择充电模式" style={{ width: '70px' }}>
+                          <Option value="0">放电</Option>
+                          <Option value="1">充电</Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'last']}
-                        label="执行功率"
-                        //rules={[{ required: true, message: 'Missing last name' }]}
-                      >
+                      <Form.Item {...restField} name={[name, 'executionPower']} label="执行功率">
                         <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
                       </Form.Item>
                       <MinusCircleOutlined onClick={() => remove(name)} />
