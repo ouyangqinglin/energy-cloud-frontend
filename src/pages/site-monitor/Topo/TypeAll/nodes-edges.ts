@@ -233,7 +233,7 @@ const genESNode = (data: MainsSupply) => ({
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label: '实时功率(kW)：',
           value: data.power,
           field: 'todayConsumption',
         },
@@ -260,12 +260,12 @@ const genLoadCSNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日充电(kWh)：',
+          label: '当日用电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label: '用电功率(kW)：',
           value: data.power,
           field: 'todayConsumption',
         },
