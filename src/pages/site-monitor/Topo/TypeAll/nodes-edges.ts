@@ -112,7 +112,7 @@ const genElectricSupplyNode = (data: MainsSupply) => {
   ];
 };
 
-const genDistributionCabinetNode = (data: MainsSupply) => ({
+const genDistributionCabinetNode = (data: MainsSupply, type: any) => ({
   id: uniqueId(),
   type: 'imageNode',
   data: {
@@ -128,12 +128,12 @@ const genDistributionCabinetNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日充电(kWh)：',
+          label: type == 3 || type == 4 ? '当日用电(kWh)：' : '当日充电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label: type == 2 ? '实时功率(kW)：' : type == 1 ? '发电功率(kW)：' : '用电功率(kW)：',
           value: data.power,
           field: 'todayConsumption',
         },
@@ -219,7 +219,7 @@ const genESNode = (data: MainsSupply) => ({
     },
     width: 70,
     height: 80,
-    title: `储能（剩余电量:${(data?.dischargeableCapacity ?? 0) * 0.01}%）`,
+    title: `储能（剩余电量:${data?.soc.toFixed(2) || 0}%）`,
     textContent: {
       column: [
         {
@@ -292,12 +292,12 @@ const genLoadOtherNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日充电(kWh)：',
+          label: '当日用电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label: '用电功率(kW)：',
           value: data.power,
           field: 'todayConsumption',
         },
@@ -333,7 +333,8 @@ const buildTreeByData = (data: MainsSupply, nodes: GraphNode[] = []) => {
         node = pSNode;
         break;
       case SubsystemTypeForNode.DC:
-        node = genDistributionCabinetNode(data);
+        const type = data.children[0].type;
+        node = genDistributionCabinetNode(data, type);
         break;
       default:
         break;

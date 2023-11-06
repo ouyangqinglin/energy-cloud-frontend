@@ -34,4 +34,5 @@ export interface MainsSupply {
   // 剩余电量
   dischargeableCapacity?: number;
   children: MainsSupply[];
+  soc: number;
 }
