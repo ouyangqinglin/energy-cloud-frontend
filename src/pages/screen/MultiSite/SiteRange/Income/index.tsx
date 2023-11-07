@@ -56,7 +56,7 @@ const Income: React.FC = () => {
     legendColors.push('#00C9EC');
     return chargeData?.sitesRankingIncomeList?.map?.((item, index) => {
       return (
-        <div className={styles.bar}>
+        <div className={styles.bar} title={item.name}>
           <span className={styles.title}>
             <span style={{ backgroundColor: legendColors[index] }} />
             {item.name}
