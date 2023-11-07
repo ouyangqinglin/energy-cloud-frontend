@@ -27,4 +27,5 @@ export interface SiteInfoRes {
   defaultSite: number;
   operationTime: string;
   siteAlarmStatus: number;
+  photos?: string;
 }

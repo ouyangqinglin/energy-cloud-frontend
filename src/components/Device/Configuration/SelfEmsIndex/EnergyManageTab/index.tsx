@@ -145,12 +145,20 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           >
             <Row>
               <Col flex="25%">
-                <Form.Item name="peakShavingAndValleyFillingModeMaximumSOC" label="最高SOC">
+                <Form.Item
+                  name="peakShavingAndValleyFillingModeMaximumSOC"
+                  label="最高SOC"
+                  rules={[{ required: true, message: '请输入值' }]}
+                >
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
               </Col>
               <Col flex="25%">
-                <Form.Item name="peakShavingAndValleyFillingModeLowestSOC" label="最低SOC">
+                <Form.Item
+                  name="peakShavingAndValleyFillingModeLowestSOC"
+                  label="最低SOC"
+                  rules={[{ required: true, message: '请输入值' }]}
+                >
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
               </Col>

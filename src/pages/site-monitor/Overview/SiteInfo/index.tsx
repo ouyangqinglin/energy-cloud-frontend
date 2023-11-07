@@ -5,10 +5,12 @@ import styles from './index.less';
 import { useRequest } from 'umi';
 import { getStationInfo } from './service';
 import { isNil } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
+import { Carousel } from 'antd';
 
 const SiteInfo = ({ siteId }: { siteId?: number }) => {
+  const [photos, setPhotos] = useState(Array);
   const { data, run } = useRequest(getStationInfo, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -19,6 +21,13 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
       run(siteId);
     }
   }, [run, siteId]);
+
+  useEffect(() => {
+    if (data?.photos) {
+      const photoArr = data.photos?.split(',');
+      setPhotos(photoArr);
+    }
+  }, [data]);
 
   const getAlarm = (alarmKey?: number) => {
     switch (alarmKey) {
@@ -65,9 +74,18 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
           <div className={styles.value}>{data?.createTime ?? '--'}</div>
         </li>
       </ul>
-      <div className={styles.img}>
-        <img className={styles.innerImg} src={BackgroundImg} />
-      </div>
+
+      {photos?.length > 1 ? (
+        <Carousel autoplay dotPosition="bottom">
+          {photos.map((item: any) => {
+            return <img className={styles.innerImg} src={item} />;
+          })}
+        </Carousel>
+      ) : (
+        <div className={styles.img}>
+          <img className={styles.innerImg} src={photos[0] || BackgroundImg} />
+        </div>
+      )}
     </RowBox>
   );
 };
