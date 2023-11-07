@@ -19,9 +19,12 @@ enum colorEnum {
   Charge = 'rgba(0, 125, 255, 1)',
   DisCharge = 'rgba(255, 151, 74, 1)',
 }
-
+export enum EnergySourceEnum {
+  SiteMonitor,
+  DeviceManage,
+}
 const Power: React.FC<ComProps> = (props) => {
-  const { deviceData, loading } = props;
+  const { deviceData, loading, source } = props;
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const {
@@ -146,7 +149,9 @@ const Power: React.FC<ComProps> = (props) => {
         ) : (
           <>
             <div className="flex mb16">
-              <label className={`flex1 ${styles.label}`}>储能功率</label>
+              <label className={`flex1 ${styles.label}`}>
+                {source == EnergySourceEnum.SiteMonitor ? '储能单元功率' : '储能功率'}
+              </label>
               <DatePicker
                 defaultValue={date}
                 format="YYYY-MM-DD"

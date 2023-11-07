@@ -20,9 +20,12 @@ const typeMap = [
   { value: chartTypeEnum.Month, label: '月' },
   { value: chartTypeEnum.Year, label: '年' },
 ];
-
+export enum EnergySourceEnum {
+  SiteMonitor,
+  DeviceManage,
+}
 const Electric: React.FC<ComProps> = (props) => {
-  const { deviceData, loading } = props;
+  const { deviceData, loading, source } = props;
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
@@ -61,6 +64,7 @@ const Electric: React.FC<ComProps> = (props) => {
         deviceId: deviceData?.deviceId,
         type: chartType,
         date: date.format('YYYY-MM-DD'),
+        visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
       }).then((data) => {
         const result: TypeChartDataType[] = [];
         result.push({
@@ -92,7 +96,9 @@ const Electric: React.FC<ComProps> = (props) => {
         ) : (
           <>
             <div className="flex mb16">
-              <label className={`flex1 ${styles.label}`}>储能充放电趋势</label>
+              <label className={`flex1 ${styles.label}`}>
+                {source == EnergySourceEnum.SiteMonitor ? '储能单元充放电趋势' : '储能充放电趋势'}
+              </label>
               <Select
                 className="mr8"
                 defaultValue={chartType}

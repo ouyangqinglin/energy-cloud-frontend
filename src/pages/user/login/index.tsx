@@ -56,8 +56,11 @@ const Login: React.FC = () => {
 
         setSessionToken(accessToken, accessToken, expireTime);
         message.success(defaultLoginSuccessMessage);
-
-        const redirectPath = homePath || location.query?.redirect || '/index/station';
+        let redirectPath = homePath || location.query?.redirect || '/index/site-monitor';
+        //当没有首页权限时，需要跳转到“站点概览页”
+        if (initialState?.antMenus[0].label != '首页') {
+          redirectPath = '/site-monitor/overview';
+        }
         const pathArr = redirectPath.split('?');
 
         await clear();

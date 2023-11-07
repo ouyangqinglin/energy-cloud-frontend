@@ -13,12 +13,14 @@ export type ComProps = {
   deviceData?: DeviceDataType;
   className?: string;
   loading?: boolean;
+  source?: any; //页面入口
 };
 
 export type searchType = {
   deviceId: string;
   date?: string;
   type?: number;
+  visitType?: number;
 };
 
 export type energyType = {
