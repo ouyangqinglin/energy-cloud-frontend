@@ -111,7 +111,7 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
         };
       },
     },
-    initialValue: [moment().startOf('W'), moment().endOf('w')],
+    initialValue: [moment().startOf('day').subtract(6, 'd'), moment().endOf('day')],
     width: 150,
     formItemProps: {
       rules: [{ required: true, message: '请选择时间' }],

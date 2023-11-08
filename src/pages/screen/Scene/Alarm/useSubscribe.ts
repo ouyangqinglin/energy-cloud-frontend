@@ -16,6 +16,7 @@ export const useWatchingAlarm = () => {
   const onReceivedMessage = useCallback((res: { type: MessageEventType; data: DeviceAlarm[] }) => {
     if (MessageEventType.DEVICE_EVENT_DATA === res?.type) {
       const { data: msgData } = res;
+      setAlarmDeviceTree({}); //初始化数据，防止告警数量叠加
       try {
         const alarmList = msgData.filter((it) => it.level !== AlarmLevel.info);
         const { length: alarmLen } = alarmList;
