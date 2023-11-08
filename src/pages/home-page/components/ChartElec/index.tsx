@@ -112,11 +112,11 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             }`,
             position: 'end',
             autoRotate: false,
-            offset: 0,
+            offset: 10,
             style: {
               rotate: 90,
-              y: 10,
-              x: 40,
+              y: 8,
+              x: 60,
             },
           }}
           grid={{

@@ -57,7 +57,7 @@ const Install = () => {
         defaultMessage: `您确认要删除该安装工单吗？删除之后无法恢复！`,
       }),
       btnInterceptor(entity, buttonKey) {
-        if (buttonKey == 'onEditChange') {
+        if (buttonKey == 'onEditChange' || buttonKey == 'onDeleteChange') {
           if (entity?.status != OrderStatus.READY) {
             return false;
           }

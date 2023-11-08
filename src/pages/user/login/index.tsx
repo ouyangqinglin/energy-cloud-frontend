@@ -58,7 +58,7 @@ const Login: React.FC = () => {
         message.success(defaultLoginSuccessMessage);
         let redirectPath = homePath || location.query?.redirect || '/index/site-monitor';
         //当没有首页权限时，需要跳转到“站点概览页”
-        if (initialState?.antMenus[0].label != '首页') {
+        if (initialState?.antMenus && initialState?.antMenus[0].label != '首页') {
           redirectPath = '/site-monitor/overview';
         }
         const pathArr = redirectPath.split('?');
@@ -203,7 +203,7 @@ const Login: React.FC = () => {
             }}
           >
             <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
+              <FormattedMessage id="pages.login.rememberMe" defaultMessage="记住密码" />
             </ProFormCheckbox>
           </div>
         </LoginForm>
