@@ -113,7 +113,7 @@ export const columns: ProColumns<InstallListType>[] = [
   },
   {
     title: formatMessage({ id: 'common.createPerson', defaultMessage: '创建人' }),
-    dataIndex: 'creatName',
+    dataIndex: 'createName',
     hideInSearch: true,
     width: 100,
     ellipsis: true,

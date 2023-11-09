@@ -81,7 +81,10 @@ const SiteMap: React.FC = () => {
 
   const onLinkChinaMap = useCallback(() => {
     setAdCode(100000);
-  }, []);
+    chartInstance?.dispatchAction({
+      type: 'restore',
+    }); //每次渲染前都要还原地图，防止沿用前一次缩放拖拽
+  }, [chartInstance]);
 
   useEffect(() => {
     const chart = echarts.init(chartRef?.current);

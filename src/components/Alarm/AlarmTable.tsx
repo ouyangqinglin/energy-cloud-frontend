@@ -190,7 +190,8 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         return { ...prevData, [field]: value.length == 1 ? value[0] : '' };
       }
     });
-    actionRef?.current?.reload?.();
+    //actionRef?.current?.reload?.();
+    actionRef?.current?.reloadAndRest?.(); //回到第一页
   }, []);
 
   useEffect(() => {

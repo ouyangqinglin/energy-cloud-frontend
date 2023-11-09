@@ -101,6 +101,20 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
   useEffect(() => {
     if (options) {
       chartInstance?.setOption?.(options);
+      //   chartInstance?.on("georoam", function(params:any) {
+      //     let option:any = chartInstance?.getOption(); //获得option对象
+      //     if (params.zoom != null && params.zoom != undefined) {
+      //         //捕捉到缩放时
+      //         option.geo.zoom = option.series[1].zoom; //下层geo的缩放等级跟着上层的geo一起改变
+      //         option.geo.center = option.series[1].center; //下层的geo的中心位置随着上层geo一起改变
+      //         option.geo.animationDurationUpdate=0;//防止地图缩放卡顿
+      //         option.series[1].animationDurationUpdate = 0;//防止地图缩放卡顿
+      //     } else {
+      //         //捕捉到拖曳时
+      //         options.geo.center = option.series[1].center; //下层的geo的中心位置随着上层geo一起改变
+      //     }
+      //     chartInstance?.setOption(option); //设置option
+      //  });
     }
   }, [options, chartInstance]);
 
@@ -116,12 +130,15 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
           echarts.registerMap('Outline1' + adCode, provinceGeoData);
           setTrue();
           setMapLoadingFalse();
+          chartInstance?.dispatchAction({
+            type: 'restore',
+          }); //每次渲染前都要还原地图，防止沿用前一次缩放拖拽
         });
       });
     } else {
       setFalse();
     }
-  }, [adCode]);
+  }, [adCode, chartInstance]);
 
   return (
     <>
