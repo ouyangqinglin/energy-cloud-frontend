@@ -24,10 +24,10 @@
 }
 .logoDiv {
   position: absolute;
-  top: 0;
+  top: -8px;
   left: 20px;
   width: 475px;
-  height: 92px;
+  height: 80px;
   /* stylelint-disable-next-line */
   background-image: url(~@/assets/image/customScreen/jiechen_logo.png);
   background-repeat: no-repeat;
@@ -112,7 +112,7 @@
   .chartDiv {
     position: relative;
     float: left;
-    width: 580px;
+    width: 780px;
     height: 460px;
     margin-left: 20px;
     //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
@@ -172,7 +172,7 @@
 //右上角的曲线
 .energyChart {
   position: relative;
-  height: 520px;
+  height: 820px;
   margin-top: 20px;
   //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
   background-color: rgba(18, 19, 20, 0.8);
@@ -209,7 +209,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 410px;
+    height: 710px;
     margin-top: 20px;
     overflow: hidden;
     background-color: initial;
@@ -287,11 +287,6 @@
           }
         }
       }
-      // .leftDiv {
-      //   .leftTable {
-
-      //   }
-      // }
     }
     .rightBox {
       float: right;
@@ -329,8 +324,27 @@
   height: 100%;
   background-color: rgba(18, 19, 20, 0.8);
 }
-@media screen and (max-width: 1920) {
+@media screen and (max-width: 1920px) {
   .chartDiv {
+    width: 580px;
+    height: 410px;
+  }
+  .energyChart {
+    height: 520px;
+  }
+  .scrollTableBox {
+    height: 410px;
+  }
+}
+@media screen and (max-height: 1080px) {
+  .chartDiv {
+    width: 580px;
+    height: 410px;
+  }
+  .energyChart {
+    height: 520px;
+  }
+  .scrollTableBox {
     height: 410px;
   }
 }

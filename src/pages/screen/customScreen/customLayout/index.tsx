@@ -386,7 +386,7 @@ const CustomLayout = () => {
         </Col>
       </Row>
 
-      <FullScreen />
+      {/* <FullScreen /> */}
     </>
   );
 };

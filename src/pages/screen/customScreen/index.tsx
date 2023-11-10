@@ -3,10 +3,7 @@ import Layout, { ScaleMode } from '../components/Layout';
 import CustomLayout from './customLayout';
 import LayoutVideo from '@/assets/image/customScreen/background-video.mp4';
 import styles from './index.less';
-// var Dimensions = require('Dimensions');
-// var ScreenWidth = Dimensions.get('window').width;
-// var ScreenHeight = Dimensions.get('window').height;
-// var ScreenScale = Dimensions.get('window').scale;
+import FullScreen from '../components/FullScreen';
 const screenWidth = window.screen.width;
 const screenHeight = window.screen.height;
 console.log(screenWidth, screenHeight, 66666666);
@@ -27,6 +24,7 @@ const JiechengScreen: FC = () => {
           <source src={LayoutVideo} type="video/mp4" />
         </video>
         <CustomLayout />
+        <FullScreen />
       </Layout>
     </>
   );
