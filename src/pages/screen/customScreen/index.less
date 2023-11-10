@@ -125,6 +125,14 @@
     border-radius: 0;
     pointer-events: auto;
     image-rendering: -webkit-optimize-contrast;
+    @media screen and (min-width: 1920px) {
+      width: 580px;
+      height: 410px;
+    }
+    @media screen and (min-width: 2560px) {
+      width: 780px;
+      height: 410px;
+    }
     .energyDiv {
       position: absolute;
       top: 60px;
@@ -180,9 +188,12 @@
   background-image: url(~@/assets/image/customScreen/chart-back.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  // @media screen and (max-width: 1920) {
-  //   height: 520px;
-  // }
+  @media screen and (max-width: 1920px) {
+    height: 520px;
+  }
+  @media screen and (max-width: 2560px) {
+    height: 520px;
+  }
   .energySubtitle {
     position: absolute;
     top: 40px;
@@ -218,9 +229,12 @@
     background-image: url(~@/assets/image/customScreen/chart-back.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    // @media screen and (max-width: 1920) {
-    //   height: 410px;
-    // }
+    @media screen and (max-width: 1920px) {
+      height: 410px;
+    }
+    @media screen and (max-width: 2560px) {
+      height: 410px;
+    }
     //表格样式的修改
     :global {
       .ant-table-wrapper {
@@ -324,27 +338,27 @@
   height: 100%;
   background-color: rgba(18, 19, 20, 0.8);
 }
-@media screen and (max-width: 1920px) {
-  .chartDiv {
-    width: 580px;
-    height: 410px;
-  }
-  .energyChart {
-    height: 520px;
-  }
-  .scrollTableBox {
-    height: 410px;
-  }
-}
-@media screen and (max-height: 1080px) {
-  .chartDiv {
-    width: 580px;
-    height: 410px;
-  }
-  .energyChart {
-    height: 520px;
-  }
-  .scrollTableBox {
-    height: 410px;
-  }
-}
+// @media screen and (max-width: 1920px) {
+//   .chartDiv {
+//     width: 580px;
+//     height: 410px;
+//   }
+//   .energyChart {
+//     height: 520px;
+//   }
+//   .scrollTableBox {
+//     height: 410px;
+//   }
+// }
+// @media screen and (max-height: 1080px) {
+//   .chartDiv {
+//     width: 580px;
+//     height: 410px;
+//   }
+//   .energyChart {
+//     height: 520px;
+//   }
+//   .scrollTableBox {
+//     height: 410px;
+//   }
+// }
