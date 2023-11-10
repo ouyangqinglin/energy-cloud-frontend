@@ -22,6 +22,18 @@
   background-position: center;
   background-size: 100% 100%;
 }
+.logoDiv {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 475px;
+  height: 92px;
+  /* stylelint-disable-next-line */
+  background-image: url(~@/assets/image/customScreen/jiechen_logo.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
 .titleFont {
   display: flex;
   align-items: center;
@@ -101,7 +113,7 @@
     position: relative;
     float: left;
     width: 580px;
-    height: 410px;
+    height: 460px;
     margin-left: 20px;
     //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
     background-color: initial;
@@ -168,6 +180,9 @@
   background-image: url(~@/assets/image/customScreen/chart-back.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  // @media screen and (max-width: 1920) {
+  //   height: 520px;
+  // }
   .energySubtitle {
     position: absolute;
     top: 40px;
@@ -203,6 +218,9 @@
     background-image: url(~@/assets/image/customScreen/chart-back.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    // @media screen and (max-width: 1920) {
+    //   height: 410px;
+    // }
     //表格样式的修改
     :global {
       .ant-table-wrapper {
@@ -310,4 +328,9 @@
   position: relative;
   height: 100%;
   background-color: rgba(18, 19, 20, 0.8);
+}
+@media screen and (max-width: 1920) {
+  .chartDiv {
+    height: 410px;
+  }
 }
