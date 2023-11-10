@@ -24,15 +24,17 @@ import { arrayToMap } from '@/utils';
 
 export type AccountProps = {
   params?: Record<string, any>;
+  type?: any;
 };
 
 const Account: React.FC<AccountProps> = (props) => {
   const { params } = props;
-
   const actionRef = useRef<ActionType>();
   const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
   const [systemRoleOptions, setSystemRoleOptions] = useState<OptionType[]>([]);
   const [partnerRoleOptions, setPartnerRoleOptions] = useState<OptionType[]>([]);
+  const [yzRoleOptions, setYzRoleOptions] = useState<OptionType[]>([]);
+  const [operatorRoleOptions, setOperatorRoleOptions] = useState<OptionType[]>([]);
   const [formInfo, setFormInfo] = useState({
     type: FormTypeEnum.Add,
     id: '',
@@ -43,8 +45,15 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params]);
 
   const formColumns = useMemo(() => {
-    return getFormColumns(params?.orgTypes, systemRoleOptions, partnerRoleOptions);
-  }, [params]);
+    return getFormColumns(
+      params?.orgTypes,
+      systemRoleOptions,
+      partnerRoleOptions,
+      operatorRoleOptions,
+      yzRoleOptions,
+      type,
+    );
+  }, [params, tableColumns]);
 
   const initialValues = useMemo(() => {
     const result: AccountDataType = {};
@@ -123,7 +132,7 @@ const Account: React.FC<AccountProps> = (props) => {
   useEffect(() => {
     actionRef?.current?.reloadAndRest?.();
   }, [params]);
-
+  //获取角色下拉框数据
   useEffect(() => {
     api.getRoles({ builtInRole: 0 }).then(({ data }) => {
       const result =
@@ -147,7 +156,29 @@ const Account: React.FC<AccountProps> = (props) => {
         }) || [];
       setPartnerRoleOptions(result);
     });
-  }, []);
+    api.getRoles({ builtInRole: 2 }).then(({ data }) => {
+      const result =
+        data?.map?.((item: any) => {
+          return {
+            ...item,
+            label: item?.roleName,
+            value: item?.roleId,
+          };
+        }) || [];
+      setOperatorRoleOptions(result);
+    });
+    api.getRoles({ builtInRole: 3 }).then(({ data }) => {
+      const result =
+        data?.map?.((item: any) => {
+          return {
+            ...item,
+            label: item?.roleName,
+            value: item?.roleId,
+          };
+        }) || [];
+      setYzRoleOptions(result);
+    });
+  }, [openForm]);
 
   return (
     <>

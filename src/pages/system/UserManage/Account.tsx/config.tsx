@@ -153,11 +153,13 @@ const requestTable = (params: Record<string, any>) => {
     };
   });
 };
-
 export const getFormColumns = (
   types: OrgTypeEnum[],
   systemRoleOptions: OptionType[],
   partnerRoleOptions: OptionType[],
+  operatorRoleOptions: OptionType[],
+  yzRoleOptions: OptionType[],
+  type: any, //点击的用户类型
 ) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
@@ -216,8 +218,27 @@ export const getFormColumns = (
       dataIndex: 'roleId',
       valueType: 'select',
       request: () => {
+        // return api.getRoles({ builtInRole: type? type : 0 }).then(({ data }) => {
+        //   const result =
+        //     data?.map?.((item: any) => {
+        //       return {
+        //         ...item,
+        //         label: item?.roleName,
+        //         value: item?.roleId,
+        //       };
+        //     }) || [];
+        //   return result
+        // });
         return Promise.resolve(
-          types[0] === OrgTypeEnum.System ? systemRoleOptions : partnerRoleOptions,
+          types[0] === OrgTypeEnum.System
+            ? systemRoleOptions
+            : types[0] === OrgTypeEnum.Install
+            ? partnerRoleOptions
+            : types[0] === OrgTypeEnum.Operator
+            ? operatorRoleOptions
+            : types[0] === OrgTypeEnum.Owner
+            ? yzRoleOptions
+            : systemRoleOptions,
         );
       },
       formItemProps: {

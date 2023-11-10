@@ -17,7 +17,7 @@ import { default as UserAccount } from './Account';
 
 const Account: React.FC = () => {
   const [selectOrg, setSelectOrg] = useState<TreeNode | null>({ id: 100, key: '100', type: 0 });
-
+  const [selectType, setSelectType] = useState(0);
   const selectedKeys = useMemo<string[]>(() => {
     return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id as string];
   }, [selectOrg]);
@@ -53,6 +53,7 @@ const Account: React.FC = () => {
   const onSelect = useCallback((_, { selected, node }: { selected: boolean; node: TreeNode }) => {
     if (selected) {
       setSelectOrg(node);
+      setSelectType(node?.type);
     }
   }, []);
 
@@ -67,7 +68,7 @@ const Account: React.FC = () => {
           <OrgTree selectedKeys={selectedKeys} onSelect={onSelect} afterRequest={afterRequest} />
         </div>
         <div className={styles.table}>
-          <UserAccount params={searchParams} />
+          <UserAccount params={searchParams} type={selectType} />
         </div>
       </div>
     </>

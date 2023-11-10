@@ -139,6 +139,7 @@ const Install = () => {
           visible: readModal,
           onVisibleChange: setReadModal,
           id: initialValues?.id,
+          onSuccess: onSuccess, //重新刷新列表数据
           // keyForId: 'faultId',
         }}
       />
