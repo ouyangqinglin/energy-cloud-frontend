@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 10:49:21
- * @LastEditTime: 2023-09-27 11:25:10
+ * @LastEditTime: 2023-11-13 11:01:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\YtCharge\RealTime.tsx
  */
@@ -25,6 +25,7 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   const [relatedIds, setRelatedIds] = useState<string[]>([]);
   const [aGunId, setAGunId] = useState('');
   const [bGunId, setBGunId] = useState('');
+  const realTimeData = useSubscribe(id, open);
   const aGunData = useSubscribe(aGunId, open);
   const bGunData = useSubscribe(bGunId, open);
   const meterData = useSubscribe(relatedIds, open);
@@ -93,7 +94,7 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
           ) : (
             <Detail.Label title="运行信息" />
           )}
-          <Detail data={{ ...meterData }} items={runItems} column={4} {...(detailProps || {})} />
+          <Detail data={realTimeData} items={runItems} column={4} {...(detailProps || {})} />
           <Meter
             data={meterData}
             detailProps={{

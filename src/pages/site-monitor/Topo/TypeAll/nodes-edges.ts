@@ -112,37 +112,63 @@ const genElectricSupplyNode = (data: MainsSupply) => {
   ];
 };
 
-const genDistributionCabinetNode = (data: MainsSupply, type: any) => ({
-  id: uniqueId(),
-  type: 'imageNode',
-  data: {
-    label: 'input',
-    width: 77,
-    height: 90,
-    title: '配电柜',
-    imageContent: {
-      icon: IconDistributionCabinet,
+const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
+  let label = '';
+  switch (type) {
+    case 1:
+      label = '当日发电(kWh)：';
+      break;
+    case 2:
+      label = '当日充电(kWh)：';
+      break;
+    case 3:
+    case 4:
+      label = '当日用电(kWh)：';
+      break;
+  }
+
+  const result = {
+    id: uniqueId(),
+    type: 'imageNode',
+    data: {
+      label: 'input',
       width: 77,
       height: 90,
+      title: '配电柜',
+      imageContent: {
+        icon: IconDistributionCabinet,
+        width: 77,
+        height: 90,
+      },
+      textContent: {
+        column: [
+          {
+            label: label,
+            value: data.todayConsumption,
+            field: 'todayConsumption',
+          },
+          {
+            label: type == 2 ? '实时功率(kW)：' : type == 1 ? '发电功率(kW)：' : '用电功率(kW)：',
+            value: data.power,
+            field: 'todayConsumption',
+          },
+        ],
+        direction: 'horizontal',
+      },
     },
-    textContent: {
-      column: [
-        {
-          label: type == 3 || type == 4 ? '当日用电(kWh)：' : '当日充电(kWh)：',
-          value: data.todayConsumption,
-          field: 'todayConsumption',
-        },
-        {
-          label: type == 2 ? '实时功率(kW)：' : type == 1 ? '发电功率(kW)：' : '用电功率(kW)：',
-          value: data.power,
-          field: 'todayConsumption',
-        },
-      ],
-      direction: 'horizontal',
-    },
-  },
-  position,
-});
+    position,
+  };
+
+  if (type == 2) {
+    result.data.textContent.column.splice(1, 0, {
+      label: '当日放电(kWh)：',
+      value: data.todayProduction,
+      field: 'todayProduction',
+    });
+  }
+
+  return result;
+};
 
 const genPVNode = (data: MainsSupply) => {
   const pId = uniqueId();
@@ -163,7 +189,7 @@ const genPVNode = (data: MainsSupply) => {
         textContent: {
           column: [
             {
-              label: '当日充电(kWh)：',
+              label: '当日发电(kWh)：',
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
