@@ -14,7 +14,7 @@ export const getStatistics = (type: TimeType) => {
 };
 
 export const getPVChart = (startTime: string, endTime: string) => {
-  return get<PVChartRes>(`/iot/photovoltaic/histogram`, {
+  return get<PVChartRes>(`/oss/site/pvHistogram`, {
     siteId: getSiteId(),
     startTime,
     endTime,
