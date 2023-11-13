@@ -306,7 +306,10 @@ const CustomLayout = () => {
                 calculateMax={false}
               />
             </div>
-            <div className={styles.chartDiv} style={{ height: leftChartHeight + 'px' }}>
+            <div
+              className={styles.chartDiv}
+              style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
+            >
               <div className={styles.chartLable}>储能 (近30天充、放电量/kWh)</div>
               <div className={styles.energyDiv}>
                 <div className={styles.subLeft}>
