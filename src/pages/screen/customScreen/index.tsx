@@ -6,7 +6,6 @@ import styles from './index.less';
 import FullScreen from '../components/FullScreen';
 const screenWidth = window.screen.width;
 const screenHeight = window.screen.height;
-console.log(screenWidth, screenHeight, 66666666);
 const JiechengScreen: FC = () => {
   return (
     <>

@@ -17,6 +17,7 @@ import ResetPassword from './components/ResetPassword';
 import AvatarCropper from './components/AvatarCropper';
 import WrapContent from '@/components/WrapContent';
 import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
+import avatarImg from '@/assets/image/img_avatar.png'; //个人中心-头像默认图片
 
 const operationTabList = [
   {
@@ -132,7 +133,7 @@ const Center: React.FC = () => {
                     setCropperModalVisible(true);
                   }}
                 >
-                  <img alt="" src={currentUser.avatar} />
+                  <img alt="" src={currentUser.avatar || avatarImg} />
                 </div>
                 {renderUserInfo(currentUser)}
                 <Divider dashed />
