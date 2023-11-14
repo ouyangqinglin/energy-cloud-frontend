@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:42:09
- * @LastEditTime: 2023-09-25 15:48:19
+ * @LastEditTime: 2023-11-14 08:43:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\index.tsx
  */
@@ -41,7 +41,7 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
         items: upgradeItems,
       },
     ];
-  }, [deviceId]);
+  }, [deviceId, versionData]);
 
   return (
     <>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:50:53
- * @LastEditTime: 2023-09-25 15:21:27
+ * @LastEditTime: 2023-11-14 08:45:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeForm\index.tsx
  */
@@ -19,10 +19,6 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   const { deviceId, versionItems } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
-
-  const onSuccess = useCallback(() => {
-    message.success('操作成功');
-  }, []);
 
   const columns = useMemo<ProFormColumnsType[]>(() => {
     const options: OptionType[] = [];
@@ -61,7 +57,6 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
         type={FormTypeEnum.Edit}
         columns={columns}
         editData={upgradeDevice}
-        onSuccess={onSuccess}
         extraData={{ deviceId }}
       />
     </>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Collapse, Switch, Modal, message, Divider, Table, Button } from 'antd';
 import { useToggle } from 'ahooks';
 import type { TableColumnProps } from 'antd';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import { useRequest, useModel } from 'umi';
 import { getConfig, editStatus, editConfig } from './service';
 import styles from './index.less';
@@ -203,6 +203,27 @@ const Monitor: React.FC = () => {
     });
   };
 
+  const requestDeviceCollection = useCallback(
+    (params) => {
+      let paramName = '';
+      if (selectedRow?.area?.startsWith?.('row')) {
+        if (selectedRow?.area == 'row1') {
+          paramName = '电量';
+        } else if (selectedRow?.area == 'row2') {
+          if (selectedRow?.type == 'photovoltaic' || selectedRow?.type == 'energy') {
+            paramName = '电量';
+          } else {
+            paramName = '功率';
+          }
+        } else {
+          paramName = '功率';
+        }
+      }
+      return getDeviceCollection({ ...params, paramName });
+    },
+    [selectedRow],
+  );
+
   useEffect(() => {
     if (siteId) {
       run({ siteId }).then((data) => {
@@ -377,7 +398,7 @@ const Monitor: React.FC = () => {
         }}
         proTableProps={{
           columns: tableSelectColumns,
-          request: getDeviceCollection,
+          request: requestDeviceCollection,
           pagination: false,
         }}
         valueId={valueMap.valueId}

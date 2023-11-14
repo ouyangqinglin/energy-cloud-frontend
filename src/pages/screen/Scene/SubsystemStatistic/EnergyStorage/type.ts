@@ -37,6 +37,6 @@ export type EnergyStorageChartRes = {
 };
 
 export type ESChartRes = {
-  eventTs: string;
-  doubleVal: number;
+  time: string;
+  value: number;
 }[];

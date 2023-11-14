@@ -12,7 +12,7 @@ export const getChargeAndDischargePower = (type: TimeType) => {
 };
 
 export const getEnergyStorageChart = (startTime: string, endTime: string) => {
-  return get<EnergyStorageChartRes>(`/iot/es/chargeDischargeBarChart`, {
+  return get<EnergyStorageChartRes>(`/oss/site/esHistogram`, {
     siteId: getSiteId(),
     startTime,
     endTime,

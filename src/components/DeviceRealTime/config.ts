@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-10-27 14:01:40
+ * @LastEditTime: 2023-11-13 15:29:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */
@@ -53,12 +53,23 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.BWattBatteryCluster]: { component: 'BatterryStack' },
   [DeviceTypeEnum.BWattPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.BWattEms]: { component: 'Ems', props: { type: DeviceTypeEnum.BWattEms } },
-  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter', props: { label: '实时数据' } },
   // [DeviceTypeEnum.BWattAir]: { component: 'Air' },
   [DeviceTypeEnum.BWattEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergyPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
-  [DeviceTypeEnum.YTEnergyMetter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.YTEnergyMetter]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
+  [DeviceTypeEnum.YTEnergyMetterRAIG]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
+  [DeviceTypeEnum.YTEnergyMetterDTSD]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
 };
