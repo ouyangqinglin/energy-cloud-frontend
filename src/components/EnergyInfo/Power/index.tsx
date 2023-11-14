@@ -121,7 +121,11 @@ const Power: React.FC<ComProps> = (props) => {
   useEffect(() => {
     if (deviceData?.deviceId && deviceData?.children) {
       //只有点击父节点才调此接口
-      run({ deviceId: deviceData?.deviceId, date: date.format('YYYY-MM-DD') });
+      run({
+        deviceId: deviceData?.deviceId,
+        date: date.format('YYYY-MM-DD'),
+        visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
+      });
     }
   }, [deviceData?.deviceId, date]);
 

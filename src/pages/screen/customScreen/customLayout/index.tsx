@@ -22,6 +22,7 @@ import ScrollTable from '../components/scrollTable';
 // import { Data } from '@/components/YTIcons/YTSvg';
 import { merge } from 'lodash';
 import Counter from '../components/numCounter';
+
 let energyStorageTimer: any = null;
 const CustomLayout = () => {
   const [storageChartData, setStorageChartData] = useState<TypeChartDataType[]>(); //储能图表数据
@@ -254,9 +255,14 @@ const CustomLayout = () => {
   ];
   const tableRef = useRef(null);
   const [leftChartHeight, setLeftChartHeight] = useState();
+  const [leftChartWidth, setLeftChartWidth] = useState(780);
   useLayoutEffect(() => {
+    const screenWidth = window.screen.width;
     if (tableRef.current) {
       setLeftChartHeight(tableRef.current.offsetHeight);
+      if (screenWidth == 1920 || screenWidth == 2560) {
+        setLeftChartWidth(580);
+      }
     }
   }, [tableRef.current]);
   return (
@@ -283,7 +289,10 @@ const CustomLayout = () => {
           />
           {/* 曲线图 */}
           <div className={styles.chartBox}>
-            <div className={styles.chartDiv} style={{ height: leftChartHeight + 'px' }}>
+            <div
+              className={styles.chartDiv}
+              style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
+            >
               <div className={styles.chartLable}>光伏 (近30天发电量/kWh)</div>
               <div className={styles.voltaicDiv}>
                 <div className={styles.subLeft}>
@@ -297,7 +306,10 @@ const CustomLayout = () => {
                 calculateMax={false}
               />
             </div>
-            <div className={styles.chartDiv} style={{ height: leftChartHeight + 'px' }}>
+            <div
+              className={styles.chartDiv}
+              style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
+            >
               <div className={styles.chartLable}>储能 (近30天充、放电量/kWh)</div>
               <div className={styles.energyDiv}>
                 <div className={styles.subLeft}>

@@ -14,7 +14,7 @@ import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import { logout } from '@/services/session';
 import { formatMessage } from '@/utils';
-import HeadIcon from '@/assets/image/headIcon.png';
+import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
 
 export type GlobalHeaderRightProps = {

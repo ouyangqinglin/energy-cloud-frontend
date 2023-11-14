@@ -17,7 +17,7 @@ import ResetPassword from './components/ResetPassword';
 import AvatarCropper from './components/AvatarCropper';
 import WrapContent from '@/components/WrapContent';
 import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
-import HeadIcon from '@/assets/image/headIcon.png';
+import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
 
 const operationTabList = [
