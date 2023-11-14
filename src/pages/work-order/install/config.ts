@@ -99,7 +99,7 @@ export const columns: ProColumns<InstallListType>[] = [
   },
   {
     title: formatMessage({ id: 'taskManage.installManu', defaultMessage: '安装商' }),
-    dataIndex: 'service',
+    dataIndex: 'orgName',
     hideInSearch: true,
     width: 100,
     ellipsis: true,
@@ -127,7 +127,7 @@ export const columns: ProColumns<InstallListType>[] = [
   },
   {
     title: formatMessage({ id: 'common.renew', defaultMessage: '更新人' }),
-    dataIndex: 'updateBy',
+    dataIndex: 'updateName',
     hideInSearch: true,
     width: 100,
     ellipsis: true,

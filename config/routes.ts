@@ -92,7 +92,7 @@ const routers: RouterType[] = [
         name: 'setting',
         component: './station/Setting',
         wrappers: ['@/components/KeepAlive'],
-        keepAlive: true,
+        //keepAlive: true,
         locale: 'menu.station.setting',
       },
       {
@@ -116,7 +116,7 @@ const routers: RouterType[] = [
         name: 'overview',
         component: './site-monitor/Overview',
         wrappers: ['@/components/KeepAlive'],
-        keepAlive: true,
+        //keepAlive: true,
         locale: 'menu.siteMonitor.overview',
       },
       {

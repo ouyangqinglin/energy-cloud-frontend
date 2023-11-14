@@ -1,29 +1,29 @@
 export interface UpdateTaskParam {
   upgradeDeviceDetailList: any;
   signature: any;
-  id:number,
-  version:string;
+  id: number;
+  version: string;
   taskName: string;
   packageId: number;
-  productType:number;//产品类型id
-  productTypeName:string;//产品类型名称
-  productId:number;
-  productModel:any;
-  moduleId:number;
-  moduleName:string;
+  productType: number; //产品类型id
+  productTypeName: string; //产品类型名称
+  productId: number;
+  productModel: any;
+  moduleId: number;
+  moduleName: string;
   upgradeTime: any;
   upgradeDevice: any;
-  type:any;
-  status:any;
-  description:string;
-  upgradeDeviceVersionDetailList:any;
-  softwarePackageUrl:string;
-  platform:any;
-  selectDevice:boolean;
-  selectVersion:boolean;
-  upgradableVersion:any;
-  productTypeId:any;
-  softwareList:any;
+  type: any;
+  status: any;
+  description: string;
+  upgradeDeviceVersionDetailList: any;
+  softwarePackageUrl: string;
+  platform: any;
+  selectDevice: boolean;
+  selectVersion: boolean;
+  upgradableVersion: any;
+  productTypeId: any;
+  softwareList: any;
 }
 export interface UpgradeListType {
   id: number;
@@ -32,13 +32,13 @@ export interface UpgradeListType {
   packageName: string;
   moduleName: string;
   productTypeName: string;
-  taskName:string;
-  createTime:string;
-  upgradeTime:string;
-  updater:string;
-  updateBy:string;
-  status:number,
-  type:number;
+  taskName: string;
+  createTime: string;
+  upgradeTime: string;
+  updater: string;
+  updateBy: string;
+  status: number;
+  type: number;
 }
 export interface SelectedDeviceType {
   deviceId: number;
@@ -50,7 +50,7 @@ export interface SelectedDeviceType {
 }
 
 //抄11111
-import type { FormOperations } from '@/components/YTModalForm/typing'
+import type { FormOperations } from '@/components/YTModalForm/typing';
 
 export type FormUpdateBaseProps = {
   visible: boolean;
@@ -98,7 +98,7 @@ export type InstallListType = {
   remark?: any;
   address?: any;
   siteId?: any;
-  status: OrderStatus;
+  status?: any;
   startTime?: any;
   endTime?: any;
   tails?: any;

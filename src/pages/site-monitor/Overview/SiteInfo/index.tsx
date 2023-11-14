@@ -71,7 +71,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
         </li>
         <li>
           <div className={styles.label}>并网时间：</div>
-          <div className={styles.value}>{data?.createTime ?? '--'}</div>
+          <div className={styles.value}>{data?.deliveryTime ?? '--'}</div>
         </li>
       </ul>
 

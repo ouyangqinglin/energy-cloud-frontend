@@ -76,6 +76,13 @@ export const enum OrderType {
   REPAIR,
 }
 
+export const enum UserType {
+  SYSTEM = 0,
+  INSTALL,
+  YUNYING,
+  OWNER,
+}
+
 export interface InstallOrderUpdateParam {
   type: number;
   orgId: number;

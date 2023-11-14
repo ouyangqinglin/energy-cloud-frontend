@@ -1,10 +1,9 @@
 import { del, get, post, put } from '@/utils/request';
 import request from '@/utils/request';
 
-
 //获取产品型号
 export const getProductSnList = (params: any) => {
-  return request(`/iot/product/getProductModel`, {
+  return request(`/iot/product/getAllProductsByproductType`, {
     method: 'GET',
     params,
   });
