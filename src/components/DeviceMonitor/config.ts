@@ -66,12 +66,23 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.BWattBatteryCluster]: { component: 'BatterryStack' },
   [DeviceTypeEnum.BWattPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.BWattEms]: { component: 'Ems' },
-  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter', props: { label: '实时数据' } },
   [DeviceTypeEnum.BWattAir]: { component: 'Air' },
   [DeviceTypeEnum.BWattEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergyPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
-  [DeviceTypeEnum.YTEnergyMetter]: { component: 'ElectricMeter' },
+  [DeviceTypeEnum.YTEnergyMetter]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
+  [DeviceTypeEnum.YTEnergyMetterRAIG]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
+  [DeviceTypeEnum.YTEnergyMetterDTSD]: {
+    component: 'ElectricMeter',
+    props: { label: '实时数据', hideLineVoltage: true },
+  },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
 };

@@ -86,8 +86,8 @@ const EnergyStorage: FC = () => {
     Object.entries(rawChartData).forEach(([key, value]) => {
       value.forEach((it) => {
         chartData.push({
-          ts: it.eventTs,
-          value: it.doubleVal,
+          ts: it.time,
+          value: it.value,
           field: chartConfigMap[key]?.name,
         });
       });

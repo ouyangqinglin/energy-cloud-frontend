@@ -14,7 +14,7 @@ export const getStatistics = (type: TimeType) => {
 };
 
 export const getChartStationChart = (startTime: string, endTime: string) => {
-  return get<ChartStationChartRes>(`/oss/chargingPlie/statisticCharge`, {
+  return get<ChartStationChartRes>(`/oss/site/cpHistogram`, {
     siteId: getSiteId(),
     startTime,
     endTime,

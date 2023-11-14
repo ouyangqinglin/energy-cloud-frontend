@@ -44,7 +44,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
       formData.append('avatarfile', blob);
       uploadAvatar(formData).then((res) => {
         if (res.code === 200) {
-          message.success(res.msg);          
+          message.success(res.msg);
           props.onFinished(true);
         } else {
           message.warn(res.msg);
@@ -86,6 +86,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
     reader.onload = () => {
       setAvatarData(reader.result);
     };
+    return false;
   };
   return (
     <Modal
@@ -121,7 +122,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={6}>
-          <Upload beforeUpload={beforeUpload} maxCount={1}>
+          <Upload beforeUpload={beforeUpload} maxCount={1} accept="image/*">
             <Button>
               <UploadOutlined />
               上传
