@@ -7,6 +7,11 @@
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
 
+export enum RequestCode {
+  NoToken = 500001,
+  TokenExpire = 500003,
+}
+
 export const aks = [
   { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
 ];

@@ -18,6 +18,8 @@ import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime 
 import { LoginPageUrl } from './utils';
 import defaultSettings from '../../config/defaultSettings';
 import { isEmpty } from 'lodash';
+import { RequestCode } from './dictionary';
+import { stringify } from 'querystring';
 
 const codeMessage: Record<number, string> = {
   10000: '系统未知错误，请反馈给管理员',
@@ -168,7 +170,17 @@ export class HttpRequest implements HttpRequestType {
           if (data) {
             const { code } = data;
             if (code && code !== 200) {
-              if (options.showMessage !== false) {
+              if ([RequestCode.NoToken, RequestCode.TokenExpire].includes(code)) {
+                const { query = {}, pathname } = history.location;
+                if (pathname != LoginPageUrl) {
+                  history.push({
+                    pathname: LoginPageUrl,
+                    search: stringify({
+                      redirect: pathname + '?' + stringify(query),
+                    }),
+                  });
+                }
+              } else if (options.showMessage !== false) {
                 const msg = data.msg || codeMessage[code] || codeMessage[10000];
                 message.warn(`${code} ${msg}`);
               }
