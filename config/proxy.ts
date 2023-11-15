@@ -12,6 +12,7 @@ export default {
       target: 'https://192.168.3.18',
       // target: 'https://ytoss.yotaienergy.com',
       // target: 'https://120.78.129.213',
+      // target: 'https://192.168.3.47',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/api': '/prod-api' },

@@ -311,6 +311,7 @@ export const Columns: (
                     return {
                       data: data?.list.map(({ userId, userName, ...rest }) => {
                         return {
+                          userName,
                           ...rest,
                           handlerBy: userId,
                           handlerName: userName,
