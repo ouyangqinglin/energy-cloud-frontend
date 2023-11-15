@@ -80,7 +80,11 @@ const Read = (props: FormUpdateBaseProps) => {
         break;
       case OrderStatus.DEALING:
         if (detailData?.siteId) {
-          runForComplete({ id });
+          //点击'完成工单'按钮
+          runForComplete({ id }).then(() => {
+            onVisibleChange(false); //关闭弹窗
+            onSuccess(); //更新列表数据
+          });
         } else {
           set(true);
         }
@@ -88,7 +92,7 @@ const Read = (props: FormUpdateBaseProps) => {
       default:
         break;
     }
-  }, [id, detailData, fetchFormData, onVisibleChange]);
+  }, [id, detailData, fetchFormData, onVisibleChange, onSuccess, props]);
 
   useEffect(() => {
     if (props.visible) {
