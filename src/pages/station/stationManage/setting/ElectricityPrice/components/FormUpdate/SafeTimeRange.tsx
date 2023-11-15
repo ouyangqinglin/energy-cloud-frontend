@@ -36,6 +36,7 @@ const useSafeTimeRangeColum = () => {
           //   },
           // },
           {
+            required: true,
             message: '所有时间范围相加未满24小时',
             validator: async (r, value) => {
               timeStore.update(r!.field, value);

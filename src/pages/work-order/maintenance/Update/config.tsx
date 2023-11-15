@@ -14,7 +14,8 @@ import dayjs from 'dayjs';
 
 export const Columns: (
   operation: FormOperations,
-) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = () => {
+  siteId: number,
+) => ProColumns<MaintenanceOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation, siteId) => {
   return [
     {
       title: '站点名称',
@@ -139,7 +140,7 @@ export const Columns: (
             },
           ],
           request: (params: Record<string, any>) => {
-            return getServiceProviderList(params)?.then(({ data }) => {
+            return getServiceProviderList({ siteId: siteId })?.then(({ data }) => {
               return {
                 data: data?.list,
                 total: data?.total,

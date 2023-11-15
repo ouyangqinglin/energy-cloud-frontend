@@ -275,12 +275,28 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             label={<FormattedMessage id="common.deviceName" defaultMessage="设备名称" />}
             name="name"
             //placeholder="请输入"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({
+                  id: 'common.pleaseEnterDevice',
+                  defaultMessage: '请输入设备名称',
+                }),
+              },
+            ]}
           />
           <ProFormText
             label={<FormattedMessage id="common.equipmentSerial" defaultMessage="设备SN" />}
             name="sn"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({
+                  id: 'common.pleaseEnterSn',
+                  defaultMessage: '请输入设备序列号',
+                }),
+              },
+            ]}
           />
           {/* <ProFormText
             label={<FormattedMessage id='equipmentList.snForEms' defaultMessage="EMS 设备SN" />}

@@ -22,6 +22,10 @@ export const meterItem: DetailItem[] = [
   { label: '电能变比', field: 'energyRatio' },
   { label: '功率变比', field: 'powerRatio' },
 ];
+export const selfEnergyMeterItem: DetailItem[] = [
+  { label: '电流变比', field: 'currentRatio' },
+  { label: '电压变比', field: 'voltageRatio' },
+];
 
 export const thirtySiteItem: DetailItem[] = [{ label: '第三方站点', field: 'thirdSiteName' }];
 

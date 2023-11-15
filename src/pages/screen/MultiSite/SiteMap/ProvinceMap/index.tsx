@@ -71,7 +71,7 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
       option.geo.zoom = 1;
       option.geo.top = 63;
       option.series[0].type = 'effectScatter';
-      option.series[0].symbolSize = [10, 10];
+      option.series[0].symbolSize = [5, 5];
       option.series[0].itemStyle = {
         normal: {
           color: '#ffd422',

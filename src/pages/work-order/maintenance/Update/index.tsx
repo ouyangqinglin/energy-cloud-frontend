@@ -49,7 +49,10 @@ export const MaintenanceUpdate = (
     } as MaintenanceOrderUpdateParam;
   };
 
-  const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);
+  const getConfig = useCallback(
+    () => Columns(props?.operations, props.siteId),
+    [props.operations, props.siteId],
+  );
 
   return (
     <SchemaFormProvider<

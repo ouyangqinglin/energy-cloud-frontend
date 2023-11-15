@@ -64,6 +64,13 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             );
           },
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+            },
+          ],
+        },
         colProps: {
           span: 24,
         },

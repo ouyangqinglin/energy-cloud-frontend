@@ -8,7 +8,14 @@
  */
 import React, { memo, useMemo } from 'react';
 import Detail, { GroupItem } from '@/components/Detail';
-import { accountItem, meterItem, thirtySiteItem, thirtySiteGunItem, bWattItem } from './config';
+import {
+  accountItem,
+  meterItem,
+  thirtySiteItem,
+  thirtySiteGunItem,
+  bWattItem,
+  selfEnergyMeterItem,
+} from './config';
 import Community, { CommunityTypeEnum } from '@/components/ScreenDialog/Community';
 import { DeviceDataType } from '@/services/equipment';
 import { DeviceTypeEnum } from '@/utils/dictionary';
@@ -23,6 +30,7 @@ const communityItemMap = new Map([
   [CommunityTypeEnum.Station, thirtySiteItem],
   [CommunityTypeEnum.StationGun, thirtySiteGunItem],
   [CommunityTypeEnum.BWatt, bWattItem],
+  [CommunityTypeEnum.SelfEnergyMeter, selfEnergyMeterItem],
 ]);
 
 const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
