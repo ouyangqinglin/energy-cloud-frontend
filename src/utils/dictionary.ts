@@ -65,6 +65,14 @@ export enum DeviceTypeEnum {
   BWattEnergy = 44,
   YunCharge120 = 45,
   GRWTPvInverter = 47,
+  //新增localEms
+  YtCharge360LocalEms = 51,
+  HwChargeLocalEms = 52,
+  EnergyLocalEms = 54, //永泰工商业储能
+  PvInverter4LocalEms = 55,
+  PvInverter11LocalEms = 56,
+  YtCharge160LocalEms = 57,
+  YtCharge120LocalEms = 58,
   YTEnergyEms = 59,
   YTEnergyAir = 60,
   YTEnergyPcs = 61,

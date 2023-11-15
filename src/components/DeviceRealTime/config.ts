@@ -22,20 +22,26 @@ export type DeviceRealTimeMapType = {
   // component: React.FC<DeviceDetailType>;
   props?: Record<string, any>;
 };
-
 export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.Gateway]: { component: 'Gateway' },
   [DeviceTypeEnum.ElectricMeter]: { component: 'ElectricMeter' },
   [DeviceTypeEnum.PvInverter11]: { component: 'PvInverter', props: { loopNum: 12 } },
+  [DeviceTypeEnum.PvInverter11LocalEms]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.PvInverter4]: { component: 'PvInverter', props: { loopNum: 4 } },
+  [DeviceTypeEnum.PvInverter4LocalEms]: { component: 'PvInverter', props: { loopNum: 4 } },
   [DeviceTypeEnum.PvInverter36]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.GRWTPvInverter]: { component: 'PvInverter', props: { loopNum: 12 } },
   [DeviceTypeEnum.YtCharge160]: { component: 'YTCharge' },
+  [DeviceTypeEnum.YtCharge160LocalEms]: { component: 'YTCharge' },
   [DeviceTypeEnum.Energy]: { component: 'Energy' },
+  [DeviceTypeEnum.EnergyLocalEms]: { component: 'Energy' },
   [DeviceTypeEnum.PvInverterCabinet]: { component: 'PvInverterCabinet' },
   [DeviceTypeEnum.HwCharge]: { component: 'HwCharge' },
+  [DeviceTypeEnum.HwChargeLocalEms]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge360]: { component: 'HwCharge' },
+  [DeviceTypeEnum.YtCharge360LocalEms]: { component: 'HwCharge' },
   [DeviceTypeEnum.YtCharge120]: { component: 'YTCharge' },
+  [DeviceTypeEnum.YtCharge120LocalEms]: { component: 'YTCharge' },
   [DeviceTypeEnum.YunCharge120]: { component: 'HwChargeYt' },
   [DeviceTypeEnum.YtCharge7]: { component: 'YTCharge' },
   [DeviceTypeEnum.EnergyCabinet]: { component: 'EnergyCabinet' },
