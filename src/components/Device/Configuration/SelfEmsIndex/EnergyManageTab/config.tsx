@@ -299,7 +299,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   // },
   {
     title: '尖电价',
-    dataIndex: 'sharpPrice',
+    dataIndex: 'SharpElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
@@ -310,7 +310,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   },
   {
     title: '峰电价',
-    dataIndex: 'peakPrice',
+    dataIndex: 'PeakElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
@@ -321,7 +321,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   },
   {
     title: '平电价',
-    dataIndex: 'flatPrice',
+    dataIndex: 'FlatElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
@@ -332,7 +332,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   },
   {
     title: '谷电价',
-    dataIndex: 'valleyPrice',
+    dataIndex: 'ValleyElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
@@ -343,7 +343,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   },
   {
     valueType: 'formList',
-    dataIndex: 'hoursPriceList',
+    dataIndex: 'ElectrovalenceTimeFrame',
     initialValue: [{ effectiveTime: [] }],
     fieldProps: {
       copyIconProps: false,
@@ -381,7 +381,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
         columns: [
           {
             title: '时间段',
-            dataIndex: 'timeRange',
+            dataIndex: 'TimeFrame',
             valueType: 'timeRange',
             colProps: {
               span: 11,
@@ -463,7 +463,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
                 },
               ],
             },
-            dataIndex: 'type',
+            dataIndex: 'ElectrovalenceType',
             valueType: 'select',
             colProps: {
               span: 11,
