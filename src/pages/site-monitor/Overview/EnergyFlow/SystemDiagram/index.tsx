@@ -25,7 +25,7 @@ const SystemDiagram = ({ siteId }: { siteId: number }) => {
   return (
     <>
       <div className={styles.systemDiagram}>
-        <SVGStatic style={{ width: 557, height: 332 }} />
+        <SVGStatic style={{ width: 557, height: 332 }} className="" />
 
         <div
           style={{

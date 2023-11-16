@@ -436,3 +436,9 @@ export const upgradeStatus = {
   1: { text: '升级成功' },
   2: { text: '升级失败' },
 };
+
+export enum Size {
+  small,
+  normal,
+  large,
+}
