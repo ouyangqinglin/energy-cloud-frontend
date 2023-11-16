@@ -344,7 +344,8 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   {
     valueType: 'formList',
     dataIndex: 'ElectrovalenceTimeFrame',
-    initialValue: [{ effectiveTime: [] }],
+    // initialValue: [{ effectiveTime: [] }],
+    initialValue: [],
     fieldProps: {
       copyIconProps: false,
       creatorButtonProps: {
@@ -384,7 +385,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             dataIndex: 'TimeFrame',
             valueType: 'timeRange',
             colProps: {
-              span: 11,
+              span: 12,
             },
             width: '100%',
             formItemProps: {
@@ -466,7 +467,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             dataIndex: 'ElectrovalenceType',
             valueType: 'select',
             colProps: {
-              span: 11,
+              span: 12,
               offset: 1,
             },
             width: '100%',
