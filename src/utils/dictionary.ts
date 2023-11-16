@@ -81,6 +81,7 @@ export enum DeviceTypeEnum {
   YTEnergy = 66,
   YTEnergyMetterRAIG = 67,
   YTEnergyMetterDTSD = 68,
+  YTOpticalStorageMachine = 69,
   Device = 'default',
 }
 
