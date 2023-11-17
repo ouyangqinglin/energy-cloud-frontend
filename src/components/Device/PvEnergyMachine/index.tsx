@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 14:32:00
- * @LastEditTime: 2023-11-15 14:32:00
+ * @LastEditTime: 2023-11-16 17:29:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\index.tsx
  */
@@ -14,19 +14,22 @@ import Overview from './Overview';
 import Run from './Run';
 import Power from './Power';
 import Electric from './Electric';
+import { useSubscribe } from '@/hooks';
 
 export type PvEnergyMachineType = {
-  deviceData: DeviceDataType;
+  deviceData?: DeviceDataType;
 };
 
 const PvEnergyMachine: React.FC<PvEnergyMachineType> = (props) => {
   const { deviceData } = props;
 
+  const realTimeData = useSubscribe(deviceData?.id, false);
+
   return (
     <>
       <Row gutter={20}>
         <Col span={14}>
-          <Overview />
+          <Overview realTimeData={realTimeData} />
           <Run />
         </Col>
         <Col span={10}>

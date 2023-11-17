@@ -2,18 +2,19 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 16:59:59
- * @LastEditTime: 2023-11-15 16:59:59
+ * @LastEditTime: 2023-11-16 14:35:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\Overview\helper.ts
  */
 
-import { ReactComponent as Electric } from '@/assets/image/device/electric.svg';
-import { ReactComponent as Energy } from '@/assets/image/device/energy.svg';
-import { ReactComponent as Inverter } from '@/assets/image/device/inverter.svg';
-import { ReactComponent as Pv } from '@/assets/image/device/pv.svg';
-import { ReactComponent as Load } from '@/assets/image/device/load.svg';
-import { ReactComponent as EmergentLoad } from '@/assets/image/device/emergent-load.svg';
-import { OverviewItemType } from '../typing';
+import Electric from '@/assets/image/device/electric.png';
+import Energy from '@/assets/image/device/energy.png';
+import Inverter from '@/assets/image/device/inverter.png';
+import Pv from '@/assets/image/device/pv.png';
+import Load from '@/assets/image/device/load.png';
+import EmergentLoad from '@/assets/image/device/emergent-load.png';
+import { FlowType, OverviewItemType } from '../typing';
+import styles from '../index.less';
 
 export const config: OverviewItemType[] = [
   {
@@ -76,7 +77,7 @@ export const config: OverviewItemType[] = [
       height: '80px',
     },
     items: [
-      { label: '普通负载（kW）', field: 'a' },
+      { label: '普通负载（kW）', field: 'a', className: styles.vertical },
       { label: '负载总功率（kW）', field: 'b' },
       { label: '今日用电量（kWh）', field: 'c' },
     ],
@@ -89,6 +90,29 @@ export const config: OverviewItemType[] = [
       width: '92px',
       height: '80px',
     },
-    items: [{ label: '紧急负载（kW）', field: 'a' }],
+    items: [{ label: '紧急负载（kW）', field: 'a', className: styles.vertical }],
+  },
+];
+
+export const flowItems: FlowType[] = [
+  {
+    pathId: '#path-top-left',
+    field: 'a',
+    keyPoints: [0, 1],
+  },
+  {
+    pathId: '#path-top-right',
+    field: 'b',
+    keyPoints: [0, 1],
+  },
+  {
+    pathId: '#path-bottom-left',
+    field: 'c',
+    keyPoints: [1, 0],
+  },
+  {
+    pathId: '#path-bottom-right',
+    field: 'd',
+    keyPoints: [1, 0],
   },
 ];

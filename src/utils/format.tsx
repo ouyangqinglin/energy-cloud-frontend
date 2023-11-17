@@ -431,6 +431,13 @@ export const alarmFormat = (status: number) => {
   };
   return <span className="cl-success">{map[status]}</span>;
 };
+export const startFormat = (status: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '启动',
+  };
+  return <span className="cl-success">{map[status]}</span>;
+};
 export const pankFanFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {

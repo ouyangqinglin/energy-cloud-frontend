@@ -92,4 +92,5 @@ export const deviceDetailMap: Omit<
     props: { label: '实时数据', hideLineVoltage: true },
   },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
+  [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
 };
