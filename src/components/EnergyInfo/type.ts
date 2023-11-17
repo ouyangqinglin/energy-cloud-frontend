@@ -14,6 +14,7 @@ export type ComProps = {
   className?: string;
   loading?: boolean;
   source?: any; //页面入口
+  deviceKey?: any; //自研ems各单元设备id
 };
 
 export type searchType = {

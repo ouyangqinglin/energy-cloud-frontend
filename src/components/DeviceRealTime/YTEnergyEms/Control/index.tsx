@@ -8,7 +8,7 @@
  */
 
 import React, { useCallback, useEffect } from 'react';
-import { Button, Space, message, Modal } from 'antd';
+import { Button, Space, message, Modal, Radio } from 'antd';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { default as LineLabel } from '@/components/Detail/LineLabel';
 import styles from '../index.less';
@@ -59,16 +59,18 @@ const Setting: React.FC<SettingProps> = (props) => {
                 <div>{item.label + ':'}</div>
                 {item.btnParam.map((btnItem: any) => {
                   return (
-                    <Button
-                      type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
-                      disabled={btnDisabled}
-                      onClick={() => {
-                        btnClick(item, btnItem);
-                      }}
-                      loading={loading}
-                    >
-                      {btnItem.text}
-                    </Button>
+                    <>
+                      <Button
+                        type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
+                        disabled={btnDisabled}
+                        onClick={() => {
+                          btnClick(item, btnItem);
+                        }}
+                        loading={loading}
+                      >
+                        {<Radio> {btnItem.text}</Radio>}
+                      </Button>
+                    </>
                   );
                 })}
               </Space>

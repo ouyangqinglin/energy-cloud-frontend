@@ -25,7 +25,7 @@ export enum EnergySourceEnum {
   DeviceManage,
 }
 const Electric: React.FC<ComProps> = (props) => {
-  const { deviceData, loading, source } = props;
+  const { deviceData, loading, source, deviceKey } = props;
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
@@ -59,9 +59,9 @@ const Electric: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceData?.deviceId) {
+    if (deviceData?.deviceId || deviceKey) {
       run({
-        deviceId: deviceData?.deviceId,
+        deviceId: deviceKey || deviceData?.deviceId,
         type: chartType,
         date: date.format('YYYY-MM-DD'),
         visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
@@ -78,7 +78,7 @@ const Electric: React.FC<ComProps> = (props) => {
         setChartData(result);
       });
     }
-  }, [deviceData?.deviceId, chartType, date]);
+  }, [deviceData?.deviceId, chartType, date, deviceKey]);
 
   return (
     <>

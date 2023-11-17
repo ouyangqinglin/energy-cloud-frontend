@@ -24,9 +24,10 @@ export type MasterSlaveGroupProp = {
   deviceData?: DeviceDataType;
   emsGroupData: any; //分组数据
   loadingEmsTabs: boolean;
+  getUnitEchartsParameters?: any;
 };
 const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
-  const { loadingEmsTabs, emsGroupData, deviceData } = props;
+  const { loadingEmsTabs, emsGroupData, deviceData, getUnitEchartsParameters } = props;
   const [deviceIds, setDeviceIds] = useState<string[]>([]);
   const realTimeData = useSubscribe(deviceIds, true);
   const [showDiv, setShowDiv] = useState(false);
@@ -241,7 +242,7 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
       return allDeviceData.map((item: any, index: any) => {
         return {
           label: item.groupName,
-          key: String(item.groupId),
+          key: item.devices[0].deviceId,
           children: showDiv ? (
             <DeviceItemDetail
               deviceData={item.devices.find((obj: any) => obj.deviceId == showId)}
@@ -255,6 +256,9 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
       });
     }
   }, [allDeviceData, showDiv, showId]);
+  const onTabChange = useCallback((key) => {
+    getUnitEchartsParameters(key);
+  }, []);
 
   return (
     <>
@@ -264,7 +268,13 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
         </>
       ) : (
         <>
-          <Tabs className="category-tabs" items={tabItems} tabBarGutter={24} size="large" />
+          <Tabs
+            className="category-tabs"
+            items={tabItems}
+            tabBarGutter={24}
+            size="large"
+            onChange={onTabChange}
+          />
         </>
       )}
     </>
