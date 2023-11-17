@@ -56,6 +56,8 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.Ems]: { component: 'Ems' },
   [DeviceTypeEnum.Air]: { component: 'Air' },
   [DeviceTypeEnum.BWattBatteryStack]: { component: 'BatterryStack' },
+  //光储一体机--电池堆
+  [DeviceTypeEnum.YTOpticalStorageBatteryStack]: { component: 'OpticalStorageBatterryStack' },
   [DeviceTypeEnum.BWattBatteryCluster]: { component: 'BatterryStack' },
   [DeviceTypeEnum.BWattPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.BWattEms]: { component: 'Ems', props: { type: DeviceTypeEnum.BWattEms } },

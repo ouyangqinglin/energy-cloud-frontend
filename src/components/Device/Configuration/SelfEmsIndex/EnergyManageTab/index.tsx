@@ -104,7 +104,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
 
   const onFinish = useCallback((formData) => {
     let PeriodOfTime = formData.PeriodOfTime;
-    if (PeriodOfTime.length > 0) {
+    if (PeriodOfTime && PeriodOfTime.length > 0) {
       PeriodOfTime = PeriodOfTime.map((item: any) => {
         return {
           ...item,

@@ -22,7 +22,7 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '充电功率',
     dataIndex: 'BackupChargingPower',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入充电功率' }],
     },
@@ -30,7 +30,7 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '放电功率',
     dataIndex: 'BackupDischargePower',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入放电功率' }],
     },
@@ -38,7 +38,7 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '最高SOC',
     dataIndex: 'BackupHighestSOC',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入最高SOC' }],
     },
@@ -46,7 +46,7 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '最低SOC',
     dataIndex: 'BackupMinimumSOC',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入最低SOC' }],
     },
@@ -57,7 +57,7 @@ export const manulSetColumns: ProFormColumnsType[] = [
   {
     title: '充电功率',
     dataIndex: 'ChargePower',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入充电功率' }],
     },
@@ -65,7 +65,7 @@ export const manulSetColumns: ProFormColumnsType[] = [
   {
     title: '放电功率',
     dataIndex: 'DischargePower',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入放电功率' }],
     },
@@ -299,28 +299,31 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   // },
   {
     title: '尖电价',
+    valueType: 'digit',
     dataIndex: 'SharpElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
     colProps: {
-      span: 12,
+      span: 24,
     },
   },
   {
     title: '峰电价',
+    valueType: 'digit',
     dataIndex: 'PeakElectrovalence',
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
     colProps: {
-      span: 12,
+      span: 24,
     },
   },
   {
     title: '平电价',
+    valueType: 'digit',
     dataIndex: 'FlatElectrovalence',
     fieldProps: {
       placeholder: '请输入',
@@ -332,6 +335,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   },
   {
     title: '谷电价',
+    valueType: 'digit',
     dataIndex: 'ValleyElectrovalence',
     fieldProps: {
       placeholder: '请输入',

@@ -11,6 +11,7 @@ import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import { message } from 'antd';
+import { styles } from '../index.less';
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -82,6 +83,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           width={'50%'}
           type={FormTypeEnum.Edit}
           columns={columns}
+          className={'distributeParameters'}
           initialValues={initialValues}
           editData={serviceId === 'report' ? editEquipConfig : editSetting}
           beforeSubmit={beforeSubmit}

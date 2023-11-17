@@ -86,6 +86,16 @@ export const converterStauesFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const runStateFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '禁充',
+    2: '禁放',
+    3: '待机',
+    4: '停机',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const batteryWorkFormat = (value: number) => {
   const map: MapType = {
     0: '正常',
