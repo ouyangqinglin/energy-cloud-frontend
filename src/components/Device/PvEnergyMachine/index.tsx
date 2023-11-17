@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 14:32:00
- * @LastEditTime: 2023-11-16 17:29:36
+ * @LastEditTime: 2023-11-17 10:00:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\index.tsx
  */

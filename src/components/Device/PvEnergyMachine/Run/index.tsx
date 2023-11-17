@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 15:24:24
- * @LastEditTime: 2023-11-16 17:17:50
+ * @LastEditTime: 2023-11-17 09:58:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\Run\index.tsx
  */
@@ -21,7 +21,7 @@ const Run: React.FC<RunType> = (props) => {
 
   return (
     <>
-      <div className={`card-wrap shadow p20 mb20 ${styles.run}`}>
+      <div className={`card-wrap shadow p20 ${styles.run}`}>
         <Detail.Label
           className="mb16"
           title="运行状态"

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 15:04:50
- * @LastEditTime: 2023-11-17 08:52:00
+ * @LastEditTime: 2023-11-17 10:12:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\Overview\index.tsx
  */
@@ -26,7 +26,7 @@ const Overview: React.FC<OverviewType> = (props) => {
 
   const scaleNum = useMemo(() => {
     const scaleWidth = (containSize?.width || 944) / 944;
-    const scaleHeight = (containSize?.height || 432) / 432;
+    const scaleHeight = (containSize?.height || 431) / 431;
     return Math.min(scaleWidth, scaleHeight);
   }, [containSize]);
 
@@ -51,7 +51,7 @@ const Overview: React.FC<OverviewType> = (props) => {
   const points = useMemo(() => {
     return flowItems.map((item) => {
       return (
-        <circle r="5" fill="#FF974A">
+        <circle r="5" fill="#FF974A" key={item.pathId}>
           <animateMotion
             dur="2s"
             repeatCount="indefinite"

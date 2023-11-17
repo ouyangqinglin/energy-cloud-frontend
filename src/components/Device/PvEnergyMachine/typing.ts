@@ -46,7 +46,7 @@ export type PowerDataType = {
   pv?: ChartDataType[];
 };
 
-export type ElectricType = {
-  charge?: ChartDataType[];
-  discharge?: ChartDataType[];
+export type ElectricDataType = {
+  elec?: ChartDataType[];
+  pv?: ChartDataType[];
 };

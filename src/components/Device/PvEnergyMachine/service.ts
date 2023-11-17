@@ -8,10 +8,17 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import { searchType, PowerDataType } from './typing';
+import { searchType, PowerDataType, ElectricDataType } from './typing';
 
 export const getPower = (params: searchType) => {
   return request<ResponseCommonData<PowerDataType>>('/iot/device/es/getPowerCurve', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getElectic = (params: searchType) => {
+  return request<ResponseCommonData<ElectricDataType>>('/iot/device/essChargeDischargeTrends', {
     method: 'GET',
     params,
   });

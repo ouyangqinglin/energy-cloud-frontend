@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-15 15:21:29
- * @LastEditTime: 2023-11-16 18:02:13
+ * @LastEditTime: 2023-11-17 09:54:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\Power\index.tsx
  */
@@ -95,7 +95,7 @@ const Power: React.FC<PowerType> = (props) => {
   return (
     <>
       <div className={`card-wrap shadow p20 mb20 ${styles.chart} ${className}`}>
-        <Detail.Label title="实时功率" size="small" showLine={false}>
+        <Detail.Label className="mb12" title="实时功率" size="small" showLine={false}>
           <DatePicker
             defaultValue={date}
             format="YYYY-MM-DD"
@@ -103,7 +103,7 @@ const Power: React.FC<PowerType> = (props) => {
             allowClear={false}
           />
         </Detail.Label>
-        <TypeChart style={{ height: 385 }} date={date} option={chartOption} data={chartData} />
+        <TypeChart style={{ height: 313 }} date={date} option={chartOption} data={chartData} />
       </div>
     </>
   );
