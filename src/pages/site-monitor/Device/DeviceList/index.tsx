@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-07-28 17:15:02
+ * @LastEditTime: 2023-11-17 15:16:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -10,7 +10,7 @@ import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react'
 import { Button, Modal, message, Badge, Tabs } from 'antd';
 import { useHistory } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { DeviceType, DeviceSearchType } from './data';
 import { onlineStatus } from '@/utils/dictionary';
 import { removeData, getTabs, getDevicePage } from './service';
@@ -43,10 +43,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     setOpen((data) => !data);
   }, []);
 
-  const onAddClick = useCallback(() => {
-    setOpen(true);
-  }, []);
-
   const onDetailClick = useCallback((rowData: DeviceType) => {
     if (onDetail?.(rowData) !== false) {
       history.push({
@@ -63,34 +59,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const handleRequest = (paramsData: any) => {
     return getDevicePage({ ...paramsData, ...searchParams, ...(params || {}) });
   };
-
-  const rowBar = (_: any, record: DeviceType) => (
-    <>
-      <Button
-        type="link"
-        size="small"
-        key="delete"
-        onClick={() => {
-          Modal.confirm({
-            title: '删除',
-            content: '确定要删除该设备吗？',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: () => {
-              removeData({ deviceId: record.deviceId }).then(() => {
-                message.success('删除成功');
-                if (actionRef.current) {
-                  actionRef.current.reload();
-                }
-              });
-            },
-          });
-        }}
-      >
-        删除
-      </Button>
-    </>
-  );
 
   const renderBadge = (count: number | string, active = false) => {
     return (
@@ -125,20 +93,24 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
 
   useEffect(() => {
-    getTabs({ ...(params || {}) }).then(({ data: tabData }) => {
-      if (Array.isArray(tabData)) {
-        const items = (tabData || []).map((item) => {
-          return {
-            id: item.typeId ?? '',
-            label: item.typeName,
-            value: item.count,
-          };
-        });
-        const key = 'tab' + (items[0]?.id || 0);
-        setTabItems(items);
-        onTabChange(key);
-      }
-    });
+    if (params?.siteIds) {
+      getTabs({ ...(params || {}) }).then(({ data: tabData }) => {
+        if (Array.isArray(tabData)) {
+          const items = (tabData || []).map((item) => {
+            return {
+              id: item.typeId ?? '',
+              label: item.typeName,
+              value: item.count,
+            };
+          });
+          const key = 'tab' + (items[0]?.id || 0);
+          setTabItems(items);
+          onTabChange(key);
+        } else {
+          setTabItems([]);
+        }
+      });
+    }
   }, [params]);
 
   const tabItemList = tabItems.map((item, index) => {
@@ -164,6 +136,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         columns={columns}
         toolBarRender={() => [<></>]}
         request={handleRequest}
+        manualRequest={true}
       />
       <EquipForm
         open={open}
