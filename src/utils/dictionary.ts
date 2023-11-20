@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-09-21 18:49:16
+ * @LastEditTime: 2023-11-20 13:54:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -81,8 +81,11 @@ export enum DeviceTypeEnum {
   YTEnergy = 66,
   YTEnergyMetterRAIG = 67,
   YTEnergyMetterDTSD = 68,
-  YTOpticalStorageMachine = 69,
-  YTOpticalStorageBatteryStack = 70,
+  PvEnergy = 69,
+  PvEnergyAir = 71,
+  PvEnergyPcs = 74,
+  PvEnergyMeter = 75,
+  PvEnergyBms = 70,
   Device = 'default',
 }
 

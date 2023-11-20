@@ -245,7 +245,7 @@ const genESNode = (data: MainsSupply) => ({
     },
     width: 70,
     height: 80,
-    title: `储能（剩余电量:${data?.soc.toFixed(2) || 0}%）`,
+    title: `储能${data?.extraName ?? ''}（剩余电量:${data?.soc?.toFixed?.(2) || 0}%）`,
     textContent: {
       column: [
         {
@@ -368,7 +368,14 @@ const buildTreeByData = (data: MainsSupply, nodes: GraphNode[] = []) => {
 
     if (data.children && node) {
       (node as GraphNode).children = [];
-      data.children.forEach((d) => {
+      let isMasterSlaveEnergy = false;
+      if (data.children?.[1]?.type === SubsystemTypeForNode.ES) {
+        isMasterSlaveEnergy = true;
+      }
+      data.children.forEach((d, index) => {
+        if (isMasterSlaveEnergy) {
+          d.extraName = index ? '(从)' : '(主)';
+        }
         buildTreeByData(d, node?.children);
       });
     }

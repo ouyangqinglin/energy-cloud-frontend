@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-21 16:52:47
- * @LastEditTime: 2023-08-25 17:18:38
+ * @LastEditTime: 2023-11-17 15:12:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteLabel\index.tsx
  */
@@ -22,7 +22,9 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
 
   useEffect(() => {
     if (siteData?.isLoad) {
-      onChange?.(siteData);
+      setTimeout(() => {
+        onChange?.(siteData);
+      }, 100);
     }
   }, [siteData]);
 

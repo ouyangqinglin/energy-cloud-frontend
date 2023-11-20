@@ -68,7 +68,7 @@ const Energy = () => {
     return () => {
       cancel();
     };
-  }, [cancel, runForStatistic, siteData]);
+  }, [siteData]);
 
   useEffect(() => {
     if (
@@ -118,6 +118,7 @@ const Energy = () => {
         }
         request={requestList}
         rowKey="deviceId"
+        manualRequest={true}
       />
     </>
   );

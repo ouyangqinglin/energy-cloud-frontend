@@ -35,4 +35,5 @@ export interface MainsSupply {
   dischargeableCapacity?: number;
   children: MainsSupply[];
   soc: number;
+  extraName?: string;
 }
