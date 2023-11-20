@@ -26,6 +26,7 @@ import type { DeviceDataType } from '@/services/equipment';
 import ConfigModal from '../ConfigModal';
 import { editSetting } from '@/services/equipment';
 import { useRequest } from 'umi';
+import moment from 'moment';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -102,9 +103,21 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   }, []);
 
   const onFinish = useCallback((formData) => {
+    let PeriodOfTime = formData.PeriodOfTime;
+    if (PeriodOfTime && PeriodOfTime.length > 0) {
+      PeriodOfTime = PeriodOfTime.map((item: any) => {
+        return {
+          ...item,
+          pcsRunningTimeFrame:
+            moment(item.pcsRunningTimeFrame[0]).format(timeFormat) +
+            '-' +
+            moment(item.pcsRunningTimeFrame[1]).format(timeFormat),
+        };
+      });
+    }
     runSubmitFrom({
       deviceId,
-      input: { ...formData },
+      input: { ...formData, PeriodOfTime },
       serviceId: 'PeakShavingAndValleyFillingModeSetting',
     }).then((data) => {
       if (data) {
@@ -133,7 +146,6 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           {/* 动态增减表单 */}
           <Form
             form={runPeakForm}
-            //name="dynamic_form_nest_item"
             autoComplete="off"
             className="setting-form"
             layout="horizontal"

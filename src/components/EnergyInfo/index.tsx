@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import Cabinet from './Cabinet';
 import Power from './Power';
@@ -30,6 +30,7 @@ export type EnergyInfoProps = {
 
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
   const { deviceData, showLabel, loading, source, emsGroupData, loadingGroupData } = props;
+  const [deviceKey, setDeviceKey] = useState();
   // groupId为-1代表无主从（以前的），!=-1代表EMS主从设备，主从混合暂不考虑
   const groupId = useMemo(() => {
     let isGroup = '';
@@ -38,6 +39,21 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
     }
     return isGroup;
   }, [emsGroupData]);
+
+  useEffect(() => {
+    if (emsGroupData) {
+      const initDeviceKey = emsGroupData[0]?.devices[0].deviceId || '';
+      setDeviceKey(initDeviceKey);
+    }
+  }, [emsGroupData]);
+
+  const getUnitEchartsParameters = useCallback(
+    (key) => {
+      setDeviceKey(key);
+    },
+    [deviceKey],
+  );
+
   return (
     <>
       <Row gutter={20}>
@@ -48,6 +64,7 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
                 emsGroupData={emsGroupData}
                 loadingEmsTabs={loadingGroupData}
                 deviceData={deviceData}
+                getUnitEchartsParameters={getUnitEchartsParameters}
               />
             </>
           ) : (
@@ -60,8 +77,13 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
           )}
         </Col>
         <Col span={10}>
-          <Power deviceData={deviceData} loading={loading} source={source} />
-          <Electric deviceData={deviceData} loading={loading} source={source} />
+          <Power deviceData={deviceData} loading={loading} source={source} deviceKey={deviceKey} />
+          <Electric
+            deviceData={deviceData}
+            loading={loading}
+            source={source}
+            deviceKey={deviceKey}
+          />
         </Col>
       </Row>
     </>

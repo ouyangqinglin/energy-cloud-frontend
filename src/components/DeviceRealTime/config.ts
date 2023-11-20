@@ -79,4 +79,5 @@ export const deviceRealTimeMap: any = {
   },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
+  [DeviceTypeEnum.PvEnergyBms]: { component: 'OpticalStorageBatterryStack' },
 };

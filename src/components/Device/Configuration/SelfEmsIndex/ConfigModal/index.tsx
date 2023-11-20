@@ -11,6 +11,7 @@ import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import { message } from 'antd';
+import { styles } from '../index.less';
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -45,6 +46,23 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           config: JSON.stringify(formData),
         };
       }
+      //尖峰平谷时段设置
+      if (serviceId === 'PeakAndValleyTimeSettings') {
+        if (formData.ElectrovalenceTimeFrame.length > 0) {
+          const timeFormData = formData.ElectrovalenceTimeFrame.map((item: any) => {
+            return {
+              ...item,
+              ElectrovalenceType: item.ElectrovalenceType,
+              TimeFrame: item.TimeFrame[0] + '-' + item.TimeFrame[1],
+            };
+          });
+          result = {
+            deviceId,
+            input: { ...formData, ElectrovalenceTimeFrame: timeFormData },
+            serviceId,
+          };
+        }
+      }
       return result;
     },
     [deviceId, productId, realTimeData, serviceId],
@@ -65,6 +83,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           width={'50%'}
           type={FormTypeEnum.Edit}
           columns={columns}
+          className={'distributeParameters'}
           initialValues={initialValues}
           editData={serviceId === 'report' ? editEquipConfig : editSetting}
           beforeSubmit={beforeSubmit}
