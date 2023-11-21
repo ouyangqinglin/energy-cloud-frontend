@@ -20,18 +20,16 @@ export const useWatchingAlarm = () => {
         const alarmList = msgData.filter((it) => it.level !== AlarmLevel.info);
         const { length: alarmLen } = alarmList;
         if (alarmLen) {
-          alarmList.forEach((alarm) => {
-            const deviceAlarmList = alarmDeviceTree?.[alarm.deviceId] ?? [];
-            if (isEmpty(deviceAlarmList)) {
-              alarmDeviceTree[alarm.deviceId] = deviceAlarmList;
-            }
-            const toResolveAlarm = alarm.status === AlarmStatus.RESOLVED;
-            if (toResolveAlarm) {
-              remove(deviceAlarmList, (_) => _.deviceId === alarm.deviceId);
-            } else {
-              deviceAlarmList.push(alarm);
-            }
-            setAlarmDeviceTree({ ...alarmDeviceTree });
+          setAlarmDeviceTree((prevData) => {
+            alarmList.forEach((alarm) => {
+              prevData[alarm.deviceId] = prevData?.[alarm.deviceId] || [];
+              if (alarm.status === AlarmStatus.RESOLVED) {
+                remove(prevData[alarm.deviceId], (_) => _.deviceId === alarm.deviceId);
+              } else {
+                prevData[alarm.deviceId].push(alarm);
+              }
+            });
+            return { ...prevData };
           });
           setLatestAlarm(alarmList[alarmLen - 1]);
         }
@@ -50,7 +48,9 @@ export const useWatchingAlarm = () => {
   }, [alarmDeviceTree]);
 
   useEffect(() => {
-    setAlarmDeviceTree({}); //初始化数据，防止告警数量叠加
+    connection.onOpen(() => {
+      setAlarmDeviceTree({}); //初始化数据，防止告警数量叠加
+    });
     connection.sendMessage({
       data: {
         command: RequestCommandEnum.SUBSCRIBE,
@@ -60,49 +60,6 @@ export const useWatchingAlarm = () => {
       },
       type: MessageEventType.DEVICE_EVENT_DATA,
     });
-    // connection.mock({
-    //   data: [
-    //     {
-    //       alarmTime: '2023-06-10 13:54:54',
-    //       content: '模块拨码地址错误',
-    //       detailInfo: '{"val":1}',
-    //       deviceId: 10390,
-    //       deviceName: 'PCS',
-    //       fromResource: 0,
-    //       functionKey: 'moduleDialAddressErrorEvent',
-    //       id: 827388908745580500,
-    //       isConfirm: 0,
-    //       level: 'error',
-    //       name: '模块拨码地址错误',
-    //       productTypeName: '工商业储能',
-    //       status: 0,
-    //     },
-    //   ],
-    //   type: 2,
-    // });
-
-    // setTimeout(() => {
-    //   connection.mock({
-    //     data: [
-    //       {
-    //         alarmTime: '2023-06-10 13:54:54',
-    //         content: '模块拨码地址错误',
-    //         detailInfo: '{"val":1}',
-    //         deviceId: 10390,
-    //         deviceName: 'PCS',
-    //         fromResource: 0,
-    //         functionKey: 'moduleDialAddressErrorEvent',
-    //         id: 827388908745580500,
-    //         isConfirm: 0,
-    //         level: 'error',
-    //         name: '模块拨码地址错误',
-    //         productTypeName: '工商业储能',
-    //         status: 1,
-    //       },
-    //     ],
-    //     type: 2,
-    //   });
-    // }, 20000);
     connection.addReceivedMessageCallback(onReceivedMessage);
     return () => {
       connection.removeReceivedMessageCallback(onReceivedMessage);
