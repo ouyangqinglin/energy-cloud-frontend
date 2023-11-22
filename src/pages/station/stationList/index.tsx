@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-28 17:41:49
- * @LastEditTime: 2023-10-24 09:29:03
+ * @LastEditTime: 2023-11-21 16:36:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index.tsx
  */
@@ -75,7 +75,7 @@ const StationList: React.FC = () => {
   };
 
   useEffect(() => {
-    actionRef?.current?.reload?.();
+    actionRef?.current?.reloadAndRest?.();
   }, [siteType]);
 
   const toolBar = () => [
