@@ -12,7 +12,7 @@ import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { formatModelValue, parseToArray } from '@/utils';
 import { DeviceModelDataType, DeviceModelType, DevicePropsType } from '@/types/device';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 import Empty from 'antd/es/empty';
 
 const getShowExtral = (type?: DeviceModelTypeEnum) => {

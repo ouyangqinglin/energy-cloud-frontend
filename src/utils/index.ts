@@ -4,10 +4,21 @@ import type { MenuProps } from 'antd';
 import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
-import { DeviceModelTypeEnum } from './dictionary';
 import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import { constant } from 'lodash';
+
+export enum DeviceModelTypeEnum {
+  Int = 'int',
+  Long = 'long',
+  Double = 'double',
+  String = 'string',
+  Boolean = 'boolean',
+  Enum = 'enum',
+  Struct = 'struct',
+  Array = 'array',
+  TimeRange = 'timeRange',
+}
 
 export type AntMenuProps = {
   label: string;

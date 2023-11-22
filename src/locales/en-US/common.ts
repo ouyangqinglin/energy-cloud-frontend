@@ -85,4 +85,6 @@ export default {
   'common.account': 'Account',
   'common.pleaseEnterDevice': 'Please enter a device name',
   'common.pleaseEnterSn': 'Please enter the device serial number',
+  'common.normal': 'normal',
+  'common.abnormal': 'abnormal',
 };

@@ -85,4 +85,6 @@ export default {
   'common.account': '账号',
   'common.pleaseEnterDevice': '请输入设备名称',
   'common.pleaseEnterSn': '请输入设备序列号',
+  'common.normal': '正常',
+  'common.abnormal': '异常',
 };

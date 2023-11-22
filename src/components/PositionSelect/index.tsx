@@ -11,7 +11,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
 import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
 import { formatMessage, getAreaCodeByAdCode } from '@/utils';

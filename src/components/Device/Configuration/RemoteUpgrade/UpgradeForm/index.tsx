@@ -13,7 +13,7 @@ import { useBoolean } from 'ahooks';
 import { upgradeDevice } from '@/services/equipment';
 import { UpgradeFormType } from '../typing';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   const { deviceId, versionItems } = props;

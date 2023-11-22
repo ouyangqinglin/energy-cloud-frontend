@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;

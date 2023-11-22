@@ -9,7 +9,7 @@
 import React from 'react';
 import { useLocation } from 'umi';
 import DeviceDetail from '@/components/DeviceMonitor';
-import type { LocationType } from '@/utils/dictionary';
+import type { LocationType } from '@/types';
 
 const DeviceMonitor: React.FC = () => {
   const location = useLocation<LocationType>();

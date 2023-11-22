@@ -15,7 +15,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import { removeData, getTabs } from './service';
 import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
@@ -68,8 +68,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     setOpen((data) => !data);
   }, []);
 
-  const onAddClick = useCallback(() => {   
-    if(isStationChild) {
+  const onAddClick = useCallback(() => {
+    if (isStationChild) {
       setSnOpen(true);
     }
     setOpen(true);
@@ -235,25 +235,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       />
       {isStationChild ? (
         <>
-          <DeviceSn 
+          <DeviceSn
             open={snOpen}
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
             //onOk={triggerSubmit}
           />
-          
-        </>  
-        ) : (
-      <EquipForm
-        open={open}
-        onCancel={onSwitchOpen}
-        type={FormTypeEnum.Add}
-        onSuccess={onSuccess}
-        initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
-         />
-        )}
-      
+        </>
+      ) : (
+        <EquipForm
+          open={open}
+          onCancel={onSwitchOpen}
+          type={FormTypeEnum.Add}
+          onSuccess={onSuccess}
+          initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
+        />
+      )}
     </>
   );
 };

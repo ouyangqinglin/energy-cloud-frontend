@@ -6,7 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
-import { OptionType, effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 import type { ProColumns } from '@ant-design/pro-components';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { getDeptList } from '@/pages/system/dept/service';

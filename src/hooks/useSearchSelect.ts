@@ -8,7 +8,7 @@
  */
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 import { debounce } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-components';
 

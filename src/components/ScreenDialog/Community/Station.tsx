@@ -16,7 +16,7 @@ import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 
 const Station: React.FC<CommunityProps> = (props) => {
   const { id, type, open, onOpenChange, model } = props;

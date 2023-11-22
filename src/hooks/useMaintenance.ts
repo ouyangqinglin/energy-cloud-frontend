@@ -11,7 +11,7 @@ import { api } from '@/services';
 import type { ProColumns } from '@ant-design/pro-components';
 import useSearchSelect from './useSearchSelect';
 import type { UseSearchSelectProps, SearchParams } from './useSearchSelect';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 
 const useMaintenance = <TableData = Record<string, any>, ValueType = 'text'>(
   props?: UseSearchSelectProps<TableData, ValueType>,

@@ -13,7 +13,7 @@ import { CollectionSearchType } from '@/services/data';
 import moment from 'moment';
 import SchemaForm from '@/components/SchemaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';

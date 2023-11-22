@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 import type { PackageListType, FormUpdateBaseProps } from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { dealTreeDataType } from '@/components/TableSelect';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import SchemaForm from '@/components/SchemaForm';
 import {
   TABLESELECT,

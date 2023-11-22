@@ -19,7 +19,7 @@ import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { api } from '@/services';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 import { arrayToMap } from '@/utils';
 
 export type AccountProps = {

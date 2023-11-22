@@ -15,8 +15,8 @@ import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-d
 import type { EquipFormType } from './data.d';
 import { editData, getData, addData, getProductTypes, configTypeByProductId } from './service';
 import { getStations } from '@/services/station';
-import type { OptionType } from '@/utils/dictionary';
-import { FormTypeEnum } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
 import { getProductModelByType } from '@/services/equipment';
 import { formatMessage } from '@/utils';

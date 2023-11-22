@@ -12,7 +12,7 @@ import { columnsRead } from './config';
 import styles from './index.less';
 import { useToggle } from 'ahooks';
 import StationForm from '@/pages/station/stationList/components/edit';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { addDataByWorkOrder } from '@/pages/station/stationList/service';

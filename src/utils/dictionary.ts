@@ -94,30 +94,8 @@ export enum DeviceMasterMode {
   Slave,
 }
 
-export enum FormTypeEnum {
-  Add = 'add',
-  Edit = 'edit',
-  Detail = 'detail',
-}
-
-export enum DeviceModelTypeEnum {
-  Int = 'int',
-  Long = 'long',
-  Double = 'double',
-  String = 'string',
-  Boolean = 'boolean',
-  Enum = 'enum',
-  Struct = 'struct',
-  Array = 'array',
-  TimeRange = 'timeRange',
-}
-
 export type FileType = {
   url: string;
-};
-
-export type LocationType<Params = Record<string, any>> = {
-  query?: Params;
 };
 
 export type ListDataType = {
@@ -131,12 +109,6 @@ export enum AutoComStatusEnum {
   Error = 'error',
   NoData = 'no_data',
 }
-
-export type OptionType = {
-  label: string;
-  value: string | number;
-  [key: string]: any;
-};
 
 export type EquipPropType = {
   key: string;
@@ -170,17 +142,6 @@ export const connectStatus = {
   },
   0: {
     text: '离线',
-    status: 'Error',
-  },
-};
-
-export const runningState = {
-  1: {
-    text: '正常',
-    status: 'Success',
-  },
-  0: {
-    text: '异常',
     status: 'Error',
   },
 };

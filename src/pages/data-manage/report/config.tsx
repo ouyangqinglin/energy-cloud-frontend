@@ -11,11 +11,11 @@ import type { ProColumns } from '@ant-design/pro-components';
 import {
   reportType,
   reportTypeEnum,
-  OptionType,
   timeDimension,
   timeDimensionEnum,
   reportTypeSystemIdMap,
 } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 import { getDevicePage } from '@/services/equipment';
 import moment from 'moment';
 import { DatePicker } from 'antd';

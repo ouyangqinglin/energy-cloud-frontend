@@ -10,7 +10,7 @@ import type {
 } from '../type';
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { SchemaFormProvider } from '@/components/SchemaForm';
 
 import { TABLESELECT } from '@/components/TableSelect';

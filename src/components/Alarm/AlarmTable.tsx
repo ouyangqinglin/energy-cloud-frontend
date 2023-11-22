@@ -21,7 +21,7 @@ import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { isEmpty } from '@/utils';

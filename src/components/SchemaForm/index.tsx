@@ -11,7 +11,6 @@ import { useRequest } from 'umi';
 import { message } from 'antd';
 import type { ProFormInstance, ProFormLayoutType } from '@ant-design/pro-components';
 import { BetaSchemaForm, ProConfigProvider } from '@ant-design/pro-components';
-import { FormTypeEnum } from '@/utils/dictionary';
 import type { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
@@ -19,7 +18,11 @@ import { tableSelectValueTypeMap } from '../TableSelect';
 import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
 
-export { FormTypeEnum };
+export enum FormTypeEnum {
+  Add = 'add',
+  Edit = 'edit',
+  Detail = 'detail',
+}
 
 export type SchemaFormProps<FormData, ValueType, ParamData> = Omit<
   FormSchema<FormData, ValueType>,
@@ -117,10 +120,10 @@ const SchemaForm = <
       const defaultSubmitter: FormSchema['submitter'] =
         layoutType !== 'QueryFilter'
           ? {
-            submitButtonProps: {
-              disabled: disableSubmitter,
-            },
-          }
+              submitButtonProps: {
+                disabled: disableSubmitter,
+              },
+            }
           : {};
       return merge(defaultSubmitter, submitter);
     }

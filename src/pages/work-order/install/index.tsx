@@ -10,7 +10,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { Update } from './Update';
 import Read from './Read';
 import { getInstallerList } from './service';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 import { message } from 'antd';
 import { formatMessage } from '@/utils';
 

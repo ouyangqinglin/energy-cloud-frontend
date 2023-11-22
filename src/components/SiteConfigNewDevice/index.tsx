@@ -6,10 +6,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormUploadButton } from '@ant-design/pro-form';
 import type { EquipFormType } from './data';
 import { editData, getData, addData, bindDevice } from './service';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
 import { Descriptions } from 'antd';
 
 export type EquipFormProps = {
@@ -21,11 +21,12 @@ export type EquipFormProps = {
   onSuccess?: () => void;
   isStationChild?: boolean;
   initialValues?: Record<string, any>;
-  descValues: any,
+  descValues: any;
 };
 
 const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
-  const { id, model, open, onCancel, type, onSuccess, isStationChild, initialValues, descValues } = props;
+  const { id, model, open, onCancel, type, onSuccess, isStationChild, initialValues, descValues } =
+    props;
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
@@ -36,7 +37,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
   const { loading: editLoading, run: runEdit } = useRequest(editData, {
     manual: true,
   });
-  const {  run: runBindDevice } = useRequest(bindDevice, {
+  const { run: runBindDevice } = useRequest(bindDevice, {
     manual: true,
   });
   const [form] = Form.useForm<EquipFormType>();
@@ -56,21 +57,24 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
     return false;
   }, []);
 
-  const onFinish = useCallback((formData: EquipFormType) => {
-    const request = runBindDevice;
-    return request({
-      ...formData,
-      ...(isStationChild ? { siteId: stationId } : {}),
-      deviceId: descValues?.deviceId,
-      photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
-    }).then((data) => {
-      if (data) {
-        message.success(formatMessage({ id: 'common.successSaved' ,defaultMessage: '保存成功'}));
-        onSuccess?.();
-        onCancel?.();
-      }
-    });
-  }, [descValues]);
+  const onFinish = useCallback(
+    (formData: EquipFormType) => {
+      const request = runBindDevice;
+      return request({
+        ...formData,
+        ...(isStationChild ? { siteId: stationId } : {}),
+        deviceId: descValues?.deviceId,
+        photos: formData?.photosList ? formData.photosList.map((item) => item.url).join(',') : '',
+      }).then((data) => {
+        if (data) {
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          onSuccess?.();
+          onCancel?.();
+        }
+      });
+    },
+    [descValues],
+  );
 
   const getValueFromEvent = useCallback((e) => {
     if (Array.isArray(e)) {
@@ -124,35 +128,37 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
   ];
   const descriptionItems = useMemo(() => {
     const content: React.ReactNode[] = [];
-    items.forEach((item,index) => {
-        content.push(
-          <Descriptions.Item
-            label={item.label}
-            span={8}
-            key={index}
-            contentStyle={{fontSize:'15px'}}
-            labelStyle={{fontSize:'15px'}}
-          >
-            {descValues[item.field]}
-          </Descriptions.Item>,
-        );  
+    items.forEach((item, index) => {
+      content.push(
+        <Descriptions.Item
+          label={item.label}
+          span={8}
+          key={index}
+          contentStyle={{ fontSize: '15px' }}
+          labelStyle={{ fontSize: '15px' }}
+        >
+          {descValues[item.field]}
+        </Descriptions.Item>,
+      );
     });
     return content;
   }, [descValues]);
-
 
   return (
     <>
       <Dialog
         model={model}
         open={open}
-        title={ type === FormTypeEnum.Add ? formatMessage({ id: 'common.add' ,defaultMessage: '新建'}) : formatMessage({ id: 'common.edit' ,defaultMessage: '编辑'}) }
+        title={
+          type === FormTypeEnum.Add
+            ? formatMessage({ id: 'common.add', defaultMessage: '新建' })
+            : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
+        }
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
         confirmLoading={getLoading || editLoading || addLoading}
       >
-
         <ProForm<EquipFormType>
           form={form}
           autoFocusFirstInput
@@ -165,15 +171,13 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
           }}
           initialValues={initialValues}
         >
-         <Descriptions column={24}>
-          {descriptionItems}
-        </Descriptions>
+          <Descriptions column={24}>{descriptionItems}</Descriptions>
           <ProFormUploadButton
-            label={<FormattedMessage id='equipmentList.devicePhoto' defaultMessage="设备照片" />}
+            label={<FormattedMessage id="equipmentList.devicePhoto" defaultMessage="设备照片" />}
             name="photosList"
             valuePropName="fileList"
             getValueFromEvent={getValueFromEvent}
-            title={<FormattedMessage id='common.uploadPhoto' defaultMessage="上传图片"/>}
+            title={<FormattedMessage id="common.uploadPhoto" defaultMessage="上传图片" />}
             max={3}
             accept="image/*"
             fieldProps={{
@@ -192,7 +196,6 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
           />
         </ProForm>
       </Dialog>
-      
     </>
   );
 };

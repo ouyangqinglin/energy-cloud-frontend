@@ -14,6 +14,7 @@ import { getInstallerList } from './service';
 import { message } from 'antd';
 import SelectSiteModal from './SelectSite';
 import { formatMessage } from '@/utils';
+import { OptionType } from '@/types';
 
 const Maintenance = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);

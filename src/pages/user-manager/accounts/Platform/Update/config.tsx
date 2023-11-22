@@ -11,7 +11,7 @@ import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
 import { verifyPhone, verifyPassword } from '@/utils/reg';
 import { isEmpty } from '@/utils';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 
 export const Columns: (
   operation: FormOperations,
