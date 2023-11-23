@@ -195,6 +195,15 @@ export const chargingAndDischargingStatus = {
   },
 };
 
+export const chargingPutStatus = {
+  0: {
+    text: '充电',
+  },
+  1: {
+    text: '放电',
+  },
+};
+
 export const effectStatus = {
   0: {
     text: '有效',

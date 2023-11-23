@@ -12,6 +12,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import { message } from 'antd';
 import { styles } from '../index.less';
+import moment from 'moment';
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -53,7 +54,10 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             return {
               ...item,
               ElectrovalenceType: item.ElectrovalenceType,
-              TimeFrame: item.TimeFrame[0] + '-' + item.TimeFrame[1],
+              TimeFrame:
+                moment('2023-01-01 ' + item.TimeFrame[0]).format('HH:mm') +
+                '-' +
+                moment('2023-01-01 ' + item.TimeFrame[1]).format('HH:mm'),
             };
           });
           result = {

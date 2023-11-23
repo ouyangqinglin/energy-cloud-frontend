@@ -206,6 +206,9 @@ export const hydrogenFormat = (value: string | number) => {
 export const moneyFormat = (value: string | number) => {
   return getValue(value, '元');
 };
+export const moneyPowerFormat = (value: string | number) => {
+  return getValue(value, '元/kWh');
+};
 export const electricModelFormat = (value: number) => {
   const map: MapType = {
     0: '电池恒压',
@@ -234,6 +237,13 @@ export const chargeFormat = (status: number) => {
     0: '静置',
     1: '放电',
     2: '充电',
+  };
+  return <span className={'cl-success'}>{map[status]}</span>;
+};
+export const chargePutFormat = (status: number) => {
+  const map: MapType = {
+    0: '充电',
+    1: '放电',
   };
   return <span className={'cl-success'}>{map[status]}</span>;
 };
