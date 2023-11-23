@@ -1,5 +1,5 @@
 import type { DetailItem } from '@/components/Detail';
-import { chargePutFormat, moneyPowerFormat, powerFormat } from '@/utils/format';
+import { chargePutFormat, moneyPowerFormat, percentageFormat, powerFormat } from '@/utils/format';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styles from '../index.less';
@@ -25,10 +25,30 @@ export const manaulParamsItems: DetailItem[] = [
   },
 ];
 export const backupModeItems: DetailItem[] = [
-  { label: '充电功率', field: 'BackupChargingPower', parentField: 'BackupPowerModeSetting' },
-  { label: '放电功率', field: 'BackupDischargePower', parentField: 'BackupPowerModeSetting' },
-  { label: '最高SOC', field: 'BackupHighestSOC', parentField: 'BackupPowerModeSetting' },
-  { label: '最低SOC', field: 'BackupMinimumSOC', parentField: 'BackupPowerModeSetting' },
+  {
+    label: '充电功率',
+    field: 'BackupChargingPower',
+    format: powerFormat,
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: '放电功率',
+    field: 'BackupDischargePower',
+    format: powerFormat,
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: '最高SOC',
+    field: 'BackupHighestSOC',
+    format: percentageFormat,
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: '最低SOC',
+    field: 'BackupMinimumSOC',
+    format: percentageFormat,
+    parentField: 'BackupPowerModeSetting',
+  },
 ];
 export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {

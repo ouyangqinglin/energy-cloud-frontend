@@ -27,6 +27,7 @@ import ConfigModal from '../ConfigModal';
 import { editSetting } from '@/services/equipment';
 import { useRequest } from 'umi';
 import moment from 'moment';
+import { parseToArray } from '@/utils';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -91,7 +92,10 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               title={'尖峰平谷时段设置'}
               deviceId={deviceId}
               productId={productId}
-              realTimeData={realTimeData}
+              realTimeData={{
+                ...realTimeData,
+                ElectrovalenceTimeFrame: parseToArray(realTimeData.ElectrovalenceTimeFrame),
+              }}
               columns={PeakSetColumns}
               serviceId={'PeakAndValleyTimeSettings'}
             />
