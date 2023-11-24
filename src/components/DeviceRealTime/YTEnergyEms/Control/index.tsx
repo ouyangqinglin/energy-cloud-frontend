@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-10-27 11:00:47
+ * @LastEditTime: 2023-11-24 17:27:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
@@ -62,13 +62,19 @@ const Setting: React.FC<SettingProps> = (props) => {
                     <>
                       <Button
                         type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
-                        disabled={btnDisabled}
-                        onClick={() => {
-                          btnClick(item, btnItem);
-                        }}
                         loading={loading}
                       >
-                        {<Radio> {btnItem.text}</Radio>}
+                        {
+                          <Radio
+                            name={item.field}
+                            onClick={() => {
+                              btnClick(item, btnItem);
+                            }}
+                          >
+                            {' '}
+                            {btnItem.text}
+                          </Radio>
+                        }
                       </Button>
                     </>
                   );
