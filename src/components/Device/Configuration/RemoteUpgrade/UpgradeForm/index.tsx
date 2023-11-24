@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:50:53
- * @LastEditTime: 2023-11-14 08:45:31
+ * @LastEditTime: 2023-11-24 09:30:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeForm\index.tsx
  */
@@ -46,7 +46,7 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
 
   return (
     <>
-      <Button className="pr0" type="link" onClick={setTrue}>
+      <Button className="mr12" type="primary" onClick={setTrue}>
         升级
       </Button>
       <SchemaForm

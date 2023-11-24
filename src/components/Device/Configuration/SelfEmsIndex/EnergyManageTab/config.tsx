@@ -10,7 +10,6 @@ import { chargingPutStatus } from '@/utils/dictionary';
 //const {  colum: timeColum } = useSafeTimeRangeColum();
 //const [disableTime, setDisableTime] = useState<Record<string, (0 | 15 | 30 | 45 | null)[]>>({});
 export const manaulParamsItems: DetailItem[] = [
-  { label: '充放电类型', field: 'CorD', format: chargePutFormat, parentField: 'ManualModeSetting' },
   {
     label: '充电功率',
     field: 'ChargingPower',
@@ -86,15 +85,6 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
 ];
 
 export const manulSetColumns: ProFormColumnsType[] = [
-  {
-    title: '充放电类型',
-    dataIndex: 'Cord',
-    valueType: 'select',
-    valueEnum: chargingPutStatus,
-    formItemProps: {
-      rules: [{ required: true, message: '请选择充放电类型' }],
-    },
-  },
   {
     title: '充电功率',
     dataIndex: 'ChargingPower',

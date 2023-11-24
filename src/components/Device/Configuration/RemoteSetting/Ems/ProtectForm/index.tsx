@@ -41,7 +41,7 @@ const ProtectForm: React.FC<ProtectFormType> = (props) => {
 
   return (
     <>
-      <Button className="pr0" type="link" onClick={setTrue}>
+      <Button type="primary" onClick={setTrue}>
         下发参数
       </Button>
       <SchemaForm

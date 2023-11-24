@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 15:22:57
- * @LastEditTime: 2023-09-25 16:15:18
+ * @LastEditTime: 2023-11-24 09:26:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeRecord\index.tsx
  */
@@ -36,7 +36,7 @@ const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
 
   return (
     <>
-      <Button className="pr0" type="link" onClick={setTrue}>
+      <Button type="primary" onClick={setTrue}>
         升级记录
       </Button>
       <Modal title="升级记录" width={900} open={open} onCancel={setFalse} onOk={setFalse}>

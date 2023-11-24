@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2023-09-11 19:13:15
+ * @LastEditTime: 2023-11-24 15:54:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
@@ -13,7 +13,7 @@ import Run from './Run';
 import Control from './Control';
 import useDeviceModel from '../useDeviceModel';
 import { useSubscribe } from '@/hooks';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import styles from './index.less';
 
 const Device: React.FC<DeviceRealTimeType> = (props) => {
@@ -30,6 +30,18 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
   const onTabChange = useCallback((key) => {
     setActiveTab(key);
   }, []);
+
+  const showTab = useMemo<boolean>(() => {
+    if (
+      deviceGroupData?.services?.length &&
+      deviceData?.productId == (DeviceTypeEnum.YTEnergyAir as any) &&
+      deviceData?.masterSlaveMode != 1
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [deviceData, deviceGroupData]);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
@@ -52,7 +64,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
         </div>
       ) : (
         <>
-          {deviceGroupData?.services?.length ? (
+          {showTab ? (
             <Tabs className={styles.tabs} items={tabItems} onChange={onTabChange} />
           ) : (
             <></>

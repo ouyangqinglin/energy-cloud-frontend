@@ -158,7 +158,7 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
 
   return (
     <>
-      <Button className="pr0" type="link" onClick={setTrue}>
+      <Button type="primary" onClick={setTrue}>
         修改
       </Button>
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>

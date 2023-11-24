@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2023-09-25 14:16:52
+ * @LastEditTime: 2023-11-24 15:59:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
@@ -25,7 +25,7 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
   const { deviceData, productId, deviceId } = props;
   return (
     <>
-      {productId == '59' ? (
+      {productId == (DeviceTypeEnum.YTEnergyEms as any) ? (
         <SelfEmsIndex deviceData={deviceData} productId={productId} deviceId={deviceId} />
       ) : (
         <div className="px24">

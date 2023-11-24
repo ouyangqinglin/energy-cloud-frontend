@@ -59,7 +59,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   return (
     <>
       {type ? (
-        <Button className="pr0" type="link" onClick={setTrue}>
+        <Button type="primary" onClick={setTrue}>
           修改
         </Button>
       ) : (

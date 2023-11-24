@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-11-23 14:27:57
+ * @LastEditTime: 2023-11-24 15:26:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\index.tsx
  */
@@ -38,7 +38,12 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '1',
       label: `系统设置`,
       children: (
-        <SystemSetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
+        <SystemSetting
+          deviceId={deviceId}
+          productId={productId}
+          realTimeData={realTimeData}
+          deviceData={deviceData}
+        />
       ),
     },
     {
@@ -64,7 +69,20 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
     },
   ];
 
-  return <Tabs className={styles.tabs} tabBarGutter={34} items={items} />;
+  return (
+    <>
+      {deviceData?.masterSlaveMode == 1 ? (
+        <SystemSetting
+          deviceId={deviceId}
+          productId={productId}
+          realTimeData={realTimeData}
+          deviceData={deviceData}
+        />
+      ) : (
+        <Tabs className={styles.tabs} tabBarGutter={34} items={items} />
+      )}
+    </>
+  );
 };
 
 export default SelfEmsIndex;
