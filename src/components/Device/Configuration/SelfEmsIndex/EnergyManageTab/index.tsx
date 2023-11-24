@@ -200,6 +200,12 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                           }
                         />
                       </Form.Item>
+                      <Form.Item {...restField} name={[name, 'powerMode']} label="充电模式">
+                        <Select placeholder="请选择充电模式" style={{ width: '70px' }}>
+                          <Option value="0">放电</Option>
+                          <Option value="1">充电</Option>
+                        </Select>
+                      </Form.Item>
                       <Form.Item {...restField} name={[name, 'executionPower']} label="执行功率">
                         <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
                       </Form.Item>
