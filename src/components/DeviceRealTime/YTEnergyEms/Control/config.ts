@@ -6,6 +6,7 @@ export type ControlParamItem = {
   label: string;
   field: string;
   btnParam: any;
+  disabled?: boolean;
 };
 export const controlItems: ControlParamItem[] = [
   {
@@ -19,7 +20,8 @@ export const controlItems: ControlParamItem[] = [
   },
   {
     label: '系统工作状态控制',
-    field: 'emsSysStatus',
+    field: 'systemWorkingStatus',
+    disabled: true,
     btnParam: [
       { text: '启动', value: 0 },
       { text: '待机', value: 1 },
@@ -30,6 +32,7 @@ export const controlItems: ControlParamItem[] = [
   {
     label: '变流器工作模式切换',
     field: 'converterOperatingMode',
+    disabled: true,
     btnParam: [
       { text: '离网工作', value: 0 },
       { text: '并网工作', value: 1 },
@@ -39,6 +42,7 @@ export const controlItems: ControlParamItem[] = [
   {
     label: '变流器工作状态切换',
     field: 'converterWorkingStatus',
+    disabled: true,
     btnParam: [
       { text: '启动', value: 0 },
       { text: '待机', value: 1 },
@@ -49,6 +53,7 @@ export const controlItems: ControlParamItem[] = [
   {
     label: '电池组工作模式切换',
     field: 'batteryPackOperatingMode',
+    disabled: true,
     btnParam: [
       { text: '正常', value: 0 },
       { text: '核容', value: 1 },
@@ -60,6 +65,7 @@ export const controlItems: ControlParamItem[] = [
   {
     label: '电池组工作状态控制',
     field: 'batteryPackWorkingStatus',
+    disabled: true,
     btnParam: [
       { text: '启动', value: 0 },
       { text: '待机', value: 1 },

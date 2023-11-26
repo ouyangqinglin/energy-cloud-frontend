@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-11-24 17:27:55
+ * @LastEditTime: 2023-11-26 09:55:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
@@ -56,25 +56,28 @@ const Setting: React.FC<SettingProps> = (props) => {
           return (
             <div className={styles.labelBox}>
               <Space wrap>
-                <div>{item.label + ':'}</div>
+                <div className={styles.label}>{item.label + ':'}</div>
                 {item.btnParam.map((btnItem: any) => {
                   return (
                     <>
                       <Button
                         type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
+                        ghost={settingData[item.field] == btnItem.value}
                         loading={loading}
+                        onClick={() => {
+                          btnClick(item, btnItem);
+                        }}
+                        disabled={item.disabled && settingData?.systemOperatingMode != 2}
                       >
-                        {
-                          <Radio
-                            name={item.field}
-                            onClick={() => {
-                              btnClick(item, btnItem);
-                            }}
-                          >
-                            {' '}
-                            {btnItem.text}
-                          </Radio>
-                        }
+                        <Radio
+                          name={item.field}
+                          className="mr8"
+                          checked={settingData[item.field] == btnItem.value}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        />
+                        {btnItem.text}
                       </Button>
                     </>
                   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import {
   Button,
   Row,
@@ -28,6 +28,7 @@ import { editSetting } from '@/services/equipment';
 import { useRequest } from 'umi';
 import moment from 'moment';
 import { parseToArray } from '@/utils';
+import { useBoolean } from 'ahooks';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -43,6 +44,8 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   const { loading, run: runSubmitFrom } = useRequest(editSetting, {
     manual: true,
   });
+  const [disableRun, { setTrue: setDisableRunTrue, setFalse: setDisableRunFalse }] =
+    useBoolean(true);
   const peakLoadSubmit = useCallback(
     (formData: any) => {
       runPeakForm?.submit();
@@ -126,9 +129,23 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
     }).then((data) => {
       if (data) {
         message.success('操作成功');
+        setDisableRunTrue();
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (disableRun) {
+      runPeakForm?.setFieldsValue({
+        peakShavingAndValleyFillingModeMaximumSOC:
+          realTimeData?.peakShavingAndValleyFillingModeMaximumSOC,
+        peakShavingAndValleyFillingModeLowestSOC:
+          realTimeData?.peakShavingAndValleyFillingModeLowestSOC,
+        PeriodOfTime: parseToArray(realTimeData?.PeriodOfTime),
+      });
+    }
+  }, realTimeData);
+
   return (
     <>
       <div className="px24">
@@ -143,7 +160,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
         />
         <div>
           <Detail.Label title="削峰填谷模式设置">
-            <Button type="primary" onClick={peakLoadSubmit}>
+            <Button type="primary" onClick={peakLoadSubmit} disabled={disableRun}>
               下发参数
             </Button>
           </Detail.Label>
@@ -154,10 +171,10 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             className="setting-form"
             layout="horizontal"
             labelAlign="right"
-            labelCol={{ flex: '116px' }}
+            labelCol={{ flex: '100px' }}
             onFinish={onFinish}
             key="PeakShavingAndValleyFillingModeSetting"
-            // onValuesChange={setDisableRunFalse}
+            onValuesChange={setDisableRunFalse}
           >
             <Row>
               <Col flex="25%">
@@ -183,34 +200,42 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
-                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                      <Form.Item
-                        label="时段1"
-                        {...restField}
-                        name={[name, 'pcsRunningTimeFrame']}
-                        //rules={[{ required: true, message: 'Missing first name' }]}
-                      >
-                        <TimePicker.RangePicker
-                          className="w-full"
-                          format={timeFormat}
-                          minuteStep={15}
-                          placeholder={['开始', '结束']}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.parentElement || document.body
-                          }
-                        />
-                      </Form.Item>
-                      <Form.Item {...restField} name={[name, 'powerMode']} label="充电模式">
-                        <Select placeholder="请选择充电模式" style={{ width: '70px' }}>
-                          <Option value="0">放电</Option>
-                          <Option value="1">充电</Option>
-                        </Select>
-                      </Form.Item>
-                      <Form.Item {...restField} name={[name, 'executionPower']} label="执行功率">
-                        <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
+                    <Row>
+                      <Col flex="25%">
+                        <Form.Item
+                          label="时段1"
+                          {...restField}
+                          name={[name, 'pcsRunningTimeFrame']}
+                          //rules={[{ required: true, message: 'Missing first name' }]}
+                        >
+                          <TimePicker.RangePicker
+                            className="w-full"
+                            format={timeFormat}
+                            minuteStep={15}
+                            placeholder={['开始', '结束']}
+                            getPopupContainer={(triggerNode) =>
+                              triggerNode.parentElement || document.body
+                            }
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col flex="25%">
+                        <Form.Item {...restField} name={[name, 'CorD']} label="充电模式">
+                          <Select placeholder="请选择充电模式">
+                            <Option value="0">放电</Option>
+                            <Option value="1">充电</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col flex="25%">
+                        <Form.Item {...restField} name={[name, 'executionPower']} label="执行功率">
+                          <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+                        </Form.Item>
+                      </Col>
+                      <Col flex="25%">
+                        <MinusCircleOutlined className="ml12 mt8" onClick={() => remove(name)} />
+                      </Col>
+                    </Row>
                   ))}
                   <Form.Item>
                     <Button type="primary" icon={<PlusOutlined />} onClick={() => add()}>

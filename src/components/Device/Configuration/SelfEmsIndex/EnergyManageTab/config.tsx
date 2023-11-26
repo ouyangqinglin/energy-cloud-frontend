@@ -231,6 +231,10 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             formItemProps: {
               validateTrigger: 'submit',
               rules: [
+                {
+                  required: true,
+                  message: '请选择时间段',
+                },
                 // {
                 //   message: '请继续选择时间范围',
                 //   validateTrigger: 'onChange',
