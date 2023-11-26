@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-11-15 15:05:11
+ * @LastEditTime: 2023-11-26 13:55:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -130,12 +130,14 @@ const Power: React.FC<ComProps> = (props) => {
   }, [deviceData?.deviceId, date, deviceKey]);
 
   useEffect(() => {
-    //切换单元时调此接口
-    run({
-      deviceId: deviceKey || deviceData?.deviceId,
-      date: date.format('YYYY-MM-DD'),
-      visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
-    });
+    if (deviceKey || deviceData?.deviceId) {
+      //切换单元时调此接口
+      run({
+        deviceId: deviceKey || deviceData?.deviceId,
+        date: date.format('YYYY-MM-DD'),
+        visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
+      });
+    }
   }, [deviceData?.deviceId, date, deviceKey]);
 
   useEffect(() => {
@@ -144,7 +146,7 @@ const Power: React.FC<ComProps> = (props) => {
       data: powerData?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
     };
     setChartData([result]);
-  }, [powerData, deviceKey]);
+  }, [powerData]);
 
   return (
     <>

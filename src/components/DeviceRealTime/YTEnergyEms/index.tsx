@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-11-26 09:45:03
+ * @LastEditTime: 2023-11-26 10:17:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -27,7 +27,7 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
-  const realTimeData = useSubscribe(id, true);
+  const realTimeData = useSubscribe(id, openSubscribe);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return deviceData?.masterSlaveMode == 1

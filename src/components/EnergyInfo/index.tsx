@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-04 15:17:13
- * @LastEditTime: 2023-07-28 16:33:34
+ * @LastEditTime: 2023-11-26 13:51:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
@@ -24,8 +24,8 @@ export type EnergyInfoProps = {
   showLabel?: boolean;
   loading?: boolean;
   source?: EnergySourceEnum;
-  emsGroupData: any; //ems主从分组数据加所有设备数据
-  loadingGroupData: boolean;
+  emsGroupData?: any; //ems主从分组数据加所有设备数据
+  loadingGroupData?: boolean;
 };
 
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
@@ -33,11 +33,7 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
   const [deviceKey, setDeviceKey] = useState();
   // groupId为-1代表无主从（以前的），!=-1代表EMS主从设备，主从混合暂不考虑
   const groupId = useMemo(() => {
-    let isGroup = '';
-    if (emsGroupData) {
-      isGroup = emsGroupData[0]?.groupId || '';
-    }
-    return isGroup;
+    return emsGroupData?.[0]?.groupId ?? -1;
   }, [emsGroupData]);
 
   useEffect(() => {
