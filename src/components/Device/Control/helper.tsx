@@ -6,6 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
+import React from 'react';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { Col, Row, TimePicker } from 'antd';
@@ -64,7 +65,9 @@ export const timeRangeColumn: ProFormColumnsType = {
           },
         ],
       },
-      renderFormItem: () => <TimePicker.RangePicker order={true} format={'HH:mm'} />,
+      renderFormItem: () => (
+        <TimePicker.RangePicker className="w-full" order={true} format={'HH:mm'} />
+      ),
     },
   ],
 };

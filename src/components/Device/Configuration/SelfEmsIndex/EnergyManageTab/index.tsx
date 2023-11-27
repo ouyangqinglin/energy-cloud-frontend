@@ -54,12 +54,27 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   });
   const [disableRun, { setTrue: setDisableRunTrue, setFalse: setDisableRunFalse }] =
     useBoolean(true);
+
   const peakLoadSubmit = useCallback(
     (formData: any) => {
       runPeakForm?.submit();
     },
     [deviceId],
   );
+
+  const electrovalenceTimeFrame = useMemo(() => {
+    return parseToArray(realTimeData.ElectrovalenceTimeFrame).map((item) => {
+      const timeFrame = item?.TimeFrame?.split?.('-') || [];
+      return {
+        ...item,
+        TimeFrame:
+          timeFrame.length > 1
+            ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
+            : [],
+      };
+    });
+  }, [realTimeData]);
+
   const manaulModeSetting = useMemo<GroupItem[]>(() => {
     return [
       {
@@ -106,7 +121,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               deviceId={deviceId}
               realTimeData={{
                 ...realTimeData,
-                ElectrovalenceTimeFrame: parseToArray(realTimeData.ElectrovalenceTimeFrame),
+                ElectrovalenceTimeFrame: electrovalenceTimeFrame,
               }}
               columns={PeakSetColumns}
               serviceId={'PeakAndValleyTimeSettings'}

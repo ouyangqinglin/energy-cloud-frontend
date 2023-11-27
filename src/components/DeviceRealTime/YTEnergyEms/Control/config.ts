@@ -62,16 +62,16 @@ export const controlItems: ControlParamItem[] = [
       { text: '放电', value: 4 },
     ],
   },
-  {
-    label: '电池组工作状态控制',
-    field: 'batteryPackWorkingStatus',
-    disabled: true,
-    btnParam: [
-      { text: '启动', value: 0 },
-      { text: '待机', value: 1 },
-      { text: '停止', value: 2 },
-    ],
-  },
+  // {
+  //   label: '电池组工作状态控制',
+  //   field: 'batteryPackWorkingStatus',
+  //   disabled: true,
+  //   btnParam: [
+  //     { text: '启动', value: 0 },
+  //     { text: '待机', value: 1 },
+  //     { text: '停止', value: 2 },
+  //   ],
+  // },
   {
     label: 'BMS主接触器控制',
     field: 'bmsOpenAndClose',

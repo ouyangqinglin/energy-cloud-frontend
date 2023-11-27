@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2023-11-27 17:39:59
+ * @LastEditTime: 2023-11-27 17:54:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
@@ -45,7 +45,9 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
 
   const showTab = useMemo<boolean>(() => {
     if (
-      (deviceGroupData?.services?.length || serviceGruop?.length) &&
+      (oldControlProductIds.includes(productId as DeviceTypeEnum)
+        ? deviceGroupData?.services?.length
+        : serviceGruop?.length) &&
       (deviceData?.productId != (DeviceTypeEnum.YTEnergyAir as any) ||
         deviceData?.masterSlaveMode != 1)
     ) {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-11-27 17:49:11
+ * @LastEditTime: 2023-11-27 18:07:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -40,8 +40,8 @@ const Control: React.FC<ControlType> = memo((props) => {
         switch (field?.dataType?.type) {
           case DeviceModelTypeEnum.Array:
             const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
-            fieldValue?.forEach?.((value, index) => {
-              detailItems.push?.({
+            const items: DetailItem[] = fieldValue?.map?.((value, index) => {
+              const detailItem: DetailItem = {
                 field: 'array' + index,
                 label:
                   (field?.dataType as DeviceArrayType)?.specs?.item?.type ==
@@ -49,8 +49,16 @@ const Control: React.FC<ControlType> = memo((props) => {
                     ? '时段' + (index + 1)
                     : '',
                 format: () => value,
-              });
+              };
+              return detailItem;
             });
+            if (!items?.length) {
+              items.push({
+                field: 'arrayxxx',
+                label: '时段1',
+              });
+            }
+            detailItems.push(...items);
             const column: ProFormColumnsType = {
               dataIndex: field.id,
               formItemProps: {
