@@ -12,7 +12,7 @@ import { Tabs, TabsProps } from 'antd';
 
 export type GroupItem = {
   label?: React.ReactNode;
-  items: DetailItem[];
+  items?: DetailItem[];
   tabItems?: TabsProps['items'];
 };
 

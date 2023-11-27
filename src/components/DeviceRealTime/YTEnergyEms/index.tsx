@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-11-26 10:17:02
+ * @LastEditTime: 2023-11-27 09:54:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -12,7 +12,7 @@ import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
 // import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
-import { useSubscribe } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import styles from './index.less';
 import Setting from './Control';
 
@@ -23,6 +23,11 @@ export type EmsType = DeviceRealTimeType & {
 const YTEnergyEms: React.FC<EmsType> = (props) => {
   const { id, productId, deviceData, type } = props;
 
+  const { authorityMap } = useAuthority([
+    'iot:device:remoteControl',
+    'iot:device:remoteControl:systemStatusControl',
+  ]);
+
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
@@ -30,7 +35,7 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
   const realTimeData = useSubscribe(id, openSubscribe);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
-    return deviceData?.masterSlaveMode == 1
+    return deviceData?.masterSlaveMode == 1 || !authorityMap.get('iot:device:remoteControl')
       ? []
       : [
           {
@@ -41,16 +46,18 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
           {
             key: '2',
             label: '远程控制',
-            children: (
+            children: authorityMap.get('iot:device:remoteControl:systemStatusControl') ? (
               <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
+            ) : (
+              <></>
             ),
           },
         ];
-  }, [realTimeData, deviceData]);
+  }, [realTimeData, deviceData, authorityMap]);
 
   return (
     <>
-      {deviceData?.masterSlaveMode == 1 ? (
+      {deviceData?.masterSlaveMode == 1 || !authorityMap.get('iot:device:remoteControl') ? (
         <Run id={id} productId={productId} realTimeData={realTimeData} />
       ) : (
         <Tabs className={styles.tabs} items={tabItems} />

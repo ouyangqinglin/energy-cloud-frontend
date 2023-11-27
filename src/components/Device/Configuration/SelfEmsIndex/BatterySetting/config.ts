@@ -279,5 +279,8 @@ export const powerParamsColumns: ProFormColumnsType[] = [
     fieldProps: {
       options,
     },
+    colProps: {
+      span: 24,
+    },
   },
 ];

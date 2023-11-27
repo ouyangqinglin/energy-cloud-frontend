@@ -14,27 +14,39 @@ import SystemSetting from './SystemSetting';
 import ConverterSetting from './ConverterSetting';
 import BatterySetting from './BatterySetting';
 import styles from './index.less';
-import { useSubscribe } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import type { DeviceDataType } from '@/services/equipment';
+import RemoteUpgrade from '../RemoteUpgrade';
+import { AuthorityModeEnum } from '@/hooks/useAuthority';
+import Empty from '@/components/Empty';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
   deviceData: DeviceDataType;
+  realTimeData: Record<string, any>;
 };
 
 const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
-  const { deviceId, productId, deviceData } = props;
-  const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
+  const { deviceId, productId, deviceData, realTimeData } = props;
+  const { passAuthority, authorityMap } = useAuthority(
+    [
+      'iot:device:config:systemSetting',
+      'iot:device:config:converterSetting',
+      'iot:device:config:batterySetting',
+      'iot:device:config:energyManage',
+    ],
+    {
+      mode: AuthorityModeEnum.Within,
+    },
   );
-  const realTimeData = useSubscribe(deviceId, openSubscribe);
   realTimeData.emsSn = (deviceData.config && JSON.parse(deviceData.config)?.emsSn) || '';
   realTimeData.paramConfigType = deviceData.paramConfigType;
 
-  const items: TabsProps['items'] = [
-    {
+  const items: TabsProps['items'] = [];
+
+  if (authorityMap.get('iot:device:config:systemSetting')) {
+    items.push({
       key: '1',
       label: `系统设置`,
       children: (
@@ -45,42 +57,39 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
           deviceData={deviceData}
         />
       ),
-    },
-    {
+    });
+  }
+  if (authorityMap.get('iot:device:config:converterSetting') && deviceData?.masterSlaveMode != 1) {
+    items.push({
       key: '2',
       label: `变流器设置`,
       children: (
         <ConverterSetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
       ),
-    },
-    {
+    });
+  }
+  if (authorityMap.get('iot:device:config:batterySetting') && deviceData?.masterSlaveMode != 1) {
+    items.push({
       key: '3',
       label: `电池设置`,
       children: (
         <BatterySetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
       ),
-    },
-    {
+    });
+  }
+  if (authorityMap.get('iot:device:config:energyManage') && deviceData?.masterSlaveMode != 1) {
+    items?.push({
       key: '4',
       label: `能量管理`,
       children: (
         <EnergyManageTab productId={productId} deviceId={deviceId} realTimeData={realTimeData} />
       ),
-    },
-  ];
+    });
+  }
 
   return (
     <>
-      {deviceData?.masterSlaveMode == 1 ? (
-        <SystemSetting
-          deviceId={deviceId}
-          productId={productId}
-          realTimeData={realTimeData}
-          deviceData={deviceData}
-        />
-      ) : (
-        <Tabs className={styles.tabs} tabBarGutter={34} items={items} />
-      )}
+      {passAuthority ? <Tabs className={styles.tabs} tabBarGutter={34} items={items} /> : <Empty />}
     </>
   );
 };

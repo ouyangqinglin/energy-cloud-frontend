@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-09-27 16:13:22
+ * @LastEditTime: 2023-11-27 13:57:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
@@ -24,7 +24,7 @@ export enum FormTypeEnum {
   Detail = 'detail',
 }
 
-export type SchemaFormProps<FormData, ValueType, ParamData> = Omit<
+export type SchemaFormProps<FormData = any, ValueType = any, ParamData = any> = Omit<
   FormSchema<FormData, ValueType>,
   'LayoutType'
 > & {
@@ -89,7 +89,7 @@ const SchemaForm = <
     { setTrue: setDisableSubmitterTrue, setFalse: setDisableSubmitterFalse },
   ] = useBoolean(true);
 
-  const { run: runGet, loading: getLoading } = useRequest(getData, {
+  const { run: runGet, loading: getLoading } = useRequest(getData as any, {
     manual: true,
   });
   const { run: runAdd, loading: addLoading } = useRequest(addData as any, {

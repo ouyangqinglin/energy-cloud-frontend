@@ -141,9 +141,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
-    colProps: {
-      span: 24,
-    },
   },
   {
     title: '峰电价',
@@ -152,9 +149,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
-    },
-    colProps: {
-      span: 24,
     },
   },
   {
@@ -165,9 +159,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
-    colProps: {
-      span: 12,
-    },
   },
   {
     title: '谷电价',
@@ -176,9 +167,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
-    },
-    colProps: {
-      span: 12,
     },
   },
   {
@@ -204,17 +192,19 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       },
       itemRender: ({ listDom, action }) => {
         return (
-          <Row>
-            <Col style={{ display: 'inline-flex', alignItems: 'flex-end' }} span={24}>
-              {listDom}
-              {action}
-            </Col>
-          </Row>
+          <div>
+            <Row>
+              <Col style={{ display: 'inline-flex', alignItems: 'flex-end' }} span={24}>
+                {listDom}
+                {action}
+              </Col>
+            </Row>
+          </div>
         );
       },
     },
     colProps: {
-      span: 24,
+      span: 18,
     },
     columns: [
       {
@@ -227,7 +217,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             colProps: {
               span: 12,
             },
-            width: '100%',
             formItemProps: {
               validateTrigger: 'submit',
               rules: [
@@ -235,64 +224,11 @@ export const PeakSetColumns: ProFormColumnsType[] = [
                   required: true,
                   message: '请选择时间段',
                 },
-                // {
-                //   message: '请继续选择时间范围',
-                //   validateTrigger: 'onChange',
-                //   validator: (r, value, cb) => {
-                //     const [_list, index, _field] = r?.field?.split('.') ?? [];
-                //     if (!isNil(index)) {
-                //       timeStore.update(index, value);
-                //     }
-                //     console.log(r, value, [...timeStore.value]);
-                //     throw new Error('12');
-                //   },
-                // },
-                // {
-                //   message: '时间范围未满一天',
-                //   validator: async (r, value) => {
-                //     timeStore.update(r!.field, value);
-                //     try {
-                //       await Promise.resolve();
-                //       if (record.calc) {
-                //         if (!record.pass) {
-                //           throw new Error();
-                //         }
-                //         return;
-                //       }
-                //       const timeMap: { ts: Date; tn: Date }[] = [];
-                //       timeStore.value.forEach(([start, end]) => {
-                //         timeMap.push({
-                //           ts: start,
-                //           tn: end,
-                //         });
-                //       });
-                //       record.calc = true;
-                //       record.pass = isWholeDay(timeMap);
-                //       if (!isWholeDay(timeMap)) {
-                //         throw new Error();
-                //       }
-                //     } finally {
-                //       await Promise.resolve();
-                //       record.calc = false;
-                //     }
-                //   },
-                // },
               ],
             },
             renderFormItem: () => (
               <TimePicker.RangePicker
                 order={true}
-                // disabledTime={(date, type) => {
-                //   return {
-                //     disabledHours() {
-                //       return [...new Set(Reflect.ownKeys(disableTime).map(Number))];
-                //     },
-                //     disabledMinutes(hour) {
-                //       const hours = Reflect.ownKeys(disableTime);
-                //       return [];
-                //     },
-                //   };
-                // }}
                 format={'HH:mm'}
                 popupClassName={styles.timePicker}
               />
@@ -312,9 +248,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             valueType: 'select',
             colProps: {
               span: 12,
-              offset: 1,
             },
-            width: '100px',
             valueEnum: new Map([
               [0, '尖'],
               [1, '峰'],
@@ -323,6 +257,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             ]),
           },
         ],
+        colProps: {
+          span: 24,
+        },
       },
     ],
   },

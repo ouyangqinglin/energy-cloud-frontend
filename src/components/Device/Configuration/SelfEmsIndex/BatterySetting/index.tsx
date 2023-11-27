@@ -7,7 +7,6 @@
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\index.tsx
  */
 import React, { useMemo } from 'react';
-
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import {
@@ -16,7 +15,8 @@ import {
   protectParamsColumns,
   powerParamsColumns,
 } from './config';
-import ConfigModal from '../ConfigModal';
+import ConfigModal from '../../../ConfigModal';
+import { useAuthority } from '@/hooks';
 
 export type StackProps = {
   deviceId: string;
@@ -25,15 +25,21 @@ export type StackProps = {
 };
 const SystemSetting: React.FC<StackProps> = (props) => {
   const { realTimeData, deviceId, productId } = props;
+
+  const { authorityMap } = useAuthority([
+    'iot:device:config:batterySetting:batterySystemSetting',
+    'iot:device:config:batterySetting:batteryProtectSetting',
+  ]);
+
   const detailGroup = useMemo<GroupItem[]>(() => {
-    return [
-      {
+    const result: GroupItem[] = [];
+    if (authorityMap.get('iot:device:config:batterySetting:batterySystemSetting')) {
+      result.push({
         label: (
           <Detail.Label title="电池系统使能设置">
             <ConfigModal
               title={'配置电池保护参数'}
               deviceId={deviceId}
-              productId={productId}
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'EnableBatterySystemSelfStartFunction'}
@@ -41,24 +47,30 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           </Detail.Label>
         ),
         items: powerParamsItems,
-      },
-      {
+      });
+    }
+    if (authorityMap.get('iot:device:config:batterySetting:batteryProtectSetting')) {
+      result.push({
         label: (
           <Detail.Label title="电池保护参数设置">
             <ConfigModal
+              width={'816px'}
               title={'配置电池保护参数'}
               deviceId={deviceId}
-              productId={productId}
               realTimeData={realTimeData}
               columns={protectParamsColumns}
               serviceId={'BatteryProtectionParameterSettings'}
+              colProps={{
+                span: 8,
+              }}
             />
           </Detail.Label>
         ),
         items: protectParamsItems,
-      },
-    ];
-  }, []);
+      });
+    }
+    return result;
+  }, [deviceId, productId, realTimeData, authorityMap]);
 
   return (
     <>

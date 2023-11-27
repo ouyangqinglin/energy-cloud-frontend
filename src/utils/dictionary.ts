@@ -416,3 +416,8 @@ export enum Size {
   normal,
   large,
 }
+
+export enum DeviceServicePageEnum {
+  RemoteControl = 'remoteControl',
+  Config = 'config',
+}

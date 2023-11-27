@@ -2,12 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-09-11 19:12:36
+ * @LastEditTime: 2023-11-27 11:24:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\ConverterSetting\index.tsx
  */
 import React, { useMemo } from 'react';
-
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import {
@@ -16,7 +15,8 @@ import {
   protectParamsColumns,
   powerParamsColumns,
 } from './config';
-import ConfigModal from '../ConfigModal';
+import ConfigModal from '../../../ConfigModal';
+import { useAuthority } from '@/hooks';
 
 export type StackProps = {
   deviceId: string;
@@ -25,30 +25,41 @@ export type StackProps = {
 };
 const SystemSetting: React.FC<StackProps> = (props) => {
   const { realTimeData, deviceId, productId } = props;
+
+  const { authorityMap } = useAuthority([
+    'iot:device:config:converterSetting:converterProtectSetting',
+    'iot:device:config:converterSetting:powerParamsSetting',
+  ]);
+
   const detailGroup = useMemo<GroupItem[]>(() => {
-    return [
-      {
+    const result: GroupItem[] = [];
+    if (authorityMap.get('iot:device:config:converterSetting:converterProtectSetting')) {
+      result.push({
         label: (
           <Detail.Label title="变流器保护参数设置">
             <ConfigModal
+              width={'816px'}
               title={'配置电池保护参数'}
               deviceId={deviceId}
-              productId={productId}
               realTimeData={realTimeData}
               columns={protectParamsColumns}
               serviceId={'converterProtectionParameterSettings'}
+              colProps={{
+                span: 8,
+              }}
             />
           </Detail.Label>
         ),
         items: protectParamsItems,
-      },
-      {
+      });
+    }
+    if (authorityMap.get('iot:device:config:converterSetting:powerParamsSetting')) {
+      result.push({
         label: (
           <Detail.Label title="电网参数设置">
             <ConfigModal
               title={'配置电网设置'}
               deviceId={deviceId}
-              productId={productId}
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'GridParameterSettings'}
@@ -56,9 +67,10 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           </Detail.Label>
         ),
         items: powerParamsItems,
-      },
-    ];
-  }, []);
+      });
+    }
+    return result;
+  }, [deviceId, productId, realTimeData, authorityMap]);
 
   return (
     <>
