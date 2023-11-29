@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-11-27 09:54:54
+ * @LastEditTime: 2023-11-29 09:05:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -15,6 +15,7 @@ import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { useAuthority, useSubscribe } from '@/hooks';
 import styles from './index.less';
 import Setting from './Control';
+import { isEmpty } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
@@ -29,7 +30,7 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
   ]);
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);

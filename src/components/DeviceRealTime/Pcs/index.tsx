@@ -14,13 +14,14 @@ import { useSubscribe } from '@/hooks';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { directCurrentItems, exchargeItems, runItems, tempItems, versionItems } from './config';
+import { isEmpty } from '@/utils';
 
 const Pcs: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
   const { modelMap } = useDeviceModel({ productId });
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);

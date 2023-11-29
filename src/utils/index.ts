@@ -186,7 +186,7 @@ export const parseToArray = (value: string) => {
   return result;
 };
 
-export const parseToObj = (value: string) => {
+export const parseToObj = (value: string): Record<string, any> => {
   if (typeof value === 'object') {
     return value;
   }

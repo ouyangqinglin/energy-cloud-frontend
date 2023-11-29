@@ -14,45 +14,39 @@ export const manaulParamsItems: DetailItem[] = [
     label: '充电功率',
     field: 'ChargingPower',
     format: powerFormat,
-    parentField: 'ManualModeSetting',
   },
   {
     label: '放电功率',
     field: 'DischargePower',
     format: powerFormat,
-    parentField: 'ManualModeSetting',
   },
 ];
 export const backupModeItems: DetailItem[] = [
   {
     label: '充电功率',
-    field: 'BackupChargingPower',
+    field: 'BackupChargePower',
     format: powerFormat,
-    parentField: 'BackupPowerModeSetting',
   },
   {
     label: '放电功率',
     field: 'BackupDischargePower',
     format: powerFormat,
-    parentField: 'BackupPowerModeSetting',
   },
   {
     label: '最高SOC',
     field: 'BackupHighestSOC',
     format: percentageFormat,
-    parentField: 'BackupPowerModeSetting',
   },
   {
     label: '最低SOC',
     field: 'BackupMinimumSOC',
     format: percentageFormat,
-    parentField: 'BackupPowerModeSetting',
   },
 ];
 export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '充电功率',
-    dataIndex: 'BackupChargingPower',
+    dataIndex: 'BackupChargePower',
     valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入充电功率' }],
@@ -108,30 +102,29 @@ export const peakTimeItems: DetailItem[] = [
     label: '尖电价',
     field: 'SharpElectrovalence',
     format: moneyPowerFormat,
-    parentField: 'PeakAndValleyTimeSettings',
   },
   {
     label: '峰电价',
     field: 'PeakElectrovalence',
     format: moneyPowerFormat,
-    parentField: 'PeakAndValleyTimeSettings',
   },
   {
     label: '平电价',
     field: 'FlatElectrovalence',
     format: moneyPowerFormat,
-    parentField: 'PeakAndValleyTimeSettings',
   },
   {
     label: '谷电价',
     field: 'ValleyElectrovalence',
     format: moneyPowerFormat,
-    parentField: 'PeakAndValleyTimeSettings',
+    span: 3,
   },
-
-  { label: '尖时段', field: 'TimeFrame', parentField: 'ElectrovalenceTimeFrame' },
-  { label: '峰时段', field: 'TimeFrame', parentField: 'ElectrovalenceTimeFrame' },
+  { label: '尖时段', field: 'sharpTime', span: 3 },
+  { label: '峰时段', field: 'peakTime', span: 3 },
+  { label: '平时段', field: 'flatTime', span: 3 },
+  { label: '谷时段', field: 'valleyTime', span: 3 },
 ];
+
 export const PeakSetColumns: ProFormColumnsType[] = [
   {
     title: '尖电价',

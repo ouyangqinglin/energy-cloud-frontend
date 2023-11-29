@@ -39,6 +39,9 @@ export type ConfigProps = {
 const DatePick: any = DatePicker;
 const timeFormat = 'HH:mm';
 const { Option } = Select;
+
+const timeFields = ['sharpTime', 'peakTime', 'flatTime', 'valleyTime'];
+
 export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   const { realTimeData, deviceId, productId } = props;
 
@@ -62,17 +65,30 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
     [deviceId],
   );
 
-  const electrovalenceTimeFrame = useMemo(() => {
-    return parseToArray(realTimeData.ElectrovalenceTimeFrame).map((item) => {
-      const timeFrame = item?.TimeFrame?.split?.('-') || [];
-      return {
-        ...item,
-        TimeFrame:
-          timeFrame.length > 1
-            ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
-            : [],
-      };
+  const peakValleyData = useMemo(() => {
+    const timeData: Record<string, string[]> = {};
+    const ElectrovalenceTimeFrame = parseToArray(realTimeData.ElectrovalenceTimeFrame).map(
+      (item) => {
+        timeData[timeFields[item?.ElectrovalenceType]] =
+          timeData[timeFields[item?.ElectrovalenceType]] || [];
+        timeData[timeFields[item?.ElectrovalenceType]].push(item?.TimeFrame);
+        const timeFrame = item?.TimeFrame?.split?.('-') || [];
+        return {
+          ...item,
+          TimeFrame:
+            timeFrame.length > 1
+              ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
+              : [],
+        };
+      },
+    );
+    const result: Record<string, any> = {
+      ElectrovalenceTimeFrame,
+    };
+    timeFields.forEach((item) => {
+      result[item] = timeData[item]?.join?.('，');
     });
+    return result;
   }, [realTimeData]);
 
   const manaulModeSetting = useMemo<GroupItem[]>(() => {
@@ -121,7 +137,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               deviceId={deviceId}
               realTimeData={{
                 ...realTimeData,
-                ElectrovalenceTimeFrame: electrovalenceTimeFrame,
+                ...peakValleyData,
               }}
               columns={PeakSetColumns}
               serviceId={'PeakAndValleyTimeSettings'}
@@ -135,7 +151,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
       });
     }
     return result;
-  }, [deviceId, productId, realTimeData, authorityMap]);
+  }, [deviceId, productId, realTimeData, authorityMap, peakValleyData]);
 
   const onFinish = useCallback((formData) => {
     let PeriodOfTime = formData.PeriodOfTime;
@@ -169,7 +185,16 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           realTimeData?.peakShavingAndValleyFillingModeMaximumSOC,
         peakShavingAndValleyFillingModeLowestSOC:
           realTimeData?.peakShavingAndValleyFillingModeLowestSOC,
-        PeriodOfTime: parseToArray(realTimeData?.PeriodOfTime),
+        PeriodOfTime: parseToArray(realTimeData?.PeriodOfTime).map((item) => {
+          const timeFrame = item?.pcsRunningTimeFrame?.split?.('-') || [];
+          return {
+            ...item,
+            pcsRunningTimeFrame:
+              timeFrame.length > 1
+                ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
+                : [],
+          };
+        }),
       });
     }
   }, realTimeData);
@@ -288,7 +313,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           <></>
         )}
         <Detail.Group
-          data={realTimeData}
+          data={{ ...realTimeData, ...peakValleyData }}
           items={backupModeSetting}
           detailProps={{
             colon: false,

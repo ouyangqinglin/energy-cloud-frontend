@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-11-24 15:26:09
+ * @LastEditTime: 2023-11-29 10:39:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\index.tsx
  */
@@ -40,8 +40,6 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       mode: AuthorityModeEnum.Within,
     },
   );
-  realTimeData.emsSn = (deviceData.config && JSON.parse(deviceData.config)?.emsSn) || '';
-  realTimeData.paramConfigType = deviceData.paramConfigType;
 
   const items: TabsProps['items'] = [];
 

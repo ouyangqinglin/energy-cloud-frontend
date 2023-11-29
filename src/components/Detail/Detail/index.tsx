@@ -22,7 +22,6 @@ export type DetailItem = {
   show?: boolean;
   showExtra?: boolean;
   unit?: string;
-  parentField?: string;
 };
 
 export type DetailProps = DescriptionsProps & {

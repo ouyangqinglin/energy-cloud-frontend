@@ -16,6 +16,7 @@ import { useSubscribe } from '@/hooks';
 import { DeviceServicePageEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import Control from '@/components/Device/Control';
+import { isEmpty } from '@/utils';
 
 const oldControlProductIds: DeviceTypeEnum[] = [DeviceTypeEnum.Cabinet, DeviceTypeEnum.BWattAir];
 
@@ -23,7 +24,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);

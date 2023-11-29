@@ -13,12 +13,13 @@ import Stack from './Stack';
 import Cluster from './Cluster';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
+import { isEmpty } from '@/utils';
 
 const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);

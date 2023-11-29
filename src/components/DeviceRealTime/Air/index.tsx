@@ -14,12 +14,13 @@ import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
 import Button from '@/components/CollectionModal/Button';
 import { controlItems, statusItems } from './config';
+import { isEmpty } from '@/utils';
 
 const Air: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
 

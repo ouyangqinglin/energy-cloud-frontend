@@ -56,7 +56,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           return (
             <div className={styles.labelBox}>
               <Space wrap>
-                <div className={styles.label}>{item.label + ':'}</div>
+                <div className={styles.label}>{item.label}</div>
                 {item.btnParam.map((btnItem: any) => {
                   return (
                     <>

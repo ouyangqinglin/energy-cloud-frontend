@@ -11,21 +11,25 @@ import SchemaForm, { FormTypeEnum, SchemaFormProps } from '@/components/SchemaFo
 import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
-export type StackProps = SchemaFormProps & {
+
+export type ConfigModalType = Omit<SchemaFormProps, 'beforeSubmit'> & {
   deviceId: string;
   realTimeData?: Record<string, any>;
   columns: any;
   serviceId: string;
   title: string;
+  beforeSubmit?: (
+    data: RemoteSettingDataType<ProtectFormType['realTimeData']>,
+  ) => void | boolean | any;
 };
 
-const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId, columns, serviceId, title, ...restProps } = props;
+const ConfigModal: React.FC<ConfigModalType> = (props) => {
+  const { realTimeData, deviceId, columns, serviceId, title, beforeSubmit, ...restProps } = props;
   const [open, { set, setTrue }] = useBoolean(false);
   const [isEditing, { setFalse: setIsEditingFalse, setTrue: setIsEditingTrue }] = useBoolean(false);
   const [initialValues, setInitialValues] = useState<ProtectFormType['realTimeData']>();
 
-  const beforeSubmit = useCallback(
+  const onBeforeSubmit = useCallback(
     (formData: any) => {
       let result: RemoteSettingDataType<ProtectFormType['realTimeData']> = {
         deviceId,
@@ -55,7 +59,8 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           };
         }
       }
-      return result;
+      const submitResult = beforeSubmit?.(result);
+      return submitResult ?? result;
     },
     [deviceId, realTimeData, serviceId],
   );
@@ -88,7 +93,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           className={'distributeParameters'}
           initialValues={initialValues}
           editData={serviceId === 'report' ? editEquipConfig : editSetting}
-          beforeSubmit={beforeSubmit}
+          beforeSubmit={onBeforeSubmit}
           grid={true}
           colProps={{
             span: 12,
@@ -100,4 +105,4 @@ const SystemSetting: React.FC<StackProps> = (props) => {
   );
 };
 
-export default SystemSetting;
+export default ConfigModal;
