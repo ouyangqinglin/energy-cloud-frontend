@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-09-11 17:48:17
+ * @LastEditTime: 2023-11-30 15:51:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Image, Input, InputProps, Skeleton, message } from 'antd';
 import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
-import { useBoolean,useToggle } from 'ahooks';
+import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
 import { editDeviceInfo, getDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
@@ -20,13 +20,14 @@ import Dialog from '@/components/Dialog';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
-import DeviceNameDialog from './DeviceNameDialog'
+import DeviceNameDialog from './DeviceNameDialog';
 
 export type OverviewProps = {
   deviceId: string;
   introImg?: string;
   setLoading?: (loading: boolean) => void;
   onChange?: (value: Record<string, any>) => void;
+  onEditSuccess?: (value: Record<string, any>) => void;
   className?: string;
 };
 
@@ -34,12 +35,12 @@ type DeviceNameInfoType = {
   name?: string;
   showEdit?: boolean;
   status?: InputProps['status'];
-  masterSlaveMode:any; //判断是否为自研EMS
-  masterSlaveSystemName:any;
+  masterSlaveMode: any; //判断是否为自研EMS
+  masterSlaveSystemName: any;
 };
 
 const Overview: React.FC<OverviewProps> = (props) => {
-  const { deviceId, setLoading, onChange, introImg, className = '' } = props;
+  const { deviceId, setLoading, onChange, onEditSuccess, introImg, className = '' } = props;
 
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
@@ -47,8 +48,8 @@ const Overview: React.FC<OverviewProps> = (props) => {
     name: '',
     showEdit: false,
     status: '',
-    masterSlaveMode:'',
-    masterSlaveSystemName:'',
+    masterSlaveMode: '',
+    masterSlaveSystemName: '',
   });
 
   const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
@@ -67,9 +68,10 @@ const Overview: React.FC<OverviewProps> = (props) => {
     manual: true,
   });
 
-  const onEditNameClick = useCallback(() => {    
-    setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true }));//input输入框出现
-    if (deviceNameInfo.masterSlaveMode !==''&& deviceNameInfo.masterSlaveMode == 0) {//ems修改名字弹窗出现
+  const onEditNameClick = useCallback(() => {
+    setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现
+    if (deviceNameInfo.masterSlaveMode !== '' && deviceNameInfo.masterSlaveMode == 0) {
+      //ems修改名字弹窗出现
       setEditNameOpen(true);
       setEmsNameValues(deviceNameInfo);
     }
@@ -90,7 +92,9 @@ const Overview: React.FC<OverviewProps> = (props) => {
           if (data) {
             message.success('保存成功');
             setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
-            runGetDevice({ deviceId: deviceData?.deviceId });
+            runGetDevice({ deviceId: deviceData?.deviceId }).then((resData) => {
+              onEditSuccess?.(resData);
+            });
           }
         });
       } else {
@@ -109,23 +113,31 @@ const Overview: React.FC<OverviewProps> = (props) => {
     message.success('保存成功');
     runGetDevice({ deviceId: deviceId });
   }, []);
+
   //更新ems名字
   const onEditEmsNameSuccess = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
-    runGetDevice({ deviceId: deviceData?.deviceId });
+    runGetDevice({ deviceId: deviceData?.deviceId }).then((data) => {
+      onEditSuccess?.(data);
+    });
   }, [deviceData]);
-const beforeSubmitEditName = useCallback((params) => {
-   params.id = deviceData?.deviceId,
-   params.deviceId = deviceData?.deviceId;
-   return params;
-}, [deviceData]);
+
+  const beforeSubmitEditName = useCallback(
+    (params) => {
+      params.id = deviceData?.deviceId;
+      params.deviceId = deviceData?.deviceId;
+      return params;
+    },
+    [deviceData],
+  );
+
   useEffect(() => {
     setDeviceNameInfo({
       name: deviceData?.name,
       showEdit: false,
       status: '',
       masterSlaveMode: deviceData?.masterSlaveMode,
-      masterSlaveSystemName:deviceData?.masterSlaveSystemName
+      masterSlaveSystemName: deviceData?.masterSlaveSystemName,
     });
   }, [deviceData]);
 
@@ -134,7 +146,7 @@ const beforeSubmitEditName = useCallback((params) => {
     runGetDevice({ deviceId: deviceId }).finally(() => {
       setLoading?.(false);
     });
-  }, [deviceId, onChange]);
+  }, [deviceId]);
 
   const equipInfoItems = useMemo<DetailItem[]>(() => {
     return [
@@ -187,7 +199,7 @@ const beforeSubmitEditName = useCallback((params) => {
           onBlur={editName}
           onPressEnter={editName}
         />
-      );  
+      );
     } else {
       return (
         <>

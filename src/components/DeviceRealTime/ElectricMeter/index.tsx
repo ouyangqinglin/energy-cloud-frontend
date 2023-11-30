@@ -14,6 +14,7 @@ import Button from '@/components/CollectionModal/Button';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
 import styles from './index.less';
+import { isEmpty } from '@/utils';
 
 export type ElectricMeterType = DeviceRealTimeType & {
   label?: string;
@@ -24,7 +25,7 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
   const { id, productId, deviceData, loading, label = '市电负载', hideLineVoltage = false } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

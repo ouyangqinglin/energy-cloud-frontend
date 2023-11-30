@@ -37,6 +37,11 @@ export type DeviceTimeRangeType = {
   };
 };
 
+export type DeviceEnumType = {
+  type?: DeviceModelTypeEnum;
+  specs?: Record<string, any>;
+};
+
 export type DeviceDoubleType = {
   type?: DeviceModelTypeEnum;
   specs?: {
@@ -60,6 +65,7 @@ export type DeviceServiceModelType = {
     | DeviceDoubleType
     | DeviceStructType
     | DeviceTimeRangeType
+    | DeviceEnumType
     | {
         type?: DeviceModelTypeEnum;
         specs?: DeviceServiceModelType[];

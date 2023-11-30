@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-11-30 10:24:40
+ * @LastEditTime: 2023-11-30 11:41:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -10,22 +10,21 @@ import React, { memo, useCallback, useMemo, useState } from 'react';
 import {
   DeviceArrayType,
   DeviceDoubleType,
+  DeviceEnumType,
   DeviceServiceGroupType,
   DeviceServiceModelType,
   DeviceServiceType,
   DeviceStructType,
 } from '@/types/device';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
-import { DeviceModelTypeEnum, formatModelValue, parseToArray } from '@/utils';
+import { DeviceModelTypeEnum, formatModelValue, parseToArray, parseToObj } from '@/utils';
 import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button, TimePicker } from 'antd';
-import moment from 'moment';
+import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
-import { RemoteSettingDataType } from '../ConfigModal/config';
-import TimeRangePicker from '@/components/TimeRangePicker';
+import { TimeRangePicker, DateStamp } from '@/components/Time';
 
 export type ControlType = {
   deviceId: string;
@@ -57,6 +56,7 @@ const Control: React.FC<ControlType> = memo((props) => {
     (field: DeviceServiceModelType) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
+      let valueType: ProFormColumnsType['valueType'] = 'text';
       switch (field?.dataType?.type) {
         case DeviceModelTypeEnum.Array:
           const specsItem = (field?.dataType as DeviceArrayType)?.specs?.item || {};
@@ -105,7 +105,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           const items: DetailItem[] = [];
           const detailData: Record<string, any> = {};
-          const formData = fieldValue?.forEach?.((value, index) => {
+          const formData = fieldValue?.map?.((value, index) => {
             let transformValue = value;
             if (typeof transformValue != 'object' || Array.isArray(transformValue)) {
               transformValue = {
@@ -117,7 +117,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             )?.specs?.forEach?.((item) => {
               items.push({
                 field: (item?.id || '') + index,
-                label: item?.name,
+                label: (item?.name ?? '') + (index + 1),
                 span: item?.span || 3,
               });
               detailData[(item?.id || '') + index] = transformValue[item?.id || ''];
@@ -127,8 +127,9 @@ const Control: React.FC<ControlType> = memo((props) => {
           if (!items?.length) {
             items.push({
               field: 'arrayxxx',
-              label: ((field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)
-                ?.specs?.[0]?.name,
+              label:
+                ((field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.[0]
+                  ?.name + '1',
             });
           }
           detailItems.push(...items);
@@ -138,7 +139,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             [field?.id || '']: formData,
           }));
           break;
-        case DeviceModelTypeEnum.Double:
+        case DeviceModelTypeEnum.TimeRange:
           detailItems.push?.({
             field: field?.id || '',
             label: field?.name,
@@ -147,7 +148,92 @@ const Control: React.FC<ControlType> = memo((props) => {
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
-            valueType: 'digit',
+            valueType: 'timeRange',
+            formItemProps: {
+              validateTrigger: 'submit',
+              rules:
+                field?.required === false
+                  ? []
+                  : [
+                      {
+                        required: true,
+                        message: '请选择' + field?.name,
+                      },
+                    ],
+            },
+            renderFormItem: () => <TimeRangePicker />,
+          });
+          break;
+        case DeviceModelTypeEnum.Enum:
+        case DeviceModelTypeEnum.Boolean:
+          const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
+          detailItems.push?.({
+            field: field?.id || '',
+            label: field?.name,
+            format: (value) => formatModelValue(value, field?.dataType || {}),
+          });
+          columns.push({
+            title: field?.name,
+            dataIndex: field?.id,
+            valueType: 'select',
+            fieldProps: {
+              options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
+                value,
+                label,
+              })),
+            },
+            formItemProps: {
+              rules:
+                field?.required === false
+                  ? []
+                  : [
+                      {
+                        required: true,
+                        message: '请选择' + (field?.name ?? ''),
+                      },
+                    ],
+            },
+          });
+          break;
+        case DeviceModelTypeEnum.TimeStamp:
+          detailItems.push?.({
+            field: field?.id || '',
+            label: field?.name,
+            format: (value) => formatModelValue(value, field?.dataType || {}),
+          });
+          columns.push({
+            title: field?.name,
+            dataIndex: field?.id,
+            formItemProps: {
+              validateTrigger: 'submit',
+              rules:
+                field?.required === false
+                  ? []
+                  : [
+                      {
+                        required: true,
+                        message: '请选择' + field?.name,
+                      },
+                    ],
+            },
+            renderFormItem: () => <DateStamp />,
+          });
+          break;
+        case DeviceModelTypeEnum.Int:
+        case DeviceModelTypeEnum.Double:
+        case DeviceModelTypeEnum.Long:
+          valueType = 'digit';
+        case DeviceModelTypeEnum.String:
+        default:
+          detailItems.push?.({
+            field: field?.id || '',
+            label: field?.name,
+            format: (value) => formatModelValue(value, field?.dataType || {}),
+          });
+          columns.push({
+            title: field?.name,
+            dataIndex: field?.id,
+            valueType: valueType,
             fieldProps: (field?.dataType as DeviceDoubleType)?.specs?.unit
               ? {
                   addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
@@ -160,33 +246,6 @@ const Control: React.FC<ControlType> = memo((props) => {
                   : [{ required: true, message: '请输入' + field?.name }],
             },
           });
-          break;
-        case DeviceModelTypeEnum.TimeRange:
-          detailItems.push?.({
-            field: field?.id || '',
-            label: field?.name,
-            format: (value) => formatModelValue(value, field?.dataType || {}),
-          });
-          columns.push({
-            title: '时间段',
-            dataIndex: field?.id,
-            valueType: 'timeRange',
-            formItemProps: {
-              validateTrigger: 'submit',
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: '请选择时间段',
-                      },
-                    ],
-            },
-            renderFormItem: () => <TimeRangePicker className="w-full" format={'HH:mm'} />,
-          });
-          break;
-        default:
       }
       return {
         items: detailItems,

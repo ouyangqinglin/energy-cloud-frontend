@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\TimeRangePicker\index.tsx
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, memo } from 'react';
 import { TimePicker } from 'antd';
 import type { TimeRangePickerProps } from 'antd';
 import moment, { Moment } from 'moment';
@@ -18,8 +18,8 @@ export type TimeRangePickerType = Omit<TimeRangePickerProps, 'value' | 'onChange
   format?: string;
 };
 
-const TimeRangePicker: React.FC<TimeRangePickerType> = (props) => {
-  const { value, onChange, format = 'HH:mm' } = props;
+const TimeRangePicker: React.FC<TimeRangePickerType> = memo((props) => {
+  const { value, onChange, format = 'HH:mm', ...restProps } = props;
 
   const mergedValue = useMemo<any>(() => {
     const result = value?.split('-')?.map?.((item) => moment('2023-01-01 ' + item));
@@ -30,9 +30,12 @@ const TimeRangePicker: React.FC<TimeRangePickerType> = (props) => {
     }
   }, [value]);
 
-  const mergedOnChange = useCallback((params) => {
-    onChange?.(params?.map?.((item: Moment) => item.format(format)).join('-'));
-  }, []);
+  const mergedOnChange = useCallback(
+    (params) => {
+      onChange?.(params?.map?.((item: Moment) => item.format(format)).join('-'));
+    },
+    [onChange, format],
+  );
 
   return (
     <>
@@ -42,9 +45,10 @@ const TimeRangePicker: React.FC<TimeRangePickerType> = (props) => {
         order={true}
         format={format}
         onChange={mergedOnChange}
+        {...restProps}
       />
     </>
   );
-};
+});
 
 export default TimeRangePicker;

@@ -14,12 +14,13 @@ import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/ScreenDialog/YtCharge/RealTime';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import useDeviceModel from '../useDeviceModel';
+import { isEmpty } from '@/utils';
 
 const YTCharge: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

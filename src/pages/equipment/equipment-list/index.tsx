@@ -2,22 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-11-30 08:58:49
+ * @LastEditTime: 2023-11-30 15:40:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message, Badge } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { removeData, getTabs } from './service';
+import { removeData, unbindDevice } from './service';
 import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn, useSearchSelect } from '@/hooks';
+import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
@@ -37,6 +37,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
   });
+  const { authorityMap } = useAuthority([
+    'iot:siteManage:siteConfig:deviceManage:add',
+    'iot:siteManage:siteConfig:deviceManage:unbind',
+  ]);
 
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -94,20 +98,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const toolBar = useCallback(
-    () => [
-      <Button type="primary" key="add" onClick={onAddClick}>
-        <PlusOutlined />
-        <FormattedMessage id="common.add" defaultMessage="新建" />
-      </Button>,
-    ],
-    [],
+    () =>
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')
+        ? [
+            <Button type="primary" key="add" onClick={onAddClick}>
+              <PlusOutlined />
+              <FormattedMessage id="common.add" defaultMessage="新建" />
+            </Button>,
+          ]
+        : [],
+    [authorityMap],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
-      {record.canBeDeleted != 1 ? (
+      {!isStationChild && record.canBeDeleted == 1 ? (
         <Button
           type="link"
           size="small"
@@ -140,6 +147,45 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           }}
         >
           <FormattedMessage id="common.delete" defaultMessage="删除" />
+        </Button>
+      ) : (
+        <></>
+      )}
+      {isStationChild &&
+      record.canUnbind == 1 &&
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+        <Button
+          type="link"
+          size="small"
+          key="unbind"
+          onClick={() => {
+            Modal.confirm({
+              title: formatMessage({ id: 'common.unbind', defaultMessage: '解绑' }),
+              content: formatMessage({
+                id: 'equipmentList.unbindTips',
+                defaultMessage: '确定要解绑该设备吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+              onOk: () => {
+                return unbindDevice({ deviceId: record.deviceId }).then(({ data }) => {
+                  if (data) {
+                    message.success(
+                      formatMessage({ id: 'common.unbindSuccess', defaultMessage: '解绑成功' }),
+                    );
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                    return true;
+                  } else {
+                    return false;
+                  }
+                });
+              },
+            });
+          }}
+        >
+          <FormattedMessage id="common.unbind" defaultMessage="解绑" />
         </Button>
       ) : (
         <></>

@@ -55,6 +55,8 @@ export default {
   'common.not': 'Not',
   'common.all': 'All',
   'common.del': 'Successfully deleted',
+  'common.unbind': 'Unbind',
+  'common.unbindSuccess': 'Successfully unbind',
   'common.createTime': 'Create Time',
   'common.lastPer': 'Last updated by',
   'common.viewDetail': 'Detail',

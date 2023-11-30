@@ -13,12 +13,13 @@ import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
+import { isEmpty } from '@/utils';
 
 const EnergyCabinet: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

@@ -40,8 +40,11 @@ export type DeviceDataType = {
   config?: string;
   photos?: string;
   masterSlaveMode?: DeviceMasterMode;
+  masterSlaveSystemName?: string;
   networkStatus?: number;
   canBeDeleted?: number;
+  canUnbind?: number;
+  children?: DeviceDataType[];
 };
 export type EmsDevicesType = {
   deviceId: any;
@@ -100,6 +103,13 @@ export const editDeviceInfo = (data: DeviceDataType) => {
 
 export const getChildEquipment = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>(`/oss/device/subDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getWholeDeviceTree = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/es/deviceTree`, {
     method: 'GET',
     params,
   });

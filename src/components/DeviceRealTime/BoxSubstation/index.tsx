@@ -13,13 +13,14 @@ import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem } from '@/components/Detail';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
+import { isEmpty } from '@/utils';
 
 const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
   const { modelMap } = useDeviceModel({ productId });
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

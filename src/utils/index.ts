@@ -7,6 +7,7 @@ import FileSaver from 'file-saver';
 import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import { constant } from 'lodash';
+import moment from 'moment';
 
 export enum DeviceModelTypeEnum {
   Int = 'int',
@@ -18,6 +19,7 @@ export enum DeviceModelTypeEnum {
   Struct = 'struct',
   Array = 'array',
   TimeRange = 'timeRange',
+  TimeStamp = 'timestamp',
 }
 
 export type AntMenuProps = {
@@ -186,11 +188,14 @@ export const parseToArray = (value: string) => {
   return result;
 };
 
-export const parseToObj = (value: string): Record<string, any> => {
+export const parseToObj = (value: any): Record<string, any> => {
+  let result = {};
   if (typeof value === 'object') {
+    if (Array.isArray(value)) {
+      return result;
+    }
     return value;
   }
-  let result = {};
   try {
     result = JSON.parse(value + '');
     if (typeof result !== 'object' || Array.isArray(result)) {
@@ -222,6 +227,9 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
       result = value + specs?.unit;
+      break;
+    case DeviceModelTypeEnum.TimeStamp:
+      result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
       break;
     case DeviceModelTypeEnum.Boolean:
     case DeviceModelTypeEnum.Enum:
