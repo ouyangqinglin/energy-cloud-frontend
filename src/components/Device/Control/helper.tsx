@@ -48,26 +48,4 @@ export const timeRangeColumn: ProFormColumnsType = {
   colProps: {
     span: 24,
   },
-  columns: [
-    {
-      title: '时间段',
-      dataIndex: 'TimeFrame',
-      valueType: 'timeRange',
-      colProps: {
-        span: 24,
-      },
-      formItemProps: {
-        validateTrigger: 'submit',
-        rules: [
-          {
-            required: true,
-            message: '请选择时间段',
-          },
-        ],
-      },
-      renderFormItem: () => (
-        <TimePicker.RangePicker className="w-full" order={true} format={'HH:mm'} />
-      ),
-    },
-  ],
 };

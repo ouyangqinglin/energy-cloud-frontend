@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-09-08 17:58:58
+ * @LastEditTime: 2023-11-30 09:49:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -21,6 +21,8 @@ import { api } from '@/services';
 import { getProductModelByType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
+import { ProFormDependency } from '@ant-design/pro-components';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type EquipFormProps = {
   id?: string;
@@ -38,7 +40,6 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
   const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
-  // const [isShowEmsSn, setIsShowEmsSn] = useState(true);
 
   const { loading: getLoading, run: runGet } = useRequest(getData, {
     manual: true,
@@ -147,14 +148,6 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  // const requestConfigTypeByProductId = useCallback((productId) => {
-  //   if (productId == '66') {
-  //     setIsShowEmsSn(false);
-  //   } else {
-  //     setIsShowEmsSn(true);
-  //   }
-  // },[]);
-
   const onValuesChange = useCallback(({ productType, subsystemId, productId }) => {
     if (subsystemId) {
       requestProductType(subsystemId); //获取产品类型
@@ -165,9 +158,6 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       requestProductModel(productType); //获取产品型号
       form.setFieldValue('productId', undefined);
     }
-    // if (productId) {
-    //   requestConfigTypeByProductId(productId);
-    // }
   }, []);
 
   const getValueFromEvent = useCallback((e) => {
@@ -187,7 +177,6 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           requestProductModel(data?.productType);
         });
       }
-      //setIsShowEmsSn(true);
     }
   }, [open]);
 
@@ -285,25 +274,34 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
               },
             ]}
           />
-          <ProFormText
-            label={<FormattedMessage id="common.equipmentSerial" defaultMessage="设备SN" />}
-            name="sn"
-            rules={[
-              {
-                required: true,
-                message: formatMessage({
-                  id: 'common.pleaseEnterSn',
-                  defaultMessage: '请输入设备序列号',
-                }),
-              },
-            ]}
-          />
-          {/* <ProFormText
-            label={<FormattedMessage id='equipmentList.snForEms' defaultMessage="EMS 设备SN" />}
-            name="emsSn"
-            rules={[{ required: true}]}
-            hidden={isShowEmsSn}
-          /> */}
+          <ProFormDependency name={['productId']}>
+            {({ productId }) => {
+              return (
+                <ProFormText
+                  label={
+                    productId == DeviceTypeEnum.YTEnergy ? (
+                      <FormattedMessage
+                        id="common.equipmentEmsSerial"
+                        defaultMessage="ems设备序列号"
+                      />
+                    ) : (
+                      <FormattedMessage id="common.equipmentSerial" defaultMessage="设备序列号" />
+                    )
+                  }
+                  name="sn"
+                  rules={[
+                    {
+                      required: true,
+                      message: formatMessage({
+                        id: 'common.pleaseEnterSn',
+                        defaultMessage: '请输入设备序列号',
+                      }),
+                    },
+                  ]}
+                />
+              );
+            }}
+          </ProFormDependency>
           <ProFormUploadButton
             label={<FormattedMessage id="equipmentList.devicePhoto" defaultMessage="设备照片" />}
             name="photosList"

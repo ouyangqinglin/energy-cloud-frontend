@@ -23,6 +23,7 @@ export default {
   'common.deviceName': '设备名称',
   'common.deviceCode': '设备编码',
   'common.equipmentSerial': '设备序列号',
+  'common.equipmentEmsSerial': 'ems序列号',
   'common.currentVersion': '当前版本',
   'common.original': '原始版本',
   'common.siteName': '站点名称',

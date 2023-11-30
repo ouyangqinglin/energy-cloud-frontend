@@ -97,7 +97,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
         items: systemTimeItems,
       });
     }
-    if (authorityMap.get('iot:device:config:systemSetting:communiteParamsSetting')) {
+    if (false) {
       groupItems.push({
         label: (
           <Detail.Label title="通信参数设置">

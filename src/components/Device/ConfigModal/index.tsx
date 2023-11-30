@@ -12,20 +12,30 @@ import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
 
-export type ConfigModalType = Omit<SchemaFormProps, 'beforeSubmit'> & {
+export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
   deviceId: string;
   realTimeData?: Record<string, any>;
   columns: any;
   serviceId: string;
   title: string;
-  beforeSubmit?: (
-    data: RemoteSettingDataType<ProtectFormType['realTimeData']>,
-  ) => void | boolean | any;
+  beforeSubmit?: (data: RemoteSettingDataType<T>) => void | boolean | any;
+  showClickButton?: boolean;
 };
 
 const ConfigModal: React.FC<ConfigModalType> = (props) => {
-  const { realTimeData, deviceId, columns, serviceId, title, beforeSubmit, ...restProps } = props;
-  const [open, { set, setTrue }] = useBoolean(false);
+  const {
+    realTimeData,
+    deviceId,
+    columns,
+    serviceId,
+    title,
+    open,
+    showClickButton = true,
+    beforeSubmit,
+    onOpenChange,
+    ...restProps
+  } = props;
+  const [openSchemaForm, { set, setTrue }] = useBoolean(false);
   const [isEditing, { setFalse: setIsEditingFalse, setTrue: setIsEditingTrue }] = useBoolean(false);
   const [initialValues, setInitialValues] = useState<ProtectFormType['realTimeData']>();
 
@@ -67,8 +77,24 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
 
   const onClick = useCallback(() => {
     setTrue();
-    setIsEditingFalse();
   }, []);
+
+  const mergedOnOpenChange = useCallback(
+    (opened: boolean) => {
+      if (showClickButton) {
+        set(opened);
+      } else {
+        onOpenChange?.(opened);
+      }
+    },
+    [showClickButton],
+  );
+
+  useEffect(() => {
+    if (openSchemaForm || open) {
+      setIsEditingFalse();
+    }
+  }, [openSchemaForm, open]);
 
   useEffect(() => {
     if (!isEditing) {
@@ -79,13 +105,17 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
   return (
     <>
       <div>
-        <Button type="primary" onClick={onClick}>
-          配置参数
-        </Button>
+        {showClickButton ? (
+          <Button type="primary" onClick={onClick}>
+            配置参数
+          </Button>
+        ) : (
+          <></>
+        )}
         <SchemaForm
           onValuesChange={setIsEditingTrue}
-          open={open}
-          onOpenChange={set}
+          open={open || openSchemaForm}
+          onOpenChange={mergedOnOpenChange}
           title={title}
           width={'552px'}
           type={FormTypeEnum.Edit}

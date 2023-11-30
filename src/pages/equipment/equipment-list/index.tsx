@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-10-24 09:26:59
+ * @LastEditTime: 2023-11-30 08:58:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -107,37 +107,43 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
-      <Button
-        type="link"
-        size="small"
-        key="delete"
-        onClick={() => {
-          Modal.confirm({
-            title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
-            content: formatMessage({
-              id: 'equipmentList.deleteTips',
-              defaultMessage: '确定要删除该设备吗？',
-            }),
-            okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-            cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-            onOk: () => {
-              return removeData({ deviceId: record.deviceId }).then(({ data }) => {
-                if (data) {
-                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-                  if (actionRef.current) {
-                    actionRef.current.reload();
+      {record.canBeDeleted != 1 ? (
+        <Button
+          type="link"
+          size="small"
+          key="delete"
+          onClick={() => {
+            Modal.confirm({
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'equipmentList.deleteTips',
+                defaultMessage: '确定要删除该设备吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+              onOk: () => {
+                return removeData({ deviceId: record.deviceId }).then(({ data }) => {
+                  if (data) {
+                    message.success(
+                      formatMessage({ id: 'common.del', defaultMessage: '删除成功' }),
+                    );
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                    return true;
+                  } else {
+                    return false;
                   }
-                  return true;
-                } else {
-                  return false;
-                }
-              });
-            },
-          });
-        }}
-      >
-        <FormattedMessage id="common.delete" defaultMessage="删除" />
-      </Button>
+                });
+              },
+            });
+          }}
+        >
+          <FormattedMessage id="common.delete" defaultMessage="删除" />
+        </Button>
+      ) : (
+        <></>
+      )}
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {

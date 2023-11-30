@@ -239,7 +239,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   <Form.Item
                     name="peakShavingAndValleyFillingModeMaximumSOC"
                     label="最高SOC"
-                    rules={[{ required: true, message: '请输入值' }]}
+                    rules={[{ required: true, message: '请输入最高SOC' }]}
                   >
                     <InputNumber className="w-full" addonAfter="%" />
                   </Form.Item>
@@ -248,7 +248,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   <Form.Item
                     name="peakShavingAndValleyFillingModeLowestSOC"
                     label="最低SOC"
-                    rules={[{ required: true, message: '请输入值' }]}
+                    rules={[{ required: true, message: '请输入最低SOC' }]}
                   >
                     <InputNumber className="w-full" addonAfter="%" />
                   </Form.Item>
@@ -257,14 +257,14 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               <Form.List name="PeriodOfTime">
                 {(fields, { add, remove }) => (
                   <>
-                    {fields.map(({ key, name, ...restField }) => (
+                    {fields.map(({ key, name, ...restField }, index) => (
                       <Row>
                         <Col flex="25%">
                           <Form.Item
-                            label="时段1"
+                            label={'时段' + (index + 1)}
                             {...restField}
                             name={[name, 'pcsRunningTimeFrame']}
-                            //rules={[{ required: true, message: 'Missing first name' }]}
+                            rules={[{ required: true, message: '请选择时段' }]}
                           >
                             <TimePicker.RangePicker
                               className="w-full"
@@ -278,7 +278,12 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                           </Form.Item>
                         </Col>
                         <Col flex="25%">
-                          <Form.Item {...restField} name={[name, 'CorD']} label="充电模式">
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'CorD']}
+                            label="充电模式"
+                            rules={[{ required: true, message: '请选择充电模式' }]}
+                          >
                             <Select placeholder="请选择充电模式">
                               <Option value="0">放电</Option>
                               <Option value="1">充电</Option>
@@ -290,6 +295,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                             {...restField}
                             name={[name, 'executionPower']}
                             label="执行功率"
+                            rules={[{ required: true, message: '请输入执行功率' }]}
                           >
                             <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
                           </Form.Item>

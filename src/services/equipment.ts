@@ -41,6 +41,7 @@ export type DeviceDataType = {
   photos?: string;
   masterSlaveMode?: DeviceMasterMode;
   networkStatus?: number;
+  canBeDeleted?: number;
 };
 export type EmsDevicesType = {
   deviceId: any;

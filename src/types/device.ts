@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-11-27 16:41:02
+ * @LastEditTime: 2023-11-29 15:29:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
@@ -21,18 +21,19 @@ export type DevicePropsType = {
   properties?: DevicePropsType[];
 };
 
-export type DeviceTimeRangeType = {
-  type?: DeviceModelTypeEnum;
-  specs?: {
-    length: number;
-  };
-};
-
 export type DeviceArrayType = {
   type?: DeviceModelTypeEnum;
   specs?: {
     size?: number;
-    item?: DeviceTimeRangeType;
+    item?: DeviceTimeRangeType | DeviceStructType;
+    originalItem?: DeviceTimeRangeType | DeviceStructType;
+  };
+};
+
+export type DeviceTimeRangeType = {
+  type?: DeviceModelTypeEnum;
+  specs?: {
+    length: number;
   };
 };
 
@@ -44,13 +45,21 @@ export type DeviceDoubleType = {
   };
 };
 
+export type DeviceStructType = {
+  type?: DeviceModelTypeEnum;
+  specs?: DeviceServiceModelType[];
+};
+
 export type DeviceServiceModelType = {
   id?: string;
   name?: string;
   required?: boolean;
+  span?: number;
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType
+    | DeviceStructType
+    | DeviceTimeRangeType
     | {
         type?: DeviceModelTypeEnum;
         specs?: DeviceServiceModelType[];

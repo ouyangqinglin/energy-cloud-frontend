@@ -45,6 +45,7 @@ export default {
   'common.deviceName': 'Device Name',
   'common.deviceCode': 'Equipment Code',
   'common.equipmentSerial': 'Equipment serial number',
+  'common.equipmentEmsSerial': 'ems serial number',
   'common.currentVersion': 'Current Version',
   'common.original': 'Original Version',
   'common.siteName': 'Site Name',

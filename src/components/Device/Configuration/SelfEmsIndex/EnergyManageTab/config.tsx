@@ -24,7 +24,7 @@ export const manaulParamsItems: DetailItem[] = [
 export const backupModeItems: DetailItem[] = [
   {
     label: '充电功率',
-    field: 'BackupChargePower',
+    field: 'BackupChargingPower',
     format: powerFormat,
   },
   {
@@ -46,7 +46,7 @@ export const backupModeItems: DetailItem[] = [
 export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: '充电功率',
-    dataIndex: 'BackupChargePower',
+    dataIndex: 'BackupChargingPower',
     valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入充电功率' }],
@@ -134,6 +134,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
+    formItemProps: {
+      rules: [{ required: true, message: '请输入尖电价' }],
+    },
   },
   {
     title: '峰电价',
@@ -142,6 +145,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
+    },
+    formItemProps: {
+      rules: [{ required: true, message: '请输入峰电价' }],
     },
   },
   {
@@ -152,6 +158,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       placeholder: '请输入',
       addonAfter: '元/kWh',
     },
+    formItemProps: {
+      rules: [{ required: true, message: '请输入平电价' }],
+    },
   },
   {
     title: '谷电价',
@@ -160,6 +169,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     fieldProps: {
       placeholder: '请输入',
       addonAfter: '元/kWh',
+    },
+    formItemProps: {
+      rules: [{ required: true, message: '请输入谷电价' }],
     },
   },
   {
