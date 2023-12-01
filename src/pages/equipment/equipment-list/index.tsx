@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 10:51:29
+ * @LastEditTime: 2023-12-01 15:42:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -40,6 +40,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { authorityMap } = useAuthority([
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',
+    'iot:device:add',
   ]);
 
   const requestProductType = useCallback((searchParams: SearchParams) => {
@@ -75,8 +76,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const onAddClick = useCallback(() => {
     if (isStationChild) {
       setSnOpen(true);
+    } else {
+      setOpen(true);
     }
-    setOpen(true);
   }, []);
 
   const onDetailClick = useCallback(
@@ -99,7 +101,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   const toolBar = useCallback(
     () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
+      authorityMap.get('iot:device:add')
         ? [
             <Button type="primary" key="add" onClick={onAddClick}>
               <PlusOutlined />
