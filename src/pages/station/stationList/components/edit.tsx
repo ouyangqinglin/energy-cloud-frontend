@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-10-23 17:46:23
+ * @LastEditTime: 2023-12-01 11:13:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -199,6 +199,17 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 defaultMessage: '安装商',
               })}
               name="orgs"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                    formatMessage({
+                      id: 'siteManage.siteList.installer',
+                      defaultMessage: '安装商',
+                    }),
+                },
+              ]}
             >
               <TableSelect
                 tableId="orgId"

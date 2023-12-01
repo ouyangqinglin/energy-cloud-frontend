@@ -23,10 +23,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
   }, [run, siteId]);
 
   useEffect(() => {
-    if (data?.photos) {
-      const photoArr = data.photos?.split(',');
-      setPhotos(photoArr);
-    }
+    setPhotos(data?.photos?.split?.(',') ?? []);
   }, [data]);
 
   const getAlarm = (alarmKey?: number) => {

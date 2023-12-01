@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 09:14:51
+ * @LastEditTime: 2023-12-01 10:51:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -199,9 +199,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 150,
+        width: 200,
         ellipsis: true,
-        resizable: true,
       },
       {
         title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
@@ -209,7 +208,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         width: 120,
         ellipsis: true,
         hideInSearch: true,
-        resizable: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
@@ -227,7 +225,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
         dataIndex: 'productTypeName',
-        width: 150,
+        width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
@@ -272,7 +270,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 150,
+        width: 120,
         fixed: 'right',
         render: rowBar,
       },

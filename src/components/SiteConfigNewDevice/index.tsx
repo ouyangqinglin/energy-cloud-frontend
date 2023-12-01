@@ -132,7 +132,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
       content.push(
         <Descriptions.Item
           label={item.label}
-          span={8}
+          span={12}
           key={index}
           contentStyle={{ fontSize: '15px' }}
           labelStyle={{ fontSize: '15px' }}
@@ -154,7 +154,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
             ? formatMessage({ id: 'common.add', defaultMessage: '新建' })
             : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
         }
-        width="600px"
+        width="552px"
         onCancel={onCancel}
         onOk={triggerSubmit}
         confirmLoading={getLoading || editLoading || addLoading}

@@ -2,18 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-09-08 17:58:58
+ * @LastEditTime: 2023-12-01 11:03:03
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\deviceSn\index.tsx
  */
 import React, { useState, useCallback } from 'react';
 import { Form, Modal } from 'antd';
 import { useRequest, useModel } from 'umi';
 import Dialog from '@/components/Dialog';
-import { ProForm, ProFormText} from '@ant-design/pro-form';
-import { formatMessage } from '@/utils'
+import { ProForm, ProFormText } from '@ant-design/pro-form';
+import { formatMessage } from '@/utils';
 import SiteConfigNewDevice from '@/components/SiteConfigNewDevice';
-import {getDeviceBySn} from './service'
+import { getDeviceBySn } from './service';
 
 export type DeviceSnProps = {
   id?: string;
@@ -25,10 +25,10 @@ export type DeviceSnProps = {
   initialValues?: Record<string, any>;
 };
 export type EquipFormType = {
-    sn?: string;
+  sn?: string;
 };
 const DeviceSn: React.FC<DeviceSnProps> = (props) => {
-  const { id, model, open, onCancel,  onSuccess, isStationChild, initialValues } = props;
+  const { id, model, open, onCancel, onSuccess, isStationChild, initialValues } = props;
   const [openDeviceDetail, setOpenDeviceDetail] = useState(false);
   const [descValues, setDescValues] = useState({});
   const [form] = Form.useForm<EquipFormType>();
@@ -36,31 +36,20 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
   const triggerSubmit = () => {
     form.submit();
   };
-  const onViewDetailDialog = useCallback(() => {
-    Modal.confirm({
-      title: <strong>温馨提示</strong>,
-      content: '添加成功' ,
-      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认'}),
-      cancelText: '',
-      onOk: () => {
-        setOpenDeviceDetail(true);//打开设备详情弹窗
+
+  const onFinish = useCallback((formData: EquipFormType) => {
+    return getDeviceBySn(formData).then((res) => {
+      if (res.code === 200) {
+        props.onCancel(); //调用父组件的方法
+        setOpenDeviceDetail(true); //打开设备详情弹窗
+        setDescValues(res?.data);
+      } else {
+        //message.error(res.msg || '绑定设备失败');
       }
     });
   }, []);
-  const onFinish = useCallback((formData: EquipFormType) => {
-    return getDeviceBySn(formData).then((res) => {
-        if (res.code === 200) {
-          //打开确定弹窗
-          onViewDetailDialog();
-          props.onCancel();//调用父组件的方法
-          setDescValues(res?.data);
-        } else {
-           //message.error(res.msg || '绑定设备失败'); 
-        }
-      });
-  }, []);
 
-const onSwitchOpen = useCallback(() => {
+  const onSwitchOpen = useCallback(() => {
     setOpenDeviceDetail((data) => !data);
   }, []);
 
@@ -69,7 +58,7 @@ const onSwitchOpen = useCallback(() => {
       <Dialog
         model={model}
         open={open}
-        title={ '新增设备' }
+        title={'新增设备'}
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
@@ -86,7 +75,7 @@ const onSwitchOpen = useCallback(() => {
             span: 24,
           }}
           initialValues={initialValues}
-        >  
+        >
           <ProFormText
             name="sn"
             label={'设备sn'}
@@ -94,9 +83,7 @@ const onSwitchOpen = useCallback(() => {
             rules={[
               {
                 required: true,
-                message: (
-                    "请输入设备sn"
-                ),
+                message: '请输入设备sn',
               },
             ]}
           />
@@ -109,7 +96,7 @@ const onSwitchOpen = useCallback(() => {
         onSuccess={onSuccess}
         descValues={descValues}
         isStationChild={isStationChild}
-       />
+      />
     </>
   );
 };
