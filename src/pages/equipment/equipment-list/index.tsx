@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-11-30 15:40:03
+ * @LastEditTime: 2023-12-01 09:14:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -114,7 +114,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
-      {!isStationChild && record.canBeDeleted == 1 ? (
+      {!isStationChild && record.canBeDeleted !== 0 ? (
         <Button
           type="link"
           size="small"
@@ -199,8 +199,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 120,
+        width: 150,
         ellipsis: true,
+        resizable: true,
       },
       {
         title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
@@ -208,6 +209,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         width: 120,
         ellipsis: true,
         hideInSearch: true,
+        resizable: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),

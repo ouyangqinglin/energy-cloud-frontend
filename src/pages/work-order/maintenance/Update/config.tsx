@@ -140,7 +140,7 @@ export const Columns: (
             },
           ],
           request: (params: Record<string, any>) => {
-            return getServiceProviderList({ siteId: siteId })?.then(({ data }) => {
+            return getServiceProviderList({ siteId: siteId, ...params })?.then(({ data }) => {
               return {
                 data: data?.list,
                 total: data?.total,

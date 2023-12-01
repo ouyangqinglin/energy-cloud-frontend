@@ -56,7 +56,7 @@ const Detail: React.FC<DetailProps> = (props) => {
         let extralNode = <></>;
         if (extral) {
           extralNode = cloneElement(extral, {
-            onClick: () => extral.props?.onClick?.(item, data[item.field]),
+            onClick: () => extral.props?.onClick?.(item, data[item.field], data),
           });
         }
         content.push(
