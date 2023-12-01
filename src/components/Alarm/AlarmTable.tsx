@@ -24,7 +24,7 @@ import { debounce } from 'lodash';
 import type { OptionType } from '@/types';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import eventBus from '@/utils/eventBus';
 
 export enum PageTypeEnum {
@@ -222,7 +222,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const columns = useMemo<ProColumns<AlarmType>[]>(() => {
     return [
       {
-        title: '序号',
+        title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
         dataIndex: 'index',
         valueType: 'index',
         width: 50,
@@ -231,7 +231,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         ? []
         : [
             {
-              title: '站点名称',
+              title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
               dataIndex: 'siteName',
               valueType: 'select',
               render: (_, record) => {
@@ -267,7 +267,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: '设备名称',
+        title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
@@ -283,7 +283,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: isStationChild,
       },
       {
-        title: '站点名称',
+        title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
         dataIndex: 'siteName',
         width: 120,
         ellipsis: true,

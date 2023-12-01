@@ -24,8 +24,11 @@ import system from './zh-CN/system';
 import index from './zh-CN/index'; //首页
 import upgradeManage from './zh-CN/upgradeManage'; //升级管理
 import siteManage from './zh-CN/siteManage';
+import siteMonitor from './zh-CN/siteMonitor';
 import equipmentList from './zh-CN/equipmentList';//设备列表
 import taskManage from './zh-CN/taskManage';//任务管理
+import device from './zh-CN/device';
+import dataManage from './zh-CN/dataManage';
 
 export default {
   'navBar.lang': '语言',
@@ -64,4 +67,7 @@ export default {
   ...server,
   ...onlineUser,
   ...siteManage,
+  ...siteMonitor,
+  ...device,
+  ...dataManage,
 };

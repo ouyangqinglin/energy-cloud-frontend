@@ -13,4 +13,8 @@ export default {
   'system.Notice.update_time': 'Update Time',
   'system.Notice.remark': 'Remark',
 	'system.Notice.modify': 'Edit',
+  'system.Notice.select_status': 'Please select status',
+  'system.Notice.select_energy_flow_diagram': 'Please select the energy flow diagram',
+  'system.Notice.message_notification': 'Message notification',
+
 };

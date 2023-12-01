@@ -15,6 +15,7 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 const Alarm: React.FC = (props) => {
   const [open, setOpen] = useState(false);
@@ -37,27 +38,27 @@ const Alarm: React.FC = (props) => {
   }, []);
 
   const detailItems: DetailItem[] = [
-    { label: '操作时间', field: 'operTime' },
-    { label: '操作人', field: 'operName' },
-    { label: '设置模块', field: 'setSection' },
-    { label: '设置内容', field: 'operParam' },
+    { label: formatMessage({ id: 'common.lastOperationTime', defaultMessage: '最后操作时间' }), field: 'operTime' },
+    { label: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }), field: 'operName' },
+    { label: formatMessage({ id: 'siteManage.set.setModule', defaultMessage: '设置模块' }), field: 'setSection' },
+    { label: formatMessage({ id: 'siteManage.set.setContent', defaultMessage: '设置内容' }), field: 'operParam' },
   ];
 
   const columns: ProColumns<AlarmType>[] = [
     {
-      title: '序号',
+      title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',
       valueType: 'index',
       width: 50,
     },
     {
-      title: '设置模块',
+      title: formatMessage({ id: 'siteManage.set.setModule', defaultMessage: '设置模块' }),
       dataIndex: 'setSection',
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '更新时间',
+      title: formatMessage({ id: 'common.updatedTime', defaultMessage: '更新时间' }),
       dataIndex: 'operTime',
       valueType: 'dateRange',
       render: (_, record) => record.operTime,
@@ -71,7 +72,7 @@ const Alarm: React.FC = (props) => {
       },
     },
     {
-      title: '操作人',
+      title: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
       dataIndex: 'operName',
       ellipsis: true,
     },
@@ -93,7 +94,7 @@ const Alarm: React.FC = (props) => {
       />
       <DetailDialog
         width="500px"
-        title="设置详情"
+        title={formatMessage({ id: 'common.setDetails', defaultMessage: '设置详情' })}
         open={open}
         onCancel={switchOpen}
         detailProps={{

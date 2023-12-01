@@ -4,27 +4,28 @@ import { ReactComponent as IconMarketElectric } from '@/assets/image/station/ove
 import { ReactComponent as IconPhotovoltaic } from '@/assets/image/station/overview/icon_光伏1.svg';
 import type { Load, StoredEnergy } from './type';
 import { keepTwoDecimalWithoutNull } from '../helper';
+import { formatMessage } from '@/utils';
 
 export const config = [
   {
     icon: IconPhotovoltaic,
-    title: '光伏',
+    title: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
     field: 'photovoltaic',
     statistics: [
       {
-        label: '当日发电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.dayPowerGeneration', defaultMessage: '当日发电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'charge',
         value: '1366.8',
       },
       {
-        label: '自发自用电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.SelfGeneratedElectriConsumption', defaultMessage: '自发自用电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'selfElec',
         value: '0',
       },
       {
-        label: '发电功率(kW)',
+        label: `${formatMessage({ id: 'siteMonitor.generatingCapacity', defaultMessage: '发电功率' })}(kW)`,
         labelUnit: '/kW',
         field: 'power',
         value: '210.03',
@@ -33,22 +34,22 @@ export const config = [
   },
   {
     icon: IconEnergyStorage,
-    title: '储能',
+    title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
     field: 'storedEnergy',
     statistics: [
       {
-        label: '当日充/放电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.Charge/dischargeDaily', defaultMessage: '当日充/放电量' })}(kWh)`,
         labelUnit: '/kWh',
         value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,
       },
       {
-        label: '剩余电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.dumpEnergy', defaultMessage: '剩余电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'dischargeableCapacity',
         // value: '164.92',
       },
       {
-        label: '储能功率(kW)',
+        label: `${formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' })}(kW)`,
         labelUnit: '/kW',
         field: 'power',
         // value: '1083.4/968.3',
@@ -58,23 +59,23 @@ export const config = [
   },
   {
     icon: IconMarketElectric,
-    title: '市电',
+    title: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
     field: 'electricSupply',
     statistics: [
       {
-        label: '当日供电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.dayPowerSupply', defaultMessage: '当日供电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'charge',
         value: '14024.9',
       },
       {
-        label: '当日馈网电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.dayGridPowerSupply', defaultMessage: '当日馈网电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'discharge',
         value: '0',
       },
       {
-        label: '市电功率(kW)',
+        label: `${formatMessage({ id: 'siteMonitor.mainsPower', defaultMessage: '市电功率' })}(kW)`,
         labelUnit: '/kW',
         field: 'power',
         value: '462.46',
@@ -83,29 +84,29 @@ export const config = [
   },
   {
     icon: IconLoad,
-    title: '负载',
+    title: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
     field: 'load',
     statistics: [
       {
-        label: '当日用电量(kWh)',
+        label: `${formatMessage({ id: 'siteMonitor.dayPowerConsumption', defaultMessage: '当日用电量' })}(kWh)`,
         labelUnit: '/kWh',
         field: 'charge',
         value: '15286.43',
       },
       {
-        label: '·充电桩/其他(kWh)',
+        label: `·${formatMessage({ id: 'siteMonitor.chargingPileOther', defaultMessage: '充电桩/其他' })}(kWh)`,
         labelUnit: '/kWh',
         value: (entity: Load) =>
           `${entity?.chargingPileCharge ?? ''} / ${entity?.otherLoadCharge ?? ''}`,
       },
       {
-        label: '用电功率(kW)',
+        label: `${formatMessage({ id: 'siteMonitor.powerConsumption', defaultMessage: '用电功率' })}(kW)`,
         labelUnit: '/kW',
         field: 'power',
         value: '15286.43',
       },
       {
-        label: '·充电桩/其他(kW)',
+        label: `·${formatMessage({ id: 'siteMonitor.chargingPileOther', defaultMessage: '充电桩/其他' })}(kW)`,
         labelUnit: '/kW',
         value: (entity: Load) =>
           `${entity?.chargingPilePower ?? ''} / ${entity?.otherLoadPower ?? ''}`,

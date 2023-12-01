@@ -8,6 +8,7 @@ import styles from './index.less';
 import { floor, isFunction } from 'lodash';
 import { Popover } from 'antd';
 import { PvPanelVoList } from '../../type';
+import { formatMessage } from '@/utils';
 
 const enum PVStatus {
   NOT = 0,
@@ -16,32 +17,32 @@ const enum PVStatus {
 
 const promptColumns = [
   {
-    label: '编号：',
+    label: formatMessage({ id: 'siteMonitor.numberCode', defaultMessage: '编号' })+'：',
     value: '#01-06',
     field: 'serialNumber',
   },
   {
-    label: '逆变器接口：',
+    label: formatMessage({ id: 'siteMonitor.inverterInterface', defaultMessage: '逆变器接口' })+'：',
     value: 'PV6',
     field: 'inverterPort',
   },
   {
-    label: '电压：',
+    label: formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' })+'：',
     value: '550.3',
     unit: 'V',
     field: 'voltage',
   },
   {
-    label: '电流：',
+    label: formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流' })+'：',
     value: '3.11',
     unit: 'A',
     field: 'current',
   },
   {
-    label: '状态：',
+    label: formatMessage({ id: '状态', defaultMessage: '状态'})+'：',
     value: '3.11',
     unit: 'A',
-    render: (data: PvPanelVoList) => (data.status > 0 ? '正常发电' : '未发电'),
+    render: (data: PvPanelVoList) => (data.status > 0 ? formatMessage({ id: 'siteMonitor.normalGeneration', defaultMessage: '正常发电'}) : formatMessage({ id: 'siteMonitor.notGeneratingElectricity', defaultMessage: '未发电'})),
   },
 ];
 

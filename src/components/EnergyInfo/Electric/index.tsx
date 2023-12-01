@@ -15,10 +15,11 @@ import { getElectic } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
+import { formatMessage } from '@/utils';
 
 const typeMap = [
-  { value: chartTypeEnum.Month, label: '月' },
-  { value: chartTypeEnum.Year, label: '年' },
+  { value: chartTypeEnum.Month, label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }) },
+  { value: chartTypeEnum.Year, label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }) },
 ];
 export enum EnergySourceEnum {
   SiteMonitor,
@@ -35,7 +36,7 @@ const Electric: React.FC<ComProps> = (props) => {
   const chartOption = useMemo(() => {
     return {
       yAxis: {
-        name: '单位（kWh）',
+        name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
       },
       series: [
         {
@@ -68,11 +69,11 @@ const Electric: React.FC<ComProps> = (props) => {
       }).then((data) => {
         const result: TypeChartDataType[] = [];
         result.push({
-          name: '总充电量',
+          name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
           data: data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
         });
         result.push({
-          name: '总放电量',
+          name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
           data: data?.discharge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
         });
         setChartData(result);
@@ -97,7 +98,7 @@ const Electric: React.FC<ComProps> = (props) => {
           <>
             <div className="flex mb16">
               <label className={`flex1 ${styles.label}`}>
-                {source == EnergySourceEnum.SiteMonitor ? '储能单元充放电趋势' : '储能充放电趋势'}
+                {source == EnergySourceEnum.SiteMonitor ? formatMessage({ id: 'siteMonitor.chargeTrendUnit', defaultMessage: '储能单元充放电趋势' }) : formatMessage({ id: 'siteMonitor.chargeTrend', defaultMessage: '储能充放电趋势' })}
               </label>
               <Select
                 className="mr8"

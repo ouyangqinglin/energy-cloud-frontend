@@ -11,7 +11,7 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Stack from './Stack';
 import Cluster from './Cluster';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { useSubscribe } from '@/hooks';
 
 const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {

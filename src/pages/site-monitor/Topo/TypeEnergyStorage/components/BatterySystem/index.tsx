@@ -3,6 +3,7 @@ import { Handle, Position } from 'reactflow';
 import BoxText from '../../../components/BoxText';
 import type { ExtraNodeData } from '../../../type';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 const BatterySystem = ({ data }: { data: ExtraNodeData }) => {
   const { width = 80, height = 600 } = data;
   return (
@@ -22,7 +23,7 @@ const BatterySystem = ({ data }: { data: ExtraNodeData }) => {
             border: '1px solid #00B42A',
             background: '#fff',
           }}
-          label={'电池系统'}
+          label={formatMessage({ id: 'siteMonitor.batterySystem', defaultMessage: '电池系统'})}
         />
       </div>
       <Handle

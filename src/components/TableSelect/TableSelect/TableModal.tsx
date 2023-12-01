@@ -15,6 +15,7 @@ import { defaultsDeep, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import { ProTableProps } from '@ant-design/pro-components';
+import {formatMessage} from "@/utils";
 
 export type TableModalProps<V, T, U> = {
   title?: string;
@@ -127,8 +128,8 @@ const TableModal = <
       return (
         <>
           <div className="flex mb8">
-            <span className="flex1">已选择{selectedTags?.length || 0}项</span>
-            <a onClick={onCleanSelected}>清空</a>
+            <span className="flex1">{formatMessage({ id: 'component.noticeIcon.selected', defaultMessage: '已选择' })}{selectedTags?.length || 0}{formatMessage({ id: 'component.noticeIcon.item', defaultMessage: '项' })}</span>
+            <a onClick={onCleanSelected}>{formatMessage({ id: 'component.noticeIcon.clear', defaultMessage: '清空' })}</a>
           </div>
           <div>
             <div className={`flex1 ${styles.tagContain}`}>{tags}</div>

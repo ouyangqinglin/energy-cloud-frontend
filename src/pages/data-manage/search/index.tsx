@@ -11,6 +11,7 @@ import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 
 type DeviceMapDataType = {
   sn: string;
@@ -195,7 +196,7 @@ const Search: React.FC<SearchProps> = (props) => {
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}
-          headerTitle="采样明细"
+          headerTitle={formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' })}
           toolBarRenderOptions={{
             add: {
               show: false,

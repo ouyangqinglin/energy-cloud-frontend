@@ -10,10 +10,11 @@ import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import { useSubscribe } from '@/hooks';
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
 import Button from '@/components/CollectionModal/Button';
 import { controlItems, statusItems } from './config';
+import { formatMessage } from '@/utils';
 
 const Air: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
@@ -50,11 +51,11 @@ const Air: React.FC<DeviceRealTimeType> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="控制信息" />,
+        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.controlInformation', defaultMessage: '控制信息'})} />,
         items: controlItems,
       },
       {
-        label: <Detail.Label title="状态信息" />,
+        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.statusInformation', defaultMessage: '状态信息'})} />,
         items: statusItems,
       },
     ];

@@ -14,6 +14,7 @@ import SiteLabel from '@/components/SiteLabel';
 import { SiteDataType } from '@/services/station';
 import { getEnergeListBySite } from '@/services/equipment';
 import { getGroupList } from './service';
+import { formatMessage } from '@/utils';
 
 const Index: React.FC = () => {
   const [siteData, setSiteData] = useState<SiteDataType>();
@@ -60,7 +61,7 @@ const Index: React.FC = () => {
   return (
     <>
       <div className="p24">
-        <SiteLabel onChange={onChange}> 储能单元</SiteLabel>
+        <SiteLabel onChange={onChange}> {formatMessage({ id: 'siteMonitor.energyStorageUnit', defaultMessage: '储能单元' })}</SiteLabel>
         <Stat siteId={siteData?.id} className="mb24" />
         <EnergyInfo
           deviceData={energeList?.[0]}

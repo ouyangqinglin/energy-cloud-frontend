@@ -1,17 +1,18 @@
+import { formatMessage } from '@/utils';
 import {
   alarmStatus,
   chargingAndDischargingStatus,
-  onlineStatus,
   systemMode,
   workStatus,
-} from '@/utils/dictionary';
-import { runningState } from '@/utils/dict';
+  runningState,
+  onlineStatus
+} from '@/utils/dict';
 
 // 其他设备
 export const getOtColumns = (onClick) => {
   return [
     {
-      title: '设备名称',
+      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
       width: 120,
       ellipsis: true,
@@ -20,27 +21,27 @@ export const getOtColumns = (onClick) => {
       },
     },
     {
-      title: '设备编码',
+      title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
       dataIndex: 'deviceId',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '设备序列号',
+      title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
       dataIndex: 'sn',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '所属站点',
+      title: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),
       dataIndex: 'siteName',
       hideInSearch: true,
       width: 120,
       ellipsis: true,
     },
     {
-      title: '通信状态',
+      title: formatMessage({ id: 'siteMonitor.communicationStatus', defaultMessage: '通信状态' }),
       dataIndex: 'connectStatus',
       render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
       valueType: 'select',
@@ -48,7 +49,7 @@ export const getOtColumns = (onClick) => {
       width: 120,
     },
     {
-      title: '告警状态',
+      title: formatMessage({ id: 'siteMonitor.alarmStatus', defaultMessage: '告警状态' }),
       dataIndex: 'alarmStatus',
       valueType: 'select',
       hideInSearch: true,
@@ -61,7 +62,7 @@ export const getOtColumns = (onClick) => {
 // ems
 export const EMScolumns = [
   {
-    title: '系统模式',
+    title: formatMessage({ id: 'siteMonitor.systemModel', defaultMessage: '系统模式' }),
     dataIndex: 'systemMode',
     valueEnum: systemMode,
     hideInSearch: true,
@@ -73,7 +74,7 @@ export const EMScolumns = [
 // 储能
 export const ESColumns = [
   {
-    title: '工作状态',
+    title: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
     dataIndex: 'workStatus',
     valueEnum: workStatus,
     hideInSearch: true,
@@ -81,14 +82,14 @@ export const ESColumns = [
     ellipsis: true,
   },
   {
-    title: '额定功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.ratedPower', defaultMessage: '额定功率' }) + '（kW）',
     dataIndex: 'energyStoragePower',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '当前功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.currentPower', defaultMessage: '当前功率' }) + '（kW）',
     dataIndex: 'power',
     hideInSearch: true,
     width: 150,
@@ -99,7 +100,7 @@ export const ESColumns = [
 // batterStack电池堆
 export const BSColumns = [
   {
-    title: '充放状态',
+    title: formatMessage({ id: 'siteMonitor.chargingAndDischargingStatus', defaultMessage: '充放状态' }),
     dataIndex: 'chargingAndDischargingStatus',
     valueEnum: chargingAndDischargingStatus,
     hideInSearch: true,
@@ -107,14 +108,14 @@ export const BSColumns = [
     ellipsis: true,
   },
   {
-    title: '额定容量（kWh）',
+    title: formatMessage({ id: 'siteMonitor.ratedCapacity', defaultMessage: '额定容量' }) + '（kWh）',
     dataIndex: 'ratedCapacity',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '当前SOC',
+    title: formatMessage({ id: 'common.current', defaultMessage: '当前' }) + 'SOC',
     dataIndex: 'soc',
     hideInSearch: true,
     width: 150,
@@ -124,14 +125,14 @@ export const BSColumns = [
 
 export const PVInverterColumns = [
   {
-    title: '发电组串数',
+    title: formatMessage({ id: 'siteMonitor.numberGeneratingSets', defaultMessage: '发电组串数' }),
     dataIndex: 'generatingElectricityPv',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '运行状态',
+    title: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
     dataIndex: 'runningState',
     hideInSearch: true,
     valueEnum: runningState,
@@ -139,21 +140,21 @@ export const PVInverterColumns = [
     ellipsis: true,
   },
   {
-    title: '组件总容量（kWp）',
+    title: formatMessage({ id: 'siteMonitor.totalComponentCapacity', defaultMessage: '组件总容量' }) + '（kWp）',
     dataIndex: 'totalCapacityOfComponents',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '额定功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.ratedPower', defaultMessage: '额定功率' }) + '（kW）',
     dataIndex: 'energyStoragePower',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '当前功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.currentPower', defaultMessage: '当前功率' }) + '（kW）',
     dataIndex: 'power',
     hideInSearch: true,
     width: 150,
@@ -164,21 +165,21 @@ export const PVInverterColumns = [
 // 充电桩
 export const CSColumns = [
   {
-    title: '额定功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.ratedPower', defaultMessage: '额定功率' }) + '（kW）',
     dataIndex: 'energyStoragePower',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '当前功率（kW）',
+    title: formatMessage({ id: 'siteMonitor.currentPower', defaultMessage: '当前功率' }) + '（kW）',
     dataIndex: 'power',
     hideInSearch: true,
     width: 150,
     ellipsis: true,
   },
   {
-    title: '今日充电量（kWh）',
+    title: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }) + '（kWh）',
     dataIndex: 'todayCharge',
     hideInSearch: true,
     width: 150,

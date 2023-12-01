@@ -13,15 +13,16 @@ import { Row, Col, Card, Badge, Skeleton } from 'antd';
 import { getStat } from '../service';
 import styles from '../index.less';
 import { ComProps } from '../type';
+import { formatMessage } from '@/utils';
 
 const statOptions = [
-  { title: '额定容量（kW/kWh）', field: 'ratedOutputPower', extralField: 'ratedCapacity' },
-  { title: '当日充电量（kWh）', field: 'todayCharge' },
-  { title: '当日放电量（kWh）', field: 'todayDischarge' },
-  { title: '累计充电量（kWh）', field: 'totalCharge' },
-  { title: '累计放电量（kWh）', field: 'totalDischarge' },
-  { title: '当日收益（元）', field: 'todayGains' },
-  { title: '累计收益（元）', field: 'totalGains' },
+  { title: `${formatMessage({ id:'siteMonitor.ratedCapacity', defaultMessage: '额定容量' })}（kW/kWh）`, field: 'ratedOutputPower', extralField: 'ratedCapacity' },
+  { title: `${formatMessage({ id:'siteMonitor.dayChargingVolume', defaultMessage: '当日充电量' })}（kWh）`, field: 'todayCharge' },
+  { title: `${formatMessage({ id:'siteMonitor.dayDischarge', defaultMessage: '当日放电量' })}（kWh）`, field: 'todayDischarge' },
+  { title: `${formatMessage({ id:'siteMonitor.totalCharge', defaultMessage: '累计充电量' })}（kWh）`, field: 'totalCharge' },
+  { title: `${formatMessage({ id:'siteMonitor.totalDischarge', defaultMessage: '累计放电量' })}（kWh）`, field: 'totalDischarge' },
+  { title: `${formatMessage({ id:'siteMonitor.dailyEarnings', defaultMessage: '当日收益' })}（${formatMessage({ id: 'common.rmb', defaultMessage: '元' })}）`, field: 'todayGains' },
+  { title: `${formatMessage({ id:'siteMonitor.totalEarnings', defaultMessage: '累计收益' })}${formatMessage({ id: 'common.rmb', defaultMessage: '元' })}`, field: 'totalGains' },
 ];
 
 const Stat: React.FC<ComProps> = (props) => {

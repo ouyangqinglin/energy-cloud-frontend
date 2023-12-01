@@ -20,6 +20,7 @@ import IconTodayElectric from '@/assets/image/meter/today-electric.png';
 import IconFrequency from '@/assets/image/meter/frequency.png';
 import IconPowerFactor from '@/assets/image/meter/power-factor.png';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 type MeterProps = {
   data: AnyMapType;
@@ -31,85 +32,85 @@ const Meter: React.FC<MeterProps> = (props) => {
 
   const grid = [
     {
-      title: '电流(A）',
+      title: formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流'}) + '(A）',
       icon: IconCurrent,
       item: [
-        { label: 'A相', field: 'Ia' },
-        { label: 'B相', field: 'Ib' },
-        { label: 'C相', field: 'Ic' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ia' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ib' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ic' },
       ],
     },
     {
-      title: '电压(V）',
+      title: formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压'}) +'(V）',
       icon: IconVoltage,
       item: [
-        { label: 'A相', field: 'Ua' },
-        { label: 'B相', field: 'Ub' },
-        { label: 'C相', field: 'Uc' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ua' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ub' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Uc' },
       ],
     },
     {
-      title: '线电压(V）',
+      title: formatMessage({ id: 'siteMonitor.lineVoltage', defaultMessage: '线电压'}) + '(V）',
       icon: IconLineVoltage,
       item: [
-        { label: 'AB相', field: 'Uab' },
-        { label: 'BC相', field: 'Ubc' },
-        { label: 'CA相', field: 'Uca' },
+        { label: 'AB' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Uab' },
+        { label: 'BC' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Ubc' },
+        { label: 'CA' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Uca' },
       ],
     },
     {
-      title: '有功功率(kW）',
+      title: formatMessage({ id: 'siteMonitor.activePower', defaultMessage: '有功功率'}) + '(kW）',
       icon: IconActivePower,
       item: [
-        { label: 'A相', field: 'Pa' },
-        { label: 'B相', field: 'Pb' },
-        { label: 'C相', field: 'Pc' },
-        { label: '总', field: 'P' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Pa' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Pb' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Pc' },
+        { label: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总'}), field: 'P' },
       ],
     },
     {
-      title: '无功功率(kW）',
+      title: formatMessage({ id: 'siteMonitor.reactivePower', defaultMessage: '无功功率'}) + '(kW）',
       icon: IconReactivePower,
       item: [
-        { label: 'A相', field: 'Qa' },
-        { label: 'B相', field: 'Qb' },
-        { label: 'C相', field: 'Qc' },
-        { label: '总', field: 'Q' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Qa' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Qb' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Qc' },
+        { label: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总'}), field: 'Q' },
       ],
     },
     {
-      title: '视在功率(kW）',
+      title: formatMessage({ id: 'siteMonitor.apparentPower', defaultMessage: '视在功率'}) + '(kW）',
       icon: IconApparentPower,
       item: [
-        { label: 'A相', field: 'Sa' },
-        { label: 'B相', field: 'Sb' },
-        { label: 'C相', field: 'Sc' },
-        { label: '总', field: 'S' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Sa' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Sb' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'Sc' },
+        { label: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总'}), field: 'S' },
       ],
     },
     {
-      title: '累计电量(kW·h）',
+      title: formatMessage({ id: 'siteMonitor.accumulatedElectricity', defaultMessage: '累计电量'}) + '(kW·h）',
       icon: IconTodayElectric,
       item: [
-        { label: '正向有功电量', field: 'Pimp' },
-        { label: '反向有功电量', field: 'Pexp' },
-        { label: '正向无功电量', field: 'Qimp' },
-        { label: '反向无功电量', field: 'Qexp' },
+        { label: formatMessage({ id: 'siteMonitor.positiveActivePower', defaultMessage: '正向有功电量'}), field: 'Pimp' },
+        { label: formatMessage({ id: 'siteMonitor.reverseActivePower', defaultMessage: '反向有功电量'}), field: 'Pexp' },
+        { label: formatMessage({ id: 'siteMonitor.positiveReactivePower', defaultMessage: '正向无功电量'}), field: 'Qimp' },
+        { label: formatMessage({ id: 'siteMonitor.reverseReactivePower', defaultMessage: '反向无功电量'}), field: 'Qexp' },
       ],
     },
     {
-      title: '频率(HZ)',
+      title: formatMessage({ id: 'siteMonitor.frequency', defaultMessage: '频率'}) + '(HZ)',
       icon: IconFrequency,
-      item: [{ label: '频率', field: 'Freq' }],
+      item: [{ label: formatMessage({ id: 'siteMonitor.frequency', defaultMessage: '频率'}), field: 'Freq' }],
     },
     {
-      title: '功率因数',
+      title: formatMessage({ id: 'siteMonitor.powerFactor', defaultMessage: '功率因数'}),
       icon: IconPowerFactor,
       item: [
-        { label: 'A相', field: 'COSa' },
-        { label: 'B相', field: 'COSb' },
-        { label: 'C相', field: 'COSc' },
-        { label: '总', field: 'COS' },
+        { label: 'A' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'COSa' },
+        { label: 'B' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'COSb' },
+        { label: 'C' + formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相'}), field: 'COSc' },
+        { label: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总'}), field: 'COS' },
       ],
     },
   ];

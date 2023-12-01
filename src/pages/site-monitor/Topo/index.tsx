@@ -15,13 +15,14 @@ import TopoTypeEnergyStorage from './TypeEnergyStorage';
 import TopoTypePhotovoltaic from './TypePhotovoltaic';
 import TypeCommunication from './TypeCommunication';
 import TypePowerConsumption from './TypePowerComsumption';
+import { formatMessage } from '@/utils';
 
 const keyToSystemTitle = new Map([
-  [1, '站点能量流'],
-  [2, '光伏系统能量流'],
-  [3, '储能系统能量流'],
-  [4, '用电设备能量流'],
-  [5, '通信拓扑'],
+  [1, formatMessage({ id: 'siteMonitor.siteEnergyFlow', defaultMessage: '站点能量流' })],
+  [2, formatMessage({ id: 'siteMonitor.pvSystemEnergyFlow', defaultMessage: '光伏系统能量流' })],
+  [3, formatMessage({ id: 'siteMonitor.storageSystemEnergyFlow', defaultMessage: '储能系统能量流' })],
+  [4, formatMessage({ id: 'siteMonitor.deviceSystemEnergyFlow', defaultMessage: '用电设备能量流' })],
+  [5, formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' })],
 ]);
 
 type SiteType = {
@@ -49,7 +50,7 @@ const Index: React.FC = () => {
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
       {
-        title: '拓扑',
+        title: formatMessage({ id: 'siteMonitor.topology', defaultMessage: '拓扑' }),
         dataIndex: 'type',
         colProps: {
           sm: 8,
@@ -64,11 +65,11 @@ const Index: React.FC = () => {
           },
         },
         valueEnum: new Map([
-          [1, '站点拓扑'],
-          [2, '光伏拓扑'],
-          [3, '储能拓扑'],
-          [4, '用电拓扑'],
-          [5, '通信拓扑'],
+          [1, formatMessage({ id: 'siteMonitor.siteTopology', defaultMessage: '站点拓扑' })],
+          [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })],
+          [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })],
+          [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })],
+          [5, formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' })],
         ]),
       },
     ];

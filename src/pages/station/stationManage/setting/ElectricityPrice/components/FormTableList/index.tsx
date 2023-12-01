@@ -12,6 +12,7 @@ import YTDivider from '../Divider';
 import type { FormReadBaseProps } from '../FormRead/type';
 import type { FormUpdateBaseProps } from '../FormUpdate/type';
 import type { FormTableListBaseProps } from './type';
+import { formatMessage } from '@/utils';
 
 const FormTableList = <DataType extends Record<string, any>>(
   props: FormTableListBaseProps<DataType>,
@@ -42,14 +43,14 @@ const FormTableList = <DataType extends Record<string, any>>(
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建',
+        text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
       },
     },
     option: {
       onDeleteChange(_, entity) {
         onDeleteChange?.({ id: entity?.id })?.then?.(({ data }) => {
           if (data) {
-            message.success('删除成功');
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
             actionRef?.current?.reload?.();
           }
         });
@@ -64,7 +65,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         setOperations(FormOperations.UPDATE);
         set(true);
       },
-      modalDeleteText: '您确认要删除该电价规则吗？删除之后无法恢复！',
+      modalDeleteText: formatMessage({ id: 'siteManage.set.delTariffRule', defaultMessage: '您确认要删除该电价规则吗？删除之后无法恢复！' }),
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;
@@ -109,7 +110,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         columns={columns}
         {...customConfig}
         {...restProps}
-        headerTitle={defaultPrice && `默认电价：${defaultPrice}`}
+        headerTitle={defaultPrice && `${formatMessage({ id: 'siteManage.set.defaultPrice', defaultMessage: '默认电价' })}：${defaultPrice}`}
         params={{ siteId }}
       />
       {FormUpdate}

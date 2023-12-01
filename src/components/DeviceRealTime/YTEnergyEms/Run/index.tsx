@@ -15,9 +15,10 @@ import { emsOperationItems } from './config';
 import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
 import { ProColumns } from '@ant-design/pro-components';
 import { ProField } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
+import { onlineStatus } from '@/utils/dict';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
+import { formatMessage } from '@/utils';
 
 export type StackProps = {
   id: string;
@@ -121,7 +122,7 @@ const Stack: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="运行信息" />,
+        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息'})} />,
         items: emsOperationItems,
       },
     ];

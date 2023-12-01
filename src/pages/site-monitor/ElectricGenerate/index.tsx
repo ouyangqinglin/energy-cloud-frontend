@@ -12,6 +12,7 @@ import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { ActionType } from '@ant-design/pro-table';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const Energy = () => {
   const [siteData, setSiteData] = useState<SiteDataType>();
@@ -62,7 +63,7 @@ const Energy = () => {
     <>
       <SiteLabel className="px24 pt24 mb0" onChange={onChange}>
         {' '}
-        发电单元
+        {formatMessage({ id: 'siteMonitor.generatingUnit', defaultMessage: '发电单元' })}
       </SiteLabel>
       <YTProTable<ElectricGenerateInfo, ElectricGenerateInfo>
         actionRef={actionRef}

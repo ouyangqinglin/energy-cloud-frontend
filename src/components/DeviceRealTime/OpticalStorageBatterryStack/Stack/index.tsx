@@ -15,9 +15,9 @@ import {
 import ElectricLine from '@/assets/image/device/electric-line.png';
 import styles from './index.less';
 import { MaxUnitType } from './type';
-import { getPlaceholder, isEmpty } from '@/utils';
+import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equipment';
-import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
+import { deviceAlarmStatus, onlineStatus } from '@/utils/dict';
 import { clusterFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
@@ -149,7 +149,7 @@ const Stack: React.FC<StackProps> = (props) => {
         items: statusItems,
       },
       {
-        label: <Detail.Label title="运行信息" />,
+        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息'})} />,
         items: statusItems,
       },
       {

@@ -19,6 +19,7 @@ import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from 
 import type { DataType } from '../type';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { barFieldMap, lineFieldMap } from './config';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -116,7 +117,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             },
           }}
           title={{
-            text: shouldShowLine ? '单位(kW)' : '单位(kWh)',
+            text: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + shouldShowLine ? `(kW)` : `(kWh)`,
             position: 'end',
             autoRotate: false,
             offset: 0,

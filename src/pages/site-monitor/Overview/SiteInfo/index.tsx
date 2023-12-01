@@ -8,6 +8,7 @@ import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { Carousel } from 'antd';
+import { formatMessage } from '@/utils';
 
 const SiteInfo = ({ siteId }: { siteId?: number }) => {
   const [photos, setPhotos] = useState(Array);
@@ -32,10 +33,10 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
   const getAlarm = (alarmKey?: number) => {
     switch (alarmKey) {
       case 0:
-        return '正常';
+        return formatMessage({ id: 'common.normal', defaultMessage: '正常' });
 
       case 1:
-        return '告警';
+        return formatMessage({ id: 'common.warning', defaultMessage: '告警' });
 
       default:
         return '--';
@@ -46,31 +47,31 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
     <RowBox span={6} className={styles.siteInfo}>
       <ul className={styles.desc}>
         <li>
-          <div className={styles.label}>站点名称：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' })}：</div>
           <div className={styles.value}>{data?.name ?? '--'}</div>
         </li>
         <li>
-          <div className={styles.label}>地理位置：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteMonitor.address', defaultMessage: '地理位置' })}：</div>
           <Tooltip placement="topRight" title={data?.address ?? '--'}>
             <div className={styles.value}>{data?.address ?? '--'}</div>
           </Tooltip>
         </li>
         <li>
-          <div className={styles.label}>站点状态：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteManage.set.siteStatus', defaultMessage: '站点状态' })}：</div>
           <div className={styles.value}>{getAlarm(data?.siteAlarmStatus)}</div>
         </li>
         <li>
-          <div className={styles.label}>光伏总容量：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteManage.siteList.totalPhotovoltaicCapacity', defaultMessage: '光伏总容量' })}：</div>
           <div className={styles.value}>{data?.photovoltaicInstalledCapacity ?? '--'}kWp</div>
         </li>
         <li>
-          <div className={styles.label}>储能容量：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteManage.siteList.totalEnergyStorageCapacity', defaultMessage: '储能总容量' })}：</div>
           <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${
             data?.energyStorageCapacity ?? '--'
           }kWh`}</div>
         </li>
         <li>
-          <div className={styles.label}>并网时间：</div>
+          <div className={styles.label}>{formatMessage({ id: 'siteMonitor.gridTime', defaultMessage: '并网时间' })}：</div>
           <div className={styles.value}>{data?.deliveryTime ?? '--'}</div>
         </li>
       </ul>

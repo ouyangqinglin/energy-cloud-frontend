@@ -16,8 +16,9 @@ import { ComProps, energyType } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import { isEmpty } from '@/utils';
-import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage, isEmpty } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import { airItem, bwattAirItem, unitItems } from './config';
@@ -160,7 +161,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             })}
             {index !== 1 && (
               <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-                了解更多{'>'}
+                {formatMessage({ id: 'common.more', defaultMessage: '了解更多'})}{'>'}
               </span>
             )}
           </div>
@@ -195,11 +196,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         <>
           {showLabel && (
             <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
-              通信：
+              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}：
               <span className="mr24">
                 {onlineStatusFormat(deviceData?.status || (deviceData?.networkStatus as any))}
               </span>
-              告警：
+              {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
               <span className={styles.alarm}>
                 {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
                 <span className="cursor ml8" onClick={onAlarmClick}>

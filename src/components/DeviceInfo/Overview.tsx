@@ -14,13 +14,14 @@ import { useRequest } from 'umi';
 import { editDeviceInfo, getDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import styles from './index.less';
 import Dialog from '@/components/Dialog';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog'
+import { formatMessage } from '@/utils';
 
 export type OverviewProps = {
   deviceId: string;
@@ -67,7 +68,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
     manual: true,
   });
 
-  const onEditNameClick = useCallback(() => {    
+  const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true }));//input输入框出现
     if (deviceNameInfo.masterSlaveMode !==''&& deviceNameInfo.masterSlaveMode == 0) {//ems修改名字弹窗出现
       setEditNameOpen(true);
@@ -88,7 +89,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
       if (deviceNameInfo.name != deviceData?.name) {
         run({ name: deviceNameInfo.name, deviceId: deviceData?.deviceId }).then((data) => {
           if (data) {
-            message.success('保存成功');
+            message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
             setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
             runGetDevice({ deviceId: deviceData?.deviceId });
           }
@@ -106,7 +107,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
   }, []);
 
   const onEditImgSuccess = useCallback((img) => {
-    message.success('保存成功');
+    message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
     runGetDevice({ deviceId: deviceId });
   }, []);
   //更新ems名字
@@ -139,12 +140,12 @@ const beforeSubmitEditName = useCallback((params) => {
   const equipInfoItems = useMemo<DetailItem[]>(() => {
     return [
       {
-        label: '通信',
+        label: formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' }),
         field: 'status',
         format: onlineStatusFormat,
       },
       {
-        label: '告警',
+        label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
         field: 'alarmStatus',
         format: (value) => {
           return (
@@ -156,24 +157,24 @@ const beforeSubmitEditName = useCallback((params) => {
         },
       },
       {
-        label: '最近离线时间',
+        label: formatMessage({ id: 'siteMonitor.recentOfflineTime', defaultMessage: '最近离线时间' }),
         field: 'offlineTime',
         show: deviceData?.status === OnlineStatusEnum.Offline,
       },
       {
-        label: '最近在线时间',
+        label: formatMessage({ id: 'siteMonitor.recentOnlineTime', defaultMessage: '最近在线时间' }),
         field: 'sessionStartTime',
         show: deviceData?.status !== OnlineStatusEnum.Offline,
       },
-      { label: '设备序列号', field: 'sn' },
-      { label: '产品型号', field: 'model' },
-      { label: '产品类型', field: 'productTypeName' },
-      { label: '软件包名称', field: 'b' },
-      { label: '软件版本号', field: 'a' },
-      { label: '激活时间', field: 'activeTime' },
-      { label: '录入时间', field: 'createTime' },
-      { label: '录入人', field: 'updateUserName' },
-      { label: '所属站点', field: 'siteName' },
+      { label: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }), field: 'sn' },
+      { label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }), field: 'model' },
+      { label: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }), field: 'productTypeName' },
+      { label: formatMessage({ id: 'siteMonitor.packageName', defaultMessage: '软件包名称' }), field: 'b' },
+      { label: formatMessage({ id: 'siteMonitor.softwareVersionNumber', defaultMessage: '软件版本号' }), field: 'a' },
+      { label: formatMessage({ id: 'siteMonitor.activationTime', defaultMessage: '激活时间' }), field: 'activeTime' },
+      { label: formatMessage({ id: 'siteMonitor.entryTime', defaultMessage: '录入时间' }), field: 'createTime' },
+      { label: formatMessage({ id: 'siteMonitor.enteredBy', defaultMessage: '录入人' }), field: 'updateUserName' },
+      { label: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }), field: 'siteName' },
     ];
   }, [deviceData]);
 
@@ -187,7 +188,7 @@ const beforeSubmitEditName = useCallback((params) => {
           onBlur={editName}
           onPressEnter={editName}
         />
-      );  
+      );
     } else {
       return (
         <>
@@ -219,14 +220,14 @@ const beforeSubmitEditName = useCallback((params) => {
           <Detail.Label className="mb16" title={title} showLine={false}>
             {introImg && (
               <Button className="pr0" type="link" onClick={setTrue}>
-                产品介绍
+                {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
               </Button>
             )}
           </Detail.Label>
           <Detail items={equipInfoItems} data={deviceData} column={4} />
         </div>
       )}
-      <Dialog title="产品介绍" open={openIntro} onCancel={setFalse} footer={null}>
+      <Dialog title={formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })} open={openIntro} onCancel={setFalse} footer={null}>
         <img className="w-full" src={introImg} />
       </Dialog>
       <DeviceImg

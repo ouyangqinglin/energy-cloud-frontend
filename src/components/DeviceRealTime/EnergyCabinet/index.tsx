@@ -11,8 +11,9 @@ import { DeviceRealTimeType } from '../config';
 import RealTime from '@/components/Meter/RealTime';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
+import { formatMessage } from '@/utils';
 
 const EnergyCabinet: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
@@ -50,7 +51,7 @@ const EnergyCabinet: React.FC<DeviceRealTimeType> = (props) => {
         id={id}
         loading={loading}
         open={openSubscribe}
-        label={<Detail.Label title="运行信息" />}
+        label={<Detail.Label title={formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息'})} />}
         detailProps={{
           extral,
           colon: false,

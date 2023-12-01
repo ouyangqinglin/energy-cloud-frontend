@@ -10,4 +10,7 @@ export default {
   'system.Notice.update_time': '更新时间',
   'system.Notice.remark': '备注',
 	'system.Notice.modify': '编辑通知公告',
+	'system.Notice.select_status': '请选择状态',
+	'system.Notice.select_energy_flow_diagram': '请选择能流图',
+	'system.Notice.message_notification': '消息通知',
 };

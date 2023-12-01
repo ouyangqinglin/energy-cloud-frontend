@@ -9,7 +9,7 @@
 
 import { ProField } from '@ant-design/pro-components';
 import type { DetailItem } from '@/components/Detail';
-import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
+import { deviceAlarmStatus, onlineStatus } from '@/utils/dict';
 import {
   clusterFormat,
   percentageFormat,

@@ -15,9 +15,10 @@ import type { OperationLogType } from './data';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import type { SiteDataType } from '@/services/station';
-import { logType } from '@/utils/dictionary';
+import { logType } from '@/utils/dict';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
+import { formatMessage } from '@/utils';
 
 export type OperationLogProps = {
   isDeviceChild?: boolean;
@@ -60,17 +61,17 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
   }, [deviceId]);
 
   const detailItems: DetailItem[] = [
-    { label: '日志ID', field: 'id' },
-    { label: '日志内容', field: 'content' },
-    { label: '设备名称', field: 'deviceName' },
-    { label: '所属站点', field: 'siteName' },
-    { label: '操作人', field: 'createByName' },
-    { label: '发生时间', field: 'createTime' },
+    { label: formatMessage({id: 'siteMonitor.logs', defaultMessage: '日志'})+'ID', field: 'id' },
+    { label: formatMessage({id: 'siteMonitor.logContent', defaultMessage: '日志内容'}), field: 'content' },
+    { label: formatMessage({id: 'common.deviceName', defaultMessage: '设备名称'}), field: 'deviceName' },
+    { label: formatMessage({id: 'siteMonitor.owningSite', defaultMessage: '所属站点'}), field: 'siteName' },
+    { label: formatMessage({id: 'common.operator', defaultMessage: '操作人'}), field: 'createByName' },
+    { label: formatMessage({id: 'common.occurrenceTime', defaultMessage: '发生时间'}), field: 'createTime' },
   ];
 
   const columns: ProColumns<OperationLogType>[] = [
     {
-      title: '日志类型',
+      title: formatMessage({ id: 'siteMonitor.logtype', defaultMessage: '日志类型' }),
       dataIndex: 'type',
       valueType: 'select',
       valueEnum: logType,
@@ -78,7 +79,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       hideInTable: true,
     },
     {
-      title: '时间',
+      title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
       dataIndex: 'createTime',
       width: 150,
       ellipsis: true,
@@ -86,28 +87,28 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       hideInSearch: true,
     },
     {
-      title: '设备名称',
+      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
       hideInSearch: isDeviceChild,
     },
     {
-      title: '设备序列号',
+      title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
       dataIndex: 'sn',
       width: 120,
       ellipsis: true,
       hideInSearch: isDeviceChild,
     },
     {
-      title: '日志文件名称',
+      title: formatMessage({ id: 'siteMonitor.logFileName', defaultMessage: '日志文件名称' }),
       dataIndex: 'content',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '日志类型',
+      title: formatMessage({ id: 'siteMonitor.logtype', defaultMessage: '日志类型' }),
       dataIndex: 'type',
       valueType: 'select',
       valueEnum: logType,
@@ -115,7 +116,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       hideInSearch: true,
     },
     {
-      title: '时间',
+      title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
       width: 150,
@@ -131,14 +132,14 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       hideInTable: true,
     },
     {
-      title: '所属站点',
+      title: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),
       dataIndex: 'siteName',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '操作用户',
+      title: formatMessage({ id: 'common.operatingUser', defaultMessage: '操作用户' }),
       dataIndex: 'createByName',
       width: 120,
       ellipsis: true,
@@ -164,7 +165,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       />
       <DetailDialog
         width="420px"
-        title="日志详情"
+        title={formatMessage({ id: 'siteMonitor.logDetails',defaultMessage: '日志详情' })}
         open={open}
         onCancel={switchOpen}
         detailProps={{

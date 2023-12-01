@@ -31,26 +31,26 @@ const DeviceNameDialog: React.FC<DeviceSnProps> = (props) => {
 
   const columns = [
     {
-      title: '设备名称',
+      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'name',
       formItemProps: {
         rules: [{ required: true}],
       },
       fieldProps: {
-   
+
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '主从系统名称',
+      title: formatMessage({ id: 'siteMonitor.masterSlaveSystemName', defaultMessage: '主从系统名称' }),
       dataIndex: 'masterSlaveSystemName',
       formItemProps: {
         rules: [{ required: true}],
       },
       fieldProps: {
-   
+
       },
       colProps: {
         span: 24,
@@ -64,7 +64,7 @@ const DeviceNameDialog: React.FC<DeviceSnProps> = (props) => {
         id={id}
         open={open}
         onOpenChange={onOpenChange}
-        title={'编辑设备信息'}
+        title={formatMessage({ id: 'siteMonitor.editDeviceInformation', defaultMessage: '编辑设备信息' })}
         type={FormTypeEnum.Edit}
         width={552}
         columns={columns}

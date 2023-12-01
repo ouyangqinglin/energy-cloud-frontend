@@ -11,8 +11,9 @@ import RealTime from '@/components/Meter/RealTime';
 import { DeviceRealTimeType } from '../config';
 import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem } from '@/components/Detail';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
+import { formatMessage } from '@/utils';
 
 const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
@@ -49,7 +50,7 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
       <RealTime
         id={id}
         loading={loading}
-        label={<Detail.Label title="运行信息" />}
+        label={<Detail.Label title={formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息'})} />}
         open={openSubscribe}
         detailProps={{
           extral,

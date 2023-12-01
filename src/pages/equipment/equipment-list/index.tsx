@@ -12,7 +12,7 @@ import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
+import { onlineStatus } from '@/utils/dict';
 import { removeData, getTabs } from './service';
 import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';

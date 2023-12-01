@@ -13,7 +13,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { StationType } from './data.d';
-import { buildStatus } from '@/utils/dictionary';
+import { buildStatus } from '@/utils/dict';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
 import { siteType as siteTypeEnum } from '@/utils/dictionary';

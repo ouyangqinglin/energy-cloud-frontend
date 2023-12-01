@@ -15,7 +15,7 @@ import ConverterSetting from './ConverterSetting';
 import BatterySetting from './BatterySetting';
 import styles from './index.less';
 import { useSubscribe } from '@/hooks';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import type { DeviceDataType } from '@/services/equipment';
 export type ConfigProps = {
   deviceId: string;

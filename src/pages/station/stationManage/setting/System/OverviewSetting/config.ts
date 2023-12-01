@@ -7,9 +7,10 @@
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\OverviewSetting\config.ts
  */
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { enableStatus } from '@/utils/dictionary';
+import { enableStatus } from '@/utils/dict';
 import { getEnergyList } from './service';
 import { ConfigDataType } from '@/services/station';
+import {formatMessage} from "@/utils";
 
 export type EnergyOptionType = {
   id?: string;
@@ -18,17 +19,17 @@ export type EnergyOptionType = {
 
 export const columns: ProFormColumnsType<ConfigDataType>[] = [
   {
-    title: '状态',
+    title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
     dataIndex: 'status',
     valueType: 'radio',
     valueEnum: enableStatus,
     initialValue: '0',
     formItemProps: {
-      rules: [{ required: true, message: '请选择状态' }],
+      rules: [{ required: true, message: formatMessage({ id: 'system.Notice.select_status', defaultMessage: '请选择状态' }) }],
     },
   },
   {
-    title: '架构图',
+    title: formatMessage({ id: 'common.screenArchitecture', defaultMessage: '架构图' }),
     dataIndex: 'energyFlowDiagramIds',
     valueType: 'select',
     request: () => {
@@ -42,7 +43,7 @@ export const columns: ProFormColumnsType<ConfigDataType>[] = [
       });
     },
     formItemProps: {
-      rules: [{ required: true, message: '请选择能流图' }],
+      rules: [{ required: true, message: formatMessage({ id: 'system.Notice.select_energy_flow_diagram', defaultMessage: '请选择能流图' }) }],
     },
     fieldProps: {
       mode: 'multiple',

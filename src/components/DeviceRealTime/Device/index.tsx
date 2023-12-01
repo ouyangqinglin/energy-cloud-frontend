@@ -13,8 +13,9 @@ import Run from './Run';
 import Control from './Control';
 import useDeviceModel from '../useDeviceModel';
 import { useSubscribe } from '@/hooks';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const Device: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
@@ -35,11 +36,11 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
     return [
       {
         key: 'run',
-        label: '运行数据',
+        label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
       },
       {
         key: 'control',
-        label: '远程控制',
+        label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
       },
     ];
   }, []);
