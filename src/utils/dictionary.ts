@@ -2,10 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-09-21 18:49:16
+ * @LastEditTime: 2023-11-20 13:54:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
+
+export enum RequestCode {
+  NoToken = 500001,
+  TokenExpire = 500003,
+}
 
 export const aks = [
   { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
@@ -60,12 +65,27 @@ export enum DeviceTypeEnum {
   BWattEnergy = 44,
   YunCharge120 = 45,
   GRWTPvInverter = 47,
+  //新增localEms
+  YtCharge360LocalEms = 51,
+  HwChargeLocalEms = 52,
+  EnergyLocalEms = 54, //永泰工商业储能
+  PvInverter4LocalEms = 55,
+  PvInverter11LocalEms = 56,
+  YtCharge160LocalEms = 57,
+  YtCharge120LocalEms = 58,
   YTEnergyEms = 59,
   YTEnergyAir = 60,
   YTEnergyPcs = 61,
   YTEnergyMetter = 62,
   YTEnergyBatteryStack = 63,
   YTEnergy = 66,
+  YTEnergyMetterRAIG = 67,
+  YTEnergyMetterDTSD = 68,
+  PvEnergy = 69,
+  PvEnergyAir = 71,
+  PvEnergyPcs = 74,
+  PvEnergyMeter = 75,
+  PvEnergyBms = 70,
   Device = 'default',
 }
 
@@ -74,30 +94,8 @@ export enum DeviceMasterMode {
   Slave,
 }
 
-export enum FormTypeEnum {
-  Add = 'add',
-  Edit = 'edit',
-  Detail = 'detail',
-}
-
-export enum DeviceModelTypeEnum {
-  Int = 'int',
-  Long = 'long',
-  Double = 'double',
-  String = 'string',
-  Boolean = 'boolean',
-  Enum = 'enum',
-  Struct = 'struct',
-  Array = 'array',
-  TimeRange = 'timeRange',
-}
-
 export type FileType = {
   url: string;
-};
-
-export type LocationType<Params = Record<string, any>> = {
-  query?: Params;
 };
 
 export type ListDataType = {
@@ -111,12 +109,6 @@ export enum AutoComStatusEnum {
   Error = 'error',
   NoData = 'no_data',
 }
-
-export type OptionType = {
-  label: string;
-  value: string | number;
-  [key: string]: any;
-};
 
 export type EquipPropType = {
   key: string;
@@ -150,17 +142,6 @@ export const connectStatus = {
   },
   0: {
     text: '离线',
-    status: 'Error',
-  },
-};
-
-export const runningState = {
-  1: {
-    text: '正常',
-    status: 'Success',
-  },
-  0: {
-    text: '异常',
     status: 'Error',
   },
 };
@@ -211,6 +192,15 @@ export const chargingAndDischargingStatus = {
   2: {
     text: '充电',
     status: 'Error',
+  },
+};
+
+export const chargingPutStatus = {
+  0: {
+    text: '充电',
+  },
+  1: {
+    text: '放电',
   },
 };
 
@@ -420,3 +410,14 @@ export const upgradeStatus = {
   1: { text: '升级成功' },
   2: { text: '升级失败' },
 };
+
+export enum Size {
+  small,
+  normal,
+  large,
+}
+
+export enum DeviceServicePageEnum {
+  RemoteControl = 'remoteControl',
+  Config = 'config',
+}

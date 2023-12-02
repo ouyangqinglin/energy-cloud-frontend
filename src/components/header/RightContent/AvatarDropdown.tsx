@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   HomeOutlined,
   LogoutOutlined,
@@ -14,6 +14,8 @@ import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import { logout } from '@/services/session';
 import { formatMessage } from '@/utils';
+import HeadIcon from '@/assets/image/img_avatar.png';
+import eventBus from '@/utils/eventBus';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -40,6 +42,7 @@ const loginOut = async () => {
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { dispatch } = useModel('system');
+  const [avatar, setAvatar] = useState('');
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -66,6 +69,21 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       />
     </span>
   );
+
+  const changeAvatar = useCallback((value) => {
+    setAvatar(value);
+  }, []);
+
+  useEffect(() => {
+    setAvatar(initialState?.currentUser?.avatar || '');
+  }, [initialState]);
+
+  useEffect(() => {
+    eventBus.on('changeAvatar', changeAvatar);
+    return () => {
+      eventBus.off('changeAvatar', changeAvatar);
+    };
+  }, []);
 
   if (!initialState) {
     return loading;
@@ -96,7 +114,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar className={styles.avatar} src={currentUser.avatar} alt="avatar" />
+        <Avatar className={styles.avatar} src={avatar || HeadIcon} alt="avatar" />
         <span className={`${styles.name} anticon`}>{currentUser.userName}</span>
       </span>
     </HeaderDropdown>

@@ -1,8 +1,8 @@
 import type { SystemDiagramRes } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import type { SVGProps } from 'react';
-import PathElectricSupply from './component/PathES';
-import PathES from './component/PathElectricSupply';
+import PathES from './component/PathES';
+import PathElectricSupply from './component/PathElectricSupply';
 import PathLoad from './component/PathLoad';
 import PathPowerConsumption from './component/PathPowerConsumption';
 import PathPV from './component/PathPV';

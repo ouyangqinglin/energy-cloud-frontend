@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\hooks\useLocation.ts
  */
 import { useLocation as useUmiLocation } from 'umi';
-import { LocationType } from '@/utils/dictionary';
+import { LocationType } from '@/types';
 import * as H from 'history';
 
 const useLocation = <Params = Record<string, string>>(): LocationType<Params> &

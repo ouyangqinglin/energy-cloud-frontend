@@ -86,6 +86,16 @@ export const converterStauesFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const runStateFormat = (value: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '禁充',
+    2: '禁放',
+    3: '待机',
+    4: '停机',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const batteryWorkFormat = (value: number) => {
   const map: MapType = {
     0: '正常',
@@ -196,6 +206,9 @@ export const hydrogenFormat = (value: string | number) => {
 export const moneyFormat = (value: string | number) => {
   return getValue(value, '元');
 };
+export const moneyPowerFormat = (value: string | number) => {
+  return getValue(value, '元/kWh');
+};
 export const electricModelFormat = (value: number) => {
   const map: MapType = {
     0: '电池恒压',
@@ -224,6 +237,13 @@ export const chargeFormat = (status: number) => {
     0: '静置',
     1: '放电',
     2: '充电',
+  };
+  return <span className={'cl-success'}>{map[status]}</span>;
+};
+export const chargePutFormat = (status: number) => {
+  const map: MapType = {
+    0: '充电',
+    1: '放电',
   };
   return <span className={'cl-success'}>{map[status]}</span>;
 };
@@ -428,6 +448,13 @@ export const alarmFormat = (status: number) => {
   const map: MapType = {
     0: '正常',
     1: '告警',
+  };
+  return <span className="cl-success">{map[status]}</span>;
+};
+export const startFormat = (status: number) => {
+  const map: MapType = {
+    0: '正常',
+    1: '启动',
   };
   return <span className="cl-success">{map[status]}</span>;
 };

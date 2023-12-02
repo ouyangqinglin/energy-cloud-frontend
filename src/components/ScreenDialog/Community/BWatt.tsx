@@ -16,7 +16,7 @@ import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 
 const BWatt: React.FC<CommunityProps> = (props) => {
   const { id, type, productConfigType, open, onOpenChange, model } = props;

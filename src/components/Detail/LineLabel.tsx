@@ -9,21 +9,23 @@
 import React from 'react';
 import { Divider } from 'antd';
 import styles from './LineLabel.less';
+import { Size } from '@/utils/dictionary';
 
 export type LineLabelProps = {
   title?: React.ReactNode;
   className?: string;
   labelClassName?: string;
   showLine?: boolean;
+  size?: keyof typeof Size;
 };
 
 export const LineLabel: React.FC<LineLabelProps> = (props) => {
-  const { title, className = '', labelClassName = '', showLine = true, children } = props;
+  const { title, className = '', labelClassName = '', showLine = true, children, size } = props;
 
   return (
     <>
       <div className={`flex ${className}`}>
-        <label className={`flex1 ${styles.label} ${labelClassName}`}>{title}</label>
+        <label className={`flex1 ${styles.label} ${labelClassName} ${size}`}>{title}</label>
         {children}
       </div>
       {showLine && <Divider className="mt12" />}

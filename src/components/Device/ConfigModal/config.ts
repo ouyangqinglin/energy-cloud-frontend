@@ -5,6 +5,7 @@ export type ProtectFormType = {
     MunicipalChargingFunctionEnabled?: number;
     EnableOffGridOperationFunction?: number;
     EnableGridConnectionFunction?: number;
+    correctionTime?: number;
   };
   onSuccess?: () => void;
 };

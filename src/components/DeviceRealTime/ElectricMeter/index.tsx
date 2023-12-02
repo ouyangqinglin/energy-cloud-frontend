@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:40:23
- * @LastEditTime: 2023-09-19 14:18:25
+ * @LastEditTime: 2023-11-13 19:11:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\ElectricMeter\index.tsx
  */
@@ -13,12 +13,19 @@ import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
+import styles from './index.less';
+import { isEmpty } from '@/utils';
 
-const ElectricMeter: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData, loading } = props;
+export type ElectricMeterType = DeviceRealTimeType & {
+  label?: string;
+  hideLineVoltage?: boolean;
+};
+
+const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
+  const { id, productId, deviceData, loading, label = '市电负载', hideLineVoltage = false } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({
@@ -46,17 +53,19 @@ const ElectricMeter: React.FC<DeviceRealTimeType> = (props) => {
 
   return (
     <>
-      <RealTime
-        id={id}
-        loading={loading}
-        open={openSubscribe}
-        label={<Detail.Label title="市电负载" />}
-        detailProps={{
-          extral,
-          colon: false,
-          valueStyle: { flex: 1, textAlign: 'right' },
-        }}
-      />
+      <div className={hideLineVoltage ? styles.contain : ''}>
+        <RealTime
+          id={id}
+          loading={loading}
+          open={openSubscribe}
+          label={<Detail.Label title={label} />}
+          detailProps={{
+            extral,
+            colon: false,
+            valueStyle: { flex: 1, textAlign: 'right' },
+          }}
+        />
+      </div>
     </>
   );
 };

@@ -23,10 +23,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
   }, [run, siteId]);
 
   useEffect(() => {
-    if (data?.photos) {
-      const photoArr = data.photos?.split(',');
-      setPhotos(photoArr);
-    }
+    setPhotos(data?.photos?.split?.(',') ?? []);
   }, [data]);
 
   const getAlarm = (alarmKey?: number) => {
@@ -71,7 +68,7 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
         </li>
         <li>
           <div className={styles.label}>并网时间：</div>
-          <div className={styles.value}>{data?.createTime ?? '--'}</div>
+          <div className={styles.value}>{data?.deliveryTime ?? '--'}</div>
         </li>
       </ul>
 

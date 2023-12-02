@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:50:53
- * @LastEditTime: 2023-09-25 15:21:27
+ * @LastEditTime: 2023-11-24 09:30:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeForm\index.tsx
  */
@@ -13,16 +13,12 @@ import { useBoolean } from 'ahooks';
 import { upgradeDevice } from '@/services/equipment';
 import { UpgradeFormType } from '../typing';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { OptionType } from '@/utils/dictionary';
+import { OptionType } from '@/types';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   const { deviceId, versionItems } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
-
-  const onSuccess = useCallback(() => {
-    message.success('操作成功');
-  }, []);
 
   const columns = useMemo<ProFormColumnsType[]>(() => {
     const options: OptionType[] = [];
@@ -50,7 +46,7 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
 
   return (
     <>
-      <Button className="pr0" type="link" onClick={setTrue}>
+      <Button className="mr12" type="primary" onClick={setTrue}>
         升级
       </Button>
       <SchemaForm
@@ -61,7 +57,6 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
         type={FormTypeEnum.Edit}
         columns={columns}
         editData={upgradeDevice}
-        onSuccess={onSuccess}
         extraData={{ deviceId }}
       />
     </>

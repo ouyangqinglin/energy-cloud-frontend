@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 14:19:44
- * @LastEditTime: 2023-09-11 11:00:44
+ * @LastEditTime: 2023-11-13 15:42:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\ElectricMeter\index.tsx
  */
@@ -14,8 +14,13 @@ import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
 import RealTime from '@/components/DeviceRealTime/ElectricMeter';
 
-const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
-  const { id, onChange } = props;
+export type ElectricMeterType = DeviceDetailType & {
+  label?: string;
+  hideLineVoltage?: boolean;
+};
+
+const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
+  const { id, productId, onChange, label = '市电负载', hideLineVoltage } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
@@ -28,10 +33,17 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}>
-        <RealTime id={id} deviceData={deviceData} loading={loading} />
+        <RealTime
+          id={id}
+          productId={productId}
+          deviceData={deviceData}
+          loading={loading}
+          label={label}
+          hideLineVoltage={hideLineVoltage}
+        />
       </Page>
     </>
   );
 };
 
-export default BoxSubstation;
+export default ElectricMeter;

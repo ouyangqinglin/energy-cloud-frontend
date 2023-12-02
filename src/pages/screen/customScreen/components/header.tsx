@@ -3,7 +3,7 @@ import styles from '../index.less';
 import 'rc-texty/assets/index.css';
 import Cell from '../../components/LayoutCell';
 import TitleImage from '@/assets/image/customScreen/header-back.png';
-
+const screenWidth = window.screen.width;
 const Header: FC = () => {
   return (
     <>
@@ -13,8 +13,9 @@ const Header: FC = () => {
           Jiecheng Optical Storage and Charging Low Carbon Park Demonstration Station
         </div>
       </div>
-      <Cell width={1920} left={0} top={0}>
+      <Cell width={screenWidth} left={0} top={0}>
         <div className={styles.titleBg} />
+        <div className={styles.logoDiv}></div>
       </Cell>
     </>
   );

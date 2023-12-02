@@ -74,6 +74,8 @@ type InitialOption = {
   onConnectedError?: () => void;
 };
 
+type OnOpenType = () => void;
+
 export class Connection {
   static retryCount = 0;
 
@@ -96,6 +98,8 @@ export class Connection {
   private clientResolve: any = null;
 
   private clientReady: Promise<any> | null = null;
+
+  private onOpenCallbacks: OnOpenType[] = [];
 
   static getInstance(option?: InitialOption) {
     if (!this.instance) {
@@ -151,6 +155,7 @@ export class Connection {
       };
 
       this.client.onopen = (e) => {
+        this.onOpenCallbacks?.forEach?.((cb) => cb?.());
         this.clientResolve();
         this.resendSubscribeService();
         this.onConnectedSuccess?.();
@@ -199,6 +204,10 @@ export class Connection {
 
   close() {
     this.client?.close?.(ExitCode.CLOSE, EXIT_REASON[ExitCode.CLOSE]);
+  }
+
+  onOpen(cb: OnOpenType) {
+    this.onOpenCallbacks.push(cb);
   }
 
   mock(data: any, time?: number) {

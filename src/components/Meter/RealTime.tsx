@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 14:07:10
- * @LastEditTime: 2023-06-27 14:07:14
+ * @LastEditTime: 2023-11-13 17:53:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\RealTime.tsx
  */

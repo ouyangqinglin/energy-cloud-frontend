@@ -4,7 +4,7 @@ import styles from '../index.less';
 import Header from '../components/header';
 import { Card, List } from 'antd';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react';
 //import { useRequest } from 'umi';
 //import EChartsReact from 'echarts-for-react';
 import Chart from '@/components/Chart';
@@ -22,6 +22,7 @@ import ScrollTable from '../components/scrollTable';
 // import { Data } from '@/components/YTIcons/YTSvg';
 import { merge } from 'lodash';
 import Counter from '../components/numCounter';
+
 let energyStorageTimer: any = null;
 const CustomLayout = () => {
   const [storageChartData, setStorageChartData] = useState<TypeChartDataType[]>(); //储能图表数据
@@ -252,7 +253,18 @@ const CustomLayout = () => {
       dataIndex: 'y',
     },
   ];
-
+  const tableRef = useRef(null);
+  const [leftChartHeight, setLeftChartHeight] = useState();
+  const [leftChartWidth, setLeftChartWidth] = useState(780);
+  useLayoutEffect(() => {
+    const screenWidth = window.screen.width;
+    if (tableRef.current) {
+      setLeftChartHeight(tableRef.current.offsetHeight);
+      if (screenWidth == 1920 || screenWidth == 2560) {
+        setLeftChartWidth(580);
+      }
+    }
+  }, [tableRef.current]);
   return (
     <>
       <Header />
@@ -277,7 +289,10 @@ const CustomLayout = () => {
           />
           {/* 曲线图 */}
           <div className={styles.chartBox}>
-            <div className={styles.chartDiv}>
+            <div
+              className={styles.chartDiv}
+              style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
+            >
               <div className={styles.chartLable}>光伏 (近30天发电量/kWh)</div>
               <div className={styles.voltaicDiv}>
                 <div className={styles.subLeft}>
@@ -291,7 +306,10 @@ const CustomLayout = () => {
                 calculateMax={false}
               />
             </div>
-            <div className={styles.chartDiv}>
+            <div
+              className={styles.chartDiv}
+              style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
+            >
               <div className={styles.chartLable}>储能 (近30天充、放电量/kWh)</div>
               <div className={styles.energyDiv}>
                 <div className={styles.subLeft}>
@@ -332,7 +350,7 @@ const CustomLayout = () => {
             {/* 滚动table */}
 
             <div className={styles.scrollLayout}>
-              <div className={styles.scrollTableBox}>
+              <div className={styles.scrollTableBox} ref={tableRef}>
                 <div className={styles.leftBox}>
                   <div className={styles.title}>充电桩（每日充电量/kWh）</div>
                   <div className={styles.subDiv}>
@@ -380,7 +398,7 @@ const CustomLayout = () => {
         </Col>
       </Row>
 
-      <FullScreen />
+      {/* <FullScreen /> */}
     </>
   );
 };

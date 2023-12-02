@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-09-18 10:49:52
+ * @LastEditTime: 2023-12-02 09:11:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -21,7 +21,7 @@ import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
-import type { OptionType } from '@/utils/dictionary';
+import type { OptionType } from '@/types';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
@@ -190,7 +190,8 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         return { ...prevData, [field]: value.length == 1 ? value[0] : '' };
       }
     });
-    actionRef?.current?.reload?.();
+    //actionRef?.current?.reload?.();
+    actionRef?.current?.reloadAndRest?.(); //回到第一页
   }, []);
 
   useEffect(() => {
@@ -442,6 +443,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
             : {
                 labelAlign: 'left',
               }
+        }
+        scroll={
+          isStationChild
+            ? {
+                y: 490,
+              }
+            : {}
         }
       />
       <DetailDialog

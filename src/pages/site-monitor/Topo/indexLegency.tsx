@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, LegacyRef, useCallback } f
 import { Button, message, Row } from 'antd';
 import { MicroApp, useLocation, useRequest } from 'umi';
 import styles from './index.less';
-import type { LocationType } from '@/utils/dictionary';
+import type { LocationType } from '@/types';
 import { ReactComponent as SystemDiagram11 } from './svg/11.svg';
 import { ReactComponent as SystemDiagram21 } from './svg/21.svg';
 import { ReactComponent as SystemDiagram31 } from './svg/31.svg';

@@ -47,8 +47,8 @@ const Photovoltaic: FC = () => {
     (rawChartData &&
       rawChartData.map((it) => {
         return {
-          ts: it.eventTs,
-          value: it.doubleVal,
+          ts: it.time,
+          value: it.value,
           field: '发电量',
         };
       })) ??

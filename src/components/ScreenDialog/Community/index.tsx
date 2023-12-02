@@ -17,6 +17,7 @@ export enum CommunityTypeEnum {
   StationGun,
   Station,
   BWatt,
+  SelfEnergyMeter = 7,
 }
 
 export const communityTypeMap = new Map([
@@ -25,6 +26,7 @@ export const communityTypeMap = new Map([
   [CommunityTypeEnum.StationGun, 'StationGun'],
   [CommunityTypeEnum.Station, 'Station'],
   [CommunityTypeEnum.BWatt, 'BWatt'],
+  [CommunityTypeEnum.SelfEnergyMeter, 'SelfEnergyMeter'],
 ]);
 
 export type CommunityProps = {
@@ -57,7 +59,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   return (
     <>
       {type ? (
-        <Button className="pr0" type="link" onClick={setTrue}>
+        <Button type="primary" onClick={setTrue}>
           修改
         </Button>
       ) : (

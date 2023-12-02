@@ -16,7 +16,7 @@ import { getData } from '../../Product/service';
 import YTProTable from '@/components/YTProTable';
 import { getCollection } from './service';
 import { DevicePropsType } from '@/types/device';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 
 export type MyDetailProps = {
   id?: string;

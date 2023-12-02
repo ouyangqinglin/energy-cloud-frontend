@@ -2,10 +2,10 @@ import {
   alarmStatus,
   chargingAndDischargingStatus,
   onlineStatus,
-  runningState,
   systemMode,
   workStatus,
 } from '@/utils/dictionary';
+import { runningState } from '@/utils/dict';
 
 // 其他设备
 export const getOtColumns = (onClick) => {

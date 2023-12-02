@@ -14,6 +14,7 @@ import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import RealTime from '@/components/ScreenDialog/PvInverter/RealTime';
 import useDeviceModel from '../useDeviceModel';
+import { isEmpty } from '@/utils';
 
 export type PvInverterProps = DeviceRealTimeType & {
   loopNum: number;
@@ -23,7 +24,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { id, productId, deviceData, loading, loopNum } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

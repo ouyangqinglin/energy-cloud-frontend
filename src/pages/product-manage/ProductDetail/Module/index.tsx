@@ -13,7 +13,7 @@ import YTProTable from '@/components/YTProTable';
 import { columns, formColumns, ModuleDataType } from './config';
 import { getPage, addData, editData, deleteData } from './service';
 import { ActionType } from '@ant-design/pro-components';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import SchemaForm from '@/components/SchemaForm';
 

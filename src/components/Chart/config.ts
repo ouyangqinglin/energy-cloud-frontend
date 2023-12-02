@@ -221,7 +221,8 @@ export const defaultMapOption: any = {
   geo: {
     map: 'china',
     show: true,
-    roam: false,
+    animationDurationUpdate: 0,
+    roam: true, //可以通过鼠标拖动进行缩放
     zoom: 1.5,
     top: 210,
     z: 10,
@@ -289,6 +290,7 @@ export const defaultMapOption: any = {
       itemStyle: {
         opacity: 1,
       },
+      roam: true,
       showEffectOn: 'render',
       rippleEffect: {
         brushType: 'stroke',
@@ -330,6 +332,7 @@ export const defaultMapOption: any = {
           },
         },
       },
+      animationDurationUpdate: 0,
     },
     {
       map: 'chinaMapOutline1',

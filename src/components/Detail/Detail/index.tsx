@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2023-08-02 09:50:32
+ * @LastEditTime: 2023-11-16 14:17:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -11,6 +11,7 @@ import { Descriptions, DescriptionsProps } from 'antd';
 import { isEmpty } from '@/utils';
 
 export type DetailItem = {
+  className?: string;
   label: React.ReactNode;
   field: string;
   format?: (value: any, data?: any) => React.ReactNode;
@@ -21,7 +22,6 @@ export type DetailItem = {
   show?: boolean;
   showExtra?: boolean;
   unit?: string;
-  parentField?: string;
 };
 
 export type DetailProps = DescriptionsProps & {
@@ -56,11 +56,12 @@ const Detail: React.FC<DetailProps> = (props) => {
         let extralNode = <></>;
         if (extral) {
           extralNode = cloneElement(extral, {
-            onClick: () => extral.props?.onClick?.(item, data[item.field]),
+            onClick: () => extral.props?.onClick?.(item, data[item.field], data),
           });
         }
         content.push(
           <Descriptions.Item
+            className={item.className || ''}
             label={item.label}
             labelStyle={item.labelStyle}
             contentStyle={item.contentStyle}

@@ -9,6 +9,9 @@ import BGImg from '@/assets/image/login-bg.png';
 import styles from './index.less';
 import { clearSessionToken, setSessionToken } from '@/access';
 import { useLocation } from '@/hooks';
+import request from '@/utils/request';
+//import { getRoutersInfo } from '@/services/session';
+import { getLocaleMenus, getMenus } from '@/utils';
 
 export type QueryParams = {
   redirect?: string;
@@ -26,7 +29,12 @@ const LoginMessage: React.FC<{
     showIcon
   />
 );
-
+//获取用户权限列表
+const getRoutersList = () => {
+  return request('/system/menu/getRouters', {
+    method: 'GET',
+  });
+};
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
@@ -56,10 +64,17 @@ const Login: React.FC = () => {
 
         setSessionToken(accessToken, accessToken, expireTime);
         message.success(defaultLoginSuccessMessage);
-        let redirectPath = homePath || location.query?.redirect || '/index/site-monitor';
+
+        let redirectPath = homePath || location.query?.redirect || '/index/station';
+        const routesList = await getRoutersList();
+        const resList = routesList.data;
+        const menus = getLocaleMenus(resList);
+        const antMenus = menus && getMenus(menus);
         //当没有首页权限时，需要跳转到“站点概览页”
-        if (initialState?.antMenus && initialState?.antMenus[0].label != '首页') {
-          redirectPath = '/site-monitor/overview';
+        if (resList && resList[0].path !== '/index') {
+          if (antMenus.find((object) => object.key == '/site-monitor')) {
+            redirectPath = '/site-monitor/overview';
+          }
         }
         const pathArr = redirectPath.split('?');
 

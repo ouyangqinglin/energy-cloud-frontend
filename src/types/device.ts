@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-08-04 10:34:17
+ * @LastEditTime: 2023-11-29 15:29:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;
@@ -21,28 +21,76 @@ export type DevicePropsType = {
   properties?: DevicePropsType[];
 };
 
-export type DeviceServiceModelType = {
-  id?: string;
-  name?: string;
-  dataType?: {
-    type?: DeviceModelTypeEnum;
-    specs?: DeviceServiceModelType[];
+export type DeviceArrayType = {
+  type?: DeviceModelTypeEnum;
+  specs?: {
+    size?: number;
+    item?: DeviceTimeRangeType | DeviceStructType;
+    originalItem?: DeviceTimeRangeType | DeviceStructType;
   };
 };
 
+export type DeviceTimeRangeType = {
+  type?: DeviceModelTypeEnum;
+  specs?: {
+    length: number;
+  };
+};
+
+export type DeviceEnumType = {
+  type?: DeviceModelTypeEnum;
+  specs?: Record<string, any>;
+};
+
+export type DeviceDoubleType = {
+  type?: DeviceModelTypeEnum;
+  specs?: {
+    unit?: string;
+    unitName?: string;
+  };
+};
+
+export type DeviceStructType = {
+  type?: DeviceModelTypeEnum;
+  specs?: DeviceServiceModelType[];
+};
+
+export type DeviceServiceModelType = {
+  id?: string;
+  name?: string;
+  required?: boolean;
+  span?: number;
+  dataType?:
+    | DeviceArrayType
+    | DeviceDoubleType
+    | DeviceStructType
+    | DeviceTimeRangeType
+    | DeviceEnumType
+    | {
+        type?: DeviceModelTypeEnum;
+        specs?: DeviceServiceModelType[];
+      };
+};
+
 export type DeviceServiceType = {
+  id?: string;
+  name?: string;
   groupName?: string;
-  services?: {
+  outputData?: DeviceServiceModelType[];
+};
+
+export type DeviceServiceGroupType = {
+  groupName?: string;
+  location?: {
     id?: string;
     name?: string;
-    groupName?: string;
-    outputData?: DeviceServiceModelType[];
-  }[];
+  };
+  services?: DeviceServiceType[];
 };
 
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];
-  services?: DeviceServiceType[];
+  services?: DeviceServiceGroupType[];
 };
 
 export type DeviceTreeDataType = {

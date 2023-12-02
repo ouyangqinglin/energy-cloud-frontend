@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-09-07 16:57:11
+ * @LastEditTime: 2023-11-17 14:56:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
@@ -153,6 +153,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
         actionRef={actionRef}
         columns={columns}
         request={requestList}
+        manualRequest={true}
         toolBarRender={() => [<></>]}
         option={{
           columnsProp: {

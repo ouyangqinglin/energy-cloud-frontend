@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2023-09-28 09:57:28
+ * @LastEditTime: 2023-12-01 15:23:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -339,10 +339,18 @@ const Setting: React.FC<SettingProps> = (props) => {
       if (disableRun) {
         const runData: any = {};
         timeMap.forEach((item, key) => {
-          runData[key] = settingData?.[item[0]]
+          runData[key] = !isEmpty(settingData?.[item[0]])
             ? [
-                moment(`2023-06-07 ${settingData?.[item[0]]}:${settingData?.[item[1]]}`),
-                moment(`2023-06-07 ${settingData?.[item[2]]}:${settingData?.[item[3]]}`),
+                moment(
+                  `${moment().format('YYYY-MM-DD')} ${settingData?.[item[0]]}:${
+                    settingData?.[item[1]]
+                  }`,
+                ),
+                moment(
+                  `${moment().format('YYYY-MM-DD')} ${settingData?.[item[2]]}:${
+                    settingData?.[item[3]]
+                  }`,
+                ),
               ]
             : [];
         });

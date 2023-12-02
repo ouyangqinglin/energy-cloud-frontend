@@ -9,7 +9,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { useLocation, useModel } from 'umi';
 import Setting from '../stationManage/setting';
-import type { LocationType } from '@/utils/dictionary';
+import type { LocationType } from '@/types';
 
 const Index: React.FC = () => {
   const { dispatch } = useModel('station');

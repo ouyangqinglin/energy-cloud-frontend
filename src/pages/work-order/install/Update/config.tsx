@@ -3,7 +3,7 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { FormOperations } from '@/components/YTModalForm/typing';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { InstallOrderUpdateParam } from '../type';
-import { OrderStatus, OrderType } from '../type';
+import { OrderStatus, OrderType, UserType } from '../type';
 import { isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
@@ -14,6 +14,13 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { formatMessage } from '@/utils';
 
+// 工单类型 0：安装工单 1：维护工单 2修复工单
+const userType = new Map([
+  [UserType.SYSTEM, '系统管理员'],
+  [UserType.INSTALL, '安装商'],
+  [UserType.YUNYING, '运营商'],
+  [UserType.OWNER, '业主'],
+]);
 export const Columns: (
   operation: FormOperations,
 ) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation) => {
@@ -274,20 +281,21 @@ export const Columns: (
             columns: [
               {
                 title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
-                dataIndex: 'userName',
+                dataIndex: 'nickName',
                 width: 150,
                 ellipsis: true,
               },
               {
                 title: formatMessage({ id: 'common.account', defaultMessage: '账号' }),
-                dataIndex: 'handlerName',
+                dataIndex: 'userName',
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
               },
               {
                 title: formatMessage({ id: 'taskManage.userType', defaultMessage: '用户类型' }),
-                dataIndex: 'service',
+                dataIndex: 'orgType',
+                valueEnum: userType,
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
@@ -303,6 +311,7 @@ export const Columns: (
                     return {
                       data: data?.list.map(({ userId, userName, ...rest }) => {
                         return {
+                          userName,
                           ...rest,
                           handlerBy: userId,
                           handlerName: userName,

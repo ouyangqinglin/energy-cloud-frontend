@@ -2,22 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-10-24 09:26:59
+ * @LastEditTime: 2023-12-01 15:42:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message, Badge } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { removeData, getTabs } from './service';
+import { removeData, unbindDevice } from './service';
 import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn, useSearchSelect } from '@/hooks';
+import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
@@ -37,6 +37,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
   });
+  const { authorityMap } = useAuthority([
+    'iot:siteManage:siteConfig:deviceManage:add',
+    'iot:siteManage:siteConfig:deviceManage:unbind',
+    'iot:device:add',
+  ]);
 
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -68,11 +73,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     setOpen((data) => !data);
   }, []);
 
-  const onAddClick = useCallback(() => {   
-    if(isStationChild) {
+  const onAddClick = useCallback(() => {
+    if (isStationChild) {
       setSnOpen(true);
+    } else {
+      setOpen(true);
     }
-    setOpen(true);
   }, []);
 
   const onDetailClick = useCallback(
@@ -94,50 +100,99 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const toolBar = useCallback(
-    () => [
-      <Button type="primary" key="add" onClick={onAddClick}>
-        <PlusOutlined />
-        <FormattedMessage id="common.add" defaultMessage="新建" />
-      </Button>,
-    ],
-    [],
+    () =>
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
+      authorityMap.get('iot:device:add')
+        ? [
+            <Button type="primary" key="add" onClick={onAddClick}>
+              <PlusOutlined />
+              <FormattedMessage id="common.add" defaultMessage="新建" />
+            </Button>,
+          ]
+        : [],
+    [authorityMap],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
         <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
       </Button>
-      <Button
-        type="link"
-        size="small"
-        key="delete"
-        onClick={() => {
-          Modal.confirm({
-            title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
-            content: formatMessage({
-              id: 'equipmentList.deleteTips',
-              defaultMessage: '确定要删除该设备吗？',
-            }),
-            okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-            cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-            onOk: () => {
-              return removeData({ deviceId: record.deviceId }).then(({ data }) => {
-                if (data) {
-                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-                  if (actionRef.current) {
-                    actionRef.current.reload();
+      {!isStationChild && record.canBeDeleted !== 0 ? (
+        <Button
+          type="link"
+          size="small"
+          key="delete"
+          onClick={() => {
+            Modal.confirm({
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'equipmentList.deleteTips',
+                defaultMessage: '确定要删除该设备吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+              onOk: () => {
+                return removeData({ deviceId: record.deviceId }).then(({ data }) => {
+                  if (data) {
+                    message.success(
+                      formatMessage({ id: 'common.del', defaultMessage: '删除成功' }),
+                    );
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                    return true;
+                  } else {
+                    return false;
                   }
-                  return true;
-                } else {
-                  return false;
-                }
-              });
-            },
-          });
-        }}
-      >
-        <FormattedMessage id="common.delete" defaultMessage="删除" />
-      </Button>
+                });
+              },
+            });
+          }}
+        >
+          <FormattedMessage id="common.delete" defaultMessage="删除" />
+        </Button>
+      ) : (
+        <></>
+      )}
+      {isStationChild &&
+      record.canUnbind == 1 &&
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+        <Button
+          type="link"
+          size="small"
+          key="unbind"
+          onClick={() => {
+            Modal.confirm({
+              title: formatMessage({ id: 'common.unbind', defaultMessage: '解绑' }),
+              content: formatMessage({
+                id: 'equipmentList.unbindTips',
+                defaultMessage: '确定要解绑该设备吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+              onOk: () => {
+                return unbindDevice({ deviceId: record.deviceId }).then(({ data }) => {
+                  if (data) {
+                    message.success(
+                      formatMessage({ id: 'common.unbindSuccess', defaultMessage: '解绑成功' }),
+                    );
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                    return true;
+                  } else {
+                    return false;
+                  }
+                });
+              },
+            });
+          }}
+        >
+          <FormattedMessage id="common.unbind" defaultMessage="解绑" />
+        </Button>
+      ) : (
+        <></>
+      )}
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
@@ -147,7 +202,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 120,
+        width: 200,
         ellipsis: true,
       },
       {
@@ -173,7 +228,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
         dataIndex: 'productTypeName',
-        width: 150,
+        width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
@@ -218,7 +273,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 150,
+        width: 120,
         fixed: 'right',
         render: rowBar,
       },
@@ -235,25 +290,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       />
       {isStationChild ? (
         <>
-          <DeviceSn 
+          <DeviceSn
             open={snOpen}
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
             //onOk={triggerSubmit}
           />
-          
-        </>  
-        ) : (
-      <EquipForm
-        open={open}
-        onCancel={onSwitchOpen}
-        type={FormTypeEnum.Add}
-        onSuccess={onSuccess}
-        initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
-         />
-        )}
-      
+        </>
+      ) : (
+        <EquipForm
+          open={open}
+          onCancel={onSwitchOpen}
+          type={FormTypeEnum.Add}
+          onSuccess={onSuccess}
+          initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
+        />
+      )}
     </>
   );
 };

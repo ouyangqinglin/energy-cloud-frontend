@@ -14,12 +14,13 @@ import RealTime from '@/components/ScreenDialog/HwChargeChild/RealTime';
 import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import useDeviceModel from '../useDeviceModel';
+import { isEmpty } from '@/utils';
 
 const HwChargeChild: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const [collectionInfo, setCollectionInfo] = useState({

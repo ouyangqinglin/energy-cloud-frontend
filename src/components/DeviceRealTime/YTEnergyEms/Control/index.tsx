@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-10-27 11:00:47
+ * @LastEditTime: 2023-12-01 17:17:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
 
 import React, { useCallback, useEffect } from 'react';
-import { Button, Space, message, Modal } from 'antd';
+import { Button, Space, message, Modal, Radio } from 'antd';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { default as LineLabel } from '@/components/Detail/LineLabel';
 import styles from '../index.less';
@@ -39,7 +39,7 @@ const Setting: React.FC<SettingProps> = (props) => {
       onOk: () =>
         run({
           deviceId: id,
-          input: { paramList: [{ [item.field]: btnItem.value }] },
+          input: { [item.field]: btnItem.value },
           serviceId: item?.field,
         }).then((data: any) => {
           if (data) {
@@ -56,19 +56,30 @@ const Setting: React.FC<SettingProps> = (props) => {
           return (
             <div className={styles.labelBox}>
               <Space wrap>
-                <div>{item.label + ':'}</div>
+                <div className={styles.label}>{item.label}</div>
                 {item.btnParam.map((btnItem: any) => {
                   return (
-                    <Button
-                      type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
-                      disabled={btnDisabled}
-                      onClick={() => {
-                        btnClick(item, btnItem);
-                      }}
-                      loading={loading}
-                    >
-                      {btnItem.text}
-                    </Button>
+                    <>
+                      <Button
+                        type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
+                        ghost={settingData[item.field] == btnItem.value}
+                        loading={loading}
+                        onClick={() => {
+                          btnClick(item, btnItem);
+                        }}
+                        disabled={item.disabled && settingData?.systemOperatingMode != 2}
+                      >
+                        <Radio
+                          name={item.field}
+                          className="mr8"
+                          checked={settingData[item.field] == btnItem.value}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        />
+                        {btnItem.text}
+                      </Button>
+                    </>
                   );
                 })}
               </Space>

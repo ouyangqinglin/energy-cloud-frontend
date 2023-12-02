@@ -14,6 +14,7 @@ import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import styles from './index.less';
+import { isEmpty } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
@@ -23,7 +24,7 @@ const Ems: React.FC<EmsType> = (props) => {
   const { id, productId, deviceData, type } = props;
 
   const openSubscribe = useMemo(
-    () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,
+    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
   const realTimeData = useSubscribe(id, openSubscribe);

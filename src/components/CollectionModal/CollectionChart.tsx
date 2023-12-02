@@ -14,7 +14,7 @@ import TypeChart, { TypeChartDataType } from '../Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
 import moment from 'moment';
 import EChartsReact from 'echarts-for-react';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 import { parseToObj } from '@/utils';
 import { CollectionChartType } from './helper';
 

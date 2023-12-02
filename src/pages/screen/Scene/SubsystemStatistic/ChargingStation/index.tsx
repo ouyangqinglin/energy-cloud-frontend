@@ -48,7 +48,7 @@ const ChargingStation: FC = () => {
     (rawChartData &&
       rawChartData.map((it) => {
         return {
-          ts: it.key,
+          ts: it.time,
           value: it.value,
           field: '发电量',
         };

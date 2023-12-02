@@ -15,7 +15,7 @@ import type { DetailItem } from '../Detail';
 import Dialog from '../Dialog';
 import Label from '../Detail/LineLabel';
 import EquipForm from '../EquipForm';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { getDeviceInfo } from '@/services/equipment';
 import { onlineFormat } from '@/utils/format';
 import './index.less';

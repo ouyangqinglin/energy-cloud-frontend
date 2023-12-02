@@ -13,7 +13,7 @@ import type { InstallListType, InstallOrderUpdateParam, InstallOrderUpdateInfo }
 import { isCreate } from '@/components/YTModalForm/helper';
 import { useToggle } from 'ahooks';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { FormTypeEnum } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { SchemaFormProvider } from '@/components/SchemaForm';
 
 export const Update = (props: FormUpdateBaseProps<InstallListType>) => {

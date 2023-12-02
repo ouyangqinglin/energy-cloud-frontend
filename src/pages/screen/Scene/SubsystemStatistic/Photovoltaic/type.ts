@@ -11,8 +11,8 @@ export interface StatisticsRes {
 }
 
 export type PVChartRes = {
-  eventTs: string;
-  doubleVal: number;
+  time: string;
+  value: number;
 }[];
 
 export interface CurrentPowerRes {

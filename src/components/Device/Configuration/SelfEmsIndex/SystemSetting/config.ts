@@ -2,14 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-10-17 14:31:51
+ * @LastEditTime: 2023-11-29 11:08:35
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\SystemSetting\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
 import { enableFormat } from '@/utils/format';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
+import moment from 'moment';
 
 const options = [
   {
@@ -75,16 +76,39 @@ export const systemColumns: ProFormColumnsType[] = [
   },
 ];
 
-export const reportItems: DetailItem[] = [
-  { label: 'EMS设备SN', field: 'emsSn', format: (state) => state },
+export const systemTimeItems: DetailItem[] = [
+  {
+    label: '系统时间',
+    field: 'correctionTime',
+    format: (time) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
+  },
 ];
-export const reportColumns: ProFormColumnsType[] = [
+export const systemTimeColumns: ProFormColumnsType[] = [
+  {
+    title: '系统时间',
+    dataIndex: 'correctionTime',
+    valueType: 'dateTime',
+    formItemProps: {
+      rules: [{ required: true, message: '请选择系统时间' }],
+    },
+    colProps: {
+      span: 24,
+    },
+    width: '100%',
+  },
+];
+
+export const communicationItems: DetailItem[] = [{ label: 'EMS设备SN', field: 'emsSn' }];
+export const communicationColumns: ProFormColumnsType[] = [
   {
     title: 'EMS设备SN',
     dataIndex: 'emsSn',
     valueType: 'text',
     formItemProps: {
       rules: [{ required: true, message: '请输入EMS设备SN' }],
+    },
+    colProps: {
+      span: 24,
     },
   },
 ];

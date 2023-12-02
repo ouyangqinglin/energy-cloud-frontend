@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-09-26 12:13:21
+ * @LastEditTime: 2023-11-27 17:06:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Control\index.tsx
  */
@@ -33,7 +33,7 @@ import Detail from '@/components/Detail';
 import { DeviceModelDataType, DeviceModelType, DeviceServiceModelType } from '@/types/device';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
-import { DeviceModelTypeEnum } from '@/utils/dictionary';
+import { DeviceModelTypeEnum } from '@/utils';
 import styles from './index.less';
 import { editSetting } from '@/services/equipment';
 import { isEmpty, merge } from 'lodash';

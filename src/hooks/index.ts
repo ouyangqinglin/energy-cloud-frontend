@@ -8,6 +8,7 @@ import useWebsocket from './useWebsocket';
 import useSubscribe from './useSubscribe';
 import useAuthority from './useAuthority';
 import useFullScreen from './useFullScreen';
+import useDeviceModel from './useDeviceModel';
 
 export {
   useArea,
@@ -20,4 +21,5 @@ export {
   useSubscribe,
   useAuthority,
   useFullScreen,
+  useDeviceModel,
 };

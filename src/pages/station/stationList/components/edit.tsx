@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-10-23 17:46:23
+ * @LastEditTime: 2023-12-01 11:13:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -21,7 +21,8 @@ import {
 import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
-import { FormTypeEnum, siteType } from '@/utils/dictionary';
+import { siteType } from '@/utils/dictionary';
+import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';
 import { getServicePage } from '@/services/service';
@@ -198,6 +199,17 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 defaultMessage: '安装商',
               })}
               name="orgs"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                    formatMessage({
+                      id: 'siteManage.siteList.installer',
+                      defaultMessage: '安装商',
+                    }),
+                },
+              ]}
             >
               <TableSelect
                 tableId="orgId"

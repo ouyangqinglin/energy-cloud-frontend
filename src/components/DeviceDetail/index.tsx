@@ -2,23 +2,21 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-10-16 17:45:49
+ * @LastEditTime: 2023-11-30 15:00:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Skeleton, Space, Tabs, TabsProps, Tree } from 'antd';
 import { useRequest } from 'umi';
-import { getChildEquipment, DeviceDataType } from '@/services/equipment';
+import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
-import { getDeviceInfo } from '@/services/equipment';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
 import { TreeNode, deviceMap } from './config';
 import Configuration from '@/components/Device/Configuration';
-import { DeviceTypeEnum } from '@/utils/dictionary';
 import DeviceRealTime from '@/components/DeviceRealTime';
 import Overview from '@/components/DeviceInfo/Overview';
 
@@ -26,8 +24,8 @@ const dealTreeData = (data: TreeNode[]) => {
   const result: TreeNode[] = [];
   data?.forEach?.((item) => {
     const node: TreeNode = {
-      key: item?.deviceId + '',
-      deviceId: item?.deviceId,
+      key: item?.id + '',
+      deviceId: item?.id,
       name: item?.name,
       productId: item?.productId,
       icon: deviceMap.get(item.productId as any) || '',
@@ -48,39 +46,26 @@ export type DeviceDetailProps = {
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id, productId } = props;
 
-  const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: id, key: id, productId });
+  const [selectOrg, setSelectOrg] = useState<DeviceDataType>({
+    deviceId: parseInt(id) as any,
+    key: id,
+    productId,
+  });
   const [deviceOverviewloading, setDeviceOverviewloading] = useState(false);
   const {
-    data: childData,
+    data: treeData,
     loading,
-    run: runGetChildDevice,
-  } = useRequest(getChildEquipment, {
+    run: runGetDeviceTree,
+  } = useRequest(getWholeDeviceTree, {
     manual: true,
-  });
-  const {
-    data: deviceData,
-    loading: loadingDevice,
-    run: runDevice,
-  } = useRequest(getDeviceInfo, {
-    manual: true,
+    formatResult: (res) => {
+      return dealTreeData([res.data] as any);
+    },
   });
 
   const selectedKeys = useMemo<string[]>(() => {
     return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId as string];
   }, [selectOrg]);
-
-  const treeData = useMemo(() => {
-    const result = [
-      {
-        deviceId: parseInt(id),
-        name: deviceData?.name,
-        productId: deviceData?.productId,
-        children: childData || [],
-        key: id,
-      },
-    ];
-    return dealTreeData(result as any);
-  }, [id, deviceData, childData]);
 
   const onSelect = useCallback(
     (_, { selected, node }: { selected: boolean; node: DeviceDataType }) => {
@@ -91,27 +76,25 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     [],
   );
 
-  const onDeviceChange = useCallback(
-    (data) => {
-      if ((productId as any) != DeviceTypeEnum.BatteryStack) {
-        runGetChildDevice({ parentId: id, maxDepth: 1 });
-      }
-      runDevice({ deviceId: id });
-      setSelectOrg({ ...(data || {}) });
-    },
-    [id, productId],
-  );
+  const onDeviceChange = useCallback((data) => {
+    setSelectOrg({ ...data });
+  }, []);
+
+  const onEditSuccess = useCallback(() => {
+    runGetDeviceTree({
+      deviceId: id,
+      component: 0,
+      containTopParentDevice: 1,
+    });
+  }, [id]);
 
   useEffect(() => {
-    if (id) {
-      if ((productId as any) != DeviceTypeEnum.BatteryStack) {
-        runGetChildDevice({ parentId: id, maxDepth: 1 });
-      }
-      getDeviceInfo({ deviceId: id }).then(({ data }) => {
-        setSelectOrg({ deviceId: id, key: id, productId, name: data?.name, sn: data?.sn });
-      });
-    }
-  }, [id, productId]);
+    runGetDeviceTree({
+      deviceId: id,
+      component: 0,
+      containTopParentDevice: 1,
+    });
+  }, [id]);
 
   const items = useMemo<TabsProps['items']>(() => {
     return [
@@ -158,7 +141,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         ),
       },
     ];
-  }, [selectOrg, productId, id, deviceOverviewloading]);
+  }, [selectOrg, deviceOverviewloading]);
 
   return (
     <>
@@ -168,7 +151,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         }`}
       >
         <div className={styles.tree}>
-          {loading || loadingDevice ? (
+          {loading ? (
             <Space direction="vertical">
               <Skeleton.Input size="small" active />
               <Skeleton.Input size="small" active />
@@ -194,6 +177,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
             <Overview
               deviceId={selectOrg?.deviceId || ''}
               onChange={onDeviceChange}
+              onEditSuccess={onEditSuccess}
               setLoading={setDeviceOverviewloading}
             />
           </div>

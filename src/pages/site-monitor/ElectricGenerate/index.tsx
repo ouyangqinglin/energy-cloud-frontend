@@ -44,7 +44,7 @@ const Energy = () => {
     return () => {
       cancel();
     };
-  }, [cancel, runForStatistic, siteData]);
+  }, [siteData]);
 
   useEffect(() => {
     if (
@@ -73,6 +73,7 @@ const Energy = () => {
         headerTitle={<EnergyStatisticCard data={statisticData} />}
         request={requestList}
         rowKey="deviceId"
+        manualRequest={true}
       />
     </>
   );

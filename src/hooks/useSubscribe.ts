@@ -33,7 +33,7 @@ const useSubscribe = (id: undefined | string | string[], open: boolean) => {
   const ids = useMemo(() => {
     return Array.isArray(id) ? id : id ? [id] : [];
   }, [id]);
-  const [data, setData] = useState<AnyMapType>({});
+  const [data, setData] = useState<AnyMapType>({ ids });
   const { connection } = useWebsocket();
 
   const onReceivedMessage = useCallback(
@@ -62,7 +62,9 @@ const useSubscribe = (id: undefined | string | string[], open: boolean) => {
   );
 
   useEffect(() => {
-    setData({});
+    setData({
+      ids,
+    });
     if (open && ids.length) {
       connection.sendMessage({
         data: {

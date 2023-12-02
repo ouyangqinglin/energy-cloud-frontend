@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-09-27 16:13:22
+ * @LastEditTime: 2023-11-27 13:57:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
@@ -11,7 +11,6 @@ import { useRequest } from 'umi';
 import { message } from 'antd';
 import type { ProFormInstance, ProFormLayoutType } from '@ant-design/pro-components';
 import { BetaSchemaForm, ProConfigProvider } from '@ant-design/pro-components';
-import { FormTypeEnum } from '@/utils/dictionary';
 import type { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
@@ -19,9 +18,13 @@ import { tableSelectValueTypeMap } from '../TableSelect';
 import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
 
-export { FormTypeEnum };
+export enum FormTypeEnum {
+  Add = 'add',
+  Edit = 'edit',
+  Detail = 'detail',
+}
 
-export type SchemaFormProps<FormData, ValueType, ParamData> = Omit<
+export type SchemaFormProps<FormData = any, ValueType = any, ParamData = any> = Omit<
   FormSchema<FormData, ValueType>,
   'LayoutType'
 > & {
@@ -86,7 +89,7 @@ const SchemaForm = <
     { setTrue: setDisableSubmitterTrue, setFalse: setDisableSubmitterFalse },
   ] = useBoolean(true);
 
-  const { run: runGet, loading: getLoading } = useRequest(getData, {
+  const { run: runGet, loading: getLoading } = useRequest(getData as any, {
     manual: true,
   });
   const { run: runAdd, loading: addLoading } = useRequest(addData as any, {
@@ -117,10 +120,10 @@ const SchemaForm = <
       const defaultSubmitter: FormSchema['submitter'] =
         layoutType !== 'QueryFilter'
           ? {
-            submitButtonProps: {
-              disabled: disableSubmitter,
-            },
-          }
+              submitButtonProps: {
+                disabled: disableSubmitter,
+              },
+            }
           : {};
       return merge(defaultSubmitter, submitter);
     }

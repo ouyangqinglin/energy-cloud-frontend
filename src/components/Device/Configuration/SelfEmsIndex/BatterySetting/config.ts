@@ -69,7 +69,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体最高允许充电电压',
     dataIndex: 'maxAllowableChargingVoltage',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体最高允许充电电压' }],
     },
@@ -77,7 +77,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体过压故障消除回差值',
     dataIndex: 'overVoltageErrorClearDifference',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体过压故障消除回差值' }],
     },
@@ -85,7 +85,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体最低允许充电电压',
     dataIndex: 'minAllowableChargingVoltage',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体最低允许充电电压' }],
     },
@@ -93,7 +93,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体欠压故障消除回差值',
     dataIndex: 'lowVoltageErrorClearDifference',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体欠压故障消除回差值' }],
     },
@@ -101,7 +101,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体最高允许温度',
     dataIndex: 'maxAllowableTemperature',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体最高允许温度' }],
     },
@@ -109,7 +109,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体过温故障消除回差值',
     dataIndex: 'overTempErrorClearDifference',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体过温故障消除回差值' }],
     },
@@ -117,7 +117,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体最低允许温度',
     dataIndex: 'minAllowableTemp',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体最低允许温度' }],
     },
@@ -125,7 +125,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '单体欠温故障消除回差值',
     dataIndex: 'lowTempErrorClearDifference',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入单体欠温故障消除回差值' }],
     },
@@ -133,7 +133,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '电池组最高允许电压',
     dataIndex: 'maxAllowableVoltageOfBatteryPack',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入电池组最高允许电压' }],
     },
@@ -141,7 +141,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '电池组过压故障回差值',
     dataIndex: 'overVoltageErrorDifferenceOfBatteryPack',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入电池组过压故障回差值' }],
     },
@@ -149,7 +149,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '电池组最高允许充电电流',
     dataIndex: 'maxAllowableChargingCurrentOfBatteryPack',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入电池组最高允许充电电流' }],
     },
@@ -157,7 +157,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '电池组最高允许放电电流',
     dataIndex: 'maxAllowableDischargeCurrentOfBatteryPack',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入电池组最高允许放电电流' }],
     },
@@ -165,7 +165,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般过压限值',
     dataIndex: 'generalOvervoltageLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般过压限值' }],
     },
@@ -173,7 +173,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重过压限值',
     dataIndex: 'severeOvervoltageLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重过压限值' }],
     },
@@ -181,7 +181,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般欠压限值',
     dataIndex: 'generalUndervoltageLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般欠压限值' }],
     },
@@ -189,7 +189,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重欠压限值',
     dataIndex: 'severeUndervoltageLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重欠压限值' }],
     },
@@ -197,7 +197,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般充电电流限值',
     dataIndex: 'generalChargingCurrentLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般充电电流限值' }],
     },
@@ -205,7 +205,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重充电电流限值',
     dataIndex: 'severeChargingCurrentLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重充电电流限值' }],
     },
@@ -213,7 +213,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般放电电流限值',
     dataIndex: 'generalDischargeCurrentLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般放电电流限值' }],
     },
@@ -221,7 +221,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重放电电流限值',
     dataIndex: 'severeDischargeCurrentLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重放电电流限值' }],
     },
@@ -229,7 +229,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般过温限值',
     dataIndex: 'generalOverTemperatureLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般过温限值' }],
     },
@@ -237,7 +237,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重过温限值',
     dataIndex: 'severeOverTemperatureLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重过温限值' }],
     },
@@ -245,7 +245,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '一般低温限值',
     dataIndex: 'generalLowTemperatureLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入一般低温限值' }],
     },
@@ -253,7 +253,7 @@ export const protectParamsColumns: ProFormColumnsType[] = [
   {
     title: '严重低温限值',
     dataIndex: 'severeLowTemperatureLimit',
-    valueType: 'text',
+    valueType: 'digit',
     formItemProps: {
       rules: [{ required: true, message: '请输入严重低温限值' }],
     },
@@ -278,6 +278,9 @@ export const powerParamsColumns: ProFormColumnsType[] = [
     },
     fieldProps: {
       options,
+    },
+    colProps: {
+      span: 24,
     },
   },
 ];

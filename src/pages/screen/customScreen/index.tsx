@@ -3,14 +3,16 @@ import Layout, { ScaleMode } from '../components/Layout';
 import CustomLayout from './customLayout';
 import LayoutVideo from '@/assets/image/customScreen/background-video.mp4';
 import styles from './index.less';
-
+import FullScreen from '../components/FullScreen';
+const screenWidth = window.screen.width;
+const screenHeight = window.screen.height;
 const JiechengScreen: FC = () => {
   return (
     <>
       <Layout
         id="jiecheng-screen"
-        screenH={1080}
-        screenW={1920}
+        screenH={screenHeight}
+        screenW={screenWidth}
         palette={{
           backgroundImage: '',
           backgroundColor: 'rgba(10,14,23,1)',
@@ -21,6 +23,7 @@ const JiechengScreen: FC = () => {
           <source src={LayoutVideo} type="video/mp4" />
         </video>
         <CustomLayout />
+        <FullScreen />
       </Layout>
     </>
   );
