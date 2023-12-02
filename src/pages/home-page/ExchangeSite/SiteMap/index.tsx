@@ -61,7 +61,7 @@ const SiteMap: React.FC = () => {
 
   return (
     <>
-      <MapContain>
+      <MapContain style={{ height: '500px' }}>
         <Map center={center} zoom={5}>
           <>
             {siteMakers}

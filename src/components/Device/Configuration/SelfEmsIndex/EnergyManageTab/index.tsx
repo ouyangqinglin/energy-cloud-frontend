@@ -187,6 +187,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           realTimeData?.peakShavingAndValleyFillingModeLowestSOC,
         PeriodOfTime: parseToArray(realTimeData?.PeriodOfTime).map((item) => {
           const timeFrame = item?.pcsRunningTimeFrame?.split?.('-') || [];
+          item.CorD = item.CorD + '';
           return {
             ...item,
             pcsRunningTimeFrame:

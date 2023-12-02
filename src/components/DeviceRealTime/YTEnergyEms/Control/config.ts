@@ -59,6 +59,7 @@ export const controlItems: ControlParamItem[] = [
       // { text: '均衡', value: 2 },
       { text: '充电', value: 3 },
       { text: '放电', value: 4 },
+      { text: '静置', value: 5 },
     ],
   },
   // {
