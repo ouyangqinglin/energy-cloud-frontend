@@ -163,7 +163,8 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
         <Row>
           <Col flex="auto">
             {readonly ? (
-              address + inputPoint
+              // address + inputPoint
+              address
             ) : (
               <AutoComplete
                 className="mb8 w-full"

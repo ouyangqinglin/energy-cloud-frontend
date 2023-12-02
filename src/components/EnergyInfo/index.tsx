@@ -60,8 +60,8 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
           )}
         </Col>
         <Col span={10}>
-          <Power deviceData={deviceData} loading={loading} />
-          <Electric deviceData={deviceData} loading={loading} />
+          <Power deviceData={deviceData} loading={loading} source={source} />
+          <Electric deviceData={deviceData} loading={loading} source={source} />
         </Col>
       </Row>
     </>

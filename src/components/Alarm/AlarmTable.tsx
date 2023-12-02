@@ -147,7 +147,11 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const onCleanClick = useCallback((record: AlarmType) => {
     Modal.confirm({
-      title: <strong><FormattedMessage id='upgradeManage.clearConfirm' defaultMessage="清除确认"/></strong>,
+      title: (
+        <strong>
+          <FormattedMessage id="upgradeManage.clearConfirm" defaultMessage="清除确认" />
+        </strong>
+      ),
       content: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
       okText: '确认',
       cancelText: '取消',
@@ -345,7 +349,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
       {
         title: '清除人',
-        dataIndex: 'recoveryPeople',
+        dataIndex: 'recoveryByName',
         width: 120,
         ellipsis: true,
         hideInSearch: true,

@@ -46,9 +46,9 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
         </Row>
         <Row>
           <ProFormText
-            name="phonenumber"
+            name="phone"
             label={intl.formatMessage({
-              id: 'system.User.phonenumber',
+              id: 'system.User.phone',
               defaultMessage: '手机号码',
             })}
             width="xl"

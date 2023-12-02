@@ -178,26 +178,22 @@ const Monitor: React.FC = () => {
     const tableData: TableDataType = allTableData[type];
     if (tableData.elec && tableData.elec.length) {
       [...(tableData.elec || [])].forEach((item) => {
-        if ((item.id + '').indexOf('noData') === -1) {
-          data.push({
-            siteId: siteId,
-            selectName: item.id,
-            type: monitorTypeMap.get(item.type)?.type,
-            subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
-          });
-        }
+        data.push({
+          siteId: siteId,
+          selectName: (item.id + '').indexOf('noData') === -1 ? item.id : '',
+          type: monitorTypeMap.get(item.type)?.type,
+          subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
+        });
       });
     }
     [...(tableData.row1 || []), ...(tableData.row2 || []), ...(tableData.row3 || [])].forEach(
       (item) => {
-        if ((item.id + '').indexOf('noData') === -1) {
-          data.push({
-            siteId: siteId,
-            selectName: item.id,
-            type: monitorTypeMap.get(item.type)?.type,
-            subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
-          });
-        }
+        data.push({
+          siteId: siteId,
+          selectName: (item.id + '').indexOf('noData') === -1 ? item.id : '',
+          type: monitorTypeMap.get(item.type)?.type,
+          subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
+        });
       },
     );
     runEditConfig(data).then((result) => {

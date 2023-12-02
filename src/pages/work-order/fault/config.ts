@@ -2,12 +2,31 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { FaultType } from './type';
 import { OrderStatus } from './type';
 
-export const orderStatus = new Map([
-  [OrderStatus.READY, '待处理'],
-  [OrderStatus.DEALING, '维修中'],
-  [OrderStatus.CLOSE, '维修完成'],
-]);
-
+// export const orderStatus = new Map([
+//   [OrderStatus.READY, '待处理'],
+//   [OrderStatus.DEALING, '维修中'],
+//   [OrderStatus.CLOSE, '维修完成'],
+// ]);
+export const orderStatus = {
+  0: {
+    text: '待处理',
+  },
+  1: {
+    text: '维修中',
+  },
+  3: {
+    text: '维修完成',
+  },
+  4: {
+    text: '拒绝处理',
+  },
+  5: {
+    text: '待分配',
+  },
+  6: {
+    text: '完成',
+  },
+};
 export const columns: ProColumns<FaultType>[] = [
   {
     title: '创建时间',

@@ -45,20 +45,20 @@ const Log: React.FC = () => {
       });
     });
   }, []);
- 
+
   const productTypeColumn = {
-      title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}), 
+      title: formatMessage({ id: 'common.productType' ,defaultMessage: '产品类型'}),
       dataIndex: 'productTypeName',
       formItemProps: {
         name: 'productTypeId',
       },
       fieldProps: {
         onChange: (productTypeId:any) => {
-          
+
         },
       },
       hideInTable: true,
-   
+
     request: requestProductType,
   };
   //获取产品型号--依赖产品类型
@@ -76,7 +76,7 @@ const Log: React.FC = () => {
       });
     }else {
       return Promise.resolve([]);
-    }   
+    }
   }, []);
   const productSnColumn = {
       title: formatMessage({id: 'common.model',defaultMessage: '产品型号',}),
@@ -85,7 +85,7 @@ const Log: React.FC = () => {
         name: 'productModel',
       },
       hideInTable: true,
-      dependencies: ['productTypeId'],   
+      dependencies: ['productTypeId'],
       fieldProps: (form) => {
         return {
           onChange: () => {
@@ -115,7 +115,7 @@ const Log: React.FC = () => {
       });
     }else {
       return Promise.resolve([]);
-    }   
+    }
   }, []);
   const moduleColumn = {
       title: formatMessage({id: 'common.module',defaultMessage: '模块',}),
@@ -124,7 +124,7 @@ const Log: React.FC = () => {
         name: 'moduleMark',//模块id
       },
       hideInTable: true,
-      dependencies: ['productModel'],   
+      dependencies: ['productModel'],
       request: requestModule,
   };
 //获取升级版本号--依赖产品型号id
@@ -140,10 +140,10 @@ const requestVersion = useCallback((params) => {
     });
   } else {
     return Promise.resolve([]);
-  } 
+  }
 }, []);
 const versionList= {
-    title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}), 
+    title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}),
     dataIndex: 'version',
     formItemProps: {
       name: 'id',
@@ -167,7 +167,7 @@ const versionList= {
 // });
 //升级时间
 const upgradTime = {
-  title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间'}), 
+  title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间'}),
   dataIndex: 'upgradeTime',
   valueType: 'dateTimeRange',
   width: 150,
@@ -235,7 +235,7 @@ const upgradTime = {
         ellipsis: true,
         hideInSearch: true,
       },
-      
+
     {
       title: formatMessage({id: 'common.softwarePackage',defaultMessage: '软件包名',}),
       dataIndex: 'packageName',
@@ -244,14 +244,14 @@ const upgradTime = {
       hideInSearch: true,
     },
     {
-      title: formatMessage({id: 'common.original',defaultMessage: '原始版本',}), 
+      title: formatMessage({id: 'common.original',defaultMessage: '原始版本',}),
       dataIndex: 'oldVersion',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}), 
+      title: formatMessage({ id: 'upgradeManage.upgraVersion' ,defaultMessage: '升级版本'}),
       dataIndex: 'newVersion',
       width: 150,
       ellipsis: true,
@@ -265,14 +265,14 @@ const upgradTime = {
       hideInSearch: true,
     },
     {
-      title: formatMessage({id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间',}), 
+      title: formatMessage({id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间',}),
       dataIndex: 'upgradeTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: formatMessage({id: 'upgradeManage.upgradeStatus', defaultMessage: '升级状态',}), 
+      title: formatMessage({id: 'upgradeManage.upgradeStatus', defaultMessage: '升级状态',}),
       dataIndex: 'status',
       width: 150,
       ellipsis: true,
@@ -291,7 +291,7 @@ const upgradTime = {
       },
     },
     {
-      title: formatMessage({id: 'upgradeManage.upgradePer', defaultMessage: '升级人',}), 
+      title: formatMessage({id: 'upgradeManage.upgradePer', defaultMessage: '升级人',}),
       dataIndex: 'upgraderName',
       hideInSearch: true,
       width: 100,

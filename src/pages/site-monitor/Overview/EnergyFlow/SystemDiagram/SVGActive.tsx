@@ -22,7 +22,6 @@ const SvgComponent = (
   const energyStore = data?.[SubSystemType.ES] ?? {};
   const chargeStack = data?.[SubSystemType.CS] ?? {};
   const load = data?.[SubSystemType.L] ?? {};
-
   return (
     <div className={styles.activeWrapper}>
       <div

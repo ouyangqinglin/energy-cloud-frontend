@@ -1,10 +1,10 @@
 import request from '@/utils/request';
 
-export const setComplete = (id: string) => {
+export const setComplete = (siteId: string) => {
   return request(`/uc/site/constructionStatus`, {
     method: 'PUT',
     data: {
-      id,
+      siteId,
     },
   });
 };

@@ -62,7 +62,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           open={open}
           onOpenChange={set}
           title={title}
-          width={552}
+          width={'50%'}
           type={FormTypeEnum.Edit}
           columns={columns}
           initialValues={initialValues}

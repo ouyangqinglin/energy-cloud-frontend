@@ -11,13 +11,13 @@ const BenefitSocial: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
       title: '节约标准煤',
-      unit: 'kg',
+      unit: '吨',
       comma: true,
       num: props.coal,
     },
     {
       title: 'CO₂减排量',
-      unit: 'kg',
+      unit: '吨',
       comma: true,
       num: props.conserveEnergyReduceEmissions,
     },

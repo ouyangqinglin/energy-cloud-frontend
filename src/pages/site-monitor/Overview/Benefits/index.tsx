@@ -32,7 +32,7 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
         </Col>
         <Col span={18} className={styles.rightBox}>
           <div className={styles.desc}>
-            <span className={styles.label}>年CO2减排量(t)：</span>
+            <span className={styles.label}>年CO₂减排量(t)：</span>
             <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCo2)}</span>
           </div>
           <div className={styles.desc}>
