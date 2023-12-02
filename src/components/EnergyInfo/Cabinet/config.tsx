@@ -37,7 +37,7 @@ const energyPowerFormat = (value: number, data: any) => {
 
 export const airItem = {
   label: '空调',
-  productIds: [DeviceTypeEnum.Air],
+  productIds: [DeviceTypeEnum.Air, DeviceTypeEnum.YTEnergyAir],
   position: { top: 51, left: 14 },
   icon: AirImg,
   line: AirLineImg,
@@ -88,7 +88,7 @@ export const unitItems = [
   },
   {
     label: 'EMS',
-    productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms],
+    productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
     position: { top: 302, left: 14 },
     icon: EmsImg,
     line: EmsLineImg,
@@ -108,7 +108,11 @@ export const unitItems = [
   },
   {
     label: '电池堆',
-    productIds: [DeviceTypeEnum.BatteryStack, DeviceTypeEnum.BWattBatteryStack],
+    productIds: [
+      DeviceTypeEnum.BatteryStack,
+      DeviceTypeEnum.BWattBatteryStack,
+      DeviceTypeEnum.YTEnergyBatteryStack,
+    ],
     position: { top: 450, left: 14 },
     icon: StackImg,
     line: StackLineImg,
@@ -117,7 +121,7 @@ export const unitItems = [
   },
   {
     label: 'PCS',
-    productIds: [DeviceTypeEnum.Pcs, DeviceTypeEnum.BWattPcs],
+    productIds: [DeviceTypeEnum.Pcs, DeviceTypeEnum.BWattPcs, DeviceTypeEnum.YTEnergyPcs],
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,
@@ -138,7 +142,11 @@ export const unitItems = [
   },
   {
     label: '单体极值信息',
-    productIds: [DeviceTypeEnum.BatteryStack, DeviceTypeEnum.BWattBatteryStack],
+    productIds: [
+      DeviceTypeEnum.BatteryStack,
+      DeviceTypeEnum.BWattBatteryStack,
+      DeviceTypeEnum.YTEnergyBatteryStack,
+    ],
     position: { top: 175, left: 802 },
     icon: EmsImg,
     line: PackLineImg,

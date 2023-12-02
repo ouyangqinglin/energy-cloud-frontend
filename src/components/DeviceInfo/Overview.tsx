@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-11-30 15:51:05
+ * @LastEditTime: 2023-12-01 17:52:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -180,11 +180,11 @@ const Overview: React.FC<OverviewProps> = (props) => {
       { label: '设备序列号', field: 'sn' },
       { label: '产品型号', field: 'model' },
       { label: '产品类型', field: 'productTypeName' },
-      { label: '软件包名称', field: 'b' },
-      { label: '软件版本号', field: 'a' },
+      { label: '软件包名称', field: 'softPackageName' },
+      { label: '软件版本号', field: 'softVersion' },
       { label: '激活时间', field: 'activeTime' },
       { label: '录入时间', field: 'createTime' },
-      { label: '录入人', field: 'updateUserName' },
+      { label: '录入人', field: 'createUserName' },
       { label: '所属站点', field: 'siteName' },
     ];
   }, [deviceData]);

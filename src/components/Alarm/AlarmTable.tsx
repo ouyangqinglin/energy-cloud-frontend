@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-09-18 10:49:52
+ * @LastEditTime: 2023-12-02 09:11:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -443,6 +443,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
             : {
                 labelAlign: 'left',
               }
+        }
+        scroll={
+          isStationChild
+            ? {
+                y: 490,
+              }
+            : {}
         }
       />
       <DetailDialog
