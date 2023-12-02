@@ -10,23 +10,22 @@ export type ControlParamItem = {
 };
 export const controlItems: ControlParamItem[] = [
   {
+    label: '系统工作状态控制',
+    field: 'systemWorkingStatus',
+    btnParam: [
+      { text: '启动', value: 0 },
+      { text: '待机', value: 1 },
+      { text: '停止', value: 2 },
+      { text: '急停', value: 3 },
+    ],
+  },
+  {
     label: '系统工作模式切换',
     field: 'systemOperatingMode',
     btnParam: [
       { text: '削峰填谷', value: 0 },
       { text: '备电', value: 1 },
       { text: '手动控制', value: 2 },
-    ],
-  },
-  {
-    label: '系统工作状态控制',
-    field: 'systemWorkingStatus',
-    disabled: true,
-    btnParam: [
-      { text: '启动', value: 0 },
-      { text: '待机', value: 1 },
-      { text: '停止', value: 2 },
-      { text: '急停', value: 3 },
     ],
   },
   // {

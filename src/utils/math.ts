@@ -1,6 +1,10 @@
 import { isNaN } from 'lodash';
+import { isEmpty } from '.';
 
 export function keepAnyDecimal(value: any, defaultValue: any = 0, decimal = 2) {
+  if (isEmpty(value)) {
+    return defaultValue;
+  }
   const num = Number(value);
   if (isNaN(num)) {
     return defaultValue;

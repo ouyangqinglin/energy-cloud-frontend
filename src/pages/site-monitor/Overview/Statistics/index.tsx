@@ -6,30 +6,6 @@ import DescriptionCard from '../components/CardDescription';
 import { config } from './config';
 import { getElectricityStatistics } from './service';
 
-// const DEFAULT_VALUE = {
-//   photovoltaic: {
-//     charge: '--',
-//     power: '--',
-//   },
-//   storedEnergy: {
-//     charge: '--',
-//     discharge: '--',
-//     power: '--',
-//     dischargeableCapacity: '--',
-//   },
-//   electricSupply: {
-//     charge: '--',
-//     discharge: '--',
-//     power: '--',
-//   },
-//   load: {
-//     charge: '--', //当日用电量
-//     chargingPileCharge: '--', //充电桩用电量
-//     power: '--', //用电功率
-//     chargingPilePower: '--', //充电桩功率
-//   },
-// };
-
 const Statistics = ({ siteId }: { siteId?: number }) => {
   const { data = {}, run } = useRequest(getElectricityStatistics, {
     manual: true,

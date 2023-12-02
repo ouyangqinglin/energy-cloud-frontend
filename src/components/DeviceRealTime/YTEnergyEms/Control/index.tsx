@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-12-01 17:17:33
+ * @LastEditTime: 2023-12-02 15:20:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
@@ -61,7 +61,12 @@ const Setting: React.FC<SettingProps> = (props) => {
                   return (
                     <>
                       <Button
-                        type={settingData[item.field] == btnItem.value ? 'primary' : 'default'}
+                        type={
+                          settingData[item.field] == btnItem.value &&
+                          !(item.disabled && settingData?.systemOperatingMode != 2)
+                            ? 'primary'
+                            : 'default'
+                        }
                         ghost={settingData[item.field] == btnItem.value}
                         loading={loading}
                         onClick={() => {
@@ -72,7 +77,10 @@ const Setting: React.FC<SettingProps> = (props) => {
                         <Radio
                           name={item.field}
                           className="mr8"
-                          checked={settingData[item.field] == btnItem.value}
+                          checked={
+                            settingData[item.field] == btnItem.value &&
+                            !(item.disabled && settingData?.systemOperatingMode != 2)
+                          }
                           onClick={(e) => {
                             e.stopPropagation();
                           }}

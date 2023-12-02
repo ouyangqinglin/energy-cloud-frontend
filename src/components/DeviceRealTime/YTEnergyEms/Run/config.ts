@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-10-17 14:31:51
+ * @LastEditTime: 2023-12-02 15:36:21
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
@@ -24,6 +24,8 @@ import {
   batteryWorkFormat,
   batteryWorkingStatusFormat,
   systemRunFormat,
+  singleEffectFormat,
+  openFormat,
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
@@ -88,8 +90,8 @@ export const emsOperationItems: DetailItem[] = [
   { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
   { label: '预充触器状态', field: 'prechargeContactStatus', format: closeFormat },
   { label: '直流断路器状态', field: 'DCCircuitBreakerStatus', format: closeFormat },
-  { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: closeFormat },
-  { label: '气溶胶信号', field: 'AerosolSignal', format: singleBFormat },
+  { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: openFormat },
+  { label: '气溶胶信号', field: 'AerosolSignal', format: singleEffectFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
 ];

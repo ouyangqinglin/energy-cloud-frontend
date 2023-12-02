@@ -152,6 +152,13 @@ export const singleFormat = (value: number) => {
   };
   return <span className={'cl-success'}>{map[value]}</span>;
 };
+export const singleEffectFormat = (value: number) => {
+  const map: MapType = {
+    0: '有效',
+    1: '断开',
+  };
+  return <span className={'cl-success'}>{map[value]}</span>;
+};
 export const clusterFormat = (value: number) => {
   return value === 0 ? '断开' : '闭合';
 };
