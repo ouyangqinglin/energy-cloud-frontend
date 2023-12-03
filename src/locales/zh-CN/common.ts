@@ -33,7 +33,9 @@ export default {
   'common.viewDetail': '查看详情',
   'common.unbind': '解绑',
   'common.unbindSuccess': '解绑成功',
+
   //
+
   'common.screen': '大屏页',
   'common.time.day': '日',
   'common.time.month': '月',
