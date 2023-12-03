@@ -28,6 +28,8 @@ export default {
   'menu.workOrder.fault': 'Customer Fault WorkOrder',
   'menu.deviceManage': 'Device Manage',
   'menu.deviceManage.deviceList': 'Device List',
+  'menu.deviceManage.carList': 'Car List',
+  'menu.deviceManage.batteryList': 'Battery List',
   'menu.deviceManage.upgradeManage': 'Upgrade Manage',
   'menu.systemManage': 'System Manage',
   'menu.systemManage.authorization': 'App Authorization',
