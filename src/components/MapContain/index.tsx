@@ -11,18 +11,22 @@ import type { CSSProperties } from 'react';
 import React, { useCallback, useMemo } from 'react';
 import AmapLoader from '../AmapLoader';
 import { aks } from '@/utils/dictionary';
+import styles from './index.less';
 
 export type MapProps = {
+  className?: string;
   style?: CSSProperties;
   ready?: () => void;
 };
 
 const MapContain: React.FC<MapProps> = (props) => {
+  const { style, children, className } = props;
+
   return (
     <>
-      <div style={{ height: '220px', ...props.style }}>
+      <div className={`${styles.contain} ${className}`} style={style}>
         <AmapLoader version="2.0.5" akey={aks[0].key} securityJsCode={aks[0].securityJsCode}>
-          {props.children}
+          {children}
         </AmapLoader>
       </div>
     </>

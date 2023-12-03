@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-02 15:31:02
- * @LastEditTime: 2023-12-02 15:31:15
+ * @LastEditTime: 2023-12-03 18:11:38
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\home-page\ExchangeSite\Map\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\home-page\ExchangeSite\SiteMap\index.tsx
  */
 import React, { useEffect, useMemo, useState } from 'react';
 import MapContain from '@/components/MapContain';
@@ -12,8 +12,25 @@ import { Map, Marker } from '@uiw/react-amap';
 import { getPoint } from '@/utils/map';
 import { useRequest } from 'umi';
 import { getSite, getVehicle } from '../service';
+import styles from '../index.less';
+import SiteIcon from '@/assets/image/exchange-site/site-maker.png';
+import DrivingIcon from '@/assets/image/exchange-site/driving-maker.png';
+import OfflineIcon from '@/assets/image/exchange-site/offline-maker.png';
+import SleepIcon from '@/assets/image/exchange-site/sleep-maker.png';
 
-const SiteMap: React.FC = () => {
+export type SiteMapType = {
+  className?: string;
+};
+
+const iconMap = new window.Map([
+  ['01', DrivingIcon],
+  ['02', OfflineIcon],
+  ['03', SleepIcon],
+]);
+
+const SiteMap: React.FC<SiteMapType> = (props) => {
+  const { className, children } = props;
+
   const [center, setCenter] = useState<AMap.LngLat>();
 
   const { data: siteData } = useRequest(getSite);
@@ -26,48 +43,59 @@ const SiteMap: React.FC = () => {
   }, []);
 
   const siteMakers = useMemo(() => {
-    return siteData?.map?.((item) => {
-      return (
-        <Marker
-          icon={
-            new AMap.Icon({
-              imageSize: new AMap.Size(25, 34),
-              image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-1.png',
-            })
-          }
-          offset={new AMap.Pixel(-13, -30)}
-          position={new AMap.LngLat(item.rtLon, item.rtLat)}
-        />
-      );
-    });
-  }, [siteData]);
+    return center ? (
+      siteData?.map?.((item) => {
+        return (
+          <Marker
+            key={item.id}
+            icon={
+              new AMap.Icon({
+                imageSize: new AMap.Size(38, 55),
+                image: SiteIcon,
+              })
+            }
+            offset={new AMap.Pixel(-19, -27)}
+            position={new AMap.LngLat(item.rtLon, item.rtLat)}
+          />
+        );
+      })
+    ) : (
+      <></>
+    );
+  }, [siteData, center]);
 
   const vehicleMakers = useMemo(() => {
-    return vehicleData?.map?.((item) => {
-      return (
-        <Marker
-          icon={
-            new AMap.Icon({
-              imageSize: new AMap.Size(25, 34),
-              image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-1.png',
-            })
-          }
-          offset={new AMap.Pixel(-13, -30)}
-          position={new AMap.LngLat(item.lon, item.lat)}
-        />
-      );
-    });
-  }, [vehicleData]);
+    return center ? (
+      vehicleData?.map?.((item) => {
+        return (
+          <Marker
+            key={item.autoId}
+            icon={
+              new AMap.Icon({
+                imageSize: new AMap.Size(38, 55),
+                image: iconMap.get(item.isOnline ?? '01'),
+              })
+            }
+            offset={new AMap.Pixel(-13, -30)}
+            position={new AMap.LngLat(item.lon, item.lat)}
+          />
+        );
+      })
+    ) : (
+      <></>
+    );
+  }, [vehicleData, center]);
 
   return (
     <>
-      <MapContain style={{ height: '500px' }}>
-        <Map center={center} zoom={5}>
+      <MapContain className={`${className} ${styles.map}`} style={{ height: '500px' }}>
+        <Map center={center} zoom={4}>
           <>
             {siteMakers}
             {vehicleMakers}
           </>
         </Map>
+        {children}
       </MapContain>
     </>
   );

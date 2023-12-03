@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-09-22 09:10:31
+ * @LastEditTime: 2023-12-03 16:12:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -366,6 +366,32 @@ export const defaultMapOption: any = {
             color: '#fff',
           },
         },
+      },
+    },
+  ],
+};
+
+export const defaultPieOption: any = {
+  tooltip: {
+    trigger: 'item',
+  },
+  legend: {
+    bottom: '5%',
+    left: 'center',
+    icon: 'circle',
+  },
+  series: [
+    {
+      type: 'pie',
+      center: ['50%', '40%'],
+      radius: ['30%', '50%'],
+      avoidLabelOverlap: false,
+      label: {
+        show: false,
+        position: 'center',
+      },
+      labelLine: {
+        show: false,
       },
     },
   ],

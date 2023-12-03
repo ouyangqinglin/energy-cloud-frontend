@@ -282,7 +282,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                           <Form.Item
                             {...restField}
                             name={[name, 'CorD']}
-                            label="充电模式"
+                            label="工作模式"
                             rules={[{ required: true, message: '请选择充电模式' }]}
                           >
                             <Select placeholder="请选择充电模式">
