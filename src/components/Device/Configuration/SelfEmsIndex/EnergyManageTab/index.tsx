@@ -270,7 +270,6 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                             <TimePicker.RangePicker
                               className="w-full"
                               format={timeFormat}
-                              minuteStep={15}
                               placeholder={['开始', '结束']}
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.parentElement || document.body
