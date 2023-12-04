@@ -6,7 +6,7 @@ export default {
   'menu.station.list': '站点列表',
   'menu.station.setting': '站点配置',
   'menu.device.deviceMonitor': '设备详情',
-  'menu.exchangeMonitor': '换点站监控',
+  'menu.exchangeMonitor': '换电站监控',
   'menu.exchangeMonitor.realTimeMonitor': '换电站实时监控',
   'menu.exchangeMonitor.chargeRecord': '充电记录',
   'menu.exchangeMonitor.exchangeRecord': '换电记录',
