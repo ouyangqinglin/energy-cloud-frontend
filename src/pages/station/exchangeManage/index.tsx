@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
+import { exchangeSiteStatus, onlineStatus, operateStatus, vehicleType } from '@/utils/dictionary';
 import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
@@ -164,6 +164,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '换电站属性' }),
         dataIndex: 'exchangeSiteProperty',
+        valueType: 'select',
+        valueEnum: exchangeSiteStatus,
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -171,6 +173,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.productType1', defaultMessage: '运营状态' }),
         dataIndex: 'status',
+        valueEnum: operateStatus,
         width: 120,
         ellipsis: true,
         fieldProps: {
@@ -188,7 +191,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '服务车辆类型' }),
         dataIndex: 'serviceType',
         valueType: 'select',
-        valueEnum: onlineStatus,
+        valueEnum: vehicleType,
         fieldProps: {
           placeholder: '请选择车队',
         },

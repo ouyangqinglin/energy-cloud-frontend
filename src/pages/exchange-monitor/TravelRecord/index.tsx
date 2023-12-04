@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 15:42:16
+ * @LastEditTime: 2023-12-04 13:59:16
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\TravelRecord\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message } from 'antd';
@@ -205,7 +205,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '平均能耗(KWH/KM)' }),
-        dataIndex: 'averageEnergyConsumption km',
+        dataIndex: 'averageEnergyConsumptionKm',
         width: 150,
         ellipsis: true,
         hideInSearch: true,

@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 14:26:05
- * @LastEditTime: 2023-11-30 15:43:20
+ * @LastEditTime: 2023-12-04 13:56:14
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\service.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\service.ts
  */
 import request from '@/utils/request';
 
 export const getPage = (params: any) => {
-  return request(`/iot/operation/site/list`, {
+  return request(`/iot/exchangeSiteMonitor/realTimeList`, {
     method: 'GET',
     params,
   });

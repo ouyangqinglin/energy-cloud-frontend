@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 15:42:16
+ * @LastEditTime: 2023-12-04 14:09:55
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\ChargeRecord\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message } from 'antd';
@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
+import { chargeType, onlineStatus } from '@/utils/dictionary';
 import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
@@ -153,6 +153,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '充电类型' }),
         dataIndex: 'chargeType',
+        valueEnum: chargeType,
         width: 150,
         ellipsis: true,
         fieldProps: {
@@ -188,7 +189,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '充电起始时间' }),
         dataIndex: 'chargeStartTime',
         valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
+        render: (_, record) => <span>{record.chargeStartTime}</span>,
         search: {
           transform: (value) => {
             return {
@@ -206,7 +207,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '充电结束时间' }),
         dataIndex: 'chargeEndTime',
         valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
+        render: (_, record) => <span>{record.chargeEndTime}</span>,
         search: {
           transform: (value) => {
             return {

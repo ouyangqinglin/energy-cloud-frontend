@@ -428,3 +428,22 @@ export const vehicleDrivingStatus = {
   1: { text: '行驶' },
   2: { text: '离线' },
 };
+
+export const exchangeSiteStatus = {
+  0: { text: '公有' },
+  1: { text: '专用' },
+};
+
+export const operateStatus = {
+  0: { text: '建设中' },
+  1: { text: '营运中' },
+};
+
+export const vehicleType = {
+  0: { text: '牵引车' },
+  1: { text: '混凝土搅拌车' },
+};
+
+export const chargeType = {
+  0: { text: '换电站充电' },
+};

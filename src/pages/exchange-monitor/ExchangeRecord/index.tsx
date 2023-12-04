@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-04 10:47:13
+ * @LastEditTime: 2023-12-04 13:58:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\ExchangeRecord\index.tsx
  */
@@ -144,7 +144,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
-        dataIndex: 'exchangeSiteName ',
+        dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -230,7 +230,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '换电起始时间' }),
         dataIndex: 'exchangeStartTime',
         valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
+        render: (_, record) => <span>{record.exchangeStartTime}</span>,
         search: {
           transform: (value) => {
             return {
@@ -247,7 +247,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '换电结束时间' }),
         dataIndex: 'exchangeEndTime',
         valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
+        render: (_, record) => <span>{record.exchangeEndTime}</span>,
         search: {
           transform: (value) => {
             return {

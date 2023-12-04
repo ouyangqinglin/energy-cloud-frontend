@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-04 10:23:36
+ * @LastEditTime: 2023-12-04 14:16:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\index.tsx
  */
@@ -222,7 +222,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <Card title="换电站实时监控" bordered={false} style={{ marginBottom: '50px' }}>
+      <Card title="换电站实时监控" bordered={false}>
         <Row>
           <Col span={8}>
             <Statistic title="换电站总数" value={11} style={{ textAlign: 'center' }} />
