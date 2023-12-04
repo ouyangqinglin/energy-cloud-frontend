@@ -18,15 +18,13 @@ import {
   kohmFormat,
   powerHourFormat,
   tempFormat,
-  fault1Format,
-  fault2Format,
-  fault3Format,
   doorFormat,
   abnormalFormat,
   externalFaultFormat,
   hydrogenFormat,
   contactorFormat,
   runStateFormat,
+  alarmArrFormat,
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
@@ -49,9 +47,9 @@ export const controlItems: DetailItem[] = [
   { label: '接触器状态', field: 'contactorStatus', format: contactorFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
-  { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
-  { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
-  { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },
+  { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
+  { label: '二级报警', field: 'secondLevelAlarm', format: alarmArrFormat },
+  { label: '三级报警', field: 'threeLevelAlarm', format: alarmArrFormat },
   { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
 ];
 

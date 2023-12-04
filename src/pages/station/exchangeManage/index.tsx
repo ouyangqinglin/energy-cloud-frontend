@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { unbindDevice } from './service';
+import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -103,36 +103,32 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
+    return getPage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
 
   const toolBar = useCallback(
-    () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
-        ? [
-            <Button type="primary" key="add">
-              <ExportOutlined />
-              <FormattedMessage id="common.add1" defaultMessage="导出" />
-            </Button>,
-            <Button type="primary" key="add" onClick={onAddClick}>
-              <PlusOutlined />
-              <FormattedMessage id="common.add" defaultMessage="添加" />
-            </Button>,
-            <Button type="primary" key="add">
-              <DeleteOutlined />
-              <FormattedMessage id="common.add1" defaultMessage="作废" />
-            </Button>,
-          ]
-        : [],
+    () => [
+      <Button type="primary" key="add">
+        <ExportOutlined />
+        <FormattedMessage id="common.add1" defaultMessage="导出" />
+      </Button>,
+      <Button type="primary" key="add">
+        <PlusOutlined />
+        <FormattedMessage id="common.add" defaultMessage="添加" />
+      </Button>,
+      <Button type="primary" key="add">
+        <DeleteOutlined />
+        <FormattedMessage id="common.add1" defaultMessage="作废" />
+      </Button>,
+    ],
     [authorityMap, onAddClick],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.viewDetail1" defaultMessage="查看" />
       </Button>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.viewDetail1" defaultMessage="编辑" />
       </Button>
     </>
@@ -141,40 +137,40 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return [
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站编号' }),
-        dataIndex: 'sn',
+        dataIndex: 'id',
         width: 150,
         ellipsis: true,
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
-        dataIndex: 'name',
+        dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
       },
       {
         title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '省/市/区' }),
-        dataIndex: 'deviceId',
+        dataIndex: 'provinceCityDistrict',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '详细地址' }),
-        dataIndex: 'sn',
+        dataIndex: 'address',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '换电站属性' }),
-        dataIndex: 'model',
+        dataIndex: 'exchangeSiteProperty',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.productType1', defaultMessage: '运营状态' }),
-        dataIndex: 'productTypeName',
+        dataIndex: 'status',
         width: 120,
         ellipsis: true,
         fieldProps: {
@@ -183,14 +179,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '换电站型号' }),
-        dataIndex: 'siteName',
+        dataIndex: 'exchangeSiteModel',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '服务车辆类型' }),
-        dataIndex: 'connectStatus',
+        dataIndex: 'serviceType',
         valueType: 'select',
         valueEnum: onlineStatus,
         fieldProps: {
@@ -200,28 +196,42 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '电池仓位数' }),
-        dataIndex: 'sn',
+        dataIndex: 'batteryCompartmentNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电机数量' }),
-        dataIndex: 'sn',
+        dataIndex: 'chargerNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站供应商' }),
-        dataIndex: 'sn',
+        dataIndex: 'exchangeSiteSupplier',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '创建人' }),
-        dataIndex: 'sn',
+        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站供应商' }),
+        dataIndex: 'exchangeSiteSupplier',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.xxx', defaultMessage: '关联换电场' }),
+        dataIndex: 'connectExchangePlace',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.xxx', defaultMessage: '创建人' }),
+        dataIndex: 'createBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -245,14 +255,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '最后修改人' }),
-        dataIndex: 'sn',
+        dataIndex: 'updateBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.upTime1', defaultMessage: '最后修改时间' }),
-        dataIndex: 'sessionStartTime',
+        dataIndex: 'updateTime',
         valueType: 'dateTime',
         hideInSearch: true,
         width: 150,

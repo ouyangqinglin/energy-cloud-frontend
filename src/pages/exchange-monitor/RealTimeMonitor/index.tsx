@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 15:42:16
+ * @LastEditTime: 2023-12-04 10:23:36
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message, Row, Col, Statistic } from 'antd';
@@ -20,7 +20,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { unbindDevice } from './service';
+import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -104,25 +104,21 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
+    return getPage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
 
   const toolBar = useCallback(
-    () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
-        ? [
-            <Button type="primary" key="add">
-              <ExportOutlined />
-              <FormattedMessage id="common.add1" defaultMessage="导出" />
-            </Button>,
-          ]
-        : [],
+    () => [
+      <Button type="primary" key="add">
+        <ExportOutlined />
+        <FormattedMessage id="common.add1" defaultMessage="导出" />
+      </Button>,
+    ],
     [authorityMap, onAddClick],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.viewDetail1" defaultMessage="详情" />
       </Button>
     </>
@@ -131,7 +127,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return [
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站' }),
-        dataIndex: 'name',
+        dataIndex: 'exchangeSiteId',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -141,14 +137,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '换电站编号' }),
-        dataIndex: 'deviceId',
+        dataIndex: 'exchangeSiteId',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
-        dataIndex: 'name',
+        dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
         hideInSearch: true,
@@ -156,35 +152,35 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站数量' }),
-        dataIndex: 'sn',
+        dataIndex: 'exchangeSiteNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '充电桩可用数量' }),
-        dataIndex: 'model',
+        dataIndex: 'chargingStationAvailableNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.productType1', defaultMessage: '充电机可用数量' }),
-        dataIndex: 'productTypeName',
+        dataIndex: 'chargerAvailableNumber',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '电池仓数量' }),
-        dataIndex: 'siteName',
+        dataIndex: 'batteryCompartmentNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '总功率' }),
-        dataIndex: 'connectStatus',
+        dataIndex: 'totalPower',
         valueType: 'select',
         valueEnum: onlineStatus,
         hideInSearch: true,
@@ -192,14 +188,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '地址' }),
-        dataIndex: 'sn',
+        dataIndex: 'address',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '更新时间' }),
-        dataIndex: 'createTime',
+        dataIndex: 'updateTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
         search: {

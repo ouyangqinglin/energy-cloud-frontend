@@ -8,6 +8,13 @@
  */
 import request from '@/utils/request';
 
+export const getPage = (params: any) => {
+  return request(`/iot/operation/site/list`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getTabs = (params: any) => {
   return request(`/iot/device/summary`, {
     method: 'GET',

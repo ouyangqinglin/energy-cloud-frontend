@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { unbindDevice } from './service';
+import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -103,27 +103,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
+    return getPage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
 
   const toolBar = useCallback(
-    () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
-        ? [
-            <Button type="primary" key="add">
-              <ExportOutlined />
-              <FormattedMessage id="common.add1" defaultMessage="导出" />
-            </Button>,
-          ]
-        : [],
+    () => [
+      <Button type="primary" key="add">
+        <ExportOutlined />
+        <FormattedMessage id="common.add1" defaultMessage="导出" />
+      </Button>,
+    ],
     [authorityMap],
   );
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电记录搜索:' }),
-        dataIndex: 'name',
+        dataIndex: 'transNo',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -133,21 +129,21 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '充电流水号' }),
-        dataIndex: 'deviceId',
+        dataIndex: 'transNo',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站编号' }),
-        dataIndex: 'sn',
+        dataIndex: 'exchangeSiteId',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
-        dataIndex: 'name',
+        dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -156,7 +152,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '充电类型' }),
-        dataIndex: 'model',
+        dataIndex: 'chargeType',
         width: 150,
         ellipsis: true,
         fieldProps: {
@@ -166,7 +162,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '电池SN编码' }),
-        dataIndex: 'sn',
+        dataIndex: 'batterySn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -190,7 +186,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '充电起始时间' }),
-        dataIndex: 'createTime',
+        dataIndex: 'chargeStartTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -208,7 +204,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
       {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '充电结束时间' }),
-        dataIndex: 'createTime',
+        dataIndex: 'chargeEndTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -225,7 +221,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.productType1', defaultMessage: '车架号' }),
-        dataIndex: 'productTypeName',
+        dataIndex: 'vin',
         width: 120,
         ellipsis: true,
         fieldProps: {
@@ -235,7 +231,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '车牌号' }),
-        dataIndex: 'siteName',
+        dataIndex: 'carNumber',
         width: 150,
         ellipsis: true,
         fieldProps: {
@@ -245,7 +241,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '车队' }),
-        dataIndex: 'connectStatus',
+        dataIndex: 'fleet',
         valueType: 'select',
         valueEnum: onlineStatus,
         fieldProps: {
@@ -255,28 +251,28 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电起始SOC' }),
-        dataIndex: 'sn',
+        dataIndex: 'chargeStartSoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电结束SOC' }),
-        dataIndex: 'sn',
+        dataIndex: 'chargeEndSoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电量（KWH）' }),
-        dataIndex: 'sn',
+        dataIndex: 'chargeCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电时长(S)' }),
-        dataIndex: 'sn',
+        dataIndex: 'chargeTime',
         width: 150,
         ellipsis: true,
         hideInSearch: true,

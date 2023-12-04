@@ -296,108 +296,25 @@ export const externalFaultFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
-    1: { text: 'BMU硬件故障', color: 'cl-error' },
-    2: { text: 'BCU硬件故障', color: 'cl-error' },
-    3: { text: '熔断器故障', color: 'cl-error' },
-    4: { text: '接触器粘连故障', color: 'cl-error' },
-    5: { text: 'BMU通信故障', color: 'cl-error' },
-    6: { text: 'BAU通信故障', color: 'cl-error' },
-    7: { text: '电流传感器故障', color: 'cl-error' },
-    8: { text: '绝缘监测设备故障', color: 'cl-error' },
-    9: { text: '隔开开关异常断开', color: 'cl-error' },
-    10: { text: 'NTC故障', color: 'cl-error' },
-    11: { text: 'PCS通信故障', color: 'cl-error' },
-    12: { text: '急停信号', color: 'cl-error' },
-    13: { text: '水浸信号', color: 'cl-error' },
-    14: { text: '气溶胶信号', color: 'cl-error' },
-    15: { text: '交流防雷器故障', color: 'cl-error' },
+    1: { text: '故障', color: 'cl-error' },
   };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
+  return (
+    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
+      {map[valueArr.includes(0) ? 0 : 1]?.text}
+    </span>
+  );
 };
-export const fault1Format = (value: string) => {
+export const alarmArrFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
-    1: { text: '总电压过压一级报警', color: 'cl-error' },
-    2: { text: '总电压欠压一级报警', color: 'cl-error' },
-    3: { text: '单体过压一级报警', color: 'cl-error' },
-    4: { text: '单体欠压一级报警', color: 'cl-error' },
-    5: { text: '放电电流过大一级报警', color: 'cl-error' },
-    6: { text: '充电电流过大一级报警', color: 'cl-error' },
-    7: { text: '放电电池过温一级报警', color: 'cl-error' },
-    8: { text: '放电电池欠温一级报警', color: 'cl-error' },
-    9: { text: '充电电池过温一级报警', color: 'cl-error' },
-    10: { text: '充电电池欠温一级报警', color: 'cl-error' },
-    11: { text: '绝缘阻值过低一级报警', color: 'cl-error' },
-    12: { text: '极柱温度过高一级报警', color: 'cl-error' },
-    13: { text: '高压箱连接器温度过高一级报警', color: 'cl-error' },
-    14: { text: '单体压差一级报警', color: 'cl-error' },
-    15: { text: '单体温差一级报警', color: 'cl-error' },
-    16: { text: 'SOC低一级报警', color: 'cl-error' },
+    1: { text: '告警', color: 'cl-error' },
   };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
-};
-export const fault2Format = (value: string) => {
-  const valueArr = strToArray(value);
-  const map: MapDataType = {
-    0: { text: '正常', color: 'cl-success' },
-    1: { text: '总电压过压二级报警', color: 'cl-error' },
-    2: { text: '总电压欠压二级报警', color: 'cl-error' },
-    3: { text: '单体过压二级报警', color: 'cl-error' },
-    4: { text: '单体欠压二级报警', color: 'cl-error' },
-    5: { text: '放电电流过大二级报警', color: 'cl-error' },
-    6: { text: '充电电流过大二级报警', color: 'cl-error' },
-    7: { text: '放电电池过温二级报警', color: 'cl-error' },
-    8: { text: '放电电池欠温二级报警', color: 'cl-error' },
-    9: { text: '充电电池过温二级报警', color: 'cl-error' },
-    10: { text: '充电电池欠温二级报警', color: 'cl-error' },
-    11: { text: '绝缘阻值过低二级报警', color: 'cl-error' },
-    12: { text: '极柱温度过高二级报警', color: 'cl-error' },
-    13: { text: '高压箱连接器温度过高二级报警', color: 'cl-error' },
-    14: { text: '单体压差二级报警', color: 'cl-error' },
-    15: { text: '单体温差二级报警', color: 'cl-error' },
-    16: { text: 'SOC低二级报警', color: 'cl-error' },
-  };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
-};
-export const fault3Format = (value: string) => {
-  const valueArr = strToArray(value);
-  const map: MapDataType = {
-    0: { text: '正常', color: 'cl-success' },
-    1: { text: '总电压过压三级报警', color: 'cl-error' },
-    2: { text: '总电压欠压三级报警', color: 'cl-error' },
-    3: { text: '单体过压三级报警', color: 'cl-error' },
-    4: { text: '单体欠压三级报警', color: 'cl-error' },
-    5: { text: '放电电流过大三级报警', color: 'cl-error' },
-    6: { text: '充电电流过大三级报警', color: 'cl-error' },
-    7: { text: '放电电池过温三级报警', color: 'cl-error' },
-    8: { text: '放电电池欠温三级报警', color: 'cl-error' },
-    9: { text: '充电电池过温三级报警', color: 'cl-error' },
-    10: { text: '充电电池欠温三级报警', color: 'cl-error' },
-    11: { text: '绝缘阻值过低三级报警', color: 'cl-error' },
-    12: { text: '极柱温度过高三级报警', color: 'cl-error' },
-    13: { text: '高压箱连接器温度过高三级报警', color: 'cl-error' },
-    14: { text: '单体压差三级报警', color: 'cl-error' },
-    15: { text: '单体温差三级报警', color: 'cl-error' },
-    16: { text: 'SOC低三级报警', color: 'cl-error' },
-  };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
+  return (
+    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
+      {map[valueArr.includes(0) ? 0 : 1]?.text}
+    </span>
+  );
 };
 export const outputFormat = (status: number) => {
   const map: MapType = {

@@ -422,3 +422,9 @@ export enum DeviceServicePageEnum {
   RemoteControl = 'remoteControl',
   Config = 'config',
 }
+
+export const vehicleDrivingStatus = {
+  0: { text: '休眠' },
+  1: { text: '行驶' },
+  2: { text: '离线' },
+};

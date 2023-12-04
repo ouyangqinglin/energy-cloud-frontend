@@ -20,9 +20,6 @@ import {
   tempFormat,
   workFormat,
   faultFormat,
-  fault1Format,
-  fault2Format,
-  fault3Format,
   doorFormat,
   chargeFormat,
   openFormat,
@@ -37,6 +34,7 @@ import {
   airsetFormat,
   electricModelFormat,
   externalFaultFormat,
+  alarmArrFormat,
 } from '@/utils/format';
 
 export const statusItems: DetailItem[] = [
@@ -196,9 +194,9 @@ export const bmsStatusItems: DetailItem[] = [
   { label: 'BMU10风扇', field: 'BMU10Fan', format: openFormat },
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
-  { label: '一级报警', field: 'firstLevelAlarm', format: fault1Format },
-  { label: '二级报警', field: 'secondLevelAlarm', format: fault2Format },
-  { label: '三级报警', field: 'threeLevelAlarm', format: fault3Format },
+  { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
+  { label: '二级报警', field: 'secondLevelAlarm', format: alarmArrFormat },
+  { label: '三级报警', field: 'threeLevelAlarm', format: alarmArrFormat },
 ];
 export const bmsMeasureItems: DetailItem[] = [
   { label: '电池总电压', field: 'TotalBatteryVoltage', format: voltageFormat },

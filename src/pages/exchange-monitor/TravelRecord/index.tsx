@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { unbindDevice } from './service';
+import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -103,25 +103,21 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, ...(isStationChild ? { siteId } : {}) });
+    return getPage({ ...params, ...(isStationChild ? { siteId } : {}) });
   };
 
   const toolBar = useCallback(
-    () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
-        ? [
-            <Button type="primary" key="add">
-              <ExportOutlined />
-              <FormattedMessage id="common.add1" defaultMessage="导出" />
-            </Button>,
-          ]
-        : [],
+    () => [
+      <Button type="primary" key="add">
+        <ExportOutlined />
+        <FormattedMessage id="common.add1" defaultMessage="导出" />
+      </Button>,
+    ],
     [authorityMap],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.viewDetail1" defaultMessage="查看轨迹" />
       </Button>
     </>
@@ -130,7 +126,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return [
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '车辆搜索' }),
-        dataIndex: 'name',
+        dataIndex: 'vin',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -140,28 +136,28 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '车架号' }),
-        dataIndex: 'deviceId',
+        dataIndex: 'vin',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '车牌号' }),
-        dataIndex: 'sn',
+        dataIndex: 'carNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '起点' }),
-        dataIndex: 'sn',
+        dataIndex: 'start',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '起始时间' }),
-        dataIndex: 'createTime',
+        dataIndex: 'startTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -178,14 +174,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '终点' }),
-        dataIndex: 'sn',
+        dataIndex: 'end',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.addTime1', defaultMessage: '结束时间' }),
-        dataIndex: 'createTime',
+        dataIndex: 'endTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -202,35 +198,35 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '总能耗' }),
-        dataIndex: 'model',
+        dataIndex: 'totalEnergyConsumption',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '平均能耗(KWH/KM)' }),
-        dataIndex: 'model',
+        dataIndex: 'averageEnergyConsumption km',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '行驶里程' }),
-        dataIndex: 'name',
+        dataIndex: 'driveMileage',
         width: 200,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.deviceName1', defaultMessage: '行驶时长(min)' }),
-        dataIndex: 'name',
+        dataIndex: 'driveTime',
         width: 200,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.model1', defaultMessage: '车队' }),
-        dataIndex: 'model',
+        dataIndex: 'fleet',
         width: 150,
         ellipsis: true,
         fieldProps: {
@@ -239,77 +235,77 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.productType1', defaultMessage: '插枪充电量' }),
-        dataIndex: 'productTypeName',
+        dataIndex: 'gunChargeCapacity',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '起点SOC' }),
-        dataIndex: 'siteName',
+        dataIndex: 'startSoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '终点SOC' }),
-        dataIndex: 'siteName',
+        dataIndex: 'endSoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: 'SOC折算总能耗' }),
-        dataIndex: 'siteName',
+        dataIndex: 'socTotalEnergyConsumption',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: 'SOC折算平均能耗' }),
-        dataIndex: 'siteName',
+        dataIndex: 'socAverageEnergyConsumption',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '放电量' }),
-        dataIndex: 'siteName',
+        dataIndex: 'dischargeCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '平均放电量' }),
-        dataIndex: 'siteName',
+        dataIndex: 'averageDischargeCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '平均放电量(H)' }),
-        dataIndex: 'siteName',
+        dataIndex: 'averageDischargeCapacityH',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '起点里程表' }),
-        dataIndex: 'sn',
+        dataIndex: 'startMileage',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '终点里程表' }),
-        dataIndex: 'sn',
+        dataIndex: 'endMileage',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '创建人' }),
-        dataIndex: 'sn',
+        dataIndex: 'createBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -350,14 +346,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '最后修改人' }),
-        dataIndex: 'sn',
+        dataIndex: 'updateBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.upTime1', defaultMessage: '最后修改时间' }),
-        dataIndex: 'sessionStartTime',
+        dataIndex: 'updateTime',
         valueType: 'dateTime',
         hideInSearch: true,
         width: 150,
