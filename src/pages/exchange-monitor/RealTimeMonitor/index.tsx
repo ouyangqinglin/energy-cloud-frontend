@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message, Row, Col, Statistic } from 'antd';
+import { Button, Modal, message, Row, Col } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { Card } from 'antd';
 import {
@@ -30,9 +30,17 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
+import { statisticsItems } from './helper';
+import styles from './index.less';
 
 type DeviceListProps = {
   isStationChild?: boolean;
+};
+
+const statisticsData: any = {
+  site: 11,
+  exchangeNum: 3599,
+  totalChargePower: 495681.62,
 };
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
@@ -220,21 +228,30 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     ];
   }, [siteColumn, productTypeColumn]);
 
+  const statistics = useMemo(() => {
+    return statisticsItems.map((item) => {
+      return (
+        <Col span={8} key={item.field}>
+          <div className={`card-wrap shadow flex p24 ${styles.contain}`}>
+            <img className={styles.icon} src={item.icon} />
+            <div>
+              <div className={styles.title}>{item.label}</div>
+              <div className={styles.num}>
+                {statisticsData?.[item.field]}
+                <span className={styles.unit}>{item.unit}</span>
+              </div>
+            </div>
+          </div>
+        </Col>
+      );
+    });
+  }, []);
+
   return (
     <>
-      <Card title="换电站实时监控" bordered={false}>
-        <Row>
-          <Col span={8}>
-            <Statistic title="换电站总数" value={11} style={{ textAlign: 'center' }} />
-          </Col>
-          <Col span={8}>
-            <Statistic title="总换点次数" value={'3599次'} style={{ textAlign: 'center' }} />
-          </Col>
-          <Col span={8}>
-            <Statistic title="总充电量" value={'495.681.62 KWH'} style={{ textAlign: 'center' }} />
-          </Col>
-        </Row>
-      </Card>
+      <div className="p20">
+        <Row gutter={20}>{statistics}</Row>
+      </div>
       <YTProTable
         actionRef={actionRef}
         columns={columns}

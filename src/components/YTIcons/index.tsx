@@ -44,6 +44,7 @@ import {
   CellFour,
   CellSix,
   CellNine,
+  Exchange,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -186,6 +187,10 @@ const YTCellNineOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={CellNine} {...props} />
 );
 
+const YTExchangeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Exchange} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -222,4 +227,5 @@ export {
   YTCellFourOutlined,
   YTCellSixOutlined,
   YTCellNineOutlined,
+  YTExchangeOutlined,
 };

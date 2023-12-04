@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-07-26 11:23:52
+ * @LastEditTime: 2023-12-04 17:03:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */
@@ -23,7 +23,6 @@ import {
   doorFormat,
   chargeFormat,
   openFormat,
-  abnormalFormat,
   percentageFormat,
   kohmFormat,
   powerHourFormat,
@@ -192,7 +191,7 @@ export const bmsStatusItems: DetailItem[] = [
   { label: 'BMU8风扇', field: 'BMU8Fan', format: openFormat },
   { label: 'BMU9风扇', field: 'BMU9Fan', format: openFormat },
   { label: 'BMU10风扇', field: 'BMU10Fan', format: openFormat },
-  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
+  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: faultFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
   { label: '二级报警', field: 'secondLevelAlarm', format: alarmArrFormat },

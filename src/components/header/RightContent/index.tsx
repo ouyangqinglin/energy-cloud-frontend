@@ -10,10 +10,12 @@ import Workbench from '../Workbench';
 import { updateUserLang } from '@/services/session';
 import { formatMessage } from '@/utils';
 import { localeInfo } from 'umi';
+import { useAuthority } from '@/hooks';
 export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
   const { initialState } = useModel('@@initialState');
+  const { passAuthority } = useAuthority(['workbench']);
 
   const onLangClick = useCallback(({ key }) => {
     const messageKey = 'localLoading';
@@ -55,7 +57,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className} size={16}>
-      <Workbench />
+      {passAuthority ? <Workbench /> : <></>}
       <Avatar menu />
       {/* <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} /> */}
     </Space>

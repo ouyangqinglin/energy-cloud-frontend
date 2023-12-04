@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-02 15:51:12
- * @LastEditTime: 2023-12-02 15:51:13
+ * @LastEditTime: 2023-12-04 16:41:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\ExchangeSite\service.ts
  */
@@ -51,6 +51,14 @@ const totalData = {
     static: 0,
     offline: 178,
     sleep: 12,
+
+    siteOperate: 8,
+    siteOffOperate: 1,
+    siteBuild: 3,
+
+    batteryCharge: 36,
+    batteryDisCharge: 58,
+    batterySleep: 45,
   },
   messge: '',
   status: 200,

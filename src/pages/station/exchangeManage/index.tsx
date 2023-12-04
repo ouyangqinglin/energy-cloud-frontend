@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-01 15:42:16
+ * @LastEditTime: 2023-12-04 17:57:56
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\station\exchangeManage\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message } from 'antd';
@@ -207,13 +207,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电机数量' }),
         dataIndex: 'chargerNumber',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站供应商' }),
-        dataIndex: 'exchangeSiteSupplier',
         width: 150,
         ellipsis: true,
         hideInSearch: true,

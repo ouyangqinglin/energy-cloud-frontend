@@ -437,6 +437,7 @@ export const exchangeSiteStatus = {
 export const operateStatus = {
   0: { text: '建设中' },
   1: { text: '营运中' },
+  2: { text: '已停运' },
 };
 
 export const vehicleType = {

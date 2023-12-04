@@ -14,9 +14,8 @@ import styles from './index.less';
 import { useRequest } from 'umi';
 import { getStatistics } from './service';
 import TopStatistics from './Stastistics/Top';
-import RightStatistics from './Stastistics/Right';
-import VehicleChart from './VehicleChart';
 import ChartTabs from './ChartTabs';
+import Pie from './Pie';
 
 const ExchangeSite: React.FC = () => {
   const { data: statisticsData } = useRequest(getStatistics);
@@ -32,8 +31,7 @@ const ExchangeSite: React.FC = () => {
             </SiteMap>
           </Col>
           <Col span={6}>
-            <RightStatistics className="mb20" data={statisticsData} />
-            <VehicleChart data={statisticsData} />
+            <Pie data={statisticsData} />
           </Col>
         </Row>
         <ChartTabs />

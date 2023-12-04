@@ -261,34 +261,15 @@ export const openFormat = (status: number) => {
   };
   return <span className={'cl-success'}>{map[status]}</span>;
 };
-export const abnormalFormat = (value: string) => {
+export const faultFormat = (value: number) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
     0: { text: '正常', color: 'cl-success' },
-    1: { text: 'BMU1通信故障', color: 'cl-error' },
-    2: { text: 'BMU2通信故障', color: 'cl-error' },
-    3: { text: 'BMU3通信故障', color: 'cl-error' },
-    4: { text: 'BMU4通信故障', color: 'cl-error' },
-    5: { text: 'BMU5通信故障', color: 'cl-error' },
-    6: { text: 'BMU6通信故障', color: 'cl-error' },
-    7: { text: 'BMU7通信故障', color: 'cl-error' },
-    8: { text: 'BMU8通信故障', color: 'cl-error' },
-    9: { text: 'BMU9通信故障', color: 'cl-error' },
-    10: { text: 'BMU10通信故障', color: 'cl-error' },
-  };
-  const result =
-    valueArr?.map?.((item) => (
-      <span className={`${map[item]?.color} mr8`}>{map[item]?.text}</span>
-    )) || '';
-  return result;
-};
-export const faultFormat = (value: number) => {
-  const map: MapType = {
-    0: '正常',
+    1: { text: '故障', color: 'cl-error' },
   };
   return (
-    <span className={value == 0 ? 'cl-success' : 'cl-error'}>
-      {isEmpty(value) ? '' : map[value] || '故障'}
+    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
+      {map[valueArr.includes(0) ? 0 : 1]?.text}
     </span>
   );
 };

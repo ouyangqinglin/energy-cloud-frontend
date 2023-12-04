@@ -178,9 +178,9 @@ const LineChart: React.FC<LineChartType> = (props) => {
       <div className="tx-right">
         <Radio.Group value={range} buttonStyle="solid" onChange={onChange}>
           <Radio.Button value={0}>总</Radio.Button>
-          <Radio.Button value={7}>7日</Radio.Button>
-          <Radio.Button value={30}>30日</Radio.Button>
-          <Radio.Button value={90}>90日</Radio.Button>
+          <Radio.Button value={7}>7天</Radio.Button>
+          <Radio.Button value={30}>30天</Radio.Button>
+          <Radio.Button value={90}>90天</Radio.Button>
         </Radio.Group>
       </div>
       <TypeChart

@@ -21,7 +21,6 @@ import {
   faultFormat,
   singleFormat,
   doorFormat,
-  abnormalFormat,
   externalFaultFormat,
   hydrogenFormat,
   contactorFormat,
@@ -45,7 +44,7 @@ export const controlItems: DetailItem[] = [
     field: 'ACCircuitBreakerStatus',
     format: closeFormat,
   },
-  { label: '接触器状态', field: 'contactorStatus', format: contactorFormat },
+  { label: '主接触器状态', field: 'contactorStatus', format: contactorFormat },
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
@@ -65,7 +64,7 @@ export const statusItems: DetailItem[] = [
   { label: '平均电压', field: 'AverageVoltage', format: voltageFormat },
   { label: '预充总压', field: 'TPCP', format: voltageFormat },
   { label: '氢气浓度', field: 'HydrogenConcentration', format: hydrogenFormat },
-  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: abnormalFormat },
+  { label: 'BMU1-10通信状态', field: 'BMU1CS', format: faultFormat },
 ];
 
 export const historyItems: DetailItem[] = [
