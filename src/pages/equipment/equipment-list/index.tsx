@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-05 20:05:13
+ * @LastEditTime: 2023-12-05 20:34:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -287,6 +287,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         columns={columns}
         toolBarRender={toolBar}
         request={handleRequest}
+        rowKey="deviceId"
         childrenColumnName="childDeviceList"
       />
       {isStationChild ? (
