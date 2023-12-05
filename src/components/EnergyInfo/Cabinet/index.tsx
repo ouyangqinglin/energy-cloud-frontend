@@ -73,7 +73,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         deviceData?.networkStatus !== OnlineStatusEnum.Offline),
     [deviceData],
   );
-  const realTimeData = useSubscribe(deviceIds, openSubscribe);
+  const realTimeData = useSubscribe(deviceIds, true);
   const history = useHistory();
 
   const {

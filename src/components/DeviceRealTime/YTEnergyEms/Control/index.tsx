@@ -9,7 +9,7 @@
 
 import React, { useCallback, useEffect } from 'react';
 import { Button, Space, message, Modal, Radio } from 'antd';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { default as LineLabel } from '@/components/Detail/LineLabel';
 import styles from '../index.less';
 import { controlItems } from './config';
@@ -21,10 +21,11 @@ type SettingProps = {
   isLineLabel?: boolean;
   isDeviceChild?: boolean;
   type?: DeviceTypeEnum;
+  deviceData?: Record<string, any>;
 };
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, isDeviceChild, type } = props;
+  const { id, isLineLabel = false, isDeviceChild, type, deviceData } = props;
   const settingData = props.settingData || {}; //实时数据
   const btnDisabled = settingData?.systemOperatingMode == 2 ? false : true;
   const { loading, run } = useRequest(editSetting, {
@@ -72,7 +73,10 @@ const Setting: React.FC<SettingProps> = (props) => {
                         onClick={() => {
                           btnClick(item, btnItem);
                         }}
-                        disabled={item.disabled && settingData?.systemOperatingMode != 2}
+                        disabled={
+                          deviceData?.status === OnlineStatusEnum.Offline ||
+                          (item.disabled && settingData?.systemOperatingMode != 2)
+                        }
                       >
                         <Radio
                           name={item.field}

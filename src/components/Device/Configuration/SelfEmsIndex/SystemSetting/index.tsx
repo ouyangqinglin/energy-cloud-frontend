@@ -72,6 +72,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             <ConfigModal
               title={'使能设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={systemColumns}
               serviceId={'SettingSysEnable'}
@@ -88,6 +89,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             <ConfigModal
               title={'校时设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={systemTimeColumns}
               serviceId={'correctionTime'}
@@ -104,6 +106,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             <ConfigModal
               title={'参数设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realCommunitcationData}
               columns={communicationColumns}
               serviceId={'report'}
@@ -135,7 +138,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           <></>
         )}
         {authorityMap.get('iot:device:config:systemSetting:remoteUpgrade') ? (
-          <RemoteUpgrade deviceId={deviceId} />
+          <RemoteUpgrade deviceId={deviceId} deviceData={deviceData} />
         ) : (
           <></>
         )}

@@ -10,6 +10,8 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
+import { DeviceDataType } from '@/services/equipment';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export enum CommunityTypeEnum {
   Account = 1,
@@ -31,6 +33,7 @@ export const communityTypeMap = new Map([
 
 export type CommunityProps = {
   id: string;
+  deviceData?: DeviceDataType;
   siteId?: string;
   model?: string;
   open: boolean;
@@ -42,7 +45,7 @@ export type CommunityProps = {
 };
 
 const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (props) => {
-  const { type, ...restProps } = props;
+  const { type, deviceData, ...restProps } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
   const [Component, setComponent] = useState<React.FC<CommunityProps>>();
@@ -59,7 +62,11 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   return (
     <>
       {type ? (
-        <Button type="primary" onClick={setTrue}>
+        <Button
+          type="primary"
+          onClick={setTrue}
+          disabled={deviceData?.status === OnlineStatusEnum.Offline}
+        >
           修改
         </Button>
       ) : (

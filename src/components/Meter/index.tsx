@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-08-03 11:14:02
+ * @LastEditTime: 2023-12-05 19:00:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
@@ -68,7 +68,7 @@ const Meter: React.FC<MeterProps> = (props) => {
       ],
     },
     {
-      title: '无功功率(kW）',
+      title: '无功功率(kvar）',
       icon: IconReactivePower,
       item: [
         { label: 'A相', field: 'Qa' },
@@ -78,7 +78,7 @@ const Meter: React.FC<MeterProps> = (props) => {
       ],
     },
     {
-      title: '视在功率(kW）',
+      title: '视在功率(kVA）',
       icon: IconApparentPower,
       item: [
         { label: 'A相', field: 'Sa' },

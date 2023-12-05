@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import HwChargeStackImg from '@/assets/image/product/hw-charge-stack.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/HwCharge';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const HwCharge: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -29,6 +30,7 @@ const HwCharge: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
         top={
           <Overview
             deviceId={id}

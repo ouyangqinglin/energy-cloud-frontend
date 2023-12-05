@@ -13,6 +13,7 @@ import Overview from '@/components/DeviceInfo/Overview';
 import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import RealTime from '@/components/DeviceRealTime/PvEnergy';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const PvEnergy: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -26,7 +27,10 @@ const PvEnergy: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} />}
+      >
         <RealTime deviceData={deviceData} />
       </Page>
     </>

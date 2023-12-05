@@ -54,6 +54,7 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
           <Detail.Label title="通信信息">
             <Community
               id={deviceData?.deviceId}
+              deviceData={deviceData}
               siteId={deviceData?.siteId}
               type={deviceData?.paramConfigType}
               {...([DeviceTypeEnum.Energy, DeviceTypeEnum.Gateway].includes(

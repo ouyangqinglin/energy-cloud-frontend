@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:40:23
- * @LastEditTime: 2023-11-13 19:11:22
+ * @LastEditTime: 2023-12-05 18:51:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\ElectricMeter\index.tsx
  */
@@ -57,7 +57,6 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
         <RealTime
           id={id}
           loading={loading}
-          open={openSubscribe}
           label={<Detail.Label title={label} />}
           detailProps={{
             extral,

@@ -19,6 +19,7 @@ import { TreeNode, deviceMap } from './config';
 import Configuration from '@/components/Device/Configuration';
 import DeviceRealTime from '@/components/DeviceRealTime';
 import Overview from '@/components/DeviceInfo/Overview';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const dealTreeData = (data: TreeNode[]) => {
   const result: TreeNode[] = [];
@@ -103,7 +104,11 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         key: '1',
         children: (
           <>
-            <div className="px24">
+            <div
+              className={`px24 ${
+                selectOrg?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
+              }`}
+            >
               <DeviceRealTime
                 id={selectOrg?.deviceId || ''}
                 productId={selectOrg?.productId || '0'}

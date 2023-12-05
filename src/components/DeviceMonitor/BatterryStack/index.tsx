@@ -13,6 +13,7 @@ import Overview from '@/components/DeviceInfo/Overview';
 import StackImg from '@/assets/image/device/stack.png';
 import Page from '@/layouts/Page';
 import RealTime from '@/components/DeviceRealTime/BatterryStack';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BatterryStack: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -26,7 +27,10 @@ const BatterryStack: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} />}
+      >
         <RealTime id={id} productId={productId} deviceData={deviceData} />
       </Page>
     </>

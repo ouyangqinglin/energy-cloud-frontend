@@ -76,8 +76,8 @@ export const controlItems: ControlParamItem[] = [
     label: 'BMS主接触器控制',
     field: 'bmsOpenAndClose',
     btnParam: [
-      { text: '闭合', value: 0 },
-      { text: '断开', value: 1 },
+      { text: '闭合', value: 1 },
+      { text: '断开', value: 0 },
     ],
   },
   {

@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import PvInverterCabinetImg from '@/assets/image/product/pvInverter-cabinet.png';
 import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/PvInverterCabinet';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -29,6 +30,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
         top={
           <Overview
             deviceId={id}

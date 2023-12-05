@@ -52,7 +52,7 @@ const genPSC = (data: PcsVo) => ({
           field: 'todayConsumption',
         },
         {
-          label: '无功功率(kW)：',
+          label: '无功功率(kvar)：',
           value: data?.q,
           field: 'todayConsumption',
         },

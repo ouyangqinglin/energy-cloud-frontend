@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-07-25 16:53:16
+ * @LastEditTime: 2023-12-05 18:55:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Stack\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
@@ -50,7 +50,6 @@ export const controlItems: DetailItem[] = [
   { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
   { label: '二级报警', field: 'secondLevelAlarm', format: alarmArrFormat },
   { label: '三级报警', field: 'threeLevelAlarm', format: alarmArrFormat },
-  { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
 ];
 
 export const statusItems: DetailItem[] = [
@@ -65,13 +64,16 @@ export const statusItems: DetailItem[] = [
   { label: '预充总压', field: 'TPCP', format: voltageFormat },
   { label: '氢气浓度', field: 'HydrogenConcentration', format: hydrogenFormat },
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: faultFormat },
+  { label: '水浸信号', field: 'waterImmersionSignal', format: faultFormat },
+  { label: '交流防雷器故障', field: 'aCLightningArresterFailure', format: faultFormat },
+  { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
 ];
 
 export const historyItems: DetailItem[] = [
-  { label: '单次充电', field: 'LastChargeLevel', format: powerHourFormat },
-  { label: '单次放电', field: 'LastDischargeCapacity', format: powerHourFormat },
-  { label: '累计充电', field: 'ACC', format: powerHourFormat },
-  { label: '累计放电', field: 'ADC', format: powerHourFormat },
+  { label: '单次充电量', field: 'LastChargeLevel', format: powerHourFormat },
+  { label: '单次放电量', field: 'LastDischargeCapacity', format: powerHourFormat },
+  { label: '累计充电量', field: 'ACC', format: powerHourFormat },
+  { label: '累计放电量', field: 'ADC', format: powerHourFormat },
   { label: '电池柜开门次数', field: 'NOBCDO' },
 ];
 

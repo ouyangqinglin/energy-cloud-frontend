@@ -13,6 +13,7 @@ import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import EnergyCabinetImg from '@/assets/image/product/energy-cabinet.png';
 import RealTime from '@/components/DeviceRealTime/EnergyCabinet';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -27,7 +28,10 @@ const EnergyCabinet: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}
+      >
         <RealTime id={id} deviceData={deviceData} loading={loading} />
       </Page>
     </>

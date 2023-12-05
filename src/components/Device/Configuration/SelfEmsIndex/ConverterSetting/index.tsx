@@ -20,11 +20,12 @@ import { useAuthority } from '@/hooks';
 
 export type StackProps = {
   deviceId: string;
+  deviceData?: Record<string, any>;
   productId: string;
   realTimeData?: Record<string, any>;
 };
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId, productId } = props;
+  const { realTimeData, deviceId, deviceData, productId } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:config:converterSetting:converterProtectSetting',
@@ -41,6 +42,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               width={'816px'}
               title={'配置电池保护参数'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={protectParamsColumns}
               serviceId={'converterProtectionParameterSettings'}
@@ -60,6 +62,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             <ConfigModal
               title={'配置电网设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'GridParameterSettings'}
@@ -70,7 +73,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       });
     }
     return result;
-  }, [deviceId, productId, realTimeData, authorityMap]);
+  }, [deviceId, deviceData, productId, realTimeData, authorityMap]);
 
   return (
     <>

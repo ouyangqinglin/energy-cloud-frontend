@@ -24,7 +24,7 @@ const Pcs: React.FC<DeviceRealTimeType> = (props) => {
     () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
-  const realTimeData = useSubscribe(id, openSubscribe);
+  const realTimeData = useSubscribe(id, true);
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',

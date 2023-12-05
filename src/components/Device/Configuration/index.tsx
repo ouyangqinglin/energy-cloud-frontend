@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2023-11-27 16:54:58
+ * @LastEditTime: 2023-12-05 20:13:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
@@ -37,34 +37,37 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
 
   return (
     <>
-      {productId == (DeviceTypeEnum.YTEnergyEms as any) ? (
-        <SelfEmsIndex
-          deviceData={deviceData}
-          productId={productId}
-          deviceId={deviceId}
-          realTimeData={realTimeData}
-        />
-      ) : (
-        <div className="px24">
-          {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
-          {!isEmpty(deviceData?.productConfigType) ? (
-            <DeviceConfig deviceData={deviceData} />
-          ) : (
-            <></>
-          )}
-          {remoteSettingType.includes(deviceData?.productId) ? (
-            <RemoteSetting deviceData={deviceData} />
-          ) : (
-            <></>
-          )}
-          <Control
-            deviceId={deviceData?.deviceId}
-            groupData={serviceGruop}
+      <div className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}>
+        {productId == (DeviceTypeEnum.YTEnergyEms as any) ? (
+          <SelfEmsIndex
+            deviceData={deviceData}
+            productId={productId}
+            deviceId={deviceId}
             realTimeData={realTimeData}
           />
-          <RemoteUpgrade deviceId={deviceData?.deviceId} />
-        </div>
-      )}
+        ) : (
+          <div className="px24">
+            {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
+            {!isEmpty(deviceData?.productConfigType) ? (
+              <DeviceConfig deviceData={deviceData} />
+            ) : (
+              <></>
+            )}
+            {remoteSettingType.includes(deviceData?.productId) ? (
+              <RemoteSetting deviceData={deviceData} />
+            ) : (
+              <></>
+            )}
+            <Control
+              deviceId={deviceData?.deviceId}
+              deviceData={deviceData}
+              groupData={serviceGruop}
+              realTimeData={realTimeData}
+            />
+            <RemoteUpgrade deviceId={deviceData?.deviceId} deviceData={deviceData} />
+          </div>
+        )}
+      </div>
     </>
   );
 };

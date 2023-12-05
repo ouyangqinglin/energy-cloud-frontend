@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import BoxSubstationImg from '@/assets/image/product/box-substation.png';
 import BoxSubstationIntroImg from '@/assets/image/product/transfer-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/BoxSubstation';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -29,6 +30,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
         top={
           <Overview
             deviceId={id}

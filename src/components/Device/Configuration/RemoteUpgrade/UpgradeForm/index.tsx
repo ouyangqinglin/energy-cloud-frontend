@@ -14,9 +14,10 @@ import { upgradeDevice } from '@/services/equipment';
 import { UpgradeFormType } from '../typing';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { OptionType } from '@/types';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
-  const { deviceId, versionItems } = props;
+  const { deviceId, versionItems, deviceData } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
 
@@ -46,7 +47,12 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
 
   return (
     <>
-      <Button className="mr12" type="primary" onClick={setTrue}>
+      <Button
+        className="mr12"
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
         升级
       </Button>
       <SchemaForm

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-11-30 13:43:18
+ * @LastEditTime: 2023-12-05 20:17:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -33,7 +33,7 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
     () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
-  const realTimeData = useSubscribe(id, openSubscribe);
+  const realTimeData = useSubscribe(id, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return deviceData?.masterSlaveMode == 1 || !authorityMap.get('iot:device:remoteControl')
@@ -48,7 +48,14 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
             key: '2',
             label: '远程控制',
             children: authorityMap.get('iot:device:remoteControl:systemStatusControl') ? (
-              <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
+              <Setting
+                id={id}
+                deviceData={deviceData}
+                settingData={realTimeData}
+                type={type}
+                isLineLabel
+                isDeviceChild
+              />
             ) : (
               <></>
             ),

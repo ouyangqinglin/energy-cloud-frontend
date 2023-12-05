@@ -62,7 +62,12 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '2',
       label: `变流器设置`,
       children: (
-        <ConverterSetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
+        <ConverterSetting
+          deviceId={deviceId}
+          deviceData={deviceData}
+          productId={productId}
+          realTimeData={realTimeData}
+        />
       ),
     });
   }
@@ -71,7 +76,12 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '3',
       label: `电池设置`,
       children: (
-        <BatterySetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
+        <BatterySetting
+          deviceId={deviceId}
+          deviceData={deviceData}
+          productId={productId}
+          realTimeData={realTimeData}
+        />
       ),
     });
   }
@@ -80,7 +90,12 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '4',
       label: `能量管理`,
       children: (
-        <EnergyManageTab productId={productId} deviceId={deviceId} realTimeData={realTimeData} />
+        <EnergyManageTab
+          productId={productId}
+          deviceId={deviceId}
+          deviceData={deviceData}
+          realTimeData={realTimeData}
+        />
       ),
     });
   }

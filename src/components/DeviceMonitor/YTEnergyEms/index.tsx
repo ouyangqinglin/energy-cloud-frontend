@@ -13,6 +13,7 @@ import { DeviceDataType } from '@/services/equipment';
 import Overview from '@/components/DeviceInfo/Overview';
 import Page from '@/layouts/Page';
 import RealTime from '@/components/DeviceRealTime/YTEnergyEms';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const YTEnergyEms: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -26,7 +27,10 @@ const YTEnergyEms: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} />}
+      >
         <RealTime id={id} productId={productId} deviceData={deviceData} />
       </Page>
     </>

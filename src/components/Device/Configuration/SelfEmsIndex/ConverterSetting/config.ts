@@ -8,7 +8,7 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
-import { powerFormat } from '@/utils/format';
+import { currentFormat, powerFormat, tempFormat, voltageFormat } from '@/utils/format';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 export const protectParamsItems: DetailItem[] = [
@@ -16,38 +16,38 @@ export const protectParamsItems: DetailItem[] = [
   { label: '严重充电功率限值', field: 'severeChargingPowerLimit', format: powerFormat },
   { label: '一般逆变功率限值', field: 'generalInverterPowerLimit', format: powerFormat },
   { label: '严重逆变功率限制', field: 'severeInverterPowerLimitation', format: powerFormat },
-  { label: '一般过压限值', field: 'converterGeneralOvervoltageLimit', format: powerFormat },
-  { label: '严重过压限值', field: 'converterSevereOvervoltageLimit', format: powerFormat },
-  { label: '一般欠压限值', field: 'converterGeneralUndervoltageLimit', format: powerFormat },
-  { label: '严重欠压限值', field: 'converterSevereUndervoltageLimit', format: powerFormat },
+  { label: '一般过压限值', field: 'converterGeneralOvervoltageLimit', format: voltageFormat },
+  { label: '严重过压限值', field: 'converterSevereOvervoltageLimit', format: voltageFormat },
+  { label: '一般欠压限值', field: 'converterGeneralUndervoltageLimit', format: voltageFormat },
+  { label: '严重欠压限值', field: 'converterSevereUndervoltageLimit', format: voltageFormat },
   {
     label: '一般充电电流限值',
     field: 'converterGeneralChargingCurrentLimit',
-    format: powerFormat,
+    format: currentFormat,
   },
   {
     label: '严重充电电流限值',
     field: 'converterSevereChargingCurrentLimit',
-    format: powerFormat,
+    format: currentFormat,
   },
-  { label: '一般逆变电流限值', field: 'generalInverterCurrentLimit', format: powerFormat },
-  { label: '严重逆变电流限值', field: 'severeInverterCurrentLimit', format: powerFormat },
+  { label: '一般逆变电流限值', field: 'generalInverterCurrentLimit', format: currentFormat },
+  { label: '严重逆变电流限值', field: 'severeInverterCurrentLimit', format: currentFormat },
   {
     label: '一般过温限值',
     field: 'converterGeneralOverTemperatureLimit',
-    format: powerFormat,
+    format: tempFormat,
   },
   {
     label: '严重过温限值',
     field: 'converterSevereOverTemperatureLimit',
-    format: powerFormat,
+    format: tempFormat,
   },
   {
     label: '一般低温限值',
     field: 'converterGeneralLowTemperatureLimit',
-    format: powerFormat,
+    format: tempFormat,
   },
-  { label: '严重低温限值', field: 'converterSevereLowTemperatureLimit', format: powerFormat },
+  { label: '严重低温限值', field: 'converterSevereLowTemperatureLimit', format: tempFormat },
 ];
 
 export const protectParamsColumns: ProFormColumnsType[] = [

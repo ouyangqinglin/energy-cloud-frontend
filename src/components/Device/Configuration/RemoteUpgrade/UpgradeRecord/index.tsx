@@ -14,9 +14,10 @@ import { getUpgradeRecord } from '@/services/equipment';
 import { Button, Modal } from 'antd';
 import { useBoolean } from 'ahooks';
 import { ActionType } from '@ant-design/pro-components';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
-  const { deviceId } = props;
+  const { deviceId, deviceData } = props;
 
   const actionRef = useRef<ActionType>();
   const [open, { setTrue, setFalse }] = useBoolean(false);
@@ -36,7 +37,11 @@ const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={setTrue}>
+      <Button
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
         升级记录
       </Button>
       <Modal title="升级记录" width={900} open={open} onCancel={setFalse} onOk={setFalse}>

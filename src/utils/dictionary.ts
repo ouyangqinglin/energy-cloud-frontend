@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-11-20 13:54:03
+ * @LastEditTime: 2023-12-05 17:04:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -228,11 +228,11 @@ export const enableStatus = {
 
 export const alarmStatus = {
   0: {
-    text: '正常',
-    status: 'Success',
+    text: '已消除',
+    status: 'Default',
   },
   1: {
-    text: '异常',
+    text: '告警中',
     status: 'Error',
   },
 };
@@ -447,4 +447,13 @@ export const vehicleType = {
 
 export const chargeType = {
   0: { text: '换电站充电' },
+};
+
+export const alarmSource = {
+  0: {
+    text: '设备端',
+  },
+  1: {
+    text: '平台规则',
+  },
 };

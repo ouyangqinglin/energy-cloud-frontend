@@ -30,6 +30,7 @@ import moment from 'moment';
 import { parseToArray } from '@/utils';
 import { useBoolean } from 'ahooks';
 import { useAuthority } from '@/hooks';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -43,7 +44,7 @@ const { Option } = Select;
 const timeFields = ['sharpTime', 'peakTime', 'flatTime', 'valleyTime'];
 
 export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
-  const { realTimeData, deviceId, productId } = props;
+  const { realTimeData, deviceId, deviceData, productId } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:config:energyManage:manualModeSetting',
@@ -99,6 +100,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             <ConfigModal
               title={'手动模式设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={manulSetColumns}
               serviceId={'ManualModeSetting'}
@@ -108,7 +110,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
         items: manaulParamsItems,
       },
     ];
-  }, []);
+  }, [deviceData, deviceId, realTimeData]);
   const backupModeSetting = useMemo<GroupItem[]>(() => {
     const result: GroupItem[] = [];
     if (authorityMap.get('iot:device:config:energyManage:backupModeSetting')) {
@@ -118,6 +120,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             <ConfigModal
               title={'备电模式设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={realTimeData}
               columns={BackupPowerSetColumns}
               serviceId={'BackupPowerModeSetting'}
@@ -135,6 +138,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               width={'816px'}
               title={'尖峰平谷时段设置'}
               deviceId={deviceId}
+              deviceData={deviceData}
               realTimeData={{
                 ...realTimeData,
                 ...peakValleyData,
@@ -151,7 +155,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
       });
     }
     return result;
-  }, [deviceId, productId, realTimeData, authorityMap, peakValleyData]);
+  }, [deviceId, deviceData, productId, realTimeData, authorityMap, peakValleyData]);
 
   const onFinish = useCallback((formData) => {
     let PeriodOfTime = formData.PeriodOfTime;
@@ -219,7 +223,11 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
         {authorityMap.get('iot:device:config:energyManage:peakShaveModeSetting') ? (
           <div>
             <Detail.Label title="削峰填谷模式设置">
-              <Button type="primary" onClick={peakLoadSubmit} disabled={disableRun}>
+              <Button
+                type="primary"
+                onClick={peakLoadSubmit}
+                disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+              >
                 下发参数
               </Button>
             </Detail.Label>
@@ -306,7 +314,12 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                       </Row>
                     ))}
                     <Form.Item>
-                      <Button type="primary" icon={<PlusOutlined />} onClick={() => add()}>
+                      <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={() => add()}
+                        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                      >
                         新增时段
                       </Button>
                     </Form.Item>

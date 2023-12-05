@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-11-27 17:06:47
+ * @LastEditTime: 2023-12-05 19:52:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Control\index.tsx
  */
@@ -35,12 +35,14 @@ import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components'
 import SchemaForm from '@/components/SchemaForm';
 import { DeviceModelTypeEnum } from '@/utils';
 import styles from './index.less';
-import { editSetting } from '@/services/equipment';
+import { DeviceDataType, editSetting } from '@/services/equipment';
 import { isEmpty, merge } from 'lodash';
 import moment from 'moment';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ControlProps = {
   deviceId: string;
+  deviceData?: DeviceDataType;
   groupData?: DeviceModelDataType;
   realTimeData?: Record<string, any>;
 };
@@ -52,7 +54,7 @@ type FormInfo = {
 const TimeRangeFormat = 'HH:mm';
 
 const Control: React.FC<ControlProps> = (props) => {
-  const { deviceId, groupData, realTimeData } = props;
+  const { deviceId, deviceData, groupData, realTimeData } = props;
 
   const formsRef = useRef<FormInfo>({});
   const schamaFormsRef = useRef<FormInfo>({});
@@ -237,6 +239,7 @@ const Control: React.FC<ControlProps> = (props) => {
                   type="primary"
                   loading={loading}
                   disabled={
+                    deviceData?.status === OnlineStatusEnum.Offline ||
                     disableBtns?.[form?.id || ''] === undefined ||
                     disableBtns?.[form?.id || ''] === true
                   }
@@ -294,7 +297,7 @@ const Control: React.FC<ControlProps> = (props) => {
         </>
       );
     });
-  }, [groupData, loading, onSwtichFormChange, disableBtns]);
+  }, [groupData, deviceData, loading, onSwtichFormChange, disableBtns]);
 
   return <>{groups}</>;
 };

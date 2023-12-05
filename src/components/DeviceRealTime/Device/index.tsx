@@ -92,9 +92,19 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
               modelMap={modelMap}
             />
           ) : oldControlProductIds.includes(productId as DeviceTypeEnum) ? (
-            <OldControl deviceId={id} groupData={deviceGroupData} realTimeData={realTimeData} />
+            <OldControl
+              deviceId={id}
+              deviceData={deviceData}
+              groupData={deviceGroupData}
+              realTimeData={realTimeData}
+            />
           ) : (
-            <Control deviceId={id} groupData={serviceGruop} realTimeData={realTimeData} />
+            <Control
+              deviceId={id}
+              deviceData={deviceData}
+              groupData={serviceGruop}
+              realTimeData={realTimeData}
+            />
           )}
         </>
       )}

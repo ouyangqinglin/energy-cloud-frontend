@@ -25,17 +25,20 @@ import { merge } from 'lodash';
 import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
+import { DeviceDataType } from '@/services/equipment';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ControlType = {
   deviceId: string;
   groupData?: DeviceServiceGroupType[];
   realTimeData?: Record<string, any>;
+  deviceData?: DeviceDataType;
 };
 
 const singleFieldName = 'arryField';
 
 const Control: React.FC<ControlType> = memo((props) => {
-  const { deviceId, groupData, realTimeData } = props;
+  const { deviceId, deviceData, groupData, realTimeData } = props;
 
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
@@ -255,26 +258,33 @@ const Control: React.FC<ControlType> = memo((props) => {
     [realTimeData],
   );
 
-  const getServiceItem = useCallback((service: DeviceServiceType) => {
-    const detailItems: DetailItem[] = [];
-    const columns: ProFormColumnsType[] = [];
-    service?.outputData?.forEach?.((field) => {
-      const { items, cols } = getFieldItem(field);
-      detailItems.push(...items);
-      columns.push(...cols);
-    });
-    const groupItem: GroupItem = {
-      label: (
-        <Detail.Label title={service?.groupName}>
-          <Button type="primary" onClick={() => onClick(service, columns)}>
-            配置参数
-          </Button>
-        </Detail.Label>
-      ),
-      items: detailItems,
-    };
-    return groupItem;
-  }, []);
+  const getServiceItem = useCallback(
+    (service: DeviceServiceType) => {
+      const detailItems: DetailItem[] = [];
+      const columns: ProFormColumnsType[] = [];
+      service?.outputData?.forEach?.((field) => {
+        const { items, cols } = getFieldItem(field);
+        detailItems.push(...items);
+        columns.push(...cols);
+      });
+      const groupItem: GroupItem = {
+        label: (
+          <Detail.Label title={service?.groupName}>
+            <Button
+              type="primary"
+              onClick={() => onClick(service, columns)}
+              disabled={deviceData?.status === OnlineStatusEnum.Offline}
+            >
+              配置参数
+            </Button>
+          </Detail.Label>
+        ),
+        items: detailItems,
+      };
+      return groupItem;
+    },
+    [deviceData],
+  );
 
   const groupsItems = useMemo(() => {
     const items: GroupItem[] = [];

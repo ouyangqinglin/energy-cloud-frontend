@@ -27,7 +27,7 @@ const Ems: React.FC<EmsType> = (props) => {
     () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
     [deviceData],
   );
-  const realTimeData = useSubscribe(id, openSubscribe);
+  const realTimeData = useSubscribe(id, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [

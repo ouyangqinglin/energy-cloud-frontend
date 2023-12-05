@@ -30,6 +30,7 @@ import { ConfigTypeEnum } from '../config';
 import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
@@ -158,7 +159,11 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={setTrue}>
+      <Button
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
         修改
       </Button>
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>

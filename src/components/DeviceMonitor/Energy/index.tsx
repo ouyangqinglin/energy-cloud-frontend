@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import EnergyImg from '@/assets/image/product/energy.png';
 import EnergyIntroImg from '@/assets/image/product/energy-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/Energy';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const Energy: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -27,7 +28,10 @@ const Energy: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} introImg={EnergyIntroImg} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} introImg={EnergyIntroImg} />}
+      >
         <RealTime deviceData={deviceData} />
       </Page>
     </>

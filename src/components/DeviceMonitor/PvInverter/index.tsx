@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import PvInverterImg from '@/assets/image/product/pvInverter.png';
 import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/PvInverter';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type PvInverterProps = DeviceDetailType & {
   loopNum: number;
@@ -33,6 +34,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   return (
     <>
       <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
         top={
           <Overview
             deviceId={id}

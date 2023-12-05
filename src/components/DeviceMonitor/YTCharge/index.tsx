@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import YtChargeImg from '@/assets/image/product/yt-charge.png';
 import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
 import RealTime from '@/components/DeviceRealTime/YTCharge';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -29,6 +30,7 @@ const BoxSubstation: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
         top={
           <Overview
             deviceId={id}

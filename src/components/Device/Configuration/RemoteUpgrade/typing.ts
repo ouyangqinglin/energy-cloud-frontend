@@ -10,6 +10,7 @@
 export type RemoteUpgradeType = {
   deviceId?: string;
   productId?: string;
+  deviceData?: Record<string, any>;
 };
 
 export type UpgradeDataType = {
@@ -21,4 +22,5 @@ export type UpgradeDataType = {
 export type UpgradeFormType = {
   deviceId?: string;
   versionItems?: UpgradeDataType[];
+  deviceData?: Record<string, any>;
 };

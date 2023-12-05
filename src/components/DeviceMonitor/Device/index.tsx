@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import { deviceProductDataMap } from './config';
 import styles from './index.less';
 import RealTime from '@/components/DeviceRealTime/Device';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const Device: React.FC<DeviceDetailType> = (props) => {
   const { id, productId, onChange } = props;
@@ -31,7 +32,9 @@ const Device: React.FC<DeviceDetailType> = (props) => {
   return (
     <>
       <Page
-        className={styles.page}
+        className={`${styles.page} ${
+          deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
+        }`}
         top={
           <Overview
             deviceId={id}

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-02 09:11:13
+ * @LastEditTime: 2023-12-05 17:46:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -13,7 +13,7 @@ import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType } from './data';
-import { alarmClearStatus, cleanUpType } from '@/utils/dictionary';
+import { alarmClearStatus, alarmSource, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum } from './service';
@@ -299,6 +299,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         ellipsis: true,
         hideInSearch: true,
         hideInTable: type == PageTypeEnum.History,
+      },
+      {
+        title: '告警上报源',
+        dataIndex: 'fromResource',
+        valueEnum: alarmSource,
+        width: 120,
+        hideInSearch: true,
       },
       {
         title: '告警信息',

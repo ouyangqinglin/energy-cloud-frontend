@@ -14,6 +14,7 @@ import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
 
 import RealTime from '@/components/DeviceRealTime/Gateway';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const Gateway: React.FC<DeviceDetailType> = (props) => {
   const { id, onChange } = props;
@@ -28,7 +29,10 @@ const Gateway: React.FC<DeviceDetailType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}
+      >
         <RealTime id={id} deviceData={deviceData} loading={loading} />
       </Page>
     </>

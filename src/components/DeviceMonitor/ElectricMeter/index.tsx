@@ -13,6 +13,7 @@ import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
 import RealTime from '@/components/DeviceRealTime/ElectricMeter';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ElectricMeterType = DeviceDetailType & {
   label?: string;
@@ -32,7 +33,10 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
 
   return (
     <>
-      <Page top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}>
+      <Page
+        className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+        top={<Overview deviceId={id} onChange={onDataChange} setLoading={setLoading} />}
+      >
         <RealTime
           id={id}
           productId={productId}

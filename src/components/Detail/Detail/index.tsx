@@ -68,7 +68,7 @@ const Detail: React.FC<DetailProps> = (props) => {
             span={item.span || 1}
             key={item.field}
           >
-            <div className="flex w-full">
+            <div className="flex w-full detail-value">
               <span style={item.valueStyle || valueStyle}>
                 {!isEmpty(data[item.field])
                   ? item.format

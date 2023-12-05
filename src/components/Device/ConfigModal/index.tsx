@@ -11,6 +11,7 @@ import SchemaForm, { FormTypeEnum, SchemaFormProps } from '@/components/SchemaFo
 import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
   deviceId: string;
@@ -20,6 +21,7 @@ export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
   title: string;
   beforeSubmit?: (data: RemoteSettingDataType<T>) => void | boolean | any;
   showClickButton?: boolean;
+  deviceData?: Record<string, any>;
 };
 
 const ConfigModal: React.FC<ConfigModalType> = (props) => {
@@ -33,6 +35,7 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
     showClickButton = true,
     beforeSubmit,
     onOpenChange,
+    deviceData,
     ...restProps
   } = props;
   const [openSchemaForm, { set, setTrue }] = useBoolean(false);
@@ -106,7 +109,11 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
     <>
       <div>
         {showClickButton ? (
-          <Button type="primary" onClick={onClick}>
+          <Button
+            type="primary"
+            onClick={onClick}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
+          >
             配置参数
           </Button>
         ) : (
