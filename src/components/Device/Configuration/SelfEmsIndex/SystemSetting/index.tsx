@@ -70,7 +70,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
         label: (
           <Detail.Label title="系统使能设置">
             <ConfigModal
-              title={'使能设置'}
+              title={'系统使能设置'}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
@@ -104,7 +104,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
         label: (
           <Detail.Label title="通信参数设置">
             <ConfigModal
-              title={'参数设置'}
+              title={'通信参数设置'}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realCommunitcationData}

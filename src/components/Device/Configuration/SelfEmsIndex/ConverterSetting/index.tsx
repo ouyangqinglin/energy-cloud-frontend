@@ -40,7 +40,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           <Detail.Label title="变流器保护参数设置">
             <ConfigModal
               width={'816px'}
-              title={'配置电池保护参数'}
+              title={'变流器保护参数设置'}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
@@ -60,7 +60,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
         label: (
           <Detail.Label title="电网参数设置">
             <ConfigModal
-              title={'配置电网设置'}
+              title={'电网参数设置'}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}

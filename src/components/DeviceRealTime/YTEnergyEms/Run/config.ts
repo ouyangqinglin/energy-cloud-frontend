@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-12-02 15:36:21
+ * @LastEditTime: 2023-12-05 23:52:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\config.ts
  */
@@ -31,8 +31,7 @@ import {
 export const controlItems: DetailItem[] = [
   { label: '系统模式', field: 'sysModel', format: modelFormat },
   { label: 'EMS运行状态', field: 'emsSysStatus', format: runFormat },
-  { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
-  { label: '气溶胶信号', field: 'AerosolSignal', format: singleBFormat },
+  { label: '主接触器状态', field: 'bmsOpenAndClose', format: closeFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
 ];
@@ -87,7 +86,7 @@ export const emsOperationItems: DetailItem[] = [
     field: 'batteryPackWorkingStatus',
     format: batteryWorkingStatusFormat,
   },
-  { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
+  { label: '主接触器状态', field: 'bmsOpenAndClose', format: closeFormat },
   { label: '预充触器状态', field: 'prechargeContactStatus', format: closeFormat },
   { label: '直流断路器状态', field: 'DCCircuitBreakerStatus', format: closeFormat },
   { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: openFormat },

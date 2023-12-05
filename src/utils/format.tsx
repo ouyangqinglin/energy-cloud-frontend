@@ -116,13 +116,15 @@ export const batteryWorkingStatusFormat = (value: number) => {
 };
 export const closeFormat = (value: string) => {
   const valueArr = strToArray(value);
-  const map: MapType = {
-    0: '断开',
-    1: '闭合',
+  const map: MapDataType = {
+    0: { text: '断开', color: 'cl-success' },
+    1: { text: '闭合', color: 'cl-success' },
   };
-  const result =
-    valueArr?.map?.((item) => <span className={'cl-success mr8'}>{map[item]}</span>) || '';
-  return result;
+  return (
+    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
+      {map[valueArr.includes(0) ? 0 : 1]?.text}
+    </span>
+  );
 };
 export const contactorFormat = (value: string) => {
   const valueArr = strToArray(value);

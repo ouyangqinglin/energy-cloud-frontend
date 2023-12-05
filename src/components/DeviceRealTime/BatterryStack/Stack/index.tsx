@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-07-18 15:40:15
+ * @LastEditTime: 2023-12-06 00:11:39
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\BatterryStack\Stack\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'umi';
@@ -13,7 +13,10 @@ import YTProTable from '@/components/YTProTable';
 import { ProField } from '@ant-design/pro-components';
 import { ProColumns } from '@ant-design/pro-components';
 import {
-  controlItems,
+  controlItemsOne,
+  controlItemsTow,
+  controlItemsMain,
+  controlItemsMainYT,
   statusItems,
   historyItems,
   tempItems,
@@ -25,7 +28,7 @@ import styles from './index.less';
 import { MaxUnitType } from './type';
 import { getPlaceholder, isEmpty } from '@/utils';
 import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equipment';
-import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
+import { DeviceTypeEnum, deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
 import { clusterFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
@@ -154,7 +157,13 @@ const Stack: React.FC<StackProps> = (props) => {
     return [
       {
         label: <Detail.Label title="控制信息" />,
-        items: controlItems,
+        items: [
+          ...controlItemsOne,
+          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
+            ? controlItemsMainYT
+            : controlItemsMain),
+          ...controlItemsTow,
+        ],
       },
       {
         label: <Detail.Label title="状态信息" />,
@@ -173,7 +182,7 @@ const Stack: React.FC<StackProps> = (props) => {
         items: abilityItems,
       },
     ];
-  }, []);
+  }, [productId]);
 
   return (
     <>

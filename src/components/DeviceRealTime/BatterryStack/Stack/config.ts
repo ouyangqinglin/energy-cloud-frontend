@@ -28,7 +28,7 @@ import {
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 
-export const controlItems: DetailItem[] = [
+export const controlItemsOne: DetailItem[] = [
   {
     label: '预充接触器状态',
     field: 'PrechargeContactorStatus',
@@ -44,7 +44,17 @@ export const controlItems: DetailItem[] = [
     field: 'ACCircuitBreakerStatus',
     format: closeFormat,
   },
+];
+
+export const controlItemsMain: DetailItem[] = [
   { label: '主接触器状态', field: 'contactorStatus', format: contactorFormat },
+];
+
+export const controlItemsMainYT: DetailItem[] = [
+  { label: '主接触器状态', field: 'bmsOpenAndClose', format: closeFormat },
+];
+
+export const controlItemsTow: DetailItem[] = [
   { label: '对外故障', field: 'externalFaultStatus', format: externalFaultFormat },
   { label: '充放电指示', field: 'CADI', format: chargeFormat },
   { label: '一级报警', field: 'firstLevelAlarm', format: alarmArrFormat },
