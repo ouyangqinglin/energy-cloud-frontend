@@ -24,6 +24,8 @@ import {
   powerFormat,
   chargeFormat,
   bwattAirWorkFormat,
+  systemRunFormat,
+  systemOperatingModeFormat,
 } from '@/utils/format';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
@@ -37,7 +39,7 @@ const energyPowerFormat = (value: number, data: any) => {
 
 export const airItem = {
   label: '空调',
-  productIds: [DeviceTypeEnum.Air, DeviceTypeEnum.YTEnergyAir],
+  productIds: [DeviceTypeEnum.Air],
   position: { top: 51, left: 14 },
   icon: AirImg,
   line: AirLineImg,
@@ -55,7 +57,7 @@ export const airItem = {
 
 export const bwattAirItem = {
   label: '空调',
-  productIds: [DeviceTypeEnum.BWattAir],
+  productIds: [DeviceTypeEnum.BWattAir, DeviceTypeEnum.YTEnergyAir],
   position: { top: 51, left: 14 },
   icon: AirImg,
   line: AirLineImg,
@@ -71,6 +73,48 @@ export const bwattAirItem = {
   ],
 };
 
+export const emsItem = {
+  label: 'EMS',
+  productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
+  position: { top: 302, left: 14 },
+  icon: EmsImg,
+  line: EmsLineImg,
+  linePosition: { top: 11, left: 75 },
+  data: [
+    {
+      label: '运行状态：',
+      field: 'emsSysStatus',
+      format: (value: number) => runFormat(value),
+    },
+    {
+      label: '系统模式：',
+      field: 'sysModel',
+      format: (value: number) => modelFormat(value),
+    },
+  ],
+};
+
+export const ytEmsItem = {
+  label: 'EMS',
+  productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
+  position: { top: 302, left: 14 },
+  icon: EmsImg,
+  line: EmsLineImg,
+  linePosition: { top: 11, left: 75 },
+  data: [
+    {
+      label: '工作状态：',
+      field: 'systemWorkingStatus',
+      format: systemRunFormat,
+    },
+    {
+      label: '工作模式：',
+      field: 'systemOperatingMode',
+      format: systemOperatingModeFormat,
+    },
+  ],
+};
+
 export const unitItems = [
   {
     label: '储能仓门',
@@ -83,26 +127,6 @@ export const unitItems = [
         label: '储能仓门：',
         field: 'AccessControlStatus',
         format: (value: number) => doorFormat(value),
-      },
-    ],
-  },
-  {
-    label: 'EMS',
-    productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
-    position: { top: 302, left: 14 },
-    icon: EmsImg,
-    line: EmsLineImg,
-    linePosition: { top: 11, left: 75 },
-    data: [
-      {
-        label: '运行状态：',
-        field: 'emsSysStatus',
-        format: (value: number) => runFormat(value),
-      },
-      {
-        label: '系统模式：',
-        field: 'sysModel',
-        format: (value: number) => modelFormat(value),
       },
     ],
   },

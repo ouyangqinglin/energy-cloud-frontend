@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-02 10:40:52
+ * @LastEditTime: 2023-12-06 02:18:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -20,7 +20,7 @@ import { isEmpty } from '@/utils';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
-import { airItem, bwattAirItem, unitItems } from './config';
+import { airItem, bwattAirItem, emsItem, unitItems, ytEmsItem } from './config';
 import { EnergySourceEnum } from '../';
 
 const getDataIds = (data: energyType[]): string[] => {
@@ -127,7 +127,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const items = useMemo(() => {
     return [
-      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ? bwattAirItem : airItem,
+      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ||
+      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
+        ? bwattAirItem
+        : airItem,
+      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy ? ytEmsItem : emsItem,
       ...unitItems,
     ].map((item, index) => {
       return (
@@ -141,11 +145,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             }}
           >
             <img className={styles.line} src={item.line} style={item.linePosition} />
-            {index !== 1 && <label className={styles.unitTitle}>{item.label}</label>}
+            {index !== 2 && <label className={styles.unitTitle}>{item.label}</label>}
             {item.data.map((field: any, fieldIndex) => {
               return (
                 <>
-                  <div key={fieldIndex} className={index !== 1 ? styles.field : styles.unitTitle}>
+                  <div key={fieldIndex} className={index !== 2 ? styles.field : styles.unitTitle}>
                     {field.label}
                     <span className={styles.unitNum}>
                       {!isEmpty(realTimeData?.[field.field])
@@ -158,7 +162,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
                 </>
               );
             })}
-            {index !== 1 && (
+            {index !== 2 && (
               <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
                 了解更多{'>'}
               </span>
