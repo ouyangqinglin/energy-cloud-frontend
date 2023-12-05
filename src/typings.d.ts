@@ -29,4 +29,5 @@ declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 
 interface Window {
   DEVTOOL: boolean;
+  [key: string]: any;
 }

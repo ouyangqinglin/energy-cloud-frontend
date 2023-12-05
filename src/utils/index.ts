@@ -340,3 +340,16 @@ export const getModelByProps = (items: DevicePropsType[], parentField = '') => {
   });
   return result;
 };
+
+export const startExchangeTime = () => {
+  if (!window.exchangeData) {
+    window.exchangeData = {
+      exchangeCount: 3599,
+    };
+    setInterval(() => {
+      window.exchangeData = {
+        exchangeCount: (window.exchangeData?.exchangeCount ?? 3599) + 1,
+      };
+    }, 1000 * 60 * 5);
+  }
+};

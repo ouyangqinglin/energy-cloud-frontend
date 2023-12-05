@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-04 14:16:51
+ * @LastEditTime: 2023-12-05 13:49:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\index.tsx
  */
@@ -27,19 +27,19 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import type { SearchParams } from '@/hooks/useSearchSelect';
-import { formatMessage } from '@/utils';
+import { formatMessage, startExchangeTime } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
 import { statisticsItems } from './helper';
 import styles from './index.less';
+import { useInterval } from 'ahooks';
 
 type DeviceListProps = {
   isStationChild?: boolean;
 };
 
 const statisticsData: any = {
-  site: 11,
-  exchangeNum: 3599,
+  site: 12,
   totalChargePower: 495681.62,
 };
 
@@ -58,6 +58,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:siteManage:siteConfig:deviceManage:unbind',
     'iot:device:add',
   ]);
+  startExchangeTime();
+  const [exchangeNum, setExchangeNum] = useState(window.exchangeData.exchangeCount);
+
+  useInterval(() => {
+    setExchangeNum(window.exchangeData.exchangeCount);
+  }, 1000 * 60 * 5);
 
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -237,7 +243,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             <div>
               <div className={styles.title}>{item.label}</div>
               <div className={styles.num}>
-                {statisticsData?.[item.field]}
+                {{ ...statisticsData, exchangeNum }?.[item.field]}
                 <span className={styles.unit}>{item.unit}</span>
               </div>
             </div>
@@ -245,7 +251,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         </Col>
       );
     });
-  }, []);
+  }, [exchangeNum]);
 
   return (
     <>
