@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-10-12 13:37:58
+ * @LastEditTime: 2023-12-05 14:24:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
@@ -119,6 +119,11 @@ const SiteSwitch = <ValueType = 'text',>(
       if (result && result.id) {
         formRef?.current?.setFieldValue?.('siteId', result.id);
         changeSite(siteOptionsMap[result.id], value);
+      } else {
+        dispatch({
+          type: 'change',
+          payload: { siteType: value },
+        });
       }
     },
     [siteOptions],
