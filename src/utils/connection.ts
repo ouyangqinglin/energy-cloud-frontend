@@ -103,6 +103,8 @@ export class Connection {
 
   private onOpenCallbacks: OnOpenType[] = [];
 
+  private heartCheck: NodeJS.Timer;
+
   static getInstance(option?: InitialOption) {
     if (!this.instance) {
       return (this.instance = new Connection(option));
@@ -143,6 +145,7 @@ export class Connection {
       };
 
       this.client.onclose = ({ code, reason }) => {
+        clearInterval(this.heartCheck);
         this.initClientReady();
         Connection.connectedStatus = ConnectStatus.CLOSE;
         if (code === ExitCode.CLOSE) {
@@ -157,6 +160,7 @@ export class Connection {
       };
 
       this.client.onopen = (e) => {
+        this.reStartHeartCheck();
         this.onOpenCallbacks?.forEach?.((cb) => cb?.());
         this.clientResolve();
         this.resendSubscribeService();
@@ -165,6 +169,7 @@ export class Connection {
       };
 
       this.client.onmessage = (rawData: MessageEvent<string>) => {
+        this.reStartHeartCheck();
         if (!this.receivedMessageCallbacks.length) {
           return;
         }
@@ -184,6 +189,13 @@ export class Connection {
     } catch (error) {
       console.log('websocket: catch error', error);
     }
+  }
+
+  reStartHeartCheck() {
+    clearInterval(this.heartCheck);
+    this.heartCheck = setInterval(() => {
+      this.client?.send?.(JSON.stringify({ data: 'ping', type: MessageEventType.HEARTBEAT }));
+    }, 1000 * 30);
   }
 
   isConnecting() {
