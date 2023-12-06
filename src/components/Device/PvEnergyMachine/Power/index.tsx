@@ -17,6 +17,7 @@ import { useRequest } from 'umi';
 import { getPower } from '../service';
 import { DeviceDataType } from '@/services/equipment';
 import { PowerDataType } from '../typing';
+import { formatMessage } from '@/utils';
 
 export type PowerType = {
   className?: string;
@@ -24,10 +25,10 @@ export type PowerType = {
 };
 
 const seriesMap = new Map([
-  ['elec', '市电'],
-  ['pv', '光伏'],
-  ['energy', '储能'],
-  ['load', '负载'],
+  ['elec', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+  ['pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
+  ['energy', formatMessage({ id: 'device.storage', defaultMessage: '储能' })],
+  ['load', formatMessage({ id: 'device.load', defaultMessage: '负载' })],
 ]);
 
 const Power: React.FC<PowerType> = (props) => {
@@ -46,7 +47,7 @@ const Power: React.FC<PowerType> = (props) => {
   const chartOption = useMemo(() => {
     return {
       yAxis: {
-        name: '单位（kW）',
+        name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kW）',
       },
       series: [
         {
@@ -95,7 +96,7 @@ const Power: React.FC<PowerType> = (props) => {
   return (
     <>
       <div className={`card-wrap shadow p20 mb20 ${styles.chart} ${className}`}>
-        <Detail.Label className="mb12" title="实时功率" size="small" showLine={false}>
+        <Detail.Label className="mb12" title={formatMessage({ id: 'device.realTimePower', defaultMessage: '实时功率' })} size="small" showLine={false}>
           <DatePicker
             defaultValue={date}
             format="YYYY-MM-DD"

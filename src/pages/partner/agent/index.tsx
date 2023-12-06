@@ -13,7 +13,7 @@ import type { ProColumns, ProTableProps } from '@ant-design/pro-table';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 import type { AgentType, AgentFormType } from './data.d';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { getAgent } from '@/services/agent';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';

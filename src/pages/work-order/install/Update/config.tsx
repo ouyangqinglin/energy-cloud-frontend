@@ -16,10 +16,10 @@ import { formatMessage } from '@/utils';
 
 // 工单类型 0：安装工单 1：维护工单 2修复工单
 const userType = new Map([
-  [UserType.SYSTEM, '系统管理员'],
-  [UserType.INSTALL, '安装商'],
-  [UserType.YUNYING, '运营商'],
-  [UserType.OWNER, '业主'],
+  [UserType.SYSTEM, formatMessage({ id: 'taskManage.systemAdministrator', defaultMessage: '系统管理员' })],
+  [UserType.INSTALL, formatMessage({ id: 'taskManage.installioner', defaultMessage: '安装商' })],
+  [UserType.YUNYING, formatMessage({ id: 'taskManage.operator', defaultMessage: '运营商' })],
+  [UserType.OWNER, formatMessage({ id: 'taskManage.owner', defaultMessage: '业主' })],
 ]);
 export const Columns: (
   operation: FormOperations,
@@ -228,7 +228,7 @@ export const Columns: (
       dataIndex: ['email'],
     },
     {
-      title: formatMessage({ id: 'common.customerAddress', defaultMessage: '客户地址' }),
+      title: formatMessage({ id: 'taskManage.customerAddress', defaultMessage: '客户地址' }),
       dataIndex: ['address'],
       formItemProps: {
         rules: [

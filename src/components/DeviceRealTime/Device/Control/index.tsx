@@ -33,7 +33,7 @@ import Detail from '@/components/Detail';
 import { DeviceModelDataType, DeviceModelType, DeviceServiceModelType } from '@/types/device';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import styles from './index.less';
 import { editSetting } from '@/services/equipment';
 import { isEmpty, merge } from 'lodash';
@@ -68,7 +68,7 @@ const Control: React.FC<ControlProps> = (props) => {
       if (keys && keys.length) {
         run({ deviceId, serviceId: keys[0] }).then((data) => {
           if (data) {
-            message.success('操作成功');
+            message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
             schamaFormsRef.current?.[name || '']?.current?.setFieldValue(keys[0], false);
           }
         });
@@ -97,7 +97,7 @@ const Control: React.FC<ControlProps> = (props) => {
     if (!isEmpty(result)) {
       run({ deviceId, serviceId: key, input: result }).then((data) => {
         if (data) {
-          message.success('操作成功');
+          message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
           setDisableBtns((prevData) => ({ ...prevData, [key || '']: true }));
         }
       });
@@ -181,13 +181,13 @@ const Control: React.FC<ControlProps> = (props) => {
               <TimePicker.RangePicker
                 className="w-full"
                 format={TimeRangeFormat}
-                placeholder={['开始', '结束']}
+                placeholder={[formatMessage({ id: 'common.start', defaultMessage: '开始' }), formatMessage({ id: 'common.end', defaultMessage: '结束' })]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             );
             break;
           default:
-            field = <Input placeholder="请输入" />;
+            field = <Input placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })} />;
             break;
         }
         formItems.push(
@@ -242,7 +242,7 @@ const Control: React.FC<ControlProps> = (props) => {
                   }
                   onClick={() => onPushClick(form?.id)}
                 >
-                  下发参数
+                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
                 </Button>
                 <Form
                   ref={formRef}

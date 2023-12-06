@@ -17,6 +17,7 @@ import styles from './index.less';
 import { useSubscribe } from '@/hooks';
 import { OnlineStatusEnum } from '@/utils/dict';
 import type { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -87,28 +88,28 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `系统设置`,
+      label: formatMessage({ id: 'device.systemSetting', defaultMessage: '系统设置' }),
       children: (
         <SystemSetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
       ),
     },
     {
       key: '2',
-      label: `变流器设置`,
+      label: formatMessage({ id: 'device.converterSetting', defaultMessage: '变流器设置' }),
       children: (
         <ConverterSetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
       ),
     },
     {
       key: '3',
-      label: `电池设置`,
+      label: formatMessage({ id: 'device.batterySetting', defaultMessage: '电池设置' }),
       children: (
         <BatterySetting deviceId={deviceId} productId={productId} realTimeData={realTimeData} />
       ),
     },
     {
       key: '4',
-      label: `能量管理`,
+      label: formatMessage({ id: 'device.energyManagement', defaultMessage: '能量管理' }),
       children: (
         <EnergyManageTab productId={productId} deviceId={deviceId} realTimeData={realTimeData} />
       ),

@@ -15,6 +15,7 @@ import Load from '@/assets/image/device/load.png';
 import EmergentLoad from '@/assets/image/device/emergent-load.png';
 import { FlowType, OverviewItemType } from '../typing';
 import styles from '../index.less';
+import { formatMessage } from '@/utils';
 
 export const config: OverviewItemType[] = [
   {
@@ -26,9 +27,9 @@ export const config: OverviewItemType[] = [
       height: '102px',
     },
     items: [
-      { label: '电网功率（kW）', field: 'a' },
-      { label: '今日电网供电量（kWh）', field: 'b' },
-      { label: '今日馈网电量（kWh）', field: 'c' },
+      { label: formatMessage({ id: 'device.gridPower', defaultMessage: '电网功率' }) + '（kW）', field: 'a' },
+      { label: formatMessage({ id: 'device.powerSupplyGridToday', defaultMessage: '今日电网供电量' }) + '（kWh）', field: 'b' },
+      { label: formatMessage({ id: 'device.todayPowerSupplyGrid', defaultMessage: '今日馈网电量' }) + '（kWh）', field: 'c' },
     ],
   },
   {
@@ -40,9 +41,9 @@ export const config: OverviewItemType[] = [
       height: '93px',
     },
     items: [
-      { label: '储能功率（kW）', field: 'a' },
-      { label: '今日充电量（kW）', field: 'b' },
-      { label: '今日放电量（kW）', field: 'c' },
+      { label: formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' }) + '（kW）', field: 'a' },
+      { label: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }) + '（kW）', field: 'b' },
+      { label: formatMessage({ id: 'device.todayDischargeCapacity', defaultMessage: '今日放电量' }) + '（kW）', field: 'c' },
       { label: 'SOC', field: 'd' },
     ],
   },
@@ -64,8 +65,8 @@ export const config: OverviewItemType[] = [
       height: '80px',
     },
     items: [
-      { label: '发电功率（kW）', field: 'a' },
-      { label: '今日发电量（kWh）', field: 'b' },
+      { label: formatMessage({ id: 'siteMonitor.generatingCapacity', defaultMessage: '发电功率' }) + '（kW）', field: 'a' },
+      { label: formatMessage({ id: 'device.todayElectricitygeneration', defaultMessage: '今日发电量' }) + '（kWh）', field: 'b' },
     ],
   },
   {
@@ -77,9 +78,9 @@ export const config: OverviewItemType[] = [
       height: '80px',
     },
     items: [
-      { label: '普通负载（kW）', field: 'a', className: styles.vertical },
-      { label: '负载总功率（kW）', field: 'b' },
-      { label: '今日用电量（kWh）', field: 'c' },
+      { label: formatMessage({ id: 'device.ordinaryLoad', defaultMessage: '普通负载' }) + '（kW）', field: 'a', className: styles.vertical },
+      { label: formatMessage({ id: 'device.totalLoadPower', defaultMessage: '负载总功率' }) + '（kW）', field: 'b' },
+      { label: formatMessage({ id: 'device.todayElectricityConsumption', defaultMessage: '今日用电量' }) + '（kWh）', field: 'c' },
     ],
   },
   {
@@ -90,7 +91,7 @@ export const config: OverviewItemType[] = [
       width: '92px',
       height: '80px',
     },
-    items: [{ label: '紧急负载（kW）', field: 'a', className: styles.vertical }],
+    items: [{ label: formatMessage({ id: 'device.emergencyLoad', defaultMessage: '紧急负载' }) + '（kW）', field: 'a', className: styles.vertical }],
   },
 ];
 

@@ -19,6 +19,7 @@ import { getElectic } from '../service';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { ElectricDataType } from '../typing';
 import { chartOption } from './helper';
+import { formatMessage } from '@/utils';
 
 export type ElectricType = {
   className?: string;
@@ -26,16 +27,16 @@ export type ElectricType = {
 };
 
 const typeMap = [
-  { value: chartTypeEnum.Month, label: '月' },
-  { value: chartTypeEnum.Year, label: '年' },
+  { value: chartTypeEnum.Month, label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }) },
+  { value: chartTypeEnum.Year, label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }) },
 ];
 
 const seriesMap = new Map([
-  ['elec', '市电'],
-  ['pv', '光伏'],
-  ['energyCharge', '储能充电'],
-  ['energyPut', '储能放电'],
-  ['load', '负载'],
+  ['elec', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+  ['pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
+  ['energyCharge', formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' })],
+  ['energyPut', formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' })],
+  ['load', formatMessage({ id: 'device.load', defaultMessage: '负载' })],
 ]);
 
 const Electric: React.FC<ElectricType> = (props) => {
@@ -80,7 +81,7 @@ const Electric: React.FC<ElectricType> = (props) => {
   return (
     <>
       <div className={`card-wrap shadow p20 ${styles.chart} ${className}`}>
-        <Detail.Label className="mb12" title="电量" size="small" showLine={false}>
+        <Detail.Label className="mb12" title={formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' })} size="small" showLine={false}>
           <Select
             className="mr8"
             defaultValue={chartType}

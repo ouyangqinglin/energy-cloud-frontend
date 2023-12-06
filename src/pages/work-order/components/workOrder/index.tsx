@@ -9,10 +9,11 @@
 import React, { useCallback } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import type { WorkOrderType } from './data.d';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { getPage } from './service';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
+import { formatMessage } from '@/utils';
 
 export enum PageTypeEnum {
   Install,
@@ -39,14 +40,14 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
 
   const columns: ProColumns<WorkOrderType>[] = [
     {
-      title: '工单ID',
+      title: formatMessage({ id: 'taskManage.workOrderId', defaultMessage: '工单ID' }),
       dataIndex: 'id',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '所属站点',
+      title: formatMessage({ id: 'taskManage.owningSite' ,defaultMessage: '所属站点' }),
       dataIndex: 'orgName',
       width: 120,
       ellipsis: true,
@@ -54,20 +55,20 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       hideInTable: true,
     },
     {
-      title: '工单类型',
+      title: formatMessage({ id: 'taskManage.workOrderType', defaultMessage: '工单类型' }),
       dataIndex: 'orgName',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '工单状态',
+      title: formatMessage({ id: 'taskManage.workOrderStatus', defaultMessage: '工单状态' }),
       dataIndex: 'orgId',
       width: 120,
       ellipsis: true,
     },
     {
-      title: '客户',
+      title: formatMessage({ id: 'taskManage.custom', defaultMessage: '客户' }),
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: effectStatus,
@@ -75,40 +76,40 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       hideInSearch: true,
     },
     {
-      title: '维护人员',
+      title: formatMessage({ id: 'taskManage.maintainer', defaultMessage: '维护人员' }),
       dataIndex: 'remark',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '预约时间',
+      title: formatMessage({ id: 'taskManage.appointmentTime', defaultMessage: '预约时间' }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '工单接收时间',
+      title: formatMessage({ id: 'taskManage.workOrderReceivingTime', defaultMessage: '工单接收时间' }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '工单完成时间',
+      title: formatMessage({ id: 'taskManage.workOrderCompletionTime', defaultMessage: '工单完成时间' }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '安装商',
+      title: formatMessage({ id: 'taskManage.installioner', defaultMessage: '安装商' }),
       dataIndex: 'createByName',
       width: 100,
       ellipsis: true,
     },
     {
-      title: '工单创建时间',
+      title: formatMessage({ id: 'taskManage.workOrderCreationTime', defaultMessage: '工单创建时间' }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       render: (_, record) => <span>{record.createTime}</span>,
@@ -123,21 +124,21 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       width: 150,
     },
     {
-      title: '创建人',
+      title: formatMessage({ id: 'taskManage.creater', defaultMessage: '创建人' }),
       dataIndex: 'createByName',
       hideInSearch: true,
       width: 100,
       ellipsis: true,
     },
     {
-      title: '最后更新时间',
+      title: formatMessage({ id: 'taskManage.lastUpdateTime', defaultMessage: '最后更新时间' }),
       dataIndex: 'updateTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: '更新人',
+      title: formatMessage({ id: 'taskManage.updatedBy', defaultMessage: '更新人' }),
       dataIndex: 'updateBy',
       hideInSearch: true,
       width: 100,

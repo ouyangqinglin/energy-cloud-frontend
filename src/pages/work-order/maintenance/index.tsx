@@ -114,7 +114,7 @@ const Maintenance = () => {
     requestMaintenanceList();
   }, [requestMaintenanceList]);
   const maintenanceColumns = {
-    title: '维护人员',
+    title: formatMessage({ id: 'taskManage.maintainer', defaultMessage: '维护人员' }),
     dataIndex: 'handlerName',
     valueType: 'select',
     hideInTable: true,

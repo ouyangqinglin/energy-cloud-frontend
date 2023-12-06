@@ -285,6 +285,8 @@ export default {
   'siteMonitor.batterySystem': 'Battery system',
   'siteMonitor.inverterInterface': 'Inverter interface',
   'siteMonitor.normalGeneration': 'Normal generation',
+  'siteMonitor.associateDevice': 'Associated device',
+  'siteMonitor.associateCharge': 'Associated charge pile',
 
 
 }

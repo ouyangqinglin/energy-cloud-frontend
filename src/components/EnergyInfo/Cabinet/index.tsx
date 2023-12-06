@@ -105,7 +105,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
           search: `?id=${unit?.id}&productId=${unit?.productId}`,
         });
       } else {
-        message.error('暂无数据');
+        message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
       }
     },
     [energyData, history],
@@ -161,7 +161,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             })}
             {index !== 1 && (
               <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-                {formatMessage({ id: 'common.more', defaultMessage: '了解更多'})}{'>'}
+                {formatMessage({ id: 'common.more', defaultMessage: formatMessage({ id: 'common.more', defaultMessage: '了解更多' })})}{'>'}
               </span>
             )}
           </div>

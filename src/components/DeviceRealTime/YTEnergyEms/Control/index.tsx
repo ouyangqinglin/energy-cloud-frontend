@@ -15,6 +15,7 @@ import styles from '../index.less';
 import { controlItems } from './config';
 import { useRequest } from 'umi';
 import { editSetting } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 type SettingProps = {
   id: string;
   settingData?: Record<string, any>;
@@ -32,10 +33,10 @@ const Setting: React.FC<SettingProps> = (props) => {
   });
   const btnClick = useCallback((item, btnItem) => {
     Modal.confirm({
-      title: item.label || '确认',
-      content: '是否执行当前参数下发',
-      okText: '确认',
-      cancelText: '取消',
+      title: item.label || formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: formatMessage({ id: 'device.whetherExecuteCurrentParameter', defaultMessage: '是否执行当前参数下发' }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () =>
         run({
           deviceId: id,
@@ -43,14 +44,14 @@ const Setting: React.FC<SettingProps> = (props) => {
           serviceId: item?.field,
         }).then((data: any) => {
           if (data) {
-            message.success('下发成功');
+            message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
           }
         }),
     });
   }, []);
   return (
     <>
-      <LineLabel title="系统状态控制" />
+      <LineLabel title={formatMessage({ id: 'device.systemStateControl', defaultMessage: '系统状态控制' })} />
       <div className={styles.control}>
         {controlItems.map((item: any) => {
           return (

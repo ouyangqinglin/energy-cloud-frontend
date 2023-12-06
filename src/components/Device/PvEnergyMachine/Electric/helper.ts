@@ -7,9 +7,11 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\PvEnergyMachine\Electric\helper.ts
  */
 
+import { formatMessage } from "@/utils";
+
 export const chartOption = {
   yAxis: {
-    name: '单位（kWh）',
+    name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
   },
   series: [
     {

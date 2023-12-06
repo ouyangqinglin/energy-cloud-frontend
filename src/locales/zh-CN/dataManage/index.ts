@@ -54,6 +54,10 @@ export default {
   'dataManage.cumulativePlatformServiceAmount': '累计平台服务费金额',
   'dataManage.cumulativeTotalOrderAmount': '累计订单总金额',
   'dataManage.samplingDetail': '采样明细',
+  'dataManage.generate': '产生',
+  'dataManage.eliminate': '消除',
+  'dataManage.automaticRecovery': '自动恢复',
+  'dataManage.manualClear': '手动清除',
 
 
 }

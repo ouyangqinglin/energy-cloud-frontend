@@ -14,6 +14,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import { RunFormType } from '../typing';
+import { formatMessage } from '@/utils';
 
 const RunForm: React.FC<RunFormType> = (props) => {
   const { deviceId, runData, onSuccess } = props;
@@ -42,12 +43,12 @@ const RunForm: React.FC<RunFormType> = (props) => {
   return (
     <>
       <Button className="pr0" type="link" onClick={setTrue}>
-        下发参数
+        {formatMessage({ id: 'siteMonitor.issueParameters' , defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'下发参数'}
+        title={formatMessage({ id: 'siteMonitor.issueParameters' , defaultMessage: '下发参数' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

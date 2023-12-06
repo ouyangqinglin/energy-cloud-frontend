@@ -16,6 +16,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import moment, { Moment } from 'moment';
+import { formatMessage } from '@/utils';
 
 const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
   const { deviceId, systemTimeData, onSuccess } = props;
@@ -53,12 +54,12 @@ const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
   return (
     <>
       <Button className="pr0" type="link" onClick={setTrue}>
-        下发参数
+        {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'下发参数'}
+        title={formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

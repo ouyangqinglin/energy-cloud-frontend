@@ -29,6 +29,7 @@ import equipmentList from './en-US/equipmentList';//设备列表
 import taskManage from './en-US/taskManage';//设备列表
 import device from './en-US/device';
 import dataManage from './en-US/dataManage';
+import alarmManage from './en-US/alarmManage';
 
 export default {
   'navBar.lang': 'Languages',
@@ -69,5 +70,6 @@ export default {
   ...siteManage,
   ...siteMonitor,
   ...device,
-  ...dataManage
+  ...dataManage,
+  ...alarmManage
 };

@@ -1,5 +1,5 @@
 import { YTProColumns } from '@/components/YTProTable/typing';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { RoleInfo } from './type';
 
 export const dataSource = {

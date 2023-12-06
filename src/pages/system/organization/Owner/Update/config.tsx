@@ -1,7 +1,7 @@
 import PositionSelect from '@/components/PositionSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { TABLESELECT } from '@/components/TableSelect';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import type { ProColumns } from '@ant-design/pro-components';
 import { getServiceProviderList } from '../service';
 import type { ServiceUpdateInfo } from '../type';

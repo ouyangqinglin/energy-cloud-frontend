@@ -1,5 +1,5 @@
 import PositionSelect from '@/components/PositionSelect';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ServiceUpdateInfo } from '../type';
 import Detail from '@/components/Detail';

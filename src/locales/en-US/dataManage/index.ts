@@ -54,5 +54,9 @@ export default {
   'dataManage.cumulativePlatformServiceAmount': 'Cumulative platform service fee amount',
   'dataManage.cumulativeTotalOrderAmount': 'Cumulative total order amount',
   'dataManage.samplingDetail': 'Sampling detail',
+  'dataManage.generate': 'Generate',
+  'dataManage.eliminate': 'Eliminate',
+  'dataManage.automaticRecovery': 'Automatic recovery',
+  'dataManage.manualClear': 'Manual clear',
 
 }

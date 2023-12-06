@@ -1,4 +1,4 @@
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 
 export const columns: ProFormColumnsType[] = [

@@ -12,6 +12,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import { message } from 'antd';
 import { styles } from '../index.less';
+import { formatMessage } from '@/utils';
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -68,13 +69,13 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     [deviceId, productId, realTimeData, serviceId],
   );
   const onSuccess = useCallback(() => {
-    message.success('下发成功');
+    message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
   }, []);
   return (
     <>
       <div>
         <Button type="primary" onClick={setTrue}>
-          配置参数
+          {formatMessage({ id: 'device.configurationParameter', defaultMessage: '配置参数' })}
         </Button>
         <SchemaForm
           open={open}

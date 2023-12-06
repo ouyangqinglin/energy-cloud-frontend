@@ -29,6 +29,7 @@ import equipmentList from './zh-CN/equipmentList';//设备列表
 import taskManage from './zh-CN/taskManage';//任务管理
 import device from './zh-CN/device';
 import dataManage from './zh-CN/dataManage';
+import alarmManage from './zh-CN/alarmManage'
 
 export default {
   'navBar.lang': '语言',
@@ -70,4 +71,5 @@ export default {
   ...siteMonitor,
   ...device,
   ...dataManage,
+  ...alarmManage
 };

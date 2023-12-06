@@ -54,12 +54,12 @@ const Read = (props: FormUpdateBaseProps) => {
 
   const submitText = useMemo(() => {
     if (OrderStatus.READY == detailData?.status) {
-      return '接收工单';
+      return formatMessage({ id: 'taskManage.receivingWorkOrders', defaultMessage: '接收工单' });
     } else if (OrderStatus.DEALING == detailData?.status) {
       if (detailData?.siteId) {
-        return '完成工单';
+        return formatMessage({ id: 'taskManage.completeWorkOrders', defaultMessage: '完成工单' });
       } else {
-        return '创建站点';
+        return formatMessage({ id: 'taskManage.createSite', defaultMessage: '创建站点' });
       }
     } else {
       return '';

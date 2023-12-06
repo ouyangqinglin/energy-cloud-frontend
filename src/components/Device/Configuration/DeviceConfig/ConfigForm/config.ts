@@ -8,6 +8,7 @@
  */
 
 import { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
 
 export type ConfigDataType = {
@@ -29,13 +30,13 @@ export type TreeDataType = {
 
 export const tableSelectColumns: ProColumns[] = [
   {
-    title: '数据采集点',
+    title: formatMessage({ id: 'siteManage.set.dataCollectionPoints', defaultMessage: '数据采集点' }),
     dataIndex: 'paramName',
     width: 200,
     ellipsis: true,
   },
   {
-    title: '数据采集点标识',
+    title: formatMessage({ id: 'siteManage.set.dataCollectionPointIdIdentify', defaultMessage: '数据采集点标识' }),
     dataIndex: 'paramCode',
     width: 150,
     ellipsis: true,

@@ -66,7 +66,7 @@ const Stack: React.FC<StackProps> = (props) => {
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: '设备通信状态',
+        title: formatMessage({ id: 'siteMonitor.deviceCommunicationStatus', defaultMessage: '设备通信状态'}),
         dataIndex: 'connectStatus',
         width: 150,
         ellipsis: true,
@@ -76,21 +76,21 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: '产品类型',
+        title: formatMessage({ id: 'common.productType' , defaultMessage: '产品类型' }),
         dataIndex: 'productTypeName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '产品型号',
+        title: formatMessage({ id: 'common.model' , defaultMessage: '产品型号' }),
         dataIndex: 'model',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '设备名称',
+        title: formatMessage({ id: 'common.deviceName' , defaultMessage: '设备名称' }),
         dataIndex: 'name',
         width: 150,
         ellipsis: true,
@@ -100,7 +100,7 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: 'SN号',
+        title: formatMessage({ id: 'common.deviceSn' , defaultMessage: '设备sn' }),
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,
@@ -140,7 +140,7 @@ const Stack: React.FC<StackProps> = (props) => {
           valueStyle: { width: '40%' },
         }}
       />
-      <Label title="接入设备列表" className="mt16" />
+      <Label title={formatMessage({ id: 'siteMonitor.accessDeviceList', defaultMessage: '接入设备列表' })} className="mt16" />
       <YTProTable<DeviceDataType>
         loading={loading}
         search={false}

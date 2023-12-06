@@ -14,6 +14,7 @@ import styles from '../index.less';
 import TableModal from './TableModal';
 import type { ProRenderFieldPropsType, ProTableProps } from '@ant-design/pro-components';
 import classnames from 'classnames';
+import { formatMessage } from '@/utils';
 
 export type TableSelectProps<V, T, P> = {
   value?: V[];
@@ -57,7 +58,7 @@ const TableSelect = <
     proTableProps,
     title,
     width,
-    placeholder = '请选择',
+    placeholder = formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
     inputClassName = '',
     inputStyle = {},
   } = props;

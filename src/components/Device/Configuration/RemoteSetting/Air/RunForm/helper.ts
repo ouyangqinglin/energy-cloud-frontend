@@ -6,15 +6,16 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Air\helper.ts
  */
+import { formatMessage } from '@/utils';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 
 export const columns: ProFormColumnsType[] = [
   {
-    title: '制冷点',
+    title: formatMessage({ id: 'device.refrigerationPoint', defaultMessage: '制冷点' }),
     dataIndex: 'RefrigerationPoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入制冷点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.refrigerationPoint', defaultMessage: '制冷点' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -22,11 +23,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '制冷回差',
+    title: formatMessage({ id: 'device.refrigerationDifference' , defaultMessage: '制冷回差' }),
     dataIndex: 'CoolingReturnDifference',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入制冷回差' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.refrigerationDifference', defaultMessage: '制冷回差' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -34,11 +35,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '加热点',
+    title: formatMessage({ id: 'device.hotSpot', defaultMessage: '加热点' }),
     dataIndex: 'HeatingPoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入加热点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.hotSpot', defaultMessage: '加热点' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -46,11 +47,12 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '加热回差',
+    title: formatMessage({ id: 'device.hotSpotDifference', defaultMessage: '加热回差' }),
     dataIndex: 'HeatingReturnDifference',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入加热回差' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.hotSpotDifference', defaultMessage: '加热回差' }) }],
+
     },
     fieldProps: {
       addonAfter: '℃',
@@ -58,11 +60,12 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '除湿点',
+    title: formatMessage({ id: 'device.dehumidiyPoint', defaultMessage: '除湿点' }),
     dataIndex: 'DehumidificationPoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入除湿点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.dehumidiyPoint', defaultMessage: '除湿点' }) }],
+
     },
     fieldProps: {
       addonAfter: '%',
@@ -70,11 +73,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '除湿回差',
+    title: formatMessage({ id: 'device.dehumidiyDifference', defaultMessage: '除湿回差' }),
     dataIndex: 'DehumidificationReturnDifference',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入除湿回差' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.dehumidiyDifference', defaultMessage: '除湿回差' }) }],
     },
     fieldProps: {
       addonAfter: '%',
@@ -82,11 +85,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '高温点',
+    title: formatMessage({ id: 'device.highTemperaturePoint', defaultMessage: '高温点' }),
     dataIndex: 'HighTemperaturePoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入低温点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.highTemperaturePoint', defaultMessage: '高温点' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -94,11 +97,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '低温点',
+    title: formatMessage({ id: 'device.cryogenicPoint', defaultMessage: '低温点' }),
     dataIndex: 'LowTemperaturePoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入低温点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.cryogenicPoint', defaultMessage: '低温点' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -106,11 +109,12 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '高湿点',
+    title: formatMessage({ id: 'device.highHumidityPoint', defaultMessage: '高湿点' }),
     dataIndex: 'HighHumidityPoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入高湿点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.highHumidityPoint', defaultMessage: '高湿点' }) }],
+
     },
     fieldProps: {
       addonAfter: '℃',
@@ -118,11 +122,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '内风机停止点',
+    title: formatMessage({ id: 'device.internalFanStop', defaultMessage: '内风机停止点' }),
     dataIndex: 'InternalFanStopPoint',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入内风机停止点' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.internalFanStop', defaultMessage: '内风机停止点' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -130,11 +134,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '高温开启值',
+    title: formatMessage({ id: 'device.highTemperatureOpen', defaultMessage: '高温开启值' }),
     dataIndex: 'HighTemperatureOpeningValue',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入高温开启值' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.highTemperatureOpen', defaultMessage: '高温开启值' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -142,11 +146,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '高温关闭值',
+    title: formatMessage({ id: 'device.highTemperatureClosed', defaultMessage: '高温关闭值' }),
     dataIndex: 'HighTemperatureShutdownValue',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入高温关闭值' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.highTemperatureClosed', defaultMessage: '高温关闭值' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -154,11 +158,11 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '低温开启值',
+    title: formatMessage({ id: 'device.lowTemperatureOpen', defaultMessage: '低温开启值' }),
     dataIndex: 'LowTemperatureOpeningValue',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入低温开启值' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.lowTemperatureOpen', defaultMessage: '低温开启值' }) }],
     },
     fieldProps: {
       addonAfter: '℃',
@@ -166,11 +170,12 @@ export const columns: ProFormColumnsType[] = [
     },
   },
   {
-    title: '低温关闭值',
+    title: formatMessage({ id: 'device.lowTemperatureClosed', defaultMessage: '低温关闭值' }),
     dataIndex: 'LowTemperatureShutdownValue',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入低温关闭值' }],
+      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'device.lowTemperatureClosed', defaultMessage: '低温关闭值' }) }],
+
     },
     fieldProps: {
       addonAfter: '℃',

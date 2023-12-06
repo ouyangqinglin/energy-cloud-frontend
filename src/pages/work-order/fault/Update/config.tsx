@@ -1,9 +1,10 @@
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ServiceUpdateInfo } from '../type';
+import { formatMessage } from '@/utils';
 
 export const Columns: (
   operation: FormOperations,
@@ -11,19 +12,19 @@ export const Columns: (
 ) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (operation, orgId) => {
   return [
     {
-      title: '安装商名称',
+      title: formatMessage({ id: 'taskManage.installerName', defaultMessage: '安装商名称' }),
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: formatMessage({ id: 'taskManage.fieldRequired', defaultMessage: '此项为必填项' }),
           },
         ],
       },
       dataIndex: ['orgName'],
     },
     {
-      title: '安装商ID',
+      title: formatMessage({ id: 'installerId', defaultMessage: '安装商ID' }),
       // formItemProps: {
       //   rules: [
       //     {
@@ -39,24 +40,24 @@ export const Columns: (
       },
     },
     {
-      title: '状态',
+      title: formatMessage({ id: 'taskManage.state', defaultMessage: '状态' }),
       dataIndex: ['status'],
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: formatMessage({ id: 'taskManage.fieldRequired', defaultMessage: '此项为必填项' }),
           },
         ],
       },
       valueEnum: effectStatus,
     },
     {
-      title: '电话',
+      title: formatMessage({ id: 'taskManage.phone', defaultMessage: '电话' }),
       dataIndex: ['phonenumber'],
     },
     {
-      title: '备注',
+      title: formatMessage({ id: 'taskManage.remark', defaultMessage: '备注' }),
       colProps: {
         span: 16,
       },

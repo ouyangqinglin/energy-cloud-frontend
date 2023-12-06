@@ -133,30 +133,6 @@ export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周�
 
 export const color = {};
 
-
-
-export const effectStatus = {
-  0: {
-    text: '有效',
-    status: 'Success',
-  },
-  1: {
-    text: '无效',
-    status: 'Error',
-  },
-};
-
-
-
-export const alarmClearStatus = {
-  0: {
-    text: '产生',
-  },
-  1: {
-    text: '消除',
-  },
-};
-
 export const alarmSourceStatus = {
   1: {
     text: '平台告警',
@@ -209,10 +185,7 @@ export enum timeDimensionEnum {
 }
 
 
-export const cleanUpType = {
-  0: '自动恢复',
-  1: '手动清除',
-};
+
 
 
 

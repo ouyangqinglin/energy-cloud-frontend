@@ -1,5 +1,5 @@
 import { YTProColumns } from '@/components/YTProTable/typing';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser, getCustomer } from './service';
 import { CustomerInfo } from './type';

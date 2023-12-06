@@ -10,6 +10,7 @@ import type { GroupItem } from '@/components/Detail';
 import { emsSystemEnabletems, reportItems, systemColumns, reportColumns } from './config';
 import ConfigModal from '../ConfigModal';
 import RemoteUpgrade from '../../RemoteUpgrade';
+import { formatMessage } from '@/utils';
 export type StackProps = {
   deviceId: string;
   productId: string;
@@ -22,9 +23,9 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title="系统使能设置">
+          <Detail.Label title={formatMessage({ id: 'device.systemEnablingSettings', defaultMessage: '系统使能设置' })}>
             <ConfigModal
-              title={'使能设置'}
+              title={formatMessage({ id: 'device.enableSettings', defaultMessage: '使能设置' })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}
@@ -37,9 +38,9 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       },
       {
         label: (
-          <Detail.Label title="通信参数设置">
+          <Detail.Label title={formatMessage({ id: 'device.communicationParameterSetting', defaultMessage: '通信参数设置' })}>
             <ConfigModal
-              title={'参数设置'}
+              title={formatMessage({ id: 'device.parameterSetting', defaultMessage: '参数设置' })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}

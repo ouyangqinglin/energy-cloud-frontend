@@ -11,6 +11,7 @@ import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
 import Alarm, { PageTypeEnum, AlarmProps } from './AlarmTable';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const Index: React.FC<AlarmProps> = (props) => {
   const { params, isStationChild } = props;
@@ -18,14 +19,14 @@ const Index: React.FC<AlarmProps> = (props) => {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `当前告警`,
+      label: formatMessage({ id: 'alarmManage.currentAlarm', defaultMessage: '当前告警' }),
       children: (
         <Alarm isStationChild={isStationChild} params={params} type={PageTypeEnum.Current} />
       ),
     },
     {
       key: '2',
-      label: `历史告警`,
+      label: formatMessage({ id: 'alarmManage.historicalAlarm', defaultMessage: '历史告警' }),
       children: (
         <Alarm isStationChild={isStationChild} params={params} type={PageTypeEnum.History} />
       ),

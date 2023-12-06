@@ -2,7 +2,7 @@ import PositionSelect from '@/components/PositionSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { verifyPhone } from '@/utils/reg';
 import { buildTreeData } from '@/utils/utils';
 import type { ProColumns } from '@ant-design/pro-components';

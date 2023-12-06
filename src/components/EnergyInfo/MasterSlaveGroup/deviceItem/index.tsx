@@ -9,6 +9,7 @@ import IconCharge from '@/assets/image/masterSlaveGroup/icon_charge.png';
 import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
 import { EmsDevicesType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 
 export type DeviceItemProps = {
   realtimeData: any; //实时数据对象
@@ -67,7 +68,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
                     : { color: '#606266' }
                 }
               >
-                {realtimeData?.P > 0 ? '放电' : realtimeData?.P < 0 ? '充电' : '静置'}
+                {realtimeData?.P > 0 ? formatMessage({ id: 'device.discharge', defaultMessage: '放电' }) : realtimeData?.P < 0 ? formatMessage({ id: 'device.standing', defaultMessage: '静置' }) : formatMessage({ id: 'device.discharge', defaultMessage: '放电' })}
               </span>
             </div>
           </div>

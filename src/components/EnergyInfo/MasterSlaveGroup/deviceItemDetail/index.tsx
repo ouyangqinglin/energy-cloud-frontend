@@ -5,6 +5,7 @@ import styles from '../index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Carousel } from 'antd';
 import type { CarouselRef } from 'antd/lib/carousel';
+import { formatMessage } from '@/utils';
 export type DeviceItemDetailProps = {
   deviceData: EmsDevicesType; //当前device数据对象
   allDeviceData: any; //某单元下所有的设备
@@ -52,7 +53,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
           <ArrowRightOutlined style={{ fontSize: '25px', padding: '10px' }} />
         </div>
         <div className={styles.backFont} onClick={onBackDevice}>
-          返回单元
+          {formatMessage({ id: 'device.returnUnit', defaultMessage: '返回单元' })}
         </div>
         <Carousel dots={true} ref={carouselRef}>
           {/* <div className={styles.deviceNameFont}>{deviceData?.deviceName || '--'}</div> */}

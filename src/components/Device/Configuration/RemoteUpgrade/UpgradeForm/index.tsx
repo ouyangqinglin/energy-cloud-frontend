@@ -14,6 +14,7 @@ import { upgradeDevice } from '@/services/equipment';
 import { UpgradeFormType } from '../typing';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { OptionType } from '@/types';
+import { formatMessage } from '@/utils';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   const { deviceId, versionItems } = props;
@@ -31,11 +32,11 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
     });
     return [
       {
-        title: '升级版本',
+        title: formatMessage({ id: 'device.upgradeVersion', defaultMessage: '升级版本' }),
         dataIndex: 'packageId',
         valueType: 'select',
         formItemProps: {
-          rules: [{ required: true, message: '请选择升级版本' }],
+          rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'device.upgradeVersion', defaultMessage: '升级版本' }) }],
         },
         fieldProps: {
           options,
@@ -47,12 +48,12 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   return (
     <>
       <Button className="pr0" type="link" onClick={setTrue}>
-        升级
+      {formatMessage({ id: 'device.upgrades', defaultMessage: '升级' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'远程升级'}
+        title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

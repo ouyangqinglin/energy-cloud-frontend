@@ -176,3 +176,28 @@ export const timeDimension = new Map([
   [timeDimensionEnum.Year, { text: formatMessage({ id: 'dataManage.yearStatistics',defaultMessage: '按年统计' }), format: 'YYYY' }],
   [timeDimensionEnum.Cycle, { text: formatMessage({ id: 'dataManage.lifeCycleStatistics',defaultMessage: '按生命周期统计' }) }],
 ]);
+
+export const alarmClearStatus = {
+  0: {
+    text: formatMessage({ id: 'dataManage.generate', defaultMessage: '产生' }),
+  },
+  1: {
+    text: formatMessage({ id: 'dataManage.eliminate', defaultMessage: '消除' }),
+  },
+};
+
+export const cleanUpType = {
+  0: formatMessage({ id: 'dataManage.automaticRecovery', defaultMessage: '自动恢复' }),
+  1: formatMessage({ id: 'dataManage.manualClear', defaultMessage: '手动清除' }),
+};
+
+export const effectStatus = {
+  0: {
+    text: formatMessage({ id: 'taskManage.valid', defaultMessage: '有效' }),
+    status: 'Success',
+  },
+  1: {
+    text: formatMessage({ id: 'taskManage.invalid', defaultMessage: '无效' }),
+    status: 'Error',
+  },
+};

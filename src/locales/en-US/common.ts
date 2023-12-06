@@ -108,6 +108,7 @@ export default {
   'common.mailbox': 'Mailbox',
   'common.userName': 'User Name',
   'common.account': 'Account',
+  'common.password': 'Password',
   'common.pleaseEnterDevice': 'Please enter a device name',
   'common.pleaseEnterSn': 'Please enter the device serial number',
   'common.normal': 'normal',
@@ -137,6 +138,13 @@ export default {
   'common.occurrenceTime': 'Occurrence time',
   'common.time': 'Time',
   'common.operatingUser': 'Operating user',
+  'common.userType': 'User type',
+  'common.logs': 'Logs',
+  'common.configured': 'Configured',
+  'common.configurationInformation': 'Configuration information',
+  'common.modify': 'Edit',
+  'common.systemTime': 'System time',
+  'common.noData': 'No Data',
 
 
 };

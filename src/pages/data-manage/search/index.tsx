@@ -178,7 +178,7 @@ const Search: React.FC<SearchProps> = (props) => {
   const getExportName = useCallback((params: TableSearchType) => {
     const date = params?.date || [];
     return (
-      '采样明细-' +
+      formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' })+'-' +
       moment(date[0]).format('YYYY-MM-DD') +
       '~' +
       moment(date[1]).format('YYYY-MM-DD')

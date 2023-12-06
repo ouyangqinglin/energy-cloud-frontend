@@ -13,6 +13,7 @@ import { DeviceDataType } from '@/services/equipment';
 import Page from '@/layouts/Page';
 import EmptyImg from '@/assets/image/device/empty.png';
 import RealTime from '@/components/DeviceRealTime/ElectricMeter';
+import { formatMessage } from '@/utils';
 
 export type ElectricMeterType = DeviceDetailType & {
   label?: string;
@@ -20,7 +21,7 @@ export type ElectricMeterType = DeviceDetailType & {
 };
 
 const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
-  const { id, productId, onChange, label = '市电负载', hideLineVoltage } = props;
+  const { id, productId, onChange, label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }), hideLineVoltage } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();
