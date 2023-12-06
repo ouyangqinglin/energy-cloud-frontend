@@ -28,11 +28,6 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
     'iot:device:remoteControl',
     'iot:device:remoteControl:systemStatusControl',
   ]);
-
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const realTimeData = useSubscribe(id, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {

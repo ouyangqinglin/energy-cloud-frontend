@@ -216,6 +216,13 @@ const Search: React.FC<SearchProps> = (props) => {
             ignoreRules: false,
           }}
           bordered
+          scroll={
+            isDeviceChild
+              ? {
+                  y: 530,
+                }
+              : {}
+          }
         />
       </ProConfigProvider>
     </>
