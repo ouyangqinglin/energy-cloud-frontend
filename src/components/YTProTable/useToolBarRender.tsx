@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 17:39:54
- * @LastEditTime: 2023-08-15 14:58:28
+ * @LastEditTime: 2023-12-06 09:26:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
@@ -15,7 +15,7 @@ import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
 import { isEmpty, saveFile } from '@/utils';
 import { useBoolean } from 'ahooks';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 
 enum optionsType {
   Add = 'add',
@@ -50,25 +50,25 @@ const useToolBarRender = <
           });
       }
     });
-  }, [toolBarRenderOptions, formRef]);
+  }, [toolBarRenderOptions, toolBarRenderOptions?.export?.requestExport, formRef]);
 
   const options = useMemo(() => {
     const defaultOptions: toolBarRenderOptionsType<Params> = {
       [optionsType.Add]: {
         show: true,
-        text: formatMessage({ id: 'common.add' ,defaultMessage: '新建'}), 
+        text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
         icon: <PlusOutlined />,
       },
       [optionsType.Export]: {
         show: false,
-        text: formatMessage({ id: 'common.export' ,defaultMessage: '导出'}), 
+        text: formatMessage({ id: 'common.export', defaultMessage: '导出' }),
         icon: <ExportOutlined />,
         onClick: onExport,
       },
     };
 
     return merge(defaultOptions, toolBarRenderOptions || {});
-  }, [toolBarRenderOptions]);
+  }, [toolBarRenderOptions, onExport]);
 
   const toolBarRenderResult = useMemo(() => {
     if (isEmpty(toolBarRender)) {

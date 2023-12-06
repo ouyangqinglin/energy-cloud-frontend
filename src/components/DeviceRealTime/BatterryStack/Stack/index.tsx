@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-06 00:11:39
+ * @LastEditTime: 2023-12-06 10:03:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
@@ -17,11 +17,14 @@ import {
   controlItemsTow,
   controlItemsMain,
   controlItemsMainYT,
-  statusItems,
+  statusItemsOne,
+  statusItemsH2,
+  statusItemsTow,
   historyItems,
   tempItems,
   abilityItems,
   maxUnitColumns,
+  statusItemsWaterMine,
 } from './config';
 import ElectricLine from '@/assets/image/device/electric-line.png';
 import styles from './index.less';
@@ -167,7 +170,14 @@ const Stack: React.FC<StackProps> = (props) => {
       },
       {
         label: <Detail.Label title="状态信息" />,
-        items: statusItems,
+        items: [
+          ...statusItemsOne,
+          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack ? [] : statusItemsH2),
+          ...statusItemsTow,
+          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
+            ? statusItemsWaterMine
+            : []),
+        ],
       },
       {
         label: <Detail.Label title="历史信息" />,

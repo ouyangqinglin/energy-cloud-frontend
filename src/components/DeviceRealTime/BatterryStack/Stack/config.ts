@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-12-05 18:55:18
+ * @LastEditTime: 2023-12-06 10:10:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\config.ts
  */
@@ -62,7 +62,7 @@ export const controlItemsTow: DetailItem[] = [
   { label: '三级报警', field: 'threeLevelAlarm', format: alarmArrFormat },
 ];
 
-export const statusItems: DetailItem[] = [
+export const statusItemsOne: DetailItem[] = [
   { label: '电流', field: 'TotalBatteryCurrent', format: currentFormat },
   { label: '电压', field: 'TotalBatteryVoltage', format: voltageFormat },
   { label: 'SOC', field: 'SOC', format: percentageFormat },
@@ -72,11 +72,20 @@ export const statusItems: DetailItem[] = [
   { label: '负极绝缘值', field: 'NegativeInsulationValue', format: kohmFormat },
   { label: '平均电压', field: 'AverageVoltage', format: voltageFormat },
   { label: '预充总压', field: 'TPCP', format: voltageFormat },
+];
+
+export const statusItemsH2: DetailItem[] = [
   { label: '氢气浓度', field: 'HydrogenConcentration', format: hydrogenFormat },
+];
+
+export const statusItemsTow: DetailItem[] = [
   { label: 'BMU1-10通信状态', field: 'BMU1CS', format: faultFormat },
+  { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
+];
+
+export const statusItemsWaterMine: DetailItem[] = [
   { label: '水浸信号', field: 'waterImmersionSignal', format: faultFormat },
   { label: '交流防雷器故障', field: 'aCLightningArresterFailure', format: faultFormat },
-  { label: '门禁状态', field: 'AccessControlStatus', format: doorFormat },
 ];
 
 export const historyItems: DetailItem[] = [

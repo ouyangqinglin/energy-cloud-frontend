@@ -9,7 +9,7 @@ import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/componen
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 
 type DeviceMapDataType = {
@@ -166,8 +166,8 @@ const Search: React.FC<SearchProps> = (props) => {
       const date = params?.date || [];
       return exportList({
         ...params,
-        startTime: moment(date[0]).format('YYYY-MM-DD HH:mm:ss'),
-        endTime: moment(date[1]).format('YYYY-MM-DD HH:mm:ss'),
+        startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
+        endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
         ...(isDeviceChild ? { siteId } : {}),
       });
     },
