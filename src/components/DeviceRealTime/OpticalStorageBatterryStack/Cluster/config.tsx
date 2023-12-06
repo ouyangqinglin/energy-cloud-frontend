@@ -38,25 +38,162 @@ export const runItems: DetailItem[] = [
 ];
 
 export const statusItems: DetailItem[] = [
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+formatMessage({ id: 'siteMonitor.stateFeedback', defaultMessage: '状态反馈'}), field: 'packFanAlarmStatus', format: pankFanAlarmFormat },
-  { label: 'BMU1'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU1Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'1', field: 'PACKFPDC1', format: percentageFormat },
-  { label: 'BMU2'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU2Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'2', field: 'PACKFPDC2', format: percentageFormat },
-  { label: 'BMU3'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU3Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'3', field: 'PACKFPDC3', format: percentageFormat },
-  { label: 'BMU4'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU4Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'4', field: 'PACKFPDC4', format: percentageFormat },
-  { label: 'BMU5'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU5Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'5', field: 'PACKFPDC5', format: percentageFormat },
-  { label: 'BMU6'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU6Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'6', field: 'PACKFPDC6', format: percentageFormat },
-  { label: 'BMU7'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU7Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'7', field: 'PACKFPDC7', format: percentageFormat },
-  { label: 'BMU8'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU8Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'8', field: 'PACKFPDC8', format: percentageFormat },
-  { label: 'BMU9'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU9Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'9', field: 'PACKFPDC9', format: percentageFormat },
-  { label: 'BMU10'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'}), field: 'BMU10Fan', format: openFormat },
-  { label: 'PACK'+formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇'})+'PWM'+formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比'})+'10', field: 'PACKFPDC10', format: percentageFormat },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      formatMessage({ id: 'siteMonitor.stateFeedback', defaultMessage: '状态反馈' }),
+    field: 'packFanAlarmStatus',
+    format: pankFanAlarmFormat,
+  },
+  {
+    label: 'BMU1' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU1Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '1',
+    field: 'PACKFPDC1',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU2' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU2Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '2',
+    field: 'PACKFPDC2',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU3' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU3Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '3',
+    field: 'PACKFPDC3',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU4' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU4Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '4',
+    field: 'PACKFPDC4',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU5' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU5Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '5',
+    field: 'PACKFPDC5',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU6' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU6Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '6',
+    field: 'PACKFPDC6',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU7' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU7Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '7',
+    field: 'PACKFPDC7',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU8' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU8Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '8',
+    field: 'PACKFPDC8',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU9' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU9Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '9',
+    field: 'PACKFPDC9',
+    format: percentageFormat,
+  },
+  {
+    label: 'BMU10' + formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }),
+    field: 'BMU10Fan',
+    format: openFormat,
+  },
+  {
+    label:
+      'PACK' +
+      formatMessage({ id: 'siteMonitor.fan', defaultMessage: '风扇' }) +
+      'PWM' +
+      formatMessage({ id: 'siteMonitor.dutyCycle', defaultMessage: '占空比' }) +
+      '10',
+    field: 'PACKFPDC10',
+    format: percentageFormat,
+  },
 ];

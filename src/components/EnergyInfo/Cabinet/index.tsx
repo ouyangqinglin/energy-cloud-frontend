@@ -161,7 +161,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             })}
             {index !== 1 && (
               <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-                {formatMessage({ id: 'common.more', defaultMessage: formatMessage({ id: 'common.more', defaultMessage: '了解更多' })})}{'>'}
+                {formatMessage({
+                  id: 'common.more',
+                  defaultMessage: formatMessage({ id: 'common.more', defaultMessage: '了解更多' }),
+                })}
+                {'>'}
               </span>
             )}
           </div>
@@ -196,7 +200,8 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         <>
           {showLabel && (
             <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
-              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}：
+              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}
+              ：
               <span className="mr24">
                 {onlineStatusFormat(deviceData?.status || (deviceData?.networkStatus as any))}
               </span>

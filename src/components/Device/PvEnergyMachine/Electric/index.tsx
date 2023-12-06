@@ -27,8 +27,14 @@ export type ElectricType = {
 };
 
 const typeMap = [
-  { value: chartTypeEnum.Month, label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }) },
-  { value: chartTypeEnum.Year, label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }) },
+  {
+    value: chartTypeEnum.Month,
+    label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }),
+  },
+  {
+    value: chartTypeEnum.Year,
+    label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }),
+  },
 ];
 
 const seriesMap = new Map([
@@ -81,7 +87,12 @@ const Electric: React.FC<ElectricType> = (props) => {
   return (
     <>
       <div className={`card-wrap shadow p20 ${styles.chart} ${className}`}>
-        <Detail.Label className="mb12" title={formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' })} size="small" showLine={false}>
+        <Detail.Label
+          className="mb12"
+          title={formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' })}
+          size="small"
+          showLine={false}
+        >
           <Select
             className="mr8"
             defaultValue={chartType}

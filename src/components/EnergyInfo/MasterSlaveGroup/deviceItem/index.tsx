@@ -68,7 +68,11 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
                     : { color: '#606266' }
                 }
               >
-                {realtimeData?.P > 0 ? formatMessage({ id: 'device.discharge', defaultMessage: '放电' }) : realtimeData?.P < 0 ? formatMessage({ id: 'device.standing', defaultMessage: '静置' }) : formatMessage({ id: 'device.discharge', defaultMessage: '放电' })}
+                {realtimeData?.P > 0
+                  ? formatMessage({ id: 'device.discharge', defaultMessage: '放电' })
+                  : realtimeData?.P < 0
+                  ? formatMessage({ id: 'device.standing', defaultMessage: '静置' })
+                  : formatMessage({ id: 'device.discharge', defaultMessage: '放电' })}
               </span>
             </div>
           </div>

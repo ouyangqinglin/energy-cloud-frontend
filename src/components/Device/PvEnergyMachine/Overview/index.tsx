@@ -69,7 +69,11 @@ const Overview: React.FC<OverviewType> = (props) => {
   return (
     <>
       <div className="card-wrap shadow p20 mb20">
-        <Detail.Label title={formatMessage({ id: 'device.overview', defaultMessage: '概览' })} size="small" showLine={false}></Detail.Label>
+        <Detail.Label
+          title={formatMessage({ id: 'device.overview', defaultMessage: '概览' })}
+          size="small"
+          showLine={false}
+        ></Detail.Label>
         <div ref={containRef} className="tx-center">
           <div className={styles.overview} style={{ transform: `scale(${scaleNum})` }}>
             {items}

@@ -10,14 +10,40 @@ import { formatMessage } from '@/utils';
 //const {  colum: timeColum } = useSafeTimeRangeColum();
 //const [disableTime, setDisableTime] = useState<Record<string, (0 | 15 | 30 | 45 | null)[]>>({});
 export const manaulParamsItems: DetailItem[] = [
-  { label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }), field: 'ChargePower', unit: 'KW', parentField: 'ManualModeSetting' },
-  { label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }), field: 'DischargePower', unit: 'KW', parentField: 'ManualModeSetting' },
+  {
+    label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+    field: 'ChargePower',
+    unit: 'KW',
+    parentField: 'ManualModeSetting',
+  },
+  {
+    label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+    field: 'DischargePower',
+    unit: 'KW',
+    parentField: 'ManualModeSetting',
+  },
 ];
 export const backupModeItems: DetailItem[] = [
-  { label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }), field: 'BackupChargingPower', parentField: 'BackupPowerModeSetting' },
-  { label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }), field: 'BackupDischargePower', parentField: 'BackupPowerModeSetting' },
-  { label: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }), field: 'BackupHighestSOC', parentField: 'BackupPowerModeSetting' },
-  { label: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }), field: 'BackupMinimumSOC', parentField: 'BackupPowerModeSetting' },
+  {
+    label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+    field: 'BackupChargingPower',
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+    field: 'BackupDischargePower',
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+    field: 'BackupHighestSOC',
+    parentField: 'BackupPowerModeSetting',
+  },
+  {
+    label: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+    field: 'BackupMinimumSOC',
+    parentField: 'BackupPowerModeSetting',
+  },
 ];
 export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
@@ -25,7 +51,14 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
     dataIndex: 'BackupChargingPower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        },
+      ],
     },
   },
   {
@@ -33,7 +66,14 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
     dataIndex: 'BackupDischargePower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+        },
+      ],
     },
   },
   {
@@ -41,7 +81,14 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
     dataIndex: 'BackupHighestSOC',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.maxSoc', defaultMessage: '放最高SOC电功率' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.maxSoc', defaultMessage: '放最高SOC电功率' }),
+        },
+      ],
     },
   },
   {
@@ -49,7 +96,14 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
     dataIndex: 'BackupMinimumSOC',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+        },
+      ],
     },
   },
 ];
@@ -60,7 +114,14 @@ export const manulSetColumns: ProFormColumnsType[] = [
     dataIndex: 'ChargePower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        },
+      ],
     },
   },
   {
@@ -68,38 +129,65 @@ export const manulSetColumns: ProFormColumnsType[] = [
     dataIndex: 'DischargePower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+        },
+      ],
     },
   },
 ];
 
 export const peakTimeItems: DetailItem[] = [
   {
-    label: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    label:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'SharpElectrovalence',
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     parentField: 'PeakAndValleyTimeSettings',
   },
   {
-    label: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    label:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'PeakElectrovalence',
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     parentField: 'PeakAndValleyTimeSettings',
   },
   {
-    label: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    label:
+      formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'FlatElectrovalence',
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     parentField: 'PeakAndValleyTimeSettings',
   },
   {
-    label: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    label:
+      formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'ValleyElectrovalence',
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     parentField: 'PeakAndValleyTimeSettings',
   },
-  { label: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) + formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }), field: 'TimeFrame', parentField: 'ElectrovalenceTimeFrame' },
-  { label: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) + formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }), field: 'TimeFrame', parentField: 'ElectrovalenceTimeFrame' },
+  {
+    label:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'TimeFrame',
+    parentField: 'ElectrovalenceTimeFrame',
+  },
+  {
+    label:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'TimeFrame',
+    parentField: 'ElectrovalenceTimeFrame',
+  },
 ];
 export const PeakSetColumns: ProFormColumnsType[] = [
   // {
@@ -298,7 +386,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
   //   ],
   // },
   {
-    title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    title:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'SharpElectrovalence',
     fieldProps: {
@@ -310,7 +400,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     },
   },
   {
-    title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    title:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'PeakElectrovalence',
     fieldProps: {
@@ -322,7 +414,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     },
   },
   {
-    title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    title:
+      formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'FlatElectrovalence',
     fieldProps: {
@@ -334,7 +428,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
     },
   },
   {
-    title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) + formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
+    title:
+      formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'ValleyElectrovalence',
     fieldProps: {
@@ -354,7 +450,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       copyIconProps: false,
       creatorButtonProps: {
         className: 'pl0',
-        creatorButtonText: formatMessage({ id: 'common.add', defaultMessage: '新建' }) + formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
+        creatorButtonText:
+          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
         icon: <PlusCircleOutlined />,
         type: 'link',
         style: { width: 'unset' },
@@ -464,7 +562,12 @@ export const PeakSetColumns: ProFormColumnsType[] = [
               rules: [
                 {
                   required: true,
-                  message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'device.electricityPriceType', defaultMessage: '电价类型' }),
+                  message:
+                    formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                    formatMessage({
+                      id: 'device.electricityPriceType',
+                      defaultMessage: '电价类型',
+                    }),
                 },
               ],
             },

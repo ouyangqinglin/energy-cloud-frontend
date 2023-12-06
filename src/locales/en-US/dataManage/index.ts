@@ -58,5 +58,4 @@ export default {
   'dataManage.eliminate': 'Eliminate',
   'dataManage.automaticRecovery': 'Automatic recovery',
   'dataManage.manualClear': 'Manual clear',
-
-}
+};

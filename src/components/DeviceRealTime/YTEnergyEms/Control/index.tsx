@@ -34,7 +34,10 @@ const Setting: React.FC<SettingProps> = (props) => {
   const btnClick = useCallback((item, btnItem) => {
     Modal.confirm({
       title: item.label || formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-      content: formatMessage({ id: 'device.whetherExecuteCurrentParameter', defaultMessage: '是否执行当前参数下发' }),
+      content: formatMessage({
+        id: 'device.whetherExecuteCurrentParameter',
+        defaultMessage: '是否执行当前参数下发',
+      }),
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () =>
@@ -44,14 +47,18 @@ const Setting: React.FC<SettingProps> = (props) => {
           serviceId: item?.field,
         }).then((data: any) => {
           if (data) {
-            message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
+            message.success(
+              formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+            );
           }
         }),
     });
   }, []);
   return (
     <>
-      <LineLabel title={formatMessage({ id: 'device.systemStateControl', defaultMessage: '系统状态控制' })} />
+      <LineLabel
+        title={formatMessage({ id: 'device.systemStateControl', defaultMessage: '系统状态控制' })}
+      />
       <div className={styles.control}>
         {controlItems.map((item: any) => {
           return (

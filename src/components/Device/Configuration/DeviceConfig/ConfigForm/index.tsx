@@ -101,7 +101,14 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
           dataIndex: 'associateDevices',
           valueType: TABLETREESELECT,
           formItemProps: {
-            rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'device.associatedDevice', defaultMessage: '关联设备' }) }],
+            rules: [
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'device.associatedDevice', defaultMessage: '关联设备' }),
+              },
+            ],
           },
           fieldProps: tableTreeSelectProps,
           colProps: {
@@ -111,12 +118,25 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
         break;
       case ConfigTypeEnum.ChangeStack:
         result.push({
-          title: formatMessage({ id: 'device.associatedChargingHost', defaultMessage: '关联充电堆主机' }),
+          title: formatMessage({
+            id: 'device.associatedChargingHost',
+            defaultMessage: '关联充电堆主机',
+          }),
           dataIndex: 'associateId',
           valueType: 'select',
           request: requestChargeStack,
           formItemProps: {
-            rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'device.associatedChargingHost', defaultMessage: '关联充电堆主机' }), }],
+            rules: [
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({
+                    id: 'device.associatedChargingHost',
+                    defaultMessage: '关联充电堆主机',
+                  }),
+              },
+            ],
           },
           colProps: {
             span: 24,

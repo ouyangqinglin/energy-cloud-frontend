@@ -23,7 +23,12 @@ const Air: React.FC<AirType> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.runFixedValueSetting', defaultMessage: '运行定值设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.runFixedValueSetting',
+              defaultMessage: '运行定值设置',
+            })}
+          >
             <RunForm deviceId={deviceId} runData={realTimeData} />
           </Detail.Label>
         ),

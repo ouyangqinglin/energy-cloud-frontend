@@ -149,16 +149,27 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     Modal.confirm({
       title: (
         <strong>
-          <FormattedMessage id="upgradeManage.clearConfirm" defaultMessage={formatMessage({ id: 'alarmManage.clearConfirm', defaultMessage: '清除确认' })} />
+          <FormattedMessage
+            id="upgradeManage.clearConfirm"
+            defaultMessage={formatMessage({
+              id: 'alarmManage.clearConfirm',
+              defaultMessage: '清除确认',
+            })}
+          />
         </strong>
       ),
-      content: formatMessage({ id: 'alarmManage.clearConfirmContent', defaultMessage: '产生告警的故障可能尚未清除，是否强制清除选中的告警？' }),
+      content: formatMessage({
+        id: 'alarmManage.clearConfirmContent',
+        defaultMessage: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
+      }),
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
         return requestCleanUpAlarm({ ids: [record.id] }).then(({ data }) => {
           if (data) {
-            message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+            message.success(
+              formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+            );
             actionRef?.current?.reload?.();
           }
         });
@@ -203,14 +214,40 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   }, [params]);
 
   const detailItems: DetailItem[] = [
-    { label: formatMessage({ id: 'alarmManage.alarmName', defaultMessage: '告警名称' }), field: 'name' },
-    { label: formatMessage({ id: 'alarmManage.siteName', defaultMessage: '站点名称' }), field: 'siteName' },
-    { label: formatMessage({ id: 'alarmManage.deviceName', defaultMessage: '设备名称' }), field: 'deviceName' },
-    { label: formatMessage({ id: 'alarmManage.productType', defaultMessage: '产品类型' }), field: 'productTypeName' },
-    { label: formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' }), field: 'level', format: (value) => getLevelByType(value) },
-    { label: formatMessage({ id: 'alarmManage.alarm', defaultMessage: '告警' }) + 'ID', field: 'id' },
-    { label: formatMessage({ id: 'alarmManage.occurrenceTime', defaultMessage: '发生时间' }), field: 'alarmTime' },
-    { label: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }), field: 'recoveryTime', show: type === PageTypeEnum.History },
+    {
+      label: formatMessage({ id: 'alarmManage.alarmName', defaultMessage: '告警名称' }),
+      field: 'name',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.siteName', defaultMessage: '站点名称' }),
+      field: 'siteName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.deviceName', defaultMessage: '设备名称' }),
+      field: 'deviceName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.productType', defaultMessage: '产品类型' }),
+      field: 'productTypeName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' }),
+      field: 'level',
+      format: (value) => getLevelByType(value),
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.alarm', defaultMessage: '告警' }) + 'ID',
+      field: 'id',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.occurrenceTime', defaultMessage: '发生时间' }),
+      field: 'alarmTime',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }),
+      field: 'recoveryTime',
+      show: type === PageTypeEnum.History,
+    },
     {
       label: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' }),
       field: 'recoverType',
@@ -231,7 +268,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         ? []
         : [
             {
-              title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
+              title: formatMessage({
+                id: 'siteManage.siteList.siteName',
+                defaultMessage: '站点名称',
+              }),
               dataIndex: 'siteName',
               valueType: 'select',
               render: (_, record) => {
@@ -399,7 +439,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         </Checkbox.Group>
         {type == PageTypeEnum.Current ? (
           <>
-            <span>{formatMessage({ id: 'alarmManage.alarmStatus', defaultMessage: '告警状态' })}：</span>
+            <span>
+              {formatMessage({ id: 'alarmManage.alarmStatus', defaultMessage: '告警状态' })}：
+            </span>
             <Checkbox.Group
               options={alarmStatusOptions}
               defaultValue={alarmStatusOptions.map((item) => item.value)}
@@ -408,7 +450,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           </>
         ) : (
           <>
-            <span>{formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' })}：</span>
+            <span>
+              {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' })}：
+            </span>
             <Checkbox.Group
               options={cleanUpOptions}
               defaultValue={cleanUpOptions.map((item) => item.value)}

@@ -16,7 +16,14 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'sysTem',
     valueType: 'dateTime',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'common.systemTime', defaultMessage: '系统时间' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({ id: 'common.systemTime', defaultMessage: '系统时间' }),
+        },
+      ],
     },
     fieldProps: {
       className: 'w-full',

@@ -24,6 +24,18 @@ export enum ConfigTypeEnum {
 }
 
 export const configTypeItemMap = new Map<ConfigTypeEnum, DetailItem>([
-  [ConfigTypeEnum.Device, { label: formatMessage({ id: 'siteMonitor.associateDevice', defaultMessage: '关联设备' }), field: 'associateDevices' }],
-  [ConfigTypeEnum.ChangeStack, { label: formatMessage({ id: 'siteMonitor.associateCharge', defaultMessage: '关联充电堆' }), field: 'associateStack' }],
+  [
+    ConfigTypeEnum.Device,
+    {
+      label: formatMessage({ id: 'siteMonitor.associateDevice', defaultMessage: '关联设备' }),
+      field: 'associateDevices',
+    },
+  ],
+  [
+    ConfigTypeEnum.ChangeStack,
+    {
+      label: formatMessage({ id: 'siteMonitor.associateCharge', defaultMessage: '关联充电堆' }),
+      field: 'associateStack',
+    },
+  ],
 ]);

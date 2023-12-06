@@ -17,7 +17,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.fieldRequired', defaultMessage: '此项为必填项' }),
+            message: formatMessage({
+              id: 'taskManage.fieldRequired',
+              defaultMessage: '此项为必填项',
+            }),
           },
         ],
       },
@@ -46,7 +49,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.fieldRequired', defaultMessage: '此项为必填项' }),
+            message: formatMessage({
+              id: 'taskManage.fieldRequired',
+              defaultMessage: '此项为必填项',
+            }),
           },
         ],
       },

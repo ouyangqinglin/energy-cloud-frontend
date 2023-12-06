@@ -10,7 +10,11 @@ import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
 export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
   {
-    title: <Detail.DotLabel title={formatMessage({ id: 'taskManage.workOrderDetails', defaultMessage: '工单详情' })} />,
+    title: (
+      <Detail.DotLabel
+        title={formatMessage({ id: 'taskManage.workOrderDetails', defaultMessage: '工单详情' })}
+      />
+    ),
     valueType: 'group',
     colProps: {
       span: 24,

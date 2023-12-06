@@ -40,7 +40,13 @@ const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
       <Button className="pr0" type="link" onClick={setTrue}>
         {formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })}
       </Button>
-      <Modal title={formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })} width={900} open={open} onCancel={setFalse} onOk={setFalse}>
+      <Modal
+        title={formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })}
+        width={900}
+        open={open}
+        onCancel={setFalse}
+        onOk={setFalse}
+      >
         <YTProTable
           actionRef={actionRef}
           columns={columns}

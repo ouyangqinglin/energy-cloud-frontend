@@ -57,7 +57,7 @@ export const columns: ProColumns<FaultType>[] = [
     ellipsis: true,
   },
   {
-    title: formatMessage({ id: 'siteManage.siteList.siteName' ,defaultMessage: '站点名称' }),
+    title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
     dataIndex: 'siteName',
     width: 120,
     ellipsis: true,

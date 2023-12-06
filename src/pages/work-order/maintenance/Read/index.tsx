@@ -14,8 +14,14 @@ import styles from './index.less';
 import { formatMessage } from '@/utils';
 
 const submitTextMap = new Map([
-  [OrderStatus.READY, formatMessage({ id: 'taskManage.receivingWorkOrders', defaultMessage: '接收工单' })],
-  [OrderStatus.DEALING, formatMessage({ id: 'taskManage.completeWorkOrders', defaultMessage: '完成工单' })],
+  [
+    OrderStatus.READY,
+    formatMessage({ id: 'taskManage.receivingWorkOrders', defaultMessage: '接收工单' }),
+  ],
+  [
+    OrderStatus.DEALING,
+    formatMessage({ id: 'taskManage.completeWorkOrders', defaultMessage: '完成工单' }),
+  ],
 ]);
 
 const Read = (props: FormUpdateBaseProps) => {
@@ -128,7 +134,9 @@ const Read = (props: FormUpdateBaseProps) => {
           span: 24,
         }}
       >
-        <Detail.DotLabel title={formatMessage({ id: 'taskManage.schedule', defaultMessage: '进度' })} />
+        <Detail.DotLabel
+          title={formatMessage({ id: 'taskManage.schedule', defaultMessage: '进度' })}
+        />
       </ProForm.Group>
       <ProForm.Group
         colProps={{
@@ -147,7 +155,9 @@ const Read = (props: FormUpdateBaseProps) => {
           span: 24,
         }}
       >
-        <Detail.DotLabel title={formatMessage({ id: 'taskManage.workOrderDetails', defaultMessage: '工单详情' })} />
+        <Detail.DotLabel
+          title={formatMessage({ id: 'taskManage.workOrderDetails', defaultMessage: '工单详情' })}
+        />
       </ProForm.Group>
       <BetaSchemaForm<any> layoutType="Embed" columns={columnsRead} />
     </ModalForm>

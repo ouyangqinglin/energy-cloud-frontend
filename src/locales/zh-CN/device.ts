@@ -194,5 +194,4 @@ export default {
   'device.equipmentDrawing': '设备图',
   'device.standing': '静置',
   'device.returnUnit': '返回单元',
-
-}
+};

@@ -53,9 +53,17 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.manualModeSetting', defaultMessage: '手动模式设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.manualModeSetting',
+              defaultMessage: '手动模式设置',
+            })}
+          >
             <ConfigModal
-              title={formatMessage({ id: 'device.manualModeSetting', defaultMessage: '手动模式设置' })}
+              title={formatMessage({
+                id: 'device.manualModeSetting',
+                defaultMessage: '手动模式设置',
+              })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}
@@ -72,9 +80,17 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.backupPowerModeSetting', defaultMessage: '备电模式设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.backupPowerModeSetting',
+              defaultMessage: '备电模式设置',
+            })}
+          >
             <ConfigModal
-              title={formatMessage({ id: 'device.backupPowerModeSetting', defaultMessage: '备电模式设置' })}
+              title={formatMessage({
+                id: 'device.backupPowerModeSetting',
+                defaultMessage: '备电模式设置',
+              })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}
@@ -87,9 +103,17 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
       },
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.peakAndValleyTimeSetting', defaultMessage: '尖峰平谷时段设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.peakAndValleyTimeSetting',
+              defaultMessage: '尖峰平谷时段设置',
+            })}
+          >
             <ConfigModal
-              title={formatMessage({ id: 'device.peakAndValleyTimeSetting', defaultMessage: '尖峰平谷时段设置' })}
+              title={formatMessage({
+                id: 'device.peakAndValleyTimeSetting',
+                defaultMessage: '尖峰平谷时段设置',
+              })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}
@@ -139,7 +163,12 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           }}
         />
         <div>
-          <Detail.Label title={formatMessage({ id: 'device.peakShavingValleyFillingModeSetting', defaultMessage: '削峰填谷模式设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.peakShavingValleyFillingModeSetting',
+              defaultMessage: '削峰填谷模式设置',
+            })}
+          >
             <Button type="primary" onClick={peakLoadSubmit}>
               {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
             </Button>
@@ -161,7 +190,15 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                 <Form.Item
                   name="peakShavingAndValleyFillingModeMaximumSOC"
                   label={formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' })}
-                  rules={[{ required: true, message: formatMessage({ id: 'device.pleaseEnterValue', defaultMessage: '请输入值' }) }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: formatMessage({
+                        id: 'device.pleaseEnterValue',
+                        defaultMessage: '请输入值',
+                      }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
@@ -170,7 +207,15 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                 <Form.Item
                   name="peakShavingAndValleyFillingModeLowestSOC"
                   label={formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' })}
-                  rules={[{ required: true, message: formatMessage({ id: 'device.pleaseEnterValue', defaultMessage: '请输入值' }) }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: formatMessage({
+                        id: 'device.pleaseEnterValue',
+                        defaultMessage: '请输入值',
+                      }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="%" />
                 </Form.Item>
@@ -182,7 +227,9 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   {fields.map(({ key, name, ...restField }) => (
                     <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                       <Form.Item
-                        label={formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }) + "1"}
+                        label={
+                          formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }) + '1'
+                        }
                         {...restField}
                         name={[name, 'pcsRunningTimeFrame']}
                         //rules={[{ required: true, message: 'Missing first name' }]}
@@ -191,19 +238,46 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                           className="w-full"
                           format={timeFormat}
                           minuteStep={15}
-                          placeholder={[formatMessage({ id: 'common.start', defaultMessage: '开始' }), formatMessage({ id: 'common.end', defaultMessage: '结束' })]}
+                          placeholder={[
+                            formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                            formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                          ]}
                           getPopupContainer={(triggerNode) =>
                             triggerNode.parentElement || document.body
                           }
                         />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'powerMode']} label={formatMessage({ id: 'device.chargeMode', defaultMessage: '充电模式' })}>
-                        <Select placeholder={formatMessage({id: 'common.pleaseEnter', defaultMessage: '请选择' }) + formatMessage({id: 'device.chargeMode', defaultMessage: '充电模式' })} style={{ width: '70px' }}>
-                          <Option value="0">{formatMessage({ id: 'device.discharge', defaultMessage: '放电' })}</Option>
-                          <Option value="1">{formatMessage({ id: 'device.charge', defaultMessage: '充电' })}</Option>
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'powerMode']}
+                        label={formatMessage({
+                          id: 'device.chargeMode',
+                          defaultMessage: '充电模式',
+                        })}
+                      >
+                        <Select
+                          placeholder={
+                            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请选择' }) +
+                            formatMessage({ id: 'device.chargeMode', defaultMessage: '充电模式' })
+                          }
+                          style={{ width: '70px' }}
+                        >
+                          <Option value="0">
+                            {formatMessage({ id: 'device.discharge', defaultMessage: '放电' })}
+                          </Option>
+                          <Option value="1">
+                            {formatMessage({ id: 'device.charge', defaultMessage: '充电' })}
+                          </Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'executionPower']} label={formatMessage({ id: 'siteMonitor.executionPower', defaultMessage: '执行功率' })}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'executionPower']}
+                        label={formatMessage({
+                          id: 'siteMonitor.executionPower',
+                          defaultMessage: '执行功率',
+                        })}
+                      >
                         <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
                       </Form.Item>
                       <MinusCircleOutlined onClick={() => remove(name)} />
@@ -211,7 +285,8 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   ))}
                   <Form.Item>
                     <Button type="primary" icon={<PlusOutlined />} onClick={() => add()}>
-                      {formatMessage({ id: 'common.add', defaultMessage: '新建' }) + formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' })}
+                      {formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+                        formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' })}
                     </Button>
                   </Form.Item>
                 </>

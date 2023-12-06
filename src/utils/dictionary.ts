@@ -7,7 +7,6 @@
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
 
-
 export enum RequestCode {
   NoToken = 500001,
   TokenExpire = 500003,
@@ -169,7 +168,6 @@ export enum reportTypeEnum {
   Else = 5,
 }
 
-
 export const reportTypeSystemIdMap = new Map([
   [reportTypeEnum.PvInverter, ChildSystemEnum.Pv],
   [reportTypeEnum.Energy, ChildSystemEnum.Energy],
@@ -183,11 +181,6 @@ export enum timeDimensionEnum {
   Year,
   Cycle,
 }
-
-
-
-
-
 
 export const enum SiteTypeEnum {
   PV = 1,

@@ -47,7 +47,7 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       hideInSearch: true,
     },
     {
-      title: formatMessage({ id: 'taskManage.owningSite' ,defaultMessage: '所属站点' }),
+      title: formatMessage({ id: 'taskManage.owningSite', defaultMessage: '所属站点' }),
       dataIndex: 'orgName',
       width: 120,
       ellipsis: true,
@@ -89,14 +89,20 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       width: 150,
     },
     {
-      title: formatMessage({ id: 'taskManage.workOrderReceivingTime', defaultMessage: '工单接收时间' }),
+      title: formatMessage({
+        id: 'taskManage.workOrderReceivingTime',
+        defaultMessage: '工单接收时间',
+      }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       hideInSearch: true,
       width: 150,
     },
     {
-      title: formatMessage({ id: 'taskManage.workOrderCompletionTime', defaultMessage: '工单完成时间' }),
+      title: formatMessage({
+        id: 'taskManage.workOrderCompletionTime',
+        defaultMessage: '工单完成时间',
+      }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       hideInSearch: true,
@@ -109,7 +115,10 @@ const WorkOrder: React.FC<WorkOrderProps> = (props) => {
       ellipsis: true,
     },
     {
-      title: formatMessage({ id: 'taskManage.workOrderCreationTime', defaultMessage: '工单创建时间' }),
+      title: formatMessage({
+        id: 'taskManage.workOrderCreationTime',
+        defaultMessage: '工单创建时间',
+      }),
       dataIndex: 'createTime',
       valueType: 'dateTime',
       render: (_, record) => <span>{record.createTime}</span>,

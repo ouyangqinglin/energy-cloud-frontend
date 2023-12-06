@@ -107,7 +107,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.installManuTips', defaultMessage: '请选择安装商' }),
+            message: formatMessage({
+              id: 'taskManage.installManuTips',
+              defaultMessage: '请选择安装商',
+            }),
           },
         ],
       },
@@ -133,7 +136,10 @@ export const Columns: (
               hideInSearch: true,
             },
             {
-              title: formatMessage({ id: 'taskManage.installerName', defaultMessage: '安装商名称' }),
+              title: formatMessage({
+                id: 'taskManage.installerName',
+                defaultMessage: '安装商名称',
+              }),
               dataIndex: 'orgName',
               width: 200,
               ellipsis: true,
@@ -162,7 +168,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.selectCustomerName', defaultMessage: '请选择客户名称' }),
+            message: formatMessage({
+              id: 'taskManage.selectCustomerName',
+              defaultMessage: '请选择客户名称',
+            }),
           },
         ],
       },
@@ -217,7 +226,9 @@ export const Columns: (
                 } else if (verifyPhone(value)) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject(formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }));
+                  return Promise.reject(
+                    formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }),
+                  );
                 }
               },
             };
@@ -232,7 +243,10 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'taskManage.selectAppointTime', defaultMessage: '请选择预约时间' }),
+            message: formatMessage({
+              id: 'taskManage.selectAppointTime',
+              defaultMessage: '请选择预约时间',
+            }),
           },
         ],
       },
@@ -262,7 +276,7 @@ export const Columns: (
             message: formatMessage({
               id: 'taskManage.customerAddressTips',
               defaultMessage: '请输入客户地址',
-            })
+            }),
           },
         ],
       },
@@ -271,7 +285,9 @@ export const Columns: (
       },
     },
     {
-      title: formatMessage({ id: 'taskManage.remark', defaultMessage: '备注' }) + formatMessage({ id: 'taskManage.optional', defaultMessage: '(选填)' }),
+      title:
+        formatMessage({ id: 'taskManage.remark', defaultMessage: '备注' }) +
+        formatMessage({ id: 'taskManage.optional', defaultMessage: '(选填)' }),
       dataIndex: ['remark'],
       valueType: 'textarea',
       colProps: {
@@ -310,7 +326,10 @@ export const Columns: (
                 ellipsis: true,
               },
               {
-                message: formatMessage({ id: 'common.pleaseSeaccountlect', defaultMessage: '账号' }),
+                message: formatMessage({
+                  id: 'common.pleaseSeaccountlect',
+                  defaultMessage: '账号',
+                }),
                 dataIndex: 'handlerName',
                 width: 200,
                 ellipsis: true,

@@ -34,7 +34,9 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}>
+          <Detail.Label
+            title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}
+          >
             <UpgradeForm deviceId={deviceId} versionItems={versionData?.upgradeableVersionVOList} />
             <UpgradeRecord deviceId={deviceId} />
           </Detail.Label>

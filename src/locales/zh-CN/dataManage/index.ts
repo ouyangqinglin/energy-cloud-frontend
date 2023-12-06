@@ -58,6 +58,4 @@ export default {
   'dataManage.eliminate': '消除',
   'dataManage.automaticRecovery': '自动恢复',
   'dataManage.manualClear': '手动清除',
-
-
-}
+};

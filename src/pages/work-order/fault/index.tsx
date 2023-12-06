@@ -76,7 +76,10 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...props}
       />
       <FormRead<ObstacleReportInfo>
-        titleRead={formatMessage({ id: 'viewFaultRepairOrder', defaultMessage: '查看故障修复工单' })}
+        titleRead={formatMessage({
+          id: 'viewFaultRepairOrder',
+          defaultMessage: '查看故障修复工单',
+        })}
         columns={columnsRead}
         submitter={{
           render: () => {
@@ -98,7 +101,10 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                   setMaintenanceModal(true);
                 }}
               >
-                {formatMessage({ id: 'taskManage.createMaintenanceOrder', defaultMessage: '创建维修工单' })}
+                {formatMessage({
+                  id: 'taskManage.createMaintenanceOrder',
+                  defaultMessage: '创建维修工单',
+                })}
               </Button>,
             ];
           },

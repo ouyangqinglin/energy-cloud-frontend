@@ -30,13 +30,19 @@ export type TreeDataType = {
 
 export const tableSelectColumns: ProColumns[] = [
   {
-    title: formatMessage({ id: 'siteManage.set.dataCollectionPoints', defaultMessage: '数据采集点' }),
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'paramName',
     width: 200,
     ellipsis: true,
   },
   {
-    title: formatMessage({ id: 'siteManage.set.dataCollectionPointIdIdentify', defaultMessage: '数据采集点标识' }),
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPointIdIdentify',
+      defaultMessage: '数据采集点标识',
+    }),
     dataIndex: 'paramCode',
     width: 150,
     ellipsis: true,

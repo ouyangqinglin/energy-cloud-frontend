@@ -28,14 +28,20 @@ const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
     return [
       {
         key: '1',
-        label: formatMessage({ id: 'siteMonitor.batteryStackInformation', defaultMessage: '电池堆信息'}),
+        label: formatMessage({
+          id: 'siteMonitor.batteryStackInformation',
+          defaultMessage: '电池堆信息',
+        }),
         children: (
           <Stack id={id} productId={productId} data={deviceData} realTimeData={realTimeData} />
         ),
       },
       {
         key: '2',
-        label: formatMessage({ id: 'siteMonitor.batteryClusterInformation', defaultMessage: '电池簇信息'}),
+        label: formatMessage({
+          id: 'siteMonitor.batteryClusterInformation',
+          defaultMessage: '电池簇信息',
+        }),
         children: <Cluster id={id} productId={productId} data={deviceData} />,
       },
     ];

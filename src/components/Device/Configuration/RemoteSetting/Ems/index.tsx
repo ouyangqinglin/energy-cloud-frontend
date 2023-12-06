@@ -29,7 +29,12 @@ const EMS: React.FC<EmsType> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'siteMonitor.batteryProtectionParameterSet', defaultMessage: '电池保护参数设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.batteryProtectionParameterSet',
+              defaultMessage: '电池保护参数设置',
+            })}
+          >
             <ProtectForm deviceId={deviceId} protectData={realTimeData} onSuccess={onSuccess} />
           </Detail.Label>
         ),
@@ -37,7 +42,9 @@ const EMS: React.FC<EmsType> = (props) => {
       },
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'siteMonitor.timingSettings', defaultMessage: '校时设置' })}>
+          <Detail.Label
+            title={formatMessage({ id: 'siteMonitor.timingSettings', defaultMessage: '校时设置' })}
+          >
             <SystemTimeForm
               deviceId={deviceId}
               systemTimeData={realTimeData}

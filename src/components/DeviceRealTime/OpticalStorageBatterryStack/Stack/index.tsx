@@ -61,16 +61,40 @@ const Stack: React.FC<StackProps> = (props) => {
   const maxUnitData = useMemo<MaxUnitType[]>(() => {
     const result: MaxUnitType[] = [
       {
-        maxVoltage: `${formatMessage({ id: 'siteMonitor.cellNumber', defaultMessage: '电芯编号' })}：${getPlaceholder(realTimeData?.MaxNOIV)}`,
-        minVoltage: `${formatMessage({ id: 'siteMonitor.cellNumber', defaultMessage: '电芯编号' })}：${getPlaceholder(realTimeData?.MNOIV)}`,
-        maxTemp: `${formatMessage({ id: 'siteMonitor.temperaturePoint', defaultMessage: '温度点' })}：${getPlaceholder(realTimeData?.MITN)}`,
-        minTemp: `${formatMessage({ id: 'siteMonitor.temperaturePoint', defaultMessage: '温度点' })}：${getPlaceholder(realTimeData?.MNOIT)}`,
+        maxVoltage: `${formatMessage({
+          id: 'siteMonitor.cellNumber',
+          defaultMessage: '电芯编号',
+        })}：${getPlaceholder(realTimeData?.MaxNOIV)}`,
+        minVoltage: `${formatMessage({
+          id: 'siteMonitor.cellNumber',
+          defaultMessage: '电芯编号',
+        })}：${getPlaceholder(realTimeData?.MNOIV)}`,
+        maxTemp: `${formatMessage({
+          id: 'siteMonitor.temperaturePoint',
+          defaultMessage: '温度点',
+        })}：${getPlaceholder(realTimeData?.MITN)}`,
+        minTemp: `${formatMessage({
+          id: 'siteMonitor.temperaturePoint',
+          defaultMessage: '温度点',
+        })}：${getPlaceholder(realTimeData?.MNOIT)}`,
       },
       {
-        maxVoltage: `${formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' })}：${getPlaceholder(realTimeData?.MVVOASU)}`,
-        minVoltage: `${formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' })}：${getPlaceholder(realTimeData?.MVVOSU)}`,
-        maxTemp: `${formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })}：${getPlaceholder(realTimeData?.MaximumIndividualTemperature)}`,
-        minTemp: `${formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })}：${getPlaceholder(realTimeData?.LVOMT)}`,
+        maxVoltage: `${formatMessage({
+          id: 'siteMonitor.voltage',
+          defaultMessage: '电压',
+        })}：${getPlaceholder(realTimeData?.MVVOASU)}`,
+        minVoltage: `${formatMessage({
+          id: 'siteMonitor.voltage',
+          defaultMessage: '电压',
+        })}：${getPlaceholder(realTimeData?.MVVOSU)}`,
+        maxTemp: `${formatMessage({
+          id: 'siteMonitor.temperature',
+          defaultMessage: '温度',
+        })}：${getPlaceholder(realTimeData?.MaximumIndividualTemperature)}`,
+        minTemp: `${formatMessage({
+          id: 'siteMonitor.temperature',
+          defaultMessage: '温度',
+        })}：${getPlaceholder(realTimeData?.LVOMT)}`,
       },
     ];
     return result;
@@ -116,14 +140,16 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: formatMessage({ id: 'siteMonitor.equipmentCapacity', defaultMessage: '设备容量' })+'(kWh)',
+        title:
+          formatMessage({ id: 'siteMonitor.equipmentCapacity', defaultMessage: '设备容量' }) +
+          '(kWh)',
         dataIndex: 'ratedCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'siteMonitor.current', defaultMessage: '当前' })+'SOC',
+        title: formatMessage({ id: 'siteMonitor.current', defaultMessage: '当前' }) + 'SOC',
         dataIndex: 'soc',
         width: 150,
         ellipsis: true,
@@ -145,23 +171,58 @@ const Stack: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.statusInformation', defaultMessage: '状态信息'})} />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
+        ),
         items: statusItems,
       },
       {
-        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息'})} />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.operationalInformation',
+              defaultMessage: '运行信息',
+            })}
+          />
+        ),
         items: statusItems,
       },
       {
-        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.historicalInformation', defaultMessage: '历史信息'})} />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.historicalInformation',
+              defaultMessage: '历史信息',
+            })}
+          />
+        ),
         items: historyItems,
       },
       {
-        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.temperatureInformation', defaultMessage: '温度信息'})} />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.temperatureInformation',
+              defaultMessage: '温度信息',
+            })}
+          />
+        ),
         items: tempItems,
       },
       {
-        label: <Detail.Label title={formatMessage({ id: 'siteMonitor.capabilityInformation', defaultMessage: '能力信息'})} />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.capabilityInformation',
+              defaultMessage: '能力信息',
+            })}
+          />
+        ),
         items: abilityItems,
       },
     ];
@@ -179,7 +240,13 @@ const Stack: React.FC<StackProps> = (props) => {
           valueStyle: { width: '40%' },
         }}
       />
-      <Detail.Label title={formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息'})} className="mt16" />
+      <Detail.Label
+        title={formatMessage({
+          id: 'siteMonitor.monomerInformation',
+          defaultMessage: '单体极值信息',
+        })}
+        className="mt16"
+      />
       <YTProTable
         search={false}
         options={false}
@@ -189,7 +256,13 @@ const Stack: React.FC<StackProps> = (props) => {
         scroll={{ y: 'auto' }}
         pagination={false}
       />
-      <Detail.Label title={formatMessage({ id: 'siteMonitor.batteryClusterInformation', defaultMessage: '电池簇信息'})} className="mt32" />
+      <Detail.Label
+        title={formatMessage({
+          id: 'siteMonitor.batteryClusterInformation',
+          defaultMessage: '电池簇信息',
+        })}
+        className="mt32"
+      />
       <YTProTable
         loading={loading}
         search={false}

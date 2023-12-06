@@ -96,7 +96,12 @@ const Power: React.FC<PowerType> = (props) => {
   return (
     <>
       <div className={`card-wrap shadow p20 mb20 ${styles.chart} ${className}`}>
-        <Detail.Label className="mb12" title={formatMessage({ id: 'device.realTimePower', defaultMessage: '实时功率' })} size="small" showLine={false}>
+        <Detail.Label
+          className="mb12"
+          title={formatMessage({ id: 'device.realTimePower', defaultMessage: '实时功率' })}
+          size="small"
+          showLine={false}
+        >
           <DatePicker
             defaultValue={date}
             format="YYYY-MM-DD"

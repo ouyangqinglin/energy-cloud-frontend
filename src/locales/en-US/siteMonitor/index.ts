@@ -220,7 +220,8 @@ export default {
   'siteMonitor.acSideInformation': 'Ac side information',
   'siteMonitor.dcSideInformation': 'Dc side information',
   'siteMonitor.versionInformation': 'Version information',
-  'siteMonitor.currentActualChargeDischargeWorkingMode': 'Current actual charge and discharge working mode',
+  'siteMonitor.currentActualChargeDischargeWorkingMode':
+    'Current actual charge and discharge working mode',
   'siteMonitor.systemFaultWord': 'System fault word',
   'siteMonitor.hardwareFaultWord': 'Hardware fault word',
   'siteMonitor.gridFaultWord': 'Grid fault word',
@@ -277,7 +278,8 @@ export default {
   'siteMonitor.pvTopology': 'Photovoltaic topology',
   'siteMonitor.storageTopology': 'Energy storage topology',
   'siteMonitor.powerTopology': 'Power topology',
-  'siteMonitor.YongtaiLightEnergyStorage': 'Yongtai light energy storage demonstration station energy flow',
+  'siteMonitor.YongtaiLightEnergyStorage':
+    'Yongtai light energy storage demonstration station energy flow',
   'siteMonitor.storageSiteEnergyFlow': 'Energy storage site Energy flow',
   'siteMonitor.pvSiteEnergyFlow': 'Photovoltaic site energy flow',
   'siteMonitor.siteOverview': 'Site overview',
@@ -287,6 +289,4 @@ export default {
   'siteMonitor.normalGeneration': 'Normal generation',
   'siteMonitor.associateDevice': 'Associated device',
   'siteMonitor.associateCharge': 'Associated charge pile',
-
-
-}
+};

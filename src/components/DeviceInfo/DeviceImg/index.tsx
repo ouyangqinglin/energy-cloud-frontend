@@ -78,7 +78,9 @@ const DeviceImg: React.FC<DeviceImgProps> = (props) => {
         onCancel={closeModal}
         footer={[
           <Space key="btn">
-            <Button onClick={closeModal}>{formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}</Button>
+            <Button onClick={closeModal}>
+              {formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}
+            </Button>
             {deviceImg ? (
               <Button type="primary" loading={upLoadLoding || loading} onClick={onConfirmClick}>
                 {formatMessage({ id: 'common.confirm', defaultMessage: '确定' })}
@@ -98,7 +100,10 @@ const DeviceImg: React.FC<DeviceImgProps> = (props) => {
         {deviceImg || deviceData?.photos ? (
           <></>
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={formatMessage({ id: 'device.noPhotos', defaultMessage: '暂无照片' })} />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={formatMessage({ id: 'device.noPhotos', defaultMessage: '暂无照片' })}
+          />
         )}
       </Modal>
     </>

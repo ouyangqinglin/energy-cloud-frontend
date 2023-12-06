@@ -27,9 +27,22 @@ export const config: OverviewItemType[] = [
       height: '102px',
     },
     items: [
-      { label: formatMessage({ id: 'device.gridPower', defaultMessage: '电网功率' }) + '（kW）', field: 'a' },
-      { label: formatMessage({ id: 'device.powerSupplyGridToday', defaultMessage: '今日电网供电量' }) + '（kWh）', field: 'b' },
-      { label: formatMessage({ id: 'device.todayPowerSupplyGrid', defaultMessage: '今日馈网电量' }) + '（kWh）', field: 'c' },
+      {
+        label: formatMessage({ id: 'device.gridPower', defaultMessage: '电网功率' }) + '（kW）',
+        field: 'a',
+      },
+      {
+        label:
+          formatMessage({ id: 'device.powerSupplyGridToday', defaultMessage: '今日电网供电量' }) +
+          '（kWh）',
+        field: 'b',
+      },
+      {
+        label:
+          formatMessage({ id: 'device.todayPowerSupplyGrid', defaultMessage: '今日馈网电量' }) +
+          '（kWh）',
+        field: 'c',
+      },
     ],
   },
   {
@@ -41,9 +54,23 @@ export const config: OverviewItemType[] = [
       height: '93px',
     },
     items: [
-      { label: formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' }) + '（kW）', field: 'a' },
-      { label: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }) + '（kW）', field: 'b' },
-      { label: formatMessage({ id: 'device.todayDischargeCapacity', defaultMessage: '今日放电量' }) + '（kW）', field: 'c' },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' }) + '（kW）',
+        field: 'a',
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }) +
+          '（kW）',
+        field: 'b',
+      },
+      {
+        label:
+          formatMessage({ id: 'device.todayDischargeCapacity', defaultMessage: '今日放电量' }) +
+          '（kW）',
+        field: 'c',
+      },
       { label: 'SOC', field: 'd' },
     ],
   },
@@ -65,8 +92,18 @@ export const config: OverviewItemType[] = [
       height: '80px',
     },
     items: [
-      { label: formatMessage({ id: 'siteMonitor.generatingCapacity', defaultMessage: '发电功率' }) + '（kW）', field: 'a' },
-      { label: formatMessage({ id: 'device.todayElectricitygeneration', defaultMessage: '今日发电量' }) + '（kWh）', field: 'b' },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.generatingCapacity', defaultMessage: '发电功率' }) +
+          '（kW）',
+        field: 'a',
+      },
+      {
+        label:
+          formatMessage({ id: 'device.todayElectricitygeneration', defaultMessage: '今日发电量' }) +
+          '（kWh）',
+        field: 'b',
+      },
     ],
   },
   {
@@ -78,9 +115,24 @@ export const config: OverviewItemType[] = [
       height: '80px',
     },
     items: [
-      { label: formatMessage({ id: 'device.ordinaryLoad', defaultMessage: '普通负载' }) + '（kW）', field: 'a', className: styles.vertical },
-      { label: formatMessage({ id: 'device.totalLoadPower', defaultMessage: '负载总功率' }) + '（kW）', field: 'b' },
-      { label: formatMessage({ id: 'device.todayElectricityConsumption', defaultMessage: '今日用电量' }) + '（kWh）', field: 'c' },
+      {
+        label: formatMessage({ id: 'device.ordinaryLoad', defaultMessage: '普通负载' }) + '（kW）',
+        field: 'a',
+        className: styles.vertical,
+      },
+      {
+        label:
+          formatMessage({ id: 'device.totalLoadPower', defaultMessage: '负载总功率' }) + '（kW）',
+        field: 'b',
+      },
+      {
+        label:
+          formatMessage({
+            id: 'device.todayElectricityConsumption',
+            defaultMessage: '今日用电量',
+          }) + '（kWh）',
+        field: 'c',
+      },
     ],
   },
   {
@@ -91,7 +143,13 @@ export const config: OverviewItemType[] = [
       width: '92px',
       height: '80px',
     },
-    items: [{ label: formatMessage({ id: 'device.emergencyLoad', defaultMessage: '紧急负载' }) + '（kW）', field: 'a', className: styles.vertical }],
+    items: [
+      {
+        label: formatMessage({ id: 'device.emergencyLoad', defaultMessage: '紧急负载' }) + '（kW）',
+        field: 'a',
+        className: styles.vertical,
+      },
+    ],
   },
 ];
 

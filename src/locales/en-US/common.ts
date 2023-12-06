@@ -145,6 +145,4 @@ export default {
   'common.modify': 'Edit',
   'common.systemTime': 'System time',
   'common.noData': 'No Data',
-
-
 };

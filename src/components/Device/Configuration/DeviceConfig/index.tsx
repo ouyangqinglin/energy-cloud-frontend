@@ -54,7 +54,12 @@ const DeviceConfig: React.FC<DeviceProps> = (props) => {
       const field = configTypeItemMap.get(deviceData?.productConfigType as any);
       result.push({
         label: (
-          <Detail.Label title={formatMessage({ id: 'common.configurationInformation', defaultMessage: '配置信息' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'common.configurationInformation',
+              defaultMessage: '配置信息',
+            })}
+          >
             <ConfigForm deviceData={deviceData} onSuccess={runGetAssociateDevice} />
           </Detail.Label>
         ),

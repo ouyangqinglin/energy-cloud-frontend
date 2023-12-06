@@ -21,7 +21,13 @@ export type ElectricMeterType = DeviceDetailType & {
 };
 
 const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
-  const { id, productId, onChange, label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }), hideLineVoltage } = props;
+  const {
+    id,
+    productId,
+    onChange,
+    label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }),
+    hideLineVoltage,
+  } = props;
 
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceDataType>();

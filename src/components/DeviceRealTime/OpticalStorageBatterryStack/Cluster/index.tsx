@@ -64,7 +64,9 @@ const Cluster: React.FC<ClusterProps> = (props) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
       if (num % 2 === 0) {
-        result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + num / 2);
+        result.push(
+          formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + num / 2,
+        );
       }
     });
     result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
@@ -72,9 +74,17 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   }, []);
 
   const chartOption = useMemo(() => {
-    const source = [['product', formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }), formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })]];
+    const source = [
+      [
+        'product',
+        formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }),
+        formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }),
+      ],
+    ];
     allLabel.forEach((item) => {
-      const num = item.replace(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }), '').replace(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }), '');
+      const num = item
+        .replace(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }), '')
+        .replace(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }), '');
       let value: any = '',
         resultValue;
       if (item.indexOf(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })) > -1) {
@@ -89,7 +99,12 @@ const Cluster: React.FC<ClusterProps> = (props) => {
           resultValue = value;
         }
       }
-      source.push([item, ...(item.indexOf(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })) > -1 ? [resultValue, ''] : ['', resultValue])]);
+      source.push([
+        item,
+        ...(item.indexOf(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })) > -1
+          ? [resultValue, '']
+          : ['', resultValue]),
+      ]);
     });
     const result = {};
     merge(result, defaultLineOption, {
@@ -106,7 +121,11 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         },
       },
       yAxis: {
-        name: formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' })+'(V)\n\n'+formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })+'(℃)',
+        name:
+          formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }) +
+          '(V)\n\n' +
+          formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) +
+          '(℃)',
       },
       series: [
         {
@@ -226,7 +245,13 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         <div className={styles.content}>
           <Label className="mb26" title={selectOrg?.deviceName} showLine={false} />
           <Detail items={runItems} data={selectOrg} colon={false} labelStyle={{ width: 170 }} />
-          <Label title={formatMessage({ id: 'siteMonitor.statusInformation', defaultMessage: '状态信息' })} className="mt16" />
+          <Label
+            title={formatMessage({
+              id: 'siteMonitor.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+            className="mt16"
+          />
           <Detail
             items={statusItems}
             data={realTimeData}
@@ -235,7 +260,10 @@ const Cluster: React.FC<ClusterProps> = (props) => {
             labelStyle={{ width: 170 }}
             valueStyle={{ width: '40%' }}
           />
-          <Label title={formatMessage({ id: 'siteMonitor.monomerInfo', defaultMessage: '单体信息' })} className="mt16" />
+          <Label
+            title={formatMessage({ id: 'siteMonitor.monomerInfo', defaultMessage: '单体信息' })}
+            className="mt16"
+          />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
           <Chart option={chartOption} style={{ height: 300 }} />
         </div>

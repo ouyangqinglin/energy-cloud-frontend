@@ -53,7 +53,7 @@ export const noticeMethod = {
   0: formatMessage({ id: 'common.notInform', defaultMessage: '不通知' }),
   1: formatMessage({ id: 'common.shortMessage', defaultMessage: '短信' }),
   2: formatMessage({ id: 'common.email', defaultMessage: '邮件' }),
-  3: formatMessage({ id: 'common.SMSAndEmail', defaultMessage: '短信+邮件' })
+  3: formatMessage({ id: 'common.SMSAndEmail', defaultMessage: '短信+邮件' }),
 };
 
 export const deviceAlarmStatus = {
@@ -137,7 +137,7 @@ export const systemMode = {
     text: formatMessage({ id: 'siteMonitor.manualMode', defaultMessage: '手动模式' }),
   },
   1: {
-    text: formatMessage({ id: 'siteMonitor.autoMode', defaultMessage: '自动模式' })
+    text: formatMessage({ id: 'siteMonitor.autoMode', defaultMessage: '自动模式' }),
   },
 };
 
@@ -162,19 +162,63 @@ export const logType = {
 
 export const reportType = new Map([
   [reportTypeEnum.Site, formatMessage({ id: 'dataManage.siteReport', defaultMessage: '站点报表' })],
-  [reportTypeEnum.Electric, formatMessage({ id: 'dataManage.mainsReport', defaultMessage: '市电报表' })],
-  [reportTypeEnum.PvInverter, formatMessage({ id: 'dataManage.pvReport', defaultMessage: '光伏报表' })],
-  [reportTypeEnum.Energy, formatMessage({ id: 'dataManage.storageReport', defaultMessage: '储能报表' })],
-  [reportTypeEnum.ChargeOrder, formatMessage({ id: 'dataManage.chargingOrderReport', defaultMessage: '充电桩订单报表' })],
-  [reportTypeEnum.ChargeBase, formatMessage({ id: 'dataManage.chargingFoundationReport', defaultMessage: '充电桩基础报表' })],
-  [reportTypeEnum.Else, formatMessage({ id: 'dataManage.otherLoadReport', defaultMessage: '其他负载报表' })],
+  [
+    reportTypeEnum.Electric,
+    formatMessage({ id: 'dataManage.mainsReport', defaultMessage: '市电报表' }),
+  ],
+  [
+    reportTypeEnum.PvInverter,
+    formatMessage({ id: 'dataManage.pvReport', defaultMessage: '光伏报表' }),
+  ],
+  [
+    reportTypeEnum.Energy,
+    formatMessage({ id: 'dataManage.storageReport', defaultMessage: '储能报表' }),
+  ],
+  [
+    reportTypeEnum.ChargeOrder,
+    formatMessage({ id: 'dataManage.chargingOrderReport', defaultMessage: '充电桩订单报表' }),
+  ],
+  [
+    reportTypeEnum.ChargeBase,
+    formatMessage({ id: 'dataManage.chargingFoundationReport', defaultMessage: '充电桩基础报表' }),
+  ],
+  [
+    reportTypeEnum.Else,
+    formatMessage({ id: 'dataManage.otherLoadReport', defaultMessage: '其他负载报表' }),
+  ],
 ]);
 
 export const timeDimension = new Map([
-  [timeDimensionEnum.Day, { text: formatMessage({ id: 'dataManage.dayStatistics',defaultMessage: '按日统计' }), format: 'YYYY-MM-DD' }],
-  [timeDimensionEnum.Month, { text: formatMessage({ id: 'dataManage.monthStatistics',defaultMessage: '按月统计' }), format: 'YYYY-MM' }],
-  [timeDimensionEnum.Year, { text: formatMessage({ id: 'dataManage.yearStatistics',defaultMessage: '按年统计' }), format: 'YYYY' }],
-  [timeDimensionEnum.Cycle, { text: formatMessage({ id: 'dataManage.lifeCycleStatistics',defaultMessage: '按生命周期统计' }) }],
+  [
+    timeDimensionEnum.Day,
+    {
+      text: formatMessage({ id: 'dataManage.dayStatistics', defaultMessage: '按日统计' }),
+      format: 'YYYY-MM-DD',
+    },
+  ],
+  [
+    timeDimensionEnum.Month,
+    {
+      text: formatMessage({ id: 'dataManage.monthStatistics', defaultMessage: '按月统计' }),
+      format: 'YYYY-MM',
+    },
+  ],
+  [
+    timeDimensionEnum.Year,
+    {
+      text: formatMessage({ id: 'dataManage.yearStatistics', defaultMessage: '按年统计' }),
+      format: 'YYYY',
+    },
+  ],
+  [
+    timeDimensionEnum.Cycle,
+    {
+      text: formatMessage({
+        id: 'dataManage.lifeCycleStatistics',
+        defaultMessage: '按生命周期统计',
+      }),
+    },
+  ],
 ]);
 
 export const alarmClearStatus = {

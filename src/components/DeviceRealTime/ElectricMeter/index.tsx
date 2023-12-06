@@ -22,7 +22,14 @@ export type ElectricMeterType = DeviceRealTimeType & {
 };
 
 const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
-  const { id, productId, deviceData, loading, label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }), hideLineVoltage = false } = props;
+  const {
+    id,
+    productId,
+    deviceData,
+    loading,
+    label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }),
+    hideLineVoltage = false,
+  } = props;
 
   const openSubscribe = useMemo(
     () => !!deviceData && deviceData?.status !== OnlineStatusEnum.Offline,

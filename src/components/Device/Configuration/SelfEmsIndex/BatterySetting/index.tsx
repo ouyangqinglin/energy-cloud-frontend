@@ -30,9 +30,17 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.batterySystemEnablementSettings', defaultMessage: '电池系统使能设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.batterySystemEnablementSettings',
+              defaultMessage: '电池系统使能设置',
+            })}
+          >
             <ConfigModal
-              title={formatMessage({ id: 'device.setBatteryProtectionParameters', defaultMessage: '配置电池保护参数' })}
+              title={formatMessage({
+                id: 'device.setBatteryProtectionParameters',
+                defaultMessage: '配置电池保护参数',
+              })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}
@@ -45,9 +53,17 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       },
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.batteryProtectionParameterSetting', defaultMessage: '电池保护参数设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.batteryProtectionParameterSetting',
+              defaultMessage: '电池保护参数设置',
+            })}
+          >
             <ConfigModal
-              title={formatMessage({ id: 'device.setBatteryProtectionParameters', defaultMessage: '配置电池保护参数' })}
+              title={formatMessage({
+                id: 'device.setBatteryProtectionParameters',
+                defaultMessage: '配置电池保护参数',
+              })}
               deviceId={deviceId}
               productId={productId}
               realTimeData={realTimeData}

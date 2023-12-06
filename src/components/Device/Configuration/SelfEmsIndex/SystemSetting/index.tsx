@@ -23,7 +23,12 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.systemEnablingSettings', defaultMessage: '系统使能设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.systemEnablingSettings',
+              defaultMessage: '系统使能设置',
+            })}
+          >
             <ConfigModal
               title={formatMessage({ id: 'device.enableSettings', defaultMessage: '使能设置' })}
               deviceId={deviceId}
@@ -38,7 +43,12 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       },
       {
         label: (
-          <Detail.Label title={formatMessage({ id: 'device.communicationParameterSetting', defaultMessage: '通信参数设置' })}>
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.communicationParameterSetting',
+              defaultMessage: '通信参数设置',
+            })}
+          >
             <ConfigModal
               title={formatMessage({ id: 'device.parameterSetting', defaultMessage: '参数设置' })}
               deviceId={deviceId}

@@ -36,7 +36,14 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
         dataIndex: 'packageId',
         valueType: 'select',
         formItemProps: {
-          rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) + formatMessage({ id: 'device.upgradeVersion', defaultMessage: '升级版本' }) }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                formatMessage({ id: 'device.upgradeVersion', defaultMessage: '升级版本' }),
+            },
+          ],
         },
         fieldProps: {
           options,
@@ -48,7 +55,7 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   return (
     <>
       <Button className="pr0" type="link" onClick={setTrue}>
-      {formatMessage({ id: 'device.upgrades', defaultMessage: '升级' })}
+        {formatMessage({ id: 'device.upgrades', defaultMessage: '升级' })}
       </Button>
       <SchemaForm
         open={open}

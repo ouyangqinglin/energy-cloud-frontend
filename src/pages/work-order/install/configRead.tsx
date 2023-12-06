@@ -9,7 +9,11 @@ import styles from './index.less';
 import { formatMessage } from '@/utils';
 export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
   {
-    title: <div className={styles.title}>{formatMessage({ id: 'taskManage.basicInformation', defaultMessage: '基础信息' })}</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({ id: 'taskManage.basicInformation', defaultMessage: '基础信息' })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,

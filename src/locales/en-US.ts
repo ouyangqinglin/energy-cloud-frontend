@@ -25,8 +25,8 @@ import index from './en-US/index'; //首页
 import upgradeManage from './en-US/upgradeManage'; //升级管理
 import siteManage from './en-US/siteManage';
 import siteMonitor from './en-US/siteMonitor';
-import equipmentList from './en-US/equipmentList';//设备列表
-import taskManage from './en-US/taskManage';//设备列表
+import equipmentList from './en-US/equipmentList'; //设备列表
+import taskManage from './en-US/taskManage'; //设备列表
 import device from './en-US/device';
 import dataManage from './en-US/dataManage';
 import alarmManage from './en-US/alarmManage';
@@ -71,5 +71,5 @@ export default {
   ...siteMonitor,
   ...device,
   ...dataManage,
-  ...alarmManage
+  ...alarmManage,
 };

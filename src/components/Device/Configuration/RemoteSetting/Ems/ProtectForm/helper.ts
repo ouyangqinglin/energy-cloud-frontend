@@ -16,7 +16,14 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'OverchargeProtection',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'siteMonitor.overchargeProtection', defaultMessage: '过充保护' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'siteMonitor.overchargeProtection', defaultMessage: '过充保护' }),
+        },
+      ],
     },
     fieldProps: {
       addonAfter: 'V',
@@ -28,7 +35,14 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'OverchargeRelease',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'siteMonitor.overchargeRelease', defaultMessage: '过充释放' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'siteMonitor.overchargeRelease', defaultMessage: '过充释放' }),
+        },
+      ],
     },
     fieldProps: {
       addonAfter: 'V',
@@ -40,7 +54,17 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'OverdischargeProtection',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'siteMonitor.overDischargeProtection', defaultMessage: '过放保护' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({
+              id: 'siteMonitor.overDischargeProtection',
+              defaultMessage: '过放保护',
+            }),
+        },
+      ],
     },
     fieldProps: {
       addonAfter: 'V',
@@ -52,7 +76,14 @@ export const columns: ProFormColumnsType[] = [
     dataIndex: 'Overrelease',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter' , defaultMessage: '请输入' }) + formatMessage({ id: 'siteMonitor.overrelease', defaultMessage: '过放释放' }) }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'siteMonitor.overrelease', defaultMessage: '过放释放' }),
+        },
+      ],
     },
     fieldProps: {
       addonAfter: 'V',

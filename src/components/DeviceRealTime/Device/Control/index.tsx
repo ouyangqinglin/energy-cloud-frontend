@@ -68,7 +68,9 @@ const Control: React.FC<ControlProps> = (props) => {
       if (keys && keys.length) {
         run({ deviceId, serviceId: keys[0] }).then((data) => {
           if (data) {
-            message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
+            message.success(
+              formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
+            );
             schamaFormsRef.current?.[name || '']?.current?.setFieldValue(keys[0], false);
           }
         });
@@ -97,7 +99,9 @@ const Control: React.FC<ControlProps> = (props) => {
     if (!isEmpty(result)) {
       run({ deviceId, serviceId: key, input: result }).then((data) => {
         if (data) {
-          message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
+          message.success(
+            formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
+          );
           setDisableBtns((prevData) => ({ ...prevData, [key || '']: true }));
         }
       });
@@ -181,13 +185,20 @@ const Control: React.FC<ControlProps> = (props) => {
               <TimePicker.RangePicker
                 className="w-full"
                 format={TimeRangeFormat}
-                placeholder={[formatMessage({ id: 'common.start', defaultMessage: '开始' }), formatMessage({ id: 'common.end', defaultMessage: '结束' })]}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             );
             break;
           default:
-            field = <Input placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })} />;
+            field = (
+              <Input
+                placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
+              />
+            );
             break;
         }
         formItems.push(

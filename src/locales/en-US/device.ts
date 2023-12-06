@@ -53,17 +53,24 @@ export default {
   'device.runFixedValueSetting': 'Running fixed value setting',
   'device.issueSuccess': 'Issue success',
   'device.singleMaximumChargingVoltage': 'Single unit maximum allowable charging voltage',
-  'device.overvoltageOvervoltageEliminationValue': 'Individual overvoltage fault elimination return value',
+  'device.overvoltageOvervoltageEliminationValue':
+    'Individual overvoltage fault elimination return value',
   'device.singleMinimumChargingVoltage': 'Single unit minimum allowable charging voltage',
-  'device.overvoltageUndervoltageEliminationValue': 'Individual undervoltage fault elimination return value',
+  'device.overvoltageUndervoltageEliminationValue':
+    'Individual undervoltage fault elimination return value',
   'device.maximumAllowableTemperatureCell': 'Maximum allowable temperature of a cell',
-  'device.cellOvertemperatureEliminationDifference': 'Cell overtemperature fault elimination return difference',
+  'device.cellOvertemperatureEliminationDifference':
+    'Cell overtemperature fault elimination return difference',
   'device.minimumAllowableTemperatureCell': 'Minimum allowable temperature of a cell',
-  'device.undertemperatureEliminationDifference': 'Unit undertemperature fault elimination return difference',
+  'device.undertemperatureEliminationDifference':
+    'Unit undertemperature fault elimination return difference',
   'device.maximumAllowableVoltageBattery': 'Maximum allowable voltage of battery pack',
-  'device.batteryStringOvervoltageErrorDifference': 'Battery string overvoltage error return difference',
-  'device.maximumAllowableChargingCurrentBattery': 'Maximum allowable charging current of battery pack',
-  'device.maximumAllowableDischargingCurrentBattery': 'Maximum allowable discharge current of battery pack',
+  'device.batteryStringOvervoltageErrorDifference':
+    'Battery string overvoltage error return difference',
+  'device.maximumAllowableChargingCurrentBattery':
+    'Maximum allowable charging current of battery pack',
+  'device.maximumAllowableDischargingCurrentBattery':
+    'Maximum allowable discharge current of battery pack',
   'device.generalOverpressureLimit': 'General overpressure limit',
   'device.severeOvervoltageLimit': 'Severe overvoltage limit',
   'device.generalUndervoltageLimit': 'General undervoltage limit',
@@ -137,9 +144,9 @@ export default {
   'device.ordinaryLoad': 'Ordinary load',
   'device.totalLoadPower': 'Total load power',
   'device.todayElectricityConsumption': "Today's electricity consumption",
-  'device.emergencyLoad': "Emergency load",
-  'device.overview': "Overview",
-  'device.realTimePower': "Real time power",
+  'device.emergencyLoad': 'Emergency load',
+  'device.overview': 'Overview',
+  'device.realTimePower': 'Real time power',
   'device.fireProtectionHostFailureStatus': 'Fire protection host failure status',
   'device.fireProtectionHostStartupStatus': 'Fire protection host startup status',
   'device.operationModeFireProtectionHost': 'Operation mode of fire protection host',
@@ -194,7 +201,4 @@ export default {
   'device.equipmentDrawing': 'Equipment drawing',
   'device.standing': 'Standing',
   'device.returnUnit': 'Return Unit',
-
-
-
-}
+};
