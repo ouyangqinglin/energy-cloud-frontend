@@ -34,3 +34,7 @@ export type AlarmNumType = {
   warnNum: number;
   infoNum: number;
 };
+
+export type TableSearchType = {
+  alarmTime?: string[];
+};

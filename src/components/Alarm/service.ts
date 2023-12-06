@@ -38,3 +38,11 @@ export const cleanUpAlarm = (data: any) => {
     data,
   });
 };
+
+export const exportList = (data: any) => {
+  return request('/iot/alarm/export', {
+    method: 'POST',
+    data,
+    responseType: 'blob',
+  });
+};

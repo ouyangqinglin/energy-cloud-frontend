@@ -29,7 +29,11 @@ const flatObj = (data: Record<string, any>, parentField = '') => {
   return result;
 };
 
-const useSubscribe = (id: undefined | string | string[], open: boolean) => {
+const useSubscribe = (
+  id: undefined | string | string[],
+  open: boolean,
+  type?: MessageEventType,
+) => {
   const ids = useMemo(() => {
     return Array.isArray(id) ? id : id ? [id] : [];
   }, [id]);
@@ -73,7 +77,7 @@ const useSubscribe = (id: undefined | string | string[], open: boolean) => {
             device: item,
           })),
         },
-        type: MessageEventType.DEVICE_REAL_TIME_DATA,
+        type: type ?? MessageEventType.DEVICE_REAL_TIME_DATA,
       });
       connection.addReceivedMessageCallback(onReceivedMessage);
     }

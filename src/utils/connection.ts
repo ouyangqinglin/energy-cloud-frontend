@@ -34,6 +34,8 @@ export const enum MessageEventType {
   TIPS,
   // 设备日志数据
   DEVICE_LOG,
+  MONITORDATA,
+  NETWORKSTSTUS,
 }
 
 export enum RequestCommandEnum {

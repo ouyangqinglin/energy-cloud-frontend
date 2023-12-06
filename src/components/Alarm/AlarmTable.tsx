@@ -12,11 +12,11 @@ import { ClearOutlined } from '@ant-design/icons';
 import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
-import type { AlarmType } from './data';
+import type { AlarmType, TableSearchType } from './data';
 import { alarmClearStatus, alarmSource, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { getList, getDetail, cleanUpAlarm, getAlarmNum } from './service';
+import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
@@ -193,6 +193,34 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     //actionRef?.current?.reload?.();
     actionRef?.current?.reloadAndRest?.(); //回到第一页
   }, []);
+
+  const requestExport = useCallback(
+    (searchParams: TableSearchType) => {
+      const date = searchParams?.alarmTime || [];
+      return exportList({
+        ...searchParams,
+        ...params,
+        isHistoryAlarm: type,
+        ...headParams,
+        ...(date.length
+          ? {
+              startTime: (date[0] as any)?.format?.('YYYY-MM-DD'),
+              endTime: (date[1] as any)?.format?.('YYYY-MM-DD'),
+            }
+          : {}),
+      });
+    },
+    [type, params, headParams],
+  );
+
+  const getExportName = useCallback(
+    (searchParams: TableSearchType) => {
+      return `${params?.deviceName ? params?.deviceName + '-' : ''}${
+        type == PageTypeEnum.Current ? '当前告警' : '历史告警'
+      }`;
+    },
+    [type, params],
+  );
 
   useEffect(() => {
     requestStation('');
@@ -436,7 +464,16 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         formRef={formRef}
         columns={columns}
         request={requestList}
-        toolBarRender={() => [<></>]}
+        toolBarRenderOptions={{
+          add: {
+            show: false,
+          },
+          export: {
+            show: true,
+            requestExport: requestExport,
+            getExportName: getExportName,
+          },
+        }}
         search={
           isStationChild
             ? {}

@@ -127,7 +127,12 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       {
         label: '告警',
         key: '3',
-        children: <Alarm isStationChild={true} params={{ deviceId: selectOrg?.deviceId }} />,
+        children: (
+          <Alarm
+            isStationChild={true}
+            params={{ deviceId: selectOrg?.deviceId, deviceName: selectOrg?.name }}
+          />
+        ),
       },
       {
         label: '日志',
