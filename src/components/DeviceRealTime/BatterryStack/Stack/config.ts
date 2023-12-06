@@ -86,6 +86,11 @@ export const statusItemsTow: DetailItem[] = [
 export const statusItemsWaterMine: DetailItem[] = [
   { label: '水浸信号', field: 'waterImmersionSignal', format: faultFormat },
   { label: '交流防雷器故障', field: 'aCLightningArresterFailure', format: faultFormat },
+  {
+    label: '隔开开关异常断开',
+    field: 'abnormalDisconnectionOfTheIsolationSwitch',
+    format: faultFormat,
+  },
 ];
 
 export const historyItems: DetailItem[] = [

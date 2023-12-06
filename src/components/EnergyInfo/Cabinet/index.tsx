@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-06 02:18:33
+ * @LastEditTime: 2023-12-06 11:40:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -20,15 +20,54 @@ import { isEmpty } from '@/utils';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
-import { airItem, bwattAirItem, emsItem, unitItems, ytEmsItem } from './config';
+import {
+  airItem,
+  bmsConfig,
+  bwattAirItem,
+  doorConfigs,
+  emsItem,
+  pcsConfig,
+  peakConfig,
+  ytEmsItem,
+} from './config';
 import { EnergySourceEnum } from '../';
 
-const getDataIds = (data: energyType[]): string[] => {
-  const ids: string[] = [];
+const airProductIds = [
+  DeviceTypeEnum.Air,
+  DeviceTypeEnum.BWattAir,
+  DeviceTypeEnum.PvEnergyAir,
+  DeviceTypeEnum.YTEnergyAir,
+];
+const bmsProductIds = [
+  DeviceTypeEnum.BatteryStack,
+  DeviceTypeEnum.BWattBatteryStack,
+  DeviceTypeEnum.YTEnergyBatteryStack,
+  DeviceTypeEnum.PvEnergyBms,
+];
+const emsProductIds = [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms];
+const pcsProductIds = [
+  DeviceTypeEnum.Pcs,
+  DeviceTypeEnum.BWattPcs,
+  DeviceTypeEnum.YTEnergyPcs,
+  DeviceTypeEnum.PvEnergyPcs,
+];
+
+const getDataIds = (data: energyType[]): Record<string, string[]> => {
+  const ids: Record<string, any> = {
+    air: [],
+    bms: [],
+    ems: [],
+    pcs: [],
+  };
   data?.forEach?.((item) => {
-    ids.push(item?.id || '');
-    if (item?.children && item.children.length) {
-      ids.push(...getDataIds(item.children));
+    if (airProductIds.includes(item.productId)) {
+      ids.air.push(item.id);
+    } else if (bmsProductIds.includes(item.productId)) {
+      ids.bms.push(item.id);
+    } else if (emsProductIds.includes(item.productId)) {
+      ids.ems.push(item.id);
+    } else if (pcsProductIds.includes(item.productId)) {
+      ids.pcs.push(item.id);
     }
   });
   return ids;
@@ -65,15 +104,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
-  const [deviceIds, setDeviceIds] = useState<string[]>([]);
-  const openSubscribe = useMemo(
-    () =>
-      !isEmpty(deviceData?.status) &&
-      (deviceData?.status !== OnlineStatusEnum.Offline ||
-        deviceData?.networkStatus !== OnlineStatusEnum.Offline),
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(deviceIds, true);
+  const [deviceIds, setDeviceIds] = useState<Record<string, any>>({});
+  const airRealTimeData = useSubscribe(deviceIds?.air, true);
+  const bmsRealTimeData = useSubscribe(deviceIds?.bms, true);
+  const emsRealTimeData = useSubscribe(deviceIds?.ems, true);
+  const pcsRealTimeData = useSubscribe(deviceIds?.pcs, true);
   const history = useHistory();
 
   const {
@@ -120,19 +155,17 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   useEffect(() => {
     if (deviceData?.deviceId) {
       run({ deviceId: deviceData?.deviceId }).then((data) => {
-        setDeviceIds(getDataIds([data]));
+        setDeviceIds(getDataIds(data?.children || []));
       });
     }
   }, [deviceData?.deviceId]);
 
-  const items = useMemo(() => {
+  const airItems = useMemo(() => {
     return [
       (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ||
       (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
         ? bwattAirItem
         : airItem,
-      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy ? ytEmsItem : emsItem,
-      ...unitItems,
     ].map((item, index) => {
       return (
         <>
@@ -145,33 +178,227 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
             }}
           >
             <img className={styles.line} src={item.line} style={item.linePosition} />
-            {index !== 2 && <label className={styles.unitTitle}>{item.label}</label>}
+            <label className={styles.unitTitle}>{item.label}</label>
             {item.data.map((field: any, fieldIndex) => {
               return (
                 <>
-                  <div key={fieldIndex} className={index !== 2 ? styles.field : styles.unitTitle}>
+                  <div key={fieldIndex} className={styles.field}>
                     {field.label}
                     <span className={styles.unitNum}>
-                      {!isEmpty(realTimeData?.[field.field])
+                      {!isEmpty(airRealTimeData?.[field.field])
                         ? field.format
-                          ? field.format(realTimeData?.[field.field], realTimeData)
-                          : realTimeData?.[field.field]
+                          ? field.format(airRealTimeData?.[field.field], airRealTimeData)
+                          : airRealTimeData?.[field.field]
                         : '--'}
                     </span>
                   </div>
                 </>
               );
             })}
-            {index !== 2 && (
-              <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-                了解更多{'>'}
-              </span>
-            )}
+            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              了解更多{'>'}
+            </span>
           </div>
         </>
       );
     });
-  }, [realTimeData, deviceData]);
+  }, [airRealTimeData, deviceData]);
+
+  const doorItems = useMemo(() => {
+    return doorConfigs.map((item, index) => {
+      return (
+        <>
+          <div
+            key={item.label}
+            className={styles.unit}
+            style={{
+              backgroundImage: `url(${item.icon})`,
+              ...item.position,
+            }}
+          >
+            <img className={styles.line} src={item.line} style={item.linePosition} />
+            {item.data.map((field: any, fieldIndex) => {
+              return (
+                <>
+                  <div key={fieldIndex} className={styles.unitTitle}>
+                    {field.label}
+                    <span className={styles.unitNum}>
+                      {!isEmpty(bmsRealTimeData?.[field.field])
+                        ? field.format
+                          ? field.format(bmsRealTimeData?.[field.field], bmsRealTimeData)
+                          : bmsRealTimeData?.[field.field]
+                        : '--'}
+                    </span>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        </>
+      );
+    });
+  }, [bmsRealTimeData, deviceData]);
+
+  const emsItems = useMemo(() => {
+    return [
+      (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy ? ytEmsItem : emsItem,
+    ].map((item, index) => {
+      return (
+        <>
+          <div
+            key={item.label}
+            className={styles.unit}
+            style={{
+              backgroundImage: `url(${item.icon})`,
+              ...item.position,
+            }}
+          >
+            <img className={styles.line} src={item.line} style={item.linePosition} />
+            <label className={styles.unitTitle}>{item.label}</label>
+            {item.data.map((field: any, fieldIndex) => {
+              return (
+                <>
+                  <div key={fieldIndex} className={styles.field}>
+                    {field.label}
+                    <span className={styles.unitNum}>
+                      {!isEmpty(emsRealTimeData?.[field.field])
+                        ? field.format
+                          ? field.format(emsRealTimeData?.[field.field], emsRealTimeData)
+                          : emsRealTimeData?.[field.field]
+                        : '--'}
+                    </span>
+                  </div>
+                </>
+              );
+            })}
+            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              了解更多{'>'}
+            </span>
+          </div>
+        </>
+      );
+    });
+  }, [emsRealTimeData, deviceData]);
+
+  const bmsItems = useMemo(() => {
+    return bmsConfig.map((item, index) => {
+      return (
+        <>
+          <div
+            key={item.label}
+            className={styles.unit}
+            style={{
+              backgroundImage: `url(${item.icon})`,
+              ...item.position,
+            }}
+          >
+            <img className={styles.line} src={item.line} style={item.linePosition} />
+            <label className={styles.unitTitle}>{item.label}</label>
+            {item.data.map((field: any, fieldIndex) => {
+              return (
+                <>
+                  <div key={fieldIndex} className={styles.field}>
+                    {field.label}
+                    <span className={styles.unitNum}>
+                      {!isEmpty(bmsRealTimeData?.[field.field])
+                        ? field.format
+                          ? field.format(bmsRealTimeData?.[field.field], bmsRealTimeData)
+                          : bmsRealTimeData?.[field.field]
+                        : '--'}
+                    </span>
+                  </div>
+                </>
+              );
+            })}
+            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              了解更多{'>'}
+            </span>
+          </div>
+        </>
+      );
+    });
+  }, [bmsRealTimeData, deviceData]);
+
+  const pcsItems = useMemo(() => {
+    return pcsConfig.map((item, index) => {
+      return (
+        <>
+          <div
+            key={item.label}
+            className={styles.unit}
+            style={{
+              backgroundImage: `url(${item.icon})`,
+              ...item.position,
+            }}
+          >
+            <img className={styles.line} src={item.line} style={item.linePosition} />
+            <label className={styles.unitTitle}>{item.label}</label>
+            {item.data.map((field: any, fieldIndex) => {
+              return (
+                <>
+                  <div key={fieldIndex} className={styles.field}>
+                    {field.label}
+                    <span className={styles.unitNum}>
+                      {!isEmpty({ ...pcsRealTimeData, ...bmsRealTimeData }?.[field.field])
+                        ? field.format
+                          ? field.format(
+                              { ...pcsRealTimeData, ...bmsRealTimeData }?.[field.field],
+                              { ...pcsRealTimeData, ...bmsRealTimeData },
+                            )
+                          : { ...pcsRealTimeData, ...bmsRealTimeData }?.[field.field]
+                        : '--'}
+                    </span>
+                  </div>
+                </>
+              );
+            })}
+            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              了解更多{'>'}
+            </span>
+          </div>
+        </>
+      );
+    });
+  }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
+
+  const peakItems = useMemo(() => {
+    return peakConfig.map((item, index) => {
+      return (
+        <>
+          <div
+            key={item.label}
+            className={styles.unit}
+            style={{
+              backgroundImage: `url(${item.icon})`,
+              ...item.position,
+            }}
+          >
+            <img className={styles.line} src={item.line} style={item.linePosition} />
+            <label className={styles.unitTitle}>{item.label}</label>
+            {item.data.map((field: any, fieldIndex) => {
+              return (
+                <>
+                  <div key={fieldIndex} className={styles.field}>
+                    {field.label}
+                    <span className={styles.unitNum}>
+                      {!isEmpty(bmsRealTimeData?.[field.field])
+                        ? field.format
+                          ? field.format(bmsRealTimeData?.[field.field], bmsRealTimeData)
+                          : bmsRealTimeData?.[field.field]
+                        : '--'}
+                    </span>
+                  </div>
+                </>
+              );
+            })}
+            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              了解更多{'>'}
+            </span>
+          </div>
+        </>
+      );
+    });
+  }, [bmsRealTimeData, deviceData]);
 
   const packItems = useMemo(() => {
     return Array.from({ length: 10 }).map((_, index) => {
@@ -217,7 +444,12 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               className={styles.energy}
               style={{ backgroundImage: `url(${EnergyImg})`, transform: `scale(${scaleNum})` }}
             >
-              {items}
+              {airItems}
+              {doorItems}
+              {emsItems}
+              {bmsItems}
+              {peakItems}
+              {pcsItems}
               <div className={styles.parckContain}>{packItems}</div>
             </div>
           </div>

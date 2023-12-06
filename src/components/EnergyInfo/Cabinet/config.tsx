@@ -115,7 +115,7 @@ export const ytEmsItem = {
   ],
 };
 
-export const unitItems = [
+export const doorConfigs = [
   {
     label: '储能仓门',
     position: { top: 203, left: 14 },
@@ -130,6 +130,9 @@ export const unitItems = [
       },
     ],
   },
+];
+
+export const bmsConfig = [
   {
     label: '电池堆',
     productIds: [
@@ -143,6 +146,9 @@ export const unitItems = [
     linePosition: { top: -74, left: 85 },
     data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
   },
+];
+
+export const pcsConfig = [
   {
     label: 'PCS',
     productIds: [DeviceTypeEnum.Pcs, DeviceTypeEnum.BWattPcs, DeviceTypeEnum.YTEnergyPcs],
@@ -164,6 +170,9 @@ export const unitItems = [
       { label: '储能功率：', field: 'P', format: energyPowerFormat },
     ],
   },
+];
+
+export const peakConfig = [
   {
     label: '单体极值信息',
     productIds: [
