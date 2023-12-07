@@ -72,11 +72,11 @@ export const alarmLevelMap = new Map([
 
 const alarmStatusOptions: OptionType[] = [
   {
-    label: '已消除',
+    label: '告警中',
     value: 0,
   },
   {
-    label: '告警中',
+    label: '已消除',
     value: 1,
   },
 ];

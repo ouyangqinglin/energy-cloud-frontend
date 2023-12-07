@@ -15,6 +15,7 @@ import { defaultsDeep, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import { ProTableProps } from '@ant-design/pro-components';
+import { formatMessage } from '@/utils';
 
 export type TableModalProps<V, T, U> = {
   title?: string;
@@ -147,7 +148,10 @@ const TableModal = <
         selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
         onChange: onSelectedChange,
       },
-      search: { labelWidth: 'auto' },
+      search: {
+        labelWidth: 'auto',
+        searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+      },
       rowKey: tableId,
       pagination: {
         pageSize: 10,
@@ -170,7 +174,15 @@ const TableModal = <
 
   return (
     <>
-      <Modal title={title} open={open} width={width} onCancel={onCancel} onOk={onOk} destroyOnClose>
+      <Modal
+        title={title}
+        open={open}
+        width={width}
+        onCancel={onCancel}
+        onOk={onOk}
+        destroyOnClose
+        centered
+      >
         <ProTable className={styles.proTable} {...tableProps} request={requestTable} />
       </Modal>
     </>

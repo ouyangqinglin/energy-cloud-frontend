@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-12-06 11:35:38
+ * @LastEditTime: 2023-12-07 14:27:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -227,6 +227,17 @@ export const enableStatus = {
 };
 
 export const alarmStatus = {
+  0: {
+    text: '告警中',
+    status: 'Error',
+  },
+  1: {
+    text: '已消除',
+    status: 'Default',
+  },
+};
+
+export const alarmStatus1 = {
   0: {
     text: '已消除',
     status: 'Default',

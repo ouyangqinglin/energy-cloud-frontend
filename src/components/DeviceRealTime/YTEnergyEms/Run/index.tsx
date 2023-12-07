@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-06 15:43:36
+ * @LastEditTime: 2023-12-07 15:36:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\index.tsx
  */
@@ -18,6 +18,8 @@ import { ProField } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
+import { useSubscribe } from '@/hooks';
+import { MessageEventType } from '@/utils/connection';
 
 export type StackProps = {
   id: string;
@@ -41,6 +43,16 @@ const Stack: React.FC<StackProps> = (props) => {
   } = useRequest(getEmsAssociationDevice, {
     manual: true,
   });
+
+  const associationDeviceIds = useMemo(() => {
+    return associationData?.map?.((item) => item?.deviceId || '');
+  }, [associationData]);
+
+  const associationRealtimeData = useSubscribe(
+    associationDeviceIds,
+    true,
+    MessageEventType.NETWORKSTSTUS,
+  );
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -70,8 +82,14 @@ const Stack: React.FC<StackProps> = (props) => {
         width: 150,
         ellipsis: true,
         hideInSearch: true,
-        render: (_, { connectStatus }) => {
-          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
+        render: (_, { deviceId, connectStatus }) => {
+          return (
+            <ProField
+              text={associationRealtimeData?.[deviceId ?? '']?.status ?? connectStatus}
+              mode="read"
+              valueEnum={onlineStatus}
+            />
+          );
         },
       },
       {
@@ -106,7 +124,7 @@ const Stack: React.FC<StackProps> = (props) => {
         hideInSearch: true,
       },
     ];
-  }, []);
+  }, [associationRealtimeData]);
 
   const extral = (
     <Button

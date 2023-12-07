@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-10-19 14:25:18
+ * @LastEditTime: 2023-12-07 10:47:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -21,6 +21,7 @@ import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -293,7 +294,9 @@ const TableTreeModal = <
             },
           }
         : {}),
-      search: false,
+      search: {
+        searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+      },
       rowKey: valueId,
       pagination: {
         defaultPageSize: 10,
@@ -321,6 +324,7 @@ const TableTreeModal = <
         onCancel={onCancel}
         onOk={onOk}
         destroyOnClose
+        centered
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">

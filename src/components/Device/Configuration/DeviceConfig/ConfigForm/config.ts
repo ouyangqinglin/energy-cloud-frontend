@@ -30,9 +30,17 @@ export type TreeDataType = {
 export const tableSelectColumns: ProColumns[] = [
   {
     title: '数据采集点',
+    dataIndex: 'modelName',
+    width: 200,
+    ellipsis: true,
+    hideInTable: true,
+  },
+  {
+    title: '数据采集点',
     dataIndex: 'paramName',
     width: 200,
     ellipsis: true,
+    hideInSearch: true,
   },
   {
     title: '数据采集点标识',

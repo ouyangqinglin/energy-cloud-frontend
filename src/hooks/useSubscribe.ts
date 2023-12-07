@@ -57,7 +57,14 @@ const useSubscribe = (
             obj[item.key] = item.value;
           });
           if (Object.keys(obj).length) {
-            setData((prevData) => ({ ...prevData, ...obj }));
+            setData((prevData) => ({
+              ...prevData,
+              ...obj,
+              [msgData?.deviceId]: {
+                ...prevData?.[msgData?.deviceId],
+                ...obj,
+              },
+            }));
           }
         } catch (e) {}
       }
