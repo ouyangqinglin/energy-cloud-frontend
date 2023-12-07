@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-06 13:54:06
+ * @LastEditTime: 2023-12-07 16:16:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -238,12 +238,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     { label: '告警等级', field: 'level', format: (value) => getLevelByType(value) },
     { label: '告警ID', field: 'id' },
     { label: '发生时间', field: 'alarmTime' },
-    { label: '清除时间', field: 'recoveryTime', show: type === PageTypeEnum.History },
+    { label: '清除时间', field: 'recoveryTime', show: (_, data) => data?.status == 1 },
     {
       label: '清除类型',
       field: 'recoverType',
       format: (value) => cleanUpType[value],
-      show: type === PageTypeEnum.History,
+      show: (_, data) => data?.status == 1,
     },
   ];
 
