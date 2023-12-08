@@ -123,7 +123,6 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
         imageContent: {
           width: 74,
           height: 101,
-          soc: 12,
         },
         textContent: {
           boxText: {

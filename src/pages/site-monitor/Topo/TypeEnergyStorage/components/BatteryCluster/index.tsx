@@ -25,7 +25,6 @@ export function BatteryCluster({ data }: { data: ExtraNodeData }) {
       {boxText && <BoxText {...boxText} />}
       {imageContent && (
         <div className={styles.boxImage}>
-          <div className={styles.boxSoc}>{imageContent?.soc ?? 0}%</div>
           <div
             style={{
               width: imageContent.width ?? 80,

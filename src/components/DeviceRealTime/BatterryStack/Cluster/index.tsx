@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-08-02 08:57:02
+ * @LastEditTime: 2023-12-07 17:04:23
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\BatterryStack\Cluster\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
@@ -20,6 +20,7 @@ import styles from './index.less';
 import Button from '@/components/CollectionModal/Button';
 import { useSubscribe } from '@/hooks';
 import { merge } from 'lodash';
+import { MessageEventType } from '@/utils/connection';
 
 export type ClusterProps = {
   id: string;
@@ -38,6 +39,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: 0 as any, key: '0' });
   const [bmuMap, setBmuMap] = useState<Map<string, string>>();
   const realTimeData = useSubscribe(selectOrg?.deviceId || '', true);
+  const networkData = useSubscribe(selectOrg?.deviceId || '', true, MessageEventType.NETWORKSTSTUS);
   const bmuData = useSubscribe(
     bmuMap?.get?.('BMU-' + (Number(activeKey) * 1 + 1) || '') || '',
     true,
@@ -225,7 +227,12 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         </div>
         <div className={styles.content}>
           <Label className="mb26" title={selectOrg?.deviceName} showLine={false} />
-          <Detail items={runItems} data={selectOrg} colon={false} labelStyle={{ width: 170 }} />
+          <Detail
+            items={runItems}
+            data={{ ...selectOrg, ...networkData }}
+            colon={false}
+            labelStyle={{ width: 170 }}
+          />
           <Label title="状态信息" className="mt16" />
           <Detail
             items={statusItems}
