@@ -250,8 +250,8 @@ const TableTreeModal = <
           setTableParams({ deviceId: value[0][valueId] });
         }
       } else {
-        if (props?.treeProps?.selectedKeys) {
-          setTableParams({ deviceId: props?.treeProps?.selectedKeys?.[0] });
+        if (props?.treeProps?.defaultSelectedKeys) {
+          setTableParams({ deviceId: props?.treeProps?.defaultSelectedKeys?.[0] });
         }
       }
       if (props?.treeProps?.request) {

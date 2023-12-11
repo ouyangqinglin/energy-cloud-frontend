@@ -65,7 +65,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
               children: 'children',
             },
             request: () => getSiteDeviceTree(deviceId ? { deviceId } : { siteId: value }),
-            ...(deviceId ? { selectedKeys: [deviceId] } : {}),
+            ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
           },
           dealTreeData,
           proTableProps: {
