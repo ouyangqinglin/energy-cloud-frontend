@@ -1,22 +1,40 @@
-import type { FC } from 'react';
+import { useRef, type FC, useMemo } from 'react';
 import styles from './index.less';
-import Texty from 'rc-texty';
 import 'rc-texty/assets/index.css';
-import TweenOne from 'rc-tween-one';
 import Cell from '../../components/LayoutCell';
 import TitleBG from './TitleBackGround';
-// import { ReactComponent as TitleImage } from '@/assets/image/screen/title/永泰光储充示范站_大标题.svg';
-import TitleImage from '@/assets/image/screen/title/永泰光储充示范站_大标题@2x.png';
+import { useSize } from 'ahooks';
 
-const Title: FC = () => {
+type TitleType = {
+  title?: string;
+};
+
+const Title: FC<TitleType> = (props) => {
+  const { title } = props;
+
+  const titleRef = useRef(null);
+  const titleSize = useSize(titleRef);
+
+  const scaleNum = useMemo(() => {
+    const num = 435 / (titleSize?.width ?? 435);
+    return num > 1 ? 1 : num < 0.315 ? 0.315 : num;
+  }, [titleSize]);
+
   return (
     <>
       <TitleBG />
-      <Cell width={352} height={78} left={794} top={-15} cursor={'default'}>
-        <div className={styles.title} style={{ backgroundImage: `url(${TitleImage})` }} />
-        {/* <TitleImage width={352} height={78} /> */}
-        {/* <div className={styles.title} /> */}
-        {/* </Texty> */}
+      <Cell width={435} height={60} left={743} top={0} cursor={'default'}>
+        <div className={styles.titleContain}>
+          <div
+            ref={titleRef}
+            className={styles.title}
+            style={{
+              transform: `scale(${scaleNum})`,
+            }}
+          >
+            {title}
+          </div>
+        </div>
       </Cell>
     </>
   );

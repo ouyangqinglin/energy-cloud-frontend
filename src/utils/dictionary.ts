@@ -86,6 +86,7 @@ export enum DeviceTypeEnum {
   PvEnergyPcs = 74,
   PvEnergyMeter = 75,
   PvEnergyBms = 70,
+  FirFight = 85,
   Device = 'default',
 }
 

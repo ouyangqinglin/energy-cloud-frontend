@@ -4,9 +4,10 @@ import type {
   TABLETREESELECTVALUETYPE,
   TABLESELECTVALUETYPE,
   TableTreeModalProps,
+  dealTreeDataType,
 } from '@/components/TableSelect';
 import { TableSearchType, CollectionValueType, TableDataType } from './type';
-import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
+import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
 import moment from 'moment';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
@@ -33,76 +34,57 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
   },
 ];
 
-export const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
-  {
-    title: '数据采集点',
-    dataIndex: 'collection',
-    valueType: TABLETREESELECT,
-    hideInTable: true,
-    dependencies: ['siteId'],
-    formItemProps: {
-      rules: [{ required: true, message: '请选择数据采集点' }],
-    },
-    fieldProps: (form) => {
-      const value = form?.getFieldValue?.('siteId');
-      const tableTreeSelectProps: TableTreeModalProps<
-        CollectionValueType,
-        TableDataType,
-        TableSearchType,
-        any
-      > = {
-        title: '选择数据采集点',
-        treeProps: {
-          fieldNames: {
-            title: 'deviceName',
-            key: 'id',
-            children: 'children',
-          },
-          request: () => getDeviceTree({ siteId: value }),
-        },
-        proTableProps: {
-          pagination: false,
-          columns: tableSelectColumns,
-          request: getDeviceCollection,
-        },
-        valueId: 'selectName',
-        valueName: 'paramName',
-        limit: 2,
-        onFocus: () => {
-          return form?.validateFields(['siteId']);
-        },
-      };
-      return tableTreeSelectProps;
-    },
-  },
-];
-export const getDeviceSearchColumns = (deviceId: string) => {
-  const deviceSearchColumns: ProColumns<TableDataType, TABLESELECTVALUETYPE>[] = [
+const dealTreeData: dealTreeDataType = (item) => {
+  item.selectable = !!item.productId;
+};
+
+export const getDeviceSearchColumns = (deviceId?: string) => {
+  const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
     {
       title: '数据采集点',
       dataIndex: 'collection',
-      valueType: TABLESELECT,
+      valueType: TABLETREESELECT,
       hideInTable: true,
+      dependencies: deviceId ? ['siteId'] : [],
       formItemProps: {
         rules: [{ required: true, message: '请选择数据采集点' }],
       },
       fieldProps: (form) => {
-        return {
-          tableId: 'paramCode',
-          tableName: 'paramName',
-          proTableProps: {
-            columns: tableSelectColumns,
-            request: (params: any) => getDeviceCollection({ deviceId, ...params }),
-            pagination: false,
-            scroll: {
-              y: 'calc(100vh - 400px)',
+        const value = form?.getFieldValue?.('siteId');
+        const tableTreeSelectProps: TableTreeModalProps<
+          CollectionValueType,
+          TableDataType,
+          TableSearchType,
+          any
+        > = {
+          title: '选择数据采集点',
+          treeProps: {
+            fieldNames: {
+              title: 'deviceName',
+              key: 'id',
+              children: 'children',
             },
+            request: () => getSiteDeviceTree(deviceId ? { deviceId } : { siteId: value }),
+            ...(deviceId ? { selectedKeys: [deviceId] } : {}),
+          },
+          dealTreeData,
+          proTableProps: {
+            pagination: false,
+            columns: tableSelectColumns,
+            request: getDeviceCollection,
+          },
+          valueId: 'selectName',
+          valueName: 'paramName',
+          limit: 2,
+          onFocus: () => {
+            return deviceId ? undefined : form?.validateFields(['siteId']);
           },
         };
+        return tableTreeSelectProps;
       },
     },
   ];
-  return deviceSearchColumns;
+  return searchColumns;
 };
 
 export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [

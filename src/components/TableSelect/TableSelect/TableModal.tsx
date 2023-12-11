@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-08-21 11:43:08
+ * @LastEditTime: 2023-12-08 10:07:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -183,7 +183,14 @@ const TableModal = <
         destroyOnClose
         centered
       >
-        <ProTable className={styles.proTable} {...tableProps} request={requestTable} />
+        <ProTable
+          className={styles.proTable}
+          {...tableProps}
+          request={requestTable}
+          scroll={{
+            y: 382,
+          }}
+        />
       </Modal>
     </>
   );

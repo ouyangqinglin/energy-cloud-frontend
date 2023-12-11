@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-12-07 10:47:14
+ * @LastEditTime: 2023-12-08 14:43:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -245,8 +245,14 @@ const TableTreeModal = <
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
-      if (selectType === SelectTypeEnum.Device && value && value.length) {
-        setTableParams({ deviceId: value[0][valueId] });
+      if (selectType === SelectTypeEnum.Device) {
+        if (value && value.length) {
+          setTableParams({ deviceId: value[0][valueId] });
+        }
+      } else {
+        if (props?.treeProps?.selectedKeys) {
+          setTableParams({ deviceId: props?.treeProps?.selectedKeys?.[0] });
+        }
       }
       if (props?.treeProps?.request) {
         setTrue();
@@ -261,7 +267,7 @@ const TableTreeModal = <
           });
       }
     }
-  }, [open, value, props?.treeProps?.request, selectType, valueId]);
+  }, [open, value, props?.treeProps?.selectedKeys, props?.treeProps?.request, selectType, valueId]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -364,6 +370,9 @@ const TableTreeModal = <
               request={requestTable}
               locale={{
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
+              }}
+              scroll={{
+                y: 380,
               }}
             />
           </Col>

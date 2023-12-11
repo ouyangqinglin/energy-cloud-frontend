@@ -10,8 +10,18 @@ import StationDevices from './StationDevices';
 import StationInfo from './StationInfo';
 import type { SiteInfoRes } from './type';
 
-const StationOverview = memo(() => {
-  const { data: rawData } = useRequest(getStationInfo);
+type StationOverviewType = {
+  onChange?: (data: SiteInfoRes) => void;
+};
+
+const StationOverview: React.FC<StationOverviewType> = memo((props) => {
+  const { onChange } = props;
+
+  const { data: rawData } = useRequest(getStationInfo, {
+    onSuccess: (res) => {
+      onChange?.(res);
+    },
+  });
   const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
   const child = useMemo(() => {
     return [<StationInfo data={data} key="1" />, <StationDevices data={data} key="2" />];

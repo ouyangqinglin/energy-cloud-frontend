@@ -311,7 +311,7 @@ export const openCloseFormat = (status: number) => {
     0: '关闭',
     1: '打开',
   };
-  return <span className="cl-success">{map[status]}</span>;
+  return <span className="">{map[status]}</span>;
 };
 export const systemOperatingModeFormat = (status: number) => {
   const map: MapType = {
@@ -462,4 +462,24 @@ export const onlineStatusFormat = (value: string) => {
 };
 export const deviceAlarmStatusFormat = (value: string) => {
   return <Field text={value} valueEnum={deviceAlarmStatus} />;
+};
+
+export const earlyWarningFormat = (value: number) => {
+  const map: MapDataType = {
+    0: { text: '系统正常', color: '' },
+    3: { text: '一级预警', color: 'cl-error' },
+    4: { text: '二级预警', color: 'cl-error' },
+  };
+  return <span className={`${map[value]?.color}`}>{map[value]?.text}</span>;
+};
+
+export const faultFireFightFormat = (value: number) => {
+  const map: MapDataType = {
+    0: { text: '无故障', color: '' },
+    1: { text: 'BIES已启动（灭火器启动）', color: 'cl-error' },
+    2: { text: 'CAN1通讯故障', color: 'cl-error' },
+    3: { text: '抑制装置故障', color: 'cl-error' },
+    4: { text: '探测器故障（包括单箱离线故障和探测器本身故障）', color: 'cl-error' },
+  };
+  return <span className={`${map[value]?.color}`}>{map[value]?.text}</span>;
 };
