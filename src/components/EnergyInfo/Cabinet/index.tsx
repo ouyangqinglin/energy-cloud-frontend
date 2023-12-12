@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-08 15:33:42
+ * @LastEditTime: 2023-12-11 10:39:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -33,7 +33,7 @@ import {
   ytEmsItem,
 } from './config';
 import { EnergySourceEnum } from '../';
-import { DeviceDataType } from '@/services/equipment';
+import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 
 const airProductIds = [
   DeviceTypeEnum.Air,
@@ -124,22 +124,7 @@ const getItemsByConfig = (
           ) : (
             <label className={styles.unitTitle}>{item.label}</label>
           )}
-          {item.data.map((field: any, fieldIndex) => {
-            return (
-              <>
-                <div key={fieldIndex} className={styles.field}>
-                  {field.label}
-                  <span className={styles.unitNum}>
-                    {!isEmpty(data?.[field.field])
-                      ? field.format
-                        ? field.format(data?.[field.field], data)
-                        : data?.[field.field]
-                      : '--'}
-                  </span>
-                </div>
-              </>
-            );
-          })}
+          <Detail className={styles.detail} items={item.data} data={data} column={1} />
           {item.showLabel === false ? (
             <></>
           ) : (
@@ -175,7 +160,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     loading: loadingEnergy,
     data: energyData,
     run,
-  } = useRequest(getEnergy, {
+  } = useRequest(getWholeDeviceTree, {
     manual: true,
   });
 

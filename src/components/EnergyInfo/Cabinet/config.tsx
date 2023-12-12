@@ -63,54 +63,54 @@ export type ConfigType = {
 export const airItem: ConfigType = {
   label: '空调',
   productIds: [DeviceTypeEnum.Air],
-  position: { top: 51, left: 14 },
+  position: { top: 51, left: 2 },
   icon: AirImg,
   line: AirLineImg,
-  linePosition: { top: 11, left: 82 },
+  linePosition: { top: 11, left: 94 },
   data: [
     {
-      label: '运行状态：',
+      label: '运行状态',
       field: 'AirConditioningWorkingStatus',
       format: airWorkFormat,
     },
-    { label: '回风温度：', field: 'ReturnAirTemperature', format: tempFormat },
-    { label: '回风湿度：', field: 'ReturnAirHumidity', format: wetFormat },
+    { label: '回风温度', field: 'ReturnAirTemperature', format: tempFormat },
+    { label: '回风湿度', field: 'ReturnAirHumidity', format: wetFormat },
   ],
 };
 
 export const bwattAirItem: ConfigType = {
   label: '空调',
   productIds: [DeviceTypeEnum.BWattAir, DeviceTypeEnum.YTEnergyAir],
-  position: { top: 51, left: 14 },
+  position: { top: 51, left: 2 },
   icon: AirImg,
   line: AirLineImg,
-  linePosition: { top: 11, left: 82 },
+  linePosition: { top: 11, left: 94 },
   data: [
     {
-      label: '运行状态：',
+      label: '运行状态',
       field: 'AirConditioningUnitOperationStatus',
       format: bwattAirWorkFormat,
     },
-    { label: '室内温度：', field: 'IndoorTemperature', format: tempFormat },
-    { label: '湿度：', field: 'Humidity', format: wetFormat },
+    { label: '室内温度', field: 'IndoorTemperature', format: tempFormat },
+    { label: '湿度', field: 'Humidity', format: wetFormat },
   ],
 };
 
 export const emsItem: ConfigType = {
   label: 'EMS',
   productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
-  position: { top: 302, left: 14 },
+  position: { top: 302, left: 2 },
   icon: EmsImg,
   line: EmsLineImg,
-  linePosition: { top: 11, left: 75 },
+  linePosition: { top: 11, left: 87 },
   data: [
     {
-      label: '运行状态：',
+      label: '运行状态',
       field: 'emsSysStatus',
       format: (value: number) => runFormat(value),
     },
     {
-      label: '系统模式：',
+      label: '系统模式',
       field: 'sysModel',
       format: (value: number) => modelFormat(value),
     },
@@ -120,18 +120,18 @@ export const emsItem: ConfigType = {
 export const ytEmsItem: ConfigType = {
   label: 'EMS',
   productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
-  position: { top: 302, left: 14 },
+  position: { top: 302, left: 2 },
   icon: EmsImg,
   line: EmsLineImg,
-  linePosition: { top: 11, left: 75 },
+  linePosition: { top: 11, left: 87 },
   data: [
     {
-      label: '工作状态：',
+      label: '工作状态',
       field: 'systemWorkingStatus',
       format: systemRunFormat,
     },
     {
-      label: '工作模式：',
+      label: '工作模式',
       field: 'systemOperatingMode',
       format: systemOperatingModeFormat,
     },
@@ -142,13 +142,13 @@ export const doorConfigs: ConfigType[] = [
   {
     label: '储能仓门',
     showLabel: false,
-    position: { top: 203, left: 14 },
+    position: { top: 203, left: 2 },
     icon: DoorImg,
     line: DoorLineImg,
-    linePosition: { top: 11, left: 140 },
+    linePosition: { top: 11, left: 152 },
     data: [
       {
-        label: '储能仓门：',
+        label: '储能仓门',
         field: 'AccessControlStatus',
         format: (value: number) => doorFormat(value),
       },
@@ -164,11 +164,11 @@ export const bmsConfig: ConfigType[] = [
       DeviceTypeEnum.BWattBatteryStack,
       DeviceTypeEnum.YTEnergyBatteryStack,
     ],
-    position: { top: 450, left: 14 },
+    position: { top: 450, left: 2 },
     icon: StackImg,
     line: StackLineImg,
-    linePosition: { top: -74, left: 85 },
-    data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
+    linePosition: { top: -74, left: 97 },
+    data: [{ label: 'SoC', field: 'SOC', format: percentageFormat }],
   },
 ];
 
@@ -181,9 +181,9 @@ export const fireFightConfig: ConfigType[] = [
     line: FireFightLineImg,
     linePosition: { top: 10, left: -110 },
     data: [
-      { label: '预警等级：', field: 'SOC', format: earlyWarningFormat },
-      { label: '故障类型：', field: 'SOC', format: faultFireFightFormat },
-      { label: '了阀门状态：', field: 'SOC', format: openCloseFormat },
+      { label: '预警等级', field: 'SOC', format: earlyWarningFormat },
+      { label: '故障类型', field: 'SOC', format: faultFireFightFormat },
+      { label: '了阀门状态', field: 'SOC', format: openCloseFormat },
     ],
   },
 ];
@@ -201,14 +201,14 @@ export const peakConfig: ConfigType[] = [
     line: PackLineImg,
     linePosition: { top: 11, left: -60 },
     data: [
-      { label: '最高电压：', field: 'MVVOASU', format: voltageFormat },
-      { label: '编号：', field: 'MaxNOIV' },
-      { label: '最低电压：', field: 'MVVOSU', format: voltageFormat },
-      { label: '编号：', field: 'MNOIV' },
-      { label: '最高温度：', field: 'MaximumIndividualTemperature', format: tempFormat },
-      { label: '编号：', field: 'MITN' },
-      { label: '最低温度：', field: 'LVOMT', format: tempFormat },
-      { label: '编号：', field: 'MNOIT' },
+      { label: '最高电压', field: 'MVVOASU', format: voltageFormat },
+      { label: '编号', field: 'MaxNOIV' },
+      { label: '最低电压', field: 'MVVOSU', format: voltageFormat },
+      { label: '编号', field: 'MNOIV' },
+      { label: '最高温度', field: 'MaximumIndividualTemperature', format: tempFormat },
+      { label: '编号', field: 'MITN' },
+      { label: '最低温度', field: 'LVOMT', format: tempFormat },
+      { label: '编号', field: 'MNOIT' },
     ],
   },
 ];
@@ -223,16 +223,16 @@ export const pcsConfig: ConfigType[] = [
     linePosition: { top: 11, left: -233 },
     data: [
       {
-        label: '工作状态：',
+        label: '工作状态',
         field: 'WorkStatus',
         format: (value: number) => workFormat(value),
       },
       {
-        label: '工作模式：',
+        label: '工作模式',
         field: 'CurrentChargingAndDischargingModel',
         format: (value: number) => electricModelFormat(value),
       },
-      { label: '储能功率：', field: 'P', format: energyPowerFormat },
+      { label: '储能功率', field: 'P', format: energyPowerFormat },
     ],
   },
 ];

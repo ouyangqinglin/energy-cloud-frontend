@@ -160,7 +160,6 @@ export const getFormColumns = (
   partnerRoleOptions: OptionType[],
   operatorRoleOptions: OptionType[],
   yzRoleOptions: OptionType[],
-  type: any, //点击的用户类型
 ) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {

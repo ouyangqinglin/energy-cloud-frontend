@@ -10,8 +10,7 @@
       padding: 0 10px;
       color: black;
       line-height: 20px;
-      background-color: transparent;
-      //background-image: url(~@/assets/image/customScreen/data-box.png);
+      background-color: transparent; //background-image: url(~@/assets/image/customScreen/data-box.png);
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100% 100%;
@@ -29,6 +28,7 @@
     }
   }
 }
+
 :global {
   .ant-list-grid .ant-col > .ant-list-item {
     margin-bottom: -18px;
@@ -37,6 +37,7 @@
     //box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
   }
 }
+
 .tabConent {
   position: relative;
   .totalList {
@@ -123,6 +124,7 @@
     margin-top: 20px;
   }
 }
+
 .allDeviceDiv {
   position: relative;
   display: flex;
@@ -172,8 +174,7 @@
       }
     }
     .bottomDeviceDiv {
-      width: 200px;
-      //height: calc(100% - 10px);
+      width: 200px; //height: calc(100% - 10px);
       margin: 0 auto;
       padding: 10px;
       border: 1px solid #e4e7ed;
@@ -226,7 +227,6 @@
       }
       .peakBox {
         position: relative;
-        display: flex;
         margin-top: 10px;
         :global {
           .anticon {
@@ -239,28 +239,10 @@
             color: #00b42a;
           }
         }
-        .leftpeakBox {
-          flex: 1;
-          padding: 6px;
-          .voltageImg {
-            width: 16px;
-            height: 16px;
-            margin-right: 10px;
-          }
-          .iconTop {
-            margin-top: 15px;
-          }
-        }
-        .rightpeakBox {
-          flex: 1;
-          padding: 6px;
-          .voltageImg {
-            width: 16px;
-            height: 16px;
-          }
-          .iconTop {
-            margin-top: 15px;
-          }
+        .voltageImg {
+          width: 16px;
+          height: 16px;
+          margin-right: 10px;
         }
       }
       .pressFont {
@@ -272,6 +254,7 @@
     }
   }
 }
+
 .detailDiv {
   position: relative;
   .backFont {

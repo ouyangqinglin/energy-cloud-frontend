@@ -32,6 +32,31 @@ export enum EnergyEquipmentEnum {
   METER = 6,
 }
 
+export enum DeviceProductTypeEnum {
+  ChargeStack = 510,
+  FastChargeTerminal = 511,
+  DCChargePile = 512,
+  ACChargePile = 513,
+  Energy = 514,
+  PV = 515,
+  ExchangeCabinet = 519,
+  Battery = 520,
+  OverchargeTerminal = 522,
+  ChargeGun = 523,
+  Ems = 524,
+  BatteryStack = 526,
+  BatteryPack = 528,
+  Pcs = 536,
+  BatteryCluster = 537,
+  Air = 538,
+  ElectricMeter = 539,
+  LocalEms = 541,
+  EnergyElectricMeter = 542,
+  PvEnergy = 543,
+  Dehumidifier = 544,
+  FireFight = 545,
+}
+
 export enum DeviceTypeEnum {
   Ems = 1,
   BatteryStack = 2,

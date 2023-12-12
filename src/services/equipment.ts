@@ -8,7 +8,7 @@
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
-import { DeviceMasterMode, ListDataType } from '@/utils/dictionary';
+import { DeviceMasterMode, DeviceProductTypeEnum, ListDataType } from '@/utils/dictionary';
 import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
@@ -21,7 +21,7 @@ export type DeviceDataType = {
   sn?: string;
   model?: string;
   productId?: string;
-  productTypeId?: string;
+  productTypeId?: DeviceProductTypeEnum;
   productTypeName?: string;
   subsystemName?: string;
   childSystem?: string;
@@ -109,7 +109,7 @@ export const getChildEquipment = (params: any) => {
 };
 
 export const getWholeDeviceTree = (params: any) => {
-  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/es/deviceTree`, {
+  return request<ResponseCommonData<DeviceDataType>>(`/iot/es/deviceTree`, {
     method: 'GET',
     params,
   });

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-07-31 09:10:42
+ * @LastEditTime: 2023-12-11 10:30:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -51,9 +51,8 @@ const Account: React.FC<AccountProps> = (props) => {
       partnerRoleOptions,
       operatorRoleOptions,
       yzRoleOptions,
-      type,
     );
-  }, [params, tableColumns]);
+  }, [params, systemRoleOptions, partnerRoleOptions, operatorRoleOptions, yzRoleOptions]);
 
   const initialValues = useMemo(() => {
     const result: AccountDataType = {};
