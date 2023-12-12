@@ -10,6 +10,7 @@ import {
   Space,
   DatePicker,
   message,
+  FormInstance,
 } from 'antd';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
@@ -20,13 +21,15 @@ import {
   manulSetColumns,
   BackupPowerSetColumns,
   PeakSetColumns,
+  validateTime,
+  validateAllTime,
 } from './config';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import type { DeviceDataType } from '@/services/equipment';
 import ConfigModal from '../../../ConfigModal';
 import { editSetting } from '@/services/equipment';
 import { useRequest } from 'umi';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { parseToArray } from '@/utils';
 import { useBoolean } from 'ahooks';
 import { useAuthority } from '@/hooks';
@@ -78,7 +81,10 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           ...item,
           TimeFrame:
             timeFrame.length > 1
-              ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
+              ? [
+                  moment(moment().format('YYYY-MM-DD') + ' ' + timeFrame[0]),
+                  moment(moment().format('YYYY-MM-DD') + ' ' + timeFrame[1]),
+                ]
               : [],
         };
       },
@@ -196,7 +202,10 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             ...item,
             pcsRunningTimeFrame:
               timeFrame.length > 1
-                ? [moment('2023-01-01 ' + timeFrame[0]), moment('2023-01-01 ' + timeFrame[1])]
+                ? [
+                    moment(moment().format('YYYY-MM-DD') + ' ' + timeFrame[0]),
+                    moment(moment().format('YYYY-MM-DD') + ' ' + timeFrame[1]),
+                  ]
                 : [],
           };
         }),
@@ -263,8 +272,15 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Form.List name="PeriodOfTime">
-                {(fields, { add, remove }) => (
+              <Form.List
+                name="PeriodOfTime"
+                rules={[
+                  {
+                    validator: (_, value) => validateAllTime(value, 'pcsRunningTimeFrame'),
+                  },
+                ]}
+              >
+                {(fields, { add, remove }, { errors }) => (
                   <>
                     {fields.map(({ key, name, ...restField }, index) => (
                       <Row>
@@ -273,7 +289,10 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                             label={'时段' + (index + 1)}
                             {...restField}
                             name={[name, 'pcsRunningTimeFrame']}
-                            rules={[{ required: true, message: '请选择时段' }]}
+                            rules={[
+                              { required: true, message: '请选择时段' },
+                              ({ getFieldValue }) => validateTime('PeriodOfTime', getFieldValue),
+                            ]}
                           >
                             <TimePicker.RangePicker
                               className="w-full"
@@ -314,6 +333,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                       </Row>
                     ))}
                     <Form.Item>
+                      <Form.ErrorList errors={errors} />
                       <Button
                         type="primary"
                         icon={<PlusOutlined />}

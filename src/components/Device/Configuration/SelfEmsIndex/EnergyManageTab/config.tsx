@@ -1,14 +1,62 @@
 import type { DetailItem } from '@/components/Detail';
 import { chargePutFormat, moneyPowerFormat, percentageFormat, powerFormat } from '@/utils/format';
-import type { ProFormColumnsType } from '@ant-design/pro-components';
+import type { FormInstance, ProFormColumnsType } from '@ant-design/pro-components';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 import { Col, Row, TimePicker } from 'antd';
-import { useState } from 'react';
-import useSafeTimeRangeColum from '../../../../../pages/station/stationManage/setting/ElectricityPrice/components/FormUpdate/SafeTimeRange';
-import { chargingPutStatus } from '@/utils/dictionary';
-//const {  colum: timeColum } = useSafeTimeRangeColum();
-//const [disableTime, setDisableTime] = useState<Record<string, (0 | 15 | 30 | 45 | null)[]>>({});
+import { Moment } from 'moment';
+
+const hourFormat = 'HH:mm';
+
+export const validateAllTime = (value: any, field: string) => {
+  if (
+    value?.[0]?.[field]?.[0]?.format?.(hourFormat) != '00:00' ||
+    value?.[value?.length - 1]?.[field]?.[1]?.format?.(hourFormat) != '23:59'
+  ) {
+    return Promise.reject('时间段应满24小时');
+  } else {
+    return Promise.resolve();
+  }
+};
+
+const validatorTime = (
+  rule: any,
+  value: Moment[],
+  field: string,
+  getFieldValue: FormInstance['getFieldValue'],
+) => {
+  const periodOfTime = getFieldValue(field);
+  const ruleField = rule?.field?.split?.('.');
+  const index = ruleField?.[1] * 1;
+  const prevValue: Moment[] = periodOfTime[index - 1]?.[ruleField?.[2]];
+  const nextValue: Moment[] = periodOfTime[index + 1]?.[ruleField?.[2]];
+  if (value && value.length) {
+    if (
+      prevValue &&
+      prevValue.length &&
+      value[0].format(hourFormat) != prevValue[1].format(hourFormat)
+    ) {
+      return Promise.reject(new Error(`时段${index + 1}开始时间应等于时段${index}结束时间`));
+    }
+    if (
+      nextValue &&
+      nextValue.length &&
+      value[1].format(hourFormat) != nextValue[0].format(hourFormat)
+    ) {
+      return Promise.reject(new Error(`时段${index + 1}结束时间应等于时段${index + 2}开始时间`));
+    }
+  }
+  return Promise.resolve();
+};
+
+export const validateTime = (field: string, getFieldValue: FormInstance['getFieldValue']) => {
+  return {
+    validator: (_: any, value: Moment[]) => {
+      return validatorTime(_, value, field, getFieldValue);
+    },
+  };
+};
+
 export const manaulParamsItems: DetailItem[] = [
   {
     label: '充电功率',
@@ -195,7 +243,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
         },
         tooltipText: '删除',
       },
-      itemRender: ({ listDom, action }) => {
+      itemRender: ({ listDom, action }: any) => {
         return (
           <div>
             <Row>
@@ -207,6 +255,13 @@ export const PeakSetColumns: ProFormColumnsType[] = [
           </div>
         );
       },
+    },
+    formItemProps: {
+      rules: [
+        {
+          validator: (_, value) => validateAllTime(value, 'TimeFrame'),
+        },
+      ],
     },
     colProps: {
       span: 18,
@@ -222,14 +277,20 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             colProps: {
               span: 12,
             },
-            formItemProps: {
-              validateTrigger: 'submit',
-              rules: [
-                {
-                  required: true,
-                  message: '请选择时间段',
-                },
-              ],
+            formItemProps: ({ getFieldValue }) => {
+              return {
+                rules: [
+                  {
+                    required: true,
+                    message: '请选择时间段',
+                  },
+                  {
+                    validator: (rule, value) => {
+                      return validatorTime(rule, value, 'ElectrovalenceTimeFrame', getFieldValue);
+                    },
+                  },
+                ],
+              };
             },
             renderFormItem: () => (
               <TimePicker.RangePicker

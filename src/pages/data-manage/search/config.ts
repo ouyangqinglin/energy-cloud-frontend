@@ -17,6 +17,11 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     width: 200,
     ellipsis: true,
     hideInTable: true,
+    fieldProps: {
+      onPressEnter: (e) => {
+        e.preventDefault();
+      },
+    },
   },
   {
     title: '数据采集点',
