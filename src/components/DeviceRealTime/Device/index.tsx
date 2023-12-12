@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2023-11-27 17:54:33
+ * @LastEditTime: 2023-12-12 09:35:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
@@ -13,21 +13,16 @@ import Run from './Run';
 import { default as OldControl } from './Control';
 import useDeviceModel from '../useDeviceModel';
 import { useSubscribe } from '@/hooks';
-import { DeviceServicePageEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import Control from '@/components/Device/Control';
-import { isEmpty } from '@/utils';
 
 const oldControlProductIds: DeviceTypeEnum[] = [DeviceTypeEnum.Cabinet, DeviceTypeEnum.BWattAir];
 
 const Device: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(id, openSubscribe);
+  const realTimeData = useSubscribe(id, true);
   const {
     data: deviceGroupData,
     serviceGruop,

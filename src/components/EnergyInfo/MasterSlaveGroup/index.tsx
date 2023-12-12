@@ -39,7 +39,7 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
             changeShowDiv={changeShowDiv}
           />
         ) : (
-          <GroupItem data={item.devices} allData={item} isShowDeviceDetail={isShowDeviceDetail} />
+          <GroupItem data={item.devices} isShowDeviceDetail={isShowDeviceDetail} />
         ),
       };
     });

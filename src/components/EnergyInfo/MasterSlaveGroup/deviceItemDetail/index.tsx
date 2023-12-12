@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { EmsDevicesType } from '@/services/equipment';
 import Cabinet from '../../Cabinet';
 import styles from '../index.less';
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Carousel } from 'antd';
+import { ArrowLeftOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
+import { Button, Carousel } from 'antd';
 import type { CarouselRef } from 'antd/lib/carousel';
 export type DeviceItemDetailProps = {
   deviceData: EmsDevicesType; //当前device数据对象
@@ -13,49 +13,58 @@ export type DeviceItemDetailProps = {
 
 const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
   const { deviceData, allDeviceData } = props;
+
   const carouselRef = useRef<CarouselRef>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const onBackDevice = useCallback(() => {
     props.changeShowDiv();
   }, []);
-  //箭头切换逻辑
-  const onArrowClick = useCallback(
-    (btnstr) => {
-      carouselRef?.current?.next();
-    },
-    [deviceData],
-  );
-  //获取当前设备的索引
+
+  const onCarouselChange = useCallback((nowIndex) => {
+    setActiveIndex(nowIndex);
+  }, []);
+
   useEffect(() => {
     const index = allDeviceData?.devices.findIndex((item: any) => {
       return item.deviceId == deviceData?.deviceId;
     });
     carouselRef?.current?.goTo(index || 0);
-  }, [allDeviceData, deviceData, carouselRef?.current]);
+    setActiveIndex(index || 0);
+  }, [allDeviceData, deviceData]);
 
   return (
     <>
       <div className={styles.detailDiv}>
-        {/* 左边箭头 */}
-        <div
-          className={styles.leftArrowBox}
-          onClick={() => onArrowClick('left')}
-          style={allDeviceData?.devices.length > 1 ? { display: 'block' } : { display: 'none' }}
+        {activeIndex !== 0 ? (
+          <Button
+            className={styles.leftArrowBox}
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            onClick={() => carouselRef?.current?.prev?.()}
+          />
+        ) : (
+          <></>
+        )}
+        {activeIndex != allDeviceData?.devices?.length - 1 ? (
+          <Button
+            className={styles.rightArrowBox}
+            shape="circle"
+            icon={<ArrowRightOutlined />}
+            onClick={() => carouselRef?.current?.next?.()}
+          />
+        ) : (
+          <></>
+        )}
+        <Button
+          className={styles.backFont}
+          type="primary"
+          icon={<RollbackOutlined />}
+          onClick={onBackDevice}
         >
-          <ArrowLeftOutlined style={{ fontSize: '25px', padding: '10px' }} />
-        </div>
-        {/* 右边箭头 */}
-        <div
-          className={styles.rightArrowBox}
-          onClick={() => onArrowClick('right')}
-          style={allDeviceData?.devices.length > 1 ? { display: 'block' } : { display: 'none' }}
-        >
-          <ArrowRightOutlined style={{ fontSize: '25px', padding: '10px' }} />
-        </div>
-        <div className={styles.backFont} onClick={onBackDevice}>
-          返回单元
-        </div>
-        <Carousel dots={true} ref={carouselRef}>
-          {/* <div className={styles.deviceNameFont}>{deviceData?.deviceName || '--'}</div> */}
+          返回
+        </Button>
+        <Carousel dots={true} ref={carouselRef} afterChange={onCarouselChange}>
           {allDeviceData?.devices.map((item: any) => {
             return <Cabinet deviceData={item} showLabel={true} />;
           })}
