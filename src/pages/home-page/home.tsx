@@ -12,11 +12,6 @@ import { useModel, useIntl, FormattedMessage } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
 import { config } from './config';
-import ChartELEC from './components/ChartElec';
-import ChartPV from './components/ChartPV';
-import ChartES from './components/ChartES';
-import ChartCS from './components/ChartCS';
-import ChartEI from './components/ChartEI';
 import ChartBox from './components/ChartBox';
 import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 import {
@@ -153,7 +148,7 @@ const HomePage: React.FC = () => {
     result.push({
       label: intl.formatMessage({ id: 'index.tab.electric', defaultMessage: '市电' }),
       key: '5',
-      children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} Chart={ChartELEC} />,
+      children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} />,
     });
     if (
       ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -163,14 +158,14 @@ const HomePage: React.FC = () => {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.pv', defaultMessage: '光伏' }),
         key: '1',
-        children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
+        children: <ChartBox siteType={siteType} type={SubSystemType.PV} />,
       });
     }
     if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
         key: '2',
-        children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
+        children: <ChartBox siteType={siteType} type={SubSystemType.ES} />,
       });
     }
     if (
@@ -181,13 +176,13 @@ const HomePage: React.FC = () => {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.charge', defaultMessage: '充电桩' }),
         key: '4',
-        children: <ChartBox siteType={siteType} type={SubSystemType.CS} Chart={ChartCS} />,
+        children: <ChartBox siteType={siteType} type={SubSystemType.CS} />,
       });
     }
     result.push({
       label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
       key: '3',
-      children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
+      children: <ChartBox siteType={siteType} type={SubSystemType.EI} />,
     });
     return result;
   }, [siteType]);
