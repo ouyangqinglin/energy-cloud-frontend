@@ -2,7 +2,7 @@ import TimeButtonGroup, { TimeType } from '@/components/TimeButtonGroup';
 import { useToggle } from 'ahooks';
 import { DatePicker } from 'antd';
 import moment from 'moment';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useState } from 'react';
 import { SiteTypeEnum } from '@/utils/dictionary';
 import type { SubSystemType } from '../..';
@@ -29,12 +29,14 @@ const ChartBox = ({
   const [allLabel, setAllLabel] = useState<string[]>([]);
   const [option, setOption] = useState<any>();
   const resetDate = () => setDate(moment());
+  const chartRef = useRef();
   const { chartData } = useFetchChartData(date, subSystemType, timeType, siteType) as any;
 
   const onChange = (value: any) => {
     setDate(value);
   };
   const timeTypeChange = (type: TimeType) => {
+    chartRef?.current?.getEchartsInstance()?.clear?.();
     setTimeType(type);
     resetDate();
     switch (type) {
@@ -149,7 +151,6 @@ const ChartBox = ({
   };
 
   const typeChartData = useMemo(() => {
-    console.log('chartData>>', chartData);
     let data = [];
     const result: { data: any }[] = [];
     const isDay = timeType === TimeType.DAY;
@@ -173,7 +174,7 @@ const ChartBox = ({
         if (isDay) {
           series[0].name = '储能总功率';
           data = chartData?.esPower || [];
-          result.push({ data: chartDataHandle(isDay, data) });
+          result.push({ name: 'dd', data: chartDataHandle(isDay, data) });
         } else {
           series[0].name = '发电量';
           data = chartData?.charge || [];
@@ -244,6 +245,7 @@ const ChartBox = ({
       default:
         return;
     }
+
     optionHandle(isDay, series);
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -272,6 +274,7 @@ const ChartBox = ({
       </div>
       <TypeChart
         type={chartTypeEnum.Label}
+        chartRef={chartRef}
         option={option}
         style={{ height: '400px' }}
         data={typeChartData}
