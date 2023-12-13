@@ -7,16 +7,11 @@
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\home.tsx
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Carousel, Tabs, Tooltip } from 'antd';
+import { Carousel, Tabs, Tooltip, Card } from 'antd';
 import { useModel, useIntl, FormattedMessage } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
 import { config } from './config';
-import ChartELEC from './components/ChartElec';
-import ChartPV from './components/ChartPV';
-import ChartES from './components/ChartES';
-import ChartCS from './components/ChartCS';
-import ChartEI from './components/ChartEI';
 import ChartBox from './components/ChartBox';
 import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 import {
@@ -39,9 +34,13 @@ const HomePage: React.FC = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+  const [chartBoxType, setChartBoxType] = useState<SubSystemType>(SubSystemType.PV);
+
+  const tabChange = (currentSlide: string) => {
+    console.log('currentSlide>>', currentSlide);
+    setChartBoxType(Number(currentSlide));
   };
+
   const [statistic, setStatistic] = useState({});
   const { authorityMap } = useAuthority(['index:multiSite']);
 
@@ -152,8 +151,7 @@ const HomePage: React.FC = () => {
     const result: TabsProps['items'] = [];
     result.push({
       label: intl.formatMessage({ id: 'index.tab.electric', defaultMessage: '市电' }),
-      key: '5',
-      children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} Chart={ChartELEC} />,
+      key: '4',
     });
     if (
       ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -162,15 +160,13 @@ const HomePage: React.FC = () => {
     ) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.pv', defaultMessage: '光伏' }),
-        key: '1',
-        children: <ChartBox siteType={siteType} type={SubSystemType.PV} Chart={ChartPV} />,
+        key: '0',
       });
     }
     if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
-        key: '2',
-        children: <ChartBox siteType={siteType} type={SubSystemType.ES} Chart={ChartES} />,
+        key: '1',
       });
     }
     if (
@@ -180,14 +176,12 @@ const HomePage: React.FC = () => {
     ) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.charge', defaultMessage: '充电桩' }),
-        key: '4',
-        children: <ChartBox siteType={siteType} type={SubSystemType.CS} Chart={ChartCS} />,
+        key: '3',
       });
     }
     result.push({
       label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
-      key: '3',
-      children: <ChartBox siteType={siteType} type={SubSystemType.EI} Chart={ChartEI} />,
+      key: '2',
     });
     return result;
   }, [siteType]);
@@ -204,10 +198,13 @@ const HomePage: React.FC = () => {
       ) : (
         <></>
       )}
-      <Carousel className={styles.sliderWrapper} slidesPerRow={4} afterChange={onChange}>
+      <Carousel className={styles.sliderWrapper} slidesPerRow={4}>
         {items}
       </Carousel>
-      <Tabs className={styles.chartCard} items={tabsItem} />
+      <Tabs className={styles.chartCard} items={tabsItem} onChange={tabChange} />
+      <Card className={styles.card}>
+        <ChartBox siteType={siteType} type={chartBoxType} />
+      </Card>
     </div>
   );
 };

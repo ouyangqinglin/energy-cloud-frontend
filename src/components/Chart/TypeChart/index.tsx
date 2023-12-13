@@ -14,7 +14,7 @@ import moment, { Moment } from 'moment';
 import { typeMap } from './config';
 
 export type TypeChartDataType = {
-  name: string; //系列名称
+  name?: string; //系列名称
   data?: {
     //系列对应的数据
     label: string;
