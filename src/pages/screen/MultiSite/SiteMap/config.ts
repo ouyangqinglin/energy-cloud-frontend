@@ -2,10 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:27:03
- * @LastEditTime: 2023-09-21 16:46:19
+ * @LastEditTime: 2023-12-13 11:14:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\config.ts
  */
+import { isEmpty } from '@/utils';
+import type { ECharts } from 'echarts';
 
 export enum MapTypeEnum {
   Country,
@@ -61,3 +63,23 @@ export const geoCoordData: GeoCoordDataType[] = [
   { name: '香港特别行政区', adCode: 810000, lnglat: [114.173355, 22.320048] },
   { name: '澳门', adCode: 820000, lnglat: [113.54909, 22.198951] },
 ];
+
+export const asyncMap = (chart: ECharts, params: any, type: MapTypeEnum) => {
+  const option: any = chart.getOption();
+  const zoom = option.geo[0].zoom / (type == MapTypeEnum.Country ? 1.5 : 1);
+  const center = option.geo[0].center;
+  const top = option.geo[0].top;
+  if (!isEmpty(params?.zoom)) {
+    option.series[1].zoom = zoom;
+    option.series[2].zoom = zoom;
+    option.series[1].center = center;
+    option.series[2].center = center;
+  } else {
+    option.series[1].center = center;
+    option.series[2].center = center;
+  }
+  option.series[1].top = top;
+  option.series[2].top = top + 10;
+
+  chart.setOption(option);
+};

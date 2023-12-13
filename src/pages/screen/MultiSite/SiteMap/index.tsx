@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2023-09-12 16:01:11
+ * @LastEditTime: 2023-12-13 10:51:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
@@ -12,7 +12,7 @@ import Cell from '../../components/LayoutCell';
 import { request, useRequest } from 'umi';
 import * as echarts from 'echarts';
 import type { ECharts } from 'echarts';
-import { CountryDataType, GeoCoordDataType, MapTypeEnum, geoCoordData } from './config';
+import { CountryDataType, GeoCoordDataType, MapTypeEnum, asyncMap, geoCoordData } from './config';
 import SiteStatus from './SiteStatus';
 import { defaultMapOption } from '@/components/Chart/config';
 import { merge } from 'lodash';
@@ -59,6 +59,7 @@ const SiteMap: React.FC = () => {
   const [isRegisterMap, { setTrue }] = useBoolean(false);
   const [mapLoading, { setTrue: setMapLoadingTrue, setFalse: setMapLoadingFalse }] =
     useBoolean(false);
+  const [chinaData, setChinaData] = useState<any>();
   const [adCode, setAdCode] = useState(100000);
 
   const options = useMemo(() => {
@@ -89,6 +90,9 @@ const SiteMap: React.FC = () => {
   useEffect(() => {
     const chart = echarts.init(chartRef?.current);
     setChartInstance(chart);
+    chart.on('georoam', (params) => {
+      asyncMap(chart, params, MapTypeEnum.Country);
+    });
   }, []);
 
   useEffect(() => {
@@ -100,6 +104,7 @@ const SiteMap: React.FC = () => {
   useEffect(() => {
     setMapLoadingTrue();
     request('/chinaMap/china.json').then((chinaRes) => {
+      setChinaData(chinaRes);
       echarts.registerMap('china', chinaRes);
       request('/chinaMap/china-outline.json').then((res) => {
         setMapLoadingFalse();
@@ -139,6 +144,7 @@ const SiteMap: React.FC = () => {
           <></>
         )}
         <ProvinceMap
+          chinaData={chinaData}
           adCode={adCode}
           style={{ display: adCode == 100000 ? 'none' : 'block' }}
           onBack={onLinkChinaMap}
