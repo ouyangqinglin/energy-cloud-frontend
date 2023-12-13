@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import type { LegendCfg } from 'bizcharts/lib/interface';
 import useToolTip from '@/hooks/useTooltip';
+import { formatMessage } from '@/utils';
 type Props = {
   chartData: ChartData;
   legendLayout?: LegendCfg['layout'];
@@ -104,7 +105,7 @@ const StatisticChart: FC<Props> = ({
             },
           }}
           title={{
-            text: '单位(kW·h)',
+            text: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '(kW·h)',
             position: 'end',
             autoRotate: false,
             offset: 0,

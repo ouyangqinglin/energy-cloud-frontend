@@ -10,6 +10,7 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 export enum CommunityTypeEnum {
   Account = 1,
@@ -60,7 +61,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
     <>
       {type ? (
         <Button className="pr0" type="link" onClick={setTrue}>
-          修改
+          {formatMessage({ id: 'common.modify', defaultMessage: '修改' })}
         </Button>
       ) : (
         <></>

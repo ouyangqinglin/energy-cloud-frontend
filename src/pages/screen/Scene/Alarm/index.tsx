@@ -8,6 +8,7 @@ import styles from './index.less';
 import AlarmIcon from '@/assets/image/screen/alarm/告警状态_BG@2x.png';
 import AlarmNormalIcon from '@/assets/image/screen/alarm/BG_正常@2x.png';
 import { DeviceAlarm } from './type';
+import { formatMessage } from '@/utils';
 
 const AlarmInfo = ({
   alarmCount,
@@ -39,7 +40,7 @@ const AlarmInfo = ({
       api?.open({
         icon: (
           <div className={styles.icon}>
-            <span>通知</span>
+            <span>{formatMessage({ id: 'common.notice', defaultMessage: '通知' })}</span>
           </div>
         ),
         className: styles.alarmNotification,
@@ -68,10 +69,10 @@ const AlarmInfo = ({
         }}
       >
         {shouldAlarm ? (
-          <span className={styles.alarmContent}>告警: {alarmCount}</span>
+          <span className={styles.alarmContent}>{formatMessage({ id: 'common.warning', defaultMessage: '告警'})}: {alarmCount}</span>
         ) : (
           <span className={styles.alarmContent} style={{ color: '#01cfa1', paddingLeft: 10 }}>
-            正常
+            {formatMessage({ id: 'common.normal', defaultMessage: '正常'})}
           </span>
         )}
       </div>

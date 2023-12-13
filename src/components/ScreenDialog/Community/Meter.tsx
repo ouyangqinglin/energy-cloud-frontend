@@ -19,6 +19,7 @@ import type { CommunityProps } from './index';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { omit } from 'lodash';
+import { formatMessage } from '@/utils';
 
 type DeviceDataType = {
   id: string;
@@ -44,7 +45,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
         config: JSON.stringify(formParams),
       }).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved' , defaultMessage: '保存成功' }));
           return true;
         }
       });
@@ -79,49 +80,50 @@ const Meter: React.FC<CommunityProps> = (props) => {
     TABLETREESELECTVALUETYPE
   >[] = [
     {
-      title: 'mqtt用户名',
+      title: 'mqtt'+formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: '请填写mqtt用户名' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+'mqtt'+formatMessage({ id: 'common.userName', defaultMessage: '用户名' }) }],
       },
     },
     {
-      title: 'mqtt密码',
+      title: 'mqtt'+formatMessage({ id: 'common.password', defaultMessage: '密码' }),
       dataIndex: 'password',
       formItemProps: {
-        rules: [{ required: true, message: '请填写mqtt密码' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+'mqtt'+formatMessage({ id: 'common.password', defaultMessage: '密码' }) }],
+
       },
     },
     {
-      title: '电流变比',
+      title: formatMessage({ id: 'device.currentRatio', defaultMessage: '电流变比' }),
       dataIndex: 'currentRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '请填写电流变比' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'device.currentRatio', defaultMessage: '电流变比' }) }],
       },
     },
     {
-      title: '电压变比',
+      title: formatMessage({ id: 'device.voltageRatio', defaultMessage: '电压变比' }),
       dataIndex: 'voltageRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '请填写电压变比' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'device.voltageRatio', defaultMessage: '电压变比' }) }],
       },
     },
     {
-      title: '电能变比',
+      title: formatMessage({ id: 'device.electricRatio', defaultMessage: '电能变比' }),
       dataIndex: 'energyRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '请填写电能变比' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'device.electricRatio', defaultMessage: '电能变比' }) }],
       },
     },
     {
-      title: '功率变比',
+      title: formatMessage({ id: 'device.powerRatio', defaultMessage: '功率变比' }),
       dataIndex: 'powerRatio',
       valueType: 'digit',
       formItemProps: {
-        rules: [{ required: true, message: '请填写功率变比' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'device.powerRatio', defaultMessage: '功率变比' }) }],
       },
     },
   ];
@@ -132,7 +134,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
         <BetaSchemaForm
           formRef={formRef}
           layoutType="ModalForm"
-          title="设置通信信息"
+          title={formatMessage({ id: 'device.setCommunicationInformation', defaultMessage: '设置通信信息' })}
           width="600px"
           visible={open}
           onVisibleChange={onOpenChange}

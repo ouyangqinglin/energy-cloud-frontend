@@ -21,7 +21,7 @@ import {
   getPowerStationOverview,
 } from './service';
 import { assign } from 'lodash';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 import { TabsProps } from 'rc-tabs';
 import { useAuthority } from '@/hooks';
 

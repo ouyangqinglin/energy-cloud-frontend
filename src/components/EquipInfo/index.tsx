@@ -19,6 +19,7 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import { getEquipInfo } from '@/services/equipment';
 import { onlineFormat } from '@/utils/format';
 import './index.less';
+import { formatMessage } from '@/utils';
 
 export type EquipInfoProps = {
   id: string;
@@ -77,24 +78,24 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
 
   const equipInfoItems: DetailItem[] = [
     {
-      label: '在线状态',
+      label: formatMessage({ id: 'device.onlineStatus', defaultMessage: '在线状态' }),
       field: 'status',
       span: 3,
       format: onlineFormat,
     },
-    { label: '设备编码', field: 'deviceId' },
-    { label: '产品型号', field: 'model' },
-    { label: '设备SN', field: 'sn' },
-    { label: '设备名称', field: 'name' },
-    { label: '产品类型', field: 'productTypeName' },
-    { label: '所属子系统', field: 'subsystemName' },
-    { label: '录入时间', field: 'createTime' },
-    { label: '激活时间', field: 'activeTime' },
-    { label: '所属站点', field: 'siteName' },
-    { label: '录入人', field: 'updateUserName' },
-    { label: '在线时长', field: 'onlineTime' },
-    { label: '最近上线时间', field: 'sessionStartTime', show: equipData?.status !== 0 },
-    { label: '最近离线时间', field: 'offlineTime', show: equipData?.status === 0 },
+    { label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }), field: 'deviceId' },
+    { label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }), field: 'model' },
+    { label: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' }), field: 'sn' },
+    { label: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }), field: 'name' },
+    { label: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }), field: 'productTypeName' },
+    { label: formatMessage({ id: 'device.owningSubsystem', defaultMessage: '所属子系统' }), field: 'subsystemName' },
+    { label: formatMessage({ id: 'siteMonitor.entryTime', defaultMessage: '录入时间' }), field: 'createTime' },
+    { label: formatMessage({ id: 'siteMonitor.activationTime', defaultMessage: '激活时间' }), field: 'activeTime' },
+    { label: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }), field: 'siteName' },
+    { label: formatMessage({ id: 'siteMonitor.enteredBy', defaultMessage: '录入人' }), field: 'updateUserName' },
+    { label: formatMessage({ id: 'device.onlineTime', defaultMessage: '在线时长' }), field: 'onlineTime' },
+    { label: formatMessage({ id: 'device.lastOnlineTime', defaultMessage: '最近上线时间' }), field: 'sessionStartTime', show: equipData?.status !== 0 },
+    { label: formatMessage({ id: 'device.lastOfflineTime', defaultMessage: '最近上线时间' }), field: 'offlineTime', show: equipData?.status === 0 },
   ];
 
   return (
@@ -113,7 +114,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
           </div>
         </Col>
         <Col className="productInfo" flex="1">
-          <Label title="基本信息" />
+          <Label title={formatMessage({ id: 'device.basicInformation', defaultMessage: '基本信息' })} />
           {loading ? (
             <>
               <Skeleton active paragraph={{ rows: 4 }} />
@@ -131,7 +132,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
                 <div className="flex1">
                   {productImg && (
                     <Button className="ant-btn-primary" type="primary" onClick={onClick}>
-                      产品介绍
+                      {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
                     </Button>
                   )}
                 </div>
@@ -144,7 +145,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
           )}
         </Col>
       </Row>
-      <Dialog model={model} title="产品介绍" open={openDialog} onCancel={onCancel} footer={null}>
+      <Dialog model={model} title={formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })} open={openDialog} onCancel={onCancel} footer={null}>
         <img className="w-full" src={productImg} />
       </Dialog>
       <EquipForm

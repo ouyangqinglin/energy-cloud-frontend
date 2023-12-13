@@ -6,7 +6,7 @@ import { DataType, getChartData, TimeFormat } from '../ChartBox/helper';
 import { ChartItem } from '../ChartBox/type';
 import moment from 'moment';
 // import { getBarChartData } from '../ChartBox/helper';
-import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dictionary';
+import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {

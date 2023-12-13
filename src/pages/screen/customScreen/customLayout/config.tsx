@@ -1,7 +1,9 @@
 
 // export const photovoltaicOption: (
 //   data: any, title: any
-// )=> {} = (data, title) => 
+// )=> {} = (data, title) =>
+
+import { formatMessage } from "@/utils";
 
 export const photovoltaicOption = (
     data: any, title: any
@@ -28,7 +30,7 @@ export const photovoltaicOption = (
     tooltip: {
       trigger: 'axis',
       // formatter:(params)=>{
-         
+
       // },
       show: true,
       showContent: true,
@@ -90,7 +92,7 @@ export const photovoltaicOption = (
           type: 'solid'
         }
       }
-  
+
     },
     series: [
       {
@@ -122,7 +124,7 @@ export const photovoltaicOption = (
             global: false, // 缺省为 false
           }
         },
-        xAxisIndex: 0 
+        xAxisIndex: 0
       }
     ],
     grid: {
@@ -134,7 +136,7 @@ export const photovoltaicOption = (
   },
   };
 };
-export const energyStorageOption = 
+export const energyStorageOption =
  {
   title: [
     // {
@@ -210,7 +212,7 @@ export const energyStorageOption =
   },
   series: [
     {
-      name: '充电量',
+      name: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
       type: 'line', // 折现/面积图
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: [],
@@ -239,10 +241,10 @@ export const energyStorageOption =
           global: false, // 缺省为 false
         }
       },
-      xAxisIndex: 0 
+      xAxisIndex: 0
     },
     {
-      name: '放电量',
+      name: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
       type: 'line',
       //data: [820, 932, 901, 934, 1290, 1330, 1320],
       data: [],
@@ -271,7 +273,7 @@ export const energyStorageOption =
           global: false, // 缺省为 false
         }
       },
-      xAxisIndex: 0 
+      xAxisIndex: 0
     }
   ],
   grid: {
@@ -295,7 +297,7 @@ export const energyOption = (
       zdata.push(element.z+'' || '-');
     });
   }
-  
+
 return {
   title: [
     {
@@ -371,7 +373,7 @@ return {
   },
   series: [
     {
-      name: '今日',
+      name: formatMessage({ id: 'screen.today', defaultMessage: '今日' }),
       type: 'line', // 折现/面积图
       data: ydata,
       itemStyle: {
@@ -399,10 +401,10 @@ return {
           global: false, // 缺省为 false
         }
       },
-      xAxisIndex: 0 
+      xAxisIndex: 0
     },
     {
-      name: '昨日',
+      name: formatMessage({ id: 'screen.yesterday', defaultMessage: '昨日' }),
       type: 'line',
       data: zdata,
       itemStyle: {
@@ -430,7 +432,7 @@ return {
           global: false, // 缺省为 false
         }
       },
-      xAxisIndex: 0 
+      xAxisIndex: 0
     }
   ],
   grid: {

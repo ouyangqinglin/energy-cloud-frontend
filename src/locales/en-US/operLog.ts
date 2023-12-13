@@ -3,7 +3,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -14,6 +14,7 @@ export default {
   'monitor.Operlog.method': 'Method',
   'monitor.Operlog.request_method': 'Request',
   'monitor.Operlog.operator_type': 'Type',
+  'monitor.Operlog.user_type': 'Operator Type',
   'monitor.Operlog.oper_name': 'Operator',
   'monitor.Operlog.dept_name': 'Dept Name',
   'monitor.Operlog.oper_url': 'URL',

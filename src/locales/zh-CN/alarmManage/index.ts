@@ -22,4 +22,7 @@ export default {
   'alarmManage.alarmDetails': '告警详情',
   'alarmManage.currentAlarm': '当前告警',
   'alarmManage.historicalAlarm': '历史告警',
+  'alarmManage.alarmContent': '告警内容',
+  'alarmManage.generateTime': '产生时间',
+  'alarmManage.alarmList': '告警列表',
 };

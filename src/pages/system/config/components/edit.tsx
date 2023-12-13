@@ -8,7 +8,7 @@ import type { ConfigType } from '../data.d';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export type ConfigFormValueType = Record<string, unknown> & Partial<ConfigType>;
@@ -76,7 +76,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
                 defaultMessage: '参数主键',
               })}
               width="xl"
-              placeholder="请输入参数主键"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.config_id',
+                defaultMessage: '参数主键',
+              })}
               disabled
               hidden={!props.values.configId}
               rules={[
@@ -99,7 +105,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
                 defaultMessage: '参数名称',
               })}
               width="xl"
-              placeholder="请输入参数名称"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.config_name',
+                defaultMessage: '参数名称',
+              })}
               rules={[
                 {
                   required: false,
@@ -120,7 +132,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
                 defaultMessage: '参数键名',
               })}
               width="xl"
-              placeholder="请输入参数键名"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.config_key',
+                defaultMessage: '参数键名',
+              })}
               rules={[
                 {
                   required: false,
@@ -141,7 +159,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
                 defaultMessage: '参数键值',
               })}
               width="xl"
-              placeholder="请输入参数键值"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.config_value',
+                defaultMessage: '参数键值',
+              })}
               rules={[
                 {
                   required: false,
@@ -164,7 +188,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
               })}
               width="xl"
               labelCol={{ span: 24 }}
-              placeholder="请输入系统内置"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.config_type',
+                defaultMessage: '系统内置',
+              })}
               rules={[
                 {
                   required: false,
@@ -185,7 +215,13 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
                 defaultMessage: '备注',
               })}
               width="xl"
-              placeholder="请输入备注"
+              placeholder={intl.formatMessage({
+                id: 'common.pleaseEnter',
+                defaultMessage: '请输入',
+              })+intl.formatMessage({
+                id: 'system.Config.remark',
+                defaultMessage: '备注',
+              })}
               rules={[
                 {
                   required: false,

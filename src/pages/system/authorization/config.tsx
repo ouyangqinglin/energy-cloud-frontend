@@ -1,28 +1,29 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { Switch } from 'antd';
 import type { ListDataType } from './type';
+import { formatMessage } from '@/utils';
 
 export const columns: ProColumns<ListDataType>[] = [
   {
-    title: '序号',
+    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     dataIndex: 'index',
     valueType: 'index',
     width: 48,
   },
   {
-    title: '应用名称',
+    title: formatMessage({ id: 'system.applyName', defaultMessage: '应用名称' }),
     dataIndex: 'applicationName',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '应用ID',
+    title: formatMessage({ id: 'system.applyId', defaultMessage: '应用ID' }),
     dataIndex: 'applicationID',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '密匙',
+    title: formatMessage({ id: 'system.key', defaultMessage: '密匙' }),
     valueType: 'password',
     dataIndex: 'secret',
     width: 150,
@@ -30,28 +31,28 @@ export const columns: ProColumns<ListDataType>[] = [
     hideInSearch: true,
   },
   {
-    title: '状态',
+    title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
     valueEnum: new Map<number, string>([
       // eslint-disable-next-line react/jsx-key
-      [1, '有效'],
+      [1, formatMessage({ id: 'system.valid', defaultMessage: '有效' })],
       // eslint-disable-next-line react/jsx-key
-      [0, '无效'],
+      [0, formatMessage({ id: 'system.invalid', defaultMessage: '无效' })],
     ]),
     render(dom, entity, index, action, schema) {
-      return <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={!!entity.status} />;
+      return <Switch checkedChildren={formatMessage({id: 'system.open', defaultMessage: '开启' })} unCheckedChildren={formatMessage({id: 'system.close', defaultMessage: '关闭' })} checked={!!entity.status} />;
     },
     dataIndex: 'status',
     width: 150,
     ellipsis: true,
   },
   {
-    title: '描述',
+    title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),
     dataIndex: 'description',
     hideInSearch: true,
     width: 150,
   },
   {
-    title: '创建时间',
+    title: formatMessage({ id: 'common.createTime', defaultMessage: '描述' }),
     dataIndex: 'createTime',
     valueType: 'dateTime',
     hideInSearch: true,

@@ -16,6 +16,7 @@ import { pieConfig } from './config';
 import styles from './index.less';
 import { useToolTip } from '@/hooks';
 import { ChartTypeEnum } from '@/hooks/useTooltip';
+import { formatMessage } from '@/utils';
 
 type RevenueProportionProps = {
   timeType: TimeType;
@@ -33,15 +34,15 @@ type PieDataType = {
 };
 
 const typeMap = new Map([
-  ['光伏', ['photovoltaicGains', 'photovoltaicProportion']],
-  ['储能', ['essGains', 'essProportion']],
-  ['充电桩', ['chargingPileGains', 'chargingPileProportion']],
+  [formatMessage({ id: 'device.pv', defaultMessage: '光伏' }), ['photovoltaicGains', 'photovoltaicProportion']],
+  [formatMessage({ id: 'device.storage', defaultMessage: '储能' }), ['essGains', 'essProportion']],
+  [formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }), ['chargingPileGains', 'chargingPileProportion']],
 ]);
 
 const getCustomHtml = (value: number) => {
   return `<div>
         <span style="color:white;font-size:20px;font-weight: 300">${value}</span>
-        <div style="font-size:12px;color:#ACCCEC;font-weight: 300">总收益(元)</div>
+        <div style="font-size:12px;color:#ACCCEC;font-weight: 300">${formatMessage({ id: 'device.totalRevenue', defaultMessage: '总收益' })}${formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)'})}</div>
     </div>`;
 };
 
@@ -82,7 +83,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
       attrs: {
         x: 0,
         y: 25,
-        text: data.type + '收益(元)',
+        text: data.type + formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)'}),
         fill: '#ACCCEC',
         fontWeight: 400,
         fontSize: 12,

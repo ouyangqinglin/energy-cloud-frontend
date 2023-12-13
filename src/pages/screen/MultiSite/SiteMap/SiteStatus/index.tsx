@@ -13,6 +13,7 @@ import { useRequest } from 'umi';
 import { getData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import { MapTypeEnum } from '../config';
+import { formatMessage } from '@/utils';
 
 export type SiteStatusProps = {
   type: MapTypeEnum;
@@ -44,7 +45,7 @@ const SiteStatus: React.FC<SiteStatusProps> = memo((props) => {
   return (
     <>
       <div className={styles.contain}>
-        <div className={styles.title}>站点状态</div>
+        <div className={styles.title}>{formatMessage({ id: 'siteManage.set.siteStatus', defaultMessage: '站点状态' })}</div>
         <div className="flex">{status}</div>
       </div>
     </>

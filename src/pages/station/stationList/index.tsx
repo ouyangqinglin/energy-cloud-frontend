@@ -16,7 +16,7 @@ import type { StationType } from './data.d';
 import { buildStatus } from '@/utils/dict';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
-import { siteType as siteTypeEnum } from '@/utils/dictionary';
+import { siteType as siteTypeEnum } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';

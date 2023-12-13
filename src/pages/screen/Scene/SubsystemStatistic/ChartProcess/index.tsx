@@ -17,6 +17,7 @@ import { DatePicker } from 'antd';
 import classnames from 'classnames';
 import DataSet from '@antv/data-set';
 import { keepAnyDecimal } from '@/utils/math';
+import { formatMessage } from '@/utils';
 type Props = {
   charge?: number;
   discharge?: number;
@@ -31,15 +32,15 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
   );
   const data = [
     {
-      type: '电池状态',
-      field: '可充电量',
+      type: formatMessage({ id: 'screen.batteryStatus', defaultMessage: '电池状态' }),
+      field: formatMessage({ id: 'screen.rechargeableCapacity', defaultMessage: '可充电量' }),
       value: charge ?? 0,
       unit: 'kWh',
       color: '#01CFA1',
     },
     {
-      type: '电池状态',
-      field: '可放电量',
+      type: formatMessage({ id: 'screen.batteryStatus', defaultMessage: '电池状态' }),
+      field: formatMessage({ id: 'screen.dischargeCapacity', defaultMessage: '可放电量' }),
       value: discharge ?? 0,
       unit: 'kWh',
       color: '#FFE04D',

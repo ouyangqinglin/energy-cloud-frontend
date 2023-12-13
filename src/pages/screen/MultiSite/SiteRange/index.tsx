@@ -11,12 +11,13 @@ import Cell from '../../components/LayoutCell';
 import DecorationCarousel from '../../components/DecorationCarousel';
 import ElecPower from './ElecPower';
 import Income from './Income';
+import { formatMessage } from '@/utils';
 
 const SiteRange: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={400} height={618} left={24} top={90}>
-        <DecorationCarousel panelStyle={{ padding: '16px' }} title="站点排名">
+        <DecorationCarousel panelStyle={{ padding: '16px' }} title={formatMessage({ id: 'screen.siteRanking', defaultMessage: '站点排名' })}>
           <ElecPower />
           <Income />
         </DecorationCarousel>

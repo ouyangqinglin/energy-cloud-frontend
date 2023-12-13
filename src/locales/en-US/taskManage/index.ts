@@ -25,8 +25,7 @@ export default {
   'taskManage.schedule': 'schedule',
   'taskManage.workOrderDetails': 'Work Order Details',
   'taskManage.workOrderNumber': 'Work Order Number',
-  'taskManage.delMaintenanceJob':
-    'Are you sure you want to delete this maintenance job? Cannot recover after deletion! ',
+  'taskManage.delMaintenanceJob': 'Are you sure you want to delete this maintenance job? Cannot recover after deletion! ',
   'taskManage.pending': 'Pending',
   'taskManage.processing': 'Processing',
   'taskManage.completed': 'Completed',
@@ -75,4 +74,5 @@ export default {
   'taskManage.view': 'View',
   'taskManage.selectCustomerName': 'Please select the customer name',
   'taskManage.optional': '(Optional)',
+  'taskManage.selectData': 'Select Data',
 };

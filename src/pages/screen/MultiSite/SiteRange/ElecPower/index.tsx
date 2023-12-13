@@ -14,11 +14,12 @@ import { useRequest } from 'umi';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import { merge } from 'lodash';
 import Title from '../../../components/LayoutCell/title';
+import { formatMessage } from '@/utils';
 
 const targetItemColors = ['', '#159AFF', '#01CFA1', '#FFD15C', '#FF7B7B', '#FF8144'];
 
 const sourceItem = {
-  name: '光储充站',
+  name: formatMessage({ id: 'screen.storageChargingStation', defaultMessage: '光储充站' }),
   type: 'source',
   count: 0,
   itemStyle: {
@@ -45,7 +46,7 @@ const sourceItem = {
 };
 
 const targetItem = {
-  name: 'A站点',
+  name: 'A'+formatMessage({ id: 'device.site', defaultMessage: '站点' }),
   itemStyle: {
     color: '#34B9FF',
   },
@@ -124,7 +125,7 @@ const ElecPower: React.FC = () => {
       if (hasElseSite) {
         links.push({
           source: item.name,
-          target: '其他站点',
+          target: formatMessage({ id: 'screen.otherSites', defaultMessage: '其他站点' }),
           value: elseSiteElec || 10,
         });
       }
@@ -133,7 +134,7 @@ const ElecPower: React.FC = () => {
     source.sort((a, b) => b.count - a.count);
     result.series.data = [...source, ...target];
     if (totalHasElseElec) {
-      result.series.data.push(merge({}, targetItem, { name: '其他站点', count: totalElseElec }));
+      result.series.data.push(merge({}, targetItem, { name: formatMessage({ id: 'screen.otherSites', defaultMessage: '其他站点' }), count: totalElseElec }));
     }
     result.series.links = links;
     return result;
@@ -141,7 +142,7 @@ const ElecPower: React.FC = () => {
 
   return (
     <>
-      <Title className="mb8" title="市电用电量" unit="单位(kWh)" />
+      <Title className="mb8" title={formatMessage({ id: 'screen.mainsElectricityConsumption', defaultMessage: '市电用电量' })} unit={`${formatMessage({ id: 'common.unit', defaultMessage: '单位'})}(kWh)`} />
       <Chart option={options} style={{ height: 300 }} calculateMax={false} />
     </>
   );

@@ -20,6 +20,7 @@ import { adCodeGeoJsonMap } from './config';
 import IconBack from '@/assets/image/multi-site/icon_返回@2x.png';
 import styles from './index.less';
 import { Spin } from 'antd';
+import { formatMessage } from '@/utils';
 
 export type ProvinceMapProps = {
   adCode: number;
@@ -145,7 +146,7 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
       <Cell style={style} cursor="default" width={1026} height={730} left={0} top={0}>
         <div className={styles.back} onClick={onBack}>
           <img src={IconBack} />
-          返回
+          {formatMessage({ id: 'screen.return', defaultMessage: '返回' })}
         </div>
         <div
           ref={chartRef}

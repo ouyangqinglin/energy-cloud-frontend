@@ -6,15 +6,16 @@ import ChargeIcon from '@/assets/image/screen/subsystemStatistic/储能_icon _�
 import DischargeIcon from '@/assets/image/screen/subsystemStatistic/储能_icon _放电@2x.png';
 import DefaultIcon from '@/assets/image/screen/subsystemStatistic/储能_icon _静置@2x.png';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
 
 export const DEFAULT_STATISTICS_REQUEST_INTERVAL = 60 * 60 * 1000;
 
 export const gunInfoItem: DetailItem[] = [
-  { label: '实时状态', field: 'realtimeStatus' },
+  { label: formatMessage({ id: 'screen.realTimeState', defaultMessage: '实时状态' }), field: 'realtimeStatus' },
   {
-    label: '充放电功率：',
+    label: formatMessage({ id: 'screen.chargeAndDischargePower', defaultMessage: '充放电功率' })+'：',
     field: 'chargingAndDischargingPower',
     format: (value) => keepTwoDecimalWithUnit(value, 'kW'),
   },
@@ -32,17 +33,17 @@ export const gunInfoItem: DetailItem[] = [
 
 export const RealtimeStatusMap = {
   [RealtimeStatusEnum.DEFAULT]: {
-    text: '静置',
+    text: formatMessage({ id: 'device.standing', defaultMessage: '静置' }),
     color: '#28F0EE',
     icon: DefaultIcon,
   },
   [RealtimeStatusEnum.CHARGE]: {
-    text: '充电',
+    text: formatMessage({ id: 'device.charge', defaultMessage: '充电' }),
     color: '#14E6B2',
     icon: ChargeIcon,
   },
   [RealtimeStatusEnum.DISCHARGE]: {
-    text: '放电',
+    text: formatMessage({ id: 'device.discharge', defaultMessage: '放电' }),
     color: '#FFE04D',
     icon: DischargeIcon,
   },
@@ -50,7 +51,7 @@ export const RealtimeStatusMap = {
 
 export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
   {
-    title: '运行状态',
+    title: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
     field: 'status',
     render: (status: RealtimeStatusEnum = RealtimeStatusEnum.DEFAULT) => {
       const statusItem = RealtimeStatusMap[status] || RealtimeStatusMap[0];
@@ -71,7 +72,7 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '运行功率',
+    title: formatMessage({ id: 'screen.operatingPower', defaultMessage: '运行功率' }),
     unit: 'kW',
     floatLength: 2,
     field: 'power',
@@ -99,7 +100,7 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '额定容量',
+    title: formatMessage({ id: 'screen.ratedCapacity', defaultMessage: '额定容量' }),
     unit: 'kWh',
     field: 'ratedCapacity',
     floatLength: 2,
@@ -130,8 +131,8 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
 
 export const dataSource: DigitalFlipperItemProps[] = [
   {
-    title: '储能收益',
-    unit: '元',
+    title: formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     floatLength: 2,
     field: 'profit',
     numStyle: {
@@ -148,7 +149,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '充电量',
+    title: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
     unit: 'kWh',
     floatLength: 2,
     field: 'charge',
@@ -166,7 +167,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '放电量',
+    title: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
     floatLength: 2,
     field: 'discharge',
     unit: 'kWh',

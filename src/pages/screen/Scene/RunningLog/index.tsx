@@ -4,13 +4,14 @@ import DecorationCarousel from '../../components/DecorationCarousel';
 import Cell from '../../components/LayoutCell';
 import styles from './index.less';
 import useSubscribe from './useSubscribe';
+import { formatMessage } from '@/utils';
 
 const RunningLog = () => {
   const listData = useSubscribe();
 
   return (
     <Cell cursor="default" width={972} height={151} left={474} top={910}>
-      <DecorationCarousel scroll={true} title="站点运行日志">
+      <DecorationCarousel scroll={true} title={formatMessage({ id:'screen.siteOperationLog', defaultMessage:'站点运行日志'})}>
         {!isEmpty(listData) && (
           <List
             className={styles.logWrapper}

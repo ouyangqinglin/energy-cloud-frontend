@@ -98,7 +98,7 @@ const TableTreeModal = <
 ) => {
   const {
     model,
-    title = '选择数据',
+    title = formatMessage({ id: 'taskManage.selectData', defaultMessage: '选择数据'}),
     open,
     onCancel,
     width = '1000px',

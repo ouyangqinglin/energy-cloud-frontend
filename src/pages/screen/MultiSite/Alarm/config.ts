@@ -6,14 +6,15 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Alarm\config.ts
  */
+import { formatMessage } from '@/utils';
 import { DigitStatItemType } from '../../components/DigitStat';
 import IconAlarm from '@/assets/image/multi-site/alarm.png';
 
 export const items: DigitStatItemType[] = [
   {
     icon: IconAlarm,
-    title: '告警',
-    unit: '条',
+    title: formatMessage({ id: 'common.warning', defaultMessage: '告警'}),
+    unit: formatMessage({ id: 'screen.num', defaultMessage: '条' }),
     field: 'total',
     valueStyle: {
       color: '#FF5656',
@@ -21,8 +22,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconAlarm,
-    title: '超24h未处理报警',
-    unit: '条',
+    title: formatMessage({ id: 'screen.alarmNotHandledOverDay', defaultMessage: '超24h未处理报警' }),
+    unit: formatMessage({ id: 'screen.num', defaultMessage: '条' }),
     field: 'timeOut',
     valueStyle: {
       color: '#FFD15C',

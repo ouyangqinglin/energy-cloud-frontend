@@ -30,7 +30,8 @@ type MeterProps = {
 const Meter: React.FC<MeterProps> = (props) => {
   const { data, detailProps } = props;
 
-  const grid = [
+  const grid = useMemo(() => {
+    return [
     {
       title: formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流'}) + '(A）',
       icon: IconCurrent,
@@ -113,7 +114,8 @@ const Meter: React.FC<MeterProps> = (props) => {
         { label: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总'}), field: 'COS' },
       ],
     },
-  ];
+  ]
+  }, []);
 
   const gridItem = useMemo(() => {
     return grid.map((item) => {

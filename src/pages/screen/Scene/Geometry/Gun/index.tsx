@@ -5,6 +5,7 @@ import ChargeCompleteLeft from '../lottie/ChargeCompleteLeft.json';
 import ChargeCompleteRight from '../lottie/ChargeCompleteRight.json';
 import styles from '../index.less';
 import { CellConfigItem, GunMark, GunStatus } from '../type';
+import { formatMessage } from '@/utils';
 
 const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
   const { chargingGuns = [], charingGunsConfig = [] } = ceil;
@@ -31,12 +32,12 @@ const CeilGun = ({ ceil }: { ceil: CellConfigItem }) => {
         aGun: {
           deviceId: aGun?.deviceId,
           name: aGun?.name,
-          status: isAGunCharging ? '充电' : isAGunFullCharge ? '充满' : '空闲',
+          status: isAGunCharging ? formatMessage({ id: 'screen.charge' , defaultMessage: '充电' }) : isAGunFullCharge ? formatMessage({ id: 'screen.filledWith' , defaultMessage: '充满' }) : formatMessage({ id: 'screen.leisure' , defaultMessage: '空闲' }),
         },
         bGun: {
           deviceId: bGun?.deviceId,
           name: bGun?.name,
-          status: isBGunCharging ? '充电' : isBGunFullCharge ? '充满' : '空闲',
+          status: isBGunCharging ? formatMessage({ id: 'screen.charge' , defaultMessage: '充电' }) : isBGunFullCharge ? formatMessage({ id: 'screen.filledWith' , defaultMessage: '充满' }) : formatMessage({ id: 'screen.leisure' , defaultMessage: '空闲' }),
         },
       };
       console.log(log);

@@ -2,7 +2,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -22,4 +22,5 @@ export default {
   'system.Role.remark': '备注',
   'system.Role.modify_info': '编辑角色信息',
   'system.Role.auth': '菜单权限',
+  'system.Role.type': '角色类型',
 };

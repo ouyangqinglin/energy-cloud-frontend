@@ -30,6 +30,7 @@ import taskManage from './en-US/taskManage'; //设备列表
 import device from './en-US/device';
 import dataManage from './en-US/dataManage';
 import alarmManage from './en-US/alarmManage';
+import screen from './en-US/screen';
 
 export default {
   'navBar.lang': 'Languages',
@@ -72,4 +73,5 @@ export default {
   ...device,
   ...dataManage,
   ...alarmManage,
+  ...screen
 };

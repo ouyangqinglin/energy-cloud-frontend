@@ -3,26 +3,27 @@ import { effectStatus } from '@/utils/dict';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ServiceUpdateInfo } from '../type';
 import Detail from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[] = (orgId) => {
   return [
     {
       title: '',
       renderFormItem: () => {
-        return <Detail.DotLabel title="状态信息" className="mb0" />;
+        return <Detail.DotLabel title={formatMessage({ id: 'siteMonitor.statusInformation', defaultMessage: '状态信息' })} className="mb0" />;
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '状态',
+      title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
       dataIndex: ['status'],
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
           },
         ],
       },
@@ -31,26 +32,26 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
     {
       title: '',
       renderFormItem: () => {
-        return <Detail.DotLabel title="基础信息" className="mb0" />;
+        return <Detail.DotLabel title={formatMessage({ id: 'taskManage.basicInformation', defaultMessage: '基础信息' })} className="mb0" />;
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '安装商名称',
+      title: formatMessage({ id: 'system.installerName', defaultMessage: '安装商名称' }),
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
           },
         ],
       },
       dataIndex: ['orgName'],
     },
     {
-      title: '安装商ID',
+      title: formatMessage({ id: 'system.installer', defaultMessage: '安装商' })+'ID',
       dataIndex: ['orgId'],
       fieldProps: {
         value: orgId,
@@ -58,19 +59,19 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       },
     },
     {
-      title: '联系人',
+      title: formatMessage({ id: 'system.contacts', defaultMessage: '联系人' }),
       dataIndex: ['linkman'],
     },
     {
-      title: '联系电话',
+      title: formatMessage({ id: 'common.telephone', defaultMessage: '联系电话' }),
       dataIndex: ['phone'],
     },
     {
-      title: '联系座机',
+      title: formatMessage({ id: 'system.contactLandline', defaultMessage: '联系座机' }),
       dataIndex: ['landlineNumber'],
     },
     {
-      title: '备注',
+      title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
       colProps: {
         span: 24,
       },
@@ -78,7 +79,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       valueType: 'textarea',
     },
     {
-      title: '位置',
+      title: formatMessage({ id: 'system.position', defaultMessage: '位置' }),
       colProps: {
         span: 24,
       },
@@ -87,7 +88,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
         rules: [
           {
             required: true,
-            message: '此项为必填项',
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
           },
         ],
       },

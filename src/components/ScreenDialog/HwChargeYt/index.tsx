@@ -20,6 +20,7 @@ import HwChargeStackImg from '@/assets/image/product/hw-charge-yt.png';
 import HwChargeStackIntroImg from '@/assets/image/product/hw-charge-stack-intro.jpg';
 import Community from '../Community';
 import RealTime from './RealTime';
+import { formatMessage } from '@/utils';
 
 const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
   const { id, open, onCancel, model } = props;
@@ -32,22 +33,22 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
 
   const tabItems = [
     {
-      label: '运行监测',
+      label: formatMessage({ id: 'device.operationMonitoring', defaultMessage: '运行监测' }),
       key: 'item-0',
       children: <RealTime id={id} open={open} loading={loading} />,
     },
     {
-      label: '远程设置',
+      label: formatMessage({ id: 'device.remoteSettings', defaultMessage: '远程设置' }),
       key: 'item-1',
       children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
-      label: '告警/故障',
+      label: formatMessage({ id: 'device.alarm/fault', defaultMessage: '告警/故障' }),
       key: 'item-2',
       children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
-      label: '日志',
+      label: formatMessage({ id: 'device.log', defaultMessage: '日志' }),
       key: 'item-3',
       children: <LogTable params={{ id }} request={getLogs} />,
     },
@@ -57,7 +58,7 @@ const HwChargeYt: React.FC<BusinessDialogProps> = (props) => {
     <>
       <Dialog
         model={model}
-        title="设备详情"
+        title={formatMessage({ id: 'device.deviceDetails', defaultMessage: '设备详情' })}
         open={open}
         onCancel={onCancel}
         footer={null}

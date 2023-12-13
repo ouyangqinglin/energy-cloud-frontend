@@ -2,7 +2,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -24,4 +24,5 @@ export default {
   'system.Role.remark': 'Remark',
   'system.Role.modify_info': 'Edit',
   'system.Role.auth': 'Role Authority',
+  'system.Role.type': 'Role type',
 };

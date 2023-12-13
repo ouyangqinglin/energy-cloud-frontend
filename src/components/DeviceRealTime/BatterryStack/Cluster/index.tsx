@@ -235,7 +235,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
             labelStyle={{ width: 170 }}
             valueStyle={{ width: '40%' }}
           />
-          <Label title={formatMessage({ id: 'monomerInfo', defaultMessage: '单体信息'})} className="mt16" />
+          <Label title={formatMessage({ id: 'siteMonitor.monomerInfo', defaultMessage: '单体信息'})} className="mt16" />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
           <Chart option={chartOption} style={{ height: 300 }} />
         </div>

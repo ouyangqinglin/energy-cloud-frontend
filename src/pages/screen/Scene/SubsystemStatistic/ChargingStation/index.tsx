@@ -15,10 +15,11 @@ import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import type { ChartRes } from '../Chart/type';
 import { convertToData } from '../Chart/helper';
 import type { Moment } from 'moment';
+import { formatMessage } from '@/utils';
 
 const chartConfigMap = {
   discharge: {
-    name: '发电量',
+    name: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
     unit: 'kWh',
   },
 };
@@ -50,7 +51,7 @@ const ChargingStation: FC = () => {
         return {
           ts: it.time,
           value: it.value,
-          field: '发电量',
+          field: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
         };
       })) ??
     [];
@@ -117,7 +118,7 @@ const ChargingStation: FC = () => {
         />
       </div>
       <StatisticChart
-        title="充电桩充电量"
+        title={formatMessage({ id: 'siteMonitor.chargingPileChargingAmount', defaultMessage: '充电桩充电量' })}
         onDateChange={onDateChange}
         // chartConfigMap={{
         //   discharge: {

@@ -12,7 +12,7 @@ import type { ProColumns } from '@ant-design/pro-components';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
-import { arrayToMap, isEmpty } from '@/utils';
+import { arrayToMap, formatMessage, isEmpty } from '@/utils';
 import { verifyPassword, verifyPhone } from '@/utils/reg';
 import { api } from '@/services';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
@@ -49,25 +49,25 @@ export type AccountDataType = {
 export const getTableColumns = (types: OrgTypeEnum[]) => {
   const tableColumns: ProColumns<AccountDataType>[] = [
     {
-      title: '序号',
+      title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',
       valueType: 'index',
       width: 48,
     },
     {
-      title: '账号名',
+      title: formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
       dataIndex: 'userName',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '用户名',
+      title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
       dataIndex: 'nickName',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '角色',
+      title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleId',
       valueType: 'select',
       width: 150,
@@ -90,27 +90,27 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
       },
     },
     {
-      title: '组织名称',
+      title: formatMessage({ id: 'system.organizationName', defaultMessage: '组织名称' }),
       dataIndex: 'orgName',
       width: 150,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '手机',
+      title: formatMessage({ id:'user.mobilePhone', defaultMessage: '手机' }),
       dataIndex: 'phone',
       width: 100,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
       dataIndex: 'status',
       width: 100,
       valueEnum: effectStatus,
     },
     {
-      title: '创建时间',
+      title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => record.createTime,
@@ -131,14 +131,14 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
 
 const tableSelectColumns: ProColumns[] = [
   {
-    title: '站点编码',
+    title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
     dataIndex: 'id',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '站点名称',
+    title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
     dataIndex: 'name',
     width: 200,
     ellipsis: true,
@@ -166,56 +166,56 @@ export const getFormColumns = (
     {
       title: '',
       renderFormItem: () => {
-        return <Detail.DotLabel title="状态信息" className="mb0" />;
+        return <Detail.DotLabel title={formatMessage({ id: 'siteMonitor.statusInformation', defaultMessage: '状态信息' })} className="mb0" />;
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '状态',
+      title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: effectStatus,
       formItemProps: {
-        rules: [{ required: true, message: '请选择状态' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })+formatMessage({ id: 'common.status', defaultMessage: '状态' }) }],
       },
     },
     {
       title: '',
       renderFormItem: () => {
-        return <Detail.DotLabel title="基础信息" className="mb0" />;
+        return <Detail.DotLabel title={formatMessage({ id: 'taskManage.basicInformation', defaultMessage: '基础信息' })} className="mb0" />;
       },
       colProps: {
         span: 24,
       },
     },
     {
-      title: '账号名',
+      title: formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: '请填写账号名' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'common.accountName', defaultMessage: '账号名' }) }],
       },
       fieldProps: {
         autoComplete: 'off',
       },
     },
     {
-      title: '用户名',
+      title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
       dataIndex: 'nickName',
       formItemProps: {
-        rules: [{ required: true, message: '请填写用户名' }],
+        rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'common.userName', defaultMessage: '用户名' }) }],
       },
     },
     {
-      title: '用户ID',
+      title: formatMessage({ id: 'system.User.user_id', defaultMessage: '用户ID' }),
       dataIndex: 'userId',
       fieldProps: {
         disabled: true,
       },
     },
     {
-      title: '角色',
+      title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleId',
       valueType: 'select',
       request: () => {
@@ -243,12 +243,12 @@ export const getFormColumns = (
         );
       },
       formItemProps: {
-        rules: [{ required: true, message: '请选择角色' }],
+        rules: [{ required: true, message: formatMessage({id: 'common.pleaseSelect', defaultMessage: '请选择' })+formatMessage({ id: 'user.role', defaultMessage: '角色' }) }],
       },
     },
     types[0] === OrgTypeEnum.System
       ? {
-          title: '组织',
+          title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
           dataIndex: 'orgId',
           valueType: 'treeSelect',
           request: () => {
@@ -257,11 +257,11 @@ export const getFormColumns = (
             });
           },
           formItemProps: {
-            rules: [{ required: true, message: '请选择组织' }],
+            rules: [{ required: true, message: formatMessage({id: 'common.pleaseSelect', defaultMessage: '请选择' })+formatMessage({ id: 'user.organization', defaultMessage: '组织' }) }],
           },
         }
       : {
-          title: '组织',
+          title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
           dataIndex: 'orgId',
           valueType: 'select',
           dependencies: ['roleId'],
@@ -277,11 +277,11 @@ export const getFormColumns = (
             });
           },
           formItemProps: {
-            rules: [{ required: true, message: '请选择组织' }],
+            rules: [{ required: true, message: formatMessage({id: 'common.pleaseSelect', defaultMessage: '请选择' })+formatMessage({ id: 'user.organization', defaultMessage: '组织' }) }],
           },
         },
     {
-      title: '手机',
+      title: formatMessage({ id: 'user.mobilePhone', defaultMessage: '手机' }),
       dataIndex: 'phone',
       formItemProps: {
         rules: [
@@ -293,7 +293,7 @@ export const getFormColumns = (
                 } else if (verifyPhone(value)) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject(`电话格式错误`);
+                  return Promise.reject(formatMessage({ id: 'user.phoneFormatError', defaultMessage: '电话格式错误' }));
                 }
               },
             };
@@ -302,7 +302,7 @@ export const getFormColumns = (
       },
     },
     {
-      title: '初始密码',
+      title: formatMessage({ id: 'system.initialPassword', defaultMessage: '初始密码' }),
       dataIndex: 'password',
       valueType: 'password',
       dependencies: ['userId'],
@@ -316,10 +316,10 @@ export const getFormColumns = (
                 validator: (_: any, value: string) => {
                   if (isEmpty(value)) {
                     if (isEmpty(userId)) {
-                      return Promise.reject(`请填写初始密码`);
+                      return Promise.reject(formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'system.initialPassword', defaultMessage: '初始密码' }));
                     }
                   } else if (!verifyPassword(value)) {
-                    return Promise.reject(`格式错误：8-16个数字单词，至少其中两种:字母/数字/符号`);
+                    return Promise.reject(formatMessage({ id: 'user.phoneFormatErrorHint', defaultMessage: '格式错误：8-16个数字单词，至少其中两种:字母/数字/符号' }));
                   }
                   return Promise.resolve();
                 },
@@ -330,11 +330,11 @@ export const getFormColumns = (
       },
       fieldProps: {
         autoComplete: 'new-password',
-        placeholder: '8-16个数字单词，至少其中两种：字母/数字/符号',
+        placeholder: formatMessage({ id: 'user.phoneFormatHint', defaultMessage: '8-16个数字单词，至少其中两种:字母/数字/符号' })
       },
     },
     {
-      title: '确认密码',
+      title: formatMessage({ id: 'user.confirmPassword', defaultMessage: '确认密码' }),
       dataIndex: 'confirmPassword',
       valueType: 'password',
       dependencies: ['userId'],
@@ -349,12 +349,12 @@ export const getFormColumns = (
                 validator: (_: any, value: string) => {
                   if (isEmpty(value)) {
                     if (isEmpty(userId)) {
-                      return Promise.reject(`请填写确认密码`);
+                      return Promise.reject(formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'system.confirmPassword', defaultMessage: '确认密码' }));
                     }
                   } else if (password !== value) {
-                    return Promise.reject(`初始密码和确认密码不一致`);
+                    return Promise.reject(formatMessage({ id: 'user.initialPasswordDifferentConfirmPassword', defaultMessage: '初始密码和确认密码不一致' }));
                   } else if (!verifyPassword(value)) {
-                    return Promise.reject(`格式错误：8-16个数字单词，至少其中两种:字母/数字/符号`);
+                    return Promise.reject(formatMessage({ id: 'user.phoneFormatErrorHint', defaultMessage: '格式错误：8-16个数字单词，至少其中两种:字母/数字/符号' }));
                   }
                   return Promise.resolve();
                 },
@@ -365,11 +365,11 @@ export const getFormColumns = (
       },
       fieldProps: {
         autoComplete: 'new-password',
-        placeholder: '8-16个数字单词，至少其中两种：字母/数字/符号',
+        placeholder: formatMessage({ id: 'user.phoneFormatHint', defaultMessage: '8-16个数字单词，至少其中两种:字母/数字/符号' })
       },
     },
     {
-      title: '关联站点',
+      title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
       dataIndex: 'sites',
       valueType: TABLESELECT,
       hideInForm: types[0] === OrgTypeEnum.System,
@@ -388,7 +388,7 @@ export const getFormColumns = (
       },
     },
     {
-      title: '备注',
+      title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
       dataIndex: 'remark',
       valueType: 'textarea',
       colProps: {

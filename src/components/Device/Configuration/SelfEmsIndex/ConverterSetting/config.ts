@@ -488,7 +488,7 @@ export const powerParamsItems: DetailItem[] = [
     field: 'antiBackflowThreshold',
     format: powerFormat,
   },
-  { label: '变压器最大负荷', field: 'maximumLoadOfTransformer', format: powerFormat },
+  { label: formatMessage({id: 'device.maximumLoadOfTransformer',defaultMessage: '变压器最大负荷'}), field: 'maximumLoadOfTransformer', format: powerFormat },
 ];
 
 export const powerParamsColumns: ProFormColumnsType[] = [

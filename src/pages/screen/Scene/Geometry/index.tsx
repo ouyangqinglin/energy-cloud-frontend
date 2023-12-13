@@ -32,6 +32,7 @@ import BindDevice from './Dialog/BindDevice';
 import { useWatchingGunStatus } from './Subscribe/useWatchingGunStatus';
 import CeilGun from './Gun';
 import type { AlarmTreeData } from '../Alarm/useSubscribe';
+import { formatMessage } from '@/utils';
 
 type BindDeviceType = {
   id?: number | null;
@@ -195,7 +196,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
     const { deviceId, deviceType, loopNum, mark, deviceName } = cell;
 
     if (!deviceId || !deviceType) {
-      message.error('该设备未配置');
+      message.error(formatMessage({ id: 'screen.deviceNotConfigured', defaultMessage: '该设备未配置' }));
       return;
     }
     setOpenDeviceInfo(true);

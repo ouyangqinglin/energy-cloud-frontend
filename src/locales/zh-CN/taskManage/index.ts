@@ -73,4 +73,5 @@ export default {
   'taskManage.reason': '原因',
   'taskManage.view': '查看',
   'taskManage.optional': '(选填)',
+  'taskManage.selectData': '选择数据',
 };

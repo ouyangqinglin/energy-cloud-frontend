@@ -245,3 +245,24 @@ export const effectStatus = {
     status: 'Error',
   },
 };
+
+export const enum SiteTypeEnum {
+  PV = 1,
+  ES = 2,
+  CS = 3,
+  ES_CS = 23,
+  PV_ES = 12,
+  PV_ES_CS = 123,
+}
+
+export type SiteTypeEnumType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
+
+export const siteType = {
+  0: { text: formatMessage({ id: 'common.all', defaultMessage: '全部'}) },
+  [SiteTypeEnum.PV]: { text: formatMessage({ id: 'screen.pvSite', defaultMessage: '光伏站点'}) },
+  [SiteTypeEnum.ES]: { text: formatMessage({ id: 'screen.storageSite', defaultMessage: '储能站点'}) },
+  [SiteTypeEnum.CS]: { text: formatMessage({ id: 'screen.chargingStation', defaultMessage: '充电站点'}) },
+  [SiteTypeEnum.ES_CS]: { text: formatMessage({ id: 'screen.storageChargeStation', defaultMessage: '储充站点'}) },
+  [SiteTypeEnum.PV_ES]: { text: formatMessage({ id: 'screen.opticalStorageSite', defaultMessage: '光储站点'}) },
+  [SiteTypeEnum.PV_ES_CS]: { text: formatMessage({ id: 'screen.opticalStorageChargingStation', defaultMessage: '光储充站点'}) },
+};

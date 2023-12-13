@@ -132,11 +132,11 @@ const Setting: React.FC<SettingProps> = (props) => {
       switch (field) {
         case 'sysStart':
         case 'sysStop':
-          const runStatus = settingData?.emsSysStatus ? '启动' : '停止';
+          const runStatus = settingData?.emsSysStatus ? formatMessage({ id: 'common.activate', defaultMessage: '启动' }) : formatMessage({ id: 'common.stop', defaultMessage: '停止' });
           content = (
             <span>
-              当前系统为<span className="cl-primary">{runStatus}状态</span>，是否执行系统
-              {field === 'sysStart' ? '启动' : '停止'}指令
+              {formatMessage({ id: 'device.theCurrentSystemIs', defaultMessage: '当前系统为' })}<span className="cl-primary">{runStatus}{formatMessage({ id: 'common.status', defaultMessage: '状态' })}</span>，{formatMessage({ id: 'device.whetherToExecuteSystem', defaultMessage: '是否执行系统' })}
+              {field === 'sysStart' ? formatMessage({ id: 'common.activate', defaultMessage: '启动' }) : formatMessage({ id: 'common.stop', defaultMessage: '停止' })}{formatMessage({ id: 'device.order', defaultMessage: '指令' })}
             </span>
           );
           break;
@@ -145,8 +145,8 @@ const Setting: React.FC<SettingProps> = (props) => {
           const contactStatus = closeFormat(settingData?.MainContactorStatus);
           content = (
             <span>
-              当前BMS主接触器为<span className="cl-primary">{contactStatus}状态</span>
-              ，是否执行BMS主接触器为{field === 'bmsClose' ? '闭合' : '断开'}指令
+              {formatMessage({ id: 'device.currentBMSMainContactorIs', defaultMessage: '当前BMS主接触器为' })}<span className="cl-primary">{contactStatus}{formatMessage({ id: 'common.status', defaultMessage: '状态' })}</span>
+              ，{formatMessage({ id: 'device.whetherExecuteBMSTheMainContactorIs', defaultMessage: '是否执行BMS主接触器为' })}{field === 'bmsClose' ? formatMessage({ id: 'device.close', defaultMessage: '闭合' }) : formatMessage({ id: 'device.break', defaultMessage: '断开' })}{formatMessage({ id: 'device.order', defaultMessage: '指令' })}
             </span>
           );
           break;
@@ -154,20 +154,20 @@ const Setting: React.FC<SettingProps> = (props) => {
           const systemStatus = settingData?.sysModel ? '自动' : '手动';
           content = (
             <span>
-              当前系统模式为<span className="cl-primary">{systemStatus}状态</span>
-              是否执行手/自动模式切换指令
+              {formatMessage({ id: 'device.currentSystemModeIs', defaultMessage: '当前系统模式为' })}<span className="cl-primary">{systemStatus}{formatMessage({ id: 'common.status', defaultMessage: '状态' })}</span>
+              {formatMessage({ id: 'device.whetherExecuteManualAutomaticCommand', defaultMessage: '是否执行手/自动模式切换指令' })}
             </span>
           );
           break;
         case 'sysReset':
-          content = <span>是否执行系统复位指令</span>;
+          content = <span>{formatMessage({ id: 'device.whetherExecuteSystemResetCommand', defaultMessage: '是否执行系统复位指令' })}</span>;
           break;
       }
       Modal.confirm({
-        title: '确认',
+        title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
         content: content,
-        okText: '确认',
-        cancelText: '取消',
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
           return run({
             deviceId: id,
@@ -176,7 +176,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           })
             .then((data) => {
               if (data) {
-                message.success('下发成功');
+                message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
               }
             })
             .finally(() => {
@@ -196,15 +196,15 @@ const Setting: React.FC<SettingProps> = (props) => {
   }, [protectFrom]);
   const requestProtect = useCallback((formData) => {
     Modal.confirm({
-      title: '确认',
-      content: '是否执行当前保护参数下发',
-      okText: '确认',
-      cancelText: '取消',
+      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: formatMessage({ id: 'device.whetherExecuteCurrentProtectionParameter', defaultMessage: '是否执行当前保护参数下发'}),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () =>
         run({ deviceId: id, input: { ...formData }, serviceId: 'setChargeReleaseProtect' }).then(
           (data) => {
             if (data) {
-              message.success('下发成功');
+              message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
               setDisableProtectTrue();
             }
           },
@@ -218,10 +218,10 @@ const Setting: React.FC<SettingProps> = (props) => {
   const requestRun = useCallback(
     (formData) => {
       Modal.confirm({
-        title: '确认',
-        content: '是否执行当前运行参数下发',
-        okText: '确认',
-        cancelText: '取消',
+        title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        content: formatMessage({ id: 'device.whetherExecuteCurrentRunningParameter', defaultMessage: '是否执行当前运行参数下发'}),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
           const inputData: any = { handOpePcsPower: formData.handOpePcsPower };
           let fields = [];
@@ -242,7 +242,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             serviceId: 'pcsPowerSetting',
           }).then((data) => {
             if (data) {
-              message.success('下发成功');
+              message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
               setDisableRunTrue();
             }
           });
@@ -257,10 +257,10 @@ const Setting: React.FC<SettingProps> = (props) => {
   }, [timeForm]);
   const onTimeFormFinish = useCallback((formData: any) => {
     Modal.confirm({
-      title: '确认',
-      content: '是否执行当前校时参数下发',
-      okText: '确认',
-      cancelText: '取消',
+      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: formatMessage({ id: 'whetherDeliverParametersDuringCurrentSchool', defaultMessage: '是否执行当前校时参数下发' }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
         const time: Moment = formData.time;
         run({
@@ -277,7 +277,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           serviceId: 'correctionTime',
         }).then((data) => {
           if (data) {
-            message.success('下发成功');
+            message.success(formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }));
             setDisableTimeTrue();
           }
         });

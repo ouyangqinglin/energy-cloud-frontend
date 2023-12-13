@@ -12,7 +12,7 @@ import { useRequest } from 'umi';
 import type { TimeType } from '../../components/TimeButtonGroup';
 import { getData } from './service';
 import { getSiteId } from '../helper';
-import { getPlaceholder } from '@/utils';
+import { formatMessage, getPlaceholder } from '@/utils';
 import pvInvinter from '@/assets/image/screen/energy-data/pvInvinter.gif';
 import transmission from '@/assets/image/screen/energy-data/transmission.gif';
 import energyDischarge from '@/assets/image/screen/energy-data/energy-discharge.gif';
@@ -43,14 +43,14 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   const items = useMemo(
     () => ({
       left: [
-        { label: '市电(kWh)', icon: transmission, field: 'electricSupply' },
-        { label: '光伏发电(kWh)', icon: pvInvinter, field: 'photovoltaic' },
-        { label: '储能放电(kWh)', icon: energyDischarge, field: 'essDischarge' },
+        { label: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })+'(kWh)', icon: transmission, field: 'electricSupply' },
+        { label: formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电'})+'(kWh)', icon: pvInvinter, field: 'photovoltaic' },
+        { label: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电'})+'(kWh)', icon: energyDischarge, field: 'essDischarge' },
       ],
       right: [
-        { label: '充电桩(kWh)', icon: charge, field: 'chargingPile' },
-        { label: '其他负载(kWh)', icon: load, field: 'load' },
-        { label: '储能充电(kWh)', icon: energyCharge, field: 'essCharge' },
+        { label: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })+'(kWh)', icon: charge, field: 'chargingPile' },
+        { label: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })+'(kWh)', icon: load, field: 'load' },
+        { label: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电'})+'(kWh)', icon: energyCharge, field: 'essCharge' },
       ],
     }),
     [],
@@ -61,7 +61,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
       <div className="flex" key={item.field}>
         <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}</span>
+          <span title={item.label}>{item.label}</span>
           <div>
             <span className={styles.field}>
               {getPlaceholder(Number(energyData?.[item.field] || 0).toFixed(2))}
@@ -77,7 +77,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
       <div className="flex" key={item.field}>
         <Image className={styles.icon} src={item.icon} preview={false} />
         <div className={styles.label}>
-          <span>{item.label}</span>
+          <span title={item.label}>{item.label}</span>
           <div>
             <span className={styles.field}>
               {getPlaceholder(Number(energyData?.[item.field] || 0).toFixed(2))}

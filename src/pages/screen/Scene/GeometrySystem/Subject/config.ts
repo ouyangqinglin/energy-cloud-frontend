@@ -17,6 +17,7 @@ import Icon_ES_disable from '@/assets/image/screen/geometrySystem/icon_es_disabl
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { CellStyle } from '../../Geometry/type';
 import { ReactNode } from 'react';
+import { formatMessage } from '@/utils';
 
 export type CellConfig = {
   name: string;
@@ -30,7 +31,7 @@ export type CellConfig = {
 
 export const config: CellConfig[] = [
   {
-    name: '基座',
+    name: formatMessage({ id: 'screen.foundationBed', defaultMessage: '基座' }),
     isSVG: true,
     cellStyle: {
       width: 340,
@@ -41,7 +42,7 @@ export const config: CellConfig[] = [
     icon: Icon_BASE,
   },
   {
-    name: '市电',
+    name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
     cellStyle: {
       width: 218,
       height: 170,
@@ -53,7 +54,7 @@ export const config: CellConfig[] = [
     icon: Icon_GE,
   },
   {
-    name: '储能',
+    name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
     cellStyle: {
       width: 218,
       height: 145,
@@ -67,7 +68,7 @@ export const config: CellConfig[] = [
   },
   // 存在充电桩和负载
   {
-    name: '用电',
+    name: formatMessage({ id: 'screen.electricityConsumption', defaultMessage: '用电' }),
     cellStyle: {
       width: 297,
       height: 229,
@@ -79,7 +80,7 @@ export const config: CellConfig[] = [
     icon: Icon_PC,
   },
   {
-    name: '负载',
+    name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
     hide: true,
     cellStyle: {
       width: 297,
@@ -92,7 +93,7 @@ export const config: CellConfig[] = [
     icon: Icon_LOAD,
   },
   {
-    name: '光伏',
+    name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
     cellStyle: {
       width: 218,
       height: 158,

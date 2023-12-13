@@ -14,6 +14,7 @@ import { useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
 import { getPage } from './service';
+import { formatMessage } from '@/utils';
 
 const Product: React.FC = () => {
   const requestProductType = useCallback((searchParams: SearchParams) => {
@@ -29,7 +30,7 @@ const Product: React.FC = () => {
 
   const [productTypeColumn] = useSearchSelect<ProductDataType>({
     proColumns: {
-      title: '产品类型',
+      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
       dataIndex: 'productType',
       formItemProps: (form) => {
         form?.setFieldValue?.('modelId', '');

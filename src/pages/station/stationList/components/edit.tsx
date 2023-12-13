@@ -21,7 +21,7 @@ import {
 import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
-import { siteType } from '@/utils/dictionary';
+import { siteType } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';

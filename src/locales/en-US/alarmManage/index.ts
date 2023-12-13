@@ -23,4 +23,7 @@ export default {
   'alarmManage.alarmDetails': 'Alarm details',
   'alarmManage.currentAlarm': 'Current alarm',
   'alarmManage.historicalAlarm': 'Historical alarm',
+  'alarmManage.alarmContent': 'Alarm content',
+  'alarmManage.generateTime': 'Generate time',
+  'alarmManage.alarmList': 'Alarm List',
 };

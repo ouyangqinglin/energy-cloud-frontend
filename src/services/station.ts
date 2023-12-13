@@ -8,7 +8,7 @@
  */
 import type { ResponseCommonData } from '@/utils/request';
 import request from '@/utils/request';
-import { SiteTypeEnumType } from '@/utils/dictionary';
+import { SiteTypeEnumType } from '@/utils/dict';
 
 export type SiteDataType = {
   id?: string;

@@ -4,13 +4,14 @@ import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalF
 import Cell from '@/pages/screen/components/LayoutCell';
 import type { FC } from 'react';
 import type { BenefitsRes } from '../type';
+import { formatMessage } from '@/utils';
 
 type Props = Omit<BenefitsRes, 'conserveEnergyReduceEmissions' | 'cumulativeTree'>;
 
 const BenefitsEconomic: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
-      title: '当月收益',
+      title: formatMessage({ id: 'screen.currentMonthIncome', defaultMessage: '当月收益' }),
       comma: true,
       num: props.monthEconomicPerformance,
       numStyle: {
@@ -18,7 +19,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
       },
     },
     {
-      title: '当年收益',
+      title: formatMessage({ id: 'screen.currentYearIncome', defaultMessage: '当年收益' }),
       comma: true,
       num: props.yearEconomicPerformance,
       numStyle: {
@@ -26,7 +27,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
       },
     },
     {
-      title: '累计收益',
+      title: formatMessage({ id: 'screen.accumulatedIncome', defaultMessage: '累计收益' }),
       comma: true,
       num: props.cumulativeEconomicPerformance,
       numStyle: {
@@ -36,7 +37,7 @@ const BenefitsEconomic: FC<Props> = (props) => {
   ];
   return (
     <Cell width={474} height={113} left={474} top={81}>
-      <DecorationCarousel disableDecoration title="经济效益">
+      <DecorationCarousel disableDecoration title={formatMessage({ id: 'screen.economicBenefits', defaultMessage: '经济效益' })}>
         <DigitalFlipperGroup config={config} />
       </DecorationCarousel>
     </Cell>

@@ -6,7 +6,7 @@ import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
 import { setComplete } from './service';
-import { siteType } from '@/utils/dictionary';
+import { siteType } from '@/utils/dict';
 import { buildStatus } from '@/utils/dict'
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { LocationType } from '@/types';

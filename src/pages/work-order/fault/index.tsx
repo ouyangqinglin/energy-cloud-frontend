@@ -77,7 +77,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
       />
       <FormRead<ObstacleReportInfo>
         titleRead={formatMessage({
-          id: 'viewFaultRepairOrder',
+          id: 'taskManage.viewFaultRepairOrder',
           defaultMessage: '查看故障修复工单',
         })}
         columns={columnsRead}
@@ -91,7 +91,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                   setStatusModal(true);
                 }}
               >
-                完成
+                {formatMessage({ id: 'taskManage.finished', defaultMessage: '完成' })}
               </Button>,
               <Button
                 key="ok"
@@ -125,7 +125,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         operations={FormOperations.CREATE}
       />
       <YTModalForm<any, any>
-        title={formatMessage({ id: 'taskManage.completionEeason', defaultMessage: '完成原因' })}
+        title={formatMessage({ id: 'taskManage.completionReason', defaultMessage: '完成原因' })}
         visible={statusModal}
         onVisibleChange={toggleModal}
         layoutType={'ModalForm'}

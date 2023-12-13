@@ -12,6 +12,7 @@ import { getNoticeList, removeNotice, addNotice, updateNotice } from './service'
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import YTProTable from '@/components/YTProTable';
+import { formatMessage } from '@/utils';
 
 /* *
  *
@@ -26,19 +27,19 @@ import YTProTable from '@/components/YTProTable';
  * @param fields
  */
 const handleAdd = async (fields: NoticeType) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading(formatMessage({ id: 'system.Notice.adding', defaultMessage: '正在添加' }));
   try {
     const resp = await addNotice({ ...fields });
     hide();
     if (resp.code === 200) {
-      message.success('添加成功');
+      message.success(formatMessage({ id: 'system.Notice.add_success', defaultMessage: '正在添加' }));
     } else {
       message.error(resp.msg);
     }
     return true;
   } catch (error) {
     hide();
-    message.error('添加失败请重试！');
+    message.error(formatMessage({ id: 'system.Notice.add_fail_again', defaultMessage: '添加失败请重试！' }));
     return false;
   }
 };
@@ -49,19 +50,19 @@ const handleAdd = async (fields: NoticeType) => {
  * @param fields
  */
 const handleUpdate = async (fields: NoticeType) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading(formatMessage({ id: 'system.Notice.configuring', defaultMessage: '正在配置' }));
   try {
     const resp = await updateNotice(fields);
     hide();
     if (resp.code === 200) {
-      message.success('配置成功');
+      message.success(formatMessage({ id: 'system.Notice.config_success', defaultMessage: '配置成功' }));
     } else {
       message.error(resp.msg);
     }
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error(formatMessage({ id: 'system.Notice.config_fail_again', defaultMessage: '配置失败请重试！' }));
     return false;
   }
 };
@@ -72,40 +73,40 @@ const handleUpdate = async (fields: NoticeType) => {
  * @param selectedRows
  */
 const handleRemove = async (selectedRows: NoticeType[]) => {
-  const hide = message.loading('正在删除');
+  const hide = message.loading(formatMessage({ id: 'system.Notice.deleting', defaultMessage: '正在删除' }));
   if (!selectedRows) return true;
   try {
     const resp = await removeNotice(selectedRows.map((row) => row.noticeId).join(','));
     hide();
     if (resp.code === 200) {
-      message.success('删除成功，即将刷新');
+      message.success(formatMessage({ id: 'system.Notice.delete_success', defaultMessage: '删除成功，即将刷新' }));
     } else {
       message.error(resp.msg);
     }
     return true;
   } catch (error) {
     hide();
-    message.error('删除失败，请重试');
+    message.error(formatMessage({ id: 'system.Notice.delete_fail_again', defaultMessage: '删除失败，请重试' }));
     return false;
   }
 };
 
 const handleRemoveOne = async (selectedRow: NoticeType) => {
-  const hide = message.loading('正在删除');
+  const hide = message.loading(formatMessage({ id: 'system.Notice.deleting', defaultMessage: '正在删除' }));
   if (!selectedRow) return true;
   try {
     const params = [selectedRow.noticeId];
     const resp = await removeNotice(params.join(','));
     hide();
     if (resp.code === 200) {
-      message.success('删除成功，即将刷新');
+      message.success(formatMessage({ id: 'system.Notice.delete_success', defaultMessage: '删除成功，即将刷新' }));
     } else {
       message.error(resp.msg);
     }
     return true;
   } catch (error) {
     hide();
-    message.error('删除失败，请重试');
+    message.error(formatMessage({ id: 'system.Notice.delete_fail_again', defaultMessage: '删除失败，请重试' }));
     return false;
   }
 };
@@ -210,10 +211,10 @@ const NoticeTableList: React.FC = () => {
           hidden={!access.hasPerms('system:notice:remove')}
           onClick={async () => {
             Modal.confirm({
-              title: '删除',
-              content: '确定删除该项吗？',
-              okText: '确认',
-              cancelText: '取消',
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({ id: 'system.Notice.delete_item_confirm', defaultMessage: '确定删除该项吗？' }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
               onOk: async () => {
                 const success = await handleRemoveOne(record);
                 if (success) {
@@ -306,10 +307,10 @@ const NoticeTableList: React.FC = () => {
             hidden={!access.hasPerms('system:notice:remove')}
             onClick={async () => {
               Modal.confirm({
-                title: '删除',
-                content: '确定删除该项吗？',
-                okText: '确认',
-                cancelText: '取消',
+                title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+                content: formatMessage({ id: 'system.Notice.delete_item_confirm', defaultMessage: '确定删除该项吗？' }),
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
                 onOk: async () => {
                   const success = await handleRemove(selectedRowsState);
                   if (success) {

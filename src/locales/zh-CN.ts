@@ -30,6 +30,7 @@ import taskManage from './zh-CN/taskManage'; //任务管理
 import device from './zh-CN/device';
 import dataManage from './zh-CN/dataManage';
 import alarmManage from './zh-CN/alarmManage';
+import screen from './zh-CN/screen';
 
 export default {
   'navBar.lang': '语言',
@@ -72,4 +73,5 @@ export default {
   ...device,
   ...dataManage,
   ...alarmManage,
+  ...screen
 };

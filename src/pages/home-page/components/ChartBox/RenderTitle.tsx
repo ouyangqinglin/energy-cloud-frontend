@@ -3,7 +3,7 @@ import { sumBy } from 'lodash';
 import { SubSystemType } from '../..';
 import styles from './index.less';
 import { AllChartType, PVChart } from './type';
-import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dictionary';
+import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 
 const descByTimeType = new Map([

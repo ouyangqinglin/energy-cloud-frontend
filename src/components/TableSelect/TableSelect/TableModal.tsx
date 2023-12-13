@@ -41,7 +41,7 @@ const TableModal = <
   props: TableModalProps<ValueType, DataType, Params>,
 ) => {
   const {
-    title = '选择数据',
+    title = formatMessage({ id: 'taskManage.selectData', defaultMessage: '选择数据'}),
     open,
     onCancel,
     width = '1000px',

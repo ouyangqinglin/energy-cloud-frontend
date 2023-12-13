@@ -4,26 +4,27 @@ import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalF
 import Cell from '@/pages/screen/components/LayoutCell';
 import type { FC } from 'react';
 import type { BenefitsRes } from '../type';
+import { formatMessage } from '@/utils';
 
 type Props = Pick<BenefitsRes, 'conserveEnergyReduceEmissions' | 'cumulativeTree' | 'coal'>;
 
 const BenefitSocial: FC<Props> = (props) => {
   const config: DigitalFlipperItemProps[] = [
     {
-      title: '节约标准煤',
-      unit: '吨',
+      title: formatMessage({ id: 'screen.saveStandardCoal', defaultMessage: '节约标准煤' }),
+      unit: formatMessage({ id: 'screen.ton', defaultMessage: '吨' }),
       comma: true,
       num: props.coal,
     },
     {
-      title: 'CO₂减排量',
-      unit: '吨',
+      title: formatMessage({ id: 'screen.emissionReduction', defaultMessage: 'CO₂减排量' }),
+      unit: formatMessage({ id: 'screen.ton', defaultMessage: '吨' }),
       comma: true,
       num: props.conserveEnergyReduceEmissions,
     },
     {
-      title: '等效植树量',
-      unit: '棵',
+      title: formatMessage({ id: 'screen.equivalentTreePlanting', defaultMessage: '等效植树量' }),
+      unit: formatMessage({ id: 'screen.tree', defaultMessage: '棵' }),
       comma: true,
       num: props.cumulativeTree,
       floatLength: 0,
@@ -32,7 +33,7 @@ const BenefitSocial: FC<Props> = (props) => {
 
   return (
     <Cell width={474} height={113} left={972} top={81}>
-      <DecorationCarousel disableDecoration title="社会贡献">
+      <DecorationCarousel disableDecoration title={formatMessage({ id: 'screen.socialContribution', defaultMessage: '社会贡献' })}>
         <DigitalFlipperGroup config={config} />
       </DecorationCarousel>
     </Cell>

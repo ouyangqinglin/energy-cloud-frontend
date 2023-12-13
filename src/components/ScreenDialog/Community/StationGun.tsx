@@ -17,6 +17,7 @@ import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equip
 import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
 import { OptionType } from '@/types';
+import { formatMessage } from '@/utils';
 
 const StationGun: React.FC<CommunityProps> = (props) => {
   const { id, type, productConfigType, open, onOpenChange, model } = props;
@@ -57,7 +58,7 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         productConfigType,
       }).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           return true;
         }
       });
@@ -88,13 +89,13 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         hideInForm: true,
       },
       {
-        title: '第三方站点',
+        title: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
         dataIndex: 'thirdSiteId',
         valueType: 'select',
         dependencies: ['loadDevice'],
         request: requestStation,
         formItemProps: {
-          rules: [{ required: true, message: '请选择第三方站点ID' }],
+          rules: [{ required: true, message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })+formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' })+' ID' }],
         },
         fieldProps: (form) => {
           return {
@@ -112,10 +113,11 @@ const StationGun: React.FC<CommunityProps> = (props) => {
         },
       },
       {
-        title: '任一充电枪序列码',
+        title: formatMessage({ id: 'device.anyChargingGunSequenceCode', defaultMessage: '任一充电枪序列码' }),
         dataIndex: 'anyGnSn',
         formItemProps: {
-          rules: [{ required: true, message: '请填写任一充电枪序列码' }],
+          rules: [{ required: true, message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' })+formatMessage({ id: 'device.anyChargingGunSequenceCode', defaultMessage: '任一充电枪序列码' })+' ID' }],
+
         },
       },
     ];
@@ -127,7 +129,7 @@ const StationGun: React.FC<CommunityProps> = (props) => {
       <BetaSchemaForm<CommunityType>
         formRef={formRef}
         layoutType="ModalForm"
-        title="设置通信信息"
+        title={formatMessage({ id: 'device.setCommunicationInformation', defaultMessage: '设置通信信息' })}
         width="460px"
         visible={open}
         onVisibleChange={onOpenChange}

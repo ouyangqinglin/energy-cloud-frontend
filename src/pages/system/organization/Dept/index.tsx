@@ -10,6 +10,7 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 import { buildTreeData } from '@/utils/utils';
+import { formatMessage } from '@/utils';
 
 const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -25,14 +26,14 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建',
+        text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
       },
     },
     option: {
       onDeleteChange(_, entity) {
         deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
           if (data) {
-            message.success('删除成功');
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
             actionRef?.current?.reload?.();
           }
         });
@@ -45,7 +46,7 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
       renderInterceptor(entity) {
         return entity.parentId !== 0;
       },
-      modalDeleteText: '您确认要删除该管理员吗？删除之后无法恢复！',
+      modalDeleteText: formatMessage({ id: 'system.deleteAdministratorConfirm', defaultMessage: '您确认要删除该管理员吗？删除之后无法恢复！' }),
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;

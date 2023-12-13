@@ -22,6 +22,7 @@ import ScrollTable from '../components/scrollTable';
 // import { Data } from '@/components/YTIcons/YTSvg';
 import { merge } from 'lodash';
 import Counter from '../components/numCounter';
+import { formatMessage } from '@/utils';
 
 let energyStorageTimer: any = null;
 const CustomLayout = () => {
@@ -73,7 +74,7 @@ const CustomLayout = () => {
       },
       series: [
         {
-          name: '充电量',
+          name: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
           type: 'line', // 折现/面积图
           data: ydata,
           itemStyle: {
@@ -106,7 +107,7 @@ const CustomLayout = () => {
           xAxisIndex: 0,
         },
         {
-          name: '放电量',
+          name: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
           type: 'line',
           data: zdata,
           itemStyle: {
@@ -157,15 +158,15 @@ const CustomLayout = () => {
 
   const statisticalData = [
     {
-      title: '累计发电量/KWH',
+      title: formatMessage({ id: 'siteMonitor.cumulativePowerGeneration', defaultMessage: '累计发电量' })+'/KWH',
       field: 'generate',
     },
     {
-      title: '累计充电量/KWH',
+      title: formatMessage({ id: 'siteMonitor.totalCharge', defaultMessage: '累计充电量' })+'/KWH',
       field: 'charge',
     },
     {
-      title: '累计放电量/KWH',
+      title: formatMessage({ id: 'siteMonitor.totalDischarge', defaultMessage: '累计放电量' })+'/KWH',
       field: 'discharge',
     },
     {
@@ -173,7 +174,7 @@ const CustomLayout = () => {
       field: 'co2',
     },
     {
-      title: '累计收益/元',
+      title: formatMessage({ id: 'siteMonitor.totalEarnings', defaultMessage: '累计收益' })+'/'+formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
       field: 'income',
     },
   ];
@@ -216,7 +217,7 @@ const CustomLayout = () => {
       let list = data?.list || [];
       if (list && list.length > 0) {
         list = list.map((item: any) => {
-          item.y = '充电' + item.y + '千瓦时';
+          item.y = formatMessage({ id: 'device.charge', defaultMessage: '充电' }) + item.y + formatMessage({ id: 'screen.kWh', defaultMessage: '千瓦时'});
           return item;
         });
       }
@@ -229,7 +230,7 @@ const CustomLayout = () => {
       let siteIncomelist = data?.list || [];
       if (siteIncomelist && siteIncomelist.length > 0) {
         siteIncomelist = siteIncomelist.map((item: any) => {
-          item.y = item.y + '元';
+          item.y = item.y + formatMessage({ id: 'common.rmb', defaultMessage: '元' });
           return item;
         });
       }
@@ -245,11 +246,11 @@ const CustomLayout = () => {
   }, []);
   const columns = [
     {
-      title: '日期',
+      title: formatMessage({ id: 'screen.date', defaultMessage: '日期' }),
       dataIndex: 'x',
     },
     {
-      title: '充电量',
+      title: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
       dataIndex: 'y',
     },
   ];
@@ -293,10 +294,10 @@ const CustomLayout = () => {
               className={styles.chartDiv}
               style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
             >
-              <div className={styles.chartLable}>光伏 (近30天发电量/kWh)</div>
+              <div className={styles.chartLable}>{formatMessage({ id: 'device.pv', defaultMessage: '光伏' })} ({formatMessage({ id: 'screen.powerGeneration30Days', defaultMessage: '近30天发电量'})}/kWh)</div>
               <div className={styles.voltaicDiv}>
                 <div className={styles.subLeft}>
-                  <div>近30天总充电量/kWh</div>
+                  <div>{formatMessage({ id: 'screen.powercharge30Days', defaultMessage: '近30天总充电量' })}/kWh</div>
                   <div className={styles.numSize}>{voltaicTotalNum}</div>
                 </div>
               </div>
@@ -310,14 +311,14 @@ const CustomLayout = () => {
               className={styles.chartDiv}
               style={{ height: leftChartHeight + 'px', width: leftChartWidth + 'px' }}
             >
-              <div className={styles.chartLable}>储能 (近30天充、放电量/kWh)</div>
+              <div className={styles.chartLable}>{formatMessage({ id: 'device.storage', defaultMessage: '储能' })} ({formatMessage({ id: 'screen.dischargingCharge30Days', defaultMessage: '近30天充、放电量'})}/kWh)</div>
               <div className={styles.energyDiv}>
                 <div className={styles.subLeft}>
-                  <div>近30天总充电量/kWh</div>
+                  <div>{formatMessage({ id: 'screen.powercharge30Days', defaultMessage: '近30天总充电量' })}/kWh</div>
                   <div className={styles.numSize}>{chargeTotalNum}</div>
                 </div>
                 <div className={styles.subLeft}>
-                  <div>近30天总放电量/kWh</div>
+                  <div>{formatMessage({ id: 'screen.discharging30Days', defaultMessage: '近30天总放电量' })}/kWh</div>
                   <div className={styles.numSize}>{disChargeTotalNum}</div>
                 </div>
               </div>

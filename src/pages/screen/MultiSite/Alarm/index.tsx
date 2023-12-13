@@ -15,6 +15,7 @@ import { items } from './config';
 import styles from './index.less';
 import { getData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../config';
+import { formatMessage } from '@/utils';
 
 const Alarm: React.FC = () => {
   const { data: alarmData } = useRequest(getData, { pollingInterval: REQUEST_INTERVAL_5_MINUTE });
@@ -22,7 +23,7 @@ const Alarm: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={400} height={143} right={24} top={90}>
-        <DecorationCarousel panelStyle={{ padding: 0 }} title="告警">
+        <DecorationCarousel panelStyle={{ padding: 0 }} title={formatMessage({ id: 'common.warning', defaultMessage: '告警'})}>
           <DigitStat className={styles.digit} items={items} span={12} data={alarmData} />
         </DecorationCarousel>
       </Cell>

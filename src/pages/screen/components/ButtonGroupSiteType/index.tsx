@@ -4,6 +4,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import styles from './index.less';
 import { useInterval } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 export const enum SiteType {
   // 光伏
@@ -43,9 +44,9 @@ const ButtonGroupSiteType: FC<SiteTypeButtonGroupProps> = ({ onChange }) => {
       value={size}
       onChange={handleClick}
     >
-      <Radio.Button value={SiteType.PV}>光伏</Radio.Button>
-      <Radio.Button value={SiteType.ES}>储能</Radio.Button>
-      <Radio.Button value={SiteType.CS}>充电桩</Radio.Button>
+      <Radio.Button value={SiteType.PV}>{formatMessage({ id: 'device.pv', defaultMessage: '光伏' })}</Radio.Button>
+      <Radio.Button value={SiteType.ES}>{formatMessage({ id: 'device.storage', defaultMessage: '储能' })}</Radio.Button>
+      <Radio.Button value={SiteType.CS}>{formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}</Radio.Button>
     </Radio.Group>
   );
 };

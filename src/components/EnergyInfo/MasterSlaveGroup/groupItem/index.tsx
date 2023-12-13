@@ -6,6 +6,7 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { EmsDevicesType } from '@/services/equipment';
 import { set } from 'lodash';
 import { Data } from '@/components/YTIcons/YTSvg';
+import { formatMessage } from '@/utils';
 
 export enum EnergySourceEnum {
   SiteMonitor,
@@ -37,23 +38,23 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
 
   const totalData = [
     {
-      title: '总电压(V)',
+      title: formatMessage({ id: 'device.totalVoltage', defaultMessage: '总电压' }) + '(V)',
       field: 'TotalBatteryVoltage',
     },
     {
-      title: '总电流(A)',
+      title: formatMessage({ id: 'device.totalCurrent', defaultMessage: '总电流' })+ '(A)',
       field: 'TotalBatteryCurrent',
     },
     {
-      title: '总功率(kW)',
+      title: formatMessage({ id: 'device.totalPower', defaultMessage: '总功率' })+'(kW)',
       field: 'P',
     },
     {
-      title: '可充电量(kWh)',
+      title: formatMessage({ id: 'siteMonitor.rechargeableCapacity', defaultMessage: '可充电量' })+'(kWh)',
       field: 'RechargeableCapacity',
     },
     {
-      title: '可放电量(kWh)',
+      title: formatMessage({ id: 'siteMonitor.dischargeCapacity', defaultMessage: '可放电量' })+'(kWh)',
       field: 'DischargeableCapacity',
     },
   ];

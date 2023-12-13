@@ -13,12 +13,13 @@ import IconTotal from '@/assets/image/multi-site/income/total.png';
 import IconCoal from '@/assets/image/multi-site/income/coal.png';
 import IconCo2 from '@/assets/image/multi-site/income/co2.png';
 import IconTree from '@/assets/image/multi-site/income/tree.png';
+import { formatMessage } from '@/utils';
 
 export const items: DigitStatItemType[] = [
   {
     icon: IconMonth,
-    title: '当月收益',
-    unit: '元',
+    title: formatMessage({ id: 'screen.currentMonthIncome', defaultMessage: '当月收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     field: 'monthEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
@@ -32,8 +33,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconYear,
-    title: '当年收益',
-    unit: '元',
+    title: formatMessage({ id: 'screen.currentYearIncome', defaultMessage: '当年收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     field: 'yearEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
@@ -47,8 +48,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconTotal,
-    title: '累计收益',
-    unit: '元',
+    title: formatMessage({ id: 'screen.accumulatedIncome', defaultMessage: '累计收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     field: 'cumulativeEconomicPerformance',
     valueStyle: {
       background: 'linear-gradient(180deg, #FFFFFF 0%, #FFDD9B 82%, #FFC34F 100%)',
@@ -62,8 +63,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconCoal,
-    title: '节约标准煤',
-    unit: '吨',
+    title: formatMessage({ id: 'screen.saveStandardCoal', defaultMessage: '节约标准煤' }),
+    unit: formatMessage({ id: 'screen.ton', defaultMessage: '吨' }),
     field: 'coal',
     valueStyle: {
       background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
@@ -77,8 +78,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconCo2,
-    title: 'CO₂减排量',
-    unit: '吨',
+    title: formatMessage({ id: 'screen.emissionReduction', defaultMessage: 'CO₂减排量' }),
+    unit: formatMessage({ id: 'screen.ton', defaultMessage: '吨' }),
     field: 'conserveEnergyReduceEmissions',
     valueStyle: {
       background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
@@ -92,8 +93,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconTree,
-    title: '等效植树量',
-    unit: '棵',
+    title: formatMessage({ id: 'screen.equivalentTreePlanting', defaultMessage: '等效植树量' }),
+    unit: formatMessage({ id: 'screen.tree', defaultMessage: '棵' }),
     field: 'cumulativeTree',
     valueStyle: {
       background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
