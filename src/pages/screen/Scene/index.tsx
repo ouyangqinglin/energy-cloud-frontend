@@ -15,14 +15,16 @@ import SubsystemStatistic from './SubsystemStatistic';
 import RunningLog from './RunningLog';
 import AlarmInfo from './Alarm';
 import Geometry from './Geometry';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useWatchingAlarm } from './Alarm/useSubscribe';
 import ButtonGroupCarousel, { SystemDiagramType } from '../components/ButtonGroupCarousel';
 import GeometrySystem from './GeometrySystem';
 import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselInSystemData';
 import AccumulatedPowerChart from './AccumulatedPowerChart';
+import { SiteInfoRes } from './StationOverview/type';
 
 const Scene = () => {
+  const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
@@ -77,13 +79,17 @@ const Scene = () => {
     setGeometryMode(value);
   };
 
+  const onSiteChange = useCallback((res: SiteInfoRes) => {
+    setSiteInfo(res);
+  }, []);
+
   return (
     <>
       {[EnergyDataWidget, RevenueTimeTypeWidget]}
-      <Title />
+      <Title title={siteInfo?.name} />
       <ScreenTime />
       <ScreenWeather />
-      <StationOverview />
+      <StationOverview onChange={onSiteChange} />
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />

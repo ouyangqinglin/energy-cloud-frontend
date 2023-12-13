@@ -31,9 +31,7 @@ const BindDevice = <V = any,>(props: {
     },
   ];
   const dealTreeData = useCallback<dealTreeDataType>((item) => {
-    if (item.productId) {
-      item.selectable = true;
-    }
+    item.selectable = !!item.productId;
   }, []);
 
   return (

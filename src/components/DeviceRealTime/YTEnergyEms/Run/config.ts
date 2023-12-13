@@ -2,22 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-12-05 23:52:17
+ * @LastEditTime: 2023-12-13 09:16:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import {
   closeFormat,
-  currentFormat,
-  modelFormat,
-  powerFormat,
-  runFormat,
-  singleBFormat,
-  singleFormat,
-  tempFormat,
-  voltageFormat,
   systemOperatingModeFormat,
   converterFormat,
   converterStauesFormat,
@@ -28,53 +21,6 @@ import {
   openFormat,
 } from '@/utils/format';
 
-export const controlItems: DetailItem[] = [
-  { label: '系统模式', field: 'sysModel', format: modelFormat },
-  { label: 'EMS运行状态', field: 'emsSysStatus', format: runFormat },
-  { label: '主接触器状态', field: 'bmsOpenAndClose', format: closeFormat },
-  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
-  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
-];
-
-export const strategyItems: DetailItem[] = [
-  { label: '防逆流阈值', field: 'antiRefluxThreshold', format: powerFormat },
-  { label: '变压器最大负荷', field: 'maxLoadOfTransformer', format: powerFormat },
-];
-
-export const protectItems: DetailItem[] = [
-  { label: '单体最高允许充电电压', field: 'maxAllowableChargingVoltage', format: voltageFormat },
-  {
-    label: '单体过压故障消除回差值',
-    field: 'overVoltageErrorClearDifference',
-    format: voltageFormat,
-  },
-  { label: '单体最低允许充电电压', field: 'minAllowableChargingVoltage', format: voltageFormat },
-  {
-    label: '单体欠压故障消除回差值',
-    field: 'lowVoltageErrorClearDifference',
-    format: voltageFormat,
-  },
-  { label: '单体最高允许温度', field: 'maxAllowableTemperature', format: tempFormat },
-  { label: '单体过温故障消除回差值', field: 'overTempErrorClearDifference', format: tempFormat },
-  { label: '单体最低允许温度', field: 'minAllowableTemp', format: tempFormat },
-  { label: '单体欠温故障消除回差值', field: 'lowTempErrorClearDifference', format: tempFormat },
-  { label: '电池组最高允许电压', field: 'maxAllowableVoltageOfBatteryPack', format: voltageFormat },
-  {
-    label: '电池组过压故障回差值',
-    field: 'overVoltageErrorDifferenceOfBatteryPack',
-    format: voltageFormat,
-  },
-  {
-    label: '电池组最高允许充电电流',
-    field: 'maxAllowableChargingCurrentOfBatteryPack',
-    format: currentFormat,
-  },
-  {
-    label: '电池组最高允许放电电流',
-    field: 'maxAllowableDischargeCurrentOfBatteryPack',
-    format: currentFormat,
-  },
-];
 export const emsOperationItems: DetailItem[] = [
   { label: '系统工作模式', field: 'systemOperatingMode', format: systemOperatingModeFormat },
   { label: '系统工作状态', field: 'systemWorkingStatus', format: systemRunFormat },
@@ -90,7 +36,7 @@ export const emsOperationItems: DetailItem[] = [
   { label: '预充触器状态', field: 'prechargeContactStatus', format: closeFormat },
   { label: '直流断路器状态', field: 'DCCircuitBreakerStatus', format: closeFormat },
   { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: openFormat },
-  { label: '气溶胶信号', field: 'AerosolSignal', format: singleEffectFormat },
-  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
-  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
+  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleEffectFormat },
+  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleEffectFormat },
+  { label: '消防喷射信号', field: 'a' },
 ];

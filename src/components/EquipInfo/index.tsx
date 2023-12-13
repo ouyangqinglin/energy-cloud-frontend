@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-06-27 13:40:19
+ * @LastEditTime: 2023-12-13 16:45:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -107,7 +107,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
             ) : (
               <div
                 className="dialog-product-logo"
-                style={{ backgroundImage: `url(${equipData?.url || equipmentImg})` }}
+                style={{ backgroundImage: `url(${equipData?.photos || equipmentImg})` }}
               />
             )}
           </div>

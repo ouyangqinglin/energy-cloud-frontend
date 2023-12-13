@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-06 10:03:29
+ * @LastEditTime: 2023-12-07 16:32:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
@@ -35,6 +35,8 @@ import { DeviceTypeEnum, deviceAlarmStatus, onlineStatus } from '@/utils/diction
 import { clusterFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
+import { MessageEventType } from '@/utils/connection';
+import { useSubscribe } from '@/hooks';
 
 export type StackProps = {
   id: string;
@@ -58,6 +60,12 @@ const Stack: React.FC<StackProps> = (props) => {
   } = useRequest(getClusterByStack, {
     manual: true,
   });
+
+  const clusterDeviceIds = useMemo(() => {
+    return clusterData?.map?.((item) => item?.deviceId || '');
+  }, [clusterData]);
+
+  const clusterNetWorkData = useSubscribe(clusterDeviceIds, true, MessageEventType.NETWORKSTSTUS);
 
   const onClick = useCallback((item: DetailItem) => {
     setCollectionInfo({
@@ -115,8 +123,14 @@ const Stack: React.FC<StackProps> = (props) => {
         width: 150,
         ellipsis: true,
         hideInSearch: true,
-        render: (_, { connectStatus }) => {
-          return <ProField text={connectStatus} mode="read" valueEnum={onlineStatus} />;
+        render: (_, { deviceId, connectStatus }) => {
+          return (
+            <ProField
+              text={clusterNetWorkData?.[deviceId ?? '']?.status ?? connectStatus}
+              mode="read"
+              valueEnum={onlineStatus}
+            />
+          );
         },
       },
       {
@@ -144,7 +158,7 @@ const Stack: React.FC<StackProps> = (props) => {
         hideInSearch: true,
       },
     ];
-  }, []);
+  }, [clusterNetWorkData]);
 
   const extral = (
     <Button

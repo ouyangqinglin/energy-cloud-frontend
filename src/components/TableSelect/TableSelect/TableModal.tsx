@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-08-21 11:43:08
+ * @LastEditTime: 2023-12-08 10:07:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -15,6 +15,7 @@ import { defaultsDeep, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import { ProTableProps } from '@ant-design/pro-components';
+import { formatMessage } from '@/utils';
 
 export type TableModalProps<V, T, U> = {
   title?: string;
@@ -147,7 +148,10 @@ const TableModal = <
         selectedRowKeys: selectedTags?.map?.((item) => item[valueId]),
         onChange: onSelectedChange,
       },
-      search: { labelWidth: 'auto' },
+      search: {
+        labelWidth: 'auto',
+        searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+      },
       rowKey: tableId,
       pagination: {
         pageSize: 10,
@@ -170,8 +174,23 @@ const TableModal = <
 
   return (
     <>
-      <Modal title={title} open={open} width={width} onCancel={onCancel} onOk={onOk} destroyOnClose>
-        <ProTable className={styles.proTable} {...tableProps} request={requestTable} />
+      <Modal
+        title={title}
+        open={open}
+        width={width}
+        onCancel={onCancel}
+        onOk={onOk}
+        destroyOnClose
+        centered
+      >
+        <ProTable
+          className={styles.proTable}
+          {...tableProps}
+          request={requestTable}
+          scroll={{
+            y: 382,
+          }}
+        />
       </Modal>
     </>
   );

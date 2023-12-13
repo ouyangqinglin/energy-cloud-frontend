@@ -10,13 +10,7 @@
 import { ProField } from '@ant-design/pro-components';
 import type { DetailItem } from '@/components/Detail';
 import { deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
-import {
-  clusterFormat,
-  percentageFormat,
-  openFormat,
-  pankFanFormat,
-  pankFanAlarmFormat,
-} from '@/utils/format';
+import { clusterFormat, percentageFormat, openFormat, pankFanAlarmFormat } from '@/utils/format';
 
 export const runItems: DetailItem[] = [
   {

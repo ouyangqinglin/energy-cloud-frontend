@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 10:27:59
- * @LastEditTime: 2023-09-01 11:30:48
+ * @LastEditTime: 2023-12-08 10:03:30
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Configuration\Device\ConfigForm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\DeviceConfig\ConfigForm\index.tsx
  */
 import {
   SelectTypeEnum,
@@ -38,7 +38,7 @@ export type ConfigFormProps = {
 };
 
 const dealTreeData: dealTreeDataType<TreeDataType> = (item) => {
-  item.checkable = !!item.productId;
+  item.selectable = !!item.productId;
 };
 
 const ConfigForm: React.FC<ConfigFormProps> = (props) => {

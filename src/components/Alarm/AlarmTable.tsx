@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-05 17:46:13
+ * @LastEditTime: 2023-12-07 16:16:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -13,7 +13,7 @@ import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType, TableSearchType } from './data';
-import { alarmClearStatus, alarmSource, cleanUpType } from '@/utils/dictionary';
+import { alarmClearStatus, alarmSource, alarmStatus, cleanUpType } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
@@ -72,11 +72,11 @@ export const alarmLevelMap = new Map([
 
 const alarmStatusOptions: OptionType[] = [
   {
-    label: '产生',
+    label: '告警中',
     value: 0,
   },
   {
-    label: '消除',
+    label: '已消除',
     value: 1,
   },
 ];
@@ -238,12 +238,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     { label: '告警等级', field: 'level', format: (value) => getLevelByType(value) },
     { label: '告警ID', field: 'id' },
     { label: '发生时间', field: 'alarmTime' },
-    { label: '清除时间', field: 'recoveryTime', show: type === PageTypeEnum.History },
+    { label: '清除时间', field: 'recoveryTime', show: (_, data) => data?.status == 1 },
     {
       label: '清除类型',
       field: 'recoverType',
       format: (value) => cleanUpType[value],
-      show: type === PageTypeEnum.History,
+      show: (_, data) => data?.status == 1,
     },
   ];
 
@@ -322,7 +322,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         title: '状态',
         dataIndex: 'status',
         valueType: 'select',
-        valueEnum: alarmClearStatus,
+        valueEnum: alarmStatus,
         width: 120,
         ellipsis: true,
         hideInSearch: true,

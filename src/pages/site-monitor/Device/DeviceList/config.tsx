@@ -1,5 +1,6 @@
 import {
   alarmStatus,
+  alarmStatus1,
   chargingAndDischargingStatus,
   onlineStatus,
   systemMode,
@@ -52,7 +53,7 @@ export const getOtColumns = (onClick) => {
       dataIndex: 'alarmStatus',
       valueType: 'select',
       hideInSearch: true,
-      valueEnum: alarmStatus,
+      valueEnum: alarmStatus1,
       width: 120,
     },
   ];

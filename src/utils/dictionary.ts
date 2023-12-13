@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-12-06 11:35:38
+ * @LastEditTime: 2023-12-07 14:27:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -30,6 +30,31 @@ export enum EnergyEquipmentEnum {
   PCS = 3,
   AIR = 7,
   METER = 6,
+}
+
+export enum DeviceProductTypeEnum {
+  ChargeStack = 510,
+  FastChargeTerminal = 511,
+  DCChargePile = 512,
+  ACChargePile = 513,
+  Energy = 514,
+  PV = 515,
+  ExchangeCabinet = 519,
+  Battery = 520,
+  OverchargeTerminal = 522,
+  ChargeGun = 523,
+  Ems = 524,
+  BatteryStack = 526,
+  BatteryPack = 528,
+  Pcs = 536,
+  BatteryCluster = 537,
+  Air = 538,
+  ElectricMeter = 539,
+  LocalEms = 541,
+  EnergyElectricMeter = 542,
+  PvEnergy = 543,
+  Dehumidifier = 544,
+  FireFight = 545,
 }
 
 export enum DeviceTypeEnum {
@@ -86,6 +111,7 @@ export enum DeviceTypeEnum {
   PvEnergyPcs = 74,
   PvEnergyMeter = 75,
   PvEnergyBms = 70,
+  FirFight = 85,
   Device = 'default',
 }
 
@@ -227,6 +253,17 @@ export const enableStatus = {
 };
 
 export const alarmStatus = {
+  0: {
+    text: '告警中',
+    status: 'Error',
+  },
+  1: {
+    text: '已消除',
+    status: 'Default',
+  },
+};
+
+export const alarmStatus1 = {
   0: {
     text: '已消除',
     status: 'Default',

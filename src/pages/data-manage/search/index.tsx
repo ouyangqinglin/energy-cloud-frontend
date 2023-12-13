@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react'
 import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { searchColumns, timeColumns, getDeviceSearchColumns } from './config';
+import { timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
@@ -33,70 +33,45 @@ const dealParams = (
 ) => {
   const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
   const deviceData: TableSearchType['keyValue'] = [];
-  if (isDeviceChild) {
-    const deviceChildren: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-    params?.collection?.forEach((item) => {
+  const deviceDataMap = new Map<string, DeviceMapDataType>();
+  params?.collection?.forEach?.((item) => {
+    const collection = deviceDataMap.get(item?.node?.deviceId || '');
+    if (collection) {
+      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
+      deviceDataMap.set(item?.node?.deviceId || '', collection);
+    } else {
+      deviceDataMap.set(item?.node?.deviceId || '', {
+        deviceName: item?.node?.deviceName || '',
+        sn: item?.node?.deviceSN || '',
+        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
+      });
+    }
+  });
+  deviceDataMap.forEach((value, key) => {
+    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+    value.collection.forEach((item) => {
       deviceData.push({
         key: item.id,
         name: item.name,
-        deviceId: paramsDeviceData?.deviceId,
-        deviceName: paramsDeviceData?.name,
+        deviceId: key,
+        deviceName: value.deviceName,
+        sn: value.sn,
       });
-      deviceChildren.push({
+      arr.push({
         title: item.name,
-        dataIndex: item.id + '-' + paramsDeviceData?.deviceId,
+        dataIndex: item.id + '-' + key,
         width: 120,
         ellipsis: true,
       });
     });
     cols.push({
-      title: `${paramsDeviceData?.name}(${paramsDeviceData?.sn})`,
+      title: `${value.deviceName}(${value.sn})`,
       hideInSearch: true,
-      children: deviceChildren,
+      children: arr,
     });
-    params.keyValue = deviceData;
-    return cols;
-  } else {
-    const deviceDataMap = new Map<string, DeviceMapDataType>();
-    params?.collection?.forEach?.((item) => {
-      const collection = deviceDataMap.get(item?.node?.deviceId || '');
-      if (collection) {
-        collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
-        deviceDataMap.set(item?.node?.deviceId || '', collection);
-      } else {
-        deviceDataMap.set(item?.node?.deviceId || '', {
-          deviceName: item?.node?.deviceName || '',
-          sn: item?.node?.deviceSN || '',
-          collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
-        });
-      }
-    });
-    deviceDataMap.forEach((value, key) => {
-      const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-      value.collection.forEach((item) => {
-        deviceData.push({
-          key: item.id,
-          name: item.name,
-          deviceId: key,
-          deviceName: value.deviceName,
-          sn: value.sn,
-        });
-        arr.push({
-          title: item.name,
-          dataIndex: item.id + '-' + key,
-          width: 120,
-          ellipsis: true,
-        });
-      });
-      cols.push({
-        title: `${value.deviceName}(${value.sn})`,
-        hideInSearch: true,
-        children: arr,
-      });
-    });
-    params.keyValue = deviceData;
-    return cols;
-  }
+  });
+  params.keyValue = deviceData;
+  return cols;
 };
 
 const Search: React.FC<SearchProps> = (props) => {
@@ -119,7 +94,7 @@ const Search: React.FC<SearchProps> = (props) => {
     const siteSearch = isDeviceChild ? [] : [siteSearchColumn];
     return [
       ...siteSearch,
-      ...(isDeviceChild ? getDeviceSearchColumns(deviceData?.deviceId || '') : searchColumns),
+      ...getDeviceSearchColumns(isDeviceChild ? deviceData?.deviceId : ''),
       ...timeColumns,
       ...collectionColumns,
     ];
@@ -216,6 +191,13 @@ const Search: React.FC<SearchProps> = (props) => {
             ignoreRules: false,
           }}
           bordered
+          scroll={
+            isDeviceChild
+              ? {
+                  y: 530,
+                }
+              : {}
+          }
         />
       </ProConfigProvider>
     </>

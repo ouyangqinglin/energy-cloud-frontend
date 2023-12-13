@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-05 20:34:51
+ * @LastEditTime: 2023-12-11 14:34:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, message, Tooltip } from 'antd';
 import { useHistory, useModel } from 'umi';
-import { PlusOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
@@ -288,7 +288,32 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={toolBar}
         request={handleRequest}
         rowKey="deviceId"
-        childrenColumnName="childDeviceList"
+        expandable={{
+          childrenColumnName: 'childDeviceList',
+          expandIcon: ({ expanded, expandable, record, onExpand }) => {
+            return (
+              <>
+                {expandable ? (
+                  <>
+                    {expanded ? (
+                      <DownOutlined
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    ) : (
+                      <RightOutlined
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span className="mr8 table-expand-icon"></span>
+                )}
+              </>
+            );
+          },
+        }}
       />
       {isStationChild ? (
         <>

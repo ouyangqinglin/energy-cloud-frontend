@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2023-09-21 14:59:08
+ * @LastEditTime: 2023-12-07 11:14:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -160,7 +160,6 @@ export const getFormColumns = (
   partnerRoleOptions: OptionType[],
   operatorRoleOptions: OptionType[],
   yzRoleOptions: OptionType[],
-  type: any, //点击的用户类型
 ) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {

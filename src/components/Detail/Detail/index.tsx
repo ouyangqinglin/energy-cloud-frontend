@@ -19,7 +19,7 @@ export type DetailItem = {
   labelStyle?: React.CSSProperties;
   contentStyle?: React.CSSProperties;
   valueStyle?: React.CSSProperties;
-  show?: boolean;
+  show?: boolean | ((value: any, data?: any) => boolean);
   showExtra?: boolean;
   unit?: string;
 };
@@ -52,7 +52,13 @@ const Detail: React.FC<DetailProps> = (props) => {
   const descriptionItems = useMemo(() => {
     const content: React.ReactNode[] = [];
     items.forEach((item) => {
-      if (item.show !== false) {
+      let show;
+      if (typeof item.show == 'function') {
+        show = item?.show?.(data[item.field], data);
+      } else {
+        show = item.show;
+      }
+      if (show !== false) {
         let extralNode = <></>;
         if (extral) {
           extralNode = cloneElement(extral, {

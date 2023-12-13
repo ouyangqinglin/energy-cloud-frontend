@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-05 09:43:40
- * @LastEditTime: 2023-09-12 15:49:48
+ * @LastEditTime: 2023-12-13 11:16:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\ProvinceMap\index.tsx
  */
-import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { request, useRequest } from 'umi';
 import { getProvinceData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
@@ -20,8 +20,11 @@ import { adCodeGeoJsonMap } from './config';
 import IconBack from '@/assets/image/multi-site/icon_返回@2x.png';
 import styles from './index.less';
 import { Spin } from 'antd';
+import { SiteDataType } from '@/services/station';
+import { MapTypeEnum, asyncMap } from '../config';
 
 export type ProvinceMapProps = {
+  chinaData: any;
   adCode: number;
   style?: React.CSSProperties;
   onBack?: () => void;
@@ -52,25 +55,25 @@ const getProvinceGeoByAdCode = (adCode: number, data: GeoDataType) => {
 };
 
 const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
-  const { adCode, style, onBack } = props;
+  const { adCode, chinaData, style, onBack } = props;
 
   const chartRef = useRef(null);
-  const [chartInstance, setChartInstance] = useState<ECharts>();
-  const [isRegisterMap, { setTrue, setFalse }] = useBoolean(false);
+  const instanceRef = useRef<any>(null);
   const [mapLoading, { setTrue: setMapLoadingTrue, setFalse: setMapLoadingFalse }] =
     useBoolean(false);
-  const { data: provinceData, run } = useRequest(() => getProvinceData({ type: 1, code: adCode }), {
+  const { run } = useRequest(() => getProvinceData({ type: 1, code: adCode }), {
     pollingInterval: REQUEST_INTERVAL_5_MINUTE,
   });
 
-  const options = useMemo(() => {
-    if (isRegisterMap && adCode != 100000) {
+  const changeMap = useCallback(
+    (provinceData: SiteDataType[]) => {
       const option = merge({}, defaultMapOption);
       option.tooltip.formatter = '{b}';
       option.geo.map = '' + adCode;
       option.geo.zoom = 1;
       option.geo.top = 63;
       option.series[0].type = 'effectScatter';
+      option.series[0].label.show = false;
       option.series[0].symbolSize = [5, 5];
       option.series[0].itemStyle = {
         normal: {
@@ -84,61 +87,49 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
       });
       option.series[1].map = 'Outline' + adCode;
       option.series[2].map = 'Outline1' + adCode;
-      return option;
-    } else {
-      return;
-    }
-  }, [isRegisterMap, provinceData, adCode]);
+      instanceRef.current?.setOption?.(option);
+      setMapLoadingFalse();
+    },
+    [adCode],
+  );
 
   useEffect(() => {
     if (adCode != 100000) {
-      const chart = echarts.init(chartRef?.current);
-      setChartInstance(chart);
-      run();
+      if (!instanceRef.current) {
+        const chart = echarts.init(chartRef?.current);
+        instanceRef.current = chart;
+        chart.on('georoam', (params) => {
+          asyncMap(chart, params, MapTypeEnum.Province);
+        });
+      }
     }
   }, [adCode]);
 
   useEffect(() => {
-    if (options) {
-      chartInstance?.setOption?.(options);
-      //   chartInstance?.on("georoam", function(params:any) {
-      //     let option:any = chartInstance?.getOption(); //获得option对象
-      //     if (params.zoom != null && params.zoom != undefined) {
-      //         //捕捉到缩放时
-      //         option.geo.zoom = option.series[1].zoom; //下层geo的缩放等级跟着上层的geo一起改变
-      //         option.geo.center = option.series[1].center; //下层的geo的中心位置随着上层geo一起改变
-      //         option.geo.animationDurationUpdate=0;//防止地图缩放卡顿
-      //         option.series[1].animationDurationUpdate = 0;//防止地图缩放卡顿
-      //     } else {
-      //         //捕捉到拖曳时
-      //         options.geo.center = option.series[1].center; //下层的geo的中心位置随着上层geo一起改变
-      //     }
-      //     chartInstance?.setOption(option); //设置option
-      //  });
-    }
-  }, [options, chartInstance]);
-
-  useEffect(() => {
-    const link = adCodeGeoJsonMap.get(adCode);
-    if (link) {
+    if (adCode != 100000) {
+      const link = adCodeGeoJsonMap.get(adCode);
       setMapLoadingTrue();
-      request(link).then((provinceRes) => {
-        echarts.registerMap('' + adCode, provinceRes);
-        request('/chinaMap/china.json').then((res) => {
-          const provinceGeoData = getProvinceGeoByAdCode(adCode, res);
+      if (link) {
+        request(link).then((provinceRes) => {
+          echarts.registerMap('' + adCode, provinceRes);
+          const provinceGeoData = getProvinceGeoByAdCode(adCode, chinaData);
           echarts.registerMap('Outline' + adCode, provinceGeoData);
           echarts.registerMap('Outline1' + adCode, provinceGeoData);
-          setTrue();
-          setMapLoadingFalse();
-          chartInstance?.dispatchAction({
+          instanceRef.current?.dispatchAction({
             type: 'restore',
           }); //每次渲染前都要还原地图，防止沿用前一次缩放拖拽
+
+          run()
+            .then((provinceData) => {
+              changeMap(provinceData);
+            })
+            .catch(() => {
+              changeMap([]);
+            });
         });
-      });
-    } else {
-      setFalse();
+      }
     }
-  }, [adCode, chartInstance]);
+  }, [adCode]);
 
   return (
     <>

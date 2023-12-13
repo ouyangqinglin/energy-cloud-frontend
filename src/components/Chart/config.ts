@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2023-12-03 16:12:54
+ * @LastEditTime: 2023-12-13 10:53:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -225,7 +225,7 @@ export const defaultMapOption: any = {
     roam: true, //可以通过鼠标拖动进行缩放
     zoom: 1.5,
     top: 210,
-    z: 10,
+    z: 100,
     label: {
       show: true,
       color: 'rgba(118,138,162)',
@@ -253,7 +253,7 @@ export const defaultMapOption: any = {
       coordinateSystem: 'geo',
       //symbol: 'image://http://localhost:8000/dot.png',
       symbolSize: [30, 30],
-      z: 20,
+      z: 110,
       label: {
         show: true,
         padding: [2, 12],
@@ -318,6 +318,7 @@ export const defaultMapOption: any = {
         },
       },
       roam: false,
+      animationDurationUpdate: 0,
       itemStyle: {
         normal: {
           areaColor: 'transparent',
@@ -332,7 +333,6 @@ export const defaultMapOption: any = {
           },
         },
       },
-      animationDurationUpdate: 0,
     },
     {
       map: 'chinaMapOutline1',
@@ -353,6 +353,7 @@ export const defaultMapOption: any = {
         },
       },
       roam: false,
+      animationDurationUpdate: 0,
       itemStyle: {
         normal: {
           areaColor: '#0d1c29',

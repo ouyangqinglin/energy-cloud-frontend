@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-11-30 09:49:28
+ * @LastEditTime: 2023-12-13 16:42:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -172,7 +172,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       form.resetFields();
       if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
         runGet(id).then((data) => {
-          form.setFieldsValue({ ...data, photosList: data?.url ? [{ url: data.url }] : [] });
+          form.setFieldsValue({ ...data, photosList: data?.photos ? [{ url: data.photos }] : [] });
           requestProductType(data?.subsystemId);
           requestProductModel(data?.productType);
         });

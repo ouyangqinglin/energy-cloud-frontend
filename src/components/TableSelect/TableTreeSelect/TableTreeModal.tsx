@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-10-19 14:25:18
+ * @LastEditTime: 2023-12-08 14:43:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -21,6 +21,7 @@ import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -244,8 +245,14 @@ const TableTreeModal = <
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
-      if (selectType === SelectTypeEnum.Device && value && value.length) {
-        setTableParams({ deviceId: value[0][valueId] });
+      if (selectType === SelectTypeEnum.Device) {
+        if (value && value.length) {
+          setTableParams({ deviceId: value[0][valueId] });
+        }
+      } else {
+        if (props?.treeProps?.defaultSelectedKeys) {
+          setTableParams({ deviceId: props?.treeProps?.defaultSelectedKeys?.[0] });
+        }
       }
       if (props?.treeProps?.request) {
         setTrue();
@@ -260,7 +267,7 @@ const TableTreeModal = <
           });
       }
     }
-  }, [open, value, props?.treeProps?.request, selectType, valueId]);
+  }, [open, value, props?.treeProps?.selectedKeys, props?.treeProps?.request, selectType, valueId]);
 
   const tags = useMemo(() => {
     return selectedTags?.map?.((item, index) => {
@@ -293,7 +300,9 @@ const TableTreeModal = <
             },
           }
         : {}),
-      search: false,
+      search: {
+        searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+      },
       rowKey: valueId,
       pagination: {
         defaultPageSize: 10,
@@ -321,6 +330,7 @@ const TableTreeModal = <
         onCancel={onCancel}
         onOk={onOk}
         destroyOnClose
+        centered
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">
@@ -360,6 +370,9 @@ const TableTreeModal = <
               request={requestTable}
               locale={{
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
+              }}
+              scroll={{
+                y: 380,
               }}
             />
           </Col>
