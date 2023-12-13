@@ -235,7 +235,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               <Button
                 type="primary"
                 onClick={peakLoadSubmit}
-                disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+                // disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
               >
                 下发参数
               </Button>
@@ -272,14 +272,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Form.List
-                name="PeriodOfTime"
-                rules={[
-                  {
-                    validator: (_, value) => validateAllTime(value, 'pcsRunningTimeFrame'),
-                  },
-                ]}
-              >
+              <Form.List name="PeriodOfTime">
                 {(fields, { add, remove }, { errors }) => (
                   <>
                     {fields.map(({ key, name, ...restField }, index) => (
