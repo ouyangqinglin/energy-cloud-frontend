@@ -109,19 +109,19 @@ const ChartBox = ({
       color: ['#3DD598', '#007DFF'],
       yAxis: {
         type: 'value',
+        name: `单位${subSystemType == 2 ? '(元)' : '(kWh)'}`,
+        nameLocation: 'end',
         splitLine: {
           lineStyle: {
             type: 'dashed', //虚线
           },
         },
-        axisLabel: {
-          formatter: `{value} ${subSystemType == 2 ? '(元)' : isDay ? '(kW)' : '(kWh)'}`,
-        },
       },
       grid: {
-        top: 10,
+        top: 30,
         bottom: 50,
-        right: 35,
+        right: 0,
+        left: 0,
       },
       legend: {
         show: true,
