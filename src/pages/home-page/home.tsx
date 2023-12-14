@@ -34,13 +34,6 @@ const HomePage: React.FC = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
-  const [chartBoxType, setChartBoxType] = useState<SubSystemType>(SubSystemType.PV);
-
-  const tabChange = (currentSlide: string) => {
-    console.log('currentSlide>>', currentSlide);
-    setChartBoxType(Number(currentSlide));
-  };
-
   const [statistic, setStatistic] = useState({});
   const { authorityMap } = useAuthority(['index:multiSite']);
 
@@ -152,6 +145,7 @@ const HomePage: React.FC = () => {
     result.push({
       label: intl.formatMessage({ id: 'index.tab.electric', defaultMessage: '市电' }),
       key: '4',
+      children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} />,
     });
     if (
       ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
@@ -161,12 +155,14 @@ const HomePage: React.FC = () => {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.pv', defaultMessage: '光伏' }),
         key: '0',
+        children: <ChartBox siteType={siteType} type={SubSystemType.PV} />,
       });
     }
     if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
         key: '1',
+        children: <ChartBox siteType={siteType} type={SubSystemType.ES} />,
       });
     }
     if (
@@ -177,11 +173,13 @@ const HomePage: React.FC = () => {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.charge', defaultMessage: '充电桩' }),
         key: '3',
+        children: <ChartBox siteType={siteType} type={SubSystemType.CS} />,
       });
     }
     result.push({
       label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
       key: '2',
+      children: <ChartBox siteType={siteType} type={SubSystemType.EI} />,
     });
     return result;
   }, [siteType]);
@@ -201,10 +199,7 @@ const HomePage: React.FC = () => {
       <Carousel className={styles.sliderWrapper} slidesPerRow={4}>
         {items}
       </Carousel>
-      <Tabs className={styles.chartCard} items={tabsItem} onChange={tabChange} />
-      <Card className={styles.card}>
-        <ChartBox siteType={siteType} type={chartBoxType} />
-      </Card>
+      <Tabs className={styles.chartCard} items={tabsItem} />
     </div>
   );
 };
