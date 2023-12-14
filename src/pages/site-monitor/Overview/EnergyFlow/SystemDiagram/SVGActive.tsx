@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash';
-import type { SVGProps } from 'react';
+import { useMemo, type SVGProps } from 'react';
 import MarketEleIcon from './svg/market_ele.svg';
 import { ReactComponent as EsIcon } from './svg/es.svg';
 import { ReactComponent as PVcon } from './svg/pv.svg';
@@ -22,6 +22,11 @@ const SvgComponent = (
   const energyStore = data?.[SubSystemType.ES] ?? {};
   const chargeStack = data?.[SubSystemType.CS] ?? {};
   const load = data?.[SubSystemType.L] ?? {};
+
+  const chargeAndElestNum = useMemo(() => {
+    return (alarmData?.[SubsystemType.EC] || 0) + (alarmData?.[SubsystemType.OT] || 0);
+  }, [alarmData]);
+
   return (
     <div className={styles.activeWrapper}>
       <div
@@ -194,10 +199,8 @@ const SvgComponent = (
         <div className={styles.desc}>
           <span className={styles.title}>运行状态：</span>
           <span className={styles.alarm}>
-            {deviceAlarmStatusFormat(alarmData?.[SubsystemType.EC] ? '1' : '0')}
-            <span className={styles.number}>
-              {alarmData?.[SubsystemType.EC] ? alarmData?.[SubsystemType.EC] : ''}
-            </span>
+            {deviceAlarmStatusFormat(chargeAndElestNum ? '1' : '0')}
+            <span className={styles.number}>{chargeAndElestNum ? chargeAndElestNum : ''}</span>
           </span>
         </div>
       </div>

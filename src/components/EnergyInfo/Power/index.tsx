@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-12-06 10:45:11
+ * @LastEditTime: 2023-12-14 09:01:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -52,18 +52,8 @@ const Power: React.FC<ComProps> = (props) => {
           if (typeof value[1] === 'number') {
             result.push(
               value[1] > 0
-                ? value[1] +
-                    `kW（${
-                      (deviceData?.productId as any) == DeviceTypeEnum.YTEnergy
-                        ? '<span style="color:' + colorEnum.Charge + '">充电</span>'
-                        : '<span style="color:' + colorEnum.DisCharge + '">放电</span>'
-                    }）`
-                : value[1] +
-                    `kW（${
-                      (deviceData?.productId as any) == DeviceTypeEnum.YTEnergy
-                        ? '<span style="color:' + colorEnum.DisCharge + '">放电</span>'
-                        : '<span style="color:' + colorEnum.Charge + '">充电</span>'
-                    }）`,
+                ? value[1] + `kW（<span style="color:${colorEnum.DisCharge}">放电</span>）`
+                : value[1] + `kW（<span style="color:${colorEnum.Charge}">充电</span>）`,
             );
           } else {
             result.push('-');
@@ -83,28 +73,16 @@ const Power: React.FC<ComProps> = (props) => {
       ],
       visualMap: {
         show: false,
-        pieces:
-          (deviceData?.productId as any) == DeviceTypeEnum.YTEnergy
-            ? [
-                {
-                  gt: 0.1,
-                  color: colorEnum.Charge,
-                },
-                {
-                  lte: 0,
-                  color: colorEnum.DisCharge,
-                },
-              ]
-            : [
-                {
-                  gt: 0.1,
-                  color: colorEnum.DisCharge,
-                },
-                {
-                  lte: 0,
-                  color: colorEnum.Charge,
-                },
-              ],
+        pieces: [
+          {
+            gt: 0.1,
+            color: colorEnum.DisCharge,
+          },
+          {
+            lte: 0,
+            color: colorEnum.Charge,
+          },
+        ],
       },
       yAxis: {
         name: '单位（kW）',
@@ -119,10 +97,7 @@ const Power: React.FC<ComProps> = (props) => {
                 label: {
                   show: true,
                   color: colorEnum.Charge,
-                  formatter:
-                    (deviceData?.productId as any) == DeviceTypeEnum.YTEnergy
-                      ? '充电\n\n\n\n\n{dis|放电}'
-                      : '{dis|放电}\n\n\n\n\n充电',
+                  formatter: '{dis|放电}\n\n\n\n\n充电',
                   rich: {
                     dis: {
                       color: colorEnum.DisCharge,

@@ -30,7 +30,7 @@ export const useWatchingAlarmForSystem = (siteId: number) => {
               prevData[item.subsystemId] = value;
             }
           });
-          return prevData;
+          return { ...prevData };
         });
       } catch (e) {}
     }
@@ -44,6 +44,10 @@ export const useWatchingAlarmForSystem = (siteId: number) => {
     if (!siteId) {
       return;
     }
+    setAlarmSubsystemTree({});
+    connection.onOpen(() => {
+      setAlarmSubsystemTree({});
+    });
     connection.sendMessage({
       data: {
         command: RequestCommandEnum.SUBSCRIBE,

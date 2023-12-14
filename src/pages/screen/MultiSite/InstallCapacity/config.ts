@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 14:38:48
- * @LastEditTime: 2023-09-21 16:15:53
+ * @LastEditTime: 2023-12-14 09:58:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\InstallCapacity\config.ts
  */
@@ -20,6 +20,11 @@ export const items: DigitStatItemType[] = [
     unit: 'W',
     field: 'transformerCapacity',
     format: formatWattNum,
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
   },
   {
     icon: IconPhotovoltaic,
@@ -27,6 +32,11 @@ export const items: DigitStatItemType[] = [
     unit: 'Wp',
     field: 'photovoltaicInstalledCapacity',
     format: formatWattNum,
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
   },
   {
     icon: IconCharge,
@@ -34,6 +44,11 @@ export const items: DigitStatItemType[] = [
     unit: 'W',
     field: 'chargingStationCapacity',
     format: formatWattNum,
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
   },
   {
     icon: IconEnergy,
@@ -43,11 +58,21 @@ export const items: DigitStatItemType[] = [
         field: 'energyStoragePower',
         unit: 'W',
         format: formatWattNum,
+        animation: {
+          Children: {
+            floatLength: 2,
+          },
+        },
       },
       {
         field: 'energyStorageCapacity',
         unit: 'Wh',
         format: formatWattNum,
+        animation: {
+          Children: {
+            floatLength: 2,
+          },
+        },
       },
     ],
   },
