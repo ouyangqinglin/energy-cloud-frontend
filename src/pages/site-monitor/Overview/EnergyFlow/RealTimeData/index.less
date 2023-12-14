@@ -1,7 +1,9 @@
+@import '~antd/es/style/themes/default.less';
 .realTimeData {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
   display: flex;
   justify-content: flex-end;
   min-width: 300px;
@@ -10,15 +12,10 @@
     order: 2;
   }
   .realContent {
-    display: flex;
-    flex-flow: column;
-    align-items: flex-end;
     order: 1;
     width: 356px;
-    .timeBtn {
-      margin-bottom: 16px;
-    }
     .boxContent {
+      height: 100%;
       padding: 16px 20px;
       background-color: #fff;
       border-radius: 4px;
@@ -36,6 +33,18 @@
             height: 14px;
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: @screen-xxl) {
+  .realTimeData {
+    position: relative;
+    .realContent {
+      width: 100%;
+      .boxContent {
+        padding: 6px;
       }
     }
   }

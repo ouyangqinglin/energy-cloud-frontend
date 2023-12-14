@@ -26,55 +26,59 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
 
   return (
     <RowBox span={6} className={styles.benefitWrapper}>
-      <Row gutter={0} className={styles.boxContent}>
-        <Col span={6} className={styles.leftBox}>
-          <IconCarbonEmission className={styles.icon} />
-        </Col>
-        <Col span={18} className={styles.rightBox}>
-          <div className={styles.desc}>
-            <span className={styles.label}>年CO₂减排量(t)：</span>
-            <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCo2)}</span>
-          </div>
-          <div className={styles.desc}>
-            <span className={styles.label}>累计减排量(t)：</span>
-            <span className={styles.value}>
-              {keepTwoDecimalWithUnit(data?.conserveEnergyReduceEmissions)}
-            </span>
-          </div>
-        </Col>
-      </Row>
-      <Divider style={{ margin: 0 }} type={'horizontal'} />
-      <Row className={styles.boxContent}>
-        <Col span={6} className={styles.leftBox}>
-          <IconCoal className={styles.icon} />
-        </Col>
-        <Col span={18} className={styles.rightBox}>
-          <div className={styles.desc}>
-            <span className={styles.label}>年节约标准煤(t)：</span>
-            <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCoal)}</span>
-          </div>
-          <div className={styles.desc}>
-            <span className={styles.label}>累计节约(t)：</span>
-            <span className={styles.value}>{keepTwoDecimalWithUnit(data?.coal)}</span>
-          </div>
-        </Col>
-      </Row>
-      <Divider style={{ margin: 0 }} type={'horizontal'} />
-      <Row className={styles.boxContent}>
-        <Col span={6} className={styles.leftBox}>
-          <IconTree className={styles.icon} />
-        </Col>
-        <Col span={18} className={styles.rightBox}>
-          <div className={styles.desc}>
-            <span className={styles.label}>年等效植树(棵)：</span>
-            <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCumulativeTree)}</span>
-          </div>
-          <div className={styles.desc}>
-            <span className={styles.label}>累计等效植树(棵)：</span>
-            <span className={styles.value}>{keepTwoDecimalWithUnit(data?.cumulativeTree)}</span>
-          </div>
-        </Col>
-      </Row>
+      <div className="flex flex-column flex-around h-full">
+        <Row gutter={0} className={styles.boxContent}>
+          <Col span={24} xxl={6} className={styles.leftBox}>
+            <IconCarbonEmission className={styles.icon} />
+          </Col>
+          <Col span={24} xxl={18} className={styles.rightBox}>
+            <div className={styles.desc}>
+              <span className={styles.label}>年CO₂减排量(t)：</span>
+              <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCo2)}</span>
+            </div>
+            <div className={styles.desc}>
+              <span className={styles.label}>累计减排量(t)：</span>
+              <span className={styles.value}>
+                {keepTwoDecimalWithUnit(data?.conserveEnergyReduceEmissions)}
+              </span>
+            </div>
+          </Col>
+        </Row>
+        <Divider style={{ margin: 0 }} type={'horizontal'} />
+        <Row className={styles.boxContent}>
+          <Col span={24} xxl={6} className={styles.leftBox}>
+            <IconCoal className={styles.icon} />
+          </Col>
+          <Col span={24} xxl={18} className={styles.rightBox}>
+            <div className={styles.desc}>
+              <span className={styles.label}>年节约标准煤(t)：</span>
+              <span className={styles.value}>{keepTwoDecimalWithUnit(data?.yearCoal)}</span>
+            </div>
+            <div className={styles.desc}>
+              <span className={styles.label}>累计节约(t)：</span>
+              <span className={styles.value}>{keepTwoDecimalWithUnit(data?.coal)}</span>
+            </div>
+          </Col>
+        </Row>
+        <Divider style={{ margin: 0 }} type={'horizontal'} />
+        <Row className={styles.boxContent}>
+          <Col span={24} xxl={6} className={styles.leftBox}>
+            <IconTree className={styles.icon} />
+          </Col>
+          <Col span={24} xxl={18} className={styles.rightBox}>
+            <div className={styles.desc}>
+              <span className={styles.label}>年等效植树(棵)：</span>
+              <span className={styles.value}>
+                {keepTwoDecimalWithUnit(data?.yearCumulativeTree)}
+              </span>
+            </div>
+            <div className={styles.desc}>
+              <span className={styles.label}>累计等效植树(棵)：</span>
+              <span className={styles.value}>{keepTwoDecimalWithUnit(data?.cumulativeTree)}</span>
+            </div>
+          </Col>
+        </Row>
+      </div>
     </RowBox>
   );
 };
