@@ -4,9 +4,10 @@ import type { FormInstance, ProFormColumnsType } from '@ant-design/pro-component
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 import { Col, Row, TimePicker } from 'antd';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 
 const hourFormat = 'HH:mm';
+const contrastDate = '2023-01-01 ';
 
 export const validateAllTime = (value: any, field: string) => {
   if (
@@ -34,16 +35,22 @@ const validatorTime = (
     if (
       prevValue &&
       prevValue.length &&
-      value[0].format(hourFormat) != prevValue[1].format(hourFormat)
+      moment(contrastDate + value[0].format(hourFormat)).isBefore(
+        moment(contrastDate + prevValue[1].format(hourFormat)),
+      )
     ) {
-      return Promise.reject(new Error(`时段${index + 1}开始时间应等于时段${index}结束时间`));
+      return Promise.reject(new Error(`时段${index + 1}开始时间应大于等于时段${index}结束时间`));
     }
     if (
       nextValue &&
       nextValue.length &&
-      value[1].format(hourFormat) != nextValue[0].format(hourFormat)
+      moment(contrastDate + value[1].format(hourFormat)).isAfter(
+        moment(contrastDate + nextValue[0].format(hourFormat)),
+      )
     ) {
-      return Promise.reject(new Error(`时段${index + 1}结束时间应等于时段${index + 2}开始时间`));
+      return Promise.reject(
+        new Error(`时段${index + 1}结束时间应小于等于时段${index + 2}开始时间`),
+      );
     }
   }
   return Promise.resolve();
@@ -255,13 +262,6 @@ export const PeakSetColumns: ProFormColumnsType[] = [
           </div>
         );
       },
-    },
-    formItemProps: {
-      rules: [
-        {
-          validator: (_, value) => validateAllTime(value, 'TimeFrame'),
-        },
-      ],
     },
     colProps: {
       span: 18,

@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import type { ObstacleReportInfo } from './type';
+import { useCallback, useRef, useState } from 'react';
+import { OrderStatus, type ObstacleReportInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
@@ -51,10 +51,15 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
     set(!visible);
   };
 
+  const reload = useCallback(() => {
+    actionRef?.current?.reload?.();
+  }, []);
+
   const completeOrder = async (params: any) => {
     await handleOrderComplete({ ...params, ...{ id: initialValues?.id } });
     set(false);
     setStatusModal(false);
+    reload();
   };
 
   return (
@@ -81,6 +86,15 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
           render: () => {
             return [
               <Button
+                key="cancel"
+                onClick={() => {
+                  set(false);
+                }}
+              >
+                取消
+              </Button>,
+              <Button
+                className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
                 key="ok"
                 type="primary"
                 onClick={() => {
@@ -90,6 +104,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                 完成
               </Button>,
               <Button
+                className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
                 key="ok"
                 type="primary"
                 onClick={() => {
@@ -116,6 +131,8 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         onVisibleChange={setMaintenanceModal}
         siteId={initialValues?.siteId}
         operations={FormOperations.CREATE}
+        initialValues={{ siteName: initialValues?.siteName } as any}
+        onSuccess={reload}
       />
       <YTModalForm<any, any>
         title={'完成原因'}

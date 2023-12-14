@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-23 15:56:10
- * @LastEditTime: 2023-08-29 10:48:04
+ * @LastEditTime: 2023-12-14 09:44:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Alarm\config.ts
  */
@@ -18,6 +18,7 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: '#FF5656',
     },
+    format: (value) => ({ value, unit: '' }),
   },
   {
     icon: IconAlarm,
@@ -27,5 +28,6 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: '#FFD15C',
     },
+    format: (value) => ({ value, unit: '' }),
   },
 ];

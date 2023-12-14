@@ -98,6 +98,11 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       background: 'linear-gradient(180deg, #76FFEA 0%, #00C8FF 100%)',
     },
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
     isformatNum: true,
   },
 ];

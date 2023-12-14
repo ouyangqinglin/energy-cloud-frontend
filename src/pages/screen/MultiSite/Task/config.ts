@@ -18,6 +18,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#34E1B6',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '待处理',
@@ -26,6 +27,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#FFD15C',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '超24h未处理工单',
@@ -34,6 +36,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#4DD6F0',
         },
+        format: (value) => ({ value, unit: '' }),
       },
     ],
   },
@@ -46,6 +49,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#34E1B6',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '待处理',
@@ -54,6 +58,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#FFD15C',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '超24h未处理工单',
@@ -62,6 +67,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#4DD6F0',
         },
+        format: (value) => ({ value, unit: '' }),
       },
     ],
   },
@@ -74,6 +80,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#34E1B6',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '待处理',
@@ -82,6 +89,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#FFD15C',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '超24h未处理工单',
@@ -90,6 +98,7 @@ export const items: DigitStatItemType[] = [
         valueStyle: {
           color: '#4DD6F0',
         },
+        format: (value) => ({ value, unit: '' }),
       },
     ],
   },

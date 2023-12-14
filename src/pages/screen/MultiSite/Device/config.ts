@@ -21,6 +21,7 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: 'white',
     },
+    format: (value) => ({ value, unit: '' }),
   },
   {
     icon: IconOffline,
@@ -30,6 +31,7 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: '#86A4B3',
     },
+    format: (value) => ({ value, unit: '' }),
   },
 ];
 
@@ -44,6 +46,7 @@ export const onlineItems: DigitStatItemType[] = [
         valueStyle: {
           color: '#34E1B6',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '正常设备',
@@ -52,6 +55,7 @@ export const onlineItems: DigitStatItemType[] = [
         valueStyle: {
           color: '#4DD6F0',
         },
+        format: (value) => ({ value, unit: '' }),
       },
       {
         title: '告警设备',
@@ -60,6 +64,7 @@ export const onlineItems: DigitStatItemType[] = [
         valueStyle: {
           color: '#FF5656',
         },
+        format: (value) => ({ value, unit: '' }),
       },
     ],
   },

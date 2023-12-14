@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2023-09-07 16:42:27
+ * @LastEditTime: 2023-12-14 10:25:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\SiteStatus\index.tsx
  */
@@ -33,7 +33,7 @@ const SiteStatus: React.FC<SiteStatusProps> = memo((props) => {
   const status = useMemo(() => {
     return statusItems.map((item, index) => {
       return (
-        <span key={item.field} className={index ? styles.error : 'flex1'}>
+        <span key={item.field} className={index ? styles.error : 'flex1 mr12'}>
           <img src={item.icon} />
           {item.label}：{statusData?.[item.field] ?? '--'}
         </span>

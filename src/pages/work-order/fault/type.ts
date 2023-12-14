@@ -34,6 +34,7 @@ export const enum OrderStatus {
   DEALING,
   CLOSE,
   REJECT,
+  Done = 6,
 }
 
 export interface ObstacleReportInfo {

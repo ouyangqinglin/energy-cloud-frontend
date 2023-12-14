@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 10:34:31
- * @LastEditTime: 2023-10-08 10:07:33
+ * @LastEditTime: 2023-12-14 10:13:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\DigitStat\index.tsx
  */
@@ -91,13 +91,13 @@ const getContentByItem = (
             }
             return (
               <span key={child.field} className="digit-stat-num" style={item.valueStyle}>
-                {childIndex ? '/' : ''}
                 {childValue}
                 {unitLinkValue ? (
                   <span className="digit-stat-unit">{childFormatValue.unit + child.unit}</span>
                 ) : (
                   ''
                 )}
+                <span className="digit-stat-separate">{childIndex ? '' : '/'}</span>
               </span>
             );
           })

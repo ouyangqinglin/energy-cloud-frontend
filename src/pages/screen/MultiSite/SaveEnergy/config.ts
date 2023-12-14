@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-24 09:19:58
- * @LastEditTime: 2023-08-24 09:20:02
+ * @LastEditTime: 2023-12-14 09:58:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SaveEnergy\config.ts
  */
@@ -20,6 +20,7 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: '#fff',
     },
+    format: (value) => ({ value, unit: '' }),
   },
   {
     icon: IconCard,
@@ -29,6 +30,7 @@ export const items: DigitStatItemType[] = [
     valueStyle: {
       color: 'rgba(182, 255, 167, 1)',
     },
+    format: (value) => ({ value, unit: '' }),
   },
   {
     icon: IconCCER,
@@ -37,6 +39,12 @@ export const items: DigitStatItemType[] = [
     field: 'ccerhold',
     valueStyle: {
       color: '#FFf',
+    },
+    format: (value) => ({ value, unit: '' }),
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
     },
   },
 ];

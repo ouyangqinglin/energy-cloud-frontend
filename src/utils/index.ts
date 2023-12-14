@@ -300,10 +300,10 @@ export const formatWattNum = (num: number, separator = '--', floatLength = 2): V
       value = num;
     if (-1000000000 > num || num > 1000000000) {
       unit = 'T';
-      value = num / 100000000;
+      value = num / 1000000000;
     } else if (-1000000 > num || num > 1000000) {
       unit = 'G';
-      value = num / 100000000;
+      value = num / 1000000;
     } else if (-1000 > num || num > 1000) {
       unit = 'M';
       value = num / 1000;
