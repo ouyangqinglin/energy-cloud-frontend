@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-12-13 09:16:51
+ * @LastEditTime: 2023-12-15 09:18:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\config.ts
  */
@@ -38,5 +38,5 @@ export const emsOperationItems: DetailItem[] = [
   { label: '交流断路器状态 ', field: 'ACCircuitBreakerStatus', format: openFormat },
   { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleEffectFormat },
   { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleEffectFormat },
-  { label: '消防喷射信号', field: 'a' },
+  { label: '消防喷射信号', field: 'fsig', format: singleEffectFormat },
 ];

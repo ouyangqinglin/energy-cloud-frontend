@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-11-30 11:41:56
+ * @LastEditTime: 2023-12-15 09:15:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -283,7 +283,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       };
       return groupItem;
     },
-    [deviceData],
+    [deviceData, getFieldItem],
   );
 
   const groupsItems = useMemo(() => {
@@ -299,7 +299,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       });
     });
     return items;
-  }, [groupData, realTimeData]);
+  }, [groupData, realTimeData, getServiceItem]);
 
   return (
     <>
