@@ -1,5 +1,19 @@
+@import '~antd/es/style/themes/default.less';
 .energyFlow {
   position: relative;
   height: 392px;
   background: #f5f5f5;
+  .content {
+    position: relative;
+  }
+}
+
+@media screen and (max-width: @screen-xxl) {
+  .energyFlow {
+    height: 566px;
+    .content {
+      width: 710px;
+      margin: 0 auto;
+    }
+  }
 }

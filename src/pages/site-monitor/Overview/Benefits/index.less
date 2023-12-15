@@ -7,13 +7,10 @@
 
 .benefitWrapper {
   position: relative;
+  height: 100%;
   padding: 15px 32px;
   background: #fff;
-
   .boxContent {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
     width: 100%;
     height: 120px;
     .leftBox {
@@ -47,6 +44,11 @@
           line-height: 22px;
         }
       }
+    }
+  }
+  :global {
+    .ant-card-body {
+      height: 100%;
     }
   }
 }

@@ -6,10 +6,10 @@ import styles from './index.less';
 const EnergyFlow = ({ siteId }: { siteId?: number }) => {
   return (
     <RowBox span={18} className={styles.energyFlow}>
-      <div style={{ position: 'relative' }}>
+      <RealTimeData siteId={siteId} />
+      <div className={styles.content}>
         <SystemDiagram siteId={siteId} />
       </div>
-      <RealTimeData siteId={siteId} />
     </RowBox>
   );
 };

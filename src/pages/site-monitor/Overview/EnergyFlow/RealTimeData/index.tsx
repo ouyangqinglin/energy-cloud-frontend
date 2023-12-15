@@ -59,25 +59,27 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
   ];
 
   const toggleButton = show ? (
-    <Button type="link" onClick={toggle} size={'small'}>
+    <Button className="pr0" type="link" onClick={toggle} size={'small'}>
       隐藏
     </Button>
   ) : (
-    <Button type="link" onClick={toggle} size={'small'}>
+    <Button className="pr0" type="link" onClick={toggle} size={'small'}>
       显示实时信息
     </Button>
   );
 
   return (
     <div className={styles.realTimeData}>
-      <div className={styles.realBtn}>{toggleButton}</div>
-      {show && (
-        <div className={classNames(styles.realContent)}>
-          <TimeButtonGroup className={styles.timeBtn} onChange={setTimeType} />
+      <div className={classNames(styles.realContent)}>
+        <div className="flex flex-justify-end mb16">
+          {show && <TimeButtonGroup onChange={setTimeType} />}
+          <div className={styles.realBtn}>{toggleButton}</div>
+        </div>
+        {show && (
           <Row gutter={[16, 16]}>
             {columns.map((row) => {
               return (
-                <Col key={row.label} span={12}>
+                <Col key={row.label} span={4} xxl={12}>
                   <Statistic
                     className={styles.boxContent}
                     precision={2}
@@ -93,8 +95,8 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
               );
             })}
           </Row>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
