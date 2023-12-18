@@ -60,6 +60,7 @@ export const columns: ProColumns<FaultType>[] = [
     dataIndex: 'siteName',
     width: 120,
     ellipsis: true,
+    hideInSearch: true,
   },
 
   {
