@@ -15,6 +15,7 @@ import { Button, Modal } from 'antd';
 import { useBoolean } from 'ahooks';
 import { ActionType } from '@ant-design/pro-components';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
   const { deviceId, deviceData } = props;
@@ -42,9 +43,15 @@ const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
         onClick={setTrue}
         disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
-        升级记录
+        {formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })}
       </Button>
-      <Modal title="升级记录" width={900} open={open} onCancel={setFalse} onOk={setFalse}>
+      <Modal
+        title={formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })}
+        width={900}
+        open={open}
+        onCancel={setFalse}
+        onOk={setFalse}
+      >
         <YTProTable
           actionRef={actionRef}
           columns={columns}

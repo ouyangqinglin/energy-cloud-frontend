@@ -12,6 +12,7 @@ import type { ModalProps } from 'antd';
 import IconClose from '@/assets/image/screen/dialog/close.png';
 import './index.less';
 import DialogContext from './DialogContext';
+import { formatMessage } from '@/utils';
 
 export type DialogProps = ModalProps & {
   model?: string;
@@ -32,7 +33,7 @@ export const getModalProps = (model: string | undefined, wrapClassName = '') => 
 const Dialog: React.FC<DialogProps> = (props) => {
   const {
     model,
-    title = '设备详情',
+    title = formatMessage({ id: 'siteMonitor.deviceDetails', defaultMessage: '设备详情' }),
     width = '1200px',
     loading,
     wrapClassName,

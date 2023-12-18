@@ -20,7 +20,7 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { api } from '@/services';
 import { OptionType } from '@/types';
-import { arrayToMap } from '@/utils';
+import { arrayToMap, formatMessage } from '@/utils';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -99,7 +99,7 @@ const Account: React.FC<AccountProps> = (props) => {
   const onDeleteClick = useCallback((_, record: AccountDataType) => {
     return deleteData({ userIds: [record.userId] }).then(({ data }) => {
       if (data) {
-        message.success('删除成功');
+        message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
         onSuccess();
       }
     });
@@ -194,7 +194,7 @@ const Account: React.FC<AccountProps> = (props) => {
         toolBarRenderOptions={{
           add: {
             onClick: onAddClick,
-            text: '新建',
+            text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
           },
         }}
         option={{

@@ -22,6 +22,7 @@ import GeometrySystem from './GeometrySystem';
 import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselInSystemData';
 import AccumulatedPowerChart from './AccumulatedPowerChart';
 import { SiteInfoRes } from './StationOverview/type';
+import { formatMessage } from '@/utils';
 
 const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
@@ -34,7 +35,7 @@ const Scene = () => {
       <Cell key={'EnergyData'} cursor="default" width={400} height={589} left={24} top={468}>
         <DecorationCarousel
           panelStyle={{ padding: '17px 16px' }}
-          title="系统运行数据"
+          title={formatMessage({ id: 'screen.systemRunningData', defaultMessage: '系统运行数据' })}
           valueType="timeButtonGroup"
           onTimeButtonChange={setEnergyTimeType}
         >
@@ -63,7 +64,7 @@ const Scene = () => {
         top={81}
       >
         <DecorationCarousel
-          title="经济占比"
+          title={formatMessage({ id: 'screen.economicProportion', defaultMessage: '经济占比' })}
           valueType="timeButtonGroup"
           onTimeButtonChange={setRevenueTimeType}
         >

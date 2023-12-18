@@ -3,6 +3,7 @@ import { Form, message } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import type { FormUpdateProps } from './type';
+import { formatMessage } from '@/utils';
 
 const DEFAULT_PROPS = {
   layout: 'vertical' as 'vertical',
@@ -36,7 +37,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
 
       return run({ ...formData, ...{ orgId: orgId } }, {}).then(({ data, code }) => {
         if (data || code === 200) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           onSuccess?.();
           return true;
         }

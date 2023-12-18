@@ -1,4 +1,4 @@
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 
 // (1, '光伏'), (2, '储能'), (3, '充电桩'), (4, '其他负载'), (5, '市电'), (6, '配电柜');
 export const enum SubsystemTypeForNode {

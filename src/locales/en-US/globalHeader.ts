@@ -14,4 +14,6 @@ export default {
   'component.noticeIcon.cleared': 'Cleared',
   'component.noticeIcon.empty': 'No notifications',
   'component.noticeIcon.view-more': 'View more',
+  'component.noticeIcon.selected': 'Selected',
+  'component.noticeIcon.item': 'item',
 };

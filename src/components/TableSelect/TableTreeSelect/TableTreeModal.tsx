@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-12-08 14:43:24
+ * @LastEditTime: 2023-12-18 17:39:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -98,7 +98,7 @@ const TableTreeModal = <
 ) => {
   const {
     model,
-    title = '选择数据',
+    title = formatMessage({ id: 'taskManage.selectData', defaultMessage: '选择数据' }),
     open,
     onCancel,
     width = '1000px',
@@ -334,8 +334,14 @@ const TableTreeModal = <
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">
-            <span className="flex1">已选择{selectedTags?.length || 0}项</span>
-            <a onClick={onCleanSelected}>清空</a>
+            <span className="flex1">
+              {formatMessage({ id: 'component.noticeIcon.selected', defaultMessage: '已选择' })}
+              {selectedTags?.length || 0}
+              {formatMessage({ id: 'component.noticeIcon.item', defaultMessage: '项' })}
+            </span>
+            <a onClick={onCleanSelected}>
+              {formatMessage({ id: 'component.noticeIcon.clear', defaultMessage: '清空' })}
+            </a>
           </div>
           <div>
             <div className={`flex1 ${styles.tagContain}`}>{tags}</div>

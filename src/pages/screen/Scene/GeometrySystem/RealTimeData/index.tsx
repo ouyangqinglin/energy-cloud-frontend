@@ -3,6 +3,7 @@ import { SubSystemType, SystemDiagramRes } from '@/pages/site-monitor/Overview/E
 import { keepTwoDecimalWithoutNull } from '@/pages/site-monitor/Overview/helper';
 import classnames from 'classnames';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
   const pv = data?.[SubSystemType.PV];
   const electricSupply = data?.[SubSystemType.E];
@@ -14,7 +15,9 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
       <Cell width={170} height={42} left={40} top={90}>
         <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
-            <span className={styles.label}>电网功率(kW)：</span>
+            <span className={styles.label}>
+              {formatMessage({ id: 'screen.powerGrid', defaultMessage: '电网功率' })}(kW)：
+            </span>
             <span className={styles.value}>{electricSupply?.p ?? '--'}</span>
           </div>
         </div>
@@ -22,11 +25,16 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
       <Cell width={170} height={66} left={40} top={302}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
-            <span className={styles.label}>发电功率(kW)：</span>
+            <span className={styles.label}>
+              {formatMessage({ id: 'screen.powerGeneration', defaultMessage: '发电功率' })}(kW)：
+            </span>
             <span className={styles.value}>{pv?.p ?? '--'}</span>
           </div>
           <div className={styles.box}>
-            <span className={styles.label}>当日发电(kWh)：</span>
+            <span className={styles.label}>
+              {formatMessage({ id: 'screen.dailyPowerGeneration', defaultMessage: '当日发电' })}
+              (kWh)：
+            </span>
             <span className={styles.value}>{pv?.charge ?? '--'}</span>
           </div>
         </div>
@@ -34,7 +42,9 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
       <Cell width={170} height={66} left={766} top={90}>
         <div className={styles.boxWrapper}>
           <div className={styles.box}>
-            <span className={styles.label}>储能功率(kW)：</span>
+            <span className={styles.label}>
+              {formatMessage({ id: 'screen.energyStoragePower', defaultMessage: '储能功率' })}(kW)：
+            </span>
             <span className={styles.value}>{energyStore?.p ?? '--'}</span>
           </div>
           <div className={styles.box}>
@@ -46,7 +56,9 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
       <Cell width={170} height={42} left={766} top={302}>
         <div className={classnames([styles.boxWrapper, styles.boxBackgroundMini])}>
           <div className={styles.box}>
-            <span className={styles.label}>用电功率(kW)：</span>
+            <span className={styles.label}>
+              {formatMessage({ id: 'screen.powerConsumption', defaultMessage: '用电功率' })}(kW)：
+            </span>
             <span className={styles.value}>
               {keepTwoDecimalWithoutNull((load?.p ?? 0) + (chargeStack?.p ?? 0))}
             </span>

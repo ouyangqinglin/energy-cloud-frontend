@@ -34,6 +34,7 @@ import {
 } from '@/utils/format';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { DetailItem } from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 const energyPowerFormat = (value: number, data: any) => {
   return (
@@ -61,7 +62,7 @@ export type ConfigType = {
 };
 
 export const airItem: ConfigType = {
-  label: '空调',
+  label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
   productIds: [DeviceTypeEnum.Air],
   position: { top: 51, left: 2 },
   icon: AirImg,
@@ -69,17 +70,25 @@ export const airItem: ConfigType = {
   linePosition: { top: 11, left: 94 },
   data: [
     {
-      label: '运行状态',
+      label: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
       field: 'AirConditioningWorkingStatus',
       format: airWorkFormat,
     },
-    { label: '回风温度', field: 'ReturnAirTemperature', format: tempFormat },
-    { label: '回风湿度', field: 'ReturnAirHumidity', format: wetFormat },
+    {
+      label: formatMessage({ id: 'siteMonitor.returnAirTemperature', defaultMessage: '回风温度' }),
+      field: 'ReturnAirTemperature',
+      format: tempFormat,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.returnAirHumidity', defaultMessage: '回风湿度' }),
+      field: 'ReturnAirHumidity',
+      format: wetFormat,
+    },
   ],
 };
 
 export const bwattAirItem: ConfigType = {
-  label: '空调',
+  label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
   productIds: [DeviceTypeEnum.BWattAir, DeviceTypeEnum.YTEnergyAir],
   position: { top: 51, left: 2 },
   icon: AirImg,
@@ -87,12 +96,20 @@ export const bwattAirItem: ConfigType = {
   linePosition: { top: 11, left: 94 },
   data: [
     {
-      label: '运行状态',
+      label: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
       field: 'AirConditioningUnitOperationStatus',
       format: bwattAirWorkFormat,
     },
-    { label: '室内温度', field: 'IndoorTemperature', format: tempFormat },
-    { label: '湿度', field: 'Humidity', format: wetFormat },
+    {
+      label: formatMessage({ id: 'siteMonitor.roomTemperature', defaultMessage: '室内温度' }),
+      field: 'IndoorTemperature',
+      format: tempFormat,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.humidness', defaultMessage: '湿度' }),
+      field: 'Humidity',
+      format: wetFormat,
+    },
   ],
 };
 
@@ -105,12 +122,12 @@ export const emsItem: ConfigType = {
   linePosition: { top: 11, left: 87 },
   data: [
     {
-      label: '运行状态',
+      label: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
       field: 'emsSysStatus',
       format: (value: number) => runFormat(value),
     },
     {
-      label: '系统模式',
+      label: formatMessage({ id: 'siteMonitor.systemModel', defaultMessage: '系统模式' }),
       field: 'sysModel',
       format: (value: number) => modelFormat(value),
     },
@@ -126,12 +143,12 @@ export const ytEmsItem: ConfigType = {
   linePosition: { top: 11, left: 87 },
   data: [
     {
-      label: '工作状态',
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
       field: 'systemWorkingStatus',
       format: systemRunFormat,
     },
     {
-      label: '工作模式',
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'systemOperatingMode',
       format: systemOperatingModeFormat,
     },
@@ -140,7 +157,7 @@ export const ytEmsItem: ConfigType = {
 
 export const doorConfigs: ConfigType[] = [
   {
-    label: '储能仓门',
+    label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
     showLabel: false,
     position: { top: 203, left: 2 },
     icon: DoorImg,
@@ -148,7 +165,7 @@ export const doorConfigs: ConfigType[] = [
     linePosition: { top: 11, left: 152 },
     data: [
       {
-        label: '储能仓门',
+        label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
         field: 'AccessControlStatus',
         format: (value: number) => doorFormat(value),
       },
@@ -158,7 +175,7 @@ export const doorConfigs: ConfigType[] = [
 
 export const bmsConfig: ConfigType[] = [
   {
-    label: '电池堆',
+    label: formatMessage({ id: 'siteMonitor.batteryPile', defaultMessage: '电池堆' }),
     productIds: [
       DeviceTypeEnum.BatteryStack,
       DeviceTypeEnum.BWattBatteryStack,
@@ -174,23 +191,35 @@ export const bmsConfig: ConfigType[] = [
 
 export const fireFightConfig: ConfigType[] = [
   {
-    label: '消防信息',
+    label: formatMessage({ id: 'device.fireInfo', defaultMessage: '消防信息' }),
     productIds: [DeviceTypeEnum.FirFight],
     position: { top: 40, left: 802 },
     icon: FireFightImg,
     line: FireFightLineImg,
     linePosition: { top: 10, left: -110 },
     data: [
-      { label: '预警等级', field: 'SOC', format: earlyWarningFormat },
-      { label: '故障类型', field: 'SOC', format: faultFireFightFormat },
-      { label: '了阀门状态', field: 'SOC', format: openCloseFormat },
+      {
+        label: formatMessage({ id: 'device.warningLevel', defaultMessage: '预警等级' }),
+        field: 'lev',
+        format: earlyWarningFormat,
+      },
+      {
+        label: formatMessage({ id: 'device.faultType', defaultMessage: '故障类型' }),
+        field: 'sft',
+        format: faultFireFightFormat,
+      },
+      {
+        label: formatMessage({ id: 'device.subValveStatus', defaultMessage: '子阀门状态' }),
+        field: 'svs',
+        format: openCloseFormat,
+      },
     ],
   },
 ];
 
 export const peakConfig: ConfigType[] = [
   {
-    label: '单体极值信息',
+    label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
     productIds: [
       DeviceTypeEnum.BatteryStack,
       DeviceTypeEnum.BWattBatteryStack,
@@ -201,14 +230,42 @@ export const peakConfig: ConfigType[] = [
     line: PackLineImg,
     linePosition: { top: 11, left: -60 },
     data: [
-      { label: '最高电压', field: 'MVVOASU', format: voltageFormat },
-      { label: '编号', field: 'MaxNOIV' },
-      { label: '最低电压', field: 'MVVOSU', format: voltageFormat },
-      { label: '编号', field: 'MNOIV' },
-      { label: '最高温度', field: 'MaximumIndividualTemperature', format: tempFormat },
-      { label: '编号', field: 'MITN' },
-      { label: '最低温度', field: 'LVOMT', format: tempFormat },
-      { label: '编号', field: 'MNOIT' },
+      {
+        label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
+        field: 'MVVOASU',
+        format: voltageFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.numberCode', defaultMessage: '编号' }),
+        field: 'MaxNOIV',
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
+        field: 'MVVOSU',
+        format: voltageFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.numberCode', defaultMessage: '编号' }),
+        field: 'MNOIV',
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
+        field: 'MaximumIndividualTemperature',
+        format: tempFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.numberCode', defaultMessage: '编号' }),
+        field: 'MITN',
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
+        field: 'LVOMT',
+        format: tempFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.numberCode', defaultMessage: '编号' }),
+        field: 'MNOIT',
+      },
     ],
   },
 ];
@@ -223,16 +280,20 @@ export const pcsConfig: ConfigType[] = [
     linePosition: { top: 11, left: -233 },
     data: [
       {
-        label: '工作状态',
+        label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
         field: 'WorkStatus',
         format: (value: number) => workFormat(value),
       },
       {
-        label: '工作模式',
+        label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
         field: 'CurrentChargingAndDischargingModel',
         format: (value: number) => electricModelFormat(value),
       },
-      { label: '储能功率', field: 'P', format: energyPowerFormat },
+      {
+        label: formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' }),
+        field: 'P',
+        format: energyPowerFormat,
+      },
     ],
   },
 ];

@@ -17,6 +17,7 @@ import {
 } from './config';
 import ConfigModal from '../../../ConfigModal';
 import { useAuthority } from '@/hooks';
+import { formatMessage } from '@/utils';
 
 export type StackProps = {
   deviceId: string;
@@ -37,10 +38,18 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:converterSetting:converterProtectSetting')) {
       result.push({
         label: (
-          <Detail.Label title="变流器保护参数设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.converterProtectionParameterSettings',
+              defaultMessage: '变流器保护参数设置',
+            })}
+          >
             <ConfigModal
               width={'816px'}
-              title={'变流器保护参数设置'}
+              title={formatMessage({
+                id: 'device.setBatteryProtectionParameters',
+                defaultMessage: '配置电池保护参数',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
@@ -58,9 +67,17 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:converterSetting:powerParamsSetting')) {
       result.push({
         label: (
-          <Detail.Label title="电网参数设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.gridParameterSetting',
+              defaultMessage: '电网参数设置',
+            })}
+          >
             <ConfigModal
-              title={'电网参数设置'}
+              title={formatMessage({
+                id: 'device.configureGridSettings',
+                defaultMessage: '配置电网设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}

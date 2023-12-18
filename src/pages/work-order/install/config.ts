@@ -4,16 +4,16 @@ import { OrderStatus, OrderType } from './type';
 import { formatMessage } from '@/utils';
 
 export const orderStatus = new Map([
-  [OrderStatus.READY, '待处理'],
-  [OrderStatus.DEALING, '安装中'],
-  [OrderStatus.COMPLETE, '安装完成'],
+  [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
+  [OrderStatus.DEALING, formatMessage({ id: 'taskManage.processing', defaultMessage: '安装中' })],
+  [OrderStatus.COMPLETE, formatMessage({ id: 'taskManage.completed', defaultMessage: '安装完成' })],
 ]);
 
 // 工单类型 0：安装工单 1：维护工单 2修复工单
 export const orderType = new Map([
-  [OrderType.INSTALL, '安装'],
-  [OrderType.MAINTENANCE, '维护'],
-  [OrderType.REPAIR, '修复'],
+  [OrderType.INSTALL, formatMessage({ id: 'taskManage.install', defaultMessage: '安装' })],
+  [OrderType.MAINTENANCE, formatMessage({ id: 'taskManage.maintenance', defaultMessage: '维护' })],
+  [OrderType.REPAIR, formatMessage({ id: 'taskManage.repair', defaultMessage: '修复' })],
 ]);
 
 export const columns: ProColumns<InstallListType>[] = [
@@ -47,7 +47,7 @@ export const columns: ProColumns<InstallListType>[] = [
     ellipsis: true,
   },
   {
-    title: formatMessage({ id: 'common.site.siteName', defaultMessage: '站点名称' }),
+    title: formatMessage({ id: 'common.siteName', defaultMessage: '站点名称' }),
     dataIndex: 'siteName',
     hideInSearch: true,
     width: 120,

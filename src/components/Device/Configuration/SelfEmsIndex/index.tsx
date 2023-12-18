@@ -14,12 +14,11 @@ import SystemSetting from './SystemSetting';
 import ConverterSetting from './ConverterSetting';
 import BatterySetting from './BatterySetting';
 import styles from './index.less';
-import { useAuthority, useSubscribe } from '@/hooks';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { useAuthority } from '@/hooks';
 import type { DeviceDataType } from '@/services/equipment';
-import RemoteUpgrade from '../RemoteUpgrade';
 import { AuthorityModeEnum } from '@/hooks/useAuthority';
 import Empty from '@/components/Empty';
+import { formatMessage } from '@/utils';
 export type ConfigProps = {
   deviceId: string;
   productId: string;
@@ -46,7 +45,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   if (authorityMap.get('iot:device:config:systemSetting')) {
     items.push({
       key: '1',
-      label: `系统设置`,
+      label: formatMessage({ id: 'device.systemSetting', defaultMessage: '系统设置' }),
       children: (
         <SystemSetting
           deviceId={deviceId}
@@ -60,7 +59,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   if (authorityMap.get('iot:device:config:converterSetting') && deviceData?.masterSlaveMode != 1) {
     items.push({
       key: '2',
-      label: `变流器设置`,
+      label: formatMessage({ id: 'device.converterSetting', defaultMessage: '变流器设置' }),
       children: (
         <ConverterSetting
           deviceId={deviceId}
@@ -74,7 +73,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   if (authorityMap.get('iot:device:config:batterySetting') && deviceData?.masterSlaveMode != 1) {
     items.push({
       key: '3',
-      label: `电池设置`,
+      label: formatMessage({ id: 'device.batterySetting', defaultMessage: '电池设置' }),
       children: (
         <BatterySetting
           deviceId={deviceId}
@@ -88,7 +87,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   if (authorityMap.get('iot:device:config:energyManage') && deviceData?.masterSlaveMode != 1) {
     items?.push({
       key: '4',
-      label: `能量管理`,
+      label: formatMessage({ id: 'device.energyManagement', defaultMessage: '能量管理' }),
       children: (
         <EnergyManageTab
           productId={productId}

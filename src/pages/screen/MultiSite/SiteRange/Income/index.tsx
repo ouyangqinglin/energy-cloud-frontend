@@ -15,7 +15,7 @@ import { merge } from 'lodash';
 import { SiteDataType, getIncomeData } from '../service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import { Col, Row } from 'antd';
-import { formatNum } from '@/utils';
+import { formatMessage, formatNum } from '@/utils';
 import styles from './index.less';
 
 const colors = ['#FF8144', '#FF7B7B', '#FFD15C', '#01CFA1', '#159AFF'];
@@ -69,7 +69,14 @@ const Income: React.FC = () => {
 
   return (
     <>
-      <Title className="mt6 mb8" title="站点收益" unit="单位(元)" />
+      <Title
+        className="mt6 mb8"
+        title={formatMessage({ id: 'screen.siteRevenue', defaultMessage: '站点收益' })}
+        unit={`${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}${formatMessage({
+          id: 'common.rmb',
+          defaultMessage: '元',
+        })}`}
+      />
       <Row className="" gutter={32}>
         <Col span={12} className="flex flex-center">
           <Chart

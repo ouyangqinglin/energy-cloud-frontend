@@ -8,6 +8,7 @@
  */
 
 import { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type DeviceRealTimeType = {
@@ -67,15 +68,24 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
   [DeviceTypeEnum.YTEnergyMetter]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyMetterRAIG]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyMetterDTSD]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },

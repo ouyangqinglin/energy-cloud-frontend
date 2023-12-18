@@ -13,15 +13,19 @@ import { useLocation, useModel, useHistory } from 'umi';
 import YtIcon from '@/assets/image/icon-yt.png';
 import { getStation } from '@/services/station';
 import type { LocationType } from '@/types';
+import { formatMessage } from '@/utils';
 
 const menuMap = new Map([
-  ['/station-manage/operation-monitor', '概览'],
-  ['/station-manage/station', '站点'],
-  ['/station-manage/device', '设备'],
-  ['/station-manage/alarm', '告警'],
-  ['/station-manage/report', '数据'],
-  ['/station-manage/stat', '任务'],
-  ['/station-manage/setting', '设置'],
+  [
+    '/station-manage/operation-monitor',
+    formatMessage({ id: 'device.overview', defaultMessage: '概览' }),
+  ],
+  ['/station-manage/station', formatMessage({ id: 'device.site', defaultMessage: '站点' })],
+  ['/station-manage/device', formatMessage({ id: 'device.device', defaultMessage: '设备' })],
+  ['/station-manage/alarm', formatMessage({ id: 'common.warning', defaultMessage: '告警' })],
+  ['/station-manage/report', formatMessage({ id: 'device.data', defaultMessage: '数据' })],
+  ['/station-manage/stat', formatMessage({ id: 'device.task', defaultMessage: '任务' })],
+  ['/station-manage/setting', formatMessage({ id: 'device.set', defaultMessage: '设置' })],
 ]);
 
 const TopMenu: React.FC = () => {

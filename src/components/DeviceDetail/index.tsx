@@ -14,7 +14,7 @@ import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { TreeNode, deviceMap } from './config';
 import Configuration from '@/components/Device/Configuration';
 import DeviceRealTime from '@/components/DeviceRealTime';
@@ -100,7 +100,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const items = useMemo<TabsProps['items']>(() => {
     return [
       {
-        label: '设备详情',
+        label: formatMessage({ id: 'siteMonitor.deviceDetails', defaultMessage: '设备详情' }),
         key: '1',
         children: (
           <>
@@ -120,12 +120,12 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         ),
       },
       {
-        label: '历史数据',
+        label: formatMessage({ id: 'common.historyData', defaultMessage: '历史数据' }),
         key: '2',
         children: <Search isDeviceChild deviceData={selectOrg} />,
       },
       {
-        label: '告警',
+        label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
         key: '3',
         children: (
           <Alarm
@@ -135,12 +135,12 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         ),
       },
       {
-        label: '日志',
+        label: formatMessage({ id: 'common.logs', defaultMessage: '日志' }),
         key: '4',
         children: <RunLog deviceId={selectOrg?.deviceId || ''} isDeviceChild />,
       },
       {
-        label: '配置',
+        label: formatMessage({ id: 'common.configured', defaultMessage: '配置' }),
         key: '5',
         children: (
           <Configuration

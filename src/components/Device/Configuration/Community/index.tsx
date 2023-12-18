@@ -19,6 +19,7 @@ import {
 import Community, { CommunityTypeEnum } from '@/components/ScreenDialog/Community';
 import { DeviceDataType } from '@/services/equipment';
 import { DeviceTypeEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export type CommunityProps = {
   deviceData: DeviceDataType;
@@ -51,7 +52,12 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
     if (deviceData?.paramConfigType && deviceData?.deviceId) {
       groupItem.push({
         label: (
-          <Detail.Label title="通信信息">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.communicationInformation',
+              defaultMessage: '通信信息',
+            })}
+          >
             <Community
               id={deviceData?.deviceId}
               deviceData={deviceData}
@@ -61,8 +67,11 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
                 deviceData?.productId as any,
               )
                 ? {
-                    userLabel: 'EMS mqtt用户名',
-                    passwordLabel: 'EMS mqtt密码',
+                    userLabel:
+                      'EMS mqtt' +
+                      formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+                    passwordLabel:
+                      'EMS mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }),
                   }
                 : {})}
             />

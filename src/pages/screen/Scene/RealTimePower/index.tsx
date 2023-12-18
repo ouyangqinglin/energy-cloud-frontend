@@ -15,6 +15,7 @@ import type { Moment } from 'moment';
 import styles from './index.less';
 import { getData } from './service';
 import { useToolTip } from '@/hooks';
+import { formatMessage } from '@/utils';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -32,11 +33,11 @@ type ChartDataType = {
 };
 
 const legendMap = new Map([
-  ['me', '市电'],
-  ['pv', '光伏'],
-  ['es', '储能'],
-  ['cs', '充电桩'],
-  ['load', '其他负载'],
+  ['me', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+  ['pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
+  ['es', formatMessage({ id: 'device.storage', defaultMessage: '储能' })],
+  ['cs', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
+  ['load', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
 ]);
 
 const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
@@ -150,7 +151,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         />
         <Annotation.Text
           position={['min', 'max']}
-          content="功率(KW)"
+          content={formatMessage({ id: 'common.power', defaultMessage: '功率' }) + '(KW)'}
           offsetX={-25}
           offsetY={-25}
           style={{

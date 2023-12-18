@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-07 16:32:54
+ * @LastEditTime: 2023-12-18 14:56:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
@@ -29,9 +29,10 @@ import {
 import ElectricLine from '@/assets/image/device/electric-line.png';
 import styles from './index.less';
 import { MaxUnitType } from './type';
-import { getPlaceholder, isEmpty } from '@/utils';
+import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equipment';
-import { DeviceTypeEnum, deviceAlarmStatus, onlineStatus } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import { deviceAlarmStatus, onlineStatus } from '@/utils/dict';
 import { clusterFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
@@ -83,16 +84,40 @@ const Stack: React.FC<StackProps> = (props) => {
   const maxUnitData = useMemo<MaxUnitType[]>(() => {
     const result: MaxUnitType[] = [
       {
-        maxVoltage: `电芯编号：${getPlaceholder(realTimeData?.MaxNOIV)}`,
-        minVoltage: `电芯编号：${getPlaceholder(realTimeData?.MNOIV)}`,
-        maxTemp: `温度点：${getPlaceholder(realTimeData?.MITN)}`,
-        minTemp: `温度点：${getPlaceholder(realTimeData?.MNOIT)}`,
+        maxVoltage: `${formatMessage({
+          id: 'siteMonitor.cellNumber',
+          defaultMessage: '电芯编号',
+        })}：${getPlaceholder(realTimeData?.MaxNOIV)}`,
+        minVoltage: `${formatMessage({
+          id: 'siteMonitor.cellNumber',
+          defaultMessage: '电芯编号',
+        })}：${getPlaceholder(realTimeData?.MNOIV)}`,
+        maxTemp: `${formatMessage({
+          id: 'siteMonitor.temperaturePoint',
+          defaultMessage: '温度点',
+        })}：${getPlaceholder(realTimeData?.MITN)}`,
+        minTemp: `${formatMessage({
+          id: 'siteMonitor.temperaturePoint',
+          defaultMessage: '温度点',
+        })}：${getPlaceholder(realTimeData?.MNOIT)}`,
       },
       {
-        maxVoltage: `电压：${getPlaceholder(realTimeData?.MVVOASU)}`,
-        minVoltage: `电压：${getPlaceholder(realTimeData?.MVVOSU)}`,
-        maxTemp: `温度：${getPlaceholder(realTimeData?.MaximumIndividualTemperature)}`,
-        minTemp: `温度：${getPlaceholder(realTimeData?.LVOMT)}`,
+        maxVoltage: `${formatMessage({
+          id: 'siteMonitor.voltage',
+          defaultMessage: '电压',
+        })}：${getPlaceholder(realTimeData?.MVVOASU)}`,
+        minVoltage: `${formatMessage({
+          id: 'siteMonitor.voltage',
+          defaultMessage: '电压',
+        })}：${getPlaceholder(realTimeData?.MVVOSU)}`,
+        maxTemp: `${formatMessage({
+          id: 'siteMonitor.temperature',
+          defaultMessage: '温度',
+        })}：${getPlaceholder(realTimeData?.MaximumIndividualTemperature)}`,
+        minTemp: `${formatMessage({
+          id: 'siteMonitor.temperature',
+          defaultMessage: '温度',
+        })}：${getPlaceholder(realTimeData?.LVOMT)}`,
       },
     ];
     return result;
@@ -101,14 +126,14 @@ const Stack: React.FC<StackProps> = (props) => {
   const columns = useMemo<ProColumns<ClusterType>[]>(() => {
     return [
       {
-        title: '设备名称',
+        title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '运行状态',
+        title: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
         dataIndex: 'runState',
         width: 150,
         ellipsis: true,
@@ -118,7 +143,7 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: '通信状态',
+        title: formatMessage({ id: 'siteMonitor.communicationStatus', defaultMessage: '通信状态' }),
         dataIndex: 'connectStatus',
         width: 150,
         ellipsis: true,
@@ -134,7 +159,7 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: '告警状态',
+        title: formatMessage({ id: 'siteMonitor.alarmStatus', defaultMessage: '告警状态' }),
         dataIndex: 'alarmStatus',
         width: 150,
         ellipsis: true,
@@ -144,14 +169,14 @@ const Stack: React.FC<StackProps> = (props) => {
         },
       },
       {
-        title: '设备容量(kWh)',
+        title: formatMessage({ id: 'siteMonitor.equipmentCapacity', defaultMessage: '设备容量' }),
         dataIndex: 'ratedCapacity',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '当前SOC',
+        title: formatMessage({ id: 'common.current', defaultMessage: '当前' }) + 'SOC',
         dataIndex: 'soc',
         width: 150,
         ellipsis: true,
@@ -173,7 +198,14 @@ const Stack: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="控制信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.controlInformation',
+              defaultMessage: '控制信息',
+            })}
+          />
+        ),
         items: [
           ...controlItemsOne,
           ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
@@ -183,7 +215,14 @@ const Stack: React.FC<StackProps> = (props) => {
         ],
       },
       {
-        label: <Detail.Label title="状态信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
+        ),
         items: [
           ...statusItemsOne,
           ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack ? [] : statusItemsH2),
@@ -194,15 +233,36 @@ const Stack: React.FC<StackProps> = (props) => {
         ],
       },
       {
-        label: <Detail.Label title="历史信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.historicalInformation',
+              defaultMessage: '历史信息',
+            })}
+          />
+        ),
         items: historyItems,
       },
       {
-        label: <Detail.Label title="温度信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.temperatureInformation',
+              defaultMessage: '温度信息',
+            })}
+          />
+        ),
         items: tempItems,
       },
       {
-        label: <Detail.Label title="能力信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.capabilityInformation',
+              defaultMessage: '能力信息',
+            })}
+          />
+        ),
         items: abilityItems,
       },
     ];
@@ -220,7 +280,13 @@ const Stack: React.FC<StackProps> = (props) => {
           valueStyle: { width: '40%' },
         }}
       />
-      <Detail.Label title="单体极值信息" className="mt16" />
+      <Detail.Label
+        title={formatMessage({
+          id: 'siteMonitor.monomerInformation',
+          defaultMessage: '单体极值信息',
+        })}
+        className="mt16"
+      />
       <YTProTable
         search={false}
         options={false}
@@ -230,7 +296,13 @@ const Stack: React.FC<StackProps> = (props) => {
         scroll={{ y: 'auto' }}
         pagination={false}
       />
-      <Detail.Label title="电池簇信息" className="mt32" />
+      <Detail.Label
+        title={formatMessage({
+          id: 'siteMonitor.batteryClusterInformation',
+          defaultMessage: '电池簇信息',
+        })}
+        className="mt32"
+      />
       <YTProTable
         loading={loading}
         search={false}
@@ -241,7 +313,13 @@ const Stack: React.FC<StackProps> = (props) => {
         scroll={{ y: 'auto' }}
         pagination={false}
       />
-      <Detail.Label title="电气一次图" className="mt32" />
+      <Detail.Label
+        title={formatMessage({
+          id: 'siteMonitor.electricalPrimaryDiagram',
+          defaultMessage: '电气一次图',
+        })}
+        className="mt32"
+      />
       <div className={styles.elctric}>
         <img src={ElectricLine} />
       </div>

@@ -4,6 +4,7 @@ import styles from './index.less';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
 import { isNumber, isNaN, merge } from 'lodash';
+import { formatMessage } from '@/utils';
 
 TweenOne.plugins.push(Children);
 
@@ -27,7 +28,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
   title,
   comma = false,
   floatLength = 2,
-  unit = '元',
+  unit = formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
   unitStyle = {},
 }) => {
   const textNode = useMemo(() => {

@@ -15,6 +15,7 @@ import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
 import type { ChartRes } from '../Chart/type';
 import { convertToData, sortedData } from '../Chart/helper';
+import { formatMessage } from '@/utils';
 
 const Photovoltaic: FC = () => {
   const { data: currentPowerData } = useRequest(getCurrentPowerGeneration, {
@@ -49,7 +50,7 @@ const Photovoltaic: FC = () => {
         return {
           ts: it.time,
           value: it.value,
-          field: '发电量',
+          field: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
         };
       })) ??
     [];
@@ -98,7 +99,7 @@ const Photovoltaic: FC = () => {
         />
       </div>
       <StatisticChart
-        title="光伏发电量"
+        title={formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电量' })}
         onDateChange={onDateChange}
         // chartConfigMap={{
         //   discharge: {

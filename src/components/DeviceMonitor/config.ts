@@ -1,5 +1,6 @@
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 
 export type DeviceDetailType = {
   id: string;
@@ -73,7 +74,10 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.BWattBatteryCluster]: { component: 'BatterryStack' },
   [DeviceTypeEnum.BWattPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.BWattEms]: { component: 'Ems' },
-  [DeviceTypeEnum.BWattElectricMeter]: { component: 'ElectricMeter', props: { label: '实时数据' } },
+  [DeviceTypeEnum.BWattElectricMeter]: {
+    component: 'ElectricMeter',
+    props: { label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }) },
+  },
   [DeviceTypeEnum.BWattAir]: { component: 'Air' },
   [DeviceTypeEnum.BWattEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergy]: { component: 'Energy' },
@@ -81,15 +85,24 @@ export const deviceDetailMap: Omit<
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
   [DeviceTypeEnum.YTEnergyMetter]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyMetterRAIG]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyMetterDTSD]: {
     component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
   },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },

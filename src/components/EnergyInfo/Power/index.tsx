@@ -14,7 +14,7 @@ import { getPower } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 enum colorEnum {
   Charge = 'rgba(0, 125, 255, 1)',
@@ -42,7 +42,7 @@ const Power: React.FC<ComProps> = (props) => {
       grid: {
         top: 30,
         bottom: 50,
-        right: 40,
+        right: 60,
       },
       tooltip: {
         trigger: 'axis',
@@ -52,8 +52,16 @@ const Power: React.FC<ComProps> = (props) => {
           if (typeof value[1] === 'number') {
             result.push(
               value[1] > 0
-                ? value[1] + `kW（<span style="color:${colorEnum.DisCharge}">放电</span>）`
-                : value[1] + `kW（<span style="color:${colorEnum.Charge}">充电</span>）`,
+                ? value[1] +
+                    `kW（<span style="color:${colorEnum.DisCharge}">${formatMessage({
+                      id: 'siteMonitor.discharge',
+                      defaultMessage: '放电',
+                    })}</span>）`
+                : value[1] +
+                    `kW（<span style="color:${colorEnum.Charge}">${formatMessage({
+                      id: 'siteMonitor.charge',
+                      defaultMessage: '充电',
+                    })}</span>）`,
             );
           } else {
             result.push('-');
@@ -85,7 +93,7 @@ const Power: React.FC<ComProps> = (props) => {
         ],
       },
       yAxis: {
-        name: '单位（kW）',
+        name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kW）',
       },
       series: [
         {
@@ -97,7 +105,13 @@ const Power: React.FC<ComProps> = (props) => {
                 label: {
                   show: true,
                   color: colorEnum.Charge,
-                  formatter: '{dis|放电}\n\n\n\n\n充电',
+                  formatter: `{dis|${formatMessage({
+                    id: 'siteMonitor.discharge',
+                    defaultMessage: '放电',
+                  })}}\n\n\n\n\n${formatMessage({
+                    id: 'siteMonitor.charge',
+                    defaultMessage: '充电',
+                  })}`,
                   rich: {
                     dis: {
                       color: colorEnum.DisCharge,
@@ -166,7 +180,12 @@ const Power: React.FC<ComProps> = (props) => {
           <>
             <div className="flex mb16">
               <label className={`flex1 ${styles.label}`}>
-                {source == EnergySourceEnum.SiteMonitor ? '储能单元功率' : '储能功率'}
+                {source == EnergySourceEnum.SiteMonitor
+                  ? formatMessage({
+                      id: 'siteMonitor.storageUnitPower',
+                      defaultMessage: '储能单元功率',
+                    })
+                  : formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' })}
               </label>
               <DatePicker
                 defaultValue={date}

@@ -11,10 +11,10 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
-import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
@@ -23,22 +23,18 @@ export type EmsType = DeviceRealTimeType & {
 const Ems: React.FC<EmsType> = (props) => {
   const { id, productId, deviceData, type } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const realTimeData = useSubscribe(id, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
       {
         key: '1',
-        label: '运行数据',
+        label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
         children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
       },
       {
         key: '2',
-        label: '远程控制',
+        label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
         children: (
           <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
         ),

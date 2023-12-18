@@ -12,6 +12,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
   deviceId: string;
@@ -114,7 +115,7 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
             onClick={onClick}
             disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
-            配置参数
+            {formatMessage({ id: 'device.configurationParameter', defaultMessage: '配置参数' })}
           </Button>
         ) : (
           <></>

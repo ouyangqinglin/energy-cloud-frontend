@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-12-07 14:27:10
+ * @LastEditTime: 2023-12-18 17:49:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -263,17 +263,6 @@ export const alarmStatus = {
   },
 };
 
-export const alarmStatus1 = {
-  0: {
-    text: '已消除',
-    status: 'Default',
-  },
-  1: {
-    text: '告警中',
-    status: 'Error',
-  },
-};
-
 export const alarmClearStatus = {
   0: {
     text: '产生',
@@ -344,20 +333,6 @@ export const serviceProgressMap = new Map([
   [3, '完成'],
 ]);
 
-export const dataSaveTime = {
-  0: '一个月',
-  1: '三个月',
-  2: '六个月',
-  3: '一年',
-};
-
-export const noticeMethod = {
-  0: '不通知',
-  1: '短信',
-  2: '邮件',
-  3: '短信+邮件',
-};
-
 export enum reportTypeEnum {
   Site = 0,
   Electric = 1,
@@ -367,16 +342,6 @@ export enum reportTypeEnum {
   ChargeBase = 4,
   Else = 5,
 }
-
-export const reportType = new Map([
-  [reportTypeEnum.Site, '站点报表'],
-  [reportTypeEnum.Electric, '市电报表'],
-  [reportTypeEnum.PvInverter, '光伏报表'],
-  [reportTypeEnum.Energy, '储能报表'],
-  [reportTypeEnum.ChargeOrder, '充电桩订单报表'],
-  [reportTypeEnum.ChargeBase, '充电桩基础报表'],
-  [reportTypeEnum.Else, '其他负载报表'],
-]);
 
 export const reportTypeSystemIdMap = new Map([
   [reportTypeEnum.PvInverter, ChildSystemEnum.Pv],
@@ -391,13 +356,6 @@ export enum timeDimensionEnum {
   Year,
   Cycle,
 }
-
-export const timeDimension = new Map([
-  [timeDimensionEnum.Day, { text: '按日统计', format: 'YYYY-MM-DD' }],
-  [timeDimensionEnum.Month, { text: '按月统计', format: 'YYYY-MM' }],
-  [timeDimensionEnum.Year, { text: '按年统计', format: 'YYYY' }],
-  [timeDimensionEnum.Cycle, { text: '按生命周期统计' }],
-]);
 
 export const cleanUpType = {
   0: '自动恢复',

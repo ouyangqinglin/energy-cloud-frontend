@@ -9,11 +9,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
 import RealTime from '@/components/Meter/RealTime';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 const Index: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
@@ -51,7 +51,14 @@ const Index: React.FC<DeviceRealTimeType> = (props) => {
         id={id}
         loading={loading}
         open={openSubscribe}
-        label={<Detail.Label title="运行信息" />}
+        label={
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.operationalInformation',
+              defaultMessage: '运行信息',
+            })}
+          />
+        }
         detailProps={{
           extral,
           colon: false,

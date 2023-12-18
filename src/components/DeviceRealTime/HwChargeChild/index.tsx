@@ -8,7 +8,7 @@
  */
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { DetailItem } from '@/components/Detail';
 import RealTime from '@/components/ScreenDialog/HwChargeChild/RealTime';
 import Button from '@/components/CollectionModal/Button';

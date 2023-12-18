@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-12 10:27:09
- * @LastEditTime: 2023-09-12 11:39:58
+ * @LastEditTime: 2023-12-18 11:17:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Ems\SystemTimeForm\index.tsx
  */
@@ -16,6 +16,7 @@ import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import moment, { Moment } from 'moment';
+import { formatMessage } from '@/utils';
 
 const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
   const { deviceId, systemTimeData, onSuccess } = props;
@@ -53,12 +54,12 @@ const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
   return (
     <>
       <Button type="primary" onClick={setTrue}>
-        下发参数
+        {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'下发参数'}
+        title={formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

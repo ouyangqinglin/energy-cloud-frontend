@@ -8,37 +8,44 @@ import Record from './Record';
 import Account from './Account';
 import ParamsSetting from './ParamsSetting';
 import Device from './Device';
+import { formatMessage } from '@/utils';
 
 const Setting = () => {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `基础信息`,
+      label: formatMessage({ id: 'siteManage.set.baseInfo', defaultMessage: '基础信息' }),
       children: <StationInfo />,
     },
     {
       key: '2',
-      label: `设备管理`,
+      label: formatMessage({ id: 'siteManage.set.deviceManage', defaultMessage: '设备管理' }),
       children: <Device />,
     },
     {
       key: '3',
-      label: `运行管理`,
+      label: formatMessage({ id: 'siteManage.set.operateManagement', defaultMessage: '运行管理' }),
       children: <System />,
     },
     {
       key: '4',
-      label: `系统参数设置`,
+      label: formatMessage({
+        id: 'siteManage.set.systemParameterSet',
+        defaultMessage: '系统参数设置',
+      }),
       children: <ParamsSetting />,
     },
     {
       key: '5',
-      label: `电价管理`,
+      label: formatMessage({
+        id: 'siteManage.set.electricPriceManagement',
+        defaultMessage: '电价管理',
+      }),
       children: <ElectricityPrice />,
     },
     {
       key: '6',
-      label: `配置日志`,
+      label: formatMessage({ id: 'siteManage.set.configLog', defaultMessage: '配置日志' }),
       children: <Record />,
     },
   ];

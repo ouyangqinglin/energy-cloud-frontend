@@ -59,7 +59,7 @@ const GlobalHeaderRight: React.FC = () => {
     <Space className={className} size={16}>
       {passAuthority ? <Workbench /> : <></>}
       <Avatar menu />
-      {/* <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} /> */}
+      <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} />
     </Space>
   );
 };

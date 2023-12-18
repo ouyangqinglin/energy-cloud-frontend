@@ -8,41 +8,103 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 export const accountItem: DetailItem[] = [
-  { label: 'mqtt用户名', field: 'userName' },
-  { label: 'mqtt密码', field: 'a' },
+  {
+    label: 'mqtt' + formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+    field: 'userName',
+  },
+  { label: 'mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }), field: 'a' },
 ];
 
 export const meterItem: DetailItem[] = [
-  { label: 'mqtt用户名', field: 'userName' },
-  { label: 'mqtt密码', field: 'a' },
-  { label: '电流变比', field: 'currentRatio' },
-  { label: '电压变比', field: 'voltageRatio' },
-  { label: '电能变比', field: 'energyRatio' },
-  { label: '功率变比', field: 'powerRatio' },
+  {
+    label: 'mqtt' + formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+    field: 'userName',
+  },
+  { label: 'mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }), field: 'a' },
+  {
+    label: formatMessage({ id: 'device.currentRatio', defaultMessage: '电流变比' }),
+    field: 'currentRatio',
+  },
+  {
+    label: formatMessage({ id: 'device.voltageRatio', defaultMessage: '电压变比' }),
+    field: 'voltageRatio',
+  },
+  {
+    label: formatMessage({ id: 'device.electricRatio', defaultMessage: '电能变比' }),
+    field: 'energyRatio',
+  },
+  {
+    label: formatMessage({ id: 'device.powerRatio', defaultMessage: '功率变比' }),
+    field: 'powerRatio',
+  },
 ];
 export const selfEnergyMeterItem: DetailItem[] = [
-  { label: '电流变比', field: 'currentRatio' },
-  { label: '电压变比', field: 'voltageRatio' },
+  {
+    label: formatMessage({ id: 'device.currentRatio', defaultMessage: '电流变比' }),
+    field: 'currentRatio',
+  },
+  {
+    label: formatMessage({ id: 'device.voltageRatio', defaultMessage: '电压变比' }),
+    field: 'voltageRatio',
+  },
 ];
 
-export const thirtySiteItem: DetailItem[] = [{ label: '第三方站点', field: 'thirdSiteName' }];
+export const thirtySiteItem: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
+    field: 'thirdSiteName',
+  },
+];
 
 export const thirtySiteGunItem: DetailItem[] = [
-  { label: '第三方站点', field: 'thirdSiteName' },
-  { label: '任一充电枪序列码', field: 'anyGnSn' },
+  {
+    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
+    field: 'thirdSiteName',
+  },
+  {
+    label: formatMessage({
+      id: 'device.anyChargingGunSequenceCode',
+      defaultMessage: '任一充电枪序列码',
+    }),
+    field: 'anyGnSn',
+  },
 ];
 
 export const bWattItem: DetailItem[] = [
-  { label: '项目 ID', field: 'projectId' },
+  {
+    label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
+    field: 'projectId',
+  },
   { label: 'BMS ID', field: 'bmsId' },
   { label: 'EMS ID', field: 'emsId' },
   { label: 'PCS ID', field: 'pcsId' },
-  { label: '单体温度 ID', field: 'temperatureDeviceId' },
-  { label: '单体电压 ID', field: 'voltageDeviceId' },
-  { label: '空调 ID', field: 'airConditionerId' },
-  { label: '系统时钟 ID', field: 'clockDeviceId' },
-  { label: '能耗统计 ID', field: 'statisticsDeviceId' },
-  { label: '第三方站点', field: 'thirdSiteName' },
+  {
+    label: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) + ' ID',
+    field: 'temperatureDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) + ' ID',
+    field: 'voltageDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) + ' ID',
+    field: 'airConditionerId',
+  },
+  {
+    label: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
+    field: 'clockDeviceId',
+  },
+  {
+    label:
+      formatMessage({ id: 'device.energyConsumptionStatistics', defaultMessage: '能耗统计' }) +
+      ' ID',
+    field: 'statisticsDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
+    field: 'thirdSiteName',
+  },
 ];

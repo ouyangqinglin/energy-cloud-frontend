@@ -9,6 +9,7 @@ import {
 import { Form, Modal, Row, Col } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import type { NoticeType } from '../data.d';
+import { formatMessage } from '@/utils';
 
 /* *
  *
@@ -80,13 +81,21 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             id: 'system.Notice.notice_id',
             defaultMessage: '公告ID',
           })}
-          placeholder="请输入公告ID"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.notice_id',
+            defaultMessage: '公告ID',
+          })}`}
           disabled
           hidden={!props.values.noticeId}
           rules={[
             {
               required: false,
-              message: <FormattedMessage id="请输入公告ID！" defaultMessage="请输入公告ID！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.notice_id', defaultMessage: '公告ID' }),
             },
           ]}
         />
@@ -96,11 +105,19 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             id: 'system.Notice.notice_title',
             defaultMessage: '公告标题',
           })}
-          placeholder="请输入公告标题"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.notice_title',
+            defaultMessage: '公告标题',
+          })}`}
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="请输入公告标题！" defaultMessage="请输入公告标题！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.notice_title', defaultMessage: '公告标题' }),
             },
           ]}
         />
@@ -111,11 +128,19 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             id: 'system.Notice.notice_type',
             defaultMessage: '公告类型',
           })}
-          placeholder="请输入公告类型"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.notice_type',
+            defaultMessage: '公告类型',
+          })}`}
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="请输入公告类型！" defaultMessage="请输入公告类型！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.notice_type', defaultMessage: '公告类型' }),
             },
           ]}
         />
@@ -125,11 +150,19 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             id: 'system.Notice.notice_content',
             defaultMessage: '公告内容',
           })}
-          placeholder="请输入公告内容"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.notice_content',
+            defaultMessage: '公告内容',
+          })}`}
           rules={[
             {
               required: false,
-              message: <FormattedMessage id="请输入公告内容！" defaultMessage="请输入公告内容！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.notice_content', defaultMessage: '公告内容' }),
             },
           ]}
         />
@@ -141,11 +174,19 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             defaultMessage: '公告状态',
           })}
           labelCol={{ span: 24 }}
-          placeholder="请输入公告状态"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.status',
+            defaultMessage: '公告状态',
+          })}`}
           rules={[
             {
               required: false,
-              message: <FormattedMessage id="请输入公告状态！" defaultMessage="请输入公告状态！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.status', defaultMessage: '公告状态' }),
             },
           ]}
         />
@@ -155,11 +196,19 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
             id: 'system.Notice.remark',
             defaultMessage: '备注',
           })}
-          placeholder="请输入备注"
+          placeholder={`${formatMessage({
+            id: 'common.pleaseEnter',
+            defaultMessage: '请输入',
+          })}${intl.formatMessage({
+            id: 'system.Notice.remark',
+            defaultMessage: '备注',
+          })}`}
           rules={[
             {
               required: false,
-              message: <FormattedMessage id="请输入备注！" defaultMessage="请输入备注！" />,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'system.Notice.remark', defaultMessage: '备注' }),
             },
           ]}
         />

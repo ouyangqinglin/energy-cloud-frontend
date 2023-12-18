@@ -16,7 +16,7 @@ import { getData } from '../../Product/service';
 import YTProTable from '@/components/YTProTable';
 import { getCollection } from './service';
 import { DevicePropsType } from '@/types/device';
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 
 export type MyDetailProps = {
   id?: string;
@@ -80,15 +80,15 @@ const MyDetail: React.FC<MyDetailProps> = (props) => {
   const items: TabsProps['items'] = [
     {
       key: 'properties',
-      label: '属性',
+      label: formatMessage({ id: 'user.attribute', defaultMessage: '属性' }),
     },
     {
       key: 'events',
-      label: '事件',
+      label: formatMessage({ id: 'user.event', defaultMessage: '事件' }),
     },
     {
       key: 'services',
-      label: '服务',
+      label: formatMessage({ id: 'user.service', defaultMessage: '服务' }),
     },
   ];
 

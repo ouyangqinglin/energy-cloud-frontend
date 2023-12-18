@@ -15,6 +15,7 @@ import type { EquipFormType } from '@/components/EquipForm/data.d';
 import { getEquipInfo, editEquipConfig } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
+import { formatMessage } from '@/utils';
 
 type AccountType = CommunityProps & {
   userLabel?: string;
@@ -28,8 +29,8 @@ const Account: React.FC<AccountType> = (props) => {
     open,
     onOpenChange,
     model,
-    userLabel = 'mqtt用户名',
-    passwordLabel = 'mqtt密码',
+    userLabel = `mqtt${formatMessage({ id: 'common.userName', defaultMessage: '用户名' })}`,
+    passwordLabel = `mqtt${formatMessage({ id: 'common.password', defaultMessage: '密码' })}`,
   } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
@@ -61,7 +62,7 @@ const Account: React.FC<AccountType> = (props) => {
         config: JSON.stringify(formData),
       }).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           return true;
         }
       });
@@ -74,7 +75,13 @@ const Account: React.FC<AccountType> = (props) => {
       title: userLabel,
       dataIndex: 'userName',
       formItemProps: {
-        rules: [{ required: true, message: '请填写' + userLabel }],
+        rules: [
+          {
+            required: true,
+            message:
+              formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) + userLabel,
+          },
+        ],
       },
     },
     {
@@ -82,7 +89,13 @@ const Account: React.FC<AccountType> = (props) => {
       dataIndex: 'password',
       valueType: 'password',
       formItemProps: {
-        rules: [{ required: true, message: '请填写' + passwordLabel }],
+        rules: [
+          {
+            required: true,
+            message:
+              formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) + passwordLabel,
+          },
+        ],
       },
     },
   ];
@@ -92,7 +105,10 @@ const Account: React.FC<AccountType> = (props) => {
       <BetaSchemaForm<MeterCommunityType>
         formRef={formRef}
         layoutType="ModalForm"
-        title="设置通信信息"
+        title={formatMessage({
+          id: 'device.setCommunicationInformation',
+          defaultMessage: '设置通信信息',
+        })}
         width="460px"
         visible={open}
         onVisibleChange={onOpenChange}

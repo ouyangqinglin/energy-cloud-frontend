@@ -15,11 +15,21 @@ import { getTopoOffset } from './useTopoResize';
 import classnames from 'classnames';
 import SiteLabel from '@/components/SiteLabel';
 import { SiteDataType } from '@/services/station';
+import { formatMessage } from '@/utils';
 
 const keyToSystemTitle = new Map([
-  ['11', '永泰光储能示范站能量流'],
-  ['31', '储能站点能量流'],
-  ['21', '光伏站点能量流'],
+  [
+    '11',
+    formatMessage({
+      id: 'siteMonitor.YongtaiLightEnergyStorage',
+      defaultMessage: '永泰光储能示范站能量流',
+    }),
+  ],
+  [
+    '31',
+    formatMessage({ id: 'siteMonitor.storageSiteEnergyFlow', defaultMessage: '储能站点能量流' }),
+  ],
+  ['21', formatMessage({ id: 'siteMonitor.pvSiteEnergyFlow', defaultMessage: '光伏站点能量流' })],
 ]);
 
 type SiteType = {
@@ -47,7 +57,7 @@ const Index: React.FC = () => {
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
     return [
       {
-        title: '拓扑',
+        title: formatMessage({ id: 'siteMonitor.topology', defaultMessage: '拓扑' }),
         dataIndex: 'type',
         colProps: {
           sm: 8,
@@ -62,11 +72,14 @@ const Index: React.FC = () => {
           },
         },
         valueEnum: new Map([
-          [1, '站点概览'],
-          [2, '光伏拓扑'],
-          [3, '储能拓扑'],
-          [4, '用电拓扑'],
-          [5, '通信拓扑'],
+          [1, formatMessage({ id: 'siteMonitor.siteOverview', defaultMessage: '站点概览' })],
+          [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })],
+          [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })],
+          [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })],
+          [
+            5,
+            formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' }),
+          ],
         ]),
       },
     ];
@@ -132,7 +145,9 @@ const Index: React.FC = () => {
               initialValues={{}}
             />
           </div>
-          <Button type="primary">编辑</Button>
+          <Button type="primary">
+            {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+          </Button>
         </div>
         <div className={styles.title}>{keyToSystemTitle.get(systemDiagramId)}</div>
         <svg

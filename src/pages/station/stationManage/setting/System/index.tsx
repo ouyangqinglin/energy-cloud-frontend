@@ -11,17 +11,18 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import Monitor from './Monitor';
 import OverviewSetting from './OverviewSetting';
+import { formatMessage } from '@/utils';
 
 const System: React.FC = () => {
   const tabItems: TabsProps['items'] = [
     {
       key: 'monitor',
-      label: '监测设置',
+      label: formatMessage({ id: 'siteManage.set.monitorSetup', defaultMessage: '监测设置' }),
       children: <Monitor />,
     },
     {
       key: 'strategy',
-      label: '大屏配置',
+      label: formatMessage({ id: 'siteManage.set.largeScreenConfig', defaultMessage: '大屏配置' }),
       children: <OverviewSetting />,
     },
   ];

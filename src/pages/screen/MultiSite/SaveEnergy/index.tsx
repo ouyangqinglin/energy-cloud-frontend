@@ -15,6 +15,7 @@ import styles from './index.less';
 import { items } from './config';
 import { getData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../config';
+import { formatMessage } from '@/utils';
 
 const SaveEnergy: React.FC = () => {
   const { data: energyData } = useRequest(getData, { pollingInterval: REQUEST_INTERVAL_5_MINUTE });
@@ -22,7 +23,10 @@ const SaveEnergy: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={400} height={267} right={24} bottom={24}>
-        <DecorationCarousel panelStyle={{ padding: '16px 28px 0' }} title="节能减排">
+        <DecorationCarousel
+          panelStyle={{ padding: '16px 28px 0' }}
+          title={formatMessage({ id: 'screen.energySavingReduction', defaultMessage: '节能减排' })}
+        >
           <DigitStat className={styles.digit} items={items} span={24} data={energyData} />
         </DecorationCarousel>
       </Cell>

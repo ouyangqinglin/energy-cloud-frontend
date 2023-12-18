@@ -26,6 +26,7 @@ import {
 } from './equipmentItem';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { voltageFormat, tempFormat } from '@/utils/format';
+import { formatMessage } from '@/utils';
 
 export type OperationMonitorProps = {
   open: boolean;
@@ -65,7 +66,8 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       <div className="card-temp-item temp-right-item">
         <span className="card-temp-dot" />
         <div>
-          温度{(currentPage - 1) * 13 + 6}:
+          {formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })}
+          {(currentPage - 1) * 13 + 6}:
           <span className="card-temp-value">
             {tempFormat(bmsData?.['Temperature' + (currentPage + 7)])}
           </span>
@@ -77,7 +79,8 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
     upItems.push(
       <div className="card-battery-item" key={'up' + index}>
         <span>
-          电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 1}
+          {formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })}1_{currentPage}_
+          {(currentPage - 1) * 24 + index + 1}
         </span>
         <div className="card-battery-value">
           {voltageFormat(bmsData?.['Voltage' + ((currentPage - 1) * 24 + index + 1)] || '_')}
@@ -87,7 +90,8 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
     downItems.push(
       <div className="card-battery-item" key={'down' + index}>
         <span>
-          电芯1_{currentPage}_{(currentPage - 1) * 24 + index + 13}
+          {formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })}1_{currentPage}_
+          {(currentPage - 1) * 24 + index + 13}
         </span>
         <div className="card-battery-value">
           {voltageFormat(bmsData?.['Voltage' + ((currentPage - 1) * 24 + index + 13)] || '_')}
@@ -100,7 +104,8 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       <div className="card-temp-item" key={'uptemp' + index}>
         <span className="card-temp-dot" />
         <div>
-          温度{(currentPage - 1) * 13 + index + 1}:
+          {formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })}
+          {(currentPage - 1) * 13 + index + 1}:
           <span className="card-temp-value">
             {tempFormat(bmsData?.['Temperature' + ((currentPage - 1) * 13 + index + 1)])}
           </span>
@@ -110,7 +115,8 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
     downTempItems.push(
       <div className="card-temp-item" key={'downtemp' + index}>
         <div>
-          温度{(currentPage - 1) * 13 + index + 7}:
+          {formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' })}
+          {(currentPage - 1) * 13 + index + 7}:
           <span className="card-temp-value">
             {tempFormat(bmsData?.['Temperature' + ((currentPage - 1) * 13 + index + 7)])}
           </span>
@@ -126,13 +132,20 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       key: 'run-item-0',
       children: (
         <>
-          <Label title="系统时钟" />
+          <Label title={formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' })} />
           <div className="desc-label mb12">
             {emsData?.sysTem ? `${emsData.sysTem} ${weekInfo[emsData?.week]}` : <>无</>}
           </div>
-          <Label title="状态信息" />
+          <Label
+            title={formatMessage({
+              id: 'siteManage.set.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
           <Detail data={emsData || {}} items={statusItems} column={4} />
-          <Label title="设置信息" />
+          <Label
+            title={formatMessage({ id: 'device.setInformation', defaultMessage: '设置信息' })}
+          />
           <Detail data={emsData || {}} items={settingItems} column={4} />
         </>
       ),
@@ -142,9 +155,19 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       key: 'run-item-1',
       children: (
         <>
-          <Label title="状态信息" />
+          <Label
+            title={formatMessage({
+              id: 'siteManage.set.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
           <Detail data={pcsData || {}} items={pcsStatusItems} column={5} />
-          <Label title="测量信息" />
+          <Label
+            title={formatMessage({
+              id: 'device.measurementInformation',
+              defaultMessage: '测量信息',
+            })}
+          />
           <Detail data={pcsData || {}} items={measureItems} column={5} />
         </>
       ),
@@ -154,11 +177,29 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       key: 'run-item-2',
       children: (
         <>
-          <Label title="状态信息" />
+          <Label
+            title={formatMessage({
+              id: 'siteManage.set.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
           <Detail data={bmsData || {}} items={bmsStatusItems} column={5} />
-          <Label title="测量信息" />
+          <Label
+            title={formatMessage({
+              id: 'device.measurementInformation',
+              defaultMessage: '测量信息',
+            })}
+          />
           <Detail data={bmsData || {}} items={bmsMeasureItems} column={5} />
-          <Label title={`模组（${currentPage}）单体信息`} />
+          <Label
+            title={`${formatMessage({
+              id: 'device.module',
+              defaultMessage: '模组',
+            })}（${currentPage}）${formatMessage({
+              id: 'siteMonitor.monomerInfo',
+              defaultMessage: '单体信息',
+            })}`}
+          />
           <div className="flex flex-between">{upItems}</div>
           <div className="flex flex-between my20" style={{ position: 'relative' }}>
             {upTempItems}
@@ -179,23 +220,38 @@ const OperationMonitor: React.FC<OperationMonitorProps> = (props) => {
       ),
     },
     {
-      label: '空调',
+      label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
       key: 'run-item-3',
       children: (
         <>
-          <Label title="状态信息" />
+          <Label
+            title={formatMessage({
+              id: 'siteManage.set.statusInformation',
+              defaultMessage: '状态信息',
+            })}
+          />
           <Detail data={airData || {}} items={airStatusItems} column={5} />
-          <Label title="测量信息" />
+          <Label
+            title={formatMessage({
+              id: 'device.measurementInformation',
+              defaultMessage: '测量信息',
+            })}
+          />
           <Detail data={airData || {}} items={airMeasureItems} column={5} />
         </>
       ),
     },
     {
-      label: '电表',
+      label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
       key: 'run-item-4',
       children: (
         <>
-          <Label title="测量信息" />
+          <Label
+            title={formatMessage({
+              id: 'device.measurementInformation',
+              defaultMessage: '测量信息',
+            })}
+          />
           <Detail data={meterData || {}} items={electricMeasureItems} column={5} />
         </>
       ),

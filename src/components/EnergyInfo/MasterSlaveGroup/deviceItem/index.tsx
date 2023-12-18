@@ -9,7 +9,8 @@ import IconTemp from '@/assets/image/masterSlaveGroup/icon_temp.png';
 import IconCharge from '@/assets/image/masterSlaveGroup/icon_charge.png';
 import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
-import { DeviceDataType, EmsDevicesType, getWholeDeviceTree } from '@/services/equipment';
+import { formatMessage } from '@/utils';
+import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import { useSubscribe } from '@/hooks';
 import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
 import { maxConfig } from './helper';
@@ -33,9 +34,21 @@ const getDataIds = (data: DeviceDataType[]): string[] => {
 
 const chargeFormat = (value: string) => {
   const map: Record<string, any> = {
-    0: { text: '静置', color: '', icon: IconStewing },
-    1: { text: '放电', color: '#FF974A', icon: IconDisCharge },
-    2: { text: '充电', color: '#007DFF', icon: IconCharge },
+    0: {
+      text: formatMessage({ id: 'device.stewing', defaultMessage: '静置' }),
+      color: '',
+      icon: IconStewing,
+    },
+    1: {
+      text: formatMessage({ id: 'device.discharge', defaultMessage: '放电' }),
+      color: '#FF974A',
+      icon: IconDisCharge,
+    },
+    2: {
+      text: formatMessage({ id: 'device.charge', defaultMessage: '充电' }),
+      color: '#007DFF',
+      icon: IconCharge,
+    },
   };
   return {
     content: <span className={map[value]?.color}>{map[value]?.text || '静置'}</span>,
@@ -102,7 +115,9 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           <Divider style={{ height: '86px' }} type="vertical" />
           <div className={styles.chargeStaus}>
             <div className={`w-full pl7 ellipsis ${styles.deviceName}`}>
-              {deviceData?.masterSlaveMode == DeviceMasterMode.Master ? '(主)' : '(从)'}
+              {deviceData?.masterSlaveMode == DeviceMasterMode.Master
+                ? `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`
+                : `${formatMessage({ id: 'common.slave', defaultMessage: '从' })}`}
               {deviceData?.deviceName || '--'}
             </div>
             <div className="flex">
@@ -112,7 +127,11 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           </div>
         </div>
         <div className="my6" onClick={onDeviceDetail}>
-          <img className={`cursor ${styles.deviceImg}`} src={DeviceImg} alt="设备图" />
+          <img
+            className={`cursor ${styles.deviceImg}`}
+            src={DeviceImg}
+            alt={formatMessage({ id: 'device.equipmentDrawing', defaultMessage: '设备图' })}
+          />
         </div>
 
         <div className={styles.dataContain}>

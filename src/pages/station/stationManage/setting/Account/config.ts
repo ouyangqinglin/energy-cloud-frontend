@@ -10,7 +10,7 @@ import type { ProColumns } from '@ant-design/pro-table';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { AccountType, RoleType } from './type';
 import { api } from '@/services';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { verifyPhone, verifyPassword } from '@/utils/reg';
 import { isEmpty } from '@/utils';
 

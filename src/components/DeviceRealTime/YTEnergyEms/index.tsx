@@ -10,12 +10,12 @@ import React, { useMemo } from 'react';
 import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
-// import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
-import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { useAuthority, useSubscribe } from '@/hooks';
 import styles from './index.less';
 import Setting from './Control';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
@@ -36,12 +36,12 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
       : [
           {
             key: '1',
-            label: '运行数据',
+            label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
             children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
           },
           {
             key: '2',
-            label: '远程控制',
+            label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
             children: authorityMap.get('iot:device:remoteControl:systemStatusControl') ? (
               <Setting
                 id={id}

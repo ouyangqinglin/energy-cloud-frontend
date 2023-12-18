@@ -13,6 +13,7 @@ import { columnsRead } from './configRead';
 import { Button } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
 import { MaintenanceUpdate } from '../maintenance/Update';
+import { formatMessage } from '@/utils';
 
 const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -80,7 +81,10 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...props}
       />
       <FormRead<ObstacleReportInfo>
-        titleRead="查看故障修复工单"
+        titleRead={formatMessage({
+          id: 'taskManage.viewFaultRepairOrder',
+          defaultMessage: '查看故障修复工单',
+        })}
         columns={columnsRead}
         submitter={{
           render: () => {
@@ -101,7 +105,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                   setStatusModal(true);
                 }}
               >
-                完成
+                {formatMessage({ id: 'taskManage.finished', defaultMessage: '完成' })}
               </Button>,
               <Button
                 className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
@@ -112,7 +116,10 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                   setMaintenanceModal(true);
                 }}
               >
-                创建维修工单
+                {formatMessage({
+                  id: 'taskManage.createMaintenanceOrder',
+                  defaultMessage: '创建维修工单',
+                })}
               </Button>,
             ];
           },
@@ -135,14 +142,14 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         onSuccess={reload}
       />
       <YTModalForm<any, any>
-        title={'完成原因'}
+        title={formatMessage({ id: 'taskManage.completionReason', defaultMessage: '完成原因' })}
         visible={statusModal}
         onVisibleChange={toggleModal}
         layoutType={'ModalForm'}
         onFinish={completeOrder}
         columns={[
           {
-            title: '原因',
+            title: formatMessage({ id: 'taskManage.reason', defaultMessage: '原因' }),
             valueType: 'textarea',
             dataIndex: 'description',
             colProps: {

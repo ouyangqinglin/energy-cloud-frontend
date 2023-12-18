@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-12 10:27:00
- * @LastEditTime: 2023-09-12 11:34:39
+ * @LastEditTime: 2023-12-18 11:16:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Ems\ProtectForm\index.tsx
  */
@@ -14,6 +14,7 @@ import { columns } from './helper';
 import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
+import { formatMessage } from '@/utils';
 
 const ProtectForm: React.FC<ProtectFormType> = (props) => {
   const { deviceId, protectData, onSuccess } = props;
@@ -42,12 +43,12 @@ const ProtectForm: React.FC<ProtectFormType> = (props) => {
   return (
     <>
       <Button type="primary" onClick={setTrue}>
-        下发参数
+        {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'下发参数'}
+        title={formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

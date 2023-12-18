@@ -7,6 +7,7 @@ import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { FormUpdate } from '../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../components/FormUpdate/type';
 import TreeSelect from '@/components/TreeSelect';
+import { formatMessage } from '@/utils';
 
 export const RoleUpdate = (props: FormUpdateBaseProps) => {
   const { visible, id } = props;
@@ -19,7 +20,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
     return [
       ...columns,
       {
-        title: '菜单权限',
+        title: formatMessage({ id: 'user.menuPermissions', defaultMessage: '菜单权限' }),
         dataIndex: 'menuIds',
         renderFormItem: () => {
           return <TreeSelect treeData={menuData} />;
@@ -51,8 +52,8 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
   return (
     <FormUpdate<RoleInfo, RoleParam>
       afterRequest={afterRequest}
-      titleCreate={`新建`}
-      titleUpdate={`编辑`}
+      titleCreate={formatMessage({ id: 'common.add', defaultMessage: '新建' })}
+      titleUpdate={formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
       columns={formColumns}
       onFinishUpdate={updateRole}
       onFinishCreate={createRole}

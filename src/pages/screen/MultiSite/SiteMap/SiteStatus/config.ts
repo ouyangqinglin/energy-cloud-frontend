@@ -9,16 +9,17 @@
 
 import IconRight from '@/assets/image/multi-site/map/right.png';
 import IconError from '@/assets/image/multi-site/map/error.png';
+import { formatMessage } from '@/utils';
 
 export const statusItems = [
   {
     icon: IconRight,
-    label: '正常',
+    label: formatMessage({ id: 'common.normal', defaultMessage: '正常' }),
     field: 'normalSiteNum',
   },
   {
     icon: IconError,
-    label: '告警',
+    label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
     field: 'alarmSiteNum',
   },
 ];

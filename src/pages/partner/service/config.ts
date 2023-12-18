@@ -1,4 +1,4 @@
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import { ProColumns } from '@ant-design/pro-components';
 import { ServiceInfo } from './type';
 

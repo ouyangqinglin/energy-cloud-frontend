@@ -4,6 +4,7 @@ import styles from './index.less';
 
 import { ReactComponent as EnterFullScreenIcon } from '@/assets/image/screen/fullscreen/icon_进入全屏.svg';
 import { ReactComponent as ExitFullScreenIcon } from '@/assets/image/screen/fullscreen/icon_退出全屏.svg';
+import { formatMessage } from '@/utils';
 
 const FullScreen = () => {
   const [isFullscreen, { enterFullscreen, exitFullscreen }] = useFullscreen(document.body, {
@@ -27,14 +28,14 @@ const FullScreen = () => {
       <div className={styles.iconWrapper}>
         <EnterFullScreenIcon width={38} height={38} />
       </div>
-      <span>进入全屏</span>
+      <span>{formatMessage({ id: 'screen.fullScreen', defaultMessage: '进入全屏' })}</span>
     </div>
   ) : (
     <div className={styles.fullscreenContent} onClick={exitFullscreen}>
       <div className={styles.iconWrapper}>
         <ExitFullScreenIcon width={38} height={38} />
       </div>
-      <span>退出全屏</span>
+      <span>{formatMessage({ id: 'screen.exitFullScreen', defaultMessage: '退出全屏' })}</span>
     </div>
   );
 

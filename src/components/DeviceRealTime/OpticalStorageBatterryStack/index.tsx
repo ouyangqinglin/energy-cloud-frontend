@@ -11,9 +11,9 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Stack from './Stack';
 import Cluster from './Cluster';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { useSubscribe } from '@/hooks';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
@@ -28,14 +28,20 @@ const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
     return [
       {
         key: '1',
-        label: '电池堆信息',
+        label: formatMessage({
+          id: 'siteMonitor.batteryStackInformation',
+          defaultMessage: '电池堆信息',
+        }),
         children: (
           <Stack id={id} productId={productId} data={deviceData} realTimeData={realTimeData} />
         ),
       },
       {
         key: '2',
-        label: '电池簇信息',
+        label: formatMessage({
+          id: 'siteMonitor.batteryClusterInformation',
+          defaultMessage: '电池簇信息',
+        }),
         children: <Cluster id={id} productId={productId} data={deviceData} />,
       },
     ];

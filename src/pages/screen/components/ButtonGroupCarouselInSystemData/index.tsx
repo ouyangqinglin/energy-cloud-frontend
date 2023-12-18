@@ -4,6 +4,7 @@ import styles from './index.less';
 import classnames from 'classnames';
 import { Carousel } from 'antd';
 import type { CarouselRef } from 'antd/lib/carousel';
+import { formatMessage } from '@/utils';
 
 export const enum ChartType {
   REAL_POWER = 'REAL_POWER',
@@ -36,7 +37,7 @@ const ButtonGroupCarouselInSystemData: FC<{
           )}
           onClick={() => handleClick(ChartType.REAL_POWER)}
         >
-          实时功率
+          {formatMessage({ id: 'screen.realTimePower', defaultMessage: '实时功率' })}
         </div>
         <div
           className={classnames(
@@ -45,7 +46,7 @@ const ButtonGroupCarouselInSystemData: FC<{
           )}
           onClick={() => handleClick(ChartType.ELECTRICITY)}
         >
-          电量
+          {formatMessage({ id: 'screen.electricQuantity', defaultMessage: '电量' })}
         </div>
       </div>
       <Carousel className={styles.carousel} dots={false} ref={carouselRef}>

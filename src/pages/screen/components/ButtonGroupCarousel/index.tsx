@@ -7,6 +7,7 @@ import { YTStoreOutlined } from '@/components/YTIcons';
 import Cell from '../LayoutCell';
 import { getSiteScreenConfig } from '@/services/station';
 import { getSiteId } from '../../Scene/helper';
+import { formatMessage } from '@/utils';
 
 export const enum SystemDiagramType {
   NORMAL = 'NORMAL',
@@ -48,14 +49,28 @@ const ButtonGroupCarousel: FC<{
         onChange={handleClick}
       >
         {screenConfigData?.energyFlowDiagramIds?.includes?.(2 as any) && (
-          <Tooltip placement="top" title="定制能流图" color="#0f60a7">
+          <Tooltip
+            placement="top"
+            title={formatMessage({
+              id: 'screen.customizedEnergyFlowChart',
+              defaultMessage: '定制能流图',
+            })}
+            color="#0f60a7"
+          >
             <Radio.Button value={SystemDiagramType.CUSTOMER}>
               <YTStoreOutlined />
             </Radio.Button>
           </Tooltip>
         )}
         {screenConfigData?.energyFlowDiagramIds?.includes?.(1 as any) && (
-          <Tooltip placement="top" title="标准能流图" color="#0f60a7">
+          <Tooltip
+            placement="top"
+            title={formatMessage({
+              id: 'screen.standardEnergyFlowChart',
+              defaultMessage: '标准能流图',
+            })}
+            color="#0f60a7"
+          >
             <Radio.Button value={SystemDiagramType.NORMAL}>
               <AppstoreOutlined />
             </Radio.Button>

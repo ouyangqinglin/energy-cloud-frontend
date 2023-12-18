@@ -7,7 +7,7 @@ import { columns } from './config';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { editData } from './service';
 import { ConfigDataType, getSiteScreenConfig as getData } from '@/services/station';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 
 const OverviewSetting: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -32,10 +32,10 @@ const OverviewSetting: React.FC = () => {
     <>
       <Card
         className="mt16 mx24"
-        title="大屏架构图"
+        title={formatMessage({ id: 'common.screenArchitecture', defaultMessage: '大屏架构图' })}
         extra={
           <Button type="primary" loading={loading} onClick={onSaveClick}>
-            保存
+            {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
           </Button>
         }
       >

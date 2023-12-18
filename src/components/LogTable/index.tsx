@@ -14,6 +14,7 @@ import { DatePicker, Empty as AntEmpty } from 'antd';
 import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
+import { formatMessage } from '@/utils';
 
 export type LogTableProps = {
   params?: {
@@ -43,7 +44,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
   const columns = useMemo<ProColumns<LogType>[]>(() => {
     return [
       {
-        title: '时间',
+        title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         width: 200,
@@ -70,21 +71,21 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         },
       },
       {
-        title: '日志内容',
+        title: formatMessage({ id: 'common.logContent', defaultMessage: '日志内容' }),
         dataIndex: 'serviceName',
         width: 100,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '日志编码',
+        title: formatMessage({ id: 'common.logCode', defaultMessage: '日志编码' }),
         dataIndex: 'id',
         width: 100,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: '操作用户',
+        title: formatMessage({ id: 'common.operatingUser', defaultMessage: '操作用户' }),
         dataIndex: 'createByName',
         width: 150,
         ellipsis: true,

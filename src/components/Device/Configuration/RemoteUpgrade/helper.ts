@@ -9,16 +9,25 @@
 
 import { DetailItem } from '@/components/Detail';
 import { UpgradeDataType } from './typing';
+import { formatMessage } from '@/utils';
 
 export const upgradeItems: DetailItem[] = [
-  { label: '当前版本', field: 'nowVersion' },
   {
-    label: '可升级版本',
+    label: formatMessage({ id: 'device.currentVersion', defaultMessage: '当前版本' }),
+    field: 'nowVersion',
+  },
+  {
+    label: formatMessage({ id: 'device.upgradableVersion', defaultMessage: '可升级版本' }),
     field: 'upgradeableVersionVOList',
     format: (value: UpgradeDataType[]) => {
       return value
         ?.map?.((item) => {
-          return item.version + (item?.status === 0 ? '(禁用)' : '');
+          return (
+            item.version +
+            (item?.status === 0
+              ? `(${formatMessage({ id: 'common.disable', defaultMessage: '禁用' })})`
+              : '')
+          );
         })
         ?.join('，');
     },

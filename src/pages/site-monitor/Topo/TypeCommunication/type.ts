@@ -1,4 +1,4 @@
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 
 export const enum VirtualDeviceType {
   System = 0,

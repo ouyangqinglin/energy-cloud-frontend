@@ -16,6 +16,7 @@ import { useSubscribe } from '@/hooks';
 import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import Control from '@/components/Device/Control';
+import { formatMessage } from '@/utils';
 
 const oldControlProductIds: DeviceTypeEnum[] = [DeviceTypeEnum.Cabinet, DeviceTypeEnum.BWattAir];
 
@@ -57,11 +58,11 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
     return [
       {
         key: 'run',
-        label: '运行数据',
+        label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
       },
       {
         key: 'control',
-        label: '远程控制',
+        label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
       },
     ];
   }, []);

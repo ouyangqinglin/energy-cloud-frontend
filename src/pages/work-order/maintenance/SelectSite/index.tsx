@@ -5,17 +5,18 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { AnyKindOfDictionary } from 'lodash';
 import type { FC } from 'react';
 import { getSiteList } from '../service';
+import { formatMessage } from '@/utils';
 
 const tableSelectColumns: ProColumns[] = [
   {
-    title: '站点编码',
+    title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
     dataIndex: 'id',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '站点名称',
+    title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
     dataIndex: 'name',
     width: 200,
     ellipsis: true,

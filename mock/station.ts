@@ -402,7 +402,7 @@ export default {
             deviceSN: null,
           },
         ],
-        deviceName: '永泰光储充示范站',
+        deviceName: '永泰光储充示范站11',
         deviceSN: null,
       },
     ],

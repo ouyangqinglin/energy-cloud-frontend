@@ -10,7 +10,7 @@ import type { ExtraNodeData, GraphNode } from '../type';
 import type { AllTypeData, MainsSupply } from './type';
 import { SubsystemTypeForNode } from './type';
 import { isEmpty, uniqueId } from 'lodash';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 
 const position = { x: 0, y: 0 };
 const edgeType = 'smoothstep';

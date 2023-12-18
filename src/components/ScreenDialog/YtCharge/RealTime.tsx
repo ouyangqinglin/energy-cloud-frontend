@@ -13,7 +13,7 @@ import { RealTimeProps } from '@/components/ScreenDialog';
 import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { getRelatedDevice, getGuns } from '@/services/equipment';
-import { arrayToMap } from '@/utils';
+import { arrayToMap, formatMessage } from '@/utils';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { useFormat, powerHourFormat } from '@/utils/format';
@@ -43,11 +43,32 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
     }
   }, [id, open]);
 
-  const aStatusItems: DetailItem[] = [{ label: 'A枪状态', field: 'Status', format: useFormat }];
-  const bStatusItems: DetailItem[] = [{ label: 'B枪状态', field: 'Status', format: useFormat }];
+  const aStatusItems: DetailItem[] = [
+    {
+      label: 'A' + formatMessage({ id: 'siteMonitor.gunCondition', defaultMessage: '枪状态' }),
+      field: 'Status',
+      format: useFormat,
+    },
+  ];
+  const bStatusItems: DetailItem[] = [
+    {
+      label: 'B' + formatMessage({ id: 'siteMonitor.gunCondition', defaultMessage: '枪状态' }),
+      field: 'Status',
+      format: useFormat,
+    },
+  ];
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'dayChargeElec', format: powerHourFormat, showExtra: false },
-    { label: '累计充电量', field: 'totalChargeElec', format: powerHourFormat },
+    {
+      label: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }),
+      field: 'dayChargeElec',
+      format: powerHourFormat,
+      showExtra: false,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.totalCharge', defaultMessage: '累计充电量' }),
+      field: 'totalChargeElec',
+      format: powerHourFormat,
+    },
   ];
 
   return (
@@ -77,9 +98,19 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
       ) : (
         <>
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="状态信息" />
+            <Label
+              title={formatMessage({
+                id: 'siteMonitor.statusInformation',
+                defaultMessage: '状态信息',
+              })}
+            />
           ) : (
-            <Detail.Label title="状态信息" />
+            <Detail.Label
+              title={formatMessage({
+                id: 'siteMonitor.statusInformation',
+                defaultMessage: '状态信息',
+              })}
+            />
           )}
           <Row>
             <Col span={12}>
@@ -90,9 +121,19 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
             </Col>
           </Row>
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="运行信息" />
+            <Label
+              title={formatMessage({
+                id: 'siteMonitor.operationalInformation',
+                defaultMessage: '运行信息',
+              })}
+            />
           ) : (
-            <Detail.Label title="运行信息" />
+            <Detail.Label
+              title={formatMessage({
+                id: 'siteMonitor.operationalInformation',
+                defaultMessage: '运行信息',
+              })}
+            />
           )}
           <Detail data={realTimeData} items={runItems} column={4} {...(detailProps || {})} />
           <Meter

@@ -13,7 +13,7 @@ import { CollectionSearchType } from '@/services/data';
 import moment from 'moment';
 import SchemaForm from '@/components/SchemaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';
@@ -56,7 +56,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
   const searchColumns = useMemo<ProFormColumnsType<Searchtype>[]>(() => {
     return [
       {
-        title: '选择日期',
+        title: formatMessage({ id: 'common.selectDate', defaultMessage: '选择日期' }),
         dataIndex: 'date',
         valueType: 'dateRange',
         formItemProps: {

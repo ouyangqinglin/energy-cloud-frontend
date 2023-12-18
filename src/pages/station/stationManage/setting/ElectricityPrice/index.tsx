@@ -6,6 +6,7 @@ import PriceMarketList from './PriceMarket';
 import PricePhotovoltaicList from './PricePhotovoltaic';
 import PriceChargingList from './PriceCharging';
 import type { ActionType } from '@ant-design/pro-table';
+import { formatMessage } from '@/utils';
 
 const enum TabKeys {
   MARKET = 'MARKET',
@@ -33,17 +34,26 @@ const Customer: React.FC = () => {
 
   const category: TabsProps['items'] = [
     {
-      label: '市电电价设置',
+      label: formatMessage({
+        id: 'siteManage.set.electricPriceSetting',
+        defaultMessage: '市电电价设置',
+      }),
       key: TabKeys.MARKET,
       children: <PriceMarketList actionRef={marketActionRef} />,
     },
     {
-      label: '光伏上网电价设置',
+      label: formatMessage({
+        id: 'siteManage.set.pvGridElectricityPriceSetting',
+        defaultMessage: '光伏上网电价设置',
+      }),
       key: TabKeys.PHOTOVOLTAIC,
       children: <PricePhotovoltaicList actionRef={photovoltaicActionRef} />,
     },
     {
-      label: '充电桩计费设置',
+      label: formatMessage({
+        id: 'siteManage.set.chargePileChargingSettings',
+        defaultMessage: '充电桩计费设置',
+      }),
       key: TabKeys.CHARGING,
       children: <PriceChargingList actionRef={chargingActionRef} />,
     },

@@ -13,7 +13,8 @@ import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType, TableSearchType } from './data';
-import { alarmClearStatus, alarmSource, alarmStatus, cleanUpType } from '@/utils/dictionary';
+import { alarmSource, alarmStatus } from '@/utils/dictionary';
+import { alarmClearStatus, cleanUpType } from '@/utils/dict';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
@@ -24,7 +25,7 @@ import { debounce } from 'lodash';
 import type { OptionType } from '@/types';
 import { YTAlarmOutlined } from '@/components/YTIcons';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import eventBus from '@/utils/eventBus';
 
 export enum PageTypeEnum {
@@ -40,10 +41,10 @@ export type AlarmProps = {
 };
 
 const levelMap = new Map([
-  ['error', '严重'],
-  ['alarm', '重要'],
-  ['warn', '次要'],
-  ['info', '提示'],
+  ['error', formatMessage({ id: 'alarmManage.serious', defaultMessage: '严重' })],
+  ['alarm', formatMessage({ id: 'alarmManage.serious', defaultMessage: '重要' })],
+  ['warn', formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })],
+  ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
 ]);
 
 const getLevelByType = (type: string, num?: string) => {
@@ -72,11 +73,11 @@ export const alarmLevelMap = new Map([
 
 const alarmStatusOptions: OptionType[] = [
   {
-    label: '告警中',
+    label: formatMessage({ id: 'dataManage.generate', defaultMessage: '告警中' }),
     value: 0,
   },
   {
-    label: '已消除',
+    label: formatMessage({ id: 'dataManage.eliminate', defaultMessage: '已消除' }),
     value: 1,
   },
 ];
@@ -149,16 +150,27 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     Modal.confirm({
       title: (
         <strong>
-          <FormattedMessage id="upgradeManage.clearConfirm" defaultMessage="清除确认" />
+          <FormattedMessage
+            id="upgradeManage.clearConfirm"
+            defaultMessage={formatMessage({
+              id: 'alarmManage.clearConfirm',
+              defaultMessage: '清除确认',
+            })}
+          />
         </strong>
       ),
-      content: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
-      okText: '确认',
-      cancelText: '取消',
+      content: formatMessage({
+        id: 'alarmManage.clearConfirmContent',
+        defaultMessage: '产生告警的故障可能尚未清除，是否强制清除选中的告警？',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
         return requestCleanUpAlarm({ ids: [record.id] }).then(({ data }) => {
           if (data) {
-            message.success('保存成功');
+            message.success(
+              formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+            );
             actionRef?.current?.reload?.();
           }
         });
@@ -231,16 +243,42 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   }, [params]);
 
   const detailItems: DetailItem[] = [
-    { label: '告警名称', field: 'name' },
-    { label: '站点名称', field: 'siteName' },
-    { label: '设备名称', field: 'deviceName' },
-    { label: '产品类型', field: 'productTypeName' },
-    { label: '告警等级', field: 'level', format: (value) => getLevelByType(value) },
-    { label: '告警ID', field: 'id' },
-    { label: '发生时间', field: 'alarmTime' },
-    { label: '清除时间', field: 'recoveryTime', show: (_, data) => data?.status == 1 },
     {
-      label: '清除类型',
+      label: formatMessage({ id: 'alarmManage.alarmName', defaultMessage: '告警名称' }),
+      field: 'name',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.siteName', defaultMessage: '站点名称' }),
+      field: 'siteName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.deviceName', defaultMessage: '设备名称' }),
+      field: 'deviceName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.productType', defaultMessage: '产品类型' }),
+      field: 'productTypeName',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' }),
+      field: 'level',
+      format: (value) => getLevelByType(value),
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.alarm', defaultMessage: '告警' }) + 'ID',
+      field: 'id',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.occurrenceTime', defaultMessage: '发生时间' }),
+      field: 'alarmTime',
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }),
+      field: 'recoveryTime',
+      show: (_, data) => data?.status == 1,
+    },
+    {
+      label: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' }),
       field: 'recoverType',
       format: (value) => cleanUpType[value],
       show: (_, data) => data?.status == 1,
@@ -250,7 +288,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const columns = useMemo<ProColumns<AlarmType>[]>(() => {
     return [
       {
-        title: '序号',
+        title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
         dataIndex: 'index',
         valueType: 'index',
         width: 50,
@@ -259,7 +297,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         ? []
         : [
             {
-              title: '站点名称',
+              title: formatMessage({
+                id: 'siteManage.siteList.siteName',
+                defaultMessage: '站点名称',
+              }),
               dataIndex: 'siteName',
               valueType: 'select',
               render: (_, record) => {
@@ -281,13 +322,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
             } as ProColumns<AlarmType>,
           ]),
       {
-        title: '时间',
+        title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         dataIndex: 'alarmTime',
         width: 150,
         hideInSearch: true,
       },
       {
-        title: '告警级别',
+        title: formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' }),
         dataIndex: 'level',
         valueType: 'select',
         valueEnum: alarmLevelMap,
@@ -295,7 +336,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: '设备名称',
+        title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
@@ -303,7 +344,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: isStationChild,
       },
       {
-        title: '设备序列号',
+        title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,
@@ -311,7 +352,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: isStationChild,
       },
       {
-        title: '站点名称',
+        title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
         dataIndex: 'siteName',
         width: 120,
         ellipsis: true,
@@ -319,7 +360,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: isStationChild,
       },
       {
-        title: '状态',
+        title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
         dataIndex: 'status',
         valueType: 'select',
         valueEnum: alarmStatus,
@@ -329,7 +370,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.History,
       },
       {
-        title: '告警上报源',
+        title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警上报源' }),
         dataIndex: 'fromResource',
         valueEnum: alarmSource,
         width: 120,
@@ -337,6 +378,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
       {
         title: '告警信息',
+        title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警信息' }),
         dataIndex: 'content',
         width: 150,
         ellipsis: true,
@@ -346,13 +388,13 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         },
       },
       {
-        title: '告警码',
+        title: formatMessage({ id: 'alarmManage.alarmCode', defaultMessage: '告警码' }),
         dataIndex: 'id',
         width: 120,
         ellipsis: true,
       },
       {
-        title: '时间',
+        title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         dataIndex: 'alarmTime',
         valueType: 'dateRange',
         width: 150,
@@ -368,7 +410,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: true,
       },
       {
-        title: '清除类型',
+        title: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' }),
         dataIndex: 'recoverType',
         valueType: 'select',
         valueEnum: cleanUpType,
@@ -377,14 +419,14 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: '清除时间',
+        title: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }),
         dataIndex: 'recoveryTime',
         width: 150,
         hideInSearch: true,
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: '清除人',
+        title: formatMessage({ id: 'alarmManage.alarmBy', defaultMessage: '清除人' }),
         dataIndex: 'recoveryByName',
         width: 120,
         ellipsis: true,
@@ -392,7 +434,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: '操作',
+        title: formatMessage({ id: 'alarmManage.operate', defaultMessage: '操作' }),
         valueType: 'option',
         width: 100,
         fixed: 'right',
@@ -424,7 +466,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     });
     return (
       <>
-        <span>告警级别：</span>
+        <span>{formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' })}：</span>
         <Checkbox.Group
           className="mr24"
           onChange={(value) => onHeadChange(value, 'levels')}
@@ -434,7 +476,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         </Checkbox.Group>
         {type == PageTypeEnum.Current ? (
           <>
-            <span>告警状态：</span>
+            <span>
+              {formatMessage({ id: 'alarmManage.alarmStatus', defaultMessage: '告警状态' })}：
+            </span>
             <Checkbox.Group
               options={alarmStatusOptions}
               defaultValue={alarmStatusOptions.map((item) => item.value)}
@@ -443,7 +487,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           </>
         ) : (
           <>
-            <span>清除类型：</span>
+            <span>
+              {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' })}：
+            </span>
             <Checkbox.Group
               options={cleanUpOptions}
               defaultValue={cleanUpOptions.map((item) => item.value)}
@@ -498,7 +544,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       />
       <DetailDialog
         width="600px"
-        title="告警详情"
+        title={formatMessage({ id: 'alarmManage.alarmDetails', defaultMessage: '告警详情' })}
         open={open}
         onCancel={switchOpen}
         detailProps={{

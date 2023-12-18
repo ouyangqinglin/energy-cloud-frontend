@@ -1,44 +1,52 @@
-import { effectStatus } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
+import { effectStatus } from '@/utils/dict';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 
 export const columns: ProFormColumnsType[] = [
   {
-    title: '角色名称',
+    title: formatMessage({ id: 'system.Role.role_name', defaultMessage: '角色名称' }),
     fieldProps: {
-      placeholder: '请输入角色名称',
+      placeholder:
+        formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+        formatMessage({ id: 'system.Role.role_name', defaultMessage: '角色名称' }),
     },
     formItemProps: {
       rules: [
         {
           required: true,
-          message: '请输入角色名称',
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'system.Role.role_name', defaultMessage: '角色名称' }),
         },
       ],
     },
     dataIndex: 'roleName',
   },
   {
-    title: '状态',
+    title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
+
     formItemProps: {
       rules: [
         {
           required: true,
-          message: '请选择状态',
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({ id: 'common.status', defaultMessage: '状态' }),
         },
       ],
     },
     valueEnum: effectStatus,
     fieldProps: {
-      placeholder: '请输入',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
     },
     dataIndex: 'status',
   },
   {
-    title: '备注',
+    title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
     dataIndex: 'remark',
     valueType: 'textarea',
     fieldProps: {
-      placeholder: '请输入',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
       className: 'w-full',
     },
     colProps: {

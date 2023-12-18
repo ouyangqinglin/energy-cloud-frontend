@@ -11,6 +11,7 @@ import { Tabs } from 'antd';
 import LogTable from '@/components/LogTable';
 import { getLogs } from '@/services/equipment';
 import { EnergyEquipmentEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export type LogProps = {
   equipmentIds: Record<string, any>;
@@ -42,14 +43,14 @@ const Log: React.FC<LogProps> = (props) => {
       ),
     },
     {
-      label: '空调',
+      label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
       key: 'item-3',
       children: (
         <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.AIR] }} request={getLogs} />
       ),
     },
     {
-      label: '电表',
+      label: formatMessage({ id: 'device.ammeter', defaultMessage: '空调' }),
       key: 'item-4',
       children: (
         <LogTable params={{ id: equipmentIds[EnergyEquipmentEnum.METER] }} request={getLogs} />

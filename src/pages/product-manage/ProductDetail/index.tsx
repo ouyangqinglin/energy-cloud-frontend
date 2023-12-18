@@ -12,6 +12,7 @@ import { useLocation } from '@/hooks';
 import { Tabs, TabsProps } from 'antd';
 import MyDetail from './Detail';
 import Module from './Module';
+import { formatMessage } from '@/utils';
 
 const ProductDetail: React.FC = () => {
   const location = useLocation<{ id?: string }>();
@@ -19,12 +20,12 @@ const ProductDetail: React.FC = () => {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: '产品详情',
+      label: formatMessage({ id: 'user.productDetails', defaultMessage: '产品详情' }),
       children: <MyDetail id={location.query?.id} />,
     },
     {
       key: '2',
-      label: '模块管理',
+      label: formatMessage({ id: 'user.moduleManagement', defaultMessage: '模块管理' }),
       children: <Module id={location.query?.id} />,
     },
   ];

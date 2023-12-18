@@ -15,6 +15,7 @@ import DigitStat from '../../components/DigitStat';
 import styles from './index.less';
 import { getData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../config';
+import { formatMessage } from '@/utils';
 
 const Device: React.FC = () => {
   const { data: deviceData } = useRequest(getData, { pollingInterval: REQUEST_INTERVAL_5_MINUTE });
@@ -22,7 +23,10 @@ const Device: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={400} height={223} right={24} top={546}>
-        <DecorationCarousel panelStyle={{ padding: 0 }} title="设备">
+        <DecorationCarousel
+          panelStyle={{ padding: 0 }}
+          title={formatMessage({ id: 'device.device', defaultMessage: '设备' })}
+        >
           <DigitStat className={styles.digit} items={items} span={12} data={deviceData} />
           <div className="px12">
             <DigitStat

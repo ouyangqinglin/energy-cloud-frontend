@@ -22,6 +22,7 @@ import styles from './index.less';
 import { Spin } from 'antd';
 import { SiteDataType } from '@/services/station';
 import { MapTypeEnum, asyncMap } from '../config';
+import { formatMessage } from '@/utils';
 
 export type ProvinceMapProps = {
   chinaData: any;
@@ -136,7 +137,7 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
       <Cell style={style} cursor="default" width={1026} height={730} left={0} top={0}>
         <div className={styles.back} onClick={onBack}>
           <img src={IconBack} />
-          返回
+          {formatMessage({ id: 'screen.return', defaultMessage: '返回' })}
         </div>
         <div
           ref={chartRef}

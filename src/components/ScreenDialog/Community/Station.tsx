@@ -17,6 +17,7 @@ import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equip
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
 import { OptionType } from '@/types';
+import { formatMessage } from '@/utils';
 
 const Station: React.FC<CommunityProps> = (props) => {
   const { id, type, open, onOpenChange, model } = props;
@@ -72,7 +73,7 @@ const Station: React.FC<CommunityProps> = (props) => {
         config: JSON.stringify(formData),
       }).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           return true;
         }
       });
@@ -86,13 +87,21 @@ const Station: React.FC<CommunityProps> = (props) => {
       hideInForm: true,
     },
     {
-      title: '第三方站点',
+      title: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
       dataIndex: 'thirdSiteId',
       valueType: 'select',
       dependencies: ['loadDevice'],
       request: requestStation,
       formItemProps: {
-        rules: [{ required: true, message: '请选择第三方站点ID' }],
+        rules: [
+          {
+            required: true,
+            message:
+              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+              formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }) +
+              ' ID',
+          },
+        ],
       },
       fieldProps: (form) => {
         return {
@@ -116,7 +125,10 @@ const Station: React.FC<CommunityProps> = (props) => {
       <BetaSchemaForm<StationCommunityType>
         formRef={formRef}
         layoutType="ModalForm"
-        title="设置通信信息"
+        title={formatMessage({
+          id: 'device.setCommunicationInformation',
+          defaultMessage: '设置通信信息',
+        })}
         width="460px"
         visible={open}
         onVisibleChange={onOpenChange}

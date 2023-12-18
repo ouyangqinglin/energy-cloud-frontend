@@ -8,6 +8,7 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
+import { formatMessage } from '@/utils';
 import {
   closeFormat,
   modelFormat,
@@ -18,17 +19,60 @@ import {
 } from '@/utils/format';
 
 export const controlItems: DetailItem[] = [
-  { label: '系统模式', field: 'sysModel', format: modelFormat },
-  { label: 'EMS运行状态', field: 'emsSysStatus', format: runFormat },
-  { label: '主接触器状态', field: 'MainContactorStatus', format: closeFormat },
-  { label: '气溶胶信号', field: 'AerosolSignal', format: singleBFormat },
-  { label: 'BMS急停信号', field: 'BmsStopSignal', format: singleBFormat },
-  { label: '电气急停信号', field: 'EmergencyStopSignal', format: singleFormat },
+  {
+    label: formatMessage({ id: 'siteMonitor.systemModel', defaultMessage: '系统模式' }),
+    field: 'sysModel',
+    format: modelFormat,
+  },
+  {
+    label: 'EMS' + formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
+    field: 'emsSysStatus',
+    format: runFormat,
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.mainContactorStatus', defaultMessage: '主接触器状态' }),
+    field: 'MainContactorStatus',
+    format: closeFormat,
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.aerosolSignal', defaultMessage: '气溶胶信号' }),
+    field: 'AerosolSignal',
+    format: singleBFormat,
+  },
+  {
+    label: 'BMS' + formatMessage({ id: 'siteMonitor.scramSignal', defaultMessage: '急停信号' }),
+    field: 'BmsStopSignal',
+    format: singleBFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'siteMonitor.electricalScramSignal',
+      defaultMessage: '电气急停信号',
+    }),
+    field: 'EmergencyStopSignal',
+    format: singleFormat,
+  },
 ];
 
 export const protectItems: DetailItem[] = [
-  { label: '过充保护', field: 'OverchargeProtection', format: voltageFormat },
-  { label: '过充释放', field: 'OverchargeRelease', format: voltageFormat },
-  { label: '过放保护', field: 'OverdischargeProtection', format: voltageFormat },
-  { label: '过放释放', field: 'Overrelease', format: voltageFormat },
+  {
+    label: formatMessage({ id: 'siteMonitor.overchargeProtection', defaultMessage: '过充保护' }),
+    field: 'OverchargeProtection',
+    format: voltageFormat,
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.overchargeRelease', defaultMessage: '过充释放' }),
+    field: 'OverchargeRelease',
+    format: voltageFormat,
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.overDischargeProtection', defaultMessage: '过放保护' }),
+    field: 'OverdischargeProtection',
+    format: voltageFormat,
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.overrelease', defaultMessage: '过放释放' }),
+    field: 'Overrelease',
+    format: voltageFormat,
+  },
 ];

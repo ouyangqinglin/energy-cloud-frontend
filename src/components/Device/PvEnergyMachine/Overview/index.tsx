@@ -13,6 +13,7 @@ import Detail from '@/components/Detail';
 import { useSize } from 'ahooks';
 import { config, flowItems } from './helper';
 import EnergyFlow from './EnergyFlow';
+import { formatMessage } from '@/utils';
 
 export type OverviewType = {
   realTimeData?: Record<string, any>;
@@ -68,7 +69,11 @@ const Overview: React.FC<OverviewType> = (props) => {
   return (
     <>
       <div className="card-wrap shadow p20 mb20">
-        <Detail.Label title="概览" size="small" showLine={false}></Detail.Label>
+        <Detail.Label
+          title={formatMessage({ id: 'device.overview', defaultMessage: '概览' })}
+          size="small"
+          showLine={false}
+        ></Detail.Label>
         <div ref={containRef} className="tx-center">
           <div className={styles.overview} style={{ transform: `scale(${scaleNum})` }}>
             {items}

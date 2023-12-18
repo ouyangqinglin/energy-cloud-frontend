@@ -7,6 +7,7 @@ import { useModel, useRequest } from 'umi';
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
 import { getNotices } from '@/services/api';
+import { formatMessage } from '@/utils';
 
 export type GlobalHeaderRightProps = {
   fetchingNotices?: boolean;
@@ -105,7 +106,9 @@ const NoticeIconView = () => {
         return notice;
       }),
     );
-    message.success(`${'清空了'} ${title}`);
+    message.success(
+      `${formatMessage({ id: 'common.cleared', defaultMessage: '清空了' })} ${title}`,
+    );
   };
 
   return (
@@ -117,8 +120,8 @@ const NoticeIconView = () => {
       }}
       onClear={(title: string, key: string) => clearReadState(title, key)}
       loading={false}
-      clearText="清空"
-      viewMoreText="查看更多"
+      clearText={formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
+      viewMoreText={formatMessage({ id: 'common.viewMore', defaultMessage: '查看更多' })}
       onViewMore={() => message.info('Click on view more')}
       clearClose
     >
@@ -126,22 +129,31 @@ const NoticeIconView = () => {
         tabKey="notification"
         count={unreadMsg.notification}
         list={noticeData.notification}
-        title="通知"
-        emptyText="你已查看所有通知"
+        title={formatMessage({ id: 'common.notice', defaultMessage: '通知' })}
+        emptyText={formatMessage({
+          id: 'common.viewedAllNotifications',
+          defaultMessage: '你已查看所有通知',
+        })}
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="message"
         count={unreadMsg.message}
         list={noticeData.message}
-        title="消息"
-        emptyText="您已读完所有消息"
+        title={formatMessage({ id: 'common.message', defaultMessage: '消息' })}
+        emptyText={formatMessage({
+          id: 'common.readAllMessages',
+          defaultMessage: '您已读完所有消息',
+        })}
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="event"
-        title="待办"
-        emptyText="你已完成所有待办"
+        title={formatMessage({ id: 'common.backlog', defaultMessage: '待办' })}
+        emptyText={formatMessage({
+          id: 'common.completedAllBacklog',
+          defaultMessage: '你已完成所有待办',
+        })}
         count={unreadMsg.event}
         list={noticeData.event}
         showViewMore

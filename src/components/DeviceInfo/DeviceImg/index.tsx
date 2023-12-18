@@ -13,6 +13,7 @@ import { Button, Empty, Image, Modal, Space, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { DeviceDataType, editDeviceInfo } from '@/services/equipment';
 import { api } from '@/services';
+import { formatMessage } from '@/utils';
 
 export type DeviceImgProps = {
   open?: boolean;
@@ -70,24 +71,26 @@ const DeviceImg: React.FC<DeviceImgProps> = (props) => {
   return (
     <>
       <Modal
-        title="设备照片"
+        title={formatMessage({ id: 'device.equipmentPhoto', defaultMessage: '设备照片' })}
         width={700}
         open={open}
         confirmLoading={loading}
         onCancel={closeModal}
         footer={[
           <Space key="btn">
-            <Button onClick={closeModal}>取消</Button>
+            <Button onClick={closeModal}>
+              {formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}
+            </Button>
             {deviceImg ? (
               <Button type="primary" loading={upLoadLoding || loading} onClick={onConfirmClick}>
-                确定
+                {formatMessage({ id: 'common.confirm', defaultMessage: '确定' })}
               </Button>
             ) : (
               <></>
             )}
             <Upload name="file" beforeUpload={beforeUpload} accept="image/*" showUploadList={false}>
               <Button type="primary" icon={<UploadOutlined />} loading={upLoadLoding}>
-                上传照片
+                {formatMessage({ id: 'device.uploadPhotos', defaultMessage: '上传照片' })}
               </Button>
             </Upload>
           </Space>,
@@ -97,7 +100,10 @@ const DeviceImg: React.FC<DeviceImgProps> = (props) => {
         {deviceImg || deviceData?.photos ? (
           <></>
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无照片" />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={formatMessage({ id: 'device.noPhotos', defaultMessage: '暂无照片' })}
+          />
         )}
       </Modal>
     </>

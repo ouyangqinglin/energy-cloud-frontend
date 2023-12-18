@@ -11,12 +11,12 @@ import IconTransformer from '@/assets/image/multi-site/install-capacity/transfor
 import IconPhotovoltaic from '@/assets/image/multi-site/install-capacity/photovoltaic.png';
 import IconCharge from '@/assets/image/multi-site/install-capacity/charge.png';
 import IconEnergy from '@/assets/image/multi-site/install-capacity/energy.png';
-import { formatWattNum } from '@/utils';
+import { formatMessage, formatWattNum } from '@/utils';
 
 export const items: DigitStatItemType[] = [
   {
     icon: IconTransformer,
-    title: '变压器总容量',
+    title: formatMessage({ id: 'screen.totalTransformerCapacity', defaultMessage: '变压器总容量' }),
     unit: 'W',
     field: 'transformerCapacity',
     format: formatWattNum,
@@ -28,7 +28,7 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconPhotovoltaic,
-    title: '光伏总容量',
+    title: formatMessage({ id: 'screen.totalPvCapacity', defaultMessage: '光伏总容量' }),
     unit: 'Wp',
     field: 'photovoltaicInstalledCapacity',
     format: formatWattNum,
@@ -40,7 +40,7 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconCharge,
-    title: '充电桩总功率',
+    title: formatMessage({ id: 'screen.totalChargingCapacity', defaultMessage: '充电桩总功率' }),
     unit: 'W',
     field: 'chargingStationCapacity',
     format: formatWattNum,
@@ -52,7 +52,7 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconEnergy,
-    title: '储能总容量',
+    title: formatMessage({ id: 'screen.totalStorageCapacity', defaultMessage: '储能总容量' }),
     fields: [
       {
         field: 'energyStoragePower',

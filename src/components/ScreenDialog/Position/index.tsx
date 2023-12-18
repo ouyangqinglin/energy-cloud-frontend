@@ -13,6 +13,7 @@ import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import { getPoint } from '@/utils/map';
+import { formatMessage } from '@/utils';
 
 export type PositionProps = BusinessDialogProps & {
   point: AMap.LngLat;
@@ -35,7 +36,7 @@ const Position: React.FC<PositionProps> = (props) => {
     <>
       <Dialog
         model={model}
-        title="站点地址"
+        title={formatMessage({ id: 'siteManage.siteList.siteAddress', defaultMessage: '站点地址' })}
         open={open}
         onCancel={onCancel}
         footer={null}

@@ -1,7 +1,7 @@
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { TABLESELECT } from '@/components/TableSelect';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 import type { ProColumns } from '@ant-design/pro-components';
 import { isNil } from 'lodash';
 import { useEffect, useRef } from 'react';

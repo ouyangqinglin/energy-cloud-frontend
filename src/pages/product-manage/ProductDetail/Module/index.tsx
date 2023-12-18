@@ -16,6 +16,7 @@ import { ActionType } from '@ant-design/pro-components';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import SchemaForm from '@/components/SchemaForm';
+import { formatMessage } from '@/utils';
 
 export type ModuleProps = {
   id?: string;
@@ -51,7 +52,7 @@ const Module: React.FC<ModuleProps> = (props) => {
   const onDeleteChange = useCallback((_, record: ModuleDataType) => {
     return deleteData({ moduleId: record?.id }).then(({ data }) => {
       if (data) {
-        message.success('删除成功');
+        message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
         onSuccess();
       }
     });

@@ -15,6 +15,7 @@ import { upgradeItems } from './helper';
 import { useRequest } from 'umi';
 import { getUpgradeVersion } from '@/services/equipment';
 import UpgradeRecord from './UpgradeRecord';
+import { formatMessage } from '@/utils';
 
 const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
   const { deviceId, deviceData } = props;
@@ -33,7 +34,9 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title="远程升级">
+          <Detail.Label
+            title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}
+          >
             <UpgradeForm
               deviceId={deviceId}
               versionItems={versionData?.upgradeableVersionVOList}

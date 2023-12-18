@@ -10,6 +10,7 @@ import ElectricityChart from './ElectricityChart';
 import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
 import { SiteDataType, getSiteScreenConfig } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
+import { formatMessage } from '@/utils';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
@@ -41,7 +42,9 @@ const Index: React.FC = () => {
       const screen = screenConfig?.screen?.find?.((item) => item.url);
       window.open(`${screen?.url || '/screen/demo-station'}?id=${siteId}`);
     } else {
-      message.success('请选择站点');
+      message.success(
+        formatMessage({ id: 'siteMonitor.selectSite', defaultMessage: '请选择站点' }),
+      );
     }
   }, [siteId, screenConfig]);
 
@@ -52,7 +55,10 @@ const Index: React.FC = () => {
           <SiteLabel onChange={onChange} />
           {screenConfig?.status == 1 && (
             <>
-              <Tooltip placement="top" title="大屏页">
+              <Tooltip
+                placement="top"
+                title={formatMessage({ id: 'siteMonitor.screen', defaultMessage: '大屏页' })}
+              >
                 <IconScreen className={styles.screen} onClick={onScreenClick} />
               </Tooltip>
             </>

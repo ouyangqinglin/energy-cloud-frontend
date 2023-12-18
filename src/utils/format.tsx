@@ -1,6 +1,6 @@
 import { getValue, isEmpty, strToArray } from '@/utils';
 import dayjs from 'dayjs';
-import { onlineStatus, deviceAlarmStatus } from './dictionary';
+import { onlineStatus, deviceAlarmStatus } from './dict';
 import Field from '@/components/Field';
 import { number } from 'echarts';
 

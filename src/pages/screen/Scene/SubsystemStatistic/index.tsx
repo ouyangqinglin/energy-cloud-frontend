@@ -8,6 +8,7 @@ import ChargingStation from './ChargingStation';
 import EnergyStorage from './EnergyStorage';
 import styles from './index.less';
 import Photovoltaic from './Photovoltaic';
+import { formatMessage } from '@/utils';
 
 const SubsystemStatistic = () => {
   const [activeBtn, setActiveBtn] = useState(1);
@@ -18,7 +19,10 @@ const SubsystemStatistic = () => {
         onSiteTypeButtonChange={setActiveBtn}
         panelStyle={{ padding: 0 }}
         valueType={'siteType'}
-        title="子系统运行数据"
+        title={formatMessage({
+          id: 'screen.subsystemRunningData',
+          defaultMessage: '子系统运行数据',
+        })}
       >
         <Photovoltaic />
         <EnergyStorage />
