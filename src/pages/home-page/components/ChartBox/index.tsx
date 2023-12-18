@@ -66,15 +66,14 @@ const ChartBox = ({
   const incomeHandle = (isDay: boolean, data: any) => {
     const labelAry: string[] = [];
     const result = data.map((item: any) => {
-      const label = isDay ? moment(item.timeDimension).format('HH:MM') : item.timeDimension;
+      const label = isDay ? item.timeDimension : item.timeDimension;
       labelAry.push(label);
       return {
         label,
         value: item.amount,
       };
     });
-    labelAry.reverse();
-    setAllLabel(labelAry);
+    if (timeType == TimeType.TOTAL) setAllLabel(labelAry);
     return result;
   };
   /*
@@ -86,15 +85,14 @@ const ChartBox = ({
   const chartDataHandle = (isDay: boolean, data: any) => {
     const labelAry: string[] = [];
     const result = data.map((item: any) => {
-      const label = isDay ? moment(item.eventTs).format('HH:MM') : item.timeDimension;
+      const label = isDay ? item.eventTs : item.timeDimension;
       labelAry.push(label);
       return {
         label,
         value: isDay ? item.doubleVal : item.electricity,
       };
     });
-    if (isDay) labelAry.reverse();
-    setAllLabel(labelAry);
+    if (timeType == TimeType.TOTAL) setAllLabel(labelAry);
     return result;
   };
 
@@ -120,7 +118,7 @@ const ChartBox = ({
       grid: {
         top: 30,
         bottom: 50,
-        right: 0,
+        right: 15,
         left: 0,
       },
       legend: {
@@ -273,8 +271,10 @@ const ChartBox = ({
         />
       </div>
       <TypeChart
-        type={chartTypeEnum.Label}
+        type={timeType}
+        step={subSystemType == 2 ? 10 : 5}
         chartRef={chartRef}
+        date={date}
         option={option}
         style={{ height: '400px' }}
         data={typeChartData}
