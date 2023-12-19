@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:42:02
- * @LastEditTime: 2023-09-25 14:42:06
+ * @LastEditTime: 2023-12-19 17:25:55
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpdate\helper.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\helper.ts
  */
 
 import { DetailItem } from '@/components/Detail';
@@ -31,5 +31,6 @@ export const upgradeItems: DetailItem[] = [
         })
         ?.join('，');
     },
+    span: 2,
   },
 ];

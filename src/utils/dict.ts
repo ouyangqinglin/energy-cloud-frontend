@@ -6,6 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
+import { ValueEnum } from '@/types';
 import { reportTypeEnum, timeDimensionEnum } from './dictionary';
 import { formatMessage } from './index';
 
@@ -140,6 +141,15 @@ export const chargingAndDischargingStatus = {
   2: {
     text: formatMessage({ id: 'siteMonitor.charge', defaultMessage: '充电' }),
     status: 'Error',
+  },
+};
+
+export const chargeAndDischargeStatus: ValueEnum = {
+  0: {
+    text: formatMessage({ id: 'device.discharge', defaultMessage: '放电' }),
+  },
+  1: {
+    text: formatMessage({ id: 'device.charge', defaultMessage: '充电' }),
   },
 };
 

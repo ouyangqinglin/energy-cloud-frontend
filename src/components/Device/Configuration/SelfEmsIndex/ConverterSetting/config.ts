@@ -495,6 +495,7 @@ export const powerParamsItems: DetailItem[] = [
     }),
     field: 'maximumLoadOfTransformer',
     format: powerFormat,
+    span: 2,
   },
 ];
 

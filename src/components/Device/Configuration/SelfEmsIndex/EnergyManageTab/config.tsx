@@ -7,6 +7,8 @@ import styles from '../index.less';
 import { Col, Row, TimePicker } from 'antd';
 import { formatMessage } from '@/utils';
 import moment, { Moment } from 'moment';
+import { chargeAndDischargeStatus } from '@/utils/dict';
+import { FormAndDetailType } from '@/components/Detail/Detail';
 
 const hourFormat = 'HH:mm';
 const contrastDate = '2023-01-01 ';
@@ -103,8 +105,224 @@ export const manaulParamsItems: DetailItem[] = [
     label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
     field: 'DischargePower',
     format: powerFormat,
+    span: 2,
   },
 ];
+
+export const manulSetColumns: ProFormColumnsType[] = [
+  {
+    title: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+    dataIndex: 'ChargingPower',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+    dataIndex: 'DischargePower',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+        },
+      ],
+    },
+  },
+];
+
+export const peakLoadShiftItems: FormAndDetailType[] = [
+  {
+    title: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+    dataIndex: 'peakShavingAndValleyFillingModeMaximumSOC',
+    valueType: 'digit',
+    format: percentageFormat,
+    fieldProps: {
+      addonAfter: '%',
+    },
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+        },
+      ],
+    },
+    colProps: {
+      span: 8,
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+    dataIndex: 'peakShavingAndValleyFillingModeLowestSOC',
+    valueType: 'digit',
+    span: 2,
+    format: percentageFormat,
+    fieldProps: {
+      addonAfter: '%',
+    },
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+        },
+      ],
+    },
+    colProps: {
+      span: 8,
+    },
+  },
+  {
+    valueType: 'formList',
+    dataIndex: 'PeriodOfTime',
+    initialValue: [],
+    fieldProps: {
+      copyIconProps: false,
+      creatorButtonProps: {
+        className: 'pl0',
+        creatorButtonText:
+          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+        icon: <PlusCircleOutlined />,
+        type: 'link',
+        style: { width: 'unset' },
+      },
+      min: 1,
+      deleteIconProps: {
+        Icon: (prop: any) => {
+          return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
+        },
+        tooltipText: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+      },
+      itemRender: ({ listDom, action }: any) => {
+        return (
+          <div>
+            <Row>
+              <Col style={{ display: 'inline-flex', alignItems: 'flex-end' }} span={24}>
+                {listDom}
+                {action}
+              </Col>
+            </Row>
+          </div>
+        );
+      },
+    },
+    colProps: {
+      span: 24,
+    },
+    columns: [
+      {
+        valueType: 'group',
+        columns: [
+          {
+            title: formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+            dataIndex: 'pcsRunningTimeFrame',
+            valueType: 'timeRange',
+            colProps: {
+              span: 8,
+            },
+            formItemProps: ({ getFieldValue }) => {
+              return {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+                  },
+                  {
+                    validator: (rule, value) => {
+                      return validatorTime(rule, value, 'PeriodOfTime', getFieldValue);
+                    },
+                  },
+                ],
+              };
+            },
+            renderFormItem: () => (
+              <TimePicker.RangePicker
+                order={true}
+                format={'HH:mm'}
+                popupClassName={styles.timePicker}
+              />
+            ),
+          },
+          {
+            title: formatMessage({ id: 'device.workMode', defaultMessage: '工作模式' }),
+            dataIndex: 'CorD',
+            valueType: 'select',
+            colProps: {
+              span: 8,
+            },
+            valueEnum: chargeAndDischargeStatus,
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message:
+                    formatMessage({
+                      id: 'common.pleaseEnter',
+                      defaultMessage: '请选择',
+                    }) +
+                    formatMessage({
+                      id: 'device.workMode',
+                      defaultMessage: '工作模式',
+                    }),
+                },
+              ],
+            },
+          },
+          {
+            title: formatMessage({ id: 'siteMonitor.executionPower', defaultMessage: '执行功率' }),
+            dataIndex: 'executionPower',
+            valueType: 'digit',
+            colProps: {
+              span: 8,
+            },
+            fieldProps: {
+              addonAfter: 'kW',
+            },
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message:
+                    formatMessage({
+                      id: 'common.pleaseEnter',
+                      defaultMessage: '请输入',
+                    }) +
+                    formatMessage({
+                      id: 'siteMonitor.executionPower',
+                      defaultMessage: '执行功率',
+                    }),
+                },
+              ],
+            },
+          },
+        ],
+        colProps: {
+          span: 24,
+        },
+      },
+    ],
+  },
+];
+
 export const backupModeItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
@@ -127,6 +345,7 @@ export const backupModeItems: DetailItem[] = [
     format: percentageFormat,
   },
 ];
+
 export const BackupPowerSetColumns: ProFormColumnsType[] = [
   {
     title: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
@@ -184,38 +403,6 @@ export const BackupPowerSetColumns: ProFormColumnsType[] = [
           message:
             formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
             formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
-        },
-      ],
-    },
-  },
-];
-
-export const manulSetColumns: ProFormColumnsType[] = [
-  {
-    title: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
-    valueType: 'digit',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message:
-            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
-            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
-        },
-      ],
-    },
-  },
-  {
-    title: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
-    dataIndex: 'DischargePower',
-    valueType: 'digit',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message:
-            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
-            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
         },
       ],
     },

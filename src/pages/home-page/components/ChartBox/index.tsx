@@ -10,8 +10,8 @@ import styles from './index.less';
 import RenderTitle from './RenderTitle';
 import { useFetchChartData } from './useFetchChartData';
 import TypeChart from '@/components/Chart/TypeChart';
-import { chartTypeEnum } from '@/components/Chart/config';
 import { cloneDeep } from 'lodash';
+import { formatMessage } from '@/utils';
 
 const ChartBox = ({
   type: subSystemType,

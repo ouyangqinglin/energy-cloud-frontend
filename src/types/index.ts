@@ -7,6 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\types\index.ts
  */
 
+import { ReactNode } from 'react';
+
 export type LocationType<Params = Record<string, any>> = {
   query?: Params;
 };
@@ -15,4 +17,11 @@ export type OptionType = {
   label: string;
   value: string | number;
   [key: string]: any;
+};
+
+export type ValueEnum = {
+  [key: string]: {
+    text: ReactNode;
+    status: 'Success' | 'Error' | 'Processing' | 'Warning' | 'Default';
+  };
 };
