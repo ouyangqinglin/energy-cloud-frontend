@@ -21,7 +21,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { chargeType, onlineStatus } from '@/utils/dictionary';
 import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
-import { getDevicePage, getProductTypeList } from '@/services/equipment';
+import { getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';

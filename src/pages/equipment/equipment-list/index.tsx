@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-11 14:34:18
+ * @LastEditTime: 2023-12-19 09:38:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -96,7 +96,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, rootFilter: 1, ...(isStationChild ? { siteId } : {}) });
+    return getDevicePage({
+      ...params,
+      isFindParentByChild: 1,
+      rootFilter: 1,
+      ...(isStationChild ? { siteId } : {}),
+    });
   };
 
   const toolBar = useCallback(

@@ -4,6 +4,7 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import routes from './routes';
 import proxy from './proxy';
+import CompressionPlugin from 'compression-webpack-plugin';
 
 const { REACT_APP_ENV } = process.env;
 
@@ -84,5 +85,14 @@ export default defineConfig({
   chainWebpack: (config) => {
     config.module.rule('otf').test(/.otf$/).use('file-loader').loader('file-loader');
     config.module.rule('mp4').test(/.mp4$/).use('file-loader').loader('file-loader');
+    config.plugin('compression-webpack-plugin').use(CompressionPlugin, [
+      {
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg|gif|png|jpeg|txt|json)$/,
+        filename: '[base].gz',
+        threshold: 2048,
+        deleteOriginalAssets: false,
+      },
+    ]);
   },
 });
