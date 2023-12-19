@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-11 10:39:20
+ * @LastEditTime: 2023-12-19 11:13:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -277,7 +277,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}
               ：
               <span className="mr24">
-                {onlineStatusFormat(deviceData?.status || (deviceData?.networkStatus as any))}
+                {onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
               </span>
               {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
               <span className={styles.alarm}>

@@ -185,4 +185,5 @@ export default {
   'common.back': '返回',
   'common.eliminated': '已消除',
   'common.alarming': '告警中',
+  'common.maxSelectItem': '最多选择{num}项',
 };

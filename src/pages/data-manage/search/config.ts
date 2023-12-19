@@ -8,7 +8,7 @@ import type {
 } from '@/components/TableSelect';
 import { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { formatMessage } from '@/utils';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
@@ -108,6 +108,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           valueId: 'selectName',
           valueName: 'paramName',
           limit: 2,
+          limitSelect: 10,
           onFocus: () => {
             return deviceId ? undefined : form?.validateFields(['siteId']);
           },
@@ -144,6 +145,36 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
             formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         },
       ],
+    },
+    fieldProps: ({ getFieldValue, setFieldValue }) => {
+      return {
+        onOpenChange: (open: boolean) => {
+          if (open) {
+            window.dataSearchDates = [];
+            window.dataSearchSelectDates = getFieldValue('date');
+            setFieldValue('date', []);
+          } else {
+            if (window.dataSearchDates?.[0] && window.dataSearchDates?.[1]) {
+              setFieldValue('date', window.dataSearchDates);
+            } else {
+              setFieldValue('date', window.dataSearchSelectDates);
+            }
+          }
+        },
+        onCalendarChange: (val: Moment[]) => {
+          window.dataSearchDates = [...(val || [])];
+        },
+        disabledDate: (current: Moment) => {
+          if (!window.dataSearchDates) {
+            return false;
+          }
+          const tooLate =
+            window.dataSearchDates?.[0] && current.diff(window.dataSearchDates?.[0], 'days') > 30;
+          const tooEarly =
+            window.dataSearchDates?.[1] && window.dataSearchDates?.[1].diff(current, 'days') > 30;
+          return !!tooEarly || !!tooLate;
+        },
+      };
     },
   },
 ];

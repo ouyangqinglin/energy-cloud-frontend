@@ -183,4 +183,5 @@ export default {
   'common.master': 'Master',
   'common.slave': 'Slave',
   'common.back': 'Back',
+  'common.maxSelectItem': 'Select up to {num} item',
 };
