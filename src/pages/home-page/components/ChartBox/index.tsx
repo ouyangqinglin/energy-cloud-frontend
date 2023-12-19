@@ -107,7 +107,7 @@ const ChartBox = ({
       color: ['#3DD598', '#007DFF'],
       yAxis: {
         type: 'value',
-        name: `单位${subSystemType == 2 ? '(元)' : '(kWh)'}`,
+        name: `单位${subSystemType == 2 ? '(元)' : timeType == TimeType.DAY ? '(kW)' : '(kWh)'}`,
         nameLocation: 'end',
         splitLine: {
           lineStyle: {
