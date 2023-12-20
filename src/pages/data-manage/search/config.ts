@@ -108,7 +108,6 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           valueId: 'selectName',
           valueName: 'paramName',
           limit: 2,
-          limitSelect: 10,
           onFocus: () => {
             return deviceId ? undefined : form?.validateFields(['siteId']);
           },
@@ -146,18 +145,18 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
         },
       ],
     },
-    fieldProps: ({ getFieldValue, setFieldValue }) => {
+    fieldProps: (form) => {
       return {
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];
-            window.dataSearchSelectDates = getFieldValue('date');
-            setFieldValue('date', []);
+            window.dataSearchSelectDates = form?.getFieldValue?.('date');
+            form?.setFieldValue?.('date', []);
           } else {
             if (window.dataSearchDates?.[0] && window.dataSearchDates?.[1]) {
-              setFieldValue('date', window.dataSearchDates);
+              form?.setFieldValue?.('date', window.dataSearchDates);
             } else {
-              setFieldValue('date', window.dataSearchSelectDates);
+              form?.setFieldValue?.('date', window.dataSearchSelectDates);
             }
           }
         },
@@ -169,9 +168,9 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
             return false;
           }
           const tooLate =
-            window.dataSearchDates?.[0] && current.diff(window.dataSearchDates?.[0], 'days') > 30;
+            window.dataSearchDates?.[0] && current.diff(window.dataSearchDates?.[0], 'days') > 7;
           const tooEarly =
-            window.dataSearchDates?.[1] && window.dataSearchDates?.[1].diff(current, 'days') > 30;
+            window.dataSearchDates?.[1] && window.dataSearchDates?.[1].diff(current, 'days') > 7;
           return !!tooEarly || !!tooLate;
         },
       };
