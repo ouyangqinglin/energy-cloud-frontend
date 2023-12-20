@@ -19,20 +19,18 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
   const { modelMap } = useDeviceModel({ productId });
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
@@ -58,7 +56,6 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
             })}
           />
         }
-        open={openSubscribe}
         detailProps={{
           extral,
           colon: false,

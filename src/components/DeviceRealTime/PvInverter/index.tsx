@@ -6,27 +6,21 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\PvInverter\index.tsx
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dict';
 import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import RealTime from '@/components/ScreenDialog/PvInverter/RealTime';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty } from '@/utils';
 
 export type PvInverterProps = DeviceRealTimeType & {
   loopNum: number;
 };
 
 const PvInverter: React.FC<PvInverterProps> = (props) => {
-  const { id, productId, deviceData, loading, loopNum } = props;
+  const { id, productId, loading, loopNum } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -34,10 +28,12 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
@@ -56,7 +52,6 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
         id={id}
         productId={productId}
         loading={loading}
-        open={openSubscribe}
         labelType={LabelTypeEnum.LineLabel}
         loopNum={loopNum}
         detailProps={{

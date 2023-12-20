@@ -26,12 +26,12 @@ import { default as LineLabel } from '@/components/Detail/LineLabel';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { useRequest } from 'umi';
-import { editSetting } from '@/services/equipment';
+import { DeviceDataType, editSetting } from '@/services/equipment';
 import { formatMessage, isEmpty } from '@/utils';
 import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -46,6 +46,7 @@ const timeFormat = 'HH:mm';
 
 type SettingProps = {
   id: string;
+  deviceData?: DeviceDataType;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
   isDeviceChild?: boolean;
@@ -109,7 +110,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, isDeviceChild, type } = props;
+  const { id, deviceData, isLineLabel = false, isDeviceChild, type } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -481,6 +482,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         className="setting-form"
         layout="horizontal"
         onValuesChange={onControlChange}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
         <Row>
           <Col flex="25%">
@@ -575,7 +577,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                 type="primary"
                 onClick={onProtectClick}
                 loading={loading}
-                disabled={disableProtect}
+                disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
               >
                 {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
               </Button>
@@ -591,7 +593,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                   type="primary"
                   onClick={onProtectClick}
                   loading={loading}
-                  disabled={disableProtect}
+                  disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
                 >
                   {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
                 </Button>
@@ -605,6 +607,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             labelCol={{ flex: '116px' }}
             onFinish={requestProtect}
             onValuesChange={setDisableProtectFlalse}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
             <Row>
               <Col flex="25%">
@@ -704,7 +707,12 @@ const Setting: React.FC<SettingProps> = (props) => {
             defaultMessage: '运行参数设置',
           })}
         >
-          <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
+          <Button
+            type="primary"
+            onClick={onRunClick}
+            loading={loading}
+            disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+          >
             {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
           </Button>
         </LineLabel>
@@ -715,7 +723,12 @@ const Setting: React.FC<SettingProps> = (props) => {
             defaultMessage: '运行参数设置',
           })}
           operate={
-            <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
+            <Button
+              type="primary"
+              onClick={onRunClick}
+              loading={loading}
+              disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+            >
               {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
             </Button>
           }
@@ -729,6 +742,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         labelCol={{ flex: '116px' }}
         onFinish={requestRun}
         onValuesChange={setDisableRunFalse}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
         <Row>
           <Col flex="25%">
@@ -913,7 +927,12 @@ const Setting: React.FC<SettingProps> = (props) => {
                 defaultMessage: '校时设置',
               })}
             >
-              <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
+              <Button
+                type="primary"
+                onClick={onTimeClick}
+                loading={loading}
+                disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
+              >
                 {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
               </Button>
             </LineLabel>
@@ -928,7 +947,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                   type="primary"
                   onClick={onTimeClick}
                   loading={loading}
-                  disabled={disableTime}
+                  disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
                 >
                   {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
                 </Button>
@@ -941,6 +960,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             labelCol={{ flex: '116px' }}
             onFinish={onTimeFormFinish}
             onValuesChange={setDisableTimeFalse}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
             <Row>
               <Col flex="25%">

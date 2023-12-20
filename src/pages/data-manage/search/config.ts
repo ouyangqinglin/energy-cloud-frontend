@@ -108,6 +108,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           valueId: 'selectName',
           valueName: 'paramName',
           limit: 2,
+          limitSelect: 250,
           onFocus: () => {
             return deviceId ? undefined : form?.validateFields(['siteId']);
           },

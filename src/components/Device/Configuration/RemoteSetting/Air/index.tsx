@@ -15,7 +15,7 @@ import RunForm from './RunForm';
 import { formatMessage } from '@/utils';
 
 const Air: React.FC<AirType> = (props) => {
-  const { deviceId } = props;
+  const { deviceId, deviceData } = props;
 
   const realTimeData = useSubscribe(deviceId, true);
 
@@ -29,7 +29,7 @@ const Air: React.FC<AirType> = (props) => {
               defaultMessage: '运行定值设置',
             })}
           >
-            <RunForm deviceId={deviceId} runData={realTimeData} />
+            <RunForm deviceId={deviceId} deviceData={deviceData} runData={realTimeData} />
           </Detail.Label>
         ),
         items: runItems,

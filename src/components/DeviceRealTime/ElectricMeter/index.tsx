@@ -37,10 +37,12 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
   const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (

@@ -32,7 +32,7 @@ import {
   faultFireFightFormat,
   openCloseFormat,
 } from '@/utils/format';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
 
@@ -47,7 +47,7 @@ const energyPowerFormat = (value: number, data: any) => {
 export type ConfigType = {
   label: string;
   showLabel?: false;
-  productIds?: DeviceTypeEnum[];
+  productTypeId?: DeviceProductTypeEnum;
   position: {
     top: number;
     left: number;
@@ -63,7 +63,7 @@ export type ConfigType = {
 
 export const airItem: ConfigType = {
   label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
-  productIds: [DeviceTypeEnum.Air],
+  productTypeId: DeviceProductTypeEnum.Air,
   position: { top: 51, left: 2 },
   icon: AirImg,
   line: AirLineImg,
@@ -89,7 +89,7 @@ export const airItem: ConfigType = {
 
 export const bwattAirItem: ConfigType = {
   label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
-  productIds: [DeviceTypeEnum.BWattAir, DeviceTypeEnum.YTEnergyAir],
+  productTypeId: DeviceProductTypeEnum.Air,
   position: { top: 51, left: 2 },
   icon: AirImg,
   line: AirLineImg,
@@ -115,7 +115,7 @@ export const bwattAirItem: ConfigType = {
 
 export const emsItem: ConfigType = {
   label: 'EMS',
-  productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
+  productTypeId: DeviceProductTypeEnum.Ems,
   position: { top: 302, left: 2 },
   icon: EmsImg,
   line: EmsLineImg,
@@ -136,7 +136,7 @@ export const emsItem: ConfigType = {
 
 export const ytEmsItem: ConfigType = {
   label: 'EMS',
-  productIds: [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms],
+  productTypeId: DeviceProductTypeEnum.Ems,
   position: { top: 302, left: 2 },
   icon: EmsImg,
   line: EmsLineImg,
@@ -176,11 +176,7 @@ export const doorConfigs: ConfigType[] = [
 export const bmsConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'siteMonitor.batteryPile', defaultMessage: '电池堆' }),
-    productIds: [
-      DeviceTypeEnum.BatteryStack,
-      DeviceTypeEnum.BWattBatteryStack,
-      DeviceTypeEnum.YTEnergyBatteryStack,
-    ],
+    productTypeId: DeviceProductTypeEnum.BatteryStack,
     position: { top: 450, left: 2 },
     icon: StackImg,
     line: StackLineImg,
@@ -192,7 +188,7 @@ export const bmsConfig: ConfigType[] = [
 export const fireFightConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.fireInfo', defaultMessage: '消防信息' }),
-    productIds: [DeviceTypeEnum.FirFight],
+    productTypeId: DeviceProductTypeEnum.FireFight,
     position: { top: 40, left: 802 },
     icon: FireFightImg,
     line: FireFightLineImg,
@@ -220,11 +216,7 @@ export const fireFightConfig: ConfigType[] = [
 export const peakConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
-    productIds: [
-      DeviceTypeEnum.BatteryStack,
-      DeviceTypeEnum.BWattBatteryStack,
-      DeviceTypeEnum.YTEnergyBatteryStack,
-    ],
+    productTypeId: DeviceProductTypeEnum.BatteryStack,
     position: { top: 185, left: 802 },
     icon: EmsImg,
     line: PackLineImg,
@@ -273,7 +265,7 @@ export const peakConfig: ConfigType[] = [
 export const pcsConfig: ConfigType[] = [
   {
     label: 'PCS',
-    productIds: [DeviceTypeEnum.Pcs, DeviceTypeEnum.BWattPcs, DeviceTypeEnum.YTEnergyPcs],
+    productTypeId: DeviceProductTypeEnum.Pcs,
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,

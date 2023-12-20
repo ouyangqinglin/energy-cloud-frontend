@@ -11,18 +11,13 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Stack from './Stack';
 import Cluster from './Cluster';
-import { OnlineStatusEnum } from '@/utils/dict';
 import { useSubscribe } from '@/hooks';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(id, openSubscribe);
+  const realTimeData = useSubscribe(id, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [

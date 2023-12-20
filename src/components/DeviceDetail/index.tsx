@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-11-30 15:00:48
+ * @LastEditTime: 2023-12-20 13:56:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -15,11 +15,12 @@ import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
 import styles from './index.less';
 import { formatMessage, isEmpty } from '@/utils';
-import { TreeNode, deviceMap } from './config';
+import { TreeNode } from './config';
 import Configuration from '@/components/Device/Configuration';
 import DeviceRealTime from '@/components/DeviceRealTime';
 import Overview from '@/components/DeviceInfo/Overview';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { productTypeIconMap } from '@/utils/IconUtil';
 
 const dealTreeData = (data: TreeNode[]) => {
   const result: TreeNode[] = [];
@@ -29,8 +30,10 @@ const dealTreeData = (data: TreeNode[]) => {
       deviceId: item?.id,
       name: item?.name,
       productId: item?.productId,
-      icon: deviceMap.get(item.productId as any) || '',
     };
+    if (item?.productTypeId) {
+      node.icon = productTypeIconMap.get(item?.productTypeId);
+    }
     if (item.children && item.children.length) {
       node.children = dealTreeData(item.children as any);
     }

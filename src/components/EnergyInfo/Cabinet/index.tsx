@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-19 11:13:17
+ * @LastEditTime: 2023-12-20 15:03:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -17,7 +17,7 @@ import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import { formatMessage, isEmpty } from '@/utils';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { OnlineStatusEnum } from '@/utils/dict';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
@@ -36,29 +36,7 @@ import {
 import { EnergySourceEnum } from '../';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 
-const airProductIds = [
-  DeviceTypeEnum.Air,
-  DeviceTypeEnum.BWattAir,
-  DeviceTypeEnum.PvEnergyAir,
-  DeviceTypeEnum.YTEnergyAir,
-];
-const bmsProductIds = [
-  DeviceTypeEnum.BatteryStack,
-  DeviceTypeEnum.BWattBatteryStack,
-  DeviceTypeEnum.YTEnergyBatteryStack,
-  DeviceTypeEnum.PvEnergyBms,
-];
-const emsProductIds = [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattEms, DeviceTypeEnum.YTEnergyEms];
-const pcsProductIds = [
-  DeviceTypeEnum.Pcs,
-  DeviceTypeEnum.BWattPcs,
-  DeviceTypeEnum.YTEnergyPcs,
-  DeviceTypeEnum.PvEnergyPcs,
-];
-
-const fireFightProductIds = [DeviceTypeEnum.FirFight];
-
-const getDataIds = (data: energyType[]): Record<string, string[]> => {
+const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
   const ids: Record<string, any> = {
     air: [],
     bms: [],
@@ -67,15 +45,15 @@ const getDataIds = (data: energyType[]): Record<string, string[]> => {
     fire: [],
   };
   data?.forEach?.((item) => {
-    if (airProductIds.includes(item.productId)) {
+    if (DeviceProductTypeEnum.Air == item.productTypeId) {
       ids.air.push(item.id);
-    } else if (bmsProductIds.includes(item.productId)) {
+    } else if (DeviceProductTypeEnum.BatteryStack == item.productTypeId) {
       ids.bms.push(item.id);
-    } else if (emsProductIds.includes(item.productId)) {
+    } else if (DeviceProductTypeEnum.Ems == item.productTypeId) {
       ids.ems.push(item.id);
-    } else if (pcsProductIds.includes(item.productId)) {
+    } else if (DeviceProductTypeEnum.Pcs == item.productTypeId) {
       ids.pcs.push(item.id);
-    } else if (fireFightProductIds.includes(item.productId)) {
+    } else if (DeviceProductTypeEnum.FireFight == item.productTypeId) {
       ids.fire.push(item.id);
     }
   });
@@ -83,18 +61,18 @@ const getDataIds = (data: energyType[]): Record<string, string[]> => {
 };
 
 const getUnitByProductId = (
-  data: energyType[],
-  productIds: [DeviceTypeEnum],
-): energyType | undefined => {
-  let result: energyType | undefined;
+  data: DeviceDataType[],
+  productTypeId: DeviceProductTypeEnum,
+): DeviceDataType | undefined => {
+  let result: DeviceDataType | undefined;
   if (data && data.length) {
     for (let i = 0; i < data?.length; i++) {
-      if (productIds.includes(data[i]?.productId)) {
+      if (productTypeId == data[i]?.productTypeId) {
         result = data[i];
         return result;
       }
       if (data[i]?.children && data[i]?.children?.length) {
-        result = getUnitByProductId(data[i].children || [], productIds);
+        result = getUnitByProductId(data[i].children || [], productTypeId);
         if (result) {
           return result;
         }
@@ -173,18 +151,22 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   }, [bodySize]);
 
   const onMoreClick = useCallback(
-    (item) => {
+    (item: ConfigType) => {
       if (energyData) {
-        const unit = item.productIds
-          ? getUnitByProductId([energyData], item.productIds)
+        const unit = item.productTypeId
+          ? getUnitByProductId([energyData], item.productTypeId)
           : energyData;
-        history.push({
-          pathname:
-            source === EnergySourceEnum.SiteMonitor
-              ? '/site-monitor/device-detail'
-              : '/equipment/device-detail',
-          search: `?id=${unit?.id}&productId=${unit?.productId}`,
-        });
+        if (unit?.id && unit?.productId) {
+          history.push({
+            pathname:
+              source === EnergySourceEnum.SiteMonitor
+                ? '/site-monitor/device-detail'
+                : '/equipment/device-detail',
+            search: `?id=${unit?.id}&productId=${unit?.productId}`,
+          });
+        } else {
+          message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
+        }
       } else {
         message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
       }

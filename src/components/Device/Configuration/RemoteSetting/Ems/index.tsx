@@ -17,7 +17,7 @@ import SystemTimeForm from './SystemTimeForm';
 import { formatMessage } from '@/utils';
 
 const EMS: React.FC<EmsType> = (props) => {
-  const { deviceId } = props;
+  const { deviceId, deviceData } = props;
 
   const realTimeData = useSubscribe(deviceId, true);
 
@@ -35,7 +35,12 @@ const EMS: React.FC<EmsType> = (props) => {
               defaultMessage: '电池保护参数设置',
             })}
           >
-            <ProtectForm deviceId={deviceId} protectData={realTimeData} onSuccess={onSuccess} />
+            <ProtectForm
+              deviceId={deviceId}
+              deviceData={deviceData}
+              protectData={realTimeData}
+              onSuccess={onSuccess}
+            />
           </Detail.Label>
         ),
         items: protectItems,
@@ -47,6 +52,7 @@ const EMS: React.FC<EmsType> = (props) => {
           >
             <SystemTimeForm
               deviceId={deviceId}
+              deviceData={deviceData}
               systemTimeData={realTimeData}
               onSuccess={onSuccess}
             />

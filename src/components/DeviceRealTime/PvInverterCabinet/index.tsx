@@ -6,22 +6,17 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\PvInverter\index.tsx
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dict';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import RealTime from '@/components/Meter/RealTime';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -29,10 +24,12 @@ const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
   const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
@@ -50,7 +47,6 @@ const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
       <RealTime
         id={id}
         loading={loading}
-        open={openSubscribe}
         label={
           <Detail.Label
             title={formatMessage({

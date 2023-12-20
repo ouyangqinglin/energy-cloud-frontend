@@ -7,15 +7,18 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\Ems\typing.ts
  */
 
+import { DeviceDataType } from '@/services/equipment';
 import { Moment } from 'moment';
 
 export type EmsType = {
   deviceId?: string;
+  deviceData?: DeviceDataType;
   productId?: string;
 };
 
 export type ProtectFormType = {
   deviceId?: string;
+  deviceData?: DeviceDataType;
   protectData?: {
     OverchargeProtection?: number;
     OverchargeRelease?: number;
@@ -27,6 +30,7 @@ export type ProtectFormType = {
 
 export type SystemTimeFormType = {
   deviceId?: string;
+  deviceData?: DeviceDataType;
   systemTimeData?: {
     sysTem?: Moment;
     yearWait?: number;

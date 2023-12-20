@@ -15,9 +15,10 @@ import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import { formatMessage } from '@/utils';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const ProtectForm: React.FC<ProtectFormType> = (props) => {
-  const { deviceId, protectData, onSuccess } = props;
+  const { deviceId, deviceData, protectData, onSuccess } = props;
 
   const [initialValues, setInitialValues] = useState<ProtectFormType['protectData']>();
   const [open, { set, setTrue }] = useBoolean(false);
@@ -42,7 +43,11 @@ const ProtectForm: React.FC<ProtectFormType> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={setTrue}>
+      <Button
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
         {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm

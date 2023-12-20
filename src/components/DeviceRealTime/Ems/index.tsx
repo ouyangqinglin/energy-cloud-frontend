@@ -36,7 +36,14 @@ const Ems: React.FC<EmsType> = (props) => {
         key: '2',
         label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
         children: (
-          <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
+          <Setting
+            id={id}
+            deviceData={deviceData}
+            settingData={realTimeData}
+            type={type}
+            isLineLabel
+            isDeviceChild
+          />
         ),
       },
     ];

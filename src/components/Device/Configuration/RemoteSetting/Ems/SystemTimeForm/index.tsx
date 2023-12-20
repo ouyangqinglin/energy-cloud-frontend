@@ -17,9 +17,10 @@ import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import moment, { Moment } from 'moment';
 import { formatMessage } from '@/utils';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
-  const { deviceId, systemTimeData, onSuccess } = props;
+  const { deviceId, deviceData, systemTimeData, onSuccess } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
   const [initialValues, setInitialValues] = useState<SystemTimeFormType['systemTimeData']>();
@@ -53,7 +54,11 @@ const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={setTrue}>
+      <Button
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
         {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm

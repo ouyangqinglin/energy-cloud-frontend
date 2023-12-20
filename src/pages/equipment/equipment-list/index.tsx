@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-19 09:38:45
+ * @LastEditTime: 2023-12-20 14:06:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -22,6 +22,7 @@ import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
+import { productTypeIconMap } from '@/utils/IconUtil';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -209,6 +210,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'name',
         width: 200,
         ellipsis: true,
+        render: (_, record) => {
+          // let Component = record?.productType && productTypeIconMap.get(record?.productType);
+          return (
+            <>
+              {/* {Component && <Component className='mr12 float' />} */}
+              <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
+                {record.name}
+              </span>
+            </>
+          );
+        },
       },
       {
         title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),

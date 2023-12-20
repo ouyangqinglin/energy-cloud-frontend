@@ -9,15 +9,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
 import useDeviceModel from '../useDeviceModel';
-import { OnlineStatusEnum } from '@/utils/dict';
 import { useSubscribe } from '@/hooks';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { directCurrentItems, exchargeItems, runItems, tempItems, versionItems } from './config';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const Pcs: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+  const { id, productId } = props;
 
   const { modelMap } = useDeviceModel({ productId });
   const realTimeData = useSubscribe(id, true);
@@ -27,10 +26,12 @@ const Pcs: React.FC<DeviceRealTimeType> = (props) => {
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (

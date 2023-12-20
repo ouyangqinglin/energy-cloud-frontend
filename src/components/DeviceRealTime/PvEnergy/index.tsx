@@ -7,11 +7,9 @@
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\PvEnergy\index.tsx
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DeviceRealTimeType } from '../config';
 import PvEnergyMachine from '@/components/Device/PvEnergyMachine';
-import { useRequest, useModel } from 'umi';
-import { getGroupList } from '../../../pages/site-monitor/Energy/service';
 
 const PvEnergy: React.FC<Omit<DeviceRealTimeType, 'id' | 'productId'>> = (props) => {
   const { deviceData } = props;

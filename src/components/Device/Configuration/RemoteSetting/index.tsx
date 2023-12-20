@@ -40,6 +40,7 @@ const RemoteSetting: React.FC<RemoteSettingType> = (props) => {
         >
           <Component
             deviceId={deviceData?.deviceId}
+            deviceData={deviceData}
             productId={deviceData?.productId}
             {...componentProps}
           />

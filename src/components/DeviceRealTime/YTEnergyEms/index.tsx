@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-12-05 20:17:22
+ * @LastEditTime: 2023-12-20 15:27:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -11,11 +11,10 @@ import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
 import { DeviceTypeEnum } from '@/utils/dictionary';
-import { OnlineStatusEnum } from '@/utils/dict';
 import { useAuthority, useSubscribe } from '@/hooks';
 import styles from './index.less';
 import Setting from './Control';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;

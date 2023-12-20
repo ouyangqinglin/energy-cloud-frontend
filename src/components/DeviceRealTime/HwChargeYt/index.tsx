@@ -19,10 +19,6 @@ import { isEmpty } from '@/utils';
 const HwChargeYt: React.FC<DeviceRealTimeType> = (props) => {
   const { id, productId, deviceData, loading } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     deviceId: '',
     title: '',
@@ -31,11 +27,13 @@ const HwChargeYt: React.FC<DeviceRealTimeType> = (props) => {
   const { modelMap } = useDeviceModel({ productId });
 
   const onClick = useCallback((item: DetailItem, _, data) => {
-    setCollectionInfo({
-      deviceId: data?.ids?.[0] ?? id,
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        deviceId: data?.ids?.[0] ?? id,
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
@@ -53,7 +51,6 @@ const HwChargeYt: React.FC<DeviceRealTimeType> = (props) => {
       <RealTime
         id={id}
         loading={loading}
-        open={openSubscribe}
         labelType={LabelTypeEnum.LineLabel}
         detailProps={{
           extral,

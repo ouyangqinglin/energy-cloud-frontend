@@ -58,7 +58,7 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   multiple?: boolean; // 是否多选
   disabled?: boolean; // 是否禁用
   limit?: number; //  表单输入框显示已选项的数量，多余的数字显示
-  limitSelect: number; // 限制选择的数量
+  limitSelect?: number; // 限制选择的数量
   valueId?: string; // 数据字段id既表格id或者树id
   valueName?: string; // 数据字段name既表格name或者树name
   valueFormat?: (value: string, item: V) => string;
