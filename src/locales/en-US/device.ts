@@ -291,4 +291,10 @@ export default {
   'device.fanSentence': '{name} fan',
   'device.communicationStatusSentence': '{name} communication status',
   'device.packFanPwm': 'PACK fan PWM duty cycle',
+  'device.dehumidifier': 'Dehumidifier',
+  'device.liquidCoolingUnit': 'Liquid cooling unit',
+  'device.systemMode': 'System mode',
+  'device.sensorStatus': 'Sensor status',
+  'device.co2Concentration': 'CO₂ concentration',
+  'device.power': 'Power',
 };

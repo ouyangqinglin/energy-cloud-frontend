@@ -153,7 +153,7 @@ const MenuTableList: React.FC = () => {
     {
       title: <FormattedMessage id="system.Menu.menu_name" defaultMessage="菜单名称" />,
       dataIndex: 'menuName',
-      valueType: 'text',
+      width: 200,
       ellipsis: true,
     },
     {

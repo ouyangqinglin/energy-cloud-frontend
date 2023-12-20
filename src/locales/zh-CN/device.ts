@@ -281,4 +281,10 @@ export default {
   'device.fanSentence': '{name}风扇',
   'device.communicationStatusSentence': '{name}通信状态',
   'device.packFanPwm': 'PACK风扇PWM占空比',
+  'device.dehumidifier': '除湿器',
+  'device.liquidCoolingUnit': '液冷机组',
+  'device.systemMode': '系统模式',
+  'device.sensorStatus': '传感器状态',
+  'device.co2Concentration': 'CO₂浓度',
+  'device.power': '功率',
 };

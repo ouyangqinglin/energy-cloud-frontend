@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-20 15:03:50
+ * @LastEditTime: 2023-12-20 17:38:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -11,14 +11,13 @@ import { useRequest, useHistory } from 'umi';
 import { useSize } from 'ahooks';
 import { Skeleton, message } from 'antd';
 import { useSubscribe } from '@/hooks';
-import { getEnergy } from '../service';
-import { ComProps, energyType } from '../type';
+import { ComProps } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
+import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage } from '@/utils';
 import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
-import { OnlineStatusEnum } from '@/utils/dict';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import {
@@ -29,6 +28,13 @@ import {
   doorConfigs,
   emsItem,
   fireFightConfig,
+  liquidAirItem,
+  liquidBmsConfig,
+  liquidDoorConfigs,
+  liquidEmsItem,
+  liquidFireFightConfig,
+  liquidPcsConfig,
+  liquidPeakConfig,
   pcsConfig,
   peakConfig,
   ytEmsItem,
@@ -43,6 +49,7 @@ const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
     ems: [],
     pcs: [],
     fire: [],
+    dehumidifire: [],
   };
   data?.forEach?.((item) => {
     if (DeviceProductTypeEnum.Air == item.productTypeId) {
@@ -55,6 +62,8 @@ const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
       ids.pcs.push(item.id);
     } else if (DeviceProductTypeEnum.FireFight == item.productTypeId) {
       ids.fire.push(item.id);
+    } else if (DeviceProductTypeEnum.Dehumidifier == item.productTypeId) {
+      ids.dehumidifire.push(item.id);
     }
   });
   return ids;
@@ -118,6 +127,8 @@ const getItemsByConfig = (
   });
 };
 
+const liquidProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.LiquidEnergy];
+
 export type CabinetProps = ComProps & {
   showLabel?: boolean;
   source?: EnergySourceEnum;
@@ -134,6 +145,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const emsRealTimeData = useSubscribe(deviceIds?.ems, true);
   const pcsRealTimeData = useSubscribe(deviceIds?.pcs, true);
   const fireRealTimeData = useSubscribe(deviceIds?.fire, true);
+  const dehumidifierRealTimeData = useSubscribe(deviceIds?.dehumidifire, true);
   const history = useHistory();
 
   const {
@@ -191,43 +203,71 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const airItems = useMemo(() => {
     return getItemsByConfig(
-      [
-        (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ||
-        (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
-          ? bwattAirItem
-          : airItem,
-      ],
+      liquidProductIds.includes(deviceData?.productId)
+        ? [liquidAirItem]
+        : [
+            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ||
+            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
+              ? bwattAirItem
+              : airItem,
+          ],
       airRealTimeData,
       onMoreClick,
     );
   }, [airRealTimeData, deviceData, onMoreClick]);
 
   const doorItems = useMemo(() => {
-    return getItemsByConfig(doorConfigs, bmsRealTimeData, onMoreClick);
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? liquidDoorConfigs : doorConfigs,
+      bmsRealTimeData,
+      onMoreClick,
+    );
   }, [bmsRealTimeData, deviceData, onMoreClick]);
 
   const emsItems = useMemo(() => {
     return getItemsByConfig(
-      [(deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy ? ytEmsItem : emsItem],
+      liquidProductIds.includes(deviceData?.productId)
+        ? [liquidEmsItem]
+        : [
+            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
+              ? ytEmsItem
+              : emsItem,
+          ],
       emsRealTimeData,
       onMoreClick,
     );
   }, [emsRealTimeData, deviceData]);
 
   const bmsItems = useMemo(() => {
-    return getItemsByConfig(bmsConfig, bmsRealTimeData, onMoreClick);
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? liquidBmsConfig : bmsConfig,
+      bmsRealTimeData,
+      onMoreClick,
+    );
   }, [bmsRealTimeData, deviceData]);
 
   const fireItems = useMemo(() => {
-    return getItemsByConfig(fireFightConfig, fireRealTimeData, onMoreClick);
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? liquidFireFightConfig : fireFightConfig,
+      fireRealTimeData,
+      onMoreClick,
+    );
   }, [fireRealTimeData, deviceData]);
 
   const peakItems = useMemo(() => {
-    return getItemsByConfig(peakConfig, bmsRealTimeData, onMoreClick);
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? liquidPeakConfig : peakConfig,
+      bmsRealTimeData,
+      onMoreClick,
+    );
   }, [bmsRealTimeData, deviceData]);
 
   const pcsItems = useMemo(() => {
-    return getItemsByConfig(pcsConfig, { ...pcsRealTimeData, ...bmsRealTimeData }, onMoreClick);
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? liquidPcsConfig : pcsConfig,
+      { ...pcsRealTimeData, ...bmsRealTimeData },
+      onMoreClick,
+    );
   }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
 
   const packItems = useMemo(() => {
@@ -273,7 +313,12 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
           <div ref={divRef} className="tx-center">
             <div
               className={styles.energy}
-              style={{ backgroundImage: `url(${EnergyImg})`, transform: `scale(${scaleNum})` }}
+              style={{
+                backgroundImage: `url(${
+                  liquidProductIds.includes(deviceData?.productId) ? LiquidEnergyImg : EnergyImg
+                })`,
+                transform: `scale(${scaleNum})`,
+              }}
             >
               {airItems}
               {doorItems}
@@ -282,7 +327,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               {(deviceData?.productId as any) == DeviceTypeEnum.YTEnergy ? fireItems : <></>}
               {peakItems}
               {pcsItems}
-              <div className={styles.parckContain}>{packItems}</div>
+              {!liquidProductIds.includes(deviceData?.productId) && (
+                <div className={styles.parckContain}>{packItems}</div>
+              )}
             </div>
           </div>
         </>

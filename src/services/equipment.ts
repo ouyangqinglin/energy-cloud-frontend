@@ -8,7 +8,12 @@
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
-import { DeviceMasterMode, DeviceProductTypeEnum, ListDataType } from '@/utils/dictionary';
+import {
+  DeviceMasterMode,
+  DeviceProductTypeEnum,
+  DeviceTypeEnum,
+  ListDataType,
+} from '@/utils/dictionary';
 import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
@@ -20,7 +25,7 @@ export type DeviceDataType = {
   name?: string;
   sn?: string;
   model?: string;
-  productId?: string;
+  productId?: DeviceTypeEnum;
   productType?: DeviceProductTypeEnum;
   productTypeId?: DeviceProductTypeEnum;
   productTypeName?: string;
