@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-12-02 15:20:13
+ * @LastEditTime: 2023-12-20 19:27:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
@@ -16,6 +16,8 @@ import { controlItems } from './config';
 import { useRequest } from 'umi';
 import { editSetting } from '@/services/equipment';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
+
 type SettingProps = {
   id: string;
   settingData?: Record<string, any>;
@@ -32,6 +34,10 @@ const Setting: React.FC<SettingProps> = (props) => {
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
+  const { passAuthority } = useAuthority([
+    'iot:device:remoteControl:systemStatusControl:distribute',
+  ]);
+
   const btnClick = useCallback((item, btnItem) => {
     Modal.confirm({
       title: item.label || formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
@@ -55,6 +61,7 @@ const Setting: React.FC<SettingProps> = (props) => {
         }),
     });
   }, []);
+
   return (
     <>
       <LineLabel
@@ -79,7 +86,9 @@ const Setting: React.FC<SettingProps> = (props) => {
                         ghost={settingData[item.field] == btnItem.value}
                         loading={loading}
                         onClick={() => {
-                          btnClick(item, btnItem);
+                          if (passAuthority) {
+                            btnClick(item, btnItem);
+                          }
                         }}
                         disabled={
                           deviceData?.status === OnlineStatusEnum.Offline ||

@@ -52,6 +52,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               realTimeData={realTimeData}
               columns={systemColumns}
               serviceId={'SettingSysEnable'}
+              authority="iot:device:config:systemSetting:systemEnableSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -77,6 +78,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               realTimeData={realTimeData}
               columns={systemTimeColumns}
               serviceId={'correctionTime'}
+              authority="iot:device:config:systemSetting:timeSetting:distribute"
             />
           </Detail.Label>
         ),

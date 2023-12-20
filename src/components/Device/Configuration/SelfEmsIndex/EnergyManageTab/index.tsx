@@ -147,6 +147,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               realTimeData={realTimeData}
               columns={manulSetColumns}
               serviceId={'ManualModeSetting'}
+              authority="iot:device:config:energyManage:manualModeSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -178,6 +179,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               columns={peakLoadShiftItems}
               serviceId={'PeakShavingAndValleyFillingModeSetting'}
               beforeSubmit={peakLoadShiftBeforeSubmit}
+              authority="iot:device:config:energyManage:peakShaveModeSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -203,6 +205,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               realTimeData={realTimeData}
               columns={BackupPowerSetColumns}
               serviceId={'BackupPowerModeSetting'}
+              authority="iot:device:config:energyManage:backupModeSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -235,6 +238,7 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
               colProps={{
                 span: 24,
               }}
+              authority="iot:device:config:energyManage:peakValleyTimeSetting:distribute"
             />
           </Detail.Label>
         ),

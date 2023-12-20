@@ -155,6 +155,13 @@ const MenuTableList: React.FC = () => {
       dataIndex: 'menuName',
       width: 200,
       ellipsis: true,
+      render: (_, record) => {
+        return (
+          <>
+            <span>{record.menuName}</span>
+          </>
+        );
+      },
     },
     {
       title: <FormattedMessage id="system.Menu.icon" defaultMessage="菜单图标" />,

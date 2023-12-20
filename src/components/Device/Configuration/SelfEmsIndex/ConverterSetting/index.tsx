@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-11-27 11:24:18
+ * @LastEditTime: 2023-12-20 19:23:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\ConverterSetting\index.tsx
  */
@@ -58,6 +58,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               colProps={{
                 span: 8,
               }}
+              authority="iot:device:config:converterSetting:converterProtectSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -83,6 +84,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'GridParameterSettings'}
+              authority="iot:device:config:converterSetting:powerParamsSetting:distribute"
             />
           </Detail.Label>
         ),

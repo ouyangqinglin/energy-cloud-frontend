@@ -54,6 +54,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'EnableBatterySystemSelfStartFunction'}
+              authority="iot:device:config:batterySetting:batterySystemSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -83,6 +84,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               colProps={{
                 span: 8,
               }}
+              authority="iot:device:config:batterySetting:batteryProtectSetting:distribute"
             />
           </Detail.Label>
         ),

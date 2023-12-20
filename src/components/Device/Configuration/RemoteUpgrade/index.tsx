@@ -16,6 +16,7 @@ import { useRequest } from 'umi';
 import { getUpgradeVersion } from '@/services/equipment';
 import UpgradeRecord from './UpgradeRecord';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
   const { deviceId, deviceData } = props;
@@ -23,6 +24,10 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
   const { data: versionData, run } = useRequest(getUpgradeVersion, {
     manual: true,
   });
+
+  const { passAuthority } = useAuthority([
+    'iot:device:config:systemSetting:remoteUpgrade:distribute',
+  ]);
 
   useEffect(() => {
     if (deviceId) {
@@ -37,11 +42,13 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
           <Detail.Label
             title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}
           >
-            <UpgradeForm
-              deviceId={deviceId}
-              versionItems={versionData?.upgradeableVersionVOList}
-              deviceData={deviceData}
-            />
+            {passAuthority && (
+              <UpgradeForm
+                deviceId={deviceId}
+                versionItems={versionData?.upgradeableVersionVOList}
+                deviceData={deviceData}
+              />
+            )}
             <UpgradeRecord deviceId={deviceId} deviceData={deviceData} />
           </Detail.Label>
         ),
