@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-07 16:16:04
+ * @LastEditTime: 2023-12-21 15:59:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -438,7 +438,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'option',
         width: 100,
         fixed: 'right',
-        hideInTable: type == PageTypeEnum.History,
+        hideInTable: true,
         render: (_, record) => {
           return !record.status ? (
             <ClearOutlined className={styles.cleanUp} onClick={() => onCleanClick(record)} />
