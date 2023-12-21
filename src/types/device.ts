@@ -77,6 +77,10 @@ export type DeviceServiceType = {
   name?: string;
   groupName?: string;
   outputData?: DeviceServiceModelType[];
+  authority?: {
+    detail?: string;
+    edit?: string;
+  }[];
 };
 
 export type DeviceServiceGroupType = {

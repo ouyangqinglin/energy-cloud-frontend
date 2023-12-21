@@ -87,6 +87,13 @@ export const deviceRealTimeMap: any = {
       hideLineVoltage: true,
     },
   },
+  [DeviceTypeEnum.YTEnergyMetterAKR]: {
+    component: 'ElectricMeter',
+    props: {
+      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
+      hideLineVoltage: true,
+    },
+  },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
   [DeviceTypeEnum.PvEnergyBms]: { component: 'OpticalStorageBatterryStack' },

@@ -119,6 +119,7 @@ export enum DeviceTypeEnum {
   LiquidEnergy = 84,
   LiquidEnergyFireFight = 85,
   PvEnergyFirFight = 86,
+  YTEnergyMetterAKR = 87,
   Device = 'default',
 }
 
