@@ -40,16 +40,14 @@ import { MessageEventType } from '@/utils/connection';
 import { useSubscribe } from '@/hooks';
 
 export type StackProps = {
-  id: string;
-  productId: string;
-  data?: DeviceDataType;
+  deviceData?: DeviceDataType;
   realTimeData?: Record<string, any>;
 };
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { data: deviceData, realTimeData, id, productId } = props;
+  const { deviceData, realTimeData } = props;
 
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -69,10 +67,12 @@ const Stack: React.FC<StackProps> = (props) => {
   const clusterNetWorkData = useSubscribe(clusterDeviceIds, true, MessageEventType.NETWORKSTSTUS);
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -188,7 +188,7 @@ const Stack: React.FC<StackProps> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -208,7 +208,7 @@ const Stack: React.FC<StackProps> = (props) => {
         ),
         items: [
           ...controlItemsOne,
-          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
+          ...((deviceData?.productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
             ? controlItemsMainYT
             : controlItemsMain),
           ...controlItemsTow,
@@ -225,9 +225,11 @@ const Stack: React.FC<StackProps> = (props) => {
         ),
         items: [
           ...statusItemsOne,
-          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack ? [] : statusItemsH2),
+          ...((deviceData?.productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
+            ? []
+            : statusItemsH2),
           ...statusItemsTow,
-          ...((productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
+          ...((deviceData?.productId as any) == DeviceTypeEnum.YTEnergyBatteryStack
             ? statusItemsWaterMine
             : []),
         ],
@@ -266,7 +268,7 @@ const Stack: React.FC<StackProps> = (props) => {
         items: abilityItems,
       },
     ];
-  }, [productId]);
+  }, [deviceData]);
 
   return (
     <>

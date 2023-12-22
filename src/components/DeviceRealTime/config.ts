@@ -12,17 +12,16 @@ import { formatMessage } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type DeviceRealTimeType = {
-  id: string;
-  productId: string;
   deviceData?: DeviceDataType;
   loading?: boolean;
+  showRemoteControl?: boolean;
 };
 
 export type DeviceRealTimeMapType = {
-  component: string;
-  // component: React.FC<DeviceDetailType>;
-  props?: Record<string, any>;
+  component?: string;
+  props?: any;
 };
+
 export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.Gateway]: { component: 'Gateway' },
   [DeviceTypeEnum.ElectricMeter]: { component: 'ElectricMeter' },
@@ -96,5 +95,4 @@ export const deviceRealTimeMap: any = {
   },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
-  [DeviceTypeEnum.PvEnergyBms]: { component: 'OpticalStorageBatterryStack' },
 };

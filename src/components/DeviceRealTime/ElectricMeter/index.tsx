@@ -23,8 +23,7 @@ export type ElectricMeterType = DeviceRealTimeType & {
 
 const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
   const {
-    id,
-    productId,
+    deviceData,
     loading,
     label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }),
     hideLineVoltage = false,
@@ -34,7 +33,7 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
     if (item.field) {
@@ -48,7 +47,7 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -59,7 +58,7 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
     <>
       <div className={hideLineVoltage ? styles.contain : ''}>
         <RealTime
-          id={id}
+          id={deviceData?.deviceId}
           loading={loading}
           label={<Detail.Label title={label} />}
           detailProps={{

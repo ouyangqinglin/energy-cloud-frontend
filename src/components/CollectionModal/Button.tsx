@@ -17,7 +17,7 @@ import { DeviceModelType } from '@/types/device';
 export type ButtonProps = {
   title: string;
   className?: string;
-  deviceId: string;
+  deviceId?: string;
   collection: string;
   model?: DeviceModelType;
   onClick?: (item: DetailItem, value?: any, data?: Record<string, any>) => void;

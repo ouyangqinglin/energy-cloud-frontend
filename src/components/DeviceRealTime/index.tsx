@@ -2,26 +2,35 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:26
- * @LastEditTime: 2023-09-11 14:10:30
+ * @LastEditTime: 2023-12-22 15:12:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\index.tsx
  */
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { DeviceRealTimeMapType, DeviceRealTimeType, deviceRealTimeMap } from './config';
+import { DeviceRealTimeMapType, deviceRealTimeMap } from './config';
 import { Spin } from 'antd';
+import { DeviceDataType } from '@/services/equipment';
+
+export type DeviceRealTimeType = {
+  deviceData?: DeviceDataType;
+  loading?: boolean;
+  showRemoteControl?: boolean;
+};
 
 const DeviceRealTime: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, ...restProps } = props;
+  const { deviceData, showRemoteControl = true, ...restProps } = props;
 
   const [Component, setComponent] = useState<React.FC<DeviceRealTimeType>>();
   const [componentProps, setComponentProps] = useState<Record<string, any>>();
 
   useEffect(() => {
-    const result: DeviceRealTimeMapType =
-      deviceRealTimeMap?.[productId] || deviceRealTimeMap.default;
-    setComponent(lazy(() => import('./' + result.component)));
-    setComponentProps(result.props || {});
-  }, [productId]);
+    if (deviceData?.productId) {
+      const result: DeviceRealTimeMapType =
+        deviceRealTimeMap?.[deviceData?.productId] || deviceRealTimeMap.default;
+      setComponent(lazy(() => import('./' + result.component)));
+      setComponentProps(result.props || {});
+    }
+  }, [deviceData?.productId]);
 
   return (
     <>
@@ -33,7 +42,12 @@ const DeviceRealTime: React.FC<DeviceRealTimeType> = (props) => {
             </div>
           }
         >
-          <Component id={id} productId={productId} {...restProps} {...componentProps} />
+          <Component
+            deviceData={deviceData}
+            showRemoteControl={showRemoteControl}
+            {...restProps}
+            {...componentProps}
+          />
         </Suspense>
       )}
     </>

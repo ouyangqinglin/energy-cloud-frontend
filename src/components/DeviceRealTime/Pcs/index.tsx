@@ -16,10 +16,10 @@ import { directCurrentItems, exchargeItems, runItems, tempItems, versionItems } 
 import { formatMessage } from '@/utils';
 
 const Pcs: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId } = props;
+  const { deviceData } = props;
 
-  const { modelMap } = useDeviceModel({ productId });
-  const realTimeData = useSubscribe(id, true);
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -37,7 +37,7 @@ const Pcs: React.FC<DeviceRealTimeType> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}

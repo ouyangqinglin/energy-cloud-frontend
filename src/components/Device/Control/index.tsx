@@ -32,7 +32,7 @@ import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
 import Empty from '@/components/Empty';
 
 export type ControlType = {
-  deviceId: string;
+  deviceId?: string;
   groupData?: DeviceServiceGroupType[];
   realTimeData?: Record<string, any>;
   deviceData?: DeviceDataType;

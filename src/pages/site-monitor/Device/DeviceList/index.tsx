@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-11-17 15:16:00
+ * @LastEditTime: 2023-12-22 15:28:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -47,7 +47,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     if (onDetail?.(rowData) !== false) {
       history.push({
         pathname: '/site-monitor/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
+        search: `?id=${rowData.deviceId}`,
       });
     }
   }, []);

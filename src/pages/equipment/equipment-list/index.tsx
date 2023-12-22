@@ -86,7 +86,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     (rowData: DeviceDataType) => {
       history.push({
         pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
+        search: `?id=${rowData.deviceId}`,
       });
     },
     [isStationChild],

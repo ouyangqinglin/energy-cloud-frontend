@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-03 15:44:19
- * @LastEditTime: 2023-07-04 13:46:02
+ * @LastEditTime: 2023-12-22 09:43:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\reg.ts
  */
 
 const phoneReg = /^1\d{10}$/;
+const secretReg = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{8,16}$/;
 
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
@@ -49,10 +50,5 @@ export const getPasswordLevel = (password: string) => {
 
 export const verifyPassword = (password: string) => {
   const str = password ?? '';
-  if (8 <= str.length && str.length <= 16) {
-    if (getPasswordLevel(str) >= 2) {
-      return true;
-    }
-  }
-  return false;
+  return secretReg.test(str);
 };

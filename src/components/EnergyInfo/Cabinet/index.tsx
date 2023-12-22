@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-20 17:38:53
+ * @LastEditTime: 2023-12-21 18:10:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -274,7 +274,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     return Array.from({ length: 10 }).map((_, index) => {
       return (
         <>
-          <div key={index} className={styles.parck}>
+          <div
+            key={index}
+            className={styles.parck}
+            style={{ order: index < 5 ? 4 - index : index }}
+          >
             <div className="flex flex-center">
               <img className="mr4" src={PackImg} />
               PACK-{10 - index}

@@ -6,40 +6,23 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\index.tsx
  */
-import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { Spin } from 'antd';
-import { DeviceDetailType, deviceDetailMap } from './config';
-import type { DeviceDialogMapType } from './config';
 
-const DeviceMonitor: React.FC<
-  DeviceDetailType & {
-    productId: string;
-  }
-> = (props) => {
-  const { id, productId, onChange } = props;
+import React from 'react';
+import DeviceProvider from '../Device/DeviceProvider';
+import Device from './Device';
 
-  const [Component, setComponent] = useState<React.FC<DeviceDetailType>>();
-  const [componentProps, setComponentProps] = useState<Record<string, any>>();
+export type DeviceMonitorType = {
+  deviceId?: string;
+};
 
-  useEffect(() => {
-    const result: DeviceDialogMapType = deviceDetailMap?.[productId] || deviceDetailMap.default;
-    setComponent(lazy(() => import('./' + result.component)));
-    setComponentProps(result.props || {});
-  }, [productId]);
+const DeviceMonitor: React.FC<DeviceMonitorType> = (props) => {
+  const { deviceId } = props;
 
   return (
     <>
-      {Component && (
-        <Suspense
-          fallback={
-            <div className="tx-center">
-              <Spin />
-            </div>
-          }
-        >
-          <Component id={id} productId={productId} onChange={onChange} {...componentProps} />
-        </Suspense>
-      )}
+      <DeviceProvider deviceId={deviceId}>
+        <Device />
+      </DeviceProvider>
     </>
   );
 };

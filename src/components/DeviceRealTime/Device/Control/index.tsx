@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-12-05 19:52:07
+ * @LastEditTime: 2023-12-22 15:16:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Control\index.tsx
  */
@@ -41,7 +41,7 @@ import moment from 'moment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ControlProps = {
-  deviceId: string;
+  deviceId?: string;
   deviceData?: DeviceDataType;
   groupData?: DeviceModelDataType;
   realTimeData?: Record<string, any>;

@@ -15,26 +15,26 @@ import { LabelTypeEnum } from '@/components/ScreenDialog';
 import useDeviceModel from '../useDeviceModel';
 
 const YTCharge: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, loading } = props;
+  const { deviceData, loading } = props;
 
   const [collectionInfo, setCollectionInfo] = useState({
     deviceId: '',
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback(
     (item: DetailItem, _, data) => {
       if (item.field) {
         setCollectionInfo({
-          deviceId: data?.ids?.[0] ?? id,
+          deviceId: data?.ids?.[0] ?? deviceData?.deviceId,
           title: item.label as any,
           collection: item.field,
         });
       }
     },
-    [id],
+    [deviceData],
   );
 
   const extral = (
@@ -50,7 +50,7 @@ const YTCharge: React.FC<DeviceRealTimeType> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
+        id={deviceData?.deviceId}
         loading={loading}
         labelType={LabelTypeEnum.LineLabel}
         detailProps={{

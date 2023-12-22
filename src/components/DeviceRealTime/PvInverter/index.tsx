@@ -19,13 +19,13 @@ export type PvInverterProps = DeviceRealTimeType & {
 };
 
 const PvInverter: React.FC<PvInverterProps> = (props) => {
-  const { id, productId, loading, loopNum } = props;
+  const { deviceData, loading, loopNum } = props;
 
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
     if (item.field) {
@@ -39,7 +39,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -49,8 +49,8 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
-        productId={productId}
+        id={deviceData?.deviceId}
+        productId={deviceData?.productId}
         loading={loading}
         labelType={LabelTypeEnum.LineLabel}
         loopNum={loopNum}

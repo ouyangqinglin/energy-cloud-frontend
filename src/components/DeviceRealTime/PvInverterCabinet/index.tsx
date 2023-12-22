@@ -15,13 +15,13 @@ import useDeviceModel from '../useDeviceModel';
 import { formatMessage } from '@/utils';
 
 const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData, loading } = props;
+  const { deviceData, loading } = props;
 
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
     if (item.field) {
@@ -35,7 +35,7 @@ const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -45,7 +45,7 @@ const PvInverterCabinet: React.FC<DeviceRealTimeType> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
+        id={deviceData?.deviceId}
         loading={loading}
         label={
           <Detail.Label

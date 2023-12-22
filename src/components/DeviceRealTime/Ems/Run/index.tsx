@@ -19,10 +19,11 @@ import { onlineStatus } from '@/utils/dict';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
 import { formatMessage } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type StackProps = {
-  id: string;
-  productId: string;
+  id?: string;
+  productId?: DeviceTypeEnum;
   realTimeData?: Record<string, any>;
 };
 
@@ -44,10 +45,12 @@ const Stack: React.FC<StackProps> = (props) => {
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const onDeviceClick = useCallback((record) => {

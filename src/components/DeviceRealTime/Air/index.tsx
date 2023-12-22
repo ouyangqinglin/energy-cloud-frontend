@@ -10,32 +10,33 @@ import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import { useSubscribe } from '@/hooks';
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
 import Button from '@/components/CollectionModal/Button';
 import { controlItems, statusItems } from './config';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const Air: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+  const { deviceData } = props;
 
-  const realTimeData = useSubscribe(id, true);
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
     <Button
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       title={collectionInfo.title}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
