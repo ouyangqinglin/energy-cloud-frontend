@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:26
- * @LastEditTime: 2023-12-22 15:12:31
+ * @LastEditTime: 2023-12-22 16:30:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\index.tsx
  */
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { DeviceRealTimeMapType, deviceRealTimeMap } from './config';
+import { DeviceRealTimeMapType, deviceProductTypeMap, deviceRealTimeMap } from './config';
 import { Spin } from 'antd';
 import { DeviceDataType } from '@/services/equipment';
 
@@ -24,9 +24,11 @@ const DeviceRealTime: React.FC<DeviceRealTimeType> = (props) => {
   const [componentProps, setComponentProps] = useState<Record<string, any>>();
 
   useEffect(() => {
-    if (deviceData?.productId) {
+    if (deviceData?.productId && deviceData?.productTypeId) {
       const result: DeviceRealTimeMapType =
-        deviceRealTimeMap?.[deviceData?.productId] || deviceRealTimeMap.default;
+        deviceRealTimeMap?.[deviceData?.productId] ||
+        deviceProductTypeMap?.[deviceData?.productTypeId] ||
+        deviceRealTimeMap.default;
       setComponent(lazy(() => import('./' + result.component)));
       setComponentProps(result.props || {});
     }

@@ -19,7 +19,7 @@ import { useDeviceModel, useSubscribe } from '@/hooks';
 
 export type ConfigProps = {
   deviceData: any;
-  productId: DeviceTypeEnum;
+  productId?: DeviceTypeEnum;
   deviceId: string;
 };
 

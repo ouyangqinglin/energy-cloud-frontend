@@ -13,7 +13,6 @@ import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import styles from './index.less';
 import { isEmpty } from '@/utils';
 import { TreeNode } from './config';
-import { DeviceTypeEnum } from '@/utils/dictionary';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import DeviceProvider from '../Device/DeviceProvider';
 import Device from './Device';

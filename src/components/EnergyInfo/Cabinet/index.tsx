@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-21 18:10:31
+ * @LastEditTime: 2023-12-22 16:47:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -25,6 +25,7 @@ import {
   airItem,
   bmsConfig,
   bwattAirItem,
+  dehumidifierConfigs,
   doorConfigs,
   emsItem,
   fireFightConfig,
@@ -128,6 +129,7 @@ const getItemsByConfig = (
 };
 
 const liquidProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.LiquidEnergy];
+const ytEnergyProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.YTEnergy];
 
 export type CabinetProps = ComProps & {
   showLabel?: boolean;
@@ -247,11 +249,13 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   }, [bmsRealTimeData, deviceData]);
 
   const fireItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? liquidFireFightConfig : fireFightConfig,
-      fireRealTimeData,
-      onMoreClick,
-    );
+    if (liquidProductIds.includes(deviceData?.productId)) {
+      return getItemsByConfig(liquidFireFightConfig, fireRealTimeData, onMoreClick);
+    } else if (ytEnergyProductIds.includes(deviceData?.productId)) {
+      return getItemsByConfig(fireFightConfig, fireRealTimeData, onMoreClick);
+    } else {
+      return <></>;
+    }
   }, [fireRealTimeData, deviceData]);
 
   const peakItems = useMemo(() => {
@@ -266,6 +270,14 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     return getItemsByConfig(
       liquidProductIds.includes(deviceData?.productId) ? liquidPcsConfig : pcsConfig,
       { ...pcsRealTimeData, ...bmsRealTimeData },
+      onMoreClick,
+    );
+  }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
+
+  const dehumidifierItems = useMemo(() => {
+    return getItemsByConfig(
+      liquidProductIds.includes(deviceData?.productId) ? dehumidifierConfigs : [],
+      { ...dehumidifierRealTimeData },
       onMoreClick,
     );
   }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
@@ -321,6 +333,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
                 backgroundImage: `url(${
                   liquidProductIds.includes(deviceData?.productId) ? LiquidEnergyImg : EnergyImg
                 })`,
+                ...(liquidProductIds.includes(deviceData?.productId)
+                  ? {
+                      backgroundSize: '45%',
+                    }
+                  : {}),
                 transform: `scale(${scaleNum})`,
               }}
             >
@@ -328,9 +345,10 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               {doorItems}
               {emsItems}
               {bmsItems}
-              {(deviceData?.productId as any) == DeviceTypeEnum.YTEnergy ? fireItems : <></>}
+              {fireItems}
               {peakItems}
               {pcsItems}
+              {dehumidifierItems}
               {!liquidProductIds.includes(deviceData?.productId) && (
                 <div className={styles.parckContain}>{packItems}</div>
               )}
