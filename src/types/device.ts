@@ -19,6 +19,7 @@ export type DevicePropsType = {
   groupName?: string;
   dataType?: DeviceModelType;
   properties?: DevicePropsType[];
+  component?: string;
 };
 
 export type DeviceArrayType = {
@@ -83,18 +84,27 @@ export type DeviceServiceType = {
   }[];
 };
 
+export type DeviceLocationType = {
+  id?: string;
+  name?: string;
+};
+
 export type DeviceServiceGroupType = {
   groupName?: string;
-  location?: {
-    id?: string;
-    name?: string;
-  };
+  location?: DeviceLocationType;
   services?: DeviceServiceType[];
+  component?: string;
+};
+
+export type DevicePageModels = {
+  location?: DeviceLocationType;
+  serviceGroups?: DeviceServiceGroupType[];
 };
 
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];
   services?: DeviceServiceGroupType[];
+  pageModels?: DevicePageModels[];
 };
 
 export type DeviceTreeDataType = {

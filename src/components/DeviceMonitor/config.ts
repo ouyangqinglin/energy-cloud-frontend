@@ -9,7 +9,7 @@ import PvInverterCabinetIntroImg from '@/assets/image/product/pvInverter-intro.j
 import YtChargeIntroImg from '@/assets/image/product/yt-charge-intro.jpg';
 
 export const deviceProductDataMap: Record<number, any> = {
-  [DeviceTypeEnum.Cabinet]: {
+  [DeviceTypeEnum.ExchangePowerCabinet]: {
     img: CabinetImg,
     introImg: CabinetIntroImg,
   },

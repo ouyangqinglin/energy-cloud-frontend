@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeRecord\index.tsx
  */
 import YTProTable from '@/components/YTProTable';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { columns } from './helper';
 import { RemoteUpgradeType } from '../typing';
 import { getUpgradeRecord } from '@/services/equipment';
@@ -16,10 +16,12 @@ import { useBoolean } from 'ahooks';
 import { ActionType } from '@ant-design/pro-components';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/DeviceContext';
 
 const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
-  const { deviceId, deviceData } = props;
+  const { deviceId } = props;
 
+  const { data: deviceData } = useContext(DeviceContext);
   const actionRef = useRef<ActionType>();
   const [open, { setTrue, setFalse }] = useBoolean(false);
 

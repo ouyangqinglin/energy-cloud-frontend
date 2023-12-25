@@ -39,10 +39,9 @@ export const getGateway = () => {
   });
 };
 
-export const getProductTypes = (params: any) => {
+export const getProductTypes = () => {
   return request(`/iot/product/getAllProductType`, {
     method: 'GET',
-    params,
   });
 };
 //根据产品id获取通信信息类型和配置信息类型

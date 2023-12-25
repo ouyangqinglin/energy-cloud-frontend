@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\UpgradeForm\index.tsx
  */
 import { Button, message } from 'antd';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import { upgradeDevice } from '@/services/equipment';
@@ -16,10 +16,12 @@ import { ProFormColumnsType } from '@ant-design/pro-components';
 import { OptionType } from '@/types';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/DeviceContext';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
-  const { deviceId, versionItems, deviceData } = props;
+  const { deviceId, versionItems } = props;
 
+  const { data: deviceData } = useContext(DeviceContext);
   const [open, { set, setTrue }] = useBoolean(false);
 
   const columns = useMemo<ProFormColumnsType[]>(() => {

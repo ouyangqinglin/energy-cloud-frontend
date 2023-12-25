@@ -333,7 +333,7 @@ export const liquidFireFightConfig: ConfigType[] = [
         format: earlyWarningFormat,
       },
       {
-        label: formatMessage({ id: 'device.co2Concentration', defaultMessage: 'CO₂浓度' }),
+        label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
         field: 'sft',
         format: faultFireFightFormat,
       },

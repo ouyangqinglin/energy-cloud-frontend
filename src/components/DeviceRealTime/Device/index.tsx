@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2023-12-12 09:35:48
+ * @LastEditTime: 2023-12-25 14:47:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
@@ -18,7 +18,10 @@ import styles from './index.less';
 import Control from '@/components/Device/Control';
 import { formatMessage } from '@/utils';
 
-const oldControlProductIds: DeviceTypeEnum[] = [DeviceTypeEnum.Cabinet, DeviceTypeEnum.BWattAir];
+const oldControlProductIds: DeviceTypeEnum[] = [
+  DeviceTypeEnum.ExchangePowerCabinet,
+  DeviceTypeEnum.BWattAir,
+];
 
 const Device: React.FC<DeviceRealTimeType> = (props) => {
   const { deviceData, showRemoteControl } = props;

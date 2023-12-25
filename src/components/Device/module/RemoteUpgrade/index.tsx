@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:42:09
- * @LastEditTime: 2023-12-05 20:08:18
+ * @LastEditTime: 2023-12-25 14:51:58
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteUpgrade\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\module\RemoteUpgrade\index.tsx
  */
 
 import React, { useEffect, useMemo } from 'react';
@@ -19,7 +19,7 @@ import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
 const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
-  const { deviceId, deviceData } = props;
+  const { deviceId } = props;
 
   const { data: versionData, run } = useRequest(getUpgradeVersion, {
     manual: true,
@@ -46,16 +46,15 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = (props) => {
               <UpgradeForm
                 deviceId={deviceId}
                 versionItems={versionData?.upgradeableVersionVOList}
-                deviceData={deviceData}
               />
             )}
-            <UpgradeRecord deviceId={deviceId} deviceData={deviceData} />
+            <UpgradeRecord deviceId={deviceId} />
           </Detail.Label>
         ),
         items: upgradeItems,
       },
     ];
-  }, [deviceId, deviceData, versionData]);
+  }, [deviceId, versionData]);
 
   return (
     <>

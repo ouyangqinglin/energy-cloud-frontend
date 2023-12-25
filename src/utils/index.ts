@@ -192,7 +192,7 @@ export const parseToObj = (value: any): Record<string, any> => {
   let result = {};
   if (typeof value === 'object') {
     if (Array.isArray(value)) {
-      return result;
+      return {};
     }
     return value;
   }
@@ -269,7 +269,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return result;
+  return result ?? value;
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {
