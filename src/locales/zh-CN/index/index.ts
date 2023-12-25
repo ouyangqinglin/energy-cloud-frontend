@@ -55,4 +55,6 @@ export default {
   'index.chart.chargePower': '充电功率',
   'index.chart.energyTotalPower': '储能总功率',
   'index.chart.powerGenerationEffective': '发电功率',
+  'index.chart.unit': '单位',
+  'index.chart.money': '元',
 };
