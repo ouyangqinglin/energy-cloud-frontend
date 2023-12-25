@@ -4,7 +4,8 @@ import moment from 'moment';
 import { useState } from 'react';
 import RowBox from '../components/RowBox';
 import TimeButtonGroup, { TimeType } from '../components/TimeButtonGroup';
-import RealTimePower from './Chart';
+// import RealTimePower from './Chart';
+import RealTimePower from './ChartNew';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 
