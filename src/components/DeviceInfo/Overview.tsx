@@ -11,7 +11,7 @@ import { Button, Image, Input, InputProps, Skeleton, message } from 'antd';
 import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
-import { editDeviceInfo, getDeviceInfo } from '@/services/equipment';
+import { DeviceDataType, editDeviceInfo, getDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import { OnlineStatusEnum } from '@/utils/dict';
@@ -26,11 +26,10 @@ import { MessageEventType } from '@/utils/connection';
 import { formatMessage } from '@/utils';
 
 export type OverviewProps = {
-  deviceId: string;
+  deviceData?: DeviceDataType;
   introImg?: string;
-  setLoading?: (loading: boolean) => void;
-  onChange?: (value: Record<string, any>) => void;
-  onEditSuccess?: (value: Record<string, any>) => void;
+  loading?: boolean;
+  onChange?: () => void;
   className?: string;
 };
 
@@ -43,11 +42,15 @@ type DeviceNameInfoType = {
 };
 
 const Overview: React.FC<OverviewProps> = (props) => {
-  const { deviceId, setLoading, onChange, onEditSuccess, introImg, className = '' } = props;
+  const { deviceData, loading = false, onChange, introImg, className = '' } = props;
 
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
-  const realtimeNetwork = useSubscribe(deviceId ?? '', true, MessageEventType.NETWORKSTSTUS);
+  const realtimeNetwork = useSubscribe(
+    deviceData?.deviceId ?? '',
+    true,
+    MessageEventType.NETWORKSTSTUS,
+  );
   const [deviceNameInfo, setDeviceNameInfo] = useState<DeviceNameInfoType>({
     name: '',
     showEdit: false,
@@ -58,16 +61,6 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
   const [emsNameValues, setEmsNameValues] = useState({});
-  const {
-    loading: getLoading,
-    data: deviceData,
-    run: runGetDevice,
-  } = useRequest(getDeviceInfo, {
-    manual: true,
-    onSuccess: (data: any) => {
-      onChange?.(data);
-    },
-  });
   const { run, loading: editNameloading } = useRequest(editDeviceInfo, {
     manual: true,
   });
@@ -98,9 +91,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
               formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
             );
             setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
-            runGetDevice({ deviceId: deviceData?.deviceId }).then((resData) => {
-              onEditSuccess?.(resData);
-            });
+            onChange?.();
           }
         });
       } else {
@@ -117,15 +108,12 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const onEditImgSuccess = useCallback((img) => {
     message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
-    runGetDevice({ deviceId: deviceId });
   }, []);
 
   //更新ems名字
   const onEditEmsNameSuccess = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: false }));
-    runGetDevice({ deviceId: deviceData?.deviceId }).then((data) => {
-      onEditSuccess?.(data);
-    });
+    onChange?.();
   }, [deviceData]);
 
   const beforeSubmitEditName = useCallback(
@@ -146,13 +134,6 @@ const Overview: React.FC<OverviewProps> = (props) => {
       masterSlaveSystemName: deviceData?.masterSlaveSystemName,
     });
   }, [deviceData]);
-
-  useEffect(() => {
-    setLoading?.(true);
-    runGetDevice({ deviceId: deviceId }).finally(() => {
-      setLoading?.(false);
-    });
-  }, [deviceId]);
 
   const equipInfoItems = useMemo<DetailItem[]>(() => {
     return [
@@ -251,7 +232,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   return (
     <>
-      {getLoading ? (
+      {loading ? (
         <>
           <Skeleton active paragraph={{ rows: 4 }} />
         </>

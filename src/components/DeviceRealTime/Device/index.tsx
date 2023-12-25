@@ -21,16 +21,16 @@ import { formatMessage } from '@/utils';
 const oldControlProductIds: DeviceTypeEnum[] = [DeviceTypeEnum.Cabinet, DeviceTypeEnum.BWattAir];
 
 const Device: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+  const { deviceData, showRemoteControl } = props;
 
-  const realTimeData = useSubscribe(id, true);
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const {
     data: deviceGroupData,
     serviceGruop,
     loading,
     modelMap,
   } = useDeviceModel({
-    productId,
+    productId: deviceData?.productId,
     isGroup: true,
     page: DeviceServicePageEnum.RemoteControl,
   });
@@ -42,11 +42,12 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
 
   const showTab = useMemo<boolean>(() => {
     if (
-      (oldControlProductIds.includes(productId as DeviceTypeEnum)
+      (oldControlProductIds.includes(deviceData?.productId as DeviceTypeEnum)
         ? deviceGroupData?.services?.length
         : serviceGruop?.length) &&
       (deviceData?.productId != (DeviceTypeEnum.YTEnergyAir as any) ||
-        deviceData?.masterSlaveMode != 1)
+        deviceData?.masterSlaveMode != 1) &&
+      showRemoteControl
     ) {
       return true;
     } else {
@@ -82,21 +83,21 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
           )}
           {activeTab == 'run' ? (
             <Run
-              deviceId={id}
+              deviceId={deviceData?.deviceId}
               realTimeData={realTimeData}
               groupData={deviceGroupData}
               modelMap={modelMap}
             />
-          ) : oldControlProductIds.includes(productId as DeviceTypeEnum) ? (
+          ) : oldControlProductIds.includes(deviceData?.productId as DeviceTypeEnum) ? (
             <OldControl
-              deviceId={id}
+              deviceId={deviceData?.deviceId}
               deviceData={deviceData}
               groupData={deviceGroupData}
               realTimeData={realTimeData}
             />
           ) : (
             <Control
-              deviceId={id}
+              deviceId={deviceData?.deviceId}
               deviceData={deviceData}
               groupData={serviceGruop}
               realTimeData={realTimeData}

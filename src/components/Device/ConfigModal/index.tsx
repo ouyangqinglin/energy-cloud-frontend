@@ -16,7 +16,7 @@ import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
 export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
-  deviceId: string;
+  deviceId?: string;
   realTimeData?: Record<string, any>;
   columns: any;
   serviceId: string;

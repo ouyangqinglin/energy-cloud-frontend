@@ -6,19 +6,18 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BoxSubstation\index.tsx
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import RealTime from '@/components/Meter/RealTime';
 import { DeviceRealTimeType } from '../config';
 import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem } from '@/components/Detail';
-import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty, formatMessage } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData, loading } = props;
+  const { deviceData, loading } = props;
 
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -36,7 +35,7 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -46,7 +45,7 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
+        id={deviceData?.deviceId}
         loading={loading}
         label={
           <Detail.Label

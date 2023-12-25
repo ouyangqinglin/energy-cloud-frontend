@@ -15,9 +15,9 @@ import { useSubscribe } from '@/hooks';
 import { formatMessage } from '@/utils';
 
 const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+  const { deviceData } = props;
 
-  const realTimeData = useSubscribe(id, true);
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
@@ -27,9 +27,7 @@ const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
           id: 'siteMonitor.batteryStackInformation',
           defaultMessage: '电池堆信息',
         }),
-        children: (
-          <Stack id={id} productId={productId} data={deviceData} realTimeData={realTimeData} />
-        ),
+        children: <Stack deviceData={deviceData} realTimeData={realTimeData} />,
       },
       {
         key: '2',
@@ -37,10 +35,10 @@ const BatterryStack: React.FC<DeviceRealTimeType> = (props) => {
           id: 'siteMonitor.batteryClusterInformation',
           defaultMessage: '电池簇信息',
         }),
-        children: <Cluster id={id} productId={productId} data={deviceData} />,
+        children: <Cluster deviceData={deviceData} />,
       },
     ];
-  }, [id, deviceData, realTimeData]);
+  }, [deviceData, realTimeData]);
 
   return (
     <>

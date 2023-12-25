@@ -24,10 +24,9 @@ const Package: React.FC = () => {
   const { siteType } = useModel('site', (model: any) => ({ siteType: model?.state?.siteType }));
   //控制权限相关变量
   const { authorityMap } = useAuthority([
-    'system:site:config',
-    'system:site:delete',
-    'system:site:create',
-    'oss:site:update',
+    'upgradManage:package:add',
+    'upgradManage:package:edit',
+    'upgradManage:package:delete',
   ]);
   const requestList = useCallback((params) => {
     return getPackageList({ ...params });
@@ -52,7 +51,7 @@ const Package: React.FC = () => {
       name: 'productTypeId',
     },
     fieldProps: {
-      onChange: (productTypeId: any) => {},
+      onChange: (productTypeId: any) => { },
     },
     hideInTable: true,
 
@@ -116,12 +115,12 @@ const Package: React.FC = () => {
 
   const rowBar = (_: any, record: StationType) => (
     <>
-      {authorityMap.get('oss:site:update') && (
+      {authorityMap.get('upgradManage:package:edit') && (
         <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
           <FormattedMessage id="common.edit" defaultMessage="编辑" />
         </Button>
       )}
-      {authorityMap.get('system:site:delete') && (
+      {authorityMap.get('upgradManage:package:delete') && (
         <Button
           type="link"
           size="small"
@@ -234,9 +233,8 @@ const Package: React.FC = () => {
       fixed: 'right',
       render: rowBar,
       hideInTable:
-        !authorityMap.get('system:site:config') &&
-        !authorityMap.get('system:site:delete') &&
-        !authorityMap.get('oss:site:update'),
+        !authorityMap.get('upgradManage:package:edit') &&
+        !authorityMap.get('upgradManage:package:delete'),
     },
   ];
 
@@ -245,7 +243,7 @@ const Package: React.FC = () => {
       <YTProTable<PackageListType, PackageListType>
         actionRef={actionRef}
         columns={columns}
-        toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
+        toolBarRender={authorityMap.get('upgradManage:package:add') ? toolBar : () => [<></>]}
         request={requestList}
       />
       <UpdatePackageForm

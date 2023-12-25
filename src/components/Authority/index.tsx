@@ -11,7 +11,7 @@ import React from 'react';
 import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
 
 export type AuthorityProps = {
-  code: string | string[];
+  code?: string | string[];
   mode?: AuthorityModeEnum;
 };
 

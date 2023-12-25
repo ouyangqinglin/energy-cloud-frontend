@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-07 16:16:04
+ * @LastEditTime: 2023-12-22 15:13:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -42,7 +42,7 @@ export type AlarmProps = {
 
 const levelMap = new Map([
   ['error', formatMessage({ id: 'alarmManage.serious', defaultMessage: '严重' })],
-  ['alarm', formatMessage({ id: 'alarmManage.serious', defaultMessage: '重要' })],
+  ['alarm', formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' })],
   ['warn', formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })],
   ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
 ]);
@@ -438,7 +438,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'option',
         width: 100,
         fixed: 'right',
-        hideInTable: type == PageTypeEnum.History,
+        hideInTable: true,
         render: (_, record) => {
           return !record.status ? (
             <ClearOutlined className={styles.cleanUp} onClick={() => onCleanClick(record)} />

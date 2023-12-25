@@ -13,10 +13,10 @@ import { getDeviceModel, getDeviceGroupModel } from '@/services/equipment';
 import { DeviceModelType, DeviceServiceGroupType } from '@/types/device';
 import { getModelByProps } from '@/utils';
 import { isEmpty } from 'lodash';
-import { DeviceServicePageEnum } from '@/utils/dictionary';
+import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type useDeviceModelProps = {
-  productId: string;
+  productId?: DeviceTypeEnum;
   isGroup?: boolean;
   page?: DeviceServicePageEnum;
 };

@@ -23,13 +23,11 @@ import { merge } from 'lodash';
 import { MessageEventType } from '@/utils/connection';
 
 export type ClusterProps = {
-  id: string;
-  productId: string;
-  data?: DeviceDataType;
+  deviceData?: DeviceDataType;
 };
 
 const Cluster: React.FC<ClusterProps> = (props) => {
-  const { id, data: deviceData } = props;
+  const { deviceData } = props;
 
   const [activeKey, setActiveKey] = useState('0');
   const [collectionInfo, setCollectionInfo] = useState({
@@ -178,10 +176,12 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   );
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const onTabChange = useCallback((key) => {
@@ -189,10 +189,10 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (id) {
-      run({ deviceId: id });
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId });
     }
-  }, [id]);
+  }, [deviceData]);
 
   useEffect(() => {
     if (selectOrg?.deviceId) {
@@ -214,7 +214,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       onClick={onClick}
     />

@@ -11,16 +11,19 @@ import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 import { buildTreeData } from '@/utils/utils';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
   const actionRef = useRef<ActionType>(null);
+  const { authorityMap } = useAuthority(['system:org:add', 'system:org:edit', 'system:org:remove']);
 
   const customConfig: YTProTableCustomProps<ServiceInfo, any> = {
     toolBarRenderOptions: {
       add: {
+        show: authorityMap.get('system:org:add'),
         onClick() {
           setInitialValues({} as ServiceInfo);
           setOperations(FormOperations.CREATE);
@@ -30,19 +33,27 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
       },
     },
     option: {
-      onDeleteChange(_, entity) {
-        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
-          if (data) {
-            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-            actionRef?.current?.reload?.();
+      ...(authorityMap.get('system:org:remove')
+        ? {
+            onDeleteChange(_, entity) {
+              deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
+                if (data) {
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+                  actionRef?.current?.reload?.();
+                }
+              });
+            },
           }
-        });
-      },
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
+        : {}),
+      ...(authorityMap.get('system:org:edit')
+        ? {
+            onEditChange(_, entity) {
+              setInitialValues({ ...entity });
+              setOperations(FormOperations.UPDATE);
+              set(true);
+            },
+          }
+        : {}),
       renderInterceptor(entity) {
         return entity.parentId !== 0;
       },

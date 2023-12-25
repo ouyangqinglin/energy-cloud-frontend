@@ -19,7 +19,7 @@ import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
 type SettingProps = {
-  id: string;
+  id?: string;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
   isDeviceChild?: boolean;
@@ -28,9 +28,8 @@ type SettingProps = {
 };
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, isDeviceChild, type, deviceData } = props;
+  const { id, deviceData } = props;
   const settingData = props.settingData || {}; //实时数据
-  const btnDisabled = settingData?.systemOperatingMode == 2 ? false : true;
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });

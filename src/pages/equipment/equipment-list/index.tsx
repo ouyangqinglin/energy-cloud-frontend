@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-20 14:06:40
+ * @LastEditTime: 2023-12-21 09:52:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -86,7 +86,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     (rowData: DeviceDataType) => {
       history.push({
         pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
+        search: `?id=${rowData.deviceId}`,
       });
     },
     [isStationChild],
@@ -107,8 +107,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   const toolBar = useCallback(
     () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
+      (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
+      (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
             <Button type="primary" key="add" onClick={onAddClick}>
               <PlusOutlined />
@@ -116,7 +116,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             </Button>,
           ]
         : [],
-    [authorityMap],
+    [authorityMap, isStationChild],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>

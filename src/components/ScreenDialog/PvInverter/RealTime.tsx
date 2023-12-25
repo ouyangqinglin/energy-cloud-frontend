@@ -34,7 +34,7 @@ import { DeviceTypeEnum } from '@/utils/dictionary';
 
 const RealTime: React.FC<
   RealTimeProps & {
-    productId: string;
+    productId?: DeviceTypeEnum;
     loopNum: number;
   }
 > = (props) => {

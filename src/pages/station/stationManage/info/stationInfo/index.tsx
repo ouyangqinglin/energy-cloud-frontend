@@ -14,11 +14,13 @@ import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } fr
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const StationInfo: React.FC = () => {
   const location = useLocation<LocationType>();
   const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
+  const { authorityMap } = useAuthority(['siteManage:siteConfig:baseInfo:siteDone']);
   const {
     loading,
     data: detailData,
@@ -212,7 +214,8 @@ const StationInfo: React.FC = () => {
             defaultMessage: '状态信息',
           })}
           extra={
-            detailData?.constructionStatus === 0 ? (
+            detailData?.constructionStatus === 0 &&
+            authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
               <Button type="primary" loading={loading} onClick={onCompleteClick}>
                 {formatMessage({ id: 'siteManage.set.siteComplete', defaultMessage: '站点完工' })}
               </Button>

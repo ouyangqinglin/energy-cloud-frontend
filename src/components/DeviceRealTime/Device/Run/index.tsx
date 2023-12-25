@@ -22,7 +22,7 @@ const getShowExtral = (type?: DeviceModelTypeEnum) => {
 };
 
 export type RunProps = {
-  deviceId: string;
+  deviceId?: string;
   realTimeData?: Record<string, any>;
   groupData?: DeviceModelDataType;
   modelMap?: Record<string, DeviceModelType>;
@@ -38,10 +38,12 @@ const Run: React.FC<RunProps> = (props) => {
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (

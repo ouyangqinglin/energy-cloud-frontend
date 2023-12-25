@@ -16,10 +16,7 @@ const DeviceMonitor: React.FC = () => {
 
   return (
     <>
-      <DeviceDetail
-        id={(location as LocationType).query?.id}
-        productId={(location as LocationType).query?.productId}
-      />
+      <DeviceDetail id={(location as LocationType).query?.id} />
     </>
   );
 };

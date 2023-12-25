@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:23:48
- * @LastEditTime: 2023-08-31 16:23:52
+ * @LastEditTime: 2023-12-22 15:24:35
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Config\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\Community\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
@@ -15,7 +15,11 @@ export const accountItem: DetailItem[] = [
     label: 'mqtt' + formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
     field: 'userName',
   },
-  { label: 'mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }), field: 'a' },
+  {
+    label: 'mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }),
+    field: 'a',
+    span: 2,
+  },
 ];
 
 export const meterItem: DetailItem[] = [
@@ -49,6 +53,7 @@ export const selfEnergyMeterItem: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.voltageRatio', defaultMessage: '电压变比' }),
     field: 'voltageRatio',
+    span: 2,
   },
 ];
 
@@ -70,6 +75,7 @@ export const thirtySiteGunItem: DetailItem[] = [
       defaultMessage: '任一充电枪序列码',
     }),
     field: 'anyGnSn',
+    span: 2,
   },
 ];
 

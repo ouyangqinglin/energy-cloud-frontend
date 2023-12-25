@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-20 15:34:41
+ * @LastEditTime: 2023-12-21 09:46:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -27,9 +27,12 @@ import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType } from '@/services/equipment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import Authority from '@/components/Authority';
+import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
+import Empty from '@/components/Empty';
 
 export type ControlType = {
-  deviceId: string;
+  deviceId?: string;
   groupData?: DeviceServiceGroupType[];
   realTimeData?: Record<string, any>;
   deviceData?: DeviceDataType;
@@ -46,6 +49,22 @@ const Control: React.FC<ControlType> = memo((props) => {
     service?: DeviceServiceType;
     columns?: ProFormColumnsType[];
   }>({});
+
+  const authorityCodes = useMemo(() => {
+    const result: string[] = [];
+    groupData?.forEach?.((group) => {
+      group?.services?.forEach?.((service) => {
+        service?.authority?.forEach?.((item) => {
+          if (item?.detail) {
+            result.push(item.detail);
+          }
+        });
+      });
+    });
+    return result;
+  }, [groupData]);
+
+  const { authorityMap } = useAuthority(authorityCodes);
 
   const onClick = useCallback((service: DeviceServiceType, columns: ProFormColumnsType[]) => {
     setCurrentFormInfo({
@@ -237,11 +256,18 @@ const Control: React.FC<ControlType> = memo((props) => {
             title: field?.name,
             dataIndex: field?.id,
             valueType: valueType,
-            fieldProps: (field?.dataType as DeviceDoubleType)?.specs?.unit
-              ? {
-                  addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
-                }
-              : {},
+            fieldProps: {
+              ...(valueType == 'digit'
+                ? {
+                    min: Number.MIN_SAFE_INTEGER,
+                  }
+                : {}),
+              ...((field?.dataType as DeviceDoubleType)?.specs?.unit
+                ? {
+                    addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
+                  }
+                : {}),
+            },
             formItemProps: {
               rules:
                 field?.required === false
@@ -270,13 +296,18 @@ const Control: React.FC<ControlType> = memo((props) => {
       const groupItem: GroupItem = {
         label: (
           <Detail.Label title={service?.groupName}>
-            <Button
-              type="primary"
-              onClick={() => onClick(service, columns)}
-              disabled={deviceData?.status === OnlineStatusEnum.Offline}
+            <Authority
+              code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
+              mode={AuthorityModeEnum.Within}
             >
-              配置参数
-            </Button>
+              <Button
+                type="primary"
+                onClick={() => onClick(service, columns)}
+                disabled={deviceData?.status === OnlineStatusEnum.Offline}
+              >
+                配置参数
+              </Button>
+            </Authority>
           </Detail.Label>
         ),
         items: detailItems,
@@ -295,15 +326,26 @@ const Control: React.FC<ControlType> = memo((props) => {
         });
       }
       group?.services?.forEach?.((service) => {
-        items.push(getServiceItem(service));
+        const codes: string[] = [];
+        service?.authority?.forEach?.((item) => {
+          if (item?.detail) {
+            codes.push(item.detail);
+          }
+        });
+        const passCodes = codes?.some?.((item) => authorityMap.get(item));
+        if (!codes?.length || passCodes) {
+          items.push(getServiceItem(service));
+        }
       });
     });
     return items;
-  }, [groupData, realTimeData, getServiceItem]);
+  }, [groupData, realTimeData, getServiceItem, authorityMap]);
 
   return (
     <>
-      <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+      {!!groupsItems?.length && (
+        <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+      )}
       <ConfigModal
         open={openForm}
         onOpenChange={set}

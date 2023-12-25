@@ -126,7 +126,7 @@ export const bwattAirItem: ConfigType = {
 export const liquidAirItem: ConfigType = {
   label: formatMessage({ id: 'device.liquidCoolingUnit', defaultMessage: '液冷机组' }),
   productTypeId: DeviceProductTypeEnum.Air,
-  position: { top: 347, left: 2 },
+  position: { top: 557, left: 2 },
   icon: LiquidAirImg,
   line: LiquidAirLineImg,
   linePosition: { top: 11, left: 92 },
@@ -184,7 +184,7 @@ export const ytEmsItem: ConfigType = {
 export const liquidEmsItem: ConfigType = {
   label: 'EMS',
   productTypeId: DeviceProductTypeEnum.Ems,
-  position: { top: 177, left: 2 },
+  position: { top: 210, left: 2 },
   icon: EmsImg,
   line: LiquidEmsLineImg,
   linePosition: { top: 11, left: 77 },
@@ -202,21 +202,23 @@ export const liquidEmsItem: ConfigType = {
   ],
 };
 
-export const dehumidifierItem: ConfigType = {
-  label: formatMessage({ id: 'device.dehumidifier', defaultMessage: '除湿器' }),
-  productTypeId: DeviceProductTypeEnum.Dehumidifier,
-  position: { top: 347, left: 2 },
-  icon: DehumidiferImg,
-  line: DehumidiferLineImg,
-  linePosition: { top: 11, left: 92 },
-  data: [
-    {
-      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'systemOperatingMode',
-      format: systemOperatingModeFormat,
-    },
-  ],
-};
+export const dehumidifierConfigs: ConfigType[] = [
+  {
+    label: formatMessage({ id: 'device.dehumidifier', defaultMessage: '除湿器' }),
+    productTypeId: DeviceProductTypeEnum.Dehumidifier,
+    position: { top: 377, left: 2 },
+    icon: DehumidiferImg,
+    line: DehumidiferLineImg,
+    linePosition: { top: 11, left: 92 },
+    data: [
+      {
+        label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+        field: 'systemOperatingMode',
+        format: systemOperatingModeFormat,
+      },
+    ],
+  },
+];
 
 export const doorConfigs: ConfigType[] = [
   {
@@ -240,7 +242,7 @@ export const liquidDoorConfigs: ConfigType[] = [
   {
     label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
     showLabel: false,
-    position: { top: 53, left: 2 },
+    position: { top: 70, left: 2 },
     icon: DoorImg,
     line: LiquidDoorLineImg,
     linePosition: { top: 7, left: 128 },
@@ -270,10 +272,10 @@ export const liquidBmsConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'siteMonitor.batteryPile', defaultMessage: '电池堆' }),
     productTypeId: DeviceProductTypeEnum.BatteryStack,
-    position: { top: 296, left: 768 },
+    position: { top: 313, left: 768 },
     icon: StackImg,
     line: LiquidBmsLineImg,
-    linePosition: { top: 7, left: 133 },
+    linePosition: { top: 7, left: -133 },
     data: [
       { label: 'SoC', field: 'SOC', format: percentageFormat },
       {
@@ -320,7 +322,7 @@ export const liquidFireFightConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.fireInfo', defaultMessage: '消防信息' }),
     productTypeId: DeviceProductTypeEnum.FireFight,
-    position: { top: 36, left: 768 },
+    position: { top: 79, left: 768 },
     icon: FireFightImg,
     line: LiquidFireFightLineImg,
     linePosition: { top: 12, left: -137 },
@@ -392,7 +394,7 @@ export const liquidPeakConfig: ConfigType[] = [
   {
     label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
     productTypeId: DeviceProductTypeEnum.BatteryStack,
-    position: { top: 426, left: 768 },
+    position: { top: 465, left: 768 },
     icon: EmsImg,
     line: LiquidStackLineImg,
     linePosition: { top: 7, left: -165 },
@@ -469,10 +471,10 @@ export const liquidPcsConfig: ConfigType[] = [
   {
     label: 'PCS',
     productTypeId: DeviceProductTypeEnum.Pcs,
-    position: { top: 166, left: 768 },
+    position: { top: 200, left: 768 },
     icon: PcsImg,
     line: LiquidPcsLineImg,
-    linePosition: { top: -29, left: 222 },
+    linePosition: { top: -29, left: -222 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),

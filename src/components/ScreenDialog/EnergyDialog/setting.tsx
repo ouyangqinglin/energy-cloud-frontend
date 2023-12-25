@@ -45,7 +45,7 @@ const DatePick: any = DatePicker;
 const timeFormat = 'HH:mm';
 
 type SettingProps = {
-  id: string;
+  id?: string;
   deviceData?: DeviceDataType;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
