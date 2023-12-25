@@ -353,3 +353,20 @@ export const startExchangeTime = () => {
     }, 1000 * 60 * 5);
   }
 };
+
+export const flatObj = (data: Record<string, any>, parentField = '') => {
+  let result: Record<string, any> = {};
+  if (typeof data !== 'object' || Array.isArray(data)) {
+    result = {};
+  } else {
+    for (const key in data) {
+      const field = parentField ? parentField + '.' + key : key;
+      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+        result = { ...result, ...flatObj(data[key], field) };
+      } else {
+        result[field] = data[key];
+      }
+    }
+  }
+  return result;
+};

@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device.tsx
  */
 import React, { useContext } from 'react';
-import DeviceContext from '../Device/DeviceContext';
+import DeviceContext from '../Device/Context/DeviceContext';
 import Page from '@/layouts/Page';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import Overview from '../DeviceInfo/Overview';

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-18 14:56:10
+ * @LastEditTime: 2023-12-25 16:37:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
@@ -176,7 +176,7 @@ const Stack: React.FC<StackProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.current', defaultMessage: '当前' }) + 'SOC',
+        title: formatMessage({ id: 'common.current', defaultMessage: '当前' }) + 'SOC(%)',
         dataIndex: 'soc',
         width: 150,
         ellipsis: true,

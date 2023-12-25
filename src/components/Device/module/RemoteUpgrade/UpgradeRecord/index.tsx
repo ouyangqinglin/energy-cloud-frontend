@@ -16,7 +16,7 @@ import { useBoolean } from 'ahooks';
 import { ActionType } from '@ant-design/pro-components';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
-import DeviceContext from '@/components/Device/DeviceContext';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
   const { deviceId } = props;

@@ -14,7 +14,7 @@ import styles from './index.less';
 import { isEmpty } from '@/utils';
 import { TreeNode } from './config';
 import { productTypeIconMap } from '@/utils/IconUtil';
-import DeviceProvider from '../Device/DeviceProvider';
+import DeviceProvider from '../Device/Context/DeviceProvider';
 import Device from './Device';
 
 const dealTreeData = (data: TreeNode[]) => {

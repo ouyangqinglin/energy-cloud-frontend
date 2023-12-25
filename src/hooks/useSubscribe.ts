@@ -10,24 +10,7 @@ import { useEffect, useCallback, useState, useMemo } from 'react';
 import useWebsocket from './useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
-import { parseToObj } from '@/utils';
-
-const flatObj = (data: Record<string, any>, parentField = '') => {
-  let result: Record<string, any> = {};
-  if (typeof data !== 'object' || Array.isArray(data)) {
-    result = {};
-  } else {
-    for (const key in data) {
-      const field = parentField ? parentField + '.' + key : key;
-      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-        result = { ...result, ...flatObj(data[key], field) };
-      } else {
-        result[field] = data[key];
-      }
-    }
-  }
-  return result;
-};
+import { flatObj, parseToObj } from '@/utils';
 
 const useSubscribe = (
   id: undefined | string | string[],
@@ -42,10 +25,7 @@ const useSubscribe = (
 
   const onReceivedMessage = useCallback(
     (res: any) => {
-      if (
-        MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
-        ids.find((item) => item == res?.data?.deviceId)
-      ) {
+      if (type === res?.type && ids.find((item) => item == res?.data?.deviceId)) {
         const { data: msgData } = res;
         try {
           let obj: Record<string, any> = {};
@@ -69,12 +49,15 @@ const useSubscribe = (
         } catch (e) {}
       }
     },
-    [ids],
+    [ids, type],
   );
 
   useEffect(() => {
     setData({
       ids,
+    });
+    connection.onOpen(() => {
+      setData({ ids }); //初始化数据，防止告警数量叠加
     });
     if (open && ids.length) {
       connection.sendMessage({
