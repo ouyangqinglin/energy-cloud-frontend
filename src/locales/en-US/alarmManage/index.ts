@@ -1,5 +1,6 @@
 export default {
   'alarmManage.serious': 'serious',
+  'alarmManage.emergent': 'Emergent',
   'alarmManage.importance': 'importance',
   'alarmManage.secondary': 'Secondary',
   'alarmManage.tips': 'Tips',

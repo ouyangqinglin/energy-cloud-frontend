@@ -41,7 +41,7 @@ export type AlarmProps = {
 };
 
 const levelMap = new Map([
-  ['error', formatMessage({ id: 'alarmManage.serious', defaultMessage: '严重' })],
+  ['error', formatMessage({ id: 'alarmManage.emergent', defaultMessage: '严重' })],
   ['alarm', formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' })],
   ['warn', formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })],
   ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
