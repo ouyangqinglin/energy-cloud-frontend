@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-21 09:46:37
+ * @LastEditTime: 2023-12-25 15:42:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { Suspense, lazy, memo, useCallback, useMemo, useState } from 'react';
 import {
   DeviceArrayType,
   DeviceDoubleType,
@@ -22,7 +22,7 @@ import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType } from '@/services/equipment';
@@ -320,23 +320,40 @@ const Control: React.FC<ControlType> = memo((props) => {
   const groupsItems = useMemo(() => {
     const items: GroupItem[] = [];
     groupData?.forEach?.((group) => {
-      if (group?.services?.length && group?.services?.length > 1) {
+      if (group.component) {
+        const Component = lazy(() => import('@/components/Device/module/' + group.component));
         items.push({
-          label: <Detail.Label title={group.groupName} />,
+          component: (
+            <Suspense
+              fallback={
+                <div className="tx-center">
+                  <Spin />
+                </div>
+              }
+            >
+              <Component deviceId={deviceId} />
+            </Suspense>
+          ),
         });
-      }
-      group?.services?.forEach?.((service) => {
-        const codes: string[] = [];
-        service?.authority?.forEach?.((item) => {
-          if (item?.detail) {
-            codes.push(item.detail);
+      } else {
+        if (group?.services?.length && group?.services?.length > 1) {
+          items.push({
+            label: <Detail.Label title={group.groupName} />,
+          });
+        }
+        group?.services?.forEach?.((service) => {
+          const codes: string[] = [];
+          service?.authority?.forEach?.((item) => {
+            if (item?.detail) {
+              codes.push(item.detail);
+            }
+          });
+          const passCodes = codes?.some?.((item) => authorityMap.get(item));
+          if (!codes?.length || passCodes) {
+            items.push(getServiceItem(service));
           }
         });
-        const passCodes = codes?.some?.((item) => authorityMap.get(item));
-        if (!codes?.length || passCodes) {
-          items.push(getServiceItem(service));
-        }
-      });
+      }
     });
     return items;
   }, [groupData, realTimeData, getServiceItem, authorityMap]);
@@ -344,18 +361,20 @@ const Control: React.FC<ControlType> = memo((props) => {
   return (
     <>
       {!!groupsItems?.length && (
-        <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+        <>
+          <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+          <ConfigModal
+            open={openForm}
+            onOpenChange={set}
+            title={currentFormInfo?.service?.groupName || ''}
+            deviceId={deviceId}
+            realTimeData={{ ...realTimeData, ...transformData }}
+            serviceId={currentFormInfo?.service?.id || ''}
+            columns={currentFormInfo?.columns || []}
+            showClickButton={false}
+          />
+        </>
       )}
-      <ConfigModal
-        open={openForm}
-        onOpenChange={set}
-        title={currentFormInfo?.service?.groupName || ''}
-        deviceId={deviceId}
-        realTimeData={{ ...realTimeData, ...transformData }}
-        serviceId={currentFormInfo?.service?.id || ''}
-        columns={currentFormInfo?.columns || []}
-        showClickButton={false}
-      />
     </>
   );
 });

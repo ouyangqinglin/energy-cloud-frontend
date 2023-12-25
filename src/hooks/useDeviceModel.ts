@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:53:12
- * @LastEditTime: 2023-11-27 14:53:12
+ * @LastEditTime: 2023-12-25 11:51:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useDeviceModel.ts
  */
@@ -38,7 +38,8 @@ const useDeviceModel = (props: useDeviceModelProps) => {
           res?.properties?.forEach?.((item) => {
             result = { ...result, ...getModelByProps(item?.properties || []) };
           });
-          setServiceGruop(res?.services?.filter?.((item) => item?.location?.id == page) || []);
+          const pageModel = res?.pageModels?.find?.((item) => item?.location?.id == page);
+          setServiceGruop(pageModel?.serviceGroups || []);
         } else {
           result = getModelByProps(res?.properties || []);
         }

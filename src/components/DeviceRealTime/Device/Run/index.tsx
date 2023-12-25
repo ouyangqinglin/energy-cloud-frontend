@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 09:34:45
- * @LastEditTime: 2023-08-14 11:53:37
+ * @LastEditTime: 2023-12-25 15:34:33
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceMonitor\Device\Run\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Run\index.tsx
  */
-import React, { useState, useCallback, useEffect } from 'react';
-import { Tabs, TabsProps } from 'antd';
+import React, { useState, useCallback, useEffect, Suspense, lazy } from 'react';
+import { Spin, Tabs, TabsProps } from 'antd';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { formatModelValue, parseToArray } from '@/utils';
@@ -103,12 +103,29 @@ const Run: React.FC<RunProps> = (props) => {
   useEffect(() => {
     const group: GroupItem[] = [];
     groupData?.properties?.forEach?.((item) => {
-      const result = getDetailByProps(item?.properties || []);
-      group.push({
-        label: <Detail.Label title={item?.groupName} />,
-        items: result.items,
-        tabItems: result.tabItems,
-      });
+      if (item.component) {
+        const Component = lazy(() => import('@/components/Device/module/' + item.component));
+        group.push({
+          component: (
+            <Suspense
+              fallback={
+                <div className="tx-center">
+                  <Spin />
+                </div>
+              }
+            >
+              <Component deviceId={deviceId} />
+            </Suspense>
+          ),
+        });
+      } else {
+        const result = getDetailByProps(item?.properties || []);
+        group.push({
+          label: <Detail.Label title={item?.groupName} />,
+          items: result.items,
+          tabItems: result.tabItems,
+        });
+      }
     });
     setDetailGroup(group);
   }, [groupData, modelMap, collectionInfo, realTimeData]);

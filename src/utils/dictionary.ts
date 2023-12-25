@@ -77,7 +77,7 @@ export enum DeviceTypeEnum {
   PvInverter4 = 28,
   EnergyCabinet = 30,
   BoxSubstation = 31,
-  Cabinet = 32,
+  ExchangePowerCabinet = 32,
   YtCharge360 = 33,
   BatteryCluster = 34,
   PvInverter36 = 36,

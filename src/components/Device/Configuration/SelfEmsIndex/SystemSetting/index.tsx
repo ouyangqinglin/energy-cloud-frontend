@@ -10,7 +10,7 @@ import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
 import { emsSystemEnabletems, systemTimeColumns, systemColumns, systemTimeItems } from './config';
 import ConfigModal, { ConfigModalType } from '../../../ConfigModal';
-import RemoteUpgrade from '../../RemoteUpgrade';
+import RemoteUpgrade from '@/components/Device/module/RemoteUpgrade';
 import { DeviceDataType, getDeviceInfo } from '@/services/equipment';
 import { useAuthority } from '@/hooks';
 import { parseToObj, formatMessage } from '@/utils';
@@ -105,7 +105,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           <></>
         )}
         {authorityMap.get('iot:device:config:systemSetting:remoteUpgrade') ? (
-          <RemoteUpgrade deviceId={deviceId} deviceData={deviceData} />
+          <RemoteUpgrade deviceId={deviceId} />
         ) : (
           <></>
         )}

@@ -14,6 +14,7 @@ export type GroupItem = {
   label?: React.ReactNode;
   items?: DetailItem[];
   tabItems?: TabsProps['items'];
+  component?: React.ReactNode;
 };
 
 export type GroupProps = {
@@ -27,7 +28,9 @@ const Group: React.FC<GroupProps> = (props) => {
 
   const details = useMemo(() => {
     return items?.map?.((item, index) => {
-      return (
+      return item?.component ? (
+        item.component
+      ) : (
         <>
           {item.label}
           {item.items?.length ? (

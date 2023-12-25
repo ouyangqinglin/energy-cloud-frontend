@@ -269,7 +269,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return result;
+  return result ?? value;
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {

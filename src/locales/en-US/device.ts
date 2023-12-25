@@ -295,6 +295,6 @@ export default {
   'device.liquidCoolingUnit': 'Liquid cooling unit',
   'device.systemMode': 'System mode',
   'device.sensorStatus': 'Sensor status',
-  'device.co2Concentration': 'CO₂ concentration',
+  'device.coConcentration': 'CO concentration',
   'device.power': 'Power',
 };

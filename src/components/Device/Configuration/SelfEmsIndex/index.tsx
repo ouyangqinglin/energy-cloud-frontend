@@ -8,7 +8,7 @@
  */
 import React, { useMemo } from 'react';
 import type { TabsProps } from 'antd';
-import { Tabs } from 'antd';
+import { Tabs, Empty } from 'antd';
 import EnergyManageTab from './EnergyManageTab';
 import SystemSetting from './SystemSetting';
 import ConverterSetting from './ConverterSetting';
@@ -17,7 +17,6 @@ import styles from './index.less';
 import { useAuthority } from '@/hooks';
 import type { DeviceDataType } from '@/services/equipment';
 import { AuthorityModeEnum } from '@/hooks/useAuthority';
-import Empty from '@/components/Empty';
 import { formatMessage } from '@/utils';
 export type ConfigProps = {
   deviceId: string;

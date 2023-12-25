@@ -285,6 +285,6 @@ export default {
   'device.liquidCoolingUnit': '液冷机组',
   'device.systemMode': '系统模式',
   'device.sensorStatus': '传感器状态',
-  'device.co2Concentration': 'CO₂浓度',
+  'device.coConcentration': 'CO浓度',
   'device.power': '功率',
 };
