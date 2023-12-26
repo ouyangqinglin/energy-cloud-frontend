@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-12-25 18:57:30
+ * @LastEditTime: 2023-12-26 16:28:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -11,26 +11,42 @@ import { Skeleton, Space, Tree } from 'antd';
 import { useRequest } from 'umi';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
-import { TreeNode } from './config';
+import { getPropsFromTree, isEmpty } from '@/utils';
+import { TreeNode, netWorkStatusEnum } from './config';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import DeviceProvider from '../Device/Context/DeviceProvider';
 import Device from './Device';
+import { useSubscribe } from '@/hooks';
+import { MessageEventType } from '@/utils/connection';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { ProField } from '@ant-design/pro-components';
 
-const dealTreeData = (data: TreeNode[]) => {
+const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
   const result: TreeNode[] = [];
   data?.forEach?.((item) => {
     const node: TreeNode = {
       key: item?.id + '',
       deviceId: item?.id,
-      title: item?.name,
+      deviceName: item?.name,
+      title: (
+        <>
+          {item?.name}
+          <span className={styles.network}>
+            <ProField
+              mode="read"
+              text={realTimeData?.[item?.id ?? '']?.networkStatus}
+              valueEnum={netWorkStatusEnum}
+            />
+          </span>
+        </>
+      ),
       productId: item?.productId,
     };
-    if (item?.productTypeId) {
-      node.icon = productTypeIconMap.get(item?.productTypeId);
-    }
+    node.icon =
+      productTypeIconMap.get(item?.productTypeId ?? DeviceProductTypeEnum.Default) ||
+      productTypeIconMap.get(DeviceProductTypeEnum.Default);
     if (item.children && item.children.length) {
-      node.children = dealTreeData(item.children as any);
+      node.children = dealTreeData(item.children as any, realTimeData);
     }
     result.push(node);
   });
@@ -55,9 +71,17 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   } = useRequest(getWholeDeviceTree, {
     manual: true,
     formatResult: (res) => {
-      return dealTreeData([res.data] as any);
+      return [res.data];
     },
   });
+  const deviceIds = useMemo(() => {
+    return getPropsFromTree(treeData || []);
+  }, [treeData]);
+  const realTimeData = useSubscribe(deviceIds, true, MessageEventType.NETWORKSTSTUS);
+
+  const mergedTreeData = useMemo(() => {
+    return dealTreeData(treeData as any, realTimeData);
+  }, [treeData, realTimeData]);
 
   const selectedKeys = useMemo<string[]>(() => {
     return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId as string];
@@ -104,7 +128,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
             </Space>
           ) : (
             <Tree<TreeNode>
-              treeData={treeData}
+              treeData={mergedTreeData}
               defaultExpandAll={true}
               fieldNames={{
                 key: 'deviceId',

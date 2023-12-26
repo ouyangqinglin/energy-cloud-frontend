@@ -247,6 +247,7 @@ const ytIcon = [
   'YTPvEnergy',
   'YTDehumidifier',
   'YTFireFight',
+  'YTGenerralDevice',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

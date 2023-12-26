@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\DeviceDetail.tsx
  */
-import React, { useCallback, useMemo, useContext } from 'react';
+import React, { useCallback, useMemo, useContext, memo } from 'react';
 import Overview from '../DeviceInfo/Overview';
 import { Tabs, TabsProps } from 'antd';
 import { formatMessage } from '@/utils';
@@ -19,7 +19,7 @@ import RunLog from '@/pages/site-monitor/RunLog';
 import Configuration from '../Device/Configuration';
 import styles from './index.less';
 
-const Device: React.FC = () => {
+const Device: React.FC = memo(() => {
   const { data: deviceData, updateData, loading } = useContext(DeviceContext);
 
   const onEditSuccess = useCallback(() => {
@@ -85,6 +85,6 @@ const Device: React.FC = () => {
       <Tabs className={styles.tabs} items={items} />
     </>
   );
-};
+});
 
 export default Device;

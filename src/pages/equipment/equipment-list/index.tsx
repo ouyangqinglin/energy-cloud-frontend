@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-26 10:51:33
+ * @LastEditTime: 2023-12-26 16:45:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -29,6 +29,7 @@ import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
 import { productTypeIconMap } from '@/utils/IconUtil';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -114,13 +115,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const toolBar = useCallback(
     () =>
       (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
-      (!isStationChild && authorityMap.get('iot:device:add'))
+        (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
-            <Button type="primary" key="add" onClick={onAddClick}>
-              <PlusOutlined />
-              <FormattedMessage id="common.add" defaultMessage="新建" />
-            </Button>,
-          ]
+          <Button type="primary" key="add" onClick={onAddClick}>
+            <PlusOutlined />
+            <FormattedMessage id="common.add" defaultMessage="新建" />
+          </Button>,
+        ]
         : [],
     [authorityMap, isStationChild],
   );
@@ -165,8 +166,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <></>
       )}
       {isStationChild &&
-      record.canUnbind == 1 &&
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+        record.canUnbind == 1 &&
+        authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
           className="pl0"
           type="link"
@@ -216,7 +217,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         width: 200,
         ellipsis: true,
         render: (_, record) => {
-          const Component = record?.productType && productTypeIconMap.get(record?.productType);
+          const Component =
+            productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
+            productTypeIconMap.get(DeviceProductTypeEnum.Default);
           return (
             <>
               <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
@@ -243,7 +246,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'model',
-        width: 150,
+        width: 180,
         hideInSearch: true,
         ellipsis: true,
       },
@@ -344,7 +347,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
-            //onOk={triggerSubmit}
+          //onOk={triggerSubmit}
           />
         </>
       ) : (

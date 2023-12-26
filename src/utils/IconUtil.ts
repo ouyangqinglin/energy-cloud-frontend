@@ -21,6 +21,7 @@ import {
   YTPvEnergyOutlined,
   YTDehumidifierOutlined,
   YTFireFightOutlined,
+  YTGenerralDeviceOutlined,
 } from '@/components/YTIcons';
 
 const allIcons: Record<string, any> = { ...AntdIcons, ...YTIcons };
@@ -67,4 +68,5 @@ export const productTypeIconMap = new Map([
   [DeviceProductTypeEnum.PvEnergy, YTPvEnergyOutlined],
   [DeviceProductTypeEnum.Dehumidifier, YTDehumidifierOutlined],
   [DeviceProductTypeEnum.FireFight, YTFireFightOutlined],
+  [DeviceProductTypeEnum.Default, YTGenerralDeviceOutlined],
 ]);

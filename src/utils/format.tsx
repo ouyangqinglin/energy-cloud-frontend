@@ -1,8 +1,8 @@
-import { getValue, isEmpty, strToArray } from '@/utils';
+import { getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
 import { onlineStatus, deviceAlarmStatus } from './dict';
 import Field from '@/components/Field';
-import { number } from 'echarts';
+import { ProField } from '@ant-design/pro-components';
 
 type MapType = {
   [k: number]: string;
@@ -454,7 +454,7 @@ export const airAlarmFormat = (value: string) => {
   return <span className={`${isRight ? '' : 'cl-error'} mr8`}>{isRight ? '正常' : '故障'}</span>;
 };
 export const onlineStatusFormat = (value: string) => {
-  return <Field text={value} valueEnum={onlineStatus} />;
+  return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
 };
 export const deviceAlarmStatusFormat = (value: string) => {
   return <Field text={value} valueEnum={deviceAlarmStatus} />;

@@ -33,6 +33,7 @@ export enum EnergyEquipmentEnum {
 }
 
 export enum DeviceProductTypeEnum {
+  Default = -1,
   ChargeStack = 510,
   FastChargeTerminal = 511,
   DCChargePile = 512,
