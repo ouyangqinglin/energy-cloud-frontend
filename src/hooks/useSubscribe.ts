@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 14:44:03
- * @LastEditTime: 2023-10-19 17:43:23
+ * @LastEditTime: 2023-12-26 10:13:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSubscribe.ts
  */
@@ -15,7 +15,7 @@ import { flatObj, parseToObj } from '@/utils';
 const useSubscribe = (
   id: undefined | string | string[],
   open: boolean,
-  type?: MessageEventType,
+  type = MessageEventType.DEVICE_REAL_TIME_DATA,
 ) => {
   const ids = useMemo(() => {
     return Array.isArray(id) ? id : id ? [id] : [];
@@ -67,7 +67,7 @@ const useSubscribe = (
             device: item,
           })),
         },
-        type: type ?? MessageEventType.DEVICE_REAL_TIME_DATA,
+        type,
       });
       connection.addReceivedMessageCallback(onReceivedMessage);
     }
