@@ -3,6 +3,7 @@ export default {
   'taskManage.installer': 'Installer',
   'taskManage.workOrderCode': 'Work Order Code',
   'taskManage.installTitle': 'Installation Title',
+  'taskManage.failureTitle': 'Failure Title',
   'taskManage.workOrderType': 'Work Order Type',
   'taskManage.delWorkOrderTips':
     'Are you sure you want to delete this installation job? Cannot recover after deletion!',
