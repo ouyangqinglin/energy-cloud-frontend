@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-12-22 15:21:30
+ * @LastEditTime: 2023-12-25 18:57:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -23,7 +23,7 @@ const dealTreeData = (data: TreeNode[]) => {
     const node: TreeNode = {
       key: item?.id + '',
       deviceId: item?.id,
-      name: item?.name,
+      title: item?.name,
       productId: item?.productId,
     };
     if (item?.productTypeId) {
@@ -107,7 +107,6 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
               treeData={treeData}
               defaultExpandAll={true}
               fieldNames={{
-                title: 'name',
                 key: 'deviceId',
                 children: 'children',
               }}
