@@ -11,7 +11,7 @@ import Overview from '../DeviceInfo/Overview';
 import { Tabs, TabsProps } from 'antd';
 import { formatMessage } from '@/utils';
 import DeviceRealTime from '../DeviceRealTime';
-import DeviceContext from '../Device/DeviceContext';
+import DeviceContext from '../Device/Context/DeviceContext';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';

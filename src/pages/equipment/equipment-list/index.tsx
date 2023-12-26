@@ -2,14 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-21 09:52:04
+ * @LastEditTime: 2023-12-25 18:20:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button, Modal, message, Tooltip } from 'antd';
 import { useHistory, useModel } from 'umi';
-import { DownOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  CaretDownFilled,
+  CaretRightFilled,
+  DownOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice } from './service';
@@ -120,11 +126,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
-        <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
-      </Button>
       {!isStationChild && record.canBeDeleted !== 0 ? (
         <Button
+          className="pl0"
           type="link"
           size="small"
           key="delete"
@@ -164,6 +168,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       record.canUnbind == 1 &&
       authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
+          className="pl0"
           type="link"
           size="small"
           key="unbind"
@@ -290,7 +295,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 120,
+        width: 80,
         fixed: 'right',
         render: rowBar,
       },
@@ -313,12 +318,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                 {expandable ? (
                   <>
                     {expanded ? (
-                      <DownOutlined
+                      <CaretDownFilled
                         className="mr8 cursor table-expand-icon"
                         onClick={(e) => onExpand(record, e)}
                       />
                     ) : (
-                      <RightOutlined
+                      <CaretRightFilled
                         className="mr8 cursor table-expand-icon"
                         onClick={(e) => onExpand(record, e)}
                       />

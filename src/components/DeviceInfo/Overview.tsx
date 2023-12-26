@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-12-18 14:36:53
+ * @LastEditTime: 2023-12-25 16:52:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -46,11 +46,6 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
-  const realtimeNetwork = useSubscribe(
-    deviceData?.deviceId ?? '',
-    true,
-    MessageEventType.NETWORKSTSTUS,
-  );
   const [deviceNameInfo, setDeviceNameInfo] = useState<DeviceNameInfoType>({
     name: '',
     showEdit: false,
@@ -139,7 +134,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
     return [
       {
         label: formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' }),
-        field: 'status',
+        field: 'networkStatus',
         format: onlineStatusFormat,
       },
       {
@@ -258,7 +253,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
               </Button>
             )}
           </Detail.Label>
-          <Detail items={equipInfoItems} data={{ ...deviceData, ...realtimeNetwork }} column={4} />
+          <Detail items={equipInfoItems} data={{ ...deviceData }} column={4} />
         </div>
       )}
       <Dialog

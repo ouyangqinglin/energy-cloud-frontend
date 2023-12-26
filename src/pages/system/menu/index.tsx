@@ -1,4 +1,11 @@
-import { PlusOutlined, DeleteOutlined, DownOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  RightOutlined,
+  CaretDownFilled,
+  CaretRightFilled,
+} from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
@@ -318,12 +325,12 @@ const MenuTableList: React.FC = () => {
                   {expandable ? (
                     <>
                       {expanded ? (
-                        <DownOutlined
+                        <CaretDownFilled
                           className="mr8 cursor table-expand-icon"
                           onClick={(e) => onExpand(record, e)}
                         />
                       ) : (
-                        <RightOutlined
+                        <CaretRightFilled
                           className="mr8 cursor table-expand-icon"
                           onClick={(e) => onExpand(record, e)}
                         />

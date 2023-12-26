@@ -1,5 +1,6 @@
 export default {
   'alarmManage.serious': '严重',
+  'alarmManage.emergent': '紧急',
   'alarmManage.importance': '重要',
   'alarmManage.secondary': '次要',
   'alarmManage.tips': '提示',

@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import DeviceProvider from '../Device/DeviceProvider';
+import DeviceProvider from '../Device/Context/DeviceProvider';
 import Device from './Device';
 
 export type DeviceMonitorType = {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-26 14:46:33
+ * @LastEditTime: 2023-12-25 18:12:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Alarm\index.tsx
  */
@@ -40,7 +40,7 @@ const levelMap = new Map([
   [
     'error',
     <span className={styles.error}>
-      {formatMessage({ id: 'alarmManage.serious', defaultMessage: '严重' })}
+      {formatMessage({ id: 'alarmManage.emergent', defaultMessage: '紧急' })}
     </span>,
   ],
 ]);

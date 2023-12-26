@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-22 15:13:25
+ * @LastEditTime: 2023-12-25 17:59:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -41,7 +41,7 @@ export type AlarmProps = {
 };
 
 const levelMap = new Map([
-  ['error', formatMessage({ id: 'alarmManage.serious', defaultMessage: '严重' })],
+  ['error', formatMessage({ id: 'alarmManage.emergent', defaultMessage: '严重' })],
   ['alarm', formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' })],
   ['warn', formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })],
   ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
@@ -377,8 +377,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: '告警信息',
-        title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警信息' }),
+        title: formatMessage({ id: 'alarmManage.alarmInformation', defaultMessage: '告警信息' }),
         dataIndex: 'content',
         width: 150,
         ellipsis: true,

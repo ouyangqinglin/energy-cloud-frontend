@@ -16,7 +16,7 @@ import { ProFormColumnsType } from '@ant-design/pro-components';
 import { OptionType } from '@/types';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
-import DeviceContext from '@/components/Device/DeviceContext';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
   const { deviceId, versionItems } = props;
