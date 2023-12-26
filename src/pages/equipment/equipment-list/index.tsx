@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-25 18:20:20
+ * @LastEditTime: 2023-12-26 10:51:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -216,11 +216,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         width: 200,
         ellipsis: true,
         render: (_, record) => {
-          // let Component = record?.productType && productTypeIconMap.get(record?.productType);
+          const Component = record?.productType && productTypeIconMap.get(record?.productType);
           return (
             <>
-              {/* {Component && <Component className='mr12 float' />} */}
               <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
+                {Component && <Component className="mr8" />}
                 {record.name}
               </span>
             </>

@@ -25,6 +25,7 @@ export default {
   'common.selectDataCollectionPoints': '选择数据采集点',
   'common.disable': '禁用',
   'common.enable': '启用',
+  'common.enabled': '使能',
   'common.effect': '生效',
   'common.ineffect': '未生效',
   'common.set': '设置',

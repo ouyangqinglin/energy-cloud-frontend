@@ -45,6 +45,14 @@ import {
   CellSix,
   CellNine,
   Exchange,
+  SuperCharge,
+  ChargeGun,
+  EmsTwo,
+  BatteryPack,
+  Pcs,
+  PvEnergy,
+  Dehumidifier,
+  FireFight,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -191,6 +199,38 @@ const YTExchangeOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Exchange} {...props} />
 );
 
+const YTSuperChargeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={SuperCharge} {...props} />
+);
+
+const YTChargeGunOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={ChargeGun} {...props} />
+);
+
+const YTEmsTwoOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={EmsTwo} {...props} />
+);
+
+const YTBatteryPackOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={BatteryPack} {...props} />
+);
+
+const YTPcsOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Pcs} {...props} />
+);
+
+const YTPvEnergyOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={PvEnergy} {...props} />
+);
+
+const YTDehumidifierOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Dehumidifier} {...props} />
+);
+
+const YTFireFightOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={FireFight} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -228,4 +268,12 @@ export {
   YTCellSixOutlined,
   YTCellNineOutlined,
   YTExchangeOutlined,
+  YTSuperChargeOutlined,
+  YTChargeGunOutlined,
+  YTEmsTwoOutlined,
+  YTBatteryPackOutlined,
+  YTPcsOutlined,
+  YTPvEnergyOutlined,
+  YTDehumidifierOutlined,
+  YTFireFightOutlined,
 };
