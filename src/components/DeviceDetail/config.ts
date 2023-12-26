@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-27 19:08:24
- * @LastEditTime: 2023-07-27 19:08:24
+ * @LastEditTime: 2023-12-26 17:55:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\config.ts
  */
@@ -14,13 +14,16 @@ import { OnlineStatusEnum } from '@/utils/dict';
 
 export type TreeNode = BasicDataNode & DataNode & DeviceDataType;
 
+export const networkStatusShows = [OnlineStatusEnum.Online, OnlineStatusEnum.Offline];
+
 export const netWorkStatusEnum: ValueEnum = {
-  [OnlineStatusEnum.None]: {},
   [OnlineStatusEnum.Online]: {
+    text: '',
     icon: 'green',
     status: 'Processing',
   },
   [OnlineStatusEnum.Offline]: {
+    text: '',
     icon: 'red',
     status: 'Error',
   },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-12-26 16:28:19
+ * @LastEditTime: 2023-12-26 17:53:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -12,7 +12,7 @@ import { useRequest } from 'umi';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import styles from './index.less';
 import { getPropsFromTree, isEmpty } from '@/utils';
-import { TreeNode, netWorkStatusEnum } from './config';
+import { TreeNode, netWorkStatusEnum, networkStatusShows } from './config';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import DeviceProvider from '../Device/Context/DeviceProvider';
 import Device from './Device';
@@ -24,6 +24,7 @@ import { ProField } from '@ant-design/pro-components';
 const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
   const result: TreeNode[] = [];
   data?.forEach?.((item) => {
+    const networkStatus = realTimeData?.[item?.id ?? '']?.networkStatus;
     const node: TreeNode = {
       key: item?.id + '',
       deviceId: item?.id,
@@ -34,7 +35,7 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
           <span className={styles.network}>
             <ProField
               mode="read"
-              text={realTimeData?.[item?.id ?? '']?.networkStatus}
+              text={networkStatusShows.includes(networkStatus) ? networkStatus : undefined}
               valueEnum={netWorkStatusEnum}
             />
           </span>

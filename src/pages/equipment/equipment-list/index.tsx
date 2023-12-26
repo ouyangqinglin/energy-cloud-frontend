@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-26 16:45:36
+ * @LastEditTime: 2023-12-26 16:50:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -115,13 +115,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const toolBar = useCallback(
     () =>
       (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
-        (!isStationChild && authorityMap.get('iot:device:add'))
+      (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
-          <Button type="primary" key="add" onClick={onAddClick}>
-            <PlusOutlined />
-            <FormattedMessage id="common.add" defaultMessage="新建" />
-          </Button>,
-        ]
+            <Button type="primary" key="add" onClick={onAddClick}>
+              <PlusOutlined />
+              <FormattedMessage id="common.add" defaultMessage="新建" />
+            </Button>,
+          ]
         : [],
     [authorityMap, isStationChild],
   );
@@ -166,8 +166,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <></>
       )}
       {isStationChild &&
-        record.canUnbind == 1 &&
-        authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+      record.canUnbind == 1 &&
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
           className="pl0"
           type="link"
@@ -214,7 +214,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 200,
+        width: 220,
         ellipsis: true,
         render: (_, record) => {
           const Component =
@@ -246,7 +246,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'model',
-        width: 180,
+        width: 220,
         hideInSearch: true,
         ellipsis: true,
       },
@@ -347,7 +347,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
-          //onOk={triggerSubmit}
+            //onOk={triggerSubmit}
           />
         </>
       ) : (
