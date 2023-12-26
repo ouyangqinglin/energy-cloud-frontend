@@ -3,6 +3,7 @@ export default {
   'taskManage.installer': '安装人员',
   'taskManage.workOrderCode': '工单编码',
   'taskManage.installTitle': '安装标题',
+  'taskManage.failureTitle': '故障标题',
   'taskManage.workOrderType': '工单类型',
   'taskManage.delWorkOrderTips': '您确认要删除该安装工单吗？删除之后无法恢复！',
   'taskManage.customerName': '客户名称',

@@ -25,7 +25,7 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     hideInSearch: true,
   },
   {
-    title: formatMessage({ id: 'taskManage.installTitle', defaultMessage: '安装标题' }),
+    title: formatMessage({ id: 'taskManage.failureTitle', defaultMessage: '故障标题' }),
     dataIndex: 'name',
     width: 150,
     ellipsis: true,
