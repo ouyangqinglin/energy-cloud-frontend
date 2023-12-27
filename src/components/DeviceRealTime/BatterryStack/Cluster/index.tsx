@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-12-07 17:04:23
+ * @LastEditTime: 2023-12-27 19:46:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
@@ -21,6 +21,7 @@ import Button from '@/components/CollectionModal/Button';
 import { useSubscribe } from '@/hooks';
 import { merge } from 'lodash';
 import { MessageEventType } from '@/utils/connection';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export type ClusterProps = {
   deviceData?: DeviceDataType;
@@ -60,7 +61,9 @@ const Cluster: React.FC<ClusterProps> = (props) => {
 
   const allLabel = useMemo(() => {
     const result: string[] = [];
-    Array.from({ length: 24 }).forEach((item, index) => {
+    Array.from({
+      length: deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack ? 48 : 24,
+    }).forEach((item, index) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
       if (num % 2 === 0) {
@@ -69,9 +72,17 @@ const Cluster: React.FC<ClusterProps> = (props) => {
         );
       }
     });
-    result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
+    if (deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack) {
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '25');
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '26');
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '27');
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '28');
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '29');
+    } else {
+      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
+    }
     return result;
-  }, []);
+  }, [deviceData]);
 
   const chartOption = useMemo(() => {
     const source = [
@@ -203,13 +214,15 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   }, [selectOrg]);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
-    return Array.from({ length: 10 }).map((item, index) => {
+    return Array.from({
+      length: deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack ? 5 : 10,
+    }).map((item, index) => {
       return {
         key: index + '',
         label: 'BMU' + (index + 1),
       };
     });
-  }, []);
+  }, [deviceData]);
 
   const extral = (
     <Button
@@ -252,21 +265,27 @@ const Cluster: React.FC<ClusterProps> = (props) => {
             colon={false}
             labelStyle={{ width: 170 }}
           />
-          <Label
-            title={formatMessage({
-              id: 'siteMonitor.statusInformation',
-              defaultMessage: '状态信息',
-            })}
-            className="mt16"
-          />
-          <Detail
-            items={statusItems}
-            data={realTimeData}
-            extral={extral}
-            colon={false}
-            labelStyle={{ width: 170 }}
-            valueStyle={{ width: '40%' }}
-          />
+          {deviceData?.productId != DeviceTypeEnum.LiquidEnergyBatteryStack ? (
+            <>
+              <Label
+                title={formatMessage({
+                  id: 'siteMonitor.statusInformation',
+                  defaultMessage: '状态信息',
+                })}
+                className="mt16"
+              />
+              <Detail
+                items={statusItems}
+                data={realTimeData}
+                extral={extral}
+                colon={false}
+                labelStyle={{ width: 170 }}
+                valueStyle={{ width: '40%' }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
           <Label
             title={formatMessage({ id: 'siteMonitor.monomerInfo', defaultMessage: '单体信息' })}
             className="mt16"

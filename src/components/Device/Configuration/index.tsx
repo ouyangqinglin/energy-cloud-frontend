@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2023-12-27 17:22:50
+ * @LastEditTime: 2023-12-27 20:00:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Community from './Community';
 import DeviceConfig from './DeviceConfig';
 import { isEmpty } from '@/utils';
@@ -36,7 +36,7 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
   const { deviceData, productId, deviceId } = props;
 
   const containRef = useRef<HTMLDivElement>(null);
-  const [isContainEmpty, { set }] = useBoolean(false);
+  const [emptyNum, setEmptyNum] = useState(0);
   const { serviceGruop } = useDeviceModel({
     productId,
     isGroup: true,
@@ -45,7 +45,9 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
   const realTimeData = useSubscribe(deviceId, true);
 
   const onLoadChange = useCallback(() => {
-    set(!containRef?.current?.innerText);
+    setTimeout(() => {
+      setEmptyNum(containRef?.current?.innerText?.trim?.() ? Math.random() + 1 : 0);
+    }, 300);
   }, []);
 
   return (
@@ -83,7 +85,7 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
                 <RemoteUpgrade deviceId={deviceData?.deviceId} />
               )}
             </div>
-            {(!containRef?.current?.innerText || isContainEmpty) && <Empty className="mt20" />}
+            {(!containRef?.current?.innerText || !emptyNum) && <Empty className="mt20" />}
           </>
         )}
       </div>

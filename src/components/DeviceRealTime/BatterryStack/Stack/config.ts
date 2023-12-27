@@ -28,33 +28,39 @@ import {
 } from '@/utils/format';
 import { MaxUnitType } from './type';
 import { formatMessage } from '@/utils';
+import { DeviceDataType } from '@/services/equipment';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
-export const controlItemsOne: DetailItem[] = [
-  {
-    label: formatMessage({
-      id: 'siteMonitor.prechargeContactorStatus',
-      defaultMessage: '预充接触器状态',
-    }),
-    field: 'PrechargeContactorStatus',
-    format: closeFormat,
-  },
-  {
-    label: formatMessage({
-      id: 'siteMonitor.dcCircuitBreakerStatus',
-      defaultMessage: '直流断路器状态',
-    }),
-    field: 'DCCircuitBreakerStatus',
-    format: closeFormat,
-  },
-  {
-    label: formatMessage({
-      id: 'siteMonitor.acCircuitBreakerStatus',
-      defaultMessage: '交流断路器状态',
-    }),
-    field: 'ACCircuitBreakerStatus',
-    format: closeFormat,
-  },
-];
+export const getControlItems = (data?: DeviceDataType) => {
+  const result: DetailItem[] = [
+    {
+      label: formatMessage({
+        id: 'siteMonitor.prechargeContactorStatus',
+        defaultMessage: '预充接触器状态',
+      }),
+      field: 'PrechargeContactorStatus',
+      format: closeFormat,
+      show: data?.productId != DeviceTypeEnum.LiquidEnergyBatteryStack,
+    },
+    {
+      label: formatMessage({
+        id: 'siteMonitor.dcCircuitBreakerStatus',
+        defaultMessage: '直流断路器状态',
+      }),
+      field: 'DCCircuitBreakerStatus',
+      format: closeFormat,
+    },
+    {
+      label: formatMessage({
+        id: 'siteMonitor.acCircuitBreakerStatus',
+        defaultMessage: '交流断路器状态',
+      }),
+      field: 'ACCircuitBreakerStatus',
+      format: closeFormat,
+    },
+  ];
+  return result;
+};
 
 export const controlItemsMain: DetailItem[] = [
   {
