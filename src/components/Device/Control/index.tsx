@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-27 18:03:21
+ * @LastEditTime: 2023-12-27 21:21:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -240,7 +240,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             case DeviceModelShowTypeEnum.Button:
               const buttonEnum = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
               const options = Object.entries(buttonEnum).map(([value, label]) => ({
-                value,
+                value: value * 1,
                 label,
               }));
               detailItems.push?.({
@@ -256,7 +256,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     options={options}
                     value={value}
                     disabled={deviceData?.status === OnlineStatusEnum.Offline}
-                    onChange={() => btnClick(field, value)}
+                    onChange={(btnValue) => btnClick(field, btnValue)}
                     loading={loading}
                   />
                 ),
