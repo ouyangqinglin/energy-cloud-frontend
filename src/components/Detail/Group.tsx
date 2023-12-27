@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2023-08-10 16:03:30
+ * @LastEditTime: 2023-12-27 15:26:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
@@ -13,6 +13,7 @@ import { Tabs, TabsProps } from 'antd';
 export type GroupItem = {
   label?: React.ReactNode;
   items?: DetailItem[];
+  className?: string;
   tabItems?: TabsProps['items'];
   component?: React.ReactNode;
 };
@@ -35,7 +36,7 @@ const Group: React.FC<GroupProps> = (props) => {
           {item.label}
           {item.items?.length ? (
             <Detail
-              className="mb16"
+              className={`mb16 ${item?.className || ''}`}
               key={index}
               data={data}
               items={item.items}

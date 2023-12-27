@@ -63,9 +63,11 @@ export type DeviceStructType = {
 
 export type DeviceServiceModelType = {
   id?: string;
+  serviceId?: string;
   name?: string;
   required?: boolean;
   span?: number;
+  showType?: DeviceModelShowTypeEnum;
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType

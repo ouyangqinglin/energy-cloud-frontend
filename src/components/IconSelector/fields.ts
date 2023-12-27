@@ -225,6 +225,7 @@ const ytIcon = [
   'YTBattery',
   'YTChargeStack',
   'YTCabinet',
+  'YTAlarmFull',
   'YTAlarm',
   'YTInstaller',
   'YTCompany',

@@ -12,10 +12,12 @@ import type { BasicDataNode } from 'rc-tree';
 import type { DataNode } from 'antd/lib/tree';
 
 export enum DeviceModelShowTypeEnum {
-  // 1-平铺 2-服务名称隐藏 3-宫格
+  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select
   Tile = 1,
-  Goup,
+  HideServiceName,
   Grid,
+  Button,
+  Select,
 }
 
 export enum DeviceModelDescribeTypeEnum {
@@ -38,6 +40,7 @@ export enum DeviceModelTypeEnum {
   Array = 'array',
   TimeRange = 'timeRange',
   TimeStamp = 'timestamp',
+  Button = 'button',
 }
 
 export type AntMenuProps = {

@@ -54,6 +54,7 @@ import {
   Dehumidifier,
   FireFight,
   GenerralDevice,
+  AlarmFull,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -142,6 +143,10 @@ const YTChargeStackOutlined = (props: Partial<CustomIconComponentProps>) => (
 
 const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Cabinet} {...props} />
+);
+
+const YTAlarmFullOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={AlarmFull} {...props} />
 );
 
 const YTAlarmOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -259,6 +264,7 @@ export {
   YTBatteryOutlined,
   YTChargeStackOutlined,
   YTCabinetOutlined,
+  YTAlarmFullOutlined,
   YTAlarmOutlined,
   YTInstallerOutlined,
   YTCompanyOutlined,

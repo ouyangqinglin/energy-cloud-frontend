@@ -1,6 +1,5 @@
 export const Home = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_首页概览_def</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-24.000000, -82.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 56.000000)">
@@ -19,7 +18,6 @@ export const Home = () => (
 
 export const Station = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_站点管理def</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-24.000000, -126.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 56.000000)">
@@ -40,7 +38,6 @@ export const Station = () => (
 
 export const Monitor = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_站点监视sel</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" fillOpacity="0.9">
       <g transform="translate(-24.000000, -170.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 56.000000)">
@@ -61,29 +58,55 @@ export const Monitor = () => (
 
 export const WorkOrder = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_工单管理_def</title>
-    <g
-      stroke="none"
-      strokeWidth="1"
-      fill="none"
-      fillRule="evenodd"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <g transform="translate(-24.000000, -302.000000)" stroke="currentcolor" strokeWidth="1.3">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g transform="translate(-24.000000, -610.000000)">
         <g transform="translate(0.000000, 56.000000)">
-          <g transform="translate(8.000000, 16.000000)">
-            <g transform="translate(0.000000, 220.000000)">
+          <g transform="translate(0.000000, 16.000000)">
+            <g transform="translate(8.000000, 528.000000)">
               <g transform="translate(16.000000, 10.000000)">
-                <g transform="translate(3.000000, 1.000000)">
-                  <rect x="0" y="2.7" width="14" height="15.3" rx="1.37142857" />
+                <g transform="translate(2.350000, 1.000000)">
                   <path
-                    d="M7.51884766,0 C8.21944049,0 8.79518614,0.53079475 8.86049673,1.21917343 L8.866,1.349 L9.8316997,1.35 C10.5873911,1.35 11.2,1.95735168 11.2,2.72247246 L11.2,3.12752754 C11.2,3.88552315 10.5958927,4.5 9.8316997,4.5 L4.1683003,4.5 C3.41260891,4.5 2.8,3.89264832 2.8,3.12752754 L2.8,2.72247246 C2.8,1.96447685 3.40410728,1.35 4.1683003,1.35 L5.133,1.349 L5.13946796,1.21998599 C5.20441363,0.535399275 5.77715759,0 6.48115234,0 L7.51884766,0 Z"
-                    fill="transparent"
+                    d="M12.3862557,2.04886143 L13.2821305,2.05 C14.3450159,2.05 15.2173524,2.87805153 15.2944597,3.92086905 L15.3,4.07123775 L15.3,16.6287623 C15.3,17.6921091 14.4723758,18.5670951 13.4321188,18.6444423 L13.2821305,18.65 L2.01786947,18.65 C0.954984083,18.65 0.082647583,17.8219485 0.00554030903,16.779131 L0,16.6287623 L0,4.07123775 C0,3.00789088 0.827624157,2.13290488 1.86788124,2.05555769 L2.01786947,2.05 L2.91359505,2.04911164 C2.83997675,2.25965334 2.8,2.48626571 2.8,2.72247246 L2.8,3.12752754 C2.8,3.20297525 2.80407719,3.27742326 2.812023,3.35066473 L2.01786947,3.35 C1.65861049,3.35 1.35478321,3.62356733 1.30664018,3.97392855 L1.3,4.07123775 L1.3,16.6287623 C1.3,16.9916629 1.57205132,17.2952857 1.92095511,17.3433694 L2.01786947,17.35 L13.2821305,17.35 C13.6413895,17.35 13.9452168,17.0764327 13.9933598,16.7260715 L14,16.6287623 L14,4.07123775 C14,3.70833715 13.7279487,3.40471426 13.3790449,3.35663059 L13.2821305,3.35 L12.4879748,3.35068175 C12.4959229,3.27741614 12.5,3.20296109 12.5,3.12752754 L12.5,2.72247246 L12.4944782,2.57094352 C12.4811638,2.38900384 12.4440565,2.21395183 12.3862557,2.04886143 Z"
+                    fill="currentcolor"
+                    fillRule="nonzero"
                   />
-                  <line x1="3.73333333" y1="8.1" x2="10.2666667" y2="8.1" />
-                  <line x1="3.73333333" y1="11.25" x2="10.2666667" y2="11.25" />
-                  <line x1="3.73333333" y1="14.4" x2="7.46666667" y2="14.4" />
+                  <path
+                    d="M8.16884766,0 C8.86944049,0 9.44518614,0.53079475 9.51049673,1.21917343 L9.516,1.349 L10.4816997,1.35 C11.2373911,1.35 11.85,1.95735168 11.85,2.72247246 L11.85,3.12752754 C11.85,3.88552315 11.2458927,4.5 10.4816997,4.5 L4.8183003,4.5 C4.06260891,4.5 3.45,3.89264832 3.45,3.12752754 L3.45,2.72247246 C3.45,1.96447685 4.05410728,1.35 4.8183003,1.35 L5.783,1.349 L5.78946796,1.21998599 C5.85441363,0.535399275 6.42715759,0 7.13115234,0 L8.16884766,0 Z"
+                    stroke="currentcolor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <line
+                    x1="4.38333333"
+                    y1="8.1"
+                    x2="10.9166667"
+                    y2="8.1"
+                    stroke="currentcolor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <line
+                    x1="4.38333333"
+                    y1="11.25"
+                    x2="10.9166667"
+                    y2="11.25"
+                    stroke="currentcolor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <line
+                    x1="4.38333333"
+                    y1="14.4"
+                    x2="8.11666667"
+                    y2="14.4"
+                    stroke="currentcolor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </g>
               </g>
             </g>
@@ -96,7 +119,6 @@ export const WorkOrder = () => (
 
 export const Data = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_数据管理_def</title>
     <g
       stroke="none"
       strokeWidth="1"
@@ -125,7 +147,6 @@ export const Data = () => (
 
 export const Device = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_设备管理def</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-24.000000, -390.000000)">
         <g transform="translate(0.000000, 56.000000)">
@@ -171,7 +192,6 @@ export const Device = () => (
 
 export const Partner = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_安装商安装商_def</title>
     <g
       stroke="none"
       strokeWidth="1"
@@ -202,7 +222,6 @@ export const Partner = () => (
 
 export const User = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_用户管理_def</title>
     <g
       stroke="none"
       strokeWidth="1"
@@ -242,7 +261,6 @@ export const User = () => (
 
 export const RemoteUpgrade = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_远程升级_def</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-24.000000, -522.000000)">
         <g transform="translate(0.000000, 56.000000)">
@@ -286,7 +304,6 @@ export const RemoteUpgrade = () => (
 
 export const Setting = () => (
   <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
-    <title>icon_运行维护备份 5</title>
     <g
       stroke="none"
       strokeWidth="1"
@@ -314,7 +331,6 @@ export const Setting = () => (
 
 export const Photovoltaic = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_光伏</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -156.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -334,7 +350,6 @@ export const Photovoltaic = () => (
 
 export const PVInverter = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_光伏逆变器@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-76.000000, -184.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -360,7 +375,6 @@ export const PVInverter = () => (
 
 export const Energy = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_储能系统@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -240.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -382,7 +396,6 @@ export const Energy = () => (
 
 export const Ems = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_EMS@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-92.000000, -296.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -405,7 +418,6 @@ export const Ems = () => (
 
 export const Bms = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_BMS@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-92.000000, -324.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -436,7 +448,6 @@ export const Bms = () => (
 
 export const Air = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_空调@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-92.000000, -408.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -459,7 +470,6 @@ export const Air = () => (
 
 export const Meter = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_电表@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-92.000000, -436.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -483,7 +493,6 @@ export const Meter = () => (
 
 export const Charge = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_充电桩@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -492.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -503,7 +512,6 @@ export const Charge = () => (
 
 export const Electric = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_电气计量@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -884.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -523,7 +531,6 @@ export const Electric = () => (
 
 export const Battery = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_电池簇@1x</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-108.000000, -352.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -546,7 +553,6 @@ export const Battery = () => (
 
 export const Cabinet = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_换电柜</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -1164.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -576,7 +582,6 @@ export const Cabinet = () => (
 
 export const ChargeStack = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_充电堆</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-76.000000, -688.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -600,9 +605,8 @@ export const ChargeStack = () => (
   </svg>
 );
 
-export const Alarm = () => (
+export const AlarmFull = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_提示告警</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-559.000000, -556.000000)" fillRule="nonzero">
         <g transform="translate(240.000000, 109.000000)">
@@ -635,9 +639,27 @@ export const Alarm = () => (
   </svg>
 );
 
+export const Alarm = () => (
+  <svg width="1em" height="1em" viewBox="0 0 20 20" version="1.1">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g transform="translate(-24.000000, -566.000000)" fill="currentcolor" fillRule="nonzero">
+        <g transform="translate(0.000000, 56.000000)">
+          <g transform="translate(0.000000, 16.000000)">
+            <g transform="translate(8.000000, 484.000000)">
+              <g transform="translate(16.000000, 10.000000)">
+                <rect opacity="0" x="0" y="0" width="20" height="20" />
+                <path d="M9.97984584,5.05174212 C11.4850435,5.05174212 12.8998656,5.6282078 13.9642175,6.67473399 C15.0283573,7.72126017 15.6145251,9.11287294 15.6145251,10.592948 L15.6145251,10.592948 L15.6145251,16.7481744 L16.7885581,16.7481744 C17.1400891,16.7481744 17.4250053,17.0283747 17.4252175,17.3740872 C17.4252175,17.7197997 17.1403013,18 16.7887702,18 L16.7887702,18 L3.17134573,18 C2.81981472,18 2.53489852,17.7197997 2.53489852,17.3740872 C2.53489852,17.0283747 2.81981472,16.7481744 3.17134573,16.7481744 L3.17134573,16.7481744 L4.34537869,16.7481744 L4.34537869,10.592948 C4.34537869,9.11287294 4.93133442,7.72126017 5.9956863,6.67473399 C7.05982604,5.6282078 8.47464819,5.05174212 9.97984584,5.05174212 Z M9.97984584,6.30335907 C7.57471183,6.30335907 5.61806096,8.22762362 5.61806096,10.592948 L5.61806096,10.592948 L5.61806096,16.7481744 L14.3416307,16.7481744 L14.3416307,10.592948 C14.3416307,8.22762362 12.3849798,6.30335907 9.97984584,6.30335907 Z M10.506612,8.86501148 C10.7552507,8.62048821 11.1583339,8.62048821 11.4067605,8.86501148 C11.6553992,9.10953474 11.6553992,9.50573753 11.4067605,9.7502608 L11.4067605,9.7502608 L10.2787639,10.8595869 L11.2175235,10.8595869 C11.4749433,10.859654 11.7070048,11.0121302 11.8056007,11.2459837 C11.9042057,11.4798257 11.8497703,11.7490624 11.6677038,11.92802 L11.6677038,11.92802 L9.35103599,14.2063426 C9.22692879,14.3286042 9.0639983,14.3897355 8.90106782,14.3897355 C8.73223556,14.3899458 8.57028694,14.3239408 8.45109964,14.2063426 C8.20246093,13.9618193 8.20246093,13.5656165 8.45109964,13.3210933 L8.45109964,13.3210933 L9.68113995,12.1114125 L8.74238031,12.1114125 C8.48492398,12.1114638 8.25280185,11.9589477 8.15430309,11.7250156 C8.05569811,11.4911737 8.11013348,11.221937 8.29219999,11.0429793 L8.29219999,11.0429793 Z M3.17834665,9.22511997 C3.52987766,9.22511997 3.81479386,9.50532026 3.81479386,9.85103276 C3.81479386,10.1967453 3.52987766,10.4769455 3.17834665,10.4769455 L3.17834665,10.4769455 L1.63644721,10.4769455 C1.2849162,10.4769455 1,10.1967453 1,9.85103276 C1,9.50532026 1.2849162,9.22511997 1.63644721,9.22511997 L1.63644721,9.22511997 Z M18.3635528,9.22511997 C18.7150838,9.22511997 19,9.50532026 19,9.85103276 C19,10.1967453 18.7150838,10.4769455 18.3635528,10.4769455 L18.3635528,10.4769455 L16.8216533,10.4769455 C16.4701223,10.4769455 16.1852061,10.1967453 16.1852061,9.85103276 C16.1852061,9.50532026 16.4701223,9.22511997 16.8216533,9.22511997 L16.8216533,9.22511997 Z M3.63574005,3.59232214 C3.88437876,3.34779887 4.28746199,3.34779887 4.53588855,3.59232214 L4.53588855,3.59232214 L5.62612262,4.66451074 C5.87476133,4.90903401 5.87476133,5.3052368 5.62612262,5.54976007 C5.50201542,5.6720217 5.33887278,5.73315251 5.17615444,5.73315251 C5.01343611,5.73315251 4.85050562,5.6720217 4.72618627,5.54976007 L4.72618627,5.54976007 L3.63574005,4.47757146 C3.38710134,4.2330482 3.38710134,3.8368454 3.63574005,3.59232214 Z M15.4636872,3.59232214 C15.7123259,3.34779887 16.1154091,3.34779887 16.3638357,3.59232214 C16.6124744,3.8368454 16.6124744,4.2330482 16.3638357,4.47757146 L16.3638357,4.47757146 L15.2736016,5.54976007 C15.1494944,5.6720217 14.9865639,5.73315286 14.8236334,5.73315286 C14.6547463,5.73332649 14.4927455,5.66733134 14.3734531,5.54976007 C14.1248144,5.3052368 14.1248144,4.90903401 14.3734531,4.66451074 L14.3734531,4.66451074 Z M10,1 C10.351531,1 10.6364472,1.28020029 10.6364472,1.62591279 L10.6364472,1.62591279 L10.6364472,3.14229084 C10.6364472,3.48800334 10.351531,3.76820363 10,3.76820363 C9.64846899,3.76820363 9.36355279,3.48800334 9.36355279,3.14229084 L9.36355279,3.14229084 L9.36355279,1.62591279 C9.36355279,1.28020029 9.64846899,1 10,1 Z" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+);
+
 export const Installer = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_安装商</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-44.000000, -240.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -659,7 +681,6 @@ export const Installer = () => (
 
 export const Company = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_公司_def</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-76.000000, -324.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -681,7 +702,6 @@ export const Company = () => (
 
 export const SystemSetting = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_系统管理</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-44.000000, -128.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -699,7 +719,6 @@ export const SystemSetting = () => (
 
 export const Owner = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_业主</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-44.000000, -688.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -719,7 +738,6 @@ export const Owner = () => (
 
 export const Operator = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_运营商</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-44.000000, -492.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
@@ -739,7 +757,6 @@ export const Operator = () => (
 
 export const Organize = () => (
   <svg width="1em" height="1em" viewBox="0 0 16 16" version="1.1">
-    <title>icon_组织</title>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-60.000000, -156.000000)" fill="currentcolor" fillRule="nonzero">
         <g transform="translate(0.000000, 104.000000)">
