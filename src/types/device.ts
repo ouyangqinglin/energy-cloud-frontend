@@ -6,7 +6,12 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelDescribeTypeEnum, DeviceModelShowTypeEnum, DeviceModelTypeEnum } from '@/utils';
+
+export type DeviceModelAuthorityType = {
+  detail?: string;
+  edit?: string;
+};
 
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;
@@ -77,11 +82,10 @@ export type DeviceServiceType = {
   id?: string;
   name?: string;
   groupName?: string;
+  showType?: DeviceModelShowTypeEnum;
+  type?: DeviceModelDescribeTypeEnum;
   outputData?: DeviceServiceModelType[];
-  authority?: {
-    detail?: string;
-    edit?: string;
-  }[];
+  authority?: DeviceModelAuthorityType[];
 };
 
 export type DeviceLocationType = {
@@ -101,10 +105,18 @@ export type DevicePageModels = {
   serviceGroups?: DeviceServiceGroupType[];
 };
 
+export type DeviceModelDescribeType = {
+  id?: string;
+  name?: string;
+  type?: DeviceModelDescribeTypeEnum;
+  authority?: DeviceModelAuthorityType[];
+  children?: DeviceModelDescribeType[] | DeviceServiceType[];
+};
+
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];
   services?: DeviceServiceGroupType[];
-  pageModels?: DevicePageModels[];
+  data?: DeviceModelDescribeType[];
 };
 
 export type DeviceTreeDataType = {

@@ -10,7 +10,7 @@
 import { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import { getDeviceModel, getDeviceGroupModel } from '@/services/equipment';
-import { DeviceModelType, DeviceServiceGroupType } from '@/types/device';
+import { DeviceModelDescribeType, DeviceModelType, DeviceServiceGroupType } from '@/types/device';
 import { getModelByProps } from '@/utils';
 import { isEmpty } from 'lodash';
 import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
@@ -25,7 +25,7 @@ const useDeviceModel = (props: useDeviceModelProps) => {
   const { productId, isGroup, page } = props;
 
   const [modelMap, setModelMap] = useState<Record<string, DeviceModelType>>({});
-  const [serviceGruop, setServiceGruop] = useState<DeviceServiceGroupType[]>([]);
+  const [serviceGruop, setServiceGruop] = useState<DeviceModelDescribeType[]>([]);
   const { loading, run, data } = useRequest(isGroup ? getDeviceGroupModel : getDeviceModel, {
     manual: true,
   });
@@ -38,8 +38,8 @@ const useDeviceModel = (props: useDeviceModelProps) => {
           res?.properties?.forEach?.((item) => {
             result = { ...result, ...getModelByProps(item?.properties || []) };
           });
-          const pageModel = res?.pageModels?.find?.((item) => item?.location?.id == page);
-          setServiceGruop(pageModel?.serviceGroups || []);
+          const serviceGroupData = res?.data?.find?.((item) => item?.id == page);
+          setServiceGruop(serviceGroupData?.children || []);
         } else {
           result = getModelByProps(res?.properties || []);
         }

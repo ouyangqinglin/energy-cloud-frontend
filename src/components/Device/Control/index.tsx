@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-25 15:42:59
+ * @LastEditTime: 2023-12-27 11:17:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -11,29 +11,36 @@ import {
   DeviceArrayType,
   DeviceDoubleType,
   DeviceEnumType,
-  DeviceServiceGroupType,
+  DeviceModelAuthorityType,
+  DeviceModelDescribeType,
   DeviceServiceModelType,
   DeviceServiceType,
   DeviceStructType,
 } from '@/types/device';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
-import { DeviceModelTypeEnum, formatModelValue, parseToArray, parseToObj } from '@/utils';
+import {
+  DeviceModelDescribeTypeEnum,
+  DeviceModelTypeEnum,
+  formatModelValue,
+  getPropsFromTree,
+  parseToArray,
+  parseToObj,
+} from '@/utils';
 import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button, Spin } from 'antd';
+import { Button, Spin, TabsProps } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType } from '@/services/equipment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import Authority from '@/components/Authority';
 import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
-import Empty from '@/components/Empty';
 
 export type ControlType = {
   deviceId?: string;
-  groupData?: DeviceServiceGroupType[];
+  groupData?: DeviceModelDescribeType[];
   realTimeData?: Record<string, any>;
   deviceData?: DeviceDataType;
 };
@@ -52,14 +59,14 @@ const Control: React.FC<ControlType> = memo((props) => {
 
   const authorityCodes = useMemo(() => {
     const result: string[] = [];
-    groupData?.forEach?.((group) => {
-      group?.services?.forEach?.((service) => {
-        service?.authority?.forEach?.((item) => {
-          if (item?.detail) {
-            result.push(item.detail);
-          }
-        });
-      });
+    const authoritys = getPropsFromTree<DeviceModelDescribeType, DeviceModelAuthorityType>(
+      groupData,
+      'authority',
+    );
+    authoritys?.forEach?.((item) => {
+      if (item.detail) {
+        result.push(item.detail);
+      }
     });
     return result;
   }, [groupData]);
@@ -295,7 +302,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       });
       const groupItem: GroupItem = {
         label: (
-          <Detail.Label title={service?.groupName}>
+          <Detail.Label title={service?.name}>
             <Authority
               code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
               mode={AuthorityModeEnum.Within}
@@ -317,46 +324,98 @@ const Control: React.FC<ControlType> = memo((props) => {
     [deviceData, getFieldItem],
   );
 
-  const groupsItems = useMemo(() => {
-    const items: GroupItem[] = [];
-    groupData?.forEach?.((group) => {
-      if (group.component) {
-        const Component = lazy(() => import('@/components/Device/module/' + group.component));
-        items.push({
-          component: (
-            <Suspense
-              fallback={
-                <div className="tx-center">
-                  <Spin />
-                </div>
-              }
-            >
-              <Component deviceId={deviceId} />
-            </Suspense>
-          ),
-        });
-      } else {
-        if (group?.services?.length && group?.services?.length > 1) {
-          items.push({
-            label: <Detail.Label title={group.groupName} />,
-          });
+  const passAuthority = useCallback(
+    (authoritys?: DeviceModelAuthorityType[]) => {
+      const codes: string[] = [];
+      authoritys?.forEach?.((item) => {
+        if (item?.detail) {
+          codes.push(item.detail);
         }
-        group?.services?.forEach?.((service) => {
-          const codes: string[] = [];
-          service?.authority?.forEach?.((item) => {
-            if (item?.detail) {
-              codes.push(item.detail);
+      });
+      const passCodes = codes?.some?.((item) => authorityMap.get(item));
+      if (!codes?.length || passCodes) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [authorityMap],
+  );
+
+  const getGroupItems = useCallback(
+    (modelDescribeItem: DeviceModelDescribeType) => {
+      const result: GroupItem[] = [];
+      switch (modelDescribeItem.type) {
+        case DeviceModelDescribeTypeEnum.Group:
+          if (passAuthority(modelDescribeItem?.authority)) {
+            if (modelDescribeItem.children && modelDescribeItem.children.length > 1) {
+              result.push({
+                label: <Detail.Label title={modelDescribeItem.name} />,
+              });
+            }
+            modelDescribeItem?.children?.forEach?.((item) => {
+              if (passAuthority(item?.authority)) {
+                result.push(...getGroupItems(item));
+              }
+            });
+          }
+          break;
+        case DeviceModelDescribeTypeEnum.Service:
+          result.push(getServiceItem(modelDescribeItem));
+          break;
+        case DeviceModelDescribeTypeEnum.Tab:
+          const tabItems: TabsProps['items'] = [];
+          modelDescribeItem?.children?.forEach?.((item) => {
+            if (passAuthority(item?.authority)) {
+              if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
+                const tabGroupItems: GroupItem[] = [];
+                (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
+                  tabGroupItems.push(...getGroupItems(tabGroupItem));
+                });
+                tabItems.push({
+                  key: item.id || '',
+                  label: item.name,
+                  children: <Detail.Group data={realTimeData} items={tabGroupItems} />,
+                });
+              }
             }
           });
-          const passCodes = codes?.some?.((item) => authorityMap.get(item));
-          if (!codes?.length || passCodes) {
-            items.push(getServiceItem(service));
-          }
-        });
+          result.push({
+            tabItems,
+          });
+          break;
+        case DeviceModelDescribeTypeEnum.Component:
+          const Component = lazy(
+            () => import('@/components/Device/module/' + modelDescribeItem.id),
+          );
+          result.push({
+            component: (
+              <Suspense
+                fallback={
+                  <div className="tx-center">
+                    <Spin />
+                  </div>
+                }
+              >
+                <Component deviceId={deviceId} />
+              </Suspense>
+            ),
+          });
+          break;
+        default:
       }
+      return result;
+    },
+    [realTimeData, getServiceItem, passAuthority],
+  );
+
+  const groupsItems = useMemo(() => {
+    const result: GroupItem[] = [];
+    groupData?.forEach?.((item) => {
+      result.push(...getGroupItems(item));
     });
-    return items;
-  }, [groupData, realTimeData, getServiceItem, authorityMap]);
+    return result;
+  }, [groupData, getGroupItems, realTimeData, authorityMap]);
 
   return (
     <>

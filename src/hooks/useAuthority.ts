@@ -48,7 +48,7 @@ const useAuthority = (authority?: string | string[], option?: OptionsType) => {
 
   useEffect(() => {
     const userPermission = initialState?.currentUser?.permissions || [];
-    if (userPermission.includes(adminAuthority)) {
+    if (userPermission.includes(adminAuthority) || !authoritys.length) {
       setpass(true);
       setAuthorityMap(new Map(authoritys.map((item) => [item, true])));
     } else {
