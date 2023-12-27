@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-27 17:04:16
+ * @LastEditTime: 2023-12-27 18:03:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -479,7 +479,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   </div>
                 }
               >
-                <Component deviceId={deviceId} />
+                <Component deviceId={deviceData?.deviceId} />
               </Suspense>
             ),
           });
@@ -488,7 +488,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       }
       return result;
     },
-    [realTimeData, getServiceItem, passAuthority],
+    [realTimeData, deviceData, getServiceItem, passAuthority],
   );
 
   const groupsItems = useMemo(() => {
