@@ -17,6 +17,7 @@ export type DetailItem = {
   label?: React.ReactNode;
   dataIndex?: any;
   field?: string;
+  showPlaceholder?: boolean;
   format?: (value: any, data?: any) => React.ReactNode;
   span?: number;
   labelStyle?: React.CSSProperties;
@@ -82,7 +83,7 @@ const Detail: React.FC<DetailProps> = (props) => {
           >
             <div className="flex w-full detail-value">
               <span style={item.valueStyle || valueStyle}>
-                {!isEmpty(fieldValue)
+                {!isEmpty(fieldValue) || item.showPlaceholder === false
                   ? item.format
                     ? item.format(fieldValue ?? '', data)
                     : format

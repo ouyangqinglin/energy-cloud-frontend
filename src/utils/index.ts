@@ -11,6 +11,24 @@ import moment from 'moment';
 import type { BasicDataNode } from 'rc-tree';
 import type { DataNode } from 'antd/lib/tree';
 
+export enum DeviceModelShowTypeEnum {
+  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select
+  Tile = 1,
+  HideServiceName,
+  Grid,
+  Button,
+  Select,
+}
+
+export enum DeviceModelDescribeTypeEnum {
+  Page = 'page',
+  Group = 'group',
+  Tab = 'tab',
+  TabItem = 'tabItem',
+  Service = 'service',
+  Component = 'component',
+}
+
 export enum DeviceModelTypeEnum {
   Int = 'int',
   Long = 'long',
@@ -22,6 +40,7 @@ export enum DeviceModelTypeEnum {
   Array = 'array',
   TimeRange = 'timeRange',
   TimeStamp = 'timestamp',
+  Button = 'button',
 }
 
 export type AntMenuProps = {
@@ -374,7 +393,7 @@ export const flatObj = (data: Record<string, any>, parentField = '') => {
 };
 
 export const getPropsFromTree = <T extends Record<string, any>, U = string>(
-  data: T[],
+  data?: T[],
   key = 'id',
   children = 'children',
 ): U[] => {

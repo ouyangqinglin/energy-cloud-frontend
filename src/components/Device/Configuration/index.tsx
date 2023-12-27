@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2023-12-25 15:17:49
+ * @LastEditTime: 2023-12-27 17:22:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import Community from './Community';
 import DeviceConfig from './DeviceConfig';
 import { isEmpty } from '@/utils';
@@ -17,6 +17,7 @@ import SelfEmsIndex from './SelfEmsIndex';
 import Control from '../Control';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { Empty } from 'antd';
+import { useBoolean } from 'ahooks';
 
 export type ConfigProps = {
   deviceData: any;
@@ -35,12 +36,17 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
   const { deviceData, productId, deviceId } = props;
 
   const containRef = useRef<HTMLDivElement>(null);
+  const [isContainEmpty, { set }] = useBoolean(false);
   const { serviceGruop } = useDeviceModel({
     productId,
     isGroup: true,
     page: DeviceServicePageEnum.Config,
   });
   const realTimeData = useSubscribe(deviceId, true);
+
+  const onLoadChange = useCallback(() => {
+    set(!containRef?.current?.innerText);
+  }, []);
 
   return (
     <>
@@ -71,12 +77,13 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
                 deviceData={deviceData}
                 groupData={serviceGruop}
                 realTimeData={realTimeData}
+                onLoadChange={onLoadChange}
               />
               {oldRemoteUpgradeProductIds.includes(deviceData?.productId) && (
                 <RemoteUpgrade deviceId={deviceData?.deviceId} />
               )}
             </div>
-            {!containRef?.current?.innerText && <Empty className="mt20" />}
+            {(!containRef?.current?.innerText || isContainEmpty) && <Empty className="mt20" />}
           </>
         )}
       </div>
