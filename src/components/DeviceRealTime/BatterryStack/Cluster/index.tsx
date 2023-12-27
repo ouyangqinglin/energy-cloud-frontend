@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-12-27 19:46:10
+ * @LastEditTime: 2023-12-27 20:40:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
@@ -61,23 +61,37 @@ const Cluster: React.FC<ClusterProps> = (props) => {
 
   const allLabel = useMemo(() => {
     const result: string[] = [];
+    let tempNum = 2;
     Array.from({
       length: deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack ? 48 : 24,
     }).forEach((item, index) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
-      if (num % 2 === 0) {
-        result.push(
-          formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + num / 2,
-        );
+      if (deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack) {
+        if (num % 2 === 0) {
+          result.push(
+            formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + tempNum,
+          );
+          tempNum++;
+          if (num % 12 === 0) {
+            result.push(
+              formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + tempNum,
+            );
+            tempNum++;
+          }
+        }
+      } else {
+        if (num % 2 === 0) {
+          result.push(
+            formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + num / 2,
+          );
+        }
       }
     });
     if (deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack) {
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '25');
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '26');
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '27');
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '28');
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '29');
+      result.unshift(
+        formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '1',
+      );
     } else {
       result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
     }
