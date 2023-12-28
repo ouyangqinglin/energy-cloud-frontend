@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-12-28 09:32:52
+ * @LastEditTime: 2023-12-28 15:44:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
@@ -13,15 +13,17 @@ import { getClusterByStack, DeviceDataType, getChildEquipment } from '@/services
 import Detail, { DetailItem } from '@/components/Detail';
 import Label from '@/components/Detail/LineLabel';
 import { formatMessage, isEmpty } from '@/utils';
-import { runItems, statusItems } from './config';
+import { chartOptions, getFieldByLabel, runItems, statusItems } from './config';
 import Chart from '@/components/Chart';
 import { defaultLineOption } from '@/components/Chart/config';
 import styles from './index.less';
 import Button from '@/components/CollectionModal/Button';
-import { useSubscribe } from '@/hooks';
+import { useDeviceModel, useSubscribe } from '@/hooks';
 import { merge } from 'lodash';
 import { MessageEventType } from '@/utils/connection';
 import { DeviceTypeEnum } from '@/utils/dictionary';
+import CollectionModal from '@/components/CollectionModal';
+import { useBoolean } from 'ahooks';
 
 export type ClusterProps = {
   deviceData?: DeviceDataType;
@@ -36,13 +38,16 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     collection: '',
   });
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: 0 as any, key: '0' });
+  const [bmuProductId, setBmuProductId] = useState<DeviceTypeEnum>();
   const [bmuMap, setBmuMap] = useState<Map<string, string>>();
   const realTimeData = useSubscribe(selectOrg?.deviceId || '', true);
+  const [openBmuChart, { setFalse, setTrue }] = useBoolean(false);
   const networkData = useSubscribe(selectOrg?.deviceId || '', true, MessageEventType.NETWORKSTSTUS);
   const bmuData = useSubscribe(
     bmuMap?.get?.('BMU-' + (Number(activeKey) * 1 + 1) || '') || '',
     true,
   );
+  const { modelMap } = useDeviceModel({ productId: bmuProductId });
 
   const {
     data: clusterData,
@@ -107,15 +112,13 @@ const Cluster: React.FC<ClusterProps> = (props) => {
       ],
     ];
     allLabel.forEach((item) => {
-      const num = item
-        .replace(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }), '')
-        .replace(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }), '');
+      const field = getFieldByLabel(item);
       let value: any = '',
         resultValue;
       if (item.indexOf(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })) > -1) {
-        value = bmuData?.['Voltage' + num] || '';
+        value = bmuData?.[field] || '';
       } else {
-        value = bmuData?.['Temperature' + num] || '';
+        value = bmuData?.[field] || '';
       }
       resultValue = value;
       if (resultValue) {
@@ -132,54 +135,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
       ]);
     });
     const result = {};
-    merge(result, defaultLineOption, {
-      grid: {
-        bottom: 50,
-      },
-      legend: {
-        icon: 'rect',
-      },
-      tooltip: {
-        formatter: (params: any) => {
-          const { value, name } = (params || {})[0];
-          return name + '：' + (value[1] === '' ? value[2] + '℃' : value[1] + 'V');
-        },
-      },
-      yAxis: {
-        name:
-          formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) +
-          '(V)\n\n' +
-          formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) +
-          '(℃)',
-      },
-      series: [
-        {
-          type: 'bar',
-          barMaxWidth: 10,
-          stack: 'Total',
-          itemStyle: {
-            color: 'rgba(0, 125, 255, 1)',
-          },
-        },
-        {
-          type: 'bar',
-          barMaxWidth: 10,
-          stack: 'Total',
-          itemStyle: {
-            color: 'rgba(61, 213, 152, 1)',
-          },
-        },
-      ],
-      dataZoom: [
-        {
-          type: 'inside',
-        },
-        {
-          start: 0,
-          end: 100,
-          height: 15,
-        },
-      ],
+    merge(result, defaultLineOption, chartOptions, {
       dataset: {
         source,
       },
@@ -209,6 +165,24 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     }
   }, []);
 
+  const onChartClick = useCallback(
+    (params) => {
+      let name = '';
+      if (params?.componentType == 'xAxis') {
+        name = params?.value;
+      } else if (params?.componentType == 'series') {
+        name = params?.name;
+      }
+      const field = getFieldByLabel(name);
+      setCollectionInfo({
+        title: `BMU${Number(activeKey) * 1 + 1}-${name}`,
+        collection: field,
+      });
+      setTrue();
+    },
+    [activeKey],
+  );
+
   const onTabChange = useCallback((key) => {
     setActiveKey(key);
   }, []);
@@ -223,6 +197,7 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     if (selectOrg?.deviceId) {
       getChildEquipment({ parentId: selectOrg?.deviceId }).then(({ data: childData }) => {
         setBmuMap(new Map(childData?.map?.((item) => [item.aliasSn || '', item.deviceId || ''])));
+        setBmuProductId(childData?.[0]?.productId);
       });
     }
   }, [selectOrg]);
@@ -304,9 +279,23 @@ const Cluster: React.FC<ClusterProps> = (props) => {
             className="mt16"
           />
           <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
-          <Chart option={chartOption} style={{ height: 300 }} />
+          <Chart
+            option={chartOption}
+            style={{ height: 300 }}
+            onEvents={{
+              click: onChartClick,
+            }}
+          />
         </div>
       </div>
+      <CollectionModal
+        title={collectionInfo.title}
+        open={openBmuChart}
+        onCancel={setFalse}
+        deviceId={bmuMap?.get?.('BMU-' + (Number(activeKey) * 1 + 1) || '')}
+        collection={collectionInfo.collection}
+        model={modelMap?.[collectionInfo.collection]}
+      />
     </>
   );
 };

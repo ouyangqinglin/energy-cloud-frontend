@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-27 19:08:24
- * @LastEditTime: 2023-12-26 17:55:33
+ * @LastEditTime: 2023-12-28 14:35:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\config.ts
  */
@@ -25,6 +25,6 @@ export const netWorkStatusEnum: ValueEnum = {
   [OnlineStatusEnum.Offline]: {
     text: '',
     icon: 'red',
-    status: 'Error',
+    status: 'Default',
   },
 };

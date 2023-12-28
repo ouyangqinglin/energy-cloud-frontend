@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-12-26 17:53:24
+ * @LastEditTime: 2023-12-28 11:15:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -46,7 +46,7 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
     node.icon =
       productTypeIconMap.get(item?.productTypeId ?? DeviceProductTypeEnum.Default) ||
       productTypeIconMap.get(DeviceProductTypeEnum.Default);
-    if (item.children && item.children.length) {
+    if (item?.children && item?.children?.length) {
       node.children = dealTreeData(item.children as any, realTimeData);
     }
     result.push(node);
@@ -72,7 +72,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   } = useRequest(getWholeDeviceTree, {
     manual: true,
     formatResult: (res) => {
-      return [res.data];
+      return res.data ? [res.data] : [];
     },
   });
   const deviceIds = useMemo(() => {

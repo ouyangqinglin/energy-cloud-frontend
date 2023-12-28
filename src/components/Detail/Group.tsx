@@ -14,7 +14,9 @@ export type GroupItem = {
   label?: React.ReactNode;
   items?: DetailItem[];
   className?: string;
-  tabItems?: TabsProps['items'];
+  tabItems?: (Required<TabsProps>['items'][number] & {
+    groupItems?: GroupItem[];
+  })[];
   component?: React.ReactNode;
 };
 
@@ -45,7 +47,19 @@ const Group: React.FC<GroupProps> = (props) => {
           ) : (
             <></>
           )}
-          {item?.tabItems?.length ? <Tabs className="mb16" items={item.tabItems} /> : <></>}
+          {item?.tabItems?.length ? (
+            <Tabs
+              className="mb16"
+              items={item.tabItems?.map?.((tabItem) => {
+                if (tabItem?.groupItems && tabItem?.groupItems?.length) {
+                  tabItem.children = <Group data={data} items={tabItem?.groupItems} />;
+                }
+                return tabItem;
+              })}
+            />
+          ) : (
+            <></>
+          )}
         </>
       );
     });

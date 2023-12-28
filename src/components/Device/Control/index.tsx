@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-28 10:13:18
+ * @LastEditTime: 2023-12-28 17:17:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -181,16 +181,16 @@ const Control: React.FC<ControlType> = memo((props) => {
                 [singleFieldName]: transformValue,
               };
             }
-            specs?.forEach?.((item) => {
+            specs?.forEach?.((item, itemFieldIndex) => {
               items.push({
                 field: (item?.id || '') + index,
-                label: (item?.name ?? '') + (index + 1),
-                span: item?.span || 3,
+                label: (item?.name ?? '') + (itemFieldIndex ? '' : index + 1),
+                format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
               });
               detailData[(item?.id || '') + index] = transformValue[item?.id || ''];
             });
             if (items.length > 1 && specs?.length) {
-              items[items.length - 1].span = 4 - (specs.length % 3);
+              items[items.length - 1].span = 4 - specs.length;
             }
             return transformValue;
           });
@@ -240,7 +240,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             case DeviceModelShowTypeEnum.Button:
               const buttonEnum = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
               const options = Object.entries(buttonEnum).map(([value, label]) => ({
-                value: value * 1,
+                value: isNaN(value as any) ? value : (value as any) * 1,
                 label,
               }));
               detailItems.push?.({
@@ -446,7 +446,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           result.push(getServiceItem(modelDescribeItem));
           break;
         case DeviceModelDescribeTypeEnum.Tab:
-          const tabItems: TabsProps['items'] = [];
+          const tabItems: GroupItem['tabItems'] = [];
           modelDescribeItem?.children?.forEach?.((item) => {
             if (passAuthority(item?.authority)) {
               if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
@@ -457,7 +457,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 tabItems.push({
                   key: item.id || '',
                   label: item.name,
-                  children: <Detail.Group data={realTimeData} items={tabGroupItems} />,
+                  groupItems: tabGroupItems,
                 });
               }
             }
