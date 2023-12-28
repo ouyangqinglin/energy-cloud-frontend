@@ -103,7 +103,6 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           detailProps={{
             colon: false,
             labelStyle: { width: 200 },
-            valueStyle: { width: '40%' },
           }}
         />
       </div>

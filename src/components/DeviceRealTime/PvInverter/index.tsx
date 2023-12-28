@@ -58,7 +58,6 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
     </>

@@ -138,7 +138,7 @@ export default {
   'common.onLine': '在线',
   'common.offline': '离线',
   'common.rmb': '元',
-  'common.more': '了解更多',
+  'common.more': '更多',
   'common.required': '必填',
   'common.start': '开始',
   'common.end': '结束',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-12-27 20:40:16
+ * @LastEditTime: 2023-12-28 09:32:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
@@ -68,17 +68,17 @@ const Cluster: React.FC<ClusterProps> = (props) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
       if (deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack) {
-        if (num % 2 === 0) {
+        if (num % 2 === 1) {
           result.push(
             formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + tempNum,
           );
           tempNum++;
-          if (num % 12 === 0) {
-            result.push(
-              formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + tempNum,
-            );
-            tempNum++;
-          }
+        }
+        if (num % 12 === 0) {
+          result.push(
+            formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + tempNum,
+          );
+          tempNum++;
         }
       } else {
         if (num % 2 === 0) {
@@ -294,7 +294,6 @@ const Cluster: React.FC<ClusterProps> = (props) => {
                 extral={extral}
                 colon={false}
                 labelStyle={{ width: 170 }}
-                valueStyle={{ width: '40%' }}
               />
             </>
           ) : (

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-26 18:57:55
+ * @LastEditTime: 2023-12-28 09:38:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -117,8 +117,8 @@ const getItemsByConfig = (
           {item.showLabel === false ? (
             <></>
           ) : (
-            <span className={`cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-              {formatMessage({ id: 'common.more', defaultMessage: '了解更多' })}
+            <span className={`cl-primary cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
+              {formatMessage({ id: 'common.more', defaultMessage: '更多' })}
               {'>'}
             </span>
           )}

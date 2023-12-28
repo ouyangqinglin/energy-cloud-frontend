@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-27 21:21:54
+ * @LastEditTime: 2023-12-28 10:13:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -365,7 +365,7 @@ const Control: React.FC<ControlType> = memo((props) => {
     (service: DeviceServiceType) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
-      service?.outputData?.forEach?.((field) => {
+      service?.children?.forEach?.((field) => {
         field.serviceId = service.id;
         const { items, cols } = getFieldItem(field);
         if (field.dataType?.type == DeviceModelTypeEnum.Array) {

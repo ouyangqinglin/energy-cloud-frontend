@@ -282,7 +282,6 @@ const Stack: React.FC<StackProps> = (props) => {
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
       <Detail.Label

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-11-29 15:29:32
+ * @LastEditTime: 2023-12-28 10:12:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
@@ -87,6 +87,7 @@ export type DeviceServiceType = {
   showType?: DeviceModelShowTypeEnum;
   type?: DeviceModelDescribeTypeEnum;
   outputData?: DeviceServiceModelType[];
+  children?: DeviceServiceModelType[];
   authority?: DeviceModelAuthorityType[];
 };
 
