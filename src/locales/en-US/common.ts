@@ -184,4 +184,5 @@ export default {
   'common.slave': 'Slave',
   'common.back': 'Back',
   'common.maxSelectItem': 'Select up to {num} item',
+  'common.download': 'download',
 };

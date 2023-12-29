@@ -31,6 +31,7 @@ import device from './zh-CN/device';
 import dataManage from './zh-CN/dataManage';
 import alarmManage from './zh-CN/alarmManage';
 import screen from './zh-CN/screen';
+import version from './zh-CN/version';
 
 export default {
   'navBar.lang': '语言',
@@ -74,4 +75,5 @@ export default {
   ...dataManage,
   ...alarmManage,
   ...screen,
+  ...version,
 };

@@ -31,6 +31,7 @@ import device from './en-US/device';
 import dataManage from './en-US/dataManage';
 import alarmManage from './en-US/alarmManage';
 import screen from './en-US/screen';
+import version from './en-US/version';
 
 export default {
   'navBar.lang': 'Languages',
@@ -74,4 +75,5 @@ export default {
   ...dataManage,
   ...alarmManage,
   ...screen,
+  ...version,
 };

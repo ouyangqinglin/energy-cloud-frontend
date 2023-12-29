@@ -35,4 +35,5 @@ export default {
   'system.ownerId': '业主ID',
   'system.deleteOwnerConfirm': '您确认要删除该业主吗？删除之后无法恢复！',
   'system.deleteInstallerConfirm': '您确认要删除该安装商吗？删除之后无法恢复！',
+  'system.deleteVersionConfirm': '您确认要删除该版本吗？删除之后无法恢复！',
 };

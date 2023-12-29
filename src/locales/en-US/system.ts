@@ -47,4 +47,6 @@ export default {
     'Are you sure you want to delete this owner? Cannot be recovered after deletion!',
   'system.deleteInstallerConfirm':
     'Are you sure you want to delete this installer? Cannot be recovered after deletion!',
+  'system.deleteVersionConfirm':
+    'Are you sure you want to delete this version? Cannot be recovered after deletion!',
 };

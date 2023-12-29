@@ -233,7 +233,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '车牌号' }),
         dataIndex: 'carNumber',
-        width: 150,
+        width: 130,
         ellipsis: true,
         fieldProps: {
           placeholder: '请选择车辆行驶状态',
@@ -248,7 +248,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         fieldProps: {
           placeholder: '请选择车队',
         },
-        width: 120,
+        width: 140,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电起始SOC' }),

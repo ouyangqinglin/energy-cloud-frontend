@@ -300,3 +300,12 @@ export const siteType = {
     }),
   },
 };
+
+export const platformTypes = {
+  0: {
+    text: formatMessage({ id: 'system.Version.android', defaultMessage: '安卓' }),
+  },
+  1: {
+    text: formatMessage({ id: 'system.Version.ios', defaultMessage: '苹果' }),
+  },
+};

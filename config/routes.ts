@@ -707,6 +707,16 @@ const routers: RouterType[] = [
         keepAlive: true,
         locale: 'menu.system.productDetail',
       },
+      {
+        path: '/system/version',
+        name: 'version',
+        icon: 'PartitionOutlined',
+        component: 'system/version/index',
+        access: 'authorize',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.version',
+      },
     ],
   },
   {

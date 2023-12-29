@@ -186,4 +186,5 @@ export default {
   'common.eliminated': '已消除',
   'common.alarming': '告警中',
   'common.maxSelectItem': '最多选择{num}项',
+  'common.download': '下载',
 };
