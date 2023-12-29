@@ -2,11 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-11-29 15:29:32
+ * @LastEditTime: 2023-12-28 10:12:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelDescribeTypeEnum, DeviceModelShowTypeEnum, DeviceModelTypeEnum } from '@/utils';
+
+export type DeviceModelAuthorityType = {
+  detail?: string;
+  edit?: string;
+};
 
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;
@@ -58,9 +63,11 @@ export type DeviceStructType = {
 
 export type DeviceServiceModelType = {
   id?: string;
+  serviceId?: string;
   name?: string;
   required?: boolean;
   span?: number;
+  showType?: DeviceModelShowTypeEnum;
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType
@@ -77,11 +84,11 @@ export type DeviceServiceType = {
   id?: string;
   name?: string;
   groupName?: string;
+  showType?: DeviceModelShowTypeEnum;
+  type?: DeviceModelDescribeTypeEnum;
   outputData?: DeviceServiceModelType[];
-  authority?: {
-    detail?: string;
-    edit?: string;
-  }[];
+  children?: DeviceServiceModelType[];
+  authority?: DeviceModelAuthorityType[];
 };
 
 export type DeviceLocationType = {
@@ -101,10 +108,18 @@ export type DevicePageModels = {
   serviceGroups?: DeviceServiceGroupType[];
 };
 
+export type DeviceModelDescribeType = {
+  id?: string;
+  name?: string;
+  type?: DeviceModelDescribeTypeEnum;
+  authority?: DeviceModelAuthorityType[];
+  children?: DeviceModelDescribeType[] | DeviceServiceType[];
+};
+
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];
   services?: DeviceServiceGroupType[];
-  pageModels?: DevicePageModels[];
+  data?: DeviceModelDescribeType[];
 };
 
 export type DeviceTreeDataType = {

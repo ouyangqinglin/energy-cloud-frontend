@@ -41,6 +41,10 @@ import {
   earlyWarningFormat,
   faultFireFightFormat,
   openCloseFormat,
+  dehumidifierWorkModeFormat,
+  liquidSystemModeFormat,
+  liquidSensorFormat,
+  liquidWorkFormat,
 } from '@/utils/format';
 import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { DetailItem } from '@/components/Detail';
@@ -133,8 +137,8 @@ export const liquidAirItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
-      field: 'AirConditioningWorkingStatus',
-      format: airWorkFormat,
+      field: 'SystemMode',
+      format: liquidSystemModeFormat,
     },
   ],
 };
@@ -213,8 +217,8 @@ export const dehumidifierConfigs: ConfigType[] = [
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-        field: 'systemOperatingMode',
-        format: systemOperatingModeFormat,
+        field: 'WorkMode',
+        format: dehumidifierWorkModeFormat,
       },
     ],
   },
@@ -284,7 +288,7 @@ export const liquidBmsConfig: ConfigType[] = [
           defaultMessage: '充放电指示',
         }),
         field: 'SOC',
-        format: percentageFormat,
+        format: chargeFormat,
       },
     ],
   },
@@ -329,13 +333,12 @@ export const liquidFireFightConfig: ConfigType[] = [
     data: [
       {
         label: formatMessage({ id: 'device.sensorStatus', defaultMessage: '传感器状态' }),
-        field: 'lev',
-        format: earlyWarningFormat,
+        field: 'SensorStatus',
+        format: liquidSensorFormat,
       },
       {
         label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
-        field: 'sft',
-        format: faultFireFightFormat,
+        field: 'DetectorCo',
       },
     ],
   },
@@ -479,12 +482,12 @@ export const liquidPcsConfig: ConfigType[] = [
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
         field: 'WorkStatus',
-        format: (value: number) => workFormat(value),
+        format: liquidWorkFormat,
       },
       {
         label: formatMessage({ id: 'device.power', defaultMessage: '功率' }),
-        field: 'CurrentChargingAndDischargingModel',
-        format: (value: number) => electricModelFormat(value),
+        field: 'p',
+        format: energyPowerFormat,
       },
     ],
   },

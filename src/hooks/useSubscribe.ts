@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 14:44:03
- * @LastEditTime: 2023-12-26 10:13:58
+ * @LastEditTime: 2023-12-26 18:07:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSubscribe.ts
  */
@@ -36,7 +36,7 @@ const useSubscribe = (
             }
             obj[item.key] = item.value;
           });
-          if (Object.keys(obj).length) {
+          if (Object.entries(obj).length) {
             setData((prevData) => ({
               ...prevData,
               ...obj,

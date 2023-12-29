@@ -1,8 +1,8 @@
-import { getValue, isEmpty, strToArray } from '@/utils';
+import { getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
 import { onlineStatus, deviceAlarmStatus } from './dict';
 import Field from '@/components/Field';
-import { number } from 'echarts';
+import { ProField } from '@ant-design/pro-components';
 
 type MapType = {
   [k: number]: string;
@@ -233,6 +233,15 @@ export const workFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const liquidWorkFormat = (value: number) => {
+  const map: MapType = {
+    0: '故障',
+    1: '停机',
+    2: '待机',
+    3: '运行',
+  };
+  return <span className={''}>{map[value]}</span>;
+};
 export const doorFormat = (value: number) => {
   const map: MapType = {
     0: '关门',
@@ -310,6 +319,32 @@ export const openCloseFormat = (status: number) => {
   const map: MapType = {
     0: '关闭',
     1: '打开',
+  };
+  return <span className="">{map[status]}</span>;
+};
+export const liquidSensorFormat = (status: number) => {
+  const map: MapType = {
+    0: '正在自检',
+    1: '工作正常',
+    2: '设备故障',
+    3: '探测到报警信息',
+  };
+  return <span className="">{map[status]}</span>;
+};
+export const liquidSystemModeFormat = (status: number) => {
+  const map: MapType = {
+    0: '停止',
+    1: '内循环',
+    2: '制冷',
+    3: '加热',
+    4: '全自动(根据水温)',
+  };
+  return <span className="">{map[status]}</span>;
+};
+export const dehumidifierWorkModeFormat = (status: number) => {
+  const map: MapType = {
+    0: '升温型',
+    1: '降温型',
   };
   return <span className="">{map[status]}</span>;
 };
@@ -454,7 +489,7 @@ export const airAlarmFormat = (value: string) => {
   return <span className={`${isRight ? '' : 'cl-error'} mr8`}>{isRight ? '正常' : '故障'}</span>;
 };
 export const onlineStatusFormat = (value: string) => {
-  return <Field text={value} valueEnum={onlineStatus} />;
+  return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
 };
 export const deviceAlarmStatusFormat = (value: string) => {
   return <Field text={value} valueEnum={deviceAlarmStatus} />;

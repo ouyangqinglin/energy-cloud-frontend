@@ -21,7 +21,8 @@ export type OptionType = {
 
 export type ValueEnum = {
   [key: string]: {
-    text: ReactNode;
-    status: 'Success' | 'Error' | 'Processing' | 'Warning' | 'Default';
+    text?: ReactNode;
+    status?: 'Success' | 'Error' | 'Processing' | 'Warning' | 'Default';
+    [key: string]: any;
   };
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-25 18:20:20
+ * @LastEditTime: 2023-12-26 16:50:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -29,6 +29,7 @@ import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
 import { productTypeIconMap } from '@/utils/IconUtil';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -213,14 +214,16 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 200,
+        width: 220,
         ellipsis: true,
         render: (_, record) => {
-          // let Component = record?.productType && productTypeIconMap.get(record?.productType);
+          const Component =
+            productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
+            productTypeIconMap.get(DeviceProductTypeEnum.Default);
           return (
             <>
-              {/* {Component && <Component className='mr12 float' />} */}
               <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
+                {Component && <Component className="mr8" />}
                 {record.name}
               </span>
             </>
@@ -243,7 +246,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'model',
-        width: 150,
+        width: 220,
         hideInSearch: true,
         ellipsis: true,
       },

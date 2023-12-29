@@ -80,7 +80,6 @@ const Air: React.FC<DeviceRealTimeType> = (props) => {
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
     </>

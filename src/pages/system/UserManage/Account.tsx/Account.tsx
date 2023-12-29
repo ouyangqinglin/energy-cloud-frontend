@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-12-11 10:30:11
+ * @LastEditTime: 2023-12-27 11:24:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -21,6 +21,7 @@ import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { api } from '@/services';
 import { OptionType } from '@/types';
 import { arrayToMap, formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -39,6 +40,11 @@ const Account: React.FC<AccountProps> = (props) => {
     type: FormTypeEnum.Add,
     id: '',
   });
+  const { authorityMap } = useAuthority([
+    'systemManage:userManage:account:add',
+    'systemManage:userManage:account:edit',
+    'systemManage:userManage:account:delete',
+  ]);
 
   const tableColumns = useMemo(() => {
     return getTableColumns(params?.orgTypes);
@@ -193,13 +199,18 @@ const Account: React.FC<AccountProps> = (props) => {
         }}
         toolBarRenderOptions={{
           add: {
+            show: authorityMap.get('systemManage:userManage:account:add'),
             onClick: onAddClick,
             text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
           },
         }}
         option={{
-          onEditChange: onEditClick,
-          onDeleteChange: onDeleteClick,
+          ...(authorityMap.get('systemManage:userManage:account:edit')
+            ? { onEditChange: onEditClick }
+            : {}),
+          ...(authorityMap.get('systemManage:userManage:account:delete')
+            ? { onDeleteChange: onDeleteClick }
+            : {}),
         }}
       />
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>

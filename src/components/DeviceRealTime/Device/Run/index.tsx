@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 09:34:45
- * @LastEditTime: 2023-12-25 15:34:33
+ * @LastEditTime: 2023-12-28 10:03:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Run\index.tsx
  */
@@ -77,7 +77,6 @@ const Run: React.FC<RunProps> = (props) => {
                     extral={extral}
                     colon={false}
                     labelStyle={{ width: 140 }}
-                    valueStyle={{ width: '40%' }}
                   />
                 ) : (
                   <></>
@@ -120,6 +119,9 @@ const Run: React.FC<RunProps> = (props) => {
         });
       } else {
         const result = getDetailByProps(item?.properties || []);
+        if (result.items && result.items.length > 1) {
+          result.items[result.items.length - 1].span = 4 - (result.items.length % 3);
+        }
         group.push({
           label: <Detail.Label title={item?.groupName} />,
           items: result.items,
@@ -140,7 +142,6 @@ const Run: React.FC<RunProps> = (props) => {
             extral,
             colon: false,
             labelStyle: { width: 140 },
-            valueStyle: { width: '40%' },
           }}
         />
       ) : (

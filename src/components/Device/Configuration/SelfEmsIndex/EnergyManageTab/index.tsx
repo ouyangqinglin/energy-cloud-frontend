@@ -267,7 +267,6 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
             detailProps={{
               colon: false,
               labelStyle: { width: 140 },
-              valueStyle: { width: '40%' },
             }}
           />
         ) : (
@@ -279,7 +278,6 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
           detailProps={{
             colon: false,
             labelStyle: { width: 140 },
-            valueStyle: { width: '40%' },
           }}
         />
       </div>

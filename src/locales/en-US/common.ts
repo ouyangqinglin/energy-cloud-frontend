@@ -51,6 +51,7 @@ export default {
   'common.selectDataCollectionPoints': 'Select the data collection point',
   'common.disable': 'Disable',
   'common.enable': 'Enable',
+  'common.enabled': 'Enable',
   'common.effect': 'activated',
   'common.ineffect': 'Not activated',
   'common.set': 'Set',

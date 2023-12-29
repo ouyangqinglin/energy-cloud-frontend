@@ -20,7 +20,7 @@ const options = [
   },
   {
     value: 0,
-    label: formatMessage({ id: 'common.enable', defaultMessage: '使能' }),
+    label: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
   },
 ];
 

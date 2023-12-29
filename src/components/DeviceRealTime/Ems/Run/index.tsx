@@ -137,19 +137,12 @@ const Stack: React.FC<StackProps> = (props) => {
         extral={extral}
         colon={false}
         labelStyle={{ width: 140 }}
-        valueStyle={{ width: '40%' }}
       />
       <Detail.Label
         title={formatMessage({ id: 'siteMonitor.protectInformation', defaultMessage: '保护信息' })}
         className="mt16"
       />
-      <Detail
-        data={realTimeData}
-        items={protectItems}
-        colon={false}
-        labelStyle={{ width: 140 }}
-        valueStyle={{ width: '40%' }}
-      />
+      <Detail data={realTimeData} items={protectItems} colon={false} labelStyle={{ width: 140 }} />
       <Label
         title={formatMessage({
           id: 'siteMonitor.accessDeviceList',

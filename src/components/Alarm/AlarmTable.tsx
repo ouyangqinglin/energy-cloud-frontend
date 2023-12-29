@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-25 17:59:34
+ * @LastEditTime: 2023-12-27 16:04:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -23,7 +23,7 @@ import type { DetailItem } from '@/components/Detail';
 import { getStations } from '@/services/station';
 import { debounce } from 'lodash';
 import type { OptionType } from '@/types';
-import { YTAlarmOutlined } from '@/components/YTIcons';
+import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { formatMessage, isEmpty } from '@/utils';
 import eventBus from '@/utils/eventBus';
@@ -52,11 +52,11 @@ const getLevelByType = (type: string, num?: string) => {
     <span className={`${styles.alarmWrap} ${styles[type]}`}>
       {isEmpty(num) ? (
         <>
-          <YTAlarmOutlined /> {levelMap.get(type)}
+          <YTAlarmFullOutlined /> {levelMap.get(type)}
         </>
       ) : (
         <Checkbox className="py2" value={type}>
-          <YTAlarmOutlined />
+          <YTAlarmFullOutlined />
           {levelMap.get(type)} {num}
         </Checkbox>
       )}

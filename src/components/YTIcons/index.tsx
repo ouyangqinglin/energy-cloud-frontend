@@ -45,6 +45,16 @@ import {
   CellSix,
   CellNine,
   Exchange,
+  SuperCharge,
+  ChargeGun,
+  EmsTwo,
+  BatteryPack,
+  Pcs,
+  PvEnergy,
+  Dehumidifier,
+  FireFight,
+  GenerralDevice,
+  AlarmFull,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -135,6 +145,10 @@ const YTCabinetOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Cabinet} {...props} />
 );
 
+const YTAlarmFullOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={AlarmFull} {...props} />
+);
+
 const YTAlarmOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Alarm} {...props} />
 );
@@ -191,6 +205,42 @@ const YTExchangeOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Exchange} {...props} />
 );
 
+const YTSuperChargeOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={SuperCharge} {...props} />
+);
+
+const YTChargeGunOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={ChargeGun} {...props} />
+);
+
+const YTEmsTwoOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={EmsTwo} {...props} />
+);
+
+const YTBatteryPackOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={BatteryPack} {...props} />
+);
+
+const YTPcsOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Pcs} {...props} />
+);
+
+const YTPvEnergyOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={PvEnergy} {...props} />
+);
+
+const YTDehumidifierOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Dehumidifier} {...props} />
+);
+
+const YTFireFightOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={FireFight} {...props} />
+);
+
+const YTGenerralDeviceOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={GenerralDevice} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -214,6 +264,7 @@ export {
   YTBatteryOutlined,
   YTChargeStackOutlined,
   YTCabinetOutlined,
+  YTAlarmFullOutlined,
   YTAlarmOutlined,
   YTInstallerOutlined,
   YTCompanyOutlined,
@@ -228,4 +279,13 @@ export {
   YTCellSixOutlined,
   YTCellNineOutlined,
   YTExchangeOutlined,
+  YTSuperChargeOutlined,
+  YTChargeGunOutlined,
+  YTEmsTwoOutlined,
+  YTBatteryPackOutlined,
+  YTPcsOutlined,
+  YTPvEnergyOutlined,
+  YTDehumidifierOutlined,
+  YTFireFightOutlined,
+  YTGenerralDeviceOutlined,
 };

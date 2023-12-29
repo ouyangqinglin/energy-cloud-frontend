@@ -47,8 +47,8 @@ const SystemSetting: React.FC<StackProps> = (props) => {
             <ConfigModal
               width={'816px'}
               title={formatMessage({
-                id: 'device.setBatteryProtectionParameters',
-                defaultMessage: '配置电池保护参数',
+                id: 'device.converterProtectionParameterSettings',
+                defaultMessage: '变流器保护参数设置',
               })}
               deviceId={deviceId}
               deviceData={deviceData}
@@ -76,8 +76,8 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           >
             <ConfigModal
               title={formatMessage({
-                id: 'device.configureGridSettings',
-                defaultMessage: '配置电网设置',
+                id: 'device.gridParameterSetting',
+                defaultMessage: '电网参数设置',
               })}
               deviceId={deviceId}
               deviceData={deviceData}
@@ -103,7 +103,6 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           detailProps={{
             colon: false,
             labelStyle: { width: 200 },
-            valueStyle: { width: '40%' },
           }}
         />
       </div>
