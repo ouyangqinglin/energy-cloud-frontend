@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:53:12
- * @LastEditTime: 2023-12-29 14:42:09
+ * @LastEditTime: 2023-12-29 15:32:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useDeviceModel.ts
  */
@@ -39,7 +39,7 @@ const useDeviceModel = (props: useDeviceModelProps) => {
           const serviceGroupData = res?.data?.find?.((item) => item?.id == page);
           setServiceGruop(serviceGroupData?.children || []);
           const detailGroupData = res?.data?.find?.(
-            (item) => item?.id == DeviceServicePageEnum.DeviceDetail,
+            (item) => item?.id == DeviceServicePageEnum.RunningData,
           );
           setDetailGroup(detailGroupData?.children || []);
 
