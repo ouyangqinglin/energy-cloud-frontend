@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2023-12-25 14:47:57
+ * @LastEditTime: 2023-12-29 10:43:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
 import { Spin, Tabs, TabsProps } from 'antd';
-import Run from './Run';
+import { default as OldRun } from './Run';
 import { default as OldControl } from './Control';
 import useDeviceModel from '../useDeviceModel';
 import { useSubscribe } from '@/hooks';
@@ -17,6 +17,7 @@ import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import Control from '@/components/Device/Control';
 import { formatMessage } from '@/utils';
+import Run from '@/components/Device/Run';
 
 const oldControlProductIds: DeviceTypeEnum[] = [
   DeviceTypeEnum.ExchangePowerCabinet,
@@ -29,6 +30,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
   const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const {
     data: deviceGroupData,
+    detailGroup,
     serviceGruop,
     loading,
     modelMap,
@@ -85,12 +87,23 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
             <></>
           )}
           {activeTab == 'run' ? (
-            <Run
-              deviceId={deviceData?.deviceId}
-              realTimeData={realTimeData}
-              groupData={deviceGroupData}
-              modelMap={modelMap}
-            />
+            <>
+              {detailGroup?.length ? (
+                <Run
+                  deviceData={deviceData}
+                  realTimeData={realTimeData}
+                  groupData={detailGroup}
+                  modelMap={modelMap}
+                />
+              ) : (
+                <OldRun
+                  deviceId={deviceData?.deviceId}
+                  realTimeData={realTimeData}
+                  groupData={deviceGroupData}
+                  modelMap={modelMap}
+                />
+              )}
+            </>
           ) : oldControlProductIds.includes(deviceData?.productId as DeviceTypeEnum) ? (
             <OldControl
               deviceId={deviceData?.deviceId}
