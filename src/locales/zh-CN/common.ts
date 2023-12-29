@@ -56,6 +56,7 @@ export default {
 
   'common.screen': '大屏页',
   'common.screenArchitecture': '大屏架构图',
+  'common.alarmDisplayConfiguration': '告警显示配置',
   'common.time.day': '日',
   'common.time.month': '月',
   'common.time.oneMonth': '一个月',

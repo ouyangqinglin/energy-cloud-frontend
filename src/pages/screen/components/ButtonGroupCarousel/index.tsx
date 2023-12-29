@@ -21,7 +21,8 @@ const typeMap = {
 
 const ButtonGroupCarousel: FC<{
   onChange?: (value: SystemDiagramType) => void;
-}> = ({ onChange }) => {
+  setAlarmShow?: (value: boolean) => void;
+}> = ({ onChange, setAlarmShow }) => {
   const [type, setType] = useState<SystemDiagramType>();
   const { data: screenConfigData } = useRequest(getSiteScreenConfig, {
     defaultParams: [{ siteId: getSiteId() }],
@@ -38,6 +39,7 @@ const ButtonGroupCarousel: FC<{
       setType(value);
       onChange?.(value);
     }
+    setAlarmShow?.(screenConfigData?.alarmShow === 1);
   }, [screenConfigData]);
 
   return (

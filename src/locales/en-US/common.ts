@@ -7,6 +7,7 @@ export default {
   'common.model': 'Product Model',
   'common.screen': 'Screen',
   'common.screenArchitecture': 'Large screen architecture diagram',
+  'common.alarmDisplayConfiguration': 'Alarm display configuration',
   'common.time.day': 'Day',
   'common.time.month': 'Month',
   'common.time.oneMonth': 'One Month',

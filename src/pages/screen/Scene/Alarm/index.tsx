@@ -11,9 +11,11 @@ import { DeviceAlarm } from './type';
 import { formatMessage } from '@/utils';
 
 const AlarmInfo = ({
+  alarmShow,
   alarmCount,
   latestAlarm,
 }: {
+  alarmShow: boolean;
   alarmCount: number;
   latestAlarm?: DeviceAlarm;
 }) => {
@@ -55,7 +57,7 @@ const AlarmInfo = ({
   };
 
   const shouldAlarm = alarmCount;
-
+  if (!alarmShow) return null;
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
       {contextHolder}

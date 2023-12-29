@@ -28,6 +28,7 @@ const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
+  const [alarmShow, setAlarmShow] = useState<boolean>(false);
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
 
   const EnergyDataWidget = useMemo(
@@ -94,12 +95,12 @@ const Scene = () => {
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />
-      <ButtonGroupCarousel onChange={switchGeometry} />
+      <ButtonGroupCarousel onChange={switchGeometry} setAlarmShow={setAlarmShow} />
       {geometryMode === SystemDiagramType.CUSTOMER && (
-        <Geometry alarmDeviceTree={alarmDeviceTree} />
+        <Geometry alarmDeviceTree={alarmDeviceTree} alarmShow={alarmShow} />
       )}
       {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
-      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} />
+      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} alarmShow={alarmShow} />
       <FullScreen />
     </>
   );

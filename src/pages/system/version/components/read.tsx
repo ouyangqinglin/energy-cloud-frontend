@@ -53,6 +53,9 @@ const Read = (props: IProps) => {
     {
       title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),
       dataIndex: 'details',
+      colProps: {
+        span: 24,
+      },
     },
     {
       title: formatMessage({ id: 'system.Version.package', defaultMessage: '安装包' }),

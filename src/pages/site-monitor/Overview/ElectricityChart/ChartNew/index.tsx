@@ -122,6 +122,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       style={{ height: '340px' }}
       data={chartData}
       allLabel={allLabel}
+      calculateMax={false}
       notMerge
     />
   );

@@ -1,9 +1,3 @@
-export interface ServiceUpdateInfo {
-  platform: string;
-  appType: string;
-  systemName: string;
-}
-
 export interface VersionInfo {
   id: number;
   appType: number;

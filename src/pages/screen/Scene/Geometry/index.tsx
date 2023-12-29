@@ -48,7 +48,13 @@ const DEFAULT_DEVICE_INFO: DeviceInfoType = {
 // new Map<gunDeviceId, deviceId>
 const gunIdsMapToDeviceId = new Map<number, number>();
 
-const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
+const Geometry = ({
+  alarmDeviceTree,
+  alarmShow,
+}: {
+  alarmDeviceTree: AlarmTreeData;
+  alarmShow: boolean;
+}) => {
   const [ceilsConfig, setCeilsConfig] = useState(
     [...otherCeils, ...chargingStackCeils].map((item, index) => {
       if (item?.cellStyle) {
@@ -293,7 +299,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
                   ...cellStyle,
                 }}
               />
-              {alarmStatus?.status && alarmConfig ? (
+              {alarmShow && alarmStatus?.status && alarmConfig ? (
                 <div
                   className={styles.deviceAlarm}
                   style={{

@@ -9,7 +9,7 @@
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { enableStatus } from '@/utils/dict';
 import { getEnergyList } from './service';
-import { ConfigDataType } from '@/services/station';
+import { ConfigDataType, AlarmConfigDataType } from '@/services/station';
 import { formatMessage } from '@/utils';
 
 export type EnergyOptionType = {
@@ -63,6 +63,27 @@ export const columns: ProFormColumnsType<ConfigDataType>[] = [
     },
     fieldProps: {
       mode: 'multiple',
+    },
+  },
+];
+
+export const alarmcolumns: ProFormColumnsType<AlarmConfigDataType>[] = [
+  {
+    title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
+    dataIndex: 'alarmShow',
+    valueType: 'radio',
+    valueEnum: enableStatus,
+    // initialValue: '0',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: formatMessage({
+            id: 'system.Notice.select_status',
+            defaultMessage: '请选择状态',
+          }),
+        },
+      ],
     },
   },
 ];

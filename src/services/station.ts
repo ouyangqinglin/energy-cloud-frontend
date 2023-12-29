@@ -36,6 +36,11 @@ export type ConfigDataType = {
   }[];
 };
 
+export type AlarmConfigDataType = {
+  siteId?: string;
+  alarmShow?: number;
+};
+
 export const getStations = (params?: any) => {
   return request(`/oss/site/getList`, {
     method: 'GET',
