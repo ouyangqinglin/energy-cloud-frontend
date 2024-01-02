@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-12-27 17:47:37
+ * @LastEditTime: 2023-12-28 17:32:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */
@@ -30,13 +30,6 @@ export const deviceProductTypeMap: Record<
   }
 > = {
   [DeviceProductTypeEnum.Energy]: { component: 'Energy' },
-  [DeviceProductTypeEnum.EnergyElectricMeter]: {
-    component: 'ElectricMeter',
-    props: {
-      label: formatMessage({ id: 'siteMonitor.realtimeData', defaultMessage: '实时数据' }),
-      hideLineVoltage: true,
-    },
-  },
 };
 
 export const deviceRealTimeMap: any = {

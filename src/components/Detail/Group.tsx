@@ -17,7 +17,7 @@ export type GroupItem = {
   tabItems?: (Required<TabsProps>['items'][number] & {
     groupItems?: GroupItem[];
   })[];
-  component?: React.ReactNode;
+  component?: React.ReactNode | ((data: Record<string, any>) => React.ReactNode);
 };
 
 export type GroupProps = {
@@ -32,11 +32,15 @@ const Group: React.FC<GroupProps> = (props) => {
   const details = useMemo(() => {
     return items?.map?.((item, index) => {
       return item?.component ? (
-        item.component
+        typeof item?.component == 'function' ? (
+          item?.component?.(item)
+        ) : (
+          item?.component
+        )
       ) : (
         <>
           {item.label}
-          {item.items?.length ? (
+          {!!item.items?.length && (
             <Detail
               className={`mb16 ${item?.className || ''}`}
               key={index}
@@ -44,10 +48,8 @@ const Group: React.FC<GroupProps> = (props) => {
               items={item.items}
               {...(detailProps || {})}
             />
-          ) : (
-            <></>
           )}
-          {item?.tabItems?.length ? (
+          {!!item?.tabItems?.length && (
             <Tabs
               className="mb16"
               items={item.tabItems?.map?.((tabItem) => {
@@ -57,8 +59,6 @@ const Group: React.FC<GroupProps> = (props) => {
                 return tabItem;
               })}
             />
-          ) : (
-            <></>
           )}
         </>
       );

@@ -27,6 +27,7 @@ export enum DeviceModelDescribeTypeEnum {
   TabItem = 'tabItem',
   Service = 'service',
   Component = 'component',
+  Property = 'property',
 }
 
 export enum DeviceModelTypeEnum {
