@@ -1,7 +1,9 @@
+@import '~antd/es/style/themes/default.less';
 .contain {
   position: relative;
   height: 100%;
   padding-left: 0;
+  transition: 0.5s;
   .tree {
     position: absolute;
     top: 0;
@@ -26,11 +28,33 @@
     overflow: auto;
     background: white;
   }
-  &.open {
-    padding-left: 292px;
+}
+
+.switchWrap {
+  position: absolute;
+  top: 50%;
+  left: 279px;
+  z-index: 20;
+  padding: 9px 0;
+  color: @primary-color;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  transform: translate3d(-280px, 0, 0);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.open {
+  &.contain {
+    padding-left: 294px;
     .tree {
       transform: translate3d(0, 0, 0);
     }
+  }
+  .switchWrap {
+    transform: translate3d(0, 0, 0);
   }
 }
 

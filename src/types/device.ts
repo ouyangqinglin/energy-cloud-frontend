@@ -112,6 +112,9 @@ export type DeviceModelDescribeType = {
   id?: string;
   name?: string;
   type?: DeviceModelDescribeTypeEnum;
+  showType?: DeviceModelShowTypeEnum;
+  icon?: string;
+  columns?: number;
   authority?: DeviceModelAuthorityType[];
   children?: DeviceModelDescribeType[] | DeviceServiceType[];
 };

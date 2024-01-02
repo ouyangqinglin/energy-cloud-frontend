@@ -189,4 +189,9 @@ export default {
   'common.alarming': '告警中',
   'common.maxSelectItem': '最多选择{num}项',
   'common.download': '下载',
+  'common.periodTime': '时段',
+  'common.pleaseEnterSentence': '请输入{content}',
+  'common.addSentence': '新增{content}',
+  'common.pleaseSelectSentence': '请选择{content}',
+  'common.configParam': '配置参数',
 };

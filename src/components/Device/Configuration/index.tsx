@@ -11,7 +11,12 @@ import Community from './Community';
 import DeviceConfig from './DeviceConfig';
 import { isEmpty } from '@/utils';
 import RemoteSetting from './RemoteSetting';
-import { DeviceServicePageEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import {
+  DeviceMasterMode,
+  DeviceServicePageEnum,
+  DeviceTypeEnum,
+  OnlineStatusEnum,
+} from '@/utils/dictionary';
 import RemoteUpgrade from '../module/RemoteUpgrade';
 import SelfEmsIndex from './SelfEmsIndex';
 import Control from '../Control';
@@ -63,16 +68,20 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
         ) : (
           <>
             <div ref={containRef} className="px24">
-              {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
-              {!isEmpty(deviceData?.productConfigType) ? (
-                <DeviceConfig deviceData={deviceData} />
-              ) : (
-                <></>
-              )}
-              {remoteSettingType.includes(deviceData?.productId) ? (
-                <RemoteSetting deviceData={deviceData} />
-              ) : (
-                <></>
+              {deviceData?.masterSlaveMode != DeviceMasterMode.Slave && (
+                <>
+                  {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
+                  {!isEmpty(deviceData?.productConfigType) ? (
+                    <DeviceConfig deviceData={deviceData} />
+                  ) : (
+                    <></>
+                  )}
+                  {remoteSettingType.includes(deviceData?.productId) ? (
+                    <RemoteSetting deviceData={deviceData} />
+                  ) : (
+                    <></>
+                  )}
+                </>
               )}
               <Control
                 deviceId={deviceData?.deviceId}
