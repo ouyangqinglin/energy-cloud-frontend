@@ -57,7 +57,6 @@ const AlarmInfo = ({
   };
 
   const shouldAlarm = alarmCount;
-  if (!alarmShow) return null;
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
       {contextHolder}
@@ -68,6 +67,7 @@ const AlarmInfo = ({
           backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})`,
           width: shouldAlarm ? 138 : 120,
           right: shouldAlarm ? 0 : -20,
+          display: shouldAlarm && !alarmShow ? 'none' : '',
         }}
       >
         {shouldAlarm ? (
