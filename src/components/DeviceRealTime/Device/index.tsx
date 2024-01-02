@@ -13,7 +13,7 @@ import { default as OldRun } from './Run';
 import { default as OldControl } from './Control';
 import useDeviceModel from '../useDeviceModel';
 import { useSubscribe } from '@/hooks';
-import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceMasterMode, DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
 import Control from '@/components/Device/Control';
 import { formatMessage } from '@/utils';
@@ -50,8 +50,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
       (oldControlProductIds.includes(deviceData?.productId as DeviceTypeEnum)
         ? deviceGroupData?.services?.length
         : serviceGruop?.length) &&
-      (deviceData?.productId != (DeviceTypeEnum.YTEnergyAir as any) ||
-        deviceData?.masterSlaveMode != 1) &&
+      deviceData?.masterSlaveMode != DeviceMasterMode.Slave &&
       showRemoteControl
     ) {
       return true;

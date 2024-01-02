@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-28 17:17:19
+ * @LastEditTime: 2024-01-02 14:32:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -36,7 +36,7 @@ import { Button, Modal, Spin, TabsProps, message } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType, editSetting } from '@/services/equipment';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceMasterMode, OnlineStatusEnum } from '@/utils/dictionary';
 import Authority from '@/components/Authority';
 import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
 import RadioButton from '@/components/RadioButton';
@@ -137,7 +137,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                   specs: [
                     {
                       id: singleFieldName,
-                      name: specsItem?.type == DeviceModelTypeEnum.TimeRange ? '时段' : '',
+                      name:
+                        specsItem?.type == DeviceModelTypeEnum.TimeRange
+                          ? formatMessage({ id: 'common.periodTime', defaultMessage: '时段' })
+                          : '',
                       dataType: specsItem,
                     },
                   ],
@@ -151,12 +154,27 @@ const Control: React.FC<ControlType> = memo((props) => {
               rules:
                 field?.required === false
                   ? []
-                  : [{ required: true, message: '请输入' + field?.name }],
+                  : [
+                      {
+                        required: true,
+                        message: formatMessage(
+                          { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
+                      },
+                    ],
             },
             columns: [],
             fieldProps: {
               creatorButtonProps: {
-                creatorButtonText: '新增' + field?.name,
+                creatorButtonText: formatMessage(
+                  { id: 'common.addSentence', defaultMessage: '新增' },
+                  {
+                    content: field?.name,
+                  },
+                ),
               },
             },
           };
@@ -227,7 +245,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                   : [
                       {
                         required: true,
-                        message: '请选择' + field?.name,
+                        message: formatMessage(
+                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
                       },
                     ],
             },
@@ -286,7 +309,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                       : [
                           {
                             required: true,
-                            message: '请选择' + (field?.name ?? ''),
+                            message: formatMessage(
+                              { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                              {
+                                content: field?.name,
+                              },
+                            ),
                           },
                         ],
                 },
@@ -311,7 +339,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                   : [
                       {
                         required: true,
-                        message: '请选择' + field?.name,
+                        message: formatMessage(
+                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
                       },
                     ],
             },
@@ -349,7 +382,17 @@ const Control: React.FC<ControlType> = memo((props) => {
               rules:
                 field?.required === false
                   ? []
-                  : [{ required: true, message: '请输入' + field?.name }],
+                  : [
+                      {
+                        required: true,
+                        message: formatMessage(
+                          { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
+                      },
+                    ],
             },
           });
       }
@@ -395,7 +438,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 onClick={() => onClick(service, columns)}
                 disabled={deviceData?.status === OnlineStatusEnum.Offline}
               >
-                配置参数
+                {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
               </Button>
             </Authority>
           </Detail.Label>
@@ -493,11 +536,25 @@ const Control: React.FC<ControlType> = memo((props) => {
 
   const groupsItems = useMemo(() => {
     const result: GroupItem[] = [];
-    groupData?.forEach?.((item) => {
-      result.push(...getGroupItems(item));
-    });
+    if (deviceData?.masterSlaveMode != DeviceMasterMode.Slave) {
+      groupData?.forEach?.((item) => {
+        result.push(...getGroupItems(item));
+      });
+    } else {
+      const childrens = getPropsFromTree<DeviceModelDescribeType, DeviceModelDescribeType[]>(
+        [{ children: groupData }],
+        'children',
+      );
+      childrens.forEach((item) => {
+        item.forEach((childItem) => {
+          if (childItem.id == 'RemoteUpgrade') {
+            result.push(...getGroupItems(childItem));
+          }
+        });
+      });
+    }
     return result;
-  }, [groupData, getGroupItems, realTimeData, authorityMap]);
+  }, [groupData, deviceData, getGroupItems, realTimeData, authorityMap]);
 
   useEffect(() => {
     onLoadChange?.();

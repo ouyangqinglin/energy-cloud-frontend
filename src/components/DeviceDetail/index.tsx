@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-12-28 11:15:38
+ * @LastEditTime: 2024-01-02 11:48:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -20,6 +20,8 @@ import { useSubscribe } from '@/hooks';
 import { MessageEventType } from '@/utils/connection';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import { ProField } from '@ant-design/pro-components';
+import { useBoolean } from 'ahooks';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
   const result: TreeNode[] = [];
@@ -61,6 +63,7 @@ export type DeviceDetailProps = {
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id } = props;
 
+  const [isOpen, { toggle, setTrue, setFalse }] = useBoolean(true);
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({
     deviceId: parseInt(id) as any,
     key: id,
@@ -110,16 +113,16 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       deviceId: id,
       component: 0,
       containTopParentDevice: 1,
+    }).then((res) => {
+      if (!res?.[0]?.children?.length) {
+        setFalse();
+      }
     });
   }, [id]);
 
   return (
     <>
-      <div
-        className={`${styles.contain} ${
-          treeData?.[0]?.children && treeData?.[0]?.children?.length ? styles.open : ''
-        }`}
-      >
+      <div className={`${styles.contain} ${isOpen ? styles.open : ''}`}>
         <div className={styles.tree}>
           {loading ? (
             <Space direction="vertical">
@@ -140,6 +143,9 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
               showIcon
             />
           )}
+        </div>
+        <div className={styles.switchWrap} onClick={toggle}>
+          {isOpen ? <LeftOutlined /> : <RightOutlined />}
         </div>
         <div className={styles.content}>
           <DeviceProvider deviceId={selectOrg.deviceId} onChange={onChange}>

@@ -187,4 +187,9 @@ export default {
   'common.back': 'Back',
   'common.maxSelectItem': 'Select up to {num} item',
   'common.download': 'download',
+  'common.periodTime': 'Period of time',
+  'common.pleaseEnterSentence': 'Please enter {content}',
+  'common.addSentence': 'Add {content}',
+  'common.pleaseSelectSentence': 'Please select {content}',
+  'common.configParam': 'Configuration parameter',
 };

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2023-12-22 10:34:55
+ * @LastEditTime: 2024-01-02 14:18:46
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\DeviceDetail.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
 import React, { useCallback, useMemo, useContext, memo } from 'react';
 import Overview from '../DeviceInfo/Overview';
