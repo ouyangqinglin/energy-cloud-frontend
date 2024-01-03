@@ -76,6 +76,7 @@ declare namespace API {
     address?: string;
     phone?: string;
     dept?: Dept;
+    orgName?: string;
     roles?: Role[];
     permissions?: string[];
     systemInfo?: SystemInfo;
