@@ -36,6 +36,7 @@ export type initialStateType = {
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const appDownloadPath = '/download/app';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -99,7 +100,7 @@ export async function getInitialState(): Promise<initialStateType> {
   const collapsed = window.innerWidth < 992;
 
   // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
+  if (![loginPath, appDownloadPath].includes(history.location.pathname)) {
     const currentUser = await fetchUserInfo();
     let menus;
     if (currentUser) {
