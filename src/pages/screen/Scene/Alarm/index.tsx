@@ -20,6 +20,7 @@ const AlarmInfo = ({
   latestAlarm?: DeviceAlarm;
 }) => {
   const [alarmOpen, setAlarmOpen] = useState(false);
+  const shouldAlarm = alarmCount && alarmShow;
   const switchAlarm = () => {
     setAlarmOpen(!alarmOpen);
   };
@@ -38,7 +39,7 @@ const AlarmInfo = ({
   }, []);
 
   useEffect(() => {
-    if (alarmCount) {
+    if (shouldAlarm) {
       api?.open({
         icon: (
           <div className={styles.icon}>
@@ -56,7 +57,6 @@ const AlarmInfo = ({
     switchAlarm();
   };
 
-  const shouldAlarm = alarmCount;
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
       {contextHolder}
@@ -67,7 +67,6 @@ const AlarmInfo = ({
           backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})`,
           width: shouldAlarm ? 138 : 120,
           right: shouldAlarm ? 0 : -20,
-          display: shouldAlarm && !alarmShow ? 'none' : '',
         }}
       >
         {shouldAlarm ? (
