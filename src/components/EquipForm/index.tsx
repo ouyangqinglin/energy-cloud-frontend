@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-12-25 16:02:02
+ * @LastEditTime: 2024-01-02 17:48:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -102,9 +102,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     });
   }, [type]);
 
-  const requestProductModel = useCallback((productType) => {
-    if (productType) {
-      getProductModelByType({ productType }).then(({ data }) => {
+  const requestProductModel = useCallback((productTypeId) => {
+    if (productTypeId) {
+      getProductModelByType({ productTypeId }).then(({ data }) => {
         setModelOption(
           data?.map?.((item: any) => {
             return {
@@ -118,9 +118,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  const onValuesChange = useCallback(({ productType, subsystemId, productId }) => {
-    if (productType) {
-      requestProductModel(productType); //获取产品型号
+  const onValuesChange = useCallback(({ productTypeId, subsystemId, productId }) => {
+    if (productTypeId) {
+      requestProductModel(productTypeId); //获取产品型号
       form.setFieldValue('productId', undefined);
     }
   }, []);
@@ -138,7 +138,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
         runGet(id).then((data) => {
           form.setFieldsValue({ ...data, photosList: data?.photos ? [{ url: data.photos }] : [] });
-          requestProductModel(data?.productType);
+          requestProductModel(data?.productTypeId);
         });
       }
     }
@@ -186,7 +186,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           )} */}
           <ProFormSelect
             label={<FormattedMessage id="common.productType" defaultMessage="产品类型" />}
-            name="productType"
+            name="productTypeId"
             request={requestProductType}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
