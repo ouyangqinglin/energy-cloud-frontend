@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2023-12-27 15:26:40
+ * @LastEditTime: 2024-01-03 11:21:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
@@ -17,7 +17,7 @@ export type GroupItem = {
   tabItems?: (Required<TabsProps>['items'][number] & {
     groupItems?: GroupItem[];
   })[];
-  component?: React.ReactNode | ((data: Record<string, any>) => React.ReactNode);
+  component?: React.ReactNode | ((data?: Record<string, any>) => React.ReactNode);
 };
 
 export type GroupProps = {
@@ -33,7 +33,7 @@ const Group: React.FC<GroupProps> = (props) => {
     return items?.map?.((item, index) => {
       return item?.component ? (
         typeof item?.component == 'function' ? (
-          item?.component?.(item)
+          item?.component?.(data)
         ) : (
           item?.component
         )
