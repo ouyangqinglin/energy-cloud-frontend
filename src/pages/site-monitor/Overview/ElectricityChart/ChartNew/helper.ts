@@ -70,7 +70,7 @@ export const getBarChartData = (
     rawSourceData?.[field]?.forEach(({ eventTs, doubleVal }) => {
       arr.push({ label: moment(eventTs).format(TimeFormat.get(timeType)), value: doubleVal });
     });
-    result.push({ name, type: 'bar', data: arr });
+    result.push({ name, type: 'bar', barMaxWidth: 25, data: arr });
   }
   return result;
 };
