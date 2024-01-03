@@ -248,7 +248,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
-      result = value + specs?.unit;
+      result = value + (specs?.unit ?? '');
       break;
     case DeviceModelTypeEnum.TimeStamp:
       result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
