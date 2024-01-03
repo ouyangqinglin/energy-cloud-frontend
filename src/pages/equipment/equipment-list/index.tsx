@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
-import React, { useRef, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Modal, message, Tooltip } from 'antd';
 import { useHistory, useModel } from 'umi';
 import {
@@ -20,11 +20,11 @@ import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice } from './service';
 import { onlineStatus } from '@/utils/dict';
-import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
-import { SearchParams } from '@/hooks/useSearchSelect';
+import { useSiteColumn, useAuthority } from '@/hooks';
+// import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
@@ -40,6 +40,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
+  const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -51,28 +52,33 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:device:add',
   ]);
 
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
+  const requestProductTypeTree = () => {
+    return getProductTypeTree().then(({ data }) => {
+      setProductTypeList(data || []);
     });
+  };
+
+  useEffect(() => {
+    requestProductTypeTree();
   }, []);
 
-  const [productTypeColumn] = useSearchSelect<DeviceDataType>({
-    proColumns: {
-      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-      dataIndex: 'productTypeName',
-      formItemProps: {
-        name: 'productTypeId',
-      },
-      hideInTable: true,
+  const productTypeColumn = {
+    title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
+    dataIndex: 'productTypeName',
+    formItemProps: {
+      name: 'productTypeInfo',
     },
-    request: requestProductType,
-  });
+    hideInTable: true,
+    valueType: 'cascader',
+    fieldProps: {
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+      },
+      options: productTypeList,
+      changeOnSelect: true,
+    },
+  };
   const onCancelSn = useCallback(() => {
     setSnOpen(false);
   }, []);
@@ -104,8 +110,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
+    const { productTypeInfo, ...rest } = params;
+    const [productTypeId, productId] = productTypeInfo || [];
+    const filters = productId ? { productId } : { productTypeId };
     return getDevicePage({
-      ...params,
+      ...rest,
+      ...filters,
       isFindParentByChild: 1,
       rootFilter: 1,
       ...(isStationChild ? { siteId } : {}),

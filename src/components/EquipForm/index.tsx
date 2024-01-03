@@ -185,24 +185,38 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             />
           )} */}
           <ProFormSelect
-            label={<FormattedMessage id="common.productType" defaultMessage="产品类型" />}
+            label={formatMessage({ id: 'common.productType', defaultMessage: '产品类型' })}
             name="productType"
             request={requestProductType}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
+              },
+            ]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label={<FormattedMessage id="common.model" defaultMessage="产品型号" />}
+            label={formatMessage({ id: 'common.model', defaultMessage: '产品型号' })}
             name="productId"
             //placeholder="请选择"
             options={modelOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
+              },
+            ]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormText

@@ -214,6 +214,12 @@ export const getProductTypeList = (params: any) => {
   });
 };
 
+export const getProductTypeTree = () => {
+  return request<ResponseCommonData<ListDataType[]>>('/iot/product/getProductTypeTree', {
+    method: 'GET',
+  });
+};
+
 export const getClusterByStack = (params: any) => {
   return request<ResponseCommonData<ClusterType[]>>('/oss/site/monitor/device/getBatteryDevices', {
     method: 'GET',
