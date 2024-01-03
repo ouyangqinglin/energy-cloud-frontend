@@ -8,9 +8,9 @@ export const insertVersion = (formData: any) => {
 };
 
 export const getVersionList = (data: any) => {
-  return request(`/oss/version/page`, {
+  return request(`/oss/version/page?${new URLSearchParams(data).toString()}`, {
     method: 'GET',
-    data,
+    // data,
   });
 };
 

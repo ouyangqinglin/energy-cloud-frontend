@@ -868,6 +868,17 @@ const routers: RouterType[] = [
     ],
   },
   {
+    path: '/download',
+    layout: false,
+    routes: [
+      {
+        path: '/download/app',
+        name: 'download-app',
+        component: './download/downloadApp',
+      },
+    ],
+  },
+  {
     path: '/',
     component: '@/layouts/TabsLayout',
     routes: [
@@ -883,20 +894,6 @@ const routers: RouterType[] = [
         keepAlive: true,
         locale: 'menu.workbench',
         access: 'workbench',
-      },
-    ],
-  },
-  {
-    path: '/download',
-    layout: false,
-    routes: [
-      {
-        path: '/download/app',
-        name: 'download-app',
-        component: './download/downloadApp',
-      },
-      {
-        component: '404',
       },
     ],
   },
