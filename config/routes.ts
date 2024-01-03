@@ -887,6 +887,20 @@ const routers: RouterType[] = [
     ],
   },
   {
+    path: '/download',
+    layout: false,
+    routes: [
+      {
+        path: '/download/app',
+        name: 'download-app',
+        component: './download/downloadApp',
+      },
+      {
+        component: '404',
+      },
+    ],
+  },
+  {
     component: './404',
   },
 ];
