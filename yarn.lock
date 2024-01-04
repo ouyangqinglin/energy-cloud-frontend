@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@aashutoshrathi/word-wrap@^1.2.3":
-  version "1.2.6"
-  resolved "https://registry.npmmirror.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz"
-  integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
-
 "@adobe/css-tools@^4.0.1":
   version "4.3.1"
   resolved "https://registry.npmmirror.com/@adobe/css-tools/-/css-tools-4.3.1.tgz"
@@ -8463,7 +8458,7 @@ d3-selection@1.0.2:
   resolved "https://registry.npmmirror.com/d3-selection/-/d3-selection-1.0.2.tgz"
   integrity sha512-nInNdsdhljkDqkU/83bdWwtiJ7xsX3l57YZMlqsAOMeQROeCv7osPqQgYnao0NmRZEGc11hNakY+EOkaIdsWpQ==
 
-"d3-selection@2 - 3", d3-selection@3, d3-selection@^3.0.0:
+"d3-selection@2 - 3", d3-selection@3, d3-selection@3.0.0, d3-selection@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmmirror.com/d3-selection/-/d3-selection-3.0.0.tgz"
   integrity sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ==
@@ -21228,7 +21223,7 @@ wolfy87-eventemitter@~5.1.0:
   resolved "https://registry.npmmirror.com/wolfy87-eventemitter/-/wolfy87-eventemitter-5.1.0.tgz"
   integrity sha512-VakY4+17DbamV2VW4nZERrSuilclCRcYtfchPWe6jlma8k0AeLJxBR+C5OSFFtICArDFdXk0yw67HUGrTCdrEg==
 
-word-wrap@^1.2.5:
+word-wrap@^1.2.3, word-wrap@^1.2.5:
   version "1.2.5"
   resolved "https://registry.npmmirror.com/word-wrap/-/word-wrap-1.2.5.tgz"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==

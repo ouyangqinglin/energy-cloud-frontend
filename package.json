@@ -79,6 +79,7 @@
     "btoa": "^1.2.1",
     "captchapng3": "^1.0.7",
     "classnames": "^2.2.6",
+    "d3-selection": "3.0.0",
     "dagre": "^0.8.5",
     "dayjs": "^1.11.7",
     "echarts": "^5.4.3",
@@ -164,7 +165,11 @@
   },
   "resolutions": {
     "@types/react": "17.0.0",
-    "@types/react-dom": "^17.0.0"
+    "@types/react-dom": "^17.0.0",
+    "d3-selection": "3.0.0"
+  },
+  "overrides": {
+    "d3-selection": "3.0.0"
   },
   "engines": {
     "node": ">=10.0.0"

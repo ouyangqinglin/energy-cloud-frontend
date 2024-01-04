@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-12-28 10:12:19
+ * @LastEditTime: 2024-01-04 16:00:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
@@ -68,6 +68,8 @@ export type DeviceServiceModelType = {
   required?: boolean;
   span?: number;
   showType?: DeviceModelShowTypeEnum;
+  disabled?: string;
+  tip?: string;
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-03 17:54:07
+ * @LastEditTime: 2024-01-04 17:12:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -33,7 +33,7 @@ import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button, Modal, Spin, TabsProps, message } from 'antd';
+import { Button, Modal, Spin, TabsProps, message, Typography } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType, editSetting } from '@/services/equipment';
@@ -273,17 +273,36 @@ const Control: React.FC<ControlType> = memo((props) => {
                 span: 3,
                 showPlaceholder: false,
                 labelStyle: {
-                  width: '130px',
+                  width: '145px',
+                  marginTop: '4px',
                 },
-                format: (value) => (
-                  <RadioButton
-                    options={options}
-                    value={isEmpty(value) ? '' : value + ''}
-                    disabled={deviceData?.status === OnlineStatusEnum.Offline}
-                    onChange={(btnValue) => btnClick(field, btnValue)}
-                    loading={loading}
-                  />
-                ),
+                format: (value, data) => {
+                  let fieldDisabled = false;
+                  if (field?.disabled) {
+                    try {
+                      const evalResult = eval(field?.disabled?.replace?.('$data', 'data'));
+                      if (typeof evalResult == 'boolean') {
+                        fieldDisabled = evalResult;
+                      }
+                    } catch {}
+                  }
+                  return (
+                    <>
+                      <RadioButton
+                        options={options}
+                        value={isEmpty(value) ? '' : value + ''}
+                        disabled={deviceData?.status === OnlineStatusEnum.Offline || fieldDisabled}
+                        onChange={(btnValue) => btnClick(field, btnValue)}
+                        loading={loading}
+                      />
+                      {!!field?.tip && (
+                        <div>
+                          <Typography.Text type="secondary">{field?.tip}</Typography.Text>
+                        </div>
+                      )}
+                    </>
+                  );
+                },
               });
               break;
             default:
