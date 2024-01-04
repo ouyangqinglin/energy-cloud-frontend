@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-02 14:32:24
+ * @LastEditTime: 2024-01-03 17:54:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -25,6 +25,7 @@ import {
   formatMessage,
   formatModelValue,
   getPropsFromTree,
+  isEmpty,
   parseToArray,
   parseToObj,
 } from '@/utils';
@@ -263,7 +264,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             case DeviceModelShowTypeEnum.Button:
               const buttonEnum = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
               const options = Object.entries(buttonEnum).map(([value, label]) => ({
-                value: isNaN(value as any) ? value : (value as any) * 1,
+                value: isEmpty(value) ? '' : value + '',
                 label,
               }));
               detailItems.push?.({
@@ -277,7 +278,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 format: (value) => (
                   <RadioButton
                     options={options}
-                    value={value}
+                    value={isEmpty(value) ? '' : value + ''}
                     disabled={deviceData?.status === OnlineStatusEnum.Offline}
                     onChange={(btnValue) => btnClick(field, btnValue)}
                     loading={loading}
@@ -298,10 +299,11 @@ const Control: React.FC<ControlType> = memo((props) => {
                 valueType: 'select',
                 fieldProps: {
                   options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
-                    value,
+                    value: isEmpty(value) ? '' : value + '',
                     label,
                   })),
                 },
+                convertValue: (value) => (isEmpty(value) ? '' : value + ''),
                 formItemProps: {
                   rules:
                     field?.required === false
@@ -568,7 +570,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           <ConfigModal
             open={openForm}
             onOpenChange={set}
-            title={currentFormInfo?.service?.groupName || ''}
+            title={currentFormInfo?.service?.name || ''}
             deviceId={deviceId}
             realTimeData={{ ...realTimeData, ...transformData }}
             serviceId={currentFormInfo?.service?.id || ''}
