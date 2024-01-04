@@ -1,11 +1,12 @@
-import { ProFormInstance } from '@ant-design/pro-components';
-import { BetaSchemaForm, ModalForm } from '@ant-design/pro-components';
 import { useEffect, useRef } from 'react';
-import { ProColumns } from '@ant-design/pro-components';
+import { BetaSchemaForm, ModalForm } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
+import type { ProColumns } from '@ant-design/pro-components';
+import type { VersionInfo } from '../type';
 import { platformTypes } from '@/utils/dict';
-import { VersionInfo } from '../type';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
+import { getFileUrl } from '../service';
 import { Button } from 'antd';
 type IProps = {
   open: boolean;
@@ -24,7 +25,9 @@ const Read = (props: IProps) => {
   }, [props.open]);
 
   const downloadApp = (url: string) => {
-    location.href = url;
+    getFileUrl({ url, platform: 2 }).then((res) => {
+      if (res.data) window.open(res.data);
+    });
   };
 
   const columnsRead: ProColumns<VersionInfo, 'text'>[] = [
