@@ -50,7 +50,7 @@ export const Update = (props: FormUpdateBaseProps) => {
   const requestProductSn = useCallback((params) => {
     if (params) {
       return getProductSnList({
-        productType: params, //传递产品类型id
+        productTypeId: params, //传递产品类型id
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -82,15 +82,15 @@ export const Update = (props: FormUpdateBaseProps) => {
   }, []);
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-    dataIndex: 'productType', //产品类型id
+    dataIndex: 'productTypeId', //产品类型id
     formItemProps: {
-      name: 'productType', //产品类型id
+      name: 'productTypeId', //产品类型id
       rules: [{ required: true }],
     },
     fieldProps: {
       rules: [{ required: true }],
-      onChange: (productType: any) => {
-        requestProductSn(productType).then((list) => {
+      onChange: (productTypeId: any) => {
+        requestProductSn(productTypeId).then((list) => {
           setSnList(list);
         }); //获取产品型号
       },
@@ -111,7 +111,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       rules: [{ required: true }],
     },
     hideInTable: true,
-    dependencies: ['productType'], //依赖产品类型--dataIndex
+    dependencies: ['productTypeId'], //依赖产品类型--dataIndex
     fieldProps: {
       options: snList,
       rules: [{ required: true }],
@@ -352,7 +352,7 @@ export const Update = (props: FormUpdateBaseProps) => {
   //config.tsx移过来的
   const convertRequestData = (res: UpdateTaskParam) => {
     if (res) {
-      requestProductSn(res?.productType).then((list) => {
+      requestProductSn(res?.productTypeId).then((list) => {
         setSnList(list);
       }); //获取产品型号
       requestModule(res?.productId).then((data) => {

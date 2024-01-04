@@ -4510,14 +4510,7 @@
   resolved "http://192.168.3.18:8081/repository/npm-group/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
-"@types/react-dom@^16.9.8":
-  version "16.9.22"
-  resolved "http://192.168.3.18:8081/repository/npm-group/@types/react-dom/-/react-dom-16.9.22.tgz#707f6806866d41d58f30ac348cc9be696c716e77"
-  integrity sha512-x7T/NHsYiKfbIwZDzBTThTF3a3UPNLanOY4wbEe4Hy44hf0tWIZTu8VZJTkB/FKcr4cbfDq0E7y3jSLJh4cpow==
-  dependencies:
-    "@types/react" "^16"
-
-"@types/react-dom@^17.0.0":
+"@types/react-dom@^16.9.8", "@types/react-dom@^17.0.0":
   version "17.0.23"
   resolved "http://192.168.3.18:8081/repository/npm-group/@types/react-dom/-/react-dom-17.0.23.tgz#55b98df6b27595c8ca84e04e5b5df0f86bca7d24"
   integrity sha512-lnJAZfMEDxfvELeeT24w4rnUYwpzUzQAOTfJQbWYnLcx8AEfz+fXJDCbowIBqNK/Bi4D6j8ovT8Qsda2OtDApA==
@@ -4593,25 +4586,15 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16 || 17 || 18":
-  version "18.2.32"
-  resolved "http://192.168.3.18:8081/repository/npm-group/@types/react/-/react-18.2.32.tgz#7ec787730c45ee9a3c0ed150b19e95c31fe4608a"
-  integrity sha512-F0FVIZQ1x5Gxy/VYJb7XcWvCcHR28Sjwt1dXLspdIatfPq1MVACfnBDwKe6ANLxQ64riIJooXClpUR6oxTiepg==
+"@types/react@*", "@types/react@16 || 17 || 18", "@types/react@17.0.0", "@types/react@^16.9.43", "@types/react@^17":
+  version "17.0.0"
+  resolved "http://192.168.3.18:8081/repository/npm-group/@types/react/-/react-17.0.0.tgz#5af3eb7fad2807092f0046a1302b7823e27919b8"
+  integrity sha512-aj/L7RIMsRlWML3YB6KZiXB3fV2t41+5RBGYF8z+tAKU43Px8C3cYUZsDvf1/+Bm4FK21QWBrDutu8ZJ/70qOw==
   dependencies:
     "@types/prop-types" "*"
-    "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^16", "@types/react@^16.9.43":
-  version "16.14.50"
-  resolved "http://192.168.3.18:8081/repository/npm-group/@types/react/-/react-16.14.50.tgz#ec9c30f2f0c7d9aa748949536d88e3439526a25d"
-  integrity sha512-7TWZ/HjhXsRK3BbhSFxTinbSft3sUXJAU3ONngT0rpcKJaIOlxkRke4bidqQTopUbEv1ApC5nlSEkIpX43MkTg==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17", "@types/react@^17.0.0":
+"@types/react@^17.0.0":
   version "17.0.69"
   resolved "http://192.168.3.18:8081/repository/npm-group/@types/react/-/react-17.0.69.tgz#245a0cf2f5b0fb1d645691d3083e3c7d4409b98f"
   integrity sha512-klEeru//GhiQvXUBayz0Q4l3rKHWsBR/EUOhOeow6hK2jV7MlO44+8yEk6+OtPeOlRfnpUnrLXzGK+iGph5aeg==
