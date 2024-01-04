@@ -12,13 +12,14 @@ import { DeviceDataType, getProductTypeList } from '@/services/equipment';
 import { useCallback, useState } from 'react';
 
 export const Columns: (
-  operation: FormOperations,list:any
-) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation,list) => {
+  operation: FormOperations,
+  list: any,
+) => ProColumns<InstallOrderUpdateParam, TABLESELECTVALUETYPE>[] = (operation, list) => {
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
     showAllOption: true,
   });
-  const [snList, setSnList] = useState();//产品型号下拉框列表
+  const [snList, setSnList] = useState(); //产品型号下拉框列表
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -31,26 +32,11 @@ export const Columns: (
     });
   }, []);
 
-  const productTypeColumn = {
-    title: '产品类型',
-    dataIndex: 'productType',//产品类型id
-    formItemProps: {
-      name: 'productType',//产品类型id
-    },
-    fieldProps: {
-      rules: [{ required: true, message: '请输入' }],
-      onChange: (productType: any) => {
-        requestProductSn(productType);//获取产品型号
-      },
-    },
-    hideInTable: true,
-    request: requestProductType,
-  };
   //获取产品型号--依赖产品类型
   const requestProductSn = useCallback((params) => {
     if (params) {
       return getProductSnList({
-        productType: params//传递产品类型id
+        productTypeId: params, //传递产品类型id
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -64,30 +50,27 @@ export const Columns: (
     }
   }, []);
 
-
-  const productSnColumn = {
-    title: '产品型号',
-    dataIndex: 'productId',
-    valueType: 'select',
-    // formItemProps: {
-    //   name: 'productId',
-    // },
-    hideInTable: true,
-    dependencies: ['productType'],   //依赖产品类型--dataIndex
+  const productTypeColumn = {
+    title: '产品类型',
+    dataIndex: 'productTypeId', //产品类型id
+    formItemProps: {
+      name: 'productTypeId', //产品类型id
+    },
     fieldProps: {
-      options: snList,
       rules: [{ required: true, message: '请输入' }],
-      onChange: (productId: any) => {
-        requestModule(productId);//获取模块
+      onChange: (productTypeId: any) => {
+        requestProductSn(productTypeId); //获取产品型号
       },
     },
-    //request: requestProductSn,
+    hideInTable: true,
+    request: requestProductType,
   };
+
   //获取模块下拉框数据--依赖产品型号id
   const requestModule = useCallback((params) => {
     if (params?.productModel) {
       return getModuleList({
-        productId: params?.productModel
+        productId: params?.productModel,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -100,6 +83,26 @@ export const Columns: (
       return Promise.resolve([]);
     }
   }, []);
+
+  const productSnColumn = {
+    title: '产品型号',
+    dataIndex: 'productId',
+    valueType: 'select',
+    // formItemProps: {
+    //   name: 'productId',
+    // },
+    hideInTable: true,
+    dependencies: ['productTypeId'], //依赖产品类型--dataIndex
+    fieldProps: {
+      options: snList,
+      rules: [{ required: true, message: '请输入' }],
+      onChange: (productId: any) => {
+        requestModule(productId); //获取模块
+      },
+    },
+    //request: requestProductSn,
+  };
+
   const moduleColumn = {
     title: '模块',
     dataIndex: 'moduleName',
@@ -115,7 +118,7 @@ export const Columns: (
   const requestVersionName = useCallback((params) => {
     if (params?.moduleName) {
       return getSelectedVersionList({
-        moduleId: params?.moduleName
+        moduleId: params?.moduleName,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -127,7 +130,7 @@ export const Columns: (
     }
     if (params?.productModel) {
       return getSelectedVersionList({
-        productId: params?.productModel
+        productId: params?.productModel,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -277,7 +280,7 @@ export const Columns: (
     // },
     {
       title: '',
-      dataIndex: 'type',//升级类型 1现在升级 2稍后升级
+      dataIndex: 'type', //升级类型 1现在升级 2稍后升级
       colProps: {
         span: 8,
       },
@@ -333,7 +336,11 @@ export const Columns: (
           proTableProps: {
             columns: deviceSelectColumns,
             request: (params: any) =>
-              getSelectDeviceList({ ...params, packageId: form?.getFieldValue?.('packageName'), siteId: form?.getFieldValue?.('siteId'), }),
+              getSelectDeviceList({
+                ...params,
+                packageId: form?.getFieldValue?.('packageName'),
+                siteId: form?.getFieldValue?.('siteId'),
+              }),
           },
           onFocus: () => {
             return form?.validateFields(['packageName']);
@@ -341,6 +348,5 @@ export const Columns: (
         };
       },
     },
- 
   ];
 };
