@@ -8,7 +8,14 @@ import React, { useMemo, useCallback } from 'react';
 import { useRequest } from 'umi';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
-import { emsSystemEnabletems, systemTimeColumns, systemColumns, systemTimeItems } from './config';
+import {
+  emsSystemEnabletems,
+  systemTimeColumns,
+  systemColumns,
+  systemTimeItems,
+  powerParamsColumns,
+  powerParamsItems,
+} from './config';
 import ConfigModal, { ConfigModalType } from '../../../ConfigModal';
 import RemoteUpgrade from '@/components/Device/module/RemoteUpgrade';
 import { DeviceDataType, getDeviceInfo } from '@/services/equipment';
@@ -29,6 +36,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     'iot:device:config:systemSetting:timeSetting',
     'iot:device:config:systemSetting:remoteUpgrade',
     'iot:device:config:systemSetting:communiteParamsSetting',
+    'iot:device:config:converterSetting:powerParamsSetting',
   ]);
 
   const detailGroup = useMemo<GroupItem[]>(() => {
@@ -57,6 +65,32 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           </Detail.Label>
         ),
         items: emsSystemEnabletems,
+      });
+    }
+    if (authorityMap.get('iot:device:config:converterSetting:powerParamsSetting')) {
+      groupItems.push({
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.gridParameterSetting',
+              defaultMessage: '电网参数设置',
+            })}
+          >
+            <ConfigModal
+              title={formatMessage({
+                id: 'device.gridParameterSetting',
+                defaultMessage: '电网参数设置',
+              })}
+              deviceId={deviceId}
+              deviceData={deviceData}
+              realTimeData={realTimeData}
+              columns={powerParamsColumns}
+              serviceId={'GridParameterSettings'}
+              authority="iot:device:config:converterSetting:powerParamsSetting:distribute"
+            />
+          </Detail.Label>
+        ),
+        items: powerParamsItems,
       });
     }
     if (authorityMap.get('iot:device:config:systemSetting:timeSetting')) {

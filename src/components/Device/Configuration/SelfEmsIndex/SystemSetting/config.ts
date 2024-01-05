@@ -9,7 +9,7 @@
 
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
-import { enableFormat } from '@/utils/format';
+import { enableFormat, powerFormat } from '@/utils/format';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 import moment from 'moment';
 
@@ -21,6 +21,62 @@ const options = [
   {
     value: 0,
     label: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
+  },
+];
+
+export const powerParamsItems: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+    field: 'antiBackflowThreshold',
+    format: powerFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.maximumLoadOfTransformer',
+      defaultMessage: '变压器最大负荷',
+    }),
+    field: 'maximumLoadOfTransformer',
+    format: powerFormat,
+    span: 2,
+  },
+];
+
+export const powerParamsColumns: ProFormColumnsType[] = [
+  {
+    title: formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+    dataIndex: 'antiBackflowThreshold',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({
+      id: 'device.maximumLoadOfTransformer',
+      defaultMessage: '变压器最大负荷',
+    }),
+    dataIndex: 'maximumLoadOfTransformer',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({
+              id: 'device.maximumLoadOfTransformer',
+              defaultMessage: '变压器最大负荷',
+            }),
+        },
+      ],
+    },
   },
 ];
 

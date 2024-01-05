@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-12-20 19:24:31
+ * @LastEditTime: 2024-01-05 21:04:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\index.tsx
  */
@@ -51,34 +51,6 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
           productId={productId}
           realTimeData={realTimeData}
           deviceData={deviceData}
-        />
-      ),
-    });
-  }
-  if (authorityMap.get('iot:device:config:converterSetting') && deviceData?.masterSlaveMode != 1) {
-    items.push({
-      key: '2',
-      label: formatMessage({ id: 'device.converterSetting', defaultMessage: '变流器设置' }),
-      children: (
-        <ConverterSetting
-          deviceId={deviceId}
-          deviceData={deviceData}
-          productId={productId}
-          realTimeData={realTimeData}
-        />
-      ),
-    });
-  }
-  if (authorityMap.get('iot:device:config:batterySetting') && deviceData?.masterSlaveMode != 1) {
-    items.push({
-      key: '3',
-      label: formatMessage({ id: 'device.batterySetting', defaultMessage: '电池设置' }),
-      children: (
-        <BatterySetting
-          deviceId={deviceId}
-          deviceData={deviceData}
-          productId={productId}
-          realTimeData={realTimeData}
         />
       ),
     });
