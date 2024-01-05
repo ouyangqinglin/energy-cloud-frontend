@@ -287,4 +287,8 @@ export default {
   'device.sensorStatus': '传感器状态',
   'device.coConcentration': 'CO浓度',
   'device.power': '功率',
+  'device.batteryPack': '电池组',
+  'device.cellNumber': '电芯编号',
+  'device.temperaturePoint': '温度点',
+  'device.energyStorageInverter': '储能变流器',
 };

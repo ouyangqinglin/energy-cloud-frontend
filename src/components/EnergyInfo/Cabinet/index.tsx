@@ -21,27 +21,26 @@ import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import {
+  BwtEnergy,
   ConfigType,
-  airItem,
-  bmsConfig,
-  bwattAirItem,
-  dehumidifierConfigs,
-  doorConfigs,
-  emsItem,
-  fireFightConfig,
-  liquidAirItem,
-  liquidBmsConfig,
-  liquidDoorConfigs,
-  liquidEmsItem,
-  liquidFireFightConfig,
-  liquidPcsConfig,
-  liquidPeakConfig,
-  pcsConfig,
-  peakConfig,
-  ytEmsItem,
+  EnergyComponentType,
+  Liquid2Energy,
+  LiquidEnergy,
+  RectEnergy,
+  Wind2Energy,
+  WindEnergy,
 } from './config';
 import { EnergySourceEnum } from '../';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
+
+const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>([
+  [DeviceTypeEnum.Energy, RectEnergy],
+  [DeviceTypeEnum.BWattEnergy, BwtEnergy],
+  [DeviceTypeEnum.YTEnergy, WindEnergy],
+  [DeviceTypeEnum.LiquidEnergy, LiquidEnergy],
+  [DeviceTypeEnum.Wind2Energy, Wind2Energy],
+  [DeviceTypeEnum.Liquid2Energy, Liquid2Energy],
+]);
 
 const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
   const ids: Record<string, any> = {
@@ -73,8 +72,8 @@ const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
 const getUnitByProductId = (
   data: DeviceDataType[],
   productTypeId: DeviceProductTypeEnum,
-): DeviceDataType | undefined => {
-  let result: DeviceDataType | undefined;
+): DeviceDataType | void => {
+  let result: DeviceDataType | void;
   if (data && data.length) {
     for (let i = 0; i < data?.length; i++) {
       if (productTypeId == data[i]?.productTypeId) {
@@ -204,82 +203,47 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   }, [deviceData?.deviceId]);
 
   const airItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId)
-        ? [liquidAirItem]
-        : [
-            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.BWattAir ||
-            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
-              ? bwattAirItem
-              : airItem,
-          ],
-      airRealTimeData,
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.air;
+    return getItemsByConfig(result ? [result] : [], airRealTimeData, onMoreClick);
   }, [airRealTimeData, deviceData, onMoreClick]);
 
   const doorItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? liquidDoorConfigs : doorConfigs,
-      bmsRealTimeData,
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.door;
+    return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
   }, [bmsRealTimeData, deviceData, onMoreClick]);
 
   const emsItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId)
-        ? [liquidEmsItem]
-        : [
-            (deviceData?.productId as DeviceTypeEnum) == DeviceTypeEnum.YTEnergy
-              ? ytEmsItem
-              : emsItem,
-          ],
-      emsRealTimeData,
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.ems;
+    return getItemsByConfig(result ? [result] : [], emsRealTimeData, onMoreClick);
   }, [emsRealTimeData, deviceData]);
 
   const bmsItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? liquidBmsConfig : bmsConfig,
-      bmsRealTimeData,
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.bms;
+    return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
   }, [bmsRealTimeData, deviceData]);
 
-  const fireItems = useMemo(() => {
-    if (liquidProductIds.includes(deviceData?.productId)) {
-      return getItemsByConfig(liquidFireFightConfig, fireRealTimeData, onMoreClick);
-    } else if (ytEnergyProductIds.includes(deviceData?.productId)) {
-      return getItemsByConfig(fireFightConfig, fireRealTimeData, onMoreClick);
-    } else {
-      return <></>;
-    }
+  const fireFightItems = useMemo(() => {
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.fireFight;
+    return getItemsByConfig(result ? [result] : [], fireRealTimeData, onMoreClick);
   }, [fireRealTimeData, deviceData]);
 
   const peakItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? liquidPeakConfig : peakConfig,
-      bmsRealTimeData,
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.peak;
+    return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
   }, [bmsRealTimeData, deviceData]);
 
   const pcsItems = useMemo(() => {
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.pcs;
     return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? liquidPcsConfig : pcsConfig,
+      result ? [result] : [],
       { ...pcsRealTimeData, ...bmsRealTimeData },
       onMoreClick,
     );
   }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
 
   const dehumidifierItems = useMemo(() => {
-    return getItemsByConfig(
-      liquidProductIds.includes(deviceData?.productId) ? dehumidifierConfigs : [],
-      { ...dehumidifierRealTimeData },
-      onMoreClick,
-    );
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.dehumidifier;
+    return getItemsByConfig(result ? [result] : [], { ...dehumidifierRealTimeData }, onMoreClick);
   }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
 
   const packItems = useMemo(() => {
@@ -345,7 +309,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               {doorItems}
               {emsItems}
               {bmsItems}
-              {fireItems}
+              {fireFightItems}
               {peakItems}
               {pcsItems}
               {dehumidifierItems}

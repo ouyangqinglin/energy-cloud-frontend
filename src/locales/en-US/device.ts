@@ -297,4 +297,8 @@ export default {
   'device.sensorStatus': 'Sensor status',
   'device.coConcentration': 'CO concentration',
   'device.power': 'Power',
+  'device.batteryPack': 'Battery pack',
+  'device.cellNumber': 'Cell nmber',
+  'device.temperaturePoint': 'Temperature point',
+  'device.energyStorageInverter': 'Energy storage inverter',
 };

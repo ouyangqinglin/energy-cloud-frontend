@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Energy\index.tsx
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DeviceRealTimeType } from '../config';
 import EnergyInfo from '@/components/EnergyInfo';
 
