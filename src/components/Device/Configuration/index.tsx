@@ -30,7 +30,13 @@ export type ConfigProps = {
   deviceId: string;
 };
 
-const remoteSettingType = [DeviceTypeEnum.Ems, DeviceTypeEnum.BWattAir];
+const remoteSettingType = [
+  DeviceTypeEnum.Ems,
+  DeviceTypeEnum.BWattAir,
+  DeviceTypeEnum.YTEnergyBatteryStack,
+  DeviceTypeEnum.LiquidEnergyBatteryStack,
+];
+
 const oldRemoteUpgradeProductIds = [
   DeviceTypeEnum.ExchangePowerCabinet,
   DeviceTypeEnum.Ems,

@@ -160,6 +160,9 @@ export const singleEffectFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const mvFormat = (value: string | number) => {
+  return getValue(value, 'mV');
+};
 export const clusterFormat = (value: number) => {
   return value === 0 ? '断开' : '闭合';
 };

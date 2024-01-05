@@ -309,3 +309,12 @@ export const platformTypes = {
     text: formatMessage({ id: 'system.Version.ios', defaultMessage: '苹果' }),
   },
 };
+
+export const enabledEnums = {
+  0: {
+    text: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
+  },
+  1: {
+    text: formatMessage({ id: 'common.disable', defaultMessage: '禁用' }),
+  },
+};
