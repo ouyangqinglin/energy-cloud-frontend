@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2023-12-18 16:08:52
+ * @LastEditTime: 2024-01-05 16:03:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
@@ -63,11 +63,7 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   return (
     <>
       {type ? (
-        <Button
-          type="primary"
-          onClick={setTrue}
-          disabled={deviceData?.status === OnlineStatusEnum.Offline}
-        >
+        <Button type="primary" onClick={setTrue}>
           {formatMessage({ id: 'common.modify', defaultMessage: '修改' })}
         </Button>
       ) : (
