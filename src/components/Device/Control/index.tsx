@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-04 17:12:05
+ * @LastEditTime: 2024-01-06 17:57:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -33,7 +33,7 @@ import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button, Modal, Spin, TabsProps, message, Typography } from 'antd';
+import { Button, Modal, Spin, TabsProps, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType, editSetting } from '@/services/equipment';
@@ -260,10 +260,32 @@ const Control: React.FC<ControlType> = memo((props) => {
           break;
         case DeviceModelTypeEnum.Enum:
         case DeviceModelTypeEnum.Boolean:
+          const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
           switch (field.showType) {
+            case DeviceModelShowTypeEnum.Switch:
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                showPlaceholder: false,
+                labelStyle: {
+                  width: '145px',
+                  marginTop: '4px',
+                },
+                format: (value) => {
+                  return (
+                    <Switch
+                      checked={value === 0 || value === '0'}
+                      // disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                      loading={loading}
+                      onClick={() => btnClick(field, value === 0 || value === '0' ? 1 : 0)}
+                    />
+                  );
+                },
+              });
+              break;
+            case DeviceModelShowTypeEnum.RadioButton:
             case DeviceModelShowTypeEnum.Button:
-              const buttonEnum = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
-              const options = Object.entries(buttonEnum).map(([value, label]) => ({
+              const options = Object.entries(enumSpecs).map(([value, label]) => ({
                 value: isEmpty(value) ? '' : value + '',
                 label,
               }));
@@ -290,6 +312,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     <>
                       <RadioButton
                         options={options}
+                        type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
                         value={isEmpty(value) ? '' : value + ''}
                         disabled={deviceData?.status === OnlineStatusEnum.Offline || fieldDisabled}
                         onChange={(btnValue) => btnClick(field, btnValue)}
@@ -306,7 +329,6 @@ const Control: React.FC<ControlType> = memo((props) => {
               });
               break;
             default:
-              const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
               detailItems.push?.({
                 field: field?.id || '',
                 label: field?.name,
@@ -506,6 +528,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             });
           }
           break;
+        case DeviceModelDescribeTypeEnum.PropertyGroup:
         case DeviceModelDescribeTypeEnum.Service:
           result.push(getServiceItem(modelDescribeItem));
           break;

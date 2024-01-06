@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-27 13:58:30
- * @LastEditTime: 2023-12-27 14:21:35
+ * @LastEditTime: 2024-01-06 17:54:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\RadioButton\index.tsx
  */
@@ -16,10 +16,11 @@ export type RadioButtonType = {
   onChange?: (value: any) => void;
   disabled?: boolean;
   loading?: boolean;
+  type?: 'radio' | 'button';
 };
 
 const RadioButton: React.FC<RadioButtonType> = (props) => {
-  const { options, value, onChange, disabled, loading } = props;
+  const { options, value, onChange, disabled, loading, type = 'radio' } = props;
 
   return (
     <>
@@ -27,20 +28,22 @@ const RadioButton: React.FC<RadioButtonType> = (props) => {
         {options?.map?.((item) => {
           return (
             <Button
-              type={value === item.value && !disabled ? 'primary' : 'default'}
-              ghost={value === item.value}
+              type={type == 'radio' && value === item.value && !disabled ? 'primary' : 'default'}
+              ghost={type == 'radio' && value === item.value}
               loading={loading}
               onClick={() => !disabled && onChange?.(item.value)}
               disabled={item.disabled || disabled}
             >
-              <Radio
-                className="mr8"
-                checked={value === item.value}
-                disabled={disabled}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              />
+              {type == 'radio' && (
+                <Radio
+                  className="mr8"
+                  checked={value === item.value}
+                  disabled={disabled}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                />
+              )}
               {item.label}
             </Button>
           );

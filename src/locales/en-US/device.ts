@@ -309,4 +309,5 @@ export default {
   'device.systemWorkMode': 'System work mode',
   'device.systemWorkStatus': 'System work mode',
   'device.parallelMachineInfomation': 'Parallel machine infomation',
+  'device.batteryModuleIndividualInformation': 'Battery module individual information',
 };

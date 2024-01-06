@@ -299,4 +299,5 @@ export default {
   'device.systemWorkMode': '系统工作模式',
   'device.systemWorkStatus': '系统工作状态',
   'device.parallelMachineInfomation': '并机信息',
+  'device.batteryModuleIndividualInformation': '电池模块单体信息',
 };

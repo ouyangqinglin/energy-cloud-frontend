@@ -174,7 +174,7 @@ export const wind2AirItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'systemOperatingMode',
+      field: 'ctlmd',
       format: systemOperatingModeFormat,
     },
     {

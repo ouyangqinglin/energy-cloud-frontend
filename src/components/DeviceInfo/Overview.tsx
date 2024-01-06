@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2023-12-26 18:56:13
+ * @LastEditTime: 2024-01-06 17:13:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -11,7 +11,7 @@ import { Button, Image, Input, InputProps, Skeleton, message } from 'antd';
 import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
-import { DeviceDataType, editDeviceInfo, getDeviceInfo } from '@/services/equipment';
+import { DeviceDataType, editDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
 import type { DetailItem } from '../Detail';
 import { OnlineStatusEnum } from '@/utils/dict';
@@ -21,9 +21,8 @@ import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog';
-import { useSubscribe } from '@/hooks';
-import { MessageEventType } from '@/utils/connection';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
+import { DeviceMasterMode } from '@/utils/dictionary';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
@@ -220,12 +219,18 @@ const Overview: React.FC<OverviewProps> = (props) => {
     } else {
       return (
         <>
+          {!isEmpty(deviceData?.masterSlaveMode) &&
+            `(${
+              deviceData?.masterSlaveMode === DeviceMasterMode.Master
+                ? formatMessage({ id: 'device.host', defaultMessage: '主机' })
+                : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
+            })`}
           {deviceNameInfo?.name}
           <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
         </>
       );
     }
-  }, [deviceNameInfo, editNameloading]);
+  }, [deviceNameInfo, editNameloading, deviceData]);
 
   return (
     <>

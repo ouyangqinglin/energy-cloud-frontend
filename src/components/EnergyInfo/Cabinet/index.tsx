@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-06 10:08:06
+ * @LastEditTime: 2024-01-06 17:05:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -10,13 +10,13 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useRequest, useHistory } from 'umi';
 import { useSize } from 'ahooks';
 import { Skeleton, message } from 'antd';
-import { useSubscribe } from '@/hooks';
+import { useDeviceModel, useSubscribe } from '@/hooks';
 import { ComProps } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import { formatMessage } from '@/utils';
+import { formatMessage, formatModelValue } from '@/utils';
 import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
@@ -32,6 +32,7 @@ import {
 } from './config';
 import { EnergySourceEnum } from '../';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
+import { getDataIds, getItemsByConfig, getUnitByProductId } from './helper';
 
 const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>([
   [DeviceTypeEnum.Energy, RectEnergy],
@@ -42,96 +43,12 @@ const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>(
   [DeviceTypeEnum.Liquid2Energy, Liquid2Energy],
 ]);
 
-const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => {
-  const ids: Record<string, any> = {
-    air: [],
-    bms: [],
-    ems: [],
-    pcs: [],
-    fire: [],
-    dehumidifire: [],
-  };
-  data?.forEach?.((item) => {
-    if (DeviceProductTypeEnum.Air == item.productTypeId) {
-      ids.air.push(item.id);
-    } else if (DeviceProductTypeEnum.BatteryStack == item.productTypeId) {
-      ids.bms.push(item.id);
-    } else if (DeviceProductTypeEnum.Ems == item.productTypeId) {
-      ids.ems.push(item.id);
-    } else if (DeviceProductTypeEnum.Pcs == item.productTypeId) {
-      ids.pcs.push(item.id);
-    } else if (DeviceProductTypeEnum.FireFight == item.productTypeId) {
-      ids.fire.push(item.id);
-    } else if (DeviceProductTypeEnum.Dehumidifier == item.productTypeId) {
-      ids.dehumidifire.push(item.id);
-    }
-  });
-  return ids;
-};
-
-const getUnitByProductId = (
-  data: DeviceDataType[],
-  productTypeId: DeviceProductTypeEnum,
-): DeviceDataType | void => {
-  let result: DeviceDataType | void;
-  if (data && data.length) {
-    for (let i = 0; i < data?.length; i++) {
-      if (productTypeId == data[i]?.productTypeId) {
-        result = data[i];
-        return result;
-      }
-      if (data[i]?.children && data[i]?.children?.length) {
-        result = getUnitByProductId(data[i].children || [], productTypeId);
-        if (result) {
-          return result;
-        }
-      }
-    }
-  }
-};
-
-const getItemsByConfig = (
-  configs: ConfigType[],
-  data: Record<string, any>,
-  onMoreClick: (params: ConfigType) => void,
-) => {
-  return configs.map((item, index) => {
-    return (
-      <>
-        <div
-          key={item.label}
-          className={styles.unit}
-          style={{
-            backgroundImage: `url(${item.icon})`,
-            ...item.position,
-          }}
-        >
-          <img className={styles.line} src={item.line} style={item.linePosition} />
-          {item.showLabel === false ? (
-            <></>
-          ) : (
-            <label className={styles.unitTitle}>{item.label}</label>
-          )}
-          <Detail className={styles.detail} items={item.data} data={data} column={1} />
-          {item.showLabel === false ? (
-            <></>
-          ) : (
-            <span className={`cl-primary cursor ${styles.field}`} onClick={() => onMoreClick(item)}>
-              {formatMessage({ id: 'common.more', defaultMessage: '更多' })}
-              {'>'}
-            </span>
-          )}
-        </div>
-      </>
-    );
-  });
-};
-
 const liquidProductIds: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.LiquidEnergy,
   DeviceTypeEnum.Liquid2Energy,
 ];
-const ytEnergyProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.YTEnergy];
+
+const newWindAndLiquidEnergy = [DeviceTypeEnum.Wind2Energy, DeviceTypeEnum.Liquid2Energy];
 
 export type CabinetProps = ComProps & {
   showLabel?: boolean;
@@ -144,12 +61,36 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const divRef = useRef(null);
   const bodySize = useSize(divRef);
   const [deviceIds, setDeviceIds] = useState<Record<string, any>>({});
-  const airRealTimeData = useSubscribe(deviceIds?.air, true);
-  const bmsRealTimeData = useSubscribe(deviceIds?.bms, true);
-  const emsRealTimeData = useSubscribe(deviceIds?.ems, true);
-  const pcsRealTimeData = useSubscribe(deviceIds?.pcs, true);
-  const fireRealTimeData = useSubscribe(deviceIds?.fire, true);
-  const dehumidifierRealTimeData = useSubscribe(deviceIds?.dehumidifire, true);
+  const airRealTimeData = useSubscribe(deviceIds?.deviceId?.air, true);
+  const bmsRealTimeData = useSubscribe(deviceIds?.deviceId?.bms, true);
+  const emsRealTimeData = useSubscribe(deviceIds?.deviceId?.ems, true);
+  const pcsRealTimeData = useSubscribe(deviceIds?.deviceId?.pcs, true);
+  const fireRealTimeData = useSubscribe(deviceIds?.deviceId?.fire, true);
+  const dehumidifierRealTimeData = useSubscribe(deviceIds?.deviceId?.dehumidifire, true);
+  const { modelMap: airModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.air,
+    isGroup: true,
+  });
+  const { modelMap: bmsModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.bms,
+    isGroup: true,
+  });
+  const { modelMap: emsModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.ems,
+    isGroup: true,
+  });
+  const { modelMap: pcsModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.pcs,
+    isGroup: true,
+  });
+  const { modelMap: fireModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.fire,
+    isGroup: true,
+  });
+  const { modelMap: dehumidifireModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.dehumidifire,
+    isGroup: true,
+  });
   const history = useHistory();
 
   const {
@@ -207,47 +148,95 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const airItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.air;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, airModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], airRealTimeData, onMoreClick);
-  }, [airRealTimeData, deviceData, onMoreClick]);
+  }, [airRealTimeData, deviceData, onMoreClick, airModelMap]);
 
   const doorItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.door;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, bmsModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
-  }, [bmsRealTimeData, deviceData, onMoreClick]);
+  }, [bmsRealTimeData, deviceData, onMoreClick, bmsModelMap]);
 
   const emsItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.ems;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, emsModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], emsRealTimeData, onMoreClick);
-  }, [emsRealTimeData, deviceData]);
+  }, [emsRealTimeData, deviceData, emsModelMap, onMoreClick]);
 
   const bmsItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.bms;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, bmsModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
-  }, [bmsRealTimeData, deviceData]);
+  }, [bmsRealTimeData, deviceData, bmsModelMap, onMoreClick]);
 
   const fireFightItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.fireFight;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, fireModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], fireRealTimeData, onMoreClick);
-  }, [fireRealTimeData, deviceData]);
+  }, [fireRealTimeData, deviceData, fireModelMap, onMoreClick]);
 
   const peakItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.peak;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, bmsModelMap);
+      });
+    }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
-  }, [bmsRealTimeData, deviceData]);
+  }, [bmsRealTimeData, deviceData, bmsModelMap, onMoreClick]);
 
   const pcsItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.pcs;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) => formatModelValue(value, { ...pcsModelMap, ...bmsModelMap });
+      });
+    }
     return getItemsByConfig(
       result ? [result] : [],
       { ...pcsRealTimeData, ...bmsRealTimeData },
       onMoreClick,
     );
-  }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
+  }, [pcsRealTimeData, bmsRealTimeData, deviceData, pcsModelMap, bmsModelMap, onMoreClick]);
 
   const dehumidifierItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.dehumidifier;
+    if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
+      result?.data?.forEach?.((item) => {
+        item.format = (value) =>
+          formatModelValue(value, { ...dehumidifireModelMap, ...bmsModelMap });
+      });
+    }
     return getItemsByConfig(result ? [result] : [], { ...dehumidifierRealTimeData }, onMoreClick);
-  }, [pcsRealTimeData, bmsRealTimeData, deviceData]);
+  }, [
+    dehumidifierRealTimeData,
+    bmsRealTimeData,
+    deviceData,
+    dehumidifireModelMap,
+    bmsModelMap,
+    onMoreClick,
+  ]);
 
   const packItems = useMemo(() => {
     return Array.from({ length: 10 }).map((_, index) => {
