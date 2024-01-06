@@ -9,16 +9,17 @@
 
 import { GroupItem } from '@/components/Detail';
 import { FormAndDetailType } from '@/components/Detail/Detail';
-import { enabledEnums } from '@/utils/dict';
+import { enableOptions } from '@/utils/dict';
 import { currentFormat, kohmFormat, mvFormat, percentageFormat, tempFormat } from '@/utils/format';
-import { ProFormColumnsType } from '@ant-design/pro-components';
 
 export const batteryPackFireColumns: FormAndDetailType[] = [
   {
     title: '自启动功能使能',
     dataIndex: 'EnableBatterySystemSelfStartFunction',
     valueType: 'select',
-    valueEnum: enabledEnums,
+    fieldProps: {
+      options: enableOptions,
+    },
     formItemProps: {
       rules: [{ required: true }],
     },
@@ -30,7 +31,9 @@ export const batteryPackColumns: FormAndDetailType[] = [
     title: '电池组使能状态',
     dataIndex: 'enabledStatus',
     valueType: 'select',
-    valueEnum: enabledEnums,
+    fieldProps: {
+      options: enableOptions,
+    },
     formItemProps: {
       rules: [{ required: true }],
     },

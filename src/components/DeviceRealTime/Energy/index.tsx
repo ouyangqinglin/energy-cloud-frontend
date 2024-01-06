@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:47:38
- * @LastEditTime: 2023-09-11 16:56:57
+ * @LastEditTime: 2024-01-06 10:31:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Energy\index.tsx
  */
@@ -15,9 +15,7 @@ const Energy: React.FC<Omit<DeviceRealTimeType, 'id' | 'productId'>> = (props) =
 
   return (
     <>
-      <div className="p24">
-        <EnergyInfo deviceData={deviceData} />
-      </div>
+      <EnergyInfo deviceData={deviceData} />
     </>
   );
 };

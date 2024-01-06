@@ -310,11 +310,13 @@ export const platformTypes = {
   },
 };
 
-export const enabledEnums = {
-  0: {
-    text: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
+export const enableOptions = [
+  {
+    value: 1,
+    label: formatMessage({ id: 'common.disable', defaultMessage: '禁用' }),
   },
-  1: {
-    text: formatMessage({ id: 'common.disable', defaultMessage: '禁用' }),
+  {
+    value: 0,
+    label: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
   },
-};
+];

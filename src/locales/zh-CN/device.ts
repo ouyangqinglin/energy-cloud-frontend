@@ -274,7 +274,7 @@ export default {
   'device.fireSpraySignal': '消防喷射信号',
   'device.phaseSentence': '{name}相',
   'device.phasePowerSentence': '{name}相功率',
-  'device.fireInfo': '消防信息',
+  'device.fireFight': '消防',
   'device.warningLevel': '预警等级',
   'device.faultType': '故障类型',
   'device.subValveStatus': '子阀门状态',

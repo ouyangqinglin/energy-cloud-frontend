@@ -143,6 +143,27 @@ export const liquidAirItem: ConfigType = {
   ],
 };
 
+export const liquid2AirItem: ConfigType = {
+  label: formatMessage({ id: 'device.liquidCoolingUnit', defaultMessage: '液冷机组' }),
+  productTypeId: DeviceProductTypeEnum.Air,
+  position: { top: 557, left: 2 },
+  icon: LiquidAirImg,
+  line: LiquidAirLineImg,
+  linePosition: { top: 11, left: 92 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'systemOperatingMode',
+      format: systemOperatingModeFormat,
+    },
+    {
+      label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
+      field: 'SystemMode',
+      format: liquidSystemModeFormat,
+    },
+  ],
+};
+
 export const wind2AirItem: ConfigType = {
   label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
   productTypeId: DeviceProductTypeEnum.Air,
@@ -305,6 +326,27 @@ export const liquidBmsItem: ConfigType = {
   ],
 };
 
+export const liquid2BmsItem: ConfigType = {
+  label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
+  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  position: { top: 313, left: 768 },
+  icon: StackImg,
+  line: LiquidBmsLineImg,
+  linePosition: { top: 7, left: -133 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'systemOperatingMode',
+      format: systemOperatingModeFormat,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'systemWorkingStatus',
+      format: systemRunFormat,
+    },
+  ],
+};
+
 export const wind2BmsItem: ConfigType = {
   label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
   productTypeId: DeviceProductTypeEnum.BatteryStack,
@@ -327,7 +369,7 @@ export const wind2BmsItem: ConfigType = {
 };
 
 export const fireFightItem: ConfigType = {
-  label: formatMessage({ id: 'device.fireInfo', defaultMessage: '消防信息' }),
+  label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
   productTypeId: DeviceProductTypeEnum.FireFight,
   position: { top: 40, left: 802 },
   icon: FireFightImg,
@@ -353,7 +395,7 @@ export const fireFightItem: ConfigType = {
 };
 
 export const liquidFireFightItem: ConfigType = {
-  label: formatMessage({ id: 'device.fireInfo', defaultMessage: '消防信息' }),
+  label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
   productTypeId: DeviceProductTypeEnum.FireFight,
   position: { top: 79, left: 768 },
   icon: FireFightImg,
@@ -368,6 +410,27 @@ export const liquidFireFightItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
       field: 'DetectorCo',
+    },
+  ],
+};
+
+export const wind2FireFightItem: ConfigType = {
+  label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
+  productTypeId: DeviceProductTypeEnum.FireFight,
+  position: { top: 40, left: 802 },
+  icon: FireFightImg,
+  line: FireFightLineImg,
+  linePosition: { top: 10, left: -110 },
+  data: [
+    {
+      label: formatMessage({ id: 'device.warningLevel', defaultMessage: '预警等级' }),
+      field: 'lev',
+      format: earlyWarningFormat,
+    },
+    {
+      label: formatMessage({ id: 'device.subValveStatus', defaultMessage: '子阀门状态' }),
+      field: 'svs',
+      format: openCloseFormat,
     },
   ],
 };
@@ -513,6 +576,27 @@ export const liquidPcsItem: ConfigType = {
   ],
 };
 
+export const liquid2PcsItem: ConfigType = {
+  label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
+  productTypeId: DeviceProductTypeEnum.Pcs,
+  position: { top: 200, left: 768 },
+  icon: PcsImg,
+  line: LiquidPcsLineImg,
+  linePosition: { top: -29, left: -222 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'CurrentChargingAndDischargingModel',
+      format: (value: number) => electricModelFormat(value),
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'WorkStatus',
+      format: (value: number) => workFormat(value),
+    },
+  ],
+};
+
 export const windPcsItem: ConfigType = {
   label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
   productTypeId: DeviceProductTypeEnum.Pcs,
@@ -586,16 +670,17 @@ export const Wind2Energy: EnergyComponentType = {
   door: doorItem,
   ems: ytEmsItem,
   bms: wind2BmsItem,
+  fireFight: wind2FireFightItem,
   peak: peakItem,
   pcs: windPcsItem,
 };
 export const Liquid2Energy: EnergyComponentType = {
-  air: liquidAirItem,
+  air: liquid2AirItem,
   door: liquidDoorItem,
   ems: liquidEmsItem,
-  bms: liquidBmsItem,
+  bms: liquid2BmsItem,
   fireFight: liquidFireFightItem,
   peak: liquidPeakItem,
-  pcs: liquidPcsItem,
+  pcs: liquid2PcsItem,
   dehumidifier: dehumidifierItem,
 };

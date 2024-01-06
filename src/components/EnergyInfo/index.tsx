@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-04 15:17:13
- * @LastEditTime: 2023-11-26 13:51:29
+ * @LastEditTime: 2024-01-06 10:34:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
@@ -13,6 +13,8 @@ import Power from './Power';
 import Electric from './Electric';
 import { DeviceDataType } from '@/services/equipment';
 import MasterSlaveGroup from './MasterSlaveGroup';
+import ElectricDiagram from './ElectricDiagram';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 
 export enum EnergySourceEnum {
   SiteMonitor,
@@ -27,6 +29,11 @@ export type EnergyInfoProps = {
   emsGroupData?: any; //ems主从分组数据加所有设备数据
   loadingGroupData?: boolean;
 };
+
+const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
+  DeviceTypeEnum.Liquid2Energy,
+  DeviceTypeEnum.Wind2Energy,
+];
 
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
   const { deviceData, showLabel, loading, source, emsGroupData, loadingGroupData } = props;
@@ -52,7 +59,7 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
 
   return (
     <>
-      <Row gutter={20}>
+      <Row className="mb20" gutter={20}>
         <Col span={14}>
           {+groupId != -1 ? (
             <>
@@ -82,6 +89,9 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
           />
         </Col>
       </Row>
+      {+groupId == -1 && newWindLiquidEnergy.includes(deviceData?.productId) && (
+        <ElectricDiagram deviceData={deviceData} />
+      )}
     </>
   );
 };

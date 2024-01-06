@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2023-12-28 09:38:31
+ * @LastEditTime: 2024-01-06 10:08:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -127,7 +127,10 @@ const getItemsByConfig = (
   });
 };
 
-const liquidProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.LiquidEnergy];
+const liquidProductIds: (DeviceTypeEnum | undefined)[] = [
+  DeviceTypeEnum.LiquidEnergy,
+  DeviceTypeEnum.Liquid2Energy,
+];
 const ytEnergyProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.YTEnergy];
 
 export type CabinetProps = ComProps & {
@@ -175,7 +178,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               source === EnergySourceEnum.SiteMonitor
                 ? '/site-monitor/device-detail'
                 : '/equipment/device-detail',
-            search: `?id=${unit?.id}&productId=${unit?.productId}`,
+            search: `?id=${unit?.id}`,
           });
         } else {
           message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));

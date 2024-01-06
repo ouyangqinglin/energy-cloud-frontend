@@ -284,7 +284,7 @@ export default {
   'device.systemEmergencyStopSignal': 'System emergency stop signal',
   'device.fireSpraySignal': 'Fire spray signal',
   'device.phaseSentence': '{name}-phase',
-  'device.fireInfo': 'Fire information',
+  'device.fireFight': 'Fire fight',
   'device.warningLevel': 'Warning level',
   'device.faultType': 'Fault type',
   'device.subValveStatus': 'Sub valve status',

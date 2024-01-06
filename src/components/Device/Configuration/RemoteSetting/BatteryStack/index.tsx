@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-05 16:12:13
- * @LastEditTime: 2024-01-05 20:56:20
+ * @LastEditTime: 2024-01-06 09:58:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\BatteryStack\index.tsx
  */
@@ -11,16 +11,20 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { RemoteSettingType } from '../typing';
 import { Button, Tabs, TabsProps } from 'antd';
 import { useSubscribe } from '@/hooks';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPropsFromTree } from '@/utils';
 import Detail from '@/components/Detail';
 import {
   batteryPackColumns,
   batteryPackFireColumns,
   batteryPackFireGroupItems,
   batteryPackGroupItems,
+  protectFourColumns,
   protectFourGroupItems,
+  protectOneColumns,
   protectOneGroupItems,
+  protectThreeColumns,
   protectThreeGroupItems,
+  protectTwoColumns,
   protectTwoGroupItems,
 } from './helper';
 import ConfigModal from '@/components/Device/ConfigModal';
@@ -124,22 +128,21 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
     [protectFormItems],
   );
 
-  const beforeSubmit = useCallback((formData) => {
-    formData.input = { ...formData?.input, ...formData?.input?.tabData };
-    delete formData?.input?.tabData;
-  }, []);
-
-  const bmuItems = useMemo(() => {
-    const result: TabsProps['items'] = [];
-    Array.from({ length: bmuNum }).forEach((item, index) => {
-      const label = 'BMU' + (index + 1);
-      result.push({
-        label: label,
-        key: label,
-      });
-    });
-    return result;
-  }, [bmuNum]);
+  const beforeSubmit = useCallback(
+    (formData) => {
+      const allFeild = getPropsFromTree(
+        [...protectOneColumns, ...protectTwoColumns, ...protectThreeColumns, ...protectFourColumns],
+        'dataIndex',
+      );
+      const allFeildValue = allFeild?.reduce?.(
+        (result, item) => ({ ...result, [item]: realTimeData?.[item] }),
+        {},
+      );
+      formData.input = { ...formData?.input, ...allFeildValue, ...formData?.input?.tabData };
+      delete formData?.input?.tabData;
+    },
+    [realTimeData],
+  );
 
   const levelItems = useMemo<TabsProps['items']>(() => {
     return protectTabItem.map((item) => ({
@@ -150,17 +153,6 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
 
   return (
     <>
-      {/* <Tabs
-      items={bmuItems}
-      tabBarExtraContent={
-        <Button
-          type="primary"
-          disabled={deviceData?.status === OnlineStatusEnum.Offline}
-        >
-          {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
-        </Button>
-      }
-    /> */}
       <Detail.Group
         items={[
           {
