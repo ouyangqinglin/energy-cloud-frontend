@@ -320,3 +320,12 @@ export const enableOptions = [
     label: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
   },
 ];
+
+export const masterSlaveEnum = {
+  0: {
+    text: formatMessage({ id: 'device.host', defaultMessage: '主机' }),
+  },
+  1: {
+    text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
+  },
+};

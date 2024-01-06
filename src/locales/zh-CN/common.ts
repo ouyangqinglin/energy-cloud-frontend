@@ -194,4 +194,5 @@ export default {
   'common.addSentence': '新增{content}',
   'common.pleaseSelectSentence': '请选择{content}',
   'common.configParam': '配置参数',
+  'common.ipAddress': 'IP地址',
 };

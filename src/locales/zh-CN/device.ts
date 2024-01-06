@@ -291,4 +291,12 @@ export default {
   'device.cellNumber': '电芯编号',
   'device.temperaturePoint': '温度点',
   'device.energyStorageInverter': '储能变流器',
+  'device.parallelMachineNum': '并机编号',
+  'device.masterSlaveIdentification': '主从标识',
+  'device.host': '主机',
+  'device.slave': '从机',
+  'device.self': '本机',
+  'device.systemWorkMode': '系统工作模式',
+  'device.systemWorkStatus': '系统工作状态',
+  'device.parallelMachineInfomation': '并机信息',
 };

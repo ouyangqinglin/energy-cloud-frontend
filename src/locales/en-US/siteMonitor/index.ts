@@ -117,7 +117,7 @@ export default {
   'siteMonitor.accessDeviceList': 'Access device list',
   'siteMonitor.protectInformation': 'Protect information',
   'siteMonitor.controlInformation': 'Control information',
-  'siteMonitor.deviceCommunicationStatus': 'Device communication status',
+  'siteMonitor.deviceCommunicationStatus': 'Communication status',
   'siteMonitor.controlCommand': 'Control Command',
   'siteMonitor.systemStartup': 'System startup',
   'siteMonitor.systemHalt': 'System halt',

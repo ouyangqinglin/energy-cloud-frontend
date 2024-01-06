@@ -192,4 +192,5 @@ export default {
   'common.addSentence': 'Add {content}',
   'common.pleaseSelectSentence': 'Please select {content}',
   'common.configParam': 'Configuration parameter',
+  'common.ipAddress': 'IP address',
 };
