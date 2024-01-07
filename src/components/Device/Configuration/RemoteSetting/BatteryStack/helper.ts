@@ -10,7 +10,14 @@
 import { GroupItem } from '@/components/Detail';
 import { FormAndDetailType } from '@/components/Detail/Detail';
 import { enableOptions } from '@/utils/dict';
-import { currentFormat, kohmFormat, mvFormat, percentageFormat, tempFormat } from '@/utils/format';
+import {
+  currentFormat,
+  enableFormat,
+  kohmFormat,
+  mvFormat,
+  percentageFormat,
+  tempFormat,
+} from '@/utils/format';
 
 export const batteryPackFireColumns: FormAndDetailType[] = [
   {
@@ -23,6 +30,7 @@ export const batteryPackFireColumns: FormAndDetailType[] = [
     formItemProps: {
       rules: [{ required: true }],
     },
+    format: enableFormat,
   },
 ];
 
@@ -37,6 +45,7 @@ export const batteryPackColumns: FormAndDetailType[] = [
     formItemProps: {
       rules: [{ required: true }],
     },
+    format: enableFormat,
   },
 ];
 

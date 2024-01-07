@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-05 16:12:13
- * @LastEditTime: 2024-01-06 09:58:43
+ * @LastEditTime: 2024-01-07 10:11:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\BatteryStack\index.tsx
  */
@@ -31,6 +31,7 @@ import ConfigModal from '@/components/Device/ConfigModal';
 import { useBoolean } from 'ahooks';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 export type BatteryStackType = {
   bmuNum?: number;
@@ -154,13 +155,14 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
   return (
     <>
       <Detail.Group
+        data={realTimeData}
         items={[
           {
             label: (
               <Detail.Label title="电池组使能设置">
                 <Button
                   type="primary"
-                  // disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                  disabled={deviceData?.status === OnlineStatusEnum.Offline}
                   onClick={() => onClick('EnableBatterySystemSelfStartFunction', '电池组使能设置')}
                 >
                   {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
@@ -174,7 +176,7 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
               <Detail.Label title="电池组保护参数设置">
                 <Button
                   type="primary"
-                  // disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                  disabled={deviceData?.status === OnlineStatusEnum.Offline}
                   onClick={() => onClick('BatteryProtecParam', '电池组保护参数设置')}
                 >
                   {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
