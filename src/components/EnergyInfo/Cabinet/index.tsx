@@ -17,7 +17,7 @@ import EnergyImg from '@/assets/image/station/energy/enery.png';
 import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import { formatMessage, formatModelValue } from '@/utils';
-import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
 import {
@@ -31,7 +31,7 @@ import {
   WindEnergy,
 } from './config';
 import { EnergySourceEnum } from '../';
-import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
+import { getWholeDeviceTree } from '@/services/equipment';
 import { getDataIds, getItemsByConfig, getUnitByProductId } from './helper';
 
 const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>([

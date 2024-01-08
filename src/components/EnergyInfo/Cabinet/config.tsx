@@ -153,12 +153,12 @@ export const liquid2AirItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'systemOperatingMode',
+      field: 'y19',
       format: systemOperatingModeFormat,
     },
     {
       label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
-      field: 'SystemMode',
+      field: 'sysModel',
       format: liquidSystemModeFormat,
     },
   ],
@@ -175,12 +175,10 @@ export const wind2AirItem: ConfigType = {
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'ctlmd',
-      format: systemOperatingModeFormat,
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'systemWorkingStatus',
-      format: systemRunFormat,
+      field: 'WorkStatus',
     },
   ],
 };
@@ -248,6 +246,44 @@ export const liquidEmsItem: ConfigType = {
   ],
 };
 
+export const liquid2EmsItem: ConfigType = {
+  label: 'EMS',
+  productTypeId: DeviceProductTypeEnum.Ems,
+  position: { top: 210, left: 2 },
+  icon: EmsImg,
+  line: LiquidEmsLineImg,
+  linePosition: { top: 11, left: 77 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'bws',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'bmd',
+    },
+  ],
+};
+
+export const wind2EmsItem: ConfigType = {
+  label: 'EMS',
+  productTypeId: DeviceProductTypeEnum.Ems,
+  position: { top: 302, left: 2 },
+  icon: EmsImg,
+  line: EmsLineImg,
+  linePosition: { top: 11, left: 87 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'bmd',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'bws',
+    },
+  ],
+};
+
 export const dehumidifierItem: ConfigType = {
   label: formatMessage({ id: 'device.dehumidifier', defaultMessage: '除湿器' }),
   productTypeId: DeviceProductTypeEnum.Dehumidifier,
@@ -260,6 +296,21 @@ export const dehumidifierItem: ConfigType = {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'WorkMode',
       format: dehumidifierWorkModeFormat,
+    },
+  ],
+};
+
+export const liquid2DehumidifierItem: ConfigType = {
+  label: formatMessage({ id: 'device.dehumidifier', defaultMessage: '除湿器' }),
+  productTypeId: DeviceProductTypeEnum.Dehumidifier,
+  position: { top: 377, left: 2 },
+  icon: DehumidiferImg,
+  line: DehumidiferLineImg,
+  linePosition: { top: 11, left: 92 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'workm',
     },
   ],
 };
@@ -280,6 +331,21 @@ export const doorItem: ConfigType = {
   ],
 };
 
+export const wind2DoorItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+  showLabel: false,
+  position: { top: 203, left: 2 },
+  icon: DoorImg,
+  line: DoorLineImg,
+  linePosition: { top: 11, left: 152 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+      field: 'b178',
+    },
+  ],
+};
+
 export const liquidDoorItem: ConfigType = {
   label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
   showLabel: false,
@@ -292,6 +358,21 @@ export const liquidDoorItem: ConfigType = {
       label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
       field: 'AccessControlStatus',
       format: (value: number) => doorFormat(value),
+    },
+  ],
+};
+
+export const liquid2DoorItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+  showLabel: false,
+  position: { top: 70, left: 2 },
+  icon: DoorImg,
+  line: LiquidDoorLineImg,
+  linePosition: { top: 7, left: 128 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+      field: 'b178',
     },
   ],
 };
@@ -336,13 +417,11 @@ export const liquid2BmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'systemOperatingMode',
-      format: systemOperatingModeFormat,
+      field: 'bmd',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'systemWorkingStatus',
-      format: systemRunFormat,
+      field: 'bws',
     },
   ],
 };
@@ -357,13 +436,11 @@ export const wind2BmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'systemOperatingMode',
-      format: systemOperatingModeFormat,
+      field: 'bmd',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'systemWorkingStatus',
-      format: systemRunFormat,
+      field: 'bws',
     },
   ],
 };
@@ -414,6 +491,25 @@ export const liquidFireFightItem: ConfigType = {
   ],
 };
 
+export const liquid2FireFightItem: ConfigType = {
+  label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
+  productTypeId: DeviceProductTypeEnum.FireFight,
+  position: { top: 79, left: 768 },
+  icon: FireFightImg,
+  line: LiquidFireFightLineImg,
+  linePosition: { top: 12, left: -137 },
+  data: [
+    {
+      label: formatMessage({ id: 'device.sensorStatus', defaultMessage: '传感器状态' }),
+      field: 'SensorStatus',
+    },
+    {
+      label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
+      field: 'x28',
+    },
+  ],
+};
+
 export const wind2FireFightItem: ConfigType = {
   label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
   productTypeId: DeviceProductTypeEnum.FireFight,
@@ -424,13 +520,11 @@ export const wind2FireFightItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'device.warningLevel', defaultMessage: '预警等级' }),
-      field: 'lev',
-      format: earlyWarningFormat,
+      field: 'x4',
     },
     {
       label: formatMessage({ id: 'device.subValveStatus', defaultMessage: '子阀门状态' }),
-      field: 'svs',
-      format: openCloseFormat,
+      field: 'x3',
     },
   ],
 };
@@ -482,6 +576,49 @@ export const peakItem: ConfigType = {
   ],
 };
 
+export const wind2PeakItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
+  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  position: { top: 185, left: 802 },
+  icon: EmsImg,
+  line: PackLineImg,
+  linePosition: { top: 11, left: -60 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
+      field: 'b152',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'b153',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
+      field: 'b155',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'b156',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
+      field: 'b160',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'b161',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
+      field: 'b163',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'b164',
+    },
+  ],
+};
+
 export const liquidPeakItem: ConfigType = {
   label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
   productTypeId: DeviceProductTypeEnum.BatteryStack,
@@ -525,6 +662,49 @@ export const liquidPeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
       field: 'MNOIT',
+    },
+  ],
+};
+
+export const liquid2PeakItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
+  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  position: { top: 465, left: 768 },
+  icon: EmsImg,
+  line: LiquidStackLineImg,
+  linePosition: { top: 7, left: -165 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
+      field: 'b152',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'b153',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
+      field: 'b155',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'b156',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
+      field: 'b160',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'b161',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
+      field: 'b163',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'b164',
     },
   ],
 };
@@ -586,18 +766,16 @@ export const liquid2PcsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'CurrentChargingAndDischargingModel',
-      format: (value: number) => electricModelFormat(value),
+      field: 'p121',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
       field: 'WorkStatus',
-      format: (value: number) => workFormat(value),
     },
   ],
 };
 
-export const windPcsItem: ConfigType = {
+export const wind2PcsItem: ConfigType = {
   label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
   productTypeId: DeviceProductTypeEnum.Pcs,
   position: { top: 487, left: 802 },
@@ -607,13 +785,11 @@ export const windPcsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'CurrentChargingAndDischargingModel',
-      format: (value: number) => electricModelFormat(value),
+      field: 'p121',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
       field: 'WorkStatus',
-      format: (value: number) => workFormat(value),
     },
   ],
 };
@@ -667,20 +843,20 @@ export const LiquidEnergy: EnergyComponentType = {
 };
 export const Wind2Energy: EnergyComponentType = {
   air: wind2AirItem,
-  door: doorItem,
-  ems: ytEmsItem,
+  door: wind2DoorItem,
+  ems: wind2EmsItem,
   bms: wind2BmsItem,
   fireFight: wind2FireFightItem,
-  peak: peakItem,
-  pcs: windPcsItem,
+  peak: wind2PeakItem,
+  pcs: wind2PcsItem,
 };
 export const Liquid2Energy: EnergyComponentType = {
   air: liquid2AirItem,
-  door: liquidDoorItem,
-  ems: liquidEmsItem,
+  door: liquid2DoorItem,
+  ems: liquid2EmsItem,
   bms: liquid2BmsItem,
-  fireFight: liquidFireFightItem,
-  peak: liquidPeakItem,
+  fireFight: liquid2FireFightItem,
+  peak: liquid2PeakItem,
   pcs: liquid2PcsItem,
-  dehumidifier: dehumidifierItem,
+  dehumidifier: liquid2DehumidifierItem,
 };
