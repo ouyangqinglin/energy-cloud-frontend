@@ -15,14 +15,14 @@ import { formatMessage } from '@/utils';
 import { MessageEventType } from '@/utils/connection';
 import { onlineStatus } from '@/utils/dict';
 import { ProColumns, ProField } from '@ant-design/pro-components';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useRequest } from 'umi';
 
 export type AccessDeviceListType = {
   deviceId?: string;
 };
 
-const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
+const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
   const { deviceId } = props;
 
   const history = useHistory();
@@ -133,6 +133,6 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
       />
     </>
   );
-};
+});
 
 export default AccessDeviceList;

@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Chart from '@/components/Chart';
 import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
@@ -33,7 +33,7 @@ const LiquidEnergyBatteryProductIds = [
   DeviceTypeEnum.Liquid2EnergyBatteryCluster,
 ];
 
-const BmuTabs: React.FC<BmuTabsType> = (props) => {
+const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   const { isStackChild = false, clusterDeviceId } = props;
 
   const { data: deviceData } = useContext(DeviceContext);
@@ -209,6 +209,6 @@ const BmuTabs: React.FC<BmuTabsType> = (props) => {
       />
     </>
   );
-};
+});
 
 export default BmuTabs;

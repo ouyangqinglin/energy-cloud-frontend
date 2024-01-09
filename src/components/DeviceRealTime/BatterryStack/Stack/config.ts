@@ -78,6 +78,14 @@ export const controlItemsMainYT: DetailItem[] = [
   },
 ];
 
+export const controlItemsMainLiquid: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'siteMonitor.mainContactorStatus', defaultMessage: '主接触器状态' }),
+    field: 'MainContactorStatus',
+    format: closeFormat,
+  },
+];
+
 export const controlItemsTow: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.externalFaultStatus', defaultMessage: '对外故障' }),

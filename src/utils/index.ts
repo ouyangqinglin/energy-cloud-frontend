@@ -400,14 +400,15 @@ export const getPropsFromTree = <T extends Record<string, any>, U = string>(
   data?: T[],
   key = 'id',
   children = 'children',
+  interceptor = (params: T) => true,
 ): U[] => {
   const result: U[] = [];
   data?.forEach?.((item) => {
-    if (!isEmpty(item?.[key])) {
+    if (!isEmpty(item?.[key]) && (!interceptor || interceptor(item))) {
       result.push(item?.[key]);
     }
     if (item?.[children] && item?.[children]?.length) {
-      const childrenResult: U[] = getPropsFromTree(item?.[children], key, children);
+      const childrenResult: U[] = getPropsFromTree(item?.[children], key, children, interceptor);
       result.push(...childrenResult);
     }
   });

@@ -58,3 +58,21 @@ export const timeRangeColumn: ProFormColumnsType = {
     },
   ],
 };
+
+export const getColumnsLength = (columns?: ProFormColumnsType[]): number => {
+  const columnGruop: ProFormColumnsType[][] = [[]];
+  let maxColumnLength = 0;
+  columns?.forEach?.((item) => {
+    if (item.valueType == 'formList') {
+      const length = (item?.columns as any)?.[0]?.columns?.length || 0;
+      maxColumnLength = Math.max(length, maxColumnLength);
+      columnGruop.push([]);
+    } else {
+      columnGruop[columnGruop.length - 1].push(item);
+    }
+  });
+  columnGruop.forEach((item) => {
+    maxColumnLength = Math.max(maxColumnLength, item.length);
+  });
+  return maxColumnLength;
+};

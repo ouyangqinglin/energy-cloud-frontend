@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-01-08 11:50:33
+ * @LastEditTime: 2024-01-09 11:16:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */
 
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import Label from '@/components/Detail/LineLabel';
@@ -31,7 +31,7 @@ type ParallelDeviceType = DeviceDataType & {
   socId?: string;
 };
 
-const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
+const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
   const { deviceId } = props;
 
   const { data: deviceData } = useContext(DeviceContext);
@@ -57,15 +57,16 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
     MessageEventType.NETWORKSTSTUS,
   );
 
-  const associationEmsBmsDeviceIds = useMemo(() => {
+  const associationChildDeviceIds = useMemo(() => {
     const result: string[] = [];
     associationDeviceDataList?.forEach?.((item: ParallelDeviceType) => {
       item?.emsId && result.push(item?.emsId || '');
       item?.bmsId && result.push(item?.bmsId || '');
+      item?.socId && result.push(item?.socId || '');
     });
     return result;
   }, [associationDeviceDataList]);
-  const associationRealtimeData = useSubscribe(associationEmsBmsDeviceIds, true);
+  const associationRealtimeData = useSubscribe(associationChildDeviceIds, true);
 
   const onDeviceClick = useCallback((record) => {
     history.push({
@@ -151,7 +152,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.systemWorkStatus', defaultMessage: '系统工作状态' }),
-        dataIndex: 'sysWorkStatus',
+        dataIndex: 'systemWorkStatusId',
         width: 150,
         ellipsis: true,
         render: (_, { systemWorkStatusId }: any) => {
@@ -165,7 +166,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
       },
       {
         title: 'SOC(%)',
-        dataIndex: 'soc',
+        dataIndex: 'socId',
         width: 100,
         ellipsis: true,
         render: (_, { socId }: any) => {
@@ -195,6 +196,6 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
       />
     </>
   );
-};
+});
 
 export default AccessDeviceList;

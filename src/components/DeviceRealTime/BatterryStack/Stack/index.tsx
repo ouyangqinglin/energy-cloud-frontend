@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-12-27 19:31:02
+ * @LastEditTime: 2024-01-09 14:57:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Stack\index.tsx
  */
@@ -25,6 +25,7 @@ import {
   abilityItems,
   maxUnitColumns,
   statusItemsWaterMine,
+  controlItemsMainLiquid,
 } from './config';
 import ElectricLine from '@/assets/image/device/electric-line.png';
 import styles from './index.less';
@@ -210,7 +211,9 @@ const Stack: React.FC<StackProps> = (props) => {
           ...getControlItems(deviceData),
           ...((deviceData?.productId as any) == DeviceTypeEnum.YTEnergyBatteryStack ||
           (deviceData?.productId as any) == DeviceTypeEnum.LiquidEnergyBatteryStack
-            ? controlItemsMainYT
+            ? deviceData?.productId == DeviceTypeEnum.LiquidEnergyBatteryStack
+              ? controlItemsMainLiquid
+              : controlItemsMainYT
             : controlItemsMain),
           ...controlItemsTow,
         ],

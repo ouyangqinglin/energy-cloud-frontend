@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-08 19:11:59
+ * @LastEditTime: 2024-01-09 15:47:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -31,9 +31,9 @@ import {
 } from '@/utils';
 import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { timeRangeColumn } from './helper';
+import { getColumnsLength, timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button, Modal, Spin, TabsProps, message, Typography, Switch } from 'antd';
+import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
 import { DeviceDataType, editSetting } from '@/services/equipment';
@@ -62,10 +62,28 @@ const Control: React.FC<ControlType> = memo((props) => {
   const [currentFormInfo, setCurrentFormInfo] = useState<{
     service?: DeviceServiceType;
     columns?: ProFormColumnsType[];
+    width?: string;
   }>({});
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
+
+  const components = useMemo<
+    Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
+  >(() => {
+    const ids = getPropsFromTree(
+      groupData,
+      'id',
+      'children',
+      (item) => item.type == DeviceModelDescribeTypeEnum.Component,
+    );
+    return ids.reduce((result, item) => {
+      return {
+        ...result,
+        [item]: lazy(() => import('@/components/Device/module/' + item)),
+      };
+    }, {});
+  }, [groupData]);
 
   const authorityCodes = useMemo(() => {
     const result: string[] = [];
@@ -85,13 +103,17 @@ const Control: React.FC<ControlType> = memo((props) => {
 
   const { authorityMap } = useAuthority(authorityCodes);
 
-  const onClick = useCallback((service: DeviceServiceType, columns: ProFormColumnsType[]) => {
-    setCurrentFormInfo({
-      service,
-      columns,
-    });
-    setTrue();
-  }, []);
+  const onClick = useCallback(
+    (service: DeviceServiceType, columns: ProFormColumnsType[], columnsLength: number) => {
+      setCurrentFormInfo({
+        service,
+        columns,
+        width: columnsLength < 3 ? '552px' : '816px',
+      });
+      setTrue();
+    },
+    [],
+  );
 
   const btnClick = useCallback(
     (field: DeviceServiceModelType, value: any) => {
@@ -181,21 +203,19 @@ const Control: React.FC<ControlType> = memo((props) => {
             },
             timeRangeColumn,
           );
-          ((field.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.forEach?.(
-            (structField) => {
-              const { cols } = getFieldItem(structField);
-              cols[0].colProps = { span: 8 };
-              (column?.columns as any)?.[0]?.columns?.push?.(...cols);
-            },
-          );
+          const specsLength = (specsItem as DeviceStructType)?.specs?.length || 0;
+          (specsItem as DeviceStructType)?.specs?.forEach?.((structField) => {
+            const { cols } = getFieldItem(structField);
+            cols[0].colProps = { span: specsLength < 3 ? 24 / specsLength : 8 };
+            (column?.columns as any)?.[0]?.columns?.push?.(...cols);
+          });
           columns.push(column);
 
           const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           const items: DetailItem[] = [];
           const detailData: Record<string, any> = {};
           const formData = fieldValue?.map?.((value, index) => {
-            const specs = ((field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)
-              ?.specs;
+            const specs = (specsItem as DeviceStructType)?.specs;
             let transformValue = value;
             if (typeof transformValue != 'object' || Array.isArray(transformValue)) {
               transformValue = {
@@ -218,9 +238,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           if (!items?.length) {
             items.push({
               field: 'arrayxxx',
-              label:
-                ((field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.[0]
-                  ?.name + '1',
+              label: (specsItem as DeviceStructType)?.specs?.[0]?.name + '1',
             });
           }
           detailItems.push(...items);
@@ -345,6 +363,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                     value: isEmpty(value) ? '' : value + '',
                     label,
                   })),
+                  placeholder: formatMessage({
+                    id: 'common.pleaseSelect',
+                    defaultMessage: '请选择',
+                  }),
                 },
                 convertValue: (value) => (isEmpty(value) ? '' : value + ''),
                 formItemProps: {
@@ -453,7 +475,6 @@ const Control: React.FC<ControlType> = memo((props) => {
     (service: DeviceServiceType) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
-      const colspan = service?.children?.length;
       service?.children?.forEach?.((field) => {
         field.serviceId = service.id;
         const { items, cols } = getFieldItem(field);
@@ -465,6 +486,14 @@ const Control: React.FC<ControlType> = memo((props) => {
         detailItems.push(...items);
         columns.push(...cols);
       });
+      const columnsLength = getColumnsLength(columns);
+      if (columnsLength < 3) {
+        columns.forEach((item) => {
+          item.colProps = {
+            span: 24 / columnsLength,
+          };
+        });
+      }
       if (detailItems?.length == 2) {
         detailItems[1].span = 2;
       }
@@ -481,7 +510,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             >
               <Button
                 type="primary"
-                onClick={() => onClick(service, columns)}
+                onClick={() => onClick(service, columns, columnsLength)}
                 disabled={deviceData?.status === OnlineStatusEnum.Offline}
               >
                 {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
@@ -557,28 +586,28 @@ const Control: React.FC<ControlType> = memo((props) => {
           });
           break;
         case DeviceModelDescribeTypeEnum.Component:
-          const Component = lazy(
-            () => import('@/components/Device/module/' + modelDescribeItem.id),
-          );
-          result.push({
-            component: (
-              <Suspense
-                fallback={
-                  <div className="tx-center">
-                    <Spin />
-                  </div>
-                }
-              >
-                <Component deviceId={deviceData?.deviceId} />
-              </Suspense>
-            ),
-          });
+          if (modelDescribeItem.id) {
+            const Component = components[modelDescribeItem.id];
+            result.push({
+              component: (
+                <Suspense
+                  fallback={
+                    <div className="tx-center">
+                      <Spin />
+                    </div>
+                  }
+                >
+                  <Component deviceId={deviceData?.deviceId} />
+                </Suspense>
+              ),
+            });
+          }
           break;
         default:
       }
       return result;
     },
-    [realTimeData, deviceData, getServiceItem, passAuthority],
+    [realTimeData, deviceData, getServiceItem, passAuthority, components],
   );
 
   const groupsItems = useMemo(() => {
@@ -613,7 +642,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         <>
           <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
           <ConfigModal
-            width="816px"
+            width={currentFormInfo?.width || '816px'}
             open={openForm}
             onOpenChange={set}
             title={currentFormInfo?.service?.name || ''}
