@@ -193,6 +193,7 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
       />
       <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
       <Chart
+        className="mb16"
         option={chartOption}
         style={{ height: 300 }}
         onEvents={{

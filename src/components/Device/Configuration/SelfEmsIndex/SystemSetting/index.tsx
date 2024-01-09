@@ -23,13 +23,12 @@ import { useAuthority } from '@/hooks';
 import { parseToObj, formatMessage } from '@/utils';
 export type StackProps = {
   deviceId: string;
-  productId: string;
   realTimeData?: Record<string, any>;
   deviceData: DeviceDataType;
 };
 
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId, productId, deviceData } = props;
+  const { realTimeData, deviceId, deviceData } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:config:systemSetting:systemEnableSetting',
@@ -120,7 +119,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
       });
     }
     return groupItems;
-  }, [deviceId, productId, realTimeData, deviceData, authorityMap]);
+  }, [deviceId, realTimeData, deviceData, authorityMap]);
 
   return (
     <>

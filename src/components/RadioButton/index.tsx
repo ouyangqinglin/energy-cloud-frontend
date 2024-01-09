@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-27 13:58:30
- * @LastEditTime: 2024-01-06 17:54:58
+ * @LastEditTime: 2024-01-09 16:37:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\RadioButton\index.tsx
  */
@@ -40,6 +40,7 @@ const RadioButton: React.FC<RadioButtonType> = (props) => {
                   checked={value === item.value}
                   disabled={disabled}
                   onClick={(e) => {
+                    !disabled && onChange?.(item.value);
                     e.stopPropagation();
                   }}
                 />

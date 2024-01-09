@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2024-01-09 16:03:41
+ * @LastEditTime: 2024-01-09 16:28:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
@@ -64,12 +64,7 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
     <>
       <div className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}>
         {productId == (DeviceTypeEnum.YTEnergyEms as any) ? (
-          <SelfEmsIndex
-            deviceData={deviceData}
-            productId={productId}
-            deviceId={deviceId}
-            realTimeData={realTimeData}
-          />
+          <SelfEmsIndex deviceData={deviceData} deviceId={deviceId} realTimeData={realTimeData} />
         ) : (
           <>
             <div ref={containRef} className="px24">

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-25 14:42:09
- * @LastEditTime: 2024-01-09 14:07:54
+ * @LastEditTime: 2024-01-09 16:18:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\RemoteUpgrade\index.tsx
  */

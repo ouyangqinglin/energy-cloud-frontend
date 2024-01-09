@@ -186,6 +186,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         className="mt16"
       />
       <YTProTable<DeviceDataType>
+        className="mb16"
         loading={loading}
         search={false}
         options={false}

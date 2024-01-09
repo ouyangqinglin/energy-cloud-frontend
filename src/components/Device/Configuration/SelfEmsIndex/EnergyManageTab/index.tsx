@@ -20,7 +20,6 @@ import { chargeAndDischargeStatus } from '@/utils/dict';
 import { powerFormat } from '@/utils/format';
 export type ConfigProps = {
   deviceId: string;
-  productId: string;
   deviceData: DeviceDataType;
   realTimeData?: any;
 };
@@ -29,7 +28,7 @@ const timeFormat = 'HH:mm';
 const timeFields = ['sharpTime', 'peakTime', 'flatTime', 'valleyTime'];
 
 export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
-  const { realTimeData, deviceId, deviceData, productId } = props;
+  const { realTimeData, deviceId, deviceData } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:config:energyManage:manualModeSetting',
@@ -249,7 +248,6 @@ export const EnergyManageTab: React.FC<ConfigProps> = (props) => {
   }, [
     deviceId,
     deviceData,
-    productId,
     realTimeData,
     authorityMap,
     peakValleyData,

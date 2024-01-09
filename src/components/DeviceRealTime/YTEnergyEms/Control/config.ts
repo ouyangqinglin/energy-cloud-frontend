@@ -65,22 +65,22 @@ export const controlItems: ControlParamItem[] = [
   //     { text: '停止', value: 2 },
   //   ],
   // },
-  {
-    label: formatMessage(
-      {
-        id: 'device.mainContactorControlSentence',
-        defaultMessage: 'BMS主接触器控制',
-      },
-      {
-        name: 'BMS',
-      },
-    ),
-    field: 'bmsOpenAndClose',
-    btnParam: [
-      { text: formatMessage({ id: 'device.close', defaultMessage: '闭合' }), value: 1 },
-      { text: formatMessage({ id: 'device.break', defaultMessage: '断开' }), value: 0 },
-    ],
-  },
+  // {
+  //   label: formatMessage(
+  //     {
+  //       id: 'device.mainContactorControlSentence',
+  //       defaultMessage: 'BMS主接触器控制',
+  //     },
+  //     {
+  //       name: 'BMS',
+  //     },
+  //   ),
+  //   field: 'bmsOpenAndClose',
+  //   btnParam: [
+  //     { text: formatMessage({ id: 'device.close', defaultMessage: '闭合' }), value: 1 },
+  //     { text: formatMessage({ id: 'device.break', defaultMessage: '断开' }), value: 0 },
+  //   ],
+  // },
   {
     label: formatMessage({ id: 'device.systemReset', defaultMessage: '系统复位' }),
     field: 'systemReset',

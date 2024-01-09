@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-27 09:55:28
- * @LastEditTime: 2023-12-20 19:27:59
+ * @LastEditTime: 2024-01-09 16:42:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Control\index.tsx
  */
@@ -102,6 +102,9 @@ const Setting: React.FC<SettingProps> = (props) => {
                             !(item.disabled && settingData?.systemOperatingMode != 2)
                           }
                           onClick={(e) => {
+                            if (passAuthority) {
+                              btnClick(item, btnItem);
+                            }
                             e.stopPropagation();
                           }}
                         />

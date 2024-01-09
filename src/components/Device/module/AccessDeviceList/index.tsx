@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-25 14:02:46
- * @LastEditTime: 2023-12-25 15:50:59
+ * @LastEditTime: 2024-01-09 16:15:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\AccessDeviceList\index.tsx
  */
@@ -123,6 +123,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         className="mt16"
       />
       <YTProTable<DeviceDataType>
+        className="mb16"
         loading={loading}
         search={false}
         options={false}

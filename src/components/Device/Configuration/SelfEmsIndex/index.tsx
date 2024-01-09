@@ -20,13 +20,12 @@ import { AuthorityModeEnum } from '@/hooks/useAuthority';
 import { formatMessage } from '@/utils';
 export type ConfigProps = {
   deviceId: string;
-  productId: string;
   deviceData: DeviceDataType;
   realTimeData: Record<string, any>;
 };
 
 const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
-  const { deviceId, productId, deviceData, realTimeData } = props;
+  const { deviceId, deviceData, realTimeData } = props;
   const { passAuthority, authorityMap } = useAuthority(
     [
       'iot:device:config:systemSetting',
@@ -46,12 +45,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '1',
       label: formatMessage({ id: 'device.systemSetting', defaultMessage: '系统设置' }),
       children: (
-        <SystemSetting
-          deviceId={deviceId}
-          productId={productId}
-          realTimeData={realTimeData}
-          deviceData={deviceData}
-        />
+        <SystemSetting deviceId={deviceId} realTimeData={realTimeData} deviceData={deviceData} />
       ),
     });
   }
@@ -60,12 +54,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
       key: '4',
       label: formatMessage({ id: 'device.energyManagement', defaultMessage: '能量管理' }),
       children: (
-        <EnergyManageTab
-          productId={productId}
-          deviceId={deviceId}
-          deviceData={deviceData}
-          realTimeData={realTimeData}
-        />
+        <EnergyManageTab deviceId={deviceId} deviceData={deviceData} realTimeData={realTimeData} />
       ),
     });
   }
