@@ -43,6 +43,23 @@ const Run: React.FC<RunType> = (props) => {
     collection: '',
   });
 
+  const components = useMemo<
+    Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
+  >(() => {
+    const ids = getPropsFromTree(
+      groupData,
+      'id',
+      'children',
+      (item) => item.type == DeviceModelDescribeTypeEnum.Component,
+    );
+    return ids.reduce((result, item) => {
+      return {
+        ...result,
+        [item]: lazy(() => import('@/components/Device/module/' + item)),
+      };
+    }, {});
+  }, [groupData]);
+
   const onClick = useCallback((item: DetailItem) => {
     if (item.field) {
       setCollectionInfo({
@@ -191,28 +208,28 @@ const Run: React.FC<RunType> = (props) => {
           });
           break;
         case DeviceModelDescribeTypeEnum.Component:
-          const Component = lazy(
-            () => import('@/components/Device/module/' + modelDescribeItem.id),
-          );
-          result.push({
-            component: (
-              <Suspense
-                fallback={
-                  <div className="tx-center">
-                    <Spin />
-                  </div>
-                }
-              >
-                <Component deviceId={deviceData?.deviceId} />
-              </Suspense>
-            ),
-          });
+          if (modelDescribeItem.id) {
+            const Component = components[modelDescribeItem.id];
+            result.push({
+              component: (
+                <Suspense
+                  fallback={
+                    <div className="tx-center">
+                      <Spin />
+                    </div>
+                  }
+                >
+                  <Component deviceId={deviceData?.deviceId} />
+                </Suspense>
+              ),
+            });
+          }
           break;
         default:
       }
       return result;
     },
-    [realTimeData, deviceData, getDetailItems, passAuthority, getGridComponent],
+    [realTimeData, deviceData, getDetailItems, passAuthority, getGridComponent, components],
   );
 
   const groupsItems = useMemo(() => {

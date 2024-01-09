@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2023-12-27 20:00:33
+ * @LastEditTime: 2024-01-09 16:03:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Community from './Community';
 import DeviceConfig from './DeviceConfig';
 import { isEmpty } from '@/utils';
@@ -22,7 +22,6 @@ import SelfEmsIndex from './SelfEmsIndex';
 import Control from '../Control';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { Empty } from 'antd';
-import { useBoolean } from 'ahooks';
 
 export type ConfigProps = {
   deviceData: any;
