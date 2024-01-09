@@ -48,4 +48,13 @@ export const timeRangeColumn: ProFormColumnsType = {
   colProps: {
     span: 24,
   },
+  columns: [
+    {
+      valueType: 'group',
+      columns: [],
+      colProps: {
+        span: 24,
+      },
+    },
+  ],
 };

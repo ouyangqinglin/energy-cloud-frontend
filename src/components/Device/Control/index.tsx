@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-06 17:57:00
+ * @LastEditTime: 2024-01-08 19:11:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -149,44 +149,46 @@ const Control: React.FC<ControlType> = memo((props) => {
               };
             }
           }
-          const column: ProFormColumnsType = {
-            dataIndex: field.id,
-            formItemProps: {
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: formatMessage(
-                          { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
-                          {
-                            content: field?.name,
-                          },
-                        ),
-                      },
-                    ],
-            },
-            columns: [],
-            fieldProps: {
-              creatorButtonProps: {
-                creatorButtonText: formatMessage(
-                  { id: 'common.addSentence', defaultMessage: '新增' },
-                  {
-                    content: field?.name,
-                  },
-                ),
+          const column: ProFormColumnsType = merge(
+            {
+              dataIndex: field.id,
+              formItemProps: {
+                rules:
+                  field?.required === false
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: formatMessage(
+                            { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                            {
+                              content: field?.name,
+                            },
+                          ),
+                        },
+                      ],
+              },
+              fieldProps: {
+                creatorButtonProps: {
+                  creatorButtonText: formatMessage(
+                    { id: 'common.addSentence', defaultMessage: '新增' },
+                    {
+                      content: field?.name,
+                    },
+                  ),
+                },
               },
             },
-          };
+            timeRangeColumn,
+          );
           ((field.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.forEach?.(
             (structField) => {
               const { cols } = getFieldItem(structField);
-              cols[0].colProps = { span: 24 };
-              (column?.columns as any)?.push?.(...cols);
+              cols[0].colProps = { span: 8 };
+              (column?.columns as any)?.[0]?.columns?.push?.(...cols);
             },
           );
-          columns.push(merge({}, timeRangeColumn, column));
+          columns.push(column);
 
           const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           const items: DetailItem[] = [];
@@ -451,6 +453,7 @@ const Control: React.FC<ControlType> = memo((props) => {
     (service: DeviceServiceType) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
+      const colspan = service?.children?.length;
       service?.children?.forEach?.((field) => {
         field.serviceId = service.id;
         const { items, cols } = getFieldItem(field);
@@ -610,6 +613,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         <>
           <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
           <ConfigModal
+            width="816px"
             open={openForm}
             onOpenChange={set}
             title={currentFormInfo?.service?.name || ''}
@@ -618,6 +622,9 @@ const Control: React.FC<ControlType> = memo((props) => {
             serviceId={currentFormInfo?.service?.id || ''}
             columns={currentFormInfo?.columns || []}
             showClickButton={false}
+            colProps={{
+              span: 8,
+            }}
           />
         </>
       )}

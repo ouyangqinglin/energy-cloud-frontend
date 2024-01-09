@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-01-06 17:13:04
+ * @LastEditTime: 2024-01-08 18:03:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -13,16 +13,14 @@ import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
 import { DeviceDataType, editDeviceInfo } from '@/services/equipment';
 import Detail from '../Detail';
-import type { DetailItem } from '../Detail';
-import { OnlineStatusEnum } from '@/utils/dict';
 import styles from './index.less';
 import Dialog from '@/components/Dialog';
-import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog';
 import { formatMessage, isEmpty } from '@/utils';
 import { DeviceMasterMode } from '@/utils/dictionary';
+import { topItems, bottomItems } from './helper';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
@@ -129,82 +127,6 @@ const Overview: React.FC<OverviewProps> = (props) => {
     });
   }, [deviceData]);
 
-  const equipInfoItems = useMemo<DetailItem[]>(() => {
-    return [
-      {
-        label: formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' }),
-        field: 'networkStatus',
-        format: onlineStatusFormat,
-      },
-      {
-        label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
-        field: 'alarmStatus',
-        format: (value) => {
-          return (
-            <>
-              <span className="flex">
-                {deviceAlarmStatusFormat(value)}
-                <span className="ml8">{deviceData?.alarmCount}</span>
-              </span>
-            </>
-          );
-        },
-      },
-      {
-        label: formatMessage({
-          id: 'siteMonitor.recentOfflineTime',
-          defaultMessage: '最近离线时间',
-        }),
-        field: 'offlineTime',
-        show: deviceData?.status === OnlineStatusEnum.Offline,
-      },
-      {
-        label: formatMessage({
-          id: 'siteMonitor.recentOnlineTime',
-          defaultMessage: '最近在线时间',
-        }),
-        field: 'sessionStartTime',
-        show: deviceData?.status !== OnlineStatusEnum.Offline,
-      },
-      {
-        label: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
-        field: 'sn',
-      },
-      { label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }), field: 'model' },
-      {
-        label: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-        field: 'productTypeName',
-      },
-      {
-        label: formatMessage({ id: 'siteMonitor.packageName', defaultMessage: '软件包名称' }),
-        field: 'softPackageName',
-      },
-      {
-        label: formatMessage({
-          id: 'siteMonitor.softwareVersionNumber',
-          defaultMessage: '软件版本号',
-        }),
-        field: 'softVersion',
-      },
-      {
-        label: formatMessage({ id: 'siteMonitor.activationTime', defaultMessage: '激活时间' }),
-        field: 'activeTime',
-      },
-      {
-        label: formatMessage({ id: 'siteMonitor.entryTime', defaultMessage: '录入时间' }),
-        field: 'createTime',
-      },
-      {
-        label: formatMessage({ id: 'siteMonitor.enteredBy', defaultMessage: '录入人' }),
-        field: 'updateUserName',
-      },
-      {
-        label: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),
-        field: 'siteName',
-      },
-    ];
-  }, [deviceData]);
-
   const title = useMemo(() => {
     if (deviceNameInfo.showEdit) {
       return (
@@ -260,7 +182,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
               </Button>
             )}
           </Detail.Label>
-          <Detail items={equipInfoItems} data={{ ...deviceData }} column={4} />
+          <Detail items={[...topItems, ...bottomItems]} data={{ ...deviceData }} column={4} />
         </div>
       )}
       <Dialog

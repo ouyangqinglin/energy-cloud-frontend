@@ -329,3 +329,10 @@ export const getUpgradeRecord = (params: any) => {
     params,
   });
 };
+
+export const getParallelDevice = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/device/getEsGroup`, {
+    method: 'GET',
+    params,
+  });
+};

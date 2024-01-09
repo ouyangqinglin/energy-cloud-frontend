@@ -300,4 +300,6 @@ export default {
   'device.systemWorkStatus': '系统工作状态',
   'device.parallelMachineInfomation': '并机信息',
   'device.batteryModuleIndividualInformation': '电池模块单体信息',
+  'device.equipmentManufacturer': '设备厂商',
+  'device.ratedPower': '额定功率',
 };

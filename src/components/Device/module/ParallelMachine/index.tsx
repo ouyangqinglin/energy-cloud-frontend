@@ -2,48 +2,70 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-01-06 11:44:00
+ * @LastEditTime: 2024-01-08 11:50:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */
 
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import YTProTable from '@/components/YTProTable';
-import { useSubscribe } from '@/hooks';
+import { useDeviceModel, useSubscribe } from '@/hooks';
 import Label from '@/components/Detail/LineLabel';
-import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
-import { formatMessage } from '@/utils';
+import { DeviceDataType, getParallelDevice } from '@/services/equipment';
+import { formatMessage, formatModelValue, isEmpty } from '@/utils';
 import { MessageEventType } from '@/utils/connection';
 import { onlineStatus, masterSlaveEnum } from '@/utils/dict';
 import { ProColumns, ProField } from '@ant-design/pro-components';
-import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useRequest } from 'umi';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 export type AccessDeviceListType = {
   deviceId?: string;
 };
 
+type ParallelDeviceType = DeviceDataType & {
+  emsId?: string;
+  bmsId?: string;
+  systemWorkModelId?: string;
+  systemWorkStatusId?: string;
+  socId?: string;
+};
+
 const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
   const { deviceId } = props;
 
+  const { data: deviceData } = useContext(DeviceContext);
   const history = useHistory();
-
+  const { modelMap } = useDeviceModel({
+    productId: deviceData?.productId,
+    isGroup: true,
+  });
   const {
-    data: associationData,
+    data: associationDeviceDataList,
     run,
     loading,
-  } = useRequest(getEmsAssociationDevice, {
+  } = useRequest(getParallelDevice, {
     manual: true,
   });
 
   const associationDeviceIds = useMemo(() => {
-    return associationData?.map?.((item) => item?.deviceId || '');
-  }, [associationData]);
-
-  const associationRealtimeData = useSubscribe(
+    return associationDeviceDataList?.map?.((item) => item?.deviceId || '');
+  }, [associationDeviceDataList]);
+  const associationNetWorkRealtimeData = useSubscribe(
     associationDeviceIds,
     true,
     MessageEventType.NETWORKSTSTUS,
   );
+
+  const associationEmsBmsDeviceIds = useMemo(() => {
+    const result: string[] = [];
+    associationDeviceDataList?.forEach?.((item: ParallelDeviceType) => {
+      item?.emsId && result.push(item?.emsId || '');
+      item?.bmsId && result.push(item?.bmsId || '');
+    });
+    return result;
+  }, [associationDeviceDataList]);
+  const associationRealtimeData = useSubscribe(associationEmsBmsDeviceIds, true);
 
   const onDeviceClick = useCallback((record) => {
     history.push({
@@ -58,7 +80,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
     }
   }, [deviceId]);
 
-  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
+  const columns = useMemo<ProColumns<ParallelDeviceType>[]>(() => {
     return [
       {
         title: formatMessage({ id: 'device.parallelMachineNum', defaultMessage: '并机编号' }),
@@ -72,7 +94,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
         width: 150,
         ellipsis: true,
         render: (_, record) => {
-          return record?.isSelf ? (
+          return record?.deviceId == deviceId ? (
             `${record.name}(${formatMessage({ id: 'device.self', defaultMessage: '本机' })})`
           ) : (
             <a onClick={() => onDeviceClick(record)}>{record.name}</a>
@@ -84,7 +106,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
           id: 'device.masterSlaveIdentification',
           defaultMessage: '主从标识',
         }),
-        dataIndex: 'b',
+        dataIndex: 'masterSlaveMode',
         width: 100,
         ellipsis: true,
         valueEnum: masterSlaveEnum,
@@ -100,7 +122,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
         render: (_, { deviceId: rowDeviceId, connectStatus }) => {
           return (
             <ProField
-              text={associationRealtimeData?.[rowDeviceId ?? '']?.status ?? connectStatus}
+              text={associationNetWorkRealtimeData?.[rowDeviceId ?? '']?.status ?? connectStatus}
               mode="read"
               valueEnum={onlineStatus}
             />
@@ -109,30 +131,49 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.ipAddress', defaultMessage: 'IP地址' }),
-        dataIndex: 'ip',
+        dataIndex: 'ipAddress',
         width: 150,
         ellipsis: true,
       },
       {
         title: formatMessage({ id: 'common.systemWorkMode', defaultMessage: '系统工作模式' }),
-        dataIndex: 'workMode',
+        dataIndex: 'systemWorkModelId',
         width: 150,
         ellipsis: true,
+        render: (_, { systemWorkModelId }: any) => {
+          return isEmpty(systemWorkModelId)
+            ? ''
+            : formatModelValue(
+                associationRealtimeData?.[systemWorkModelId],
+                modelMap?.[systemWorkModelId],
+              );
+        },
       },
       {
         title: formatMessage({ id: 'common.systemWorkStatus', defaultMessage: '系统工作状态' }),
-        dataIndex: 'workStatus',
+        dataIndex: 'sysWorkStatus',
         width: 150,
         ellipsis: true,
+        render: (_, { systemWorkStatusId }: any) => {
+          return isEmpty(systemWorkStatusId)
+            ? ''
+            : formatModelValue(
+                associationRealtimeData?.[systemWorkStatusId],
+                modelMap?.[systemWorkStatusId],
+              );
+        },
       },
       {
         title: 'SOC(%)',
         dataIndex: 'soc',
         width: 100,
         ellipsis: true,
+        render: (_, { socId }: any) => {
+          return isEmpty(socId) ? '' : associationRealtimeData?.[socId];
+        },
       },
     ];
-  }, [associationRealtimeData]);
+  }, [deviceId, associationNetWorkRealtimeData, modelMap, associationRealtimeData]);
 
   return (
     <>
@@ -149,7 +190,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = (props) => {
         options={false}
         columns={columns}
         toolBarRender={false}
-        dataSource={associationData}
+        dataSource={associationDeviceDataList}
         scroll={{ y: 'auto' }}
       />
     </>
