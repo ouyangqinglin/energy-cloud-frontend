@@ -193,4 +193,9 @@ export default {
   'common.pleaseSelectSentence': 'Please select {content}',
   'common.configParam': 'Configuration parameter',
   'common.ipAddress': 'IP address',
+  'common.connect': 'Connect',
+  'common.break': 'Break',
+  'common.serialSentence': '{name} serial',
+  'common.manufacturerSentence': '{name} manufacturer',
+  'common.modelSentence': '{name} model',
 };

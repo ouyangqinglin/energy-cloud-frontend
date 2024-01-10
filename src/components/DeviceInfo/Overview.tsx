@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-01-08 18:03:02
+ * @LastEditTime: 2024-01-10 11:52:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -20,7 +20,7 @@ import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog';
 import { formatMessage, isEmpty } from '@/utils';
 import { DeviceMasterMode } from '@/utils/dictionary';
-import { topItems, bottomItems } from './helper';
+import { topItems, bottomItems, getDetailItems } from './helper';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
@@ -56,6 +56,10 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const { run, loading: editNameloading } = useRequest(editDeviceInfo, {
     manual: true,
   });
+
+  const middleItems = useMemo(() => {
+    return getDetailItems(deviceData);
+  }, [deviceData?.productId, deviceData?.productTypeId]);
 
   const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现
@@ -182,7 +186,11 @@ const Overview: React.FC<OverviewProps> = (props) => {
               </Button>
             )}
           </Detail.Label>
-          <Detail items={[...topItems, ...bottomItems]} data={{ ...deviceData }} column={4} />
+          <Detail
+            items={[...topItems, ...middleItems, ...bottomItems]}
+            data={{ ...deviceData }}
+            column={4}
+          />
         </div>
       )}
       <Dialog

@@ -321,11 +321,20 @@ export const enableOptions = [
   },
 ];
 
-export const masterSlaveEnum = {
+export const masterSlaveEnum: ValueEnum = {
   0: {
     text: formatMessage({ id: 'device.host', defaultMessage: '主机' }),
   },
   1: {
     text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
+  },
+};
+
+export const connectEnum: ValueEnum = {
+  0: {
+    text: formatMessage({ id: 'common.connect', defaultMessage: '连接' }),
+  },
+  1: {
+    text: formatMessage({ id: 'common.break', defaultMessage: '断开' }),
   },
 };

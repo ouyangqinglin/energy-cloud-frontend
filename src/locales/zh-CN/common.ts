@@ -195,4 +195,9 @@ export default {
   'common.pleaseSelectSentence': '请选择{content}',
   'common.configParam': '配置参数',
   'common.ipAddress': 'IP地址',
+  'common.connect': '连接',
+  'common.break': '断开',
+  'common.serialSentence': '{name}序列号',
+  'common.manufacturerSentence': '{name}厂商',
+  'common.modelSentence': '{name}型号',
 };
