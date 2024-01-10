@@ -172,7 +172,7 @@ const ChartBox = ({
         if (isDay) {
           series[0].name = '储能总功率';
           data = chartData?.esPower || [];
-          result.push({ name: 'dd', data: chartDataHandle(isDay, data) });
+          result.push({ data: chartDataHandle(isDay, data) });
         } else {
           series[0].name = '发电量';
           data = chartData?.charge || [];
