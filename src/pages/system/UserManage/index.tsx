@@ -13,6 +13,7 @@ import Account from './Account.tsx';
 import Authority from './Authority';
 import styles from './index.less';
 import { useAuthority } from '@/hooks';
+import { formatMessage } from '@/utils';
 
 const UserManage: React.FC = () => {
   const { authorityMap } = useAuthority(['system:user:authority', 'system:user:org']);
@@ -21,14 +22,14 @@ const UserManage: React.FC = () => {
     return [
       {
         key: '1',
-        label: '账号管理',
+        label: formatMessage({ id: 'user.accountManagement', defaultMessage: '账号管理' }),
         children: <Account />,
       },
       ...(authorityMap.get('system:user:authority')
         ? [
             {
               key: '2',
-              label: '权限管理',
+              label: formatMessage({ id: 'user.authorityManagement', defaultMessage: '权限管理' }),
               children: <Authority />,
             },
           ]

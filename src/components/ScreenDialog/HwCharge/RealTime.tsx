@@ -16,9 +16,16 @@ import { getRelatedDevice } from '@/services/equipment';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { powerHourFormat } from '@/utils/format';
+import { formatMessage } from '@/utils';
 
 const RealTime: React.FC<RealTimeProps> = (props) => {
-  const { id, loading, open = true, label = '运行信息', detailProps } = props;
+  const {
+    id,
+    loading,
+    open = true,
+    label = formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息' }),
+    detailProps,
+  } = props;
 
   const [relatedIds, setRelatedIds] = useState([]);
   const equipmentData = useSubscribe(id, open);
@@ -34,8 +41,16 @@ const RealTime: React.FC<RealTimeProps> = (props) => {
   // }, [id, open]);
 
   const runItems: DetailItem[] = [
-    { label: '今日充电量', field: 'dayChargeElec', format: powerHourFormat },
-    { label: '累计充电量', field: 'totalChargeElec', format: powerHourFormat },
+    {
+      label: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }),
+      field: 'dayChargeElec',
+      format: powerHourFormat,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.totalCharge', defaultMessage: '累计充电量' }),
+      field: 'totalChargeElec',
+      format: powerHourFormat,
+    },
   ];
 
   return (

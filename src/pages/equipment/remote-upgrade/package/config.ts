@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 13:54:37
- * @LastEditTime: 2023-05-25 17:15:34
+ * @LastEditTime: 2023-12-19 10:50:39
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
+ * @FilePath: \energy-cloud-frontend\src\pages\equipment\remote-upgrade\package\config.ts
  */
 import type { FileType } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export type StationType = {
   name: string;
@@ -32,12 +33,12 @@ export type StationType = {
 
 export const packageStatus = {
   0: {
-    text: '禁用',
+    text: formatMessage({ id: 'common.disable', defaultMessage: '禁用' }),
     status: 'error',
     icon: 'red',
   },
   1: {
-    text: '启动',
+    text: formatMessage({ id: 'common.enable', defaultMessage: '启用' }),
     status: 'Success',
     icon: 'green',
   },

@@ -23,7 +23,7 @@ import type { ExtraNodeData } from '../../../type';
 import styles from './index.less';
 import { DeviceType } from '../../type';
 import { uniqueId } from 'lodash';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import { isEmpty } from '@/utils';
 
 const iconMap = new Map([

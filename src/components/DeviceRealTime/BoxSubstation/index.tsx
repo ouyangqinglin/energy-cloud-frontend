@@ -6,39 +6,36 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BoxSubstation\index.tsx
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import RealTime from '@/components/Meter/RealTime';
 import { DeviceRealTimeType } from '../config';
 import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem } from '@/components/Detail';
-import { OnlineStatusEnum } from '@/utils/dictionary';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData, loading } = props;
+  const { deviceData, loading } = props;
 
-  const { modelMap } = useDeviceModel({ productId });
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -48,10 +45,16 @@ const BoxSubstation: React.FC<DeviceRealTimeType> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
+        id={deviceData?.deviceId}
         loading={loading}
-        label={<Detail.Label title="运行信息" />}
-        open={openSubscribe}
+        label={
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.operationalInformation',
+              defaultMessage: '运行信息',
+            })}
+          />
+        }
         detailProps={{
           extral,
           colon: false,

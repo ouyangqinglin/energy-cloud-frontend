@@ -8,6 +8,30 @@ import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import { constant } from 'lodash';
 import moment from 'moment';
+import type { BasicDataNode } from 'rc-tree';
+import type { DataNode } from 'antd/lib/tree';
+
+export enum DeviceModelShowTypeEnum {
+  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button
+  Tile = 1,
+  HideServiceName,
+  Grid,
+  RadioButton,
+  Select,
+  Switch,
+  Button,
+}
+
+export enum DeviceModelDescribeTypeEnum {
+  Page = 'page',
+  Group = 'group',
+  Tab = 'tab',
+  TabItem = 'tabItem',
+  Service = 'service',
+  Component = 'component',
+  Property = 'property',
+  PropertyGroup = 'propertyGroup',
+}
 
 export enum DeviceModelTypeEnum {
   Int = 'int',
@@ -20,6 +44,7 @@ export enum DeviceModelTypeEnum {
   Array = 'array',
   TimeRange = 'timeRange',
   TimeStamp = 'timestamp',
+  Button = 'button',
 }
 
 export type AntMenuProps = {
@@ -192,7 +217,7 @@ export const parseToObj = (value: any): Record<string, any> => {
   let result = {};
   if (typeof value === 'object') {
     if (Array.isArray(value)) {
-      return result;
+      return {};
     }
     return value;
   }
@@ -226,7 +251,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
-      result = value + specs?.unit;
+      result = value + (specs?.unit ?? '');
       break;
     case DeviceModelTypeEnum.TimeStamp:
       result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
@@ -269,7 +294,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return result;
+  return result ?? value;
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {
@@ -352,4 +377,40 @@ export const startExchangeTime = () => {
       };
     }, 1000 * 60 * 5);
   }
+};
+
+export const flatObj = (data: Record<string, any>, parentField = '') => {
+  let result: Record<string, any> = {};
+  if (typeof data !== 'object' || Array.isArray(data)) {
+    result = {};
+  } else {
+    for (const key in data) {
+      const field = parentField ? parentField + '.' + key : key;
+      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
+        result = { ...result, ...flatObj(data[key], field) };
+      } else {
+        result[field] = data[key];
+      }
+    }
+  }
+  return result;
+};
+
+export const getPropsFromTree = <T extends Record<string, any>, U = string>(
+  data?: T[],
+  key = 'id',
+  children = 'children',
+  interceptor = (params: T) => true,
+): U[] => {
+  const result: U[] = [];
+  data?.forEach?.((item) => {
+    if (!isEmpty(item?.[key]) && (!interceptor || interceptor(item))) {
+      result.push(item?.[key]);
+    }
+    if (item?.[children] && item?.[children]?.length) {
+      const childrenResult: U[] = getPropsFromTree(item?.[children], key, children, interceptor);
+      result.push(...childrenResult);
+    }
+  });
+  return result;
 };

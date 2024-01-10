@@ -16,7 +16,7 @@ import { CustomerModal } from './components/edit';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import YTModalForm from '@/components/YTModalForm';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { effectStatus } from '@/utils/dictionary';
+import { effectStatus } from '@/utils/dict';
 
 export enum PageTypeEnum {
   Custom,

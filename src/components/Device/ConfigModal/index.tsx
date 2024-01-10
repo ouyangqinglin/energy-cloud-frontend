@@ -12,9 +12,11 @@ import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
-  deviceId: string;
+  deviceId?: string;
   realTimeData?: Record<string, any>;
   columns: any;
   serviceId: string;
@@ -22,6 +24,7 @@ export type ConfigModalType<T = any> = Omit<SchemaFormProps, 'beforeSubmit'> & {
   beforeSubmit?: (data: RemoteSettingDataType<T>) => void | boolean | any;
   showClickButton?: boolean;
   deviceData?: Record<string, any>;
+  authority?: string;
 };
 
 const ConfigModal: React.FC<ConfigModalType> = (props) => {
@@ -36,11 +39,13 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
     beforeSubmit,
     onOpenChange,
     deviceData,
+    authority,
     ...restProps
   } = props;
   const [openSchemaForm, { set, setTrue }] = useBoolean(false);
   const [isEditing, { setFalse: setIsEditingFalse, setTrue: setIsEditingTrue }] = useBoolean(false);
   const [initialValues, setInitialValues] = useState<ProtectFormType['realTimeData']>();
+  const { passAuthority } = useAuthority(authority ? [authority] : []);
 
   const onBeforeSubmit = useCallback(
     (formData: any) => {
@@ -108,13 +113,13 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
   return (
     <>
       <div>
-        {showClickButton ? (
+        {showClickButton && (!authority || passAuthority) ? (
           <Button
             type="primary"
             onClick={onClick}
             disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
-            配置参数
+            {formatMessage({ id: 'device.configurationParameter', defaultMessage: '配置参数' })}
           </Button>
         ) : (
           <></>

@@ -7,6 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\ProductDetail\Module\config.ts
  */
 
+import { formatMessage } from '@/utils';
 import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 
 export type ModuleDataType = {
@@ -19,25 +20,25 @@ export type ModuleDataType = {
 
 export const columns: ProColumns<ModuleDataType>[] = [
   {
-    title: '序号',
+    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     valueType: 'index',
     width: 48,
     hideInForm: true,
   },
   {
-    title: '模块名称',
+    title: formatMessage({ id: 'user.moduleName', defaultMessage: '模块名称' }),
     dataIndex: 'moduleName',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '模块标识',
+    title: formatMessage({ id: 'user.moduleIdentification', defaultMessage: '模块标识' }),
     dataIndex: 'moduleMark',
     width: 120,
     ellipsis: true,
   },
   {
-    title: '备注',
+    title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
     dataIndex: 'moduleNotes',
     width: 120,
     ellipsis: true,
@@ -47,15 +48,15 @@ export const columns: ProColumns<ModuleDataType>[] = [
 
 export const formColumns: ProFormColumnsType<ModuleDataType, 'text'>[] = [
   {
-    title: '模块名称',
+    title: formatMessage({ id: 'user.moduleName', defaultMessage: '模块名称' }),
     dataIndex: 'moduleName',
   },
   {
-    title: '模块标识',
+    title: formatMessage({ id: 'user.moduleIdentification', defaultMessage: '模块标识' }),
     dataIndex: 'moduleMark',
   },
   {
-    title: '备注',
+    title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
     dataIndex: 'moduleNotes',
     valueType: 'textarea',
   },

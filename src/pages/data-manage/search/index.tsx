@@ -11,6 +11,7 @@ import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment, { Moment } from 'moment';
 import { DeviceDataType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 
 type DeviceMapDataType = {
   sn: string;
@@ -152,7 +153,8 @@ const Search: React.FC<SearchProps> = (props) => {
   const getExportName = useCallback((params: TableSearchType) => {
     const date = params?.date || [];
     return (
-      '采样明细-' +
+      formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
+      '-' +
       moment(date[0]).format('YYYY-MM-DD') +
       '~' +
       moment(date[1]).format('YYYY-MM-DD')
@@ -170,7 +172,10 @@ const Search: React.FC<SearchProps> = (props) => {
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}
-          headerTitle="采样明细"
+          headerTitle={formatMessage({
+            id: 'dataManage.samplingDetail',
+            defaultMessage: '采样明细',
+          })}
           toolBarRenderOptions={{
             add: {
               show: false,

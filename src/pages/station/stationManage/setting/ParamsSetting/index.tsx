@@ -16,7 +16,8 @@ import Detail from '@/components/Detail';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import type { DetailItem } from '@/components/Detail';
 import YTModalForm from '@/components/YTModalForm';
-import { dataSaveTime, noticeMethod } from '@/utils/dictionary';
+import { dataSaveTime, noticeMethod } from '@/utils/dict';
+import { formatMessage } from '@/utils';
 
 const ParamsSetting: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -38,12 +39,23 @@ const ParamsSetting: React.FC = () => {
   const columns = useMemo<ProFormColumnsType[]>(() => {
     return [
       {
-        title: '历史数据保存时长',
+        title: formatMessage({
+          id: 'siteManage.set.historyDatSaveDuration',
+          defaultMessage: '历史数据保存时长',
+        }),
         dataIndex: 'userName',
         valueType: 'select',
         valueEnum: dataSaveTime,
         formItemProps: {
-          rules: [{ required: true, message: '请选择历史数据保存时长' }],
+          rules: [
+            {
+              required: true,
+              message: formatMessage({
+                id: 'siteManage.set.selectHistoryDatSaveDuration',
+                defaultMessage: '请选择历史数据保存时长',
+              }),
+            },
+          ],
         },
       },
     ];
@@ -52,19 +64,35 @@ const ParamsSetting: React.FC = () => {
   const noticeColumns = useMemo<ProFormColumnsType[]>(() => {
     return [
       {
-        title: '通知方式',
+        title: formatMessage({ id: 'common.notificationMode', defaultMessage: '通知方式' }),
         dataIndex: 'userName',
         valueType: 'radio',
         valueEnum: noticeMethod,
         formItemProps: {
-          rules: [{ required: true, message: '请选择通知方式' }],
+          rules: [
+            {
+              required: true,
+              message: formatMessage({
+                id: 'common.selectNotificationMode',
+                defaultMessage: '请选择通知方式',
+              }),
+            },
+          ],
         },
       },
       {
-        title: '通知人',
+        title: formatMessage({ id: 'common.notificationPerson', defaultMessage: '通知人' }),
         dataIndex: 'a',
         formItemProps: {
-          rules: [{ required: true, message: '请选择通知人' }],
+          rules: [
+            {
+              required: true,
+              message: formatMessage({
+                id: 'common.selectNotificationPerson',
+                defaultMessage: '请选择通知人',
+              }),
+            },
+          ],
         },
       },
     ];
@@ -75,10 +103,10 @@ const ParamsSetting: React.FC = () => {
       <div className="px24">
         <Card
           className="my16"
-          title="历史数据"
+          title={formatMessage({ id: 'common.historyData', defaultMessage: '历史数据' })}
           extra={
             <Button type="primary" loading={loading} onClick={setTrue}>
-              设置
+              {formatMessage({ id: 'common.set', defaultMessage: '设置' })}
             </Button>
           }
         >
@@ -93,10 +121,13 @@ const ParamsSetting: React.FC = () => {
           />
         </Card>
         <Card
-          title="消息通知"
+          title={formatMessage({
+            id: 'system.Notice.message_notification',
+            defaultMessage: '消息通知',
+          })}
           extra={
             <Button type="primary" loading={loading} onClick={setTrue}>
-              设置
+              {formatMessage({ id: 'common.set', defaultMessage: '设置' })}
             </Button>
           }
         >

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2023-09-21 16:48:34
+ * @LastEditTime: 2023-12-15 16:01:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -15,7 +15,7 @@ import { merge } from 'lodash';
 import { SiteDataType, getIncomeData } from '../service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import { Col, Row } from 'antd';
-import { formatNum } from '@/utils';
+import { formatMessage, formatNum } from '@/utils';
 import styles from './index.less';
 
 const colors = ['#FF8144', '#FF7B7B', '#FFD15C', '#01CFA1', '#159AFF'];
@@ -25,7 +25,7 @@ const getOptionsByData = (data: SiteDataType[], totalNum?: number) => {
   result.tooltip.formatter = '{b}<br/>{c}';
   result.angleAxis.max = ((data?.[0]?.income || 4) * 4) / 3;
   const value = formatNum(totalNum || 0);
-  result.title[0].text = `总收益(${value.unit}元)`;
+  result.title[0].text = `日总收益(${value.unit}元)`;
   result.title[1].text = value.value;
   data?.reverse()?.forEach?.((item, index) => {
     result.radiusAxis.data.push(item.name);
@@ -69,7 +69,14 @@ const Income: React.FC = () => {
 
   return (
     <>
-      <Title className="mt6 mb8" title="站点收益" unit="单位(元)" />
+      <Title
+        className="mt6 mb8"
+        title={formatMessage({ id: 'screen.siteRevenue', defaultMessage: '站点收益' })}
+        unit={`${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}${formatMessage({
+          id: 'common.rmb',
+          defaultMessage: '元',
+        })}`}
+      />
       <Row className="" gutter={32}>
         <Col span={12} className="flex flex-center">
           <Chart

@@ -17,6 +17,7 @@ import { useBoolean } from 'ahooks';
 import { tableSelectValueTypeMap } from '../TableSelect';
 import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
+import { formatMessage } from '@/utils';
 
 export enum FormTypeEnum {
   Add = 'add',
@@ -107,9 +108,13 @@ const SchemaForm = <
 
   const title = useMemo(() => {
     if (type === FormTypeEnum.Detail) {
-      return suffixTitle + '详情';
+      return suffixTitle + formatMessage({ id: 'common.view', defaultMessage: '详情' });
     } else {
-      return (type === FormTypeEnum.Add ? '新建' : '编辑') + suffixTitle;
+      return (
+        (type === FormTypeEnum.Add
+          ? formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' })
+          : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })) + suffixTitle
+      );
     }
   }, [type, suffixTitle]);
 
@@ -153,7 +158,9 @@ const SchemaForm = <
             if (data) {
               const result = onSuccess?.((beforeSubmitResult as ParamData) ?? formData);
               if (result !== false) {
-                message.success('保存成功');
+                message.success(
+                  formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+                );
                 if (layoutType !== 'QueryFilter') {
                   setDisableSubmitterTrue();
                 }

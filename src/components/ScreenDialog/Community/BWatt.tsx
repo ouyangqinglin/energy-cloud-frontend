@@ -17,6 +17,7 @@ import { getEquipInfo, editEquipConfig, getThirdStation } from '@/services/equip
 import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
 import { OptionType } from '@/types';
+import { formatMessage } from '@/utils';
 
 const BWatt: React.FC<CommunityProps> = (props) => {
   const { id, type, productConfigType, open, onOpenChange, model } = props;
@@ -57,7 +58,7 @@ const BWatt: React.FC<CommunityProps> = (props) => {
         productConfigType,
       }).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           return true;
         }
       });
@@ -88,76 +89,155 @@ const BWatt: React.FC<CommunityProps> = (props) => {
         hideInForm: true,
       },
       {
-        title: '项目 ID',
+        title: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
         dataIndex: 'projectId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入项目 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'device.item', defaultMessage: '项目' }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
         title: 'BMS ID',
         dataIndex: 'bmsId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入BMS ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + 'BMS ID',
+            },
+          ],
         },
       },
       {
         title: 'EMS ID',
         dataIndex: 'emsId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入EMS ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + 'EMS ID',
+            },
+          ],
         },
       },
       {
         title: 'PCS ID',
         dataIndex: 'pcsId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入PCS ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) + 'PCS ID',
+            },
+          ],
         },
       },
       {
-        title: '单体温度 ID',
+        title: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) + ' ID',
         dataIndex: 'temperatureDeviceId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入单体温度 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
-        title: '单体电压 ID',
+        title: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) + ' ID',
         dataIndex: 'voltageDeviceId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入单体电压 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
-        title: '空调 ID',
+        title: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) + ' ID',
         dataIndex: 'airConditionerId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入空调 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
-        title: '系统时钟 ID',
+        title: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
         dataIndex: 'clockDeviceId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入系统时钟 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
-        title: '能耗统计 ID',
+        title:
+          formatMessage({ id: 'device.energyConsumptionStatistics', defaultMessage: '能耗统计' }) +
+          ' ID',
         dataIndex: 'statisticsDeviceId',
         formItemProps: {
-          rules: [{ required: true, message: '请输入能耗统计 ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                formatMessage({
+                  id: 'device.energyConsumptionStatistics',
+                  defaultMessage: '能耗统计',
+                }) +
+                ' ID',
+            },
+          ],
         },
       },
       {
-        title: '第三方站点',
+        title: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }) + ' ID',
         dataIndex: 'thirdSiteId',
         valueType: 'select',
         dependencies: ['loadDevice'],
         request: requestStation,
         formItemProps: {
-          rules: [{ required: true, message: '请选择第三方站点ID' }],
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }) +
+                ' ID',
+            },
+          ],
         },
         fieldProps: (form) => {
           return {
@@ -183,7 +263,10 @@ const BWatt: React.FC<CommunityProps> = (props) => {
       <BetaSchemaForm<CommunityType>
         formRef={formRef}
         layoutType="ModalForm"
-        title="设置通信信息"
+        title={formatMessage({
+          id: 'device.setCommunicationInformation',
+          defaultMessage: '设置通信信息',
+        })}
         width={552}
         visible={open}
         onVisibleChange={onOpenChange}

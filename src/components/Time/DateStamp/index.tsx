@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-30 11:18:34
- * @LastEditTime: 2023-11-30 11:18:47
+ * @LastEditTime: 2024-01-09 11:05:05
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Time\DateTimeStamp\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Time\DateStamp\index.tsx
  */
 import React, { memo, useCallback, useMemo } from 'react';
 import { DatePicker, DatePickerProps } from 'antd';
@@ -33,6 +33,7 @@ const DateStamp: React.FC<DateStampType> = memo((props) => {
   return (
     <>
       <DatePicker
+        className="w-full"
         value={mergedValue}
         onChange={mergedOnChange}
         showTime={showTime}

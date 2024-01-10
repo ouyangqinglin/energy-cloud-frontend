@@ -9,6 +9,7 @@ import { getStationInfo } from './service';
 import StationDevices from './StationDevices';
 import StationInfo from './StationInfo';
 import type { SiteInfoRes } from './type';
+import { formatMessage } from '@/utils';
 
 type StationOverviewType = {
   onChange?: (data: SiteInfoRes) => void;
@@ -28,7 +29,14 @@ const StationOverview: React.FC<StationOverviewType> = memo((props) => {
   }, [data]);
   return (
     <Cell cursor="default" width={400} height={363} left={24} top={81}>
-      <DecorationCarousel valueType="pagination" panelStyle={{ padding: 0 }} title="站点信息概览">
+      <DecorationCarousel
+        valueType="pagination"
+        panelStyle={{ padding: 0 }}
+        title={formatMessage({
+          id: 'screen.overviewSiteInformation',
+          defaultMessage: '站点信息概览',
+        })}
+      >
         {child}
       </DecorationCarousel>
     </Cell>

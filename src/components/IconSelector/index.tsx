@@ -10,6 +10,7 @@ import type { Categories, CategoriesKeys } from './fields';
 import { categories } from './fields';
 import { FilledIcon, OutlinedIcon, TwoToneIcon } from './themeIcons';
 import { Fragment } from 'react';
+import { formatMessage } from '@/utils';
 
 const { TabPane } = Tabs;
 
@@ -61,13 +62,13 @@ class IconSelector extends React.PureComponent<IconSelectorProps, IconSelectorSt
 
   getTitle(cate: string) {
     const titles = {
-      direction: '方向性图标',
-      suggestion: '提示建议性图标',
-      editor: '编辑类图标',
-      data: '数据类图标',
-      logo: '品牌和标识',
-      other: '网站通用图标',
-      ytIcon: '永泰图标',
+      direction: formatMessage({ id: 'common.directionalIcon', defaultMessage: '方向性图标' }),
+      suggestion: formatMessage({ id: 'common.suggestiveIcons', defaultMessage: '提示建议性图标' }),
+      editor: formatMessage({ id: 'common.editClassIcon', defaultMessage: '编辑类图标' }),
+      data: formatMessage({ id: 'common.dataClassIcon', defaultMessage: '数据类图标' }),
+      logo: formatMessage({ id: 'common.brandAndLogo', defaultMessage: '品牌和标识' }),
+      other: formatMessage({ id: 'common.websiteCommonIcons', defaultMessage: '网站通用图标' }),
+      ytIcon: formatMessage({ id: 'common.yotaiIcon', defaultMessage: '永泰图标' }),
     };
     return titles[cate];
   }

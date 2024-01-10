@@ -13,132 +13,131 @@ import {
   systemTimeColumns,
   systemColumns,
   systemTimeItems,
-  communicationColumns,
-  communicationItems,
+  powerParamsColumns,
+  powerParamsItems,
 } from './config';
 import ConfigModal, { ConfigModalType } from '../../../ConfigModal';
-import RemoteUpgrade from '../../RemoteUpgrade';
+import RemoteUpgrade from '@/components/Device/module/RemoteUpgrade';
 import { DeviceDataType, getDeviceInfo } from '@/services/equipment';
 import { useAuthority } from '@/hooks';
-import { parseToObj } from '@/utils';
+import { parseToObj, formatMessage } from '@/utils';
 export type StackProps = {
   deviceId: string;
-  productId: string;
   realTimeData?: Record<string, any>;
   deviceData: DeviceDataType;
 };
 
 const SystemSetting: React.FC<StackProps> = (props) => {
-  const { realTimeData, deviceId, productId, deviceData } = props;
-
-  const { data: communitcationData, run: runGetCommunication } = useRequest(getDeviceInfo, {
-    manual: true,
-  });
+  const { realTimeData, deviceId, deviceData } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:config:systemSetting:systemEnableSetting',
     'iot:device:config:systemSetting:timeSetting',
     'iot:device:config:systemSetting:remoteUpgrade',
     'iot:device:config:systemSetting:communiteParamsSetting',
+    'iot:device:config:converterSetting:powerParamsSetting',
   ]);
-
-  const realCommunitcationData = useMemo(() => {
-    const result = communitcationData || deviceData;
-    return {
-      emsSn: parseToObj(result?.config || '')?.emsSn,
-      paramConfigType: result?.paramConfigType,
-    };
-  }, [deviceData, communitcationData]);
-
-  const communicationBeforeSubmit = useCallback(
-    (formData) => {
-      formData.config = JSON.stringify(formData?.input);
-      formData.productId = productId;
-      formData.paramConfigType = realCommunitcationData?.paramConfigType;
-    },
-    [productId, realTimeData, realCommunitcationData],
-  );
-
-  const onCommunicationSuccess = useCallback(() => {
-    runGetCommunication({ deviceId: deviceData?.deviceId });
-  }, [deviceData]);
 
   const detailGroup = useMemo<GroupItem[]>(() => {
     const groupItems: GroupItem[] = [];
     if (authorityMap.get('iot:device:config:systemSetting:systemEnableSetting')) {
       groupItems.push({
         label: (
-          <Detail.Label title="系统使能设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.systemEnablingSettings',
+              defaultMessage: '系统使能设置',
+            })}
+          >
             <ConfigModal
-              title={'系统使能设置'}
+              title={formatMessage({
+                id: 'device.systemEnablingSettings',
+                defaultMessage: '系统使能设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
               columns={systemColumns}
               serviceId={'SettingSysEnable'}
+              authority="iot:device:config:systemSetting:systemEnableSetting:distribute"
             />
           </Detail.Label>
         ),
         items: emsSystemEnabletems,
       });
     }
+    if (authorityMap.get('iot:device:config:converterSetting:powerParamsSetting')) {
+      groupItems.push({
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.gridParameterSetting',
+              defaultMessage: '电网参数设置',
+            })}
+          >
+            <ConfigModal
+              title={formatMessage({
+                id: 'device.gridParameterSetting',
+                defaultMessage: '电网参数设置',
+              })}
+              deviceId={deviceId}
+              deviceData={deviceData}
+              realTimeData={realTimeData}
+              columns={powerParamsColumns}
+              serviceId={'GridParameterSettings'}
+              authority="iot:device:config:converterSetting:powerParamsSetting:distribute"
+            />
+          </Detail.Label>
+        ),
+        items: powerParamsItems,
+      });
+    }
     if (authorityMap.get('iot:device:config:systemSetting:timeSetting')) {
       groupItems.push({
         label: (
-          <Detail.Label title="校时设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.timeSetting',
+              defaultMessage: '校时设置',
+            })}
+          >
             <ConfigModal
-              title={'校时设置'}
+              title={formatMessage({
+                id: 'device.timeSetting',
+                defaultMessage: '校时设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
               columns={systemTimeColumns}
               serviceId={'correctionTime'}
+              authority="iot:device:config:systemSetting:timeSetting:distribute"
             />
           </Detail.Label>
         ),
         items: systemTimeItems,
       });
     }
-    if (false) {
-      groupItems.push({
-        label: (
-          <Detail.Label title="通信参数设置">
-            <ConfigModal
-              title={'通信参数设置'}
-              deviceId={deviceId}
-              deviceData={deviceData}
-              realTimeData={realCommunitcationData}
-              columns={communicationColumns}
-              serviceId={'report'}
-              beforeSubmit={communicationBeforeSubmit}
-              onSuccess={onCommunicationSuccess}
-            />
-          </Detail.Label>
-        ),
-        items: communicationItems,
-      });
-    }
     return groupItems;
-  }, [deviceId, productId, realTimeData, deviceData, authorityMap, realCommunitcationData]);
+  }, [deviceId, realTimeData, deviceData, authorityMap]);
 
   return (
     <>
       <div className="px24">
         {deviceData?.masterSlaveMode != 1 ? (
           <Detail.Group
-            data={{ ...realTimeData, ...realCommunitcationData }}
+            data={{ ...realTimeData }}
             items={detailGroup}
             detailProps={{
               colon: false,
               labelStyle: { width: 140 },
-              valueStyle: { width: '40%' },
             }}
           />
         ) : (
           <></>
         )}
         {authorityMap.get('iot:device:config:systemSetting:remoteUpgrade') ? (
-          <RemoteUpgrade deviceId={deviceId} deviceData={deviceData} />
+          <RemoteUpgrade deviceId={deviceId} />
         ) : (
           <></>
         )}

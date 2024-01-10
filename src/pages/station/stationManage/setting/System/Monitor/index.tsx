@@ -17,6 +17,7 @@ import type {
   TableTreeDataType,
 } from './data.d';
 import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
+import { formatMessage } from '@/utils';
 
 const bingData = (data: MonitorDataType[], type: string, index: number) => {
   if (!data.length) {
@@ -24,7 +25,12 @@ const bingData = (data: MonitorDataType[], type: string, index: number) => {
       id: type + 'noData' + index,
       rowId: type + 'noData' + index,
       project: monitorTypeMap.get(type)?.data[index].name,
-      deviceName: index ? '关联数据采集点' : '关联设备',
+      deviceName: index
+        ? formatMessage({
+            id: 'siteManage.set.associateDataCollectionPoints',
+            defaultMessage: '关联数据采集点',
+          })
+        : formatMessage({ id: 'siteManage.set.associateDevice', defaultMessage: '关联设备' }),
       area: monitorTypeMap.get(type)?.data[index].area || '',
       type: type,
       span: 1,
@@ -67,7 +73,9 @@ const Monitor: React.FC = () => {
       runEdit({ siteId, type: monitorTypeMap.get(type)?.type, flag: flag }).then((data) => {
         if (data) {
           if (!flag) {
-            message.success('保存成功');
+            message.success(
+              formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+            );
           }
           setActiveKeysSet((stateData) => {
             stateData[flag ? 'add' : 'delete'](type);
@@ -84,10 +92,16 @@ const Monitor: React.FC = () => {
       onEditStatus(type, checked);
     } else {
       Modal.confirm({
-        title: '关闭监测点确认',
-        content: '是否关闭监测点，关闭后主监控页面将不在监测该回路',
-        okText: '确认',
-        cancelText: '取消',
+        title: formatMessage({
+          id: 'siteManage.set.closeMonitorSiteConfirm',
+          defaultMessage: '关闭监测点确认',
+        }),
+        content: formatMessage({
+          id: 'siteManage.set.closeMonitorSiteConfirmContent',
+          defaultMessage: '是否关闭监测点，关闭后主监控页面将不在监测该回路',
+        }),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
           onEditStatus(type, checked);
         },
@@ -152,7 +166,13 @@ const Monitor: React.FC = () => {
         return {
           id: item[valueMap.valueId],
           rowId: selectedRow.type + item[valueMap.valueId],
-          collection: selectedRow.area === 'elec' ? '全部数据采集点' : item?.node?.paramName,
+          collection:
+            selectedRow.area === 'elec'
+              ? formatMessage({
+                  id: 'siteManage.set.allDataCollectionPoints',
+                  defaultMessage: '全部数据采集点',
+                })
+              : item?.node?.paramName,
           deviceName: item?.node?.deviceName,
           sn: item?.node?.deviceSN,
           area: selectedRow.area,
@@ -198,7 +218,7 @@ const Monitor: React.FC = () => {
     );
     runEditConfig(data).then((result) => {
       if (result) {
-        message.success('保存成功');
+        message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
       }
     });
   };
@@ -246,7 +266,13 @@ const Monitor: React.FC = () => {
                 return {
                   id: row.area == 'elec' ? record.deviceId : record?.selectName,
                   rowId: row.area == 'elec' ? record.deviceId : record?.selectName,
-                  collection: row.area == 'elec' ? '全部数据采集点' : record?.paramName,
+                  collection:
+                    row.area == 'elec'
+                      ? formatMessage({
+                          id: 'siteManage.set.allDataCollectionPoints',
+                          defaultMessage: '全部数据采集点',
+                        })
+                      : record?.paramName,
                   deviceName: record?.deviceName,
                   sn: record?.deviceSN,
                   area: row.area,
@@ -265,7 +291,7 @@ const Monitor: React.FC = () => {
 
   const columns: TableColumnProps<MonitorDataType>[] = [
     {
-      title: '监测项目',
+      title: formatMessage({ id: 'siteManage.set.monitorItem', defaultMessage: '监测项目' }),
       dataIndex: 'project',
       onCell: (record) => {
         return {
@@ -276,7 +302,7 @@ const Monitor: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: '设备名称',
+      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
       render: (_, record) => {
         return (
@@ -289,13 +315,16 @@ const Monitor: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: '设备sn',
+      title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' }),
       dataIndex: 'sn',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '数据采集点',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPoints',
+        defaultMessage: '数据采集点',
+      }),
       dataIndex: 'collection',
       width: 150,
       ellipsis: true,
@@ -303,22 +332,49 @@ const Monitor: React.FC = () => {
   ];
 
   const panelData = [
-    { key: 'electric', title: '市电监测' },
-    { key: 'load', title: '其他负载' },
-    { key: 'photovoltaic', title: '光伏监测' },
-    { key: 'energy', title: '储能监测' },
-    { key: 'charge', title: '充电桩监测' },
+    {
+      key: 'electric',
+      title: formatMessage({ id: 'siteManage.set.mainsMonitor', defaultMessage: '市电监测' }),
+    },
+    {
+      key: 'load',
+      title: formatMessage({ id: 'siteManage.set.otherLoad', defaultMessage: '其他负载' }),
+    },
+    {
+      key: 'photovoltaic',
+      title: formatMessage({ id: 'siteManage.set.pvMonitor', defaultMessage: '光伏监测' }),
+    },
+    {
+      key: 'energy',
+      title: formatMessage({
+        id: 'siteManage.set.energyStorageMonitor',
+        defaultMessage: '储能监测',
+      }),
+    },
+    {
+      key: 'charge',
+      title: formatMessage({
+        id: 'siteManage.set.chargePileMonitor',
+        defaultMessage: '充电桩监测',
+      }),
+    },
   ];
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '数据采集点',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPoints',
+        defaultMessage: '数据采集点',
+      }),
       dataIndex: 'paramName',
       width: 200,
       ellipsis: true,
     },
     {
-      title: '数据采集点标识',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPointIdIdentify',
+        defaultMessage: '数据采集点标识',
+      }),
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,
@@ -365,7 +421,7 @@ const Monitor: React.FC = () => {
               loading={loading || editStatusLoading || editConfigLoading}
               onClick={() => onSaveClick(item.key)}
             >
-              保存
+              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
             </Button>
           </div>
         </Collapse.Panel>
@@ -385,7 +441,14 @@ const Monitor: React.FC = () => {
       </Collapse>
       <TableTreeModal
         selectType={selectedRow.area === 'elec' ? SelectTypeEnum.Device : SelectTypeEnum.Collect}
-        title={selectedRow.area === 'elec' ? '选择设备' : '选择数据采集点'}
+        title={
+          selectedRow.area === 'elec'
+            ? formatMessage({ id: 'common.selectDevice', defaultMessage: '选择设备' })
+            : formatMessage({
+                id: 'common.selectDataCollectionPoints',
+                defaultMessage: '选择数据采集点',
+              })
+        }
         open={openTableSelect}
         onCancel={setLeft}
         treeProps={{

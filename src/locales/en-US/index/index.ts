@@ -55,4 +55,6 @@ export default {
   'index.chart.chargePower': 'Charge Power',
   'index.chart.energyTotalPower': 'Energy Total Power',
   'index.chart.powerGenerationEffective': 'Power Generation',
+  'index.chart.unit': 'Unit',
+  'index.chart.money': '¥',
 };

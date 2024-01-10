@@ -2,26 +2,36 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:10:41
- * @LastEditTime: 2023-11-13 15:29:42
+ * @LastEditTime: 2023-12-28 17:32:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\config.ts
  */
 
 import { DeviceDataType } from '@/services/equipment';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type DeviceRealTimeType = {
-  id: string;
-  productId: string;
   deviceData?: DeviceDataType;
   loading?: boolean;
+  showRemoteControl?: boolean;
 };
 
 export type DeviceRealTimeMapType = {
-  component: string;
-  // component: React.FC<DeviceDetailType>;
-  props?: Record<string, any>;
+  component?: string;
+  props?: any;
 };
+
+export const deviceProductTypeMap: Record<
+  number,
+  {
+    component: string;
+    props?: any;
+  }
+> = {
+  [DeviceProductTypeEnum.Energy]: { component: 'Energy' },
+};
+
 export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.Gateway]: { component: 'Gateway' },
   [DeviceTypeEnum.ElectricMeter]: { component: 'ElectricMeter' },
@@ -65,19 +75,7 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.YTEnergy]: { component: 'Energy' },
   [DeviceTypeEnum.YTEnergyPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
-  [DeviceTypeEnum.YTEnergyMetter]: {
-    component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
-  },
-  [DeviceTypeEnum.YTEnergyMetterRAIG]: {
-    component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
-  },
-  [DeviceTypeEnum.YTEnergyMetterDTSD]: {
-    component: 'ElectricMeter',
-    props: { label: '实时数据', hideLineVoltage: true },
-  },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
   [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
-  [DeviceTypeEnum.PvEnergyBms]: { component: 'OpticalStorageBatterryStack' },
+  [DeviceTypeEnum.LiquidEnergyBatteryStack]: { component: 'BatterryStack' },
 };

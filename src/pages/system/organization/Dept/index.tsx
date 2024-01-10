@@ -10,42 +10,57 @@ import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 import { buildTreeData } from '@/utils/utils';
+import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<ServiceInfo>({} as ServiceInfo);
   const actionRef = useRef<ActionType>(null);
+  const { authorityMap } = useAuthority(['system:org:add', 'system:org:edit', 'system:org:remove']);
 
   const customConfig: YTProTableCustomProps<ServiceInfo, any> = {
     toolBarRenderOptions: {
       add: {
+        show: authorityMap.get('system:org:add'),
         onClick() {
           setInitialValues({} as ServiceInfo);
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建',
+        text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
       },
     },
     option: {
-      onDeleteChange(_, entity) {
-        deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
-          if (data) {
-            message.success('删除成功');
-            actionRef?.current?.reload?.();
+      ...(authorityMap.get('system:org:remove')
+        ? {
+            onDeleteChange(_, entity) {
+              deleteService?.({ orgId: entity?.orgId })?.then?.(({ data }) => {
+                if (data) {
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+                  actionRef?.current?.reload?.();
+                }
+              });
+            },
           }
-        });
-      },
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
+        : {}),
+      ...(authorityMap.get('system:org:edit')
+        ? {
+            onEditChange(_, entity) {
+              setInitialValues({ ...entity });
+              setOperations(FormOperations.UPDATE);
+              set(true);
+            },
+          }
+        : {}),
       renderInterceptor(entity) {
         return entity.parentId !== 0;
       },
-      modalDeleteText: '您确认要删除该管理员吗？删除之后无法恢复！',
+      modalDeleteText: formatMessage({
+        id: 'system.deleteAdministratorConfirm',
+        defaultMessage: '您确认要删除该管理员吗？删除之后无法恢复！',
+      }),
     },
   };
   const visibleUpdated = operations !== FormOperations.READ;

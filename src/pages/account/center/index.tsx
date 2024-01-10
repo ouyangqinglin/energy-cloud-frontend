@@ -59,7 +59,7 @@ const Center: React.FC = () => {
   };
 
   //  渲染用户信息
-  const renderUserInfo = ({ userName, phone, email, sex, dept }: Partial<API.CurrentUser>) => {
+  const renderUserInfo = ({ userName, phone, email, sex, orgName }: Partial<API.CurrentUser>) => {
     return (
       <List>
         <List.Item>
@@ -115,7 +115,7 @@ const Center: React.FC = () => {
             />
             部门
           </div>
-          <div>{dept?.deptName}</div>
+          <div>{orgName}</div>
         </List.Item>
       </List>
     );
@@ -124,7 +124,7 @@ const Center: React.FC = () => {
   // 渲染tab切换
   const renderChildrenByTabKey = (tabValue: tabKeyType) => {
     if (tabValue === 'base') {
-      return <BaseInfo values={currentUser} />;
+      return <BaseInfo values={currentUser} run={run} />;
     }
     if (tabValue === 'password') {
       return <ResetPassword />;

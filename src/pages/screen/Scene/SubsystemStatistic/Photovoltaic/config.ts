@@ -1,10 +1,11 @@
 import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
+import { formatMessage } from '@/utils';
 export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
 
 export const dataSource: DigitalFlipperItemProps[] = [
   {
-    title: '光伏收益',
-    unit: '元',
+    title: formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     floatLength: 2,
     field: 'profit',
     numStyle: {
@@ -21,7 +22,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '发电量',
+    title: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
     unit: 'kWh',
     floatLength: 2,
     field: 'charge',
@@ -39,7 +40,10 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '自发自用电量',
+    title: formatMessage({
+      id: 'siteMonitor.SelfGeneratedElectriConsumption',
+      defaultMessage: '自发自用电量',
+    }),
     floatLength: 2,
     field: 'selfUse',
     unit: 'kWh',
@@ -57,7 +61,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '上网电量',
+    title: formatMessage({ id: 'screen.onGridPower', defaultMessage: '上网电量' }),
     unit: 'kWh',
     floatLength: 2,
     field: 'disCharge',
@@ -78,7 +82,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
 
 export const dataSourceRealTime: DigitalFlipperItemProps[] = [
   {
-    title: '实时发电功率',
+    title: formatMessage({ id: 'screen.timeGeneratingCapacity', defaultMessage: '实时发电功率' }),
     unit: 'kW',
     floatLength: 2,
     field: 'realTimePowerGeneration',
@@ -96,7 +100,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '组串总容量',
+    title: formatMessage({ id: 'screen.totalStringCapacity', defaultMessage: '组串总容量' }),
     unit: 'kWp',
     floatLength: 2,
     field: 'totalStringCapacity',

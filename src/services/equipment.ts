@@ -8,7 +8,12 @@
  */
 
 import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
-import { DeviceMasterMode, DeviceProductTypeEnum, ListDataType } from '@/utils/dictionary';
+import {
+  DeviceMasterMode,
+  DeviceProductTypeEnum,
+  DeviceTypeEnum,
+  ListDataType,
+} from '@/utils/dictionary';
 import { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
@@ -20,7 +25,8 @@ export type DeviceDataType = {
   name?: string;
   sn?: string;
   model?: string;
-  productId?: string;
+  productId?: DeviceTypeEnum;
+  productType?: DeviceProductTypeEnum;
   productTypeId?: DeviceProductTypeEnum;
   productTypeName?: string;
   subsystemName?: string;
@@ -208,6 +214,12 @@ export const getProductTypeList = (params: any) => {
   });
 };
 
+export const getProductTypeTree = () => {
+  return request<ResponseCommonData<ListDataType[]>>('/iot/product/getProductTypeTree', {
+    method: 'GET',
+  });
+};
+
 export const getClusterByStack = (params: any) => {
   return request<ResponseCommonData<ClusterType[]>>('/oss/site/monitor/device/getBatteryDevices', {
     method: 'GET',
@@ -313,6 +325,13 @@ export const upgradeDevice = (data: any) => {
 
 export const getUpgradeRecord = (params: any) => {
   return request(`/iot/otaRecord/page`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getParallelDevice = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/device/getEsGroup`, {
     method: 'GET',
     params,
   });

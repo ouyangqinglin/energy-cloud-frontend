@@ -7,6 +7,7 @@ import { set, unset } from 'lodash';
 import type { PositionSelectType } from '@/components/PositionSelect';
 import { FormUpdate } from '../../components/FormUpdate';
 import { FormUpdateBaseProps } from '../../components/FormUpdate/type';
+import { formatMessage } from '@/utils';
 
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>();
@@ -57,8 +58,8 @@ export const Update = (props: FormUpdateBaseProps) => {
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>
-      titleCreate={`新建`}
-      titleUpdate={`编辑`}
+      titleCreate={formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' })}
+      titleUpdate={formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
       columns={getConfig()}
       onFinishUpdate={(params) => {
         return updateService(convertUpdateData(params));

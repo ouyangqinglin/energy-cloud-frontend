@@ -9,18 +9,19 @@
 import React, { useMemo } from 'react';
 import { Tabs, TabsProps } from 'antd';
 import Authority from '@/pages/user-manager/authority';
+import { formatMessage } from '@/utils';
 
 const Index: React.FC = () => {
   const items = useMemo<TabsProps['items']>(() => {
     return [
       {
         key: '1',
-        label: '自定义角色',
+        label: formatMessage({ id: 'user.customRole', defaultMessage: '自定义角色' }),
         children: <Authority type="1" />,
       },
       {
         key: '2',
-        label: '预定义角色',
+        label: formatMessage({ id: 'user.predefinedRoles', defaultMessage: '预定义角色' }),
         children: <Authority type="0" />,
       },
     ];

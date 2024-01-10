@@ -6,44 +6,40 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\PvInverter\index.tsx
  */
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dictionary';
 import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { LabelTypeEnum } from '@/components/ScreenDialog';
 import RealTime from '@/components/ScreenDialog/PvInverter/RealTime';
 import useDeviceModel from '../useDeviceModel';
-import { isEmpty } from '@/utils';
 
 export type PvInverterProps = DeviceRealTimeType & {
   loopNum: number;
 };
 
 const PvInverter: React.FC<PvInverterProps> = (props) => {
-  const { id, productId, deviceData, loading, loopNum } = props;
+  const { deviceData, loading, loopNum } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -53,17 +49,15 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
-        productId={productId}
+        id={deviceData?.deviceId}
+        productId={deviceData?.productId}
         loading={loading}
-        open={openSubscribe}
         labelType={LabelTypeEnum.LineLabel}
         loopNum={loopNum}
         detailProps={{
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
     </>

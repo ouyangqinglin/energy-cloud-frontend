@@ -5,6 +5,7 @@ import styles from '../index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Button, Carousel } from 'antd';
 import type { CarouselRef } from 'antd/lib/carousel';
+import { formatMessage } from '@/utils';
 export type DeviceItemDetailProps = {
   deviceData: EmsDevicesType; //当前device数据对象
   allDeviceData: any; //某单元下所有的设备
@@ -62,7 +63,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
           icon={<RollbackOutlined />}
           onClick={onBackDevice}
         >
-          返回
+          {formatMessage({ id: 'common.back', defaultMessage: '返回' })}
         </Button>
         <Carousel dots={true} ref={carouselRef} afterChange={onCarouselChange}>
           {allDeviceData?.devices.map((item: any) => {

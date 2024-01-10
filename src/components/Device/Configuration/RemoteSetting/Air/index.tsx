@@ -12,9 +12,10 @@ import Detail, { GroupItem } from '@/components/Detail';
 import { runItems } from './helper';
 import { useSubscribe } from '@/hooks';
 import RunForm from './RunForm';
+import { formatMessage } from '@/utils';
 
 const Air: React.FC<AirType> = (props) => {
-  const { deviceId } = props;
+  const { deviceId, deviceData } = props;
 
   const realTimeData = useSubscribe(deviceId, true);
 
@@ -22,8 +23,13 @@ const Air: React.FC<AirType> = (props) => {
     return [
       {
         label: (
-          <Detail.Label title="运行定值设置">
-            <RunForm deviceId={deviceId} runData={realTimeData} />
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.runFixedValueSetting',
+              defaultMessage: '运行定值设置',
+            })}
+          >
+            <RunForm deviceId={deviceId} deviceData={deviceData} runData={realTimeData} />
           </Detail.Label>
         ),
         items: runItems,

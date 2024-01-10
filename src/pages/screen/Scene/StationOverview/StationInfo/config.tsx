@@ -4,6 +4,7 @@ import icon_create_time from '@/assets/image/screen/stationOverview/icon_create_
 import type { DetailItem } from '@/components/Detail';
 import styles from './index.less';
 import type { SiteInfoRes } from '../type';
+import { formatMessage } from '@/utils';
 
 type StationInfo = {
   icon: any;
@@ -12,34 +13,36 @@ type StationInfo = {
 export const stationInfoConfig: StationInfo[] = [
   {
     icon: icon_site_name,
-    label: '站点名称：',
+    label: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }) + '：',
     field: 'name',
   },
   {
     icon: icon_create_time,
-    label: '站点投运时间：',
+    label:
+      formatMessage({ id: 'screen.steCommissioningTime', defaultMessage: '站点投运时间' }) + '：',
     field: 'createTime',
   },
   {
     icon: icon_location,
-    label: '站点地址：',
+    label:
+      formatMessage({ id: 'siteManage.siteList.siteAddress', defaultMessage: '站点地址' }) + '：',
     field: 'address',
   },
 ];
 
 export const stationBoxConfig = [
   {
-    label: '变压器容量',
+    label: formatMessage({ id: 'screen.transformerCapacity', defaultMessage: '变压器容量' }),
     field: 'transformerCapacity',
     unit: 'kVA',
   },
   {
-    label: '光伏组串容量',
+    label: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
     field: 'photovoltaicInstalledCapacity',
     unit: 'kWp',
   },
   {
-    label: '储能额定电量',
+    label: formatMessage({ id: 'screen.energyStorageRating', defaultMessage: '储能额定电量' }),
     field: 'energyStorageCapacityFront',
     render: (data: SiteInfoRes) => {
       return (
@@ -56,7 +59,7 @@ export const stationBoxConfig = [
     },
   },
   {
-    label: '充电桩总功率',
+    label: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
     field: 'chargingStationCapacity',
     unit: 'kW',
   },

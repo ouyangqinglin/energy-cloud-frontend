@@ -28,7 +28,7 @@ const TabsLayout: React.FC = (props) => {
               '/site-monitor/device-detail',
               '/equipment/device-detail',
               '/station/device-detail',
-            ].includes(props?.location?.pathname)
+            ].includes(props?.location?.pathname?.replace?.(/\/$/, ''))
               ? { background: 'none' }
               : {}
           }

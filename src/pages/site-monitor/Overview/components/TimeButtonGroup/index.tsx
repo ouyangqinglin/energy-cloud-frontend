@@ -2,6 +2,7 @@ import type { FC, CSSProperties } from 'react';
 import { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
+import { formatMessage } from '@/utils';
 
 export const enum TimeType {
   DAY,
@@ -31,10 +32,18 @@ const TimeButtonGroup: FC<TimeButtonGroupProps> = ({ onChange, className, style 
       onChange={handleClick}
       buttonStyle="solid"
     >
-      <Radio.Button value={TimeType.DAY}>日</Radio.Button>
-      <Radio.Button value={TimeType.MONTH}>月</Radio.Button>
-      <Radio.Button value={TimeType.YEAR}>年</Radio.Button>
-      <Radio.Button value={TimeType.TOTAL}>累计</Radio.Button>
+      <Radio.Button value={TimeType.DAY}>
+        {formatMessage({ id: 'common.time.day', defaultMessage: '日' })}
+      </Radio.Button>
+      <Radio.Button value={TimeType.MONTH}>
+        {formatMessage({ id: 'common.time.month', defaultMessage: '月' })}
+      </Radio.Button>
+      <Radio.Button value={TimeType.YEAR}>
+        {formatMessage({ id: 'common.time.year', defaultMessage: '年' })}
+      </Radio.Button>
+      <Radio.Button value={TimeType.TOTAL}>
+        {formatMessage({ id: 'common.time.total', defaultMessage: '累计' })}
+      </Radio.Button>
     </Radio.Group>
   );
 };

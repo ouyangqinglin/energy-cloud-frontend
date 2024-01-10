@@ -12,6 +12,7 @@ import { DownOutlined, MoreOutlined } from '@ant-design/icons';
 import { useModel, history, useAliveController } from 'umi';
 import SortableTab from './components/SortableTab';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const SortableList = SortableContainer(() => {
   const tabsRef = useRef<any>();
@@ -172,14 +173,20 @@ const KeepAliveTabs = () => {
         }
       }}
     >
-      <Menu.Item key="closeCurrent">关闭当前标签</Menu.Item>
-      <Menu.Item key="closeOther">关闭其他标签</Menu.Item>
-      <Menu.Item key="closeAll">关闭全部标签</Menu.Item>
+      <Menu.Item key="closeCurrent">
+        {formatMessage({ id: 'common.closeCurrentLabel', defaultMessage: '关闭当前标签' })}
+      </Menu.Item>
+      <Menu.Item key="closeOther">
+        {formatMessage({ id: 'common.closeOtherTags', defaultMessage: '关闭其他标签' })}
+      </Menu.Item>
+      <Menu.Item key="closeAll">
+        {formatMessage({ id: 'common.closeAllTags', defaultMessage: '关闭全部标签' })}
+      </Menu.Item>
       <Menu.Item key="closeLeft" disabled={active === 0}>
-        关闭当前左边标签
+        {formatMessage({ id: 'common.closeCurrentLeftLabel', defaultMessage: '关闭当前左边标签' })}
       </Menu.Item>
       <Menu.Item key="closeRight" disabled={active === tabList.length - 1}>
-        关闭当前右边标签
+        {formatMessage({ id: 'common.closeCurrentrightLabel', defaultMessage: '关闭当前右边标签' })}
       </Menu.Item>
     </Menu>
   );

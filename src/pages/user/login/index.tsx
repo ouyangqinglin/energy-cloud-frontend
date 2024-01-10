@@ -65,19 +65,18 @@ const Login: React.FC = () => {
         setSessionToken(accessToken, accessToken, expireTime);
         message.success(defaultLoginSuccessMessage);
 
-        let redirectPath = homePath || location.query?.redirect || '/index/station';
+        let redirectPath =
+          homePath || location.query?.redirect || '/site-monitor' || '/index/station';
         const routesList = await getRoutersList();
         const resList = routesList.data;
         const menus = getLocaleMenus(resList);
         const antMenus = menus && getMenus(menus);
-        //当没有首页权限时，需要跳转到“站点概览页”
-        if (resList && resList[0].path !== '/index') {
-          if (antMenus.find((object) => object.key == '/site-monitor')) {
-            redirectPath = '/site-monitor/overview';
-          }
+        const hasRedirectPath = antMenus.some((item) => item.key == redirectPath);
+        if (!hasRedirectPath) {
+          redirectPath = antMenus?.[0]?.key || '/index';
         }
-        const pathArr = redirectPath.split('?');
 
+        const pathArr = redirectPath.split('?');
         await clear();
         history.push({
           pathname: pathArr[0],

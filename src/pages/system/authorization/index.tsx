@@ -13,6 +13,7 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
 import { getApplicationAuthorizationList } from './service';
 import { ListDataType } from './type';
+import { formatMessage } from '@/utils';
 
 const RemoteUpgrade: React.FC = () => {
   const requestList: YTProTableCustomProps<ListDataType, ListDataType>['request'] = useCallback(
@@ -30,7 +31,7 @@ const RemoteUpgrade: React.FC = () => {
         toolBarRenderOptions={{
           add: {
             onClick: () => {},
-            text: '新建',
+            text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
           },
         }}
         option={{

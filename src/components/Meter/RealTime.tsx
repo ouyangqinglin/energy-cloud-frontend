@@ -14,6 +14,7 @@ import { RealTimeProps } from '@/components/ScreenDialog';
 import Label from '@/components/Detail/DotLabel';
 import useSubscribe from '@/pages/screen/useSubscribe';
 import { DetailProps } from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 const RealTime: React.FC<
   RealTimeProps & {
@@ -21,7 +22,13 @@ const RealTime: React.FC<
     detailProps?: Omit<DetailProps, 'items' | 'data'>;
   }
 > = (props) => {
-  const { id, loading, open = true, label = '运行信息', detailProps } = props;
+  const {
+    id,
+    loading,
+    open = true,
+    label = formatMessage({ id: 'siteMonitor.operationalInformation', defaultMessage: '运行信息' }),
+    detailProps,
+  } = props;
 
   const equipmentData = useSubscribe(id, open);
 

@@ -2,37 +2,54 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2023-11-30 15:00:48
+ * @LastEditTime: 2024-01-02 11:48:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Skeleton, Space, Tabs, TabsProps, Tree } from 'antd';
+import { Skeleton, Space, Tree } from 'antd';
 import { useRequest } from 'umi';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
-import Search from '@/pages/data-manage/search';
-import Alarm from '@/components/Alarm';
-import RunLog from '@/pages/site-monitor/RunLog';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
-import { TreeNode, deviceMap } from './config';
-import Configuration from '@/components/Device/Configuration';
-import DeviceRealTime from '@/components/DeviceRealTime';
-import Overview from '@/components/DeviceInfo/Overview';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { getPropsFromTree, isEmpty } from '@/utils';
+import { TreeNode, netWorkStatusEnum, networkStatusShows } from './config';
+import { productTypeIconMap } from '@/utils/IconUtil';
+import DeviceProvider from '../Device/Context/DeviceProvider';
+import Device from './Device';
+import { useSubscribe } from '@/hooks';
+import { MessageEventType } from '@/utils/connection';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { ProField } from '@ant-design/pro-components';
+import { useBoolean } from 'ahooks';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
-const dealTreeData = (data: TreeNode[]) => {
+const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
   const result: TreeNode[] = [];
   data?.forEach?.((item) => {
+    const networkStatus = realTimeData?.[item?.id ?? '']?.networkStatus;
     const node: TreeNode = {
       key: item?.id + '',
       deviceId: item?.id,
-      name: item?.name,
+      deviceName: item?.name,
+      title: (
+        <>
+          {item?.name}
+          <span className={styles.network}>
+            <ProField
+              mode="read"
+              text={networkStatusShows.includes(networkStatus) ? networkStatus : undefined}
+              valueEnum={netWorkStatusEnum}
+            />
+          </span>
+        </>
+      ),
       productId: item?.productId,
-      icon: deviceMap.get(item.productId as any) || '',
     };
-    if (item.children && item.children.length) {
-      node.children = dealTreeData(item.children as any);
+    node.icon =
+      productTypeIconMap.get(item?.productTypeId ?? DeviceProductTypeEnum.Default) ||
+      productTypeIconMap.get(DeviceProductTypeEnum.Default);
+    if (item?.children && item?.children?.length) {
+      node.children = dealTreeData(item.children as any, realTimeData);
     }
     result.push(node);
   });
@@ -41,18 +58,16 @@ const dealTreeData = (data: TreeNode[]) => {
 
 export type DeviceDetailProps = {
   id: string;
-  productId: string;
 };
 
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
-  const { id, productId } = props;
+  const { id } = props;
 
+  const [isOpen, { toggle, setTrue, setFalse }] = useBoolean(true);
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({
     deviceId: parseInt(id) as any,
     key: id,
-    productId,
   });
-  const [deviceOverviewloading, setDeviceOverviewloading] = useState(false);
   const {
     data: treeData,
     loading,
@@ -60,9 +75,17 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   } = useRequest(getWholeDeviceTree, {
     manual: true,
     formatResult: (res) => {
-      return dealTreeData([res.data] as any);
+      return res.data ? [res.data] : [];
     },
   });
+  const deviceIds = useMemo(() => {
+    return getPropsFromTree(treeData || []);
+  }, [treeData]);
+  const realTimeData = useSubscribe(deviceIds, true, MessageEventType.NETWORKSTSTUS);
+
+  const mergedTreeData = useMemo(() => {
+    return dealTreeData(treeData as any, realTimeData);
+  }, [treeData, realTimeData]);
 
   const selectedKeys = useMemo<string[]>(() => {
     return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId as string];
@@ -77,11 +100,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     [],
   );
 
-  const onDeviceChange = useCallback((data) => {
-    setSelectOrg({ ...data });
-  }, []);
-
-  const onEditSuccess = useCallback(() => {
+  const onChange = useCallback(() => {
     runGetDeviceTree({
       deviceId: id,
       component: 0,
@@ -94,72 +113,16 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
       deviceId: id,
       component: 0,
       containTopParentDevice: 1,
+    }).then((res) => {
+      if (!res?.[0]?.children?.length) {
+        setFalse();
+      }
     });
   }, [id]);
 
-  const items = useMemo<TabsProps['items']>(() => {
-    return [
-      {
-        label: '设备详情',
-        key: '1',
-        children: (
-          <>
-            <div
-              className={`px24 ${
-                selectOrg?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
-              }`}
-            >
-              <DeviceRealTime
-                id={selectOrg?.deviceId || ''}
-                productId={selectOrg?.productId || '0'}
-                deviceData={selectOrg}
-                loading={deviceOverviewloading}
-              />
-            </div>
-          </>
-        ),
-      },
-      {
-        label: '历史数据',
-        key: '2',
-        children: <Search isDeviceChild deviceData={selectOrg} />,
-      },
-      {
-        label: '告警',
-        key: '3',
-        children: (
-          <Alarm
-            isStationChild={true}
-            params={{ deviceId: selectOrg?.deviceId, deviceName: selectOrg?.name }}
-          />
-        ),
-      },
-      {
-        label: '日志',
-        key: '4',
-        children: <RunLog deviceId={selectOrg?.deviceId || ''} isDeviceChild />,
-      },
-      {
-        label: '配置',
-        key: '5',
-        children: (
-          <Configuration
-            productId={selectOrg?.productId || '0'}
-            deviceId={selectOrg?.deviceId || ''}
-            deviceData={selectOrg}
-          />
-        ),
-      },
-    ];
-  }, [selectOrg, deviceOverviewloading]);
-
   return (
     <>
-      <div
-        className={`${styles.contain} ${
-          treeData?.[0]?.children && treeData?.[0]?.children?.length ? styles.open : ''
-        }`}
-      >
+      <div className={`${styles.contain} ${isOpen ? styles.open : ''}`}>
         <div className={styles.tree}>
           {loading ? (
             <Space direction="vertical">
@@ -169,10 +132,9 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
             </Space>
           ) : (
             <Tree<TreeNode>
-              treeData={treeData}
+              treeData={mergedTreeData}
               defaultExpandAll={true}
               fieldNames={{
-                title: 'name',
                 key: 'deviceId',
                 children: 'children',
               }}
@@ -182,16 +144,13 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
             />
           )}
         </div>
+        <div className={styles.switchWrap} onClick={toggle}>
+          {isOpen ? <LeftOutlined /> : <RightOutlined />}
+        </div>
         <div className={styles.content}>
-          <div className="px24 pt24">
-            <Overview
-              deviceId={selectOrg?.deviceId || ''}
-              onChange={onDeviceChange}
-              onEditSuccess={onEditSuccess}
-              setLoading={setDeviceOverviewloading}
-            />
-          </div>
-          <Tabs className={styles.tabs} items={items} />
+          <DeviceProvider deviceId={selectOrg.deviceId} onChange={onChange}>
+            <Device />
+          </DeviceProvider>
         </div>
       </div>
     </>

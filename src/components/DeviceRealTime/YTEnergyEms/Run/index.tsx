@@ -6,24 +6,18 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\Run\index.tsx
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRequest, useHistory } from 'umi';
-import Label from '@/components/Detail/LineLabel';
+import React, { useCallback, useMemo, useState } from 'react';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
-import YTProTable from '@/components/YTProTable';
 import { emsOperationItems } from './config';
-import { DeviceDataType, getEmsAssociationDevice } from '@/services/equipment';
-import { ProColumns } from '@ant-design/pro-components';
-import { ProField } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
-import { useSubscribe } from '@/hooks';
-import { MessageEventType } from '@/utils/connection';
+import { formatMessage } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import AccessDeviceList from '@/components/Device/module/AccessDeviceList';
 
 export type StackProps = {
-  id: string;
-  productId: string;
+  id?: string;
+  productId?: DeviceTypeEnum;
   realTimeData?: Record<string, any>;
 };
 
@@ -31,100 +25,19 @@ const Stack: React.FC<StackProps> = (props) => {
   const { realTimeData, id, productId } = props;
 
   const { modelMap } = useDeviceModel({ productId });
-  const history = useHistory();
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const {
-    data: associationData,
-    run,
-    loading,
-  } = useRequest(getEmsAssociationDevice, {
-    manual: true,
-  });
-
-  const associationDeviceIds = useMemo(() => {
-    return associationData?.map?.((item) => item?.deviceId || '');
-  }, [associationData]);
-
-  const associationRealtimeData = useSubscribe(
-    associationDeviceIds,
-    true,
-    MessageEventType.NETWORKSTSTUS,
-  );
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
-
-  const onDeviceClick = useCallback((record) => {
-    history.push({
-      pathname: '/site-monitor/device-detail',
-      search: `?id=${record.deviceId}&productId=${record.productId}`,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (id) {
-      run({ deviceId: id });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
     }
-  }, [id]);
-
-  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
-    return [
-      {
-        title: '设备通信状态',
-        dataIndex: 'connectStatus',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-        render: (_, { deviceId, connectStatus }) => {
-          return (
-            <ProField
-              text={associationRealtimeData?.[deviceId ?? '']?.status ?? connectStatus}
-              mode="read"
-              valueEnum={onlineStatus}
-            />
-          );
-        },
-      },
-      {
-        title: '产品类型',
-        dataIndex: 'productTypeName',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: '产品型号',
-        dataIndex: 'model',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: '设备名称',
-        dataIndex: 'name',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-        render: (_, record) => {
-          return <a onClick={() => onDeviceClick(record)}>{record.name}</a>;
-        },
-      },
-      {
-        title: 'SN号',
-        dataIndex: 'sn',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-    ];
-  }, [associationRealtimeData]);
+  }, []);
 
   const extral = (
     <Button
@@ -139,7 +52,14 @@ const Stack: React.FC<StackProps> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="运行信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.operationalInformation',
+              defaultMessage: '运行信息',
+            })}
+          />
+        ),
         items: emsOperationItems,
       },
     ];
@@ -154,19 +74,9 @@ const Stack: React.FC<StackProps> = (props) => {
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
-      <Label title="接入设备列表" className="mt16" />
-      <YTProTable<DeviceDataType>
-        loading={loading}
-        search={false}
-        options={false}
-        columns={columns}
-        toolBarRender={false}
-        dataSource={associationData}
-        scroll={{ y: 'auto' }}
-      />
+      <AccessDeviceList deviceId={id} />
     </>
   );
 };

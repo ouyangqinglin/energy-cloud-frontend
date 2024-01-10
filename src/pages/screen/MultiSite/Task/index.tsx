@@ -15,6 +15,7 @@ import { items } from './config';
 import styles from './index.less';
 import { getData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../config';
+import { formatMessage } from '@/utils';
 
 const Task: React.FC = () => {
   const { data: taskData } = useRequest(getData, {
@@ -36,7 +37,10 @@ const Task: React.FC = () => {
   return (
     <>
       <Cell cursor="default" width={400} height={276} right={24} top={253}>
-        <DecorationCarousel panelStyle={{ padding: '16px 16px 0' }} title="任务">
+        <DecorationCarousel
+          panelStyle={{ padding: '16px 16px 0' }}
+          title={formatMessage({ id: 'screen.task', defaultMessage: '任务' })}
+        >
           <DigitStat className={styles.digit} items={items} span={24} data={taskData} />
         </DecorationCarousel>
       </Cell>

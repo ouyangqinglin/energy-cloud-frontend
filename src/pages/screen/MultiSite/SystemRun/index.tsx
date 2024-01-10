@@ -15,6 +15,7 @@ import moment from 'moment';
 import { useRequest } from 'umi';
 import { getData } from './service';
 import { REQUEST_INTERVAL_2_MINUTE } from '../config';
+import { formatMessage } from '@/utils';
 
 const powerColors = [
   'rgba(255, 123, 123, 1)',
@@ -33,19 +34,22 @@ const elecColors = [
 ];
 
 const powerNameMap = new Map([
-  ['mePower', '市电'],
-  ['pvPower', '光伏'],
-  ['esPower', '储能'],
-  ['csPower', '充电桩'],
-  ['loadPower', '其他负载'],
+  ['mePower', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+  ['pvPower', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
+  ['esPower', formatMessage({ id: 'device.storage', defaultMessage: '储能' })],
+  ['csPower', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
+  ['loadPower', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
 ]);
 const elecNameMap = new Map([
-  ['meConsumption', '市电'],
-  ['pvPowerGeneration', '光伏发电'],
-  ['charge', '储能充电'],
-  ['discharge', '储能放电'],
-  ['csCharge', '充电桩'],
-  ['loadConsumption', '其他负载'],
+  ['meConsumption', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+  [
+    'pvPowerGeneration',
+    formatMessage({ id: 'device.pvPowerGeneration', defaultMessage: '光伏发电' }),
+  ],
+  ['charge', formatMessage({ id: 'device.storageCharging', defaultMessage: '储能充电' })],
+  ['discharge', formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电' })],
+  ['csCharge', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
+  ['loadConsumption', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
 ]);
 
 const SystemRun: React.FC = () => {
@@ -94,7 +98,10 @@ const SystemRun: React.FC = () => {
         },
       },
       yAxis: {
-        name: timeType === TimeType.DAY ? '单位（kW）' : '单位（kWh）',
+        name:
+          timeType === TimeType.DAY
+            ? formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kW）'
+            : formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
         nameTextStyle: {
           color: '#ACCCEC',
         },
@@ -171,7 +178,7 @@ const SystemRun: React.FC = () => {
         <DecorationCarousel
           valueType="timeButtonGroup"
           panelStyle={{ padding: 0 }}
-          title="系统运行数据"
+          title={formatMessage({ id: 'screen.systemRunningData', defaultMessage: '系统运行数据' })}
           onTimeButtonChange={setTimeType}
         >
           {timeType == TimeType.DAY ? (

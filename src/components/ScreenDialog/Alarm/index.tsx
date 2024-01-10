@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 18:59:32
- * @LastEditTime: 2023-06-26 14:46:33
+ * @LastEditTime: 2023-12-25 18:12:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Alarm\index.tsx
  */
@@ -16,12 +16,33 @@ import YTProTable from '@/components/YTProTable';
 import { getPage } from './service';
 import styles from './index.less';
 import Empty from '@/components/Empty';
+import { formatMessage } from '@/utils';
 
 const levelMap = new Map([
-  ['info', <span className={styles.info}>提示</span>],
-  ['warn', <span className={styles.warn}>次要</span>],
-  ['alarm', <span className={styles.alarm}>重要</span>],
-  ['error', <span className={styles.error}>严重</span>],
+  [
+    'info',
+    <span className={styles.info}>
+      {formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })}
+    </span>,
+  ],
+  [
+    'warn',
+    <span className={styles.warn}>
+      {formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })}
+    </span>,
+  ],
+  [
+    'alarm',
+    <span className={styles.alarm}>
+      {formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' })}
+    </span>,
+  ],
+  [
+    'error',
+    <span className={styles.error}>
+      {formatMessage({ id: 'alarmManage.emergent', defaultMessage: '紧急' })}
+    </span>,
+  ],
 ]);
 
 const PvInverter: React.FC<BusinessDialogProps> = (props) => {
@@ -42,30 +63,30 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
   const columns = useMemo<ProColumns[]>(
     () => [
       {
-        title: '告警内容',
+        title: formatMessage({ id: 'alarmManage.alarmContent', defaultMessage: '告警内容' }),
         dataIndex: 'content',
         width: 200,
         ellipsis: true,
       },
       {
-        title: '告警级别',
+        title: formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' }),
         dataIndex: 'level',
         valueEnum: levelMap,
       },
       {
-        title: '告警ID',
+        title: formatMessage({ id: 'alarmManage.alarm', defaultMessage: '告警' }) + 'ID',
         dataIndex: 'id',
       },
       {
-        title: '设备名称',
+        title: formatMessage({ id: 'alarmManage.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'deviceName',
       },
       {
-        title: '产品类型',
+        title: formatMessage({ id: 'alarmManage.productType', defaultMessage: '产品类型' }),
         dataIndex: 'productTypeName',
       },
       {
-        title: '产生时间',
+        title: formatMessage({ id: 'alarmManage.generateTime', defaultMessage: '产生时间' }),
         dataIndex: 'alarmTime',
       },
     ],
@@ -76,7 +97,7 @@ const PvInverter: React.FC<BusinessDialogProps> = (props) => {
     <>
       <Dialog
         model={model}
-        title="告警列表"
+        title={formatMessage({ id: 'alarmManage.alarmList', defaultMessage: '告警列表' })}
         open={open}
         onCancel={onCancel}
         footer={null}

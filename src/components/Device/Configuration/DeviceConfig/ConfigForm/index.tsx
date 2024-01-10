@@ -31,6 +31,7 @@ import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
@@ -72,7 +73,7 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
   >(() => {
     return {
       selectType: SelectTypeEnum.Device,
-      title: '选择设备',
+      title: formatMessage({ id: 'device.selectDevice', defaultMessage: '选择设备' }),
       treeProps: {
         fieldNames: {
           title: 'deviceName',
@@ -97,11 +98,18 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
     switch (deviceData?.productConfigType) {
       case ConfigTypeEnum.Device:
         result.push({
-          title: '关联设备',
+          title: formatMessage({ id: 'device.associatedDevice', defaultMessage: '关联设备' }),
           dataIndex: 'associateDevices',
           valueType: TABLETREESELECT,
           formItemProps: {
-            rules: [{ required: true, message: '请选择关联设备' }],
+            rules: [
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'device.associatedDevice', defaultMessage: '关联设备' }),
+              },
+            ],
           },
           fieldProps: tableTreeSelectProps,
           colProps: {
@@ -111,12 +119,25 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
         break;
       case ConfigTypeEnum.ChangeStack:
         result.push({
-          title: '关联充电堆主机',
+          title: formatMessage({
+            id: 'device.associatedChargingHost',
+            defaultMessage: '关联充电堆主机',
+          }),
           dataIndex: 'associateId',
           valueType: 'select',
           request: requestChargeStack,
           formItemProps: {
-            rules: [{ required: true, message: '请选择充电堆主机' }],
+            rules: [
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({
+                    id: 'device.associatedChargingHost',
+                    defaultMessage: '关联充电堆主机',
+                  }),
+              },
+            ],
           },
           colProps: {
             span: 24,
@@ -164,7 +185,7 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
         onClick={setTrue}
         disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
-        修改
+        {formatMessage({ id: 'common.modify', defaultMessage: '修改' })}
       </Button>
       <ProConfigProvider valueTypeMap={tableTreeSelectValueTypeMap}>
         <SchemaForm<ConfigDataType, TABLETREESELECTVALUETYPE>

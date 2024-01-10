@@ -4,6 +4,7 @@ import { ProColumns } from '@ant-design/pro-table';
 import { useBoolean } from 'ahooks';
 import { useCallback } from 'react';
 import { getSiteId } from '../../helper';
+import { formatMessage } from '@/utils';
 
 const BindDevice = <V = any,>(props: {
   value: V[];
@@ -17,13 +18,19 @@ const BindDevice = <V = any,>(props: {
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '数据采集点',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPoints',
+        defaultMessage: '数据采集点',
+      }),
       dataIndex: 'paramName',
       width: 200,
       ellipsis: true,
     },
     {
-      title: '数据采集点标识',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPointIdIdentify',
+        defaultMessage: '数据采集点标识',
+      }),
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,
@@ -39,7 +46,7 @@ const BindDevice = <V = any,>(props: {
       model="screen"
       multiple={false}
       selectType={SelectTypeEnum.Device}
-      title="选择设备"
+      title={formatMessage({ id: 'screen.selectDevice', defaultMessage: '选择设备' })}
       treeProps={{
         fieldNames: {
           title: 'deviceName',

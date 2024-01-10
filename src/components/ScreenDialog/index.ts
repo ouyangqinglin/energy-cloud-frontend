@@ -15,7 +15,7 @@ export enum LabelTypeEnum {
 }
 
 export type RealTimeProps = {
-  id: string;
+  id?: string;
   loading?: boolean;
   open?: boolean;
   label?: React.ReactNode;

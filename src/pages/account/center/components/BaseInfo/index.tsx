@@ -6,6 +6,7 @@ import { updateUserProfile } from '@/pages/system/user/service';
 
 export type BaseInfoProps = {
   values: Partial<API.CurrentUser> | undefined;
+  run: () => void;
 };
 
 const BaseInfo: React.FC<BaseInfoProps> = (props) => {
@@ -17,6 +18,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
     const resp = await updateUserProfile(data);
     if (resp.code === 200) {
       message.success('修改成功');
+      props.run();
     } else {
       message.warn(resp.msg);
     }

@@ -45,7 +45,8 @@ const operationsMap = new Map([
           Modal.confirm({
             title: (
               <strong>
-                <FormattedMessage id="common.deleteConfirm" defaultMessage="删除确认" />
+                {/* <FormattedMessage id="common.deleteConfirm" defaultMessage="删除确认" /> */}
+                {formatMessage({ id: 'common.deleteConfirm', defaultMessage: '删除确认' })}
               </strong>
             ),
             content,

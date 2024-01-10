@@ -10,7 +10,6 @@ const imgStyle = {
 };
 
 const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic }) => {
-  console.log(data);
   return (
     <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'}>
       {config.map((item) => {

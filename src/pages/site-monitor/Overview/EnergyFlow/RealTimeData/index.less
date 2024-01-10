@@ -2,12 +2,12 @@
 .realTimeData {
   position: absolute;
   top: 0;
-  right: 0;
+  right: 16px;
   z-index: 10;
   display: flex;
   justify-content: flex-end;
   min-width: 300px;
-  padding: 16px;
+  padding: 16px 0;
   .realBtn {
     order: 2;
   }
@@ -27,6 +27,7 @@
             color: #606266;
             font-weight: 400;
             font-size: 14px;
+            word-break: break-all;
           }
           .label-line {
             width: 3;
@@ -40,7 +41,7 @@
 
 @media screen and (max-width: @screen-xxl) {
   .realTimeData {
-    position: relative;
+    position: static;
     .realContent {
       width: 100%;
       .boxContent {

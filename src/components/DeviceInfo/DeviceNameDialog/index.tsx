@@ -10,48 +10,47 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Form, message, Modal } from 'antd';
 import { useRequest, useModel } from 'umi';
 import Dialog from '@/components/Dialog';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { editDeviceInfo } from '@/services/equipment';
 export type DeviceSnProps = {
   id?: string;
   open: boolean;
-  onSuccess:any;
+  onSuccess: any;
   initialValues?: Record<string, any>;
-  onOpenChange:any;
-  beforeSubmit:any;
+  onOpenChange: any;
+  beforeSubmit: any;
 };
 export type EquipFormType = {
-    name?: string;
-    masterSlaveSystemName?:string;
+  name?: string;
+  masterSlaveSystemName?: string;
 };
 const DeviceNameDialog: React.FC<DeviceSnProps> = (props) => {
-  const { id, open, onOpenChange, initialValues,beforeSubmit,onSuccess } = props;
+  const { id, open, onOpenChange, initialValues, beforeSubmit, onSuccess } = props;
   const [form] = Form.useForm<EquipFormType>();
 
   const columns = [
     {
-      title: '设备名称',
+      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'name',
       formItemProps: {
-        rules: [{ required: true}],
+        rules: [{ required: true }],
       },
-      fieldProps: {
-   
-      },
+      fieldProps: {},
       colProps: {
         span: 24,
       },
     },
     {
-      title: '主从系统名称',
+      title: formatMessage({
+        id: 'siteMonitor.masterSlaveSystemName',
+        defaultMessage: '主从系统名称',
+      }),
       dataIndex: 'masterSlaveSystemName',
       formItemProps: {
-        rules: [{ required: true}],
+        rules: [{ required: true }],
       },
-      fieldProps: {
-   
-      },
+      fieldProps: {},
       colProps: {
         span: 24,
       },
@@ -60,11 +59,14 @@ const DeviceNameDialog: React.FC<DeviceSnProps> = (props) => {
 
   return (
     <>
-    <SchemaForm
+      <SchemaForm
         id={id}
         open={open}
         onOpenChange={onOpenChange}
-        title={'编辑设备信息'}
+        title={formatMessage({
+          id: 'siteMonitor.editDeviceInformation',
+          defaultMessage: '编辑设备信息',
+        })}
         type={FormTypeEnum.Edit}
         width={552}
         columns={columns}

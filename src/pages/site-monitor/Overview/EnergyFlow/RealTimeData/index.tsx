@@ -9,6 +9,7 @@ import TimeButtonGroup, { TimeType } from '../../components/TimeButtonGroup';
 import { getPVRevenue } from '../service';
 import styles from './index.less';
 import Detail from '@/components/Detail';
+import { formatMessage } from '@/utils';
 
 const RealTimeData = ({ siteId }: { siteId?: number }) => {
   const { data, run } = useRequest(getPVRevenue, {
@@ -27,32 +28,32 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
 
   const columns = [
     {
-      label: '总收益',
-      unit: '(元)',
+      label: formatMessage({ id: 'device.totalRevenue', defaultMessage: '总收益' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.totalGains ?? '--',
     },
     {
-      label: '光伏收益',
-      unit: '(元)',
+      label: formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.photovoltaicGains ?? '--',
     },
     {
-      label: '储能收益',
-      unit: '(元)',
+      label: formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.essGains ?? '--',
     },
     {
-      label: '充电桩收益',
-      unit: '(元)',
+      label: formatMessage({ id: 'device.chargingRevenue', defaultMessage: '充电桩收益' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.chargingPileGains ?? '--',
     },
     {
-      label: '自发自用率',
+      label: formatMessage({ id: 'device.selfUseRate', defaultMessage: '自发自用率' }),
       unit: '(%)',
       value: data?.selfUseRate ?? '--',
     },
     {
-      label: '负载用电自给率',
+      label: formatMessage({ id: 'device.loadSelfRate', defaultMessage: '负载用电自给率' }),
       unit: '(%)',
       value: data?.selfSufficiencyRate ?? '--',
     },
@@ -60,11 +61,11 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
 
   const toggleButton = show ? (
     <Button className="pr0" type="link" onClick={toggle} size={'small'}>
-      隐藏
+      {formatMessage({ id: 'common.hide', defaultMessage: '隐藏' })}
     </Button>
   ) : (
     <Button className="pr0" type="link" onClick={toggle} size={'small'}>
-      显示实时信息
+      {formatMessage({ id: 'common.displayRealTimeInfo', defaultMessage: '显示实时信息' })}
     </Button>
   );
 

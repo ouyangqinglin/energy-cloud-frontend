@@ -2,21 +2,22 @@ import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
 import type { ReactNode } from 'react';
 import type { PhotovoltaicElectricityPriceInfo } from './type';
+import { formatMessage } from '@/utils';
 
 export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
   {
-    title: '序号',
+    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     dataIndex: 'index',
     valueType: 'index',
     width: 50,
   },
   {
-    title: '规则名称',
+    title: formatMessage({ id: 'siteManage.siteList.ruleName', defaultMessage: '规则名称' }),
     dataIndex: 'name',
     ellipsis: true,
   },
   {
-    title: '生效日期',
+    title: formatMessage({ id: 'siteManage.siteList.effectiveDate', defaultMessage: '生效日期' }),
     dataIndex: 'effectiveTimeList',
     valueType: 'dateRange',
     ellipsis: true,
@@ -42,21 +43,35 @@ export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
     },
   },
   {
-    title: '最后更新时间',
+    title: formatMessage({ id: 'common.lastTime', defaultMessage: '最后更新时间' }),
     dataIndex: 'lastOperationTime',
     hideInSearch: true,
   },
   {
-    title: '操作人',
+    title: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
     dataIndex: 'operator',
     hideInSearch: true,
   },
   {
-    title: '当前操作状态',
+    title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
     dataIndex: 'status',
     valueEnum: new Map<number, ReactNode>([
-      [1, <Badge status="success" key="success" text="生效" />],
-      [0, <Badge status="error" key="error" text="未生效" />],
+      [
+        1,
+        <Badge
+          status="success"
+          key="success"
+          text={formatMessage({ id: 'common.effect', defaultMessage: '生效' })}
+        />,
+      ],
+      [
+        0,
+        <Badge
+          status="error"
+          key="error"
+          text={formatMessage({ id: 'common.ineffect', defaultMessage: '未生效' })}
+        />,
+      ],
     ]),
   },
 ];

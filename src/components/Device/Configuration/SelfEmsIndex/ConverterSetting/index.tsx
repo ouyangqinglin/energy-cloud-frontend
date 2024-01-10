@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:36:42
- * @LastEditTime: 2023-11-27 11:24:18
+ * @LastEditTime: 2023-12-20 19:23:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\SelfEmsIndex\ConverterSetting\index.tsx
  */
@@ -17,6 +17,7 @@ import {
 } from './config';
 import ConfigModal from '../../../ConfigModal';
 import { useAuthority } from '@/hooks';
+import { formatMessage } from '@/utils';
 
 export type StackProps = {
   deviceId: string;
@@ -37,10 +38,18 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:converterSetting:converterProtectSetting')) {
       result.push({
         label: (
-          <Detail.Label title="变流器保护参数设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.converterProtectionParameterSettings',
+              defaultMessage: '变流器保护参数设置',
+            })}
+          >
             <ConfigModal
               width={'816px'}
-              title={'变流器保护参数设置'}
+              title={formatMessage({
+                id: 'device.converterProtectionParameterSettings',
+                defaultMessage: '变流器保护参数设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
@@ -49,6 +58,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               colProps={{
                 span: 8,
               }}
+              authority="iot:device:config:converterSetting:converterProtectSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -58,14 +68,23 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:converterSetting:powerParamsSetting')) {
       result.push({
         label: (
-          <Detail.Label title="电网参数设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.gridParameterSetting',
+              defaultMessage: '电网参数设置',
+            })}
+          >
             <ConfigModal
-              title={'电网参数设置'}
+              title={formatMessage({
+                id: 'device.gridParameterSetting',
+                defaultMessage: '电网参数设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'GridParameterSettings'}
+              authority="iot:device:config:converterSetting:powerParamsSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -84,7 +103,6 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           detailProps={{
             colon: false,
             labelStyle: { width: 200 },
-            valueStyle: { width: '40%' },
           }}
         />
       </div>

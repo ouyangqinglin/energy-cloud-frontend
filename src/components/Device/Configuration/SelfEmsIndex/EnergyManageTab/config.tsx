@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import type { DetailItem } from '@/components/Detail';
 import { chargePutFormat, moneyPowerFormat, percentageFormat, powerFormat } from '@/utils/format';
 import type { FormInstance, ProFormColumnsType } from '@ant-design/pro-components';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 import { Col, Row, TimePicker } from 'antd';
+import { formatMessage } from '@/utils';
 import moment, { Moment } from 'moment';
+import { chargeAndDischargeStatus } from '@/utils/dict';
+import { FormAndDetailType } from '@/components/Detail/Detail';
 
 const hourFormat = 'HH:mm';
 const contrastDate = '2023-01-01 ';
@@ -14,7 +18,10 @@ export const validateAllTime = (value: any, field: string) => {
     value?.[0]?.[field]?.[0]?.format?.(hourFormat) != '00:00' ||
     value?.[value?.length - 1]?.[field]?.[1]?.format?.(hourFormat) != '23:59'
   ) {
-    return Promise.reject('时间段应满24小时');
+    return Promise.reject(
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }) +
+        formatMessage({ id: 'common.should24Hour', defaultMessage: '应满24小时' }),
+    );
   } else {
     return Promise.resolve();
   }
@@ -39,7 +46,20 @@ const validatorTime = (
         moment(contrastDate + prevValue[1].format(hourFormat)),
       )
     ) {
-      return Promise.reject(new Error(`时段${index + 1}开始时间应大于等于时段${index}结束时间`));
+      return Promise.reject(
+        new Error(
+          formatMessage(
+            {
+              id: 'common.timeStartShouldGreaterEnd',
+              defaultMessage: `时段${index + 1}开始时间应大于等于时段${index}结束时间`,
+            },
+            {
+              start: index + 1,
+              end: index,
+            },
+          ),
+        ),
+      );
     }
     if (
       nextValue &&
@@ -49,7 +69,18 @@ const validatorTime = (
       )
     ) {
       return Promise.reject(
-        new Error(`时段${index + 1}结束时间应小于等于时段${index + 2}开始时间`),
+        new Error(
+          formatMessage(
+            {
+              id: 'common.timeStartShouldGreaterEnd',
+              defaultMessage: `时段${index + 1}结束时间应小于等于时段${index + 2}开始时间`,
+            },
+            {
+              end: index + 1,
+              start: index + 2,
+            },
+          ),
+        ),
       );
     }
   }
@@ -66,164 +97,430 @@ export const validateTime = (field: string, getFieldValue: FormInstance['getFiel
 
 export const manaulParamsItems: DetailItem[] = [
   {
-    label: '充电功率',
+    label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
     field: 'ChargingPower',
     format: powerFormat,
   },
   {
-    label: '放电功率',
+    label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
     field: 'DischargePower',
     format: powerFormat,
-  },
-];
-export const backupModeItems: DetailItem[] = [
-  {
-    label: '充电功率',
-    field: 'BackupChargingPower',
-    format: powerFormat,
-  },
-  {
-    label: '放电功率',
-    field: 'BackupDischargePower',
-    format: powerFormat,
-  },
-  {
-    label: '最高SOC',
-    field: 'BackupHighestSOC',
-    format: percentageFormat,
-  },
-  {
-    label: '最低SOC',
-    field: 'BackupMinimumSOC',
-    format: percentageFormat,
-  },
-];
-export const BackupPowerSetColumns: ProFormColumnsType[] = [
-  {
-    title: '充电功率',
-    dataIndex: 'BackupChargingPower',
-    valueType: 'digit',
-    formItemProps: {
-      rules: [{ required: true, message: '请输入充电功率' }],
-    },
-  },
-  {
-    title: '放电功率',
-    dataIndex: 'BackupDischargePower',
-    valueType: 'digit',
-    formItemProps: {
-      rules: [{ required: true, message: '请输入放电功率' }],
-    },
-  },
-  {
-    title: '最高SOC',
-    dataIndex: 'BackupHighestSOC',
-    valueType: 'digit',
-    formItemProps: {
-      rules: [{ required: true, message: '请输入最高SOC' }],
-    },
-  },
-  {
-    title: '最低SOC',
-    dataIndex: 'BackupMinimumSOC',
-    valueType: 'digit',
-    formItemProps: {
-      rules: [{ required: true, message: '请输入最低SOC' }],
-    },
+    span: 2,
   },
 ];
 
 export const manulSetColumns: ProFormColumnsType[] = [
   {
-    title: '充电功率',
+    title: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
     dataIndex: 'ChargingPower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入充电功率' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        },
+      ],
     },
   },
   {
-    title: '放电功率',
+    title: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
     dataIndex: 'DischargePower',
     valueType: 'digit',
     formItemProps: {
-      rules: [{ required: true, message: '请输入放电功率' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+        },
+      ],
+    },
+  },
+];
+
+export const peakLoadShiftItems: FormAndDetailType[] = [
+  {
+    title: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+    dataIndex: 'peakShavingAndValleyFillingModeMaximumSOC',
+    valueType: 'digit',
+    format: percentageFormat,
+    fieldProps: {
+      addonAfter: '%',
+    },
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+        },
+      ],
+    },
+    colProps: {
+      span: 8,
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+    dataIndex: 'peakShavingAndValleyFillingModeLowestSOC',
+    valueType: 'digit',
+    span: 2,
+    format: percentageFormat,
+    fieldProps: {
+      addonAfter: '%',
+    },
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+        },
+      ],
+    },
+    colProps: {
+      span: 8,
+    },
+  },
+  {
+    valueType: 'formList',
+    dataIndex: 'PeriodOfTime',
+    initialValue: [],
+    fieldProps: {
+      copyIconProps: false,
+      creatorButtonProps: {
+        className: 'pl0',
+        creatorButtonText:
+          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+        icon: <PlusCircleOutlined />,
+        type: 'link',
+        style: { width: 'unset' },
+      },
+      min: 1,
+      deleteIconProps: {
+        Icon: (prop: any) => {
+          return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
+        },
+        tooltipText: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+      },
+      itemRender: ({ listDom, action }: any) => {
+        return (
+          <div>
+            <Row>
+              <Col style={{ display: 'inline-flex', alignItems: 'flex-end' }} span={24}>
+                {listDom}
+                {action}
+              </Col>
+            </Row>
+          </div>
+        );
+      },
+    },
+    colProps: {
+      span: 24,
+    },
+    columns: [
+      {
+        valueType: 'group',
+        columns: [
+          {
+            title: formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+            dataIndex: 'pcsRunningTimeFrame',
+            valueType: 'timeRange',
+            colProps: {
+              span: 8,
+            },
+            formItemProps: ({ getFieldValue }) => {
+              return {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+                  },
+                  {
+                    validator: (rule, value) => {
+                      return validatorTime(rule, value, 'PeriodOfTime', getFieldValue);
+                    },
+                  },
+                ],
+              };
+            },
+            renderFormItem: () => (
+              <TimePicker.RangePicker
+                order={true}
+                format={'HH:mm'}
+                popupClassName={styles.timePicker}
+              />
+            ),
+          },
+          {
+            title: formatMessage({ id: 'device.workMode', defaultMessage: '工作模式' }),
+            dataIndex: 'CorD',
+            valueType: 'select',
+            colProps: {
+              span: 8,
+            },
+            valueEnum: chargeAndDischargeStatus,
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message:
+                    formatMessage({
+                      id: 'common.pleaseEnter',
+                      defaultMessage: '请选择',
+                    }) +
+                    formatMessage({
+                      id: 'device.workMode',
+                      defaultMessage: '工作模式',
+                    }),
+                },
+              ],
+            },
+          },
+          {
+            title: formatMessage({ id: 'siteMonitor.executionPower', defaultMessage: '执行功率' }),
+            dataIndex: 'executionPower',
+            valueType: 'digit',
+            colProps: {
+              span: 8,
+            },
+            fieldProps: {
+              addonAfter: 'kW',
+            },
+            formItemProps: {
+              rules: [
+                {
+                  required: true,
+                  message:
+                    formatMessage({
+                      id: 'common.pleaseEnter',
+                      defaultMessage: '请输入',
+                    }) +
+                    formatMessage({
+                      id: 'siteMonitor.executionPower',
+                      defaultMessage: '执行功率',
+                    }),
+                },
+              ],
+            },
+          },
+        ],
+        colProps: {
+          span: 24,
+        },
+      },
+    ],
+  },
+];
+
+export const backupModeItems: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+    field: 'BackupChargingPower',
+    format: powerFormat,
+  },
+  {
+    label: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+    field: 'BackupDischargePower',
+    format: powerFormat,
+  },
+  {
+    label: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+    field: 'BackupHighestSOC',
+    format: percentageFormat,
+  },
+  {
+    label: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+    field: 'BackupMinimumSOC',
+    format: percentageFormat,
+  },
+];
+
+export const BackupPowerSetColumns: ProFormColumnsType[] = [
+  {
+    title: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+    dataIndex: 'BackupChargingPower',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+    dataIndex: 'BackupDischargePower',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.dischargePower', defaultMessage: '放电功率' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.maxSoc', defaultMessage: '最高SOC' }),
+    dataIndex: 'BackupHighestSOC',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.maxSoc', defaultMessage: '放最高SOC电功率' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+    dataIndex: 'BackupMinimumSOC',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.minSoc', defaultMessage: '最低SOC' }),
+        },
+      ],
     },
   },
 ];
 
 export const peakTimeItems: DetailItem[] = [
   {
-    label: '尖电价',
+    label:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'SharpElectrovalence',
     format: moneyPowerFormat,
   },
   {
-    label: '峰电价',
+    label:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'PeakElectrovalence',
     format: moneyPowerFormat,
   },
   {
-    label: '平电价',
+    label:
+      formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'FlatElectrovalence',
     format: moneyPowerFormat,
   },
   {
-    label: '谷电价',
+    label:
+      formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     field: 'ValleyElectrovalence',
     format: moneyPowerFormat,
     span: 3,
   },
-  { label: '尖时段', field: 'sharpTime', span: 3 },
-  { label: '峰时段', field: 'peakTime', span: 3 },
-  { label: '平时段', field: 'flatTime', span: 3 },
-  { label: '谷时段', field: 'valleyTime', span: 3 },
+  {
+    label:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'sharpTime',
+    span: 3,
+  },
+  {
+    label:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'peakTime',
+    span: 3,
+  },
+  {
+    label:
+      formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'flatTime',
+    span: 3,
+  },
+  {
+    label:
+      formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) +
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
+    field: 'valleyTime',
+    span: 3,
+  },
 ];
 
 export const PeakSetColumns: ProFormColumnsType[] = [
   {
-    title: '尖电价',
+    title:
+      formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'SharpElectrovalence',
     fieldProps: {
-      placeholder: '请输入',
-      addonAfter: '元/kWh',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+      addonAfter: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     },
     formItemProps: {
       rules: [{ required: true, message: '请输入尖电价' }],
     },
   },
   {
-    title: '峰电价',
+    title:
+      formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'PeakElectrovalence',
     fieldProps: {
-      placeholder: '请输入',
-      addonAfter: '元/kWh',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+      addonAfter: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     },
     formItemProps: {
       rules: [{ required: true, message: '请输入峰电价' }],
     },
   },
   {
-    title: '平电价',
+    title:
+      formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'FlatElectrovalence',
     fieldProps: {
-      placeholder: '请输入',
-      addonAfter: '元/kWh',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+      addonAfter: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     },
     formItemProps: {
       rules: [{ required: true, message: '请输入平电价' }],
     },
   },
   {
-    title: '谷电价',
+    title:
+      formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }) +
+      formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
     valueType: 'digit',
     dataIndex: 'ValleyElectrovalence',
     fieldProps: {
-      placeholder: '请输入',
-      addonAfter: '元/kWh',
+      placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+      addonAfter: formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh',
     },
     formItemProps: {
       rules: [{ required: true, message: '请输入谷电价' }],
@@ -238,7 +535,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       copyIconProps: false,
       creatorButtonProps: {
         className: 'pl0',
-        creatorButtonText: '新增时间段',
+        creatorButtonText:
+          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
         icon: <PlusCircleOutlined />,
         type: 'link',
         style: { width: 'unset' },
@@ -248,7 +547,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
         Icon: (prop: any) => {
           return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
         },
-        tooltipText: '删除',
+        tooltipText: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
       },
       itemRender: ({ listDom, action }: any) => {
         return (
@@ -271,7 +570,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
         valueType: 'group',
         columns: [
           {
-            title: '时间段',
+            title: formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
             dataIndex: 'TimeFrame',
             valueType: 'timeRange',
             colProps: {
@@ -282,7 +581,9 @@ export const PeakSetColumns: ProFormColumnsType[] = [
                 rules: [
                   {
                     required: true,
-                    message: '请选择时间段',
+                    message:
+                      formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                      formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
                   },
                   {
                     validator: (rule, value) => {
@@ -301,12 +602,17 @@ export const PeakSetColumns: ProFormColumnsType[] = [
             ),
           },
           {
-            title: '电价类型',
+            title: formatMessage({ id: 'device.electricityPriceType', defaultMessage: '电价类型' }),
             formItemProps: {
               rules: [
                 {
                   required: true,
-                  message: '请选择电价类型',
+                  message:
+                    formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                    formatMessage({
+                      id: 'device.electricityPriceType',
+                      defaultMessage: '电价类型',
+                    }),
                 },
               ],
             },
@@ -316,10 +622,10 @@ export const PeakSetColumns: ProFormColumnsType[] = [
               span: 12,
             },
             valueEnum: new Map([
-              [0, '尖'],
-              [1, '峰'],
-              [2, '平'],
-              [3, '谷'],
+              [0, formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' })],
+              [1, formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' })],
+              [2, formatMessage({ id: 'dataManage.flat', defaultMessage: '平' })],
+              [3, formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' })],
             ]),
           },
         ],

@@ -11,6 +11,7 @@ import { Tree, TreeProps, Space, Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import styles from './index.less';
 import { merge } from 'lodash';
+import { formatMessage } from '@/utils';
 
 export type TreeSelectProps = Omit<
   TreeProps<{ [key in string]: any }>,
@@ -104,8 +105,12 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
   return (
     <>
       <Space>
-        <Checkbox onChange={onOpenChange}>展开/折叠</Checkbox>
-        <Checkbox onChange={onAllSelectChange}>全选/全不选</Checkbox>
+        <Checkbox onChange={onOpenChange}>
+          {formatMessage({ id: 'system.Notice.expandFold', defaultMessage: '展开/折叠' })}
+        </Checkbox>
+        <Checkbox onChange={onAllSelectChange}>
+          {formatMessage({ id: 'system.Notice.selectAllNnone', defaultMessage: '全选/全不选' })}
+        </Checkbox>
         {/* <Checkbox onChange={onLinkChange}>父子联动</Checkbox> */}
       </Space>
       <div className={'ant-input mt4 ' + styles.tree}>

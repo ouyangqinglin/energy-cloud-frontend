@@ -9,38 +9,35 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
 import useDeviceModel from '../useDeviceModel';
-import { OnlineStatusEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
 import { directCurrentItems, exchargeItems, runItems, tempItems, versionItems } from './config';
-import { isEmpty } from '@/utils';
+import { formatMessage } from '@/utils';
 
 const Pcs: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData } = props;
+  const { deviceData } = props;
 
-  const { modelMap } = useDeviceModel({ productId });
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(id, true);
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -50,23 +47,55 @@ const Pcs: React.FC<DeviceRealTimeType> = (props) => {
   const detailGroup = useMemo<GroupItem[]>(() => {
     return [
       {
-        label: <Detail.Label title="运行状态" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' })}
+          />
+        ),
         items: runItems,
       },
       {
-        label: <Detail.Label title="交流侧信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.acSideInformation',
+              defaultMessage: '交流侧信息',
+            })}
+          />
+        ),
         items: exchargeItems,
       },
       {
-        label: <Detail.Label title="直流侧信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.dcSideInformation',
+              defaultMessage: '直流侧信息',
+            })}
+          />
+        ),
         items: directCurrentItems,
       },
       {
-        label: <Detail.Label title="温度信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.temperatureInformation',
+              defaultMessage: '温度信息',
+            })}
+          />
+        ),
         items: tempItems,
       },
       {
-        label: <Detail.Label title="版本信息" />,
+        label: (
+          <Detail.Label
+            title={formatMessage({
+              id: 'siteMonitor.versionInformation',
+              defaultMessage: '版本信息',
+            })}
+          />
+        ),
         items: versionItems,
       },
     ];
@@ -81,7 +110,6 @@ const Pcs: React.FC<DeviceRealTimeType> = (props) => {
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
     </>

@@ -14,9 +14,12 @@ import {
 } from './config';
 import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
-import { reportTypeEnum, reportType, timeDimensionEnum, timeDimension } from '@/utils/dictionary';
+import { reportTypeEnum, timeDimensionEnum } from '@/utils/dictionary';
+import { reportType, timeDimension } from '@/utils/dict';
+
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
+import { formatMessage } from '@/utils';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -125,7 +128,10 @@ const Report: React.FC<ReportProps> = (props) => {
     const dimensionTime = params?.dimensionTime
       ? moment(params?.dimensionTime).format('YYYY-MM-DD')
       : '';
-    return `${reportType.get(params?.reportType || reportTypeEnum.Site) || '站点报表'}${
+    return `${
+      reportType.get(params?.reportType || reportTypeEnum.Site) ||
+      formatMessage({ id: 'dataManage.siteReport', defaultMessage: '站点报表' })
+    }${
       dimensionTime
         ? '_' +
           moment(params?.dimensionTime).format(

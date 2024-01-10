@@ -2,58 +2,145 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2023-12-15 09:15:32
+ * @LastEditTime: 2024-01-09 16:31:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { Suspense, lazy, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   DeviceArrayType,
   DeviceDoubleType,
   DeviceEnumType,
-  DeviceServiceGroupType,
+  DeviceModelAuthorityType,
+  DeviceModelDescribeType,
   DeviceServiceModelType,
   DeviceServiceType,
   DeviceStructType,
 } from '@/types/device';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
-import { DeviceModelTypeEnum, formatModelValue, parseToArray, parseToObj } from '@/utils';
+import {
+  DeviceModelDescribeTypeEnum,
+  DeviceModelShowTypeEnum,
+  DeviceModelTypeEnum,
+  formatMessage,
+  formatModelValue,
+  getPropsFromTree,
+  isEmpty,
+  parseToArray,
+  parseToObj,
+} from '@/utils';
 import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { timeRangeColumn } from './helper';
+import { getColumnsLength, timeRangeColumn } from './helper';
 import { merge } from 'lodash';
-import { Button } from 'antd';
+import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
-import { DeviceDataType } from '@/services/equipment';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceDataType, editSetting } from '@/services/equipment';
+import { DeviceMasterMode, OnlineStatusEnum } from '@/utils/dictionary';
+import Authority from '@/components/Authority';
+import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
+import RadioButton from '@/components/RadioButton';
+import { useRequest } from 'umi';
+import styels from './index.less';
 
 export type ControlType = {
-  deviceId: string;
-  groupData?: DeviceServiceGroupType[];
+  deviceId?: string;
+  groupData?: DeviceModelDescribeType[];
   realTimeData?: Record<string, any>;
   deviceData?: DeviceDataType;
+  onLoadChange?: () => void;
 };
 
 const singleFieldName = 'arryField';
 
 const Control: React.FC<ControlType> = memo((props) => {
-  const { deviceId, deviceData, groupData, realTimeData } = props;
+  const { deviceId, deviceData, groupData, realTimeData, onLoadChange } = props;
 
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
   const [currentFormInfo, setCurrentFormInfo] = useState<{
     service?: DeviceServiceType;
     columns?: ProFormColumnsType[];
+    width?: string;
   }>({});
+  const { loading, run } = useRequest(editSetting, {
+    manual: true,
+  });
 
-  const onClick = useCallback((service: DeviceServiceType, columns: ProFormColumnsType[]) => {
-    setCurrentFormInfo({
-      service,
-      columns,
+  const components = useMemo<
+    Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
+  >(() => {
+    const ids = getPropsFromTree(
+      groupData,
+      'id',
+      'children',
+      (item) => item.type == DeviceModelDescribeTypeEnum.Component,
+    );
+    return ids.reduce((result, item) => {
+      return {
+        ...result,
+        [item]: lazy(() => import('@/components/Device/module/' + item)),
+      };
+    }, {});
+  }, [groupData]);
+
+  const authorityCodes = useMemo(() => {
+    const result: string[] = [];
+    const authoritys = getPropsFromTree<DeviceModelDescribeType, DeviceModelAuthorityType[]>(
+      groupData,
+      'authority',
+    );
+    authoritys?.forEach?.((item) => {
+      item?.forEach?.((child) => {
+        if (child.detail) {
+          result.push(child.detail);
+        }
+      });
     });
-    setTrue();
-  }, []);
+    return result;
+  }, [groupData]);
+
+  const { authorityMap } = useAuthority(authorityCodes);
+
+  const onClick = useCallback(
+    (service: DeviceServiceType, columns: ProFormColumnsType[], columnsLength: number) => {
+      setCurrentFormInfo({
+        service,
+        columns,
+        width: columnsLength < 3 ? '552px' : '816px',
+      });
+      setTrue();
+    },
+    [],
+  );
+
+  const btnClick = useCallback(
+    (field: DeviceServiceModelType, value: any) => {
+      Modal.confirm({
+        title: field?.name,
+        content: formatMessage({
+          id: 'device.whetherExecuteCurrentParameter',
+          defaultMessage: '是否执行当前参数下发',
+        }),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+        onOk: () =>
+          run({
+            deviceId: deviceData?.deviceId,
+            input: { [field.id || '']: value },
+            serviceId: field.serviceId,
+          }).then((data: any) => {
+            if (data) {
+              message.success(
+                formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+              );
+            }
+          }),
+      });
+    },
+    [deviceData?.deviceId],
+  );
 
   const getFieldItem = useCallback(
     (field: DeviceServiceModelType) => {
@@ -73,7 +160,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                   specs: [
                     {
                       id: singleFieldName,
-                      name: specsItem?.type == DeviceModelTypeEnum.TimeRange ? '时段' : '',
+                      name:
+                        specsItem?.type == DeviceModelTypeEnum.TimeRange
+                          ? formatMessage({ id: 'common.periodTime', defaultMessage: '时段' })
+                          : '',
                       dataType: specsItem,
                     },
                   ],
@@ -81,58 +171,74 @@ const Control: React.FC<ControlType> = memo((props) => {
               };
             }
           }
-          const column: ProFormColumnsType = {
-            dataIndex: field.id,
-            formItemProps: {
-              rules:
-                field?.required === false
-                  ? []
-                  : [{ required: true, message: '请输入' + field?.name }],
-            },
-            columns: [],
-            fieldProps: {
-              creatorButtonProps: {
-                creatorButtonText: '新增' + field?.name,
+          const column: ProFormColumnsType = merge(
+            {
+              dataIndex: field.id,
+              formItemProps: {
+                rules:
+                  field?.required === false
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: formatMessage(
+                            { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                            {
+                              content: field?.name,
+                            },
+                          ),
+                        },
+                      ],
+              },
+              fieldProps: {
+                creatorButtonProps: {
+                  creatorButtonText: formatMessage(
+                    { id: 'common.addSentence', defaultMessage: '新增' },
+                    {
+                      content: field?.name,
+                    },
+                  ),
+                },
               },
             },
-          };
-          ((field.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.forEach?.(
-            (structField) => {
-              const { cols } = getFieldItem(structField);
-              cols[0].colProps = { span: 24 };
-              (column?.columns as any)?.push?.(...cols);
-            },
+            timeRangeColumn,
           );
-          columns.push(merge({}, timeRangeColumn, column));
+          const specsLength = (specsItem as DeviceStructType)?.specs?.length || 0;
+          (specsItem as DeviceStructType)?.specs?.forEach?.((structField) => {
+            const { cols } = getFieldItem(structField);
+            cols[0].colProps = { span: specsLength < 3 ? 24 / specsLength : 8 };
+            (column?.columns as any)?.[0]?.columns?.push?.(...cols);
+          });
+          columns.push(column);
 
           const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           const items: DetailItem[] = [];
           const detailData: Record<string, any> = {};
           const formData = fieldValue?.map?.((value, index) => {
+            const specs = (specsItem as DeviceStructType)?.specs;
             let transformValue = value;
             if (typeof transformValue != 'object' || Array.isArray(transformValue)) {
               transformValue = {
                 [singleFieldName]: transformValue,
               };
             }
-            (
-              (field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType
-            )?.specs?.forEach?.((item) => {
+            specs?.forEach?.((item, itemFieldIndex) => {
               items.push({
                 field: (item?.id || '') + index,
-                label: (item?.name ?? '') + (index + 1),
-                span: item?.span || 3,
+                label: (item?.name ?? '') + (itemFieldIndex ? '' : index + 1),
+                format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
               });
               detailData[(item?.id || '') + index] = transformValue[item?.id || ''];
             });
+            if (items.length > 1 && specs?.length) {
+              items[items.length - 1].span = 4 - specs.length;
+            }
             return transformValue;
           });
           if (!items?.length) {
             items.push({
               field: 'arrayxxx',
-              label:
-                ((field?.dataType as DeviceArrayType)?.specs?.item as DeviceStructType)?.specs?.[0]
-                  ?.name + '1',
+              label: (specsItem as DeviceStructType)?.specs?.[0]?.name + '1',
             });
           }
           detailItems.push(...items);
@@ -160,7 +266,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                   : [
                       {
                         required: true,
-                        message: '请选择' + field?.name,
+                        message: formatMessage(
+                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
                       },
                     ],
             },
@@ -170,33 +281,113 @@ const Control: React.FC<ControlType> = memo((props) => {
         case DeviceModelTypeEnum.Enum:
         case DeviceModelTypeEnum.Boolean:
           const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
-          detailItems.push?.({
-            field: field?.id || '',
-            label: field?.name,
-            format: (value) => formatModelValue(value, field?.dataType || {}),
-          });
-          columns.push({
-            title: field?.name,
-            dataIndex: field?.id,
-            valueType: 'select',
-            fieldProps: {
-              options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
-                value,
+          switch (field.showType) {
+            case DeviceModelShowTypeEnum.Switch:
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                showPlaceholder: false,
+                labelStyle: {
+                  width: '145px',
+                  marginTop: '4px',
+                },
+                format: (value) => {
+                  return (
+                    <Switch
+                      checked={value === 0 || value === '0'}
+                      // disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                      loading={loading}
+                      onClick={() => btnClick(field, value === 0 || value === '0' ? 1 : 0)}
+                    />
+                  );
+                },
+              });
+              break;
+            case DeviceModelShowTypeEnum.RadioButton:
+            case DeviceModelShowTypeEnum.Button:
+              const options = Object.entries(enumSpecs).map(([value, label]) => ({
+                value: isEmpty(value) ? '' : value + '',
                 label,
-              })),
-            },
-            formItemProps: {
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: '请选择' + (field?.name ?? ''),
-                      },
-                    ],
-            },
-          });
+              }));
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                span: 3,
+                showPlaceholder: false,
+                labelStyle: {
+                  width: '145px',
+                  marginTop: '4px',
+                },
+                format: (value, data) => {
+                  let fieldDisabled = false;
+                  if (field?.disabled) {
+                    try {
+                      const evalResult = eval(field?.disabled?.replace?.('$data', 'data'));
+                      if (typeof evalResult == 'boolean') {
+                        fieldDisabled = evalResult;
+                      }
+                    } catch {}
+                  }
+                  return (
+                    <>
+                      <RadioButton
+                        options={options}
+                        type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
+                        value={isEmpty(value) ? '' : value + ''}
+                        disabled={deviceData?.status === OnlineStatusEnum.Offline || fieldDisabled}
+                        onChange={(btnValue) => btnClick(field, btnValue)}
+                        loading={loading}
+                      />
+                      {!!field?.tip && (
+                        <div>
+                          <Typography.Text type="secondary">{field?.tip}</Typography.Text>
+                        </div>
+                      )}
+                    </>
+                  );
+                },
+              });
+              break;
+            default:
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                format: (value) => formatModelValue(value, field?.dataType || {}),
+              });
+              columns.push({
+                title: field?.name,
+                dataIndex: field?.id,
+                valueType: 'select',
+                fieldProps: {
+                  options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
+                    value: isEmpty(value) ? '' : value + '',
+                    label,
+                  })),
+                  placeholder: formatMessage({
+                    id: 'common.pleaseSelect',
+                    defaultMessage: '请选择',
+                  }),
+                },
+                convertValue: (value) => (isEmpty(value) ? '' : value + ''),
+                formItemProps: {
+                  rules:
+                    field?.required === false
+                      ? []
+                      : [
+                          {
+                            required: true,
+                            message: formatMessage(
+                              { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                              {
+                                content: field?.name,
+                              },
+                            ),
+                          },
+                        ],
+                },
+              });
+              break;
+          }
           break;
         case DeviceModelTypeEnum.TimeStamp:
           detailItems.push?.({
@@ -215,7 +406,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                   : [
                       {
                         required: true,
-                        message: '请选择' + field?.name,
+                        message: formatMessage(
+                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
                       },
                     ],
             },
@@ -237,16 +433,33 @@ const Control: React.FC<ControlType> = memo((props) => {
             title: field?.name,
             dataIndex: field?.id,
             valueType: valueType,
-            fieldProps: (field?.dataType as DeviceDoubleType)?.specs?.unit
-              ? {
-                  addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
-                }
-              : {},
+            fieldProps: {
+              ...(valueType == 'digit'
+                ? {
+                    min: Number.MIN_SAFE_INTEGER,
+                  }
+                : {}),
+              ...((field?.dataType as DeviceDoubleType)?.specs?.unit
+                ? {
+                    addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
+                  }
+                : {}),
+            },
             formItemProps: {
               rules:
                 field?.required === false
                   ? []
-                  : [{ required: true, message: '请输入' + field?.name }],
+                  : [
+                      {
+                        required: true,
+                        message: formatMessage(
+                          { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                          {
+                            content: field?.name,
+                          },
+                        ),
+                      },
+                    ],
             },
           });
       }
@@ -255,65 +468,195 @@ const Control: React.FC<ControlType> = memo((props) => {
         cols: columns,
       };
     },
-    [realTimeData],
+    [realTimeData, deviceData, btnClick, loading],
   );
 
   const getServiceItem = useCallback(
     (service: DeviceServiceType) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
-      service?.outputData?.forEach?.((field) => {
+      service?.children?.forEach?.((field) => {
+        field.serviceId = service.id;
         const { items, cols } = getFieldItem(field);
+        if (field.dataType?.type == DeviceModelTypeEnum.Array) {
+          if (detailItems.length > 1) {
+            detailItems[detailItems?.length - 1].span = 4 - (detailItems.length % 3);
+          }
+        }
         detailItems.push(...items);
         columns.push(...cols);
       });
+      const columnsLength = getColumnsLength(columns);
+      if (columnsLength < 3) {
+        columns.forEach((item) => {
+          item.colProps = {
+            span: 24 / columnsLength,
+          };
+        });
+      }
+      if (detailItems?.length == 2) {
+        detailItems[1].span = 2;
+      }
       const groupItem: GroupItem = {
-        label: (
-          <Detail.Label title={service?.groupName}>
-            <Button
-              type="primary"
-              onClick={() => onClick(service, columns)}
-              disabled={deviceData?.status === OnlineStatusEnum.Offline}
-            >
-              配置参数
-            </Button>
-          </Detail.Label>
-        ),
+        className: styels.btnDetail,
         items: detailItems,
       };
+      if (service.showType != DeviceModelShowTypeEnum.HideServiceName) {
+        groupItem.label = (
+          <Detail.Label title={service?.name}>
+            <Authority
+              code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
+              mode={AuthorityModeEnum.Within}
+            >
+              <Button
+                type="primary"
+                onClick={() => onClick(service, columns, columnsLength)}
+                disabled={deviceData?.status === OnlineStatusEnum.Offline}
+              >
+                {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
+              </Button>
+            </Authority>
+          </Detail.Label>
+        );
+      }
       return groupItem;
     },
-    [deviceData, getFieldItem],
+    [deviceData, getFieldItem, onClick],
+  );
+
+  const passAuthority = useCallback(
+    (authoritys?: DeviceModelAuthorityType[]) => {
+      const codes: string[] = [];
+      authoritys?.forEach?.((item) => {
+        if (item?.detail) {
+          codes.push(item.detail);
+        }
+      });
+      const passCodes = codes?.some?.((item) => authorityMap.get(item));
+      if (!codes?.length || passCodes) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [authorityMap],
+  );
+
+  const getGroupItems = useCallback(
+    (modelDescribeItem: DeviceModelDescribeType) => {
+      const result: GroupItem[] = [];
+      switch (modelDescribeItem.type) {
+        case DeviceModelDescribeTypeEnum.Group:
+          if (passAuthority(modelDescribeItem?.authority)) {
+            if (modelDescribeItem.children && modelDescribeItem.children.length > 1) {
+              result.push({
+                label: <Detail.Label title={modelDescribeItem.name} />,
+              });
+            }
+            modelDescribeItem?.children?.forEach?.((item) => {
+              if (passAuthority(item?.authority)) {
+                result.push(...getGroupItems(item));
+              }
+            });
+          }
+          break;
+        case DeviceModelDescribeTypeEnum.PropertyGroup:
+        case DeviceModelDescribeTypeEnum.Service:
+          result.push(getServiceItem(modelDescribeItem));
+          break;
+        case DeviceModelDescribeTypeEnum.Tab:
+          const tabItems: GroupItem['tabItems'] = [];
+          modelDescribeItem?.children?.forEach?.((item) => {
+            if (passAuthority(item?.authority)) {
+              if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
+                const tabGroupItems: GroupItem[] = [];
+                (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
+                  tabGroupItems.push(...getGroupItems(tabGroupItem));
+                });
+                tabItems.push({
+                  key: item.id || '',
+                  label: item.name,
+                  groupItems: tabGroupItems,
+                });
+              }
+            }
+          });
+          result.push({
+            tabItems,
+          });
+          break;
+        case DeviceModelDescribeTypeEnum.Component:
+          if (modelDescribeItem.id) {
+            const Component = components[modelDescribeItem.id];
+            result.push({
+              component: (
+                <Suspense
+                  fallback={
+                    <div className="tx-center">
+                      <Spin />
+                    </div>
+                  }
+                >
+                  <Component deviceId={deviceData?.deviceId} />
+                </Suspense>
+              ),
+            });
+          }
+          break;
+        default:
+      }
+      return result;
+    },
+    [realTimeData, deviceData, getServiceItem, passAuthority, components],
   );
 
   const groupsItems = useMemo(() => {
-    const items: GroupItem[] = [];
-    groupData?.forEach?.((group) => {
-      if (group?.services?.length && group?.services?.length > 1) {
-        items.push({
-          label: <Detail.Label title={group.groupName} />,
-        });
-      }
-      group?.services?.forEach?.((service) => {
-        items.push(getServiceItem(service));
+    const result: GroupItem[] = [];
+    if (deviceData?.masterSlaveMode != DeviceMasterMode.Slave) {
+      groupData?.forEach?.((item) => {
+        result.push(...getGroupItems(item));
       });
-    });
-    return items;
-  }, [groupData, realTimeData, getServiceItem]);
+    } else {
+      const childrens = getPropsFromTree<DeviceModelDescribeType, DeviceModelDescribeType[]>(
+        [{ children: groupData }],
+        'children',
+      );
+      childrens.forEach((item) => {
+        item.forEach((childItem) => {
+          if (childItem.id == 'RemoteUpgrade') {
+            result.push(...getGroupItems(childItem));
+          }
+        });
+      });
+    }
+    return result;
+  }, [groupData, deviceData, getGroupItems, realTimeData, authorityMap]);
+
+  useEffect(() => {
+    onLoadChange?.();
+  }, [groupsItems]);
 
   return (
     <>
-      <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
-      <ConfigModal
-        open={openForm}
-        onOpenChange={set}
-        title={currentFormInfo?.service?.groupName || ''}
-        deviceId={deviceId}
-        realTimeData={{ ...realTimeData, ...transformData }}
-        serviceId={currentFormInfo?.service?.id || ''}
-        columns={currentFormInfo?.columns || []}
-        showClickButton={false}
-      />
+      {!!groupsItems?.length && (
+        <>
+          <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+          <ConfigModal
+            width={currentFormInfo?.width || '816px'}
+            open={openForm}
+            onOpenChange={set}
+            title={currentFormInfo?.service?.name || ''}
+            deviceId={deviceId}
+            realTimeData={{ ...realTimeData, ...transformData }}
+            serviceId={currentFormInfo?.service?.id || ''}
+            columns={currentFormInfo?.columns || []}
+            showClickButton={false}
+            colProps={{
+              span: 8,
+            }}
+          />
+        </>
+      )}
     </>
   );
 });

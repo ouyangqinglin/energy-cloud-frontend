@@ -36,14 +36,15 @@ import type { Moment } from 'moment';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import type { ChartRes } from '../Chart/type';
 import { convertToData, sortedData } from '../Chart/helper';
+import { formatMessage } from '@/utils';
 
 const chartConfigMap = {
   charge: {
-    name: '充电量',
+    name: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
     unit: 'kWh',
   },
   discharge: {
-    name: '放电量',
+    name: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
     unit: 'kWh',
   },
 };
@@ -150,7 +151,10 @@ const EnergyStorage: FC = () => {
         //   },
         // }}
         color={['#159AFF', '#00E0DB']}
-        title="储能充放电量"
+        title={formatMessage({
+          id: 'screen.storageChargingDischargingCapacity',
+          defaultMessage: '储能充放电量',
+        })}
         onDateChange={onDateChange}
         chartData={sortedData(convertToData(chartData))}
       />

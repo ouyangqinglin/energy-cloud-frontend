@@ -115,10 +115,14 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
               adcode: res?.regeocode?.addressComponent?.adcode,
             });
           } else {
-            message.success('坐标无效');
+            message.success(
+              formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }),
+            );
           }
         } else {
-          message.success('坐标无效');
+          message.success(
+            formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }),
+          );
         }
       });
     });

@@ -26,12 +26,12 @@ import { default as LineLabel } from '@/components/Detail/LineLabel';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { useRequest } from 'umi';
-import { editSetting } from '@/services/equipment';
-import { isEmpty } from '@/utils';
+import { DeviceDataType, editSetting } from '@/services/equipment';
+import { formatMessage, isEmpty } from '@/utils';
 import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -45,7 +45,8 @@ const DatePick: any = DatePicker;
 const timeFormat = 'HH:mm';
 
 type SettingProps = {
-  id: string;
+  id?: string;
+  deviceData?: DeviceDataType;
   settingData?: Record<string, any>;
   isLineLabel?: boolean;
   isDeviceChild?: boolean;
@@ -109,7 +110,7 @@ const timeMap = new Map([
 ]);
 
 const Setting: React.FC<SettingProps> = (props) => {
-  const { id, isLineLabel = false, isDeviceChild, type } = props;
+  const { id, deviceData, isLineLabel = false, isDeviceChild, type } = props;
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
@@ -132,11 +133,25 @@ const Setting: React.FC<SettingProps> = (props) => {
       switch (field) {
         case 'sysStart':
         case 'sysStop':
-          const runStatus = settingData?.emsSysStatus ? '启动' : '停止';
+          const runStatus = settingData?.emsSysStatus
+            ? formatMessage({ id: 'common.activate', defaultMessage: '启动' })
+            : formatMessage({ id: 'common.stop', defaultMessage: '停止' });
           content = (
             <span>
-              当前系统为<span className="cl-primary">{runStatus}状态</span>，是否执行系统
-              {field === 'sysStart' ? '启动' : '停止'}指令
+              {formatMessage({ id: 'device.theCurrentSystemIs', defaultMessage: '当前系统为' })}
+              <span className="cl-primary">
+                {runStatus}
+                {formatMessage({ id: 'common.status', defaultMessage: '状态' })}
+              </span>
+              ，
+              {formatMessage({
+                id: 'device.whetherToExecuteSystem',
+                defaultMessage: '是否执行系统',
+              })}
+              {field === 'sysStart'
+                ? formatMessage({ id: 'common.activate', defaultMessage: '启动' })
+                : formatMessage({ id: 'common.stop', defaultMessage: '停止' })}
+              {formatMessage({ id: 'device.order', defaultMessage: '指令' })}
             </span>
           );
           break;
@@ -145,8 +160,23 @@ const Setting: React.FC<SettingProps> = (props) => {
           const contactStatus = closeFormat(settingData?.MainContactorStatus);
           content = (
             <span>
-              当前BMS主接触器为<span className="cl-primary">{contactStatus}状态</span>
-              ，是否执行BMS主接触器为{field === 'bmsClose' ? '闭合' : '断开'}指令
+              {formatMessage({
+                id: 'device.currentBMSMainContactorIs',
+                defaultMessage: '当前BMS主接触器为',
+              })}
+              <span className="cl-primary">
+                {contactStatus}
+                {formatMessage({ id: 'common.status', defaultMessage: '状态' })}
+              </span>
+              ，
+              {formatMessage({
+                id: 'device.whetherExecuteBMSTheMainContactorIs',
+                defaultMessage: '是否执行BMS主接触器为',
+              })}
+              {field === 'bmsClose'
+                ? formatMessage({ id: 'device.close', defaultMessage: '闭合' })
+                : formatMessage({ id: 'device.break', defaultMessage: '断开' })}
+              {formatMessage({ id: 'device.order', defaultMessage: '指令' })}
             </span>
           );
           break;
@@ -154,20 +184,37 @@ const Setting: React.FC<SettingProps> = (props) => {
           const systemStatus = settingData?.sysModel ? '自动' : '手动';
           content = (
             <span>
-              当前系统模式为<span className="cl-primary">{systemStatus}状态</span>
-              是否执行手/自动模式切换指令
+              {formatMessage({
+                id: 'device.currentSystemModeIs',
+                defaultMessage: '当前系统模式为',
+              })}
+              <span className="cl-primary">
+                {systemStatus}
+                {formatMessage({ id: 'common.status', defaultMessage: '状态' })}
+              </span>
+              {formatMessage({
+                id: 'device.whetherExecuteManualAutomaticCommand',
+                defaultMessage: '是否执行手/自动模式切换指令',
+              })}
             </span>
           );
           break;
         case 'sysReset':
-          content = <span>是否执行系统复位指令</span>;
+          content = (
+            <span>
+              {formatMessage({
+                id: 'device.whetherExecuteSystemResetCommand',
+                defaultMessage: '是否执行系统复位指令',
+              })}
+            </span>
+          );
           break;
       }
       Modal.confirm({
-        title: '确认',
+        title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
         content: content,
-        okText: '确认',
-        cancelText: '取消',
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
           return run({
             deviceId: id,
@@ -176,7 +223,9 @@ const Setting: React.FC<SettingProps> = (props) => {
           })
             .then((data) => {
               if (data) {
-                message.success('下发成功');
+                message.success(
+                  formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+                );
               }
             })
             .finally(() => {
@@ -196,15 +245,20 @@ const Setting: React.FC<SettingProps> = (props) => {
   }, [protectFrom]);
   const requestProtect = useCallback((formData) => {
     Modal.confirm({
-      title: '确认',
-      content: '是否执行当前保护参数下发',
-      okText: '确认',
-      cancelText: '取消',
+      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: formatMessage({
+        id: 'device.whetherExecuteCurrentProtectionParameter',
+        defaultMessage: '是否执行当前保护参数下发',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () =>
         run({ deviceId: id, input: { ...formData }, serviceId: 'setChargeReleaseProtect' }).then(
           (data) => {
             if (data) {
-              message.success('下发成功');
+              message.success(
+                formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+              );
               setDisableProtectTrue();
             }
           },
@@ -218,10 +272,13 @@ const Setting: React.FC<SettingProps> = (props) => {
   const requestRun = useCallback(
     (formData) => {
       Modal.confirm({
-        title: '确认',
-        content: '是否执行当前运行参数下发',
-        okText: '确认',
-        cancelText: '取消',
+        title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        content: formatMessage({
+          id: 'device.whetherExecuteCurrentRunningParameter',
+          defaultMessage: '是否执行当前运行参数下发',
+        }),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
           const inputData: any = { handOpePcsPower: formData.handOpePcsPower };
           let fields = [];
@@ -242,7 +299,9 @@ const Setting: React.FC<SettingProps> = (props) => {
             serviceId: 'pcsPowerSetting',
           }).then((data) => {
             if (data) {
-              message.success('下发成功');
+              message.success(
+                formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+              );
               setDisableRunTrue();
             }
           });
@@ -257,10 +316,13 @@ const Setting: React.FC<SettingProps> = (props) => {
   }, [timeForm]);
   const onTimeFormFinish = useCallback((formData: any) => {
     Modal.confirm({
-      title: '确认',
-      content: '是否执行当前校时参数下发',
-      okText: '确认',
-      cancelText: '取消',
+      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: formatMessage({
+        id: 'whetherDeliverParametersDuringCurrentSchool',
+        defaultMessage: '是否执行当前校时参数下发',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
         const time: Moment = formData.time;
         run({
@@ -277,7 +339,9 @@ const Setting: React.FC<SettingProps> = (props) => {
           serviceId: 'correctionTime',
         }).then((data) => {
           if (data) {
-            message.success('下发成功');
+            message.success(
+              formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+            );
             setDisableTimeTrue();
           }
         });
@@ -292,17 +356,47 @@ const Setting: React.FC<SettingProps> = (props) => {
       validator: (_: any, value: Moment[]) => {
         if (value && value.length) {
           if (nextValue && nextValue.length && value[1].isAfter(nextValue[0])) {
-            return Promise.reject(`时段${num}应小于时段${num + 1}`);
+            return Promise.reject(
+              `${formatMessage({
+                id: 'siteMonitor.TimePeriod',
+                defaultMessage: '时段',
+              })}${num}${formatMessage({
+                id: 'siteMonitor.lessThan',
+                defaultMessage: '应小于',
+              })}${formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' })}${
+                num + 1
+              }`,
+            );
           }
           if (num > 1 && prevValue && prevValue.length && value[0].isBefore(prevValue[1])) {
-            return Promise.reject(`时段${num}应大于时段${num - 1}`);
+            return Promise.reject(
+              `${formatMessage({
+                id: 'siteMonitor.TimePeriod',
+                defaultMessage: '时段',
+              })}${num}${formatMessage({
+                id: 'siteMonitor.greaterThan',
+                defaultMessage: '应大于',
+              })}${formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' })}${
+                num - 1
+              }`,
+            );
           }
         } else {
           if (nextValue && nextValue.length) {
-            return Promise.reject(`时段${num}必填`);
+            return Promise.reject(
+              `${formatMessage({
+                id: 'siteMonitor.TimePeriod',
+                defaultMessage: '时段',
+              })}${num}${formatMessage({ id: 'common.required', defaultMessage: '必填' })}`,
+            );
           }
           if (getFieldValue('power' + num)) {
-            return Promise.reject(`时段${num}必填`);
+            return Promise.reject(
+              `${formatMessage({
+                id: 'siteMonitor.TimePeriod',
+                defaultMessage: '时段',
+              })}${num}${formatMessage({ id: 'common.required', defaultMessage: '必填' })}`,
+            );
           }
         }
         return Promise.resolve();
@@ -316,7 +410,9 @@ const Setting: React.FC<SettingProps> = (props) => {
         validator: (_: any, value: string) => {
           if (timeValue && timeValue.length) {
             if (isEmpty(value)) {
-              return Promise.reject(`功率不能为空`);
+              return Promise.reject(
+                formatMessage({ id: 'siteMonitor.powerNotEmpty', defaultMessage: '功率不能为空' }),
+              );
             }
           }
           return Promise.resolve();
@@ -372,18 +468,27 @@ const Setting: React.FC<SettingProps> = (props) => {
 
   return (
     <>
-      {isLineLabel ? <LineLabel title="控制指令" /> : <Label title="控制指令" />}
+      {isLineLabel ? (
+        <LineLabel
+          title={formatMessage({ id: 'siteMonitor.controlCommand', defaultMessage: '控制指令' })}
+        />
+      ) : (
+        <Label
+          title={formatMessage({ id: 'siteMonitor.controlCommand', defaultMessage: '控制指令' })}
+        />
+      )}
       <Form
         form={controlForm}
         className="setting-form"
         layout="horizontal"
         onValuesChange={onControlChange}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
         <Row>
           <Col flex="25%">
             <Form.Item
               name="sysStart"
-              label="系统启动"
+              label={formatMessage({ id: 'siteMonitor.systemStartup', defaultMessage: '系统启动' })}
               labelCol={{ flex: '116px' }}
               valuePropName="checked"
             >
@@ -393,7 +498,7 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="sysStop"
-              label="系统停止"
+              label={formatMessage({ id: 'siteMonitor.systemHalt', defaultMessage: '系统停止' })}
               labelCol={{ flex: '116px' }}
               valuePropName="checked"
             >
@@ -401,19 +506,42 @@ const Setting: React.FC<SettingProps> = (props) => {
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="bmsClose" label="BMS主接触器闭合" valuePropName="checked">
+            <Form.Item
+              name="bmsClose"
+              label={
+                'BMS' +
+                formatMessage({
+                  id: 'siteMonitor.mainContactorClosed',
+                  defaultMessage: '主接触器闭合',
+                })
+              }
+              valuePropName="checked"
+            >
               <Switch />
             </Form.Item>
           </Col>
           <Col flex="25%">
-            <Form.Item name="bmsBreak" label="BMS主接触器断开" valuePropName="checked">
+            <Form.Item
+              name="bmsBreak"
+              label={
+                'BMS' +
+                formatMessage({
+                  id: 'siteMonitor.mainContactorDisconnected',
+                  defaultMessage: '主接触器断开',
+                })
+              }
+              valuePropName="checked"
+            >
               <Switch />
             </Form.Item>
           </Col>
           <Col flex="25%">
             <Form.Item
               name="manualAutomaticSwitch"
-              label="手/自动切换"
+              label={formatMessage({
+                id: 'siteMonitor.manualAutomaticSwitch',
+                defaultMessage: '手/自动切换',
+              })}
               labelCol={{ flex: '116px' }}
               valuePropName="checked"
             >
@@ -424,7 +552,7 @@ const Setting: React.FC<SettingProps> = (props) => {
             <Col flex="25%">
               <Form.Item
                 name="sysReset"
-                label="系统复位"
+                label={formatMessage({ id: 'siteMonitor.systemReset', defaultMessage: '系统复位' })}
                 labelCol={{ flex: '116px' }}
                 valuePropName="checked"
               >
@@ -439,27 +567,35 @@ const Setting: React.FC<SettingProps> = (props) => {
       {!isDeviceChild ? (
         <>
           {isLineLabel ? (
-            <LineLabel title="电池保护参数设置">
+            <LineLabel
+              title={formatMessage({
+                id: 'siteMonitor.batteryProtectionParameterSet',
+                defaultMessage: '电池保护参数设置',
+              })}
+            >
               <Button
                 type="primary"
                 onClick={onProtectClick}
                 loading={loading}
-                disabled={disableProtect}
+                disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
               >
-                下发参数
+                {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
               </Button>
             </LineLabel>
           ) : (
             <Label
-              title="电池保护参数设置"
+              title={formatMessage({
+                id: 'siteMonitor.batteryProtectionParameterSet',
+                defaultMessage: '电池保护参数设置',
+              })}
               operate={
                 <Button
                   type="primary"
                   onClick={onProtectClick}
                   loading={loading}
-                  disabled={disableProtect}
+                  disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
                 >
-                  下发参数
+                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
                 </Button>
               }
             />
@@ -471,13 +607,26 @@ const Setting: React.FC<SettingProps> = (props) => {
             labelCol={{ flex: '116px' }}
             onFinish={requestProtect}
             onValuesChange={setDisableProtectFlalse}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
             <Row>
               <Col flex="25%">
                 <Form.Item
                   name="OverchargeProtection"
-                  label="过充保护"
-                  rules={[{ required: true, message: '过充保护必填' }]}
+                  label={formatMessage({
+                    id: 'siteMonitor.overchargeProtection',
+                    defaultMessage: '过充保护',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        formatMessage({
+                          id: 'siteMonitor.overchargeProtection',
+                          defaultMessage: '过充保护',
+                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="V" />
                 </Form.Item>
@@ -485,8 +634,20 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Col flex="25%">
                 <Form.Item
                   name="OverchargeRelease"
-                  label="过充释放"
-                  rules={[{ required: true, message: '过充释放必填' }]}
+                  label={formatMessage({
+                    id: 'siteMonitor.overchargeRelease',
+                    defaultMessage: '过充释放',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        formatMessage({
+                          id: 'siteMonitor.overchargeRelease',
+                          defaultMessage: '过充释放',
+                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="V" />
                 </Form.Item>
@@ -494,8 +655,20 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Col flex="25%">
                 <Form.Item
                   name="OverdischargeProtection"
-                  label="过放保护"
-                  rules={[{ required: true, message: '过放保护必填' }]}
+                  label={formatMessage({
+                    id: 'siteMonitor.overDischargeProtection',
+                    defaultMessage: '过放保护',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        formatMessage({
+                          id: 'siteMonitor.overDischargeProtection',
+                          defaultMessage: '过放保护',
+                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="V" />
                 </Form.Item>
@@ -503,8 +676,20 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Col flex="25%">
                 <Form.Item
                   name="Overrelease"
-                  label="过放释放"
-                  rules={[{ required: true, message: '过放释放必填' }]}
+                  label={formatMessage({
+                    id: 'siteMonitor.overrelease',
+                    defaultMessage: '过放释放',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        formatMessage({
+                          id: 'siteMonitor.overrelease',
+                          defaultMessage: '过放释放',
+                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                    },
+                  ]}
                 >
                   <InputNumber className="w-full" addonAfter="V" />
                 </Form.Item>
@@ -516,17 +701,35 @@ const Setting: React.FC<SettingProps> = (props) => {
         <></>
       )}
       {isLineLabel ? (
-        <LineLabel title="运行参数设置">
-          <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
-            下发参数
+        <LineLabel
+          title={formatMessage({
+            id: 'siteMonitor.runningParameterSet',
+            defaultMessage: '运行参数设置',
+          })}
+        >
+          <Button
+            type="primary"
+            onClick={onRunClick}
+            loading={loading}
+            disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+          >
+            {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
           </Button>
         </LineLabel>
       ) : (
         <Label
-          title="运行参数设置"
+          title={formatMessage({
+            id: 'siteMonitor.runningParameterSet',
+            defaultMessage: '运行参数设置',
+          })}
           operate={
-            <Button type="primary" onClick={onRunClick} loading={loading} disabled={disableRun}>
-              下发参数
+            <Button
+              type="primary"
+              onClick={onRunClick}
+              loading={loading}
+              disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+            >
+              {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
             </Button>
           }
         />
@@ -539,10 +742,17 @@ const Setting: React.FC<SettingProps> = (props) => {
         labelCol={{ flex: '116px' }}
         onFinish={requestRun}
         onValuesChange={setDisableRunFalse}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
       >
         <Row>
           <Col flex="25%">
-            <Form.Item name="handOpePcsPower" label="手动PCS功率">
+            <Form.Item
+              name="handOpePcsPower"
+              label={formatMessage({
+                id: 'siteMonitor.manualPCSPower',
+                defaultMessage: '手动PCS功率',
+              })}
+            >
               <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
@@ -551,14 +761,17 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="time1"
-              label="时段1"
+              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '1'}
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 1)]}
             >
               <TimePicker.RangePicker
                 className="w-full"
                 format={timeFormat}
                 minuteStep={15}
-                placeholder={['开始', '结束']}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
@@ -566,7 +779,10 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="power1"
-              label="执行功率"
+              label={formatMessage({
+                id: 'siteMonitor.executionPower',
+                defaultMessage: '执行功率',
+              })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
               <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
@@ -577,14 +793,17 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="time2"
-              label="时段2"
+              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '2'}
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 2)]}
             >
               <TimePicker.RangePicker
                 className="w-full"
                 format={timeFormat}
                 minuteStep={15}
-                placeholder={['开始', '结束']}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
@@ -592,7 +811,10 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="power2"
-              label="执行功率"
+              label={formatMessage({
+                id: 'siteMonitor.executionPower',
+                defaultMessage: '执行功率',
+              })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
               <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
@@ -603,14 +825,17 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="time3"
-              label="时段3"
+              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '3'}
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 3)]}
             >
               <TimePicker.RangePicker
                 className="w-full"
                 format={timeFormat}
                 minuteStep={15}
-                placeholder={['开始', '结束']}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
@@ -618,7 +843,10 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="power3"
-              label="执行功率"
+              label={formatMessage({
+                id: 'siteMonitor.executionPower',
+                defaultMessage: '执行功率',
+              })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
               <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
@@ -629,14 +857,17 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="time4"
-              label="时段4"
+              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '4'}
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 4)]}
             >
               <TimePicker.RangePicker
                 className="w-full"
                 format={timeFormat}
                 minuteStep={15}
-                placeholder={['开始', '结束']}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
@@ -644,7 +875,10 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="power4"
-              label="执行功率"
+              label={formatMessage({
+                id: 'siteMonitor.executionPower',
+                defaultMessage: '执行功率',
+              })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
               <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
@@ -655,14 +889,17 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="time5"
-              label="时段5"
+              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '5'}
               rules={[({ getFieldValue }) => validatorTime(getFieldValue, 5)]}
             >
               <TimePicker.RangePicker
                 className="w-full"
                 format={timeFormat}
                 minuteStep={15}
-                placeholder={['开始', '结束']}
+                placeholder={[
+                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                ]}
                 getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
               />
             </Form.Item>
@@ -670,7 +907,10 @@ const Setting: React.FC<SettingProps> = (props) => {
           <Col flex="25%">
             <Form.Item
               name="power5"
-              label="执行功率"
+              label={formatMessage({
+                id: 'siteMonitor.executionPower',
+                defaultMessage: '执行功率',
+              })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
               <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
@@ -681,22 +921,35 @@ const Setting: React.FC<SettingProps> = (props) => {
       {!isDeviceChild ? (
         <>
           {isLineLabel ? (
-            <LineLabel title="校时设置">
-              <Button type="primary" onClick={onTimeClick} loading={loading} disabled={disableTime}>
-                下发参数
+            <LineLabel
+              title={formatMessage({
+                id: 'siteMonitor.timingSettings',
+                defaultMessage: '校时设置',
+              })}
+            >
+              <Button
+                type="primary"
+                onClick={onTimeClick}
+                loading={loading}
+                disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
+              >
+                {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
               </Button>
             </LineLabel>
           ) : (
             <Label
-              title="校时设置"
+              title={formatMessage({
+                id: 'siteMonitor.timingSettings',
+                defaultMessage: '校时设置',
+              })}
               operate={
                 <Button
                   type="primary"
                   onClick={onTimeClick}
                   loading={loading}
-                  disabled={disableTime}
+                  disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
                 >
-                  下发参数
+                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
                 </Button>
               }
             />
@@ -707,13 +960,26 @@ const Setting: React.FC<SettingProps> = (props) => {
             labelCol={{ flex: '116px' }}
             onFinish={onTimeFormFinish}
             onValuesChange={setDisableTimeFalse}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
           >
             <Row>
               <Col flex="25%">
                 <Form.Item
                   name="time"
-                  label="系统时间"
-                  rules={[{ required: true, message: '系统时间必填' }]}
+                  label={formatMessage({
+                    id: 'siteMonitor.systemTime',
+                    defaultMessage: '系统时间',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message:
+                        formatMessage({
+                          id: 'siteMonitor.systemTime',
+                          defaultMessage: '系统时间',
+                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                    },
+                  ]}
                 >
                   <DatePick
                     className="w-full"

@@ -11,10 +11,10 @@ import { DeviceRealTimeType } from '../config';
 import RealTime from '@/components/Meter/RealTime';
 import Detail, { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import useDeviceModel from '../useDeviceModel';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 export type ElectricMeterType = DeviceRealTimeType & {
   label?: string;
@@ -22,29 +22,32 @@ export type ElectricMeterType = DeviceRealTimeType & {
 };
 
 const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
-  const { id, productId, deviceData, loading, label = '市电负载', hideLineVoltage = false } = props;
+  const {
+    deviceData,
+    loading,
+    label = formatMessage({ id: 'device.mainsLoad', defaultMessage: '市电负载' }),
+    hideLineVoltage = false,
+  } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
+      });
+    }
   }, []);
 
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       model={modelMap?.[collectionInfo.collection]}
       onClick={onClick}
@@ -55,7 +58,7 @@ const ElectricMeter: React.FC<ElectricMeterType> = (props) => {
     <>
       <div className={hideLineVoltage ? styles.contain : ''}>
         <RealTime
-          id={id}
+          id={deviceData?.deviceId}
           loading={loading}
           label={<Detail.Label title={label} />}
           detailProps={{

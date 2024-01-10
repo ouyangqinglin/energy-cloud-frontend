@@ -8,67 +8,204 @@
  */
 
 import type { DetailItem } from '@/components/Detail';
-import { enableFormat } from '@/utils/format';
+import { formatMessage } from '@/utils';
+import { enableFormat, powerFormat } from '@/utils/format';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
 import moment from 'moment';
 
 const options = [
   {
     value: 1,
-    label: '禁用',
+    label: formatMessage({ id: 'common.disable', defaultMessage: '禁用' }),
   },
   {
     value: 0,
-    label: '使能',
+    label: formatMessage({ id: 'common.enabled', defaultMessage: '使能' }),
+  },
+];
+
+export const powerParamsItems: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+    field: 'antiBackflowThreshold',
+    format: powerFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.maximumLoadOfTransformer',
+      defaultMessage: '变压器最大负荷',
+    }),
+    field: 'maximumLoadOfTransformer',
+    format: powerFormat,
+    span: 2,
+  },
+];
+
+export const powerParamsColumns: ProFormColumnsType[] = [
+  {
+    title: formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+    dataIndex: 'antiBackflowThreshold',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({ id: 'device.antiBackflowThreshold', defaultMessage: '防逆流阈值' }),
+        },
+      ],
+    },
+  },
+  {
+    title: formatMessage({
+      id: 'device.maximumLoadOfTransformer',
+      defaultMessage: '变压器最大负荷',
+    }),
+    dataIndex: 'maximumLoadOfTransformer',
+    valueType: 'digit',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+            formatMessage({
+              id: 'device.maximumLoadOfTransformer',
+              defaultMessage: '变压器最大负荷',
+            }),
+        },
+      ],
+    },
   },
 ];
 
 export const emsSystemEnabletems: DetailItem[] = [
-  { label: '自启动功能使能', field: 'SysEnableSelfStartFunction', format: enableFormat },
-  { label: '市电充电功能使能', field: 'MunicipalChargingFunctionEnabled', format: enableFormat },
-  { label: '离网工作功能使能', field: 'EnableOffGridOperationFunction', format: enableFormat },
-  { label: '并网工作功能使能', field: 'EnableGridConnectionFunction', format: enableFormat },
+  {
+    label: formatMessage({
+      id: 'device.selfStartFunctionEnabled',
+      defaultMessage: '自启动功能使能',
+    }),
+    field: 'SysEnableSelfStartFunction',
+    format: enableFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.mainsChargeFunctionEnables',
+      defaultMessage: '市电充电功能使能',
+    }),
+    field: 'MunicipalChargingFunctionEnabled',
+    format: enableFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.enablingFffGridWorkFunction',
+      defaultMessage: '离网工作功能使能',
+    }),
+    field: 'EnableOffGridOperationFunction',
+    format: enableFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.enablingGridConnectionFunction',
+      defaultMessage: '并网工作功能使能',
+    }),
+    field: 'EnableGridConnectionFunction',
+    format: enableFormat,
+  },
 ];
 export const systemColumns: ProFormColumnsType[] = [
   {
-    title: '自启动功能使能',
+    title: formatMessage({
+      id: 'device.selfStartFunctionEnabled',
+      defaultMessage: '自启动功能使能',
+    }),
     dataIndex: 'SysEnableSelfStartFunction',
     valueType: 'select',
     formItemProps: {
-      rules: [{ required: true, message: '请选择自启动功能使能' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({
+              id: 'device.selfStartFunctionEnabled',
+              defaultMessage: '自启动功能使能',
+            }),
+        },
+      ],
     },
     fieldProps: {
       options,
     },
   },
   {
-    title: '市电充电功能使能',
+    title: formatMessage({
+      id: 'device.mainsChargeFunctionEnables',
+      defaultMessage: '市电充电功能使能',
+    }),
     dataIndex: 'MunicipalChargingFunctionEnabled',
     valueType: 'select',
     formItemProps: {
-      rules: [{ required: true, message: '请选择市电充电功能使能' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({
+              id: 'device.mainsChargeFunctionEnables',
+              defaultMessage: '市电充电功能使能',
+            }),
+        },
+      ],
     },
     fieldProps: {
       options,
     },
   },
   {
-    title: '离网工作功能使能',
+    title: formatMessage({
+      id: 'device.enablingFffGridWorkFunction',
+      defaultMessage: '离网工作功能使能',
+    }),
     dataIndex: 'EnableOffGridOperationFunction',
     valueType: 'select',
     formItemProps: {
-      rules: [{ required: true, message: '请选择离网工作功能使能' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({
+              id: 'device.enablingFffGridWorkFunction',
+              defaultMessage: '离网工作功能使能',
+            }),
+        },
+      ],
     },
     fieldProps: {
       options,
     },
   },
   {
-    title: '并网工作功能使能',
+    title: formatMessage({
+      id: 'device.enablingGridConnectionFunction',
+      defaultMessage: '并网工作功能使能',
+    }),
     dataIndex: 'EnableGridConnectionFunction',
     valueType: 'select',
     formItemProps: {
-      rules: [{ required: true, message: '请选择并网工作功能使能' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({
+              id: 'device.enablingGridConnectionFunction',
+              defaultMessage: '并网工作功能使能',
+            }),
+        },
+      ],
     },
     fieldProps: {
       options,
@@ -78,37 +215,30 @@ export const systemColumns: ProFormColumnsType[] = [
 
 export const systemTimeItems: DetailItem[] = [
   {
-    label: '系统时间',
+    label: formatMessage({ id: 'common.systemTime', defaultMessage: '系统时间' }),
     field: 'correctionTime',
     format: (time) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
   },
 ];
+
 export const systemTimeColumns: ProFormColumnsType[] = [
   {
-    title: '系统时间',
+    title: formatMessage({ id: 'common.systemTime', defaultMessage: '系统时间' }),
     dataIndex: 'correctionTime',
     valueType: 'dateTime',
     formItemProps: {
-      rules: [{ required: true, message: '请选择系统时间' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({ id: 'common.systemTime', defaultMessage: '系统时间' }),
+        },
+      ],
     },
     colProps: {
       span: 24,
     },
     width: '100%',
-  },
-];
-
-export const communicationItems: DetailItem[] = [{ label: 'EMS设备SN', field: 'emsSn' }];
-export const communicationColumns: ProFormColumnsType[] = [
-  {
-    title: 'EMS设备SN',
-    dataIndex: 'emsSn',
-    valueType: 'text',
-    formItemProps: {
-      rules: [{ required: true, message: '请输入EMS设备SN' }],
-    },
-    colProps: {
-      span: 24,
-    },
   },
 ];

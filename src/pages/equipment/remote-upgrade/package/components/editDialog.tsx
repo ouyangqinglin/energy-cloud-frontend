@@ -69,7 +69,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   const requestProductSn = useCallback((params) => {
     if (params) {
       return getProductSnList({
-        productType: params, //传递产品类型id
+        productTypeId: params, //传递产品类型id
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -86,9 +86,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   }, []);
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-    dataIndex: 'productType', //产品类型id
+    dataIndex: 'productTypeId', //产品类型id
     formItemProps: {
-      name: 'productType', //产品类型id
+      name: 'productTypeId', //产品类型id
       rules: [{ required: true, message: '请输入' }],
     },
     colProps: {
@@ -97,8 +97,8 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     fieldProps: {
       disabled: operations == FormOperations.UPDATE,
       rules: [{ required: true, message: '请输入' }],
-      onChange: (productType: any) => {
-        requestProductSn(productType).then((list) => {
+      onChange: (productTypeId: any) => {
+        requestProductSn(productTypeId).then((list) => {
           setSnList(list);
         }); //获取产品型号
       },
@@ -135,7 +135,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       span: 12,
     },
     hideInTable: true,
-    dependencies: ['productType'], //依赖产品类型--dataIndex
+    dependencies: ['productTypeId'], //依赖产品类型--dataIndex
     fieldProps: {
       disabled: operations == FormOperations.UPDATE,
       options: snList,
@@ -534,7 +534,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     (res: UpdateTaskParam) => {
       //编辑才会走到这里
       if (res) {
-        requestProductSn(res?.productType).then((list) => {
+        requestProductSn(res?.productTypeId).then((list) => {
           setSnList(list);
         }); //获取产品型号
         requestModule(res?.productId).then((data) => {
@@ -588,7 +588,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       params.upgradableVersion = params.upgradeDeviceVersionDetailList
         ? params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',')
         : '';
-      params.productTypeId = params.productType;
+      params.productTypeId = params.productTypeId;
       params.productModel = productModel || '';
       params.signature = +params.signature;
       params.status = +params.status;

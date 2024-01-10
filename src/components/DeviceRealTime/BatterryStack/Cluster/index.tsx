@@ -2,48 +2,39 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:37:01
- * @LastEditTime: 2023-12-07 17:04:23
+ * @LastEditTime: 2024-01-06 16:03:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\BatterryStack\Cluster\index.tsx
  */
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
-import { Tree, Space, Skeleton, Tabs, TabsProps } from 'antd';
+import { Tree, Space, Skeleton } from 'antd';
 import { useRequest } from 'umi';
-import { getClusterByStack, DeviceDataType, getChildEquipment } from '@/services/equipment';
+import { getClusterByStack, DeviceDataType } from '@/services/equipment';
 import Detail, { DetailItem } from '@/components/Detail';
 import Label from '@/components/Detail/LineLabel';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { runItems, statusItems } from './config';
-import Chart from '@/components/Chart';
-import { defaultLineOption } from '@/components/Chart/config';
 import styles from './index.less';
 import Button from '@/components/CollectionModal/Button';
 import { useSubscribe } from '@/hooks';
-import { merge } from 'lodash';
 import { MessageEventType } from '@/utils/connection';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import BmuTabs from '@/components/Device/module/BmuTabs';
 
 export type ClusterProps = {
-  id: string;
-  productId: string;
-  data?: DeviceDataType;
+  deviceData?: DeviceDataType;
 };
 
 const Cluster: React.FC<ClusterProps> = (props) => {
-  const { id, data: deviceData } = props;
+  const { deviceData } = props;
 
-  const [activeKey, setActiveKey] = useState('0');
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
   });
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({ deviceId: 0 as any, key: '0' });
-  const [bmuMap, setBmuMap] = useState<Map<string, string>>();
   const realTimeData = useSubscribe(selectOrg?.deviceId || '', true);
   const networkData = useSubscribe(selectOrg?.deviceId || '', true, MessageEventType.NETWORKSTSTUS);
-  const bmuData = useSubscribe(
-    bmuMap?.get?.('BMU-' + (Number(activeKey) * 1 + 1) || '') || '',
-    true,
-  );
 
   const {
     data: clusterData,
@@ -60,91 +51,6 @@ const Cluster: React.FC<ClusterProps> = (props) => {
     },
   });
 
-  const allLabel = useMemo(() => {
-    const result: string[] = [];
-    Array.from({ length: 24 }).forEach((item, index) => {
-      const num = index + 1;
-      result.push('电芯' + num);
-      if (num % 2 === 0) {
-        result.push('温度' + num / 2);
-      }
-    });
-    result.push('温度13');
-    return result;
-  }, []);
-
-  const chartOption = useMemo(() => {
-    const source = [['product', '电压', '温度']];
-    allLabel.forEach((item) => {
-      const num = item.replace('电芯', '').replace('温度', '');
-      let value: any = '',
-        resultValue;
-      if (item.indexOf('电芯') > -1) {
-        value = bmuData?.['Voltage' + num] || '';
-      } else {
-        value = bmuData?.['Temperature' + num] || '';
-      }
-      resultValue = value;
-      if (resultValue) {
-        resultValue = resultValue * 1;
-        if (isNaN(resultValue)) {
-          resultValue = value;
-        }
-      }
-      source.push([item, ...(item.indexOf('电芯') > -1 ? [resultValue, ''] : ['', resultValue])]);
-    });
-    const result = {};
-    merge(result, defaultLineOption, {
-      grid: {
-        bottom: 50,
-      },
-      legend: {
-        icon: 'rect',
-      },
-      tooltip: {
-        formatter: (params: any) => {
-          const { value, name } = (params || {})[0];
-          return name + '：' + (value[1] === '' ? value[2] + '℃' : value[1] + 'V');
-        },
-      },
-      yAxis: {
-        name: '电压(V)\n\n温度(℃)',
-      },
-      series: [
-        {
-          type: 'bar',
-          barMaxWidth: 10,
-          stack: 'Total',
-          itemStyle: {
-            color: 'rgba(0, 125, 255, 1)',
-          },
-        },
-        {
-          type: 'bar',
-          barMaxWidth: 10,
-          stack: 'Total',
-          itemStyle: {
-            color: 'rgba(61, 213, 152, 1)',
-          },
-        },
-      ],
-      dataZoom: [
-        {
-          type: 'inside',
-        },
-        {
-          start: 0,
-          end: 100,
-          height: 15,
-        },
-      ],
-      dataset: {
-        source,
-      },
-    });
-    return result;
-  }, [bmuData, allLabel, activeKey]);
-
   const selectedKeys = useMemo<string[]>(() => {
     return isEmpty(selectOrg?.deviceId) ? [] : [selectOrg?.deviceId ?? ''];
   }, [selectOrg]);
@@ -159,43 +65,24 @@ const Cluster: React.FC<ClusterProps> = (props) => {
   );
 
   const onClick = useCallback((item: DetailItem) => {
-    setCollectionInfo({
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
-
-  const onTabChange = useCallback((key) => {
-    setActiveKey(key);
-  }, []);
-
-  useEffect(() => {
-    if (id) {
-      run({ deviceId: id });
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (selectOrg?.deviceId) {
-      getChildEquipment({ parentId: selectOrg?.deviceId }).then(({ data: childData }) => {
-        setBmuMap(new Map(childData?.map?.((item) => [item.aliasSn || '', item.deviceId || ''])));
+    if (item.field) {
+      setCollectionInfo({
+        title: item.label as any,
+        collection: item.field,
       });
     }
-  }, [selectOrg]);
-
-  const tabItems = useMemo<TabsProps['items']>(() => {
-    return Array.from({ length: 10 }).map((item, index) => {
-      return {
-        key: index + '',
-        label: 'BMU' + (index + 1),
-      };
-    });
   }, []);
+
+  useEffect(() => {
+    if (deviceData?.deviceId) {
+      run({ deviceId: deviceData?.deviceId });
+    }
+  }, [deviceData]);
 
   const extral = (
     <Button
       title={collectionInfo.title}
-      deviceId={id}
+      deviceId={deviceData?.deviceId}
       collection={collectionInfo.collection}
       onClick={onClick}
     />
@@ -233,18 +120,27 @@ const Cluster: React.FC<ClusterProps> = (props) => {
             colon={false}
             labelStyle={{ width: 170 }}
           />
-          <Label title="状态信息" className="mt16" />
-          <Detail
-            items={statusItems}
-            data={realTimeData}
-            extral={extral}
-            colon={false}
-            labelStyle={{ width: 170 }}
-            valueStyle={{ width: '40%' }}
-          />
-          <Label title="单体信息" className="mt16" />
-          <Tabs className={styles.tab} items={tabItems} onChange={onTabChange} />
-          <Chart option={chartOption} style={{ height: 300 }} />
+          {deviceData?.productId != DeviceTypeEnum.LiquidEnergyBatteryStack ? (
+            <>
+              <Label
+                title={formatMessage({
+                  id: 'siteMonitor.statusInformation',
+                  defaultMessage: '状态信息',
+                })}
+                className="mt16"
+              />
+              <Detail
+                items={statusItems}
+                data={realTimeData}
+                extral={extral}
+                colon={false}
+                labelStyle={{ width: 170 }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+          <BmuTabs isStackChild={false} clusterDeviceId={selectOrg?.deviceId} />
         </div>
       </div>
     </>

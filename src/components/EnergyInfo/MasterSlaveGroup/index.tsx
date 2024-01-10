@@ -1,9 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useRequest } from 'umi';
 import { Skeleton } from 'antd';
-import { useSubscribe } from '@/hooks';
-import { getEnergy } from '../service';
-import { energyType } from '../type';
 import { Tabs, TabsProps } from 'antd';
 import { DeviceDataType } from '@/services/equipment';
 import GroupItem from './groupItem';

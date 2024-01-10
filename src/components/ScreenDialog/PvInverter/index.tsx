@@ -21,6 +21,7 @@ import PvInverterIntroImg from '@/assets/image/product/pv-inverter-intro.jpg';
 import Empty from '@/components/Empty';
 import Community from '../Community';
 import RealTime from './RealTime';
+import { formatMessage } from '@/utils';
 
 export type PvInverterProps = BusinessDialogProps & {
   loopNum: number;
@@ -37,22 +38,22 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
 
   const tabItems = [
     {
-      label: '运行监测',
+      label: formatMessage({ id: 'device.operationMonitoring', defaultMessage: '运行监测' }),
       key: 'item-0',
       children: <RealTime id={id} open={open} loading={loading} loopNum={loopNum} />,
     },
     {
-      label: '远程设置',
+      label: formatMessage({ id: 'device.remoteSettings', defaultMessage: '远程设置' }),
       key: 'item-1',
       children: model == 'screen' ? <Empty /> : <AntEmpty />,
     },
     {
-      label: '告警/故障',
+      label: formatMessage({ id: 'device.alarm/fault', defaultMessage: '告警/故障' }),
       key: 'item-2',
       children: <AlarmTable params={{ id }} request={getAlarms} />,
     },
     {
-      label: '日志',
+      label: formatMessage({ id: 'device.log', defaultMessage: '日志' }),
       key: 'item-3',
       children: <LogTable params={{ id }} request={getLogs} />,
     },
@@ -62,7 +63,7 @@ const PvInverter: React.FC<PvInverterProps> = (props) => {
     <>
       <Dialog
         model={model}
-        title="设备详情"
+        title={formatMessage({ id: 'device.deviceDetails', defaultMessage: '设备详情' })}
         open={open}
         onCancel={onCancel}
         footer={null}

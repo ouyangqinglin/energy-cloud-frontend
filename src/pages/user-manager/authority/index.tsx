@@ -17,6 +17,7 @@ import { RoleUpdate } from './RoleUpdate';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
+import { formatMessage } from '@/utils';
 
 export type AuthorityProps = {
   type?: string;
@@ -38,7 +39,7 @@ const Authority: React.FC<AuthorityProps> = (props) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: '新建',
+        text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
       },
     },
     option: {
@@ -47,7 +48,7 @@ const Authority: React.FC<AuthorityProps> = (props) => {
             onDeleteChange(_, entity) {
               deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
                 if (data) {
-                  message.success('删除成功');
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
                   actionRef?.current?.reload?.();
                 }
               });
@@ -59,7 +60,10 @@ const Authority: React.FC<AuthorityProps> = (props) => {
         setOperations(FormOperations.UPDATE);
         set(true);
       },
-      modalDeleteText: '您确认要删除该角色吗？删除之后无法恢复！',
+      modalDeleteText: formatMessage({
+        id: 'user.deleteRoleConfirm',
+        defaultMessage: '您确认要删除该角色吗？删除之后无法恢复！',
+      }),
     },
   };
 

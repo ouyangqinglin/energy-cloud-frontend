@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2023-09-28 09:14:05
+ * @LastEditTime: 2024-01-05 16:03:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
@@ -12,6 +12,7 @@ import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 import { DeviceDataType } from '@/services/equipment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 
 export enum CommunityTypeEnum {
   Account = 1,
@@ -62,12 +63,8 @@ const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (prop
   return (
     <>
       {type ? (
-        <Button
-          type="primary"
-          onClick={setTrue}
-          disabled={deviceData?.status === OnlineStatusEnum.Offline}
-        >
-          修改
+        <Button type="primary" onClick={setTrue}>
+          {formatMessage({ id: 'common.modify', defaultMessage: '修改' })}
         </Button>
       ) : (
         <></>

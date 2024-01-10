@@ -8,7 +8,7 @@
  */
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { OnlineStatusEnum } from '@/utils/dict';
 import RealTime from '@/components/ScreenDialog/HwChargeYt/RealTime';
 import { DetailItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
@@ -17,26 +17,27 @@ import useDeviceModel from '../useDeviceModel';
 import { isEmpty } from '@/utils';
 
 const HwChargeYt: React.FC<DeviceRealTimeType> = (props) => {
-  const { id, productId, deviceData, loading } = props;
+  const { deviceData, loading } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
   const [collectionInfo, setCollectionInfo] = useState({
     deviceId: '',
     title: '',
     collection: '',
   });
-  const { modelMap } = useDeviceModel({ productId });
+  const { modelMap } = useDeviceModel({ productId: deviceData?.productId });
 
-  const onClick = useCallback((item: DetailItem, _, data) => {
-    setCollectionInfo({
-      deviceId: data?.ids?.[0] ?? id,
-      title: item.label as any,
-      collection: item.field,
-    });
-  }, []);
+  const onClick = useCallback(
+    (item: DetailItem, _, data) => {
+      if (item.field) {
+        setCollectionInfo({
+          deviceId: data?.ids?.[0] ?? deviceData?.deviceId,
+          title: item.label as any,
+          collection: item.field,
+        });
+      }
+    },
+    [deviceData],
+  );
 
   const extral = (
     <Button
@@ -51,15 +52,13 @@ const HwChargeYt: React.FC<DeviceRealTimeType> = (props) => {
   return (
     <>
       <RealTime
-        id={id}
+        id={deviceData?.deviceId}
         loading={loading}
-        open={openSubscribe}
         labelType={LabelTypeEnum.LineLabel}
         detailProps={{
           extral,
           colon: false,
           labelStyle: { width: 140 },
-          valueStyle: { width: '40%' },
         }}
       />
     </>

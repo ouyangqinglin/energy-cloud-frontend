@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2023-08-10 16:03:30
+ * @LastEditTime: 2024-01-03 11:21:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
@@ -13,7 +13,11 @@ import { Tabs, TabsProps } from 'antd';
 export type GroupItem = {
   label?: React.ReactNode;
   items?: DetailItem[];
-  tabItems?: TabsProps['items'];
+  className?: string;
+  tabItems?: (Required<TabsProps>['items'][number] & {
+    groupItems?: GroupItem[];
+  })[];
+  component?: React.ReactNode | ((data?: Record<string, any>) => React.ReactNode);
 };
 
 export type GroupProps = {
@@ -27,21 +31,35 @@ const Group: React.FC<GroupProps> = (props) => {
 
   const details = useMemo(() => {
     return items?.map?.((item, index) => {
-      return (
+      return item?.component ? (
+        typeof item?.component == 'function' ? (
+          item?.component?.(data)
+        ) : (
+          item?.component
+        )
+      ) : (
         <>
           {item.label}
-          {item.items?.length ? (
+          {!!item.items?.length && (
             <Detail
-              className="mb16"
+              className={`mb16 ${item?.className || ''}`}
               key={index}
               data={data}
               items={item.items}
               {...(detailProps || {})}
             />
-          ) : (
-            <></>
           )}
-          {item?.tabItems?.length ? <Tabs className="mb16" items={item.tabItems} /> : <></>}
+          {!!item?.tabItems?.length && (
+            <Tabs
+              className="mb16"
+              items={item.tabItems?.map?.((tabItem) => {
+                if (tabItem?.groupItems && tabItem?.groupItems?.length) {
+                  tabItem.children = <Group data={data} items={tabItem?.groupItems} />;
+                }
+                return tabItem;
+              })}
+            />
+          )}
         </>
       );
     });

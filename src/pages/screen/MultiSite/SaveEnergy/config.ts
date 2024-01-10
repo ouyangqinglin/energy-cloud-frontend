@@ -10,11 +10,15 @@ import { DigitStatItemType } from '../../components/DigitStat';
 import IconMark from '@/assets/image/multi-site/save-energy/mark.png';
 import IconCard from '@/assets/image/multi-site/save-energy/card.png';
 import IconCCER from '@/assets/image/multi-site/save-energy/ccer.png';
+import { formatMessage } from '@/utils';
 
 export const items: DigitStatItemType[] = [
   {
     icon: IconMark,
-    title: '可再生能源消纳指数',
+    title: formatMessage({
+      id: 'screen.renewableEnergyConsumption',
+      defaultMessage: '可再生能源消纳指数',
+    }),
     unit: '%',
     field: 'storageRatio',
     valueStyle: {
@@ -24,8 +28,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconCard,
-    title: '绿证数量',
-    unit: '张',
+    title: formatMessage({ id: 'screen.greenCertificates', defaultMessage: '绿证数量' }),
+    unit: formatMessage({ id: 'screen.piece', defaultMessage: '张' }),
     field: 'greenCertificate',
     valueStyle: {
       color: 'rgba(182, 255, 167, 1)',
@@ -34,8 +38,8 @@ export const items: DigitStatItemType[] = [
   },
   {
     icon: IconCCER,
-    title: 'CCER持有量',
-    unit: '吨',
+    title: formatMessage({ id: 'screen.ccerHoldings', defaultMessage: 'CCER持有量' }),
+    unit: formatMessage({ id: 'screen.ton', defaultMessage: '吨' }),
     field: 'ccerhold',
     valueStyle: {
       color: '#FFf',

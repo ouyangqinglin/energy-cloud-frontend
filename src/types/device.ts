@@ -2,11 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2023-11-29 15:29:32
+ * @LastEditTime: 2024-01-04 16:00:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
-import { DeviceModelTypeEnum } from '@/utils';
+import { DeviceModelDescribeTypeEnum, DeviceModelShowTypeEnum, DeviceModelTypeEnum } from '@/utils';
+
+export type DeviceModelAuthorityType = {
+  detail?: string;
+  edit?: string;
+};
 
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;
@@ -19,6 +24,7 @@ export type DevicePropsType = {
   groupName?: string;
   dataType?: DeviceModelType;
   properties?: DevicePropsType[];
+  component?: string;
 };
 
 export type DeviceArrayType = {
@@ -57,9 +63,13 @@ export type DeviceStructType = {
 
 export type DeviceServiceModelType = {
   id?: string;
+  serviceId?: string;
   name?: string;
   required?: boolean;
   span?: number;
+  showType?: DeviceModelShowTypeEnum;
+  disabled?: string;
+  tip?: string;
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType
@@ -76,21 +86,45 @@ export type DeviceServiceType = {
   id?: string;
   name?: string;
   groupName?: string;
+  showType?: DeviceModelShowTypeEnum;
+  type?: DeviceModelDescribeTypeEnum;
   outputData?: DeviceServiceModelType[];
+  children?: DeviceServiceModelType[];
+  authority?: DeviceModelAuthorityType[];
+};
+
+export type DeviceLocationType = {
+  id?: string;
+  name?: string;
 };
 
 export type DeviceServiceGroupType = {
   groupName?: string;
-  location?: {
-    id?: string;
-    name?: string;
-  };
+  location?: DeviceLocationType;
   services?: DeviceServiceType[];
+  component?: string;
+};
+
+export type DevicePageModels = {
+  location?: DeviceLocationType;
+  serviceGroups?: DeviceServiceGroupType[];
+};
+
+export type DeviceModelDescribeType = {
+  id?: string;
+  name?: string;
+  type?: DeviceModelDescribeTypeEnum;
+  showType?: DeviceModelShowTypeEnum;
+  icon?: string;
+  columns?: number;
+  authority?: DeviceModelAuthorityType[];
+  children?: DeviceModelDescribeType[] | DeviceServiceType[];
 };
 
 export type DeviceModelDataType = {
   properties?: DevicePropsType[];
   services?: DeviceServiceGroupType[];
+  data?: DeviceModelDescribeType[];
 };
 
 export type DeviceTreeDataType = {

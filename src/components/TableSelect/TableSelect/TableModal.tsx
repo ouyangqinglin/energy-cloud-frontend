@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-12-08 10:07:43
+ * @LastEditTime: 2023-12-18 17:38:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -41,7 +41,7 @@ const TableModal = <
   props: TableModalProps<ValueType, DataType, Params>,
 ) => {
   const {
-    title = '选择数据',
+    title = formatMessage({ id: 'taskManage.selectData', defaultMessage: '选择数据' }),
     open,
     onCancel,
     width = '1000px',
@@ -128,8 +128,14 @@ const TableModal = <
       return (
         <>
           <div className="flex mb8">
-            <span className="flex1">已选择{selectedTags?.length || 0}项</span>
-            <a onClick={onCleanSelected}>清空</a>
+            <span className="flex1">
+              {formatMessage({ id: 'component.noticeIcon.selected', defaultMessage: '已选择' })}
+              {selectedTags?.length || 0}
+              {formatMessage({ id: 'component.noticeIcon.item', defaultMessage: '项' })}
+            </span>
+            <a onClick={onCleanSelected}>
+              {formatMessage({ id: 'component.noticeIcon.clear', defaultMessage: '清空' })}
+            </a>
           </div>
           <div>
             <div className={`flex1 ${styles.tagContain}`}>{tags}</div>

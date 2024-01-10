@@ -11,7 +11,7 @@ import { useRequest } from 'umi';
 import { configTypeItemMap, ConfigTypeEnum } from './config';
 import { DeviceDataType, getAssociateDevice } from '@/services/equipment';
 import Detail, { GroupItem } from '@/components/Detail';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { Button } from 'antd';
 import { useBoolean } from 'ahooks';
 import ConfigForm from './ConfigForm';
@@ -54,7 +54,12 @@ const DeviceConfig: React.FC<DeviceProps> = (props) => {
       const field = configTypeItemMap.get(deviceData?.productConfigType as any);
       result.push({
         label: (
-          <Detail.Label title="配置信息">
+          <Detail.Label
+            title={formatMessage({
+              id: 'common.configurationInformation',
+              defaultMessage: '配置信息',
+            })}
+          >
             <ConfigForm deviceData={deviceData} onSuccess={runGetAssociateDevice} />
           </Detail.Label>
         ),

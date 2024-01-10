@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 14:44:03
- * @LastEditTime: 2023-10-19 17:43:23
+ * @LastEditTime: 2023-12-26 18:07:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSubscribe.ts
  */
@@ -10,29 +10,12 @@ import { useEffect, useCallback, useState, useMemo } from 'react';
 import useWebsocket from './useWebsocket';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import type { EquipPropType, AnyMapType } from '@/utils/dictionary';
-import { parseToObj } from '@/utils';
-
-const flatObj = (data: Record<string, any>, parentField = '') => {
-  let result: Record<string, any> = {};
-  if (typeof data !== 'object' || Array.isArray(data)) {
-    result = {};
-  } else {
-    for (const key in data) {
-      const field = parentField ? parentField + '.' + key : key;
-      if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-        result = { ...result, ...flatObj(data[key], field) };
-      } else {
-        result[field] = data[key];
-      }
-    }
-  }
-  return result;
-};
+import { flatObj, parseToObj } from '@/utils';
 
 const useSubscribe = (
   id: undefined | string | string[],
   open: boolean,
-  type?: MessageEventType,
+  type = MessageEventType.DEVICE_REAL_TIME_DATA,
 ) => {
   const ids = useMemo(() => {
     return Array.isArray(id) ? id : id ? [id] : [];
@@ -42,10 +25,7 @@ const useSubscribe = (
 
   const onReceivedMessage = useCallback(
     (res: any) => {
-      if (
-        MessageEventType.DEVICE_REAL_TIME_DATA === res?.type &&
-        ids.find((item) => item == res?.data?.deviceId)
-      ) {
+      if (type === res?.type && ids.find((item) => item == res?.data?.deviceId)) {
         const { data: msgData } = res;
         try {
           let obj: Record<string, any> = {};
@@ -56,7 +36,7 @@ const useSubscribe = (
             }
             obj[item.key] = item.value;
           });
-          if (Object.keys(obj).length) {
+          if (Object.entries(obj).length) {
             setData((prevData) => ({
               ...prevData,
               ...obj,
@@ -69,12 +49,15 @@ const useSubscribe = (
         } catch (e) {}
       }
     },
-    [ids],
+    [ids, type],
   );
 
   useEffect(() => {
     setData({
       ids,
+    });
+    connection.onOpen(() => {
+      setData({ ids }); //初始化数据，防止告警数量叠加
     });
     if (open && ids.length) {
       connection.sendMessage({
@@ -84,7 +67,7 @@ const useSubscribe = (
             device: item,
           })),
         },
-        type: type ?? MessageEventType.DEVICE_REAL_TIME_DATA,
+        type,
       });
       connection.addReceivedMessageCallback(onReceivedMessage);
     }

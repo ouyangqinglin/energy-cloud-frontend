@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-17 15:22:08
- * @LastEditTime: 2023-07-18 09:37:20
+ * @LastEditTime: 2023-12-21 10:29:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useAuthority.ts
  */
@@ -21,18 +21,11 @@ export type OptionsType = {
   mode?: AuthorityModeEnum;
 };
 
-const useAuthority = (authority: string | string[], option?: OptionsType) => {
+const useAuthority = (authority?: string | string[], option?: OptionsType) => {
   const { initialState } = useModel('@@initialState');
   const [pass, setpass] = useState<boolean>(false);
   const [authorityMap, setAuthorityMap] = useState<Map<string, boolean>>(new Map([]));
-
-  const authoritys = useMemo(() => {
-    if (Array.isArray(authority)) {
-      return authority;
-    } else {
-      return authority?.split?.(',') || [];
-    }
-  }, [authority]);
+  const [authoritys, setAuthoritys] = useState<string[]>([]);
 
   const options = useMemo(() => {
     const defaultOption: OptionsType = {
@@ -42,8 +35,20 @@ const useAuthority = (authority: string | string[], option?: OptionsType) => {
   }, [option]);
 
   useEffect(() => {
+    let newAuthority: string[] = [];
+    if (!Array.isArray(authority)) {
+      newAuthority = authority?.split?.(',') || [];
+    } else {
+      newAuthority = authority;
+    }
+    if (JSON.stringify(authoritys) != JSON.stringify(newAuthority)) {
+      setAuthoritys(newAuthority);
+    }
+  }, [authoritys, authority]);
+
+  useEffect(() => {
     const userPermission = initialState?.currentUser?.permissions || [];
-    if (userPermission.includes(adminAuthority)) {
+    if (userPermission.includes(adminAuthority) || !authoritys.length) {
       setpass(true);
       setAuthorityMap(new Map(authoritys.map((item) => [item, true])));
     } else {
@@ -73,7 +78,7 @@ const useAuthority = (authority: string | string[], option?: OptionsType) => {
       }
       setAuthorityMap(map);
     }
-  }, [initialState?.currentUser?.permissions]);
+  }, [initialState?.currentUser?.permissions, authoritys]);
 
   return { passAuthority: pass, authorityMap };
 };

@@ -14,9 +14,11 @@ import { useBoolean } from 'ahooks';
 import { editSetting } from '@/services/equipment';
 import { RemoteSettingDataType } from '../../typing';
 import { RunFormType } from '../typing';
+import { formatMessage } from '@/utils';
+import { OnlineStatusEnum } from '@/utils/dictionary';
 
 const RunForm: React.FC<RunFormType> = (props) => {
-  const { deviceId, runData, onSuccess } = props;
+  const { deviceId, deviceData, runData, onSuccess } = props;
 
   const [initialValues, setInitialValues] = useState<RunFormType['runData']>();
   const [open, { set, setTrue }] = useBoolean(false);
@@ -41,13 +43,17 @@ const RunForm: React.FC<RunFormType> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={setTrue}>
-        下发参数
+      <Button
+        type="primary"
+        onClick={setTrue}
+        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+      >
+        {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>
       <SchemaForm
         open={open}
         onOpenChange={set}
-        title={'下发参数'}
+        title={formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
         width={552}
         type={FormTypeEnum.Edit}
         columns={columns}

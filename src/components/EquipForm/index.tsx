@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-12-13 16:42:14
+ * @LastEditTime: 2024-01-03 09:20:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipForm\index.tsx
  */
@@ -13,13 +13,12 @@ import Dialog from '@/components/Dialog';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProForm, ProFormText, ProFormSelect, ProFormUploadButton } from '@ant-design/pro-form';
 import type { EquipFormType } from './data.d';
-import { editData, getData, addData, getProductTypes, configTypeByProductId } from './service';
-import { getStations } from '@/services/station';
+import { editData, getData, addData, getProductTypes } from './service';
 import type { OptionType } from '@/types';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
 import { getProductModelByType } from '@/services/equipment';
-import { formatMessage } from '@/utils';
+import { arrayToMap, formatMessage, parseToObj } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { ProFormDependency } from '@ant-design/pro-components';
 import { DeviceTypeEnum } from '@/utils/dictionary';
@@ -37,7 +36,6 @@ export type EquipFormProps = {
 
 const EquipForm: React.FC<EquipFormProps> = (props) => {
   const { id, model, open, onCancel, type, onSuccess, isStationChild, initialValues } = props;
-  const [typeOption, setTypeOption] = useState<OptionType[]>();
   const [modelOption, setModelOption] = useState<OptionType[]>();
   const { stationId } = useModel('station', (stateData) => ({ stationId: stateData?.state.id }));
 
@@ -83,64 +81,36 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     });
   }, []);
 
-  const requestStations = useCallback(
-    () =>
-      getStations().then(({ data = {} }) => {
-        return data?.map?.((item: any) => {
-          return {
+  const requestProductType = useCallback(() => {
+    return getProductTypes().then(({ data = {} }) => {
+      const result: OptionType[] = [];
+      data?.forEach?.((item: any) => {
+        let config: Record<string, any> = {};
+        try {
+          config = JSON.parse(item.config);
+        } catch {
+          config = {};
+        }
+        if (config?.selectDisplay != 0 || FormTypeEnum.Edit == type) {
+          result.push({
             label: item.name,
             value: item.id,
-          };
-        });
-      }),
-    [],
-  );
-
-  const requestDeviceSubsystem = useCallback(
-    () =>
-      api.getDeviceSubsystem().then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item.name,
-            value: item.id,
-          };
-        });
-      }),
-    [],
-  );
-
-  const requestProductType = useCallback(
-    (subsystemId) => {
-      getProductTypes({ subsystemId }).then(({ data = {} }) => {
-        const result: OptionType[] = [];
-        data?.forEach?.((item: any) => {
-          let config: Record<string, any> = {};
-          try {
-            config = JSON.parse(item.config);
-          } catch {
-            config = {};
-          }
-          if (config?.selectDisplay != 0 || FormTypeEnum.Edit == type) {
-            result.push({
-              label: item.name,
-              value: item.id,
-            });
-          }
-        });
-        setTypeOption(result);
+          });
+        }
       });
-    },
-    [type],
-  );
+      return result;
+    });
+  }, [type]);
 
-  const requestProductModel = useCallback((productType) => {
-    if (productType) {
-      getProductModelByType({ productType }).then(({ data }) => {
+  const requestProductModel = useCallback((productTypeId) => {
+    if (productTypeId) {
+      getProductModelByType({ productTypeId }).then(({ data }) => {
         setModelOption(
           data?.map?.((item: any) => {
             return {
               label: item.model,
               value: item.id,
+              deviceConfig: parseToObj(item.config)?.deviceConfig,
             };
           }),
         );
@@ -148,14 +118,9 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
     }
   }, []);
 
-  const onValuesChange = useCallback(({ productType, subsystemId, productId }) => {
-    if (subsystemId) {
-      requestProductType(subsystemId); //获取产品类型
-      form.setFieldValue('productType', undefined);
-      form.setFieldValue('productId', undefined);
-    }
-    if (productType) {
-      requestProductModel(productType); //获取产品型号
+  const onValuesChange = useCallback(({ productTypeId, subsystemId, productId }) => {
+    if (productTypeId) {
+      requestProductModel(productTypeId); //获取产品型号
       form.setFieldValue('productId', undefined);
     }
   }, []);
@@ -173,8 +138,7 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
       if (type === FormTypeEnum.Edit || type === FormTypeEnum.Detail) {
         runGet(id).then((data) => {
           form.setFieldsValue({ ...data, photosList: data?.photos ? [{ url: data.photos }] : [] });
-          requestProductType(data?.subsystemId);
-          requestProductModel(data?.productType);
+          requestProductModel(data?.productTypeId);
         });
       }
     }
@@ -221,43 +185,38 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
             />
           )} */}
           <ProFormSelect
-            label={<FormattedMessage id="equipmentList.affTeam" defaultMessage="所属单元" />}
-            name="subsystemId"
-            request={requestDeviceSubsystem}
+            label={formatMessage({ id: 'common.productType', defaultMessage: '产品类型' })}
+            name="productTypeId"
+            request={requestProductType}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
             rules={[
               {
                 required: true,
-                message: formatMessage({
-                  id: 'equipmentList.subRequire',
-                  defaultMessage: '子系统必选',
-                }),
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
               },
             ]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormSelect
-            label={<FormattedMessage id="common.productType" defaultMessage="产品类型" />}
-            name="productType"
-            //placeholder="请选择"
-            options={typeOption}
-            fieldProps={{
-              getPopupContainer: (triggerNode) => triggerNode.parentElement,
-            }}
-            rules={[{ required: true }]}
-            disabled={type == FormTypeEnum.Edit}
-          />
-          <ProFormSelect
-            label={<FormattedMessage id="common.model" defaultMessage="产品型号" />}
+            label={formatMessage({ id: 'common.model', defaultMessage: '产品型号' })}
             name="productId"
             //placeholder="请选择"
             options={modelOption}
             fieldProps={{
               getPopupContainer: (triggerNode) => triggerNode.parentElement,
             }}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
+              },
+            ]}
             disabled={type == FormTypeEnum.Edit}
           />
           <ProFormText
@@ -276,14 +235,12 @@ const EquipForm: React.FC<EquipFormProps> = (props) => {
           />
           <ProFormDependency name={['productId']}>
             {({ productId }) => {
+              const option = modelOption?.find((item) => item.value == productId);
               return (
                 <ProFormText
                   label={
-                    productId == DeviceTypeEnum.YTEnergy ? (
-                      <FormattedMessage
-                        id="common.equipmentEmsSerial"
-                        defaultMessage="ems设备序列号"
-                      />
+                    option?.deviceConfig?.snName ? (
+                      option?.deviceConfig?.snName
                     ) : (
                       <FormattedMessage id="common.equipmentSerial" defaultMessage="设备序列号" />
                     )

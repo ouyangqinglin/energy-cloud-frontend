@@ -4,8 +4,10 @@ import moment from 'moment';
 import { useState } from 'react';
 import RowBox from '../components/RowBox';
 import TimeButtonGroup, { TimeType } from '../components/TimeButtonGroup';
-import RealTimePower from './Chart';
+// import RealTimePower from './Chart';
+import RealTimePower from './ChartNew';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [picker, setPicker] = useState<
@@ -43,7 +45,12 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
       <div className={styles.topBar}>
         <h1 className={styles.title}>
           {' '}
-          {timeType === TimeType.DAY ? '站点实时功率' : '站点累计电量'}
+          {timeType === TimeType.DAY
+            ? formatMessage({ id: 'siteMonitor.siteRealtimepower', defaultMessage: '站点实时功率' })
+            : formatMessage({
+                id: 'siteMonitor.siteAccumulatedpower',
+                defaultMessage: '站点累计电量',
+              })}
         </h1>
         <div>
           {showDatePicker && <DatePicker defaultValue={date} onChange={onChange} picker={picker} />}

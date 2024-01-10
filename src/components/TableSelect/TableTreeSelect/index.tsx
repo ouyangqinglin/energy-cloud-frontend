@@ -14,6 +14,7 @@ import styles from '../index.less';
 import TableTreeModal from './TableTreeModal';
 import type { TableTreeModalProps } from './TableTreeModal';
 import type { ProRenderFieldPropsType } from '@ant-design/pro-components';
+import { formatMessage } from '@/utils';
 
 const TableTreeSelect = <
   ValueType extends Record<string, any>,
@@ -32,7 +33,7 @@ const TableTreeSelect = <
     valueName = 'name',
     valueFormat,
     clearable = true,
-    placeholder = '请选择',
+    placeholder = formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
     onFocus,
     ...restProps
   } = props;

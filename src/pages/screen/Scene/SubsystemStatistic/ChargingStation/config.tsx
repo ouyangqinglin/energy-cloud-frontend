@@ -2,6 +2,7 @@ import type { DetailItem } from '@/components/Detail';
 import type { DigitalFlipperItemProps } from '@/pages/screen/components/DigitalFlipper/Item';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
 
@@ -9,8 +10,8 @@ export const DEFAULT_STATISTICS_REQUEST_INTERVAL = 60 * 60 * 1000;
 
 export const config: DigitalFlipperItemProps[] = [
   {
-    title: '充电桩收益',
-    unit: '元',
+    title: formatMessage({ id: 'device.chargingRevenue', defaultMessage: '充电桩收益' }),
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     field: 'totalIncome',
     floatLength: 2,
     numStyle: {
@@ -27,7 +28,7 @@ export const config: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '充电量',
+    title: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
     field: 'totalApf',
     unit: 'kWh',
     floatLength: 2,
@@ -45,7 +46,10 @@ export const config: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '充电桩功率利用率',
+    title: formatMessage({
+      id: 'screen.chargingPowerUtilizationRate',
+      defaultMessage: '充电桩功率利用率',
+    }),
     field: 'useRatio',
     floatLength: 2,
     format: (value) => Number(value),
@@ -64,7 +68,7 @@ export const config: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '充电次数',
+    title: formatMessage({ id: 'screen.chargingCycles', defaultMessage: '充电次数' }),
     field: 'totalCount',
     unit: '次',
     floatLength: 0,
@@ -85,7 +89,11 @@ export const config: DigitalFlipperItemProps[] = [
 
 export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
   {
-    title: '充电桩实时功率：',
+    title:
+      formatMessage({
+        id: 'siteMonitor.chargingPileRealtimePower',
+        defaultMessage: '充电桩实时功率',
+      }) + '：',
     field: 'power',
     unit: 'kW',
     floatLength: 2,
@@ -103,7 +111,11 @@ export const realTimeStatisticConfig: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: '充电枪使用/总数：',
+    title:
+      formatMessage({
+        id: 'screen.chargingGunUsageTotalNumber',
+        defaultMessage: '充电枪使用/总数',
+      }) + '：',
     field: 'occupyCount',
     render: (num, entity) => {
       return (

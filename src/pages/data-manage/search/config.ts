@@ -8,11 +8,15 @@ import type {
 } from '@/components/TableSelect';
 import { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
+import { formatMessage } from '@/utils';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '数据采集点',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'modelName',
     width: 200,
     ellipsis: true,
@@ -24,21 +28,26 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     },
   },
   {
-    title: '数据采集点',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'paramName',
     width: 200,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '数据采集点标识',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPointIdIdentify',
+      defaultMessage: '数据采集点标识',
+    }),
     dataIndex: 'paramCode',
     width: 150,
     ellipsis: true,
     hideInSearch: true,
   },
 ];
-
 const dealTreeData: dealTreeDataType = (item) => {
   item.selectable = !!item.productId;
 };
@@ -46,13 +55,26 @@ const dealTreeData: dealTreeDataType = (item) => {
 export const getDeviceSearchColumns = (deviceId?: string) => {
   const searchColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
     {
-      title: '数据采集点',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPoints',
+        defaultMessage: '数据采集点',
+      }),
       dataIndex: 'collection',
       valueType: TABLETREESELECT,
       hideInTable: true,
       dependencies: deviceId ? ['siteId'] : [],
       formItemProps: {
-        rules: [{ required: true, message: '请选择数据采集点' }],
+        rules: [
+          {
+            required: true,
+            message:
+              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+              formatMessage({
+                id: 'siteManage.set.dataCollectionPoints',
+                defaultMessage: '数据采集点',
+              }),
+          },
+        ],
       },
       fieldProps: (form) => {
         const value = form?.getFieldValue?.('siteId');
@@ -62,7 +84,12 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           TableSearchType,
           any
         > = {
-          title: '选择数据采集点',
+          title:
+            formatMessage({ id: 'common.select', defaultMessage: '选择' }) +
+            formatMessage({
+              id: 'siteManage.set.dataCollectionPoints',
+              defaultMessage: '数据采集点',
+            }),
           treeProps: {
             fieldNames: {
               title: 'deviceName',
@@ -81,6 +108,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           valueId: 'selectName',
           valueName: 'paramName',
           limit: 2,
+          limitSelect: 250,
           onFocus: () => {
             return deviceId ? undefined : form?.validateFields(['siteId']);
           },
@@ -94,7 +122,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
 
 export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '时间',
+    title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
     dataIndex: 'date',
     valueType: 'dateRange',
     render: (_, record) => record.time,
@@ -109,7 +137,44 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     initialValue: [moment().startOf('day').subtract(6, 'd'), moment().endOf('day')],
     width: 150,
     formItemProps: {
-      rules: [{ required: true, message: '请选择时间' }],
+      rules: [
+        {
+          required: true,
+          message:
+            formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+            formatMessage({ id: 'common.time', defaultMessage: '时间' }),
+        },
+      ],
+    },
+    fieldProps: (form) => {
+      return {
+        onOpenChange: (open: boolean) => {
+          if (open) {
+            window.dataSearchDates = [];
+            window.dataSearchSelectDates = form?.getFieldValue?.('date');
+            form?.setFieldValue?.('date', []);
+          } else {
+            if (window.dataSearchDates?.[0] && window.dataSearchDates?.[1]) {
+              form?.setFieldValue?.('date', window.dataSearchDates);
+            } else {
+              form?.setFieldValue?.('date', window.dataSearchSelectDates);
+            }
+          }
+        },
+        onCalendarChange: (val: Moment[]) => {
+          window.dataSearchDates = [...(val || [])];
+        },
+        disabledDate: (current: Moment) => {
+          if (!window.dataSearchDates) {
+            return false;
+          }
+          const tooLate =
+            window.dataSearchDates?.[0] && current.diff(window.dataSearchDates?.[0], 'days') > 7;
+          const tooEarly =
+            window.dataSearchDates?.[1] && window.dataSearchDates?.[1].diff(current, 'days') > 7;
+          return !!tooEarly || !!tooLate;
+        },
+      };
     },
   },
 ];

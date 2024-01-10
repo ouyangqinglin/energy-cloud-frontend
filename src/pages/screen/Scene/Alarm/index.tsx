@@ -8,15 +8,19 @@ import styles from './index.less';
 import AlarmIcon from '@/assets/image/screen/alarm/告警状态_BG@2x.png';
 import AlarmNormalIcon from '@/assets/image/screen/alarm/BG_正常@2x.png';
 import { DeviceAlarm } from './type';
+import { formatMessage } from '@/utils';
 
 const AlarmInfo = ({
+  alarmShow,
   alarmCount,
   latestAlarm,
 }: {
+  alarmShow: boolean;
   alarmCount: number;
   latestAlarm?: DeviceAlarm;
 }) => {
   const [alarmOpen, setAlarmOpen] = useState(false);
+  const shouldAlarm = alarmCount && alarmShow;
   const switchAlarm = () => {
     setAlarmOpen(!alarmOpen);
   };
@@ -35,11 +39,11 @@ const AlarmInfo = ({
   }, []);
 
   useEffect(() => {
-    if (alarmCount) {
+    if (shouldAlarm) {
       api?.open({
         icon: (
           <div className={styles.icon}>
-            <span>通知</span>
+            <span>{formatMessage({ id: 'common.notice', defaultMessage: '通知' })}</span>
           </div>
         ),
         className: styles.alarmNotification,
@@ -52,8 +56,6 @@ const AlarmInfo = ({
   const onChange = () => {
     switchAlarm();
   };
-
-  const shouldAlarm = alarmCount;
 
   return (
     <Cell cursor="default" width={140} height={66} left={1308} top={249} zIndex={99999}>
@@ -68,10 +70,12 @@ const AlarmInfo = ({
         }}
       >
         {shouldAlarm ? (
-          <span className={styles.alarmContent}>告警: {alarmCount}</span>
+          <span className={styles.alarmContent}>
+            {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}: {alarmCount}
+          </span>
         ) : (
           <span className={styles.alarmContent} style={{ color: '#01cfa1', paddingLeft: 10 }}>
-            正常
+            {formatMessage({ id: 'common.normal', defaultMessage: '正常' })}
           </span>
         )}
       </div>

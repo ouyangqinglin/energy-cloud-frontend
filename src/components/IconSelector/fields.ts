@@ -225,6 +225,7 @@ const ytIcon = [
   'YTBattery',
   'YTChargeStack',
   'YTCabinet',
+  'YTAlarmFull',
   'YTAlarm',
   'YTInstaller',
   'YTCompany',
@@ -239,6 +240,15 @@ const ytIcon = [
   'YTCellSix',
   'YTCellNine',
   'YTExchange',
+  'YTSuperCharge',
+  'YTChargeGun',
+  'YTEmsTwo',
+  'YTBatteryPack',
+  'YTPcs',
+  'YTPvEnergy',
+  'YTDehumidifier',
+  'YTFireFight',
+  'YTGenerralDevice',
 ];
 
 const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];

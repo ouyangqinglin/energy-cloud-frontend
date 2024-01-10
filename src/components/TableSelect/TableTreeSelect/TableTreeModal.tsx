@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-12-08 14:43:24
+ * @LastEditTime: 2023-12-19 11:29:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -58,6 +58,7 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   multiple?: boolean; // 是否多选
   disabled?: boolean; // 是否禁用
   limit?: number; //  表单输入框显示已选项的数量，多余的数字显示
+  limitSelect?: number; // 限制选择的数量
   valueId?: string; // 数据字段id既表格id或者树id
   valueName?: string; // 数据字段name既表格name或者树name
   valueFormat?: (value: string, item: V) => string;
@@ -98,11 +99,12 @@ const TableTreeModal = <
 ) => {
   const {
     model,
-    title = '选择数据',
+    title = formatMessage({ id: 'taskManage.selectData', defaultMessage: '选择数据' }),
     open,
     onCancel,
     width = '1000px',
     multiple = true,
+    limitSelect,
     proTableProps = {},
     valueId = 'id',
     valueName = 'name',
@@ -157,10 +159,11 @@ const TableTreeModal = <
             tree: selectedTree,
           });
         });
-        return [...map.values()];
+        const result = [...map.values()];
+        return limitSelect ? result.slice(0, limitSelect) : result;
       });
     },
-    [valueId, valueName, tableIdSet, multiple],
+    [valueId, valueName, tableIdSet, multiple, limitSelect],
   );
 
   const onCleanSelected = useCallback(() => {
@@ -196,10 +199,10 @@ const TableTreeModal = <
               ['node' as string]: item,
             } as ValueType),
         );
-        setSelectedTags(result);
+        setSelectedTags(limitSelect ? result.slice(0, limitSelect) : result);
       }
     },
-    [valueId, valueName],
+    [valueId, valueName, limitSelect],
   );
 
   const onTreeCheck = useCallback(
@@ -334,8 +337,29 @@ const TableTreeModal = <
       >
         <div className={`ant-alert ant-alert-info ant-alert-no-icon mb12 ${styles.alert}`}>
           <div className="flex mb8">
-            <span className="flex1">已选择{selectedTags?.length || 0}项</span>
-            <a onClick={onCleanSelected}>清空</a>
+            <span className="flex1">
+              {formatMessage({ id: 'component.noticeIcon.selected', defaultMessage: '已选择' })}
+              <span className="cl-primary">{selectedTags?.length || 0}</span>
+              {formatMessage({ id: 'component.noticeIcon.item', defaultMessage: '项' })}
+              {!!limitSelect && (
+                <>
+                  (
+                  <span className="cl-primary">
+                    {formatMessage(
+                      {
+                        id: 'common.maxSelectItem',
+                        defaultMessage: `最多选择${limitSelect}项`,
+                      },
+                      { num: limitSelect },
+                    )}
+                  </span>
+                  )
+                </>
+              )}
+            </span>
+            <a onClick={onCleanSelected}>
+              {formatMessage({ id: 'component.noticeIcon.clear', defaultMessage: '清空' })}
+            </a>
           </div>
           <div>
             <div className={`flex1 ${styles.tagContain}`}>{tags}</div>

@@ -707,6 +707,16 @@ const routers: RouterType[] = [
         keepAlive: true,
         locale: 'menu.system.productDetail',
       },
+      {
+        path: '/system/version',
+        name: 'version',
+        icon: 'PartitionOutlined',
+        component: 'system/version/index',
+        access: 'authorize',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.version',
+      },
     ],
   },
   {
@@ -854,6 +864,17 @@ const routers: RouterType[] = [
         wrappers: ['@/components/KeepAlive'],
         KeepAlive: true,
         locale: 'menu.title.swagger',
+      },
+    ],
+  },
+  {
+    path: '/download',
+    layout: false,
+    routes: [
+      {
+        path: '/download/app',
+        name: 'download-app',
+        component: './download/downloadApp',
       },
     ],
   },

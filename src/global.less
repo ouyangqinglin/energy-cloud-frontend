@@ -62,6 +62,17 @@ body,
   }
 }
 
+.ant-badge {
+  .ant-badge-status-dot {
+    top: -2px;
+    width: 8px;
+    height: 8px;
+    &.ant-badge-status-default {
+      background-color: #8f9299;
+    }
+  }
+}
+
 canvas {
   display: block;
 }
@@ -335,10 +346,16 @@ div {
 }
 
 .table-expand-icon {
+  position: relative;
   display: block;
-  float: left;
+  float: right;
   width: 17px;
   margin-top: 4px;
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 .generate-mp(40);

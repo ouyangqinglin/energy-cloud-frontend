@@ -6,49 +6,62 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\index.tsx
  */
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
 import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
-import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import { useSubscribe } from '@/hooks';
 import styles from './index.less';
-import { isEmpty } from '@/utils';
+import { isEmpty, formatMessage } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
 };
 
 const Ems: React.FC<EmsType> = (props) => {
-  const { id, productId, deviceData, type } = props;
+  const { deviceData, showRemoteControl, type } = props;
 
-  const openSubscribe = useMemo(
-    () => !isEmpty(deviceData?.status) && deviceData?.status !== OnlineStatusEnum.Offline,
-    [deviceData],
-  );
-  const realTimeData = useSubscribe(id, true);
+  const [activeKey, setActiveKey] = useState('detail');
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
+
+  const onChange = useCallback((key) => {
+    setActiveKey(key);
+  }, []);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
       {
-        key: '1',
-        label: '运行数据',
-        children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
+        key: 'detail',
+        label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
       },
       {
-        key: '2',
-        label: '远程控制',
-        children: (
-          <Setting id={id} settingData={realTimeData} type={type} isLineLabel isDeviceChild />
-        ),
+        key: 'control',
+        label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
       },
     ];
   }, [realTimeData]);
 
   return (
     <>
-      <Tabs className={styles.tabs} items={tabItems} />
+      {showRemoteControl && <Tabs className={styles.tabs} items={tabItems} onChange={onChange} />}
+      {activeKey == 'detail' ? (
+        <Run
+          id={deviceData?.deviceId}
+          productId={deviceData?.productId}
+          realTimeData={realTimeData}
+        />
+      ) : (
+        <Setting
+          id={deviceData?.deviceId}
+          deviceData={deviceData}
+          settingData={realTimeData}
+          type={type}
+          isLineLabel
+          isDeviceChild
+        />
+      )}
     </>
   );
 };

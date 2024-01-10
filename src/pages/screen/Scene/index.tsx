@@ -22,11 +22,13 @@ import GeometrySystem from './GeometrySystem';
 import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselInSystemData';
 import AccumulatedPowerChart from './AccumulatedPowerChart';
 import { SiteInfoRes } from './StationOverview/type';
+import { formatMessage } from '@/utils';
 
 const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
+  const [alarmShow, setAlarmShow] = useState<boolean>(false);
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
 
   const EnergyDataWidget = useMemo(
@@ -34,7 +36,7 @@ const Scene = () => {
       <Cell key={'EnergyData'} cursor="default" width={400} height={589} left={24} top={468}>
         <DecorationCarousel
           panelStyle={{ padding: '17px 16px' }}
-          title="系统运行数据"
+          title={formatMessage({ id: 'screen.systemRunningData', defaultMessage: '系统运行数据' })}
           valueType="timeButtonGroup"
           onTimeButtonChange={setEnergyTimeType}
         >
@@ -63,7 +65,7 @@ const Scene = () => {
         top={81}
       >
         <DecorationCarousel
-          title="经济占比"
+          title={formatMessage({ id: 'screen.economicProportion', defaultMessage: '经济占比' })}
           valueType="timeButtonGroup"
           onTimeButtonChange={setRevenueTimeType}
         >
@@ -93,12 +95,12 @@ const Scene = () => {
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />
-      <ButtonGroupCarousel onChange={switchGeometry} />
+      <ButtonGroupCarousel onChange={switchGeometry} setAlarmShow={setAlarmShow} />
       {geometryMode === SystemDiagramType.CUSTOMER && (
-        <Geometry alarmDeviceTree={alarmDeviceTree} />
+        <Geometry alarmDeviceTree={alarmDeviceTree} alarmShow={alarmShow} />
       )}
       {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
-      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} />
+      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} alarmShow={alarmShow} />
       <FullScreen />
     </>
   );

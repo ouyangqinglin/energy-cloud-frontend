@@ -32,6 +32,7 @@ import BindDevice from './Dialog/BindDevice';
 import { useWatchingGunStatus } from './Subscribe/useWatchingGunStatus';
 import CeilGun from './Gun';
 import type { AlarmTreeData } from '../Alarm/useSubscribe';
+import { formatMessage } from '@/utils';
 
 type BindDeviceType = {
   id?: number | null;
@@ -47,7 +48,13 @@ const DEFAULT_DEVICE_INFO: DeviceInfoType = {
 // new Map<gunDeviceId, deviceId>
 const gunIdsMapToDeviceId = new Map<number, number>();
 
-const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
+const Geometry = ({
+  alarmDeviceTree,
+  alarmShow,
+}: {
+  alarmDeviceTree: AlarmTreeData;
+  alarmShow: boolean;
+}) => {
   const [ceilsConfig, setCeilsConfig] = useState(
     [...otherCeils, ...chargingStackCeils].map((item, index) => {
       if (item?.cellStyle) {
@@ -195,7 +202,9 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
     const { deviceId, deviceType, loopNum, mark, deviceName } = cell;
 
     if (!deviceId || !deviceType) {
-      message.error('该设备未配置');
+      message.error(
+        formatMessage({ id: 'screen.deviceNotConfigured', defaultMessage: '该设备未配置' }),
+      );
       return;
     }
     setOpenDeviceInfo(true);
@@ -290,7 +299,7 @@ const Geometry = ({ alarmDeviceTree }: { alarmDeviceTree: AlarmTreeData }) => {
                   ...cellStyle,
                 }}
               />
-              {alarmStatus?.status && alarmConfig ? (
+              {alarmShow && alarmStatus?.status && alarmConfig ? (
                 <div
                   className={styles.deviceAlarm}
                   style={{

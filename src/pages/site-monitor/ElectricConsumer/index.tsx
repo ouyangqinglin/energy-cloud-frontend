@@ -15,6 +15,7 @@ import styles from './index.less';
 import { ActionType } from '@ant-design/pro-table';
 import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
+import { formatMessage } from '@/utils';
 
 export const enum TabType {
   CHARGE_STACK = 'CHARGE_STACK',
@@ -86,7 +87,7 @@ const Energy = () => {
     <>
       <SiteLabel className="px24 pt24 mb0" onChange={onChange}>
         {' '}
-        用电单元
+        {formatMessage({ id: 'siteMonitor.consumptionUnit', defaultMessage: '用电单元' })}
       </SiteLabel>
       <YTProTable<DeviceInfo, DeviceInfo>
         actionRef={actionRef}
@@ -103,12 +104,12 @@ const Energy = () => {
               className={styles.tabWrapper}
               items={[
                 {
-                  label: `充电桩`,
+                  label: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
                   key: TabType.CHARGE_STACK,
                   children: [],
                 },
                 {
-                  label: `其他负载`,
+                  label: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
                   key: TabType.OTHER_DEVICE,
                   children: [],
                 },

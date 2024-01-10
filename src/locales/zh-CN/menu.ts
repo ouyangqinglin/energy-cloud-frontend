@@ -43,6 +43,7 @@ export default {
   'menu.welcome': '欢迎',
   'menu.system': '系统管理',
   'menu.system.productDetail': '产品详情',
+  'menu.version': '版本管理',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',

@@ -27,14 +27,14 @@ import {
   timeFormat,
 } from '@/utils/format';
 import type { PvInverterType } from './data';
-import { isEmpty } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import YTProTable from '@/components/YTProTable';
 import { ProColumns } from '@ant-design/pro-components';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
 const RealTime: React.FC<
   RealTimeProps & {
-    productId: string;
+    productId?: DeviceTypeEnum;
     loopNum: number;
   }
 > = (props) => {
@@ -53,41 +53,138 @@ const RealTime: React.FC<
 
   const runItems = useMemo<DetailItem[]>(() => {
     return [
-      { label: '电网A相电压', field: 'Ua', format: voltageFormat },
-      { label: '电网A相电流', field: 'Ia', format: currentFormat },
-      { label: '电网B相电压', field: 'Ub', format: voltageFormat },
-      { label: '电网B相电流', field: 'Ib', format: currentFormat },
-      { label: '电网C相电压', field: 'Uc', format: voltageFormat },
-      { label: '电网C相电流', field: 'Ic', format: currentFormat },
-      { label: '有功功率', field: 'P', format: powerFormat },
-      { label: '当日发电量', field: 'dayCap', format: powerHourFormat },
-      { label: '无功功率', field: 'reactivePower', format: noPowerFormat },
-      { label: '累计发电量', field: 'totalCap', format: powerHourFormat },
-      { label: '功率因数', field: 'powerFactor' },
       {
-        label: '逆变器额定功率',
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'A' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }),
+        field: 'Ua',
+        format: voltageFormat,
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'A' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流' }),
+        field: 'Ia',
+        format: currentFormat,
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'B' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }),
+        field: 'Ub',
+        format: voltageFormat,
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'B' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流' }),
+        field: 'Ib',
+        format: currentFormat,
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'C' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }),
+        field: 'Uc',
+        format: voltageFormat,
+      },
+      {
+        label:
+          formatMessage({ id: 'siteMonitor.powerGrid', defaultMessage: '电网' }) +
+          'C' +
+          formatMessage({ id: 'siteMonitor.phase', defaultMessage: '相' }) +
+          formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流' }),
+        field: 'Ic',
+        format: currentFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.activePower', defaultMessage: '有功功率' }),
+        field: 'P',
+        format: powerFormat,
+      },
+      {
+        label: formatMessage({
+          id: 'siteMonitor.dayPowerGeneration',
+          defaultMessage: '当日发电量',
+        }),
+        field: 'dayCap',
+        format: powerHourFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.reactivePower', defaultMessage: '无功功率' }),
+        field: 'reactivePower',
+        format: noPowerFormat,
+      },
+      {
+        label: formatMessage({
+          id: 'siteMonitor.cumulativePowerGeneration',
+          defaultMessage: '累计发电量',
+        }),
+        field: 'totalCap',
+        format: powerHourFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.powerFactor', defaultMessage: '功率因数' }),
+        field: 'powerFactor',
+      },
+      {
+        label: formatMessage({
+          id: 'siteMonitor.inverterRatedPower',
+          defaultMessage: '逆变器额定功率',
+        }),
         field: 'ratedPowerOfInverter',
         format: powerFormat,
         show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
       },
-      { label: '输出方式', field: 'outputMethod', showExtra: false },
-      { label: '电网频率', field: 'elecFreq', format: frequencyFormat },
-      { label: '内部温度', field: 'temperature', format: tempFormat },
       {
-        label: '逆变器开机时间',
+        label: formatMessage({ id: 'siteMonitor.outputMode', defaultMessage: '输出方式' }),
+        field: 'outputMethod',
+        showExtra: false,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.gridFrequency', defaultMessage: '电网频率' }),
+        field: 'elecFreq',
+        format: frequencyFormat,
+      },
+      {
+        label: formatMessage({ id: 'siteMonitor.internalTemperature', defaultMessage: '内部温度' }),
+        field: 'temperature',
+        format: tempFormat,
+      },
+      {
+        label: formatMessage({
+          id: 'siteMonitor.inverterStartupTime',
+          defaultMessage: '逆变器开机时间',
+        }),
         field: 'openTime',
         format: timeFormat,
         showExtra: false,
         show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
       },
       {
-        label: '绝缘阻抗值',
+        label: formatMessage({
+          id: 'siteMonitor.insulationImpedanceValue',
+          defaultMessage: '绝缘阻抗值',
+        }),
         field: 'insulationImpedanceValue',
         format: mohmFormat,
         show: (productId as DeviceTypeEnum) != DeviceTypeEnum.GRWTPvInverter,
       },
       {
-        label: '逆变器关机时间',
+        label: formatMessage({
+          id: 'siteMonitor.inverterShutdownTime',
+          defaultMessage: '逆变器关机时间',
+        }),
         field: 'closeTime',
         format: timeFormat,
         showExtra: false,
@@ -99,11 +196,11 @@ const RealTime: React.FC<
   const tableData = useMemo(() => {
     const data: PvInverterType[] = [
       {
-        title: '电压（V）',
+        title: formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }) + '（V）',
         field: 'Upv',
       },
       {
-        title: '电流（A）',
+        title: formatMessage({ id: 'siteMonitor.current', defaultMessage: '电流' }) + '（A）',
         field: 'Ipv',
       },
     ];
@@ -113,7 +210,7 @@ const RealTime: React.FC<
   useEffect(() => {
     const columns: ProColumns<PvInverterType>[] = [
       {
-        title: '回路',
+        title: formatMessage({ id: 'siteMonitor.loop', defaultMessage: '回路' }),
         dataIndex: 'title',
         width: 90,
       },
@@ -142,9 +239,11 @@ const RealTime: React.FC<
       ) : (
         <>
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="直流侧" />
+            <Label title={formatMessage({ id: 'siteMonitor.dcSide', defaultMessage: '直流侧' })} />
           ) : (
-            <Detail.Label title="直流侧" />
+            <Detail.Label
+              title={formatMessage({ id: 'siteMonitor.dcSide', defaultMessage: '直流侧' })}
+            />
           )}
           <YTProTable
             className="mb32"
@@ -157,9 +256,11 @@ const RealTime: React.FC<
             scroll={{ y: 'auto' }}
           />
           {labelType == LabelTypeEnum.DotLabel ? (
-            <Label title="交流侧" />
+            <Label title={formatMessage({ id: 'siteMonitor.acSide', defaultMessage: '交流侧' })} />
           ) : (
-            <Detail.Label title="交流侧" />
+            <Detail.Label
+              title={formatMessage({ id: 'siteMonitor.acSide', defaultMessage: '交流侧' })}
+            />
           )}
           <Detail data={equipmentData} items={runItems} {...(detailProps || {})} />
         </>

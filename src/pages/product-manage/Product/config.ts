@@ -8,6 +8,7 @@
  */
 
 import { getFactoryList, getProductModelByType } from '@/services/equipment';
+import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
 
 export type ProductDataType = {
@@ -21,13 +22,13 @@ export const getColumns = (
 ): ProColumns<ProductDataType>[] => {
   return [
     {
-      title: '序号',
+      title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       valueType: 'index',
       width: 48,
     },
     productTypeColumn,
     {
-      title: '产品型号',
+      title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
       dataIndex: 'model',
       valueType: 'select',
       formItemProps: {
@@ -52,14 +53,14 @@ export const getColumns = (
       },
     },
     {
-      title: '产品ID',
+      title: formatMessage({ id: 'user.productId', defaultMessage: '产品ID' }),
       dataIndex: 'id',
       width: 120,
       ellipsis: true,
       hideInSearch: true,
     },
     {
-      title: '产品厂商',
+      title: formatMessage({ id: 'user.productManufacturer', defaultMessage: '产品厂商' }),
       dataIndex: 'productFactory',
       valueType: 'select',
       formItemProps: {
@@ -79,7 +80,7 @@ export const getColumns = (
       },
     },
     {
-      title: '录入时间',
+      title: formatMessage({ id: 'user.inputTime', defaultMessage: '录入时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => record.createTime,

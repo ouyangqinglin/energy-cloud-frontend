@@ -21,7 +21,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { chargeType, onlineStatus } from '@/utils/dictionary';
 import { getPage, unbindDevice } from './service';
 import type { DeviceDataType } from '@/services/equipment';
-import { getDevicePage, getProductTypeList } from '@/services/equipment';
+import { getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
@@ -233,7 +233,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '车牌号' }),
         dataIndex: 'carNumber',
-        width: 150,
+        width: 130,
         ellipsis: true,
         fieldProps: {
           placeholder: '请选择车辆行驶状态',
@@ -248,7 +248,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         fieldProps: {
           placeholder: '请选择车队',
         },
-        width: 120,
+        width: 140,
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '充电起始SOC' }),

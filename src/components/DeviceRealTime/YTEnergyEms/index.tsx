@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:44:27
- * @LastEditTime: 2023-12-05 20:17:22
+ * @LastEditTime: 2023-12-20 15:27:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\YTEnergyEms\index.tsx
  */
@@ -10,25 +10,24 @@ import React, { useMemo } from 'react';
 import { DeviceRealTimeType } from '../config';
 import { Tabs, TabsProps } from 'antd';
 import Run from './Run';
-// import Setting from '@/components/ScreenDialog/EnergyDialog/setting';
-import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import { useAuthority, useSubscribe } from '@/hooks';
 import styles from './index.less';
 import Setting from './Control';
-import { isEmpty } from '@/utils';
+import { formatMessage } from '@/utils';
 
 export type EmsType = DeviceRealTimeType & {
   type?: DeviceTypeEnum;
 };
 
 const YTEnergyEms: React.FC<EmsType> = (props) => {
-  const { id, productId, deviceData, type } = props;
+  const { deviceData, showRemoteControl, type } = props;
 
   const { authorityMap } = useAuthority([
     'iot:device:remoteControl',
     'iot:device:remoteControl:systemStatusControl',
   ]);
-  const realTimeData = useSubscribe(id, true);
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return deviceData?.masterSlaveMode == 1 || !authorityMap.get('iot:device:remoteControl')
@@ -36,15 +35,21 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
       : [
           {
             key: '1',
-            label: '运行数据',
-            children: <Run id={id} productId={productId} realTimeData={realTimeData} />,
+            label: formatMessage({ id: 'siteMonitor.operatingData', defaultMessage: '运行数据' }),
+            children: (
+              <Run
+                id={deviceData?.deviceId}
+                productId={deviceData?.productId}
+                realTimeData={realTimeData}
+              />
+            ),
           },
           {
             key: '2',
-            label: '远程控制',
+            label: formatMessage({ id: 'siteMonitor.remoteControl', defaultMessage: '远程控制' }),
             children: authorityMap.get('iot:device:remoteControl:systemStatusControl') ? (
               <Setting
-                id={id}
+                id={deviceData?.deviceId}
                 deviceData={deviceData}
                 settingData={realTimeData}
                 type={type}
@@ -60,8 +65,14 @@ const YTEnergyEms: React.FC<EmsType> = (props) => {
 
   return (
     <>
-      {deviceData?.masterSlaveMode == 1 || !authorityMap.get('iot:device:remoteControl') ? (
-        <Run id={id} productId={productId} realTimeData={realTimeData} />
+      {deviceData?.masterSlaveMode == 1 ||
+      !authorityMap.get('iot:device:remoteControl') ||
+      !showRemoteControl ? (
+        <Run
+          id={deviceData?.deviceId}
+          productId={deviceData?.productId}
+          realTimeData={realTimeData}
+        />
       ) : (
         <Tabs className={styles.tabs} items={tabItems} />
       )}

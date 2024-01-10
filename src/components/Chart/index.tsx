@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 17:39:51
- * @LastEditTime: 2023-08-30 16:59:52
+ * @LastEditTime: 2023-12-28 10:48:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\index.tsx
  */
@@ -40,6 +40,10 @@ const Chart: React.FC<ChartProps> = (props) => {
       } else {
         result.yAxis.min = min || 0;
       }
+      option?.yAxis?.forEach?.((item: any) => {
+        item.min = result.yAxis.min;
+        item.max = result.yAxis.max;
+      });
       merge(result, defaultOption, option);
       return result;
     } else {

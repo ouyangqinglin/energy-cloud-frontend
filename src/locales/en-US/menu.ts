@@ -36,6 +36,7 @@ export default {
   'menu.systemManage.organization': 'Organization Manage',
   'menu.systemManage.product': 'Product Manage',
   'menu.welcome': 'Welcome',
+  'menu.version': 'Version',
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
   'menu.admin': 'Admin',

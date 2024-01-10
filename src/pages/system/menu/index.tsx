@@ -1,4 +1,11 @@
-import { PlusOutlined, DeleteOutlined, DownOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  RightOutlined,
+  CaretDownFilled,
+  CaretRightFilled,
+} from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
@@ -153,8 +160,15 @@ const MenuTableList: React.FC = () => {
     {
       title: <FormattedMessage id="system.Menu.menu_name" defaultMessage="菜单名称" />,
       dataIndex: 'menuName',
-      valueType: 'text',
+      width: 200,
       ellipsis: true,
+      render: (_, record) => {
+        return (
+          <>
+            <span>{record.menuName}</span>
+          </>
+        );
+      },
     },
     {
       title: <FormattedMessage id="system.Menu.icon" defaultMessage="菜单图标" />,
@@ -311,12 +325,12 @@ const MenuTableList: React.FC = () => {
                   {expandable ? (
                     <>
                       {expanded ? (
-                        <DownOutlined
+                        <CaretDownFilled
                           className="mr8 cursor table-expand-icon"
                           onClick={(e) => onExpand(record, e)}
                         />
                       ) : (
-                        <RightOutlined
+                        <CaretRightFilled
                           className="mr8 cursor table-expand-icon"
                           onClick={(e) => onExpand(record, e)}
                         />

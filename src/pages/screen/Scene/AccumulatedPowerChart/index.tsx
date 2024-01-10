@@ -6,31 +6,32 @@ import StatisticChart from '../SubsystemStatistic/Chart';
 import { convertToData, sortedData } from '../SubsystemStatistic/Chart/helper';
 import type { ChartData } from '../SubsystemStatistic/Chart/type';
 import { getAccumulatedPowerChart } from './service';
+import { formatMessage } from '@/utils';
 
 const timeRange = ['00'];
 const chartConfigMap = {
   me: {
-    name: '市电',
+    name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
     unit: 'kWh',
   },
   pv: {
-    name: '光伏发电',
+    name: formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }),
     unit: 'kWh',
   },
   esCharge: {
-    name: '储能充电',
+    name: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }),
     unit: 'kWh',
   },
   esDischarge: {
-    name: '储能放电',
+    name: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }),
     unit: 'kWh',
   },
   cs: {
-    name: '充电桩',
+    name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
     unit: 'kWh',
   },
   load: {
-    name: '负载',
+    name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
     unit: 'kWh',
   },
 };
@@ -65,33 +66,36 @@ const AccumulatedPowerChart = () => {
       height={266}
       chartConfigMap={{
         me: {
-          name: '市电',
+          name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
           unit: 'kWh',
         },
         pv: {
-          name: '光伏发电',
+          name: formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }),
           unit: 'kWh',
         },
         esCharge: {
-          name: '储能充电',
+          name: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }),
           unit: 'kWh',
         },
         esDischarge: {
-          name: '储能放电',
+          name: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }),
           unit: 'kWh',
         },
         cs: {
-          name: '充电桩',
+          name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
           unit: 'kWh',
         },
         load: {
-          name: '负载',
+          name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
           unit: 'kWh',
         },
       }}
       barSize={3}
       color={['#FF7B7B', '#FFD15C', '#159AFF', '#00E0DB', '#01CFA1', '#FF8144']}
-      title="储能充放电量"
+      title={formatMessage({
+        id: 'screen.storageChargingDischargingCapacity',
+        defaultMessage: '储能充放电量',
+      })}
       legendLayout={'vertical'}
       chartData={sortedData(chartData)}
     />

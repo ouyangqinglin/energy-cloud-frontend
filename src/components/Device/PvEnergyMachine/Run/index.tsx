@@ -11,6 +11,7 @@ import React from 'react';
 import Detail from '@/components/Detail';
 import { runItems } from './helper';
 import styles from '../index.less';
+import { formatMessage } from '@/utils';
 
 export type RunType = {
   realTimeData?: Record<string, any>;
@@ -24,7 +25,7 @@ const Run: React.FC<RunType> = (props) => {
       <div className={`card-wrap shadow p20 ${styles.run}`}>
         <Detail.Label
           className="mb16"
-          title="运行状态"
+          title={formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' })}
           size="small"
           showLine={false}
         ></Detail.Label>

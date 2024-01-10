@@ -17,6 +17,7 @@ import {
 } from './config';
 import ConfigModal from '../../../ConfigModal';
 import { useAuthority } from '@/hooks';
+import { formatMessage } from '@/utils';
 
 export type StackProps = {
   deviceId: string;
@@ -37,14 +38,23 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:batterySetting:batterySystemSetting')) {
       result.push({
         label: (
-          <Detail.Label title="电池系统使能设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.batterySystemEnablementSettings',
+              defaultMessage: '电池系统使能设置',
+            })}
+          >
             <ConfigModal
-              title={'电池系统使能设置'}
+              title={formatMessage({
+                id: 'device.batterySystemEnablementSettings',
+                defaultMessage: '电池系统使能设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
               columns={powerParamsColumns}
               serviceId={'EnableBatterySystemSelfStartFunction'}
+              authority="iot:device:config:batterySetting:batterySystemSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -54,10 +64,18 @@ const SystemSetting: React.FC<StackProps> = (props) => {
     if (authorityMap.get('iot:device:config:batterySetting:batteryProtectSetting')) {
       result.push({
         label: (
-          <Detail.Label title="电池保护参数设置">
+          <Detail.Label
+            title={formatMessage({
+              id: 'device.batteryProtectionParameterSetting',
+              defaultMessage: '电池保护参数设置',
+            })}
+          >
             <ConfigModal
               width={'816px'}
-              title={'电池保护参数设置'}
+              title={formatMessage({
+                id: 'device.batteryProtectionParameterSetting',
+                defaultMessage: '电池保护参数设置',
+              })}
               deviceId={deviceId}
               deviceData={deviceData}
               realTimeData={realTimeData}
@@ -66,6 +84,7 @@ const SystemSetting: React.FC<StackProps> = (props) => {
               colProps={{
                 span: 8,
               }}
+              authority="iot:device:config:batterySetting:batteryProtectSetting:distribute"
             />
           </Detail.Label>
         ),
@@ -84,7 +103,6 @@ const SystemSetting: React.FC<StackProps> = (props) => {
           detailProps={{
             colon: false,
             labelStyle: { width: 200 },
-            valueStyle: { width: '40%' },
           }}
         />
       </div>

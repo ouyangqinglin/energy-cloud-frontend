@@ -2,26 +2,34 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-11 14:34:18
+ * @LastEditTime: 2023-12-26 16:50:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
-import React, { useRef, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Modal, message, Tooltip } from 'antd';
 import { useHistory, useModel } from 'umi';
-import { DownOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  CaretDownFilled,
+  CaretRightFilled,
+  DownOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { onlineStatus } from '@/utils/dictionary';
 import { removeData, unbindDevice } from './service';
-import { getDevicePage, DeviceDataType, getProductTypeList } from '@/services/equipment';
+import { onlineStatus } from '@/utils/dict';
+import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
-import { SearchParams } from '@/hooks/useSearchSelect';
+import { useSiteColumn, useAuthority } from '@/hooks';
+// import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
+import { productTypeIconMap } from '@/utils/IconUtil';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -32,6 +40,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
+  const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
   const [siteColumn] = useSiteColumn<DeviceDataType>({
@@ -43,28 +52,33 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:device:add',
   ]);
 
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
+  const requestProductTypeTree = () => {
+    return getProductTypeTree().then(({ data }) => {
+      setProductTypeList(data || []);
     });
+  };
+
+  useEffect(() => {
+    requestProductTypeTree();
   }, []);
 
-  const [productTypeColumn] = useSearchSelect<DeviceDataType>({
-    proColumns: {
-      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-      dataIndex: 'productTypeName',
-      formItemProps: {
-        name: 'productTypeId',
-      },
-      hideInTable: true,
+  const productTypeColumn = {
+    title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
+    dataIndex: 'productTypeName',
+    formItemProps: {
+      name: 'productTypeInfo',
     },
-    request: requestProductType,
-  });
+    hideInTable: true,
+    valueType: 'cascader',
+    fieldProps: {
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+      },
+      options: productTypeList,
+      changeOnSelect: true,
+    },
+  };
   const onCancelSn = useCallback(() => {
     setSnOpen(false);
   }, []);
@@ -85,7 +99,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     (rowData: DeviceDataType) => {
       history.push({
         pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
+        search: `?id=${rowData.deviceId}`,
       });
     },
     [isStationChild],
@@ -96,13 +110,22 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   };
 
   const handleRequest = (params: any) => {
-    return getDevicePage({ ...params, rootFilter: 1, ...(isStationChild ? { siteId } : {}) });
+    const { productTypeInfo, ...rest } = params;
+    const [productTypeId, productId] = productTypeInfo || [];
+    const filters = productId ? { productId } : { productTypeId };
+    return getDevicePage({
+      ...rest,
+      ...filters,
+      isFindParentByChild: 1,
+      rootFilter: 1,
+      ...(isStationChild ? { siteId } : {}),
+    });
   };
 
   const toolBar = useCallback(
     () =>
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:add') ||
-      authorityMap.get('iot:device:add')
+      (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
+      (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
             <Button type="primary" key="add" onClick={onAddClick}>
               <PlusOutlined />
@@ -110,15 +133,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             </Button>,
           ]
         : [],
-    [authorityMap],
+    [authorityMap, isStationChild],
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="detail" onClick={() => onDetailClick(record)}>
-        <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
-      </Button>
       {!isStationChild && record.canBeDeleted !== 0 ? (
         <Button
+          className="pl0"
           type="link"
           size="small"
           key="delete"
@@ -158,6 +179,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       record.canUnbind == 1 &&
       authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
+          className="pl0"
           type="link"
           size="small"
           key="unbind"
@@ -202,8 +224,21 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 200,
+        width: 220,
         ellipsis: true,
+        render: (_, record) => {
+          const Component =
+            productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
+            productTypeIconMap.get(DeviceProductTypeEnum.Default);
+          return (
+            <>
+              <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
+                {Component && <Component className="mr8" />}
+                {record.name}
+              </span>
+            </>
+          );
+        },
       },
       {
         title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
@@ -221,7 +256,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'model',
-        width: 150,
+        width: 220,
         hideInSearch: true,
         ellipsis: true,
       },
@@ -273,7 +308,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 120,
+        width: 80,
         fixed: 'right',
         render: rowBar,
       },
@@ -296,12 +331,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                 {expandable ? (
                   <>
                     {expanded ? (
-                      <DownOutlined
+                      <CaretDownFilled
                         className="mr8 cursor table-expand-icon"
                         onClick={(e) => onExpand(record, e)}
                       />
                     ) : (
-                      <RightOutlined
+                      <CaretRightFilled
                         className="mr8 cursor table-expand-icon"
                         onClick={(e) => onExpand(record, e)}
                       />
