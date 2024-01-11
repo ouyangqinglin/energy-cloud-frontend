@@ -331,10 +331,10 @@ export const masterSlaveEnum: ValueEnum = {
 };
 
 export const connectEnum: ValueEnum = {
-  0: {
+  1: {
     text: formatMessage({ id: 'common.connect', defaultMessage: '连接' }),
   },
-  1: {
+  0: {
     text: formatMessage({ id: 'common.break', defaultMessage: '断开' }),
   },
 };

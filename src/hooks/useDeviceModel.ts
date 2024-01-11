@@ -17,12 +17,13 @@ import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type useDeviceModelProps = {
   productId?: DeviceTypeEnum;
+  deviceId?: string;
   isGroup?: boolean;
   page?: DeviceServicePageEnum;
 };
 
 const useDeviceModel = (props: useDeviceModelProps) => {
-  const { productId, isGroup, page } = props;
+  const { productId, deviceId, isGroup, page } = props;
 
   const [modelMap, setModelMap] = useState<Record<string, DeviceModelType>>({});
   const [detailGroup, setDetailGroup] = useState<DeviceModelDescribeType[]>([]);
@@ -32,8 +33,8 @@ const useDeviceModel = (props: useDeviceModelProps) => {
   });
 
   useEffect(() => {
-    if (productId) {
-      run({ productId }).then((res) => {
+    if (productId || deviceId) {
+      run(deviceId ? { deviceId } : { productId }).then((res) => {
         let result = {};
         if (isGroup) {
           const serviceGroupData = res?.data?.find?.((item) => item?.id == page);
@@ -65,7 +66,7 @@ const useDeviceModel = (props: useDeviceModelProps) => {
         }
       });
     }
-  }, [productId, isGroup]);
+  }, [productId, deviceId, isGroup]);
 
   return {
     loading,

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 14:03:18
- * @LastEditTime: 2023-12-18 16:03:06
+ * @LastEditTime: 2024-01-11 15:40:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Meter\index.tsx
  */
@@ -44,7 +44,7 @@ const Meter: React.FC<MeterProps> = (props) => {
 
   return (
     <>
-      <Card>{gridItem}</Card>
+      <Card className="mb24">{gridItem}</Card>
     </>
   );
 };

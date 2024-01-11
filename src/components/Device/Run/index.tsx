@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2023-12-29 14:32:05
+ * @LastEditTime: 2024-01-11 15:37:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -11,7 +11,7 @@ import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Meter from '@/components/Meter';
 import { GridItemType } from '@/components/Meter/helper';
-import { useAuthority } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import { DeviceDataType } from '@/services/equipment';
 import {
   DeviceModelAuthorityType,
@@ -42,6 +42,11 @@ const Run: React.FC<RunType> = (props) => {
     title: '',
     collection: '',
   });
+  const extralDeviceIds = useMemo(() => {
+    const result = getPropsFromTree(groupData, 'deviceId');
+    return Array.from(new Set(result));
+  }, [groupData]);
+  const extralDeviceRealTimeData = useSubscribe(extralDeviceIds, true);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -121,6 +126,12 @@ const Run: React.FC<RunType> = (props) => {
       result.push?.({
         field: item?.id || '',
         label: item?.name,
+        valueInterceptor: (_, data) => {
+          if (item?.deviceId) {
+            const realField = item?.id?.split?.('.') || [];
+            return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+          }
+        },
         format: (value) => formatModelValue(value, item?.dataType || {}),
       });
     });
@@ -229,7 +240,7 @@ const Run: React.FC<RunType> = (props) => {
       }
       return result;
     },
-    [realTimeData, deviceData, getDetailItems, passAuthority, getGridComponent, components],
+    [deviceData, getDetailItems, passAuthority, getGridComponent, components],
   );
 
   const groupsItems = useMemo(() => {
@@ -238,13 +249,13 @@ const Run: React.FC<RunType> = (props) => {
       result.push(...getGroupItems(item));
     });
     return result;
-  }, [groupData, getGroupItems, realTimeData, authorityMap]);
+  }, [groupData, getGroupItems, authorityMap]);
 
   return (
     <>
       {groupsItems.length ? (
         <Detail.Group
-          data={realTimeData}
+          data={{ ...realTimeData, ...extralDeviceRealTimeData }}
           items={groupsItems}
           detailProps={{
             extral,
@@ -253,7 +264,7 @@ const Run: React.FC<RunType> = (props) => {
           }}
         />
       ) : (
-        <Empty />
+        <Empty className="mt20" />
       )}
     </>
   );

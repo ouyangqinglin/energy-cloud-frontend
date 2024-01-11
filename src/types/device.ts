@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-04 10:34:17
- * @LastEditTime: 2024-01-04 16:00:44
+ * @LastEditTime: 2024-01-11 15:43:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
@@ -63,6 +63,8 @@ export type DeviceStructType = {
 
 export type DeviceServiceModelType = {
   id?: string;
+  deviceId?: string;
+  parentId?: string;
   serviceId?: string;
   name?: string;
   required?: boolean;
@@ -84,6 +86,8 @@ export type DeviceServiceModelType = {
 
 export type DeviceServiceType = {
   id?: string;
+  deviceId?: string;
+  disabled?: string;
   name?: string;
   groupName?: string;
   showType?: DeviceModelShowTypeEnum;

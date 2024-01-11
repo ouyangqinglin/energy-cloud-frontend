@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 23:29:03
- * @LastEditTime: 2023-07-19 10:06:31
+ * @LastEditTime: 2024-01-10 14:01:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\LineLabel.tsx
  */

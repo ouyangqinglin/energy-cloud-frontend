@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2024-01-09 16:09:13
+ * @LastEditTime: 2024-01-11 10:42:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
@@ -35,7 +35,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
     loading,
     modelMap,
   } = useDeviceModel({
-    productId: deviceData?.productId,
+    deviceId: deviceData?.deviceId,
     isGroup: true,
     page: DeviceServicePageEnum.RemoteControl,
   });

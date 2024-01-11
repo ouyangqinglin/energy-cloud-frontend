@@ -2,14 +2,92 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 16:00:49
- * @LastEditTime: 2023-11-27 16:17:07
+ * @LastEditTime: 2024-01-11 13:52:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
 import React from 'react';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { Col, Row, TimePicker } from 'antd';
+import { Col, FormInstance, Row, TimePicker } from 'antd';
+import { Moment } from 'moment';
+import { formatMessage, formatModelValue } from '@/utils';
+import moment from 'moment';
+import { DeviceServiceModelType } from '@/types/device';
+
+const hourFormat = 'HH:mm';
+const contrastDate = '2023-01-01 ';
+
+export const validateAllTime = (value: any, field: string) => {
+  if (
+    value?.[0]?.[field]?.[0]?.format?.(hourFormat) != '00:00' ||
+    value?.[value?.length - 1]?.[field]?.[1]?.format?.(hourFormat) != '23:59'
+  ) {
+    return Promise.reject(
+      formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }) +
+        formatMessage({ id: 'common.should24Hour', defaultMessage: '应满24小时' }),
+    );
+  } else {
+    return Promise.resolve();
+  }
+};
+
+export const validatorTime = (
+  rule: any,
+  value: string,
+  field: string,
+  getFieldValue: FormInstance['getFieldValue'],
+) => {
+  const valueArr = value?.split?.('-');
+  const periodOfTime = getFieldValue(field);
+  const ruleField = rule?.field?.split?.('.');
+  const index = ruleField?.[1] * 1;
+  const prevValue: string[] = periodOfTime?.[index - 1]?.[ruleField?.[2]]?.split?.('-');
+  const nextValue: string[] = periodOfTime?.[index + 1]?.[ruleField?.[2]]?.split?.('-');
+  if (valueArr && valueArr.length) {
+    if (
+      prevValue &&
+      prevValue.length &&
+      moment(contrastDate + valueArr[0]).isBefore(moment(contrastDate + prevValue[1]))
+    ) {
+      return Promise.reject(
+        new Error(
+          formatMessage(
+            {
+              id: 'common.timeStartShouldGreaterEnd',
+              defaultMessage: `时段${index + 1}开始时间应大于等于时段${index}结束时间`,
+            },
+            {
+              start: index + 1,
+              end: index,
+            },
+          ),
+        ),
+      );
+    }
+    if (
+      nextValue &&
+      nextValue.length &&
+      moment(contrastDate + valueArr[1]).isAfter(moment(contrastDate + nextValue[0]))
+    ) {
+      return Promise.reject(
+        new Error(
+          formatMessage(
+            {
+              id: 'common.timeStartShouldGreaterEnd',
+              defaultMessage: `时段${index + 1}结束时间应小于等于时段${index + 2}开始时间`,
+            },
+            {
+              end: index + 1,
+              start: index + 2,
+            },
+          ),
+        ),
+      );
+    }
+  }
+  return Promise.resolve();
+};
 
 export const timeRangeColumn: ProFormColumnsType = {
   valueType: 'formList',

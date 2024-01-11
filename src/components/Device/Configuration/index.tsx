@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:22:51
- * @LastEditTime: 2024-01-09 16:28:18
+ * @LastEditTime: 2024-01-11 10:41:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\index.tsx
  */
@@ -48,7 +48,7 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
   const containRef = useRef<HTMLDivElement>(null);
   const [emptyNum, setEmptyNum] = useState(0);
   const { serviceGruop } = useDeviceModel({
-    productId,
+    deviceId,
     isGroup: true,
     page: DeviceServicePageEnum.Config,
   });

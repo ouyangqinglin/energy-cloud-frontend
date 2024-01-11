@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-01-02 14:18:46
+ * @LastEditTime: 2024-01-11 11:17:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
@@ -18,6 +18,8 @@ import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
 import Configuration from '../Device/Configuration';
 import styles from './index.less';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallBackRender from '../FallBackRender';
 
 const Device: React.FC = memo(() => {
   const { data: deviceData, updateData, loading } = useContext(DeviceContext);
@@ -38,7 +40,9 @@ const Device: React.FC = memo(() => {
                 deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
               }`}
             >
-              <DeviceRealTime deviceData={deviceData} />
+              <ErrorBoundary fallbackRender={FallBackRender}>
+                <DeviceRealTime deviceData={deviceData} />
+              </ErrorBoundary>
             </div>
           </>
         ),
@@ -46,32 +50,44 @@ const Device: React.FC = memo(() => {
       {
         label: formatMessage({ id: 'common.historyData', defaultMessage: '历史数据' }),
         key: '2',
-        children: <Search isDeviceChild deviceData={deviceData} />,
+        children: (
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Search isDeviceChild deviceData={deviceData} />
+          </ErrorBoundary>
+        ),
       },
       {
         label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
         key: '3',
         children: (
-          <Alarm
-            isStationChild={true}
-            params={{ deviceId: deviceData?.deviceId, deviceName: deviceData?.name }}
-          />
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Alarm
+              isStationChild={true}
+              params={{ deviceId: deviceData?.deviceId, deviceName: deviceData?.name }}
+            />
+          </ErrorBoundary>
         ),
       },
       {
         label: formatMessage({ id: 'common.logs', defaultMessage: '日志' }),
         key: '4',
-        children: <RunLog deviceId={deviceData?.deviceId || ''} isDeviceChild />,
+        children: (
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <RunLog deviceId={deviceData?.deviceId || ''} isDeviceChild />
+          </ErrorBoundary>
+        ),
       },
       {
         label: formatMessage({ id: 'common.configured', defaultMessage: '配置' }),
         key: '5',
         children: (
-          <Configuration
-            productId={deviceData?.productId}
-            deviceId={deviceData?.deviceId || ''}
-            deviceData={deviceData}
-          />
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Configuration
+              productId={deviceData?.productId}
+              deviceId={deviceData?.deviceId || ''}
+              deviceData={deviceData}
+            />
+          </ErrorBoundary>
         ),
       },
     ];
@@ -79,10 +95,12 @@ const Device: React.FC = memo(() => {
 
   return (
     <>
-      <div className="px24 pt24">
-        <Overview deviceData={deviceData} onChange={onEditSuccess} loading={loading} />
+      <div className="px24 pt24 mb20">
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <Overview deviceData={deviceData} onChange={onEditSuccess} loading={loading} />
+        </ErrorBoundary>
       </div>
-      <Tabs className={styles.tabs} items={items} />
+      <Tabs className={styles.tabs} items={items} type="card" />
     </>
   );
 });

@@ -18,6 +18,7 @@ export type DetailItem = {
   dataIndex?: any;
   field?: string;
   showPlaceholder?: boolean;
+  valueInterceptor?: (value: any, data?: any) => any;
   format?: (value: any, data?: any) => React.ReactNode;
   span?: number;
   labelStyle?: React.CSSProperties;
@@ -58,7 +59,8 @@ const Detail: React.FC<DetailProps> = (props) => {
   const descriptionItems = useMemo(() => {
     const content: React.ReactNode[] = [];
     items.forEach((item) => {
-      const fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
+      let fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
+      fieldValue = item?.valueInterceptor?.(fieldValue, data) || fieldValue;
       let show;
       if (typeof item.show == 'function') {
         show = item?.show?.(fieldValue, data);

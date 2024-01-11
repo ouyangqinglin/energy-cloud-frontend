@@ -11,7 +11,7 @@ import SchemaForm, { FormTypeEnum, SchemaFormProps } from '@/components/SchemaFo
 import { useBoolean } from 'ahooks';
 import { editSetting, editEquipConfig } from '@/services/equipment';
 import moment from 'moment';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
@@ -54,11 +54,14 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
         input: formData,
         serviceId,
       };
-      if (serviceId === 'correctionTime') {
+      if (deviceData?.productId == DeviceTypeEnum.YTEnergyEms && serviceId === 'correctionTime') {
         result.input = { correctionTime: moment(formData.correctionTime).valueOf() };
       }
       //尖峰平谷时段设置
-      if (serviceId === 'PeakAndValleyTimeSettings') {
+      if (
+        deviceData?.productId == DeviceTypeEnum.YTEnergyEms &&
+        serviceId === 'PeakAndValleyTimeSettings'
+      ) {
         if (formData.ElectrovalenceTimeFrame.length > 0) {
           const timeFormData = formData.ElectrovalenceTimeFrame.map((item: any) => {
             return {
@@ -80,7 +83,7 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
       const submitResult = beforeSubmit?.(result);
       return submitResult ?? result;
     },
-    [deviceId, realTimeData, serviceId],
+    [deviceId, deviceData, realTimeData, serviceId],
   );
 
   const onClick = useCallback(() => {

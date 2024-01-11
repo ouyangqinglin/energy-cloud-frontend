@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-09 16:31:50
+ * @LastEditTime: 2024-01-11 15:36:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -31,7 +31,7 @@ import {
 } from '@/utils';
 import ConfigModal from '../ConfigModal';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { getColumnsLength, timeRangeColumn } from './helper';
+import { getColumnsLength, timeRangeColumn, validatorTime } from './helper';
 import { merge } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
@@ -43,6 +43,7 @@ import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
 import RadioButton from '@/components/RadioButton';
 import { useRequest } from 'umi';
 import styels from './index.less';
+import { useSubscribe } from '@/hooks';
 
 export type ControlType = {
   deviceId?: string;
@@ -67,6 +68,11 @@ const Control: React.FC<ControlType> = memo((props) => {
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
+  const extralDeviceIds = useMemo(() => {
+    const result = getPropsFromTree(groupData, 'deviceId');
+    return Array.from(new Set(result));
+  }, [groupData]);
+  const extralDeviceRealTimeData = useSubscribe(extralDeviceIds, true);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -127,7 +133,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () =>
           run({
-            deviceId: deviceData?.deviceId,
+            deviceId: field.deviceId || deviceData?.deviceId,
             input: { [field.id || '']: value },
             serviceId: field.serviceId,
           }).then((data: any) => {
@@ -205,13 +211,20 @@ const Control: React.FC<ControlType> = memo((props) => {
           );
           const specsLength = (specsItem as DeviceStructType)?.specs?.length || 0;
           (specsItem as DeviceStructType)?.specs?.forEach?.((structField) => {
+            structField.parentId = field?.id;
             const { cols } = getFieldItem(structField);
             cols[0].colProps = { span: specsLength < 3 ? 24 / specsLength : 8 };
             (column?.columns as any)?.[0]?.columns?.push?.(...cols);
           });
           columns.push(column);
 
-          const fieldValue = parseToArray(realTimeData?.[field?.id || '']);
+          let fieldValue = parseToArray(realTimeData?.[field?.id || '']);
+          if (field?.deviceId) {
+            const realField = field?.id?.split?.('.') || [];
+            fieldValue = parseToArray(
+              realTimeData?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]],
+            );
+          }
           const items: DetailItem[] = [];
           const detailData: Record<string, any> = {};
           const formData = fieldValue?.map?.((value, index) => {
@@ -226,6 +239,12 @@ const Control: React.FC<ControlType> = memo((props) => {
               items.push({
                 field: (item?.id || '') + index,
                 label: (item?.name ?? '') + (itemFieldIndex ? '' : index + 1),
+                valueInterceptor: (_, data) => {
+                  if (item?.deviceId) {
+                    const realField = item?.id?.split?.('.') || [];
+                    return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  }
+                },
                 format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
               });
               detailData[(item?.id || '') + index] = transformValue[item?.id || ''];
@@ -252,28 +271,42 @@ const Control: React.FC<ControlType> = memo((props) => {
           detailItems.push?.({
             field: field?.id || '',
             label: field?.name,
+            valueInterceptor: (_, data) => {
+              if (field?.deviceId) {
+                const realField = field?.id?.split?.('.') || [];
+                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              }
+            },
             format: (value) => formatModelValue(value, field?.dataType || {}),
           });
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
             valueType: 'timeRange',
-            formItemProps: {
-              validateTrigger: 'submit',
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: formatMessage(
-                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
-                          {
-                            content: field?.name,
-                          },
-                        ),
-                      },
-                    ],
+            formItemProps: ({ getFieldValue }) => {
+              return {
+                validateTrigger: 'submit',
+                rules: [
+                  ...(field?.required === false
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: formatMessage(
+                            { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                            {
+                              content: field?.name,
+                            },
+                          ),
+                        },
+                      ]),
+                  {
+                    validator: (rule, value) => {
+                      return validatorTime(rule, value, field?.parentId || '', getFieldValue);
+                    },
+                  },
+                ],
+              };
             },
             renderFormItem: () => <TimeRangePicker />,
           });
@@ -291,13 +324,21 @@ const Control: React.FC<ControlType> = memo((props) => {
                   width: '145px',
                   marginTop: '4px',
                 },
-                format: (value) => {
+                format: (value, data) => {
+                  let formatValue = value;
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    formatValue =
+                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  }
                   return (
                     <Switch
-                      checked={value === 0 || value === '0'}
-                      // disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                      checked={formatValue === 0 || formatValue === '0'}
+                      disabled={deviceData?.status === OnlineStatusEnum.Offline}
                       loading={loading}
-                      onClick={() => btnClick(field, value === 0 || value === '0' ? 1 : 0)}
+                      onClick={() =>
+                        btnClick(field, formatValue === 0 || formatValue === '0' ? 1 : 0)
+                      }
                     />
                   );
                 },
@@ -319,6 +360,12 @@ const Control: React.FC<ControlType> = memo((props) => {
                   marginTop: '4px',
                 },
                 format: (value, data) => {
+                  let formatValue = value;
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    formatValue =
+                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  }
                   let fieldDisabled = false;
                   if (field?.disabled) {
                     try {
@@ -333,7 +380,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                       <RadioButton
                         options={options}
                         type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
-                        value={isEmpty(value) ? '' : value + ''}
+                        value={isEmpty(formatValue) ? '' : formatValue + ''}
                         disabled={deviceData?.status === OnlineStatusEnum.Offline || fieldDisabled}
                         onChange={(btnValue) => btnClick(field, btnValue)}
                         loading={loading}
@@ -352,6 +399,12 @@ const Control: React.FC<ControlType> = memo((props) => {
               detailItems.push?.({
                 field: field?.id || '',
                 label: field?.name,
+                valueInterceptor: (_, data) => {
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  }
+                },
                 format: (value) => formatModelValue(value, field?.dataType || {}),
               });
               columns.push({
@@ -393,6 +446,12 @@ const Control: React.FC<ControlType> = memo((props) => {
           detailItems.push?.({
             field: field?.id || '',
             label: field?.name,
+            valueInterceptor: (_, data) => {
+              if (field?.deviceId) {
+                const realField = field?.id?.split?.('.') || [];
+                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              }
+            },
             format: (value) => formatModelValue(value, field?.dataType || {}),
           });
           columns.push({
@@ -427,6 +486,12 @@ const Control: React.FC<ControlType> = memo((props) => {
           detailItems.push?.({
             field: field?.id || '',
             label: field?.name,
+            valueInterceptor: (_, data) => {
+              if (field?.deviceId) {
+                const realField = field?.id?.split?.('.') || [];
+                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              }
+            },
             format: (value) => formatModelValue(value, field?.dataType || {}),
           });
           columns.push({
@@ -640,14 +705,20 @@ const Control: React.FC<ControlType> = memo((props) => {
     <>
       {!!groupsItems?.length && (
         <>
-          <Detail.Group data={{ ...realTimeData, ...transformData }} items={groupsItems} />
+          <Detail.Group
+            data={{ ...realTimeData, ...transformData, ...extralDeviceRealTimeData }}
+            items={groupsItems}
+          />
           <ConfigModal
             width={currentFormInfo?.width || '816px'}
             open={openForm}
             onOpenChange={set}
             title={currentFormInfo?.service?.name || ''}
-            deviceId={deviceId}
-            realTimeData={{ ...realTimeData, ...transformData }}
+            deviceId={currentFormInfo?.service?.deviceId || deviceId}
+            realTimeData={{
+              ...(currentFormInfo?.service?.deviceId ? realTimeData : extralDeviceRealTimeData),
+              ...transformData,
+            }}
             serviceId={currentFormInfo?.service?.id || ''}
             columns={currentFormInfo?.columns || []}
             showClickButton={false}
