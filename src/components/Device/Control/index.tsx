@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-11 15:36:17
+ * @LastEditTime: 2024-01-11 16:14:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -613,7 +613,12 @@ const Control: React.FC<ControlType> = memo((props) => {
       switch (modelDescribeItem.type) {
         case DeviceModelDescribeTypeEnum.Group:
           if (passAuthority(modelDescribeItem?.authority)) {
-            if (modelDescribeItem.children && modelDescribeItem.children.length > 1) {
+            if (
+              modelDescribeItem.children &&
+              (modelDescribeItem.children.length > 1 ||
+                modelDescribeItem.children?.[0]?.showType ==
+                  DeviceModelShowTypeEnum.HideServiceName)
+            ) {
               result.push({
                 label: <Detail.Label title={modelDescribeItem.name} />,
               });
