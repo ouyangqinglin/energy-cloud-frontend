@@ -1,0 +1,56 @@
+.adjust {
+  padding: 20px;
+  .title {
+    display: flex;
+    align-items: center;
+    div {
+      margin-right: 16px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    button {
+      margin-right: 10px;
+    }
+  }
+  .parent {
+    padding: 12px;
+    margin-top: 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    height: 46vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    }
+    .parent::-webkit-scrollbar {
+      display: none;
+    }
+    /*设置的子盒子高度大于父盒子，产生溢出效果*/
+    .child {
+      height: auto;
+      padding-right: 12px;
+      >:nth-child(n) {
+        border-left: 2px solid rgb(244, 230, 217);
+      }
+      >:nth-child(2n) {
+        border-left: 2px solid rgb(217, 162, 184);
+      }
+      >:nth-child(3n) {
+        border-left: 2px solid rgb(170, 236, 199);
+      }
+      >:nth-child(4n) {
+        border-left: 2px solid rgb(183, 161, 227);
+      }
+      .item {
+        padding-left: 12px;
+        margin-bottom: 16px;
+        .msg {
+          margin-top: 8px;
+          word-wrap: break-word;
+        }
+        .topic {
+          margin-left: 20px;
+        }
+      }
+    }
+}

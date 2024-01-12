@@ -198,4 +198,7 @@ export default {
   'common.serialSentence': '{name} serial',
   'common.manufacturerSentence': '{name} manufacturer',
   'common.modelSentence': '{name} model',
+  'common.pause': 'Pause',
+  'common.roll': 'Roll',
+
 };

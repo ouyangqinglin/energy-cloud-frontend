@@ -328,4 +328,6 @@ export default {
   'device.liquidCooler': '液冷机',
   'device.compressor': '压缩机',
   'device.softwareCoding': '软件编码',
+  'device.systemMessage': '系统报文',
+  'device.debug': '调试',
 };

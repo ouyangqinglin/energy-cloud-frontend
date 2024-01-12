@@ -200,4 +200,6 @@ export default {
   'common.serialSentence': '{name}序列号',
   'common.manufacturerSentence': '{name}厂商',
   'common.modelSentence': '{name}型号',
+  'common.pause': '暂停',
+  'common.roll': '滚动',
 };

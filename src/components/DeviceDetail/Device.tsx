@@ -15,6 +15,7 @@ import DeviceContext from '../Device/Context/DeviceContext';
 import { OnlineStatusEnum } from '@/utils/dictionary';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
+import Adjust from '../Device/Adjust';
 import RunLog from '@/pages/site-monitor/RunLog';
 import Configuration from '../Device/Configuration';
 import styles from './index.less';
@@ -23,13 +24,26 @@ import FallBackRender from '../FallBackRender';
 
 const Device: React.FC = memo(() => {
   const { data: deviceData, updateData, loading } = useContext(DeviceContext);
-
   const onEditSuccess = useCallback(() => {
     updateData?.();
   }, [updateData]);
 
   const items = useMemo<TabsProps['items']>(() => {
-    return [
+
+    const debug = [
+      {
+        label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
+        key: '6',
+        children: (
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Adjust
+              deviceId={deviceData?.deviceId || ''}
+            />
+          </ErrorBoundary>
+        ),
+      }
+    ]
+    const arr = [
       {
         label: formatMessage({ id: 'siteMonitor.deviceDetails', defaultMessage: '设备详情' }),
         key: '1',
@@ -91,7 +105,8 @@ const Device: React.FC = memo(() => {
         ),
       },
     ];
-  }, [deviceData]);
+    return [89, 98].includes(+deviceData.productId) ? [...arr, ...debug] : arr
+  }, [deviceData.productId]);
 
   return (
     <>

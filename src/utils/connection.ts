@@ -36,6 +36,7 @@ export const enum MessageEventType {
   DEVICE_LOG,
   MONITORDATA,
   NETWORKSTSTUS,
+  DEVICEMSG
 }
 
 export enum RequestCommandEnum {

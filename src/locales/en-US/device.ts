@@ -338,4 +338,6 @@ export default {
   'device.liquidCooler': 'Liquid cooler',
   'device.compressor': 'Compressor',
   'device.softwareCoding': 'Software coding',
+  'device.systemMessage': 'System message',
+  'device.debug': 'ebug',
 };
