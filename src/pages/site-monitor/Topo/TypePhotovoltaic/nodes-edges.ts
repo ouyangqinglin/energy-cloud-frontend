@@ -19,7 +19,7 @@ const position = { x: 0, y: 0 };
 //       textContent: {
 //         column: [
 //           {
-//             label: '当日发电(kWh)：',
+//             label: '今日发电(kWh)：',
 //             value: 8329.14,
 //             field: 'todayConsumption',
 //           },
@@ -50,7 +50,7 @@ const position = { x: 0, y: 0 };
 //       textContent: {
 //         column: [
 //           {
-//             label: '当日充电(kWh)：',
+//             label: '今日充电(kWh)：',
 //             value: 8329.14,
 //             field: 'todayConsumption',
 //           },
@@ -102,7 +102,7 @@ const position = { x: 0, y: 0 };
 //       textContent: {
 //         column: [
 //           {
-//             label: '当日充电(kWh)：',
+//             label: '今日充电(kWh)：',
 //             value: 8329.14,
 //             field: 'todayConsumption',
 //           },
@@ -206,7 +206,7 @@ const genOverviewNode = (data: TypePhotovoltaicData) => ({
     textContent: {
       column: [
         {
-          label: '当日发电(kWh)：',
+          label: '今日发电(kWh)：',
           value: data.totalGenerateElec,
           field: 'todayConsumption',
         },
@@ -258,7 +258,7 @@ const genPVInverter = (data: PvInverterVoList) => ({
     textContent: {
       column: [
         {
-          label: '当日充电(kWh)：',
+          label: '今日充电(kWh)：',
           value: data.generateElecDay,
           field: 'todayConsumption',
         },

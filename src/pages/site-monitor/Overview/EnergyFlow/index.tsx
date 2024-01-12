@@ -3,12 +3,12 @@ import RealTimeData from './RealTimeData';
 import SystemDiagram from './SystemDiagram';
 import styles from './index.less';
 
-const EnergyFlow = ({ siteId }: { siteId?: number }) => {
+const EnergyFlow = ({ siteId, siteType }: { siteId?: number; siteType: string }) => {
   return (
     <RowBox span={18} className={styles.energyFlow}>
-      <RealTimeData siteId={siteId} />
+      <RealTimeData siteId={siteId} siteType={siteType} />
       <div className={styles.content}>
-        <SystemDiagram siteId={siteId} />
+        <SystemDiagram siteId={siteId} siteType={siteType} />
       </div>
     </RowBox>
   );

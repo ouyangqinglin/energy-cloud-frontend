@@ -278,7 +278,7 @@ export default {
               { label: 'B相功率', field: 'b' },
               { label: 'C相功率', field: 'c' },
               { label: '总有功功率', field: 'd' },
-              { label: '当日用电量', field: 'e' },
+              { label: '今日用电量', field: 'e' },
             ],
             value: {
               a: { value: '100KW' },

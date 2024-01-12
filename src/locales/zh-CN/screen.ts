@@ -36,7 +36,7 @@ export default {
   'screen.deviceNotConfigured': '该设备未配置',
   'screen.powerGrid': '电网功率',
   'screen.powerGeneration': '发电功率',
-  'screen.dailyPowerGeneration': '当日发电',
+  'screen.dailyPowerGeneration': '今日发电',
   'screen.energyStoragePower': '储能功率',
   'screen.powerConsumption': '用电功率',
   'screen.foundationBed': '基座',

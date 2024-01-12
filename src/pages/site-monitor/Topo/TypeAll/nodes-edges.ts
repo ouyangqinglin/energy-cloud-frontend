@@ -90,12 +90,12 @@ const genElectricSupplyNode = (data: MainsSupply) => {
         textContent: {
           column: [
             {
-              label: '当日购电(kWh)：',
+              label: '今日购电(kWh)：',
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
             {
-              label: '当日售电(kWh)：',
+              label: '今日售电(kWh)：',
               value: data.todayProduction,
               field: 'todayConsumption',
             },
@@ -116,14 +116,14 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
   let label = '';
   switch (type) {
     case 1:
-      label = '当日发电(kWh)：';
+      label = '今日发电(kWh)：';
       break;
     case 2:
-      label = '当日充电(kWh)：';
+      label = '今日充电(kWh)：';
       break;
     case 3:
     case 4:
-      label = '当日用电(kWh)：';
+      label = '今日用电(kWh)：';
       break;
   }
 
@@ -161,7 +161,7 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
 
   if (type == 2) {
     result.data.textContent.column.splice(1, 0, {
-      label: '当日放电(kWh)：',
+      label: '今日放电(kWh)：',
       value: data.todayProduction,
       field: 'todayProduction',
     });
@@ -189,7 +189,7 @@ const genPVNode = (data: MainsSupply) => {
         textContent: {
           column: [
             {
-              label: '当日发电(kWh)：',
+              label: '今日发电(kWh)：',
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
@@ -249,12 +249,12 @@ const genESNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日充电(kWh)：',
+          label: '今日充电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '当日放电(kWh)：',
+          label: '今日放电(kWh)：',
           value: data.todayProduction,
           field: 'todayConsumption',
         },
@@ -286,7 +286,7 @@ const genLoadCSNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日用电(kWh)：',
+          label: '今日用电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
@@ -318,7 +318,7 @@ const genLoadOtherNode = (data: MainsSupply) => ({
     textContent: {
       column: [
         {
-          label: '当日用电(kWh)：',
+          label: '今日用电(kWh)：',
           value: data.todayConsumption,
           field: 'todayConsumption',
         },

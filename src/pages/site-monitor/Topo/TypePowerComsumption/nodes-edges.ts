@@ -54,7 +54,7 @@ const getDefaultConfig = ({
     textContent: {
       column: [
         {
-          label: '当日用电(kWh)：',
+          label: '今日用电(kWh)：',
           value: data.elecToday,
         },
         {
