@@ -27,14 +27,14 @@ const statOptions = [
   {
     title: `${formatMessage({
       id: 'siteMonitor.dayChargingVolume',
-      defaultMessage: '当日充电量',
+      defaultMessage: '今日充电量',
     })}（kWh）`,
     field: 'todayCharge',
   },
   {
     title: `${formatMessage({
       id: 'siteMonitor.dayDischarge',
-      defaultMessage: '当日放电量',
+      defaultMessage: '今日放电量',
     })}（kWh）`,
     field: 'todayDischarge',
   },
@@ -55,7 +55,7 @@ const statOptions = [
   {
     title: `${formatMessage({
       id: 'siteMonitor.dailyEarnings',
-      defaultMessage: '当日收益',
+      defaultMessage: '今日收益',
     })}（${formatMessage({ id: 'common.rmb', defaultMessage: '元' })}）`,
     field: 'todayGains',
   },

@@ -99,11 +99,11 @@ export interface EICardRes {
 export interface EBCardRes {
   //累计CO2减排/t
   totalReduceCO2: number;
-  //当日等效植树
+  //今日等效植树
   equivalentTreeNum: number;
-  //当日CO2减排
+  //今日CO2减排
   todayReduceCO2: number;
-  //当日节约标准媒
+  //今日节约标准媒
   todayReduceCoal: number;
 }
 

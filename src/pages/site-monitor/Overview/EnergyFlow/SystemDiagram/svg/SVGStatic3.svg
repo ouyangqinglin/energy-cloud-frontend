@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="275px" height="125px" viewBox="0 0 275 125" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>线条</title>
+    <g id="光储充及工商储管理系统V1.5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="3_1_8.站点概览_充电站" transform="translate(-414.000000, -408.000000)" stroke="#B4B4B4">
+            <g id="main" transform="translate(212.000000, 102.000000)">
+                <g id="2" transform="translate(20.000000, 182.000000)">
+                    <g id="能流图2" transform="translate(80.000000, 24.000000)">
+                        <g id="线条" transform="translate(103.000000, 101.000000)">
+                            <path d="M273.272162,123.115918 L167.6602,123.115918 C154.405366,123.115918 143.6602,112.370752 143.6602,99.1159183 L143.6602,0 L143.6602,0" id="路径-7"></path>
+                            <path d="M0,123.394084 L99.2721618,123.394084 C112.526996,123.394084 123.272162,112.648918 123.272162,99.3940842 L123.272162,0.115918299 L123.272162,0.115918299" id="路径-8"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

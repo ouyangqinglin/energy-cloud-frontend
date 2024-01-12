@@ -9,11 +9,14 @@ import type { DescriptionCardConfig } from './type';
 const DescriptionCard = ({
   config,
   data,
+  span,
 }: {
   config: DescriptionCardConfig;
   data: Record<string, any>;
+  span: number;
 }) => {
   // existChargingPile 为false不应该显示充电桩
+  const isLongItem = config.statistics.length > 3;
   const shouldShowCharge = (label: string) =>
     label.includes('充电桩') && !get(data, 'existChargingPile');
   const cardItemList = config.statistics.map(({ label, labelUnit, value, valueUnit, field }) => {
@@ -37,15 +40,14 @@ const DescriptionCard = ({
   });
 
   const Icon = config.icon;
-
   return (
-    <RowBox span={6}>
+    <RowBox span={span}>
       <Row className={styles['kpi-box']}>
         <Col span={4} className={styles.boxLeft}>
           <Icon className={classnames(styles['svg-icon'], styles['icon'])} />
           <p className={styles['left-title']}>{config.title}</p>
         </Col>
-        <Col span={20} className={styles.content}>
+        <Col span={20} className={`${styles.content} ${isLongItem ? styles['long-content'] : ''}`}>
           {cardItemList}
         </Col>
       </Row>

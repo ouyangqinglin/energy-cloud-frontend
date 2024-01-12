@@ -186,7 +186,7 @@ const ChartBox = ({
             defaultMessage: '储能总功率',
           });
           data = chartData?.esPower || [];
-          result.push({ name: 'dd', data: chartDataHandle(isDay, data) });
+          result.push({ data: chartDataHandle(isDay, data) });
         } else {
           series[0].name = formatMessage({
             id: 'index.chart.powerGeneration',

@@ -32,7 +32,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
           </div>
           <div className={styles.box}>
             <span className={styles.label}>
-              {formatMessage({ id: 'screen.dailyPowerGeneration', defaultMessage: '当日发电' })}
+              {formatMessage({ id: 'screen.dailyPowerGeneration', defaultMessage: '今日发电' })}
               (kWh)：
             </span>
             <span className={styles.value}>{pv?.charge ?? '--'}</span>

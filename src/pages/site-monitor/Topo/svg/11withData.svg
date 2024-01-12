@@ -622,16 +622,16 @@
                             </g>
                         </g>
                         <g transform="translate(27.000000, 14.000000)" fill-rule="nonzero" font-size="14" line-spacing="22">
-                            <text id="当日购电(度)" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#303133">
-                                <tspan x="0" y="15">当日购电(度)</tspan>
+                            <text id="今日购电(度)" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#303133">
+                                <tspan x="0" y="15">今日购电(度)</tspan>
                             </text>
                             <text id="8329.14" fill="#191919" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500">
                                 <tspan x="100" y="15">8329.14</tspan>
                             </text>
                         </g>
                         <g id="编组-2" transform="translate(27.000000, 44.000000)" fill-rule="nonzero" font-size="14" line-spacing="22">
-                            <text id="当日售电(度)" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#303133">
-                                <tspan x="0" y="15">当日售电(度)</tspan>
+                            <text id="今日售电(度)" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#303133">
+                                <tspan x="0" y="15">今日售电(度)</tspan>
                             </text>
                             <text id="0" fill="#191919" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500">
                                 <tspan x="100" y="15">0</tspan>
@@ -832,8 +832,8 @@
                         </g>
                         <g id="文字" transform="translate(99.000000, 6.000000)" fill-rule="nonzero" font-size="14" line-spacing="22">
                             <g id="编组-1">
-                                <text id="当日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日发电(度):</tspan>
+                                <text id="今日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日发电(度):</tspan>
                                 </text>
                                 <text id="657.60" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">657.60</tspan>
@@ -1145,16 +1145,16 @@
                         </text>
                         <g id="文字备份-2" transform="translate(0.000000, 116.000000)" fill-rule="nonzero" font-size="14" line-spacing="22">
                             <g id="编组-1">
-                                <text id="当日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日发电(度):</tspan>
+                                <text id="今日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日发电(度):</tspan>
                                 </text>
                                 <text id="657.60" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">657.60</tspan>
                                 </text>
                             </g>
                             <g id="编组-2" transform="translate(0.000000, 30.000000)">
-                                <text id="当日放电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日放电(度):</tspan>
+                                <text id="今日放电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日放电(度):</tspan>
                                 </text>
                                 <text id="468.12" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">468.12</tspan>
@@ -1271,8 +1271,8 @@
                         </g>
                         <g id="文字" transform="translate(102.000000, 30.000000)" font-size="14" line-spacing="22">
                             <g id="编组-1">
-                                <text id="当日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日发电(度):</tspan>
+                                <text id="今日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日发电(度):</tspan>
                                 </text>
                                 <text id="657.60" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">657.60</tspan>
@@ -1389,8 +1389,8 @@
                         </g>
                         <g id="文字" transform="translate(102.000000, 30.000000)" font-size="14" line-spacing="22">
                             <g id="编组-1">
-                                <text id="当日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日发电(度):</tspan>
+                                <text id="今日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日发电(度):</tspan>
                                 </text>
                                 <text id="657.60" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">657.60</tspan>
@@ -1507,8 +1507,8 @@
                         </g>
                         <g id="文字" transform="translate(102.000000, 30.000000)" font-size="14" line-spacing="22">
                             <g id="编组-1">
-                                <text id="当日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
-                                    <tspan x="0" y="15">当日发电(度):</tspan>
+                                <text id="今日发电(度):" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal" fill="#606266">
+                                    <tspan x="0" y="15">今日发电(度):</tspan>
                                 </text>
                                 <text id="657.60" font-family="PingFangSC-Semibold, PingFang SC" font-weight="500" fill="#1D2129">
                                     <tspan x="106" y="15">657.60</tspan>

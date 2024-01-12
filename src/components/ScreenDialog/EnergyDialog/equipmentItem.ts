@@ -1151,7 +1151,7 @@ export const electricMeasureItems: DetailItem[] = [
     format: powerFormat,
   },
   {
-    label: formatMessage({ id: 'siteMonitor.dayPowerConsumption', defaultMessage: '当日用电量' }),
+    label: formatMessage({ id: 'siteMonitor.dayPowerConsumption', defaultMessage: '今日用电量' }),
     field: 'DailyElectricityConsumption',
     format: powerFormat,
   },
@@ -1172,7 +1172,7 @@ export const electricMeasureItems: DetailItem[] = [
     format: powerHourFormat,
   },
   {
-    label: formatMessage({ id: 'device.dailyPowerSupply', defaultMessage: '当日馈电量' }),
+    label: formatMessage({ id: 'device.dailyPowerSupply', defaultMessage: '今日馈电量' }),
     field: 'DailyPowerSupply',
     format: powerHourFormat,
   },
