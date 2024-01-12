@@ -14,7 +14,7 @@ import type { DataNode } from 'antd/lib/tree';
 export enum DeviceModelShowTypeEnum {
   // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button
   Tile = 1,
-  HideServiceName,
+  HideName,
   Grid,
   RadioButton,
   Select,
@@ -285,6 +285,14 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
         const map = arrayToMap(specs, 'id', 'name');
         map[0] = '正常';
         result = map[value] ?? value;
+      } catch {
+        result = value;
+      }
+      break;
+    case DeviceModelTypeEnum.TimeStamp:
+      try {
+        result = moment(value)?.format?.('YYYY-MM-DD HH:mm:ss');
+        result = result || value;
       } catch {
         result = value;
       }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-01-11 15:37:56
+ * @LastEditTime: 2024-01-12 09:27:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -24,6 +24,7 @@ import {
   DeviceModelShowTypeEnum,
   formatModelValue,
   getPropsFromTree,
+  isEmpty,
 } from '@/utils';
 import { Empty, Spin } from 'antd';
 import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
@@ -41,6 +42,8 @@ const Run: React.FC<RunType> = (props) => {
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
+    originCollection: '',
+    deviceId: '',
   });
   const extralDeviceIds = useMemo(() => {
     const result = getPropsFromTree(groupData, 'deviceId');
@@ -55,7 +58,9 @@ const Run: React.FC<RunType> = (props) => {
       groupData,
       'id',
       'children',
-      (item) => item.type == DeviceModelDescribeTypeEnum.Component,
+      (item) =>
+        item.type == DeviceModelDescribeTypeEnum.Component &&
+        (item.id != 'ParallelMachine' || !isEmpty(deviceData?.masterSlaveMode)),
     );
     return ids.reduce((result, item) => {
       return {
@@ -63,23 +68,26 @@ const Run: React.FC<RunType> = (props) => {
         [item]: lazy(() => import('@/components/Device/module/' + item)),
       };
     }, {});
-  }, [groupData]);
+  }, [groupData, deviceData]);
 
   const onClick = useCallback((item: DetailItem) => {
-    if (item.field) {
+    if (item?.field) {
+      const fieldArr = item?.field?.split?.('.');
       setCollectionInfo({
         title: item.label as any,
-        collection: item.field,
+        originCollection: item?.field,
+        collection: item?.deviceId ? fieldArr[fieldArr.length - 1] : item.field,
+        deviceId: item?.deviceId,
       });
     }
   }, []);
 
   const extral = (
     <Button
-      deviceId={deviceData?.deviceId}
+      deviceId={collectionInfo.deviceId || deviceData?.deviceId}
       title={collectionInfo.title}
       collection={collectionInfo.collection}
-      model={modelMap?.[collectionInfo.collection]}
+      model={modelMap?.[collectionInfo.originCollection]}
       onClick={onClick}
     />
   );
@@ -126,6 +134,7 @@ const Run: React.FC<RunType> = (props) => {
       result.push?.({
         field: item?.id || '',
         label: item?.name,
+        deviceId: item?.deviceId,
         valueInterceptor: (_, data) => {
           if (item?.deviceId) {
             const realField = item?.id?.split?.('.') || [];
@@ -135,6 +144,9 @@ const Run: React.FC<RunType> = (props) => {
         format: (value) => formatModelValue(value, item?.dataType || {}),
       });
     });
+    if (result.length > 1) {
+      result[result?.length - 1].span = 4 - (result.length % 3);
+    }
     return result;
   }, []);
 
@@ -221,19 +233,20 @@ const Run: React.FC<RunType> = (props) => {
         case DeviceModelDescribeTypeEnum.Component:
           if (modelDescribeItem.id) {
             const Component = components[modelDescribeItem.id];
-            result.push({
-              component: (
-                <Suspense
-                  fallback={
-                    <div className="tx-center">
-                      <Spin />
-                    </div>
-                  }
-                >
-                  <Component deviceId={deviceData?.deviceId} />
-                </Suspense>
-              ),
-            });
+            !!Component &&
+              result.push({
+                component: (
+                  <Suspense
+                    fallback={
+                      <div className="tx-center">
+                        <Spin />
+                      </div>
+                    }
+                  >
+                    <Component deviceId={deviceData?.deviceId} />
+                  </Suspense>
+                ),
+              });
           }
           break;
         default:
@@ -259,7 +272,6 @@ const Run: React.FC<RunType> = (props) => {
           items={groupsItems}
           detailProps={{
             extral,
-            colon: false,
             labelStyle: { width: 140 },
           }}
         />

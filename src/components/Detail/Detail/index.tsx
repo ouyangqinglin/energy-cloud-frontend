@@ -27,6 +27,7 @@ export type DetailItem = {
   show?: boolean | ((value: any, data?: any) => boolean);
   showExtra?: boolean;
   unit?: string;
+  [key: string]: any;
 };
 
 export type FormAndDetailType = ProFormColumnsType & DetailItem;
