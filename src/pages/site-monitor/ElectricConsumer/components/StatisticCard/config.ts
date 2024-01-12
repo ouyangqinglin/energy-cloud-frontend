@@ -37,7 +37,7 @@ export const config: EnergyStatisticInfo[] = [
   {
     title: `${formatMessage({
       id: 'siteMonitor.chargingPileDayCapacity',
-      defaultMessage: '充电桩当日充电量',
+      defaultMessage: '充电桩今日充电量',
     })}(kWh)`,
     icon: icon_未发电,
     field: 'chargingPile.todayCharge',
@@ -64,7 +64,7 @@ export const config: EnergyStatisticInfo[] = [
   {
     title: `${formatMessage({
       id: 'siteMonitor.otherLoadDayPower',
-      defaultMessage: '其他负载当日用电量',
+      defaultMessage: '其他负载今日用电量',
     })}(kWh)`,
     icon: icon_通信断链,
     field: 'otherLoad.todayCharge',

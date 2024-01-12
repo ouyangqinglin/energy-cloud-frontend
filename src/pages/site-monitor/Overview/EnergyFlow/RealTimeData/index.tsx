@@ -11,7 +11,7 @@ import styles from './index.less';
 import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
 
-const RealTimeData = ({ siteId }: { siteId?: number }) => {
+const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string }) => {
   const { data, run } = useRequest(getPVRevenue, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -31,31 +31,49 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
       label: formatMessage({ id: 'device.totalRevenue', defaultMessage: '总收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.totalGains ?? '--',
+      show: ['123', '12', '23', '13', ''].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.photovoltaicGains ?? '--',
+      show: ['123', '12', '13', '1', ''].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.essGains ?? '--',
+      show: ['123', '12', '23', '2', ''].includes(siteType),
+    },
+    {
+      label: formatMessage({ id: 'device.storageCharge', defaultMessage: '储能充电电费' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+      value: data?.essGains ?? '--',
+      show: ['2', '23'].includes(siteType),
+    },
+    {
+      label: formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电收入' }),
+      unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+      value: data?.essGains ?? '--',
+      show: ['2', '23'].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.chargingRevenue', defaultMessage: '充电桩收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.chargingPileGains ?? '--',
+      show: ['123', '23', '13', '3', ''].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.selfUseRate', defaultMessage: '自发自用率' }),
       unit: '(%)',
       value: data?.selfUseRate ?? '--',
+      show: ['123', '12', '13', '1', ''].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.loadSelfRate', defaultMessage: '负载用电自给率' }),
       unit: '(%)',
       value: data?.selfSufficiencyRate ?? '--',
+      show: ['123', '12', '13', '1', ''].includes(siteType),
     },
   ];
 
@@ -79,7 +97,7 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
         {show && (
           <Row gutter={[16, 16]}>
             {columns.map((row) => {
-              return (
+              return row.show ? (
                 <Col key={row.label} span={4} xxl={12}>
                   <Statistic
                     className={styles.boxContent}
@@ -93,6 +111,8 @@ const RealTimeData = ({ siteId }: { siteId?: number }) => {
                     }}
                   />
                 </Col>
+              ) : (
+                ''
               );
             })}
           </Row>

@@ -4,7 +4,7 @@ import { ReactComponent as IconPhotovoltaic } from '@/assets/image/home-page/ico
 import { ReactComponent as IconAlarm } from '@/assets/image/home-page/icon_告警.svg';
 import { ReactComponent as IconCS } from '@/assets/image/home-page/icon_充电桩.svg';
 import { ReactComponent as IconSite } from '@/assets/image/home-page/icon_站点.svg';
-import { ReactComponent as IconBenifit } from '@/assets/image/home-page/icon_当日收益.svg';
+import { ReactComponent as IconBenifit } from '@/assets/image/home-page/icon_今日收益.svg';
 import { ReactComponent as IconCo2 } from '@/assets/image/home-page/icon_碳减排.svg';
 import { CardInfo } from './type';
 
@@ -96,7 +96,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.dailyPowerGeneration',
-          defaultMessage: '当日发电/kWh',
+          defaultMessage: '今日发电/kWh',
         }),
         field: 'generatedElecToday',
         value: 3697.0,
@@ -135,7 +135,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayCharge',
-          defaultMessage: '当日充电/kWh',
+          defaultMessage: '今日充电/kWh',
         }),
         field: 'essChargeElecToday',
         value: 0,
@@ -143,7 +143,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayDischarge',
-          defaultMessage: '当日放电/kWh',
+          defaultMessage: '今日放电/kWh',
         }),
         field: 'essDischargeElecToday',
         value: 0,
@@ -166,7 +166,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayChargePower',
-          defaultMessage: '当日充电量/kWh',
+          defaultMessage: '今日充电量/kWh',
         }),
         field: 'cpChargeElecToday',
         value: 3.14,
@@ -248,13 +248,13 @@ export const config: CardInfo[] = [
     value: 4755.46,
     description: formatMessage({
       id: 'index.todayIncome',
-      defaultMessage: '当日收益/元',
+      defaultMessage: '今日收益/元',
     }),
     items: [
       {
         label: formatMessage({
           id: 'index.todayPvIncome',
-          defaultMessage: '当日光伏收益/元',
+          defaultMessage: '今日光伏收益/元',
         }),
         field: 'pvGainsDay',
         value: 4085.87,
@@ -262,7 +262,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayEnergyIncome',
-          defaultMessage: '当日储能收益/元',
+          defaultMessage: '今日储能收益/元',
         }),
         field: 'essGainsDay',
         value: 672.01,
@@ -293,7 +293,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayEqualTree',
-          defaultMessage: '当日等效植树/棵',
+          defaultMessage: '今日等效植树/棵',
         }),
         field: 'equivalentTreeNum',
         value: 3.14,
@@ -301,7 +301,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todayCarbonEmission',
-          defaultMessage: '当日CO2减排/t',
+          defaultMessage: '今日CO2减排/t',
         }),
         field: 'todayReduceCO2',
         value: 0.48,
@@ -309,7 +309,7 @@ export const config: CardInfo[] = [
       {
         label: formatMessage({
           id: 'index.todaySaveCoal',
-          defaultMessage: '当日节约标准煤/t',
+          defaultMessage: '今日节约标准煤/t',
         }),
         field: 'todayReduceCoal',
         value: 171.04,

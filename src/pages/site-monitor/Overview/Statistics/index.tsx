@@ -6,23 +6,28 @@ import DescriptionCard from '../components/CardDescription';
 import { config } from './config';
 import { getElectricityStatistics } from './service';
 
-const Statistics = ({ siteId }: { siteId?: number }) => {
+const Statistics = ({ siteId, siteType }: { siteId?: number; siteType: string }) => {
   const { data = {}, run } = useRequest(getElectricityStatistics, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
-
+  const siteconfig = config(siteType);
+  const span = siteconfig.length ? 24 / siteconfig.length : 6;
   useEffect(() => {
     if (!isNil(siteId)) {
       run(siteId);
     }
   }, [run, siteId]);
-
   return (
     <>
-      {config.map((column) => {
+      {siteconfig.map((column) => {
         return (
-          <DescriptionCard data={data?.[column.field] ?? {}} key={column.title} config={column} />
+          <DescriptionCard
+            span={span}
+            data={data?.[column.field] ?? {}}
+            key={column.title}
+            config={column}
+          />
         );
       })}
     </>

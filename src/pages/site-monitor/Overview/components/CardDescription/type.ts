@@ -1,8 +1,11 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface DescriptionCardConfig {
   icon: ReactNode;
   title: string;
+  field: string;
+  show?: boolean;
+  span?: number;
   statistics: Statistic[];
 }
 
@@ -12,4 +15,5 @@ export interface Statistic {
   field?: string;
   value?: string | ((entity: any) => string);
   valueUnit?: string;
+  show?: boolean;
 }
