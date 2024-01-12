@@ -61,7 +61,7 @@ const Detail: React.FC<DetailProps> = (props) => {
     const content: React.ReactNode[] = [];
     items.forEach((item) => {
       let fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
-      fieldValue = item?.valueInterceptor?.(fieldValue, data) || fieldValue;
+      fieldValue = item?.valueInterceptor?.(fieldValue, data) ?? fieldValue;
       let show;
       if (typeof item.show == 'function') {
         show = item?.show?.(fieldValue, data);
