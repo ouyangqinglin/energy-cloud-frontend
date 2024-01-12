@@ -91,8 +91,8 @@ const Index: React.FC = (props) => {
               // onMouseOver={() => hoverHandler()} onMouseLeave={() => hoverHandler()}
               <div key={index} className={styles.item}>
                 <div>
-                  <span>{item.time}</span>
-                  <span className={styles.topic}>{item.topic}</span>
+                  <span>Time: {item.time}</span>
+                  <span className={styles.topic}>Topic: {item.topic}</span>
                 </div>
                 <div className={styles.msg}>{item.msg}</div>
               </div>
