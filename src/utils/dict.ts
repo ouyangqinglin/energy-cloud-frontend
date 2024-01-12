@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2023-12-28 14:34:26
+ * @LastEditTime: 2024-01-11 17:49:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -332,9 +332,9 @@ export const masterSlaveEnum: ValueEnum = {
 
 export const connectEnum: ValueEnum = {
   1: {
-    text: formatMessage({ id: 'common.connect', defaultMessage: '连接' }),
+    text: formatMessage({ id: 'common.connect', defaultMessage: '在线' }),
   },
   0: {
-    text: formatMessage({ id: 'common.break', defaultMessage: '断开' }),
+    text: formatMessage({ id: 'common.break', defaultMessage: '离线' }),
   },
 };

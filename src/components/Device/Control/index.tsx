@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-11 16:14:45
+ * @LastEditTime: 2024-01-12 09:11:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -353,7 +353,6 @@ const Control: React.FC<ControlType> = memo((props) => {
               detailItems.push?.({
                 field: field?.id || '',
                 label: field?.name,
-                span: 3,
                 showPlaceholder: false,
                 labelStyle: {
                   width: '145px',
@@ -566,7 +565,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         className: styels.btnDetail,
         items: detailItems,
       };
-      if (service.showType != DeviceModelShowTypeEnum.HideServiceName) {
+      if (service.showType != DeviceModelShowTypeEnum.HideName) {
         groupItem.label = (
           <Detail.Label title={service?.name}>
             <Authority
@@ -616,8 +615,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             if (
               modelDescribeItem.children &&
               (modelDescribeItem.children.length > 1 ||
-                modelDescribeItem.children?.[0]?.showType ==
-                  DeviceModelShowTypeEnum.HideServiceName)
+                modelDescribeItem.children?.[0]?.showType == DeviceModelShowTypeEnum.HideName)
             ) {
               result.push({
                 label: <Detail.Label title={modelDescribeItem.name} />,
