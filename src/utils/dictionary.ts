@@ -123,6 +123,8 @@ export enum DeviceTypeEnum {
   YTEnergyMetterAKR = 87,
   Liquid2Ems = 89,
   Liquid2Air = 92,
+  Liquid2ElectricMeter = 95,
+  Liquid2InverterMeter = 96,
   Liquid2Energy = 97,
   Wind2EnergyEms = 98,
   Wind2Energy = 105,

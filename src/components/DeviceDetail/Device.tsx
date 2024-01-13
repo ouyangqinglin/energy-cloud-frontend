@@ -21,8 +21,15 @@ import Configuration from '../Device/Configuration';
 import styles from './index.less';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallBackRender from '../FallBackRender';
+import { DeviceDataType } from '@/services/equipment';
 
-const Device: React.FC = memo(() => {
+type DeviceType = {
+  deviceTreeData?: DeviceDataType[];
+};
+
+const Device: React.FC<DeviceType> = memo((props) => {
+  const { deviceTreeData } = props;
+
   const { data: deviceData, updateData, loading } = useContext(DeviceContext);
   const onEditSuccess = useCallback(() => {
     updateData?.();
@@ -109,7 +116,12 @@ const Device: React.FC = memo(() => {
     <>
       <div className="px24 pt24 mb20">
         <ErrorBoundary fallbackRender={FallBackRender}>
-          <Overview deviceData={deviceData} onChange={onEditSuccess} loading={loading} />
+          <Overview
+            deviceData={deviceData}
+            deviceTreeData={deviceTreeData}
+            onChange={onEditSuccess}
+            loading={loading}
+          />
         </ErrorBoundary>
       </div>
       <Tabs className={styles.tabs} items={items} type="card" />

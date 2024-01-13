@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-11 11:23:54
+ * @LastEditTime: 2024-01-13 10:43:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
 
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder, getPropsFromTree, isEmpty } from '@/utils';
 import {
   deviceAlarmStatusFormat,
   onlineStatusFormat,
@@ -18,6 +18,25 @@ import { DetailItem } from '../Detail';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { connectEnum, masterSlaveEnum } from '@/utils/dict';
 import { DeviceDataType } from '@/services/equipment';
+
+const connectFormat = (
+  data: DeviceDataType[],
+  productTypeIds: DeviceProductTypeEnum[],
+  productIds: DeviceTypeEnum[],
+) => {
+  const result = getPropsFromTree(data, 'networkStatus', 'children', (item) => {
+    return (
+      productTypeIds.includes(item.productTypeId as any) ||
+      productIds.includes(item?.productId as any)
+    );
+  });
+  const value = result[0];
+  if (isEmpty(value)) {
+    return getPlaceholder(value);
+  } else {
+    return onlineStatusFormat(value);
+  }
+};
 
 export const topItems: DetailItem[] = [
   {
@@ -86,7 +105,7 @@ export const bottomItems: DetailItem[] = [
 export const allItems: Record<string, DetailItem> = {
   ipAddress: {
     label: formatMessage({ id: 'common.ipAddress', defaultMessage: 'IP地址' }),
-    field: 'ipAddress',
+    field: 'adr',
   },
   ratedPower: {
     label: formatMessage({ id: 'device.ratedPower', defaultMessage: '额定功率' }),
@@ -100,7 +119,7 @@ export const allItems: Record<string, DetailItem> = {
   },
   masterSlave: {
     label: formatMessage({ id: 'device.masterSlaveIdentification', defaultMessage: '主从标识' }),
-    field: 'd',
+    field: 'masterSlaveMode',
     format: (value) => masterSlaveEnum[value],
   },
   deviceCode: {
@@ -139,7 +158,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.upperComputer', defaultMessage: '上位机' }) },
     ),
     field: 'e601',
-    format: (value) => connectEnum[value]?.text,
+    format: onlineStatusFormat,
   },
   cloudPlatformCommunication: {
     label: formatMessage(
@@ -147,15 +166,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.cloudPlatform', defaultMessage: '云平台' }) },
     ),
     field: 'e603',
-    format: (value) => connectEnum[value]?.text,
-  },
-  ytCloudCommunication: {
-    label: formatMessage(
-      { id: 'device.communicationSentence', defaultMessage: '通信' },
-      { name: formatMessage({ id: 'device.YTCloud', defaultMessage: '永泰云' }) },
-    ),
-    field: 'networkStatus',
-    format: (value) => connectEnum[value]?.text,
+    format: onlineStatusFormat,
   },
   lightBoardCommunication: {
     label: formatMessage(
@@ -163,7 +174,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.lightBoard', defaultMessage: '灯板' }) },
     ),
     field: 'e607',
-    format: (value) => connectEnum[value]?.text,
+    format: onlineStatusFormat,
   },
   converterCommunication: {
     label: formatMessage(
@@ -171,7 +182,8 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.converter', defaultMessage: '变流器' }) },
     ),
     field: 'converterCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
   },
   bmsCommunication: {
     label: formatMessage(
@@ -179,7 +191,13 @@ export const allItems: Record<string, DetailItem> = {
       { name: 'BMS' },
     ),
     field: 'bmsCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) =>
+      connectFormat(
+        data?.deviceTreeData,
+        [DeviceProductTypeEnum.BatteryStack, DeviceProductTypeEnum.BatteryCluster],
+        [],
+      ),
   },
   liquidCoolerCommunication: {
     label: formatMessage(
@@ -187,7 +205,8 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.liquidCooler', defaultMessage: '液冷机' }) },
     ),
     field: 'liquidCoolerCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Air], []),
     show: (_, data: DeviceDataType) => data.productId == DeviceTypeEnum.Liquid2Ems,
   },
   dehumidifierCommunication: {
@@ -196,7 +215,9 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.dehumidifier1', defaultMessage: '除湿机' }) },
     ),
     field: 'dehumidifierCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) =>
+      connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Dehumidifier], []),
     show: (_, data: DeviceDataType) => data.productId == DeviceTypeEnum.Liquid2Ems,
   },
   airCommunication: {
@@ -205,16 +226,18 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.air', defaultMessage: '空调' }) },
     ),
     field: 'airCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Air], []),
     show: (_, data: DeviceDataType) => data.productId == DeviceTypeEnum.Wind2EnergyEms,
   },
   fireFightCommunication: {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
-      { name: formatMessage({ id: 'device.fireFighting', defaultMessage: '空调' }) },
+      { name: formatMessage({ id: 'device.fireFighting', defaultMessage: '消防' }) },
     ),
     field: 'fireFightCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.FireFight], []),
   },
   gridMeterCommunication: {
     label: formatMessage(
@@ -222,7 +245,13 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) },
     ),
     field: 'gridMeterCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) =>
+      connectFormat(
+        data?.deviceTreeData,
+        [],
+        [DeviceTypeEnum.YTEnergyMetterAKR, DeviceTypeEnum.Liquid2ElectricMeter],
+      ),
   },
   inverterMeterCommunication: {
     label: formatMessage(
@@ -230,14 +259,20 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) },
     ),
     field: 'inverterMeterCommunication',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) =>
+      connectFormat(
+        data?.deviceTreeData,
+        [],
+        [DeviceTypeEnum.YTEnergyMetterDTSD, DeviceTypeEnum.Liquid2InverterMeter],
+      ),
   },
   emsCommunicationMethod: {
     label: formatMessage(
       { id: 'device.communicationMethodSentence', defaultMessage: '通信方式' },
       { name: 'EMS' },
     ),
-    field: 'emsCommunicationMethod',
+    field: 'comm',
   },
   emsCommunicationStatus: {
     label: formatMessage(
@@ -245,7 +280,8 @@ export const allItems: Record<string, DetailItem> = {
       { name: 'EMS' },
     ),
     field: 'emsCommunicationStatus',
-    format: (value) => connectEnum[value]?.text,
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Ems], []),
   },
   bcmuSn: {
     label: formatMessage(
@@ -270,94 +306,94 @@ export const allItems: Record<string, DetailItem> = {
       { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
       { name: 'BCMU' },
     ),
-    field: 'bcmuHardwareVersion',
+    field: 'hv',
   },
   bcmuSoftwareVersion: {
     label: formatMessage(
       { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
       { name: 'BCMU' },
     ),
-    field: 'bcmuSoftwareVersion',
+    field: 'softVersion',
   },
   bmuNumber: {
     label: formatMessage({ id: 'device.bmuNumber', defaultMessage: '电池模块个数' }),
-    field: 'bmuNumber',
+    field: 'b121',
   },
   airHardwareVersion: {
     label: formatMessage(
       { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
       { name: formatMessage({ id: 'device.air', defaultMessage: '空调' }) },
     ),
-    field: 'airHardwareVersion',
+    field: 'hv',
   },
   airSoftwareVersion: {
     label: formatMessage(
       { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
       { name: formatMessage({ id: 'device.air', defaultMessage: '空调' }) },
     ),
-    field: 'airSoftwareVersion',
+    field: 'softVersion',
   },
   hardwareVersion: {
     label: formatMessage({ id: 'device.hardwareVersion', defaultMessage: '硬件版本' }),
-    field: 'hardwareVersion',
+    field: 'hv',
   },
   softwareVersion: {
     label: formatMessage({ id: 'device.softwareVersion', defaultMessage: '软件版本' }),
-    field: 'softwareVersion',
+    field: 'softVersion',
   },
   meterNumber: {
     label: formatMessage({ id: 'device.softwareVersion', defaultMessage: '电表序号' }),
-    field: 'meterNumber',
+    field: 'MeterSerialNumber',
   },
   meterAddress: {
     label: formatMessage({ id: 'device.meterAddress', defaultMessage: '电表地址' }),
-    field: 'meterAddress',
+    field: 'MeterAddress',
   },
   liquidCoolerHardwareVersion: {
     label: formatMessage(
       { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
       { name: formatMessage({ id: 'device.liquidCooler', defaultMessage: '液冷机' }) },
     ),
-    field: 'liquidCoolerHardwareVersion',
+    field: 'hv',
   },
   liquidCoolerSoftwareVersion: {
     label: formatMessage(
       { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
       { name: formatMessage({ id: 'device.liquidCooler', defaultMessage: '液冷机' }) },
     ),
-    field: 'liquidCoolerSoftwareVersion',
+    field: 'softVersion',
   },
   compressorHardwareVersion: {
     label: formatMessage(
       { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
       { name: formatMessage({ id: 'device.compressor', defaultMessage: '压缩机' }) },
     ),
-    field: 'compressorHardwareVersion',
+    field: 'y1',
   },
   compressorSoftwareVersion: {
     label: formatMessage(
       { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
       { name: formatMessage({ id: 'device.compressor', defaultMessage: '压缩机' }) },
     ),
-    field: 'compressorSoftwareVersion',
+    field: 'y2',
   },
   softwareCoding: {
     label: formatMessage({ id: 'device.softwareCoding', defaultMessage: '软件编码' }),
-    field: 'softwareCoding',
+    field: 'y3',
   },
   dehumidifierHardwareVersion: {
     label: formatMessage(
       { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
       { name: formatMessage({ id: 'device.dehumidifier1', defaultMessage: '除湿机' }) },
     ),
-    field: 'dehumidifierHardwareVersion',
+    field: 'hv',
   },
   dehumidifierSoftwareVersion: {
     label: formatMessage(
       { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
       { name: formatMessage({ id: 'device.dehumidifier1', defaultMessage: '除湿机' }) },
     ),
-    field: 'dehumidifierSoftwareVersion',
+    field: 'softVersion',
   },
 };
 
@@ -374,7 +410,6 @@ const emsKeys = [
   'imeiNumber',
   'upperComputerCommunication',
   'cloudPlatformCommunication',
-  'ytCloudCommunication',
   'lightBoardCommunication',
   'converterCommunication',
   'bmsCommunication',
@@ -424,7 +459,7 @@ const liquidCoolerKeys = [
   'liquidCoolerHardwareVersion',
   'liquidCoolerSoftwareVersion',
   'softwareCoding',
-  'compressorHardwareVersion',
+  // 'compressorHardwareVersion',
   'compressorSoftwareVersion',
   'emsCommunicationMethod',
   'emsCommunicationStatus',

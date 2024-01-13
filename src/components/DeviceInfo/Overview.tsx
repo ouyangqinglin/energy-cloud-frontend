@@ -21,9 +21,11 @@ import DeviceNameDialog from './DeviceNameDialog';
 import { formatMessage, isEmpty } from '@/utils';
 import { DeviceMasterMode } from '@/utils/dictionary';
 import { topItems, bottomItems, getDetailItems } from './helper';
+import { useSubscribe } from '@/hooks';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
+  deviceTreeData?: DeviceDataType[];
   introImg?: string;
   loading?: boolean;
   onChange?: () => void;
@@ -39,7 +41,7 @@ type DeviceNameInfoType = {
 };
 
 const Overview: React.FC<OverviewProps> = (props) => {
-  const { deviceData, loading = false, onChange, introImg, className = '' } = props;
+  const { deviceData, deviceTreeData, loading = false, onChange, introImg, className = '' } = props;
 
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
@@ -50,6 +52,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
     masterSlaveMode: '',
     masterSlaveSystemName: '',
   });
+  const realTimeData = useSubscribe(deviceData?.deviceId, true);
 
   const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
   const [emsNameValues, setEmsNameValues] = useState({});
@@ -188,7 +191,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
           </Detail.Label>
           <Detail
             items={[...topItems, ...middleItems, ...bottomItems]}
-            data={{ ...deviceData }}
+            data={{ ...deviceData, deviceTreeData, ...realTimeData }}
             column={4}
           />
         </div>

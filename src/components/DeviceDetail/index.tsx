@@ -43,7 +43,9 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
           </span>
         </>
       ),
+      networkStatus: networkStatus,
       productId: item?.productId,
+      productTypeId: item?.productTypeId,
     };
     node.icon =
       productTypeIconMap.get(item?.productTypeId ?? DeviceProductTypeEnum.Default) ||
@@ -63,7 +65,7 @@ export type DeviceDetailProps = {
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id } = props;
 
-  const [isOpen, { toggle, setTrue, setFalse }] = useBoolean(true);
+  const [isOpen, { toggle, setFalse }] = useBoolean(true);
   const [selectOrg, setSelectOrg] = useState<DeviceDataType>({
     deviceId: parseInt(id) as any,
     key: id,
@@ -149,7 +151,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         </div>
         <div className={styles.content}>
           <DeviceProvider deviceId={selectOrg.deviceId} onChange={onChange}>
-            <Device />
+            <Device deviceTreeData={mergedTreeData} />
           </DeviceProvider>
         </div>
       </div>
