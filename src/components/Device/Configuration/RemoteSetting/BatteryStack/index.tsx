@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-05 16:12:13
- * @LastEditTime: 2024-01-07 10:11:03
+ * @LastEditTime: 2024-01-13 13:57:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\RemoteSetting\BatteryStack\index.tsx
  */
@@ -10,7 +10,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { RemoteSettingType } from '../typing';
 import { Button, Tabs, TabsProps } from 'antd';
-import { useSubscribe } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import { formatMessage, getPropsFromTree } from '@/utils';
 import Detail from '@/components/Detail';
 import {
@@ -32,6 +32,7 @@ import { useBoolean } from 'ahooks';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import Authority from '@/components/Authority';
 
 export type BatteryStackType = {
   bmuNum?: number;
@@ -70,6 +71,10 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
     serviceId?: string;
     columns?: ProFormColumnsType[];
   }>({});
+  const { authorityMap } = useAuthority([
+    'iot:device:config:batterySetting:batterySystemSetting',
+    'iot:device:config:batterySetting:batteryProtectSetting',
+  ]);
 
   const Com = useMemo(
     () =>
@@ -157,37 +162,55 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
       <Detail.Group
         data={realTimeData}
         items={[
-          {
-            label: (
-              <Detail.Label title="电池组使能设置">
-                <Button
-                  type="primary"
-                  disabled={deviceData?.status === OnlineStatusEnum.Offline}
-                  onClick={() => onClick('EnableBatterySystemSelfStartFunction', '电池组使能设置')}
-                >
-                  {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
-                </Button>
-              </Detail.Label>
-            ),
-          },
-          ...batteryPackFireGroupItems,
-          {
-            label: (
-              <Detail.Label title="电池组保护参数设置">
-                <Button
-                  type="primary"
-                  disabled={deviceData?.status === OnlineStatusEnum.Offline}
-                  onClick={() => onClick('BatteryProtecParam', '电池组保护参数设置')}
-                >
-                  {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
-                </Button>
-              </Detail.Label>
-            ),
-          },
-          ...batteryPackGroupItems,
+          ...(authorityMap.get('iot:device:config:batterySetting:batterySystemSetting')
+            ? [
+                {
+                  label: (
+                    <Detail.Label title="电池组使能设置">
+                      <Authority code="iot:device:config:batterySetting:batterySystemSetting:distribute">
+                        <Button
+                          type="primary"
+                          disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                          onClick={() =>
+                            onClick('EnableBatterySystemSelfStartFunction', '电池组使能设置')
+                          }
+                        >
+                          {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
+                        </Button>
+                      </Authority>
+                    </Detail.Label>
+                  ),
+                },
+                ...batteryPackFireGroupItems,
+              ]
+            : []),
+          ...(authorityMap.get('iot:device:config:batterySetting:batteryProtectSetting')
+            ? [
+                {
+                  label: (
+                    <Detail.Label title="电池组保护参数设置">
+                      <Authority code="iot:device:config:batterySetting:batteryProtectSetting:distribute">
+                        <Button
+                          type="primary"
+                          disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                          onClick={() => onClick('BatteryProtecParam', '电池组保护参数设置')}
+                        >
+                          {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
+                        </Button>
+                      </Authority>
+                    </Detail.Label>
+                  ),
+                },
+                ...batteryPackGroupItems,
+              ]
+            : []),
         ]}
       />
-      <Tabs items={levelItems} />
+      {authorityMap.get('iot:device:config:batterySetting:batteryProtectSetting') ? (
+        <Tabs items={levelItems} />
+      ) : (
+        <></>
+      )}
       <ConfigModal
         width={
           currentFormInfo?.serviceId == 'EnableBatterySystemSelfStartFunction' ? '552px' : '816px'

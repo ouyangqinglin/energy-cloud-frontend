@@ -72,6 +72,7 @@ export type DeviceServiceModelType = {
   showType?: DeviceModelShowTypeEnum;
   disabled?: string;
   tip?: string;
+  authority?: DeviceModelAuthorityType[];
   dataType?:
     | DeviceArrayType
     | DeviceDoubleType

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-13 11:08:30
+ * @LastEditTime: 2024-01-13 11:35:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -16,7 +16,7 @@ import {
 } from '@/utils/format';
 import { DetailItem } from '../Detail';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
-import { connectEnum, masterSlaveEnum } from '@/utils/dict';
+import { masterSlaveEnum } from '@/utils/dict';
 import { DeviceDataType } from '@/services/equipment';
 
 const connectFormat = (
@@ -120,7 +120,7 @@ export const allItems: Record<string, DetailItem> = {
   masterSlave: {
     label: formatMessage({ id: 'device.masterSlaveIdentification', defaultMessage: '主从标识' }),
     field: 'masterSlaveMode',
-    format: (value) => masterSlaveEnum[value],
+    format: (value) => masterSlaveEnum[value]?.text,
   },
   deviceCode: {
     label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),

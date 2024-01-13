@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-13 10:57:38
+ * @LastEditTime: 2024-01-13 11:31:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -146,6 +146,30 @@ const Control: React.FC<ControlType> = memo((props) => {
       });
     },
     [deviceData?.deviceId],
+  );
+
+  const passAuthority = useCallback(
+    (authoritys?: DeviceModelAuthorityType[], type?: 'detail' | 'edit') => {
+      const codes: string[] = [];
+      authoritys?.forEach?.((item) => {
+        if (type == 'edit') {
+          if (item?.edit) {
+            codes.push(item.edit);
+          }
+        } else {
+          if (item?.detail) {
+            codes.push(item.detail);
+          }
+        }
+      });
+      const passCodes = codes?.some?.((item) => authorityMap.get(item));
+      if (!codes?.length || passCodes) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [authorityMap],
   );
 
   const getFieldItem = useCallback(
@@ -333,7 +357,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                   return (
                     <Switch
                       checked={formatValue === 0 || formatValue === '0'}
-                      disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                      disabled={
+                        deviceData?.status === OnlineStatusEnum.Offline ||
+                        passAuthority(field?.authority, 'edit')
+                      }
                       loading={loading}
                       onClick={() =>
                         btnClick(field, formatValue === 0 || formatValue === '0' ? 1 : 0)
@@ -379,7 +406,11 @@ const Control: React.FC<ControlType> = memo((props) => {
                         options={options}
                         type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
                         value={isEmpty(formatValue) ? '' : formatValue + ''}
-                        disabled={deviceData?.status === OnlineStatusEnum.Offline || fieldDisabled}
+                        disabled={
+                          deviceData?.status === OnlineStatusEnum.Offline ||
+                          fieldDisabled ||
+                          passAuthority(field?.authority, 'edit')
+                        }
                         onChange={(btnValue) => btnClick(field, btnValue)}
                         loading={loading}
                       />
@@ -531,7 +562,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         cols: columns,
       };
     },
-    [realTimeData, deviceData, btnClick, loading],
+    [realTimeData, deviceData, btnClick, loading, passAuthority],
   );
 
   const getServiceItem = useCallback(
@@ -539,15 +570,17 @@ const Control: React.FC<ControlType> = memo((props) => {
       const detailItems: DetailItem[] = [];
       const columns: ProFormColumnsType[] = [];
       service?.children?.forEach?.((field) => {
-        field.serviceId = service.id;
-        const { items, cols } = getFieldItem(field);
-        if (field.dataType?.type == DeviceModelTypeEnum.Array) {
-          if (detailItems.length > 1) {
-            detailItems[detailItems?.length - 1].span = 4 - (detailItems.length % 3);
+        if (passAuthority(field.authority)) {
+          field.serviceId = service.id;
+          const { items, cols } = getFieldItem(field);
+          if (field.dataType?.type == DeviceModelTypeEnum.Array) {
+            if (detailItems.length > 1) {
+              detailItems[detailItems?.length - 1].span = 4 - (detailItems.length % 3);
+            }
           }
+          detailItems.push(...items);
+          columns.push(...cols);
         }
-        detailItems.push(...items);
-        columns.push(...cols);
       });
       const columnsLength = getColumnsLength(columns);
       if (columnsLength < 3) {
@@ -584,25 +617,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       }
       return groupItem;
     },
-    [deviceData, getFieldItem, onClick],
-  );
-
-  const passAuthority = useCallback(
-    (authoritys?: DeviceModelAuthorityType[]) => {
-      const codes: string[] = [];
-      authoritys?.forEach?.((item) => {
-        if (item?.detail) {
-          codes.push(item.detail);
-        }
-      });
-      const passCodes = codes?.some?.((item) => authorityMap.get(item));
-      if (!codes?.length || passCodes) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    [authorityMap],
+    [deviceData, getFieldItem, onClick, passAuthority],
   );
 
   const getGroupItems = useCallback(
