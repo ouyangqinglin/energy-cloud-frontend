@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-01-11 11:17:18
+ * @LastEditTime: 2024-01-13 09:12:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
@@ -12,7 +12,7 @@ import { Tabs, TabsProps } from 'antd';
 import { formatMessage } from '@/utils';
 import DeviceRealTime from '../DeviceRealTime';
 import DeviceContext from '../Device/Context/DeviceContext';
-import { OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import Adjust from '../Device/Adjust';
@@ -29,20 +29,17 @@ const Device: React.FC = memo(() => {
   }, [updateData]);
 
   const items = useMemo<TabsProps['items']>(() => {
-
     const debug = [
       {
         label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
         key: '6',
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
-            <Adjust
-              deviceId={deviceData?.deviceId || ''}
-            />
+            <Adjust deviceId={deviceData?.deviceId || ''} />
           </ErrorBoundary>
         ),
-      }
-    ]
+      },
+    ];
     const arr = [
       {
         label: formatMessage({ id: 'siteMonitor.deviceDetails', defaultMessage: '设备详情' }),
@@ -105,8 +102,8 @@ const Device: React.FC = memo(() => {
         ),
       },
     ];
-    return [89, 98].includes(+deviceData.productId) ? [...arr, ...debug] : arr
-  }, [deviceData.productId]);
+    return DeviceProductTypeEnum.Ems == deviceData?.productTypeId ? [...arr, ...debug] : arr;
+  }, [deviceData]);
 
   return (
     <>
