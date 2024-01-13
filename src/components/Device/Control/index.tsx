@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-12 09:11:33
+ * @LastEditTime: 2024-01-13 10:57:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -285,7 +285,6 @@ const Control: React.FC<ControlType> = memo((props) => {
             valueType: 'timeRange',
             formItemProps: ({ getFieldValue }) => {
               return {
-                validateTrigger: 'submit',
                 rules: [
                   ...(field?.required === false
                     ? []
