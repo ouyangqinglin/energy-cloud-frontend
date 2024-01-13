@@ -236,6 +236,13 @@ export const workFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const emsConnectMethodFormat = (value: number) => {
+  const map: MapType = {
+    0: '485',
+    1: '未知',
+  };
+  return <span className={''}>{map[value]}</span>;
+};
 export const liquidWorkFormat = (value: number) => {
   const map: MapType = {
     0: '故障',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-13 14:26:36
+ * @LastEditTime: 2024-01-13 16:11:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -101,6 +101,9 @@ const Control: React.FC<ControlType> = memo((props) => {
       item?.forEach?.((child) => {
         if (child.detail) {
           result.push(child.detail);
+        }
+        if (child.edit) {
+          result.push(child.edit);
         }
       });
     });

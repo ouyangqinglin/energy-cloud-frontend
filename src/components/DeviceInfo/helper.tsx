@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-13 11:35:31
+ * @LastEditTime: 2024-01-13 15:20:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -10,6 +10,7 @@
 import { formatMessage, getPlaceholder, getPropsFromTree, isEmpty } from '@/utils';
 import {
   deviceAlarmStatusFormat,
+  emsConnectMethodFormat,
   onlineStatusFormat,
   powerFormat,
   powerHourFormat,
@@ -127,7 +128,7 @@ export const allItems: Record<string, DetailItem> = {
     field: 'deviceId',
   },
   externalIpAddress: {
-    label: formatMessage({ id: 'common.ipAddress', defaultMessage: '外网IP' }),
+    label: formatMessage({ id: 'device.externalIpAddress', defaultMessage: '外网IP' }),
     field: 'nadr',
   },
   emsHardwareVersion: {
@@ -269,6 +270,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: 'EMS' },
     ),
     field: 'comm',
+    format: emsConnectMethodFormat,
   },
   bcmuSn: {
     label: formatMessage(
