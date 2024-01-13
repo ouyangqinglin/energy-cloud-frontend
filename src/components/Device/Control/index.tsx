@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-13 11:31:46
+ * @LastEditTime: 2024-01-13 14:26:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -359,7 +359,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                       checked={formatValue === 0 || formatValue === '0'}
                       disabled={
                         deviceData?.status === OnlineStatusEnum.Offline ||
-                        passAuthority(field?.authority, 'edit')
+                        !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
                       onClick={() =>
@@ -409,7 +409,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                         disabled={
                           deviceData?.status === OnlineStatusEnum.Offline ||
                           fieldDisabled ||
-                          passAuthority(field?.authority, 'edit')
+                          !passAuthority(field?.authority, 'edit')
                         }
                         onChange={(btnValue) => btnClick(field, btnValue)}
                         loading={loading}
