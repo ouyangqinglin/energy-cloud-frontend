@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-13 10:43:56
+ * @LastEditTime: 2024-01-13 11:08:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -129,10 +129,6 @@ export const allItems: Record<string, DetailItem> = {
   externalIpAddress: {
     label: formatMessage({ id: 'common.ipAddress', defaultMessage: '外网IP' }),
     field: 'nadr',
-  },
-  emsSn: {
-    label: formatMessage({ id: 'common.equipmentEmsSerial', defaultMessage: 'EMS序列号' }),
-    field: 'emsSn',
   },
   emsHardwareVersion: {
     label: formatMessage(
@@ -274,15 +270,6 @@ export const allItems: Record<string, DetailItem> = {
     ),
     field: 'comm',
   },
-  emsCommunicationStatus: {
-    label: formatMessage(
-      { id: 'device.communicationStatusWithSentence', defaultMessage: '通信状态' },
-      { name: 'EMS' },
-    ),
-    field: 'emsCommunicationStatus',
-    showPlaceholder: false,
-    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Ems], []),
-  },
   bcmuSn: {
     label: formatMessage(
       { id: 'common.serialSentence', defaultMessage: '序列号' },
@@ -404,7 +391,6 @@ const emsKeys = [
   'masterSlave',
   'deviceCode',
   'externalIpAddress',
-  'emsSn',
   'emsHardwareVersion',
   'emsSoftwareVersion',
   'imeiNumber',
@@ -421,7 +407,7 @@ const emsKeys = [
   'inverterMeterCommunication',
 ];
 
-const pcsKeys = ['ratedPower', 'emsCommunicationMethod', 'emsCommunicationStatus'];
+const pcsKeys = ['ratedPower', 'emsCommunicationMethod'];
 
 const bmsKeys = [
   'bcmuSn',
@@ -430,30 +416,14 @@ const bmsKeys = [
   'bcmuHardwareVersion',
   'bcmuSoftwareVersion',
   'emsCommunicationMethod',
-  'emsCommunicationStatus',
   'bmuNumber',
 ];
 
-const airKeys = [
-  'airHardwareVersion',
-  'airSoftwareVersion',
-  'emsCommunicationMethod',
-  'emsCommunicationStatus',
-];
+const airKeys = ['airHardwareVersion', 'airSoftwareVersion', 'emsCommunicationMethod'];
 
-const fireFightKeys = [
-  'hardwareVersion',
-  'softwareVersion',
-  'emsCommunicationMethod',
-  'emsCommunicationStatus',
-];
+const fireFightKeys = ['hardwareVersion', 'softwareVersion', 'emsCommunicationMethod'];
 
-const meterKeys = [
-  'meterNumber',
-  'meterAddress',
-  'emsCommunicationMethod',
-  'emsCommunicationStatus',
-];
+const meterKeys = ['meterNumber', 'meterAddress', 'emsCommunicationMethod'];
 
 const liquidCoolerKeys = [
   'liquidCoolerHardwareVersion',
@@ -462,14 +432,12 @@ const liquidCoolerKeys = [
   // 'compressorHardwareVersion',
   'compressorSoftwareVersion',
   'emsCommunicationMethod',
-  'emsCommunicationStatus',
 ];
 
 const dehumidifierKeys = [
   'dehumidifierHardwareVersion',
   'dehumidifierSoftwareVersion',
   'emsCommunicationMethod',
-  'emsCommunicationStatus',
 ];
 
 const productTypeIdKeysMap = new Map([
