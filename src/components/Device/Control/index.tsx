@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-13 16:11:00
+ * @LastEditTime: 2024-01-14 23:36:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -270,6 +270,8 @@ const Control: React.FC<ControlType> = memo((props) => {
                   if (item?.deviceId) {
                     const realField = item?.id?.split?.('.') || [];
                     return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
                   }
                 },
                 format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
@@ -302,6 +304,8 @@ const Control: React.FC<ControlType> = memo((props) => {
               if (field?.deviceId) {
                 const realField = field?.id?.split?.('.') || [];
                 return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
               }
             },
             format: (value) => formatModelValue(value, field?.dataType || {}),
@@ -435,6 +439,8 @@ const Control: React.FC<ControlType> = memo((props) => {
                   if (field?.deviceId) {
                     const realField = field?.id?.split?.('.') || [];
                     return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                   }
                 },
                 format: (value) => formatModelValue(value, field?.dataType || {}),
@@ -482,6 +488,8 @@ const Control: React.FC<ControlType> = memo((props) => {
               if (field?.deviceId) {
                 const realField = field?.id?.split?.('.') || [];
                 return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
               }
             },
             format: (value) => formatModelValue(value, field?.dataType || {}),
@@ -522,6 +530,8 @@ const Control: React.FC<ControlType> = memo((props) => {
               if (field?.deviceId) {
                 const realField = field?.id?.split?.('.') || [];
                 return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
               }
             },
             format: (value) => formatModelValue(value, field?.dataType || {}),

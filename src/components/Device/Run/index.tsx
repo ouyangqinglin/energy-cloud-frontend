@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-01-12 11:16:36
+ * @LastEditTime: 2024-01-14 23:31:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -128,27 +128,32 @@ const Run: React.FC<RunType> = (props) => {
     [authorityMap],
   );
 
-  const getDetailItems = useCallback((service: DeviceServiceModelType[]) => {
-    const result: DetailItem[] = [];
-    service?.forEach?.((item) => {
-      result.push?.({
-        field: item?.id || '',
-        label: item?.name,
-        deviceId: item?.deviceId,
-        valueInterceptor: (_, data) => {
-          if (item?.deviceId) {
-            const realField = item?.id?.split?.('.') || [];
-            return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
-          }
-        },
-        format: (value) => formatModelValue(value, item?.dataType || {}),
+  const getDetailItems = useCallback(
+    (service: DeviceServiceModelType[]) => {
+      const result: DetailItem[] = [];
+      service?.forEach?.((item) => {
+        result.push?.({
+          field: item?.id || '',
+          label: item?.name,
+          deviceId: item?.deviceId,
+          valueInterceptor: (_, data) => {
+            if (item?.deviceId) {
+              const realField = item?.id?.split?.('.') || [];
+              return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+            } else {
+              return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
+            }
+          },
+          format: (value) => formatModelValue(value, item?.dataType || {}),
+        });
       });
-    });
-    if (result.length > 1) {
-      result[result?.length - 1].span = 4 - (result.length % 3);
-    }
-    return result;
-  }, []);
+      if (result.length > 1) {
+        result[result?.length - 1].span = 4 - (result.length % 3);
+      }
+      return result;
+    },
+    [deviceData?.deviceId],
+  );
 
   const getGridComponent = useCallback(
     (group?: DeviceModelDescribeType[], columns = 5) => {
