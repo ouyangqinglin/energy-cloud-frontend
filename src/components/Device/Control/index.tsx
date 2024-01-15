@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-15 17:37:52
+ * @LastEditTime: 2024-01-15 17:57:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -360,6 +360,8 @@ const Control: React.FC<ControlType> = memo((props) => {
                     const realField = field?.id?.split?.('.') || [];
                     formatValue =
                       data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                   }
                   return (
                     <Switch
@@ -391,12 +393,16 @@ const Control: React.FC<ControlType> = memo((props) => {
                   width: '145px',
                   marginTop: '4px',
                 },
-                format: (value, data) => {
+                format: (value, formatData) => {
+                  let data = formatData;
                   let formatValue = value;
                   if (field?.deviceId) {
                     const realField = field?.id?.split?.('.') || [];
-                    formatValue =
-                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                    data = formatData?.[field?.deviceId || ''];
+                    formatValue = data?.[realField?.[realField?.length - 1]];
+                  } else {
+                    data = formatData?.[deviceData?.deviceId || ''];
+                    formatValue = data?.[field?.id || ''];
                   }
                   let fieldDisabled = false;
                   if (field?.disabled) {
