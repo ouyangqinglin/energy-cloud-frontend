@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-01-14 23:31:41
+ * @LastEditTime: 2024-01-15 21:47:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -183,7 +183,7 @@ const Run: React.FC<RunType> = (props) => {
         />
       );
     },
-    [passAuthority],
+    [passAuthority, extral],
   );
 
   const getGroupItems = useCallback(
@@ -267,7 +267,7 @@ const Run: React.FC<RunType> = (props) => {
       result.push(...getGroupItems(item));
     });
     return result;
-  }, [groupData, getGroupItems, authorityMap]);
+  }, [groupData, getGroupItems, authorityMap, collectionInfo]);
 
   return (
     <>
