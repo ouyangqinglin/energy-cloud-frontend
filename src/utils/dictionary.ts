@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-12-18 17:49:19
+ * @LastEditTime: 2024-01-15 19:46:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -127,6 +127,8 @@ export enum DeviceTypeEnum {
   Liquid2InverterMeter = 96,
   Liquid2Energy = 97,
   Wind2EnergyEms = 98,
+  Wind2BatteryStack = 106,
+  Liquid2BatteryStack = 107,
   Wind2Energy = 105,
   Liquid2EnergyBatteryCluster = 107,
   Device = 'default',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-01-06 15:22:01
+ * @LastEditTime: 2024-01-15 19:44:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -31,6 +31,11 @@ type BmuTabsType = {
 const LiquidEnergyBatteryProductIds = [
   DeviceTypeEnum.LiquidEnergyBatteryStack,
   DeviceTypeEnum.Liquid2EnergyBatteryCluster,
+];
+
+const newLiquidWindBatteryProductIds = [
+  DeviceTypeEnum.Wind2BatteryStack,
+  DeviceTypeEnum.Liquid2BatteryStack,
 ];
 
 const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
@@ -147,14 +152,17 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
           : ['', resultValue]),
       ]);
     });
-    const result = {};
-    merge(result, defaultLineOption, chartOptions, {
+    const result = merge({}, defaultLineOption, chartOptions, {
       dataset: {
         source,
       },
     });
+    if (deviceData?.productId && newLiquidWindBatteryProductIds.includes(deviceData?.productId)) {
+      result.yAxis[0].name =
+        formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }) + '(mV)';
+    }
     return result;
-  }, [bmuData, allLabel, activeKey]);
+  }, [bmuData, deviceData, allLabel, activeKey]);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return Array.from({
