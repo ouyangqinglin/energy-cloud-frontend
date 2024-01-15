@@ -93,6 +93,7 @@ export type DeviceServiceType = {
   groupName?: string;
   showType?: DeviceModelShowTypeEnum;
   type?: DeviceModelDescribeTypeEnum;
+  tip?: string;
   outputData?: DeviceServiceModelType[];
   children?: DeviceServiceModelType[];
   authority?: DeviceModelAuthorityType[];
@@ -122,6 +123,7 @@ export type DeviceModelDescribeType = {
   showType?: DeviceModelShowTypeEnum;
   icon?: string;
   columns?: number;
+  tip?: string;
   authority?: DeviceModelAuthorityType[];
   children?: DeviceModelDescribeType[] | DeviceServiceType[];
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-15 14:48:23
+ * @LastEditTime: 2024-01-15 17:37:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -612,7 +612,18 @@ const Control: React.FC<ControlType> = memo((props) => {
       };
       if (service.showType != DeviceModelShowTypeEnum.HideName) {
         groupItem.label = (
-          <Detail.Label title={service?.name}>
+          <Detail.Label
+            title={
+              <>
+                {service?.name}
+                {!!service?.tip && (
+                  <Typography.Text className={styels.tip} type="secondary">
+                    ({service?.tip})
+                  </Typography.Text>
+                )}
+              </>
+            }
+          >
             <Authority
               code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
               mode={AuthorityModeEnum.Within}
@@ -645,7 +656,20 @@ const Control: React.FC<ControlType> = memo((props) => {
                 modelDescribeItem.children?.[0]?.showType == DeviceModelShowTypeEnum.HideName)
             ) {
               result.push({
-                label: <Detail.Label title={modelDescribeItem.name} />,
+                label: (
+                  <Detail.Label
+                    title={
+                      <>
+                        {modelDescribeItem?.name}
+                        {!!modelDescribeItem?.tip && (
+                          <Typography.Text className={styels.tip} type="secondary">
+                            ({modelDescribeItem?.tip})
+                          </Typography.Text>
+                        )}
+                      </>
+                    }
+                  />
+                ),
               });
             }
             modelDescribeItem?.children?.forEach?.((item) => {
