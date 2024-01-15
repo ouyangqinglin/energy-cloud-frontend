@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-06 17:05:13
+ * @LastEditTime: 2024-01-15 14:43:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -150,7 +150,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.air;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, airModelMap);
+        item.format = (value) => formatModelValue(value, airModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], airRealTimeData, onMoreClick);
@@ -160,7 +160,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.door;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format = (value) => formatModelValue(value, bmsModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
@@ -170,7 +170,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.ems;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, emsModelMap);
+        item.format = (value) => formatModelValue(value, emsModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], emsRealTimeData, onMoreClick);
@@ -180,17 +180,22 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.bms;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format = (value) =>
+          formatModelValue(value, { ...bmsModelMap, ...emsModelMap }?.[item?.field || '']);
       });
     }
-    return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
-  }, [bmsRealTimeData, deviceData, bmsModelMap, onMoreClick]);
+    return getItemsByConfig(
+      result ? [result] : [],
+      { ...emsRealTimeData, ...bmsRealTimeData },
+      onMoreClick,
+    );
+  }, [bmsRealTimeData, emsRealTimeData, deviceData, emsModelMap, bmsModelMap, onMoreClick]);
 
   const fireFightItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.fireFight;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, fireModelMap);
+        item.format = (value) => formatModelValue(value, fireModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], fireRealTimeData, onMoreClick);
@@ -200,7 +205,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.peak;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format = (value) => formatModelValue(value, bmsModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
@@ -210,22 +215,31 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.pcs;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, { ...pcsModelMap, ...bmsModelMap });
+        item.format = (value) =>
+          formatModelValue(value, { ...emsModelMap, ...pcsModelMap }?.[item?.field || '']);
       });
     }
     return getItemsByConfig(
       result ? [result] : [],
-      { ...pcsRealTimeData, ...bmsRealTimeData },
+      { ...pcsRealTimeData, ...bmsRealTimeData, ...emsRealTimeData },
       onMoreClick,
     );
-  }, [pcsRealTimeData, bmsRealTimeData, deviceData, pcsModelMap, bmsModelMap, onMoreClick]);
+  }, [
+    pcsRealTimeData,
+    bmsRealTimeData,
+    emsRealTimeData,
+    deviceData,
+    pcsModelMap,
+    emsModelMap,
+    onMoreClick,
+  ]);
 
   const dehumidifierItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.dehumidifier;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
         item.format = (value) =>
-          formatModelValue(value, { ...dehumidifireModelMap, ...bmsModelMap });
+          formatModelValue(value, { ...bmsModelMap, ...dehumidifireModelMap }?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], { ...dehumidifierRealTimeData }, onMoreClick);

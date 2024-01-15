@@ -48,6 +48,13 @@ export const systemRunFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const workStatusFormat = (value: number) => {
+  const map: MapType = {
+    0: '启动',
+    1: '停止',
+  };
+  return <span className={''}>{map[value]}</span>;
+};
 export const enableFormat = (status: number) => {
   const map: MapType = {
     0: '使能',
@@ -66,6 +73,7 @@ export const modelFormat = (value: number) => {
   const map: MapType = {
     0: '手动',
     1: '自动',
+    2: '手动',
   };
   return <span className={''}>{map[value]}</span>;
 };

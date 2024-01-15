@@ -45,6 +45,7 @@ import {
   liquidSystemModeFormat,
   liquidSensorFormat,
   liquidWorkFormat,
+  workStatusFormat,
 } from '@/utils/format';
 import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { DetailItem } from '@/components/Detail';
@@ -153,13 +154,11 @@ export const liquid2AirItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'y19',
-      format: systemOperatingModeFormat,
+      field: 'WorkStatus',
     },
     {
       label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
-      field: 'sysModel',
-      format: liquidSystemModeFormat,
+      field: 'SystemMode',
     },
   ],
 };
@@ -256,11 +255,11 @@ export const liquid2EmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'bws',
+      field: 'systemOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'bmd',
+      field: 'systemWorkingStatus',
     },
   ],
 };
@@ -275,11 +274,11 @@ export const wind2EmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'bmd',
+      field: 'systemOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'bws',
+      field: 'systemWorkingStatus',
     },
   ],
 };
@@ -310,7 +309,7 @@ export const liquid2DehumidifierItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'workm',
+      field: 'WorkMode',
     },
   ],
 };
@@ -341,7 +340,7 @@ export const wind2DoorItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
-      field: 'b178',
+      field: 'AccessControlStatus',
     },
   ],
 };
@@ -368,11 +367,11 @@ export const liquid2DoorItem: ConfigType = {
   position: { top: 70, left: 2 },
   icon: DoorImg,
   line: LiquidDoorLineImg,
-  linePosition: { top: 7, left: 128 },
+  linePosition: { top: 7, left: 135 },
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
-      field: 'b178',
+      field: 'AccessControlStatus',
     },
   ],
 };
@@ -417,11 +416,11 @@ export const liquid2BmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'bmd',
+      field: 'batteryPackOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'bws',
+      field: 'batteryPackWorkingStatus',
     },
   ],
 };
@@ -436,11 +435,11 @@ export const wind2BmsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'bmd',
+      field: 'batteryPackOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'bws',
+      field: 'batteryPackWorkingStatus',
     },
   ],
 };
@@ -505,7 +504,7 @@ export const liquid2FireFightItem: ConfigType = {
     },
     {
       label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
-      field: 'x28',
+      field: 'DetectorCo',
     },
   ],
 };
@@ -520,11 +519,11 @@ export const wind2FireFightItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'device.warningLevel', defaultMessage: '预警等级' }),
-      field: 'x4',
+      field: 'lev',
     },
     {
       label: formatMessage({ id: 'device.subValveStatus', defaultMessage: '子阀门状态' }),
-      field: 'x3',
+      field: 'svs',
     },
   ],
 };
@@ -586,35 +585,35 @@ export const wind2PeakItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
-      field: 'b152',
+      field: 'MVVOASU',
     },
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
-      field: 'b153',
+      field: 'MaxNOIV',
     },
     {
       label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
-      field: 'b155',
+      field: 'MVVOSU',
     },
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
-      field: 'b156',
+      field: 'MNOIV',
     },
     {
       label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
-      field: 'b160',
+      field: 'MaximumIndividualTemperature',
     },
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
-      field: 'b161',
+      field: 'MITN',
     },
     {
       label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
-      field: 'b163',
+      field: 'LVOMT',
     },
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
-      field: 'b164',
+      field: 'MNOIT',
     },
   ],
 };
@@ -676,35 +675,35 @@ export const liquid2PeakItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
-      field: 'b152',
+      field: 'MVVOASU',
     },
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
-      field: 'b153',
+      field: 'MaxNOIV',
     },
     {
       label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
-      field: 'b155',
+      field: 'MVVOSU',
     },
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
-      field: 'b156',
+      field: 'MNOIV',
     },
     {
       label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
-      field: 'b160',
+      field: 'MaximumIndividualTemperature',
     },
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
-      field: 'b161',
+      field: 'MITN',
     },
     {
       label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
-      field: 'b163',
+      field: 'LVOMT',
     },
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
-      field: 'b164',
+      field: 'MNOIT',
     },
   ],
 };
@@ -766,11 +765,11 @@ export const liquid2PcsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'p121',
+      field: 'converterOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'WorkStatus',
+      field: 'converterWorkingStatus',
     },
   ],
 };
@@ -785,11 +784,11 @@ export const wind2PcsItem: ConfigType = {
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'p121',
+      field: 'converterOperatingMode',
     },
     {
       label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'WorkStatus',
+      field: 'converterWorkingStatus',
     },
   ],
 };

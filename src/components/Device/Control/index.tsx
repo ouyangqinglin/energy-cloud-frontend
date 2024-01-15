@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-14 23:36:52
+ * @LastEditTime: 2024-01-15 14:48:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -401,7 +401,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   let fieldDisabled = false;
                   if (field?.disabled) {
                     try {
-                      const evalResult = eval(field?.disabled?.replace?.('$data', 'data'));
+                      const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
                       if (typeof evalResult == 'boolean') {
                         fieldDisabled = evalResult;
                       }
@@ -746,7 +746,9 @@ const Control: React.FC<ControlType> = memo((props) => {
             title={currentFormInfo?.service?.name || ''}
             deviceId={currentFormInfo?.service?.deviceId || deviceId}
             realTimeData={{
-              ...(currentFormInfo?.service?.deviceId ? realTimeData : extralDeviceRealTimeData),
+              ...(currentFormInfo?.service?.deviceId
+                ? extralDeviceRealTimeData?.[currentFormInfo?.service?.deviceId]
+                : realTimeData),
               ...transformData,
             }}
             serviceId={currentFormInfo?.service?.id || ''}

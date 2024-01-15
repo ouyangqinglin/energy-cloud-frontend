@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-14 23:46:46
+ * @LastEditTime: 2024-01-15 13:54:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -277,18 +277,18 @@ export const allItems: Record<string, DetailItem> = {
       { id: 'common.serialSentence', defaultMessage: '序列号' },
       { name: 'BCMU' },
     ),
-    field: 'bcmuSn',
+    field: 'b105',
   },
   bcmuManufacturer: {
     label: formatMessage(
       { id: 'common.manufacturerSentence', defaultMessage: '厂商' },
       { name: 'BCMU' },
     ),
-    field: 'bcmuManufacturer',
+    field: 'b106',
   },
   bcmuModel: {
     label: formatMessage({ id: 'common.modelSentence', defaultMessage: '型号' }, { name: 'BCMU' }),
-    field: 'bcmuModel',
+    field: 'b107',
   },
   bcmuHardwareVersion: {
     label: formatMessage(
