@@ -7,22 +7,25 @@
  * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
  */
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { Button } from 'antd';
+import { Button, Switch, Tag } from 'antd';
 import { MessageEventType } from '@/utils/connection';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 import { useSubscribe } from '@/hooks';
-import { style } from 'd3-selection';
 import moment from 'moment';
+import useWebsocket from '@/pages/screen/useWebsocket';
+import classnames from "classnames";
+
 
 const Index: React.FC = (props) => {
   const { deviceId } = props
   const [list, setList] = useState([])
-  const [copyList, setCopyList] = useState([])
-
   const [isScrolle, setIsScrolle] = useState(true);
   const [isSubscribe, setIsSubscribe] = useState(true)
   const [isClear, setIsClear] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const { connection } = useWebsocket(true);
+
   const speed = 60;
   const warper = useRef();
   const childDom1 = useRef();
@@ -33,7 +36,7 @@ const Index: React.FC = (props) => {
     if (isScrolle) {
       timer = setInterval(() =>
         warper.current.scrollTop >= childDom1.current.scrollHeight
-        ? (warper.current.scrollTop = 0)
+        ? clearTimeout(timer)
         : warper.current.scrollTop++,
         speed
       );
@@ -44,6 +47,7 @@ const Index: React.FC = (props) => {
     const data = useSubscribe(deviceId, true, MessageEventType.DEVICEMSG)
     useEffect(() => {
       if (Object.keys(data).length > 1) {
+        setLoading(false)
         let time
         const msg = JSON.parse(data.msg)
         for(let v in msg) {
@@ -52,48 +56,57 @@ const Index: React.FC = (props) => {
         const arr = [{
           msg: data.msg,
           topic: data.topic,
+          type: data.type, // 0是下行， 1是上行
           time,
         }]
         setList([...list, ...arr])
-        if (isSubscribe) setCopyList([...list, ...arr])
       }
     }, [data])
+
     const dataList = useMemo(() => {
       if (isClear) {
         setList([])
-        setCopyList([])
         return []
       }
-      return isSubscribe ? list : copyList
-    }, [data, isClear])
+      return list
+    }, [isClear])
 
-    const roll = () => setIsScrolle(!isScrolle);
+    const hoverHandler = (flag: boolean) => setIsScrolle(flag);
 
     const clearList = () => setIsClear(true)
 
-    const stopGet = () => {
-      if (!isSubscribe) setIsClear(false)
-      setIsSubscribe(!isSubscribe)
+    const stopGet = (flag: boolean) => {
+      if (flag) {
+        // 打开
+        setIsClear(false)
+        setLoading(true)
+        setIsSubscribe(true)
+        connection.reconnect()
+      } else {
+        // 关闭
+        connection.close()
+        setIsSubscribe(false)
+      }
     }
 
     return (
       <>
       <div className={styles.adjust}>
         <div className={styles.title}>
-          <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '系统报文'})}</div>
-          <Button onClick={stopGet}>{isSubscribe ? formatMessage({ id: 'device.cease', defaultMessage: '停止' }) : formatMessage({ id: 'device.activate', defaultMessage: '启动' })}</Button>
-          <Button onClick={() => roll()}>{isScrolle ? formatMessage({ id: 'common.pause', defaultMessage: '暂停' }) : formatMessage({ id: 'common.roll', defaultMessage: '滚动' })}</Button>
+          <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听'})}</div>
+          <Switch checked={isSubscribe} loading onChange={stopGet} />
           <Button onClick={() => clearList()}>{formatMessage({ id: 'common.clear', defaultMessage: '清空' })}</Button>
         </div>
         <div className={styles.parent} ref={warper}>
           <div className={styles.child} ref={childDom1}>
             {dataList.map((item, index) => (
-              // onMouseOver={() => hoverHandler()} onMouseLeave={() => hoverHandler()}
-              <div key={index} className={styles.item}>
+              <div key={index} className={classnames(styles.item, item.type ? styles.blue : '')}
+                   onMouseOver={() => hoverHandler(false)} onMouseOut={() => hoverHandler(true)}>
                 <div>
-                  <span>Time: {item.time}</span>
-                  <span className={styles.topic}>Topic: {item.topic}</span>
+                  <Tag color={['#70b603', '#0000ff'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
+                  <span>{item.time}</span>
                 </div>
+                <span className={styles.topic}>Topic: {item.topic}</span>
                 <div className={styles.msg}>{item.msg}</div>
               </div>
             ))}
