@@ -329,6 +329,14 @@ export const masterSlaveEnum: ValueEnum = {
     text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
   },
 };
+export const masterSlave1Enum: ValueEnum = {
+  1: {
+    text: formatMessage({ id: 'device.host', defaultMessage: '主机' }),
+  },
+  0: {
+    text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
+  },
+};
 
 export const connectEnum: ValueEnum = {
   1: {
