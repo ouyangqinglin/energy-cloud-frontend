@@ -38,7 +38,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
   const items = useMemo<TabsProps['items']>(() => {
     const debug = [
       {
-        label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
+        label: formatMessage({ id: 'device.debug', defaultMessage: '通信报文' }),
         key: '6',
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
