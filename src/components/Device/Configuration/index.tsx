@@ -62,7 +62,9 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
 
   return (
     <>
-      <div className={deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''}>
+      <div
+        className={deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''}
+      >
         {productId == (DeviceTypeEnum.YTEnergyEms as any) ? (
           <SelfEmsIndex deviceData={deviceData} deviceId={deviceId} realTimeData={realTimeData} />
         ) : (

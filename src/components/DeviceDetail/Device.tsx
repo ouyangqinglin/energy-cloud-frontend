@@ -55,7 +55,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
           <>
             <div
               className={`px24 ${
-                deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
+                deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''
               }`}
             >
               <ErrorBoundary fallbackRender={FallBackRender}>

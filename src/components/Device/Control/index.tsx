@@ -367,7 +367,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     <Switch
                       checked={formatValue === 0 || formatValue === '0'}
                       disabled={
-                        deviceData?.status === OnlineStatusEnum.Offline ||
+                        deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                         !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
@@ -420,7 +420,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                         type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
                         value={isEmpty(formatValue) ? '' : formatValue + ''}
                         disabled={
-                          deviceData?.status === OnlineStatusEnum.Offline ||
+                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                           fieldDisabled ||
                           !passAuthority(field?.authority, 'edit')
                         }
@@ -637,7 +637,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               <Button
                 type="primary"
                 onClick={() => onClick(service, columns, columnsLength)}
-                disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
               >
                 {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
               </Button>

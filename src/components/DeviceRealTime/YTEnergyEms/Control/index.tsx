@@ -90,7 +90,7 @@ const Setting: React.FC<SettingProps> = (props) => {
                           }
                         }}
                         disabled={
-                          deviceData?.status === OnlineStatusEnum.Offline ||
+                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                           (item.disabled && settingData?.systemOperatingMode != 2)
                         }
                       >

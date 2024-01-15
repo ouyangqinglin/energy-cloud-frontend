@@ -43,7 +43,7 @@ const UpgradeRecord: React.FC<RemoteUpgradeType> = (props) => {
       <Button
         type="primary"
         onClick={setTrue}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+        disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
       >
         {formatMessage({ id: 'device.upgradeRecord', defaultMessage: '升级记录' })}
       </Button>

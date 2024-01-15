@@ -250,7 +250,7 @@ const Control: React.FC<ControlProps> = (props) => {
                   type="primary"
                   loading={loading}
                   disabled={
-                    deviceData?.status === OnlineStatusEnum.Offline ||
+                    deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                     disableBtns?.[form?.id || ''] === undefined ||
                     disableBtns?.[form?.id || ''] === true
                   }
