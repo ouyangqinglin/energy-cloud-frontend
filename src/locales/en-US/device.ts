@@ -208,6 +208,7 @@ export default {
   'device.prechargedContactStatus': 'Precharged contact status',
   'device.dcCircuitBreakerCondition': 'Dc circuit breaker condition',
   'device.acCircuitBreakerCondition': 'Ac circuit breaker condition',
+  'device.BmsStopSignal': 'BMS emergency stop signal',
   'device.equipmentDrawing': 'Equipment drawing',
   'device.standing': 'Standing',
   'device.returnUnit': 'Return Unit',
