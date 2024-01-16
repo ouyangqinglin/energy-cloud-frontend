@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-17 15:53:59
- * @LastEditTime: 2023-10-17 15:53:59
+ * @LastEditTime: 2024-01-16 09:13:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\CollectionChart.tsx
  */
@@ -121,7 +121,7 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
         key: collection,
         startTime: date[0] + ' 00:00:00',
         endTime: date[1] + ' 23:59:59',
-        msgType: 1,
+        // msgType: 1,
       }).then((data) => {
         if (moment(date[0]).format('YYYY-MM-DD') == moment(date[1]).format('YYYY-MM-DD')) {
           setChartType(chartTypeEnum.Day);
