@@ -6,12 +6,12 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
  */
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { Button, Switch, Tag } from 'antd';
-import { MessageEventType } from '@/utils/connection';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Button, Switch, Tag} from 'antd';
+import {MessageEventType, RequestCommandEnum} from '@/utils/connection';
 import styles from './index.less';
-import { formatMessage } from '@/utils';
-import { useSubscribe } from '@/hooks';
+import {formatMessage} from '@/utils';
+import {useSubscribe} from '@/hooks';
 import moment from 'moment';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import classnames from "classnames";
@@ -22,8 +22,7 @@ const Index: React.FC = (props) => {
   const [list, setList] = useState([])
   const [isScrolle, setIsScrolle] = useState(true);
   const [isSubscribe, setIsSubscribe] = useState(true)
-  const [isClear, setIsClear] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [isOpen, setIsOpen] = useState(true)
   const { connection } = useWebsocket(true);
 
   const speed = 60;
@@ -36,7 +35,7 @@ const Index: React.FC = (props) => {
     if (isScrolle) {
       timer = setInterval(() =>
         warper.current.scrollTop >= childDom1.current.scrollHeight
-        ? clearTimeout(timer)
+        ? (warper.current.scrollTop = 0)
         : warper.current.scrollTop++,
         speed
       );
@@ -44,10 +43,9 @@ const Index: React.FC = (props) => {
     return () => { clearTimeout(timer); };
     }, [isScrolle]);
 
-    const data = useSubscribe(deviceId, true, MessageEventType.DEVICEMSG)
+    const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG)
     useEffect(() => {
       if (Object.keys(data).length > 1) {
-        setLoading(false)
         let time
         const msg = JSON.parse(data.msg)
         for(let v in msg) {
@@ -63,28 +61,25 @@ const Index: React.FC = (props) => {
       }
     }, [data])
 
-    const dataList = useMemo(() => {
-      if (isClear) {
-        setList([])
-        return []
-      }
-      return list
-    }, [isClear])
-
     const hoverHandler = (flag: boolean) => setIsScrolle(flag);
 
-    const clearList = () => setIsClear(true)
+    const clearList = () => setList([])
 
     const stopGet = (flag: boolean) => {
       if (flag) {
         // 打开
-        setIsClear(false)
-        setLoading(true)
         setIsSubscribe(true)
         connection.reconnect()
+        setIsOpen(true)
       } else {
         // 关闭
-        connection.close()
+        connection.sendMessage({
+          data: {
+            command: RequestCommandEnum.UNSUBSCRIBE
+          },
+          type: MessageEventType.DEVICEMSG
+        })
+        setIsOpen(false)
         setIsSubscribe(false)
       }
     }
@@ -94,16 +89,16 @@ const Index: React.FC = (props) => {
       <div className={styles.adjust}>
         <div className={styles.title}>
           <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听'})}</div>
-          <Switch checked={isSubscribe} loading onChange={stopGet} />
+          <Switch checked={isSubscribe} onChange={stopGet} />
           <Button onClick={() => clearList()}>{formatMessage({ id: 'common.clear', defaultMessage: '清空' })}</Button>
         </div>
         <div className={styles.parent} ref={warper}>
           <div className={styles.child} ref={childDom1}>
-            {dataList.map((item, index) => (
+            {list.map((item, index) => (
               <div key={index} className={classnames(styles.item, item.type ? styles.blue : '')}
                    onMouseOver={() => hoverHandler(false)} onMouseOut={() => hoverHandler(true)}>
                 <div>
-                  <Tag color={['#70b603', '#0000ff'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
+                  <Tag color={['#87d068', '#108ee9'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
                   <span>{item.time}</span>
                 </div>
                 <span className={styles.topic}>Topic: {item.topic}</span>
