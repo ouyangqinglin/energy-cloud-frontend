@@ -170,7 +170,7 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
                       <Authority code="iot:device:config:batterySetting:batterySystemSetting:distribute">
                         <Button
                           type="primary"
-                          disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                          disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
                           onClick={() =>
                             onClick('EnableBatterySystemSelfStartFunction', '电池组使能设置')
                           }
@@ -192,7 +192,7 @@ const BatteryStack: React.FC<BatteryStackType> = (props) => {
                       <Authority code="iot:device:config:batterySetting:batteryProtectSetting:distribute">
                         <Button
                           type="primary"
-                          disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                          disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
                           onClick={() => onClick('BatteryProtecParam', '电池组保护参数设置')}
                         >
                           {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}

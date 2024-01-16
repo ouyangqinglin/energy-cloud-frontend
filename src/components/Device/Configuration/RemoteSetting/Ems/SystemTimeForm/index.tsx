@@ -57,7 +57,7 @@ const SystemTimeForm: React.FC<SystemTimeFormType> = (props) => {
       <Button
         type="primary"
         onClick={setTrue}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+        disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
       >
         {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
       </Button>

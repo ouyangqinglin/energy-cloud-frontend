@@ -61,7 +61,7 @@ const UpgradeForm: React.FC<UpgradeFormType> = (props) => {
         className="mr12"
         type="primary"
         onClick={setTrue}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+        disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
       >
         {formatMessage({ id: 'device.upgrades', defaultMessage: '升级' })}
       </Button>

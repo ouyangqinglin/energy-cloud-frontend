@@ -120,7 +120,7 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
           <Button
             type="primary"
             onClick={onClick}
-            disabled={deviceData?.status === OnlineStatusEnum.Offline}
+            disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
           >
             {formatMessage({ id: 'device.configurationParameter', defaultMessage: '配置参数' })}
           </Button>

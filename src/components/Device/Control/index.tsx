@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-15 14:48:23
+ * @LastEditTime: 2024-01-15 17:57:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -360,12 +360,14 @@ const Control: React.FC<ControlType> = memo((props) => {
                     const realField = field?.id?.split?.('.') || [];
                     formatValue =
                       data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                   }
                   return (
                     <Switch
                       checked={formatValue === 0 || formatValue === '0'}
                       disabled={
-                        deviceData?.status === OnlineStatusEnum.Offline ||
+                        deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                         !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
@@ -391,12 +393,16 @@ const Control: React.FC<ControlType> = memo((props) => {
                   width: '145px',
                   marginTop: '4px',
                 },
-                format: (value, data) => {
+                format: (value, formatData) => {
+                  let data = formatData;
                   let formatValue = value;
                   if (field?.deviceId) {
                     const realField = field?.id?.split?.('.') || [];
-                    formatValue =
-                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                    data = formatData?.[field?.deviceId || ''];
+                    formatValue = data?.[realField?.[realField?.length - 1]];
+                  } else {
+                    data = formatData?.[deviceData?.deviceId || ''];
+                    formatValue = data?.[field?.id || ''];
                   }
                   let fieldDisabled = false;
                   if (field?.disabled) {
@@ -414,7 +420,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                         type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
                         value={isEmpty(formatValue) ? '' : formatValue + ''}
                         disabled={
-                          deviceData?.status === OnlineStatusEnum.Offline ||
+                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                           fieldDisabled ||
                           !passAuthority(field?.authority, 'edit')
                         }
@@ -612,7 +618,18 @@ const Control: React.FC<ControlType> = memo((props) => {
       };
       if (service.showType != DeviceModelShowTypeEnum.HideName) {
         groupItem.label = (
-          <Detail.Label title={service?.name}>
+          <Detail.Label
+            title={
+              <>
+                {service?.name}
+                {!!service?.tip && (
+                  <Typography.Text className={styels.tip} type="secondary">
+                    ({service?.tip})
+                  </Typography.Text>
+                )}
+              </>
+            }
+          >
             <Authority
               code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
               mode={AuthorityModeEnum.Within}
@@ -620,7 +637,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               <Button
                 type="primary"
                 onClick={() => onClick(service, columns, columnsLength)}
-                disabled={deviceData?.status === OnlineStatusEnum.Offline}
+                disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
               >
                 {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
               </Button>
@@ -645,7 +662,20 @@ const Control: React.FC<ControlType> = memo((props) => {
                 modelDescribeItem.children?.[0]?.showType == DeviceModelShowTypeEnum.HideName)
             ) {
               result.push({
-                label: <Detail.Label title={modelDescribeItem.name} />,
+                label: (
+                  <Detail.Label
+                    title={
+                      <>
+                        {modelDescribeItem?.name}
+                        {!!modelDescribeItem?.tip && (
+                          <Typography.Text className={styels.tip} type="secondary">
+                            ({modelDescribeItem?.tip})
+                          </Typography.Text>
+                        )}
+                      </>
+                    }
+                  />
+                ),
               });
             }
             modelDescribeItem?.children?.forEach?.((item) => {
