@@ -13,5 +13,6 @@ const getWsProtocol = () => {
 };
 export const getWebSocketHost = () => {
   const host = isDev ? proxy.dev['/api/'].target.split('//')[1] : location.host;
+  // return 'ws://192.168.3.18:9400'
   return getWsProtocol() + host + '/prod-api';
 };
