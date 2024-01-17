@@ -201,6 +201,7 @@ export default {
   'device.prechargedContactStatus': '预充触器状态',
   'device.dcCircuitBreakerCondition': '直流断路器状态',
   'device.acCircuitBreakerCondition': '交流断路器状态',
+  'device.BmsStopSignal': 'BMS急停信号',
   'device.equipmentDrawing': '设备图',
   'device.standing': '静置',
   'device.returnUnit': '返回单元',
