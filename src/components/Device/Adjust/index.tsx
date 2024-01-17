@@ -20,9 +20,10 @@ import classnames from "classnames";
 const Index: React.FC = (props) => {
   const { deviceId } = props
   const [list, setList] = useState([])
-  const [isScrolle, setIsScrolle] = useState(true);
+  const [isScrolle, setIsScrolle] = useState(true)
   const [isSubscribe, setIsSubscribe] = useState(true)
   const [isOpen, setIsOpen] = useState(true)
+  const [loading, setLoading] = useState(true)
   const { connection } = useWebsocket(true);
 
   const speed = 60;
@@ -44,6 +45,7 @@ const Index: React.FC = (props) => {
     const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG)
     useEffect(() => {
       if (Object.keys(data).length > 1) {
+        setLoading(false)
         let time
         const msg = JSON.parse(data.msg)
         for(let v in msg) {
@@ -56,7 +58,7 @@ const Index: React.FC = (props) => {
           time,
         }
         list.push(item)
-        if (list.length > 1000) list.slice(1000)
+        if (list.length > 1000) list.splice(0, 1000)
         setList([...list])
       }
     }, [data])
@@ -64,13 +66,13 @@ const Index: React.FC = (props) => {
     const hoverHandler = (flag: boolean) => setIsScrolle(flag);
 
     const clearList = () => {
-      list.length = 0
-      setList([...list])
+      setList([])
     }
 
     const stopGet = (flag: boolean) => {
       if (flag) {
         // 打开
+        setLoading(true)
         setIsSubscribe(true)
         connection.reconnect()
         setIsOpen(true)
@@ -92,7 +94,7 @@ const Index: React.FC = (props) => {
       <div className={styles.adjust}>
         <div className={styles.title}>
           <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听'})}</div>
-          <Switch checked={isSubscribe} onChange={stopGet} />
+          {loading ? <Switch loading checked={isSubscribe} onChange={stopGet} /> : <Switch checked={isSubscribe} onChange={stopGet} /> }
           <Button onClick={() => clearList()}>{formatMessage({ id: 'common.clear', defaultMessage: '清空' })}</Button>
         </div>
         <div className={styles.parent} ref={warper}>
