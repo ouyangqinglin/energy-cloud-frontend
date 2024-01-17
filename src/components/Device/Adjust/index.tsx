@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
  */
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, Switch, Tag} from 'antd';
 import {MessageEventType, RequestCommandEnum} from '@/utils/connection';
 import styles from './index.less';
@@ -28,14 +28,12 @@ const Index: React.FC = (props) => {
   const speed = 60;
   const warper = useRef();
   const childDom1 = useRef();
-  const childDom2 = useRef();
   useEffect(() => {
-    childDom2.current.innerHTML = childDom1.current.innerHTML;
     let timer;
     if (isScrolle) {
       timer = setInterval(() =>
         warper.current.scrollTop >= childDom1.current.scrollHeight
-        ? (warper.current.scrollTop = 0)
+        ? ''
         : warper.current.scrollTop++,
         speed
       );
@@ -51,19 +49,24 @@ const Index: React.FC = (props) => {
         for(let v in msg) {
           if ( Array.isArray(msg[v]) && msg[v][0].ts) time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss')
         }
-        const arr = [{
+        const item = {
           msg: data.msg,
           topic: data.topic,
           type: data.type, // 0是下行， 1是上行
           time,
-        }]
-        setList([...list, ...arr])
+        }
+        list.push(item)
+        if (list.length > 1000) list.slice(1000)
+        setList([...list])
       }
     }, [data])
 
     const hoverHandler = (flag: boolean) => setIsScrolle(flag);
 
-    const clearList = () => setList([])
+    const clearList = () => {
+      list.length = 0
+      setList([...list])
+    }
 
     const stopGet = (flag: boolean) => {
       if (flag) {
@@ -106,7 +109,6 @@ const Index: React.FC = (props) => {
               </div>
             ))}
           </div>
-          <div className={styles.child} ref={childDom2} />
         </div>
       </div>
       </>
