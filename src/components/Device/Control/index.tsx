@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-15 17:57:09
+ * @LastEditTime: 2024-01-17 16:01:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -365,15 +365,13 @@ const Control: React.FC<ControlType> = memo((props) => {
                   }
                   return (
                     <Switch
-                      checked={formatValue === 0 || formatValue === '0'}
+                      checked={!!formatValue}
                       disabled={
                         deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                         !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
-                      onClick={() =>
-                        btnClick(field, formatValue === 0 || formatValue === '0' ? 1 : 0)
-                      }
+                      onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
                     />
                   );
                 },

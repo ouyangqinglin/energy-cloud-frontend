@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
 export default {
-  'system.title': '新能源OSS云平台',
+  'system.title': 'YT EMS Cloud',
   'system.company': 'YOTAI Digital Energy Technology (Shenzhen) Co., Ltd.',
   'system.applyName': 'Apply Name',
   'system.applyId': 'Apply ID',

@@ -1,5 +1,5 @@
 export default {
-  'system.title': '新能源OSS云平台',
+  'system.title': '新能源能量管理云平台',
   'system.company': '深圳永泰数能科技有限公司',
   'system.applyName': '应用名称',
   'system.applyId': '应用ID',
