@@ -26,68 +26,68 @@ const Index: React.FC = (props) => {
   const [loading, setLoading] = useState(true)
   const { connection } = useWebsocket(true);
 
-  const speed = 60;
+  const speed = 1;
   const warper = useRef();
-  const childDom1 = useRef();
+  const childDom = useRef();
+
   useEffect(() => {
     let timer;
     if (isScrolle) {
-      timer = setInterval(() =>
-        warper.current.scrollTop >= childDom1.current.scrollHeight
-        ? ''
-        : warper.current.scrollTop++,
-        speed
-      );
+      timer = setInterval(() => {
+        if (warper.current.scrollTop < childDom.current.scrollHeight) {
+          warper.current.scrollTop = warper.current.scrollTop+4
+        }
+      }, speed);
     }
     return () => { clearTimeout(timer); };
-    }, [isScrolle]);
+  }, [isScrolle]);
 
-    const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG)
-    useEffect(() => {
-      if (Object.keys(data).length > 1) {
-        setLoading(false)
-        let time
-        const msg = JSON.parse(data.msg)
-        for(let v in msg) {
-          if ( Array.isArray(msg[v]) && msg[v][0].ts) time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss')
-        }
-        const item = {
-          msg: data.msg,
-          topic: data.topic,
-          type: data.type, // 0是下行， 1是上行
-          time,
-        }
-        list.push(item)
-        if (list.length > 1000) list.splice(0, 1000)
-        setList([...list])
+  const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG)
+  useEffect(() => {
+    if (Object.keys(data).length > 1) {
+      setLoading(false)
+      let time
+      const msg = JSON.parse(data.msg)
+      for(let v in msg) {
+        if ( Array.isArray(msg[v]) && msg[v][0].ts) time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss')
       }
-    }, [data])
-
-    const hoverHandler = (flag: boolean) => setIsScrolle(flag);
-
-    const clearList = () => {
-      setList([])
-    }
-
-    const stopGet = (flag: boolean) => {
-      if (flag) {
-        // 打开
-        setLoading(true)
-        setIsSubscribe(true)
-        connection.reconnect()
-        setIsOpen(true)
-      } else {
-        // 关闭
-        connection.sendMessage({
-          data: {
-            command: RequestCommandEnum.UNSUBSCRIBE
-          },
-          type: MessageEventType.DEVICEMSG
-        })
-        setIsOpen(false)
-        setIsSubscribe(false)
+      const item = {
+        msg: data.msg,
+        topic: data.topic,
+        type: data.type, // 0是下行， 1是上行
+        time,
       }
+      list.push(item)
+      if (list.length > 1000) list.splice(0, 1000)
+      setList([...list])
     }
+  }, [data])
+
+  const hoverHandler = (flag: boolean) => setIsScrolle(flag);
+
+  const clearList = () => {
+    setList([])
+  }
+
+  const stopGet = (flag: boolean) => {
+    if (flag) {
+      // 打开
+      setLoading(true)
+      setIsSubscribe(true)
+      connection.reconnect()
+      setIsOpen(true)
+    } else {
+      // 关闭
+      connection.sendMessage({
+        data: {
+          command: RequestCommandEnum.UNSUBSCRIBE
+        },
+        type: MessageEventType.DEVICEMSG
+      })
+      setIsOpen(false)
+      setIsSubscribe(false)
+    }
+  }
 
     return (
       <>
@@ -98,9 +98,9 @@ const Index: React.FC = (props) => {
           <Button onClick={() => clearList()}>{formatMessage({ id: 'common.clear', defaultMessage: '清空' })}</Button>
         </div>
         <div className={styles.parent} ref={warper}>
-          <div className={styles.child} ref={childDom1}>
+          <div className={styles.child} ref={childDom}>
             {list.map((item, index) => (
-              <div key={index} className={classnames(styles.item, item.type ? styles.blue : '')}
+              <div  key={index} className={classnames(styles.item, item.type ? styles.blue : '')}
                    onMouseOver={() => hoverHandler(false)} onMouseOut={() => hoverHandler(true)}>
                 <div>
                   <Tag color={['#87d068', '#108ee9'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
