@@ -293,4 +293,5 @@ export default {
   'siteMonitor.normalGeneration': 'Normal generation',
   'siteMonitor.associateDevice': 'Associated device',
   'siteMonitor.associateCharge': 'Associated charge pile',
+  'siteMonitor.gruopName': 'Group name',
 };

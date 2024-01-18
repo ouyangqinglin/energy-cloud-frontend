@@ -184,7 +184,7 @@ export const noPowerFormat = (value: string | number) => {
   return getValue(value, 'kvar');
 };
 export const powerHourFormat = (value: string | number) => {
-  return getValue(value, 'KWh');
+  return getValue(value, 'kWh');
 };
 export const noPowerHourFormat = (value: string | number) => {
   return getValue(value, 'kvar·h');
@@ -193,10 +193,10 @@ export const voltageFormat = (value: string | number) => {
   return getValue(value, 'V');
 };
 export const kVoltageFormat = (value: string | number) => {
-  return getValue(value, 'KV');
+  return getValue(value, 'kV');
 };
 export const kVAFormat = (value: string | number) => {
-  return getValue(value, 'KVA');
+  return getValue(value, 'kVA');
 };
 export const currentFormat = (value: string | number) => {
   return getValue(value, 'A');

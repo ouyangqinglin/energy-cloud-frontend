@@ -383,7 +383,7 @@ export const bmsItem: ConfigType = {
   icon: StackImg,
   line: StackLineImg,
   linePosition: { top: -74, left: 97 },
-  data: [{ label: 'SoC', field: 'SOC', format: percentageFormat }],
+  data: [{ label: 'SOC', field: 'SOC', format: percentageFormat }],
 };
 
 export const liquidBmsItem: ConfigType = {
@@ -394,13 +394,13 @@ export const liquidBmsItem: ConfigType = {
   line: LiquidBmsLineImg,
   linePosition: { top: 7, left: -133 },
   data: [
-    { label: 'SoC', field: 'SOC', format: percentageFormat },
+    { label: 'SOC', field: 'SOC', format: percentageFormat },
     {
       label: formatMessage({
         id: 'siteMonitor.chargeDischargeIndication',
         defaultMessage: '充放电指示',
       }),
-      field: 'SOC',
+      field: 'CADI',
       format: chargeFormat,
     },
   ],

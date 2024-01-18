@@ -292,4 +292,5 @@ export default {
   'siteMonitor.normalGeneration': '正常发电',
   'siteMonitor.associateDevice': '关联设备',
   'siteMonitor.associateCharge': '关联充电堆',
+  'siteMonitor.gruopName': '分组名称',
 };

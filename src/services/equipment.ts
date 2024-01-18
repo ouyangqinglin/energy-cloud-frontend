@@ -336,3 +336,10 @@ export const getParallelDevice = (params: any) => {
     params,
   });
 };
+
+export const editGroupName = (data: any) => {
+  return request(`/iot/es/group_name`, {
+    method: 'PUT',
+    data,
+  });
+};
