@@ -392,6 +392,7 @@ export const enum SiteTypeEnum {
   ES = 2,
   CS = 3,
   ES_CS = 23,
+  PV_CS = 13,
   PV_ES = 12,
   PV_ES_CS = 123,
   Exchange = 4,
