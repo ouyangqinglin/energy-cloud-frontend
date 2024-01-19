@@ -67,6 +67,7 @@ export default {
   'siteMonitor.humidness': 'Humidness',
   'siteMonitor.storageDoor': 'Storage bin door',
   'siteMonitor.systemModel': 'System model',
+  'siteMonitor.systemWorkModel': 'System work model',
   'siteMonitor.batteryPile': 'Battery pile',
   'siteMonitor.workingCondition': 'Working Condition',
   'siteMonitor.workingMode': 'Working Mode',

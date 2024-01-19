@@ -63,9 +63,8 @@ export const getOtColumns = (onClick) => {
 // ems
 export const EMScolumns = [
   {
-    title: formatMessage({ id: 'siteMonitor.systemModel', defaultMessage: '系统模式' }),
-    dataIndex: 'systemMode',
-    valueEnum: systemMode,
+    title: formatMessage({ id: 'siteMonitor.systemWorkModel', defaultMessage: '系统工作模式' }),
+    dataIndex: 'systemOperatingModeName',
     hideInSearch: true,
     width: 120,
     ellipsis: true,
