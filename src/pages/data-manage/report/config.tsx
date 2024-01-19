@@ -9,8 +9,8 @@
 
 import type { ProColumns } from '@ant-design/pro-components';
 import { reportTypeEnum, timeDimensionEnum, reportTypeSystemIdMap } from '@/utils/dictionary';
-import { reportType, timeDimension } from '@/utils/dict';
-import { OptionType } from '@/types';
+import { timeDimension } from '@/utils/dict';
+import type { OptionType } from '@/types';
 import { getDevicePage } from '@/services/equipment';
 import moment from 'moment';
 import { DatePicker } from 'antd';
@@ -23,7 +23,7 @@ const pickerMap = new Map([
   [timeDimensionEnum.Cycle, { picker: 'year', format: 'YYYY' }],
 ]);
 
-export const searchColumns = (): ProColumns[] => [
+export const searchColumns = (reportType: any): ProColumns[] => [
   {
     title: formatMessage({ id: 'dataManage.reportType', defaultMessage: '报表类型' }),
     dataIndex: 'reportType',
@@ -148,6 +148,7 @@ export const siteColumns: ProColumns[] = [
   {
     title: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
     hideInSearch: true,
+    dataIndex: 'chargingPile',
     children: [
       {
         title:
@@ -196,6 +197,7 @@ export const siteColumns: ProColumns[] = [
   {
     title: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
     hideInSearch: true,
+    dataIndex: 'pv',
     children: [
       {
         title:
@@ -218,6 +220,7 @@ export const siteColumns: ProColumns[] = [
   {
     title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
     hideInSearch: true,
+    dataIndex: 'storage',
     children: [
       {
         title:
