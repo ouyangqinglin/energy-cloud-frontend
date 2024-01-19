@@ -14,7 +14,7 @@ import { formatMessage } from '@/utils';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
-  const [siteType, setSiteType] = useState<string>('');
+  const [siteType, setSiteType] = useState<string | undefined>('');
 
   const { data: screenConfig, run } = useRequest(getSiteScreenConfig, {
     manual: true,
@@ -24,7 +24,7 @@ const Index: React.FC = () => {
     if (data?.id) {
       setSiteId(Number(data.id));
     }
-    setSiteType(data.siteType);
+    setSiteType(data.energyOptions);
   }, []);
 
   useEffect(() => {

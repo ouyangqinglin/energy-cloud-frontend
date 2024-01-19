@@ -1,6 +1,6 @@
 import { StatisticCard } from '@ant-design/pro-components';
-import { ReactComponent as IconTree } from '@/assets/image/station/overview/icon_等效植树.svg';
 import { ReactComponent as IconCoal } from '@/assets/image/station/overview/icon_煤炭.svg';
+import IconTree from '@/assets/image/station/overview/icon_等效植树.png';
 import { ReactComponent as IconCarbonEmission } from '@/assets/image/station/overview/icon_碳排放.svg';
 import { Col, Descriptions, Divider, Row } from 'antd';
 import RowBox from '../components/RowBox';
@@ -88,7 +88,7 @@ const Benefit = ({ siteId }: { siteId?: number }) => {
         <Divider style={{ margin: 0 }} type={'horizontal'} />
         <Row className={styles.boxContent}>
           <Col span={24} xxl={6} className={styles.leftBox}>
-            <IconTree className={styles.icon} />
+            <img src={IconTree} className={styles.icon} />
           </Col>
           <Col span={24} xxl={18} className={styles.rightBox}>
             <div className={styles.desc}>
