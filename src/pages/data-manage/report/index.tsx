@@ -42,6 +42,9 @@ const Report: React.FC<ReportProps> = (props) => {
   const [searchParams, setSearchParams] = useState<TableSearchType>({
     reportType: reportTypeEnum.Site,
   });
+  const reportTypeHandle = (energyOptions) => {
+    console.log('energyOptions>>', energyOptions);
+  };
   const [siteSearchColumn] = useSiteColumn({
     hideInTable: true,
     formItemProps: {
@@ -50,8 +53,9 @@ const Report: React.FC<ReportProps> = (props) => {
     },
     fieldProps: (form) => {
       return {
-        onChange: () => {
+        onChange: (_value: any, params: any) => {
           form?.setFieldValue?.('deviceId', '');
+          reportTypeHandle(params.energyOptions);
         },
       };
     },

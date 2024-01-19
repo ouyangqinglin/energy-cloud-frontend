@@ -2,12 +2,15 @@ import React, { useMemo, useRef } from 'react';
 import styles from './index.less';
 import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
+import { useLocation } from 'umi';
 import PriceMarketList from './PriceMarket';
 import PricePhotovoltaicList from './PricePhotovoltaic';
 import PriceChargingList from './PriceCharging';
 import type { ActionType } from '@ant-design/pro-table';
 import { formatMessage } from '@/utils';
+import type { LocationType } from '@/types';
 import { useAuthority } from '@/hooks';
+import { SiteTypeEnum } from '@/utils/dictionary';
 
 const enum TabKeys {
   MARKET = 'MARKET',
@@ -16,6 +19,8 @@ const enum TabKeys {
 }
 
 const Customer: React.FC = () => {
+  const location = useLocation<LocationType>();
+  const siteType = (location as LocationType).query?.siteType;
   const chargingActionRef = useRef<ActionType>(null);
   const photovoltaicActionRef = useRef<ActionType>(null);
   const marketActionRef = useRef<ActionType>(null);
@@ -41,6 +46,18 @@ const Customer: React.FC = () => {
 
   const category = useMemo(() => {
     const result: TabsProps['items'] = [];
+    const isShowPVTab = [
+      SiteTypeEnum.PV,
+      SiteTypeEnum.PV_ES,
+      SiteTypeEnum.PV_ES_CS,
+      SiteTypeEnum.PV_CS,
+    ].includes(Number(siteType));
+    const isShowChargeTab = [
+      SiteTypeEnum.CS,
+      SiteTypeEnum.ES_CS,
+      SiteTypeEnum.PV_CS,
+      SiteTypeEnum.PV_ES_CS,
+    ].includes(Number(siteType));
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:electric')) {
       result.push({
         label: formatMessage({
@@ -51,7 +68,7 @@ const Customer: React.FC = () => {
         children: <PriceMarketList actionRef={marketActionRef} />,
       });
     }
-    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:pv')) {
+    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:pv') && isShowPVTab) {
       result.push({
         label: formatMessage({
           id: 'siteManage.set.pvGridElectricityPriceSetting',
@@ -61,7 +78,7 @@ const Customer: React.FC = () => {
         children: <PricePhotovoltaicList actionRef={photovoltaicActionRef} />,
       });
     }
-    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:charge')) {
+    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:charge') && isShowChargeTab) {
       result.push({
         label: formatMessage({
           id: 'siteManage.set.chargePileChargingSettings',

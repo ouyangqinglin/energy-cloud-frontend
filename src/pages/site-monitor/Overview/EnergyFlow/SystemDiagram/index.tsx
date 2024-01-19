@@ -53,7 +53,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string 
             left: 0,
           }}
         >
-          <AnimationDiagram data={data} />
+          <AnimationDiagram data={data} siteType={siteType} />
         </div>
       </div>
       <SVGActive

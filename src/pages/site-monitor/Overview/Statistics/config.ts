@@ -20,7 +20,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayPowerGeneration',
-            defaultMessage: '当日发电量',
+            defaultMessage: '今日发电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'charge',
@@ -29,7 +29,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.SelfGeneratedElectriConsumption',
-            defaultMessage: '自发自用电量',
+            defaultMessage: '今日自发自用电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'selfElec',
@@ -55,7 +55,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayChargingVolume',
-            defaultMessage: '当日充电量',
+            defaultMessage: '今日系统充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'charge',
@@ -64,19 +64,19 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayDischarge',
-            defaultMessage: '当日放电量',
+            defaultMessage: '今日系统放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'selfElec',
+          field: 'discharge',
           value: '0',
         },
         {
           label: `${formatMessage({
             id: 'siteMonitor.dischargeCapacity',
-            defaultMessage: '可放电量',
+            defaultMessage: '可放电能量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'power',
+          field: 'dischargeableCapacity',
           value: '210.03',
         },
         {
@@ -99,7 +99,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.Charge/dischargeDaily',
-            defaultMessage: '当日充/放电量',
+            defaultMessage: '今日充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,
@@ -116,7 +116,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.storagePower',
-            defaultMessage: '储能功率',
+            defaultMessage: '系统总有功功率',
           })}(kW)`,
           labelUnit: '/kW',
           field: 'power',
@@ -133,7 +133,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayPowerSupply',
-            defaultMessage: '当日购电量',
+            defaultMessage: '今日购电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'charge',
@@ -142,7 +142,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayGridPowerSupply',
-            defaultMessage: '当日售电量',
+            defaultMessage: '今日售电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'discharge',
@@ -163,7 +163,7 @@ export const config = (siteType: string) => {
             defaultMessage: '累计购电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'allPowerSupply',
+          field: 'accCharge',
           value: '14024.9',
           show: ['1', '3', '13'].includes(siteType),
         },
@@ -173,7 +173,7 @@ export const config = (siteType: string) => {
             defaultMessage: '累计售电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'allGridPowerSupply',
+          field: 'accDischarge',
           value: '14024.9',
           show: ['1', '3', '13'].includes(siteType),
         },
@@ -187,7 +187,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayPowerConsumption',
-            defaultMessage: '当日用电量',
+            defaultMessage: '今日负载用电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'charge',
@@ -195,11 +195,11 @@ export const config = (siteType: string) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.allPowerConsumption',
+            id: 'siteMonitor.accCharge',
             defaultMessage: '累计用电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'allPowerConsumption',
+          field: 'accCharge',
           value: '15286.43',
           show: ['12', '1', '2'].includes(siteType),
         },
@@ -210,14 +210,14 @@ export const config = (siteType: string) => {
             defaultMessage: '充电桩/其他',
           })}(kWh)`,
           labelUnit: '/kWh',
-          show: ['123', '23', '13', '3'].includes(siteType),
+          show: ['123', '23', '13', '3', ''].includes(siteType),
           value: (entity: Load) =>
             `${entity?.chargingPileCharge ?? ''} / ${entity?.otherLoadCharge ?? ''}`,
         },
         {
           label: `${formatMessage({
             id: 'siteMonitor.powerConsumption',
-            defaultMessage: '用电功率',
+            defaultMessage: '负载用电功率',
           })}(kW)`,
           labelUnit: '/kW',
           field: 'power',
@@ -229,7 +229,7 @@ export const config = (siteType: string) => {
             defaultMessage: '充电桩/其他',
           })}(kW)`,
           labelUnit: '/kW',
-          show: ['123', '23', '13', '3'].includes(siteType),
+          show: ['123', '23', '13', '3', ''].includes(siteType),
           value: (entity: Load) =>
             `${entity?.chargingPilePower ?? ''} / ${entity?.otherLoadPower ?? ''}`,
         },
