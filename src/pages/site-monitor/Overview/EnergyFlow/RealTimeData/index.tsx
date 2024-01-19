@@ -95,7 +95,7 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
           <div className={styles.realBtn}>{toggleButton}</div>
         </div>
         {show && (
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 16]} justify="end">
             {columns.map((row) => {
               return row.show ? (
                 <Col key={row.label} span={4} xxl={12}>

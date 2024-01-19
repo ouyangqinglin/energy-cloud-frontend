@@ -23,7 +23,7 @@ const pickerMap = new Map([
   [timeDimensionEnum.Cycle, { picker: 'year', format: 'YYYY' }],
 ]);
 
-export const searchColumns: ProColumns[] = [
+export const searchColumns = (): ProColumns[] => [
   {
     title: formatMessage({ id: 'dataManage.reportType', defaultMessage: '报表类型' }),
     dataIndex: 'reportType',
