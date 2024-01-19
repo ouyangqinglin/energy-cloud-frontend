@@ -37,11 +37,39 @@ const columnsMap = new Map([
 
 const Report: React.FC<ReportProps> = (props) => {
   const { isStationChild } = props;
+  const [currentSearchColumns, setCurrentSearchColumns] = useState(searchColumns(reportType));
+  const [currentSiteColumns, setCurrentSiteColumns] = useState(siteColumns);
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const [searchParams, setSearchParams] = useState<TableSearchType>({
     reportType: reportTypeEnum.Site,
   });
+  const reportTypeHandle = (energyOptions: string) => {
+    const cloneSiteColumns = cloneDeep(siteColumns);
+    const currentReportType = cloneDeep(reportType);
+    setCurrentSiteColumns(cloneSiteColumns);
+    if (energyOptions.indexOf('1') < 0) {
+      //不包含光伏
+      currentReportType.delete(reportTypeEnum.PvInverter);
+      const index = cloneSiteColumns.findIndex((item) => item.dataIndex === 'pv');
+      index > -1 && cloneSiteColumns.splice(index, 1);
+    }
+    if (energyOptions.indexOf('2') < 0) {
+      //不包含储能
+      currentReportType.delete(reportTypeEnum.Energy);
+      const index = cloneSiteColumns.findIndex((item) => item.dataIndex === 'storage');
+      index > -1 && cloneSiteColumns.splice(index, 1);
+    }
+    if (energyOptions.indexOf('3') < 0) {
+      //不包含充电桩
+      currentReportType.delete(reportTypeEnum.ChargeOrder);
+      currentReportType.delete(reportTypeEnum.ChargeBase);
+      const index = cloneSiteColumns.findIndex((item) => item.dataIndex === 'chargingPile');
+      index > -1 && cloneSiteColumns.splice(index, 1);
+    }
+    setCurrentSiteColumns(cloneSiteColumns);
+    setCurrentSearchColumns(() => searchColumns(currentReportType));
+  };
   const [siteSearchColumn] = useSiteColumn({
     hideInTable: true,
     formItemProps: {
@@ -50,8 +78,9 @@ const Report: React.FC<ReportProps> = (props) => {
     },
     fieldProps: (form) => {
       return {
-        onChange: () => {
+        onChange: (_value: any, params: any) => {
           form?.setFieldValue?.('deviceId', '');
+          reportTypeHandle(params?.energyOptions || '');
         },
       };
     },
@@ -98,6 +127,7 @@ const Report: React.FC<ReportProps> = (props) => {
 
   const onSubmit = useCallback(
     (params: TableSearchType) => {
+      console.log('params>>', params);
       setSearchParams(params);
       run({
         ...params,
@@ -143,20 +173,22 @@ const Report: React.FC<ReportProps> = (props) => {
 
   const columns = useMemo(() => {
     const siteSearch = isStationChild ? [] : [siteSearchColumn];
-    let fieldColumns = cloneDeep(
-      columnsMap.get(searchParams?.reportType || reportTypeEnum.Site) || siteColumns,
-    );
-    if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {
-      fieldColumns.splice(2, 1);
+    let fieldColumns = currentSiteColumns;
+    if (searchParams.reportType) {
+      fieldColumns = cloneDeep(columnsMap.get(searchParams.reportType)) || [];
+      if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {
+        fieldColumns.splice(2, 1);
+      }
+      if (
+        searchParams?.reportType === reportTypeEnum.ChargeOrder &&
+        searchParams?.timeDimension !== timeDimensionEnum.Day
+      ) {
+        fieldColumns = cloneDeep(chargeOrderStatColumns);
+      }
     }
-    if (
-      searchParams?.reportType === reportTypeEnum.ChargeOrder &&
-      searchParams?.timeDimension !== timeDimensionEnum.Day
-    ) {
-      fieldColumns = cloneDeep(chargeOrderStatColumns);
-    }
-    return [...siteSearch, ...searchColumns, ...fieldColumns];
-  }, [siteSearchColumn, searchParams, isStationChild]);
+    console.log('fieldColumns>>', fieldColumns);
+    return [...siteSearch, ...currentSearchColumns, ...fieldColumns];
+  }, [siteSearchColumn, searchParams, isStationChild, currentSearchColumns, currentSiteColumns]);
 
   return (
     <>

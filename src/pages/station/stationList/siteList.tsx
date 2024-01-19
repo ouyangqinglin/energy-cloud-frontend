@@ -65,9 +65,10 @@ const StationList: React.FC = () => {
   }, []);
 
   const onSettingClick = useCallback((record) => {
+    console.log('record>>', record);
     history.push({
       pathname: `/station/setting`,
-      search: `?id=${record.id}`,
+      search: `?id=${record.id}&siteType=${record.energyOptions}`,
     });
   }, []);
 

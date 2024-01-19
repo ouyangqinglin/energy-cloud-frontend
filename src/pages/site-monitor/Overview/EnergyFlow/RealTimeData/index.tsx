@@ -48,13 +48,13 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
     {
       label: formatMessage({ id: 'device.storageCharge', defaultMessage: '储能充电电费' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-      value: data?.essGains ?? '--',
+      value: data?.storageCharge ?? '--',
       show: ['2', '23'].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电收入' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-      value: data?.essGains ?? '--',
+      value: data?.storageDischarge ?? '--',
       show: ['2', '23'].includes(siteType),
     },
     {
@@ -95,7 +95,7 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
           <div className={styles.realBtn}>{toggleButton}</div>
         </div>
         {show && (
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 16]} justify="end">
             {columns.map((row) => {
               return row.show ? (
                 <Col key={row.label} span={4} xxl={12}>

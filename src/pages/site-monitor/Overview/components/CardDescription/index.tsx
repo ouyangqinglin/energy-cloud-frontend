@@ -15,8 +15,9 @@ const DescriptionCard = ({
   data: Record<string, any>;
   span: number;
 }) => {
-  // existChargingPile 为false不应该显示充电桩
   const isLongItem = config.statistics.length > 3;
+  const isLongSpan = span >= 8;
+  // existChargingPile 为false不应该显示充电桩
   const shouldShowCharge = (label: string) =>
     label.includes('充电桩') && !get(data, 'existChargingPile');
   const cardItemList = config.statistics.map(({ label, labelUnit, value, valueUnit, field }) => {
@@ -47,7 +48,12 @@ const DescriptionCard = ({
           <Icon className={classnames(styles['svg-icon'], styles['icon'])} />
           <p className={styles['left-title']}>{config.title}</p>
         </Col>
-        <Col span={20} className={`${styles.content} ${isLongItem ? styles['long-content'] : ''}`}>
+        <Col
+          span={20}
+          className={`${styles.content} ${
+            isLongSpan ? styles['short-content'] : isLongItem ? styles['long-content'] : ''
+          }`}
+        >
           {cardItemList}
         </Col>
       </Row>

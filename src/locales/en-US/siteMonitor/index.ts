@@ -2,7 +2,7 @@ export default {
   'siteMonitor.screen': 'Screen',
   'siteMonitor.selectSite': 'Please select a site',
   'siteMonitor.dayPowerConsumption': 'Daily power consumption',
-  'siteMonitor.allPowerConsumption': 'all power consumption',
+  'siteMonitor.accCharge': 'all power consumption',
   'siteMonitor.dayPowerGeneration': 'Daily power generation',
   'siteMonitor.dayPowerSupply': 'Daily power supply',
   'siteMonitor.dayGridPowerSupply': 'Daily grid power supply',
