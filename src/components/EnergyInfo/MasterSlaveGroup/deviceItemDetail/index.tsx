@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { EmsDevicesType } from '@/services/equipment';
+import { DeviceDataType } from '@/services/equipment';
 import Cabinet from '../../Cabinet';
 import styles from '../index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Button, Carousel } from 'antd';
 import type { CarouselRef } from 'antd/lib/carousel';
 import { formatMessage } from '@/utils';
+
 export type DeviceItemDetailProps = {
-  deviceData: EmsDevicesType; //当前device数据对象
-  allDeviceData: any; //某单元下所有的设备
+  deviceData?: DeviceDataType; //当前device数据对象
+  allDeviceData?: DeviceDataType[]; //某单元下所有的设备
   changeShowDiv: any;
+  showBack?: boolean;
 };
 
 const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
-  const { deviceData, allDeviceData } = props;
+  const { deviceData, allDeviceData, showBack } = props;
 
   const carouselRef = useRef<CarouselRef>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -27,7 +29,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    const index = allDeviceData?.devices.findIndex((item: any) => {
+    const index = allDeviceData?.findIndex((item: any) => {
       return item.deviceId == deviceData?.deviceId;
     });
     carouselRef?.current?.goTo(index || 0);
@@ -37,7 +39,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
   return (
     <>
       <div className={styles.detailDiv}>
-        {activeIndex !== 0 ? (
+        {activeIndex !== 0 && (allDeviceData?.length ?? 0) > 1 ? (
           <Button
             className={styles.leftArrowBox}
             shape="circle"
@@ -47,7 +49,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
         ) : (
           <></>
         )}
-        {activeIndex != allDeviceData?.devices?.length - 1 ? (
+        {activeIndex != (allDeviceData?.length ?? 0 - 1) && (allDeviceData?.length ?? 0) > 1 ? (
           <Button
             className={styles.rightArrowBox}
             shape="circle"
@@ -57,16 +59,18 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
         ) : (
           <></>
         )}
-        <Button
-          className={styles.backFont}
-          type="primary"
-          icon={<RollbackOutlined />}
-          onClick={onBackDevice}
-        >
-          {formatMessage({ id: 'common.back', defaultMessage: '返回' })}
-        </Button>
+        {showBack && (
+          <Button
+            className={styles.backFont}
+            type="primary"
+            icon={<RollbackOutlined />}
+            onClick={onBackDevice}
+          >
+            {formatMessage({ id: 'common.back', defaultMessage: '返回' })}
+          </Button>
+        )}
         <Carousel dots={true} ref={carouselRef} afterChange={onCarouselChange}>
-          {allDeviceData?.devices.map((item: any) => {
+          {allDeviceData?.map((item: any) => {
             return <Cabinet deviceData={item} showLabel={true} />;
           })}
         </Carousel>

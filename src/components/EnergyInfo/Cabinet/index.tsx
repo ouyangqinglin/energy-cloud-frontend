@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-15 14:43:25
+ * @LastEditTime: 2024-01-19 10:34:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -16,7 +16,7 @@ import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import { formatMessage, formatModelValue } from '@/utils';
+import { formatMessage, formatModelValue, getPlaceholder } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
@@ -109,7 +109,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const onMoreClick = useCallback(
     (item: ConfigType) => {
-      if (energyData) {
+      if (deviceData?.deviceId && energyData) {
         const unit = item.productTypeId
           ? getUnitByProductId([energyData], item.productTypeId)
           : energyData;
@@ -128,7 +128,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
       }
     },
-    [energyData, history],
+    [energyData, history, deviceData],
   );
 
   const onAlarmClick = useCallback(() => {
@@ -142,6 +142,25 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     if (deviceData?.deviceId) {
       run({ deviceId: deviceData?.deviceId }).then((data) => {
         setDeviceIds(getDataIds(data?.children || []));
+      });
+    } else {
+      setDeviceIds({
+        productId: {
+          air: '',
+          bms: '',
+          ems: '',
+          pcs: '',
+          fire: '',
+          dehumidifire: '',
+        },
+        deviceId: {
+          air: [],
+          bms: [],
+          ems: [],
+          pcs: [],
+          fire: [],
+          dehumidifire: [],
+        },
       });
     }
   }, [deviceData?.deviceId]);
@@ -281,7 +300,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
       ) : (
         <>
           {showLabel && (
-            <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
+            <Detail.Label
+              showLine={false}
+              title={deviceData?.deviceId ? energyData?.name : getPlaceholder('')}
+              labelClassName={styles.label}
+            >
               {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}
               ：
               <span className="mr24">

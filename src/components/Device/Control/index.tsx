@@ -392,12 +392,13 @@ const Control: React.FC<ControlType> = memo((props) => {
                   marginTop: '4px',
                 },
                 format: (value, formatData) => {
-                  let data = formatData;
+                  let data;
+                  let childData;
                   let formatValue = value;
                   if (field?.deviceId) {
                     const realField = field?.id?.split?.('.') || [];
-                    data = formatData?.[field?.deviceId || ''];
-                    formatValue = data?.[realField?.[realField?.length - 1]];
+                    childData = formatData?.[field?.deviceId || ''];
+                    formatValue = childData?.[realField?.[realField?.length - 1]];
                   } else {
                     data = formatData?.[deviceData?.deviceId || ''];
                     formatValue = data?.[field?.id || ''];

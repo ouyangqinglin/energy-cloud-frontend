@@ -10,6 +10,7 @@ import SchemaForm from '@/components/SchemaForm';
 import { GroupDataType, groupColumns } from './config';
 import { useBoolean } from 'ahooks';
 import { useRequest } from 'umi';
+import TabItem from './TabItem';
 
 export type MasterSlaveGroupProp = {
   deviceData?: DeviceDataType;
@@ -84,15 +85,7 @@ const MasterSlaveGroup: React.FC<MasterSlaveGroupProp> = (props) => {
           </>
         ),
         key: item.devices[0].deviceId,
-        children: showDiv ? (
-          <DeviceItemDetail
-            deviceData={item.devices.find((obj: any) => obj.deviceId == showId)}
-            allDeviceData={item}
-            changeShowDiv={changeShowDiv}
-          />
-        ) : (
-          <GroupItem data={item.devices} isShowDeviceDetail={isShowDeviceDetail} />
-        ),
+        children: <TabItem devices={item?.devices} />,
       };
     });
   }, [mergedGroupData, showDiv, showId, onEditClick]);
