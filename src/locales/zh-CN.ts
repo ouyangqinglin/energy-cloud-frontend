@@ -25,6 +25,7 @@ import index from './zh-CN/index'; //首页
 import upgradeManage from './zh-CN/upgradeManage'; //升级管理
 import siteManage from './zh-CN/siteManage';
 import siteMonitor from './zh-CN/siteMonitor';
+import exchangeMonitor from './zh-CN/exchangeMonitor';
 import equipmentList from './zh-CN/equipmentList'; //设备列表
 import taskManage from './zh-CN/taskManage'; //任务管理
 import device from './zh-CN/device';
@@ -71,6 +72,7 @@ export default {
   ...onlineUser,
   ...siteManage,
   ...siteMonitor,
+  ...exchangeMonitor,
   ...device,
   ...dataManage,
   ...alarmManage,

@@ -10,6 +10,7 @@ export default {
   'siteMonitor.allGridPowerSupply': 'all grid power supply',
   'siteMonitor.mainsPower': 'Mains power',
   'siteMonitor.mainsCapacity': 'Mains capacity',
+  'siteMonitor.powerConsumption': 'Load Electricity Power',
   'siteMonitor.chargingPileChargingAmount': 'Charging pile charging amount',
   'siteMonitor.otherLoadElectricConsumption': 'Other load electricity consumption',
   'siteMonitor.chargingCapacity': 'Charging capacity',

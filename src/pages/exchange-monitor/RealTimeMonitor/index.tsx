@@ -125,7 +125,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     () => [
       <Button type="primary" key="add">
         <ExportOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="导出" />
+        <FormattedMessage
+          id="exchangeMonitor.export"
+          defaultMessage={formatMessage({ id: 'exchangeMonitor.export', defaultMessage: '导出' })}
+        />
       </Button>,
     ],
     [authorityMap, onAddClick],
@@ -133,31 +136,43 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail">
-        <FormattedMessage id="common.viewDetail1" defaultMessage="详情" />
+        <FormattedMessage
+          id="common.viewDetail1"
+          defaultMessage={formatMessage({ id: 'exchangeMonitor.detail', defaultMessage: '详情' })}
+        />
       </Button>
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站' }),
+        title: formatMessage({ id: 'exchangeMonitor.exchangeStation', defaultMessage: '换电站' }),
         dataIndex: 'exchangeSiteId',
         width: 200,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请输入换电站编号/换电站名税',
+          placeholder: formatMessage({
+            id: 'exchangeMonitor.exchangeStationPlaceholder',
+            defaultMessage: '请输入换电站编号/换电站名税',
+          }),
         },
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '换电站编号' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationNumber',
+          defaultMessage: '换电站编号',
+        }),
         dataIndex: 'exchangeSiteId',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationName',
+          defaultMessage: '换电站名称',
+        }),
         dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
@@ -165,35 +180,47 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
 
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站数量' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationAmount',
+          defaultMessage: '换电站数量',
+        }),
         dataIndex: 'exchangeSiteNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.model1', defaultMessage: '充电桩可用数量' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.chargeStationUsableNumber',
+          defaultMessage: '充电桩可用数量',
+        }),
         dataIndex: 'chargingStationAvailableNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.productType1', defaultMessage: '充电机可用数量' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.chargeEngineUsableNumber',
+          defaultMessage: '充电机可用数量',
+        }),
         dataIndex: 'chargerAvailableNumber',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '电池仓数量' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.batteryHouseNumber',
+          defaultMessage: '电池仓数量',
+        }),
         dataIndex: 'batteryCompartmentNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '总功率' }),
+        title: formatMessage({ id: 'exchangeMonitor.totalPower', defaultMessage: '总功率' }),
         dataIndex: 'totalPower',
         valueType: 'select',
         valueEnum: onlineStatus,
@@ -201,14 +228,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         width: 120,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '地址' }),
+        title: formatMessage({ id: 'exchangeMonitor.address', defaultMessage: '地址' }),
         dataIndex: 'address',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '更新时间' }),
+        title: formatMessage({ id: 'exchangeMonitor.updateTime', defaultMessage: '更新时间' }),
         dataIndex: 'updateTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
