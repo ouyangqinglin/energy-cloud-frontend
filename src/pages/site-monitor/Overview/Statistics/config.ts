@@ -49,7 +49,7 @@ export const config = (siteType: string) => {
     {
       icon: IconStorageBattery,
       title: formatMessage({ id: 'device.storageBattery', defaultMessage: '储能电池' }),
-      field: 'storageBattery',
+      field: 'battery',
       show: ['23', '2'].includes(siteType),
       statistics: [
         {
