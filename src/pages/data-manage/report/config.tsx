@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-01-23 08:59:13
+ * @LastEditTime: 2024-01-23 10:38:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -1149,7 +1149,7 @@ export const chargeBaseColumns: ProColumns[] = [
             title:
               formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
               '(kWh)',
-            dataIndex: 'cscelectricityLevel	',
+            dataIndex: 'cscelectricityLevel',
             width: 110,
             ellipsis: true,
           },

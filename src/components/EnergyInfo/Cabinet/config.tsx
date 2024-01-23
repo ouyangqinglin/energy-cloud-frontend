@@ -73,7 +73,7 @@ export type ConfigType = {
     top: number;
     left: number;
   };
-  data: DetailItem[];
+  data: (DetailItem & { customFormat?: (value: any, data?: any) => React.ReactNode })[];
 };
 
 export const airItem: ConfigType = {
@@ -577,7 +577,7 @@ export const peakItem: ConfigType = {
 
 export const wind2PeakItem: ConfigType = {
   label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
-  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  productTypeId: DeviceProductTypeEnum.BatteryCluster,
   position: { top: 185, left: 802 },
   icon: EmsImg,
   line: PackLineImg,
@@ -590,6 +590,7 @@ export const wind2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
       field: 'MaxNOIV',
+      customFormat: (value, data) => `#${data?.macvm}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
@@ -598,6 +599,7 @@ export const wind2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
       field: 'MNOIV',
+      customFormat: (value, data) => `#${data?.micvb}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
@@ -606,6 +608,7 @@ export const wind2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
       field: 'MITN',
+      customFormat: (value, data) => `#${data?.mactb}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
@@ -614,6 +617,7 @@ export const wind2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
       field: 'MNOIT',
+      customFormat: (value, data) => `#${data?.mictm}-${value}`,
     },
   ],
 };
@@ -667,7 +671,7 @@ export const liquidPeakItem: ConfigType = {
 
 export const liquid2PeakItem: ConfigType = {
   label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
-  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  productTypeId: DeviceProductTypeEnum.BatteryCluster,
   position: { top: 465, left: 768 },
   icon: EmsImg,
   line: LiquidStackLineImg,
@@ -680,6 +684,7 @@ export const liquid2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
       field: 'MaxNOIV',
+      customFormat: (value, data) => `#${data?.macvm}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
@@ -688,6 +693,7 @@ export const liquid2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
       field: 'MNOIV',
+      customFormat: (value, data) => `#${data?.micvb}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
@@ -696,6 +702,7 @@ export const liquid2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
       field: 'MITN',
+      customFormat: (value, data) => `#${data?.mactb}-${value}`,
     },
     {
       label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
@@ -704,6 +711,7 @@ export const liquid2PeakItem: ConfigType = {
     {
       label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
       field: 'MNOIT',
+      customFormat: (value, data) => `#${data?.mictm}-${value}`,
     },
   ],
 };

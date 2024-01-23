@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-01-15 21:47:14
+ * @LastEditTime: 2024-01-23 17:36:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -28,6 +28,7 @@ import {
 } from '@/utils';
 import { Empty, Spin } from 'antd';
 import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
+import styles from './index.less';
 
 export type RunType = {
   deviceData?: DeviceDataType;
@@ -131,21 +132,31 @@ const Run: React.FC<RunType> = (props) => {
   const getDetailItems = useCallback(
     (service: DeviceServiceModelType[]) => {
       const result: DetailItem[] = [];
-      service?.forEach?.((item) => {
-        result.push?.({
-          field: item?.id || '',
-          label: item?.name,
-          deviceId: item?.deviceId,
-          valueInterceptor: (_, data) => {
-            if (item?.deviceId) {
-              const realField = item?.id?.split?.('.') || [];
-              return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
-            } else {
-              return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
-            }
-          },
-          format: (value) => formatModelValue(value, item?.dataType || {}),
-        });
+      service?.forEach?.((item, index) => {
+        if (item.showType == DeviceModelShowTypeEnum.Line) {
+          result[result?.length - 1].span = 4 - (result.length % 3);
+          result.push({
+            className: styles.line,
+            span: 3,
+            showPlaceholder: false,
+            showExtra: false,
+          });
+        } else {
+          result.push({
+            field: item?.id || '',
+            label: item?.name,
+            deviceId: item?.deviceId,
+            valueInterceptor: (_, data) => {
+              if (item?.deviceId) {
+                const realField = item?.id?.split?.('.') || [];
+                return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
+              }
+            },
+            format: (value) => formatModelValue(value, item?.dataType || {}),
+          });
+        }
       });
       if (result.length > 1) {
         result[result?.length - 1].span = 4 - (result.length % 3);

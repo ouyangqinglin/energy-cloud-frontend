@@ -224,7 +224,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.peak;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap?.[item?.field || '']);
+        item.format =
+          item.customFormat ||
+          ((value) => formatModelValue(value, bmsModelMap?.[item?.field || '']));
       });
     }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);

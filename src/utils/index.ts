@@ -1,18 +1,14 @@
 import React from 'react';
 import type { MenuDataItem } from '@umijs/route-utils';
-import type { MenuProps } from 'antd';
 import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
 import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
-import { constant } from 'lodash';
 import moment from 'moment';
-import type { BasicDataNode } from 'rc-tree';
-import type { DataNode } from 'antd/lib/tree';
 
 export enum DeviceModelShowTypeEnum {
-  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button
+  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button 8-线
   Tile = 1,
   HideName,
   Grid,
@@ -20,6 +16,7 @@ export enum DeviceModelShowTypeEnum {
   Select,
   Switch,
   Button,
+  Line,
 }
 
 export enum DeviceModelDescribeTypeEnum {
