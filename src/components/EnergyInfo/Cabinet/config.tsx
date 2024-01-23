@@ -134,7 +134,7 @@ export const liquidAirItem: ConfigType = {
   position: { top: 557, left: 2 },
   icon: LiquidAirImg,
   line: LiquidAirLineImg,
-  linePosition: { top: 11, left: 92 },
+  linePosition: { top: 11, left: 100 },
   data: [
     {
       label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
@@ -150,7 +150,7 @@ export const liquid2AirItem: ConfigType = {
   position: { top: 557, left: 2 },
   icon: LiquidAirImg,
   line: LiquidAirLineImg,
-  linePosition: { top: 11, left: 92 },
+  linePosition: { top: 11, left: 100 },
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
@@ -351,7 +351,7 @@ export const liquidDoorItem: ConfigType = {
   position: { top: 70, left: 2 },
   icon: DoorImg,
   line: LiquidDoorLineImg,
-  linePosition: { top: 7, left: 128 },
+  linePosition: { top: 7, left: 135 },
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),

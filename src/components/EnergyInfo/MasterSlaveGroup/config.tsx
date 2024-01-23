@@ -142,7 +142,7 @@ export const unitItems = [
     icon: StackImg,
     line: StackLineImg,
     linePosition: { top: -74, left: 85 },
-    data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
+    data: [{ label: 'SOC：', field: 'SOC', format: percentageFormat }],
   },
   {
     label: 'PCS',

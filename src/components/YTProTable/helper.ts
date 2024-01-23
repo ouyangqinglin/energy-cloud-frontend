@@ -8,7 +8,12 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
     return [];
   }
 
-  return columns.map((col) => {
+  let hasEmptyWidth = false;
+
+  const result = columns.map((col) => {
+    if (!col.width) {
+      hasEmptyWidth = true;
+    }
     if (!isEmpty(col.requestOption) && !col.request) {
       const {
         url,
@@ -45,9 +50,13 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
         }
       };
     }
-
     return col;
   });
+
+  if (!hasEmptyWidth) {
+    // delete result[result.length - 1].width;
+  }
+  return result;
 };
 
 export const standardRequestTableData = <D, P>(
@@ -64,4 +73,35 @@ export const standardRequestTableData = <D, P>(
     };
   };
   return simpleRequest;
+};
+
+export const calculateColumns = <D, P>(
+  columns: YTProColumns<D, P>[],
+  contain: React.MutableRefObject<HTMLDivElement | undefined>,
+) => {
+  const cols = contain?.current
+    ?.querySelector?.('table:first-child')
+    ?.querySelectorAll?.('col:not(.ant-table-selection-col):not(.ant-table-expand-icon-col)');
+
+  let effectColumnIndex = 0;
+  let lastNotFixedColumnIndex = 0;
+  let hasEmptyWidth = false;
+  columns?.forEach?.((item, index) => {
+    if (!item.hideInTable) {
+      if (item.width) {
+        const width = (cols?.[effectColumnIndex] as HTMLTableColElement)?.style?.width;
+        item.width = width && parseInt(width);
+      } else {
+        hasEmptyWidth = true;
+      }
+      effectColumnIndex++;
+      if (!item.fixed) {
+        lastNotFixedColumnIndex = index;
+      }
+    }
+  });
+
+  if (!hasEmptyWidth) {
+    delete columns[lastNotFixedColumnIndex].width;
+  }
 };

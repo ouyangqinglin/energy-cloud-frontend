@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2023-12-03 18:33:54
+ * @LastEditTime: 2024-01-23 09:24:37
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\index copy.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
@@ -139,7 +139,7 @@ const StationList: React.FC = () => {
     {
       title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
       dataIndex: 'name',
-      width: 150,
+      width: 250,
       ellipsis: true,
       render: (_, record) => {
         return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
@@ -251,7 +251,6 @@ const StationList: React.FC = () => {
       dataIndex: 'lastOperationTime',
       valueType: 'dateTime',
       hideInSearch: true,
-      width: 150,
     },
     {
       title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
@@ -273,6 +272,7 @@ const StationList: React.FC = () => {
         columns={columns}
         toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
         request={requestList}
+        resizable={true}
       />
       <StationForm
         id={siteId}

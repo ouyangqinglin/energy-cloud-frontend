@@ -134,7 +134,7 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
         };
       },
     },
-    initialValue: [moment().startOf('day').subtract(6, 'd'), moment().endOf('day')],
+    initialValue: [moment().startOf('day'), moment().endOf('day')],
     width: 150,
     formItemProps: {
       rules: [

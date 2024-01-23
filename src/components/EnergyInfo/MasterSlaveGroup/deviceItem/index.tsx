@@ -115,10 +115,10 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           <Divider style={{ height: '86px' }} type="vertical" />
           <div className={styles.chargeStaus}>
             <div className={`w-full pl7 ellipsis ${styles.deviceName}`}>
+              {deviceData?.deviceName || '--'}
               {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
                 ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
                 : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
-              {deviceData?.deviceName || '--'}
             </div>
             <div className="flex">
               <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />

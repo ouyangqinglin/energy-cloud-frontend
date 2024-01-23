@@ -253,10 +253,9 @@ export const emsConnectMethodFormat = (value: number) => {
 };
 export const liquidWorkFormat = (value: number) => {
   const map: MapType = {
-    0: '故障',
-    1: '停机',
-    2: '待机',
-    3: '运行',
+    0: '停机',
+    1: '故障',
+    2: '运行',
   };
   return <span className={''}>{map[value]}</span>;
 };

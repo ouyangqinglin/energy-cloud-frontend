@@ -92,7 +92,7 @@ const SvgComponent = (
               <span className={styles.value}>{energyStore?.p ?? '--'}</span>
             </div>
             <div className={styles.desc}>
-              <span className={styles.title}>SoC：</span>
+              <span className={styles.title}>SOC：</span>
               <span className={styles.value}>
                 {energyStore.soc ?? '--'}
                 <span className={styles.unit}>%</span>
