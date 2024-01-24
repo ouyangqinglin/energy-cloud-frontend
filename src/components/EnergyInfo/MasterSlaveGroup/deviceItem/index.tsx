@@ -21,7 +21,11 @@ const getDataIds = (data: DeviceDataType[]): string[] => {
   data?.forEach?.((item) => {
     if (
       item?.productTypeId &&
-      [DeviceProductTypeEnum.Pcs, DeviceProductTypeEnum.BatteryStack].includes(item?.productTypeId)
+      [
+        DeviceProductTypeEnum.Pcs,
+        DeviceProductTypeEnum.BatteryStack,
+        DeviceProductTypeEnum.BatteryCluster,
+      ].includes(item?.productTypeId)
     ) {
       ids.push(item?.id || '');
     }

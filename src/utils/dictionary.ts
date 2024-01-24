@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-01-15 19:46:58
+ * @LastEditTime: 2024-01-24 10:35:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -131,6 +131,11 @@ export enum DeviceTypeEnum {
   Liquid2BatteryStack = 107,
   Wind2Energy = 105,
   Liquid2EnergyBatteryCluster = 107,
+  SmallEnergy = 109,
+  SmallEnergyEms = 110,
+  SmallEnergyBatteryCluster = 111,
+  SmallEnergyAir = 113,
+  SmallEnergyFireFight = 114,
   Device = 'default',
 }
 

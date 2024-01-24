@@ -27,6 +27,7 @@ import {
   Liquid2Energy,
   LiquidEnergy,
   RectEnergy,
+  SmallEnergy,
   Wind2Energy,
   WindEnergy,
 } from './config';
@@ -41,6 +42,7 @@ const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>(
   [DeviceTypeEnum.LiquidEnergy, LiquidEnergy],
   [DeviceTypeEnum.Wind2Energy, Wind2Energy],
   [DeviceTypeEnum.Liquid2Energy, Liquid2Energy],
+  [DeviceTypeEnum.SmallEnergy, SmallEnergy],
 ]);
 
 const liquidProductIds: (DeviceTypeEnum | undefined)[] = [

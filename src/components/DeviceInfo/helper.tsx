@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-15 13:54:21
+ * @LastEditTime: 2024-01-24 14:52:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -225,7 +225,9 @@ export const allItems: Record<string, DetailItem> = {
     field: 'airCommunication',
     showPlaceholder: false,
     format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Air], []),
-    show: (_, data: DeviceDataType) => data.productId == DeviceTypeEnum.Wind2EnergyEms,
+    show: (_, data: DeviceDataType) =>
+      data.productId == DeviceTypeEnum.Wind2EnergyEms ||
+      data.productId == DeviceTypeEnum.SmallEnergyEms,
   },
   fireFightCommunication: {
     label: formatMessage(
@@ -296,6 +298,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: 'BCMU' },
     ),
     field: 'hv',
+    show: (value, data) => data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster,
   },
   bcmuSoftwareVersion: {
     label: formatMessage(
@@ -303,6 +306,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: 'BCMU' },
     ),
     field: 'softVersion',
+    show: (value, data) => data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster,
   },
   bmuNumber: {
     label: formatMessage({ id: 'device.bmuNumber', defaultMessage: '电池模块个数' }),
@@ -314,6 +318,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.air', defaultMessage: '空调' }) },
     ),
     field: 'hv',
+    show: (value, data) => data.productId != DeviceTypeEnum.SmallEnergyAir,
   },
   airSoftwareVersion: {
     label: formatMessage(
@@ -321,14 +326,21 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.air', defaultMessage: '空调' }) },
     ),
     field: 'softVersion',
+    show: (value, data) => data.productId != DeviceTypeEnum.SmallEnergyAir,
   },
   hardwareVersion: {
     label: formatMessage({ id: 'device.hardwareVersion', defaultMessage: '硬件版本' }),
     field: 'hv',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyAir &&
+      data.productId != DeviceTypeEnum.SmallEnergyFireFight,
   },
   softwareVersion: {
     label: formatMessage({ id: 'device.softwareVersion', defaultMessage: '软件版本' }),
     field: 'softVersion',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyAir &&
+      data.productId != DeviceTypeEnum.SmallEnergyFireFight,
   },
   meterNumber: {
     label: formatMessage({ id: 'device.softwareVersion', defaultMessage: '电表序号' }),

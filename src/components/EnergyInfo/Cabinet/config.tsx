@@ -153,12 +153,12 @@ export const liquid2AirItem: ConfigType = {
   linePosition: { top: 11, left: 100 },
   data: [
     {
-      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
-      field: 'WorkStatus',
-    },
-    {
       label: formatMessage({ id: 'device.systemMode', defaultMessage: '系统模式' }),
       field: 'SystemMode',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'WorkStatus',
     },
   ],
 };
@@ -233,14 +233,14 @@ export const liquidEmsItem: ConfigType = {
   linePosition: { top: 11, left: 77 },
   data: [
     {
-      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'systemWorkingStatus',
-      format: systemRunFormat,
-    },
-    {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'systemOperatingMode',
       format: systemOperatingModeFormat,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'systemWorkingStatus',
+      format: systemRunFormat,
     },
   ],
 };
@@ -254,11 +254,11 @@ export const liquid2EmsItem: ConfigType = {
   linePosition: { top: 11, left: 77 },
   data: [
     {
-      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'systemOperatingMode',
     },
     {
-      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
       field: 'systemWorkingStatus',
     },
   ],
@@ -725,14 +725,14 @@ export const pcsItem: ConfigType = {
   linePosition: { top: 11, left: -233 },
   data: [
     {
-      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-      field: 'WorkStatus',
-      format: (value: number) => workFormat(value),
-    },
-    {
       label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
       field: 'CurrentChargingAndDischargingModel',
       format: (value: number) => electricModelFormat(value),
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'WorkStatus',
+      format: (value: number) => workFormat(value),
     },
     {
       label: formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' }),
@@ -866,4 +866,13 @@ export const Liquid2Energy: EnergyComponentType = {
   peak: liquid2PeakItem,
   pcs: liquid2PcsItem,
   dehumidifier: liquid2DehumidifierItem,
+};
+export const SmallEnergy: EnergyComponentType = {
+  air: wind2AirItem,
+  door: wind2DoorItem,
+  ems: wind2EmsItem,
+  bms: wind2BmsItem,
+  fireFight: wind2FireFightItem,
+  peak: wind2PeakItem,
+  pcs: wind2PcsItem,
 };
