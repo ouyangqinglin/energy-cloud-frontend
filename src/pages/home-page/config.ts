@@ -6,7 +6,7 @@ import { ReactComponent as IconCS } from '@/assets/image/home-page/icon_充电�
 import { ReactComponent as IconSite } from '@/assets/image/home-page/icon_站点.svg';
 import { ReactComponent as IconBenifit } from '@/assets/image/home-page/icon_今日收益.svg';
 import { ReactComponent as IconCo2 } from '@/assets/image/home-page/icon_碳减排.svg';
-import { CardInfo } from './type';
+import type { CardInfo } from './type';
 
 export const config: CardInfo[] = [
   {

@@ -9,7 +9,7 @@ import useSubscribe from './useSubscribe';
 import useAuthority from './useAuthority';
 import useFullScreen from './useFullScreen';
 import useDeviceModel from './useDeviceModel';
-
+import useWindowSize from './useWindowSize';
 export {
   useArea,
   useToolTip,
@@ -22,4 +22,5 @@ export {
   useAuthority,
   useFullScreen,
   useDeviceModel,
+  useWindowSize,
 };

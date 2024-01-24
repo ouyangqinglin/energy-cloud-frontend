@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\home.tsx
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Carousel, Tabs, Tooltip, Card } from 'antd';
+import { Carousel, Tabs, Tooltip } from 'antd';
 import { useModel, useIntl, FormattedMessage } from 'umi';
 import styles from './index.less';
 import SliderCard from './components/SliderCard';
@@ -25,13 +25,14 @@ import {
 } from './service';
 import { assign } from 'lodash';
 import { SiteTypeEnum } from '@/utils/dictionary';
-import { TabsProps } from 'rc-tabs';
-import { useAuthority } from '@/hooks';
+import type { TabsProps } from 'rc-tabs';
+import { useAuthority, useWindowSize } from '@/hooks';
 import { SubSystemType } from './index';
 
 const HomePage: React.FC = () => {
   const intl = useIntl();
-
+  const screenWidth = useWindowSize().width;
+  const [slidesPerRow, setSlidesPerRow] = useState(4);
   const ref = useRef<HTMLDivElement>(null);
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const [statistic, setStatistic] = useState({});
@@ -88,6 +89,11 @@ const HomePage: React.FC = () => {
   const onScreenClick = useCallback(() => {
     window.open(`/screen/multi-site`);
   }, []);
+  useEffect(() => {
+    if (screenWidth >= 900) setSlidesPerRow(2);
+    if (screenWidth >= 1340) setSlidesPerRow(3);
+    if (screenWidth >= 1700) setSlidesPerRow(4);
+  }, [screenWidth]);
 
   useEffect(() => {
     getStatisticData(siteType ? { energyOptions: siteType } : {}).then((res) => {
@@ -138,7 +144,7 @@ const HomePage: React.FC = () => {
       return [...result.slice(0, 4), ...fillPageItems, ...nextPageItems];
     }
     return result;
-  }, [siteType, statistic, intl]);
+  }, [siteType, statistic]);
 
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];
@@ -196,7 +202,7 @@ const HomePage: React.FC = () => {
       ) : (
         <></>
       )}
-      <Carousel className={styles.sliderWrapper} slidesPerRow={4}>
+      <Carousel className={styles.sliderWrapper} slidesPerRow={slidesPerRow}>
         {items}
       </Carousel>
       <Tabs className={styles.chartCard} items={tabsItem} />
