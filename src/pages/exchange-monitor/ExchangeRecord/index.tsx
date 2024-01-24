@@ -7,25 +7,16 @@
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\ExchangeRecord\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button } from 'antd';
 import { useHistory, useModel } from 'umi';
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  ExportOutlined,
-  ImportOutlined,
-  DownloadOutlined,
-} from '@ant-design/icons';
+import { ExportOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { getPage, unbindDevice } from './service';
+import { getPage } from './service';
 import type { DeviceDataType } from '@/services/equipment';
-import { getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
-import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
-import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
@@ -36,42 +27,11 @@ type DeviceListProps = {
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-  });
-  const { authorityMap } = useAuthority([
-    'iot:siteManage:siteConfig:deviceManage:add',
-    'iot:siteManage:siteConfig:deviceManage:unbind',
-    'iot:device:add',
-  ]);
 
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
-    });
-  }, []);
-
-  const [productTypeColumn] = useSearchSelect<DeviceDataType>({
-    proColumns: {
-      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-      dataIndex: 'productTypeName',
-      formItemProps: {
-        name: 'productTypeId',
-      },
-      hideInTable: true,
-    },
-    request: requestProductType,
-  });
   const onCancelSn = useCallback(() => {
     setSnOpen(false);
   }, []);
@@ -79,24 +39,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const onSwitchOpen = useCallback(() => {
     setOpen((data) => !data);
   }, []);
-
-  const onAddClick = useCallback(() => {
-    if (isStationChild) {
-      setSnOpen(true);
-    } else {
-      setOpen(true);
-    }
-  }, [isStationChild]);
-
-  const onDetailClick = useCallback(
-    (rowData: DeviceDataType) => {
-      history.push({
-        pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
-      });
-    },
-    [history, isStationChild],
-  );
 
   const onSuccess = () => {
     actionRef?.current?.reload?.();
@@ -110,107 +52,136 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     () => [
       <Button type="primary" key="add">
         <ExportOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="导出" />
+        <FormattedMessage
+          id="common.add1"
+          defaultMessage={formatMessage({ id: 'exchangeMonitor.export', defaultMessage: '导出:' })}
+        />
       </Button>,
     ],
-    [authorityMap],
+    [],
   );
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电场名称:' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeSiteName',
+          defaultMessage: '换电场名称:',
+        }),
         dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请选择换电场名称',
+          placeholder: formatMessage({
+            id: 'exchangeMonitor.exchangeSiteNamePlaceholder',
+            defaultMessage: '请选择换电场名称',
+          }),
         },
         hideInTable: true,
       },
-
       {
-        title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '换电流水号' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeNumber',
+          defaultMessage: '换电流水号',
+        }),
         dataIndex: 'transNo',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电站编号' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationNumber',
+          defaultMessage: '换电站编号',
+        }),
         dataIndex: 'exchangeSiteId',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电站名称' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationName',
+          defaultMessage: '换电站名称',
+        }),
         dataIndex: 'exchangeSiteName',
         width: 200,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请选择换电站名称',
+          placeholder: formatMessage({
+            id: 'exchangeMonitor.ExchangeStationNamePlaceholder',
+            defaultMessage: '请选择换电站名称',
+          }),
         },
       },
       {
-        title: formatMessage({ id: 'common.productType1', defaultMessage: '车架号' }),
+        title: formatMessage({ id: 'exchangeMonitor.frameNumber', defaultMessage: '车架号' }),
         dataIndex: 'vin',
         width: 120,
         ellipsis: true,
-        fieldProps: {
-          placeholder: '请选择使用性质',
-        },
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '车牌号' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.LicensePlateNumber',
+          defaultMessage: '车牌号',
+        }),
         dataIndex: 'carNumber',
         width: 150,
         ellipsis: true,
-        fieldProps: {
-          placeholder: '请选择车辆行驶状态',
-        },
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '车队' }),
+        title: formatMessage({ id: 'exchangeMonitor.fleet', defaultMessage: '车队' }),
         dataIndex: 'fleet',
         valueType: 'select',
         valueEnum: onlineStatus,
         fieldProps: {
-          placeholder: '请选择车队',
+          placeholder: formatMessage({
+            id: 'exchangeMonitor.fleetPlaceholder',
+            defaultMessage: '请选择车队',
+          }),
         },
         width: 120,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '存电池SN编码' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.StorageBatterySn',
+          defaultMessage: '存电池SN编码',
+        }),
         dataIndex: 'storageBatterySn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '取电池SN编码' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.TakeBatterySn',
+          defaultMessage: '取电池SN编码',
+        }),
         dataIndex: 'takeBatterySn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '存电池SOC' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.StorageBatterSOC',
+          defaultMessage: '存电池SOC',
+        }),
         dataIndex: 'storageBatterySoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '取电池SOC' }),
+        title: formatMessage({ id: 'exchangeMonitor.TakeBatterSOC', defaultMessage: '取电池SOC' }),
         dataIndex: 'takeBatterySoc',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '时间' }),
+        title: formatMessage({ id: 'exchangeMonitor.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
@@ -227,7 +198,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '换电起始时间' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStartTime',
+          defaultMessage: '换电起始时间',
+        }),
         dataIndex: 'exchangeStartTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.exchangeStartTime}</span>,
@@ -244,7 +218,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '换电结束时间' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeEndTime',
+          defaultMessage: '换电结束时间',
+        }),
         dataIndex: 'exchangeEndTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.exchangeEndTime}</span>,
@@ -261,17 +238,26 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         ellipsis: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '换电记录搜索:' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.recordSearch',
+          defaultMessage: '换电记录搜索:',
+        }),
         dataIndex: 'name',
         width: 200,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请输入车架号/车牌号/电池SN编号',
+          placeholder: formatMessage({
+            id: 'exchangeMonitor.recordSearchPlaceholder',
+            defaultMessage: '请输入车架号/车牌号/电池SN编号:',
+          }),
         },
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '换电工位' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.exchangeStationPower',
+          defaultMessage: '换电工位',
+        }),
         dataIndex: 'exchangeWorkstation',
         width: 150,
         ellipsis: true,

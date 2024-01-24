@@ -9,9 +9,31 @@
 import SiteIcon from '@/assets/image/exchange-site/total-site.png';
 import ExchangeIcon from '@/assets/image/exchange-site/total-exchange.png';
 import ChargeIcon from '@/assets/image/exchange-site/total-charge.png';
+import { formatMessage } from '@/utils';
 
 export const statisticsItems = [
-  { label: '换电站总数', icon: SiteIcon, field: 'site', unit: '个' },
-  { label: '总换电次数', icon: ExchangeIcon, field: 'exchangeNum', unit: '次' },
-  { label: '总充电量', icon: ChargeIcon, field: 'totalChargePower', unit: 'kWh' },
+  {
+    label: formatMessage({
+      id: 'exchangeMonitor.exchangeStationTotal',
+      defaultMessage: '换电站总数',
+    }),
+    icon: SiteIcon,
+    field: 'site',
+    unit: '个',
+  },
+  {
+    label: formatMessage({
+      id: 'exchangeMonitor.exchangeTotalNumber',
+      defaultMessage: '总换电次数',
+    }),
+    icon: ExchangeIcon,
+    field: 'exchangeNum',
+    unit: '次',
+  },
+  {
+    label: formatMessage({ id: 'exchangeMonitor.chargeTotalNumber', defaultMessage: '总充电量' }),
+    icon: ChargeIcon,
+    field: 'totalChargePower',
+    unit: 'kWh',
+  },
 ];
