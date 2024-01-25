@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-24 14:52:02
+ * @LastEditTime: 2024-01-25 19:11:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -11,6 +11,7 @@ import { formatMessage, getPlaceholder, getPropsFromTree, isEmpty } from '@/util
 import {
   deviceAlarmStatusFormat,
   emsConnectMethodFormat,
+  onlineStatus1Format,
   onlineStatusFormat,
   powerFormat,
   powerHourFormat,
@@ -155,7 +156,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.upperComputer', defaultMessage: '上位机' }) },
     ),
     field: 'e601',
-    format: onlineStatusFormat,
+    format: onlineStatus1Format,
   },
   cloudPlatformCommunication: {
     label: formatMessage(
@@ -163,7 +164,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.cloudPlatform', defaultMessage: '云平台' }) },
     ),
     field: 'e603',
-    format: onlineStatusFormat,
+    format: onlineStatus1Format,
   },
   lightBoardCommunication: {
     label: formatMessage(
@@ -171,7 +172,7 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.lightBoard', defaultMessage: '灯板' }) },
     ),
     field: 'e607',
-    format: onlineStatusFormat,
+    format: onlineStatus1Format,
   },
   converterCommunication: {
     label: formatMessage(

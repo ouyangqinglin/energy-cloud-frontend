@@ -12,6 +12,7 @@ import { ActionType } from '@ant-design/pro-components';
 import { buildTreeData } from '@/utils/utils';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
+import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons';
 
 const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -86,8 +87,32 @@ const Dept = (props: { actionRef?: React.Ref<ActionType> }) => {
         {...customConfig}
         request={requestList}
         rowKey="orgId"
+        resizable
         expandable={{
-          defaultExpandAllRows: true,
+          defaultExpandedRowKeys: [100],
+          expandIcon: ({ expanded, expandable, record, onExpand }) => {
+            return (
+              <>
+                {expandable ? (
+                  <>
+                    {expanded ? (
+                      <CaretDownFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    ) : (
+                      <CaretRightFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span className="mr8 table-expand-icon"></span>
+                )}
+              </>
+            );
+          },
         }}
         {...props}
       />

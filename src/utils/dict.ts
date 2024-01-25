@@ -93,6 +93,23 @@ export const onlineStatus = {
   },
 };
 
+export const onlineStatus1 = {
+  [OnlineStatusEnum.None]: {
+    text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),
+    status: '',
+  },
+  [OnlineStatusEnum.Offline]: {
+    text: formatMessage({ id: 'common.onLine', defaultMessage: '在线' }),
+    icon: 'green',
+    status: 'Processing',
+  },
+  [OnlineStatusEnum.Online]: {
+    text: formatMessage({ id: 'common.offline', defaultMessage: '离线' }),
+    icon: 'red',
+    status: 'Default',
+  },
+};
+
 export const connectStatus = {
   2: {
     text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),

@@ -1,6 +1,6 @@
 import { getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
-import { onlineStatus, deviceAlarmStatus } from './dict';
+import { onlineStatus, deviceAlarmStatus, onlineStatus1 } from './dict';
 import Field from '@/components/Field';
 import { ProField } from '@ant-design/pro-components';
 
@@ -507,6 +507,9 @@ export const airAlarmFormat = (value: string) => {
 };
 export const onlineStatusFormat = (value: string) => {
   return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
+};
+export const onlineStatus1Format = (value: string) => {
+  return <ProField mode="read" text={value} valueEnum={onlineStatus1} />;
 };
 export const deviceAlarmStatusFormat = (value: string) => {
   return (
