@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-12-27 11:24:28
+ * @LastEditTime: 2024-01-25 11:17:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -131,17 +131,22 @@ const Account: React.FC<AccountProps> = (props) => {
   //获取角色下拉框数据
   useEffect(() => {
     if (openForm) {
-      api.getRoles({ builtInRole: params?.orgTypes?.[0] }).then(({ data }) => {
-        const result =
-          data?.map?.((item: any) => {
-            return {
-              ...item,
-              label: item?.roleName,
-              value: item?.roleId,
-            };
-          }) || [];
-        setRoleOptions(result);
-      });
+      api
+        .getRoles({
+          builtInRole: params?.orgTypes?.[0] == OrgTypeEnum.System ? 0 : 1,
+          manageOrgType: params?.orgTypes?.[0],
+        })
+        .then(({ data }) => {
+          const result =
+            data?.map?.((item: any) => {
+              return {
+                ...item,
+                label: item?.roleName,
+                value: item?.roleId,
+              };
+            }) || [];
+          setRoleOptions(result);
+        });
     }
   }, [openForm, params]);
 

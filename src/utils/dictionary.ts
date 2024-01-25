@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-01-24 10:35:08
+ * @LastEditTime: 2024-01-25 14:20:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -315,19 +315,6 @@ export const systemMode = {
   },
   1: {
     text: '自动模式',
-  },
-};
-
-export const deviceAlarmStatus = {
-  1: {
-    text: '告警',
-    status: 'Error',
-    icon: 'red',
-  },
-  0: {
-    text: '正常',
-    status: 'Success',
-    icon: 'green',
   },
 };
 

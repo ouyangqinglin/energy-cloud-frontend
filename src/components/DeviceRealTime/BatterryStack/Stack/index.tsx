@@ -33,8 +33,8 @@ import { MaxUnitType } from './type';
 import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { getClusterByStack, DeviceDataType, ClusterType } from '@/services/equipment';
 import { DeviceTypeEnum } from '@/utils/dictionary';
-import { deviceAlarmStatus, onlineStatus } from '@/utils/dict';
-import { clusterFormat } from '@/utils/format';
+import { onlineStatus } from '@/utils/dict';
+import { clusterFormat, deviceAlarmStatusFormat } from '@/utils/format';
 import Button from '@/components/CollectionModal/Button';
 import useDeviceModel from '../../useDeviceModel';
 import { MessageEventType } from '@/utils/connection';
@@ -166,7 +166,7 @@ const Stack: React.FC<StackProps> = (props) => {
         ellipsis: true,
         hideInSearch: true,
         render: (_, { alarmStatus }) => {
-          return <ProField text={alarmStatus} mode="read" valueEnum={deviceAlarmStatus} />;
+          return deviceAlarmStatusFormat(alarmStatus as any);
         },
       },
       {

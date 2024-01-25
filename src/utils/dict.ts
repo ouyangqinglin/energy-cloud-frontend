@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-01-11 17:49:34
+ * @LastEditTime: 2024-01-25 14:08:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -60,7 +60,7 @@ export const noticeMethod = {
 export const deviceAlarmStatus = {
   1: {
     text: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
-    status: 'Error',
+    status: 'Processing',
     icon: 'red',
   },
   0: {

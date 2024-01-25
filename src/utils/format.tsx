@@ -509,7 +509,11 @@ export const onlineStatusFormat = (value: string) => {
   return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
 };
 export const deviceAlarmStatusFormat = (value: string) => {
-  return <Field text={value} valueEnum={deviceAlarmStatus} />;
+  return (
+    <span className="profield-alarm">
+      <ProField mode="read" text={value} valueEnum={deviceAlarmStatus} />
+    </span>
+  );
 };
 
 export const earlyWarningFormat = (value: number) => {

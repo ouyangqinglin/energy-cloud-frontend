@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-01-24 16:04:51
+ * @LastEditTime: 2024-01-25 10:45:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -245,33 +245,14 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
       title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleId',
       valueType: 'select',
-      fieldProps: {
-        options: roleOptions,
+      fieldProps: (form) => {
+        return {
+          options: roleOptions,
+          onChange: () => {
+            types[0] !== OrgTypeEnum.System && form?.setFieldValue?.('orgId', null);
+          },
+        };
       },
-      // request: () => {
-      //   // return api.getRoles({ builtInRole: type? type : 0 }).then(({ data }) => {
-      //   //   const result =
-      //   //     data?.map?.((item: any) => {
-      //   //       return {
-      //   //         ...item,
-      //   //         label: item?.roleName,
-      //   //         value: item?.roleId,
-      //   //       };
-      //   //     }) || [];
-      //   //   return result
-      //   // });
-      //   return Promise.resolve(
-      //     types[0] === OrgTypeEnum.System
-      //       ? systemRoleOptions
-      //       : types[0] === OrgTypeEnum.Install
-      //       ? partnerRoleOptions
-      //       : types[0] === OrgTypeEnum.Operator
-      //       ? operatorRoleOptions
-      //       : types[0] === OrgTypeEnum.Owner
-      //       ? yzRoleOptions
-      //       : systemRoleOptions,
-      //   );
-      // },
       formItemProps: {
         rules: [
           {
