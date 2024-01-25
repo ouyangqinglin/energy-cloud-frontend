@@ -116,14 +116,6 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
     {
       title: formatMessage({ id: 'system.displayOrder', defaultMessage: '显示顺序' }),
       dataIndex: ['orderNum'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
-          },
-        ],
-      },
       colProps: {
         span: 8,
       },

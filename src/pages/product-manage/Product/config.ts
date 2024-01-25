@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-17 16:31:45
- * @LastEditTime: 2023-08-18 11:24:40
+ * @LastEditTime: 2024-01-24 16:18:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\Product\config.ts
  */
@@ -39,7 +39,7 @@ export const getColumns = (
       dependencies: ['productTypeId'],
       request: (params: ProductDataType) => {
         if (params.productTypeId) {
-          return getProductModelByType({ productType: params.productTypeId }).then(({ data }) => {
+          return getProductModelByType({ productTypeId: params.productTypeId }).then(({ data }) => {
             return data?.map?.((item) => {
               return {
                 label: item?.model || '',

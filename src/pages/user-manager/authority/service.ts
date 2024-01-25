@@ -18,7 +18,7 @@ export const deleteRole = (data: { roleIds: number[] }) => {
 };
 
 export const getRoleList = (params: any) => {
-  return get<RoleInfo[]>(`/uc/role/page`, params);
+  return get<RoleInfo, ''>(`/uc/role/page`, params);
 };
 
 export const getEffectMenus = () => {
