@@ -37,6 +37,8 @@ export default {
   'menu.deviceManage.carList': '车辆管理',
   'menu.deviceManage.batteryList': '电池管理',
   'menu.systemManage': '系统管理',
+  'menu.system.physicalModel': '物模型管理',
+  'menu.system.pageTemplate': '页面模版管理',
   'menu.systemManage.authorization': '应用授权',
   'menu.systemManage.organization': '组织管理',
   'menu.systemManage.product': '产品管理',

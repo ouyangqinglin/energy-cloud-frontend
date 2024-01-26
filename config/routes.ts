@@ -145,6 +145,7 @@ const routers: RouterType[] = [
       },
     ],
   },
+
   {
     path: '/site-monitor',
     component: '@/layouts/TabsLayout',
@@ -706,6 +707,28 @@ const routers: RouterType[] = [
         wrappers: ['@/components/KeepAlive'],
         keepAlive: true,
         locale: 'menu.system.productDetail',
+      },
+      //物模型
+      {
+        path: '/system/physical-model',
+        name: 'physicalModel',
+        icon: 'PartitionOutlined',
+        access: 'authorize',
+        component: 'system/PhysicalModel',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.system.physicalModel',
+      },
+      //页面模版
+      {
+        path: '/system/page-template',
+        name: 'pageTemplate',
+        icon: 'PartitionOutlined',
+        access: 'authorize',
+        component: 'system/PageTemplate',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.system.pageTemplate',
       },
       {
         path: '/system/version',

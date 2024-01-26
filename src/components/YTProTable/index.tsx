@@ -8,7 +8,7 @@ import styles from './index.less';
 import useToolBarRender from './useToolBarRender';
 import useTableSize from './useTableSize';
 import { useBoolean } from 'ahooks';
-import { formatMessage } from '@/utils'
+import { formatMessage } from '@/utils';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -19,6 +19,7 @@ const YTProTable = <
 ) => {
   const {
     toolBarRender,
+    onSearch,
     columns,
     actionRef,
     formRef,
@@ -100,12 +101,12 @@ const YTProTable = <
           restProps?.search === false
             ? false
             : {
-              labelWidth: 'auto',
-              searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
-              showHiddenNum: true,
-              ...(restProps?.search || {}),
-              onCollapse: mergedOnCollapse,
-            }
+                labelWidth: 'auto',
+                searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+                showHiddenNum: true,
+                ...(restProps?.search || {}),
+                onCollapse: mergedOnCollapse,
+              }
         }
       />
     </div>

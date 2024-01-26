@@ -18,7 +18,7 @@ export default {
   'siteMonitor.generatingCapacity': '发电功率',
   'siteMonitor.Charge/dischargeDaily': '今日充/放电量',
   'siteMonitor.dumpEnergy': '剩余电量',
-  'siteMonitor.storagePower': '系统总有功功率',
+  'siteMonitor.storageTotallPower': '系统总有功功率',
   'siteMonitor.chargingPileOther': '充电桩/其他',
   'siteMonitor.powerConsumption': '负载用电功率',
   'siteMonitor.powerQuantity': '用电电量',
