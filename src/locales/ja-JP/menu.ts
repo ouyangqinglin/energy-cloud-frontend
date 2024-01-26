@@ -52,6 +52,8 @@ export default {
   'menu.title.user': 'ユーザー管理',
   'menu.title.role': 'ロール管理',
   'menu.title.menu': 'メニュー管理',
+  'menu.system.physicalModel': 'もけい',
+  'menu.system.pageTemplate': 'ページテンプレート',
   'menu.title.dept': '部門管理',
   'menu.title.post': 'ポジション管理',
   'menu.title.dict': '辞書管理',

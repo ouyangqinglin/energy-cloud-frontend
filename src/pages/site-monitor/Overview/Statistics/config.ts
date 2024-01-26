@@ -115,7 +115,7 @@ export const config = (siteType: string) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.storagePower',
+            id: 'siteMonitor.storageTotallPower',
             defaultMessage: '系统总有功功率',
           })}(kW)`,
           labelUnit: '/kW',

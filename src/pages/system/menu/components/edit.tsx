@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ProFormDigit,
-  ProFormText,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormTreeSelect,
-} from '@ant-design/pro-form';
+import { ProFormDigit, ProFormText, ProFormRadio, ProFormTreeSelect } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col } from 'antd';
 import { useIntl, FormattedMessage, getLocale } from 'umi';
 import type { DataNode } from 'antd/lib/tree';

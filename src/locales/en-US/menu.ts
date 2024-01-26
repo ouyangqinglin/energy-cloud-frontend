@@ -94,6 +94,8 @@ export default {
   'menu.title.user': 'User',
   'menu.title.role': 'Role',
   'menu.title.menu': 'Menu',
+  'menu.system.physicalModel': 'Physical Model',
+  'menu.system.pageTemplate': 'Page Template',
   'menu.title.dept': 'Dept',
   'menu.title.post': 'Post',
   'menu.title.dict': 'Dictionary',

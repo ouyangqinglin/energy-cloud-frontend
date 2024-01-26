@@ -6,24 +6,23 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
  */
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Switch, Tag} from 'antd';
-import {MessageEventType, RequestCommandEnum} from '@/utils/connection';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Switch, Tag } from 'antd';
+import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import styles from './index.less';
-import {formatMessage} from '@/utils';
-import {useSubscribe} from '@/hooks';
+import { formatMessage } from '@/utils';
+import { useSubscribe } from '@/hooks';
 import moment from 'moment';
 import useWebsocket from '@/pages/screen/useWebsocket';
-import classnames from "classnames";
-
+import classnames from 'classnames';
 
 const Index: React.FC = (props) => {
-  const { deviceId } = props
-  const [list, setList] = useState([])
-  const [isScrolle, setIsScrolle] = useState(true)
-  const [isSubscribe, setIsSubscribe] = useState(true)
-  const [isOpen, setIsOpen] = useState(true)
-  const [loading, setLoading] = useState(true)
+  const { deviceId } = props;
+  const [list, setList] = useState([]);
+  const [isScrolle, setIsScrolle] = useState(true);
+  const [isSubscribe, setIsSubscribe] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
+  const [loading, setLoading] = useState(true);
   const { connection } = useWebsocket(true);
 
   const speed = 1;
@@ -35,73 +34,86 @@ const Index: React.FC = (props) => {
     if (isScrolle) {
       timer = setInterval(() => {
         if (warper.current.scrollTop < childDom.current.scrollHeight) {
-          warper.current.scrollTop = warper.current.scrollTop+4
+          warper.current.scrollTop = warper.current.scrollTop + 4;
         }
       }, speed);
     }
-    return () => { clearTimeout(timer); };
+    return () => {
+      clearTimeout(timer);
+    };
   }, [isScrolle]);
 
-  const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG)
+  const data = useSubscribe(deviceId, isOpen, MessageEventType.DEVICEMSG);
   useEffect(() => {
     if (Object.keys(data).length > 1) {
-      setLoading(false)
-      let time
-      const msg = JSON.parse(data.msg)
-      for(let v in msg) {
-        if ( Array.isArray(msg[v]) && msg[v][0].ts) time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss')
+      setLoading(false);
+      let time;
+      const msg = JSON.parse(data.msg);
+      for (const v in msg) {
+        if (Array.isArray(msg[v]) && msg[v][0].ts)
+          time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
       }
       const item = {
         msg: data.msg,
         topic: data.topic,
         type: data.type, // 0是下行， 1是上行
         time,
-      }
-      list.push(item)
-      if (list.length > 1000) list.splice(0, 1000)
-      setList([...list])
+      };
+      list.push(item);
+      if (list.length > 1000) list.splice(0, 1000);
+      setList([...list]);
     }
-  }, [data])
+  }, [data]);
 
   const hoverHandler = (flag: boolean) => setIsScrolle(flag);
 
   const clearList = () => {
-    setList([])
-  }
+    setList([]);
+  };
 
   const stopGet = (flag: boolean) => {
     if (flag) {
       // 打开
-      setLoading(true)
-      setIsSubscribe(true)
-      connection.reconnect()
-      setIsOpen(true)
+      setLoading(true);
+      setIsSubscribe(true);
+      connection.reconnect();
+      setIsOpen(true);
     } else {
       // 关闭
       connection.sendMessage({
         data: {
-          command: RequestCommandEnum.UNSUBSCRIBE
+          command: RequestCommandEnum.UNSUBSCRIBE,
         },
-        type: MessageEventType.DEVICEMSG
-      })
-      setIsOpen(false)
-      setIsSubscribe(false)
+        type: MessageEventType.DEVICEMSG,
+      });
+      setIsOpen(false);
+      setIsSubscribe(false);
     }
-  }
+  };
 
-    return (
-      <>
+  return (
+    <>
       <div className={styles.adjust}>
         <div className={styles.title}>
-          <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听'})}</div>
-          {loading ? <Switch loading checked={isSubscribe} onChange={stopGet} /> : <Switch checked={isSubscribe} onChange={stopGet} /> }
-          <Button onClick={() => clearList()}>{formatMessage({ id: 'common.clear', defaultMessage: '清空' })}</Button>
+          <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听' })}</div>
+          {loading ? (
+            <Switch loading checked={isSubscribe} onChange={stopGet} />
+          ) : (
+            <Switch checked={isSubscribe} onChange={stopGet} />
+          )}
+          <Button onClick={() => clearList()}>
+            {formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
+          </Button>
         </div>
         <div className={styles.parent} ref={warper}>
           <div className={styles.child} ref={childDom}>
             {list.map((item, index) => (
-              <div  key={index} className={classnames(styles.item, item.type ? styles.blue : '')}
-                   onMouseOver={() => hoverHandler(false)} onMouseOut={() => hoverHandler(true)}>
+              <div
+                key={index}
+                className={classnames(styles.item, item.type ? styles.blue : '')}
+                onMouseOver={() => hoverHandler(false)}
+                onMouseOut={() => hoverHandler(true)}
+              >
                 <div>
                   <Tag color={['#87d068', '#108ee9'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
                   <span>{item.time}</span>
@@ -113,8 +125,8 @@ const Index: React.FC = (props) => {
           </div>
         </div>
       </div>
-      </>
-    );
+    </>
+  );
 };
 
 export default Index;

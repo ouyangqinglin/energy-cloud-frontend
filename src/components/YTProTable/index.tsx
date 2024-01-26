@@ -20,6 +20,7 @@ const YTProTable = <
 ) => {
   const {
     toolBarRender,
+    onSearch,
     columns,
     actionRef,
     formRef,
