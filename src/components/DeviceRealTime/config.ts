@@ -8,7 +8,6 @@
  */
 
 import { DeviceDataType } from '@/services/equipment';
-import { formatMessage } from '@/utils';
 import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type DeviceRealTimeType = {
@@ -76,6 +75,5 @@ export const deviceRealTimeMap: any = {
   [DeviceTypeEnum.YTEnergyPcs]: { component: 'Pcs' },
   [DeviceTypeEnum.YTEnergyBatteryStack]: { component: 'BatterryStack' },
   [DeviceTypeEnum.YTEnergyEms]: { component: 'YTEnergyEms' },
-  [DeviceTypeEnum.PvEnergy]: { component: 'PvEnergy' },
   [DeviceTypeEnum.LiquidEnergyBatteryStack]: { component: 'BatterryStack' },
 };

@@ -296,6 +296,7 @@ export default {
   'device.cellNumber': '电芯编号',
   'device.temperaturePoint': '温度点',
   'device.energyStorageInverter': '储能变流器',
+  'device.inverter': '逆变器',
   'device.parallelMachineNum': '并机编号',
   'device.masterSlaveIdentification': '主从标识',
   'device.host': '主机',

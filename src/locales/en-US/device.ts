@@ -306,6 +306,7 @@ export default {
   'device.cellNumber': 'Cell nmber',
   'device.temperaturePoint': 'Temperature point',
   'device.energyStorageInverter': 'Energy storage inverter',
+  'device.inverter': 'inverter',
   'device.parallelMachineNum': 'Parallel machine number',
   'device.masterSlaveIdentification': 'Master slave identification',
   'device.host': 'Host',

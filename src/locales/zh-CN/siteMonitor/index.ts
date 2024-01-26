@@ -98,6 +98,8 @@ export default {
   'siteMonitor.numberGeneratingSets': '发电组串数',
   'siteMonitor.totalComponentCapacity': '组件总容量',
   'siteMonitor.chargingVolumeToday': '今日充电量',
+  'siteMonitor.todayDischargeCapacity': '今日放电量',
+  'siteMonitor.totalActivePower': '总有功功率',
   'siteMonitor.recentOfflineTime': '最近离线时间',
   'siteMonitor.recentOnlineTime': '最近在线时间',
   'siteMonitor.packageName': '软件包名称',

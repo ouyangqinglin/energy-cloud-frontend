@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-19 10:34:10
+ * @LastEditTime: 2024-01-26 10:57:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -15,6 +15,7 @@ import { ComProps } from '../type';
 import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
+import PvEnergyImg from '@/assets/image/station/pv-energy/pv-energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
 import { formatMessage, formatModelValue, getPlaceholder } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
@@ -26,6 +27,7 @@ import {
   EnergyComponentType,
   Liquid2Energy,
   LiquidEnergy,
+  PvEnergy,
   RectEnergy,
   SmallEnergy,
   Wind2Energy,
@@ -43,12 +45,15 @@ const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>(
   [DeviceTypeEnum.Wind2Energy, Wind2Energy],
   [DeviceTypeEnum.Liquid2Energy, Liquid2Energy],
   [DeviceTypeEnum.SmallEnergy, SmallEnergy],
+  [DeviceTypeEnum.PvEnergy, PvEnergy],
 ]);
 
 const liquidProductIds: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.LiquidEnergy,
   DeviceTypeEnum.Liquid2Energy,
 ];
+
+const pvEnergyProductIds: (DeviceTypeEnum | undefined)[] = [DeviceTypeEnum.PvEnergy];
 
 const newWindAndLiquidEnergy = [DeviceTypeEnum.Wind2Energy, DeviceTypeEnum.Liquid2Energy];
 
@@ -69,6 +74,8 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   const pcsRealTimeData = useSubscribe(deviceIds?.deviceId?.pcs, true);
   const fireRealTimeData = useSubscribe(deviceIds?.deviceId?.fire, true);
   const dehumidifierRealTimeData = useSubscribe(deviceIds?.deviceId?.dehumidifire, true);
+  const inverterRealTimeData = useSubscribe(deviceIds?.deviceId?.inverter, true);
+  const meterRealTimeData = useSubscribe(deviceIds?.deviceId?.meter, true);
   const { modelMap: airModelMap } = useDeviceModel({
     productId: deviceIds?.productId?.air,
     isGroup: true,
@@ -91,6 +98,14 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
   });
   const { modelMap: dehumidifireModelMap } = useDeviceModel({
     productId: deviceIds?.productId?.dehumidifire,
+    isGroup: true,
+  });
+  const { modelMap: inverterModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.inverter,
+    isGroup: true,
+  });
+  const { modelMap: merterModelMap } = useDeviceModel({
+    productId: deviceIds?.productId?.meter,
     isGroup: true,
   });
   const history = useHistory();
@@ -275,6 +290,23 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     onMoreClick,
   ]);
 
+  const inverterItems = useMemo(() => {
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.inverter;
+    result?.data?.forEach?.((item) => {
+      item.format = (value) =>
+        formatModelValue(value, { ...inverterModelMap }?.[item?.field || '']);
+    });
+    return getItemsByConfig(result ? [result] : [], { ...inverterRealTimeData }, onMoreClick);
+  }, [inverterRealTimeData, deviceData, inverterModelMap, onMoreClick]);
+
+  const meterItems = useMemo(() => {
+    const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.meter;
+    result?.data?.forEach?.((item) => {
+      item.format = (value) => formatModelValue(value, { ...merterModelMap }?.[item?.field || '']);
+    });
+    return getItemsByConfig(result ? [result] : [], { ...meterRealTimeData }, onMoreClick);
+  }, [meterRealTimeData, deviceData, merterModelMap, onMoreClick]);
+
   const packItems = useMemo(() => {
     return Array.from({ length: 10 }).map((_, index) => {
       return (
@@ -328,7 +360,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               className={styles.energy}
               style={{
                 backgroundImage: `url(${
-                  liquidProductIds.includes(deviceData?.productId) ? LiquidEnergyImg : EnergyImg
+                  liquidProductIds.includes(deviceData?.productId)
+                    ? LiquidEnergyImg
+                    : pvEnergyProductIds.includes(deviceData?.productId)
+                    ? PvEnergyImg
+                    : EnergyImg
                 })`,
                 ...(liquidProductIds.includes(deviceData?.productId)
                   ? {
@@ -349,6 +385,8 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
               {!liquidProductIds.includes(deviceData?.productId) && (
                 <div className={styles.parckContain}>{packItems}</div>
               )}
+              {inverterItems}
+              {meterItems}
             </div>
           </div>
         </>

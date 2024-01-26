@@ -23,6 +23,8 @@ export const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => 
       pcs: '',
       fire: '',
       dehumidifire: '',
+      inverter: '',
+      meter: '',
     },
     deviceId: {
       air: [],
@@ -31,6 +33,8 @@ export const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => 
       pcs: [],
       fire: [],
       dehumidifire: [],
+      inverter: [],
+      meter: [],
     },
   };
   data?.forEach?.((item) => {
@@ -55,6 +59,12 @@ export const getDataIds = (data: DeviceDataType[]): Record<string, string[]> => 
     } else if (DeviceProductTypeEnum.Dehumidifier == item.productTypeId) {
       ids.deviceId.dehumidifire.push(item.id);
       ids.productId.dehumidifire = item.productId;
+    } else if (DeviceProductTypeEnum.PV == item.productTypeId) {
+      ids.deviceId.inverter.push(item.id);
+      ids.productId.inverter = item.productId;
+    } else if (DeviceProductTypeEnum.EnergyElectricMeter == item.productTypeId) {
+      ids.deviceId.meter.push(item.id);
+      ids.productId.meter = item.productId;
     }
   });
   return ids;

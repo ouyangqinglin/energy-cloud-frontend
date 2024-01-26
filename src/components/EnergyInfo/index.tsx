@@ -33,6 +33,7 @@ export type EnergyInfoProps = {
 const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.Liquid2Energy,
   DeviceTypeEnum.Wind2Energy,
+  DeviceTypeEnum.PvEnergy,
 ];
 
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {

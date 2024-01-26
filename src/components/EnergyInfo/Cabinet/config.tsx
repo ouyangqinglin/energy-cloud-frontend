@@ -22,6 +22,19 @@ import LiquidFireFightLineImg from '@/assets/image/station/liquid-energy/firefig
 import LiquidPcsLineImg from '@/assets/image/station/liquid-energy/pcs-line.png';
 import LiquidBmsLineImg from '@/assets/image/station/liquid-energy/bms-line.png';
 import LiquidStackLineImg from '@/assets/image/station/liquid-energy/stack-line.png';
+import PvEnergyEmsImg from '@/assets/image/station/pv-energy/ems.png';
+import PvEnergyMeterImg from '@/assets/image/station/pv-energy/meter.png';
+import PvEnergyPeakImg from '@/assets/image/station/pv-energy/peak.png';
+import PvEnergyInverterImg from '@/assets/image/station/pv-energy/inverter.png';
+import PvEnergyAirLineImg from '@/assets/image/station/pv-energy/air-line.png';
+import PvEnergyDoorLineImg from '@/assets/image/station/pv-energy/door-line.png';
+import PvEnergyBmsLineImg from '@/assets/image/station/pv-energy/bms-line.png';
+import PvEnergyPeakLineImg from '@/assets/image/station/pv-energy/peak-line.png';
+import PvEnergyEmsLineImg from '@/assets/image/station/pv-energy/ems-line.png';
+import PvEnergyInverterLineImg from '@/assets/image/station/pv-energy/inverter-line.png';
+import PvEnergyMeterLineImg from '@/assets/image/station/pv-energy/meter-line.png';
+import PvEnergyFireFightLineImg from '@/assets/image/station/pv-energy/firefight-line.png';
+
 import {
   tempFormat,
   wetFormat,
@@ -182,6 +195,25 @@ export const wind2AirItem: ConfigType = {
   ],
 };
 
+export const pvEnergyAirItem: ConfigType = {
+  label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }),
+  productTypeId: DeviceProductTypeEnum.Air,
+  position: { top: 53, left: 2 },
+  icon: AirImg,
+  line: PvEnergyAirLineImg,
+  linePosition: { top: 11, left: 76 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'ctlmd',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'WorkStatus',
+    },
+  ],
+};
+
 export const emsItem: ConfigType = {
   label: 'EMS',
   productTypeId: DeviceProductTypeEnum.Ems,
@@ -283,6 +315,25 @@ export const wind2EmsItem: ConfigType = {
   ],
 };
 
+export const pvEnergyEmsItem: ConfigType = {
+  label: 'EMS',
+  productTypeId: DeviceProductTypeEnum.Ems,
+  position: { top: 36, left: 768 },
+  icon: PvEnergyEmsImg,
+  line: PvEnergyEmsLineImg,
+  linePosition: { top: 12, left: -172 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'systemOperatingMode',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'systemWorkingStatus',
+    },
+  ],
+};
+
 export const dehumidifierItem: ConfigType = {
   label: formatMessage({ id: 'device.dehumidifier', defaultMessage: '除湿器' }),
   productTypeId: DeviceProductTypeEnum.Dehumidifier,
@@ -336,6 +387,21 @@ export const wind2DoorItem: ConfigType = {
   position: { top: 203, left: 2 },
   icon: DoorImg,
   line: DoorLineImg,
+  linePosition: { top: 11, left: 152 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+      field: 'AccessControlStatus',
+    },
+  ],
+};
+
+export const pvEnergyDoorItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
+  showLabel: false,
+  position: { top: 193, left: 2 },
+  icon: DoorImg,
+  line: PvEnergyDoorLineImg,
   linePosition: { top: 11, left: 152 },
   data: [
     {
@@ -444,6 +510,25 @@ export const wind2BmsItem: ConfigType = {
   ],
 };
 
+export const pvEnergyBmsItem: ConfigType = {
+  label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
+  productTypeId: DeviceProductTypeEnum.BatteryStack,
+  position: { top: 277, left: 2 },
+  icon: StackImg,
+  line: StackLineImg,
+  linePosition: { top: 6, left: 92 },
+  data: [
+    { label: 'SOC', field: 'SOC' },
+    {
+      label: formatMessage({
+        id: 'siteMonitor.chargeDischargeIndication',
+        defaultMessage: '充放电指示',
+      }),
+      field: 'CADI',
+    },
+  ],
+};
+
 export const fireFightItem: ConfigType = {
   label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
   productTypeId: DeviceProductTypeEnum.FireFight,
@@ -528,6 +613,25 @@ export const wind2FireFightItem: ConfigType = {
   ],
 };
 
+export const pvEnergyFireFightItem: ConfigType = {
+  label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
+  productTypeId: DeviceProductTypeEnum.FireFight,
+  position: { top: 478, left: 768 },
+  icon: FireFightImg,
+  line: PvEnergyFireFightLineImg,
+  linePosition: { top: 8, left: -152 },
+  data: [
+    {
+      label: formatMessage({ id: 'device.warningLevel', defaultMessage: '预警等级' }),
+      field: 'lev',
+    },
+    {
+      label: formatMessage({ id: 'device.subValveStatus', defaultMessage: '子阀门状态' }),
+      field: 'svs',
+    },
+  ],
+};
+
 export const peakItem: ConfigType = {
   label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
   productTypeId: DeviceProductTypeEnum.BatteryStack,
@@ -582,6 +686,53 @@ export const wind2PeakItem: ConfigType = {
   icon: EmsImg,
   line: PackLineImg,
   linePosition: { top: 11, left: -60 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
+      field: 'MVVOASU',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'MaxNOIV',
+      customFormat: (value, data) => `#${data?.macvm}-${value}`,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minVoltage', defaultMessage: '最低电压' }),
+      field: 'MVVOSU',
+    },
+    {
+      label: formatMessage({ id: 'device.cellNumber', defaultMessage: '电芯编号' }),
+      field: 'MNOIV',
+      customFormat: (value, data) => `#${data?.micvb}-${value}`,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.maxTemperature', defaultMessage: '最高温度' }),
+      field: 'MaximumIndividualTemperature',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'MITN',
+      customFormat: (value, data) => `#${data?.mactb}-${value}`,
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.minTemperature', defaultMessage: '最低温度' }),
+      field: 'LVOMT',
+    },
+    {
+      label: formatMessage({ id: 'device.temperaturePoint', defaultMessage: '温度点' }),
+      field: 'MNOIT',
+      customFormat: (value, data) => `#${data?.mictm}-${value}`,
+    },
+  ],
+};
+
+export const pvEnergyPeakItem: ConfigType = {
+  label: formatMessage({ id: 'siteMonitor.monomerInformation', defaultMessage: '单体极值信息' }),
+  productTypeId: DeviceProductTypeEnum.BatteryCluster,
+  position: { top: 417, left: 2 },
+  icon: PvEnergyPeakImg,
+  line: PvEnergyPeakLineImg,
+  linePosition: { top: 7, left: 140 },
   data: [
     {
       label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
@@ -801,6 +952,51 @@ export const wind2PcsItem: ConfigType = {
   ],
 };
 
+export const pvEnergyInverterItem: ConfigType = {
+  label: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }),
+  productTypeId: DeviceProductTypeEnum.PV,
+  position: { top: 176, left: 768 },
+  icon: PvEnergyInverterImg,
+  line: PvEnergyInverterLineImg,
+  linePosition: { top: -19, left: -140 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
+      field: 'systemOperatingMode',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
+      field: 'systemWorkingStatus',
+    },
+  ],
+};
+
+export const pvEnergyMeterItem: ConfigType = {
+  label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
+  productTypeId: DeviceProductTypeEnum.EnergyElectricMeter,
+  position: { top: 316, left: 768 },
+  icon: PvEnergyMeterImg,
+  line: PvEnergyMeterLineImg,
+  linePosition: { top: -54, left: -184 },
+  data: [
+    {
+      label: formatMessage({ id: 'siteMonitor.chargingVolumeToday', defaultMessage: '今日充电量' }),
+      field: 'a',
+    },
+    {
+      label: formatMessage({
+        id: 'siteMonitor.todayDischargeCapacity',
+        defaultMessage: '今日放电量',
+      }),
+      field: 'b',
+    },
+    {
+      label: formatMessage({ id: 'siteMonitor.totalActivePower', defaultMessage: '总有功功率' }),
+      field: 'c',
+    },
+  ],
+};
+
 export type EnergyComponentType = {
   air?: ConfigType;
   door?: ConfigType;
@@ -810,6 +1006,8 @@ export type EnergyComponentType = {
   peak?: ConfigType;
   pcs?: ConfigType;
   dehumidifier?: ConfigType;
+  inverter?: ConfigType;
+  meter?: ConfigType;
 };
 
 export const RectEnergy: EnergyComponentType = {
@@ -875,4 +1073,14 @@ export const SmallEnergy: EnergyComponentType = {
   fireFight: wind2FireFightItem,
   peak: wind2PeakItem,
   pcs: wind2PcsItem,
+};
+export const PvEnergy: EnergyComponentType = {
+  air: pvEnergyAirItem,
+  door: pvEnergyDoorItem,
+  bms: pvEnergyBmsItem,
+  peak: pvEnergyPeakItem,
+  ems: pvEnergyEmsItem,
+  inverter: pvEnergyInverterItem,
+  meter: pvEnergyMeterItem,
+  fireFight: pvEnergyFireFightItem,
 };
