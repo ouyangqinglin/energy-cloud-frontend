@@ -1,0 +1,18 @@
+export default {
+  'physicalModel.name': 'Name',
+  'physicalModel.typeName': 'Type Name',
+  'physicalModel.editable': 'Editable',
+  'physicalModel.remark': 'Remark',
+  'physicalModel.createTime': 'CreateTime',
+  'physicalModel.typeKey': 'Type Key',
+  'physicalModel.typeJson': 'Type Json',
+  'physicalModel.edit': 'Edit',
+  'physicalModel.typeEdit': 'Edit',
+  'physicalModel.source': 'Source',
+  'physicalModel.fieldName': 'Field Name',
+  'physicalModel.fieldKey': 'Field Key',
+  'physicalModel.fieldJson': 'Field Json',
+  'physicalModel.fieldType': 'Field Type',
+  'physicalModel.fieldConfig': 'Field Config',
+  'physicalModel.fieldEdit': 'Field Edit',
+};

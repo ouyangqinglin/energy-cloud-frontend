@@ -32,6 +32,7 @@ import device from './zh-CN/device';
 import dataManage from './zh-CN/dataManage';
 import alarmManage from './zh-CN/alarmManage';
 import screen from './zh-CN/screen';
+import physicalModel from './zh-CN/physicalModel';
 import version from './zh-CN/version';
 
 export default {
@@ -44,6 +45,7 @@ export default {
   'app.welcome.link.fetch-blocks': '获取全部区块',
   'app.welcome.link.block-list': '基于 block 开发，快速构建标准页面',
   ...system,
+  ...physicalModel,
   ...common,
   ...index,
   ...upgradeManage,

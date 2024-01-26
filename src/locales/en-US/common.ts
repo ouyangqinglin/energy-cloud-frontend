@@ -200,5 +200,4 @@ export default {
   'common.modelSentence': '{name} model',
   'common.pause': 'Pause',
   'common.roll': 'Roll',
-
 };

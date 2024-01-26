@@ -5,42 +5,42 @@
     align-items: center;
     div {
       margin-right: 16px;
-      font-size: 18px;
       font-weight: 700;
+      font-size: 18px;
     }
     button {
       margin-right: 10px;
     }
   }
   .parent {
-    padding: 12px;
+    height: 50vh;
     margin-top: 20px;
+    padding: 12px;
+    overflow-y: scroll;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
-    height: 50vh;
-    overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    }
-    .parent::-webkit-scrollbar {
-      display: none;
-    }
-    /*设置的子盒子高度大于父盒子，产生溢出效果*/
-    .child {
-      height: auto;
-      padding-right: 12px;
-      .item {
-        padding: 2px 12px 12px;
-        margin-bottom: 16px;
-        background-color: #f2f2f2;
-        border-left: 4px solid #87d068;
-        .msg, .topic {
-          margin-top: 8px;
-          word-wrap: break-word;
-        }
-      }
-      .blue {
-        border-color: #108ee9;
+  }
+  .parent::-webkit-scrollbar {
+    display: none;
+  }
+  .child {
+    height: auto;
+    padding-right: 12px;
+    .item {
+      margin-bottom: 16px;
+      padding: 2px 12px 12px;
+      background-color: #f2f2f2;
+      border-left: 4px solid #87d068;
+      .msg,
+      .topic {
+        margin-top: 8px;
+        word-wrap: break-word;
       }
     }
+    .blue {
+      border-color: #108ee9;
+    }
+  }
 }

@@ -33,6 +33,7 @@ import dataManage from './en-US/dataManage';
 import alarmManage from './en-US/alarmManage';
 import screen from './en-US/screen';
 import version from './en-US/version';
+import physicalModel from './en-US/physicalModel';
 
 export default {
   'navBar.lang': 'Languages',
@@ -43,6 +44,7 @@ export default {
   'app.preview.down.block': 'Download this page to your local project',
   'app.welcome.link.fetch-blocks': 'Get all block',
   'app.welcome.link.block-list': 'Quickly build standard, pages based on `block` development',
+  ...physicalModel,
   ...system,
   ...common,
   ...index,
