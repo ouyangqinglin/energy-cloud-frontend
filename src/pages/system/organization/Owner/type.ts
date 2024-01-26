@@ -68,8 +68,6 @@ export interface ServiceParam {
   longitude: number;
   latitude: number;
   remark: string;
-  orgEfIds: number[];
-
   // font end
   addressInfo: PositionSelectType;
 }

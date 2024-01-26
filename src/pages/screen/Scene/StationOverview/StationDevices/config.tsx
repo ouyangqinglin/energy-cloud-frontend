@@ -97,7 +97,7 @@ export const config: DeviceConfigItem[] = [
     icon: iconChargingStation,
     title: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
     field: 'chargingStationCapacity',
-    unit: 'kWh',
+    unit: 'kW',
     span: 7,
     gutter: 6,
     child: [

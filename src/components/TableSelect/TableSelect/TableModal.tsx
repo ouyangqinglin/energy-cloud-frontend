@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-23 16:33:24
- * @LastEditTime: 2023-12-18 17:38:51
+ * @LastEditTime: 2024-01-26 14:06:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\TableModal.tsx
  */
@@ -61,23 +61,32 @@ const TableModal = <
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
       setSelectedTags((prevData) => {
-        const map = prevData.reduce((result, item) => {
-          result.set(item[valueId], item);
-          return result;
-        }, new Map());
-        tableIdSet?.forEach((item) => {
-          map.delete(item);
-        });
-        selectedRows.forEach((item) => {
-          map.set(item[tableId], {
-            [valueId]: item[tableId],
-            [valueName]: item[tableName],
+        if (multiple) {
+          const map = prevData.reduce((result, item) => {
+            result.set(item[valueId], item);
+            return result;
+          }, new Map());
+          tableIdSet?.forEach((item) => {
+            map.delete(item);
           });
-        });
-        return [...map.values()];
+          selectedRows.forEach((item) => {
+            map.set(item[tableId], {
+              [valueId]: item[tableId],
+              [valueName]: item[tableName],
+            });
+          });
+          return [...map.values()];
+        } else {
+          return [
+            {
+              [valueId]: selectedRows?.[0]?.[tableId],
+              [valueName]: selectedRows?.[0]?.[tableName],
+            },
+          ];
+        }
       });
     },
-    [tableIdSet, valueId, tableId, valueName, tableName],
+    [tableIdSet, valueId, tableId, valueName, tableName, multiple],
   );
 
   const onClose = useCallback(

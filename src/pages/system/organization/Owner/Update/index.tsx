@@ -34,15 +34,12 @@ export const Update = (props: FormUpdateBaseProps) => {
   const convertUpdateData = (inputInfo: ServiceUpdateInfo): ServiceParam => {
     const params: ServiceParam = {
       ...inputInfo,
-      ...{
-        orgEfIds: inputInfo.orgEfs?.map(({ orgId: id }) => id) as number[],
-      },
     };
     params.address = inputInfo.addressInfo.address ?? '';
     params.longitude = inputInfo.addressInfo?.point?.lng;
     params.latitude = inputInfo.addressInfo?.point?.lat;
     unset(params, 'addressInfo');
-    unset(params, 'orgEfs');
+    // unset(params, 'orgEfs');
     return params;
   };
 

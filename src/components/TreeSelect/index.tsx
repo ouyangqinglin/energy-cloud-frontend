@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 10:21:19
- * @LastEditTime: 2024-01-25 19:14:58
+ * @LastEditTime: 2024-01-26 14:16:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TreeSelect\index.tsx
  */
@@ -13,12 +13,17 @@ import styles from './index.less';
 import { merge } from 'lodash';
 import { formatMessage } from '@/utils';
 
+type TreeValueType = {
+  checkedKeys?: React.Key[];
+  halfCheckedKeys?: React.Key[];
+};
+
 export type TreeSelectProps = Omit<
   TreeProps<{ [key in string]: any }>,
   'checkedKeys' | 'onCheck' | 'checkStrictly'
 > & {
-  value?: React.Key[];
-  onChange?: (value: React.Key[]) => void;
+  value?: TreeValueType;
+  onChange?: (value: TreeValueType) => void;
 };
 
 const getDeepKeys = (
@@ -74,9 +79,11 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
   const onAllSelectChange = useCallback(
     (e: CheckboxChangeEvent) => {
       if (e?.target?.checked) {
-        onChange?.(treeKeys.allKeys);
+        onChange?.({
+          checkedKeys: treeKeys.allKeys,
+        });
       } else {
-        onChange?.([]);
+        onChange?.({});
       }
     },
     [treeKeys.allKeys],
@@ -94,13 +101,22 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
     setExpandedKeys(keys);
   }, []);
 
-  const onCheck = useCallback<Required<Pick<TreeProps, 'onCheck'>>['onCheck']>((keys) => {
-    if (Array.isArray(keys)) {
-      onChange?.(keys);
-    } else {
-      onChange?.(keys?.checked);
-    }
-  }, []);
+  const onCheck = useCallback<Required<Pick<TreeProps, 'onCheck'>>['onCheck']>(
+    (checkedKeys, { halfCheckedKeys }) => {
+      if (Array.isArray(checkedKeys)) {
+        onChange?.({
+          checkedKeys,
+          halfCheckedKeys,
+        });
+      } else {
+        onChange?.({
+          checkedKeys: checkedKeys?.checked,
+          halfCheckedKeys: checkedKeys?.halfChecked,
+        });
+      }
+    },
+    [],
+  );
 
   return (
     <>
@@ -115,7 +131,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
       </Space>
       <div className={'ant-input mt4 ' + styles.tree}>
         <Tree
-          checkedKeys={value}
+          checkedKeys={value?.checkedKeys}
           checkable={true}
           defaultExpandAll={false}
           multiple={true}
@@ -123,7 +139,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
           onExpand={onExpand}
           onCheck={onCheck}
           treeData={treeData}
-          checkStrictly={checkStrictly}
+          // checkStrictly={checkStrictly}
           {...options}
         />
       </div>

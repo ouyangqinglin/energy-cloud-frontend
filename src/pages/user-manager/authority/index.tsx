@@ -90,6 +90,7 @@ const Authority: React.FC<AuthorityProps> = (props) => {
         rowKey="roleId"
       />
       <RoleUpdate
+        type={type}
         {...{
           operations: operations,
           visible: visibleUpdated && state,

@@ -26,3 +26,9 @@ export type ValueEnum = {
     [key: string]: any;
   };
 };
+
+export type SiteOptionType = {
+  name?: string;
+  value?: string;
+  unitName?: string;
+};
