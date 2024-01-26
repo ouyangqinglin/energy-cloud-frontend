@@ -164,15 +164,23 @@ const DictTypeTableList: React.FC = () => {
 
   const columns: ProColumns<DictTypeType>[] = [
     {
+      title: 'wahaha',
+      dataIndex: 'wahaha',
+      hideInTable: true,
+      width: 20,
+    },
+    {
       title: <FormattedMessage id="system.DictType.dict_id" defaultMessage="字典主键" />,
       dataIndex: 'dictId',
       valueType: 'text',
       hideInSearch: true,
+      width: 100,
     },
     {
       title: <FormattedMessage id="system.DictType.dict_name" defaultMessage="字典名称" />,
       dataIndex: 'dictName',
       valueType: 'text',
+      width: 100,
     },
     {
       title: <FormattedMessage id="system.DictType.dict_type" defaultMessage="字典类型" />,
@@ -195,18 +203,20 @@ const DictTypeTableList: React.FC = () => {
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
+      width: 100,
     },
     {
       title: <FormattedMessage id="system.DictType.remark" defaultMessage="备注" />,
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true,
+      width: 100,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
       dataIndex: 'option',
-      width: '220px',
       valueType: 'option',
+      width: 100,
       render: (_, record) => [
         <Button
           type="link"
@@ -259,6 +269,7 @@ const DictTypeTableList: React.FC = () => {
           })}
           actionRef={actionRef}
           formRef={formTableRef}
+          resizable={true}
           rowKey="dictId"
           key="dictTypeList"
           toolBarRender={() => [

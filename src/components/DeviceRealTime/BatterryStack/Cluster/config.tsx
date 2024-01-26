@@ -9,8 +9,14 @@
 
 import { ProField } from '@ant-design/pro-components';
 import type { DetailItem } from '@/components/Detail';
-import { deviceAlarmStatus, onlineStatus } from '@/utils/dict';
-import { clusterFormat, percentageFormat, openFormat, pankFanAlarmFormat } from '@/utils/format';
+import { onlineStatus } from '@/utils/dict';
+import {
+  clusterFormat,
+  percentageFormat,
+  openFormat,
+  pankFanAlarmFormat,
+  deviceAlarmStatusFormat,
+} from '@/utils/format';
 import { formatMessage } from '@/utils';
 
 export const chartOptions = {
@@ -94,7 +100,7 @@ export const runItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
     field: 'alarmStatus',
-    format: (value) => <ProField text={value} mode="read" valueEnum={deviceAlarmStatus} />,
+    format: deviceAlarmStatusFormat,
   },
 ];
 

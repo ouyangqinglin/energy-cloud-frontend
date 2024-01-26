@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2023-12-07 11:14:07
+ * @LastEditTime: 2024-01-25 10:45:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -154,13 +154,7 @@ const requestTable = (params: Record<string, any>) => {
     };
   });
 };
-export const getFormColumns = (
-  types: OrgTypeEnum[],
-  systemRoleOptions: OptionType[],
-  partnerRoleOptions: OptionType[],
-  operatorRoleOptions: OptionType[],
-  yzRoleOptions: OptionType[],
-) => {
+export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
       title: '',
@@ -251,29 +245,13 @@ export const getFormColumns = (
       title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleId',
       valueType: 'select',
-      request: () => {
-        // return api.getRoles({ builtInRole: type? type : 0 }).then(({ data }) => {
-        //   const result =
-        //     data?.map?.((item: any) => {
-        //       return {
-        //         ...item,
-        //         label: item?.roleName,
-        //         value: item?.roleId,
-        //       };
-        //     }) || [];
-        //   return result
-        // });
-        return Promise.resolve(
-          types[0] === OrgTypeEnum.System
-            ? systemRoleOptions
-            : types[0] === OrgTypeEnum.Install
-            ? partnerRoleOptions
-            : types[0] === OrgTypeEnum.Operator
-            ? operatorRoleOptions
-            : types[0] === OrgTypeEnum.Owner
-            ? yzRoleOptions
-            : systemRoleOptions,
-        );
+      fieldProps: (form) => {
+        return {
+          options: roleOptions,
+          onChange: () => {
+            types[0] !== OrgTypeEnum.System && form?.setFieldValue?.('orgId', null);
+          },
+        };
       },
       formItemProps: {
         rules: [
@@ -313,7 +291,7 @@ export const getFormColumns = (
           valueType: 'select',
           dependencies: ['roleId'],
           request: (params) => {
-            const roleOrgTypeMap = arrayToMap(partnerRoleOptions, 'roleId', 'orgType');
+            const roleOrgTypeMap = arrayToMap(roleOptions, 'roleId', 'orgType');
             return getOrgByRole({ type: roleOrgTypeMap[params.roleId] }).then(({ data }) => {
               return data?.map?.((item) => {
                 return {

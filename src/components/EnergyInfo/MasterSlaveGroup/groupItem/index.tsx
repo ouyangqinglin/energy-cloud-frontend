@@ -14,8 +14,8 @@ export enum EnergySourceEnum {
 }
 
 export type GroupItemProps = {
-  data: DeviceDataType[]; //设备数据
-  isShowDeviceDetail: any; //传递数据给父组件告诉如何显示
+  data?: DeviceDataType[]; //设备数据
+  isShowDeviceDetail: (deviceId: string) => void; //传递数据给父组件告诉如何显示
 };
 
 const GroupItem: React.FC<GroupItemProps> = (props) => {
@@ -25,7 +25,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
   const carouselRef = useRef<CarouselRef>(null);
 
   const childDataForShow = useCallback((bool, deviceId) => {
-    isShowDeviceDetail(bool, deviceId);
+    isShowDeviceDetail(deviceId);
   }, []);
 
   const onRealTimeDataChange = useCallback((id: string, realTimeData: Record<string, any>) => {

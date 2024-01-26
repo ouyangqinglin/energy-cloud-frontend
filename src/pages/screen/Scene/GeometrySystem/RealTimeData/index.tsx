@@ -48,7 +48,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
             <span className={styles.value}>{energyStore?.p ?? '--'}</span>
           </div>
           <div className={styles.box}>
-            <span className={styles.label}>SoC：</span>
+            <span className={styles.label}>SOC：</span>
             <span className={styles.value}>{energyStore?.soc ?? '--'}%</span>
           </div>
         </div>

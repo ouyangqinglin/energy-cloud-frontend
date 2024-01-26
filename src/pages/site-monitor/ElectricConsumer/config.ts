@@ -1,5 +1,5 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
-import { connectStatus } from '@/utils/dict';
+import { connectStatus, onlineStatus } from '@/utils/dict';
 import type { DeviceInfo } from './type';
 import { formatMessage } from '@/utils';
 
@@ -35,9 +35,8 @@ export const columns: YTProColumns<DeviceInfo>[] = [
   {
     title: formatMessage({ id: 'siteMonitor.communicationStatus', defaultMessage: '通信状态' }),
     dataIndex: 'connectStatus',
-    valueEnum: connectStatus,
+    valueEnum: onlineStatus,
     width: 120,
-    ellipsis: true,
   },
   {
     title: `${formatMessage({ id: 'common.power', defaultMessage: '功率' })}(kW)`,

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-26 16:50:12
+ * @LastEditTime: 2024-01-20 10:19:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -224,8 +224,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
         dataIndex: 'name',
-        width: 220,
         ellipsis: true,
+        width: 200,
         render: (_, record) => {
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
@@ -308,8 +308,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 80,
         fixed: 'right',
+        width: 80,
         render: rowBar,
       },
     ];
@@ -323,6 +323,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={toolBar}
         request={handleRequest}
         rowKey="deviceId"
+        resizable={true}
         expandable={{
           childrenColumnName: 'childDeviceList',
           expandIcon: ({ expanded, expandable, record, onExpand }) => {

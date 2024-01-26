@@ -49,6 +49,11 @@ export type YTProTableCustomProps<D, P, V = 'text'> = {
     sort: Record<string, SortOrder>,
     filter: Record<string, React.ReactText[] | null>,
   ) => ResponsePromise<ResponsePageData<D>, D>;
+  resizable?: boolean;
+  resizableOptions?: {
+    minWidth?: number;
+    maxWidth?: number;
+  };
 };
 
 export type YTProColumns<D, V = 'text'> = ProColumns<D, V> & {

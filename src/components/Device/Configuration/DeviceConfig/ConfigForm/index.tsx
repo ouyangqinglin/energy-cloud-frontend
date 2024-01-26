@@ -183,7 +183,7 @@ const ConfigForm: React.FC<ConfigFormProps> = (props) => {
       <Button
         type="primary"
         onClick={setTrue}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
+        disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
       >
         {formatMessage({ id: 'common.modify', defaultMessage: '修改' })}
       </Button>

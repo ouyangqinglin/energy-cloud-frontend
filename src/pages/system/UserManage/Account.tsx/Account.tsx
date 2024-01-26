@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2023-12-27 11:24:28
+ * @LastEditTime: 2024-01-25 11:17:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -32,10 +32,7 @@ const Account: React.FC<AccountProps> = (props) => {
   const { params } = props;
   const actionRef = useRef<ActionType>();
   const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
-  const [systemRoleOptions, setSystemRoleOptions] = useState<OptionType[]>([]);
-  const [partnerRoleOptions, setPartnerRoleOptions] = useState<OptionType[]>([]);
-  const [yzRoleOptions, setYzRoleOptions] = useState<OptionType[]>([]);
-  const [operatorRoleOptions, setOperatorRoleOptions] = useState<OptionType[]>([]);
+  const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
   const [formInfo, setFormInfo] = useState({
     type: FormTypeEnum.Add,
     id: '',
@@ -51,19 +48,13 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params]);
 
   const formColumns = useMemo(() => {
-    return getFormColumns(
-      params?.orgTypes,
-      systemRoleOptions,
-      partnerRoleOptions,
-      operatorRoleOptions,
-      yzRoleOptions,
-    );
-  }, [params, systemRoleOptions, partnerRoleOptions, operatorRoleOptions, yzRoleOptions]);
+    return getFormColumns(params?.orgTypes, roleOptions);
+  }, [params, roleOptions]);
 
   const initialValues = useMemo(() => {
     const result: AccountDataType = {};
     if (OrgTypeEnum.System != params?.orgTypes?.[0]) {
-      const typeRoleMap = arrayToMap(partnerRoleOptions, 'orgType', 'roleId');
+      const typeRoleMap = arrayToMap(roleOptions, 'orgType', 'roleId');
       result.roleId = typeRoleMap[params?.orgTypes?.[0]];
     }
     if (params?.parentId) {
@@ -73,7 +64,7 @@ const Account: React.FC<AccountProps> = (props) => {
       result.sites = [{ id: params?.siteId, name: params?.siteName }];
     }
     return result;
-  }, [params, partnerRoleOptions]);
+  }, [params, roleOptions]);
 
   const requestPage = useCallback(
     (tableParams) => {
@@ -139,51 +130,25 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params]);
   //获取角色下拉框数据
   useEffect(() => {
-    api.getRoles({ builtInRole: 0 }).then(({ data }) => {
-      const result =
-        data?.map?.((item: any) => {
-          return {
-            ...item,
-            label: item?.roleName,
-            value: item?.roleId,
-          };
-        }) || [];
-      setSystemRoleOptions(result);
-    });
-    api.getRoles({ builtInRole: 1 }).then(({ data }) => {
-      const result =
-        data?.map?.((item: any) => {
-          return {
-            ...item,
-            label: item?.roleName,
-            value: item?.roleId,
-          };
-        }) || [];
-      setPartnerRoleOptions(result);
-    });
-    api.getRoles({ builtInRole: 2 }).then(({ data }) => {
-      const result =
-        data?.map?.((item: any) => {
-          return {
-            ...item,
-            label: item?.roleName,
-            value: item?.roleId,
-          };
-        }) || [];
-      setOperatorRoleOptions(result);
-    });
-    api.getRoles({ builtInRole: 3 }).then(({ data }) => {
-      const result =
-        data?.map?.((item: any) => {
-          return {
-            ...item,
-            label: item?.roleName,
-            value: item?.roleId,
-          };
-        }) || [];
-      setYzRoleOptions(result);
-    });
-  }, [openForm]);
+    if (openForm) {
+      api
+        .getRoles({
+          builtInRole: params?.orgTypes?.[0] == OrgTypeEnum.System ? 0 : 1,
+          manageOrgType: params?.orgTypes?.[0],
+        })
+        .then(({ data }) => {
+          const result =
+            data?.map?.((item: any) => {
+              return {
+                ...item,
+                label: item?.roleName,
+                value: item?.roleId,
+              };
+            }) || [];
+          setRoleOptions(result);
+        });
+    }
+  }, [openForm, params]);
 
   return (
     <>

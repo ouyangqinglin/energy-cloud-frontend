@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2023-12-28 14:34:26
+ * @LastEditTime: 2024-01-25 14:08:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -60,7 +60,7 @@ export const noticeMethod = {
 export const deviceAlarmStatus = {
   1: {
     text: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
-    status: 'Error',
+    status: 'Processing',
     icon: 'red',
   },
   0: {
@@ -87,6 +87,23 @@ export const onlineStatus = {
     status: 'Processing',
   },
   [OnlineStatusEnum.Offline]: {
+    text: formatMessage({ id: 'common.offline', defaultMessage: '离线' }),
+    icon: 'red',
+    status: 'Default',
+  },
+};
+
+export const onlineStatus1 = {
+  [OnlineStatusEnum.None]: {
+    text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),
+    status: '',
+  },
+  [OnlineStatusEnum.Offline]: {
+    text: formatMessage({ id: 'common.onLine', defaultMessage: '在线' }),
+    icon: 'green',
+    status: 'Processing',
+  },
+  [OnlineStatusEnum.Online]: {
     text: formatMessage({ id: 'common.offline', defaultMessage: '离线' }),
     icon: 'red',
     status: 'Default',
@@ -321,11 +338,28 @@ export const enableOptions = [
   },
 ];
 
-export const masterSlaveEnum = {
+export const masterSlaveEnum: ValueEnum = {
   0: {
     text: formatMessage({ id: 'device.host', defaultMessage: '主机' }),
   },
   1: {
     text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
+  },
+};
+export const masterSlave1Enum: ValueEnum = {
+  1: {
+    text: formatMessage({ id: 'device.host', defaultMessage: '主机' }),
+  },
+  0: {
+    text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
+  },
+};
+
+export const connectEnum: ValueEnum = {
+  1: {
+    text: formatMessage({ id: 'common.connect', defaultMessage: '在线' }),
+  },
+  0: {
+    text: formatMessage({ id: 'common.break', defaultMessage: '离线' }),
   },
 };

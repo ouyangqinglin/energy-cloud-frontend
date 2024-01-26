@@ -68,6 +68,7 @@ export default {
   'siteMonitor.humidness': '湿度',
   'siteMonitor.storageDoor': '储能仓门',
   'siteMonitor.systemModel': '系统模式',
+  'siteMonitor.systemWorkModel': '系统工作模式',
   'siteMonitor.batteryPile': '电池堆',
   'siteMonitor.workingCondition': '工作状态',
   'siteMonitor.workingMode': '工作模式',
@@ -292,4 +293,5 @@ export default {
   'siteMonitor.normalGeneration': '正常发电',
   'siteMonitor.associateDevice': '关联设备',
   'siteMonitor.associateCharge': '关联充电堆',
+  'siteMonitor.gruopName': '分组名称',
 };

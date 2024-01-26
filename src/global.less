@@ -64,11 +64,19 @@ body,
 
 .ant-badge {
   .ant-badge-status-dot {
-    top: -2px;
     width: 8px;
     height: 8px;
     &.ant-badge-status-default {
       background-color: #8f9299;
+    }
+  }
+}
+
+.profield-alarm {
+  .ant-badge-status-processing {
+    background-color: #f53f3f;
+    &::after {
+      border-color: #f53f3f;
     }
   }
 }

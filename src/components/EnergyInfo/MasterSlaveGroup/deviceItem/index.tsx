@@ -21,7 +21,11 @@ const getDataIds = (data: DeviceDataType[]): string[] => {
   data?.forEach?.((item) => {
     if (
       item?.productTypeId &&
-      [DeviceProductTypeEnum.Pcs, DeviceProductTypeEnum.BatteryStack].includes(item?.productTypeId)
+      [
+        DeviceProductTypeEnum.Pcs,
+        DeviceProductTypeEnum.BatteryStack,
+        DeviceProductTypeEnum.BatteryCluster,
+      ].includes(item?.productTypeId)
     ) {
       ids.push(item?.id || '');
     }
@@ -115,10 +119,10 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           <Divider style={{ height: '86px' }} type="vertical" />
           <div className={styles.chargeStaus}>
             <div className={`w-full pl7 ellipsis ${styles.deviceName}`}>
-              {deviceData?.masterSlaveMode == DeviceMasterMode.Master
-                ? `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`
-                : `${formatMessage({ id: 'common.slave', defaultMessage: '从' })}`}
               {deviceData?.deviceName || '--'}
+              {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
+                ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
+                : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
             </div>
             <div className="flex">
               <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />

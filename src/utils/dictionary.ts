@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2023-12-18 17:49:19
+ * @LastEditTime: 2024-01-25 14:20:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -121,9 +121,21 @@ export enum DeviceTypeEnum {
   LiquidEnergyFireFight = 85,
   PvEnergyFirFight = 86,
   YTEnergyMetterAKR = 87,
+  Liquid2Ems = 89,
+  Liquid2Air = 92,
+  Liquid2ElectricMeter = 95,
+  Liquid2InverterMeter = 96,
   Liquid2Energy = 97,
+  Wind2EnergyEms = 98,
+  Wind2BatteryStack = 106,
+  Liquid2BatteryStack = 107,
   Wind2Energy = 105,
   Liquid2EnergyBatteryCluster = 107,
+  SmallEnergy = 109,
+  SmallEnergyEms = 110,
+  SmallEnergyBatteryCluster = 111,
+  SmallEnergyAir = 113,
+  SmallEnergyFireFight = 114,
   Device = 'default',
 }
 
@@ -303,19 +315,6 @@ export const systemMode = {
   },
   1: {
     text: '自动模式',
-  },
-};
-
-export const deviceAlarmStatus = {
-  1: {
-    text: '告警',
-    status: 'Error',
-    icon: 'red',
-  },
-  0: {
-    text: '正常',
-    status: 'Success',
-    icon: 'green',
   },
 };
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2023-12-19 16:36:20
+ * @LastEditTime: 2024-01-23 17:12:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -18,6 +18,7 @@ export type DetailItem = {
   dataIndex?: any;
   field?: string;
   showPlaceholder?: boolean;
+  valueInterceptor?: (value: any, data?: any) => any;
   format?: (value: any, data?: any) => React.ReactNode;
   span?: number;
   labelStyle?: React.CSSProperties;
@@ -26,6 +27,7 @@ export type DetailItem = {
   show?: boolean | ((value: any, data?: any) => boolean);
   showExtra?: boolean;
   unit?: string;
+  [key: string]: any;
 };
 
 export type FormAndDetailType = ProFormColumnsType & DetailItem;
@@ -58,7 +60,8 @@ const Detail: React.FC<DetailProps> = (props) => {
   const descriptionItems = useMemo(() => {
     const content: React.ReactNode[] = [];
     items.forEach((item) => {
-      const fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
+      let fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
+      fieldValue = item?.valueInterceptor?.(fieldValue, data) ?? fieldValue;
       let show;
       if (typeof item.show == 'function') {
         show = item?.show?.(fieldValue, data);

@@ -22,7 +22,7 @@ const Device: React.FC = () => {
     <>
       <Page
         className={`${styles.page} ${
-          deviceData?.status === OnlineStatusEnum.Offline ? 'device-offline' : ''
+          deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''
         }`}
         top={
           <Overview

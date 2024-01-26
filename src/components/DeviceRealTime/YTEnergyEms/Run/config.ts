@@ -87,7 +87,7 @@ export const emsOperationItems: DetailItem[] = [
   {
     label: formatMessage(
       {
-        id: 'device.acCircuitBreakerCondition',
+        id: 'device.BmsStopSignal',
         defaultMessage: 'BMS急停信号',
       },
       {

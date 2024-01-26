@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-06 17:05:13
+ * @LastEditTime: 2024-01-19 10:34:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -16,7 +16,7 @@ import styles from '../index.less';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import LiquidEnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import PackImg from '@/assets/image/station/energy/pack.png';
-import { formatMessage, formatModelValue } from '@/utils';
+import { formatMessage, formatModelValue, getPlaceholder } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 import Detail from '@/components/Detail';
@@ -27,6 +27,7 @@ import {
   Liquid2Energy,
   LiquidEnergy,
   RectEnergy,
+  SmallEnergy,
   Wind2Energy,
   WindEnergy,
 } from './config';
@@ -41,6 +42,7 @@ const energyItemsMap = new Map<DeviceTypeEnum | undefined, EnergyComponentType>(
   [DeviceTypeEnum.LiquidEnergy, LiquidEnergy],
   [DeviceTypeEnum.Wind2Energy, Wind2Energy],
   [DeviceTypeEnum.Liquid2Energy, Liquid2Energy],
+  [DeviceTypeEnum.SmallEnergy, SmallEnergy],
 ]);
 
 const liquidProductIds: (DeviceTypeEnum | undefined)[] = [
@@ -109,7 +111,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
 
   const onMoreClick = useCallback(
     (item: ConfigType) => {
-      if (energyData) {
+      if (deviceData?.deviceId && energyData) {
         const unit = item.productTypeId
           ? getUnitByProductId([energyData], item.productTypeId)
           : energyData;
@@ -128,7 +130,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
         message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
       }
     },
-    [energyData, history],
+    [energyData, history, deviceData],
   );
 
   const onAlarmClick = useCallback(() => {
@@ -143,6 +145,25 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
       run({ deviceId: deviceData?.deviceId }).then((data) => {
         setDeviceIds(getDataIds(data?.children || []));
       });
+    } else {
+      setDeviceIds({
+        productId: {
+          air: '',
+          bms: '',
+          ems: '',
+          pcs: '',
+          fire: '',
+          dehumidifire: '',
+        },
+        deviceId: {
+          air: [],
+          bms: [],
+          ems: [],
+          pcs: [],
+          fire: [],
+          dehumidifire: [],
+        },
+      });
     }
   }, [deviceData?.deviceId]);
 
@@ -150,7 +171,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.air;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, airModelMap);
+        item.format = (value) => formatModelValue(value, airModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], airRealTimeData, onMoreClick);
@@ -160,7 +181,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.door;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format = (value) => formatModelValue(value, bmsModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
@@ -170,7 +191,7 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.ems;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, emsModelMap);
+        item.format = (value) => formatModelValue(value, emsModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], emsRealTimeData, onMoreClick);
@@ -180,17 +201,22 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.bms;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format = (value) =>
+          formatModelValue(value, { ...bmsModelMap, ...emsModelMap }?.[item?.field || '']);
       });
     }
-    return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
-  }, [bmsRealTimeData, deviceData, bmsModelMap, onMoreClick]);
+    return getItemsByConfig(
+      result ? [result] : [],
+      { ...emsRealTimeData, ...bmsRealTimeData },
+      onMoreClick,
+    );
+  }, [bmsRealTimeData, emsRealTimeData, deviceData, emsModelMap, bmsModelMap, onMoreClick]);
 
   const fireFightItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.fireFight;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, fireModelMap);
+        item.format = (value) => formatModelValue(value, fireModelMap?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], fireRealTimeData, onMoreClick);
@@ -200,7 +226,9 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.peak;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, bmsModelMap);
+        item.format =
+          item.customFormat ||
+          ((value) => formatModelValue(value, bmsModelMap?.[item?.field || '']));
       });
     }
     return getItemsByConfig(result ? [result] : [], bmsRealTimeData, onMoreClick);
@@ -210,22 +238,31 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.pcs;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
-        item.format = (value) => formatModelValue(value, { ...pcsModelMap, ...bmsModelMap });
+        item.format = (value) =>
+          formatModelValue(value, { ...emsModelMap, ...pcsModelMap }?.[item?.field || '']);
       });
     }
     return getItemsByConfig(
       result ? [result] : [],
-      { ...pcsRealTimeData, ...bmsRealTimeData },
+      { ...pcsRealTimeData, ...bmsRealTimeData, ...emsRealTimeData },
       onMoreClick,
     );
-  }, [pcsRealTimeData, bmsRealTimeData, deviceData, pcsModelMap, bmsModelMap, onMoreClick]);
+  }, [
+    pcsRealTimeData,
+    bmsRealTimeData,
+    emsRealTimeData,
+    deviceData,
+    pcsModelMap,
+    emsModelMap,
+    onMoreClick,
+  ]);
 
   const dehumidifierItems = useMemo(() => {
     const result = (energyItemsMap.get(deviceData?.productId) || RectEnergy)?.dehumidifier;
     if (deviceData?.productId && newWindAndLiquidEnergy.includes(deviceData?.productId)) {
       result?.data?.forEach?.((item) => {
         item.format = (value) =>
-          formatModelValue(value, { ...dehumidifireModelMap, ...bmsModelMap });
+          formatModelValue(value, { ...bmsModelMap, ...dehumidifireModelMap }?.[item?.field || '']);
       });
     }
     return getItemsByConfig(result ? [result] : [], { ...dehumidifierRealTimeData }, onMoreClick);
@@ -267,7 +304,11 @@ const Cabinet: React.FC<CabinetProps> = (props) => {
       ) : (
         <>
           {showLabel && (
-            <Detail.Label showLine={false} title={energyData?.name} labelClassName={styles.label}>
+            <Detail.Label
+              showLine={false}
+              title={deviceData?.deviceId ? energyData?.name : getPlaceholder('')}
+              labelClassName={styles.label}
+            >
               {formatMessage({ id: 'siteMonitor.communication', defaultMessage: 'Communication' })}
               ：
               <span className="mr24">

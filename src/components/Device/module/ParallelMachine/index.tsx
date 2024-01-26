@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-01-09 11:16:24
+ * @LastEditTime: 2024-01-13 11:43:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */
@@ -12,7 +12,7 @@ import YTProTable from '@/components/YTProTable';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import Label from '@/components/Detail/LineLabel';
 import { DeviceDataType, getParallelDevice } from '@/services/equipment';
-import { formatMessage, formatModelValue, isEmpty } from '@/utils';
+import { formatMessage, formatModelValue, getPlaceholder, isEmpty } from '@/utils';
 import { MessageEventType } from '@/utils/connection';
 import { onlineStatus, masterSlaveEnum } from '@/utils/dict';
 import { ProColumns, ProField } from '@ant-design/pro-components';
@@ -29,6 +29,7 @@ type ParallelDeviceType = DeviceDataType & {
   systemWorkModelId?: string;
   systemWorkStatusId?: string;
   socId?: string;
+  isSelf?: boolean;
 };
 
 const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
@@ -62,7 +63,6 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
     associationDeviceDataList?.forEach?.((item: ParallelDeviceType) => {
       item?.emsId && result.push(item?.emsId || '');
       item?.bmsId && result.push(item?.bmsId || '');
-      item?.socId && result.push(item?.socId || '');
     });
     return result;
   }, [associationDeviceDataList]);
@@ -95,7 +95,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         width: 150,
         ellipsis: true,
         render: (_, record) => {
-          return record?.deviceId == deviceId ? (
+          return record?.isSelf ? (
             `${record.name}(${formatMessage({ id: 'device.self', defaultMessage: '本机' })})`
           ) : (
             <a onClick={() => onDeviceClick(record)}>{record.name}</a>
@@ -143,7 +143,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         ellipsis: true,
         render: (_, { systemWorkModelId }: any) => {
           return isEmpty(systemWorkModelId)
-            ? ''
+            ? getPlaceholder(null, '-')
             : formatModelValue(
                 associationRealtimeData?.[systemWorkModelId],
                 modelMap?.[systemWorkModelId],
@@ -157,7 +157,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         ellipsis: true,
         render: (_, { systemWorkStatusId }: any) => {
           return isEmpty(systemWorkStatusId)
-            ? ''
+            ? getPlaceholder(null, '-')
             : formatModelValue(
                 associationRealtimeData?.[systemWorkStatusId],
                 modelMap?.[systemWorkStatusId],
@@ -170,7 +170,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         width: 100,
         ellipsis: true,
         render: (_, { socId }: any) => {
-          return isEmpty(socId) ? '' : associationRealtimeData?.[socId];
+          return isEmpty(socId) ? getPlaceholder(null, '-') : associationRealtimeData?.[socId];
         },
       },
     ];

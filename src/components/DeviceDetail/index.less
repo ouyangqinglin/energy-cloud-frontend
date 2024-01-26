@@ -27,6 +27,14 @@
     height: 100%;
     overflow: auto;
     background: white;
+    :global {
+      .ant-descriptions-item {
+        padding-bottom: 8px;
+      }
+      .ant-divider-horizontal {
+        margin: 8px 0 !important;
+      }
+    }
   }
 }
 
@@ -63,8 +71,22 @@
     margin-right: 24px;
     margin-left: 24px;
     :global {
+      .ant-tabs-tab {
+        justify-content: center;
+        min-width: 98px;
+        padding: 10px 21px;
+        background: white;
+        border-radius: 0 !important;
+        & + .ant-tabs-tab {
+          margin-left: -1px !important;
+        }
+        &.ant-tabs-tab-active {
+          border-bottom-color: #f0f0f0;
+        }
+      }
       .ant-tabs-tab-btn {
         font-size: 16px;
+        line-height: 1;
       }
     }
   }

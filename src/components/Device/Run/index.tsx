@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2023-12-29 14:32:05
+ * @LastEditTime: 2024-01-23 17:36:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -11,7 +11,7 @@ import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Meter from '@/components/Meter';
 import { GridItemType } from '@/components/Meter/helper';
-import { useAuthority } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import { DeviceDataType } from '@/services/equipment';
 import {
   DeviceModelAuthorityType,
@@ -24,9 +24,11 @@ import {
   DeviceModelShowTypeEnum,
   formatModelValue,
   getPropsFromTree,
+  isEmpty,
 } from '@/utils';
 import { Empty, Spin } from 'antd';
 import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
+import styles from './index.less';
 
 export type RunType = {
   deviceData?: DeviceDataType;
@@ -41,7 +43,14 @@ const Run: React.FC<RunType> = (props) => {
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
+    originCollection: '',
+    deviceId: '',
   });
+  const extralDeviceIds = useMemo(() => {
+    const result = getPropsFromTree(groupData, 'deviceId');
+    return Array.from(new Set(result));
+  }, [groupData]);
+  const extralDeviceRealTimeData = useSubscribe(extralDeviceIds, true);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -50,7 +59,9 @@ const Run: React.FC<RunType> = (props) => {
       groupData,
       'id',
       'children',
-      (item) => item.type == DeviceModelDescribeTypeEnum.Component,
+      (item) =>
+        item.type == DeviceModelDescribeTypeEnum.Component &&
+        (item.id != 'ParallelMachine' || !isEmpty(deviceData?.masterSlaveMode)),
     );
     return ids.reduce((result, item) => {
       return {
@@ -58,23 +69,26 @@ const Run: React.FC<RunType> = (props) => {
         [item]: lazy(() => import('@/components/Device/module/' + item)),
       };
     }, {});
-  }, [groupData]);
+  }, [groupData, deviceData]);
 
   const onClick = useCallback((item: DetailItem) => {
-    if (item.field) {
+    if (item?.field) {
+      const fieldArr = item?.field?.split?.('.');
       setCollectionInfo({
         title: item.label as any,
-        collection: item.field,
+        originCollection: item?.field,
+        collection: item?.deviceId ? fieldArr[fieldArr.length - 1] : item.field,
+        deviceId: item?.deviceId,
       });
     }
   }, []);
 
   const extral = (
     <Button
-      deviceId={deviceData?.deviceId}
+      deviceId={collectionInfo.deviceId || deviceData?.deviceId}
       title={collectionInfo.title}
       collection={collectionInfo.collection}
-      model={modelMap?.[collectionInfo.collection]}
+      model={modelMap?.[collectionInfo.originCollection]}
       onClick={onClick}
     />
   );
@@ -115,17 +129,42 @@ const Run: React.FC<RunType> = (props) => {
     [authorityMap],
   );
 
-  const getDetailItems = useCallback((service: DeviceServiceModelType[]) => {
-    const result: DetailItem[] = [];
-    service?.forEach?.((item) => {
-      result.push?.({
-        field: item?.id || '',
-        label: item?.name,
-        format: (value) => formatModelValue(value, item?.dataType || {}),
+  const getDetailItems = useCallback(
+    (service: DeviceServiceModelType[]) => {
+      const result: DetailItem[] = [];
+      service?.forEach?.((item, index) => {
+        if (item.showType == DeviceModelShowTypeEnum.Line) {
+          result[result?.length - 1].span = 4 - (result.length % 3);
+          result.push({
+            className: styles.line,
+            span: 3,
+            showPlaceholder: false,
+            showExtra: false,
+          });
+        } else {
+          result.push({
+            field: item?.id || '',
+            label: item?.name,
+            deviceId: item?.deviceId,
+            valueInterceptor: (_, data) => {
+              if (item?.deviceId) {
+                const realField = item?.id?.split?.('.') || [];
+                return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
+              }
+            },
+            format: (value) => formatModelValue(value, item?.dataType || {}),
+          });
+        }
       });
-    });
-    return result;
-  }, []);
+      if (result.length > 1) {
+        result[result?.length - 1].span = 4 - (result.length % 3);
+      }
+      return result;
+    },
+    [deviceData?.deviceId],
+  );
 
   const getGridComponent = useCallback(
     (group?: DeviceModelDescribeType[], columns = 5) => {
@@ -155,7 +194,7 @@ const Run: React.FC<RunType> = (props) => {
         />
       );
     },
-    [passAuthority],
+    [passAuthority, extral],
   );
 
   const getGroupItems = useCallback(
@@ -210,26 +249,27 @@ const Run: React.FC<RunType> = (props) => {
         case DeviceModelDescribeTypeEnum.Component:
           if (modelDescribeItem.id) {
             const Component = components[modelDescribeItem.id];
-            result.push({
-              component: (
-                <Suspense
-                  fallback={
-                    <div className="tx-center">
-                      <Spin />
-                    </div>
-                  }
-                >
-                  <Component deviceId={deviceData?.deviceId} />
-                </Suspense>
-              ),
-            });
+            !!Component &&
+              result.push({
+                component: (
+                  <Suspense
+                    fallback={
+                      <div className="tx-center">
+                        <Spin />
+                      </div>
+                    }
+                  >
+                    <Component deviceId={deviceData?.deviceId} />
+                  </Suspense>
+                ),
+              });
           }
           break;
         default:
       }
       return result;
     },
-    [realTimeData, deviceData, getDetailItems, passAuthority, getGridComponent, components],
+    [deviceData, getDetailItems, passAuthority, getGridComponent, components],
   );
 
   const groupsItems = useMemo(() => {
@@ -238,22 +278,21 @@ const Run: React.FC<RunType> = (props) => {
       result.push(...getGroupItems(item));
     });
     return result;
-  }, [groupData, getGroupItems, realTimeData, authorityMap]);
+  }, [groupData, getGroupItems, authorityMap, collectionInfo]);
 
   return (
     <>
       {groupsItems.length ? (
         <Detail.Group
-          data={realTimeData}
+          data={{ ...realTimeData, ...extralDeviceRealTimeData }}
           items={groupsItems}
           detailProps={{
             extral,
-            colon: false,
             labelStyle: { width: 140 },
           }}
         />
       ) : (
-        <Empty />
+        <Empty className="mt20" />
       )}
     </>
   );

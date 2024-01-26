@@ -57,7 +57,7 @@ const editFavicon = (data?: initialStateType) => {
   setTimeout(() => {
     document.title =
       data?.currentUser?.systemInfo?.title ||
-      formatMessage({ id: 'system.title', defaultMessage: '新能源OSS云平台' });
+      formatMessage({ id: 'system.title', defaultMessage: '新能源能量管理云平台' });
   }, 700);
 };
 

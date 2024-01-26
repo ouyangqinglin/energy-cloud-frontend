@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-04 15:17:13
- * @LastEditTime: 2024-01-06 10:34:28
+ * @LastEditTime: 2024-01-19 14:02:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
@@ -38,9 +38,9 @@ const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
   const { deviceData, showLabel, loading, source, emsGroupData, loadingGroupData } = props;
   const [deviceKey, setDeviceKey] = useState();
-  // groupId为-1代表无主从（以前的），!=-1代表EMS主从设备，主从混合暂不考虑
-  const groupId = useMemo(() => {
-    return emsGroupData?.[0]?.groupId ?? -1;
+
+  const showGruop = useMemo(() => {
+    return emsGroupData?.length > 1 || emsGroupData?.[0]?.devices?.length > 1;
   }, [emsGroupData]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
     <>
       <Row className="mb20" gutter={20}>
         <Col span={14}>
-          {+groupId != -1 ? (
+          {showGruop ? (
             <>
               <MasterSlaveGroup
                 emsGroupData={emsGroupData}
@@ -89,7 +89,7 @@ const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {
           />
         </Col>
       </Row>
-      {+groupId == -1 && newWindLiquidEnergy.includes(deviceData?.productId) && (
+      {!showGruop && newWindLiquidEnergy.includes(deviceData?.productId) && (
         <ElectricDiagram deviceData={deviceData} />
       )}
     </>

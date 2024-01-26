@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\user-manager\authority\index.tsx
  */
 import React, { useCallback, useRef, useState } from 'react';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import type { ActionType } from '@ant-design/pro-components';
 import type { RoleInfo } from './type';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
@@ -73,9 +73,13 @@ const Authority: React.FC<AuthorityProps> = (props) => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-  const requestList: YTProTableCustomProps<RoleInfo, RoleInfo>['request'] = (params) => {
-    return getRoleList({ ...params, type });
-  };
+  const requestList = useCallback(
+    (params) => {
+      return getRoleList({ ...params, type });
+    },
+    [type],
+  );
+
   return (
     <>
       <YTProTable<RoleInfo, RoleInfo>

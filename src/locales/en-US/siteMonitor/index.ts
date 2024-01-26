@@ -68,6 +68,7 @@ export default {
   'siteMonitor.humidness': 'Humidness',
   'siteMonitor.storageDoor': 'Storage bin door',
   'siteMonitor.systemModel': 'System model',
+  'siteMonitor.systemWorkModel': 'System work model',
   'siteMonitor.batteryPile': 'Battery pile',
   'siteMonitor.workingCondition': 'Working Condition',
   'siteMonitor.workingMode': 'Working Mode',
@@ -294,4 +295,5 @@ export default {
   'siteMonitor.normalGeneration': 'Normal generation',
   'siteMonitor.associateDevice': 'Associated device',
   'siteMonitor.associateCharge': 'Associated charge pile',
+  'siteMonitor.gruopName': 'Group name',
 };

@@ -2,19 +2,23 @@ import { effectStatus } from '@/utils/dict';
 import { ProColumns } from '@ant-design/pro-components';
 import { ServiceInfo } from './type';
 import { formatMessage } from '@/utils';
+import { Tooltip } from 'antd';
 
 export const columns: ProColumns<ServiceInfo>[] = [
   {
-    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
-    dataIndex: 'index',
-    valueType: 'index',
-    width: 48,
-  },
-  {
     title: formatMessage({ id: 'system.organizationName', defaultMessage: '组织名称' }),
     dataIndex: 'orgName',
-    width: 120,
+    width: 220,
     ellipsis: true,
+    render: (_, record) => {
+      return (
+        <>
+          <Tooltip title={record.orgName}>
+            <span>{record.orgName} </span>
+          </Tooltip>
+        </>
+      );
+    },
   },
   {
     title: formatMessage({ id: 'system.organizationId', defaultMessage: '组织ID' }),

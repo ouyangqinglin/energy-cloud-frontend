@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-29 19:04:26
- * @LastEditTime: 2023-11-29 19:39:37
+ * @LastEditTime: 2024-01-11 11:31:54
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\TimeRangePicker\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Time\TimeRangePicker\index.tsx
  */
 
 import React, { useCallback, useMemo, memo } from 'react';
@@ -32,7 +32,8 @@ const TimeRangePicker: React.FC<TimeRangePickerType> = memo((props) => {
 
   const mergedOnChange = useCallback(
     (params) => {
-      onChange?.(params?.map?.((item: Moment) => item.format(format)).join('-'));
+      const result = params?.map?.((item: Moment) => item.format(format))?.join?.('-');
+      onChange?.(result);
     },
     [onChange, format],
   );

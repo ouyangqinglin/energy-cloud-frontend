@@ -27,6 +27,7 @@ import {
 } from '@/utils/format';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
+import { ProFormColumnsType } from '@ant-design/pro-components';
 
 const energyPowerFormat = (value: number, data: any) => {
   return (
@@ -34,6 +35,13 @@ const energyPowerFormat = (value: number, data: any) => {
       {powerFormat(value)}({chargeFormat(data.CADI)})
     </span>
   );
+};
+
+export type GroupDataType = {
+  index?: number;
+  groupName?: string;
+  groupId?: string;
+  deviceId?: string;
 };
 
 export const airItem = {
@@ -134,7 +142,7 @@ export const unitItems = [
     icon: StackImg,
     line: StackLineImg,
     linePosition: { top: -74, left: 85 },
-    data: [{ label: 'SoC：', field: 'SOC', format: percentageFormat }],
+    data: [{ label: 'SOC：', field: 'SOC', format: percentageFormat }],
   },
   {
     label: 'PCS',
@@ -209,5 +217,20 @@ export const unitItems = [
         field: 'MNOIT',
       },
     ],
+  },
+];
+
+export const groupColumns: ProFormColumnsType[] = [
+  {
+    title: formatMessage({ id: 'siteMonitor.gruopName', defaultMessage: '分组名称' }),
+    dataIndex: 'groupName',
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+        },
+      ],
+    },
   },
 ];

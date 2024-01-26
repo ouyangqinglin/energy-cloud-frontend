@@ -1,6 +1,6 @@
 import { getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
-import { onlineStatus, deviceAlarmStatus } from './dict';
+import { onlineStatus, deviceAlarmStatus, onlineStatus1 } from './dict';
 import Field from '@/components/Field';
 import { ProField } from '@ant-design/pro-components';
 
@@ -48,6 +48,13 @@ export const systemRunFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const workStatusFormat = (value: number) => {
+  const map: MapType = {
+    0: '启动',
+    1: '停止',
+  };
+  return <span className={''}>{map[value]}</span>;
+};
 export const enableFormat = (status: number) => {
   const map: MapType = {
     0: '使能',
@@ -66,6 +73,7 @@ export const modelFormat = (value: number) => {
   const map: MapType = {
     0: '手动',
     1: '自动',
+    2: '手动',
   };
   return <span className={''}>{map[value]}</span>;
 };
@@ -176,7 +184,7 @@ export const noPowerFormat = (value: string | number) => {
   return getValue(value, 'kvar');
 };
 export const powerHourFormat = (value: string | number) => {
-  return getValue(value, 'KWh');
+  return getValue(value, 'kWh');
 };
 export const noPowerHourFormat = (value: string | number) => {
   return getValue(value, 'kvar·h');
@@ -185,10 +193,10 @@ export const voltageFormat = (value: string | number) => {
   return getValue(value, 'V');
 };
 export const kVoltageFormat = (value: string | number) => {
-  return getValue(value, 'KV');
+  return getValue(value, 'kV');
 };
 export const kVAFormat = (value: string | number) => {
-  return getValue(value, 'KVA');
+  return getValue(value, 'kVA');
 };
 export const currentFormat = (value: string | number) => {
   return getValue(value, 'A');
@@ -236,12 +244,18 @@ export const workFormat = (value: number) => {
   };
   return <span className={''}>{map[value]}</span>;
 };
+export const emsConnectMethodFormat = (value: number) => {
+  const map: MapType = {
+    0: '485',
+    1: '未知',
+  };
+  return <span className={''}>{map[value]}</span>;
+};
 export const liquidWorkFormat = (value: number) => {
   const map: MapType = {
-    0: '故障',
-    1: '停机',
-    2: '待机',
-    3: '运行',
+    0: '停机',
+    1: '故障',
+    2: '运行',
   };
   return <span className={''}>{map[value]}</span>;
 };
@@ -494,8 +508,15 @@ export const airAlarmFormat = (value: string) => {
 export const onlineStatusFormat = (value: string) => {
   return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
 };
+export const onlineStatus1Format = (value: string) => {
+  return <ProField mode="read" text={value} valueEnum={onlineStatus1} />;
+};
 export const deviceAlarmStatusFormat = (value: string) => {
-  return <Field text={value} valueEnum={deviceAlarmStatus} />;
+  return (
+    <span className="profield-alarm">
+      <ProField mode="read" text={value} valueEnum={deviceAlarmStatus} />
+    </span>
+  );
 };
 
 export const earlyWarningFormat = (value: number) => {
