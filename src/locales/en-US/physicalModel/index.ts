@@ -15,4 +15,11 @@ export default {
   'physicalModel.fieldType': 'Field Type',
   'physicalModel.fieldConfig': 'Field Config',
   'physicalModel.fieldEdit': 'Field Edit',
+  'pageTemplate.name': 'Page Template Name',
+  'pageTemplate.editable': 'Page Template Editable',
+  'pageTemplate.platform': 'Page Template Platform',
+  'pageTemplate.remark': 'Page Template Remark',
+  'pageTemplate.productModels': 'Page Template Product',
+  'pageTemplate.type': 'Type',
+  'physicalModel.field': 'field',
 };
