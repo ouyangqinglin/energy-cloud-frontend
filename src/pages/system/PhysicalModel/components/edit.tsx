@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { ProFormText } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, Tabs } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
@@ -47,6 +47,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
   const [thingsConfig, setThingsConfig] = useState<ThingsConfig>(initThingsConfig);
+
   const handleThingsConfig = (data: any) => {
     const result = {};
     Object.keys(data).forEach((key) => {
