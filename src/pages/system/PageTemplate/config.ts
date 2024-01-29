@@ -127,7 +127,7 @@ export const platformEnum = [
   },
 ];
 export const getColumns = (
-  actionColumn: ProColumns<PhysicalModelType>,
+  operationColumn: ProColumns<PhysicalModelType>[],
 ): ProColumns<PhysicalModelType>[] => [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
@@ -153,7 +153,6 @@ export const getColumns = (
     title: formatMessage({ id: 'pageTemplate.platform', defaultMessage: '引用端' }),
     dataIndex: 'platform',
     ellipsis: true,
-    hideInSearch: true,
     valueEnum: platformDefine,
   },
   {
@@ -173,5 +172,5 @@ export const getColumns = (
     dataIndex: 'createTime',
     hideInSearch: true,
   },
-  actionColumn,
+  ...operationColumn,
 ];

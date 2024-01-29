@@ -1,55 +1,44 @@
-import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ProFormText } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, Tabs } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import { formatMessage } from '@/utils';
-import type { ProColumns } from '@ant-design/pro-components';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { PlusOutlined } from '@ant-design/icons';
-import type { DataNode } from 'antd/lib/tree';
-import type { MenuType } from '../config';
 import YTProTable from '@/components/YTProTable';
 import { getTypeColumns, tabsItem, typeObj } from '../config';
-import type { PhysicalModelType } from '../config';
+import type { PhysicalModelType, PhysicalModelFormType, ThingsConfigType } from '../data';
 import { Button, message } from 'antd';
 import TypeEdit from './typeEdit';
 import { cloneDeep } from 'lodash';
 import { getDetail } from '../service';
 
-export type MenuFormValueType = Record<string, unknown> & Partial<MenuType>;
-export type MenuFormProps = {
-  onCancel: (flag?: boolean, formVals?: MenuFormValueType) => void;
-  onSubmit: (values: MenuFormValueType) => Promise<void>;
-  visible: boolean;
-  values: any;
-  visibleOptions: any;
-  statusOptions: any;
-  menuTree: DataNode[];
-  showType: string;
-};
-export type ThingsConfig = {
-  properties: any[];
-  events: any[];
-  services: any[];
-};
 const initThingsConfig = {
   properties: [],
   events: [],
   services: [],
 };
 
-const MenuForm: React.FC<MenuFormProps> = (props) => {
-  const { showType, visible } = props;
-  const actionRef = useRef();
+export type MenuFormProps = {
+  onCancel: () => void;
+  onSubmit: (values: PhysicalModelFormType) => Promise<void>;
+  visible: boolean;
+  values: Partial<PhysicalModelType>;
+  showType: 'edit' | 'add' | 'check';
+};
+const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
+  const { showType, visible, values } = props;
+  const actionRef = useRef<ActionType>();
   const [form] = Form.useForm();
   const [type, setType] = useState<string>('property');
-  const [currentRow, setCurrentRow] = useState<PhysicalModelType>();
+  const [currentRow, setCurrentRow] = useState<PhysicalModelFormType>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
-  const [thingsConfig, setThingsConfig] = useState<ThingsConfig>(initThingsConfig);
+  const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
 
-  const handleThingsConfig = (data: any) => {
-    const result = {};
+  const handleThingsConfig = (data: ThingsConfigType): ThingsConfigType => {
+    const result = initThingsConfig;
     Object.keys(data).forEach((key) => {
       const item = data[key].map((i) => {
         i.json = JSON.stringify(i);
@@ -59,21 +48,21 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     });
     return result;
   };
-  const getDetailData = async (id: any) => {
+  const getDetailData = async (id: number) => {
     const { data, code } = await getDetail({ id });
     if (code == 200) {
       form.setFieldsValue({
         name: data.name,
         remark: data.remark,
       });
-      setThingsConfig(() => handleThingsConfig(data.thingsConfig));
+      setThingsConfig(handleThingsConfig(data.thingsConfig));
     }
   };
   useEffect(() => {
-    if (props.values.id) {
-      getDetailData(props.values.id);
+    if (values?.id) {
+      getDetailData(values?.id);
     }
-  }, [props]);
+  }, [values]);
 
   /*
    *@Author: aoshilin
@@ -108,7 +97,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
    *
    * @param fields
    */
-  const handleAdd = async (fields: MenuType) => {
+  const handleAdd = async (fields) => {
     const hide = message.loading('正在添加');
     try {
       setThingsConfig(() => {
@@ -132,7 +121,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
    *
    * @param fields
    */
-  const handleUpdate = async (fields: MenuType) => {
+  const handleUpdate = async (fields) => {
     const hide = message.loading('正在编辑');
     try {
       setThingsConfig(() => {
@@ -183,7 +172,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   const handleFinish = async (value: Record<string, any>) => {
     const formData = value;
     formData.thingsConfig = thingsConfig;
-    if (showType == 'edit') formData.id = props.values.id;
+    if (showType == 'edit') formData.id = values.id;
     props.onSubmit(formData as MenuFormValueType);
   };
   const handleRemoveOne = (record: object) => {
@@ -194,7 +183,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     setThingsConfig(cloneThingsConfig);
     return true;
   };
-  const actionColumn: ProColumns<PhysicalModelType> = {
+  const actionColumn: ProColumns<PhysicalModelFormType> = {
     title: formatMessage({ id: 'pages.searchTable.titleOption', defaultMessage: '操作' }),
     dataIndex: 'option',
     width: '220px',
@@ -330,9 +319,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         onSubmit={async (value) => {
           let success = false;
           if (value.oldId) {
-            success = await handleUpdate({ ...value } as MenuType);
+            success = await handleUpdate({ ...value });
           } else {
-            success = await handleAdd({ ...value } as MenuType);
+            success = await handleAdd({ ...value });
           }
           if (success) {
             setModalVisible(false);
@@ -355,4 +344,4 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   );
 };
 
-export default MenuForm;
+export default PhysicalModelForm;

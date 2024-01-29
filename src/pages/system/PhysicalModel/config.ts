@@ -1,33 +1,7 @@
 import { formatMessage } from '@/utils';
-import type { ProColumns } from '@ant-design/pro-components';
+import type { ProColumns, ProColumnType } from '@ant-design/pro-components';
 import type { TabsProps } from 'antd';
-
-export type PhysicalModelType = {
-  editable?: number;
-  name?: string;
-  remark?: string;
-  thingsConfig?: object;
-};
-export type MenuType = {
-  menuId: number;
-  menuName: string;
-  parentId: string;
-  orderNum: number;
-  path: string;
-  component: string;
-  isFrame: number;
-  isCache: number;
-  menuType: string;
-  visible: string;
-  status: string;
-  perms: string;
-  icon: string;
-  createBy: string;
-  createTime: Date;
-  updateBy: string;
-  updateTime: Date;
-  remark: string;
-};
+import type { PhysicalModelFormType } from './data';
 
 export const tabsItem: TabsProps['items'] = [
   {
@@ -70,9 +44,7 @@ export const modeDefine = {
     text: '自定义',
   },
 };
-export const getColumns = (
-  actionColumn: ProColumns<PhysicalModelType>,
-): ProColumns<PhysicalModelType>[] => [
+export const getColumns = (operationColumn: ProColumnType): ProColumnType[] => [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     valueType: 'index',
@@ -104,12 +76,10 @@ export const getColumns = (
     dataIndex: 'createTime',
     hideInSearch: true,
   },
-  actionColumn,
+  operationColumn,
 ];
 
-export const getTypeColumns = (
-  actionColumn: ProColumns<PhysicalModelType>,
-): ProColumns<PhysicalModelType>[] => [
+export const getTypeColumns = (operationColumn: ProColumnType): ProColumnType[] => [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     valueType: 'index',
@@ -131,9 +101,9 @@ export const getTypeColumns = (
     ellipsis: true,
     hideInSearch: true,
   },
-  actionColumn,
+  operationColumn,
 ];
-export const fieldColumns: ProColumns[] = [
+export const fieldColumns: ProColumnType[] = [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     valueType: 'index',
@@ -167,5 +137,6 @@ export const fieldColumns: ProColumns[] = [
     dataIndex: 'json',
     ellipsis: true,
     hideInSearch: true,
+    renderText: (json) => JSON.stringify(json),
   },
 ];

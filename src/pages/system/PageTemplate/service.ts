@@ -31,7 +31,7 @@ export const addMenu = (params: any) => {
 };
 
 export const deleteMenu = (params: any) => {
-  return request(`/iot/model`, {
+  return request(`/iot/productConfig/delete`, {
     method: 'DELETE',
     data: params,
   });
