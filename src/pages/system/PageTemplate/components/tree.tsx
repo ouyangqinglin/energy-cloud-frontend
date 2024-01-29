@@ -82,7 +82,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const { configData } = props;
   const [form] = Form.useForm();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-  const [searchValue, setSearchValue] = useState('');
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const [treeData, setTreeData] = useState<ModeTreeDataNode[]>(defaultData);
   const [visible, setVisible] = useState<boolean>(false);
@@ -117,7 +116,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
 
   const treeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log('dataList>>', dataList);
     const newExpandedKeys = dataList
       .map((item) => {
         if (getName(item.name).indexOf(value) > -1) {
@@ -127,39 +125,8 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       })
       .filter((item, i, self): item => !!(item && self.indexOf(item) === i));
     setExpandedKeys(newExpandedKeys);
-    setSearchValue(value);
     setAutoExpandParent(true);
   };
-  useMemo(() => {
-    const loop = (data: ModeTreeDataNode[]): any =>
-      data.map((item) => {
-        const strTitle = getName(item.name);
-        console.log('strTitle>>', strTitle);
-        const index = strTitle.indexOf(searchValue);
-        const beforeStr = strTitle.substring(0, index);
-        const afterStr = strTitle.slice(index + searchValue.length);
-        const name =
-          index > -1 ? (
-            <span>
-              {beforeStr}
-              <span style={{ color: 'red' }}>{searchValue}</span>
-              {afterStr}
-            </span>
-          ) : (
-            <span>{strTitle}</span>
-          );
-        if (item.children) {
-          return { name, id: item.id, children: loop(item.children) };
-        }
-
-        return {
-          ...item,
-          name,
-          id: item.id,
-        };
-      });
-    setTreeData(() => loop(treeData));
-  }, [searchValue]);
   /*
    *@Author: aoshilin
    *@Date: 2024-01-26 16:44:46

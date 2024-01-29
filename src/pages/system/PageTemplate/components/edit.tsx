@@ -3,17 +3,16 @@ import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import { useRequest } from 'umi';
 import { Form, Modal, Row, Col } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
-import type { MenuType } from '../config';
+import type { PageTemplateType } from '../data';
 import { platformEnum } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
 
-export type MenuFormValueType = Record<string, unknown> & Partial<MenuType>;
 export type MenuFormProps = {
-  onCancel: (flag?: boolean, formVals?: MenuFormValueType) => void;
-  onSubmit: (values: MenuFormValueType) => Promise<void>;
+  onCancel: () => void;
+  onSubmit: (values: PageTemplateType) => Promise<void>;
   visible: boolean;
-  values: any;
+  values: Partial<PageTemplateType>;
   showType: string;
 };
 
@@ -27,11 +26,16 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
 
   useEffect(() => {
     if (visible) {
-      run({});
       form.resetFields();
+      run({});
+      form.setFieldsValue({
+        name: configData?.name,
+        productIds: configData?.productIds,
+        platform: configData?.platform,
+      });
       showType !== 'add' && getConfigData({ id: values.id });
     }
-  }, [form, getConfigData, run, values, visible]);
+  }, [configData, form, getConfigData, run, showType, values, visible]);
   const handleCancel = () => {
     props.onCancel();
   };
@@ -46,7 +50,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     const formData = value;
     formData.config = treeRef.current.getTreeData();
     formData.id = values.id;
-    props.onSubmit(formData as MenuFormValueType);
+    props.onSubmit(formData as PageTemplateType);
   };
   return (
     <Modal
@@ -55,12 +59,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         id: 'physicalModel',
         defaultMessage: `${showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'}`,
       })}
-      visible={props.visible}
+      visible={visible}
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} onFinish={handleFinish} layout="vertical" initialValues={values}>
+      <Form form={form} onFinish={handleFinish} layout="vertical">
         <Row gutter={[16, 16]}>
           <Col span={24} order={1}>
             <ProFormSelect
