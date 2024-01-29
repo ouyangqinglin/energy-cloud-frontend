@@ -49,6 +49,7 @@ const handleConfig = (data: any[], parentId: string) => {
     item.name = item.name.props ? item.name.props.children[2] : item.name;
     item.sortOrder = index;
     item.parentId = parentId;
+    if (!parentId) item.type = 'page';
     if (item.children && item.children.length > 0) {
       item.children = handleConfig(item.children, item.id);
     }
@@ -117,12 +118,12 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     setSearchValue(value);
     setAutoExpandParent(true);
   };
-  useMemo(() => {
-    if (configData?.config) {
-      generateList(configData.config);
-      setTreeData(() => configData.config);
-    }
-  }, [configData]);
+  // useMemo(() => {
+  //   if (configData?.config) {
+  //     generateList(configData.config);
+  //     setTreeData(() => configData.config);
+  //   }
+  // }, [configData]);
 
   useMemo(() => {
     const loop = (data: ModeTreeDataNode[]): any =>
@@ -146,6 +147,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         }
 
         return {
+          ...item,
           name,
           id: item.id,
         };

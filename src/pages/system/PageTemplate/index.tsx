@@ -1,12 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getColumns } from './config';
+import { useRequest } from 'umi';
 import type { PhysicalModelType } from './config';
 import { formatMessage } from '@/utils';
 import YTProTable from '@/components/YTProTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import { getPageTemplate, updateMenu, addMenu, deleteMenu } from './service';
+import { getPageTemplate, updateMenu, addMenu, deleteMenu, getproduct } from './service';
 import UpdateForm from './components/edit';
 
 const PhysicalModel: React.FC = () => {
@@ -14,6 +15,7 @@ const PhysicalModel: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [showType, setShowType] = useState<string>('add');
   const [currentRow, setCurrentRow] = useState<PhysicalModelType>();
+  const { data: productIdsEnum } = useRequest(getproduct) as any;
   /**
    * 添加节点
    *
@@ -78,65 +80,84 @@ const PhysicalModel: React.FC = () => {
     }
   };
 
-  const actionColumn: ProColumns<PhysicalModelType> = {
-    title: formatMessage({ id: 'pages.searchTable.titleOption', defaultMessage: '操作' }),
-    dataIndex: 'option',
-    width: '220px',
-    valueType: 'option',
-    render: (_, record) => [
-      <Button
-        type="link"
-        size="small"
-        key="edit"
-        onClick={() => {
-          setModalVisible(true);
-          setCurrentRow(record);
-          setShowType('check');
-        }}
-      >
-        {formatMessage({ id: 'common.viewDetail1', defaultMessage: '查看' })}
-      </Button>,
-      <Button
-        type="link"
-        size="small"
-        key="edit"
-        hidden={!record.editable}
-        onClick={() => {
-          setModalVisible(true);
-          setCurrentRow(record);
-          setShowType('edit');
-        }}
-      >
-        {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
-      </Button>,
-      <Button
-        type="link"
-        size="small"
-        danger
-        key="batchRemove"
-        hidden={!record.editable}
-        onClick={async () => {
-          Modal.confirm({
-            title: '删除',
-            content: '确定删除该项吗？',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: async () => {
-              const success = await handleRemoveOne(record);
-              if (success) {
-                if (actionRef.current) {
-                  actionRef.current.reload();
-                }
-              }
-            },
-          });
-        }}
-      >
-        {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
-      </Button>,
-    ],
+  const handleproduct = () => {
+    const data = productIdsEnum || ([] as any[]);
+    return data.map((item) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
   };
-  const columns = getColumns(actionColumn);
+  const operationColumn: ProColumns<PhysicalModelType>[] = [
+    {
+      title: formatMessage({ id: 'pages.searchTable.titleOption', defaultMessage: '操作' }),
+      dataIndex: 'option',
+      width: '220px',
+      valueType: 'option',
+      render: (_, record) => [
+        <Button
+          type="link"
+          size="small"
+          key="edit"
+          onClick={() => {
+            setModalVisible(true);
+            setCurrentRow(record);
+            setShowType('check');
+          }}
+        >
+          {formatMessage({ id: 'common.viewDetail1', defaultMessage: '查看' })}
+        </Button>,
+        <Button
+          type="link"
+          size="small"
+          key="edit"
+          hidden={!record.editable}
+          onClick={() => {
+            setModalVisible(true);
+            setCurrentRow(record);
+            setShowType('edit');
+          }}
+        >
+          {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
+        </Button>,
+        <Button
+          type="link"
+          size="small"
+          danger
+          key="batchRemove"
+          hidden={!record.editable}
+          onClick={async () => {
+            Modal.confirm({
+              title: '删除',
+              content: '确定删除该项吗？',
+              okText: '确认',
+              cancelText: '取消',
+              onOk: async () => {
+                const success = await handleRemoveOne(record);
+                if (success) {
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
+                }
+              },
+            });
+          }}
+        >
+          {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
+        </Button>,
+      ],
+    },
+    // {
+    //   title: formatMessage({ id: 'pageTemplate.productModels', defaultMessage: '关联产品型号' }),
+    //   dataIndex: 'productModels',
+    //   valueType: 'select',
+    //   ellipsis: true,
+    //   hideInTable: true,
+    //   valueEnum: handleproduct(),
+    // },
+  ];
+  const columns = getColumns(operationColumn);
   return (
     <>
       <YTProTable

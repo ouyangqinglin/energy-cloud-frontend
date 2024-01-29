@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ProTable, ProFormInstance } from '@ant-design/pro-components';
+import { ProTable } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProColumns, YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
@@ -20,7 +21,6 @@ const YTProTable = <
 ) => {
   const {
     toolBarRender,
-    onSearch,
     columns,
     actionRef,
     formRef,
