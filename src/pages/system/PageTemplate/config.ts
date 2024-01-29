@@ -1,33 +1,6 @@
 import { formatMessage } from '@/utils';
-import type { ProColumns } from '@ant-design/pro-components';
 import type { TabsProps, TreeDataNode } from 'antd';
-export type PhysicalModelType = {
-  editable?: number;
-  name?: string;
-  remark?: string;
-  thingsConfig?: object;
-};
-
-export type MenuType = {
-  menuId: number;
-  menuName: string;
-  parentId: string;
-  orderNum: number;
-  path: string;
-  component: string;
-  isFrame: number;
-  isCache: number;
-  menuType: string;
-  visible: string;
-  status: string;
-  perms: string;
-  icon: string;
-  createBy: string;
-  createTime: Date;
-  updateBy: string;
-  updateTime: Date;
-  remark: string;
-};
+import type { ProColumnType } from '@ant-design/pro-components';
 
 export const tabsItem: TabsProps['items'] = [
   {
@@ -126,9 +99,7 @@ export const platformEnum = [
     value: 1,
   },
 ];
-export const getColumns = (
-  operationColumn: ProColumns<PhysicalModelType>[],
-): ProColumns<PhysicalModelType>[] => [
+export const getColumns = (operationColumn: ProColumnType[]): ProColumnType[] => [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     valueType: 'index',

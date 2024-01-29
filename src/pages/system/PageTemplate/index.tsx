@@ -1,27 +1,27 @@
 import React, { useState, useRef } from 'react';
 import { Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import type { ProColumnType, ActionType } from '@ant-design/pro-components';
 import { getColumns } from './config';
 import { useRequest } from 'umi';
-import type { PhysicalModelType } from './config';
+import type { PageTemplateType } from './data';
 import { formatMessage } from '@/utils';
 import YTProTable from '@/components/YTProTable';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import { getPageTemplate, updateMenu, addMenu, deleteMenu, getproduct } from './service';
 import UpdateForm from './components/edit';
 
 const PhysicalModel: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [showType, setShowType] = useState<string>('add');
-  const [currentRow, setCurrentRow] = useState<PhysicalModelType>();
+  const [showType, setShowType] = useState<'add' | 'edit' | 'check'>('add');
+  const [currentRow, setCurrentRow] = useState<Partial<PageTemplateType>>({});
   const productIdsEnum: any[] = useRequest(getproduct).data || [];
-  /**
-   * 添加节点
-   *
-   * @param fields
+  /*
+   *@Author: aoshilin
+   *@Date: 2024-01-29 17:35:23
+   *@Description: 新增
    */
-  const handleAdd = async (fields: any) => {
+  const handleAdd = async (fields: PageTemplateType) => {
     const hide = message.loading('正在添加');
     try {
       const resp = await addMenu({ ...fields });
@@ -38,12 +38,12 @@ const PhysicalModel: React.FC = () => {
       return false;
     }
   };
-  /**
-   * 更新节点
-   *
-   * @param fields
+  /*
+   *@Author: aoshilin
+   *@Date: 2024-01-29 17:35:40
+   *@Description: 编辑
    */
-  const handleUpdate = async (fields: any) => {
+  const handleUpdate = async (fields: PageTemplateType) => {
     const hide = message.loading('正在配置');
     try {
       const resp = await updateMenu(fields);
@@ -60,7 +60,12 @@ const PhysicalModel: React.FC = () => {
       return false;
     }
   };
-  const handleRemoveOne = async (selectedRow: any) => {
+  /*
+   *@Author: aoshilin
+   *@Date: 2024-01-29 17:36:46
+   *@Description: 删除
+   */
+  const handleRemoveOne = async (selectedRow: PageTemplateType) => {
     const hide = message.loading('正在删除');
     if (!selectedRow) return true;
     try {
@@ -81,7 +86,7 @@ const PhysicalModel: React.FC = () => {
   };
 
   const handleproduct = () => {
-    const result = {};
+    const result = {} as any;
     productIdsEnum.forEach((item) => {
       result[item.id] = {
         text: item.model,
@@ -89,64 +94,67 @@ const PhysicalModel: React.FC = () => {
     });
     return result;
   };
-  const operationColumn: ProColumns<PhysicalModelType>[] = [
+  const operationColumn: ProColumnType[] = [
     {
       title: formatMessage({ id: 'pages.searchTable.titleOption', defaultMessage: '操作' }),
       dataIndex: 'option',
       width: '220px',
       valueType: 'option',
-      render: (_, record) => [
-        <Button
-          type="link"
-          size="small"
-          key="edit"
-          onClick={() => {
-            setModalVisible(true);
-            setCurrentRow(record);
-            setShowType('check');
-          }}
-        >
-          {formatMessage({ id: 'common.viewDetail1', defaultMessage: '查看' })}
-        </Button>,
-        <Button
-          type="link"
-          size="small"
-          key="edit"
-          hidden={!record.editable}
-          onClick={() => {
-            setModalVisible(true);
-            setCurrentRow(record);
-            setShowType('edit');
-          }}
-        >
-          {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
-        </Button>,
-        <Button
-          type="link"
-          size="small"
-          danger
-          key="batchRemove"
-          hidden={!record.editable}
-          onClick={async () => {
-            Modal.confirm({
-              title: '删除',
-              content: '确定删除该项吗？',
-              okText: '确认',
-              cancelText: '取消',
-              onOk: async () => {
-                const success = await handleRemoveOne(record);
-                if (success) {
-                  if (actionRef.current) {
-                    actionRef.current.reload();
+      render: (_, record) => {
+        const rowData = record as PageTemplateType;
+        return [
+          <Button
+            type="link"
+            size="small"
+            key="edit"
+            onClick={() => {
+              setModalVisible(true);
+              setCurrentRow(rowData);
+              setShowType('check');
+            }}
+          >
+            {formatMessage({ id: 'common.viewDetail1', defaultMessage: '查看' })}
+          </Button>,
+          <Button
+            type="link"
+            size="small"
+            key="edit"
+            hidden={!rowData.editable}
+            onClick={() => {
+              setModalVisible(true);
+              setCurrentRow(rowData);
+              setShowType('edit');
+            }}
+          >
+            {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
+          </Button>,
+          <Button
+            type="link"
+            size="small"
+            danger
+            key="batchRemove"
+            hidden={!rowData.editable}
+            onClick={async () => {
+              Modal.confirm({
+                title: '删除',
+                content: '确定删除该项吗？',
+                okText: '确认',
+                cancelText: '取消',
+                onOk: async () => {
+                  const success = await handleRemoveOne(rowData);
+                  if (success) {
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
                   }
-                }
-              },
-            });
-          }}
-        >
-          {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
-        </Button>,
-      ],
+                },
+              });
+            }}
+          >
+            {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
+          </Button>,
+        ];
+      },
     },
     {
       title: formatMessage({ id: 'pageTemplate.productModels', defaultMessage: '关联产品型号' }),
@@ -169,7 +177,7 @@ const PhysicalModel: React.FC = () => {
             type="primary"
             key="add"
             onClick={async () => {
-              setCurrentRow(undefined);
+              setCurrentRow({});
               setModalVisible(true);
               setShowType('add');
             }}
@@ -189,7 +197,7 @@ const PhysicalModel: React.FC = () => {
           }
           if (success) {
             setModalVisible(false);
-            setCurrentRow(undefined);
+            setCurrentRow({});
             if (actionRef.current) {
               actionRef.current.reload();
             }
@@ -197,11 +205,11 @@ const PhysicalModel: React.FC = () => {
         }}
         onCancel={() => {
           setModalVisible(false);
-          setCurrentRow(undefined);
+          setCurrentRow({});
         }}
         showType={showType}
         visible={modalVisible}
-        values={currentRow || {}}
+        values={currentRow}
       />
     </>
   );
