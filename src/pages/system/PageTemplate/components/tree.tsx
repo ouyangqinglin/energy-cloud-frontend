@@ -27,6 +27,10 @@ type ConfigTreeProps = {
   };
 };
 
+const getName = (name: any): string => {
+  return name?.props?.children[2] || name?.props?.children || name || '';
+};
+
 function removeItemFromTree(itemId, tree) {
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i];
@@ -46,7 +50,7 @@ function removeItemFromTree(itemId, tree) {
 
 const handleConfig = (data: any[], parentId: string) => {
   return data.map((item, index) => {
-    item.name = item.name.props ? item.name.props.children[2] : item.name;
+    item.name = getName(item.name);
     item.sortOrder = index;
     item.parentId = parentId;
     if (!parentId) item.type = 'page';
@@ -80,7 +84,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [autoExpandParent, setAutoExpandParent] = useState(true);
-  const [treeData, setTreeData] = useState<ModeTreeDataNode[]>([]);
+  const [treeData, setTreeData] = useState<ModeTreeDataNode[]>(defaultData);
   const [visible, setVisible] = useState<boolean>(false);
   const [modelTyep, setModelTyep] = useState<string>('add');
   const { data: physicalModelOption, run } = useRequest(getPage);
@@ -97,7 +101,14 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       }
     }
   };
-  generateList(defaultData);
+  generateList(treeData);
+
+  useMemo(() => {
+    if (configData?.config) {
+      generateList(configData.config);
+      setTreeData(() => configData.config);
+    }
+  }, [configData]);
 
   const onExpand = (newExpandedKeys: React.Key[]) => {
     setExpandedKeys(newExpandedKeys);
@@ -106,10 +117,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
 
   const treeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    console.log('dataList>>', dataList);
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.name.indexOf(value) > -1) {
-          return getParentKey(item.id, defaultData);
+        if (getName(item.name).indexOf(value) > -1) {
+          return getParentKey(item.id, treeData);
         }
         return null;
       })
@@ -118,17 +130,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     setSearchValue(value);
     setAutoExpandParent(true);
   };
-  // useMemo(() => {
-  //   if (configData?.config) {
-  //     generateList(configData.config);
-  //     setTreeData(() => configData.config);
-  //   }
-  // }, [configData]);
-
   useMemo(() => {
     const loop = (data: ModeTreeDataNode[]): any =>
       data.map((item) => {
-        const strTitle = item.name as string;
+        const strTitle = getName(item.name);
+        console.log('strTitle>>', strTitle);
         const index = strTitle.indexOf(searchValue);
         const beforeStr = strTitle.substring(0, index);
         const afterStr = strTitle.slice(index + searchValue.length);
@@ -152,7 +158,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
           id: item.id,
         };
       });
-    setTreeData(() => loop(defaultData));
+    setTreeData(() => loop(treeData));
   }, [searchValue]);
   /*
    *@Author: aoshilin
@@ -211,7 +217,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     setModelTyep('edit');
     const cloneNodeData = cloneDeep(nodeData);
     delete cloneNodeData.children;
-    cloneNodeData.name = nodeData.name.props ? nodeData.name.props.children[2] : nodeData.name;
+    cloneNodeData.name = getName(nodeData.name);
     const fieldConfig = JSON.stringify(cloneNodeData);
     form.setFieldsValue({ fieldConfig });
     treeNode = nodeData;
@@ -255,14 +261,9 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     setVisible(false);
     form.resetFields();
   };
-  const handleFinish = (value: any) => {
-    console.log('value>>', value);
-  };
-
   const setfieldConfig = () => {
-    const formData = form.getFieldsValue();
-    delete formData.fieldConfig;
-    form.setFieldValue('fieldConfig', JSON.stringify(formData));
+    const { type, name, id } = form.getFieldsValue();
+    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id }));
   };
   const handleNameChange = () => {
     setfieldConfig();
@@ -276,7 +277,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     if (type) {
       runField({ thingModelId, type });
     }
-    setfieldConfig();
   };
   const handleFieldChange = (id: string) => {
     const selectedOption = fieldOptions.find((option: ModeTreeDataNode) => option.id === id);
@@ -296,8 +296,8 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     run({ name: value });
   }, 700);
   const fieldSearch = debounce((name: any) => {
-    const type = form.getFieldValue('type');
-    runField({ name, type });
+    const { type, thingModelId } = form.getFieldsValue();
+    runField({ name, type, thingModelId });
   }, 700);
 
   const getTreeData = () => {
@@ -344,7 +344,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Form form={form} onFinish={handleFinish} layout="vertical">
+        <Form form={form} layout="vertical">
           <Row gutter={[16, 16]}>
             <Col span={8} order={1}>
               <ProFormSelect

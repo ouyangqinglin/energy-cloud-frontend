@@ -118,11 +118,11 @@ export const platformDefine = {
 };
 export const platformEnum = [
   {
-    label: 'app',
+    label: 'web',
     value: 0,
   },
   {
-    label: 'web',
+    label: 'app',
     value: 1,
   },
 ];
