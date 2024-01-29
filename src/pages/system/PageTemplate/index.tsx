@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getColumns } from './config';
@@ -15,7 +15,7 @@ const PhysicalModel: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [showType, setShowType] = useState<string>('add');
   const [currentRow, setCurrentRow] = useState<PhysicalModelType>();
-  const { data: productIdsEnum } = useRequest(getproduct) as any;
+  const productIdsEnum: any[] = useRequest(getproduct).data || [];
   /**
    * 添加节点
    *
@@ -81,13 +81,13 @@ const PhysicalModel: React.FC = () => {
   };
 
   const handleproduct = () => {
-    const data = productIdsEnum || ([] as any[]);
-    return data.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
+    const result = {};
+    productIdsEnum.forEach((item) => {
+      result[item.id] = {
+        text: item.model,
       };
     });
+    return result;
   };
   const operationColumn: ProColumns<PhysicalModelType>[] = [
     {
@@ -148,14 +148,14 @@ const PhysicalModel: React.FC = () => {
         </Button>,
       ],
     },
-    // {
-    //   title: formatMessage({ id: 'pageTemplate.productModels', defaultMessage: '关联产品型号' }),
-    //   dataIndex: 'productModels',
-    //   valueType: 'select',
-    //   ellipsis: true,
-    //   hideInTable: true,
-    //   valueEnum: handleproduct(),
-    // },
+    {
+      title: formatMessage({ id: 'pageTemplate.productModels', defaultMessage: '关联产品型号' }),
+      dataIndex: 'productId',
+      valueType: 'select',
+      ellipsis: true,
+      hideInTable: true,
+      valueEnum: handleproduct(),
+    },
   ];
   const columns = getColumns(operationColumn);
   return (

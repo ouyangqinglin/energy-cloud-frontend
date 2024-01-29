@@ -45,6 +45,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   const handleFinish = async (value: Record<string, any>) => {
     const formData = value;
     formData.config = treeRef.current.getTreeData();
+    formData.id = values.id;
     props.onSubmit(formData as MenuFormValueType);
   };
   return (
