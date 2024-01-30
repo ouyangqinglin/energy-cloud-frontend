@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-01-25 14:20:32
+ * @LastEditTime: 2024-01-29 09:15:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -107,11 +107,6 @@ export enum DeviceTypeEnum {
   YTEnergy = 66,
   YTEnergyMetterRAIG = 67,
   YTEnergyMetterDTSD = 68,
-  PvEnergy = 69,
-  PvEnergyBms = 70,
-  PvEnergyAir = 71,
-  PvEnergyPcs = 74,
-  PvEnergyMeter = 75,
   LiquidEnergyAir = 76,
   LiquidEnergyDehumidifier = 77,
   LiquidEnergyPcs = 79,
@@ -119,7 +114,6 @@ export enum DeviceTypeEnum {
   LiquidEnergyEms = 83,
   LiquidEnergy = 84,
   LiquidEnergyFireFight = 85,
-  PvEnergyFirFight = 86,
   YTEnergyMetterAKR = 87,
   Liquid2Ems = 89,
   Liquid2Air = 92,
@@ -136,6 +130,12 @@ export enum DeviceTypeEnum {
   SmallEnergyBatteryCluster = 111,
   SmallEnergyAir = 113,
   SmallEnergyFireFight = 114,
+  PvEnergy = 116,
+  PvEnergyEms = 117,
+  PvEnergyAir = 120,
+  PvEnergyPcs = 122,
+  PvEnergyFirFight = 121,
+  PvEnergyBms = 118,
   Device = 'default',
 }
 

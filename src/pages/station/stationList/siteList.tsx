@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-01-23 09:24:37
+ * @LastEditTime: 2024-01-26 16:49:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -177,7 +177,7 @@ const StationList: React.FC = () => {
       width: 150,
     },
     {
-      title: formatMessage({ id: 'common.upTime', defaultMessage: '上线时间' }),
+      title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
       dataIndex: 'deliveryTime',
       valueType: 'dateTime',
       hideInSearch: true,

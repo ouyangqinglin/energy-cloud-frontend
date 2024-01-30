@@ -335,4 +335,6 @@ export default {
   'device.softwareCoding': '软件编码',
   'device.systemMessage': '监听',
   'device.debug': '通信报文',
+  'device.alarmStatus': '告警状态',
+  'device.startOverallStatus': '启动总状态',
 };

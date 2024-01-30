@@ -345,4 +345,6 @@ export default {
   'device.softwareCoding': 'Software coding',
   'device.systemMessage': 'monitor',
   'device.debug': 'Communication message',
+  'device.alarmStatus': 'Alarm status',
+  'device.startOverallStatus': 'Start overall status',
 };

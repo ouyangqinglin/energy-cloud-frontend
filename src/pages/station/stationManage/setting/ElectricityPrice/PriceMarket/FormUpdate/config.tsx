@@ -114,14 +114,6 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     columns: [
       {
         title: '功率因数考核',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '请输入功率因数考核',
-            },
-          ],
-        },
         fieldProps: {
           placeholder: '请输入',
           className: 'w-full',
@@ -136,14 +128,6 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         title: '基本电费类型',
         dataIndex: 'electricityType',
         valueType: 'select',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '请选择基本电费类型',
-            },
-          ],
-        },
         fieldProps: {
           className: 'w-full',
         },
@@ -156,14 +140,6 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         title: '最大需量/容量',
         dataIndex: 'maxDemand',
         valueType: 'digit',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '请选择最大需量/容量',
-            },
-          ],
-        },
         fieldProps: {
           placeholder: '请输入',
           addonAfter: 'kW',
@@ -177,14 +153,6 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         title: '需量/容量电费',
         dataIndex: 'demandElectrovalency',
         valueType: 'digit',
-        formItemProps: {
-          rules: [
-            {
-              required: true,
-              message: '请选择需量/容量电费',
-            },
-          ],
-        },
         fieldProps: {
           placeholder: '请输入',
           addonAfter: '元',
