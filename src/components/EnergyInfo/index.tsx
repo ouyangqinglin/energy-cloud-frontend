@@ -34,6 +34,7 @@ const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.Liquid2Energy,
   DeviceTypeEnum.Wind2Energy,
   DeviceTypeEnum.PvEnergy,
+  DeviceTypeEnum.SmallEnergy,
 ];
 
 const EnergyInfo: React.FC<EnergyInfoProps> = (props) => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 10:17:50
- * @LastEditTime: 2024-01-06 10:41:55
+ * @LastEditTime: 2024-01-30 09:08:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\ElectricDiagram\index.tsx
  */

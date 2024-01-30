@@ -120,9 +120,10 @@ export class HttpRequest implements HttpRequestType {
     });
 
     this.instance.interceptors.request.use((url, options) => {
-      const headers = options.headers ? options.headers : [];
+      const headers = options?.headers || {};
       headers['Accept-Language'] = localStorage.getItem('umi_locale');
-      if (headers['Authorization'] === '' || headers['Authorization'] == null) {
+      const { pathname } = history.location;
+      if (!headers['Authorization'] && !defaultSettings.authorityWhiteList?.includes?.(pathname)) {
         const expireTime = getTokenExpireTime();
         if (expireTime) {
           const left = Number(expireTime) - new Date().getTime();
