@@ -9,8 +9,10 @@ import EnergyCabinet from '@/components/ScreenDialog/EnergyCabinet';
 import BoxSubstation from '@/components/ScreenDialog/BoxSubstation';
 import HwChargeChild from '@/components/ScreenDialog/HwChargeChild';
 import HwChargeYt from '@/components/ScreenDialog/HwChargeYt';
+import HwChargeSuperChild from '@/assets/image/product/hw-charge-super-child.png';
 import { assign } from 'lodash';
 import Device from '@/components/ScreenDialog/Device';
+import { DeviceMark } from '../type';
 
 type Props = {
   deviceId?: number;
@@ -18,6 +20,7 @@ type Props = {
   onCancel?: () => void;
   loopNum?: number;
   open: boolean;
+  mark?: number;
 };
 
 const DEFAULT_STATUS = {
@@ -75,10 +78,11 @@ const DeviceDialog: React.FC<Props> = (props) => {
   }
 
   const restProps = {
-    id: props.deviceId as string,
+    id: props.deviceId as any,
     model: 'screen',
     onCancel: close,
     loopNum: props.loopNum as number,
+    deviceImg: props?.mark == DeviceMark.HW_CHARGING_TERMINAL_3 ? HwChargeSuperChild : '',
   };
 
   return (
