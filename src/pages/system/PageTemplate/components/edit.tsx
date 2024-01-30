@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import { useRequest } from 'umi';
 import { Form, Modal, Row, Col } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
-import type { PageTemplateType } from '../data';
-import { platformEnum } from '../config';
+import type { PageTemplateType, ModeTreeDataNode } from '../data';
+import { platformEnum, defaultData } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
+import { cloneDeep } from 'lodash';
 
 export type MenuFormProps = {
   onCancel: () => void;
@@ -16,6 +17,16 @@ export type MenuFormProps = {
   showType: string;
 };
 
+const handleConfigData = (data, parentId, parentType) => {
+  return data.map((item) => {
+    item.key = parentId + parentType + item.id + item.type;
+    if (item.children && item.children.length > 0) {
+      item.children = handleConfigData(item.children, item.id, item.type);
+    }
+    return item;
+  });
+};
+
 const MenuForm: React.FC<MenuFormProps> = (props) => {
   const { showType, visible, values } = props;
   const [form] = Form.useForm();
@@ -23,11 +34,16 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   const intl = useIntl();
   const { data: productIdsEnum, run } = useRequest(getproduct, { manual: true });
   const { data: configData, run: getConfigData } = useRequest(getproductDetail, { manual: true });
+  const [config, setConfig] = useState<ModeTreeDataNode[]>([]);
 
   useEffect(() => {
     if (visible) {
       form.resetFields();
-      if (showType !== 'add') getConfigData({ id: values.id });
+      if (showType == 'add') {
+        setConfig(() => defaultData);
+      } else {
+        getConfigData({ id: values.id });
+      }
     }
   }, [visible, showType]);
   useEffect(() => {
@@ -37,6 +53,8 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       productIds: configData?.productIds,
       platform: configData?.platform,
     });
+    const currentConfig = cloneDeep(configData?.config) || [];
+    setConfig(() => handleConfigData(currentConfig, '', ''));
   }, [configData]);
   const handleCancel = () => {
     props.onCancel();
@@ -52,6 +70,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     const formData = value;
     formData.config = treeRef.current.getTreeData();
     formData.id = values.id;
+    console.log('formData>>', formData);
     props.onSubmit(formData as PageTemplateType);
   };
   const onPlatformChange = (value: string) => {
@@ -139,7 +158,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         </Row>
         <Row gutter={[16, 16]}>
           <Col span={24} order={1}>
-            <ConfigTree ref={treeRef} configData={configData} />
+            <ConfigTree ref={treeRef} config={config} />
           </Col>
         </Row>
       </Form>

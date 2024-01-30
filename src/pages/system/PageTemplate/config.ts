@@ -49,6 +49,7 @@ export const defaultData: TreeDataNode[] = [
   {
     name: '运行数据',
     id: 'runningData',
+    key: 'runningDatapage',
     sortOrder: 1,
     draggable: false, // 设置节点不可拖动
     type: 'page',
@@ -57,6 +58,7 @@ export const defaultData: TreeDataNode[] = [
   {
     name: '远程控制',
     id: 'remoteControl',
+    key: 'remoteControlpage',
     sortOrder: 2,
     draggable: false, // 设置节点不可拖动
     type: 'page',
@@ -66,6 +68,7 @@ export const defaultData: TreeDataNode[] = [
     name: '配置',
     id: 'config',
     sortOrder: 3,
+    key: 'configpage',
     draggable: false, // 设置节点不可拖动
     type: 'page',
     children: [],
