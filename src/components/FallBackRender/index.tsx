@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-11 11:11:57
- * @LastEditTime: 2024-01-11 11:11:58
+ * @LastEditTime: 2024-01-30 10:51:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\FallBackRender\index.tsx
  */
@@ -11,7 +11,7 @@ import { FallbackProps } from 'react-error-boundary';
 
 const FallBackRender: React.FC<FallbackProps> = (props) => {
   const { error } = props;
-
+  console.log('wahaha', error);
   return (
     <>
       <div role="alert">
