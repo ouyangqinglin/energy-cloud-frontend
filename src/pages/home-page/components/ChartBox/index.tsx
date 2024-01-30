@@ -245,8 +245,9 @@ const ChartBox = ({
             ...deepData,
             name: formatMessage({
               id: 'index.chart.chargeIncome',
-              defaultMessage: '充电桩收益/元',
+              defaultMessage: '充电桩收益1/元',
             }),
+            type: 'bar',
             color: '#01cfa1',
           });
           data = chartData?.csIncome || [];
