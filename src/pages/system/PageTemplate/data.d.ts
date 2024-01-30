@@ -1,3 +1,4 @@
+import type { TreeDataNode } from 'antd';
 export type ConfigType = {
   id: string;
   name: string | null;
@@ -16,4 +17,9 @@ export type PageTemplateType = {
   productIds: string[];
   platform: 0 | 1;
   productModels: string[];
+};
+
+export type ModeTreeDataNode = TreeDataNode & {
+  id?: string | number;
+  name?: string;
 };

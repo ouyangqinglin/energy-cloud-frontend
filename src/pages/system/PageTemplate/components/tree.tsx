@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useImperativeHandle, forwardRef } from 'react';
 import { Tree, Input } from 'antd';
-import type { TreeDataNode, TreeProps } from 'antd';
+import type { TreeProps } from 'antd';
 import { Modal, Row, Form, Col } from 'antd';
-import { typeOption } from '../config';
+import { typeOption, getUniqueNumber } from '../config';
+import type { ModeTreeDataNode } from '../data';
 import { useIntl, useRequest, FormattedMessage } from 'umi';
 import { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { getPage, getTypePage } from '../service';
@@ -12,19 +13,11 @@ import {
   PlusCircleOutlined,
   MinusCircleOutlined,
 } from '@ant-design/icons';
-import { defaultData } from '../config';
 import { cloneDeep, debounce } from 'lodash';
 const { Search } = Input;
 
-type ModeTreeDataNode = TreeDataNode & {
-  id?: string | number;
-  name?: string;
-};
-
 type ConfigTreeProps = {
-  configData?: {
-    config?: any[];
-  };
+  config?: ModeTreeDataNode[];
 };
 
 const getName = (name: any): string => {
@@ -34,7 +27,7 @@ const getName = (name: any): string => {
 function removeItemFromTree(itemId, tree) {
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i];
-    if (item.id === itemId) {
+    if (item.key === itemId) {
       tree.splice(i, 1); // 从数组中移除项
       return true; // 返回true表示成功删除
     }
@@ -53,6 +46,8 @@ const handleConfig = (data: any[], parentId: string) => {
     item.name = getName(item.name);
     item.sortOrder = index;
     item.parentId = parentId;
+    item.disabled = item.enable;
+    delete item.enable;
     if (!parentId) item.type = 'page';
     if (item.children && item.children.length > 0) {
       item.children = handleConfig(item.children, item.id);
@@ -61,15 +56,15 @@ const handleConfig = (data: any[], parentId: string) => {
   });
 };
 
-const getParentKey = (id: string, tree: ModeTreeDataNode[]): string => {
+const getParentKey = (key: string, tree: ModeTreeDataNode[]): string => {
   let parentKey: string = '';
   for (let i = 0; i < tree.length; i++) {
     const node = tree[i];
     if (node.children) {
-      if (node.children.some((item) => item.id === id)) {
-        parentKey = node.id;
-      } else if (getParentKey(id, node.children)) {
-        parentKey = getParentKey(id, node.children);
+      if (node.children.some((item) => item.key === key)) {
+        parentKey = node.key;
+      } else if (getParentKey(key, node.children)) {
+        parentKey = getParentKey(key, node.children);
       }
     }
   }
@@ -79,22 +74,22 @@ let treeNode: ModeTreeDataNode;
 
 const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const intl = useIntl();
-  const { configData } = props;
+  const { config } = props;
   const [form] = Form.useForm();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
-  const [treeData, setTreeData] = useState<ModeTreeDataNode[]>(defaultData);
+  const [treeData, setTreeData] = useState<ModeTreeDataNode[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [modelTyep, setModelTyep] = useState<string>('add');
   const { data: physicalModelOption, run } = useRequest(getPage);
   const { data: fieldOptions, run: runField } = useRequest(getTypePage, { manual: true });
 
-  const dataList: { id: React.Key; name: string }[] = [];
+  const dataList: { key: React.Key; name: string }[] = [];
   const generateList = (data: ModeTreeDataNode[]) => {
     for (let i = 0; i < data.length; i++) {
       const node = data[i];
-      const { id, name } = node;
-      dataList.push({ id, name: name as string });
+      const { key, name } = node;
+      dataList.push({ key, name: name as string });
       if (node.children) {
         generateList(node.children);
       }
@@ -103,11 +98,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   generateList(treeData);
 
   useMemo(() => {
-    if (configData?.config) {
-      generateList(configData.config);
-      setTreeData(() => configData.config);
+    if (config) {
+      generateList(config);
+      setTreeData(() => config);
     }
-  }, [configData]);
+  }, [config]);
 
   const onExpand = (newExpandedKeys: React.Key[]) => {
     setExpandedKeys(newExpandedKeys);
@@ -119,7 +114,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     const newExpandedKeys = dataList
       .map((item) => {
         if (getName(item.name).indexOf(value) > -1) {
-          return getParentKey(item.id, treeData);
+          return getParentKey(item.key, treeData);
         }
         return null;
       })
@@ -134,21 +129,21 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
    *@Description: 拖动tree更新数据
    */
   const onDrop: TreeProps['onDrop'] = (info: any) => {
-    const dropKey = info.node.id;
-    const dragKey = info.dragNode.id;
+    const dropKey = info.node.key;
+    const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
     const loop = (
       data: ModeTreeDataNode[],
-      id: React.Key,
+      key: React.Key,
       callback: (node: ModeTreeDataNode, i: number, data: ModeTreeDataNode[]) => void,
     ) => {
       for (let i = 0; i < data.length; i++) {
-        if (data[i].id === id) {
+        if (data[i].key === key) {
           return callback(data[i], i, data);
         }
         if (data[i].children) {
-          loop(data[i].children!, id, callback);
+          loop(data[i].children!, key, callback);
         }
       }
     };
@@ -183,8 +178,10 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const editTree = (nodeData: ModeTreeDataNode) => {
     setModelTyep('edit');
     const cloneNodeData = cloneDeep(nodeData);
-    delete cloneNodeData.children;
     cloneNodeData.name = getName(nodeData.name);
+    cloneNodeData.disabled = cloneNodeData.enable;
+    delete cloneNodeData.enable;
+    delete cloneNodeData.children;
     const fieldConfig = JSON.stringify(cloneNodeData);
     form.setFieldsValue({ fieldConfig });
     treeNode = nodeData;
@@ -197,7 +194,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       okText: '确认',
       cancelText: '取消',
       onOk: async () => {
-        removeItemFromTree(nodeData.id, treeData);
+        removeItemFromTree(nodeData.key, treeData);
         setTreeData(() => [...treeData]);
       },
     });
@@ -209,16 +206,23 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   };
   const handleOk = () => {
     const fieldConfig = JSON.parse(form.getFieldValue('fieldConfig'));
+    if (fieldConfig.hasOwnProperty('disabled')) {
+      fieldConfig.enable = fieldConfig.disabled;
+      delete fieldConfig.disabled;
+    }
     if (modelTyep == 'add') {
       //新增
       if (!treeNode.children) {
         treeNode.children = [];
       }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      fieldConfig.key = getUniqueNumber();
       treeNode.children.push(fieldConfig);
     } else {
       //编辑
-      treeNode.name = fieldConfig.name;
-      if (fieldConfig.id) treeNode.id = fieldConfig.id;
+      Object.keys(fieldConfig).forEach((key) => {
+        treeNode[key] = fieldConfig[key];
+      });
     }
     form.resetFields();
     setTreeData(() => [...treeData]);
@@ -287,10 +291,10 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         draggable
         selectable={false}
         onDrop={onDrop}
-        fieldNames={{ title: 'name', key: 'id' }}
+        fieldNames={{ title: 'name' }}
         titleRender={(nodeData: ModeTreeDataNode) => (
           <>
-            {nodeData.name}
+            {nodeData?.modelName ? `${nodeData.name}(${nodeData?.modelName})` : nodeData.name}
             <EditOutlined style={{ marginLeft: '20px' }} onClick={() => editTree(nodeData)} />
             <PlusCircleOutlined style={{ marginLeft: '10px' }} onClick={() => addTree(nodeData)} />
             {nodeData.id !== 'runningData' ? (
