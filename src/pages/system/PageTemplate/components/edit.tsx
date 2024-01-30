@@ -4,7 +4,7 @@ import { useRequest } from 'umi';
 import { Form, Modal, Row, Col } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import type { PageTemplateType, ModeTreeDataNode } from '../data';
-import { platformEnum, defaultData } from '../config';
+import { platformEnum, defaultData, getUniqueNumber } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
 import { cloneDeep } from 'lodash';
@@ -17,11 +17,13 @@ export type MenuFormProps = {
   showType: string;
 };
 
-const handleConfigData = (data, parentId, parentType) => {
+const handleConfigData = (data) => {
   return data.map((item) => {
-    item.key = parentId + parentType + item.id + item.type;
+    item.key = getUniqueNumber();
+    item.enable = item.disabled;
+    delete item.disabled;
     if (item.children && item.children.length > 0) {
-      item.children = handleConfigData(item.children, item.id, item.type);
+      item.children = handleConfigData(item.children);
     }
     return item;
   });
@@ -54,7 +56,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       platform: configData?.platform,
     });
     const currentConfig = cloneDeep(configData?.config) || [];
-    setConfig(() => handleConfigData(currentConfig, '', ''));
+    setConfig(() => handleConfigData(currentConfig));
   }, [configData]);
   const handleCancel = () => {
     props.onCancel();
@@ -71,6 +73,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     formData.config = treeRef.current.getTreeData();
     formData.id = values.id;
     console.log('formData>>', formData);
+    return;
     props.onSubmit(formData as PageTemplateType);
   };
   const onPlatformChange = (value: string) => {

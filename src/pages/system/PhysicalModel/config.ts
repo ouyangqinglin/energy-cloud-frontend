@@ -1,7 +1,6 @@
 import { formatMessage } from '@/utils';
-import type { ProColumns, ProColumnType } from '@ant-design/pro-components';
+import type { ProColumnType } from '@ant-design/pro-components';
 import type { TabsProps } from 'antd';
-import type { PhysicalModelFormType } from './data';
 
 export const tabsItem: TabsProps['items'] = [
   {

@@ -78,13 +78,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form
-        form={form}
-        onFinish={handleFinish}
-        initialValues={values}
-        layout="vertical"
-        onValuesChange={handleInputChange}
-      >
+      <Form form={form} onFinish={handleFinish} initialValues={values} layout="vertical">
         <Row gutter={[16, 16]}>
           <Col span={12} order={1}>
             <ProFormText
@@ -159,7 +153,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                 type: 'radio', // 设置选择类型为单选
                 onChange: (_, selectedRows: any) => {
                   form.setFieldsValue({
-                    json: selectedRows[0]?.json || '',
+                    json: JSON.stringify(selectedRows[0]?.json || ''),
                     id: selectedRows[0]?.id || '',
                     name: selectedRows[0]?.name || '',
                   });
