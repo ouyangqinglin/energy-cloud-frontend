@@ -15,7 +15,7 @@ const PhysicalModel: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [showType, setShowType] = useState<'add' | 'edit' | 'check'>('add');
   const [currentRow, setCurrentRow] = useState<Partial<PageTemplateType>>({});
-  const productIdsEnum: any[] = useRequest(getproduct).data || [];
+  const productIdsEnum = useRequest(getproduct).data || [];
   /*
    *@Author: aoshilin
    *@Date: 2024-01-29 17:35:23
@@ -87,7 +87,7 @@ const PhysicalModel: React.FC = () => {
 
   const handleproduct = () => {
     const result = {} as any;
-    productIdsEnum.forEach((item) => {
+    productIdsEnum.forEach((item: any) => {
       result[item.id] = {
         text: item.model,
       };

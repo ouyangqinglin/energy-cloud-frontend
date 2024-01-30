@@ -43,13 +43,13 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
 
   const handleThingsConfig = (data: ThingsConfigType): ThingsConfigType => {
-    const result = initThingsConfig;
+    const result: ThingsConfigType = initThingsConfig;
     Object.keys(data).forEach((key) => {
-      const item = data[key].map((i) => {
+      const item = data[key as keyof typeof data].map((i: any) => {
         i.json = JSON.stringify(i);
         return i;
       });
-      result[key] = item;
+      result[key as keyof typeof result] = item;
     });
     return result;
   };
@@ -182,9 +182,11 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   };
   const handleRemoveOne = (record: FieldFormType) => {
     const cloneThingsConfig = cloneDeep(thingsConfig);
-    const key = typeObj[type];
-    const index = cloneThingsConfig[key].findIndex((item) => item.id == record.id);
-    cloneThingsConfig[key].splice(index, 1);
+    const key = typeObj[type as keyof typeof typeObj];
+    const index = cloneThingsConfig[key as keyof typeof cloneThingsConfig].findIndex(
+      (item) => item.id == record.id,
+    );
+    cloneThingsConfig[key as keyof typeof cloneThingsConfig].splice(index, 1);
     setThingsConfig(cloneThingsConfig);
     return true;
   };
