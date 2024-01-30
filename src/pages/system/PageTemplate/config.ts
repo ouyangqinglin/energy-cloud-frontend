@@ -1,7 +1,6 @@
 import { formatMessage } from '@/utils';
 import type { TabsProps, TreeDataNode } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-components';
-
 export const tabsItem: TabsProps['items'] = [
   {
     key: 'property',
@@ -148,3 +147,5 @@ export const getColumns = (operationColumn: ProColumnType[]): ProColumnType[] =>
   },
   ...operationColumn,
 ];
+
+export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);

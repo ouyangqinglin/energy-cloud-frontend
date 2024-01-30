@@ -2,7 +2,7 @@ import React, { useState, useMemo, useImperativeHandle, forwardRef } from 'react
 import { Tree, Input } from 'antd';
 import type { TreeProps } from 'antd';
 import { Modal, Row, Form, Col } from 'antd';
-import { typeOption } from '../config';
+import { typeOption, getUniqueNumber } from '../config';
 import type { ModeTreeDataNode } from '../data';
 import { useIntl, useRequest, FormattedMessage } from 'umi';
 import { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
@@ -215,8 +215,8 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       if (!treeNode.children) {
         treeNode.children = [];
       }
-      fieldConfig.key = treeNode.id + treeNode.type + fieldConfig.id + fieldConfig.type;
-
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      fieldConfig.key = getUniqueNumber();
       treeNode.children.push(fieldConfig);
     } else {
       //编辑
