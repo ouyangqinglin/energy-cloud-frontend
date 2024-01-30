@@ -20,6 +20,8 @@ export type MenuFormProps = {
 const handleConfigData = (data, parentId, parentType) => {
   return data.map((item) => {
     item.key = parentId + parentType + item.id + item.type;
+    item.enable = item.disabled;
+    delete item.disabled;
     if (item.children && item.children.length > 0) {
       item.children = handleConfigData(item.children, item.id, item.type);
     }

@@ -46,6 +46,8 @@ const handleConfig = (data: any[], parentId: string) => {
     item.name = getName(item.name);
     item.sortOrder = index;
     item.parentId = parentId;
+    item.disabled = item.enable;
+    delete item.enable;
     if (!parentId) item.type = 'page';
     if (item.children && item.children.length > 0) {
       item.children = handleConfig(item.children, item.id);
@@ -176,8 +178,10 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const editTree = (nodeData: ModeTreeDataNode) => {
     setModelTyep('edit');
     const cloneNodeData = cloneDeep(nodeData);
-    delete cloneNodeData.children;
     cloneNodeData.name = getName(nodeData.name);
+    cloneNodeData.disabled = cloneNodeData.enable;
+    delete cloneNodeData.enable;
+    delete cloneNodeData.children;
     const fieldConfig = JSON.stringify(cloneNodeData);
     form.setFieldsValue({ fieldConfig });
     treeNode = nodeData;
@@ -202,12 +206,17 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   };
   const handleOk = () => {
     const fieldConfig = JSON.parse(form.getFieldValue('fieldConfig'));
+    if (fieldConfig.hasOwnProperty('disabled')) {
+      fieldConfig.enable = fieldConfig.disabled;
+      delete fieldConfig.disabled;
+    }
     if (modelTyep == 'add') {
       //新增
       if (!treeNode.children) {
         treeNode.children = [];
       }
       fieldConfig.key = treeNode.id + treeNode.type + fieldConfig.id + fieldConfig.type;
+
       treeNode.children.push(fieldConfig);
     } else {
       //编辑
@@ -285,7 +294,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         fieldNames={{ title: 'name' }}
         titleRender={(nodeData: ModeTreeDataNode) => (
           <>
-            {nodeData.name}
+            {nodeData?.modelName ? `${nodeData.name}(${nodeData?.modelName})` : nodeData.name}
             <EditOutlined style={{ marginLeft: '20px' }} onClick={() => editTree(nodeData)} />
             <PlusCircleOutlined style={{ marginLeft: '10px' }} onClick={() => addTree(nodeData)} />
             {nodeData.id !== 'runningData' ? (
