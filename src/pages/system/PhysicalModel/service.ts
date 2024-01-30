@@ -1,10 +1,10 @@
 import request from '@/utils/request';
 import type { ResponsePageData } from '@/utils/request';
 
-import type { PhysicalModelType } from './config';
+import type { PhysicalModelFormType } from './data';
 
 export const getPage = (params: any) => {
-  return request<ResponsePageData<PhysicalModelType>>(`/iot/model/page`, {
+  return request<ResponsePageData<PhysicalModelFormType>>(`/iot/model/page`, {
     method: 'GET',
     params,
   });

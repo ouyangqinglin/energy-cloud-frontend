@@ -1,27 +1,64 @@
-/*
- * @Description:
- * @Author: YangJianFei
- * @Date: 2023-08-17 17:00:18
- * @LastEditTime: 2023-08-17 17:00:18
- * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\product-manage\Product\service.ts
- */
+import request from '@/utils/request';
+import type { ResponsePageData } from '@/utils/request';
 
-import request, { ResponsePageData } from '@/utils/request';
-import { ProductDataType } from './config';
+import type { PhysicalModelType } from './config';
 
 export const getPage = (params: any) => {
-  return request<ResponsePageData<ProductDataType>>(`/iot/product/page`, {
+  return request<ResponsePageData<PhysicalModelType>>(`/iot/model/page`, {
+    method: 'GET',
+    params,
+  });
+};
+export const getTypePage = (params: any) => {
+  return request(`/iot/model/modelFieldList`, {
     method: 'GET',
     params,
   });
 };
 
-export const getData = (id: string) => {
-  return request(`/iot/product`, {
+export const getDetail = (params: any) => {
+  return request(`/iot/model`, {
     method: 'GET',
-    params: {
-      productId: id,
-    },
+    params,
+  });
+};
+
+export const addMenu = (params: any) => {
+  return request(`/iot/productConfig/save`, {
+    method: 'POST',
+    data: params,
+  });
+};
+
+export const deleteMenu = (params: any) => {
+  return request(`/iot/productConfig/delete`, {
+    method: 'DELETE',
+    data: params,
+  });
+};
+
+export const updateMenu = (params: any) => {
+  return request(`/iot/productConfig/update`, {
+    method: 'PUT',
+    data: params,
+  });
+};
+
+export const getPageTemplate = (params: any) => {
+  return request<ResponsePageData<PhysicalModelType>>(`/iot/productConfig/page`, {
+    method: 'GET',
+    params,
+  });
+};
+export const getproduct = (params: any) => {
+  return request<ResponsePageData<PhysicalModelType>>(`/iot/product/getListByModel`, {
+    method: 'GET',
+    params,
+  });
+};
+export const getproductDetail = (params: any) => {
+  return request<ResponsePageData<PhysicalModelType>>(`/iot/productConfig/detail`, {
+    method: 'GET',
+    params,
   });
 };

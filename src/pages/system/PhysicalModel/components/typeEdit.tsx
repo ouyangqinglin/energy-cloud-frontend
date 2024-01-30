@@ -1,44 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, message } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
-import type { DataNode } from 'antd/lib/tree';
-import type { MenuType } from '../config';
+import type { FieldFormType, FieldType } from '../data';
 import YTProTable from '@/components/YTProTable';
+import type { ActionType } from '@ant-design/pro-components';
 import { fieldColumns } from '../config';
 import { getTypePage } from '../service';
 
-export type MenuFormValueType = Record<string, unknown> & Partial<MenuType>;
-export type MenuFormProps = {
-  onCancel: (flag?: boolean, formVals?: MenuFormValueType) => void;
-  onSubmit: (values: MenuFormValueType) => Promise<void>;
+export type TypeEditProps = {
+  onCancel: () => void;
+  onSubmit: (values: FieldFormType) => Promise<void>;
   visible: boolean;
-  values: any;
-  visibleOptions: any;
-  statusOptions: any;
-  menuTree: DataNode[];
+  values: FieldFormType;
   type: string;
-  existItem: any[];
+  existItem: string[];
 };
 
-const TypeEdit: React.FC<MenuFormProps> = (props) => {
-  const { type, existItem } = props;
+const TypeEdit: React.FC<TypeEditProps> = (props) => {
+  const { type, existItem, values } = props;
   const [form] = Form.useForm();
-  const oldId = props.values?.id;
+  const oldId = values?.id;
   const isEdit = Boolean(oldId);
-  const [dataSource, setDataSource] = useState<any>([]);
+  const [dataSource, setDataSource] = useState<FieldType[]>([]);
+  const actionRef = useRef<ActionType>();
 
-  const handleSearch = async (params: object) => {
+  const handleSearch = async (params: Partial<FieldType>) => {
     const { data, code } = await getTypePage({ ...params, type });
-    if (code == '200') {
-      setDataSource([]);
-      setDataSource(() =>
-        data.map((item: any) => {
-          item.json = JSON.stringify(item.json);
-          return item;
-        }),
-      );
-    }
+    if (code == '200') setDataSource(data);
   };
   useEffect(() => {
     form.resetFields();
@@ -59,8 +48,8 @@ const TypeEdit: React.FC<MenuFormProps> = (props) => {
     form.resetFields();
     setDataSource(() => []);
   };
-  const handleFinish = async (value: Record<string, any>) => {
-    const formData = value as MenuFormValueType;
+  const handleFinish = async (value: FieldFormType) => {
+    const formData = value;
     if (isEdit) formData.oldId = oldId;
     props.onSubmit(formData);
   };
@@ -89,7 +78,13 @@ const TypeEdit: React.FC<MenuFormProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} onFinish={handleFinish} initialValues={props.values} layout="vertical">
+      <Form
+        form={form}
+        onFinish={handleFinish}
+        initialValues={values}
+        layout="vertical"
+        onValuesChange={handleInputChange}
+      >
         <Row gutter={[16, 16]}>
           <Col span={12} order={1}>
             <ProFormText
@@ -156,6 +151,7 @@ const TypeEdit: React.FC<MenuFormProps> = (props) => {
             <YTProTable
               columns={fieldColumns}
               onSubmit={handleSearch}
+              actionRef={actionRef}
               dataSource={dataSource}
               pagination={false}
               toolBarRender={() => []}
