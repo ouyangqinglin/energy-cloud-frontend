@@ -27,15 +27,17 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   useEffect(() => {
     if (visible) {
       form.resetFields();
-      run({});
-      form.setFieldsValue({
-        name: configData?.name,
-        productIds: configData?.productIds,
-        platform: configData?.platform,
-      });
-      showType !== 'add' && getConfigData({ id: values.id });
+      if (showType !== 'add') getConfigData({ id: values.id });
     }
-  }, [configData, form, getConfigData, run, showType, values, visible]);
+  }, [visible, showType]);
+  useEffect(() => {
+    run({ platform: configData?.platform, productConfigId: configData?.id });
+    form.setFieldsValue({
+      name: configData?.name,
+      productIds: configData?.productIds,
+      platform: configData?.platform,
+    });
+  }, [configData]);
   const handleCancel = () => {
     props.onCancel();
   };
@@ -51,6 +53,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     formData.config = treeRef.current.getTreeData();
     formData.id = values.id;
     props.onSubmit(formData as PageTemplateType);
+  };
+  const onPlatformChange = (value: string) => {
+    form.setFieldsValue({
+      productIds: [],
+    });
+    run({ platform: value, productConfigId: values?.id });
   };
   return (
     <Modal
@@ -70,6 +78,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             <ProFormSelect
               options={platformEnum}
               width="xl"
+              onChange={onPlatformChange}
               name="platform"
               label={intl.formatMessage({
                 id: 'pageTemplate.platform',
