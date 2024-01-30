@@ -52,7 +52,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       },
     },
     {
-      title: formatMessage({ id: 'system.installerName', defaultMessage: '安装商名称' }),
+      title: formatMessage({ id: 'system.organizationName', defaultMessage: '组织名称' }),
       formItemProps: {
         rules: [
           {
@@ -64,7 +64,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       dataIndex: ['orgName'],
     },
     {
-      title: formatMessage({ id: 'system.installer', defaultMessage: '安装商' }) + 'ID',
+      title: formatMessage({ id: 'system.organizationId', defaultMessage: '组织ID' }),
       dataIndex: ['orgId'],
       fieldProps: {
         value: orgId,

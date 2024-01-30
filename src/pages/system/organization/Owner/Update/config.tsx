@@ -112,7 +112,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       }),
     },
     {
-      title: formatMessage({ id: 'system.ownerName', defaultMessage: '业主名称' }),
+      title: formatMessage({ id: 'system.organizationName', defaultMessage: '组织名称' }),
       formItemProps: {
         rules: [
           {
@@ -124,7 +124,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       dataIndex: ['orgName'],
     },
     {
-      title: formatMessage({ id: 'system.ownerId', defaultMessage: '业主ID' }),
+      title: formatMessage({ id: 'system.organizationId', defaultMessage: '组织ID' }),
       fieldProps: {
         value: orgId,
         disabled: true,

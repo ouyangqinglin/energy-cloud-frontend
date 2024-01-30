@@ -16,7 +16,10 @@ const FallBackRender: React.FC<FallbackProps> = (props) => {
     let result = false;
     try {
       const message = JSON.stringify(error.message);
-      result = message.indexOf('Loading chunk') > -1;
+      result =
+        message.indexOf('Loading') > -1 &&
+        message.indexOf('chunk') > -1 &&
+        message.indexOf('failed') > -1;
     } catch {
       result = false;
     }
