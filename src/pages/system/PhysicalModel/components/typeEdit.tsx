@@ -12,7 +12,7 @@ export type TypeEditProps = {
   onCancel: () => void;
   onSubmit: (values: FieldFormType) => Promise<void>;
   visible: boolean;
-  values: FieldFormType;
+  values: Partial<FieldFormType>;
   type: string;
   existItem: string[];
 };

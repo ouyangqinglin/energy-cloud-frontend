@@ -72,8 +72,6 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     const formData = value;
     formData.config = treeRef.current.getTreeData();
     formData.id = values.id;
-    console.log('formData>>', formData);
-    return;
     props.onSubmit(formData as PageTemplateType);
   };
   const onPlatformChange = (value: string) => {
