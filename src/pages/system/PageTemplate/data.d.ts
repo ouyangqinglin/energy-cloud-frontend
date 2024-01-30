@@ -1,15 +1,21 @@
-import type { TreeDataNode } from 'antd';
-export type ConfigType = {
-  id: string;
-  name: string | null;
-  parentId: string;
-  sortOrder: number;
-  type: string;
-};
+import type { TreeDataNode, ReactNode } from 'antd';
+export interface ModeTreeDataNode extends TreeDataNode {
+  id?: string | number;
+  name?: string | ReactNode;
+  title?: string | ReactNode;
+  sortOrder?: number;
+  draggable?: boolean;
+  type?: string;
+  key?: string;
+  parentId?: string;
+  disabled?: boolean;
+  enable?: boolean;
+  modelName?: string;
+}
 
 export type PageTemplateType = {
   id: number;
-  config: ConfigType | null;
+  config: ModeTreeDataNode[] | undefined | null;
   editable: 0 | 1;
   name: string | null;
   remark: string | null;
@@ -17,9 +23,4 @@ export type PageTemplateType = {
   productIds: string[];
   platform: 0 | 1;
   productModels: string[];
-};
-
-export type ModeTreeDataNode = TreeDataNode & {
-  id?: string | number;
-  name?: string;
 };

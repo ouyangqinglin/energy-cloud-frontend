@@ -7,7 +7,6 @@ import type { PageTemplateType, ModeTreeDataNode } from '../data';
 import { platformEnum, defaultData, getUniqueNumber } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
-import { cloneDeep } from 'lodash';
 
 export type MenuFormProps = {
   onCancel: () => void;
@@ -16,8 +15,8 @@ export type MenuFormProps = {
   values: Partial<PageTemplateType>;
   showType: string;
 };
-
-const handleConfigData = (data) => {
+const handleConfigData = (data: ModeTreeDataNode[] | undefined | null) => {
+  if (!data) return;
   return data.map((item) => {
     item.key = getUniqueNumber();
     item.enable = item.disabled;
@@ -34,9 +33,11 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   const [form] = Form.useForm();
   const treeRef = useRef(null);
   const intl = useIntl();
-  const { data: productIdsEnum, run } = useRequest(getproduct, { manual: true });
-  const { data: configData, run: getConfigData } = useRequest(getproductDetail, { manual: true });
   const [config, setConfig] = useState<ModeTreeDataNode[]>([]);
+  const { data: productIdsEnum, run } = useRequest(getproduct, { manual: true });
+  const productDetail = useRequest(getproductDetail, { manual: true });
+  const configData = productDetail.data as Partial<PageTemplateType>;
+  const getConfigData = productDetail.run;
 
   useEffect(() => {
     if (visible) {
@@ -47,7 +48,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         getConfigData({ id: values.id });
       }
     }
-  }, [visible, showType]);
+  }, [visible, showType, form, getConfigData, values.id]);
   useEffect(() => {
     run({ platform: configData?.platform, productConfigId: configData?.id });
     form.setFieldsValue({
@@ -55,9 +56,8 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       productIds: configData?.productIds,
       platform: configData?.platform,
     });
-    const currentConfig = cloneDeep(configData?.config) || [];
-    setConfig(() => handleConfigData(currentConfig));
-  }, [configData]);
+    setConfig(() => handleConfigData(configData?.config));
+  }, [configData, form, run]);
   const handleCancel = () => {
     props.onCancel();
   };

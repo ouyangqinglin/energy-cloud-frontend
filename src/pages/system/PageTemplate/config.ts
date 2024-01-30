@@ -1,6 +1,7 @@
 import { formatMessage } from '@/utils';
-import type { TabsProps, TreeDataNode } from 'antd';
+import type { TabsProps } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-components';
+import type { ModeTreeDataNode } from './data';
 export const tabsItem: TabsProps['items'] = [
   {
     key: 'property',
@@ -44,7 +45,7 @@ export const modeType = {
     text: '服务',
   },
 };
-export const defaultData: TreeDataNode[] = [
+export const defaultData: ModeTreeDataNode[] = [
   {
     name: '运行数据',
     id: 'runningData',

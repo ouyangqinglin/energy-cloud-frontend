@@ -24,7 +24,7 @@ const getName = (name: any): string => {
   return name?.props?.children[2] || name?.props?.children || name || '';
 };
 
-function removeItemFromTree(itemId, tree) {
+function removeItemFromTree(itemId: string, tree: ModeTreeDataNode[]) {
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i];
     if (item.key === itemId) {
@@ -57,7 +57,7 @@ const handleConfig = (data: any[], parentId: string) => {
 };
 
 const getParentKey = (key: string, tree: ModeTreeDataNode[]): string => {
-  let parentKey: string = '';
+  let parentKey;
   for (let i = 0; i < tree.length; i++) {
     const node = tree[i];
     if (node.children) {
@@ -220,6 +220,9 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       treeNode.children.push(fieldConfig);
     } else {
       //编辑
+      Object.keys(treeNode).forEach((key) => {
+        delete treeNode[key];
+      });
       Object.keys(fieldConfig).forEach((key) => {
         treeNode[key] = fieldConfig[key];
       });
