@@ -3,11 +3,16 @@ import { ProFormText } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, Tabs } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import { formatMessage } from '@/utils';
-import type { ProColumns, ActionType } from '@ant-design/pro-components';
+import type { ProColumnType, ActionType } from '@ant-design/pro-components';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import { getTypeColumns, tabsItem, typeObj } from '../config';
-import type { PhysicalModelType, PhysicalModelFormType, ThingsConfigType } from '../data';
+import type {
+  PhysicalModelType,
+  PhysicalModelFormType,
+  ThingsConfigType,
+  FieldFormType,
+} from '../data';
 import { Button, message } from 'antd';
 import TypeEdit from './typeEdit';
 import { cloneDeep } from 'lodash';
@@ -31,7 +36,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const actionRef = useRef<ActionType>();
   const [form] = Form.useForm();
   const [type, setType] = useState<string>('property');
-  const [currentRow, setCurrentRow] = useState<PhysicalModelFormType>();
+  const [currentRow, setCurrentRow] = useState<Partial<FieldFormType>>({});
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
@@ -97,7 +102,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
    *
    * @param fields
    */
-  const handleAdd = async (fields) => {
+  const handleAdd = async (fields: FieldFormType) => {
     const hide = message.loading('正在添加');
     try {
       setThingsConfig(() => {
@@ -121,7 +126,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
    *
    * @param fields
    */
-  const handleUpdate = async (fields) => {
+  const handleUpdate = async (fields: FieldFormType) => {
     const hide = message.loading('正在编辑');
     try {
       setThingsConfig(() => {
@@ -169,13 +174,13 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
     }
     form.submit();
   };
-  const handleFinish = async (value: Record<string, any>) => {
+  const handleFinish = async (value: PhysicalModelFormType) => {
     const formData = value;
     formData.thingsConfig = thingsConfig;
     if (showType == 'edit') formData.id = values.id;
-    props.onSubmit(formData as MenuFormValueType);
+    props.onSubmit(formData);
   };
-  const handleRemoveOne = (record: object) => {
+  const handleRemoveOne = (record: FieldFormType) => {
     const cloneThingsConfig = cloneDeep(thingsConfig);
     const key = typeObj[type];
     const index = cloneThingsConfig[key].findIndex((item) => item.id == record.id);
@@ -183,54 +188,55 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
     setThingsConfig(cloneThingsConfig);
     return true;
   };
-  const actionColumn: ProColumns<PhysicalModelFormType> = {
+  const operationColumn: ProColumnType = {
     title: formatMessage({ id: 'pages.searchTable.titleOption', defaultMessage: '操作' }),
     dataIndex: 'option',
     width: '220px',
     valueType: 'option',
-    render: (_, record) => [
-      <Button
-        type="link"
-        size="small"
-        key="edit"
-        hidden={showType == 'check'}
-        onClick={() => {
-          setModalVisible(true);
-          setCurrentRow(() => {
-            return { ...record, oldId: record.id };
-          });
-        }}
-      >
-        {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
-      </Button>,
-      <Button
-        type="link"
-        size="small"
-        danger
-        hidden={showType == 'check'}
-        key="batchRemove"
-        onClick={async () => {
-          Modal.confirm({
-            title: '删除',
-            content: '确定删除该项吗？',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: async () => {
-              const success = await handleRemoveOne(record);
-              if (success) {
-                if (actionRef.current) {
-                  actionRef.current.reload();
+    render: (_, record) => {
+      const rowData = record as FieldFormType;
+      return [
+        <Button
+          type="link"
+          size="small"
+          key="edit"
+          hidden={showType == 'check'}
+          onClick={() => {
+            setModalVisible(true);
+            setCurrentRow({ ...rowData, oldId: rowData.id });
+          }}
+        >
+          {formatMessage({ id: 'pages.searchTable.edit', defaultMessage: '编辑' })}
+        </Button>,
+        <Button
+          type="link"
+          size="small"
+          danger
+          hidden={showType == 'check'}
+          key="batchRemove"
+          onClick={async () => {
+            Modal.confirm({
+              title: '删除',
+              content: '确定删除该项吗？',
+              okText: '确认',
+              cancelText: '取消',
+              onOk: async () => {
+                const success = await handleRemoveOne(rowData);
+                if (success) {
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
                 }
-              }
-            },
-          });
-        }}
-      >
-        {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
-      </Button>,
-    ],
+              },
+            });
+          }}
+        >
+          {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
+        </Button>,
+      ];
+    },
   };
-  const typeColumns = getTypeColumns(actionColumn);
+  const typeColumns = getTypeColumns(operationColumn);
 
   return (
     <Modal
@@ -303,7 +309,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
                   key="add"
                   hidden={showType == 'check'}
                   onClick={async () => {
-                    setCurrentRow(undefined);
+                    setCurrentRow({});
                     setModalVisible(true);
                   }}
                 >
@@ -325,7 +331,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
           }
           if (success) {
             setModalVisible(false);
-            setCurrentRow(undefined);
+            setCurrentRow({});
             if (actionRef.current) {
               actionRef.current.reload();
             }
@@ -333,12 +339,12 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
         }}
         onCancel={() => {
           setModalVisible(false);
-          setCurrentRow(undefined);
+          setCurrentRow({});
         }}
         type={type}
         existItem={existItem}
         visible={modalVisible}
-        values={currentRow || {}}
+        values={currentRow}
       />
     </Modal>
   );
