@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { useRequest } from 'umi';
+import { useRequest, useIntl, FormattedMessage } from 'umi';
 import { Form, Modal, Row, Col } from 'antd';
-import { useIntl, FormattedMessage } from 'umi';
 import type { PageTemplateType, ModeTreeDataNode } from '../data';
 import { platformEnum, defaultData, getUniqueNumber } from '../config';
 import { getproduct, getproductDetail } from '../service';
@@ -15,8 +14,7 @@ export type MenuFormProps = {
   values: Partial<PageTemplateType>;
   showType: string;
 };
-const handleConfigData = (data: ModeTreeDataNode[] | undefined | null) => {
-  if (!data) return;
+const handleConfigData = (data: ModeTreeDataNode[]): ModeTreeDataNode[] => {
   return data.map((item) => {
     item.key = getUniqueNumber();
     item.enable = item.disabled;
@@ -31,7 +29,7 @@ const handleConfigData = (data: ModeTreeDataNode[] | undefined | null) => {
 const MenuForm: React.FC<MenuFormProps> = (props) => {
   const { showType, visible, values } = props;
   const [form] = Form.useForm();
-  const treeRef = useRef(null);
+  const treeRef = useRef<any>(null);
   const intl = useIntl();
   const [config, setConfig] = useState<ModeTreeDataNode[]>([]);
   const { data: productIdsEnum, run } = useRequest(getproduct, { manual: true });
@@ -56,7 +54,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       productIds: configData?.productIds,
       platform: configData?.platform,
     });
-    setConfig(() => handleConfigData(configData?.config));
+    setConfig(() => handleConfigData(configData?.config || []));
   }, [configData, form, run]);
   const handleCancel = () => {
     props.onCancel();
@@ -70,7 +68,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   };
   const handleFinish = async (value: Record<string, any>) => {
     const formData = value;
-    formData.config = treeRef.current.getTreeData();
+    formData.config = treeRef?.current?.getTreeData();
     formData.id = values.id;
     props.onSubmit(formData as PageTemplateType);
   };
@@ -137,7 +135,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           <Col span={12} order={2}>
             <ProFormSelect
               name="productIds"
-              options={productIdsEnum}
+              options={productIdsEnum as any}
               mode="multiple"
               fieldProps={{ fieldNames: { label: 'name', value: 'id' } }}
               label={intl.formatMessage({
