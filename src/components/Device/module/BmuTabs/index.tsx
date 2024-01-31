@@ -57,7 +57,12 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   );
 
   const isLiquid = useMemo(() => {
+    console.log('deviceData>>', deviceData);
     return deviceData?.productId && LiquidEnergyBatteryProductIds.includes(deviceData?.productId);
+  }, [deviceData]);
+
+  const is118 = useMemo(() => {
+    return deviceData?.productId == (118 as number);
   }, [deviceData]);
 
   const onTabChange = useCallback((key) => {
@@ -166,7 +171,7 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return Array.from({
-      length: isLiquid ? 5 : 10,
+      length: isLiquid ? 5 : is118 ? 9 : 10,
     }).map((item, index) => {
       return {
         key: index + '',
