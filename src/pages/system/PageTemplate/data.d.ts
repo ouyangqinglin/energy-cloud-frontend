@@ -6,11 +6,12 @@ export interface ModeTreeDataNode extends TreeDataNode {
   sortOrder?: number;
   draggable?: boolean;
   type?: string;
-  key?: string;
+  key: string;
   parentId?: string;
   disabled?: boolean;
   enable?: boolean;
   modelName?: string;
+  children?: ModeTreeDataNode[];
 }
 
 export type PageTemplateType = {

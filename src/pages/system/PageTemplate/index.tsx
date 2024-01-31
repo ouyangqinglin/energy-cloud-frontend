@@ -191,9 +191,9 @@ const PhysicalModel: React.FC = () => {
         onSubmit={async (values) => {
           let success = false;
           if (values.id) {
-            success = await handleUpdate({ ...values } as any);
+            success = await handleUpdate({ ...values });
           } else {
-            success = await handleAdd({ ...values } as any);
+            success = await handleAdd({ ...values });
           }
           if (success) {
             setModalVisible(false);

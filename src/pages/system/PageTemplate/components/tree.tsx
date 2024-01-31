@@ -76,7 +76,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const intl = useIntl();
   const { config } = props;
   const [form] = Form.useForm();
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [expandedKeys, setExpandedKeys] = useState<(string | null)[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const [treeData, setTreeData] = useState<ModeTreeDataNode[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
@@ -84,7 +84,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const { data: physicalModelOption, run } = useRequest(getPage);
   const { data: fieldOptions, run: runField } = useRequest(getTypePage, { manual: true });
 
-  const dataList: { key: React.Key; name: string }[] = [];
+  const dataList: { key: string; name: string }[] = [];
   const generateList = (data: ModeTreeDataNode[]) => {
     for (let i = 0; i < data.length; i++) {
       const node = data[i];
@@ -104,7 +104,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     }
   }, [config]);
 
-  const onExpand = (newExpandedKeys: React.Key[]) => {
+  const onExpand = (newExpandedKeys: string[]) => {
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
   };
@@ -118,7 +118,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         }
         return null;
       })
-      .filter((item, i, self): item => !!(item && self.indexOf(item) === i));
+      .filter((item, i, self) => !!(item && self.indexOf(item) === i));
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(true);
   };
@@ -220,11 +220,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       treeNode.children.push(fieldConfig);
     } else {
       //编辑
+      Object.assign(treeNode, fieldConfig);
       Object.keys(treeNode).forEach((key) => {
-        if (key !== 'children') delete treeNode[key];
-      });
-      Object.keys(fieldConfig).forEach((key) => {
-        treeNode[key] = fieldConfig[key];
+        //编辑删除一些字段做的处理
+        const hasKey = fieldConfig.hasOwnProperty(key);
+        if (!hasKey && key !== 'children') delete treeNode[key as keyof typeof treeNode];
       });
     }
     form.resetFields();

@@ -1,4 +1,3 @@
-import { isNumber } from 'lodash';
 import { useMemo, type SVGProps } from 'react';
 import MarketEleIcon from './svg/market_ele.svg';
 import { ReactComponent as EsIcon } from './svg/es.svg';
