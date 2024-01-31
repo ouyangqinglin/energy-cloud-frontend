@@ -48,7 +48,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     }
   }, [visible, showType, form, getConfigData, values.id]);
   useEffect(() => {
-    run({ platform: configData?.platform, productConfigId: configData?.id });
+    run({ platform: configData?.platform, productConfigId: configData?.id, relatedConfig: 0 });
     form.setFieldsValue({
       name: configData?.name,
       productIds: configData?.productIds,
@@ -76,7 +76,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
     form.setFieldsValue({
       productIds: [],
     });
-    run({ platform: value, productConfigId: values?.id });
+    run({ platform: value, productConfigId: values?.id, relatedConfig: 0 });
   };
   return (
     <Modal

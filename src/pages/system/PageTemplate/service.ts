@@ -53,7 +53,7 @@ export const getPageTemplate = (params: any) => {
 export const getproduct = (params: any) => {
   return request<ResponsePageData<PhysicalModelType>>(`/iot/product/getListByModel`, {
     method: 'GET',
-    params: { ...params, relatedConfig: 0 },
+    params: params,
   });
 };
 export const getproductDetail = (params: any) => {
