@@ -12,7 +12,7 @@ import { FallbackProps } from 'react-error-boundary';
 const FallBackRender: React.FC<FallbackProps> = (props) => {
   const { error } = props;
 
-  const showRefresh = useMemo(() => {
+  const showRefresh = () => {
     let result = false;
     try {
       const message = JSON.stringify(error.message);
@@ -24,7 +24,7 @@ const FallBackRender: React.FC<FallbackProps> = (props) => {
       result = false;
     }
     return result;
-  }, []);
+  };
 
   return (
     <>
