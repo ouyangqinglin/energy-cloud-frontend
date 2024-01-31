@@ -221,7 +221,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     } else {
       //编辑
       Object.keys(treeNode).forEach((key) => {
-        delete treeNode[key];
+        if (key !== 'children') delete treeNode[key];
       });
       Object.keys(fieldConfig).forEach((key) => {
         treeNode[key] = fieldConfig[key];
