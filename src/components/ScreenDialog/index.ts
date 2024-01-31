@@ -28,6 +28,7 @@ export type BusinessDialogProps = {
   open: boolean;
   onCancel: () => void;
   model?: string;
+  deviceImg?: string;
 };
 
 export type DeviceDialogMapType = {

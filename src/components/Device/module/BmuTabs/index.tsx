@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-01-15 19:44:48
+ * @LastEditTime: 2024-01-30 16:46:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -10,7 +10,7 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Chart from '@/components/Chart';
 import Detail from '@/components/Detail';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { Tabs, TabsProps } from 'antd';
 import styles from './index.less';
 import CollectionModal from '@/components/CollectionModal';
@@ -139,12 +139,12 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
       let value: any = '',
         resultValue;
       if (item.indexOf(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' })) > -1) {
-        value = bmuData?.[field] || '';
+        value = bmuData?.[field] ?? '';
       } else {
-        value = bmuData?.[field] || '';
+        value = bmuData?.[field] ?? '';
       }
       resultValue = value;
-      if (resultValue) {
+      if (!isEmpty(resultValue)) {
         resultValue = resultValue * 1;
         if (isNaN(resultValue)) {
           resultValue = value;

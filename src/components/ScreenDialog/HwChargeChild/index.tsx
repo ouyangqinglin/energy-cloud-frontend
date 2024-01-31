@@ -23,7 +23,7 @@ import RealTime from './RealTime';
 import { formatMessage } from '@/utils';
 
 const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
-  const { id, open, onCancel, model } = props;
+  const { id, open, onCancel, model, deviceImg } = props;
   const [loading, setLoading] = useState(false);
   const [deviceData, setDeviceData] = useState<DeviceType>();
 
@@ -67,7 +67,7 @@ const HwChargeChild: React.FC<BusinessDialogProps> = (props) => {
         <EquipInfo
           id={id}
           model={model}
-          equipmentImg={HwChargeStackImg}
+          equipmentImg={deviceImg || HwChargeStackImg}
           productImg={HwChargeStackIntroImg}
           setLoading={setLoading}
           buttons={

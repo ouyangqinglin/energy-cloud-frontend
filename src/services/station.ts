@@ -9,6 +9,7 @@
 import type { ResponseCommonData } from '@/utils/request';
 import request from '@/utils/request';
 import { SiteTypeEnumType } from '@/utils/dict';
+import { SiteOptionType } from '@/types';
 
 export type SiteDataType = {
   id?: string;
@@ -83,5 +84,11 @@ export const getSiteScreenConfig = (params: any) => {
   return request<ResponseCommonData<ConfigDataType>>(`/oss/site/energyFlowDiagram/getSiteConfig`, {
     method: 'GET',
     params,
+  });
+};
+
+export const getRoleSiteList = () => {
+  return request<ResponseCommonData<SiteOptionType[]>>(`/uc/site/allSiteType`, {
+    method: 'GET',
   });
 };

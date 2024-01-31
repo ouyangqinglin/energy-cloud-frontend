@@ -55,7 +55,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
       Object.entries(prevData).forEach(([prevDataKey, deviceData]) => {
         if (prevDataKey != 'total') {
           totalKeys.forEach((key) => {
-            total[key] = total[key] + (deviceData?.[key] ?? 0);
+            total[key] = (total[key] * 100 + (deviceData?.[key] ?? 0) * 100) / 100;
           });
         }
       });

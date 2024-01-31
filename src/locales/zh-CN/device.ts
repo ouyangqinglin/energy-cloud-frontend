@@ -296,6 +296,7 @@ export default {
   'device.cellNumber': '电芯编号',
   'device.temperaturePoint': '温度点',
   'device.energyStorageInverter': '储能变流器',
+  'device.inverter': '逆变器',
   'device.parallelMachineNum': '并机编号',
   'device.masterSlaveIdentification': '主从标识',
   'device.host': '主机',
@@ -334,4 +335,6 @@ export default {
   'device.softwareCoding': '软件编码',
   'device.systemMessage': '监听',
   'device.debug': '通信报文',
+  'device.alarmStatus': '告警状态',
+  'device.startOverallStatus': '启动总状态',
 };

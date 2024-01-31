@@ -25,6 +25,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
     id,
     onSuccess,
     afterRequest,
+    beforeSubmit,
     ...resetProps
   } = props;
   const isCreate = operations === FormOperations.CREATE;
@@ -33,6 +34,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
 
   const onFinish = useCallback(
     (formData) => {
+      beforeSubmit?.(formData);
       const run = isCreate ? onFinishCreate : onFinishUpdate;
       return run({ ...formData, ...{ roleId: id } }, {}).then(({ data }) => {
         if (data) {
@@ -42,7 +44,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
         }
       });
     },
-    [id, isCreate, onFinishCreate, onFinishUpdate, onSuccess],
+    [id, isCreate, onFinishCreate, onFinishUpdate, onSuccess, beforeSubmit],
   );
 
   useEffect(() => {

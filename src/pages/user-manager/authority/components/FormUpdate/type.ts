@@ -9,6 +9,7 @@ export type FormUpdateBaseProps = {
   initialValues?: any;
   id?: number;
   onSuccess?: () => void;
+  type?: string;
 };
 
 export type FormUpdateProps<T, U> = {
@@ -18,5 +19,6 @@ export type FormUpdateProps<T, U> = {
   onFinishCreate: ProRequestData<T, U>;
   columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[];
   request?: ProRequestData<T, U>;
+  beforeSubmit?: (formData: T) => void;
   afterRequest?: (formData: T, formRef: FormInstance) => void;
 } & FormUpdateBaseProps;

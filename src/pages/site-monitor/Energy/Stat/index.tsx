@@ -63,7 +63,7 @@ const statOptions = [
     title: `${formatMessage({
       id: 'siteMonitor.totalEarnings',
       defaultMessage: '累计收益',
-    })}${formatMessage({ id: 'common.rmb', defaultMessage: '元' })}`,
+    })}（${formatMessage({ id: 'common.rmb', defaultMessage: '元' })}）`,
     field: 'totalGains',
   },
 ];

@@ -7,6 +7,7 @@ const Settings: LayoutSettings & {
   tabsLayout?: boolean;
   apiBasePath?: string;
   locale?: string;
+  authorityWhiteList?: string[];
 } = {
   navTheme: 'dark',
   headerTheme: 'light',
@@ -23,6 +24,7 @@ const Settings: LayoutSettings & {
   tabsLayout: true,
   apiBasePath: isDev ? '/api' : '/prod-api',
   locale: 'zh-CN',
+  authorityWhiteList: ['/download/app'],
 };
 
 export default Settings;

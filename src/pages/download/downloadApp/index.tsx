@@ -18,13 +18,13 @@ const DownloadApp: React.FC = () => {
 
   const getDownloadUrl = () => {
     getVersionList({ appType: 1, platform: 0 }).then(({ data }) => {
-      const { list } = data || {};
-      const { url } = (list || [])[0];
-      if (!url) return;
-      getFileUrl({ url, platform: 2 }).then((res) => {
-        setFileUrl(res?.data || '');
-        getPersonQRCode(res?.data || '');
-      });
+      const url = data?.list?.[0]?.url;
+      if (url) {
+        getFileUrl({ url, platform: 2 }).then((res) => {
+          setFileUrl(res?.data || '');
+          getPersonQRCode(res?.data || '');
+        });
+      }
     });
   };
 

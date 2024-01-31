@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2024-01-02 11:48:59
+ * @LastEditTime: 2024-01-29 09:48:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -34,13 +34,11 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
       title: (
         <>
           {item?.name}
-          <span className={styles.network}>
-            <ProField
-              mode="read"
-              text={networkStatusShows.includes(networkStatus) ? networkStatus : undefined}
-              valueEnum={netWorkStatusEnum}
-            />
-          </span>
+          {networkStatusShows.includes(networkStatus) && (
+            <span className={styles.network}>
+              <ProField mode="read" text={networkStatus} valueEnum={netWorkStatusEnum} />
+            </span>
+          )}
         </>
       ),
       networkStatus: networkStatus,
