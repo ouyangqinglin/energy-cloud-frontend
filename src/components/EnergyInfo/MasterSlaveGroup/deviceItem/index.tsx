@@ -164,20 +164,20 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
                 <img src={IconVoltage} className={styles.voltageImg} />
                 <div className="ml8 mr4">
                   <span>{realTimeData?.MVVOASU ?? '--'}</span>
-                  <span className={styles.maxUnit}>V</span>
+                  {/* <span className={styles.maxUnit}>V</span> */}
                 </div>
                 <ArrowUpOutlined className="cl-error" />
                 <div className="flex1"></div>
                 <div>
-                  <span>{realTimeData?.MaximumIndividualTemperature ?? '--'}</span>
+                  <span>{realTimeData?.MVVOSU ?? '--'}</span>
                 </div>
-                <span className={styles.maxUnit}>V</span>
+                {/* <span className={styles.maxUnit}>V</span> */}
                 <ArrowDownOutlined className="cl-green" />
               </div>
               <div className="flex mt12">
                 <img src={IconTemp} className={styles.voltageImg} />
                 <div className="ml8 mr4">
-                  <span>{realTimeData?.MVVOSU ?? '--'}</span>
+                  <span>{realTimeData?.MaximumIndividualTemperature ?? '--'}</span>
                   <span className={styles.maxUnit}>℃</span>
                 </div>
                 <ArrowUpOutlined className="cl-error" />

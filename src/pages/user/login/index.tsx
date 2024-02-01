@@ -77,6 +77,7 @@ const Login: React.FC = () => {
         }
 
         const pathArr = redirectPath.split('?');
+        console.log('pathArr>>', pathArr);
         await clear();
         history.push({
           pathname: pathArr[0],

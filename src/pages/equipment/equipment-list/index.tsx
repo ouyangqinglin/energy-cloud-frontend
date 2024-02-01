@@ -51,7 +51,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:siteManage:siteConfig:deviceManage:unbind',
     'iot:device:add',
   ]);
-
   const requestProductTypeTree = () => {
     return getProductTypeTree().then(({ data }) => {
       setProductTypeList(data || []);

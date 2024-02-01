@@ -12,8 +12,14 @@ import {
   getSiteScreenConfig as getData,
 } from '@/services/station';
 import { formatMessage, isEmpty } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const OverviewSetting: React.FC = () => {
+  const { authorityMap } = useAuthority([
+    'iot:siteConfig:homeConfig:edit', //编辑
+    'iot:siteConfig:homeConfig:details', //默认监控首页
+  ]);
+  const isEdit = authorityMap.get('iot:siteConfig:homeConfig:edit');
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const formRef = useRef<ProFormInstance>(null);
   const alarmFormRef = useRef<ProFormInstance>(null);
@@ -44,9 +50,13 @@ const OverviewSetting: React.FC = () => {
         className="mt16 mx24"
         title={formatMessage({ id: 'common.screenArchitecture', defaultMessage: '大屏架构图' })}
         extra={
-          <Button type="primary" loading={loading} onClick={() => onSaveClick(formRef)}>
-            {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
-          </Button>
+          isEdit ? (
+            <Button type="primary" loading={loading} onClick={() => onSaveClick(formRef)}>
+              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
+            </Button>
+          ) : (
+            <></>
+          )
         }
       >
         <SchemaForm<ConfigDataType>
@@ -76,9 +86,13 @@ const OverviewSetting: React.FC = () => {
           defaultMessage: '告警显示配置',
         })}
         extra={
-          <Button type="primary" loading={alarmLoading} onClick={() => onSaveClick(alarmFormRef)}>
-            {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
-          </Button>
+          isEdit ? (
+            <Button type="primary" loading={alarmLoading} onClick={() => onSaveClick(alarmFormRef)}>
+              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
+            </Button>
+          ) : (
+            <></>
+          )
         }
       >
         <SchemaForm<AlarmConfigDataType>
