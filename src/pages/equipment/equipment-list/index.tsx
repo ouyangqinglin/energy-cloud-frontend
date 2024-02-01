@@ -50,8 +50,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',
     'iot:device:add',
+    'iot:device:page',
     'iot:siteManage:siteConfig:deviceManage:page',
+    '',
   ]);
+
+  const authorPage = isStationChild
+    ? authorityMap.get('iot:siteManage:siteConfig:deviceManage:page')
+    : authorityMap.get('iot:device:page');
   const requestProductTypeTree = () => {
     return getProductTypeTree().then(({ data }) => {
       setProductTypeList(data || []);
@@ -317,7 +323,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      {authorityMap.get('iot:siteManage:siteConfig:deviceManage:page') ? (
+      {authorPage ? (
         <YTProTable
           actionRef={actionRef}
           columns={columns}

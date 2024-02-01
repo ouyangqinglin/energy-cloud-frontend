@@ -354,6 +354,14 @@ export const masterSlave1Enum: ValueEnum = {
     text: formatMessage({ id: 'device.slave', defaultMessage: '从机' }),
   },
 };
+export const meterSerialNumberEnum: ValueEnum = {
+  1: {
+    text: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }),
+  },
+  2: {
+    text: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }),
+  },
+};
 
 export const connectEnum: ValueEnum = {
   1: {

@@ -18,7 +18,7 @@ import {
 } from '@/utils/format';
 import { DetailItem } from '../Detail';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
-import { masterSlave1Enum } from '@/utils/dict';
+import { masterSlave1Enum, meterSerialNumberEnum } from '@/utils/dict';
 import { DeviceDataType } from '@/services/equipment';
 
 const connectFormat = (
@@ -101,11 +101,6 @@ export const bottomItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),
     field: 'siteName',
-  },
-  {
-    label: formatMessage({ id: 'device.meterNumber', defaultMessage: '电表序号' }),
-    field: 'MeterSerialNumber',
-    show: (_, data) => [95, 96].includes(data?.productId),
   },
 ];
 
@@ -273,6 +268,12 @@ export const allItems: Record<string, DetailItem> = {
         [DeviceTypeEnum.YTEnergyMetterDTSD, DeviceTypeEnum.Liquid2InverterMeter],
       ),
   },
+  meterSerialNumber: {
+    label: formatMessage({ id: 'device.meterNumber', defaultMessage: '电表序号' }),
+    field: 'MeterSerialNumber',
+    show: (_, data) => [95, 96].includes(data?.productId),
+    format: (value) => meterSerialNumberEnum[value]?.text,
+  },
   emsCommunicationMethod: {
     label: formatMessage(
       { id: 'device.communicationMethodSentence', defaultMessage: '通信方式' },
@@ -438,7 +439,7 @@ const emsKeys = [
   'inverterMeterCommunication',
 ];
 
-const pcsKeys = ['ratedPower', 'emsCommunicationMethod'];
+const pcsKeys = ['ratedPower', 'meterSerialNumber', 'emsCommunicationMethod'];
 
 const bmsKeys = [
   'bcmuSn',
@@ -446,15 +447,26 @@ const bmsKeys = [
   'bcmuModel',
   'bcmuHardwareVersion',
   'bcmuSoftwareVersion',
+  'meterSerialNumber',
   'emsCommunicationMethod',
   'bmuNumber',
 ];
 
-const airKeys = ['airHardwareVersion', 'airSoftwareVersion', 'emsCommunicationMethod'];
+const airKeys = [
+  'airHardwareVersion',
+  'airSoftwareVersion',
+  'meterSerialNumber',
+  'emsCommunicationMethod',
+];
 
-const fireFightKeys = ['hardwareVersion', 'softwareVersion', 'emsCommunicationMethod'];
+const fireFightKeys = [
+  'hardwareVersion',
+  'softwareVersion',
+  'meterSerialNumber',
+  'emsCommunicationMethod',
+];
 
-const meterKeys = ['meterNumber', 'meterAddress', 'emsCommunicationMethod'];
+const meterKeys = ['meterNumber', 'meterAddress', 'meterSerialNumber', 'emsCommunicationMethod'];
 
 const liquidCoolerKeys = [
   'liquidCoolerHardwareVersion',
@@ -462,12 +474,14 @@ const liquidCoolerKeys = [
   'softwareCoding',
   // 'compressorHardwareVersion',
   'compressorSoftwareVersion',
+  'meterSerialNumber',
   'emsCommunicationMethod',
 ];
 
 const dehumidifierKeys = [
   'dehumidifierHardwareVersion',
   'dehumidifierSoftwareVersion',
+  'meterSerialNumber',
   'emsCommunicationMethod',
 ];
 
