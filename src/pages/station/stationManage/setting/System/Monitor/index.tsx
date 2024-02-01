@@ -19,15 +19,17 @@ import type {
 import { useAuthority } from '@/hooks';
 import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
 import { formatMessage } from '@/utils';
+type CollectionChartType = {
+  deviceTree: boolean;
+};
 
-const Monitor: React.FC = () => {
+const Monitor: React.FC<CollectionChartType> = (props) => {
+  const { deviceTree } = props;
   const { authorityMap } = useAuthority([
     'iot:siteConfig:monitoringSave', //保存
     'iot:siteConfig:monitoringOnOff', //开启、关闭监测点按钮
     'iot:siteConfig:deviceTree', //关联设备/采集点
   ]);
-  const deviceTree = authorityMap.get('iot:siteConfig:deviceTree');
-  console.log('authorityMap>>', authorityMap);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [activeKeysSet, setActiveKeysSet] = useState<Set<string>>(new Set());
   const [allTableData, setAllTableData] = useState<AllTableDataType>({

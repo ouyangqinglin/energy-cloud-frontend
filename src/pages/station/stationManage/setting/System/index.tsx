@@ -18,15 +18,16 @@ const System: React.FC = () => {
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:runManage:monitorSetting',
     'siteManage:siteConfig:runManage:overviewSetting',
+    'iot:siteConfig:deviceTree', //关联设备/采集点
   ]);
-
+  const deviceTree = authorityMap.get('iot:siteConfig:deviceTree') || false;
   const tabItems = useMemo(() => {
     const result: TabsProps['items'] = [];
     if (authorityMap.get('siteManage:siteConfig:runManage:monitorSetting')) {
       result.push({
         key: 'monitor',
         label: formatMessage({ id: 'siteManage.set.monitorSetup', defaultMessage: '监测设置' }),
-        children: <Monitor />,
+        children: <Monitor deviceTree={deviceTree} />,
       });
     }
     if (authorityMap.get('siteManage:siteConfig:runManage:overviewSetting')) {
