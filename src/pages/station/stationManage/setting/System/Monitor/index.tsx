@@ -16,32 +16,18 @@ import type {
   AllTableDataType,
   TableTreeDataType,
 } from './data.d';
+import { useAuthority } from '@/hooks';
 import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
 import { formatMessage } from '@/utils';
 
-const bingData = (data: MonitorDataType[], type: string, index: number) => {
-  if (!data.length) {
-    data.push({
-      id: type + 'noData' + index,
-      rowId: type + 'noData' + index,
-      project: monitorTypeMap.get(type)?.data[index].name,
-      deviceName: index
-        ? formatMessage({
-            id: 'siteManage.set.associateDataCollectionPoints',
-            defaultMessage: '关联数据采集点',
-          })
-        : formatMessage({ id: 'siteManage.set.associateDevice', defaultMessage: '关联设备' }),
-      area: monitorTypeMap.get(type)?.data[index].area || '',
-      type: type,
-      span: 1,
-    });
-  } else {
-    data[0].project = monitorTypeMap.get(type)?.data[index].name;
-    data[0].span = data.length;
-  }
-};
-
 const Monitor: React.FC = () => {
+  const { authorityMap } = useAuthority([
+    'iot:siteConfig:monitoringSave', //保存
+    'iot:siteConfig:monitoringOnOff', //开启、关闭监测点按钮
+    'iot:siteConfig:deviceTree', //关联设备/采集点
+  ]);
+  const deviceTree = authorityMap.get('iot:siteConfig:deviceTree');
+  console.log('authorityMap>>', authorityMap);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [activeKeysSet, setActiveKeysSet] = useState<Set<string>>(new Set());
   const [allTableData, setAllTableData] = useState<AllTableDataType>({
@@ -67,6 +53,30 @@ const Monitor: React.FC = () => {
   const { loading: editConfigLoading, run: runEditConfig } = useRequest(editConfig, {
     manual: true,
   });
+
+  const bingData = (data: MonitorDataType[], type: string, index: number) => {
+    if (!data.length) {
+      data.push({
+        id: type + 'noData' + index,
+        rowId: type + 'noData' + index,
+        project: monitorTypeMap.get(type)?.data[index].name,
+        deviceName: deviceTree
+          ? index
+            ? formatMessage({
+                id: 'siteManage.set.associateDataCollectionPoints',
+                defaultMessage: '关联数据采集点',
+              })
+            : formatMessage({ id: 'siteManage.set.associateDevice', defaultMessage: '关联设备' })
+          : '',
+        area: monitorTypeMap.get(type)?.data[index].area || '',
+        type: type,
+        span: 1,
+      });
+    } else {
+      data[0].project = monitorTypeMap.get(type)?.data[index].name;
+      data[0].span = data.length;
+    }
+  };
 
   const onEditStatus = useCallback(
     (type, flag) => {
@@ -390,6 +400,7 @@ const Monitor: React.FC = () => {
           header={item.title}
           key={item.key}
           extra={
+            !authorityMap.get('iot:siteConfig:monitoringOnOff') &&
             defaultOpenKeys.includes(item.key) ? (
               <></>
             ) : (
@@ -416,13 +427,17 @@ const Monitor: React.FC = () => {
             rowKey="rowId"
           />
           <div className="tx-right mt12 mb24">
-            <Button
-              type="primary"
-              loading={loading || editStatusLoading || editConfigLoading}
-              onClick={() => onSaveClick(item.key)}
-            >
-              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
-            </Button>
+            {authorityMap.get('iot:siteConfig:monitoringSave') ? (
+              <Button
+                type="primary"
+                loading={loading || editStatusLoading || editConfigLoading}
+                onClick={() => onSaveClick(item.key)}
+              >
+                {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
         </Collapse.Panel>
       </>

@@ -73,7 +73,6 @@ export const alarmcolumns: ProFormColumnsType<AlarmConfigDataType>[] = [
     dataIndex: 'alarmShow',
     valueType: 'radio',
     valueEnum: enableStatus,
-    // initialValue: '0',
     formItemProps: {
       rules: [
         {

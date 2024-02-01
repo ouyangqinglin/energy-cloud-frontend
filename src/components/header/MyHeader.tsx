@@ -55,19 +55,6 @@ const MyHeader: React.FC = () => {
         <div className="flex1" />
         <RightContent />
       </div>
-      <Drawer
-        open={open}
-        onClose={() => switchDrawer(false)}
-        getContainer="#myLayoutContain"
-        placement="left"
-        style={{ position: 'absolute' }}
-        width="200px"
-        closable={false}
-        headerStyle={{ display: 'none' }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <MyMenu onClick={() => switchDrawer(false)} />
-      </Drawer>
     </>
   );
 };
