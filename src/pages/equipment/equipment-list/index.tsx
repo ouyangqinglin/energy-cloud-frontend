@@ -50,6 +50,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',
     'iot:device:add',
+    'iot:siteManage:siteConfig:deviceManage:page',
   ]);
   const requestProductTypeTree = () => {
     return getProductTypeTree().then(({ data }) => {
@@ -316,40 +317,44 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={toolBar}
-        request={handleRequest}
-        rowKey="deviceId"
-        resizable={true}
-        expandable={{
-          childrenColumnName: 'childDeviceList',
-          expandIcon: ({ expanded, expandable, record, onExpand }) => {
-            return (
-              <>
-                {expandable ? (
-                  <>
-                    {expanded ? (
-                      <CaretDownFilled
-                        className="mr8 cursor table-expand-icon"
-                        onClick={(e) => onExpand(record, e)}
-                      />
-                    ) : (
-                      <CaretRightFilled
-                        className="mr8 cursor table-expand-icon"
-                        onClick={(e) => onExpand(record, e)}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <span className="mr8 table-expand-icon"></span>
-                )}
-              </>
-            );
-          },
-        }}
-      />
+      {authorityMap.get('iot:siteManage:siteConfig:deviceManage:page') ? (
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={toolBar}
+          request={handleRequest}
+          rowKey="deviceId"
+          resizable={true}
+          expandable={{
+            childrenColumnName: 'childDeviceList',
+            expandIcon: ({ expanded, expandable, record, onExpand }) => {
+              return (
+                <>
+                  {expandable ? (
+                    <>
+                      {expanded ? (
+                        <CaretDownFilled
+                          className="mr8 cursor table-expand-icon"
+                          onClick={(e) => onExpand(record, e)}
+                        />
+                      ) : (
+                        <CaretRightFilled
+                          className="mr8 cursor table-expand-icon"
+                          onClick={(e) => onExpand(record, e)}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <span className="mr8 table-expand-icon"></span>
+                  )}
+                </>
+              );
+            },
+          }}
+        />
+      ) : (
+        <></>
+      )}
       {isStationChild ? (
         <>
           <DeviceSn
