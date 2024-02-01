@@ -102,6 +102,11 @@ export const bottomItems: DetailItem[] = [
     label: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),
     field: 'siteName',
   },
+  {
+    label: formatMessage({ id: 'device.meterNumber', defaultMessage: '电表序号' }),
+    field: 'MeterSerialNumber',
+    show: (_, data) => [95, 96].includes(data?.productId),
+  },
 ];
 
 export const allItems: Record<string, DetailItem> = {
