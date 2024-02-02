@@ -52,7 +52,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:device:add',
     'iot:device:page',
     'iot:siteManage:siteConfig:deviceManage:page',
-    '',
   ]);
 
   const authorPage = isStationChild

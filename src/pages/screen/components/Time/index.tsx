@@ -11,6 +11,7 @@ import { weekInfo } from '@/utils/dictionary';
 import moment from 'moment';
 import styles from './index.less';
 import '@/assets/styles/font.less';
+// import { formatMessage } from '@/utils';
 
 const Time: React.FC = () => {
   const [date, setDate] = useState({ date: '', week: '', time: '' });

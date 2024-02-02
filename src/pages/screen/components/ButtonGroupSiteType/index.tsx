@@ -45,13 +45,13 @@ const ButtonGroupSiteType: FC<SiteTypeButtonGroupProps> = ({ onChange }) => {
       onChange={handleClick}
     >
       <Radio.Button value={SiteType.PV}>
-        {formatMessage({ id: 'device.pv', defaultMessage: '光伏' })}
+        {formatMessage({ id: 'screen.pv', defaultMessage: '光伏' })}
       </Radio.Button>
       <Radio.Button value={SiteType.ES}>
-        {formatMessage({ id: 'device.storage', defaultMessage: '储能' })}
+        {formatMessage({ id: 'screen.storage', defaultMessage: '储能' })}
       </Radio.Button>
       <Radio.Button value={SiteType.CS}>
-        {formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}
+        {formatMessage({ id: 'screen.chargingPile', defaultMessage: '充电桩' })}
       </Radio.Button>
     </Radio.Group>
   );
