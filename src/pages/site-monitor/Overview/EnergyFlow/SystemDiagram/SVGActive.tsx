@@ -126,7 +126,7 @@ const SvgComponent = (
         {pv.flag && (
           <>
             <div className={styles.desc}>
-              <span className={styles.title} style={{ width: 120 }}>
+              <span className={styles.title} style={{ width: 137 }}>
                 {formatMessage({
                   id: 'siteMonitor.generatingCapacity',
                   defaultMessage: '发电功率',
@@ -136,7 +136,7 @@ const SvgComponent = (
               <span className={styles.value}>{pv.p ?? '--'}</span>
             </div>
             <div className={styles.desc}>
-              <span className={styles.title} style={{ width: 120 }}>
+              <span className={styles.title} style={{ width: 160 }}>
                 {formatMessage({
                   id: 'siteMonitor.dayPowerGeneration',
                   defaultMessage: '今日发电量',
