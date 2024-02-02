@@ -71,7 +71,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
 
   return (
     <div className={classnames([styles.wrapper, itemClassNameWrapper])} style={itemStyleWrapper}>
-      <div className={classnames([styles.title, titleClassName])} style={titleStyle}>
+      <div title={title} className={classnames([styles.title, titleClassName])} style={titleStyle}>
         {title}
       </div>
       <div className={classnames([styles.content])}>

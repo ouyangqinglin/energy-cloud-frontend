@@ -11,7 +11,9 @@ const DeviceCardItem = ({
 }: DeviceConfigItem & { data: CombineDeviceRes }) => {
   return (
     <div className={styles.content}>
-      <div className={styles.title}>{title}</div>
+      <div title={title} className={styles.title}>
+        {title}
+      </div>
       <div className={styles.digital}>
         {render ? (
           render(data)

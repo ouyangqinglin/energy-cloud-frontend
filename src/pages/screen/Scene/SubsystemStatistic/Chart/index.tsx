@@ -69,7 +69,9 @@ const StatisticChart: FC<Props> = ({
     <div className={styles.chartWrapper}>
       {showDatePicker && (
         <div className={styles.topBar}>
-          <h3 className={styles.chartTitle}>{title}</h3>
+          <h3 className={styles.chartTitle} title={title}>
+            {title}
+          </h3>
           <DatePicker.RangePicker
             defaultValue={defaultValue}
             format={dateFormat}

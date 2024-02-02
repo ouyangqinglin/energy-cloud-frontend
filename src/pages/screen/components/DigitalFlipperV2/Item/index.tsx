@@ -57,7 +57,7 @@ const DigitalFlipperItem: FC<DigitalFlipperItemProps> = ({
           {unit}
         </span>
       </div>
-      <div className={styles.title} style={titleStyle}>
+      <div className={styles.title} title={title} style={titleStyle}>
         {title}
       </div>
     </div>

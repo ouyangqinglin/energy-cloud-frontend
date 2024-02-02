@@ -86,7 +86,7 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
               <div className={styles.box}>
                 <div className={styles.boxTitle}>
                   <TriangleIcon className={styles.icon} />
-                  <h1>{item.label}</h1>
+                  <h1 title={item.label}>{item.label}</h1>
                 </div>
                 {item.render ? (
                   item.render(data)
