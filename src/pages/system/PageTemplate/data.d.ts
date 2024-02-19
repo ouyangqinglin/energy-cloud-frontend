@@ -24,4 +24,5 @@ export type PageTemplateType = {
   productIds: string[];
   platform: 0 | 1;
   productModels: string[];
+  version: number;
 };
