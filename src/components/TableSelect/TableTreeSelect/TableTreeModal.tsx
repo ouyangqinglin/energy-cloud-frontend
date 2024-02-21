@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2023-12-19 11:29:04
+ * @LastEditTime: 2024-02-20 16:01:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { TreeProps } from 'antd';
@@ -20,7 +20,7 @@ import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
-import { useBoolean } from 'ahooks';
+import { useBoolean, useSize } from 'ahooks';
 import { formatMessage } from '@/utils';
 
 export enum SelectTypeEnum {
@@ -29,7 +29,7 @@ export enum SelectTypeEnum {
 }
 
 export type dealTreeDataType<TreeData = Record<string, any>> = {
-  (value: TreeData & BasicDataNode): void;
+  (value: TreeData & BasicDataNode, index: number): void;
 };
 
 export { BasicDataNode };
@@ -70,6 +70,7 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   };
   selectType?: SelectTypeEnum; //  数据选择类型：选设备/选设备属性
   dealTreeData?: dealTreeDataType<TreeData>; //  处理树数据
+  virtual?: boolean;
 };
 
 const runDealTreeData = <TreeData,>(
@@ -77,11 +78,11 @@ const runDealTreeData = <TreeData,>(
   dealTreeData?: dealTreeDataType<TreeData>,
 ) => {
   if (data && data.length) {
-    data.forEach((item) => {
+    data.forEach((item, index) => {
       if (item.children && item.children.length) {
         item.selectable = false;
       }
-      dealTreeData?.(item as any);
+      dealTreeData?.(item as any, index);
       if (item.children && item.children.length) {
         runDealTreeData(item.children, dealTreeData);
       }
@@ -113,6 +114,7 @@ const TableTreeModal = <
     onChange,
     selectType = SelectTypeEnum.Collect,
     dealTreeData,
+    virtual = false,
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
@@ -121,6 +123,8 @@ const TableTreeModal = <
   const [selectedTree, setSelectedTree] = useState<TreeData>();
   const [tableIdSet, setTableIdSet] = useState<Set<string>>();
   const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
+  const colRef = useRef<HTMLDivElement>(null);
+  const colSize = useSize(colRef);
 
   const treeSelectAndCheckData = useMemo(() => {
     if (selectType === SelectTypeEnum.Device) {
@@ -323,6 +327,17 @@ const TableTreeModal = <
     });
   }, [selectType, multiple, selectedTags, valueId, onSelectedChange, proTableProps]);
 
+  useEffect(() => {
+    if (virtual && colSize?.height && !loadingTreeData) {
+      const treeList = colRef.current?.querySelector?.(
+        '.ant-tree-list-holder-inner',
+      ) as HTMLDivElement;
+      if (treeList) {
+        treeList.style.height = colSize.height + 'px';
+      }
+    }
+  }, [colSize, virtual, loadingTreeData]);
+
   return (
     <>
       <Dialog
@@ -366,14 +381,14 @@ const TableTreeModal = <
           </div>
         </div>
         <Row gutter={20}>
-          <Col className={styles.treeCol} flex="250px">
+          <Col ref={colRef} className={styles.treeCol} flex="250px">
             {loadingTreeData ? (
               <div className="flex h-full">
                 <Spin className="flex1" />
               </div>
             ) : (
               <Tree
-                className={styles.tree}
+                className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
                 treeData={treeData}
                 onSelect={onTreeSelect}
                 onCheck={onTreeCheck}
@@ -382,6 +397,7 @@ const TableTreeModal = <
                 {...treeSelectAndCheckData}
                 checkStrictly
                 defaultExpandAll={true}
+                height={virtual ? colSize?.height : undefined}
                 {...props?.treeProps}
               />
             )}

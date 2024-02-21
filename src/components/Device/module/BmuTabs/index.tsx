@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-01-30 16:46:03
+ * @LastEditTime: 2024-02-19 11:49:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -57,12 +57,11 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   );
 
   const isLiquid = useMemo(() => {
-    console.log('deviceData>>', deviceData);
     return deviceData?.productId && LiquidEnergyBatteryProductIds.includes(deviceData?.productId);
   }, [deviceData]);
 
-  const is118 = useMemo(() => {
-    return deviceData?.productId == (118 as number);
+  const isPvEnergy = useMemo(() => {
+    return deviceData?.productId == DeviceTypeEnum.PvEnergyBms;
   }, [deviceData]);
 
   const onTabChange = useCallback((key) => {
@@ -171,14 +170,14 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return Array.from({
-      length: isLiquid ? 5 : is118 ? 9 : 10,
-    }).map((item, index) => {
+      length: isLiquid ? 5 : isPvEnergy ? 9 : 10,
+    }).map((_, index) => {
       return {
         key: index + '',
         label: 'BMU' + (index + 1),
       };
     });
-  }, [deviceData]);
+  }, [isLiquid, isPvEnergy]);
 
   useEffect(() => {
     if (clusterDeviceId || deviceData?.deviceId) {

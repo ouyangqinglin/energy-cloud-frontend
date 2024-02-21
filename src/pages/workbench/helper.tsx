@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2023-10-18 15:53:49
+ * @LastEditTime: 2024-02-20 13:52:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\workbench\helper.tsx
  */
@@ -72,11 +72,14 @@ const tableSelectColumns: ProColumns[] = [
   },
 ];
 
-const dealTreeData = (data: DeviceTreeDataType[], siteName = '') => {
-  data?.forEach?.((item) => {
+const dealTreeData = (data: DeviceTreeDataType[], siteName = '', parentId = '') => {
+  data?.forEach?.((item, index) => {
     item.siteName = siteName || item.deviceName;
+    if (!item.productId) {
+      item.id = `${parentId}${index}`;
+    }
     if (item.children && item.children.length) {
-      dealTreeData(item.children, item.siteName);
+      dealTreeData(item.children, item.siteName, item.id);
     }
   });
 };
@@ -114,6 +117,7 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       valueId: 'paramCode',
       valueName: 'paramName',
       multiple: false,
+      virtual: true,
       valueFormat: (_: any, item: CollectionDataType) => {
         return `${item?.tree?.siteName}-${item?.tree?.deviceName}-${item.paramName}`;
       },

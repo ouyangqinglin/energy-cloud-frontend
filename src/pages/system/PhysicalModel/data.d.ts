@@ -4,6 +4,7 @@ export type PhysicalModelType = {
   editable: 0 | 1;
   remark: string | null;
   createTime: string;
+  version: number;
 };
 export type ThingsConfigType = {
   properties: any[];
@@ -16,6 +17,7 @@ export type PhysicalModelFormType = {
   name: string;
   remark: string | null;
   thingsConfig: ThingsConfigType;
+  version: number;
 };
 
 export type FieldFormType = {

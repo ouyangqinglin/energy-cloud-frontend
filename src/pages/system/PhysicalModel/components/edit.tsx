@@ -41,6 +41,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
   const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
+  let version: number;
 
   const handleThingsConfig = (data: ThingsConfigType): ThingsConfigType => {
     const result: ThingsConfigType = initThingsConfig;
@@ -61,6 +62,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
         remark: data.remark,
       });
       setThingsConfig(handleThingsConfig(data.thingsConfig));
+      version = data.version;
     }
   };
   useEffect(() => {
@@ -177,7 +179,10 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const handleFinish = async (value: PhysicalModelFormType) => {
     const formData = value;
     formData.thingsConfig = thingsConfig;
-    if (showType == 'edit') formData.id = values.id;
+    if (showType == 'edit') {
+      formData.id = values.id;
+      formData.version = version;
+    }
     props.onSubmit(formData);
   };
   const handleRemoveOne = (record: FieldFormType) => {

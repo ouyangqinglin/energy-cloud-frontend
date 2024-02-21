@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:00:23
- * @LastEditTime: 2024-01-29 15:33:11
+ * @LastEditTime: 2024-02-20 16:43:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\index.tsx
  */
@@ -64,7 +64,7 @@ const Model: React.FC<CabinetProps> = (props) => {
       pathname: '/alarm/current',
       search: `?siteId=${deviceData?.siteId}&deviceName=${energyData?.name}`,
     });
-  }, [deviceData?.siteId]);
+  }, [deviceData?.siteId, energyData]);
 
   const partItems = useMemo(() => {
     return configs?.map?.((config) => {
@@ -113,7 +113,7 @@ const Model: React.FC<CabinetProps> = (props) => {
               <span className={`flex ${styles.alarm}`}>
                 {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
                 <span className="cursor ml8" onClick={onAlarmClick}>
-                  {deviceData?.alarmCount}
+                  {!!deviceData?.alarmCount && deviceData?.alarmCount}
                 </span>
               </span>
             </Detail.Label>
