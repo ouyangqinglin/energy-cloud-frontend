@@ -164,12 +164,6 @@ const DictTypeTableList: React.FC = () => {
 
   const columns: ProColumns<DictTypeType>[] = [
     {
-      title: 'wahaha',
-      dataIndex: 'wahaha',
-      hideInTable: true,
-      width: 20,
-    },
-    {
       title: <FormattedMessage id="system.DictType.dict_id" defaultMessage="字典主键" />,
       dataIndex: 'dictId',
       valueType: 'text',
@@ -186,6 +180,7 @@ const DictTypeTableList: React.FC = () => {
       title: <FormattedMessage id="system.DictType.dict_type" defaultMessage="字典类型" />,
       dataIndex: 'dictType',
       valueType: 'text',
+      width: 100,
       render: (dom, record) => {
         return (
           <a

@@ -10,7 +10,7 @@ import useToolBarRender from './useToolBarRender';
 import useTableSize from './useTableSize';
 import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
-import { useAntdColumnResize } from 'react-antd-column-resize';
+import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 
 const YTProTable = <
   DataType extends Record<string, any>,
