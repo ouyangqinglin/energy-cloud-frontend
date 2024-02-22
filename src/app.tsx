@@ -14,12 +14,14 @@ import {
   getLocaleMenus,
   getBrowserLang,
   formatMessage,
+  initLocale,
 } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
 import { SiteDataType } from './services/station';
 import { defaultSystemInfo } from '@/utils/config';
+import { merge } from 'lodash';
 
 export type initialStateType = {
   settings?: Partial<LayoutSettings>;
@@ -59,16 +61,6 @@ const editFavicon = (data?: initialStateType) => {
       data?.currentUser?.systemInfo?.title ||
       formatMessage({ id: 'system.title', defaultMessage: '新能源能量管理云平台' });
   }, 700);
-};
-
-const initLocale = (userLocale?: string) => {
-  const localLocale = localStorage.getItem('umi_locale');
-  const locale =
-    userLocale || localLocale || getBrowserLang() || defaultSettings?.locale || 'zh-CN';
-  if (localLocale != locale) {
-    localStorage.setItem('umi_locale', locale);
-    window.location.reload();
-  }
 };
 
 /**
@@ -118,12 +110,17 @@ export async function getInitialState(): Promise<initialStateType> {
       collapsed,
     };
   } else {
+    const localLocale = localStorage.getItem('umi_locale');
+    const systemInfo = merge({}, defaultSystemInfo);
+    if (localLocale != 'zh-CN') {
+      systemInfo.title = 'YT EMS Cloud';
+    }
     return {
       fetchUserInfo,
       settings: defaultSettings,
       collapsed,
       currentUser: {
-        systemInfo: defaultSystemInfo,
+        systemInfo,
       },
     };
   }
