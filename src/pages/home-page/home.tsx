@@ -120,7 +120,9 @@ const HomePage: React.FC = () => {
           return;
         }
       } else if (item.field == 'essGeneratedPower') {
-        if ([SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+        if (
+          [SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS].includes(siteType || '')
+        ) {
           return;
         }
       } else if (item.field == 'chargePower') {

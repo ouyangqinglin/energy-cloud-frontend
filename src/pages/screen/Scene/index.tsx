@@ -78,6 +78,7 @@ const Scene = () => {
 
   const [geometryMode, setGeometryMode] = useState<SystemDiagramType>();
   const switchGeometry = (value: SystemDiagramType) => {
+    console.log('value>>', value);
     setGeometryMode(value);
   };
 

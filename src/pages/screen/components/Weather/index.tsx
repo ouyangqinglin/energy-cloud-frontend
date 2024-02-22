@@ -12,8 +12,11 @@ import { Spin, Space } from 'antd';
 import { useRequest } from 'umi';
 import { getSiteId } from '../../Scene/helper';
 import weatherMap, { iconUnknow } from '@/utils/weather';
+import { getLocale } from '@/utils';
+import { weatherUS } from '@/utils/dictionary';
 import styles from './index.less';
 import { getWeather } from './service';
+const isUS = getLocale() == 'en-US';
 
 const Weather: React.FC = (props) => {
   const siteId = getSiteId();
@@ -37,7 +40,7 @@ const Weather: React.FC = (props) => {
       ) : (
         <>
           <Space align="center">
-            <span className={styles.name}>{data?.weather}</span>
+            <span className={styles.name}>{isUS ? weatherUS[data?.weather] : data?.weather}</span>
             <img className={styles.img} src={weatherMap.get(data?.weather) || iconUnknow} />
             <span className={styles.temp}>
               {Math.min(data?.nighttemp, data?.daytemp)}℃ -{' '}

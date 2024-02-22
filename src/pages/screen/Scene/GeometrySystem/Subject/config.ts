@@ -5,6 +5,7 @@
 // import { ReactComponent as Icon_GE } from '@/assets/image/screen/geometrySystem/icon_ge.svg';
 // import { ReactComponent as Icon_ES } from '@/assets/image/screen/geometrySystem/icon_es.svg';
 // import { ReactComponent as Icon_ES_disable } from '@/assets/image/screen/geometrySystem/icon_es_disable.svg';
+//CN_ICON
 import { ReactComponent as Icon_BASE } from '@/assets/image/screen/geometrySystem/icon_base.svg';
 import Icon_PV from '@/assets/image/screen/geometrySystem/icon_pv.png';
 import Icon_PV_disable from '@/assets/image/screen/geometrySystem/icon_pv_disable.png';
@@ -13,11 +14,22 @@ import Icon_LOAD from '@/assets/image/screen/geometrySystem/icon_load.png';
 import Icon_GE from '@/assets/image/screen/geometrySystem/icon_ge.png';
 import Icon_ES from '@/assets/image/screen/geometrySystem/icon_es.png';
 import Icon_ES_disable from '@/assets/image/screen/geometrySystem/icon_es_disable.png';
+//EN_ICON
+import Icon_PV_US from '@/assets/image/screen/geometrySystem/icon_pv_us.png';
+import Icon_PV_disable_US from '@/assets/image/screen/geometrySystem/icon_pv_disable_us.png';
+import Icon_PC_US from '@/assets/image/screen/geometrySystem/icon_pc_us.png';
+import Icon_LOAD_US from '@/assets/image/screen/geometrySystem/icon_load_us.png';
+import Icon_GE_US from '@/assets/image/screen/geometrySystem/icon_ge_us.png';
+import Icon_ES_US from '@/assets/image/screen/geometrySystem/icon_es_us.png';
+import Icon_ES_disable_US from '@/assets/image/screen/geometrySystem/icon_es_disable_us.png';
+
 // import Icon_BASE from '@/assets/image/screen/geometrySystem/icon_base.png';
 import { SubSystemType } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import { CellStyle } from '../../Geometry/type';
+import { getLocale } from '@/utils';
 import { ReactNode } from 'react';
 import { formatMessage } from '@/utils';
+const isUS = getLocale() == 'en-US';
 
 export type CellConfig = {
   name: string;
@@ -51,7 +63,7 @@ export const config: CellConfig[] = [
       zIndex: 1,
     },
     subsystemType: SubSystemType.E,
-    icon: Icon_GE,
+    icon: isUS ? Icon_GE_US : Icon_GE,
   },
   {
     name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
@@ -63,8 +75,8 @@ export const config: CellConfig[] = [
       zIndex: 1,
     },
     subsystemType: SubSystemType.ES,
-    icon: Icon_ES,
-    iconDisable: Icon_ES_disable,
+    icon: isUS ? Icon_ES_US : Icon_ES,
+    iconDisable: isUS ? Icon_ES_disable_US : Icon_ES_disable,
   },
   // 存在充电桩和负载
   {
@@ -77,7 +89,7 @@ export const config: CellConfig[] = [
       zIndex: 1,
     },
     subsystemType: SubSystemType.CS,
-    icon: Icon_PC,
+    icon: isUS ? Icon_PC_US : Icon_PC,
   },
   {
     name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
@@ -90,7 +102,7 @@ export const config: CellConfig[] = [
       zIndex: 1,
     },
     subsystemType: SubSystemType.L,
-    icon: Icon_LOAD,
+    icon: isUS ? Icon_LOAD_US : Icon_LOAD,
   },
   {
     name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
@@ -101,7 +113,7 @@ export const config: CellConfig[] = [
       top: 322,
     },
     subsystemType: SubSystemType.PV,
-    iconDisable: Icon_PV_disable,
-    icon: Icon_PV,
+    iconDisable: isUS ? Icon_PV_disable_US : Icon_PV_disable,
+    icon: isUS ? Icon_PV_US : Icon_PV,
   },
 ];

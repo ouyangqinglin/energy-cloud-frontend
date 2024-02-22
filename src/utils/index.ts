@@ -119,6 +119,10 @@ export const getValue = (value: any, unit = '') => {
   return isEmpty(value) ? '' : value + unit;
 };
 
+export const getLocale = () => {
+  return localStorage.getItem('umi_locale');
+};
+
 export type valueType = {
   value?: string;
   type?: string;

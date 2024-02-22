@@ -932,12 +932,12 @@ export const bmsMeasureItems: DetailItem[] = [
     format: tempFormat,
   },
   {
-    label: formatMessage({ id: 'device.rechargeableCapacity', defaultMessage: '可充电量' }),
+    label: formatMessage({ id: 'siteMonitor.rechargeableCapacity', defaultMessage: '可充电量' }),
     field: 'RechargeableCapacity',
     format: powerHourFormat,
   },
   {
-    label: formatMessage({ id: 'device.dischargeCapacity', defaultMessage: '可放电量' }),
+    label: formatMessage({ id: 'siteMonitor.dischargeCapacity', defaultMessage: '可放电量' }),
     field: 'DischargeableCapacity',
     format: powerHourFormat,
   },

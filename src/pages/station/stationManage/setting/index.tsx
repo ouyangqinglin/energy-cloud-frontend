@@ -19,6 +19,7 @@ const Setting = () => {
     'siteManage:siteConfig:systemParamsSetting',
     'siteManage:siteConfig:electricPriceManage',
     'siteManage:siteConfig:configRecord',
+    'iot:siteManage:siteConfig:deviceManage:page',
   ]);
 
   const items = useMemo(() => {
@@ -30,7 +31,10 @@ const Setting = () => {
         children: <StationInfo />,
       });
     }
-    if (authorityMap.get('iot:siteManage:siteConfig:deviceManage')) {
+    if (
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage') &&
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:page')
+    ) {
       result.push({
         key: '2',
         label: formatMessage({ id: 'siteManage.set.deviceManage', defaultMessage: '设备管理' }),

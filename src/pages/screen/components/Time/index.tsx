@@ -7,11 +7,12 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Time\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { weekInfo } from '@/utils/dictionary';
+import { weekInfo, weekInfoUS } from '@/utils/dictionary';
+import { getLocale } from '@/utils';
 import moment from 'moment';
 import styles from './index.less';
 import '@/assets/styles/font.less';
-// import { formatMessage } from '@/utils';
+const isUS = getLocale() == 'en-US';
 
 const Time: React.FC = () => {
   const [date, setDate] = useState({ date: '', week: '', time: '' });
@@ -20,8 +21,8 @@ const Time: React.FC = () => {
     const timer = setInterval(() => {
       const now = moment();
       setDate({
-        date: now.format('YYYY年MM月DD日'),
-        week: weekInfo[now.day()],
+        date: now.format(isUS ? 'MM/DD/YYYY' : 'YYYY年MM月DD日'),
+        week: isUS ? weekInfoUS[now.day()] : weekInfo[now.day()],
         time: now.format('HH:mm:ss'),
       });
     }, 1000);

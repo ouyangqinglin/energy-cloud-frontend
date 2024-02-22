@@ -32,15 +32,20 @@ type PieDataType = {
   data: DataType[];
   totalGains: number;
 };
-
+const unit =
+  formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+  formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' });
 const typeMap = new Map([
   [
-    formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
+    formatMessage({ id: 'device.pv', defaultMessage: '光伏' }) + unit,
     ['photovoltaicGains', 'photovoltaicProportion'],
   ],
-  [formatMessage({ id: 'device.storage', defaultMessage: '储能' }), ['essGains', 'essProportion']],
   [
-    formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
+    formatMessage({ id: 'device.storage', defaultMessage: '储能' }) + unit,
+    ['essGains', 'essProportion'],
+  ],
+  [
+    formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + unit,
     ['chargingPileGains', 'chargingPileProportion'],
   ],
 ]);
@@ -77,10 +82,11 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
 
   const labelFormat = useCallback((data, mappingData) => {
     const group = new G.Group({});
+    const lable = data.type.length > 12 ? data.type.substring(0, 12) + '...' : data.type;
     group.addShape({
       type: 'text',
       attrs: {
-        x: 0,
+        x: 20,
         y: 8,
         text: data.value,
         fill: mappingData.color,
@@ -90,12 +96,9 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
     group.addShape({
       type: 'text',
       attrs: {
-        x: 0,
+        x: 20,
         y: 25,
-        text:
-          data.type +
-          formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        text: lable,
         fill: '#ACCCEC',
         fontWeight: 400,
         fontSize: 12,
@@ -125,6 +128,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
       });
     });
     const totalNum = (revenueData?.totalGains || 0) * 1;
+    console.log('typeData>>', typeData);
     setPieData({
       totalGains: (totalNum + '').length > 7 ? Math.floor(totalNum) : totalNum,
       data: typeData,
