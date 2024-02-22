@@ -189,8 +189,8 @@ const ChartBox = ({
           result.push({ data: chartDataHandle(isDay, data) });
         } else {
           series[0].name = formatMessage({
-            id: 'index.chart.powerGeneration',
-            defaultMessage: '发电量',
+            id: 'index.chart.powerCharge',
+            defaultMessage: '充电量',
           });
           data = chartData?.charge || [];
           result.push({ data: chartDataHandle(isDay, data) });

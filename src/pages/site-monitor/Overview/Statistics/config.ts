@@ -54,22 +54,30 @@ export const config = (siteType: string) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayChargingVolume',
-            defaultMessage: '今日系统充电量',
+            id: 'siteMonitor.Charge/dischargeDaily',
+            defaultMessage: '今日系统充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'charge',
-          value: '1366.8',
+          value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,
         },
-        {
-          label: `${formatMessage({
-            id: 'siteMonitor.dayDischarge',
-            defaultMessage: '今日系统放电量',
-          })}(kWh)`,
-          labelUnit: '/kWh',
-          field: 'discharge',
-          value: '0',
-        },
+        // {
+        //   label: `${formatMessage({
+        //     id: 'siteMonitor.dayChargingVolume',
+        //     defaultMessage: '今日系统充电量',
+        //   })}(kWh)`,
+        //   labelUnit: '/kWh',
+        //   field: 'charge',
+        //   value: '1366.8',
+        // },
+        // {
+        //   label: `${formatMessage({
+        //     id: 'siteMonitor.dayDischarge',
+        //     defaultMessage: '今日系统放电量',
+        //   })}(kWh)`,
+        //   labelUnit: '/kWh',
+        //   field: 'discharge',
+        //   value: '0',
+        // },
         {
           label: `${formatMessage({
             id: 'siteMonitor.dischargeCapacity',
@@ -99,7 +107,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.Charge/dischargeDaily',
-            defaultMessage: '今日充/放电量',
+            defaultMessage: '今日系统充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,

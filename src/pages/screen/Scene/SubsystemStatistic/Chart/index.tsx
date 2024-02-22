@@ -114,8 +114,8 @@ const StatisticChart: FC<Props> = ({
             style: {
               fill: '#ACCCEC ',
               rotate: 90,
-              y: 10,
-              x: 30,
+              y: 65,
+              x: 40,
             },
           }}
           grid={{

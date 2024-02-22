@@ -40,6 +40,8 @@ export default {
   'device.associatedDevice': '关联设备',
   'device.associatedChargingHost': '关联充电堆主机',
   'device.refrigerationPoint': '制冷点',
+  'device.platformRules': '平台规则',
+  'device.deviceSide': '设备端',
   'device.refrigerationDifference': '制冷回差',
   'device.hotSpot': '加热点',
   'device.hotSpotDifference': '加热回差',

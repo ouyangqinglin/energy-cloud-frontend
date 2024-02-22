@@ -50,8 +50,8 @@ export default {
   'siteManage.set.allDataCollectionPoints': 'All data collection points',
   'siteManage.set.dataCollectionPoints': 'Data collection points',
   'siteManage.set.dataCollectionPointIdIdentify': 'Data collection point identification',
-  'siteManage.set.mainsMonitor': 'Mains monitoring',
-  'siteManage.set.otherLoad': 'Other load',
+  'siteManage.set.mainsMonitor': 'Grid monitoring',
+  'siteManage.set.otherLoad': 'Other Load',
   'siteManage.set.pvMonitor': 'Photovoltaic monitoring',
   'siteManage.set.energyStorageMonitor': 'Energy storage monitoring',
   'siteManage.set.chargePileMonitor': 'Charging pile monitoring',
@@ -72,7 +72,7 @@ export default {
   'siteManage.set.historyDatSaveDuration': 'Historical data retention duration',
   'siteManage.set.selectHistoryDatSaveDuration':
     'Please select the historical data retention period',
-  'siteManage.set.electricPriceSetting': 'Electricity price setting',
+  'siteManage.set.electricPriceSetting': 'Grid price setting',
   'siteManage.set.pvGridElectricityPriceSetting': 'Photovoltaic on-grid electricity price setting',
   'siteManage.set.chargePileChargingSettings': 'Charging pile charging Settings',
   'siteManage.set.delTariffRule':
