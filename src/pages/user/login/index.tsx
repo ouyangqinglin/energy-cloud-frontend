@@ -11,10 +11,11 @@ import { clearSessionToken, setSessionToken } from '@/access';
 import { useLocation } from '@/hooks';
 import request from '@/utils/request';
 //import { getRoutersInfo } from '@/services/session';
-import { getLocaleMenus, getMenus } from '@/utils';
+import { getLocaleMenus, getMenus, initLocale } from '@/utils';
 
 export type QueryParams = {
   redirect?: string;
+  lang?: string;
 };
 
 const LoginMessage: React.FC<{
@@ -36,10 +37,15 @@ const getRoutersList = () => {
   });
 };
 const Login: React.FC = () => {
+  const location = useLocation<QueryParams>();
+
+  if (location?.query?.lang) {
+    initLocale(location?.query?.lang);
+  }
+
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
   const { initialState, refresh } = useModel('@@initialState');
-  const location = useLocation<QueryParams>();
   const { clear } = useAliveController();
 
   const [uuid, setUuid] = useState<string>('');
