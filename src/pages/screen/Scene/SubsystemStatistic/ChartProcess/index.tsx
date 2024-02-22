@@ -33,14 +33,14 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
   const data = [
     {
       type: formatMessage({ id: 'screen.batteryStatus', defaultMessage: '电池状态' }),
-      field: formatMessage({ id: 'screen.rechargeableCapacity', defaultMessage: '可充电量' }),
+      field: formatMessage({ id: 'siteMonitor.rechargeableCapacity', defaultMessage: '可充电量' }),
       value: charge ?? 0,
       unit: 'kWh',
       color: '#01CFA1',
     },
     {
       type: formatMessage({ id: 'screen.batteryStatus', defaultMessage: '电池状态' }),
-      field: formatMessage({ id: 'screen.dischargeCapacity', defaultMessage: '可放电量' }),
+      field: formatMessage({ id: 'siteMonitor.dischargeCapacity', defaultMessage: '可放电量' }),
       value: discharge ?? 0,
       unit: 'kWh',
       color: '#FFE04D',
@@ -60,7 +60,9 @@ const ChartProcess: FC<Props> = ({ charge = 0, discharge = 0, capacity = 0 }) =>
             <div className={styles.content} key={item.field}>
               <div className={styles.mark} style={{ backgroundColor: item.color }} />
               <div className={styles.desc}>
-                <div className={styles.title}>{item.field}</div>
+                <div className={styles.title} title={item.field}>
+                  {item.field}
+                </div>
                 <span className={styles.unit} style={{ color: item.color }}>
                   {item.value + item.unit}
                 </span>

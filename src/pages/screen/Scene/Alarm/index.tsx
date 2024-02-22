@@ -74,7 +74,10 @@ const AlarmInfo = ({
             {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}: {alarmCount}
           </span>
         ) : (
-          <span className={styles.alarmContent} style={{ color: '#01cfa1', paddingLeft: 10 }}>
+          <span
+            className={styles.alarmContent}
+            style={{ color: '#01cfa1', top: '18px', left: '50px' }}
+          >
             {formatMessage({ id: 'common.normal', defaultMessage: '正常' })}
           </span>
         )}

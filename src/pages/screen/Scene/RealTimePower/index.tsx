@@ -124,6 +124,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   return (
     <div className={styles.chartWrapper}>
       <Chart
+        padding={[50, 20, 20, 30]}
         ref={chartRef}
         height={266}
         scale={{
@@ -152,8 +153,8 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         <Annotation.Text
           position={['min', 'max']}
           content={formatMessage({ id: 'common.power', defaultMessage: '功率' }) + '(KW)'}
-          offsetX={-25}
-          offsetY={-25}
+          offsetX={-10}
+          offsetY={-10}
           style={{
             textAlign: 'left',
             fontSize: 12,

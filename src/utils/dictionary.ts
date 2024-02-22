@@ -6,7 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
-
+// import { formatMessage } from 'umi';
+// console.log('formatMessage>>',formatMessage({ id: 'device.platformRules', defaultMessage: '平台规则' }));
 export enum RequestCode {
   NoToken = 500001,
   TokenExpire = 500003,
@@ -179,6 +180,29 @@ export const useInfo = [
 ];
 
 export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+export const weekInfoUS = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
+export const weatherUS = {
+  晴: 'Clear',
+  多云: 'Cloudy',
+  阴: 'Overcast',
+  阵雨: 'Shower',
+  小雨: 'Light Rain',
+  中雨: 'Moderate Rain',
+  大雨: 'Heavy Rain',
+  雷阵雨: 'Thundershower',
+  雨夹雪: 'Sleet',
+  小雪: 'Light Snow',
+};
 
 export const color = {};
 
@@ -459,9 +483,11 @@ export const chargeType = {
 
 export const alarmSource = {
   0: {
+    // text: formatMessage({ id: 'device.deviceSide', defaultMessage: '设备端' }),
     text: '设备端',
   },
   1: {
+    // text: formatMessage({ id: 'device.platformRules', defaultMessage: '平台规则' }),
     text: '平台规则',
   },
 };

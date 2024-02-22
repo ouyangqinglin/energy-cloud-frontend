@@ -1,5 +1,6 @@
 export default {
   'screen.siteName': '站点名称',
+  'screen.individual': '个',
   'screen.customizedEnergyFlowChart': '定制能流图',
   'screen.standardEnergyFlowChart': '标准能流图',
   'screen.realTimePower': '实时功率',
@@ -118,4 +119,14 @@ export default {
   'screen.storageChargeStation': '储充站点',
   'screen.opticalStorageSite': '光储站点',
   'screen.opticalStorageChargingStation': '光储充站点',
+  'weather.clear': '晴',
+  'weather.cloudy': '多云',
+  'weather.overcast': '阴',
+  'weather.shower': '阵雨',
+  'weather.lightRain': '小雨',
+  'weather.moderate Rain': '中雨',
+  'weather.heavyRain': '大雨',
+  'weather.thundershower': '雷阵雨',
+  'weather.sleet': '雨夹雪',
+  'weather.lightSnow': '小雪',
 };
