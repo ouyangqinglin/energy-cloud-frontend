@@ -7,6 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\type.ts
  */
 
+import { DeviceDataType } from '@/services/equipment';
+
 export type ComProps = {
   siteId?: string;
   className?: string;
@@ -20,4 +22,16 @@ export type searchType = {
 
 export type statType = {
   name?: string;
+};
+
+export type GroupDeviceType = DeviceDataType & {
+  index?: number;
+  groupId?: number;
+  groupName?: string;
+};
+
+export type GroupType = {
+  groupId?: number;
+  groupName?: string;
+  devices?: GroupDeviceType[];
 };

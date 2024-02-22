@@ -128,7 +128,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
             </List.Item>
           )}
         />
-        <div className={styles.verticalDiv}>
+        <div className={styles.vertical}>
           <Divider type="vertical" />
         </div>
         {activeIndex !== 0 ? (

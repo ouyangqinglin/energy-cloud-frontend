@@ -66,9 +66,9 @@ const Electric: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceData?.deviceId || deviceKey) {
+    if (deviceData?.deviceId) {
       run({
-        deviceId: deviceKey || deviceData?.deviceId,
+        deviceId: deviceData?.deviceId,
         type: chartType,
         date: date.format('YYYY-MM-DD'),
         visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,

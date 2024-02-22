@@ -165,6 +165,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     //   ]
     //   : [],
     menuHeaderRender: () => <Logo />,
+    onMenuHeaderClick: () => null,
     openKeys: initialState?.openKeys,
     onOpenChange(openKeys) {
       if (Array.isArray(openKeys)) {
