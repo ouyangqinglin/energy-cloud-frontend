@@ -16,7 +16,7 @@ import { getLocale } from '@/utils';
 import { weatherUS } from '@/utils/dictionary';
 import styles from './index.less';
 import { getWeather } from './service';
-const isUS = getLocale() == 'en-US';
+const isUS = getLocale().isEnUS;
 
 const Weather: React.FC = (props) => {
   const siteId = getSiteId();

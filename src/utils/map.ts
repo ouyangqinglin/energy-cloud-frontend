@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-03-13 19:26:34
- * @LastEditTime: 2023-09-04 19:52:01
+ * @LastEditTime: 2024-02-23 15:10:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\map.ts
  */
-import { AutoComStatusEnum } from './dictionary';
+import { AmapLang, AutoComStatusEnum } from './dictionary';
+import { getLocale } from './index';
 
 interface IAutoComResult {
   autoComplete: AMap.AutoComplete;
@@ -70,7 +71,8 @@ export function getGeocoder() {
   return new Promise<IGeocoderResult>((geoResolve) => {
     mapLoad().then(() => {
       window.AMap.plugin(['AMap.Geocoder'], () => {
-        geocoder = geocoder || new window.AMap.Geocoder({});
+        geocoder =
+          geocoder || new window.AMap.Geocoder({ lang: getLocale().isZh ? '' : AmapLang.En });
 
         const getAddress = (point: AMap.LngLat) => {
           return new Promise<any>((resolve, reject) => {

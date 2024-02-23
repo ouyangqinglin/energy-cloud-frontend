@@ -120,7 +120,30 @@ export const getValue = (value: any, unit = '') => {
 };
 
 export const getLocale = () => {
-  return localStorage.getItem('umi_locale');
+  const locale = localStorage.getItem('umi_locale');
+  const result = {
+    isZh: false,
+    isZhCN: false,
+    isZhTW: false,
+    isEn: false,
+    isEnUS: false,
+    isJaJP: false,
+  };
+  switch (locale) {
+    case 'zh-CN':
+      result.isZh = true;
+      result.isZhCN = true;
+      break;
+    case 'en-US':
+      result.isEn = true;
+      result.isEnUS = true;
+      break;
+    default:
+  }
+  return {
+    locale,
+    ...result,
+  };
 };
 
 export type valueType = {

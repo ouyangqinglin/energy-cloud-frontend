@@ -2,19 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 19:25:45
- * @LastEditTime: 2023-10-13 16:24:37
+ * @LastEditTime: 2024-02-23 15:21:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\index.tsx
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
 import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/types';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
-import { formatMessage, getAreaCodeByAdCode } from '@/utils';
+import { formatMessage, getAreaCodeByAdCode, getLocale } from '@/utils';
+import { AmapLang } from '@/utils/dictionary';
 
 export type PositionSelectType = {
   address?: string;
@@ -42,6 +43,10 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
   const [inputPoint, setInputPoint] = useState('');
   const [center, setCenter] = useState<AMap.LngLat>();
   const [zoom, setZoom] = useState(11);
+
+  const lang = useMemo(() => {
+    return getLocale().isZh ? '' : AmapLang.En;
+  }, []);
 
   useEffect(() => {
     if (point && point.lat && point.lng) {
@@ -202,7 +207,7 @@ const PositionSelect: React.FC<PositionSelectProps> = (props) => {
           )}
         </Row>
         <MapContain>
-          <Map center={center} zoom={zoom} onClick={onClick}>
+          <Map center={center} zoom={zoom} onClick={onClick} lang={lang}>
             {point && <Marker position={point} />}
           </Map>
         </MapContain>

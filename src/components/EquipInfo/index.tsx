@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 16:19:01
- * @LastEditTime: 2023-12-13 16:45:31
+ * @LastEditTime: 2024-02-23 09:58:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EquipInfo\index.tsx
  */
@@ -177,7 +177,10 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
                   )}
                 </div>
                 <Button type="link" onClick={onEditClick}>
-                  修改基本信息
+                  {formatMessage({
+                    id: 'common.modifyBasicInformation',
+                    defaultMessage: '修改基本信息',
+                  })}
                 </Button>
                 {buttons}
               </div>

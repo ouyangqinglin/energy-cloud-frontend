@@ -206,6 +206,12 @@ export const weatherUS = {
 
 export const color = {};
 
+export enum AmapLang {
+  En = 'en',
+  Zh = 'zh_cn',
+  ZhEn = 'zh_en',
+}
+
 export const connectStatus = {
   2: {
     text: '未配置',

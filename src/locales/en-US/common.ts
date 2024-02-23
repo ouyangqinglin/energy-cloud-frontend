@@ -200,4 +200,5 @@ export default {
   'common.modelSentence': '{name} model',
   'common.pause': 'Pause',
   'common.roll': 'Roll',
+  'common.modifyBasicInformation': 'Modify basic information',
 };
