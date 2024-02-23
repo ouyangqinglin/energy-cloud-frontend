@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-01-26 16:49:43
+ * @LastEditTime: 2024-02-23 09:04:36
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -13,10 +13,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { StationType } from './data.d';
-import { buildStatus } from '@/utils/dictionary';
+import { buildStatus } from '@/utils/dict';
 import { getList, removeData } from './service';
 import StationForm from './components/edit';
-import { siteType as siteTypeEnum } from '@/utils/dictionary';
+import { siteType as siteTypeEnum } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
@@ -250,12 +250,13 @@ const StationList: React.FC = () => {
       title: formatMessage({ id: 'common.lastOperationTime', defaultMessage: '最后操作时间' }),
       dataIndex: 'lastOperationTime',
       valueType: 'dateTime',
+      width: 200,
       hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
       valueType: 'option',
-      width: 180,
+      width: 190,
       fixed: 'right',
       render: rowBar,
       hideInTable:

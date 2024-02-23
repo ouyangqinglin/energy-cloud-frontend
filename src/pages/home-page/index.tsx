@@ -11,7 +11,7 @@ import React from 'react';
 import { useModel } from 'umi';
 import ExchangeSite from './ExchangeSite';
 import HomePage from './home';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 
 export const enum SubSystemType {
   PV = 0,

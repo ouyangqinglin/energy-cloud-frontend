@@ -10,7 +10,7 @@ import type { ActionType } from '@ant-design/pro-table';
 import { formatMessage } from '@/utils';
 import type { LocationType } from '@/types';
 import { useAuthority } from '@/hooks';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 
 const enum TabKeys {
   MARKET = 'MARKET',

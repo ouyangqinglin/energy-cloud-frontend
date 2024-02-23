@@ -4,7 +4,7 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import { useMemo, useRef } from 'react';
 import { useState } from 'react';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 import type { SubSystemType } from '../..';
 import styles from './index.less';
 import RenderTitle from './RenderTitle';

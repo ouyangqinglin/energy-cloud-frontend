@@ -24,7 +24,7 @@ import {
   getPowerStationOverview,
 } from './service';
 import { assign } from 'lodash';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 import type { TabsProps } from 'rc-tabs';
 import { useAuthority, useWindowSize } from '@/hooks';
 import { SubSystemType } from './index';

@@ -220,17 +220,6 @@ export const connectStatus = {
   },
 };
 
-export const buildStatus = {
-  1: {
-    text: '已交付',
-    status: 'Success',
-  },
-  0: {
-    text: '建设中',
-    status: 'Processing',
-  },
-};
-
 export enum OnlineStatusEnum {
   Offline,
   Online,
@@ -401,29 +390,6 @@ export const logType = {
   0: { text: '设备下行' },
   1: { text: '设备上报' },
   2: { text: '规则触发' },
-};
-
-export const enum SiteTypeEnum {
-  PV = 1,
-  ES = 2,
-  CS = 3,
-  ES_CS = 23,
-  PV_CS = 13,
-  PV_ES = 12,
-  PV_ES_CS = 123,
-  Exchange = 4,
-}
-
-export type SiteTypeEnumType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
-
-export const siteType = {
-  0: { text: '全部' },
-  [SiteTypeEnum.PV]: { text: '光伏站点' },
-  [SiteTypeEnum.ES]: { text: '储能站点' },
-  [SiteTypeEnum.CS]: { text: '充电站点' },
-  [SiteTypeEnum.ES_CS]: { text: '储充站点' },
-  [SiteTypeEnum.PV_ES]: { text: '光储站点' },
-  [SiteTypeEnum.PV_ES_CS]: { text: '光储充站点' },
 };
 
 export const operateUserType = {
