@@ -18,12 +18,8 @@ type MapDataType = {
 export const timeFormat = (value: string) => {
   return value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '';
 };
-export const onlineFormat = (value: number) => {
-  const map: MapType = {
-    0: '离线',
-    1: '在线',
-  };
-  return <span className={value == 0 ? 'cl-error' : ''}>{map[value]}</span>;
+export const onlineFormat = (value: any) => {
+  return <span className={value == 0 ? 'cl-error' : ''}>{onlineStatus?.[value].text}</span>;
 };
 export const communicateFormat = (value: number) => {
   const map: MapType = {

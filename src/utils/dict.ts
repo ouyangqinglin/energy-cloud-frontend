@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-02-23 09:14:31
+ * @LastEditTime: 2024-02-23 16:18:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -76,7 +76,7 @@ export enum OnlineStatusEnum {
   None,
 }
 
-export const onlineStatus = {
+export const onlineStatus: ValueEnum = {
   [OnlineStatusEnum.None]: {
     text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),
     status: '',
