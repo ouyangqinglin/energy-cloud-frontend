@@ -2,25 +2,35 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { Col, Row } from 'antd';
 import styles from '../index.less';
-
+import { formatMessage } from '@/utils';
 export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
   {
-    title: <div className={styles.title}>基础信息</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({ id: 'common.baseInfo', defaultMessage: '基础信息' })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '规则名称',
+        title: formatMessage({
+          id: 'pages.searchTable.updateForm.ruleName.nameLabel',
+          defaultMessage: '规则名称',
+        }),
         fieldProps: {
-          placeholder: '请输入',
+          placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
         },
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请输入规则名称',
+              message: formatMessage({
+                id: 'pages.searchTable.updateForm.ruleName.nameRules',
+                defaultMessage: '请输入规则名称',
+              }),
             },
           ],
         },
@@ -30,14 +40,20 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'name',
       },
       {
-        title: '生效日期',
+        title: formatMessage({
+          id: 'siteManage.siteList.effectiveDate',
+          defaultMessage: '生效日期',
+        }),
         valueType: 'formList',
         dataIndex: 'effectiveTimeList',
         initialValue: [{ effectiveTime: [] }],
         fieldProps: {
           copyIconProps: false,
           creatorButtonProps: {
-            creatorButtonText: '新增生效日期',
+            creatorButtonText: formatMessage({
+              id: 'siteManage.siteList.addEffectiveDate',
+              defaultMessage: '新增生效日期',
+            }),
             icon: <PlusCircleOutlined />,
             type: 'link',
             style: { width: 'unset' },
@@ -47,7 +63,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             Icon: (prop: any) => {
               return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
             },
-            tooltipText: '删除',
+            tooltipText: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
           },
           itemRender: ({ listDom, action }) => {
             return (
@@ -70,7 +86,10 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                   rules: [
                     {
                       required: true,
-                      message: '请输入生效日期',
+                      message: formatMessage({
+                        id: 'common.pleaseEnter',
+                        defaultMessage: '请输入',
+                      }),
                     },
                   ],
                 },
@@ -93,7 +112,14 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
     ],
   },
   {
-    title: <div className={styles.title}>时段电价</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({
+          id: 'siteManage.set.TimePeriodElectricityPrice',
+          defaultMessage: '时段电价',
+        })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
@@ -107,7 +133,10 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
           copyIconProps: false,
           creatorButtonProps: {
             className: 'pl0',
-            creatorButtonText: '新增时间段',
+            creatorButtonText: formatMessage({
+              id: 'siteManage.set.addTimeSlot',
+              defaultMessage: '新增时间段',
+            }),
             icon: <PlusCircleOutlined />,
             type: 'link',
             style: { width: 'unset' },
@@ -117,7 +146,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             Icon: (prop: any) => {
               return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;
             },
-            tooltipText: '删除',
+            tooltipText: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
           },
           itemRender: ({ listDom, action }) => {
             return (
@@ -139,17 +168,23 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             columns: [
               timeColum,
               {
-                title: '电价',
+                title: formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' }),
                 formItemProps: {
                   rules: [
                     {
                       required: true,
-                      message: '请输入电价',
+                      message: formatMessage({
+                        id: 'common.pleaseEnter',
+                        defaultMessage: '请输入',
+                      }),
                     },
                   ],
                 },
                 fieldProps: {
-                  addonAfter: '元/kWh',
+                  addonAfter: formatMessage({
+                    id: 'siteManage.set.rmb/kwh',
+                    defaultMessage: '元/kWh',
+                  }),
                 },
                 dataIndex: 'electricityFees',
                 valueType: 'digit',
@@ -160,17 +195,26 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                 width: '100%',
               },
               {
-                title: '服务费',
+                title: formatMessage({
+                  id: 'siteManage.set.serviceCharge',
+                  defaultMessage: '服务费',
+                }),
                 formItemProps: {
                   rules: [
                     {
                       required: true,
-                      message: '请输入服务费',
+                      message: formatMessage({
+                        id: 'common.pleaseEnter',
+                        defaultMessage: '请输入',
+                      }),
                     },
                   ],
                 },
                 fieldProps: {
-                  addonAfter: '元/kWh',
+                  addonAfter: formatMessage({
+                    id: 'siteManage.set.rmb/kwh',
+                    defaultMessage: '元/kWh',
+                  }),
                 },
                 dataIndex: 'serviceFees',
                 valueType: 'digit',

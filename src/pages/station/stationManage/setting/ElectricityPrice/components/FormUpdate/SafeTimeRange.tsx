@@ -3,6 +3,7 @@ import { TimePicker } from 'antd';
 import { useState } from 'react';
 import { isWholeDay, timeStore } from './helper';
 import styles from './index.less';
+import { formatMessage } from '@/utils';
 
 const useSafeTimeRangeColum = () => {
   const [disableTime, setDisableTime] = useState<Record<string, (0 | 15 | 30 | 45 | null)[]>>({});
@@ -13,7 +14,7 @@ const useSafeTimeRangeColum = () => {
   };
   return {
     colum: {
-      title: '时间段',
+      title: formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
       dataIndex: 'timeRange',
       valueType: 'timeRange',
       colProps: {

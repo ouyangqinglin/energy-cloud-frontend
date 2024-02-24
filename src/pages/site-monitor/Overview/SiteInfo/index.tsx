@@ -47,7 +47,9 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
           <div className={styles.label}>
             {formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' })}：
           </div>
-          <div className={styles.value}>{data?.name ?? '--'}</div>
+          <Tooltip placement="topRight" title={data?.name ?? '--'}>
+            <div className={styles.value}>{data?.name ?? '--'}</div>
+          </Tooltip>
         </li>
         <li>
           <div className={styles.label}>

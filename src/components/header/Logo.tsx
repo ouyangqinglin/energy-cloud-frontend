@@ -12,7 +12,6 @@ import styles from './index.less';
 
 const Logo: React.FC = () => {
   const { initialState } = useModel('@@initialState');
-
   return (
     <>
       <a>

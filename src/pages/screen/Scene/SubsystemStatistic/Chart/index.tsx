@@ -83,7 +83,7 @@ const StatisticChart: FC<Props> = ({
         </div>
       )}
       {/* <div className={styles.axisTitle}>单位(kW·h)</div> */}
-      <Chart height={height} data={chartData} autoFit>
+      <Chart height={height} data={chartData} autoFit padding={[80, 20, 20, 30]}>
         <Interval
           size={barSize}
           adjust={[

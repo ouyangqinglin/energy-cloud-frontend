@@ -25,7 +25,7 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
         <div className={styles.iconWrapper}>
           <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
         </div>
-        <span>{item.label}</span>
+        <span className={styles.label}>{item.label}</span>
       </div>
     );
 
@@ -35,7 +35,12 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
     if (isLocation && isValidCoord) {
       item.format = (value): ReactNode => {
         return (
-          <span onClick={onOpen} style={{ cursor, color: '#159AFF', lineHeight: 1.2 }}>
+          <span
+            className={styles.itemRight}
+            title={value}
+            onClick={onOpen}
+            style={{ cursor, color: '#159AFF', lineHeight: 1.2 }}
+          >
             {value}
           </span>
         );
@@ -61,14 +66,12 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
           labelStyle={{
             color: 'white',
             height: '36px',
-            lineHeight: '36px',
             fontSize: '14px',
           }}
           contentStyle={{
             alignItems: 'center',
             color: 'white',
             height: '36px',
-            lineHeight: '36px',
             fontSize: '14px',
           }}
           valueStyle={{

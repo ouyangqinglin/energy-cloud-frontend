@@ -170,7 +170,10 @@ const SvgComponent = (
           >
             <LoadCSIcon />
             <div className={styles.desc}>
-              <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
+              <span
+                className={styles.title}
+                style={{ fontSize: 12, width: 'auto', marginLeft: '-12px' }}
+              >
                 {formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}(kW)：
               </span>
               <span className={styles.value} style={{ fontSize: 12 }}>
@@ -306,7 +309,10 @@ const SvgComponent = (
             >
               <LoadCSIcon />
               <div className={styles.desc}>
-                <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
+                <span
+                  className={styles.title}
+                  style={{ fontSize: 12, width: 'auto', marginLeft: '-12px' }}
+                >
                   {formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}(kW)：
                 </span>
                 <span className={styles.value} style={{ fontSize: 12 }}>
