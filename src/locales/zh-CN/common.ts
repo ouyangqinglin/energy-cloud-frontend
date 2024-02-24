@@ -203,4 +203,5 @@ export default {
   'common.modelSentence': '{name}型号',
   'common.pause': '暂停',
   'common.roll': '滚动',
+  'common.modifyBasicInformation': '修改基本信息',
 };

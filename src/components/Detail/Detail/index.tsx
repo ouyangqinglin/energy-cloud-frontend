@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-01-23 17:12:25
+ * @LastEditTime: 2024-02-23 14:47:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -61,7 +61,9 @@ const Detail: React.FC<DetailProps> = (props) => {
     const content: React.ReactNode[] = [];
     items.forEach((item) => {
       let fieldValue = data[(item?.field ?? item?.dataIndex) || ''];
-      fieldValue = item?.valueInterceptor?.(fieldValue, data) ?? fieldValue;
+      if (item?.valueInterceptor) {
+        fieldValue = item?.valueInterceptor?.(fieldValue, data);
+      }
       let show;
       if (typeof item.show == 'function') {
         show = item?.show?.(fieldValue, data);

@@ -6,14 +6,15 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Position\index.tsx
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Modal } from 'antd';
 import Dialog from '@/components/Dialog';
 import MapContain from '@/components/MapContain';
 import { Map, Marker } from '@uiw/react-amap';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
 import { getPoint } from '@/utils/map';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+import { AmapLang } from '@/utils/dictionary';
 
 export type PositionProps = BusinessDialogProps & {
   point: AMap.LngLat;
@@ -23,6 +24,10 @@ const Position: React.FC<PositionProps> = (props) => {
   const { point, open, onCancel, model } = props;
   const [zoom] = useState(15);
   const [center, setCenter] = useState<AMap.LngLat>();
+
+  const lang = useMemo(() => {
+    return getLocale().isZh ? '' : AmapLang.En;
+  }, []);
 
   useEffect(() => {
     if (point && point.lng && point.lat) {
@@ -43,7 +48,7 @@ const Position: React.FC<PositionProps> = (props) => {
         destroyOnClose
       >
         <MapContain style={{ height: '100%' }}>
-          <Map center={center} zoom={zoom}>
+          <Map center={center} zoom={zoom} lang={lang}>
             {center && <Marker position={center} />}
           </Map>
         </MapContain>

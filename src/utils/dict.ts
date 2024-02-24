@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-01-25 14:08:59
+ * @LastEditTime: 2024-02-23 16:18:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -76,7 +76,7 @@ export enum OnlineStatusEnum {
   None,
 }
 
-export const onlineStatus = {
+export const onlineStatus: ValueEnum = {
   [OnlineStatusEnum.None]: {
     text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),
     status: '',
@@ -289,8 +289,10 @@ export const enum SiteTypeEnum {
   ES = 2,
   CS = 3,
   ES_CS = 23,
+  PV_CS = 13,
   PV_ES = 12,
   PV_ES_CS = 123,
+  Exchange = 4,
 }
 
 export type SiteTypeEnumType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
@@ -306,6 +308,9 @@ export const siteType = {
   },
   [SiteTypeEnum.ES_CS]: {
     text: formatMessage({ id: 'screen.storageChargeStation', defaultMessage: '储充站点' }),
+  },
+  [SiteTypeEnum.PV_CS]: {
+    text: formatMessage({ id: 'screen.pvChargeStation', defaultMessage: '光充站点' }),
   },
   [SiteTypeEnum.PV_ES]: {
     text: formatMessage({ id: 'screen.opticalStorageSite', defaultMessage: '光储站点' }),

@@ -8,7 +8,7 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import { statType, searchType } from './type';
+import { statType, searchType, GroupType } from './type';
 
 export const getStat = (params: searchType) => {
   return request<ResponseCommonData<statType>>('/oss/site/monitor/energyStorage/statistics', {
@@ -18,7 +18,7 @@ export const getStat = (params: searchType) => {
 };
 //储能分组列表
 export const getGroupList = (params: searchType) => {
-  return request<ResponseCommonData<statType>>('/iot/es/group_list', {
+  return request<ResponseCommonData<GroupType[]>>('/iot/es/group_list', {
     method: 'GET',
     params,
   });

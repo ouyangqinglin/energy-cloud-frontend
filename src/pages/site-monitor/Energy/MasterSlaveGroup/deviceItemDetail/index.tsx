@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { DeviceDataType } from '@/services/equipment';
-import Cabinet from '../../Cabinet';
+import Cabinet from '@/components/EnergyInfo/Cabinet';
 import styles from '../index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Button, Carousel } from 'antd';
@@ -15,18 +15,21 @@ export type DeviceItemDetailProps = {
 };
 
 const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
-  const { deviceData, allDeviceData, showBack } = props;
+  const { deviceData, allDeviceData, showBack, changeShowDiv } = props;
 
   const carouselRef = useRef<CarouselRef>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const onBackDevice = useCallback(() => {
-    props.changeShowDiv();
+    changeShowDiv('');
   }, []);
 
-  const onCarouselChange = useCallback((nowIndex) => {
-    setActiveIndex(nowIndex);
-  }, []);
+  const onCarouselChange = useCallback(
+    (nowIndex) => {
+      changeShowDiv(allDeviceData?.[nowIndex]?.deviceId);
+    },
+    [allDeviceData],
+  );
 
   useEffect(() => {
     const index = allDeviceData?.findIndex((item: any) => {
@@ -38,7 +41,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
 
   return (
     <>
-      <div className={styles.detailDiv}>
+      <div className={styles.cabinetContain}>
         {activeIndex !== 0 && (allDeviceData?.length ?? 0) > 1 ? (
           <Button
             className={styles.leftArrowBox}
@@ -49,7 +52,7 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
         ) : (
           <></>
         )}
-        {activeIndex != (allDeviceData?.length ?? 0 - 1) && (allDeviceData?.length ?? 0) > 1 ? (
+        {activeIndex != (allDeviceData?.length ?? 0) - 1 && (allDeviceData?.length ?? 0) > 1 ? (
           <Button
             className={styles.rightArrowBox}
             shape="circle"
@@ -59,22 +62,22 @@ const DeviceItemDetail: React.FC<DeviceItemDetailProps> = (props) => {
         ) : (
           <></>
         )}
-        {showBack && (
-          <Button
-            className={styles.backFont}
-            type="primary"
-            icon={<RollbackOutlined />}
-            onClick={onBackDevice}
-          >
-            {formatMessage({ id: 'common.back', defaultMessage: '返回' })}
-          </Button>
-        )}
         <Carousel dots={true} ref={carouselRef} afterChange={onCarouselChange}>
           {allDeviceData?.map((item: any) => {
             return <Cabinet deviceData={item} showLabel={true} />;
           })}
         </Carousel>
       </div>
+      {showBack && (
+        <Button
+          className={styles.backFont}
+          type="primary"
+          icon={<RollbackOutlined />}
+          onClick={onBackDevice}
+        >
+          {formatMessage({ id: 'common.back', defaultMessage: '返回' })}
+        </Button>
+      )}
     </>
   );
 };

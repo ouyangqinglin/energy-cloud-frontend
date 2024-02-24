@@ -341,6 +341,25 @@ div {
   }
 }
 
+.card-tabs {
+  & > .ant-tabs-nav {
+    .ant-tabs-tab {
+      justify-content: center;
+      min-width: 98px;
+      background: white;
+      border-radius: 0 !important;
+      & + .ant-tabs-tab {
+        margin-left: -1px !important;
+      }
+      &.ant-tabs-tab-active {
+        border-bottom-color: #f0f0f0;
+      }
+    }
+    .ant-tabs-tab-btn {
+    }
+  }
+}
+
 .card-wrap {
   background-color: white;
   border-radius: 4px;

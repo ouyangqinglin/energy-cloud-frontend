@@ -25,7 +25,7 @@ export enum EnergySourceEnum {
   DeviceManage,
 }
 const Power: React.FC<ComProps> = (props) => {
-  const { deviceData, loading, source, deviceKey } = props;
+  const { deviceData, loading, source } = props;
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const {
@@ -134,26 +134,14 @@ const Power: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceData?.deviceId && deviceData?.children) {
-      //只有点击父节点才调此接口
+    if (deviceData?.deviceId) {
       run({
-        deviceId: deviceKey || deviceData?.deviceId,
+        deviceId: deviceData?.deviceId,
         date: date.format('YYYY-MM-DD'),
         visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
       });
     }
-  }, [deviceData?.deviceId, date, deviceKey]);
-
-  useEffect(() => {
-    if (deviceKey || deviceData?.deviceId) {
-      //切换单元时调此接口
-      run({
-        deviceId: deviceKey || deviceData?.deviceId,
-        date: date.format('YYYY-MM-DD'),
-        visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
-      });
-    }
-  }, [deviceData?.deviceId, date, deviceKey]);
+  }, [deviceData?.deviceId, date]);
 
   useEffect(() => {
     const result: TypeChartDataType = {

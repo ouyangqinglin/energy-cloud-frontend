@@ -117,6 +117,7 @@ export default {
   'screen.storageSite': '储能站点',
   'screen.chargingStation': '充电站点',
   'screen.storageChargeStation': '储充站点',
+  'screen.pvChargeStation': '光充站点',
   'screen.opticalStorageSite': '光储站点',
   'screen.opticalStorageChargingStation': '光储充站点',
   'weather.clear': '晴',

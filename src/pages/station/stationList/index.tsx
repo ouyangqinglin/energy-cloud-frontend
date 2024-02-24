@@ -10,7 +10,7 @@ import React from 'react';
 import { useModel } from 'umi';
 import ExchangeSiteList from '../exchangeManage';
 import SiteList from './siteList';
-import { SiteTypeEnum } from '@/utils/dictionary';
+import { SiteTypeEnum } from '@/utils/dict';
 
 const Index: React.FC = () => {
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));

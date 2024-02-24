@@ -12,7 +12,7 @@ import { getLocale } from '@/utils';
 import moment from 'moment';
 import styles from './index.less';
 import '@/assets/styles/font.less';
-const isUS = getLocale() == 'en-US';
+const isUS = getLocale().isEnUS;
 
 const Time: React.FC = () => {
   const [date, setDate] = useState({ date: '', week: '', time: '' });

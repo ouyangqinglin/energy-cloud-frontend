@@ -29,7 +29,7 @@ import { CellStyle } from '../../Geometry/type';
 import { getLocale } from '@/utils';
 import { ReactNode } from 'react';
 import { formatMessage } from '@/utils';
-const isUS = getLocale() == 'en-US';
+const isUS = getLocale().isEnUS;
 
 export type CellConfig = {
   name: string;

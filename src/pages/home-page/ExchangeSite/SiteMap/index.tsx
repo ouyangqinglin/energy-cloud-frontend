@@ -17,6 +17,8 @@ import SiteIcon from '@/assets/image/exchange-site/site-maker.png';
 import DrivingIcon from '@/assets/image/exchange-site/driving-maker.png';
 import OfflineIcon from '@/assets/image/exchange-site/offline-maker.png';
 import SleepIcon from '@/assets/image/exchange-site/sleep-maker.png';
+import { getLocale } from '@/utils';
+import { AmapLang } from '@/utils/dictionary';
 
 export type SiteMapType = {
   className?: string;
@@ -32,6 +34,10 @@ const SiteMap: React.FC<SiteMapType> = (props) => {
   const { className, children } = props;
 
   const [center, setCenter] = useState<AMap.LngLat>();
+
+  const lang = useMemo(() => {
+    return getLocale().isZh ? '' : AmapLang.En;
+  }, []);
 
   const { data: siteData } = useRequest(getSite);
   const { data: vehicleData } = useRequest(getVehicle);
@@ -89,7 +95,7 @@ const SiteMap: React.FC<SiteMapType> = (props) => {
   return (
     <>
       <MapContain className={`${className} ${styles.map}`} style={{ height: '500px' }}>
-        <Map center={center} zoom={4}>
+        <Map center={center} zoom={4} lang={lang}>
           <>
             {siteMakers}
             {vehicleMakers}

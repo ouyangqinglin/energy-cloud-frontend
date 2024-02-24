@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-01-30 16:07:39
+ * @LastEditTime: 2024-02-23 17:27:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -253,7 +253,9 @@ const Control: React.FC<ControlType> = memo((props) => {
             );
           }
           const items: DetailItem[] = [];
-          const detailData: Record<string, any> = {};
+          const detailData: Record<string, any> = {
+            [field?.deviceId || deviceData?.deviceId || '']: {},
+          };
           const formData = fieldValue?.map?.((value, index) => {
             const specs = (specsItem as DeviceStructType)?.specs;
             let transformValue = value;
@@ -269,14 +271,17 @@ const Control: React.FC<ControlType> = memo((props) => {
                 valueInterceptor: (_, data) => {
                   if (item?.deviceId) {
                     const realField = item?.id?.split?.('.') || [];
-                    return data?.[item?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                    return data?.[item?.deviceId || '']?.[
+                      realField?.[realField?.length - 1] + index
+                    ];
                   } else {
-                    return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
+                    return data?.[deviceData?.deviceId || '']?.[(item?.id || '') + index];
                   }
                 },
                 format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
               });
-              detailData[(item?.id || '') + index] = transformValue[item?.id || ''];
+              detailData[field?.deviceId || deviceData?.deviceId || ''][(item?.id || '') + index] =
+                transformValue[item?.id || ''];
             });
             if (items.length > 1 && specs?.length) {
               items[items.length - 1].span = 4 - specs.length;
@@ -290,11 +295,13 @@ const Control: React.FC<ControlType> = memo((props) => {
             });
           }
           detailItems.push(...items);
-          setTransformData((prevData) => ({
-            ...prevData,
-            ...detailData,
-            [field?.id || '']: formData,
-          }));
+          setTransformData((prevData: any) => {
+            const mergedData = merge({}, prevData, detailData);
+            return {
+              ...mergedData,
+              [field?.id || '']: formData,
+            };
+          });
           break;
         case DeviceModelTypeEnum.TimeRange:
           detailItems.push?.({
@@ -765,7 +772,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       {!!groupsItems?.length && (
         <>
           <Detail.Group
-            data={{ ...realTimeData, ...transformData, ...extralDeviceRealTimeData }}
+            data={{ ...merge({}, realTimeData, transformData, extralDeviceRealTimeData) }}
             items={groupsItems}
           />
           <ConfigModal
@@ -775,10 +782,13 @@ const Control: React.FC<ControlType> = memo((props) => {
             title={currentFormInfo?.service?.name || ''}
             deviceId={currentFormInfo?.service?.deviceId || deviceId}
             realTimeData={{
-              ...(currentFormInfo?.service?.deviceId
-                ? extralDeviceRealTimeData?.[currentFormInfo?.service?.deviceId]
-                : realTimeData),
-              ...transformData,
+              ...merge(
+                {},
+                currentFormInfo?.service?.deviceId
+                  ? extralDeviceRealTimeData?.[currentFormInfo?.service?.deviceId]
+                  : realTimeData,
+                transformData,
+              ),
             }}
             serviceId={currentFormInfo?.service?.id || ''}
             columns={currentFormInfo?.columns || []}

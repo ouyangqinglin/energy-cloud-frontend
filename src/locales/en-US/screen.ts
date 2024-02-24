@@ -117,6 +117,7 @@ export default {
   'screen.storageSite': 'ESS site',
   'screen.chargingStation': 'EV Charger',
   'screen.storageChargeStation': 'ESS and charging stations',
+  'screen.pvChargeStation': 'Optical charging station',
   'screen.opticalStorageSite': 'Optical storage site',
   'screen.opticalStorageChargingStation': 'Optical storage and EV Charger',
   'weather.clear': 'Clear',

@@ -116,7 +116,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
     <>
       <div className={styles.contain}>
         <div className={styles.topLineContain}>
-          <Divider style={{ height: '86px' }} type="vertical" />
+          <Divider className={styles.divider} type="vertical" />
           <div className={styles.chargeStaus}>
             <div className={`w-full pl7 ellipsis ${styles.deviceName}`}>
               {deviceData?.deviceName || '--'}

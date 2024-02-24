@@ -12,6 +12,7 @@ import React, { useCallback, useMemo } from 'react';
 import AmapLoader from '../AmapLoader';
 import { aks } from '@/utils/dictionary';
 import styles from './index.less';
+import { getLocale } from '@/utils';
 
 export type MapProps = {
   className?: string;
@@ -19,13 +20,22 @@ export type MapProps = {
   ready?: () => void;
 };
 
+const version = {
+  zh: '2.0.5',
+  en: '1.4.15',
+};
+
 const MapContain: React.FC<MapProps> = (props) => {
   const { style, children, className } = props;
+
+  const mapVersion = useMemo(() => {
+    return getLocale().isZh ? version.zh : version.en;
+  }, []);
 
   return (
     <>
       <div className={`${styles.contain} ${className}`} style={style}>
-        <AmapLoader version="2.0.5" akey={aks[0].key} securityJsCode={aks[0].securityJsCode}>
+        <AmapLoader version={mapVersion} akey={aks[0].key} securityJsCode={aks[0].securityJsCode}>
           {children}
         </AmapLoader>
       </div>

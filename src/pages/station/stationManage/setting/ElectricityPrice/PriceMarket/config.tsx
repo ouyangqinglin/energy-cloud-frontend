@@ -2,8 +2,8 @@ import type { YTProColumns } from '@/components/YTProTable/typing';
 import { Badge } from 'antd';
 import type { ReactNode } from 'react';
 import type { MarketElectricityPriceInfo } from './type';
-import moment from 'moment';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
   {
@@ -27,7 +27,9 @@ export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
         ?.map?.((item) => {
           const start = item?.effectiveTime?.split('-');
           const end = item?.expirationTime?.split('-');
-          return `${start[0]}月${start[1]}日-${end[0]}月${end[1]}日`;
+          return `${start[0]}${isUS ? '/' : '月'}${start[1]}${isUS ? '' : '日'}-${end[0]}${
+            isUS ? '/' : '月'
+          }${end[1]}${isUS ? '' : '日'}`;
         })
         .join('，');
     },
