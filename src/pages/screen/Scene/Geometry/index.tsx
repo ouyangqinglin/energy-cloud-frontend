@@ -32,7 +32,8 @@ import BindDevice from './Dialog/BindDevice';
 import { useWatchingGunStatus } from './Subscribe/useWatchingGunStatus';
 import CeilGun from './Gun';
 import type { AlarmTreeData } from '../Alarm/useSubscribe';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 type BindDeviceType = {
   id?: number | null;
@@ -301,7 +302,7 @@ const Geometry = ({
               />
               {alarmShow && alarmStatus?.status && alarmConfig ? (
                 <div
-                  className={styles.deviceAlarm}
+                  className={isUS ? styles.deviceAlarmUS : styles.deviceAlarm}
                   style={{
                     left: alarmConfig?.left ?? 0,
                     top: alarmConfig?.top ?? 0,

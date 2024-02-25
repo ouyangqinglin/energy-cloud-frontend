@@ -70,6 +70,7 @@ export default {
   'screen.overviewSiteInformation': '站点信息概览',
   'screen.chargingPowerUtilizationRate': '充电桩功率利用率',
   'screen.chargingCycles': '充电次数',
+  'screen.times': '次',
   'screen.chargingGunUsageTotalNumber': '充电枪使用/总数',
   'screen.generatingCapacity': '发电量',
   'screen.batteryStatus': '电池状态',

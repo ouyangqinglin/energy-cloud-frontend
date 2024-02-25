@@ -6,7 +6,7 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
-import { electricMoneyMap } from '@/utils/dictionary';
+import { electricMoneyMap } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 export const columns: ProFormColumnsType[] = [
   {
@@ -122,7 +122,10 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: formatMessage({ id: 'common.rmb', defaultMessage: '生效日期' }),
+        title: formatMessage({
+          id: 'siteManage.siteList.effectiveDate',
+          defaultMessage: '生效日期',
+        }),
         dataIndex: 'effectiveTimeList',
         colProps: {
           span: 24,
@@ -164,7 +167,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'sharpPrice',
         formItemProps: {
           labelCol: {
-            flex: '0 1 60px',
+            flex: '0 1 auto',
           },
         },
         render: (_, { value }) =>
@@ -181,7 +184,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'peakPrice',
         formItemProps: {
           labelCol: {
-            flex: '0 1 60px',
+            flex: '0 1 auto',
           },
         },
         render: (_, { value }) =>
@@ -198,7 +201,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'flatPrice',
         formItemProps: {
           labelCol: {
-            flex: '0 1 60px',
+            flex: '0 1 auto',
           },
         },
         render: (_, { value }) =>
@@ -215,7 +218,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'valleyPrice',
         formItemProps: {
           labelCol: {
-            flex: '0 1 60px',
+            flex: '0 1 auto',
           },
         },
         render: (_, { value }) =>

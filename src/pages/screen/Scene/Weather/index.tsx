@@ -3,7 +3,7 @@ import Weather from '../../components/Weather';
 
 const ScreenWeather = () => {
   return (
-    <Cell cursor="default" width={215} height={36} left={1560} top={12}>
+    <Cell cursor="default" width={215} height={36} right={175} top={7}>
       <Weather />
     </Cell>
   );

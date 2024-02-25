@@ -10,6 +10,11 @@ import { ValueEnum } from '@/types';
 import { reportTypeEnum, timeDimensionEnum } from './dictionary';
 import { formatMessage } from './index';
 
+export const electricMoneyMap = new Map([
+  [1, formatMessage({ id: 'siteManage.set.demandCharge', defaultMessage: '需量电费' })],
+  [0, formatMessage({ id: 'siteManage.set.capacityCharge', defaultMessage: '容量电费' })],
+]);
+
 export const runningState = {
   1: {
     text: formatMessage({ id: 'common.normal', defaultMessage: '正常' }),

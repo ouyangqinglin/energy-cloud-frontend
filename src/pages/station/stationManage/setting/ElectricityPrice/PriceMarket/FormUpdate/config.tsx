@@ -8,7 +8,7 @@ import type { EffectiveTimeList, HoursPriceList } from '../type';
 import styles from '../index.less';
 import { PriceType } from '../type';
 import { formatMessage } from '@/utils';
-import { electricMoneyMap } from '@/utils/dictionary';
+import { electricMoneyMap } from '@/utils/dict';
 export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
   {
     title: (

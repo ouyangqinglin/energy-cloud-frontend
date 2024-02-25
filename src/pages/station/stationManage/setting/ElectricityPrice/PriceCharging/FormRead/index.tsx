@@ -3,11 +3,12 @@ import type { ChargingElectricityPriceInfo } from '../type';
 import { getChargingPrice } from '../service';
 import { FormRead } from '../../components/FormRead';
 import type { FormReadBaseProps } from '../../components/FormRead/type';
+import { formatMessage } from '@/utils';
 
 export const FormReadForCharging = (props: FormReadBaseProps) => {
   return (
     <FormRead<ChargingElectricityPriceInfo, any>
-      title={'查看详情'}
+      title={formatMessage({ id: 'common.detail', defaultMessage: '查看详情' })}
       columns={columns}
       request={(param) => {
         return getChargingPrice(param).then((res) => {
