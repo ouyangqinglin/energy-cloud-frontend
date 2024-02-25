@@ -452,11 +452,6 @@ export const operateUserType = {
   2: { text: '手机端用户' },
 };
 
-export const electricMoneyMap = new Map([
-  [1, '需量电费'],
-  [0, '容量电费'],
-]);
-
 export const upgradeStatus = {
   0: { text: '升级中' },
   1: { text: '升级成功' },

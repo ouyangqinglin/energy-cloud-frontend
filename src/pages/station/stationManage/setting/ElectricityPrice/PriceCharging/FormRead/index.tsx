@@ -3,6 +3,7 @@ import type { ChargingElectricityPriceInfo } from '../type';
 import { getChargingPrice } from '../service';
 import { FormRead } from '../../components/FormRead';
 import type { FormReadBaseProps } from '../../components/FormRead/type';
+import { formatMessage } from '@/utils';
 
 export const FormReadForCharging = (props: FormReadBaseProps) => {
   return (

@@ -6,7 +6,7 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
-import { electricMoneyMap } from '@/utils/dictionary';
+import { electricMoneyMap } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 export const columns: ProFormColumnsType[] = [
   {
