@@ -40,7 +40,6 @@ export default {
   'screen.selectDevice': 'Select device',
   'screen.charge': 'Charge',
   'screen.filledWith': 'Be filled with',
-  'screen.leisure': 'Leisure',
   'screen.deviceNotConfigured': 'The device is not configured',
   'screen.powerGrid': 'Power',
   'screen.powerGeneration': 'Power',
@@ -131,4 +130,8 @@ export default {
   'weather.thundershower': 'Thundershower',
   'weather.sleet': 'Sleet',
   'weather.lightSnow': 'Light Snow',
+  'screen.messageId': 'MessageId',
+  'screen.messageContent': 'Message Content',
+  'screen.alarmSource': 'Alarm Source',
+  'screen.recoveryTime': 'Recovery Time',
 };

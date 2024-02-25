@@ -1,6 +1,6 @@
 import { formatMessage, getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
-import { onlineStatus, deviceAlarmStatus, onlineStatus1 } from './dict';
+import { onlineStatus, deviceAlarmStatus, onlineStatus1, gunConditionStatus } from './dict';
 import Field from '@/components/Field';
 import { ProField } from '@ant-design/pro-components';
 

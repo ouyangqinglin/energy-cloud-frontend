@@ -2,7 +2,7 @@ import TimeButtonGroup, { TimeType } from '@/components/TimeButtonGroup';
 import { useToggle } from 'ahooks';
 import { DatePicker } from 'antd';
 import moment from 'moment';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useState } from 'react';
 import { SiteTypeEnum } from '@/utils/dict';
 import type { SubSystemType } from '../..';
@@ -35,6 +35,10 @@ const ChartBox = ({
   const onChange = (value: any) => {
     setDate(value);
   };
+  useEffect(() => {
+    console.log('siteType>>', siteType);
+    chartRef?.current?.getEchartsInstance()?.clear?.();
+  }, [siteType]);
   const timeTypeChange = (type: TimeType) => {
     chartRef?.current?.getEchartsInstance()?.clear?.();
     setTimeType(type);
@@ -245,7 +249,7 @@ const ChartBox = ({
             ...deepData,
             name: formatMessage({
               id: 'index.chart.chargeIncome',
-              defaultMessage: '充电桩收益1/元',
+              defaultMessage: '充电桩收益/元',
             }),
             type: 'bar',
             color: '#01cfa1',
