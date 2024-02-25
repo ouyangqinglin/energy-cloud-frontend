@@ -10,6 +10,14 @@ import { ValueEnum } from '@/types';
 import { reportTypeEnum, timeDimensionEnum } from './dictionary';
 import { formatMessage } from './index';
 
+export const alarmSource = {
+  0: {
+    text: formatMessage({ id: 'device.deviceSide', defaultMessage: '设备端' }),
+  },
+  1: {
+    text: formatMessage({ id: 'device.platformRules', defaultMessage: '平台规则' }),
+  },
+};
 export const electricMoneyMap = new Map([
   [1, formatMessage({ id: 'siteManage.set.demandCharge', defaultMessage: '需量电费' })],
   [0, formatMessage({ id: 'siteManage.set.capacityCharge', defaultMessage: '容量电费' })],

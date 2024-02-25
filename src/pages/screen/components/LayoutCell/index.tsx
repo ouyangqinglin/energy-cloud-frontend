@@ -3,7 +3,7 @@ import type { CSSProperties, MouseEventHandler, ReactNode, RefObject } from 'rea
 import React from 'react';
 
 export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {
-  width: number;
+  width: number | string;
   height?: number;
   style?: CSSProperties;
   left?: number;

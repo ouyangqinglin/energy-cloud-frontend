@@ -137,8 +137,10 @@ export const siteColumns: ProColumns[] = [
         ellipsis: true,
       },
       {
-        title:
-          formatMessage({ id: 'dataManage.utilityCharge', defaultMessage: '市电电费' }) + '(元)',
+        title: `${formatMessage({
+          id: 'dataManage.utilityCharge',
+          defaultMessage: '市电电费',
+        })}(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`,
         dataIndex: 'meb',
         width: 120,
         ellipsis: true,

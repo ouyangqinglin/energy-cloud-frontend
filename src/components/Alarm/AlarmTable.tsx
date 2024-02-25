@@ -13,7 +13,7 @@ import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType, TableSearchType } from './data';
-import { alarmSource, alarmStatus } from '@/utils/dictionary';
+import { alarmSource, alarmStatus } from '@/utils/dict';
 import { alarmClearStatus, cleanUpType } from '@/utils/dict';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
@@ -523,7 +523,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           isStationChild
             ? {}
             : {
-                labelWidth: 84,
+                labelWidth: 'auto',
               }
         }
         form={
@@ -550,7 +550,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           data: detailData,
           items: detailItems,
           column: 1,
-          labelStyle: { width: '80px' },
+          labelStyle: { width: 'auto' },
         }}
       />
     </>

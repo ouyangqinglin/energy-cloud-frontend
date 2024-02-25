@@ -36,7 +36,13 @@ const operationsMap = new Map([
   ],
   [
     'onDeleteChange',
-    (onChange: React.MouseEventHandler<HTMLElement>, content = '确定要删除吗？') => (
+    (
+      onChange: React.MouseEventHandler<HTMLElement>,
+      content = `${formatMessage({
+        id: 'common.confirmDelete',
+        defaultMessage: '请确认是否删除',
+      })}?`,
+    ) => (
       <Button
         type="link"
         size="small"

@@ -66,7 +66,7 @@ export default {
   'screen.overchargedPile': 'Overcharged pile',
   'screen.fastchargedPile': 'Fast charged pile',
   'screen.communicationPile': 'Communication pile',
-  'screen.steCommissioningTime': 'Site commissioning time',
+  'screen.steCommissioningTime': 'Site operation time',
   'screen.overviewSiteInformation': 'Site Overview',
   'screen.chargingPowerUtilizationRate': 'EV Charger power utilization rate',
   'screen.chargingCycles': 'Charging cycles',
