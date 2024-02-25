@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2023-12-27 16:04:01
+ * @LastEditTime: 2024-02-25 15:36:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -385,12 +385,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         render: (_, record) => {
           return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
         },
-      },
-      {
-        title: formatMessage({ id: 'alarmManage.alarmCode', defaultMessage: '告警码' }),
-        dataIndex: 'id',
-        width: 120,
-        ellipsis: true,
       },
       {
         title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),

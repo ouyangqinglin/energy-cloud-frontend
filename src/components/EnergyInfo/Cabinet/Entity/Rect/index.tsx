@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 11:30:32
- * @LastEditTime: 2024-01-29 14:09:44
+ * @LastEditTime: 2024-02-25 17:23:51
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\React\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Rect\index.tsx
  */
 
 import React from 'react';
@@ -57,7 +57,7 @@ const configs: ConfigType[] = [
     position: { top: 51, left: 2 },
     icon: AirImg,
     line: AirLineImg,
-    linePosition: { top: 11, left: 94 },
+    linePosition: { top: 22, left: 94 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
@@ -86,7 +86,7 @@ const configs: ConfigType[] = [
     position: { top: 203, left: 2 },
     icon: DoorImg,
     line: DoorLineImg,
-    linePosition: { top: 11, left: 152 },
+    linePosition: { top: 20, left: 152 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.storageDoor', defaultMessage: '储能仓门' }),
@@ -101,7 +101,7 @@ const configs: ConfigType[] = [
     position: { top: 302, left: 2 },
     icon: EmsImg,
     line: EmsLineImg,
-    linePosition: { top: 11, left: 87 },
+    linePosition: { top: 19, left: 87 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' }),
@@ -121,7 +121,7 @@ const configs: ConfigType[] = [
     position: { top: 450, left: 2 },
     icon: StackImg,
     line: StackLineImg,
-    linePosition: { top: -74, left: 97 },
+    linePosition: { top: -61, left: 97 },
     data: [
       {
         label: 'SOC',
@@ -136,7 +136,7 @@ const configs: ConfigType[] = [
     position: { top: 185, left: 802 },
     icon: PeakImg,
     line: PeakLineImg,
-    linePosition: { top: 11, left: -60 },
+    linePosition: { top: 19, left: -60 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.maxVoltage', defaultMessage: '最高电压' }),
@@ -183,7 +183,7 @@ const configs: ConfigType[] = [
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,
-    linePosition: { top: 11, left: -233 },
+    linePosition: { top: 24, left: -233 },
     data: [
       {
         label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
