@@ -57,7 +57,10 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'status',
       },
       {
-        title: formatMessage({ id: 'common.rmb', defaultMessage: '生效日期' }),
+        title: formatMessage({
+          id: 'siteManage.siteList.effectiveDate',
+          defaultMessage: '生效日期',
+        }),
         dataIndex: 'effectiveTimeList',
         colProps: {
           span: 24,

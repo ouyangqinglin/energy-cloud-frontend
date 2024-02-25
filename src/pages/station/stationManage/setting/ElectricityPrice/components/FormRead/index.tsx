@@ -5,7 +5,7 @@ import type { FormReadProps } from './type';
 
 const DEFAULT_PROPS = {
   layout: 'horizontal' as 'horizontal',
-  labelCol: { flex: '0 0 100px' },
+  labelCol: { flex: '0 0 auto' },
   wrapperCol: { flex: 'auto' },
 };
 

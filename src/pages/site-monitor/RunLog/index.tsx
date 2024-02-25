@@ -18,7 +18,8 @@ import type { SiteDataType } from '@/services/station';
 import { logType } from '@/utils/dict';
 import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export type OperationLogProps = {
   isDeviceChild?: boolean;
@@ -101,7 +102,8 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       dataIndex: 'createTime',
       width: 150,
       ellipsis: true,
-      render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
+      render: (_, record) =>
+        `${record.createTime} (${format(record.createTime, isUS ? 'en-US' : 'zh_CN')})`,
       hideInSearch: true,
     },
     {
