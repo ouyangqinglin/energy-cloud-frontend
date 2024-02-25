@@ -134,4 +134,5 @@ export default {
   'screen.messageContent': 'Message Content',
   'screen.alarmSource': 'Alarm Source',
   'screen.recoveryTime': 'Recovery Time',
+  'screen.communicationPile': 'AC EV Charger',
 };
