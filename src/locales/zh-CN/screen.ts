@@ -40,7 +40,6 @@ export default {
   'screen.selectDevice': '选择设备',
   'screen.charge': '充电',
   'screen.filledWith': '充满',
-  'screen.leisure': '空闲',
   'screen.deviceNotConfigured': '该设备未配置',
   'screen.powerGrid': '电网功率',
   'screen.powerGeneration': '发电功率',
@@ -135,9 +134,4 @@ export default {
   'screen.messageContent': '消息内容',
   'screen.alarmSource': '告警来源',
   'screen.recoveryTime': '恢复时间',
-  'screen.occupyAndNotcharged': '占用（未充电）',
-  'screen.occupyAndcharged': '占用（充电中）',
-  'screen.occupyAndReservation': '占用（预约锁定）',
-  'screen.chargeComplete': '充电完成',
-  'screen.fault': '故障',
 };

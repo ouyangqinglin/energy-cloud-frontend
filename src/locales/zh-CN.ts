@@ -35,6 +35,7 @@ import screen from './zh-CN/screen';
 import physicalModel from './zh-CN/physicalModel';
 import version from './zh-CN/version';
 import date from './zh-CN/date';
+import things from './zh-CN/things';
 
 export default {
   'navBar.lang': '语言',
@@ -82,4 +83,5 @@ export default {
   ...screen,
   ...version,
   ...date,
+  ...things,
 };

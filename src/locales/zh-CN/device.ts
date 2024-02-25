@@ -180,7 +180,6 @@ export default {
   'device.scram': '急停',
   'device.converterWorkingModeSwitch': '变流器工作模式切换',
   'device.offGridWork': '离网工作',
-  'device.offGrid': '离网',
   'device.gridConnectionWork': '并网工作',
   'device.mainsCharging': '市电充电',
   'device.converterOperatingStatusSwitch': '变流器工作状态切换',

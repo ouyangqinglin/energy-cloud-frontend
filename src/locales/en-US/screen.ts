@@ -40,7 +40,6 @@ export default {
   'screen.selectDevice': 'Select device',
   'screen.charge': 'Charge',
   'screen.filledWith': 'Be filled with',
-  'screen.leisure': 'Leisure',
   'screen.deviceNotConfigured': 'The device is not configured',
   'screen.powerGrid': 'Power',
   'screen.powerGeneration': 'Power',
@@ -135,9 +134,4 @@ export default {
   'screen.messageContent': 'Message Content',
   'screen.alarmSource': 'Alarm Source',
   'screen.recoveryTime': 'Recovery Time',
-  'screen.occupyAndNotcharged': 'Occupy(Notcharged)',
-  'screen.occupyAndcharged': 'Occupy(charged)',
-  'screen.occupyAndReservation': 'Occupy(reservation)',
-  'screen.chargeComplete': 'Charge Complete',
-  'screen.fault': 'Fault',
 };
