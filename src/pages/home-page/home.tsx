@@ -120,9 +120,13 @@ const HomePage: React.FC = () => {
           return;
         }
       } else if (item.field == 'essGeneratedPower') {
+        //储能指标
         if (
-          [SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS].includes(siteType || '')
+          [SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS + ''].includes(
+            siteType || '',
+          )
         ) {
+          console.log('112233>>', 112233);
           return;
         }
       } else if (item.field == 'chargePower') {
@@ -166,7 +170,11 @@ const HomePage: React.FC = () => {
         children: <ChartBox siteType={siteType} type={SubSystemType.PV} />,
       });
     }
-    if (![SiteTypeEnum.PV + '', SiteTypeEnum.CS + ''].includes(siteType || '')) {
+    if (
+      ![SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS + ''].includes(
+        siteType || '',
+      )
+    ) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
         key: '1',
@@ -184,11 +192,14 @@ const HomePage: React.FC = () => {
         children: <ChartBox siteType={siteType} type={SubSystemType.CS} />,
       });
     }
-    result.push({
-      label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
-      key: '2',
-      children: <ChartBox siteType={siteType} type={SubSystemType.EI} />,
-    });
+    if (![SiteTypeEnum.PV_CS + ''].includes(siteType || '')) {
+      result.push({
+        label: intl.formatMessage({ id: 'index.tab.income', defaultMessage: '收益' }),
+        key: '2',
+        children: <ChartBox siteType={siteType} type={SubSystemType.EI} />,
+      });
+    }
+
     return result;
   }, [siteType]);
 
