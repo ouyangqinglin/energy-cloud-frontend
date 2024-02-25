@@ -65,7 +65,7 @@ const AlarmInfo = ({
         className={styles.alarmWrapper}
         style={{
           backgroundImage: `url(${shouldAlarm ? AlarmIcon : AlarmNormalIcon})`,
-          width: shouldAlarm ? 138 : 120,
+          width: shouldAlarm ? 160 : 120,
           right: shouldAlarm ? 0 : -20,
         }}
       >

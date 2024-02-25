@@ -70,7 +70,7 @@ export const config: DigitalFlipperItemProps[] = [
   {
     title: formatMessage({ id: 'screen.chargingCycles', defaultMessage: '充电次数' }),
     field: 'totalCount',
-    unit: '次',
+    unit: formatMessage({ id: 'screen.times', defaultMessage: '次' }),
     floatLength: 0,
     numStyle: {
       width: 'auto',
