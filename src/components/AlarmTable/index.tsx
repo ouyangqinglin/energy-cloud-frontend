@@ -14,6 +14,7 @@ import { DatePicker, Empty as AntEmpty } from 'antd';
 import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
+import { formatMessage } from '@/utils';
 
 export type AlarmTableProps = {
   params?: {
@@ -46,32 +47,32 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
 
   const columns: ProColumns<AlarmType>[] = [
     {
-      title: '消息ID',
+      title: formatMessage({ id: 'screen.messageId', defaultMessage: '消息ID' }),
       dataIndex: 'id',
       width: 100,
       ellipsis: true,
     },
     {
-      title: '消息内容',
+      title: formatMessage({ id: 'screen.messageContent', defaultMessage: '消息内容' }),
       dataIndex: 'content',
       width: 150,
       ellipsis: true,
     },
     {
-      title: '告警来源',
+      title: formatMessage({ id: 'screen.alarmSource', defaultMessage: '告警来源' }),
       dataIndex: 'fromResource',
       width: 100,
       ellipsis: true,
     },
     {
-      title: '发生时间',
+      title: formatMessage({ id: 'common.occurrenceTime', defaultMessage: '发生时间' }),
       dataIndex: 'alarmTime',
       width: 200,
       ellipsis: true,
       render: (_, record) => `${record.alarmTime} (${format(record.alarmTime, 'zh_CN')})`,
     },
     {
-      title: '恢复时间',
+      title: formatMessage({ id: 'screen.recoveryTime', defaultMessage: '恢复时间' }),
       dataIndex: 'recoveryTime',
       width: 200,
       ellipsis: true,
@@ -85,6 +86,24 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
     actionRef.current?.reloadAndRest?.();
   };
 
+  const ranges = {} as any;
+  ranges[`${formatMessage({ id: 'date.nearly24Hours', defaultMessage: '近24小时' })}`] = [
+    moment().subtract(1, 'day'),
+    moment(),
+  ];
+  ranges[`${formatMessage({ id: 'date.last7Days', defaultMessage: '最近7天' })}`] = [
+    moment().subtract(6, 'day'),
+    moment(),
+  ];
+  ranges[`${formatMessage({ id: 'date.thisMonth', defaultMessage: '本月' })}`] = [
+    moment().startOf('month'),
+    moment(),
+  ];
+  ranges[`${formatMessage({ id: 'date.last3Months', defaultMessage: '最近3个月' })}`] = [
+    moment().subtract(3, 'month'),
+    moment(),
+  ];
+
   const toolBar = () => [
     <Component
       key="date"
@@ -92,12 +111,7 @@ const AlarmTable: React.FC<AlarmTableProps> = (props) => {
       defaultValue={[moment().subtract(1, 'day'), moment()]}
       onChange={onQueryChange}
       getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
-      ranges={{
-        近24小时: [moment().subtract(1, 'day'), moment()],
-        最近7天: [moment().subtract(6, 'day'), moment()],
-        本月: [moment().startOf('month'), moment()],
-        最近3个月: [moment().subtract(3, 'month'), moment()],
-      }}
+      ranges={ranges}
     />,
   ];
 

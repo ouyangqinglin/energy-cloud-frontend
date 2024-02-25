@@ -10,6 +10,17 @@ import { ValueEnum } from '@/types';
 import { reportTypeEnum, timeDimensionEnum } from './dictionary';
 import { formatMessage } from './index';
 
+export const gunConditionStatus = {
+  // 0：离网1：空闲2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
+  0: formatMessage({ id: 'device.offGrid', defaultMessage: '离网' }),
+  1: formatMessage({ id: 'screen.leisure', defaultMessage: '空闲' }),
+  2: formatMessage({ id: 'screen.occupyAndNotcharged', defaultMessage: '占用（未充电）' }),
+  3: formatMessage({ id: 'screen.occupyAndcharged', defaultMessage: '占用（充电中）' }),
+  4: formatMessage({ id: 'screen.occupyAndReservation', defaultMessage: '占用（预约锁定）' }),
+  5: formatMessage({ id: 'screen.chargeComplete', defaultMessage: '充电完成' }),
+  255: formatMessage({ id: 'screen.fault', defaultMessage: '故障' }),
+};
+
 export const alarmSource = {
   0: {
     text: formatMessage({ id: 'device.deviceSide', defaultMessage: '设备端' }),

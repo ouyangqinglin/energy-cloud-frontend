@@ -131,4 +131,13 @@ export default {
   'weather.thundershower': '雷阵雨',
   'weather.sleet': '雨夹雪',
   'weather.lightSnow': '小雪',
+  'screen.messageId': '消息ID',
+  'screen.messageContent': '消息内容',
+  'screen.alarmSource': '告警来源',
+  'screen.recoveryTime': '恢复时间',
+  'screen.occupyAndNotcharged': '占用（未充电）',
+  'screen.occupyAndcharged': '占用（充电中）',
+  'screen.occupyAndReservation': '占用（预约锁定）',
+  'screen.chargeComplete': '充电完成',
+  'screen.fault': '故障',
 };

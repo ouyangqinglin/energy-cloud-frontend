@@ -1,6 +1,6 @@
 import { getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
-import { onlineStatus, deviceAlarmStatus, onlineStatus1 } from './dict';
+import { onlineStatus, deviceAlarmStatus, onlineStatus1, gunConditionStatus } from './dict';
 import Field from '@/components/Field';
 import { ProField } from '@ant-design/pro-components';
 
@@ -387,16 +387,7 @@ export const airsetFormat = (status: number) => {
   return <span className={status == 3 ? 'cl-error' : ''}>{map[status]}</span>;
 };
 export const useFormat = (value: number) => {
-  const map: MapType = {
-    // 0：离网1：空闲2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
-    0: '离网',
-    1: '空闲',
-    2: '占用（未充电）',
-    3: '占用（充电中）',
-    4: '占用（预约锁定）',
-    5: '充电完成',
-    255: '故障',
-  };
+  const map: MapType = gunConditionStatus;
   return <span className={''}>{map[value]}</span>;
 };
 export const alarmFormat = (status: number) => {

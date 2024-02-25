@@ -188,6 +188,7 @@ export default {
   'device.scram': 'Scram',
   'device.converterWorkingModeSwitch': 'Converter working mode switch',
   'device.offGridWork': 'Off grid work',
+  'device.offGrid': 'Off grid',
   'device.gridConnectionWork': 'Grid connection work',
   'device.mainsCharging': 'Grid charging',
   'device.converterOperatingStatusSwitch': 'Converter operating status switch',
