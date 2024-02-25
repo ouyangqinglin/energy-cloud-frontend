@@ -1,4 +1,4 @@
-import { getValue, strToArray } from '@/utils';
+import { formatMessage, getValue, strToArray } from '@/utils';
 import dayjs from 'dayjs';
 import { onlineStatus, deviceAlarmStatus, onlineStatus1 } from './dict';
 import Field from '@/components/Field';
@@ -23,106 +23,106 @@ export const onlineFormat = (value: any) => {
 };
 export const communicateFormat = (value: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '失联',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.disconnection', defaultMessage: '失联' }),
   };
   return <span className={value == 0 ? '' : 'cl-error'}>{map[value]}</span>;
 };
 export const runFormat = (value: number) => {
   const map: MapType = {
-    0: '待机',
-    1: '运行',
+    0: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
+    1: formatMessage({ id: 'things.run', defaultMessage: '运行' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const systemRunFormat = (value: number) => {
   const map: MapType = {
-    0: '启动',
-    1: '待机',
-    2: '停止',
-    3: '急停',
+    0: formatMessage({ id: 'things.firing', defaultMessage: '启动' }),
+    1: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
+    2: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
+    3: formatMessage({ id: 'things.emergencyStop', defaultMessage: '急停' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const workStatusFormat = (value: number) => {
   const map: MapType = {
-    0: '启动',
-    1: '停止',
+    0: formatMessage({ id: 'things.firing', defaultMessage: '启动' }),
+    1: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const enableFormat = (status: number) => {
   const map: MapType = {
-    0: '使能',
-    1: '禁用',
+    0: formatMessage({ id: 'things.enable', defaultMessage: '使能' }),
+    1: formatMessage({ id: 'things.disable', defaultMessage: '禁用' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const airRunFormat = (value: number) => {
   const map: MapType = {
-    0: '运行',
-    1: '待机',
+    0: formatMessage({ id: 'things.run', defaultMessage: '运行' }),
+    1: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const modelFormat = (value: number) => {
   const map: MapType = {
-    0: '手动',
-    1: '自动',
-    2: '手动',
+    0: formatMessage({ id: 'things.handMovement', defaultMessage: '手动' }),
+    1: formatMessage({ id: 'things.automatic', defaultMessage: '自动' }),
+    2: formatMessage({ id: 'things.handMovement', defaultMessage: '手动' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const converterFormat = (value: number) => {
   const map: MapType = {
-    0: '离网工作',
-    1: '并网工作',
-    2: '市电充电',
+    0: formatMessage({ id: 'things.offGridWork', defaultMessage: '离网工作' }),
+    1: formatMessage({ id: 'things.gridConnectionWork', defaultMessage: '并网工作' }),
+    2: formatMessage({ id: 'things.mainsCharging', defaultMessage: '市电充电' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const converterStauesFormat = (value: number) => {
   const map: MapType = {
-    0: '启动',
-    1: '待机',
-    2: '停止',
-    3: '复位',
+    0: formatMessage({ id: 'things.firing', defaultMessage: '启动' }),
+    1: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
+    2: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
+    3: formatMessage({ id: 'things.reset', defaultMessage: '复位' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const runStateFormat = (value: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '禁充',
-    2: '禁放',
-    3: '待机',
-    4: '停机',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.prohibitionOfCharging', defaultMessage: '禁充' }),
+    2: formatMessage({ id: 'things.prohibitionOfRelease', defaultMessage: '禁放' }),
+    3: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
+    4: formatMessage({ id: 'things.halt', defaultMessage: '停机' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const batteryWorkFormat = (value: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '核容',
-    2: '均衡',
-    3: '充电',
-    4: '放电',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.nuclearCapacity', defaultMessage: '核容' }),
+    2: formatMessage({ id: 'things.balanced', defaultMessage: '均衡' }),
+    3: formatMessage({ id: 'things.charge', defaultMessage: '充电' }),
+    4: formatMessage({ id: 'things.discharge', defaultMessage: '放电' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const batteryWorkingStatusFormat = (value: number) => {
   const map: MapType = {
-    0: '启动',
-    1: '待机',
-    2: '停止',
+    0: formatMessage({ id: 'things.firing', defaultMessage: '启动' }),
+    1: formatMessage({ id: 'things.standby', defaultMessage: '待机' }),
+    2: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const closeFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '断开', color: '' },
-    1: { text: '闭合', color: '' },
+    0: { text: formatMessage({ id: 'things.break', defaultMessage: '断开' }), color: '' },
+    1: { text: formatMessage({ id: 'things.close', defaultMessage: '闭合' }), color: '' },
   };
   return (
     <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
@@ -133,34 +133,34 @@ export const closeFormat = (value: string) => {
 export const contactorFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapType = {
-    0: '断开',
-    1: '主接触器闭合',
-    2: '预充接触器闭合',
-    5: '直流断路器闭合',
-    6: '交流断路器闭合',
-    7: '门禁闭合',
+    0: formatMessage({ id: 'things.break', defaultMessage: '断开' }),
+    1: formatMessage({ id: 'things.mainContactorClosed', defaultMessage: '主接触器闭合' }),
+    2: formatMessage({ id: 'things.preChargeContactorClosed', defaultMessage: '预充接触器闭合' }),
+    5: formatMessage({ id: 'things.DCCircuitBreakerClosed', defaultMessage: '直流断路器闭合' }),
+    6: formatMessage({ id: 'things.ACCircuitBreakerClosed', defaultMessage: '交流断路器闭合' }),
+    7: formatMessage({ id: 'things.accessControlClosed', defaultMessage: '门禁闭合' }),
   };
   const result = valueArr?.map?.((item) => <span className={' mr8'}>{map[item]}</span>) || '';
   return result;
 };
 export const singleBFormat = (value: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '断开',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.break', defaultMessage: '断开' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const singleFormat = (value: number) => {
   const map: MapType = {
-    0: '断开',
-    1: '正常',
+    0: formatMessage({ id: 'things.break', defaultMessage: '断开' }),
+    1: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const singleEffectFormat = (value: number) => {
   const map: MapType = {
-    0: '有效',
-    1: '断开',
+    0: formatMessage({ id: 'things.effective', defaultMessage: '有效' }),
+    1: formatMessage({ id: 'things.break', defaultMessage: '断开' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
@@ -168,7 +168,9 @@ export const mvFormat = (value: string | number) => {
   return getValue(value, 'mV');
 };
 export const clusterFormat = (value: number) => {
-  return value === 0 ? '断开' : '闭合';
+  return value === 0
+    ? formatMessage({ id: 'things.break', defaultMessage: '断开' })
+    : formatMessage({ id: 'things.close', defaultMessage: '闭合' });
 };
 export const powerFormat = (value: string | number) => {
   return getValue(value, 'kW');
@@ -219,77 +221,77 @@ export const hydrogenFormat = (value: string | number) => {
   return getValue(value, 'ppm');
 };
 export const moneyFormat = (value: string | number) => {
-  return getValue(value, '元');
+  return getValue(value, formatMessage({ id: 'common.rmb', defaultMessage: '元' }));
 };
 export const moneyPowerFormat = (value: string | number) => {
-  return getValue(value, '元/kWh');
+  return getValue(value, formatMessage({ id: 'common.rmb', defaultMessage: '元' }) + '/kWh');
 };
 export const electricModelFormat = (value: number) => {
   const map: MapType = {
-    0: '电池恒压',
-    1: '并网恒流',
-    2: '电池恒流',
+    0: formatMessage({ id: 'things.batteryConstantVoltage', defaultMessage: '电池恒压' }),
+    1: formatMessage({ id: 'things.gridConnectedConstantCurrent', defaultMessage: '并网恒流' }),
+    2: formatMessage({ id: 'things.batteryConstantCurrent', defaultMessage: '电池恒流' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const workFormat = (value: number) => {
   const map: MapType = {
-    0: '停机',
-    1: '故障',
-    2: '运行',
+    0: formatMessage({ id: 'things.halt', defaultMessage: '停机' }),
+    1: formatMessage({ id: 'things.fault', defaultMessage: '故障' }),
+    2: formatMessage({ id: 'things.run', defaultMessage: '运行' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const emsConnectMethodFormat = (value: number) => {
   const map: MapType = {
     0: '485',
-    1: '未知',
+    1: formatMessage({ id: 'things.unknown', defaultMessage: '未知' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const liquidWorkFormat = (value: number) => {
   const map: MapType = {
-    0: '停机',
-    1: '故障',
-    2: '运行',
+    0: formatMessage({ id: 'things.halt', defaultMessage: '停机' }),
+    1: formatMessage({ id: 'things.fault', defaultMessage: '故障' }),
+    2: formatMessage({ id: 'things.run', defaultMessage: '运行' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const doorFormat = (value: number) => {
   const map: MapType = {
-    0: '关门',
-    1: '开门',
+    0: formatMessage({ id: 'things.closeDoor', defaultMessage: '关门' }),
+    1: formatMessage({ id: 'things.open', defaultMessage: '开门' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const chargeFormat = (status: number) => {
   const map: MapType = {
-    0: '静置',
-    1: '放电',
-    2: '充电',
+    0: formatMessage({ id: 'things.stewing', defaultMessage: '静置' }),
+    1: formatMessage({ id: 'things.discharge', defaultMessage: '放电' }),
+    2: formatMessage({ id: 'things.charge', defaultMessage: '充电' }),
   };
   const result = <span className={''}>{map[status]}</span>;
   return result;
 };
 export const chargePutFormat = (status: number) => {
   const map: MapType = {
-    0: '充电',
-    1: '放电',
+    0: formatMessage({ id: 'things.charge', defaultMessage: '充电' }),
+    1: formatMessage({ id: 'things.discharge', defaultMessage: '放电' }),
   };
   return <span className={''}>{map[status]}</span>;
 };
 export const openFormat = (status: number) => {
   const map: MapType = {
-    0: '关闭',
-    1: '开启',
+    0: formatMessage({ id: 'things.closeDown', defaultMessage: '关闭' }),
+    1: formatMessage({ id: 'things.open1', defaultMessage: '开启' }),
   };
   return <span className={''}>{map[status]}</span>;
 };
 export const faultFormat = (value: number) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '正常', color: '' },
-    1: { text: '故障', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.normal', defaultMessage: '正常' }), color: '' },
+    1: { text: formatMessage({ id: 'things.fault', defaultMessage: '故障' }), color: 'cl-error' },
   };
   return (
     <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
@@ -300,8 +302,8 @@ export const faultFormat = (value: number) => {
 export const externalFaultFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '正常', color: '' },
-    1: { text: '故障', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.normal', defaultMessage: '正常' }), color: '' },
+    1: { text: formatMessage({ id: 'things.fault', defaultMessage: '故障' }), color: 'cl-error' },
   };
   return (
     <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
@@ -312,8 +314,8 @@ export const externalFaultFormat = (value: string) => {
 export const alarmArrFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '正常', color: '' },
-    1: { text: '告警', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.normal', defaultMessage: '正常' }), color: '' },
+    1: { text: formatMessage({ id: 'things.alarm', defaultMessage: '告警' }), color: 'cl-error' },
   };
   return (
     <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
@@ -323,110 +325,143 @@ export const alarmArrFormat = (value: string) => {
 };
 export const outputFormat = (status: number) => {
   const map: MapType = {
-    0: '停止',
-    1: '输出',
+    0: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
+    1: formatMessage({ id: 'things.output', defaultMessage: '输出' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const openCloseFormat = (status: number) => {
   const map: MapType = {
-    0: '关闭',
-    1: '打开',
+    0: formatMessage({ id: 'things.closeDown', defaultMessage: '关闭' }),
+    1: formatMessage({ id: 'things.open2', defaultMessage: '打开' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const liquidSensorFormat = (status: number) => {
   const map: MapType = {
-    0: '正在自检',
-    1: '工作正常',
-    2: '设备故障',
-    3: '探测到报警信息',
+    0: formatMessage({ id: 'things.selfCheckingInProgress', defaultMessage: '正在自检' }),
+    1: formatMessage({ id: 'things.normalOperation', defaultMessage: '工作正常' }),
+    2: formatMessage({ id: 'things.equipmentFailure', defaultMessage: '设备故障' }),
+    3: formatMessage({ id: 'things.detectedAlarmInformation', defaultMessage: '探测到报警信息' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const liquidSystemModeFormat = (status: number) => {
   const map: MapType = {
-    0: '停止',
-    1: '内循环',
-    2: '制冷',
-    3: '加热',
-    4: '全自动(根据水温)',
+    0: formatMessage({ id: 'things.cease', defaultMessage: '停止' }),
+    1: formatMessage({ id: 'things.internalCirculation', defaultMessage: '内循环' }),
+    2: formatMessage({ id: 'things.refrigeration', defaultMessage: '制冷' }),
+    3: formatMessage({ id: 'things.heat', defaultMessage: '加热' }),
+    4: formatMessage({ id: 'things.fullyAutomaticByTemp', defaultMessage: '全自动(根据水温)' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const dehumidifierWorkModeFormat = (status: number) => {
   const map: MapType = {
-    0: '升温型',
-    1: '降温型',
+    0: formatMessage({ id: 'things.heatingType', defaultMessage: '升温型' }),
+    1: formatMessage({ id: 'things.coolingType', defaultMessage: '降温型' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const systemOperatingModeFormat = (status: number) => {
   const map: MapType = {
-    0: '削峰填谷',
-    1: '备电',
-    2: '手动控制',
+    0: formatMessage({ id: 'things.peakLoadShifting', defaultMessage: '削峰填谷' }),
+    1: formatMessage({ id: 'things.backuppower', defaultMessage: '备电' }),
+    2: formatMessage({ id: 'things.manual', defaultMessage: '手动控制' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const booleanFormat = (status: number) => {
   const map: MapType = {
-    0: '否',
-    1: '是',
+    0: formatMessage({ id: 'things.no', defaultMessage: '否' }),
+    1: formatMessage({ id: 'things.yes', defaultMessage: '是' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const airsetFormat = (status: number) => {
   const map: MapType = {
-    0: '机组关闭',
-    1: '机组开启',
-    2: '机组待机',
-    3: '机组锁定',
-    4: '远程关闭',
+    0: formatMessage({ id: 'things.unitShutdown', defaultMessage: '机组关闭' }),
+    1: formatMessage({ id: 'things.unitStart', defaultMessage: '机组开启' }),
+    2: formatMessage({ id: 'things.unitStandby', defaultMessage: '机组待机' }),
+    3: formatMessage({ id: 'things.unitLock', defaultMessage: '机组锁定' }),
+    4: formatMessage({ id: 'things.remoteShutdown', defaultMessage: '远程关闭' }),
   };
   return <span className={status == 3 ? 'cl-error' : ''}>{map[status]}</span>;
 };
 export const useFormat = (value: number) => {
   const map: MapType = {
     // 0：离网1：空闲2：占用（未充电）3：占用（充电中）4：占用（预约锁定）255：故障
-    0: '离网',
-    1: '空闲',
-    2: '占用（未充电）',
-    3: '占用（充电中）',
-    4: '占用（预约锁定）',
-    5: '充电完成',
-    255: '故障',
+    0: formatMessage({ id: 'things.offGrid', defaultMessage: '离网' }),
+    1: formatMessage({ id: 'things.idle', defaultMessage: '空闲' }),
+    2: formatMessage({ id: 'things.occupationNotCharged', defaultMessage: '占用（未充电）' }),
+    3: formatMessage({ id: 'things.occupationCharging', defaultMessage: '占用（充电中）' }),
+    4: formatMessage({
+      id: 'things.occupationAppointmentLock',
+      defaultMessage: '占用（预约锁定）',
+    }),
+    5: formatMessage({ id: 'things.chargeComplete', defaultMessage: '充电完成' }),
+    255: formatMessage({ id: 'things.fault', defaultMessage: '故障' }),
   };
   return <span className={''}>{map[value]}</span>;
 };
 export const alarmFormat = (status: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '告警',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.alarm', defaultMessage: '告警' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const startFormat = (status: number) => {
   const map: MapType = {
-    0: '正常',
-    1: '启动',
+    0: formatMessage({ id: 'things.normal', defaultMessage: '正常' }),
+    1: formatMessage({ id: 'things.firing', defaultMessage: '启动' }),
   };
   return <span className="">{map[status]}</span>;
 };
 export const pankFanFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '关', color: '' },
-    1: { text: 'BMU1风扇开', color: '' },
-    2: { text: 'BMU2风扇开', color: '' },
-    3: { text: 'BMU3风扇开', color: '' },
-    4: { text: 'BMU4风扇开', color: '' },
-    5: { text: 'BMU5风扇开', color: '' },
-    6: { text: 'BMU6风扇开', color: '' },
-    7: { text: 'BMU7风扇开', color: '' },
-    8: { text: 'BMU8风扇开', color: '' },
-    9: { text: 'BMU9风扇开', color: '' },
-    10: { text: 'BMU10风扇开', color: '' },
+    0: { text: formatMessage({ id: 'things.close1', defaultMessage: '关' }), color: '' },
+    1: {
+      text: 'BMU1' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    2: {
+      text: 'BMU2' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    3: {
+      text: 'BMU3' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    4: {
+      text: 'BMU4' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    5: {
+      text: 'BMU5' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    6: {
+      text: 'BMU6' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    7: {
+      text: 'BMU7' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    8: {
+      text: 'BMU8' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    9: {
+      text: 'BMU9' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
+    10: {
+      text: 'BMU10' + formatMessage({ id: 'things.fanOn', defaultMessage: '风扇开' }),
+      color: '',
+    },
   };
   const result =
     valueArr?.map?.((item) => (
@@ -437,17 +472,47 @@ export const pankFanFormat = (value: string) => {
 export const pankFanAlarmFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '正常', color: '' },
-    1: { text: 'BMU1风扇故障', color: 'cl-error' },
-    2: { text: 'BMU2风扇故障', color: 'cl-error' },
-    3: { text: 'BMU3风扇故障', color: 'cl-error' },
-    4: { text: 'BMU4风扇故障', color: 'cl-error' },
-    5: { text: 'BMU5风扇故障', color: 'cl-error' },
-    6: { text: 'BMU6风扇故障', color: 'cl-error' },
-    7: { text: 'BMU7风扇故障', color: 'cl-error' },
-    8: { text: 'BMU8风扇故障', color: 'cl-error' },
-    9: { text: 'BMU9风扇故障', color: 'cl-error' },
-    10: { text: 'BMU10风扇故障', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.normal', defaultMessage: '正常' }), color: '' },
+    1: {
+      text: 'BMU1' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    2: {
+      text: 'BMU2' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    3: {
+      text: 'BMU3' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    4: {
+      text: 'BMU4' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    5: {
+      text: 'BMU5' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    6: {
+      text: 'BMU6' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    7: {
+      text: 'BMU7' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    8: {
+      text: 'BMU8' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    9: {
+      text: 'BMU9' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
+    10: {
+      text: 'BMU10' + formatMessage({ id: 'things.fanFailure', defaultMessage: '风扇故障' }),
+      color: 'cl-error',
+    },
   };
   const result =
     valueArr?.map?.((item) => (
@@ -458,12 +523,15 @@ export const pankFanAlarmFormat = (value: string) => {
 export const airWorkFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '否', color: '' },
-    1: { text: '制冷', color: '' },
-    2: { text: '制热', color: '' },
-    3: { text: '除湿', color: '' },
-    4: { text: '送风', color: '' },
-    5: { text: '待机', color: '' },
+    0: { text: formatMessage({ id: 'things.no', defaultMessage: '否' }), color: '' },
+    1: { text: formatMessage({ id: 'things.refrigeration', defaultMessage: '制冷' }), color: '' },
+    2: { text: formatMessage({ id: 'things.heat1', defaultMessage: '制热' }), color: '' },
+    3: {
+      text: formatMessage({ id: 'things.dehumidification', defaultMessage: '除湿' }),
+      color: '',
+    },
+    4: { text: formatMessage({ id: 'things.airSupply', defaultMessage: '送风' }), color: '' },
+    5: { text: formatMessage({ id: 'things.standby', defaultMessage: '待机' }), color: '' },
   };
   const result =
     valueArr?.map?.((item) => (
@@ -473,22 +541,52 @@ export const airWorkFormat = (value: string) => {
 };
 export const bwattAirWorkFormat = (value: number) => {
   const map: MapDataType = {
-    0: { text: '机组关闭', color: '' },
-    1: { text: '机组开启', color: '' },
-    2: { text: '机组待机', color: '' },
-    3: { text: '机组锁定', color: '' },
-    4: { text: '远程关闭', color: '' },
+    0: {
+      text: formatMessage({ id: 'things.unitShutdown', defaultMessage: '机组关闭' }),
+      color: '',
+    },
+    1: { text: formatMessage({ id: 'things.unitStart', defaultMessage: '机组开启' }), color: '' },
+    2: { text: formatMessage({ id: 'things.unitStandby', defaultMessage: '机组待机' }), color: '' },
+    3: { text: formatMessage({ id: 'things.unitLock', defaultMessage: '机组锁定' }), color: '' },
+    4: {
+      text: formatMessage({ id: 'things.remoteShutdown', defaultMessage: '远程关闭' }),
+      color: '',
+    },
   };
   return <span>{map[value]?.text}</span>;
 };
 export const airSwitchFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
-    0: { text: '停止', color: '' },
-    1: { text: '室内风机开关输出', color: 'cl-error' },
-    2: { text: '压缩机开关输出', color: 'cl-error' },
-    3: { text: '电加热开关输出', color: 'cl-error' },
-    4: { text: '公告告警开关输出', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.cease', defaultMessage: '停止' }), color: '' },
+    1: {
+      text: formatMessage({
+        id: 'things.indoorFanSwitchOutput',
+        defaultMessage: '室内风机开关输出',
+      }),
+      color: 'cl-error',
+    },
+    2: {
+      text: formatMessage({
+        id: 'things.compressorSwitchOutput',
+        defaultMessage: '压缩机开关输出',
+      }),
+      color: 'cl-error',
+    },
+    3: {
+      text: formatMessage({
+        id: 'things.electricHeatingSwitchOutput',
+        defaultMessage: '电加热开关输出',
+      }),
+      color: 'cl-error',
+    },
+    4: {
+      text: formatMessage({
+        id: 'things.announcementAlarmSwitchOutput',
+        defaultMessage: '公告告警开关输出',
+      }),
+      color: 'cl-error',
+    },
   };
   const result =
     valueArr?.map?.((item) => (
@@ -499,7 +597,13 @@ export const airSwitchFormat = (value: string) => {
 export const airAlarmFormat = (value: string) => {
   const valueArr = strToArray(value);
   const isRight = valueArr.includes(0);
-  return <span className={`${isRight ? '' : 'cl-error'} mr8`}>{isRight ? '正常' : '故障'}</span>;
+  return (
+    <span className={`${isRight ? '' : 'cl-error'} mr8`}>
+      {isRight
+        ? formatMessage({ id: 'things.normal', defaultMessage: '正常' })
+        : formatMessage({ id: 'things.fault', defaultMessage: '故障' })}
+    </span>
+  );
 };
 export const onlineStatusFormat = (value: string) => {
   return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
@@ -517,20 +621,53 @@ export const deviceAlarmStatusFormat = (value: string) => {
 
 export const earlyWarningFormat = (value: number) => {
   const map: MapDataType = {
-    0: { text: '系统正常', color: '' },
-    3: { text: '一级预警', color: 'cl-error' },
-    4: { text: '二级预警', color: 'cl-error' },
+    0: {
+      text: formatMessage({ id: 'things.theSystemIsNormal', defaultMessage: '系统正常' }),
+      color: '',
+    },
+    3: {
+      text: formatMessage({ id: 'things.level1Warning', defaultMessage: '一级预警' }),
+      color: 'cl-error',
+    },
+    4: {
+      text: formatMessage({ id: 'things.level2Warning', defaultMessage: '二级预警' }),
+      color: 'cl-error',
+    },
   };
   return <span className={`${map[value]?.color}`}>{map[value]?.text}</span>;
 };
 
 export const faultFireFightFormat = (value: number) => {
   const map: MapDataType = {
-    0: { text: '无故障', color: '' },
-    1: { text: 'BIES已启动（灭火器启动）', color: 'cl-error' },
-    2: { text: 'CAN1通讯故障', color: 'cl-error' },
-    3: { text: '抑制装置故障', color: 'cl-error' },
-    4: { text: '探测器故障（包括单箱离线故障和探测器本身故障）', color: 'cl-error' },
+    0: { text: formatMessage({ id: 'things.noFault', defaultMessage: '无故障' }), color: '' },
+    1: {
+      text: formatMessage({
+        id: 'things.BIESActivatedFireExtinguisherActivated',
+        defaultMessage: 'BIES已启动（灭火器启动）',
+      }),
+      color: 'cl-error',
+    },
+    2: {
+      text: formatMessage({
+        id: 'things.CAN1CommunicationFailure',
+        defaultMessage: 'CAN1通讯故障',
+      }),
+      color: 'cl-error',
+    },
+    3: {
+      text: formatMessage({
+        id: 'things.suppressionDeviceMalfunction',
+        defaultMessage: '抑制装置故障',
+      }),
+      color: 'cl-error',
+    },
+    4: {
+      text: formatMessage({
+        id: 'things.detectorFailure',
+        defaultMessage: '探测器故障（包括单箱离线故障和探测器本身故障）',
+      }),
+      color: 'cl-error',
+    },
   };
   return <span className={`${map[value]?.color}`}>{map[value]?.text}</span>;
 };

@@ -202,4 +202,6 @@ export default {
   'common.pause': 'Pause',
   'common.roll': 'Roll',
   'common.modifyBasicInformation': 'Modify basic information',
+  'common.eliminated': 'Eliminated',
+  'common.alarming': 'Alarming',
 };
