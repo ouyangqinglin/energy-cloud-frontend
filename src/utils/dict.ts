@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-02-23 16:18:29
+ * @LastEditTime: 2024-02-25 18:21:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -389,3 +389,13 @@ export const connectEnum: ValueEnum = {
     text: formatMessage({ id: 'common.break', defaultMessage: '离线' }),
   },
 };
+export const weekInfo = [
+  formatMessage({ id: 'date.sunday', defaultMessage: '周日' }),
+  formatMessage({ id: 'date.monday', defaultMessage: '周一' }),
+  formatMessage({ id: 'date.tuesday', defaultMessage: '周二' }),
+  formatMessage({ id: 'date.wednesday', defaultMessage: '周三' }),
+  formatMessage({ id: 'date.thursday', defaultMessage: '周四' }),
+  formatMessage({ id: 'date.friday', defaultMessage: '周五' }),
+  formatMessage({ id: 'date.saturday', defaultMessage: '周六' }),
+  formatMessage({ id: 'date.sunday', defaultMessage: '周日' }),
+];
