@@ -34,6 +34,7 @@ import alarmManage from './en-US/alarmManage';
 import screen from './en-US/screen';
 import version from './en-US/version';
 import physicalModel from './en-US/physicalModel';
+import date from './en-US/date';
 
 export default {
   'navBar.lang': 'Languages',
@@ -80,4 +81,5 @@ export default {
   ...alarmManage,
   ...screen,
   ...version,
+  ...date,
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-08 15:28:18
- * @LastEditTime: 2023-08-25 16:02:22
+ * @LastEditTime: 2024-02-25 08:59:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\LogTable\index.tsx
  */
@@ -14,7 +14,7 @@ import { Empty as AntEmpty } from 'antd';
 import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 
 export type LogTableProps = {
   params?: {
@@ -49,7 +49,8 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         valueType: 'dateRange',
         width: 200,
         ellipsis: true,
-        render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
+        render: (_, record) =>
+          `${record.createTime} (${format(record.createTime, getLocale().locale)})`,
         search: {
           transform: (value) => {
             return {
@@ -63,10 +64,22 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
           format: 'YYYY-MM-DD',
           getPopupContainer: (triggerNode: any) => triggerNode.parentElement,
           ranges: {
-            近24小时: [moment().subtract(1, 'day'), moment()],
-            最近7天: [moment().subtract(6, 'day'), moment()],
-            本月: [moment().startOf('month'), moment()],
-            最近3个月: [moment().subtract(3, 'month'), moment()],
+            [formatMessage({ id: 'date.nearly24Hours', defaultMessage: '近24小时' })]: [
+              moment().subtract(1, 'day'),
+              moment(),
+            ],
+            [formatMessage({ id: 'date.last7Days', defaultMessage: '最近7天' })]: [
+              moment().subtract(6, 'day'),
+              moment(),
+            ],
+            [formatMessage({ id: 'date.thisMonth', defaultMessage: '本月' })]: [
+              moment().startOf('month'),
+              moment(),
+            ],
+            [formatMessage({ id: 'date.last3Months', defaultMessage: '最近3个月' })]: [
+              moment().subtract(3, 'month'),
+              moment(),
+            ],
           },
         },
       },
