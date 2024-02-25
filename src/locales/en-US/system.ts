@@ -7,8 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
 export default {
-  'system.title': 'YT EMS Cloud',
-  'system.company': 'YOTAI Digital Energy Technology (Shenzhen) Co., Ltd.',
+  'system.title': 'YT New energy energy management cloud platform',
+  'system.company': 'Shenzhen Yongtai Digital Energy Technology Co. Ltd.',
   'system.applyName': 'Apply Name',
   'system.applyId': 'Apply ID',
   'system.key': 'Key',
@@ -21,7 +21,7 @@ export default {
   'system.owner': 'Owner',
   'system.operator': 'Operator',
   'system.deleteAdministratorConfirm':
-    'Are you sure you want to delete this administrator? Cannot be recovered after deletion!',
+    'Are you sure you want to delete this administrator? It cannot be restored after deletion! ',
   'system.organizationName': 'Organization Name',
   'system.organizationId': 'Organization ID',
   'system.requiredField': 'This is a required field',
