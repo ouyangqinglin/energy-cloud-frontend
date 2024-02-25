@@ -1,15 +1,12 @@
-import { CSSProperties, FC, memo, useMemo } from 'react';
+import { memo, useMemo } from 'react';
+import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import styles from './index.less';
 import classnames from 'classnames';
-import decoration from './lottie/decoration.json';
-import { Lottie } from '@/components/Lottie';
-import { CodeSandboxOutlined } from '@ant-design/icons';
-import { Carousel, Pagination, RadioChangeEvent } from 'antd';
+import { Carousel, Pagination } from 'antd';
 import { ReactComponent as DotsIcon } from '@/assets/image/screen/decorationCarousel/dots.svg';
 import { ReactComponent as PartIcon } from '@/assets/image/screen/decorationCarousel/part.svg';
-import { ReactComponent as TagIcon } from '@/assets/image/screen/decorationCarousel/tag.svg';
 import type { TimeType } from '../TimeButtonGroup';
 import TimeButtonGroup from '../TimeButtonGroup';
 import { DatePicker } from 'antd';
@@ -17,8 +14,8 @@ import dayjs from 'dayjs';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { CarouselRef } from 'antd/lib/carousel';
 import { noop } from 'lodash';
-import ButtonGroupSiteType, { SiteType } from '../ButtonGroupSiteType';
-import { useInterval } from 'ahooks';
+import ButtonGroupSiteType from '../ButtonGroupSiteType';
+import type { SiteType } from '../ButtonGroupSiteType';
 
 export type DecorationValueType =
   | 'pagination'
@@ -57,16 +54,9 @@ const DecorationCarousel: FC<DecorationProp> = memo(
       onSiteTypeButtonChange?.(value);
       carouselSiteTypeRef?.current?.goTo(value);
     };
-
-    useInterval(() => {
-      let index = currentPage + 1;
-      if (index > 2) {
-        index = 1;
-      }
-      carouselRef?.current?.goTo(index - 1);
-      setCurrentPage(index);
-    }, 5 * 1000);
-
+    const afterChange = (current: number) => {
+      setCurrentPage(current);
+    };
     const getValueType = useMemo(() => {
       if (valueType === 'pagination') {
         return {
@@ -74,7 +64,6 @@ const DecorationCarousel: FC<DecorationProp> = memo(
             <Pagination
               size="small"
               className={styles.pagination}
-              // defaultCurrent={1}
               current={currentPage}
               total={2}
               defaultPageSize={1}
@@ -82,7 +71,14 @@ const DecorationCarousel: FC<DecorationProp> = memo(
             />
           ),
           Panel: (
-            <Carousel className={styles.carousel} dots={false} ref={carouselRef}>
+            <Carousel
+              className={styles.carousel}
+              dots={false}
+              ref={carouselRef}
+              autoplay
+              autoplaySpeed={5000}
+              afterChange={(current) => afterChange(current + 1)}
+            >
               {children}
             </Carousel>
           ),
@@ -98,9 +94,22 @@ const DecorationCarousel: FC<DecorationProp> = memo(
 
       if (valueType === 'siteType') {
         return {
-          Operation: <ButtonGroupSiteType onChange={goSiteType} />,
+          Operation: (
+            <ButtonGroupSiteType
+              isUseInterval={false}
+              current={currentPage}
+              onChange={goSiteType}
+            />
+          ),
           Panel: (
-            <Carousel className={styles.carousel} dots={false} ref={carouselSiteTypeRef}>
+            <Carousel
+              className={styles.carousel}
+              dots={false}
+              ref={carouselSiteTypeRef}
+              autoplay
+              autoplaySpeed={5000}
+              afterChange={afterChange}
+            >
               {children}
             </Carousel>
           ),

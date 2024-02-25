@@ -7,22 +7,29 @@ import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
 import { electricMoneyMap } from '@/utils/dictionary';
-
+import { formatMessage } from '@/utils';
 export const columns: ProFormColumnsType[] = [
   {
-    title: <div className={styles.title}>基础信息</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({ id: 'common.baseInfo', defaultMessage: '基础信息' })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '规则名称:',
+        title: formatMessage({
+          id: 'pages.searchTable.updateForm.ruleName.nameLabel',
+          defaultMessage: '规则名称',
+        }),
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请输入规则名称',
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
           ],
           wrapperCol: {
@@ -37,30 +44,41 @@ export const columns: ProFormColumnsType[] = [
     ],
   },
   {
-    title: <div className={styles.title}>基本电费</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({ id: 'siteManage.siteList.basicCharge', defaultMessage: '基本电费' })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '生效状态',
+        title: formatMessage({ id: 'siteManage.set.EffectiveStatus', defaultMessage: '生效状态' }),
         colProps: {
           span: 8,
         },
         render: (_, { value: status }) => {
           return status ? (
-            <div className={styles.statusSuccess}>已生效</div>
+            <div className={styles.statusSuccess}>
+              {formatMessage({ id: 'siteManage.set.Effective', defaultMessage: '已生效' })}
+            </div>
           ) : (
-            <div className={styles.statusFail}>未生效</div>
+            <div className={styles.statusFail}>
+              {formatMessage({ id: 'siteManage.set.noEffective', defaultMessage: '未生效' })}
+            </div>
           );
         },
         dataIndex: 'status',
       },
       {
-        title: '功率因数考核',
+        title: formatMessage({
+          id: 'siteManage.set.powerFactorAssessment',
+          defaultMessage: '功率因数考核',
+        }),
         fieldProps: {
-          placeholder: '请输入',
+          placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
         },
         colProps: {
           span: 8,
@@ -68,10 +86,13 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'powerFactor',
       },
       {
-        title: '基本电费类型',
+        title: formatMessage({
+          id: 'siteManage.set.BasicElectricityType',
+          defaultMessage: '基本电费类型',
+        }),
         dataIndex: 'electricityType',
         fieldProps: {
-          placeholder: '请输入',
+          placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
         },
         colProps: {
           span: 8,
@@ -79,7 +100,10 @@ export const columns: ProFormColumnsType[] = [
         valueEnum: electricMoneyMap,
       },
       {
-        title: '最大需量/容量',
+        title: formatMessage({
+          id: 'siteManage.set.Max demand/capacity',
+          defaultMessage: '最大需量/容量',
+        }),
         dataIndex: 'maxDemand',
         render: (_, { value }) => value + 'kW',
         colProps: {
@@ -87,15 +111,18 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '需量/容量电费',
+        title: formatMessage({
+          id: 'siteManage.set.demand/capacity',
+          defaultMessage: '需量/容量电费',
+        }),
         dataIndex: 'demandElectrovalency',
-        render: (_, { value }) => value + '元',
+        render: (_, { value }) => value + formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
         colProps: {
           span: 8,
         },
       },
       {
-        title: '生效日期',
+        title: formatMessage({ id: 'common.rmb', defaultMessage: '生效日期' }),
         dataIndex: 'effectiveTimeList',
         colProps: {
           span: 24,
@@ -116,60 +143,83 @@ export const columns: ProFormColumnsType[] = [
     ],
   },
   {
-    title: <div className={styles.title}>尖峰平谷电价</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({
+          id: 'siteManage.set.PeakAndValleyElectricityPrices',
+          defaultMessage: '尖峰平谷电价',
+        })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '尖电价',
+        title: formatMessage({
+          id: 'siteManage.set.SharpElectricityPrice',
+          defaultMessage: '尖电价',
+        }),
         dataIndex: 'sharpPrice',
         formItemProps: {
           labelCol: {
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元/kWh',
+        render: (_, { value }) =>
+          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
       },
       {
-        title: '峰电价',
+        title: formatMessage({
+          id: 'siteManage.set.PeakElectricityPrice',
+          defaultMessage: '峰电价',
+        }),
         dataIndex: 'peakPrice',
         formItemProps: {
           labelCol: {
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元/kWh',
+        render: (_, { value }) =>
+          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
       },
       {
-        title: '平电价',
+        title: formatMessage({
+          id: 'siteManage.set.AverageElectricityPrice',
+          defaultMessage: '平电价',
+        }),
         dataIndex: 'flatPrice',
         formItemProps: {
           labelCol: {
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元/kWh',
+        render: (_, { value }) =>
+          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
       },
       {
-        title: '谷电价',
+        title: formatMessage({
+          id: 'siteManage.set.ValleyElectricityPrice',
+          defaultMessage: '谷电价',
+        }),
         dataIndex: 'valleyPrice',
         formItemProps: {
           labelCol: {
             flex: '0 1 60px',
           },
         },
-        render: (_, { value }) => value + '元/kWh',
+        render: (_, { value }) =>
+          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -194,10 +244,22 @@ export const columns: ProFormColumnsType[] = [
           });
 
           const labelMap = {
-            [PriceType.SHARP]: '尖时段',
-            [PriceType.PEAK]: '峰时段',
-            [PriceType.SHOULDER]: '平时段',
-            [PriceType.OFF_PEAK]: '谷时段',
+            [PriceType.SHARP]: formatMessage({
+              id: 'siteManage.set.SharpTime',
+              defaultMessage: '尖时段',
+            }),
+            [PriceType.PEAK]: formatMessage({
+              id: 'siteManage.set.PeakTime',
+              defaultMessage: '峰时段',
+            }),
+            [PriceType.SHOULDER]: formatMessage({
+              id: 'siteManage.set.AverageTime',
+              defaultMessage: '平时段',
+            }),
+            [PriceType.OFF_PEAK]: formatMessage({
+              id: 'siteManage.set.ValleyTime',
+              defaultMessage: '谷时段',
+            }),
           };
 
           const Cols = [];
@@ -233,7 +295,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '操作人：',
+        title: formatMessage({ id: 'common.operator', defaultMessage: '操作人：' }),
         dataIndex: 'operator',
         formItemProps: {
           labelCol: {
@@ -248,7 +310,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '最后更新时间：',
+        title: formatMessage({ id: 'common.lastTime', defaultMessage: '最后更新时间：' }),
         dataIndex: 'lastOperationTime',
         formItemProps: {
           labelCol: {

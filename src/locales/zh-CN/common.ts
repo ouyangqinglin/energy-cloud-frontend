@@ -101,6 +101,7 @@ export default {
   'common.search': '搜索',
   'common.successSaved': '保存成功',
   'common.save': '保存',
+  'common.saveAndeffect': '保存并生效',
   'common.uploadPhoto': '上传图片',
   'common.select': '选择',
   'common.pleaseSelect': '请选择',

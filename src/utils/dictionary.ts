@@ -6,8 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
-// import { formatMessage } from 'umi';
-// console.log('formatMessage>>',formatMessage({ id: 'device.platformRules', defaultMessage: '平台规则' }));
+
+// import { formatMessage } from './index';
 export enum RequestCode {
   NoToken = 500001,
   TokenExpire = 500003,

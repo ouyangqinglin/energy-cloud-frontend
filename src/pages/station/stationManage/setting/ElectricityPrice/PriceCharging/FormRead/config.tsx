@@ -4,22 +4,30 @@ import dayjs from 'dayjs';
 import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
+import { formatMessage } from '@/utils';
 
 export const columns: ProFormColumnsType[] = [
   {
-    title: <div className={styles.title}>基础信息</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({ id: 'common.baseInfo', defaultMessage: '基础信息' })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
     },
     columns: [
       {
-        title: '规则名称:',
+        title: formatMessage({
+          id: 'pages.searchTable.updateForm.ruleName.nameLabel',
+          defaultMessage: '规则名称：',
+        }),
         formItemProps: {
           rules: [
             {
               required: true,
-              message: '请输入规则名称',
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
           ],
           wrapperCol: {
@@ -32,21 +40,25 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'name',
       },
       {
-        title: '生效状态',
+        title: formatMessage({ id: 'siteManage.set.EffectiveStatus', defaultMessage: '生效状态' }),
         colProps: {
           span: 12,
         },
         render: (_, { value: status }) => {
           return status ? (
-            <div className={styles.statusSuccess}>已生效</div>
+            <div className={styles.statusSuccess}>
+              {formatMessage({ id: 'siteManage.set.Effective', defaultMessage: '已生效' })}
+            </div>
           ) : (
-            <div className={styles.statusFail}>未生效</div>
+            <div className={styles.statusFail}>
+              {formatMessage({ id: 'siteManage.set.noEffective', defaultMessage: '未生效' })}
+            </div>
           );
         },
         dataIndex: 'status',
       },
       {
-        title: '生效日期',
+        title: formatMessage({ id: 'common.rmb', defaultMessage: '生效日期' }),
         dataIndex: 'effectiveTimeList',
         colProps: {
           span: 24,
@@ -67,7 +79,14 @@ export const columns: ProFormColumnsType[] = [
     ],
   },
   {
-    title: <div className={styles.title}>时段电价</div>,
+    title: (
+      <div className={styles.title}>
+        {formatMessage({
+          id: 'siteManage.set.TimePeriodElectricityPrice',
+          defaultMessage: '时段电价',
+        })}
+      </div>
+    ),
     valueType: 'group',
     colProps: {
       span: 24,
@@ -83,15 +102,27 @@ export const columns: ProFormColumnsType[] = [
             return (
               <React.Fragment key={id}>
                 <Col className={!isLastOneChild ? styles.timeIntervalCol : ''} span={3}>
-                  时间段{index + 1}:
+                  {formatMessage({ id: 'siteManage.set.timeSlot', defaultMessage: '时间段' })}
+                  {index + 1}:
                 </Col>
                 <Col span={9}>
                   {intervalStartTime} - {intervalEndTime}
                 </Col>
-                <Col span={2}>电价:</Col>
-                <Col span={4}>{electricityFees}元/kWh</Col>
-                <Col span={2}>服务费:</Col>
-                <Col span={4}>{serviceFees}元/kWh</Col>
+                <Col span={2}>
+                  {formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' })}:
+                </Col>
+                <Col span={4}>
+                  {electricityFees}
+                  {electricityFees}
+                  {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
+                </Col>
+                <Col span={2}>
+                  {formatMessage({ id: 'siteManage.set.serviceCharge', defaultMessage: '服务费' })}:
+                </Col>
+                <Col span={4}>
+                  {serviceFees}
+                  {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
+                </Col>
               </React.Fragment>
             );
           });
@@ -100,7 +131,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '操作人：',
+        title: formatMessage({ id: 'common.operator', defaultMessage: '操作人：' }),
         dataIndex: 'operator',
         formItemProps: {
           labelCol: {
@@ -115,7 +146,7 @@ export const columns: ProFormColumnsType[] = [
         },
       },
       {
-        title: '最后更新时间：',
+        title: formatMessage({ id: 'common.lastTime', defaultMessage: '最后更新时间：' }),
         dataIndex: 'lastOperationTime',
         formItemProps: {
           labelCol: {

@@ -7,6 +7,7 @@ import useSafeTimeRangeColum from './SafeTimeRange';
 import type { BasePriceInfo, FormUpdateProps } from './type';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import moment from 'moment';
+import { formatMessage } from '@/utils';
 
 const DEFAULT_PROPS = {
   layout: 'vertical' as 'vertical',
@@ -81,7 +82,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
       const run = isCreate ? onFinishCreate : onFinishUpdate;
       return run({ ...formData, siteId, id }, {}).then(({ data }) => {
         if (data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           onSuccess?.();
           return true;
         }
@@ -118,7 +119,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
       onFinish={onFinish}
       submitter={{
         searchConfig: {
-          resetText: '取消',
+          resetText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         },
         submitButtonProps: {
           style: {
@@ -136,7 +137,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
                 formProps.submit();
               }}
             >
-              保存
+              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
             </Button>,
             <Button
               type="primary"
@@ -146,7 +147,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
                 formProps.submit();
               }}
             >
-              保存并生效
+              {formatMessage({ id: 'common.saveAndeffect', defaultMessage: '保存并生效' })}
             </Button>,
           ];
         },
