@@ -50,7 +50,7 @@ export default {
   'siteManage.set.closeMonitorSiteConfirmContent':
     'Whether to close the monitoring point. After the monitoring point is closed, the main monitoring page will not monitor the loop',
   'siteManage.set.allDataCollectionPoints': 'All data collection points',
-  'siteManage.set.dataCollectionPoints': 'Data collection points',
+  'siteManage.set.dataCollectionPoints': 'Data collection',
   'siteManage.set.dataCollectionPointIdIdentify': 'Data collection point identification',
   'siteManage.set.mainsMonitor': 'Grid monitoring',
   'siteManage.set.otherLoad': 'Other Load',
