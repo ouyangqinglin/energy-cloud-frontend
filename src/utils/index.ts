@@ -120,7 +120,7 @@ export const getValue = (value: any, unit = '') => {
 };
 
 export const getLocale = () => {
-  const locale = localStorage.getItem('umi_locale');
+  const locale = localStorage.getItem('umi_locale') || '';
   const result = {
     isZh: false,
     isZhCN: false,

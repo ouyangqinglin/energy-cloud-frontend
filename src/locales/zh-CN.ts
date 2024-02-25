@@ -34,6 +34,7 @@ import alarmManage from './zh-CN/alarmManage';
 import screen from './zh-CN/screen';
 import physicalModel from './zh-CN/physicalModel';
 import version from './zh-CN/version';
+import date from './zh-CN/date';
 
 export default {
   'navBar.lang': '语言',
@@ -80,4 +81,5 @@ export default {
   ...alarmManage,
   ...screen,
   ...version,
+  ...date,
 };
