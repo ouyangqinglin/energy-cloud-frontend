@@ -22,7 +22,6 @@ export type MonitorDataType = {
 };
 
 export type TableDataType = {
-  elec: MonitorDataType[];
   row1: MonitorDataType[];
   row2: MonitorDataType[];
   row3?: MonitorDataType[];

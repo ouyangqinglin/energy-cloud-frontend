@@ -33,11 +33,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [activeKeysSet, setActiveKeysSet] = useState<Set<string>>(new Set());
   const [allTableData, setAllTableData] = useState<AllTableDataType>({
-    electric: { elec: [], row1: [], row2: [] },
-    photovoltaic: { elec: [], row1: [], row2: [] },
-    energy: { elec: [], row1: [], row2: [] },
-    charge: { elec: [], row1: [], row2: [] },
-    load: { elec: [], row1: [], row2: [] },
+    electric: { row1: [], row2: [] },
+    photovoltaic: { row1: [], row2: [] },
+    energy: { row1: [], row2: [] },
+    charge: { row1: [], row2: [] },
+    load: { row1: [], row2: [] },
   });
   const [openTableSelect, { setLeft, setRight }] = useToggle(false);
   const [selectedRow, setSelectedRow] = useState<MonitorDataType>({ area: '', type: '' });
@@ -63,12 +63,10 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         rowId: type + 'noData' + index,
         project: monitorTypeMap.get(type)?.data[index].name,
         deviceName: deviceTree
-          ? index
-            ? formatMessage({
-                id: 'siteManage.set.associateDataCollectionPoints',
-                defaultMessage: '关联数据采集点',
-              })
-            : formatMessage({ id: 'siteManage.set.associateDevice', defaultMessage: '关联设备' })
+          ? formatMessage({
+              id: 'siteManage.set.associateDataCollectionPoints',
+              defaultMessage: '关联数据采集点',
+            })
           : '',
         area: monitorTypeMap.get(type)?.data[index].area || '',
         type: type,
@@ -261,11 +259,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       run({ siteId }).then((data) => {
         const keys = new Set<string>([...defaultOpenKeys]);
         const datas: AllTableDataType = {
-          electric: { elec: [], row1: [], row2: [] },
-          photovoltaic: { elec: [], row1: [], row2: [] },
-          energy: { elec: [], row1: [], row2: [] },
-          charge: { elec: [], row1: [], row2: [] },
-          load: { elec: [], row1: [], row2: [] },
+          electric: { row1: [], row2: [] },
+          photovoltaic: { row1: [], row2: [] },
+          energy: { row1: [], row2: [] },
+          charge: { row1: [], row2: [] },
+          load: { row1: [], row2: [] },
         };
         monitorTypeMap.forEach((item, type) => {
           if (data?.[item.type]?.flag) {
@@ -418,7 +416,6 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           <Table
             columns={columns}
             dataSource={[
-              ...allTableData[item.key].elec,
               ...allTableData[item.key].row1,
               ...allTableData[item.key].row2,
               ...(allTableData[item.key].row3 || []),

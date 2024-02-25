@@ -1,10 +1,9 @@
 import { formatMessage } from '@/utils';
 
 export const areaMap = new Map([
-  ['elec', 0],
-  ['row1', 1],
-  ['row2', 2],
-  ['row3', 3],
+  ['row1', 0],
+  ['row2', 1],
+  ['row3', 2],
 ]);
 
 export const defaultOpenKeys = ['electric', 'load'];
@@ -16,11 +15,6 @@ export const monitorTypeMap = new Map([
     {
       type: 5,
       data: [
-        {
-          name: formatMessage({ id: 'siteManage.set.electricMonitor', defaultMessage: '电气监测' }),
-          area: 'elec',
-          subType: 1,
-        },
         {
           name: formatMessage({
             id: 'siteManage.set.mainsElectricConsumption',
@@ -45,11 +39,6 @@ export const monitorTypeMap = new Map([
     {
       type: 1,
       data: [
-        {
-          name: formatMessage({ id: 'siteManage.set.electricMonitor', defaultMessage: '电气监测' }),
-          area: 'elec',
-          subType: 1,
-        },
         {
           name: formatMessage({
             id: 'siteManage.set.pvPowerGeneration',
@@ -76,11 +65,6 @@ export const monitorTypeMap = new Map([
     {
       type: 2,
       data: [
-        {
-          name: formatMessage({ id: 'siteManage.set.electricMonitor', defaultMessage: '电气监测' }),
-          area: 'elec',
-          subType: 1,
-        },
         {
           name: formatMessage({
             id: 'siteManage.set.energyStorageCharge',
@@ -114,11 +98,6 @@ export const monitorTypeMap = new Map([
       type: 3,
       data: [
         {
-          name: formatMessage({ id: 'siteManage.set.electricMonitor', defaultMessage: '电气监测' }),
-          area: 'elec',
-          subType: 1,
-        },
-        {
           name: formatMessage({
             id: 'siteManage.set.chargeElectricConsumption',
             defaultMessage: '充电桩用电量',
@@ -142,11 +121,6 @@ export const monitorTypeMap = new Map([
     {
       type: 4,
       data: [
-        {
-          name: formatMessage({ id: 'siteManage.set.electricMonitor', defaultMessage: '电气监测' }),
-          area: 'elec',
-          subType: 1,
-        },
         {
           name: formatMessage({
             id: 'siteManage.set.loadPowerConsumption',
