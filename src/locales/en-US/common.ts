@@ -103,7 +103,6 @@ export default {
   'common.pleaseSelect': 'Please select',
   'common.deleteConfirm': 'Delete Confirmation',
   'common.enter': 'Enter',
-  //'common.confirmDelete': 'Are you sure you want to delete it',
   'common.appointTime': 'Appointment Time',
   'common.recepTime': 'Reception Time',
   'common.finishTime': 'Finish Time',

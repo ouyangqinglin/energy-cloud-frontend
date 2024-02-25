@@ -495,14 +495,3 @@ export const vehicleType = {
 export const chargeType = {
   0: { text: '换电站充电' },
 };
-
-export const alarmSource = {
-  0: {
-    // text: formatMessage({ id: 'device.deviceSide', defaultMessage: '设备端' }),
-    text: '设备端',
-  },
-  1: {
-    // text: formatMessage({ id: 'device.platformRules', defaultMessage: '平台规则' }),
-    text: '平台规则',
-  },
-};
