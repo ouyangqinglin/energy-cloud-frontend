@@ -179,7 +179,6 @@ export const useInfo = [
   { label: '空闲', value: 0 },
 ];
 
-export const weekInfo = ['周日', '周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 export const weekInfoUS = [
   'Sunday',
   'Monday',

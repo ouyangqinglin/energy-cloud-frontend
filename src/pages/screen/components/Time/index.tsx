@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-09 14:30:11
- * @LastEditTime: 2023-06-10 17:22:21
+ * @LastEditTime: 2024-02-25 18:20:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Time\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { weekInfo, weekInfoUS } from '@/utils/dictionary';
+import { weekInfoUS } from '@/utils/dictionary';
+import { weekInfo } from '@/utils/dict';
 import { getLocale } from '@/utils';
 import moment from 'moment';
 import styles from './index.less';
@@ -22,7 +23,7 @@ const Time: React.FC = () => {
       const now = moment();
       setDate({
         date: now.format(isUS ? 'MM/DD/YYYY' : 'YYYY年MM月DD日'),
-        week: isUS ? weekInfoUS[now.day()] : weekInfo[now.day()],
+        week: weekInfo[now.day()],
         time: now.format('HH:mm:ss'),
       });
     }, 1000);

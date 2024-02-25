@@ -2,15 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-25 19:17:46
- * @LastEditTime: 2023-05-29 19:53:21
+ * @LastEditTime: 2024-02-25 18:18:37
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\EnergyDialog\operationMonitor.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\operationMonitor.tsx
  */
 
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Tabs, Pagination } from 'antd';
 import Detail from '@/components/Detail';
-import { weekInfo, EnergyEquipmentEnum } from '@/utils/dictionary';
+import { EnergyEquipmentEnum } from '@/utils/dictionary';
+import { weekInfo } from '@/utils/dict';
 import { OptionType } from '@/types';
 import Label from '@/components/Detail/DotLabel';
 import {

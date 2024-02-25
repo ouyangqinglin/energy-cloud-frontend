@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-11 16:56:37
- * @LastEditTime: 2023-12-04 17:03:55
+ * @LastEditTime: 2024-02-25 18:25:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\equipmentItem.ts
  */
@@ -209,6 +209,9 @@ export const pcsStatusItems: DetailItem[] = [
     }),
     field: 'CurrentChargingAndDischargingModel',
     format: electricModelFormat,
+    labelStyle: {
+      maxWidth: '116px',
+    },
   },
   {
     label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
