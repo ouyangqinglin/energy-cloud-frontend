@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:36:01
- * @LastEditTime: 2023-09-18 15:07:49
+ * @LastEditTime: 2024-02-28 10:00:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
@@ -12,10 +12,12 @@ import type { OptionType } from '@/types';
 import { debounce, merge } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-components';
 import { formatMessage } from '@/utils';
+import { ResponsePromise } from '@/utils/request';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
-  props: ProColumns<TableData, ValueType> & {
+  props: Omit<ProColumns<TableData, ValueType>, 'request'> & {
     showAllOption?: boolean;
+    searchRequest?: (params?: any) => ResponsePromise<any, any>;
   } = {},
 ): [siteColumn: ProColumns<TableData, ValueType>, siteOptions: SiteDataType[] | undefined] => {
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
@@ -23,7 +25,10 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
 
   const requestStation = useCallback(
     debounce((searchText, fun) => {
-      return getStations({ ...(props?.params ?? {}), name: searchText }).then(({ data }) => {
+      return (props?.searchRequest || getStations)({
+        ...(props?.params ?? {}),
+        name: searchText,
+      }).then(({ data }) => {
         let result =
           data?.map?.((item: any) => {
             return {
@@ -45,7 +50,7 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         return result;
       });
     }, 700),
-    [props?.params],
+    [props?.params, props?.searchRequest],
   );
 
   useEffect(() => {

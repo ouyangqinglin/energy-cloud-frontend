@@ -4,7 +4,7 @@ import { formatMessage } from '@/utils';
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:45:35
- * @LastEditTime: 2024-01-06 15:45:35
+ * @LastEditTime: 2024-02-27 16:28:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\helper.ts
  */
@@ -27,10 +27,16 @@ export const chartOptions = {
   yAxis: [
     {
       name: formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }) + '(V)',
+      nameTextStyle: {
+        align: 'left',
+      },
       alignTicks: true,
     },
     {
       name: formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '(℃)',
+      nameTextStyle: {
+        align: 'right',
+      },
     },
   ],
   series: [

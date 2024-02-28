@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-02-20 18:14:05
+ * @LastEditTime: 2024-02-28 09:58:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -30,6 +30,7 @@ import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { getDeviceListSites } from '@/services/station';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -43,9 +44,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-  });
+
+  const siteColumnOptions = useMemo(
+    () => ({
+      hideInTable: true,
+      searchRequest: getDeviceListSites,
+    }),
+    [],
+  );
+
+  const [siteColumn] = useSiteColumn<DeviceDataType>(siteColumnOptions);
+
   const { authorityMap } = useAuthority([
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',

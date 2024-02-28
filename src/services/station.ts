@@ -49,6 +49,13 @@ export const getStations = (params?: any) => {
   });
 };
 
+export const getDeviceListSites = (params?: any) => {
+  return request(`/oss/site/getListByDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getSiteType = () => {
   return request<ResponseCommonData<SiteTypeOptionType[]>>(`/oss/site/index/siteType`, {
     method: 'GET',
