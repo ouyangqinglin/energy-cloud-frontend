@@ -69,7 +69,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const option = {
     yAxis: {
       type: 'value',
-      name: '(kW)',
+      name: shouldShowLine ? '(kW)' : '(kWh)',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {

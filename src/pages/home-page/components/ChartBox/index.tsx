@@ -15,7 +15,7 @@ import { formatMessage } from '@/utils';
 
 const ChartBox = ({
   type: subSystemType,
-  siteType,
+  siteType = '',
 }: {
   type: SubSystemType;
   siteType?: string;
@@ -36,7 +36,6 @@ const ChartBox = ({
     setDate(value);
   };
   useEffect(() => {
-    console.log('siteType>>', siteType);
     chartRef?.current?.getEchartsInstance()?.clear?.();
   }, [siteType]);
   const timeTypeChange = (type: TimeType) => {

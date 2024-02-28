@@ -43,6 +43,10 @@ const Account: React.FC<AccountProps> = (props) => {
     'systemManage:userManage:account:delete',
   ]);
 
+  useMemo(() => {
+    console.log('roleOptions>>', roleOptions);
+  }, [roleOptions]);
+
   const tableColumns = useMemo(() => {
     return getTableColumns(params?.orgTypes);
   }, [params]);
@@ -102,14 +106,16 @@ const Account: React.FC<AccountProps> = (props) => {
     });
   }, []);
 
-  const beforeSubmit = useCallback(
-    (formData: AccountDataType) => {
-      formData.roleIds = [formData?.roleId || ''];
+  const beforeSubmit = (formData: AccountDataType) => {
+    formData.roleIds = [formData?.roleId || ''];
+    const roleType = roleOptions.filter((i) => i.roleId == formData.roleId)[0]?.type || 0;
+    if (roleType == 1) {
+      formData.siteIds = formData?.webConfig || [];
+    } else {
       formData.siteIds = formData?.sites?.map?.((item) => item.id) || [];
-    },
-    [params],
-  );
-
+    }
+    console.log('formData>>', formData);
+  };
   const afterRequest = useCallback(
     (formData: AccountDataType) => {
       formData.userId = formData?.user?.userId;
@@ -121,10 +127,10 @@ const Account: React.FC<AccountProps> = (props) => {
       formData.phone = formData?.user?.phone;
       formData.remark = formData?.user?.remark;
       formData.sites = formData?.user?.sites;
+      formData.webConfig = JSON.parse(formData?.user?.webConfig);
     },
     [params],
   );
-
   useEffect(() => {
     actionRef?.current?.reloadAndRest?.();
   }, [params]);
@@ -185,10 +191,11 @@ const Account: React.FC<AccountProps> = (props) => {
           columns={formColumns}
           open={openForm}
           onOpenChange={set}
+          shouldUpdate={false}
           id={formInfo.id}
           idKey="userId"
-          addData={addData}
           editData={editData}
+          addData={addData}
           getData={getData}
           beforeSubmit={beforeSubmit}
           afterRequest={afterRequest}

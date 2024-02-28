@@ -1,6 +1,6 @@
 export default {
   'device.pv': 'PV',
-  'device.storage': 'energy storage system',
+  'device.storage': 'ESS',
   'device.storageBattery': 'energy storage battery',
   'device.electricSupply': 'Grid',
   'device.deviceSide': 'Device Side',
@@ -11,7 +11,7 @@ export default {
   'device.pvRevenue': 'PV Revenue',
   'device.storageRevenue': 'ESS Revenue',
   'device.chargingRevenue': 'Charging Revenue',
-  'device.chargingPile': 'Charging pile',
+  'device.chargingPile': 'EV Charger',
   'device.totalRevenue': 'Total revenue',
   'device.storageCharge': 'Energy storage revenue',
   'device.storageeCharge': 'Energy storage charging  fee',

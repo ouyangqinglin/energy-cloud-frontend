@@ -1,3 +1,5 @@
+import { formatMessage } from '@/utils';
+
 export interface AllTypeData {
   // pcs
   pcsVo: PcsVo;
@@ -23,9 +25,9 @@ export const enum WorkStatus {
   RUNNING,
 }
 export const WorkStatusMap = new Map([
-  [WorkStatus.SHUT_DOWN, '停机'],
-  [WorkStatus.FAILURE, '故障'],
-  [WorkStatus.RUNNING, '运行'],
+  [WorkStatus.SHUT_DOWN, formatMessage({ id: 'things.halt', defaultMessage: '停机' })],
+  [WorkStatus.FAILURE, formatMessage({ id: 'things.fault', defaultMessage: '故障' })],
+  [WorkStatus.RUNNING, formatMessage({ id: 'things.run', defaultMessage: '运行' })],
 ]);
 
 export interface PcsVo {

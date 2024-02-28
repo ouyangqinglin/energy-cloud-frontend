@@ -11,6 +11,7 @@ import type { AllTypeData, MainsSupply } from './type';
 import { SubsystemTypeForNode } from './type';
 import { isEmpty, uniqueId } from 'lodash';
 import { SiteTypeEnum } from '@/utils/dict';
+import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
 const edgeType = 'smoothstep';
@@ -22,14 +23,20 @@ const hasPVInSiteType = (energyOptions: SiteTypeEnum) =>
 const genOverViewStatistic = (data: AllTypeData) => {
   const column = [
     {
-      label: '园区总用电（kWh）',
+      label: `${formatMessage({
+        id: 'siteMonitor.parkTotalElectricity',
+        defaultMessage: '园区总用电',
+      })}（kWh）`,
       value: data.siteTotal,
       field: 'todayConsumption',
     },
   ];
   if (hasPVInSiteType(data.energyOptions)) {
     column.push({
-      label: '光伏总发电（kWh）',
+      label: `${formatMessage({
+        id: 'siteMonitor.PVTotalElectricity',
+        defaultMessage: '光伏总发电',
+      })}（kWh）`,
       value: data.photovoltaicTotal,
       field: 'todayConsumption',
     });
@@ -42,8 +49,8 @@ const genOverViewStatistic = (data: AllTypeData) => {
       y: 0,
     },
     data: {
-      label: '市电',
-      width: 260,
+      label: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
+      width: 'auto',
       height: 76,
       textContent: {
         column,
@@ -60,7 +67,7 @@ const genElectricSupplyNode = (data: MainsSupply) => {
       id: parentId,
       type: 'imageNode',
       data: {
-        label: '市电',
+        label: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
         width: 96,
         height: 120,
         imageContent: {
@@ -84,23 +91,32 @@ const genElectricSupplyNode = (data: MainsSupply) => {
       parentNode: parentId,
       extent: 'parent' as 'parent',
       data: {
-        label: '市电数据卡片',
-        width: 234,
+        label: formatMessage({ id: 'siteMonitor.GridDataCard', defaultMessage: '市电数据卡片' }),
+        width: 270,
         height: 106,
         textContent: {
           column: [
             {
-              label: '今日购电(kWh)：',
+              label: `${formatMessage({
+                id: 'siteMonitor.TodayBuyElectricity',
+                defaultMessage: '今日购电',
+              })}(kWh)`,
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
             {
-              label: '今日售电(kWh)：',
+              label: `${formatMessage({
+                id: 'siteMonitor.TodaySellElectricity',
+                defaultMessage: '今日售电',
+              })}(kWh)`,
               value: data.todayProduction,
               field: 'todayConsumption',
             },
             {
-              label: '电网功率(kW)：',
+              label: `${formatMessage({
+                id: 'device.gridPower',
+                defaultMessage: '电网功率',
+              })}(kWh)`,
               value: data.power,
               field: 'todayConsumption',
             },
@@ -116,14 +132,23 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
   let label = '';
   switch (type) {
     case 1:
-      label = '今日发电(kWh)：';
+      label = `${formatMessage({
+        id: 'device.todayElectricitygeneration',
+        defaultMessage: '今日发电',
+      })}(kWh)`;
       break;
     case 2:
-      label = '今日充电(kWh)：';
+      label = `${formatMessage({
+        id: 'siteMonitor.todayCharge',
+        defaultMessage: '今日充电',
+      })}(kWh)`;
       break;
     case 3:
     case 4:
-      label = '今日用电(kWh)：';
+      label = `${formatMessage({
+        id: 'device.todayElectricityConsumption',
+        defaultMessage: '今日用电',
+      })}(kWh)`;
       break;
   }
 
@@ -134,7 +159,7 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
       label: 'input',
       width: 77,
       height: 90,
-      title: '配电柜',
+      title: formatMessage({ id: 'siteMonitor.DistributionCabinet', defaultMessage: '配电柜' }),
       imageContent: {
         icon: IconDistributionCabinet,
         width: 77,
@@ -148,7 +173,21 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
             field: 'todayConsumption',
           },
           {
-            label: type == 2 ? '实时功率(kW)：' : type == 1 ? '发电功率(kW)：' : '用电功率(kW)：',
+            label:
+              type == 2
+                ? `${formatMessage({
+                    id: 'device.realTimePower',
+                    defaultMessage: '实时功率',
+                  })}(kW)：`
+                : type == 1
+                ? `${formatMessage({
+                    id: 'screen.powerGeneration',
+                    defaultMessage: '发电功率',
+                  })}(kW)：`
+                : `${formatMessage({
+                    id: 'screen.powerConsumption',
+                    defaultMessage: '用电功率',
+                  })}(kW)：`,
             value: data.power,
             field: 'todayConsumption',
           },
@@ -161,7 +200,11 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
 
   if (type == 2) {
     result.data.textContent.column.splice(1, 0, {
-      label: '今日放电(kWh)：',
+      label:
+        formatMessage({
+          id: 'index.todayDischarge',
+          defaultMessage: '今日放电/kWh',
+        }) + '：',
       value: data.todayProduction,
       field: 'todayProduction',
     });
@@ -185,16 +228,27 @@ const genPVNode = (data: MainsSupply) => {
           width: 65,
           height: 62,
         },
-        title: '发电单元',
+        title: formatMessage({
+          id: 'siteMonitor.generatingUnit',
+          defaultMessage: '发电单元',
+        }),
         textContent: {
           column: [
             {
-              label: '今日发电(kWh)：',
+              label:
+                formatMessage({
+                  id: 'index.dailyPowerGeneration',
+                  defaultMessage: '今日发电(kWh)',
+                }) + '：',
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
             {
-              label: '发电功率(kW)：',
+              label:
+                formatMessage({
+                  id: 'screen.powerGeneration',
+                  defaultMessage: '发电功率(kWh)',
+                }) + '：',
               value: data.power,
               field: 'todayConsumption',
             },
@@ -220,7 +274,11 @@ const genPVNode = (data: MainsSupply) => {
         textContent: {
           column: [
             {
-              label: '组串数：',
+              label:
+                formatMessage({
+                  id: 'siteMonitor.NumberOfStrings',
+                  defaultMessage: '组串数',
+                }) + '：',
               value: data.pvNum,
               field: 'todayConsumption',
             },
@@ -245,21 +303,36 @@ const genESNode = (data: MainsSupply) => ({
     },
     width: 70,
     height: 80,
-    title: `储能${data?.extraName ?? ''}（剩余电量:${data?.soc?.toFixed?.(2) || 0}%）`,
+
+    title: `${formatMessage({ id: 'screen.storage', defaultMessage: '储能' })}${
+      data?.extraName ?? ''
+    }（${formatMessage({ id: 'siteMonitor.dumpEnergy', defaultMessage: '剩余电量' })}:${
+      data?.soc?.toFixed?.(2) || 0
+    }%）`,
     textContent: {
       column: [
         {
-          label: '今日充电(kWh)：',
+          label: `${formatMessage({
+            id: 'siteMonitor.todayCharge',
+            defaultMessage: '今日充电',
+          })}(kWh)`,
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '今日放电(kWh)：',
+          label:
+            formatMessage({
+              id: 'index.todayDischarge',
+              defaultMessage: '今日放电/kWh',
+            }) + '：',
           value: data.todayProduction,
           field: 'todayConsumption',
         },
         {
-          label: '实时功率(kW)：',
+          label: `${formatMessage({
+            id: 'device.realTimePower',
+            defaultMessage: '实时功率',
+          })}(kW)：`,
           value: data.power,
           field: 'todayConsumption',
         },
@@ -282,16 +355,23 @@ const genLoadCSNode = (data: MainsSupply) => ({
     },
     width: 70,
     height: 78,
-    title: '充电桩',
+
+    title: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
     textContent: {
       column: [
         {
-          label: '今日用电(kWh)：',
+          label: `${formatMessage({
+            id: 'device.todayElectricityConsumption',
+            defaultMessage: '今日用电',
+          })}(kWh)`,
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '用电功率(kW)：',
+          label: `${formatMessage({
+            id: 'screen.powerConsumption',
+            defaultMessage: '用电功率',
+          })}(kW)：`,
           value: data.power,
           field: 'todayConsumption',
         },
@@ -314,16 +394,22 @@ const genLoadOtherNode = (data: MainsSupply) => ({
     },
     width: 70,
     height: 78,
-    title: '其他用电设备',
+    title: formatMessage({ id: 'siteMonitor.otherPowereDevice', defaultMessage: '其他用电设备' }),
     textContent: {
       column: [
         {
-          label: '今日用电(kWh)：',
+          label: `${formatMessage({
+            id: 'device.todayElectricityConsumption',
+            defaultMessage: '今日用电',
+          })}(kWh)`,
           value: data.todayConsumption,
           field: 'todayConsumption',
         },
         {
-          label: '用电功率(kW)：',
+          label: `${formatMessage({
+            id: 'screen.powerConsumption',
+            defaultMessage: '用电功率',
+          })}(kW)：`,
           value: data.power,
           field: 'todayConsumption',
         },
@@ -374,7 +460,9 @@ const buildTreeByData = (data: MainsSupply, nodes: GraphNode[] = []) => {
       }
       data.children.forEach((d, index) => {
         if (isMasterSlaveEnergy) {
-          d.extraName = index ? '(从)' : '(主)';
+          d.extraName = index
+            ? `${formatMessage({ id: 'common.slave', defaultMessage: '从' })}`
+            : `${formatMessage({ id: 'common.master', defaultMessage: '主' })}`;
         }
         buildTreeByData(d, node?.children);
       });

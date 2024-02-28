@@ -9,14 +9,12 @@ import IconChargingTerminalHW from './svg-icon/icon_华为充电终端.svg';
 import IconChargingTerminal from './svg-icon/icon_永泰充电终端.svg';
 import IconChargingStationDC from './svg-icon/icon_120kW直流充电桩.svg';
 import IconChargingStationAC from './svg-icon/iocn_交流充电桩.svg';
-import IconAirConditioning from './svg-icon/icon_空调.svg';
-import IconIllumination from './svg-icon/icon_照明.svg';
-import IconOtherDevice from './svg-icon/icon_其他设备.svg';
-import type { ExtraNodeColumn, ExtraNodeData, ExtraNodeTextContent, GraphNode } from '../type';
-import { AllTypeData, deviceType, MainsSupply, TypePowerConsumptionData } from './type';
-import { SubsystemTypeForNode } from './type';
+import type { ExtraNodeData, GraphNode } from '../type';
+import { deviceType } from './type';
+import type { TypePowerConsumptionData } from './type';
 import { isEmpty, uniqueId } from 'lodash';
 import { buildEdges, flattenTree } from '../helper';
+import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
 
@@ -54,11 +52,17 @@ const getDefaultConfig = ({
     textContent: {
       column: [
         {
-          label: '今日用电(kWh)：',
+          label: `${formatMessage({
+            id: 'device.todayElectricityConsumption',
+            defaultMessage: '今日用电',
+          })}(kWh)`,
           value: data.elecToday,
         },
         {
-          label: '用电功率(kW)：',
+          label: `${formatMessage({
+            id: 'screen.powerConsumption',
+            defaultMessage: '用电功率',
+          })}(kW)：`,
           value: data.power,
         },
       ],
@@ -74,7 +78,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
   switch (type) {
     case deviceType.DistributionCabinet:
       return getDefaultConfig({
-        title: '用电总计',
+        title: formatMessage({ id: 'siteMonitor.TotalElectricity', defaultMessage: '用电总计' }),
         imageContent: {
           icon: IconDistributionCabinet,
           width: 77,
@@ -85,7 +89,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.LoadCS:
       return getDefaultConfig({
-        title: '充电桩总计',
+        title: formatMessage({ id: 'siteMonitor.TotalEVCharger', defaultMessage: '充电桩总计' }),
         imageContent: {
           icon: IconLoadCS,
           width: 80,
@@ -96,7 +100,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.ChargingStackHW:
       return getDefaultConfig({
-        title: '华为600kW充电堆',
+        title: formatMessage({
+          id: 'siteMonitor.yotai360kWChargerStack',
+          defaultMessage: '华为600kW充电堆',
+        }),
         imageContent: {
           icon: IconChargingStackHW,
           width: 80,
@@ -108,7 +115,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.ChargingStack:
       return getDefaultConfig({
-        title: '永泰360kW充电堆',
+        title: formatMessage({
+          id: 'siteMonitor.yotai360kWChargerStack',
+          defaultMessage: '永泰360kW充电堆',
+        }),
         imageContent: {
           icon: IconChargingStack,
           width: 80,
@@ -121,7 +131,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.SuperChargingTerminalHW:
       return getDefaultConfig({
-        title: '华为超充终端',
+        title: formatMessage({
+          id: 'siteMonitor.HuaweiOverchargeTerminal',
+          defaultMessage: '华为超充终端',
+        }),
         imageContent: {
           icon: IconSuperChargingTerminalHW,
           width: 31,
@@ -132,7 +145,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.ChargingTerminalHW:
       return getDefaultConfig({
-        title: '华为充电终端',
+        title: formatMessage({
+          id: 'siteMonitor.HuaweiChargeTerminal',
+          defaultMessage: '华为充电终端',
+        }),
         imageContent: {
           icon: IconChargingTerminalHW,
           width: 20,
@@ -143,7 +159,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.ChargingTerminal:
       return getDefaultConfig({
-        title: '永泰充电终端',
+        title: formatMessage({
+          id: 'siteMonitor.yotaiChargeTerminal',
+          defaultMessage: '永泰充电终端',
+        }),
         imageContent: {
           icon: IconChargingTerminal,
           width: 38,
@@ -155,7 +174,10 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
     case deviceType.ChargingStationDC160:
     case deviceType.ChargingStationDC120:
       return getDefaultConfig({
-        title: '120kW直流充电桩',
+        title: formatMessage({
+          id: 'siteMonitor.120kWDCEVCharger',
+          defaultMessage: '120kW直流充电桩',
+        }),
         imageContent: {
           icon: IconChargingStationDC,
           width: 42,
@@ -167,7 +189,7 @@ const getNodeByType = (type: deviceType, data: TypePowerConsumptionData) => {
       });
     case deviceType.ChargingStationAC:
       return getDefaultConfig({
-        title: '7kW交流充电桩',
+        title: formatMessage({ id: 'siteMonitor.7kWACEVCharger', defaultMessage: '7kW交流充电桩' }),
         imageContent: {
           icon: IconChargingStationAC,
           width: 42,

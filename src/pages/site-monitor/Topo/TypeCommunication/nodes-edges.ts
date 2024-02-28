@@ -1,15 +1,14 @@
-import { Edge, Node } from 'reactflow';
-import { ExtraNodeData, GraphNode } from '../type';
-import IconPCS from './svg-icon/icon_储能pcs.svg';
+import type { Edge } from 'reactflow';
+import type { GraphNode } from '../type';
 import IconSystemCloud from './svg-icon/云系统3.svg';
 import Icon_MQTT from './svg-icon/icon_MQTT服务器.svg';
 import { isEmpty, uniqueId } from 'lodash';
-import { TypeCommunicationData, VirtualDeviceType } from './type';
+import type { TypeCommunicationData } from './type';
+import { VirtualDeviceType } from './type';
 import { buildEdges, flattenTree } from '../helper';
+import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
-const edgeType = 'smoothstep';
-
 const genSystemCloud = () => ({
   id: uniqueId(),
   type: 'imageNode',
@@ -19,7 +18,10 @@ const genSystemCloud = () => ({
     width: 110,
     height: 120,
     layout: 'center',
-    title: '光储充及工商储运维管理云平台',
+    title: formatMessage({
+      id: 'siteMonitor.PV-ESS-EVManagementCloudPlatform',
+      defaultMessage: '光储充及工商储运维管理云平台',
+    }),
     imageContent: {
       width: 110,
       height: 120,
