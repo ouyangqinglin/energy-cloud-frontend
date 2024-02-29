@@ -10,7 +10,18 @@ import { orderStatus, orderType } from '../config';
 import { getServiceProviderList } from '@/pages/user-manager/accounts/Customer/service';
 import { getCustomerList, getInstallerList } from '../service';
 import type { Dayjs } from 'dayjs';
+import { UserType } from '../type';
 import dayjs from 'dayjs';
+// 工单类型 0：安装工单 1：维护工单 2修复工单
+const userType = new Map([
+  [
+    UserType.SYSTEM,
+    formatMessage({ id: 'taskManage.systemAdministrator', defaultMessage: '系统管理员' }),
+  ],
+  [UserType.INSTALL, formatMessage({ id: 'taskManage.installioner', defaultMessage: '安装商' })],
+  [UserType.YUNYING, formatMessage({ id: 'taskManage.operator', defaultMessage: '运营商' })],
+  [UserType.OWNER, formatMessage({ id: 'taskManage.owner', defaultMessage: '业主' })],
+]);
 
 export const Columns: (
   operation: FormOperations,
@@ -301,6 +312,7 @@ export const Columns: (
       colProps: {
         span: 8,
       },
+      dependencies: ['serviceProvider'],
       formItemProps: {
         rules: [
           {
@@ -309,7 +321,7 @@ export const Columns: (
           },
         ],
       },
-      fieldProps: () => {
+      fieldProps: (form) => {
         return {
           tableId: 'handlerBy',
           tableName: 'handlerName',
@@ -320,24 +332,22 @@ export const Columns: (
             rowKey: 'handlerBy',
             columns: [
               {
-                message: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
-                dataIndex: 'userName',
+                title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+                dataIndex: 'nickName',
                 width: 150,
                 ellipsis: true,
               },
               {
-                message: formatMessage({
-                  id: 'common.pleaseSeaccountlect',
-                  defaultMessage: '账号',
-                }),
-                dataIndex: 'handlerName',
+                title: formatMessage({ id: 'common.account', defaultMessage: '账号' }),
+                dataIndex: 'userName',
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
               },
               {
-                message: formatMessage({ id: 'common.userType', defaultMessage: '用户类型' }),
-                dataIndex: 'service',
+                title: formatMessage({ id: 'taskManage.userType', defaultMessage: '用户类型' }),
+                dataIndex: 'orgType',
+                valueEnum: userType,
                 width: 200,
                 ellipsis: true,
                 hideInSearch: true,
@@ -347,19 +357,27 @@ export const Columns: (
               // if (isNil(orgIdRef.current)) {
               //   return;
               // }
-              return getInstallerList({ ...params })?.then(({ data }) => {
-                return {
-                  data: data?.list.map(({ userId, userName, ...rest }) => {
+              const orgId = form?.getFieldValue?.('serviceProvider')?.[0]?.orgId;
+              return orgId
+                ? getInstallerList({ ...params, orgId })?.then(({ data }) => {
                     return {
-                      ...rest,
-                      handlerBy: userId,
-                      handlerName: userName,
+                      data: data?.list.map(({ userId, userName, ...rest }) => {
+                        return {
+                          userName,
+                          ...rest,
+                          handlerBy: userId,
+                          handlerName: userName,
+                        };
+                      }),
+                      total: data?.total,
+                      success: true,
                     };
-                  }),
-                  total: data?.total,
-                  success: true,
-                };
-              });
+                  })
+                : Promise.resolve({
+                    success: true,
+                    data: [],
+                    total: 0,
+                  });
             },
           },
         };

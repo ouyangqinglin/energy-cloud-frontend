@@ -145,6 +145,12 @@ export interface Tail {
   createTime: string;
 }
 
+export const enum UserType {
+  SYSTEM = 0,
+  INSTALL,
+  YUNYING,
+  OWNER,
+}
 export interface Maintainer {
   createBy: string;
   createTime: string;
