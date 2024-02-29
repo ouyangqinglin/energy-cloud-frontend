@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-02-29 15:59:54
+ * @LastEditTime: 2024-02-29 17:48:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -139,13 +139,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const toolBar = useCallback(
     () =>
       (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
-        (!isStationChild && authorityMap.get('iot:device:add'))
+      (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
-          <Button type="primary" key="add" onClick={onAddClick}>
-            <PlusOutlined />
-            <FormattedMessage id="common.add" defaultMessage="新建" />
-          </Button>,
-        ]
+            <Button type="primary" key="add" onClick={onAddClick}>
+              <PlusOutlined />
+              <FormattedMessage id="common.add" defaultMessage="新建" />
+            </Button>,
+          ]
         : [],
     [authorityMap, isStationChild],
   );
@@ -190,8 +190,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <></>
       )}
       {isStationChild &&
-        record.canUnbind == 1 &&
-        authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+      record.canUnbind == 1 &&
+      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
           className="pl0"
           type="link"
@@ -283,7 +283,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'common.binder', defaultMessage: '绑定人' }),
-        dataIndex: 'binder',
+        dataIndex: 'binderName',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
@@ -386,7 +386,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
-          //onOk={triggerSubmit}
+            //onOk={triggerSubmit}
           />
         </>
       ) : (
