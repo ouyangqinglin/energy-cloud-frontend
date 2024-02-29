@@ -31,7 +31,6 @@ const TopoTypePhotovoltaic: FC<{ siteId: number }> = ({ siteId }) => {
   useEffect(() => {
     if (data) {
       const { initialEdges, initialNodes } = getNodesAndEdges(data);
-      console.log(initialNodes);
       resetNodes(initialNodes);
       resetEdges(initialEdges);
     }

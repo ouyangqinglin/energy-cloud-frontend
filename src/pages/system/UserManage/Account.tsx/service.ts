@@ -69,3 +69,10 @@ export const getSiteByOrg = (params: any) => {
     params,
   });
 };
+
+export const getThreeLevelSiteTree = (params: any) => {
+  return request<ResponseCommonData<OrgDataType[]>>(`/uc/site/threeLevelSiteTree`, {
+    method: 'GET',
+    params,
+  });
+};

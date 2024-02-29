@@ -6,19 +6,15 @@ import {
   updateMaintenanceWorkOrder,
 } from '../service';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
-import type { AnyKindOfDictionary } from 'lodash';
 import { omit } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import type {
   MaintenanceOrderUpdateParam,
   MaintenanceOrderUpdateInfo,
-  SiteInfo,
   MaintenanceListType,
 } from '../type';
-import SelectSiteModal from '../SelectSite';
 import { FormTypeEnum, SchemaFormProvider } from '@/components/SchemaForm';
 import { isCreate } from '@/components/YTModalForm/helper';
-import { useToggle } from 'ahooks';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 
 export const MaintenanceUpdate = (
