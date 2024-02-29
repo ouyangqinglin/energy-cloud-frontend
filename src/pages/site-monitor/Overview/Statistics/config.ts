@@ -141,7 +141,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayPowerSupply',
-            defaultMessage: '今日购电量',
+            defaultMessage: '今日市电供电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'charge',
@@ -150,7 +150,7 @@ export const config = (siteType: string) => {
         {
           label: `${formatMessage({
             id: 'siteMonitor.dayGridPowerSupply',
-            defaultMessage: '今日售电量',
+            defaultMessage: '今日馈网电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           field: 'discharge',

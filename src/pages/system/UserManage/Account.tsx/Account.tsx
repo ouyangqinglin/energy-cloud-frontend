@@ -114,7 +114,15 @@ const Account: React.FC<AccountProps> = (props) => {
     } else {
       formData.siteIds = formData?.sites?.map?.((item) => item.id) || [];
     }
-    console.log('formData>>', formData);
+  };
+  const HandlerWebConfig = (webConfig: any) => {
+    const config = JSON.parse(webConfig);
+    const isAry = Array.isArray(config);
+    if (isAry) {
+      return config.map((i) => String(i));
+    } else {
+      return config;
+    }
   };
   const afterRequest = useCallback(
     (formData: AccountDataType) => {
@@ -127,8 +135,7 @@ const Account: React.FC<AccountProps> = (props) => {
       formData.phone = formData?.user?.phone;
       formData.remark = formData?.user?.remark;
       formData.sites = formData?.user?.sites;
-      formData.webConfig = JSON.parse(formData?.user?.webConfig).map((i) => String(i));
-      console.log('formData>>', formData);
+      formData.webConfig = HandlerWebConfig(formData?.user?.webConfig);
     },
     [params],
   );
