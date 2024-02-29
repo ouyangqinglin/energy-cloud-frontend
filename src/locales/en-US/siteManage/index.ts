@@ -118,4 +118,6 @@ export default {
   'siteManage.set.feedInTariff': 'feed-in tariff',
   'siteManage.set.serviceCharge': 'Service Charge',
   'siteManage.set.timeSlot': 'Time Slot',
+  'siteManage.timeZone': 'Time Zone',
+  'siteManage.map': 'Map',
 };

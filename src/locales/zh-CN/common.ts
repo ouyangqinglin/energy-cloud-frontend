@@ -204,4 +204,6 @@ export default {
   'common.pause': '暂停',
   'common.roll': '滚动',
   'common.modifyBasicInformation': '修改基本信息',
+  'common.amap': '高德',
+  'common.google': '谷歌',
 };

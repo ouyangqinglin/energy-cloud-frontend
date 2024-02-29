@@ -281,6 +281,7 @@ const StationList: React.FC = () => {
         onOpenChange={setOpen}
         type={siteId ? FormTypeEnum.Edit : FormTypeEnum.Add}
         onSuccess={onSuccess}
+        initValues={{ map: 0, timeZone: 0 }}
       />
     </>
   );

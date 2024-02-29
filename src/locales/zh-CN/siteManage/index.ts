@@ -115,4 +115,6 @@ export default {
   'siteManage.set.feedInTariff': '上网电价',
   'siteManage.set.serviceCharge': '服务费',
   'siteManage.set.timeSlot': '时间段',
+  'siteManage.timeZone': '时区',
+  'siteManage.map': '地图',
 };

@@ -100,7 +100,7 @@ export default {
   'common.other': 'Other',
   'common.uploadPhoto': 'Upload Photo',
   'common.select': 'Select',
-  'common.pleaseSelect': 'Please select',
+  'common.pleaseSelect': 'Please select ',
   'common.deleteConfirm': 'Delete Confirmation',
   'common.enter': 'Enter',
   'common.appointTime': 'Appointment Time',
@@ -203,4 +203,6 @@ export default {
   'common.modifyBasicInformation': 'Modify basic information',
   'common.eliminated': 'Eliminated',
   'common.alarming': 'Alarming',
+  'common.amap': 'AMap',
+  'common.google': 'Google',
 };
