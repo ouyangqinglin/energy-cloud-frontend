@@ -14,7 +14,7 @@ export default {
   'menu.siteMonitor': '站点监视',
   'menu.siteMonitor.overview': '站点概览',
   'menu.siteMonitor.topo': '站点拓扑',
-  'menu.siteMonitor.deviceDetail': '设备监视',
+  'menu.siteMonitor.deviceDetail': '设备监视-详情',
   'menu.siteMonitor.electricGenerate': '发电单元监测',
   'menu.siteMonitor.energy': '储能单元监测',
   'menu.siteMonitor.electricConsumer': '用电单元监测',

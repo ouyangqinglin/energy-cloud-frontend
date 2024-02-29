@@ -61,6 +61,7 @@ const Login: React.FC = () => {
         msg,
       } = await login({ ...values, uuid });
       if (code === 200) {
+        localStorage.removeItem('siteId');
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -83,7 +84,6 @@ const Login: React.FC = () => {
         }
 
         const pathArr = redirectPath.split('?');
-        console.log('pathArr>>', pathArr);
         await clear();
         history.push({
           pathname: pathArr[0],

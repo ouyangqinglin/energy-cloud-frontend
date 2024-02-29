@@ -186,17 +186,18 @@ export const Columns: (
             rowKey: 'userId',
             columns: [
               {
-                title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+                title: formatMessage({ id: 'common.account', defaultMessage: '账号' }),
                 dataIndex: 'userId',
                 width: 150,
                 ellipsis: true,
+                hideInSearch: true,
+                hideInTable: true,
               },
               {
-                title: formatMessage({ id: 'common.account', defaultMessage: '账号' }),
+                title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
                 dataIndex: 'userName',
                 width: 200,
                 ellipsis: true,
-                hideInSearch: true,
               },
             ],
             request: (params: Record<string, any>) => {

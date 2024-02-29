@@ -3,19 +3,16 @@
   display: flex;
   padding: 0 16px;
   background: #f3f4f7;
-
   .boxTextContent {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
     justify-content: center;
   }
-
   .boxItem {
     display: flex;
     flex-flow: row;
     padding: 4px 0;
-
     .label {
       width: 120px;
       color: #191919;
@@ -25,50 +22,44 @@
       line-height: 22px;
     }
     .value {
-      color: #007dff;
       font-weight: 600;
       font-size: 14px;
       font-family: PingFangSC-Semibold, PingFang SC;
       line-height: 22px;
     }
   }
-
   .corner {
     position: absolute;
     width: 12px;
     height: 9px;
   }
-
   .leftTopCorner {
+    /* stylelint-disable-next-line */
     .corner();
-
     top: 0;
     left: 0;
     border-top: 1px solid #007dff;
     border-left: 1px solid #007dff;
   }
-
   .rightTopCorner {
+    /* stylelint-disable-next-line */
     .corner();
-
     top: 0;
     right: 0;
     border-top: 1px solid #007dff;
     border-right: 1px solid #007dff;
   }
-
   .leftBottomCorner {
+    /* stylelint-disable-next-line */
     .corner();
-
     bottom: 0;
     left: 0;
     border-bottom: 1px solid #007dff;
     border-left: 1px solid #007dff;
   }
-
   .rightBottomCorner {
+    /* stylelint-disable-next-line */
     .corner();
-
     right: 0;
     bottom: 0;
     border-right: 1px solid #007dff;

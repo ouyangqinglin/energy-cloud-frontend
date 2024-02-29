@@ -1,8 +1,9 @@
 import { Tooltip } from 'antd';
+import { SettingOutlined } from '@ant-design/icons';
 import BackgroundImg from '@/assets/image/station/overview/img_home.png';
 import RowBox from '../components/RowBox';
 import styles from './index.less';
-import { useRequest } from 'umi';
+import { useRequest, useHistory } from 'umi';
 import { getStationInfo } from './service';
 import { isNil } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -16,6 +17,14 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
+  const history = useHistory();
+
+  const onClick = () => {
+    history.push({
+      pathname: `/station/setting`,
+      search: `?id=${siteId}`,
+    });
+  };
 
   useEffect(() => {
     if (!isNil(siteId)) {
@@ -50,6 +59,12 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
           <Tooltip placement="topRight" title={data?.name ?? '--'}>
             <div className={styles.value}>{data?.name ?? '--'}</div>
           </Tooltip>
+          <Tooltip placement="top" title={formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}>
+            <SettingOutlined
+              className='cl-primary cursor'
+              onClick={onClick}
+            />
+          </Tooltip>
         </li>
         <li>
           <div className={styles.label}>
@@ -83,9 +98,8 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
             })}
             ：
           </div>
-          <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${
-            data?.energyStorageCapacity ?? '--'
-          }kWh`}</div>
+          <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${data?.energyStorageCapacity ?? '--'
+            }kWh`}</div>
         </li>
         <li>
           <div className={styles.label}>

@@ -206,4 +206,6 @@ export default {
   'common.modifyBasicInformation': '修改基本信息',
   'common.amap': '高德',
   'common.google': '谷歌',
+  'common.binder': '绑定人',
+  'common.binderTime': '绑定时间',
 };

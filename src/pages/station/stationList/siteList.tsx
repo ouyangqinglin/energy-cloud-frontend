@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-02-23 09:04:36
+ * @LastEditTime: 2024-02-29 15:40:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -46,7 +46,6 @@ const StationList: React.FC = () => {
   );
 
   const onAddClick = useCallback(() => {
-    console.log(tableRef);
     setOpen(true);
     setSiteId('');
   }, []);
@@ -65,7 +64,6 @@ const StationList: React.FC = () => {
   }, []);
 
   const onSettingClick = useCallback((record) => {
-    console.log('record>>', record);
     history.push({
       pathname: `/station/setting`,
       search: `?id=${record.id}&siteType=${record.energyOptions}`,
@@ -162,6 +160,13 @@ const StationList: React.FC = () => {
       hideInSearch: true,
     },
     {
+      title: formatMessage({ id: 'common.createPerson', defaultMessage: '创建人' }),
+      dataIndex: 'createByName',
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
+    },
+    {
       title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
@@ -238,20 +243,6 @@ const StationList: React.FC = () => {
       render: (_, record) => {
         return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
       },
-    },
-    {
-      title: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
-      dataIndex: 'operator',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'common.lastOperationTime', defaultMessage: '最后操作时间' }),
-      dataIndex: 'lastOperationTime',
-      valueType: 'dateTime',
-      width: 200,
-      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),

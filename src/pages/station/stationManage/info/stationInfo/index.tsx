@@ -15,8 +15,15 @@ import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
+import { StationType } from '../../../stationList/data.d';
 
-const StationInfo: React.FC = () => {
+type StationInfoType = {
+  onSiteChange?: (data: StationType) => void;
+};
+
+const StationInfo: React.FC<StationInfoType> = (props) => {
+  const { onSiteChange } = props;
+
   const location = useLocation<LocationType>();
   const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
@@ -27,6 +34,9 @@ const StationInfo: React.FC = () => {
     run,
   } = useRequest(getStation, {
     manual: true,
+    onSuccess(data) {
+      onSiteChange?.(data);
+    },
   });
 
   const onCompleteClick = useCallback(() => {
@@ -215,7 +225,7 @@ const StationInfo: React.FC = () => {
           })}
           extra={
             detailData?.constructionStatus === 0 &&
-            authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
+              authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
               <Button type="primary" loading={loading} onClick={onCompleteClick}>
                 {formatMessage({ id: 'siteManage.set.siteComplete', defaultMessage: '站点完工' })}
               </Button>

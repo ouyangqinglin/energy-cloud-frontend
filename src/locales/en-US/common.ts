@@ -205,4 +205,6 @@ export default {
   'common.alarming': 'Alarming',
   'common.amap': 'AMap',
   'common.google': 'Google',
+  'common.binder': 'Binder',
+  'common.binderTime': 'Binding Time',
 };

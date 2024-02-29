@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2023-12-05 14:24:54
+ * @LastEditTime: 2024-02-29 14:13:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
@@ -43,6 +43,7 @@ const SiteSwitch = <ValueType = 'text',>(
       const result = type ?? (data?.energyOptions || '');
       formRef?.current?.setFieldValue?.('type', type ?? (data?.energyOptions || ''));
       formRef?.current?.setFieldValue?.('siteType', data?.energyOptions);
+      localStorage.setItem('siteId', data?.id || '');
       getRoutersInfo({ siteId: data?.id })
         .then((requestMenus) => {
           const menus = getLocaleMenus(requestMenus);
@@ -139,8 +140,15 @@ const SiteSwitch = <ValueType = 'text',>(
 
   useEffect(() => {
     if (siteOptions?.[0]) {
-      formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
-      changeSite(siteOptions[0], '');
+      const localSiteId = localStorage.getItem('siteId');
+      const localSite = siteOptions?.find?.(item => item.value == localSiteId);
+      if (localSite) {
+        formRef?.current?.setFieldValue?.('siteId', localSite.value);
+        changeSite(localSite, '');
+      } else {
+        formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
+        changeSite(siteOptions[0], '');
+      }
     }
   }, [siteOptions]);
 

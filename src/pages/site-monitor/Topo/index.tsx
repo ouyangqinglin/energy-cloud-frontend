@@ -16,6 +16,7 @@ import TopoTypePhotovoltaic from './TypePhotovoltaic';
 import TypeCommunication from './TypeCommunication';
 import TypePowerConsumption from './TypePowerComsumption';
 import { formatMessage } from '@/utils';
+import { SiteTypeEnum } from '@/utils/dict';
 
 const keyToSystemTitle = new Map([
   [1, formatMessage({ id: 'siteMonitor.siteEnergyFlow', defaultMessage: '站点能量流' })],
@@ -36,24 +37,26 @@ type SiteType = {
 };
 
 const Index: React.FC = () => {
-  const [siteId, setSiteId] = useState<number>();
+  const [siteData, setSiteData] = useState<SiteDataType>();
   const [type, setType] = useState<number>(1);
 
   const { data: systemDiagramId, run } = useRequest(getTopo, { manual: true });
 
   useEffect(() => {
-    if (siteId && type) {
-      run({ siteId, type });
+    if (siteData?.id && type) {
+      run({ siteId: siteData?.id, type });
     }
-  }, [run, siteId, type]);
+  }, [run, siteData, type]);
 
   const onChange = useCallback((data: SiteDataType) => {
     if (data?.id) {
-      setSiteId(Number(data.id));
+      setSiteData(data);
     }
   }, []);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
+
+
     return [
       {
         title: formatMessage({ id: 'siteMonitor.topology', defaultMessage: '拓扑' }),
@@ -72,8 +75,12 @@ const Index: React.FC = () => {
         },
         valueEnum: new Map([
           [1, formatMessage({ id: 'siteMonitor.siteTopology', defaultMessage: '站点拓扑' })],
-          [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })],
-          [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })],
+          [SiteTypeEnum.PV + '', SiteTypeEnum.PV_CS + '', SiteTypeEnum.PV_ES + '', SiteTypeEnum.PV_ES_CS + ''].includes(siteData?.siteType) ?
+            [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })] :
+            [] as any,
+          [SiteTypeEnum.ES + '', SiteTypeEnum.ES_CS + '', SiteTypeEnum.PV_ES + '', SiteTypeEnum.PV_ES_CS + ''].includes(siteData?.siteType) ?
+            [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })] :
+            [] as any,
           [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })],
           [
             5,
@@ -82,7 +89,7 @@ const Index: React.FC = () => {
         ]),
       },
     ];
-  }, [type]);
+  }, [type, siteData]);
 
   return (
     <>
@@ -106,11 +113,11 @@ const Index: React.FC = () => {
         </div>
         <div className={styles.title}>{keyToSystemTitle.get(type)}</div>
         <div className={classnames(styles.systemDiagram)} style={{ width: '100%' }}>
-          {type === 1 && <TopoTypeAll siteId={siteId} />}
-          {type === 2 && <TopoTypePhotovoltaic siteId={siteId} />}
-          {type === 3 && <TopoTypeEnergyStorage siteId={siteId} />}
-          {type === 4 && <TypePowerConsumption siteId={siteId} />}
-          {type === 5 && <TypeCommunication siteId={siteId} />}
+          {type === 1 && <TopoTypeAll siteId={siteData?.id} />}
+          {type === 2 && <TopoTypePhotovoltaic siteId={siteData?.id} />}
+          {type === 3 && <TopoTypeEnergyStorage siteId={siteData?.id} />}
+          {type === 4 && <TypePowerConsumption siteId={siteData?.id} />}
+          {type === 5 && <TypeCommunication siteId={siteData?.id} />}
         </div>
       </div>
     </>
