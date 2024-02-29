@@ -671,3 +671,9 @@ export const faultFireFightFormat = (value: number) => {
   };
   return <span className={`${map[value]?.color}`}>{map[value]?.text}</span>;
 };
+export const outputMethodFormat = (value: number) => {
+  const map: MapType = {
+    1: formatMessage({ id: 'things.threePhaseFourWireSystem', defaultMessage: '三相四线制' }),
+  };
+  return <span className="">{map[value]}</span>;
+};

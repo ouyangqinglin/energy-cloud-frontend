@@ -25,6 +25,7 @@ import {
   tempFormat,
   mohmFormat,
   timeFormat,
+  outputMethodFormat,
 } from '@/utils/format';
 import type { PvInverterType } from './data';
 import { formatMessage, isEmpty } from '@/utils';
@@ -150,6 +151,7 @@ const RealTime: React.FC<
         label: formatMessage({ id: 'siteMonitor.outputMode', defaultMessage: '输出方式' }),
         field: 'outputMethod',
         showExtra: false,
+        format: outputMethodFormat,
       },
       {
         label: formatMessage({ id: 'siteMonitor.gridFrequency', defaultMessage: '电网频率' }),

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-25 09:58:58
- * @LastEditTime: 2024-02-25 09:59:09
+ * @LastEditTime: 2024-02-26 17:36:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\locales\zh-CN\things.ts
+ * @FilePath: \energy-cloud-frontend\src\locales\en-US\things.ts
  */
 
 export default {
@@ -96,4 +96,5 @@ export default {
   'things.DCCircuitBreakerClosed': 'DC circuit breaker closed',
   'things.ACCircuitBreakerClosed': 'AC circuit breaker closed',
   'things.accessControlClosed': 'Access control closed',
+  'things.threePhaseFourWireSystem': 'Three-phase four-wire system',
 };

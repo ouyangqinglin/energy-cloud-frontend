@@ -95,4 +95,5 @@ export default {
   'things.DCCircuitBreakerClosed': '直流断路器闭合',
   'things.ACCircuitBreakerClosed': '交流断路器闭合',
   'things.accessControlClosed': '门禁闭合',
+  'things.threePhaseFourWireSystem': '三相四线制',
 };
