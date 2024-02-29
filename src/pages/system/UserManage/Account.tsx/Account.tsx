@@ -127,7 +127,8 @@ const Account: React.FC<AccountProps> = (props) => {
       formData.phone = formData?.user?.phone;
       formData.remark = formData?.user?.remark;
       formData.sites = formData?.user?.sites;
-      formData.webConfig = JSON.parse(formData?.user?.webConfig);
+      formData.webConfig = JSON.parse(formData?.user?.webConfig).map((item) => String(item));
+      console.log('formData>>', formData);
     },
     [params],
   );
@@ -195,7 +196,7 @@ const Account: React.FC<AccountProps> = (props) => {
           id={formInfo.id}
           idKey="userId"
           editData={editData}
-          addData={addData}
+          // addData={addData}
           getData={getData}
           beforeSubmit={beforeSubmit}
           afterRequest={afterRequest}

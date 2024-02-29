@@ -20,8 +20,8 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
-import TreeSelect from '@/components/TreeSelect';
-import { Label } from 'bizcharts';
+import { TreeSelect } from 'antd';
+const { SHOW_PARENT, SHOW_CHILD, SHOW_ALL } = TreeSelect;
 export type AccountDataType = {
   userId?: string;
   userName?: string;
@@ -511,10 +511,14 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
                   return {
                     multiple: true,
                     treeCheckable: true,
-                    onSelect: (params) => {
-                      // if (params == 0) { form.setFieldValue('webConfig',['0'])}
-                      console.log('params>>', params);
-                    },
+                    treeDefaultExpandAll: true,
+                    // SHOW_PARENT:SHOW_CHILD:SHOW_ALL
+                    // showCheckedStrategy:form.getFieldValue('webConfig')?.includes('0')?SHOW_PARENT:SHOW_CHILD,
+                    // onSelect: (id: string) => {
+                    //   if (id==='0') {
+                    //     form.setFields([{name:'webConfig',value:[0]}])
+                    //   }
+                    // },
                   };
                 },
                 request: (params) => {
