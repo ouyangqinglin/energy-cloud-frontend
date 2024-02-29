@@ -93,6 +93,7 @@ export function buildTreeData(
       });
     }
   }
+  console.log('tree>>', tree);
   return tree;
 }
 

@@ -4,6 +4,7 @@ import { ExtraNodeData, GraphNode } from '../type';
 import { isEmpty, uniqueId } from 'lodash';
 import { PvInverterVoList, PvPanelVoList, TypePhotovoltaicData } from './type';
 import { buildEdges, flattenTree } from '../helper';
+import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
 // const edgeType = 'smoothstep';
@@ -200,18 +201,26 @@ const genOverviewNode = (data: TypePhotovoltaicData) => ({
   id: uniqueId(),
   type: 'EmptyRootNode',
   data: {
-    label: '市电',
+    label: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
     width: 120,
     height: 40,
     textContent: {
       column: [
         {
-          label: '今日发电(kWh)：',
+          label:
+            formatMessage({
+              id: 'index.dailyPowerGeneration',
+              defaultMessage: '今日发电(kWh)',
+            }) + '：',
           value: data.totalGenerateElec,
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label:
+            formatMessage({
+              id: 'screen.powerGeneration',
+              defaultMessage: '发电功率(kWh)',
+            }) + '：',
           value: data.totalGeneratePower,
           field: 'todayConsumption',
         },
@@ -232,7 +241,7 @@ const genPVPanelGroup = (data: PvPanelVoList[]) => ({
     label: 'input',
     width: 400,
     height: 100,
-    title: '光伏板',
+    title: formatMessage({ id: 'siteMonitor.PVBoard', defaultMessage: '光伏板' }),
     pvPanelData: data,
   },
   targetPosition: Position.Left,
@@ -249,7 +258,7 @@ const genPVInverter = (data: PvInverterVoList) => ({
     label: 'input',
     width: 77,
     height: 90,
-    title: '逆变器',
+    title: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }),
     imageContent: {
       icon: IconInverter,
       width: 77,
@@ -258,12 +267,18 @@ const genPVInverter = (data: PvInverterVoList) => ({
     textContent: {
       column: [
         {
-          label: '今日充电(kWh)：',
+          label: `${formatMessage({
+            id: 'siteMonitor.todayCharge',
+            defaultMessage: '今日充电',
+          })}(kWh)`,
           value: data.generateElecDay,
           field: 'todayConsumption',
         },
         {
-          label: '发电功率(kW)：',
+          label: `${formatMessage({
+            id: 'screen.powerGeneration',
+            defaultMessage: '发电功率',
+          })}(kW)：`,
           value: data.generatePowerDay,
           field: 'todayConsumption',
         },

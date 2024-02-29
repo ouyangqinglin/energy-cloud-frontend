@@ -7,9 +7,9 @@
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
 import { effectStatus } from '@/utils/dict';
-import { OptionType } from '@/types';
+import type { OptionType } from '@/types';
 import type { ProColumns } from '@ant-design/pro-components';
-import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
 import { arrayToMap, formatMessage, isEmpty } from '@/utils';
@@ -18,9 +18,10 @@ import { api } from '@/services';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { getOrgByRole, getSiteByOrg } from './service';
+import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
-
+import TreeSelect from '@/components/TreeSelect';
+import { Label } from 'bizcharts';
 export type AccountDataType = {
   userId?: string;
   userName?: string;
@@ -30,8 +31,10 @@ export type AccountDataType = {
   phone?: string;
   status?: string;
   createTime?: string;
+  createByName?: string;
   orgType?: string;
   roleIds?: string[];
+  roleType?: number;
   roleId?: string;
   remark?: string;
   roles?: {
@@ -44,6 +47,7 @@ export type AccountDataType = {
     id: string;
     name: string;
   }[];
+  webConfig?: string[] & string;
 };
 
 export const getTableColumns = (types: OrgTypeEnum[]) => {
@@ -124,6 +128,12 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
       },
       width: 150,
     },
+    {
+      title: formatMessage({ id: 'common.createPerson', defaultMessage: '创建人' }),
+      dataIndex: 'createByName',
+      hideInSearch: true,
+      width: 100,
+    },
   ];
 
   return tableColumns;
@@ -154,6 +164,19 @@ const requestTable = (params: Record<string, any>) => {
     };
   });
 };
+
+const HanderTreeData = (data) => {
+  return data.map((i) => {
+    i.key = i.id;
+    i.title = i.label;
+    i.value = i.id;
+    if (i.children && i.children.length > 0) {
+      i.children = HanderTreeData(i.children);
+    }
+    return i;
+  });
+};
+
 export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
@@ -250,6 +273,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
           options: roleOptions,
           onChange: () => {
             types[0] !== OrgTypeEnum.System && form?.setFieldValue?.('orgId', null);
+            form?.setFieldValue?.('webConfig', undefined);
           },
         };
       },
@@ -435,23 +459,71 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
         }),
       },
     },
+
     {
-      title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
-      dataIndex: 'sites',
-      valueType: TABLESELECT,
-      hideInForm: types[0] === OrgTypeEnum.System,
-      colProps: {
-        span: 24,
-      },
-      dependencies: ['orgId'],
-      fieldProps: (form) => {
-        return {
-          proTableProps: {
-            columns: tableSelectColumns,
-            request: (params: any) =>
-              requestTable({ ...params, orgId: form?.getFieldValue?.('orgId') }),
-          },
-        };
+      valueType: 'dependency',
+      name: ['roleId'],
+      columns: ({ roleId }) => {
+        const roleType = roleOptions.filter((i) => i.roleId == roleId)[0]?.type || 0;
+        return roleType == 0
+          ? [
+              {
+                title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
+                dataIndex: 'sites',
+                valueType: TABLESELECT,
+                hideInForm: types[0] === OrgTypeEnum.System,
+                colProps: {
+                  span: 24,
+                },
+                dependencies: ['orgId'],
+                fieldProps: (form) => {
+                  return {
+                    proTableProps: {
+                      columns: tableSelectColumns,
+                      request: (params: any) =>
+                        requestTable({ ...params, orgId: form?.getFieldValue?.('orgId') }),
+                    },
+                  };
+                },
+              },
+            ]
+          : [
+              {
+                title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
+                dataIndex: 'webConfig',
+                valueType: 'treeSelect',
+                dependencies: ['roleId'],
+                formItemProps: {
+                  rules: [
+                    {
+                      required: true,
+                      message: formatMessage({
+                        id: 'common.pleaseSelect',
+                        defaultMessage: '请选择',
+                      }),
+                    },
+                  ],
+                },
+                colProps: {
+                  span: 24,
+                },
+                fieldProps: () => {
+                  return {
+                    multiple: true,
+                    treeCheckable: true,
+                    onSelect: (params) => {
+                      // if (params == 0) { form.setFieldValue('webConfig',['0'])}
+                      console.log('params>>', params);
+                    },
+                  };
+                },
+                request: (params) => {
+                  return getThreeLevelSiteTree({ roleId: params.roleId }).then(({ data }) => {
+                    return HanderTreeData([data]);
+                  });
+                },
+              },
+            ];
       },
     },
     {

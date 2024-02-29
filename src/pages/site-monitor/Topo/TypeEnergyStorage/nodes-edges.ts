@@ -6,6 +6,7 @@ import IconBatteryPack from './svg-icon/icon_batteryPack.svg';
 import { isEmpty, uniqueId } from 'lodash';
 import { AllTypeData, PcsVo, VoltaicPileVo, WorkStatusMap } from './type';
 import { buildEdges, flattenTree } from '../helper';
+import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
 
@@ -14,7 +15,8 @@ const getRootNode = () => ({
   type: 'ACBus',
   position,
   data: {
-    label: '交流母线',
+    //
+    label: formatMessage({ id: 'siteMonitor.acBus', defaultMessage: '交流母线' }),
     width: 744,
     height: 42,
   },
@@ -32,7 +34,9 @@ const genPSC = (data: PcsVo) => ({
     boxText: {
       width: 136,
       height: 42,
-      label: data?.pcsName ?? '储能变流器PCS',
+      label:
+        data?.pcsName ??
+        formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }) + 'PCS',
     },
     imageContent: {
       width: 100,
@@ -42,17 +46,26 @@ const genPSC = (data: PcsVo) => ({
     textContent: {
       column: [
         {
-          label: '运行状态：',
+          label: `${formatMessage({
+            id: 'siteMonitor.runningState',
+            defaultMessage: '运行状态',
+          })}：`,
           render: () => WorkStatusMap.get(data?.workStatus),
           field: 'todayConsumption',
         },
         {
-          label: '有功功率(kW)：',
+          label: `${formatMessage({
+            id: 'siteMonitor.activePower',
+            defaultMessage: '有功功率',
+          })}(kW)：`,
           value: data?.p,
           field: 'todayConsumption',
         },
         {
-          label: '无功功率(kvar)：',
+          label: `${formatMessage({
+            id: 'siteMonitor.reactivePower',
+            defaultMessage: '无功功率',
+          })}(kvar)：`,
           value: data?.q,
           field: 'todayConsumption',
         },
@@ -73,10 +86,13 @@ const genBatterySystemBox = (pId: string, childNum = 1) => {
     parentNode: pId,
     extent: 'parent',
     data: {
-      label: '电池系统',
+      label: formatMessage({
+        id: 'siteMonitor.batterySystem',
+        defaultMessage: '电池系统',
+      }),
       width: 544 + 300 * childNum,
       // 设置高度会使整个pcs变得很高，这样的结果就是距离母线很远
-      // height: 0,
+      height: 650,
     },
   };
 };
@@ -90,7 +106,10 @@ const genBatteryControlBox = () => ({
   },
   zIndex: 1,
   data: {
-    label: '分控箱',
+    label: formatMessage({
+      id: 'siteMonitor.ControlBox',
+      defaultMessage: '分控箱',
+    }),
     width: 180,
     height: 90,
     imageContent: {
@@ -102,7 +121,10 @@ const genBatteryControlBox = () => ({
       boxText: {
         width: 74,
         height: 42,
-        label: '分控箱',
+        label: formatMessage({
+          id: 'siteMonitor.ControlBox',
+          defaultMessage: '分控箱',
+        }),
       },
       direction: 'horizontal',
     },
@@ -137,12 +159,18 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
               field: 'todayConsumption',
             },
             {
-              label: '总电压(V):',
+              label: `${formatMessage({
+                id: 'device.totalVoltage',
+                defaultMessage: '总电压',
+              })}(V):`,
               value: data?.totalBatteryVoltage,
               field: 'todayConsumption',
             },
             {
-              label: '总电流(A):',
+              label: `${formatMessage({
+                id: 'device.totalCurrent',
+                defaultMessage: '总电流',
+              })}(A):`,
               value: data?.totalBatteryCurrent,
               field: 'todayConsumption',
             },
@@ -157,7 +185,10 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
       position,
       zIndex: 1,
       data: {
-        label: '电池',
+        label: formatMessage({
+          id: 'siteMonitor.Battery',
+          defaultMessage: '电池',
+        }),
         width: 180,
         height: 160,
         imageContent: {
@@ -168,22 +199,34 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
         textContent: {
           column: [
             {
-              label: '单体最高温度(℃):',
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMaxHeat',
+                defaultMessage: '单体最高温度',
+              })}(℃):`,
               value: data?.maximumIndividualTemperature,
               field: 'todayConsumption',
             },
             {
-              label: '单体最低温度(℃):',
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMaxHeat',
+                defaultMessage: '单体最低温度',
+              })}(℃):`,
               value: data?.lvomt,
               field: 'todayConsumption',
             },
             {
-              label: '单体最高电压(V):',
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMaxVoltage',
+                defaultMessage: '单体最高电压',
+              })}(℃):`,
               value: data?.mvvoasu,
               field: 'todayConsumption',
             },
             {
-              label: '单体最低电压(V):',
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMinVoltage',
+                defaultMessage: '单体最低电压',
+              })}(℃):`,
               value: data?.mvvosu,
               field: 'todayConsumption',
             },

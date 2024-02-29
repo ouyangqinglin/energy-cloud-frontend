@@ -24,6 +24,7 @@ export type TreeSelectProps = Omit<
 > & {
   value?: TreeValueType;
   onChange?: (value: TreeValueType) => void;
+  request?: Promise<any>;
 };
 
 const getDeepKeys = (
@@ -43,11 +44,15 @@ const getDeepKeys = (
 };
 
 const TreeSelect: React.FC<TreeSelectProps> = (props) => {
-  const { value, onChange, treeData } = props;
+  const { value, onChange, treeData, request } = props;
 
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>();
   const [checkStrictly, setCheckStrictly] = useState<boolean>(true);
+  const [currentTreeData, setCurrentTreeData] = useState(treeData || []);
 
+  request?.then((data) => {
+    setCurrentTreeData(data);
+  });
   const options = useMemo<TreeSelectProps>(() => {
     const defaultOptions: TreeSelectProps = {
       fieldNames: {
@@ -60,10 +65,11 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
 
   const treeKeys = useMemo(() => {
     return {
-      oneLevelKeys: treeData?.map((item) => item[options.fieldNames?.key || ''] as React.Key) || [],
-      allKeys: getDeepKeys(treeData, options.fieldNames?.key || 'id'),
+      oneLevelKeys:
+        currentTreeData?.map((item) => item[options.fieldNames?.key || ''] as React.Key) || [],
+      allKeys: getDeepKeys(currentTreeData, options.fieldNames?.key || 'id'),
     };
-  }, [treeData, options]);
+  }, [currentTreeData, options]);
 
   const onOpenChange = useCallback(
     (e: CheckboxChangeEvent) => {
@@ -138,7 +144,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
           expandedKeys={expandedKeys}
           onExpand={onExpand}
           onCheck={onCheck}
-          treeData={treeData}
+          treeData={currentTreeData}
           // checkStrictly={checkStrictly}
           {...options}
         />

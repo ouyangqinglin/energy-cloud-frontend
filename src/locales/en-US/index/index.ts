@@ -7,7 +7,7 @@ export default {
   'index.economicBenefits': 'Economic Benefits',
   'index.socialContribution': 'Social Contribution',
   'index.totalSiteNum': 'Site Num',
-  'index.pvEnergyChargeNum': 'Optical ESS And Charging Site',
+  'index.pvEnergyChargeNum': 'PV ESS EV Charging Station',
   'index.pvEnergyNum': 'Optical ESS Site',
   'index.energyChargeNum': 'ESS And Charging Site',
   'index.pvNum': 'PV Site',
