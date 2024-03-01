@@ -18,6 +18,7 @@ export default {
   'siteMonitor.SelfGeneratedElectriConsumption': 'Self Consumption Today',
   'siteMonitor.generatingCapacity': 'Generation Power',
   'siteMonitor.Charge/dischargeDaily': 'Charge/Discharge Energy Today',
+  'siteMonitor.Charge/discharge': 'Charge/Discharge Today',
   'siteMonitor.dumpEnergy': 'Total Power',
   'siteMonitor.storageTotallPower': 'Total Power',
   'siteMonitor.storagePower': 'ESS power',
