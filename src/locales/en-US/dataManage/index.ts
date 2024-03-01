@@ -11,7 +11,7 @@ export default {
   'dataManage.yearStatistics': 'Annual Statistics',
   'dataManage.lifeCycleStatistics': 'Statistics by life cycle',
   'dataManage.reportType': 'Report Type',
-  'dataManage.selectedEquipment': 'Selected Equipment',
+  'dataManage.selectedEquipment': 'Selected Device',
   'dataManage.statisticalDimension': 'Statistical Dimension',
   'dataManage.statisticalTime': 'Statistical Time',
   'dataManage.utilityCharge': 'Grid Charge',

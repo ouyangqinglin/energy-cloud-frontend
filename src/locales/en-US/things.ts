@@ -53,7 +53,7 @@ export default {
   'things.open2': 'Open',
   'things.selfCheckingInProgress': 'Self checking in progress',
   'things.normalOperation': 'Normal operation',
-  'things.equipmentFailure': 'Equipment failure',
+  'things.equipmentFailure': 'Device failure',
   'things.detectedAlarmInformation': 'Detected alarm information',
   'things.internalCirculation': 'Internal circulation',
   'things.refrigeration': 'Refrigeration',

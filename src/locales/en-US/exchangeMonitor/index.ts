@@ -18,7 +18,7 @@ export default {
   'exchangeMonitor.productType': 'Product Type',
   'exchangeMonitor.recordSearch': 'Record Search',
   'exchangeMonitor.recordSearchPlaceholder': 'Please enter frame/plate/SN',
-  'exchangeMonitor.chargeSerialNumber': 'Charge Serial Number',
+  'exchangeMonitor.chargeSerialNumber': 'Charge SN',
   'exchangeMonitor.ExchangeStationNumber': 'Swapping Station Number',
   'exchangeMonitor.ExchangeStationName': 'Swapping Station Name',
   'exchangeMonitor.ExchangeStationNamePlaceholder': 'Please Select Swapping Station Name',

@@ -23,7 +23,7 @@ export default {
   'upgradeManage.enable': 'Enable',
   'upgradeManage.refer': 'Description (optional)',
   'upgradeManage.deviceName': 'Device Name',
-  'upgradeManage.equipmentSerial': 'Equipment serial number',
+  'upgradeManage.equipmentSerial': 'Device SN',
   'upgradeManage.currentVersion': 'Current Version',
   'upgradeManage.siteName': 'Site Name',
   'upgradeManage.upload': 'Upload',

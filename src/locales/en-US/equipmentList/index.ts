@@ -6,6 +6,6 @@ export default {
   'equipmentList.affSubsys': 'Subsystem to which it belongs',
   'equipmentList.affTeam': 'Affiliated Unit',
   'equipmentList.subRequire': 'Subsystem Required',
-  'equipmentList.devicePhoto': 'Equipment Photos',
-  'equipmentList.snForEms': 'EMS EquipmentSN',
+  'equipmentList.devicePhoto': 'Device Photos',
+  'equipmentList.snForEms': 'EMS Device SN',
 };
