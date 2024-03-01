@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 13:53:34
- * @LastEditTime: 2024-01-29 15:41:06
+ * @LastEditTime: 2024-03-01 14:55:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\index.tsx
  */
@@ -29,6 +29,8 @@ const DeviceRealTime: React.FC<CabinetProps> = (props) => {
         energyProductIdMap.get(deviceData?.productId) ||
         energyProductIdMap.get(DeviceTypeEnum.Energy);
       setComponent(lazy(() => import('./Entity/' + result)));
+    } else {
+      setComponent(lazy(() => import('./Entity/' + energyProductIdMap.get(DeviceTypeEnum.Energy))));
     }
   }, [deviceData?.productId]);
 
