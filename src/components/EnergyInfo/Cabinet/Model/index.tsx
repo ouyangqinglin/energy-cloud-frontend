@@ -92,46 +92,37 @@ const Model: React.FC<CabinetProps> = (props) => {
 
   return (
     <>
-      {loading || loadingEnergy ? (
-        <>
-          <Skeleton.Button size="small" active />
-          <Skeleton.Image className="w-full mt12" style={{ height: 600 }} active />
-        </>
-      ) : (
-        <>
-          {showLabel && (
-            <Detail.Label
-              showLine={false}
-              title={deviceData?.deviceId ? energyData?.name : getPlaceholder('')}
-              labelClassName={styles.label}
-            >
-              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}：
-              <span className="mr24">
-                {onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
-              </span>
-              {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
-              <span className={`flex ${styles.alarm}`}>
-                {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
-                <span className="cursor ml8" onClick={onAlarmClick}>
-                  {!!deviceData?.alarmCount && deviceData?.alarmCount}
-                </span>
-              </span>
-            </Detail.Label>
-          )}
-          <div ref={divRef} className="tx-center">
-            <div
-              className={styles.energy}
-              style={{
-                ...modelStyle,
-                transform: `scale(${scaleNum})`,
-              }}
-            >
-              {children}
-              {partItems}
-            </div>
-          </div>
-        </>
+      {showLabel && (
+        <Detail.Label
+          showLine={false}
+          title={deviceData?.deviceId ? energyData?.name : getPlaceholder('')}
+          labelClassName={styles.label}
+        >
+          {formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}：
+          <span className="mr24">
+            {onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
+          </span>
+          {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
+          <span className={`flex ${styles.alarm}`}>
+            {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
+            <span className="cursor ml8" onClick={onAlarmClick}>
+              {!!deviceData?.alarmCount && deviceData?.alarmCount}
+            </span>
+          </span>
+        </Detail.Label>
       )}
+      <div ref={divRef} className="tx-center">
+        <div
+          className={styles.energy}
+          style={{
+            ...modelStyle,
+            transform: `scale(${scaleNum})`,
+          }}
+        >
+          {children}
+          {partItems}
+        </div>
+      </div>
     </>
   );
 };
