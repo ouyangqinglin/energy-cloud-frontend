@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-02-28 17:18:43
+ * @LastEditTime: 2024-03-01 09:51:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
 
 import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
-import { Marker } from 'google-maps-react';
+import { Marker, mapEventHandler } from 'google-maps-react';
 import GoogleMap from '../Map/GoogleMap';
 import type { OptionType } from '@/types';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
@@ -108,11 +108,11 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
     setAddress(data);
   };
 
-  const onClick = (e: any) => {
-    if (!disabled && !readonly && e && e.lnglat) {
-      getAddressByPoint(e.lnglat);
+  const onClick = useCallback<mapEventHandler>((prop, map, e) => {
+    if (!disabled && !readonly && e && e.latLng) {
+      getAddressByPoint(e.latLng);
     }
-  };
+  }, []);
 
   const onPointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = e.target;

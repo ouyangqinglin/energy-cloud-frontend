@@ -7,14 +7,15 @@
  * @FilePath: \energy-cloud-frontend\src\components\MapContain\MapContext.tsx
  */
 
+import { GoogleAPI } from 'google-maps-react';
 import { createContext } from 'react';
 
 export type MapContextType = {
-  google: any;
+  google?: GoogleAPI;
 };
 
 const MapContext = createContext<MapContextType>({
-  google: null,
+  google: null as any,
 });
 
 export default MapContext;
