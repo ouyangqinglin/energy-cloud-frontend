@@ -54,8 +54,8 @@ export const config = (siteType: string) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.Charge/dischargeDaily',
-            defaultMessage: '今日系统充/放电量',
+            id: 'siteMonitor.Charge/discharge',
+            defaultMessage: '今日充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
           value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,

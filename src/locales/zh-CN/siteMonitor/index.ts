@@ -17,6 +17,7 @@ export default {
   'siteMonitor.SelfGeneratedElectriConsumption': '今日自发自用电量',
   'siteMonitor.generatingCapacity': '发电功率',
   'siteMonitor.Charge/dischargeDaily': '今日系统充/放电量',
+  'siteMonitor.Charge/discharge': '今日充/放电量',
   'siteMonitor.dumpEnergy': '剩余电量',
   'siteMonitor.storageTotallPower': '系统总有功功率',
   'siteMonitor.chargingPileOther': '充电桩/其他',
