@@ -58,7 +58,8 @@ export const columns: ProColumns<InstallListType>[] = [
     dataIndex: 'status',
     valueType: 'select',
     valueEnum: orderStatus,
-    width: 100,
+    ellipsis: true,
+    width: 140,
     hideInTable: true,
   },
   {
@@ -73,7 +74,8 @@ export const columns: ProColumns<InstallListType>[] = [
     dataIndex: 'status',
     valueType: 'select',
     valueEnum: orderStatus,
-    width: 100,
+    width: 140,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
