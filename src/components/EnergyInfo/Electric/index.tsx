@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2023-07-13 14:31:25
+ * @LastEditTime: 2024-03-04 15:28:42
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\Electric\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton, DatePicker, Select } from 'antd';
@@ -32,12 +32,12 @@ export enum EnergySourceEnum {
   DeviceManage,
 }
 const Electric: React.FC<ComProps> = (props) => {
-  const { deviceData, loading, source, deviceKey } = props;
+  const { deviceData, source } = props;
 
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const { loading: electricLoading, run } = useRequest(getElectic, { manual: true });
+  const { run, cancel } = useRequest(getElectic, { manual: true });
 
   const chartOption = useMemo(() => {
     return {
@@ -67,25 +67,70 @@ const Electric: React.FC<ComProps> = (props) => {
 
   useEffect(() => {
     if (deviceData?.deviceId) {
-      run({
-        deviceId: deviceData?.deviceId,
-        type: chartType,
-        date: date.format('YYYY-MM-DD'),
-        visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
-      }).then((data) => {
-        const result: TypeChartDataType[] = [];
-        result.push({
-          name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
-          data: data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
-        });
-        result.push({
-          name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
-          data: data?.discharge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
-        });
-        setChartData(result);
-      });
+      const totalNum = chartTypeEnum.Month == chartType ? 5 : 3;
+      let requestNum = 0;
+      const result: TypeChartDataType[] = [];
+
+      const request = () => {
+        if (requestNum < totalNum) {
+          let startTime, endTime;
+          if (chartTypeEnum.Month == chartType) {
+            startTime = moment(date)
+              .startOf('M')
+              .add((30 * requestNum) / totalNum, 'd');
+            if (requestNum == totalNum - 1) {
+              endTime = moment(date).endOf('M');
+            } else {
+              endTime = moment(date)
+                .startOf('M')
+                .add((30 * (requestNum + 1)) / totalNum - 1, 'd');
+            }
+          } else if (chartTypeEnum.Year == chartType) {
+            startTime = moment(date)
+              .startOf('y')
+              .add((12 * requestNum) / totalNum, 'M');
+            if (requestNum == totalNum - 1) {
+              endTime = moment(date).endOf('y');
+            } else {
+              endTime = moment(date)
+                .startOf('y')
+                .add((12 * (requestNum + 1)) / totalNum - 1, 'M')
+                .endOf('M');
+            }
+          }
+          run({
+            deviceId: deviceData?.deviceId,
+            type: chartType,
+            startDate: startTime?.format?.('YYYY-MM-DD'),
+            endDate: endTime?.format?.('YYYY-MM-DD'),
+            visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
+          }).then((data) => {
+            result.push({
+              name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
+              data: data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+            });
+            result.push({
+              name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
+              data: data?.discharge?.map?.((item) => ({
+                label: item.eventTs,
+                value: item.doubleVal,
+              })),
+            });
+            setChartData([...result]);
+            requestNum++;
+            request();
+          });
+        }
+      };
+
+      request();
+
+      return () => {
+        requestNum = 100;
+        cancel();
+      };
     }
-  }, [deviceData?.deviceId, chartType, date, deviceKey]);
+  }, [deviceData?.deviceId, chartType, date]);
 
   return (
     <>
