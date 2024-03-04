@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-04 15:39:47
+ * @LastEditTime: 2024-03-04 15:44:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Skeleton, DatePicker, Select } from 'antd';
+import { Skeleton, DatePicker, Select, Spin } from 'antd';
 import { useRequest } from 'umi';
 import { chartTypeEnum } from '@/components/Chart/config';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
@@ -37,7 +37,7 @@ const Electric: React.FC<ComProps> = (props) => {
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const { run, cancel } = useRequest(getElectic, { manual: true });
+  const { run, loading, cancel } = useRequest(getElectic, { manual: true });
 
   const chartOption = useMemo(() => {
     return {
@@ -168,6 +168,7 @@ const Electric: React.FC<ComProps> = (props) => {
             onChange={onChange}
             allowClear={false}
           />
+          {loading && <Spin className="ml12" />}
         </div>
         <TypeChart type={chartType} date={date} option={chartOption} data={chartData} />
       </div>
