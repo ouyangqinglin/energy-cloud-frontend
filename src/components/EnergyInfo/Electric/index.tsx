@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-04 15:28:42
+ * @LastEditTime: 2024-03-04 15:39:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -69,7 +69,16 @@ const Electric: React.FC<ComProps> = (props) => {
     if (deviceData?.deviceId) {
       const totalNum = chartTypeEnum.Month == chartType ? 5 : 3;
       let requestNum = 0;
-      const result: TypeChartDataType[] = [];
+      const result: TypeChartDataType[] = [
+        {
+          name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
+          data: [],
+        },
+        {
+          name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
+          data: [],
+        },
+      ];
 
       const request = () => {
         if (requestNum < totalNum) {
@@ -105,17 +114,16 @@ const Electric: React.FC<ComProps> = (props) => {
             endDate: endTime?.format?.('YYYY-MM-DD'),
             visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
           }).then((data) => {
-            result.push({
-              name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
-              data: data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
-            });
-            result.push({
-              name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
-              data: data?.discharge?.map?.((item) => ({
+            result[0].data?.push?.(
+              ...(data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })) ||
+                []),
+            );
+            result[1].data?.push?.(
+              ...(data?.discharge?.map?.((item) => ({
                 label: item.eventTs,
                 value: item.doubleVal,
-              })),
-            });
+              })) || []),
+            );
             setChartData([...result]);
             requestNum++;
             request();
