@@ -13,9 +13,17 @@ export enum RequestCode {
   TokenExpire = 500003,
 }
 
-export const aks = [
-  { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
-];
+export enum MapTypeEnum {
+  AMap,
+  Google,
+}
+
+export const mapAks = {
+  [MapTypeEnum.AMap]: [
+    { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
+  ],
+  [MapTypeEnum.Google]: [{ key: 'AIzaSyBnBWCK_zdES0iQPpyn5k14CUShUGgAUAQ' }],
+};
 
 export enum ChildSystemEnum {
   Pv = 1,

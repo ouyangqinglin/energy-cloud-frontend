@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { TimeType } from '@/components/TimeButtonGroup';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
@@ -18,6 +18,7 @@ type RealTimePowerProps = {
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const { date, siteId, timeType } = props;
 
+  const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const chartRef = useRef();
   const { data: powerData, run } = useRequest(getData, {
@@ -43,12 +44,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     let currentIndex = -1;
     const dataLen = calcData?.[0].data.length;
     const timer = setInterval(() => {
-      if (dataLen) {
+      if (dataLen && !timerRef.current.stop) {
         currentIndex = (currentIndex + 1) % dataLen; // 取余 循环展示
         instance.dispatchAction({
           type: 'showTip',
           seriesIndex: 0,
           dataIndex: currentIndex,
+          name: 'wahaha',
         });
       }
     }, 3000);
@@ -114,17 +116,19 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   };
 
   return (
-    <TypeChart
-      type={timeType}
-      chartRef={chartRef}
-      date={date}
-      option={option}
-      style={{ height: '340px' }}
-      data={chartData}
-      allLabel={allLabel}
-      calculateMax={false}
-      notMerge
-    />
+    <div onMouseOver={() => timerRef.current.stop = true} onMouseOut={() => timerRef.current.stop = false}>
+      <TypeChart
+        type={timeType}
+        chartRef={chartRef}
+        date={date}
+        option={option}
+        style={{ height: '340px' }}
+        data={chartData}
+        allLabel={allLabel}
+        calculateMax={false}
+        notMerge
+      />
+    </div>
   );
 };
 

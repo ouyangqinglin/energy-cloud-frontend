@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-02-26 16:28:37
+ * @LastEditTime: 2024-02-28 15:34:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
-import { ValueEnum } from '@/types';
-import { reportTypeEnum, timeDimensionEnum } from './dictionary';
+import { OptionType, ValueEnum } from '@/types';
+import { MapTypeEnum, reportTypeEnum, timeDimensionEnum } from './dictionary';
 import { formatMessage } from './index';
 
 export const alarmSource = {
@@ -398,4 +398,30 @@ export const weekInfo = [
   formatMessage({ id: 'date.friday', defaultMessage: '周五' }),
   formatMessage({ id: 'date.saturday', defaultMessage: '周六' }),
   formatMessage({ id: 'date.sunday', defaultMessage: '周日' }),
+];
+
+export const mapTypeOptions: OptionType[] = [
+  {
+    label: formatMessage({ id: 'common.amap', defaultMessage: '高德' }),
+    value: MapTypeEnum.AMap,
+  },
+  {
+    label: formatMessage({ id: 'common.google', defaultMessage: '谷歌' }),
+    value: MapTypeEnum.Google,
+  },
+];
+
+export const timeZoneOptions: OptionType[] = [
+  {
+    label:
+      '(UTC+08:00) ' + formatMessage({ id: 'system.chinaShanghai', defaultMessage: '中国，上海' }),
+    value: 0,
+    position: { lng: 116.407649, lat: 39.903439 },
+  },
+  {
+    label:
+      '(UTC+0) ' + formatMessage({ id: 'system.africaGuinea', defaultMessage: '非洲，几内亚' }),
+    value: 1,
+    position: { lng: -13.592248, lat: 9.643234 },
+  },
 ];

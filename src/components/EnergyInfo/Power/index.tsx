@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-01-24 14:42:43
+ * @LastEditTime: 2024-03-01 14:34:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -154,37 +154,23 @@ const Power: React.FC<ComProps> = (props) => {
   return (
     <>
       <div className="card-wrap shadow p20 mb20">
-        {loading || powerLoading ? (
-          <>
-            <div className="flex mb16">
-              <div className="flex1">
-                <Skeleton.Button size="small" active />
-              </div>
-              <Skeleton.Input size="small" active />
-            </div>
-            <Skeleton.Image className={`w-full ${styles.chart}`} active />
-          </>
-        ) : (
-          <>
-            <div className="flex mb16">
-              <label className={`flex1 ${styles.label}`}>
-                {source == EnergySourceEnum.SiteMonitor
-                  ? formatMessage({
-                      id: 'siteMonitor.storageUnitPower',
-                      defaultMessage: '储能单元功率',
-                    })
-                  : formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' })}
-              </label>
-              <DatePicker
-                defaultValue={date}
-                format="YYYY-MM-DD"
-                onChange={onChange}
-                allowClear={false}
-              />
-            </div>
-            <TypeChart date={date} option={chartOption} data={chartData} min={-10} />
-          </>
-        )}
+        <div className="flex mb16">
+          <label className={`flex1 ${styles.label}`}>
+            {source == EnergySourceEnum.SiteMonitor
+              ? formatMessage({
+                  id: 'siteMonitor.storageUnitPower',
+                  defaultMessage: '储能单元功率',
+                })
+              : formatMessage({ id: 'siteMonitor.storagePower', defaultMessage: '储能功率' })}
+          </label>
+          <DatePicker
+            defaultValue={date}
+            format="YYYY-MM-DD"
+            onChange={onChange}
+            allowClear={false}
+          />
+        </div>
+        <TypeChart date={date} option={chartOption} data={chartData} min={-10} />
       </div>
     </>
   );

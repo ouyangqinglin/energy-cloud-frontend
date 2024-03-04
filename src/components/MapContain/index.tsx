@@ -10,7 +10,7 @@
 import type { CSSProperties } from 'react';
 import React, { useCallback, useMemo } from 'react';
 import AmapLoader from '../AmapLoader';
-import { aks } from '@/utils/dictionary';
+import { MapTypeEnum, mapAks } from '@/utils/dictionary';
 import styles from './index.less';
 import { getLocale } from '@/utils';
 
@@ -35,7 +35,11 @@ const MapContain: React.FC<MapProps> = (props) => {
   return (
     <>
       <div className={`${styles.contain} ${className}`} style={style}>
-        <AmapLoader version={mapVersion} akey={aks[0].key} securityJsCode={aks[0].securityJsCode}>
+        <AmapLoader
+          version={mapVersion}
+          akey={mapAks[MapTypeEnum.AMap][0].key}
+          securityJsCode={mapAks[MapTypeEnum.AMap][0].securityJsCode}
+        >
           {children}
         </AmapLoader>
       </div>

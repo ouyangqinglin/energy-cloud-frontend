@@ -38,4 +38,6 @@ export default {
   'system.deleteVersionConfirm': '您确认要删除该版本吗？删除之后无法恢复！',
   'system.productPermissions': '产品权限',
   'system.sitePermissions': '站点权限',
+  'system.chinaShanghai': '中国，上海',
+  'system.africaGuinea': '非洲，几内亚',
 };

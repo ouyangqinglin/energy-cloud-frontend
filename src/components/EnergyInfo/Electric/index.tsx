@@ -90,47 +90,33 @@ const Electric: React.FC<ComProps> = (props) => {
   return (
     <>
       <div className="card-wrap shadow p20">
-        {loading || electricLoading ? (
-          <>
-            <div className="flex mb16">
-              <div className="flex1">
-                <Skeleton.Button size="small" active />
-              </div>
-              <Skeleton.Input size="small" active />
-            </div>
-            <Skeleton.Image className={`w-full ${styles.chart}`} active />
-          </>
-        ) : (
-          <>
-            <div className="flex mb16">
-              <label className={`flex1 ${styles.label}`}>
-                {source == EnergySourceEnum.SiteMonitor
-                  ? formatMessage({
-                      id: 'siteMonitor.chargeTrendUnit',
-                      defaultMessage: '储能单元充放电趋势',
-                    })
-                  : formatMessage({
-                      id: 'siteMonitor.chargeTrend',
-                      defaultMessage: '储能充放电趋势',
-                    })}
-              </label>
-              <Select
-                className="mr8"
-                defaultValue={chartType}
-                options={typeMap}
-                onSelect={onTypeSelect}
-              />
-              <DatePicker
-                picker={chartType == chartTypeEnum.Month ? 'month' : 'year'}
-                defaultValue={date}
-                format={chartType == chartTypeEnum.Month ? 'YYYY-MM' : 'YYYY'}
-                onChange={onChange}
-                allowClear={false}
-              />
-            </div>
-            <TypeChart type={chartType} date={date} option={chartOption} data={chartData} />
-          </>
-        )}
+        <div className="flex mb16">
+          <label className={`flex1 ${styles.label}`}>
+            {source == EnergySourceEnum.SiteMonitor
+              ? formatMessage({
+                  id: 'siteMonitor.chargeTrendUnit',
+                  defaultMessage: '储能单元充放电趋势',
+                })
+              : formatMessage({
+                  id: 'siteMonitor.chargeTrend',
+                  defaultMessage: '储能充放电趋势',
+                })}
+          </label>
+          <Select
+            className="mr8"
+            defaultValue={chartType}
+            options={typeMap}
+            onSelect={onTypeSelect}
+          />
+          <DatePicker
+            picker={chartType == chartTypeEnum.Month ? 'month' : 'year'}
+            defaultValue={date}
+            format={chartType == chartTypeEnum.Month ? 'YYYY-MM' : 'YYYY'}
+            onChange={onChange}
+            allowClear={false}
+          />
+        </div>
+        <TypeChart type={chartType} date={date} option={chartOption} data={chartData} />
       </div>
     </>
   );

@@ -32,7 +32,7 @@ export default {
   'siteManage.set.siteStatus': 'Site Status',
   'siteManage.set.siteStatusSuccess': 'Completed',
   'siteManage.set.siteStatusProcessing': 'Processing',
-  'siteManage.set.deviceManage': 'Equipment Management',
+  'siteManage.set.deviceManage': 'Device Management',
   'siteManage.set.operateManagement': 'Operation Management',
   'siteManage.set.systemParameterSet': 'System Parameter Setting',
   'siteManage.set.electricPriceManagement': 'Electricity Price Management',
@@ -118,4 +118,6 @@ export default {
   'siteManage.set.feedInTariff': 'feed-in tariff',
   'siteManage.set.serviceCharge': 'Service Charge',
   'siteManage.set.timeSlot': 'Time Slot',
+  'siteManage.timeZone': 'Time Zone',
+  'siteManage.map': 'Map',
 };

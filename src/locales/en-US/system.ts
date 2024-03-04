@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:11:39
- * @LastEditTime: 2023-10-13 14:11:40
+ * @LastEditTime: 2024-02-28 15:18:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
@@ -51,4 +51,6 @@ export default {
     'Are you sure you want to delete this version? Cannot be recovered after deletion!',
   'system.productPermissions': 'Product permissions',
   'system.sitePermissions': 'Site permissions',
+  'system.chinaShanghai': 'China,Shanghai',
+  'system.africaGuinea': 'Africa,Guinea',
 };

@@ -9,9 +9,12 @@ import ParamsSetting from './ParamsSetting';
 import Device from './Device';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { StationType } from '../../stationList/data';
 
 const Setting = () => {
+
+  const [siteInfo, setSiteInfo] = useState<StationType>();
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:baseInfo',
     'iot:siteManage:siteConfig:deviceManage',
@@ -22,13 +25,17 @@ const Setting = () => {
     'iot:siteManage:siteConfig:deviceManage:page',
   ]);
 
+  const onSiteChange = useCallback((data: StationType) => {
+    setSiteInfo(data);
+  }, []);
+
   const items = useMemo(() => {
     const result: TabsProps['items'] = [];
     if (authorityMap.get('siteManage:siteConfig:baseInfo')) {
       result.push({
         key: '1',
         label: formatMessage({ id: 'siteManage.set.baseInfo', defaultMessage: '基础信息' }),
-        children: <StationInfo />,
+        children: <StationInfo onSiteChange={onSiteChange} />,
       });
     }
     if (
@@ -81,14 +88,17 @@ const Setting = () => {
     return result;
   }, [authorityMap]);
 
-  return (
+  return <>
+    <div className='px24 pt24'>
+      <label className={styles.label}>{siteInfo?.name}</label>
+    </div>
     <Tabs
       className={`${styles.tabsWrapper}`}
       tabBarGutter={34}
       defaultActiveKey="1"
       items={items}
     />
-  );
+  </>;
 };
 
 export default Setting;

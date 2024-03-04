@@ -14,7 +14,7 @@ export default {
   'menu.siteMonitor': 'Site Monitor',
   'menu.siteMonitor.overview': 'Site Overview',
   'menu.siteMonitor.topo': 'Site Topo',
-  'menu.siteMonitor.deviceDetail': 'Device Monitor',
+  'menu.siteMonitor.deviceDetail': 'Device Monitor-Detail',
   'menu.siteMonitor.electricGenerate': 'Power generation unit monitoring',
   'menu.siteMonitor.energy': 'Energy storage unit monitoring',
   'menu.siteMonitor.electricConsumer': 'Power consumption unit monitoring',

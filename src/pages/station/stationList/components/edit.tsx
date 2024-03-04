@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2023-12-01 11:13:38
+ * @LastEditTime: 2024-02-29 10:19:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -21,13 +21,14 @@ import {
 import type { StationFormType } from '../data.d';
 import { getData, addData, editData } from '../service';
 import PositionSelect from '@/components/PositionSelect';
-import { siteType } from '@/utils/dict';
+import { mapTypeOptions, siteType, timeZoneOptions } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { api } from '@/services';
 import TableSelect from '@/components/TableSelect';
 import { getServicePage } from '@/services/service';
 import Detail from '@/components/Detail';
-import { formatMessage } from '@/utils';
+import { arrayToMap, formatMessage } from '@/utils';
+import { ProFormDependency } from '@ant-design/pro-components';
 
 type StationFOrmProps = {
   id?: string;
@@ -38,6 +39,8 @@ type StationFOrmProps = {
   requestSave?: (data: StationFormType) => Promise<any>;
   initValues?: StationFormType;
 };
+
+const timeZoneMap = arrayToMap(timeZoneOptions, 'value', 'position');
 
 const StationForm: React.FC<StationFOrmProps> = (props) => {
   const { type, id, onSuccess, requestSave, initValues } = props;
@@ -313,27 +316,65 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
               fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
+          {/* <Col span={8}>
+            <ProFormSelect
+              label={formatMessage({
+                id: 'siteManage.timeZone',
+                defaultMessage: '时区',
+              })}
+              name="timeZone"
+              options={timeZoneOptions}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+                },
+              ]}
+            />
+          </Col>
+          <Col span={8}>
+            <ProFormSelect
+              label={formatMessage({
+                id: 'siteManage.map',
+                defaultMessage: '地图',
+              })}
+              name="map"
+              options={mapTypeOptions}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+                },
+              ]}
+            />
+          </Col> */}
         </Row>
-        <Form.Item
-          label={formatMessage({
-            id: 'siteManage.siteList.siteAddress',
-            defaultMessage: '站点地址',
-          })}
-          name="addressInfo"
-          rules={[
-            {
-              required: true,
-              message:
-                formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
-                formatMessage({
+        <ProFormDependency name={['timeZone', 'map']}>
+          {({ timeZone, map }) => {
+            return (
+              <Form.Item
+                label={formatMessage({
                   id: 'siteManage.siteList.siteAddress',
                   defaultMessage: '站点地址',
-                }),
-            },
-          ]}
-        >
-          {show && <PositionSelect />}
-        </Form.Item>
+                })}
+                name="addressInfo"
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }) +
+                      formatMessage({
+                        id: 'siteManage.siteList.siteAddress',
+                        defaultMessage: '站点地址',
+                      }),
+                  },
+                ]}
+              >
+                {show && <PositionSelect initCenter={timeZoneMap[timeZone]} type={map} />}
+              </Form.Item>
+            );
+          }}
+        </ProFormDependency>
         <ProFormTextArea
           label={formatMessage({ id: 'common.remark', defaultMessage: '备注' })}
           name="remarks"
