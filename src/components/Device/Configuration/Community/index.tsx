@@ -7,7 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Configuration\Community\index.tsx
  */
 import React, { memo, useMemo } from 'react';
-import Detail, { GroupItem } from '@/components/Detail';
+import Detail from '@/components/Detail';
+import type { GroupItem } from '@/components/Detail';
 import {
   accountItem,
   meterItem,
@@ -17,7 +18,7 @@ import {
   selfEnergyMeterItem,
 } from './config';
 import Community, { CommunityTypeEnum } from '@/components/ScreenDialog/Community';
-import { DeviceDataType } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
 

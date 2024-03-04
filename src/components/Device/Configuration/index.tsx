@@ -8,6 +8,8 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 import Community from './Community';
+import PointTableConfig from './PointTableConfig';
+
 import DeviceConfig from './DeviceConfig';
 import { isEmpty } from '@/utils';
 import RemoteSetting from './RemoteSetting';
@@ -73,6 +75,11 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
               {deviceData?.masterSlaveMode != DeviceMasterMode.Slave && (
                 <>
                   {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
+                  {deviceData?.paramConfigType ? (
+                    <PointTableConfig deviceData={deviceData} />
+                  ) : (
+                    <></>
+                  )}
                   {!isEmpty(deviceData?.productConfigType) ? (
                     <DeviceConfig deviceData={deviceData} />
                   ) : (

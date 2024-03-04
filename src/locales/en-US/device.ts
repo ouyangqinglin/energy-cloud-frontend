@@ -28,6 +28,7 @@ export default {
   'device.upgradeTime': 'Upgrade time',
   'device.upgradableVersion': 'Upgradable version',
   'device.communicationInformation': 'Communication information',
+  'device.pointTableConfig': 'Point Table Config',
   'device.currentRatio': 'Current transformation ratio',
   'device.voltageRatio': 'Voltage transformation ratio',
   'device.electricRatio': 'Electric energy transformation ratio',

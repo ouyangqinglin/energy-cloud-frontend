@@ -25,6 +25,7 @@ export default {
   'device.upgradeTime': '升级时间',
   'device.upgradableVersion': '可升级版本',
   'device.communicationInformation': '通信信息',
+  'device.pointTableConfig': '通信点表配置',
   'device.currentRatio': '电流变比',
   'device.voltageRatio': '电压变比',
   'device.electricRatio': '电能变比',

@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
 import React, { Suspense, lazy, memo, useCallback, useEffect, useMemo, useState } from 'react';
-import {
+import type {
   DeviceArrayType,
   DeviceDoubleType,
   DeviceEnumType,
@@ -17,7 +17,8 @@ import {
   DeviceServiceType,
   DeviceStructType,
 } from '@/types/device';
-import Detail, { DetailItem, GroupItem } from '@/components/Detail';
+import Detail from '@/components/Detail';
+import type { DetailItem, GroupItem } from '@/components/Detail';
 import {
   DeviceModelDescribeTypeEnum,
   DeviceModelShowTypeEnum,
@@ -30,13 +31,14 @@ import {
   parseToObj,
 } from '@/utils';
 import ConfigModal from '../ConfigModal';
-import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 import { getColumnsLength, timeRangeColumn, validatorTime } from './helper';
 import { merge } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
-import { DeviceDataType, editSetting } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
+import { editSetting } from '@/services/equipment';
 import { DeviceMasterMode, OnlineStatusEnum } from '@/utils/dictionary';
 import Authority from '@/components/Authority';
 import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
