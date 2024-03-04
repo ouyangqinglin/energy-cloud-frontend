@@ -78,7 +78,7 @@ const Index: React.FC = () => {
           <EnergyFlow siteId={siteId} siteType={siteType} />
           <Benefit siteId={siteId} />
           <ElectricityChart siteId={siteId} />
-          <SiteInfo siteId={siteId} />
+          <SiteInfo siteId={siteId} siteType={siteType} />
         </Row>
       </div>
     </>

@@ -36,6 +36,10 @@ export const getServiceProviderList = (params: any) => {
   return get<ServiceProviderInfo[], 'list'>('/uc/customerUser/serviceProvider/page', params);
 };
 
+export const getServiceOrgList = (params: any) => {
+  return get<ServiceProviderInfo[], 'list'>('/uc/user/org/list', params);
+};
+
 export const getSiteList = (params: { orgId: number; siteName: string }) => {
   return get<SiteInfo[], 'list'>('/uc/customerUser/site/page', params);
 };

@@ -11,7 +11,7 @@ import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { Carousel } from 'antd';
 import { formatMessage } from '@/utils';
 
-const SiteInfo = ({ siteId }: { siteId?: number }) => {
+const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string }) => {
   const [photos, setPhotos] = useState(Array);
   const { data, run } = useRequest(getStationInfo, {
     manual: true,
@@ -80,16 +80,20 @@ const SiteInfo = ({ siteId }: { siteId?: number }) => {
           </div>
           <div className={styles.value}>{getAlarm(data?.siteAlarmStatus)}</div>
         </li>
-        <li>
-          <div className={styles.label}>
-            {formatMessage({
-              id: 'siteManage.siteList.totalPhotovoltaicCapacity',
-              defaultMessage: '光伏总容量',
-            })}
-            ：
-          </div>
-          <div className={styles.value}>{data?.photovoltaicInstalledCapacity ?? '--'}kWp</div>
-        </li>
+        {siteType?.includes('1') ? (
+          <li>
+            <div className={styles.label}>
+              {formatMessage({
+                id: 'siteManage.siteList.totalPhotovoltaicCapacity',
+                defaultMessage: '光伏总容量',
+              })}
+              ：
+            </div>
+            <div className={styles.value}>{data?.photovoltaicInstalledCapacity ?? '--'}kWp</div>
+          </li>
+        ) : (
+          ''
+        )}
         <li>
           <div className={styles.label}>
             {formatMessage({

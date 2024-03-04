@@ -7,7 +7,7 @@ import { OrderStatus, OrderType } from '../type';
 import { formatMessage, isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
-import { getServiceProviderList } from '@/pages/user-manager/accounts/Customer/service';
+import { getServiceOrgList } from '@/pages/user-manager/accounts/Customer/service';
 import { getCustomerList, getInstallerList } from '../service';
 import type { Dayjs } from 'dayjs';
 import { UserType } from '../type';
@@ -112,8 +112,11 @@ export const Columns: (
     },
     {
       title: formatMessage({ id: 'taskManage.installManu', defaultMessage: '安装商' }),
-      valueType: TABLESELECT,
+      valueType: 'select',
       dataIndex: 'serviceProvider',
+      fieldProps: {
+        fieldNames: { label: 'orgName', value: 'orgId' },
+      },
       formItemProps: {
         rules: [
           {
@@ -125,48 +128,12 @@ export const Columns: (
           },
         ],
       },
-      fieldProps: () => ({
-        tableId: 'orgId',
-        tableName: 'orgName',
-        valueId: 'orgId',
-        valueName: 'orgName',
-        multiple: false,
-        // onChange: (value: { orgId: number }[]) => {
-        //   const curOrgId = value[0]?.orgId;
-        //   if (value.length) {
-        //     orgIdRef.current = curOrgId;
-        //   }
-        // },
-        proTableProps: {
-          columns: [
-            {
-              title: formatMessage({ id: 'taskManage.installerId', defaultMessage: '安装商ID' }),
-              dataIndex: 'orgId',
-              width: 150,
-              ellipsis: true,
-              hideInSearch: true,
-            },
-            {
-              title: formatMessage({
-                id: 'taskManage.installerName',
-                defaultMessage: '安装商名称',
-              }),
-              dataIndex: 'orgName',
-              width: 200,
-              ellipsis: true,
-            },
-          ],
-          request: (params: Record<string, any>) => {
-            return getServiceProviderList({ siteId: siteId, ...params })?.then(({ data }) => {
-              return {
-                data: data?.list,
-                total: data?.total,
-                success: true,
-              };
-            });
-          },
-        },
-      }),
+      request: (form) => {
+        return getServiceOrgList({ siteId: siteId, type: 1 })?.then(({ data }) => {
+          console.log('form>>', form);
+          return data;
+        });
+      },
     },
     {
       title: formatMessage({ id: 'taskManage.customerName', defaultMessage: '客户名称' }),
