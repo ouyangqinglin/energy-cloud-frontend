@@ -10,58 +10,39 @@
 import { useContext, useEffect, useState } from 'react';
 import MapContext from '@/components/MapContain/MapContext';
 
-type useGeocoderType = {} & google.maps.GeocoderRequest;
+type useGeocoderType = {
+  onError?: () => void;
+  onSuccess?: (result: google.maps.GeocoderResult) => void;
+  params?: google.maps.GeocoderRequest;
+};
 
-const useGeocoder = (props: useGeocoderType): google.maps.GeocoderResult | undefined => {
-  const {} = props;
-
+const useGeocoder = (props: useGeocoderType | undefined) => {
   const [geocoderResult, setGeocoderResult] = useState<google.maps.GeocoderResult>();
   const { google } = useContext(MapContext);
 
   const geocoder = google ? new google.maps.Geocoder() : null;
 
   useEffect(() => {
-    geocoder?.geocode?.(props)?.then?.((result) => {});
-  }, [props]);
+    if (props?.params?.location || props?.params?.address) {
+      geocoder
+        ?.geocode?.(props?.params)
+        ?.then?.((response) => {
+          if (response?.results?.[0]) {
+            setGeocoderResult(response.results[0]);
+            props?.onSuccess?.(response.results[0]);
+          } else {
+            props?.onError?.();
+          }
+        })
+        ?.catch?.(() => {
+          props?.onError?.();
+        });
+    }
+  }, [props?.params, props?.onSuccess, props?.onError]);
 
-  return geocoderResult;
+  return {
+    geocoderResult,
+  };
 };
 
 export default useGeocoder;
-
-let geocoder: any;
-export function getGeocoder() {
-  return new Promise<google.maps.GeocoderResult>((geoResolve) => {
-    mapLoad().then(() => {
-      window.AMap.plugin(['AMap.Geocoder'], () => {
-        geocoder =
-          geocoder || new window.AMap.Geocoder({ lang: getLocale().isZh ? '' : AmapLang.En });
-
-        const getAddress = (point: AMap.LngLat) => {
-          return new Promise<any>((resolve, reject) => {
-            if (point.lng && point.lat) {
-              getPoint(point.lng, point.lat).then((resPoint) => {
-                geocoder.getAddress(resPoint, (status: AutoComStatusEnum, result: any) => {
-                  if (status === AutoComStatusEnum.Complete) {
-                    resolve(result);
-                  } else if (status === AutoComStatusEnum.NoData) {
-                    resolve({});
-                  } else {
-                    reject();
-                  }
-                });
-              });
-            } else {
-              resolve({});
-            }
-          });
-        };
-
-        geoResolve({
-          geocoder,
-          getAddress,
-        });
-      });
-    });
-  });
-}

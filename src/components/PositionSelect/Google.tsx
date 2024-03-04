@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-03-01 09:51:08
+ * @LastEditTime: 2024-03-01 16:51:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useContext, useRef } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
 import { Marker, mapEventHandler } from 'google-maps-react';
 import GoogleMap from '../Map/GoogleMap';
@@ -18,21 +18,49 @@ import { formatMessage, getAreaCodeByAdCode, getLocale } from '@/utils';
 import { AmapLang } from '@/utils/dictionary';
 import { PositionSelectType } from '.';
 import MapContext from '../MapContain/MapContext';
+import { useGeocoder } from '@/hooks';
 
 const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   const { value, onChange, disabled, readonly, className, initCenter } = props;
 
+  const mapRef = useRef<google.maps.Map>();
   const { google } = useContext(MapContext);
   const [address, setAddress] = useState<string>();
   const [options, setOptions] = useState<OptionType[]>([]);
-  const [point, setPoint] = useState<AMap.LngLat>();
+  const [point, setPoint] = useState<google.maps.LatLngLiteral>();
   const [inputPoint, setInputPoint] = useState('');
-  const [center, setCenter] = useState<AMap.LngLat>();
+  const [center, setCenter] = useState<google.maps.LatLngLiteral>();
   const [zoom, setZoom] = useState(11);
+  const [geocoderParams, setGeocoderParams] = useState<google.maps.GeocoderRequest>();
 
-  const lang = useMemo(() => {
-    return getLocale().isZh ? '' : AmapLang.En;
+  const onGeoSuccess = useCallback(
+    (result: google.maps.GeocoderResult) => {
+      geocoderParams?.location && setPoint(geocoderParams?.location);
+      setAddress(result?.formatted_address);
+      onChange?.({
+        address: result?.formatted_address,
+        point: {
+          lng: geocoderParams?.location?.lng,
+          lat: geocoderParams?.location?.lat,
+        },
+        // countryCode,
+        // provinceCode,
+        // cityCode,
+        // adcode: res?.regeocode?.addressComponent?.adcode,
+      });
+    },
+    [geocoderParams],
+  );
+
+  const onGeoError = useCallback(() => {
+    message.success(formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }));
   }, []);
+
+  useGeocoder({
+    params: geocoderParams,
+    onSuccess: onGeoSuccess,
+    onError: onGeoError,
+  });
 
   const autoSearch = useCallback(
     debounce((data: string) => {
@@ -110,7 +138,12 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
 
   const onClick = useCallback<mapEventHandler>((prop, map, e) => {
     if (!disabled && !readonly && e && e.latLng) {
-      getAddressByPoint(e.latLng);
+      setGeocoderParams({
+        location: {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng(),
+        },
+      });
     }
   }, []);
 
@@ -125,11 +158,12 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
       pointObj.length > 1 &&
       (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
     ) {
-      try {
-        getPoint(Number(pointObj[0]), Number(pointObj[1])).then((res) => {
-          getAddressByPoint(res);
-        });
-      } catch (e) {}
+      setGeocoderParams({
+        location: {
+          lat: point?.lng,
+          lng: point?.lat,
+        },
+      });
     }
   };
 
@@ -142,13 +176,9 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   useEffect(() => {
     setAddress(value?.address || '');
     if (value?.point && value?.point?.lng && value?.point?.lat) {
-      getPoint(value.point?.lng, value.point?.lat).then((res) => {
-        if (res) {
-          setPoint(res);
-          setCenter(res);
-          setZoom(17);
-        }
-      });
+      setPoint(value?.point);
+      setCenter(value?.point);
+      mapRef?.current?.setZoom?.(17);
     }
   }, [value]);
 
@@ -199,6 +229,7 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
           )}
         </Row>
         <GoogleMap
+          ref={mapRef}
           google={google}
           center={center}
           zoom={zoom}
@@ -206,7 +237,6 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
           style={{
             height: '220px',
           }}
-          lang={lang}
         >
           {point && <Marker position={point} />}
         </GoogleMap>
