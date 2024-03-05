@@ -393,7 +393,7 @@ export const getModelByProps = (items: DevicePropsType[], parentField = '') => {
     if (item?.dataType?.type == DeviceModelTypeEnum.Struct) {
       result = { ...result, ...getModelByProps(parseToArray(item?.dataType?.specs), field) };
     } else {
-      result[field || ''] = item?.dataType;
+      result[field || ''] = { ...item?.dataType, name: item.name };
     }
   });
   return result;

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-01-23 17:36:12
+ * @LastEditTime: 2024-03-05 13:42:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -141,7 +141,7 @@ const Run: React.FC<RunType> = (props) => {
             showPlaceholder: false,
             showExtra: false,
           });
-        } else {
+        } else if (item.showType != DeviceModelShowTypeEnum.HideName) {
           result.push({
             field: item?.id || '',
             label: item?.name,
