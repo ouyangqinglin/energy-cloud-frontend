@@ -1,13 +1,18 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import type { FaultType } from './type';
-import { OrderStatus } from './type';
 import { formatMessage } from '@/utils';
-
+import { OrderType } from '../maintenance/type';
 // export const orderStatus = new Map([
 //   [OrderStatus.READY, '待处理'],
 //   [OrderStatus.DEALING, '维修中'],
 //   [OrderStatus.CLOSE, '维修完成'],
 // ]);
+// 工单类型 0：安装工单 1：维护工单 2修复工单
+export const orderType = new Map([
+  [OrderType.INSTALL, formatMessage({ id: 'taskManage.install', defaultMessage: '安装' })],
+  [OrderType.MAINTENANCE, formatMessage({ id: 'taskManage.maintenance', defaultMessage: '维护' })],
+  [OrderType.REPAIR, formatMessage({ id: 'taskManage.repair', defaultMessage: '修复' })],
+]);
 export const orderStatus = {
   0: {
     text: formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' }),

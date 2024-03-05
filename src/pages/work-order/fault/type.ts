@@ -45,6 +45,7 @@ export interface ObstacleReportInfo {
   siteName?: any;
   userId: number;
   usetName?: any;
+  maintenanceId?: any;
   completeTime?: any;
   service?: any;
   createId: number;

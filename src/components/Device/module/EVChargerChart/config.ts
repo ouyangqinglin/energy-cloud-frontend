@@ -1,0 +1,179 @@
+import { formatMessage } from '@/utils';
+export const Voption = {
+  color: ['#3DD598', '#007DFF'],
+  yAxis: [
+    {
+      type: 'value',
+      name: formatMessage({ id: 'device.voltage', defaultMessage: '电压' }) + '（v）',
+      nameLocation: 'end',
+      splitLine: {
+        lineStyle: {
+          type: 'dashed', //虚线
+        },
+      },
+    },
+    {
+      type: 'value',
+      name: formatMessage({ id: 'device.current', defaultMessage: '电流' }) + '（A）',
+      nameLocation: 'end',
+      splitLine: {
+        lineStyle: {
+          type: 'dashed', //虚线
+        },
+      },
+    },
+  ],
+  grid: {
+    top: 30,
+    bottom: 50,
+    right: 15,
+    left: 0,
+  },
+  legend: {
+    show: true,
+    icon: 'rect',
+    itemHeight: 10,
+    itemWidth: 10,
+  },
+  tooltip: {
+    trigger: 'axis',
+  },
+  dataZoom: [
+    {
+      type: 'inside',
+      realtime: false,
+    },
+    {
+      start: 0,
+      end: 100,
+      height: 15,
+      realtime: false,
+    },
+  ],
+  series: [
+    {
+      name: formatMessage({ id: 'device.maxAllowVoltage', defaultMessage: '最高允许充电电压' }),
+      color: '#ffd15c',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }),
+      color: '#007DFF',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电出电压' }),
+      color: '#ffd15c',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({ id: 'device.bMSMeasureVoltage', defaultMessage: 'BMS测量电压' }),
+      color: '#ffd15c',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({ id: 'device.maxAllowCurrent', defaultMessage: '最高允许充电电流' }),
+      color: '#007DFF',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+    {
+      name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }),
+      color: '#007DFF',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+    {
+      name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '电输出电流' }),
+      color: '#007DFF',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+    {
+      name: formatMessage({ id: 'device.bMSMeasureCurrent', defaultMessage: 'BMS测量电流' }),
+      color: '#007DFF',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+  ],
+};
+export const Coption = {
+  color: ['#3DD598', '#007DFF'],
+  yAxis: {
+    type: 'value',
+    name: formatMessage({ id: 'device.temp', defaultMessage: '温度' }) + '（℃）',
+    nameLocation: 'end',
+    splitLine: {
+      lineStyle: {
+        type: 'dashed', //虚线
+      },
+    },
+  },
+  grid: {
+    top: 30,
+    bottom: 50,
+    right: 15,
+    left: 0,
+  },
+  legend: {
+    show: true,
+    icon: 'rect',
+    itemHeight: 10,
+    itemWidth: 10,
+  },
+  tooltip: {
+    trigger: 'axis',
+  },
+  dataZoom: [
+    {
+      type: 'inside',
+      realtime: false,
+    },
+    {
+      start: 0,
+      end: 100,
+      height: 15,
+      realtime: false,
+    },
+  ],
+  series: [
+    {
+      name: formatMessage({ id: 'device.gunTemp', defaultMessage: '枪温度' }),
+      color: '#ffd15c',
+      type: 'line',
+    },
+    {
+      name: formatMessage({
+        id: 'device.singleBatteryMaxtemp',
+        defaultMessage: '单体电池最高温度',
+      }),
+      color: '#ffd15c',
+      type: 'line',
+    },
+    {
+      name: formatMessage({
+        id: 'device.singleBatteryMintemp',
+        defaultMessage: '单体电池最低温度',
+      }),
+      color: '#ffd15c',
+      type: 'line',
+    },
+    {
+      name: formatMessage({ id: 'device.chargeGunAnodetemp', defaultMessage: '充电枪正极温度' }),
+      color: '#ffd15c',
+      type: 'line',
+    },
+    {
+      name: formatMessage({
+        id: 'device.chargeGunCathodetemp',
+        defaultMessage: '充电枪负极负温度',
+      }),
+      color: '#ffd15c',
+      type: 'line',
+    },
+  ],
+};
