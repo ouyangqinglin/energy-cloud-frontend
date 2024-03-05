@@ -6,8 +6,9 @@ import {
   updateMaintenanceWorkOrder,
 } from '../service';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
+import { getServiceOrgList } from '@/pages/user-manager/accounts/Customer/service';
 import { omit } from 'lodash';
-import { useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type {
   MaintenanceOrderUpdateParam,
   MaintenanceOrderUpdateInfo,
@@ -20,6 +21,7 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 export const MaintenanceUpdate = (
   props: FormUpdateBaseProps<MaintenanceListType> & { siteId: number },
 ) => {
+  const [config, setConfig] = useState(Columns([]));
   const convertRequestData = (res: MaintenanceOrderUpdateInfo) => {
     if (res) {
       const { orgId, orgName, handlerBy, handlerName, userId, userName } = res;
@@ -45,10 +47,11 @@ export const MaintenanceUpdate = (
     } as MaintenanceOrderUpdateParam;
   };
 
-  const getConfig = useCallback(
-    () => Columns(props?.operations, props.siteId),
-    [props.operations, props.siteId],
-  );
+  useEffect(() => {
+    getServiceOrgList({ siteId: props.siteId, type: 1 }).then(({ data = [] }) => {
+      setConfig(Columns(data as any[]));
+    });
+  }, [props.siteId]);
 
   return (
     <SchemaFormProvider<
@@ -59,7 +62,7 @@ export const MaintenanceUpdate = (
       width="900px"
       id={props.id}
       type={isCreate(props.operations) ? FormTypeEnum.Add : FormTypeEnum.Edit}
-      columns={getConfig()}
+      columns={config}
       open={props.visible}
       onOpenChange={props.onVisibleChange}
       addData={createMaintenanceWorkOrder}

@@ -12,7 +12,7 @@ import { FormRead } from '../components/FormRead';
 import { columnsRead } from './configRead';
 import { Button } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
-import { MaintenanceUpdate } from '../maintenance/Update';
+import { MaintenanceUpdate } from './Update';
 import { formatMessage } from '@/utils';
 
 const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
@@ -137,6 +137,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
         visible={maintenanceModal}
         onVisibleChange={setMaintenanceModal}
         siteId={initialValues?.siteId}
+        id={initialValues?.id}
         operations={FormOperations.CREATE}
         initialValues={{ siteName: initialValues?.siteName } as any}
         onSuccess={reload}

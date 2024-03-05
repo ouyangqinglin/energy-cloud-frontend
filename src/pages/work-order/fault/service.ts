@@ -1,5 +1,6 @@
+import type { MaintenanceOrderUpdateInfo, MaintenanceOrderUpdateParam } from '../maintenance/type';
 import type { ObstacleReportInfo } from './type';
-import { del, get, post, put } from '@/utils/request';
+import { get, post, put } from '@/utils/request';
 
 // export const createObstacleReport = (data: ServiceParam) => {
 //   return post(`/oss/obstacleReport`, data);
@@ -25,6 +26,12 @@ export const handleOrderComplete = (params: any = {}) => {
   return put(`/oss/obstacleReport/complete`, params);
 };
 
-// export const getServiceId = () => {
-//   return get<number>(`/uc/obstacleReport/orgId`);
-// };
+export const getMaintenanceWorkOrder = (data: { id?: number }) => {
+  return get<MaintenanceOrderUpdateInfo>(`/oss/maintenanceWorkOrder/details`, data);
+};
+export const updateMaintenanceWorkOrder = (data: MaintenanceOrderUpdateParam) => {
+  return put(`/oss/maintenanceWorkOrder/edit`, data);
+};
+export const createMaintenance = (data: MaintenanceOrderUpdateParam) => {
+  return post(`/oss/obstacleReport/createMaintenance`, data);
+};
