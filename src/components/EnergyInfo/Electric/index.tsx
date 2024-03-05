@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-04 15:44:38
+ * @LastEditTime: 2024-03-05 11:47:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -16,6 +16,8 @@ import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
 import { formatMessage } from '@/utils';
+import { merge } from 'lodash';
+import { useBoolean } from 'ahooks';
 
 const typeMap = [
   {
@@ -37,7 +39,7 @@ const Electric: React.FC<ComProps> = (props) => {
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const { run, loading, cancel } = useRequest(getElectic, { manual: true });
+  const [loading, { setTrue, setFalse }] = useBoolean(false);
 
   const chartOption = useMemo(() => {
     return {
@@ -66,6 +68,7 @@ const Electric: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
+    setChartData([]);
     if (deviceData?.deviceId) {
       const totalNum = chartTypeEnum.Month == chartType ? 5 : 3;
       let requestNum = 0;
@@ -79,6 +82,7 @@ const Electric: React.FC<ComProps> = (props) => {
           data: [],
         },
       ];
+      const allRequest: Promise<any>[] = [];
 
       const request = () => {
         if (requestNum < totalNum) {
@@ -107,35 +111,43 @@ const Electric: React.FC<ComProps> = (props) => {
                 .endOf('M');
             }
           }
-          run({
-            deviceId: deviceData?.deviceId,
-            type: chartType,
-            startDate: startTime?.format?.('YYYY-MM-DD'),
-            endDate: endTime?.format?.('YYYY-MM-DD'),
-            visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
-          }).then((data) => {
-            result[0].data?.push?.(
-              ...(data?.charge?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })) ||
-                []),
-            );
-            result[1].data?.push?.(
-              ...(data?.discharge?.map?.((item) => ({
-                label: item.eventTs,
-                value: item.doubleVal,
-              })) || []),
-            );
-            setChartData([...result]);
-            requestNum++;
-            request();
-          });
+          allRequest.push(
+            getElectic({
+              deviceId: deviceData?.deviceId,
+              type: chartType,
+              startDate: startTime?.format?.('YYYY-MM-DD'),
+              endDate: endTime?.format?.('YYYY-MM-DD'),
+              visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
+            }).then(({ data }) => {
+              result[0].data?.push?.(
+                ...(data?.charge?.map?.((item) => ({
+                  label: item.eventTs,
+                  value: item.doubleVal,
+                })) || []),
+              );
+              result[1].data?.push?.(
+                ...(data?.discharge?.map?.((item) => ({
+                  label: item.eventTs,
+                  value: item.doubleVal,
+                })) || []),
+              );
+              setChartData(merge([], result));
+            }),
+          );
+          requestNum++;
+          request();
         }
       };
 
+      setTrue();
       request();
+
+      Promise.allSettled(allRequest).then(() => {
+        setFalse();
+      });
 
       return () => {
         requestNum = 100;
-        cancel();
       };
     }
   }, [deviceData?.deviceId, chartType, date]);

@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-21 14:31:10
- * @LastEditTime: 2024-02-21 14:31:20
+ * @LastEditTime: 2024-03-05 10:27:43
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index copy.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
 import React from 'react';
 import { Row, Col } from 'antd';

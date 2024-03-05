@@ -352,4 +352,9 @@ export default {
   'device.debug': 'Communication message',
   'device.alarmStatus': 'Alarm status',
   'device.startOverallStatus': 'Start overall status',
+  'device.doorStatus': 'Door Status',
+  'device.gunSentence': '{name} Gun',
+  'device.chargeOutputVoltage': 'Charging Output Voltage',
+  'device.environmentalInformation': 'Environmental Information',
+  'device.powerInformation': 'Power Information',
 };

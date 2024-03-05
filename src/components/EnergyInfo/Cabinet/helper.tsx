@@ -62,4 +62,5 @@ export const energyProductIdMap = new Map([
   [DeviceTypeEnum.Wind2Energy, 'WindD'],
   [DeviceTypeEnum.SmallEnergy, 'SmallEnergy'],
   [DeviceTypeEnum.PvEnergy, 'PvEnergy'],
+  [DeviceTypeEnum.ChargeY602, 'Charge2Gun'],
 ]);

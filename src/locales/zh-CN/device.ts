@@ -340,4 +340,8 @@ export default {
   'device.debug': '通信报文',
   'device.alarmStatus': '告警状态',
   'device.startOverallStatus': '启动总状态',
+  'device.doorStatus': '柜门状态',
+  'device.gunSentence': '{name}枪',
+  'device.environmentalInformation': '环境信息',
+  'device.powerInformation': '功率信息',
 };

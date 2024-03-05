@@ -16,6 +16,7 @@ export type DeviceModelAuthorityType = {
 export type DeviceModelType = {
   type?: DeviceModelTypeEnum;
   specs?: any;
+  name?: string;
 };
 
 export type DevicePropsType = {
