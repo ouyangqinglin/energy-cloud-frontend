@@ -1,12 +1,7 @@
-export type OrderDataType = {
-  orderNumber?: string;
-  orderNumber?: string;
-  chargeMode?: string;
-  chargeStrategy?: string;
-  startTime?: string;
-  endTime?: string;
-  carVIN?: string;
-  totalElectricityQuantity?: string;
-  totalCost?: string;
-  option?: string;
+export type ConfigDataType = {
+  serialNumber?: string;
+  ConfigName?: string;
+  networkStatus?: string;
+  ratedCurrent?: string;
+  associatedHosts?: string;
 };

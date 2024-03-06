@@ -395,7 +395,6 @@ export default {
   'device.SOCAndElectric': 'SOC与电能',
   'device.SOC': 'SOC',
   'device.chargeAmount': '已充电量',
-
   'device.terminalConfig': '终端配置',
   'device.serialNumber': '序列号',
   'device.ConfigName': '名称',
@@ -403,4 +402,6 @@ export default {
   'device.ratedCurrent': '额定电流',
   'device.associatedHosts': '关联主机',
   'device.model': '型号',
+  'device.deleteTerminal': '确定删除终端',
+  'device.openTerminal': '终端将开启关联主机,其它终端会自动关闭关联关系！',
 };

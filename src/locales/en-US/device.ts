@@ -415,4 +415,7 @@ export default {
   'device.ratedCurrent': 'Rated Current',
   'device.associatedHosts': 'Associated Hosts',
   'device.model': 'Model',
+  'device.deleteTerminal': 'Confirm deletion of terminal',
+  'device.openTerminal':
+    ' terminal will activate the associated host,Other terminals will automatically close the association relationship！',
 };

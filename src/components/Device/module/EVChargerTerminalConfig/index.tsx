@@ -1,17 +1,16 @@
 import Detail from '@/components/Detail';
-import { Tabs, Button } from 'antd';
-import type { TabsProps } from 'antd';
-import styles from './index.less';
-import { useMemo, useEffect, useRef, useContext, useState } from 'react';
+import { Button, Modal, Switch } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { useEffect, useRef, useContext, useState } from 'react';
 import { formatMessage } from '@/utils';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
 import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import type { OrderDataType } from './data';
-import { columns as defaultColumns } from './config';
+import type { ConfigDataType } from './data';
+import { columns } from './config';
 import { getEmsAssociationDevice } from '@/services/equipment';
-import OrderDetail from './OrderDetail/index';
+import AddForm from './AddForm/index';
 
 export type EVChargerOrderInfoType = {
   deviceId?: string;
@@ -21,10 +20,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
   const { data: deviceData } = useContext(DeviceContext);
   const [addVisible, setAddVisible] = useState<boolean>(false);
-  const [curveVisible, setCurveVisible] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<OrderDataType>({});
 
-  const [columns, setColumns] = useState<ProColumns<OrderDataType>[]>(defaultColumns(false));
   console.log('deviceData>>', deviceData);
   console.log('props>>', props);
   const actionRef = useRef<ActionType>();
@@ -37,32 +33,11 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   });
   const mockData = [
     {
-      gunId: '1',
-      keyId: '2',
-      orderNumber: '1',
-      userId: '1',
-      deviceId: '1',
-      gunType: '1',
-      auxiliarySourceType: '1',
-      chargeStrategyParame: '1',
-      startSOC: '1',
-      endSOC: '1',
-      stopReason: '1',
-      stopId: '1',
-      stopChildId: '1',
-      chargeDuration: '1',
-      starmeterRead: '1',
-      endmeterRead: '1',
-      totalElectricityCost: '1',
-      serviceType: '1',
-      chargeMode: '2',
-      chargeStrategy: '3',
-      startTime: '4',
-      endTime: '5',
-      carVIN: '6',
-      totalElectricityQuantity: '7',
-      totalServiceCharge: '1',
-      totalCost: '8',
+      serialNumber: '1',
+      ConfigName: '1',
+      networkStatus: '1',
+      ratedCurrent: '1',
+      associatedHosts: '1',
     },
   ];
   useEffect(() => {
@@ -72,68 +47,134 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceId]);
 
-  const tabItems = useMemo<TabsProps['items']>(() => {
-    return [
-      {
-        key: 'today',
-        label: formatMessage({ id: 'device.todayOrder', defaultMessage: '今日订单' }),
-      },
-      {
-        key: 'history',
-        label: formatMessage({ id: 'device.historyOrder', defaultMessage: '历史订单' }),
-      },
-    ];
-  }, []);
+  const handleRemoveOne = (rowData: ConfigDataType) => {
+    console.log('rowData>>', rowData);
+    return true;
+  };
 
-  const onTabChange = (value: string) => {
-    if (value == 'history') {
-      setColumns(defaultColumns(true));
-    } else {
-      setColumns(defaultColumns(false));
-    }
+  const handleOpenAssociate = (rowData: ConfigDataType) => {
+    console.log('rowData>>', rowData);
+    return true;
   };
-  const actionColumn: ProColumns = {
-    title: formatMessage({ id: 'alarmManage.operate', defaultMessage: '操作' }),
-    valueType: 'option',
-    width: 100,
-    fixed: 'right',
-    render: (_, record) => {
-      const rowData = record as OrderDataType;
-      return [
-        <Button
-          type="link"
-          size="small"
-          key="edit"
-          onClick={() => {
-            setAddVisible(true);
-            setCurrentRow(rowData);
-          }}
-        >
-          {formatMessage({ id: 'taskManage.view', defaultMessage: '查看' })}
-        </Button>,
-      ];
+  const handleAdd = (rowData: ConfigDataType) => {
+    console.log('rowData>>', rowData);
+    return true;
+  };
+  const actionColumn: ProColumns[] = [
+    {
+      title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
+      dataIndex: 'associatedHosts',
+      ellipsis: true,
+      hideInSearch: true,
+      render: (_, record) => {
+        const rowData = record as ConfigDataType;
+        return [
+          <Switch
+            checked={Boolean(record.associatedHosts)}
+            key="Checke"
+            onClick={async () => {
+              Modal.confirm({
+                title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
+                content: `${rowData.ConfigName}${formatMessage({
+                  id: 'device.openTerminal',
+                  defaultMessage: '开启关联',
+                })}`,
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                onOk: async () => {
+                  const success = await handleOpenAssociate(rowData);
+                  if (success) {
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                  }
+                },
+              });
+            }}
+          />,
+        ];
+      },
     },
-  };
+    {
+      title: formatMessage({ id: 'alarmManage.operate', defaultMessage: '操作' }),
+      valueType: 'option',
+      width: 100,
+      fixed: 'right',
+      render: (_, record) => {
+        const rowData = record as ConfigDataType;
+        return [
+          <Button
+            type="link"
+            size="small"
+            danger
+            key="batchRemove"
+            onClick={async () => {
+              Modal.confirm({
+                title: formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' }),
+                content: `${formatMessage({
+                  id: 'device.deleteTerminal',
+                  defaultMessage: '确定删除终端',
+                })}${rowData.ConfigName}？`,
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                onOk: async () => {
+                  const success = await handleRemoveOne(rowData);
+                  if (success) {
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                  }
+                },
+              });
+            }}
+          >
+            {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
+          </Button>,
+        ];
+      },
+    },
+  ];
   return (
     <div>
       <Detail.Label
         title={formatMessage({ id: 'device.terminalConfig', defaultMessage: '终端配置' })}
         className="mt16"
       />
-      <YTProTable<OrderDataType>
+      <YTProTable<ConfigDataType>
         loading={loading}
         actionRef={actionRef}
-        columns={[...columns, actionColumn]}
-        toolBarRender={false}
+        columns={[...columns, ...actionColumn]}
         dataSource={mockData}
+        search={false}
         scroll={{ y: 'auto' }}
+        toolBarRender={() => [
+          <Button
+            type="primary"
+            key="add"
+            onClick={async () => {
+              setAddVisible(true);
+            }}
+          >
+            <PlusOutlined />{' '}
+            {formatMessage({ id: 'pages.searchTable.new', defaultMessage: '新建' })}
+          </Button>,
+        ]}
       />
-      <OrderDetail
+      <AddForm
+        onSubmit={async (values) => {
+          let success = false;
+          success = await handleAdd({ ...values });
+          if (success) {
+            setAddVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
         onCancel={() => {
           setAddVisible(false);
         }}
         visible={addVisible}
-        values={currentRow}
       />
     </div>
   );
