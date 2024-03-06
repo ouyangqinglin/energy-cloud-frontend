@@ -140,7 +140,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               name="productIds"
               options={productIdsEnum as any}
               mode="multiple"
-              fieldProps={{ fieldNames: { label: 'name', value: 'id' } }}
+              fieldProps={{ fieldNames: { label: 'model', value: 'id' } }}
               label={intl.formatMessage({
                 id: 'physicalModel.productModels',
                 defaultMessage: '关联产品',
