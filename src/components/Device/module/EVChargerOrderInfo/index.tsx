@@ -2,14 +2,17 @@ import Detail from '@/components/Detail';
 import { Tabs, Button } from 'antd';
 import type { TabsProps } from 'antd';
 import styles from './index.less';
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo, useEffect, useRef, useContext, useState } from 'react';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { OrderDataType } from './data';
-import { columns } from './config';
+import { columns as defaultColumns } from './config';
 import { getEmsAssociationDevice } from '@/services/equipment';
+import OrderDetail from './OrderDetail/index';
+import OrderCurve from './OrderCurve/index';
 
 export type EVChargerOrderInfoType = {
   deviceId?: string;
@@ -17,6 +20,14 @@ export type EVChargerOrderInfoType = {
 
 const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
+  const { data: deviceData } = useContext(DeviceContext);
+  const [detailVisible, setDetailVisible] = useState<boolean>(false);
+  const [curveVisible, setCurveVisible] = useState<boolean>(false);
+  const [currentRow, setCurrentRow] = useState<OrderDataType>({});
+
+  const [columns, setColumns] = useState<ProColumns<OrderDataType>[]>(defaultColumns(false));
+  console.log('deviceData>>', deviceData);
+  console.log('props>>', props);
   const actionRef = useRef<ActionType>();
   const {
     data: associationData,
@@ -25,6 +36,36 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   } = useRequest(getEmsAssociationDevice, {
     manual: true,
   });
+  const mockData = [
+    {
+      gunId: '1',
+      keyId: '2',
+      orderNumber: '1',
+      userId: '1',
+      deviceId: '1',
+      gunType: '1',
+      auxiliarySourceType: '1',
+      chargeStrategyParame: '1',
+      startSOC: '1',
+      endSOC: '1',
+      stopReason: '1',
+      stopId: '1',
+      stopChildId: '1',
+      chargeDuration: '1',
+      starmeterRead: '1',
+      endmeterRead: '1',
+      totalElectricityCost: '1',
+      serviceType: '1',
+      chargeMode: '2',
+      chargeStrategy: '3',
+      startTime: '4',
+      endTime: '5',
+      carVIN: '6',
+      totalElectricityQuantity: '7',
+      totalServiceCharge: '1',
+      totalCost: '8',
+    },
+  ];
   useEffect(() => {
     if (deviceId) {
       run({ deviceId });
@@ -35,32 +76,54 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
       {
-        key: '1',
+        key: 'today',
         label: formatMessage({ id: 'device.todayOrder', defaultMessage: '今日订单' }),
       },
       {
-        key: '2',
+        key: 'history',
         label: formatMessage({ id: 'device.historyOrder', defaultMessage: '历史订单' }),
       },
     ];
   }, []);
 
   const onTabChange = (value: string) => {
-    console.log('value>>', value);
+    if (value == 'history') {
+      setColumns(defaultColumns(true));
+    } else {
+      setColumns(defaultColumns(false));
+    }
   };
   const actionColumn: ProColumns = {
     title: formatMessage({ id: 'alarmManage.operate', defaultMessage: '操作' }),
     valueType: 'option',
     width: 100,
     fixed: 'right',
-    hideInTable: true,
     render: (_, record) => {
-      return (
-        <>
-          <Button>查看</Button>
-          <Button>曲线</Button>
-        </>
-      );
+      const rowData = record as OrderDataType;
+      return [
+        <Button
+          type="link"
+          size="small"
+          key="edit"
+          onClick={() => {
+            setDetailVisible(true);
+            setCurrentRow(rowData);
+          }}
+        >
+          {formatMessage({ id: 'taskManage.view', defaultMessage: '查看' })}
+        </Button>,
+        <Button
+          type="link"
+          size="small"
+          key="edit"
+          onClick={() => {
+            setCurveVisible(true);
+            setCurrentRow(rowData);
+          }}
+        >
+          {formatMessage({ id: 'device.curve', defaultMessage: '曲线' })}
+        </Button>,
+      ];
     },
   };
   return (
@@ -71,15 +134,26 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
       />
       <Tabs className={styles.tabs} items={tabItems} onChange={onTabChange} />
       <YTProTable<OrderDataType>
-        className="mb16"
         loading={loading}
-        search={false}
-        options={false}
         actionRef={actionRef}
         columns={[...columns, actionColumn]}
         toolBarRender={false}
-        dataSource={associationData}
+        dataSource={mockData}
         scroll={{ y: 'auto' }}
+      />
+      <OrderDetail
+        onCancel={() => {
+          setDetailVisible(false);
+        }}
+        visible={detailVisible}
+        values={currentRow}
+      />
+      <OrderCurve
+        onCancel={() => {
+          setCurveVisible(false);
+        }}
+        visible={curveVisible}
+        values={currentRow}
       />
     </div>
   );
