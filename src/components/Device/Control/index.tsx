@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-02-23 17:27:46
+ * @LastEditTime: 2024-03-06 14:16:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -661,9 +661,9 @@ const Control: React.FC<ControlType> = memo((props) => {
   const getGroupItems = useCallback(
     (modelDescribeItem: DeviceModelDescribeType) => {
       const result: GroupItem[] = [];
-      switch (modelDescribeItem.type) {
-        case DeviceModelDescribeTypeEnum.Group:
-          if (passAuthority(modelDescribeItem?.authority)) {
+      if (passAuthority(modelDescribeItem?.authority)) {
+        switch (modelDescribeItem.type) {
+          case DeviceModelDescribeTypeEnum.Group:
             if (
               modelDescribeItem.children &&
               (modelDescribeItem.children.length > 1 ||
@@ -691,52 +691,52 @@ const Control: React.FC<ControlType> = memo((props) => {
                 result.push(...getGroupItems(item));
               }
             });
-          }
-          break;
-        case DeviceModelDescribeTypeEnum.PropertyGroup:
-        case DeviceModelDescribeTypeEnum.Service:
-          result.push(getServiceItem(modelDescribeItem));
-          break;
-        case DeviceModelDescribeTypeEnum.Tab:
-          const tabItems: GroupItem['tabItems'] = [];
-          modelDescribeItem?.children?.forEach?.((item) => {
-            if (passAuthority(item?.authority)) {
-              if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
-                const tabGroupItems: GroupItem[] = [];
-                (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
-                  tabGroupItems.push(...getGroupItems(tabGroupItem));
-                });
-                tabItems.push({
-                  key: item.id || '',
-                  label: item.name,
-                  groupItems: tabGroupItems,
-                });
+            break;
+          case DeviceModelDescribeTypeEnum.PropertyGroup:
+          case DeviceModelDescribeTypeEnum.Service:
+            result.push(getServiceItem(modelDescribeItem));
+            break;
+          case DeviceModelDescribeTypeEnum.Tab:
+            const tabItems: GroupItem['tabItems'] = [];
+            modelDescribeItem?.children?.forEach?.((item) => {
+              if (passAuthority(item?.authority)) {
+                if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
+                  const tabGroupItems: GroupItem[] = [];
+                  (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
+                    tabGroupItems.push(...getGroupItems(tabGroupItem));
+                  });
+                  tabItems.push({
+                    key: item.id || '',
+                    label: item.name,
+                    groupItems: tabGroupItems,
+                  });
+                }
               }
-            }
-          });
-          result.push({
-            tabItems,
-          });
-          break;
-        case DeviceModelDescribeTypeEnum.Component:
-          if (modelDescribeItem.id) {
-            const Component = components[modelDescribeItem.id];
-            result.push({
-              component: (
-                <Suspense
-                  fallback={
-                    <div className="tx-center">
-                      <Spin />
-                    </div>
-                  }
-                >
-                  <Component deviceId={deviceData?.deviceId} />
-                </Suspense>
-              ),
             });
-          }
-          break;
-        default:
+            result.push({
+              tabItems,
+            });
+            break;
+          case DeviceModelDescribeTypeEnum.Component:
+            if (modelDescribeItem.id) {
+              const Component = components[modelDescribeItem.id];
+              result.push({
+                component: (
+                  <Suspense
+                    fallback={
+                      <div className="tx-center">
+                        <Spin />
+                      </div>
+                    }
+                  >
+                    <Component deviceId={deviceData?.deviceId} />
+                  </Suspense>
+                ),
+              });
+            }
+            break;
+          default:
+        }
       }
       return result;
     },

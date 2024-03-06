@@ -27,7 +27,10 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
   const location = useLocation<LocationType>();
   const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
-  const { authorityMap } = useAuthority(['siteManage:siteConfig:baseInfo:siteDone']);
+  const { authorityMap } = useAuthority([
+    'siteManage:siteConfig:baseInfo:siteDone',
+    'oss:site:update',
+  ]);
   const {
     loading,
     data: detailData,
@@ -225,7 +228,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
           })}
           extra={
             detailData?.constructionStatus === 0 &&
-              authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
+            authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
               <Button type="primary" loading={loading} onClick={onCompleteClick}>
                 {formatMessage({ id: 'siteManage.set.siteComplete', defaultMessage: '站点完工' })}
               </Button>
@@ -244,6 +247,15 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
         <Card
           className="my16"
           title={formatMessage({ id: 'siteManage.set.baseInfo', defaultMessage: '基础信息' })}
+          extra={
+            authorityMap.get('oss:site:update') ? (
+              <Button type="primary" loading={loading} onClick={switchOpen}>
+                {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+              </Button>
+            ) : (
+              ''
+            )
+          }
         >
           <Detail
             data={detailData}
