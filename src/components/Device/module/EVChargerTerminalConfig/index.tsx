@@ -12,7 +12,6 @@ import type { OrderDataType } from './data';
 import { columns as defaultColumns } from './config';
 import { getEmsAssociationDevice } from '@/services/equipment';
 import OrderDetail from './OrderDetail/index';
-import OrderCurve from './OrderCurve/index';
 
 export type EVChargerOrderInfoType = {
   deviceId?: string;
@@ -21,7 +20,7 @@ export type EVChargerOrderInfoType = {
 const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
   const { data: deviceData } = useContext(DeviceContext);
-  const [detailVisible, setDetailVisible] = useState<boolean>(false);
+  const [addVisible, setAddVisible] = useState<boolean>(false);
   const [curveVisible, setCurveVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<OrderDataType>({});
 
@@ -106,22 +105,11 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           size="small"
           key="edit"
           onClick={() => {
-            setDetailVisible(true);
+            setAddVisible(true);
             setCurrentRow(rowData);
           }}
         >
           {formatMessage({ id: 'taskManage.view', defaultMessage: '查看' })}
-        </Button>,
-        <Button
-          type="link"
-          size="small"
-          key="edit"
-          onClick={() => {
-            setCurveVisible(true);
-            setCurrentRow(rowData);
-          }}
-        >
-          {formatMessage({ id: 'device.curve', defaultMessage: '曲线' })}
         </Button>,
       ];
     },
@@ -129,10 +117,9 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   return (
     <div>
       <Detail.Label
-        title={formatMessage({ id: 'device.orderInformation', defaultMessage: '订单信息' })}
+        title={formatMessage({ id: 'device.terminalConfig', defaultMessage: '终端配置' })}
         className="mt16"
       />
-      <Tabs className={styles.tabs} items={tabItems} onChange={onTabChange} />
       <YTProTable<OrderDataType>
         loading={loading}
         actionRef={actionRef}
@@ -143,16 +130,9 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
       />
       <OrderDetail
         onCancel={() => {
-          setDetailVisible(false);
+          setAddVisible(false);
         }}
-        visible={detailVisible}
-        values={currentRow}
-      />
-      <OrderCurve
-        onCancel={() => {
-          setCurveVisible(false);
-        }}
-        visible={curveVisible}
+        visible={addVisible}
         values={currentRow}
       />
     </div>
