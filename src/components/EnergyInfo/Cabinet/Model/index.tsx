@@ -55,7 +55,7 @@ const Model: React.FC<CabinetProps> = (props) => {
 
   const scaleNum = useMemo(() => {
     const scaleWidth = (bodySize?.width || 964.83) / 964.83;
-    const scaleHeight = (bodySize?.height || 728) / 728;
+    const scaleHeight = (bodySize?.height || 300) / 300;
     return Math.min(scaleWidth, scaleHeight);
   }, [bodySize]);
 

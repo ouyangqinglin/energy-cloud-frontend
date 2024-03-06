@@ -344,4 +344,12 @@ export default {
   'device.gunSentence': '{name}枪',
   'device.environmentalInformation': '环境信息',
   'device.powerInformation': '功率信息',
+  'device.chargingTrends': '充电趋势',
+  'device.chargeCapacity': '充电电量',
+  'device.chargingPower1': '充电功率',
+  'device.chargeNumber': '充电次数',
+  'device.chargeNumberUnit': '充电次数（次）',
+  'device.chargingGun': '充电枪',
+  'device.hostChargingTrends': '主机充电趋势',
+  'device.terminalChargingTrends': '终端充电趋势',
 };
