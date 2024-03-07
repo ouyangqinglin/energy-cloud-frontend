@@ -1,6 +1,5 @@
-import { DatePicker, Card } from 'antd';
 import moment from 'moment';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import TypeChart from '@/components/Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
 import Detail from '@/components/Detail';
@@ -8,17 +7,7 @@ import { Voption, Coption } from './config';
 import { formatMessage } from '@/utils';
 
 const EVChargerChart = () => {
-  const [VDate, setVDate] = useState(moment());
-  const [CDate, setCDate] = useState(moment());
-
   const chartRef = useRef() as any;
-
-  const onVChange = (value: any) => {
-    setVDate(value);
-  };
-  const onCChange = (value: any) => {
-    setCDate(value);
-  };
   //mock
   const VChartData = [
     {
@@ -45,7 +34,10 @@ const EVChargerChart = () => {
     },
     {
       name: formatMessage({ id: 'device.maxAllowCurrent', defaultMessage: '最高允许充电电流' }),
-      data: [],
+      data: [
+        { label: '2024-03-05 08:10:00', value: 60 },
+        { label: '2024-03-05 08:15:00', value: 80 },
+      ],
     },
     { name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }), data: [] },
     { name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '电输出电流' }), data: [] },
@@ -98,39 +90,32 @@ const EVChargerChart = () => {
         title={formatMessage({ id: 'device.todayCurve', defaultMessage: '今日曲线' })}
         className="mt16"
       />
-      <Card
+      <Detail.Label
         title={formatMessage({ id: 'device.voltageCurrentCurve', defaultMessage: '电压电流曲线' })}
-        extra={
-          <DatePicker defaultValue={VDate} value={VDate} onChange={onVChange} picker={'date'} />
-        }
-      >
-        <TypeChart
-          type={chartTypeEnum.Day}
-          step={5}
-          chartRef={chartRef}
-          date={VDate}
-          option={Voption}
-          style={{ height: '400px' }}
-          data={VChartData}
-        />
-      </Card>
-      <Card
-        className="mt30"
+        className="mt16"
+      />
+      <TypeChart
+        type={chartTypeEnum.Day}
+        step={5}
+        chartRef={chartRef}
+        date={moment()}
+        option={Voption}
+        style={{ height: '400px' }}
+        data={VChartData}
+      />
+      <Detail.Label
         title={formatMessage({ id: 'device.tempCurve', defaultMessage: '温度曲线' })}
-        extra={
-          <DatePicker defaultValue={CDate} value={CDate} onChange={onCChange} picker={'date'} />
-        }
-      >
-        <TypeChart
-          type={chartTypeEnum.Day}
-          step={5}
-          chartRef={chartRef}
-          date={CDate}
-          option={Coption}
-          style={{ height: '400px' }}
-          data={CChartData}
-        />
-      </Card>
+        className="mt16"
+      />
+      <TypeChart
+        type={chartTypeEnum.Day}
+        step={5}
+        chartRef={chartRef}
+        date={moment()}
+        option={Coption}
+        style={{ height: '400px' }}
+        data={CChartData}
+      />
     </div>
   );
 };

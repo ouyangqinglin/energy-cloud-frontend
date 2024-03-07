@@ -1,5 +1,6 @@
 export default {
   'equipmentList.deleteTips': '确定要删除该设备吗？',
+  'equipmentList.exportTips': '确定要导出设备模版吗？',
   'equipmentList.unbindTips': '确定要解绑该设备吗？',
   'equipmentList.affSite': '所属站点',
   'equipmentList.comStatus': '通信状态',
@@ -8,4 +9,10 @@ export default {
   'equipmentList.subRequire': '子系统必选',
   'equipmentList.devicePhoto': '设备照片',
   'equipmentList.snForEms': 'EMS 设备SN',
+  'equipmentList.imei': 'IMEI/ICCID',
+  'equipmentList.installStatus': '安装状态',
+  'equipmentList.unInstall': '未安装',
+  'equipmentList.installed': '已安装',
+  'equipmentList.exportTemplate': '导出设备模板',
+  'equipmentList.importTemplate': '导入设备',
 };

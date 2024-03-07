@@ -32,7 +32,7 @@ const OrderDetail: React.FC<DetailProps> = (props) => {
     >
       <Descriptions column={24}>
         {Object.keys(values).map((item) => {
-          const label = columnstitle[item as keyof typeof columnstitle];
+          const label = columnstitle[item as keyof typeof columnstitle] || item;
           return (
             <Descriptions.Item label={label} key={item} span={8}>
               {values[item as keyof typeof values] || '-'}

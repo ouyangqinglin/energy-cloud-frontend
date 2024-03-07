@@ -26,8 +26,8 @@ export const Voption = {
   grid: {
     top: 30,
     bottom: 50,
-    right: 15,
-    left: 0,
+    right: 30,
+    left: 15,
   },
   legend: {
     show: true,
@@ -53,49 +53,49 @@ export const Voption = {
   series: [
     {
       name: formatMessage({ id: 'device.maxAllowVoltage', defaultMessage: '最高允许充电电压' }),
-      color: '#ffd15c',
+      color: '#1890FF',
       type: 'line',
       yAxisIndex: 0,
     },
     {
       name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }),
-      color: '#007DFF',
+      color: '#2FC25B',
       type: 'line',
       yAxisIndex: 0,
     },
     {
       name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电出电压' }),
-      color: '#ffd15c',
+      color: '#5D7092',
       type: 'line',
       yAxisIndex: 0,
     },
     {
       name: formatMessage({ id: 'device.bMSMeasureVoltage', defaultMessage: 'BMS测量电压' }),
-      color: '#ffd15c',
+      color: '#FAC958',
       type: 'line',
       yAxisIndex: 0,
     },
     {
       name: formatMessage({ id: 'device.maxAllowCurrent', defaultMessage: '最高允许充电电流' }),
-      color: '#007DFF',
+      color: '#67D7FC',
       type: 'line',
       yAxisIndex: 1,
     },
     {
       name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }),
-      color: '#007DFF',
+      color: '#FF7070',
       type: 'line',
       yAxisIndex: 1,
     },
     {
       name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '电输出电流' }),
-      color: '#007DFF',
+      color: '#8080FF',
       type: 'line',
       yAxisIndex: 1,
     },
     {
       name: formatMessage({ id: 'device.bMSMeasureCurrent', defaultMessage: 'BMS测量电流' }),
-      color: '#007DFF',
+      color: '#F79631',
       type: 'line',
       yAxisIndex: 1,
     },
@@ -117,7 +117,7 @@ export const Coption = {
     top: 30,
     bottom: 50,
     right: 15,
-    left: 0,
+    left: 15,
   },
   legend: {
     show: true,
@@ -143,7 +143,7 @@ export const Coption = {
   series: [
     {
       name: formatMessage({ id: 'device.gunTemp', defaultMessage: '枪温度' }),
-      color: '#ffd15c',
+      color: '#1890FF',
       type: 'line',
     },
     {
@@ -151,7 +151,7 @@ export const Coption = {
         id: 'device.singleBatteryMaxtemp',
         defaultMessage: '单体电池最高温度',
       }),
-      color: '#ffd15c',
+      color: '#2FC25B',
       type: 'line',
     },
     {
@@ -159,12 +159,12 @@ export const Coption = {
         id: 'device.singleBatteryMintemp',
         defaultMessage: '单体电池最低温度',
       }),
-      color: '#ffd15c',
+      color: '#67D7FC',
       type: 'line',
     },
     {
       name: formatMessage({ id: 'device.chargeGunAnodetemp', defaultMessage: '充电枪正极温度' }),
-      color: '#ffd15c',
+      color: '#F79631',
       type: 'line',
     },
     {
@@ -172,7 +172,7 @@ export const Coption = {
         id: 'device.chargeGunCathodetemp',
         defaultMessage: '充电枪负极负温度',
       }),
-      color: '#ffd15c',
+      color: '#FAC958',
       type: 'line',
     },
   ],

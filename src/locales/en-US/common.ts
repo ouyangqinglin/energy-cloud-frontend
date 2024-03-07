@@ -38,6 +38,8 @@ export default {
   'common.software': 'Software',
   'common.uploadDate': 'Upload Date',
   'common.index': 'No',
+  'common.custom': 'custom',
+  'common.predefine': 'predefine',
   'common.versionSentence': '{name} version',
   'common.version': 'Version',
   'common.description': 'Description',

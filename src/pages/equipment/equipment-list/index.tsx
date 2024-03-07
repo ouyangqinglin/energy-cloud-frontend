@@ -7,19 +7,19 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
-import { Button, Modal, message, Tooltip } from 'antd';
+import { Button, Modal, message, Upload } from 'antd';
 import { useHistory, useModel } from 'umi';
 import {
   CaretDownFilled,
   CaretRightFilled,
-  DownOutlined,
   PlusOutlined,
-  RightOutlined,
+  ExportOutlined,
+  ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { removeData, unbindDevice } from './service';
-import { onlineStatus } from '@/utils/dict';
+import { removeData, unbindDevice, exportTemp, importTemp } from './service';
+import { onlineStatus, onInstallStatus } from '@/utils/dict';
 import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
@@ -109,6 +109,22 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     }
   }, []);
 
+  const importDevice = async (file: any) => {
+    const hide = message.loading('正在导入');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      await importTemp(formData);
+      hide();
+      message.success('导入成功');
+      actionRef?.current?.reload?.();
+    } catch (error) {
+      hide();
+      message.error('导出失败，请重试');
+    }
+    return false;
+  };
+
   const onDetailClick = useCallback(
     (rowData: DeviceDataType) => {
       history.push({
@@ -141,6 +157,33 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
       (!isStationChild && authorityMap.get('iot:device:add'))
         ? [
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                Modal.confirm({
+                  title: formatMessage({ id: 'common.export', defaultMessage: '导出' }),
+                  content: formatMessage({
+                    id: 'equipmentList.exportTips',
+                    defaultMessage: '确定要导出设备模版吗？',
+                  }),
+                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                  onOk: () => {
+                    exportTemp();
+                  },
+                });
+              }}
+            >
+              <ExportOutlined />
+              <FormattedMessage id="equipmentList.exportTemplate" defaultMessage="导出设备模板" />
+            </Button>,
+            <Upload key="upload" beforeUpload={importDevice} showUploadList={false}>
+              <Button type="primary">
+                <ImportOutlined />
+                <FormattedMessage id="equipmentList.importTemplate" defaultMessage="导入设备" />
+              </Button>
+            </Upload>,
             <Button type="primary" key="add" onClick={onAddClick}>
               <PlusOutlined />
               <FormattedMessage id="common.add" defaultMessage="新建" />
@@ -327,6 +370,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'connectStatus',
         valueType: 'select',
         valueEnum: onlineStatus,
+        width: 120,
+      },
+      {
+        title: formatMessage({ id: 'equipmentList.imei', defaultMessage: 'IMEI/ICCID' }),
+        dataIndex: 'imei',
+      },
+      {
+        title: formatMessage({ id: 'equipmentList.installStatus', defaultMessage: '安装状态' }),
+        dataIndex: 'installStatus',
+        valueType: 'select',
+        valueEnum: onInstallStatus,
         width: 120,
       },
       {
