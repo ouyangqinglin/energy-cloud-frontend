@@ -42,7 +42,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
         key: '6',
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
-            <Adjust deviceId={deviceData?.deviceId || ''} />
+            <Adjust deviceId={deviceData?.deviceId || ''} productTypeId={deviceData?.productTypeId} />
           </ErrorBoundary>
         ),
       },
@@ -109,7 +109,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
         ),
       },
     ];
-    return DeviceProductTypeEnum.Ems == deviceData?.productTypeId ? [...arr, ...debug] : arr;
+    return [DeviceProductTypeEnum.Ems, DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ACChargePile].includes(+deviceData?.productTypeId) ? [...arr, ...debug] : arr;
   }, [deviceData]);
 
   return (

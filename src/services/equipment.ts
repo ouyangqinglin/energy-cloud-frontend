@@ -343,3 +343,10 @@ export const editGroupName = (data: any) => {
     data,
   });
 };
+
+export const sendDebug = (data: any) => {
+  return request(`/iot/deviceDebug/send`, {
+    method: 'POST',
+    data,
+  });
+};
