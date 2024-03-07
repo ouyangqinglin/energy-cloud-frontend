@@ -263,19 +263,18 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
         <Row gutter={[16, 16]}>
           <Col span={12} order={1}>
             <ProFormText
+              disabled={showType == 'check'}
               name="name"
               label={intl.formatMessage({
                 id: 'physicalModel.name',
                 defaultMessage: '物模型名称',
               })}
               width="xl"
-              placeholder="请输入物模型名称"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: true,
-                  message: (
-                    <FormattedMessage id="请输入物模型名称！" defaultMessage="请输入物模型名称！" />
-                  ),
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
               ]}
             />
@@ -283,16 +282,17 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
           <Col span={12} order={2}>
             <ProFormText
               name="remark"
+              disabled={showType == 'check'}
               label={intl.formatMessage({
                 id: 'physicalModel.remark',
                 defaultMessage: '备注',
               })}
               width="xl"
-              placeholder="请输入备注"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: false,
-                  message: <FormattedMessage id="请输入备注！" defaultMessage="请输入备注！" />,
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
               ]}
             />

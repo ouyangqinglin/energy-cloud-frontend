@@ -46,6 +46,8 @@ export default {
   'common.viewDetail': '查看详情',
   'common.unbind': '解绑',
   'common.unbindSuccess': '解绑成功',
+  'common.custom': '自定义',
+  'common.predefine': '预定义',
 
   'common.operateSuccess': '操作成功',
   'common.power': '功率',

@@ -18,6 +18,7 @@ const { Search } = Input;
 
 type ConfigTreeProps = {
   config?: ModeTreeDataNode[];
+  showType: string;
 };
 
 const getName = (name: any): string => {
@@ -74,7 +75,7 @@ let treeNode: ModeTreeDataNode;
 
 const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const intl = useIntl();
-  const { config } = props;
+  const { config, showType } = props;
   const [form] = Form.useForm();
   const [expandedKeys, setExpandedKeys] = useState<(string | null)[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
@@ -291,20 +292,29 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         expandedKeys={expandedKeys}
         autoExpandParent={autoExpandParent}
         treeData={treeData}
-        draggable
+        draggable={showType !== 'check'}
         selectable={false}
         onDrop={onDrop}
         fieldNames={{ title: 'name' }}
         titleRender={(nodeData: ModeTreeDataNode) => (
           <>
             {nodeData?.modelName ? `${nodeData.name}(${nodeData?.modelName})` : nodeData.name}
-            <EditOutlined style={{ marginLeft: '20px' }} onClick={() => editTree(nodeData)} />
-            <PlusCircleOutlined style={{ marginLeft: '10px' }} onClick={() => addTree(nodeData)} />
-            {nodeData.id !== 'runningData' ? (
-              <MinusCircleOutlined
-                style={{ marginLeft: '10px' }}
-                onClick={() => deleteTree(nodeData)}
-              />
+            {showType !== 'check' ? (
+              <>
+                <EditOutlined style={{ marginLeft: '20px' }} onClick={() => editTree(nodeData)} />
+                <PlusCircleOutlined
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => addTree(nodeData)}
+                />
+                {nodeData.id !== 'runningData' ? (
+                  <MinusCircleOutlined
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => deleteTree(nodeData)}
+                  />
+                ) : (
+                  ''
+                )}
+              </>
             ) : (
               ''
             )}

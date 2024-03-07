@@ -7,6 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\service.ts
  */
 import request from '@/utils/request';
+import { downLoadXlsx } from '@/utils/downloadfile';
 
 export const getTabs = (params: any) => {
   return request(`/iot/device/summary`, {
@@ -25,6 +26,16 @@ export const removeData = (params: any) => {
 export const unbindDevice = (data: any) => {
   return request(`/iot/device/deviceUnbindSite`, {
     method: 'PUT',
+    data,
+  });
+};
+
+export const exportTemp = () => {
+  return downLoadXlsx(`/iot/device/exportDeviceTemplate`, {}, '设备导入模版.xlsx', 'GET');
+};
+export const importTemp = (data: any) => {
+  return request(`/iot/device/excelImportDevice`, {
+    method: 'POST',
     data,
   });
 };

@@ -106,6 +106,15 @@ export const onlineStatus: ValueEnum = {
   },
 };
 
+export const onInstallStatus = {
+  0: {
+    text: formatMessage({ id: 'equipmentList.unInstall', defaultMessage: '未安装' }),
+  },
+  1: {
+    text: formatMessage({ id: 'equipmentList.installed', defaultMessage: '已安装' }),
+  },
+};
+
 export const onlineStatus1 = {
   [OnlineStatusEnum.None]: {
     text: formatMessage({ id: 'common.notConfigured', defaultMessage: '未配置' }),

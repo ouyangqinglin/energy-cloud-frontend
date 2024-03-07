@@ -6,6 +6,7 @@ import type { PageTemplateType, ModeTreeDataNode } from '../data';
 import { platformEnum, defaultData, getUniqueNumber } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
+import { formatMessage } from '@/utils';
 
 export type MenuFormProps = {
   onCancel: () => void;
@@ -84,7 +85,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   return (
     <Modal
       width={1000}
-      title={intl.formatMessage({
+      title={formatMessage({
         id: 'physicalModel',
         defaultMessage: `${showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'}`,
       })}
@@ -98,18 +99,19 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           <Col span={24} order={1}>
             <ProFormSelect
               options={platformEnum}
+              disabled={showType == 'check'}
               width="xl"
               onChange={onPlatformChange}
               name="platform"
-              label={intl.formatMessage({
+              label={formatMessage({
                 id: 'pageTemplate.platform',
                 defaultMessage: '引用端',
               })}
-              placeholder="请选择引用端"
+              placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="请选择引用端！" defaultMessage="请选择引用端！" />,
+                  message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                 },
               ]}
             />
@@ -119,18 +121,17 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           <Col span={12} order={1}>
             <ProFormText
               name="name"
+              disabled={showType == 'check'}
               label={intl.formatMessage({
                 id: 'pageTemplate.name',
                 defaultMessage: '页面名称',
               })}
               width="xl"
-              placeholder="请输入页面名称"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: true,
-                  message: (
-                    <FormattedMessage id="请输入页面名称！" defaultMessage="请输入页面名称！" />
-                  ),
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
               ]}
             />
@@ -138,6 +139,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           <Col span={12} order={2}>
             <ProFormSelect
               name="productIds"
+              disabled={showType == 'check'}
               options={productIdsEnum as any}
               mode="multiple"
               fieldProps={{ fieldNames: { label: 'model', value: 'id' } }}
@@ -146,13 +148,11 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '关联产品',
               })}
               width="xl"
-              placeholder="请选择关联产品"
+              placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请选择关联产品！" defaultMessage="请选择关联产品！" />
-                  ),
+                  message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                 },
               ]}
             />
@@ -160,7 +160,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
         </Row>
         <Row gutter={[16, 16]}>
           <Col span={24} order={1}>
-            <ConfigTree ref={treeRef} config={config} />
+            <ConfigTree ref={treeRef} showType={showType} config={config} />
           </Col>
         </Row>
       </Form>
