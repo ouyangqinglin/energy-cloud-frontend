@@ -1,5 +1,7 @@
 .adjust {
   padding: 24px;
+  display: flex;
+  justify-content: space-between;
   .title {
     display: flex;
     align-items: center;
@@ -10,6 +12,38 @@
     }
     button {
       margin-right: 10px;
+    }
+  }
+  .message {
+    flex: 1;
+    height: 50vh;
+  }
+  .send {
+    margin-left: 40px;
+    flex: 0.3;
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      div {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      :global {
+        button {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .data {
+    margin-top: 20px;
+    :global {
+      .ant-input {
+        border: 1px solid #dcdcdc;
+        border-radius: 8px;
+        height: 50vh;
+      }
     }
   }
   .parent {
