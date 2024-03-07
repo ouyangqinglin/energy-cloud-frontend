@@ -52,7 +52,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
       stopId: '1',
       stopChildId: '1',
       chargeDuration: '1',
-      starmeterRead: '1',
+      startmeterRead: '1',
       endmeterRead: '1',
       totalElectricityCost: '1',
       serviceType: '1',

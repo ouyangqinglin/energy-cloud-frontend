@@ -105,7 +105,10 @@ const Charge: React.FC = () => {
           </Col>
           <Col span={10}>
             <Trend
-                label={formatMessage({ id: 'device.terminalChargingTrends', defaultMessage: '终端充电趋势' })}
+              label={formatMessage({
+                id: 'device.terminalChargingTrends',
+                defaultMessage: '终端充电趋势',
+              })}
               className="mt20"
               deviceData={terminalsDeviceData[activeIndex]}
               request={getPower}
