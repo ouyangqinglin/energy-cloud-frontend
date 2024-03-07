@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Skeleton, DatePicker } from 'antd';
+import { Skeleton, DatePicker, Spin } from 'antd';
 import { useRequest } from 'umi';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { getPower } from '../service';
@@ -41,7 +41,7 @@ const Power: React.FC<ComProps> = (props) => {
     return {
       grid: {
         top: 30,
-        bottom: 50,
+        bottom: 30,
         right: 60,
       },
       tooltip: {
@@ -77,6 +77,7 @@ const Power: React.FC<ComProps> = (props) => {
           start: 0,
           end: 100,
           height: 15,
+          bottom: 10,
         },
       ],
       visualMap: {
@@ -169,6 +170,7 @@ const Power: React.FC<ComProps> = (props) => {
             onChange={onChange}
             allowClear={false}
           />
+          {powerLoading && <Spin className="ml12" />}
         </div>
         <TypeChart date={date} option={chartOption} data={chartData} min={-10} />
       </div>

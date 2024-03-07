@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 16:45:44
- * @LastEditTime: 2024-01-29 18:55:08
+ * @LastEditTime: 2024-03-06 10:00:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\helper.tsx
  */
@@ -63,4 +63,8 @@ export const energyProductIdMap = new Map([
   [DeviceTypeEnum.SmallEnergy, 'SmallEnergy'],
   [DeviceTypeEnum.PvEnergy, 'PvEnergy'],
   [DeviceTypeEnum.ChargeY602, 'Charge2Gun'],
+  [DeviceTypeEnum.ChargeY601, 'Charge1Gun'],
+  [DeviceTypeEnum.ChargeMaster, 'ChargeMaster'],
+  [DeviceTypeEnum.ChargeTerminal1, 'ChargeTerminal1Gun'],
+  [DeviceTypeEnum.ChargeTerminal2, 'ChargeTerminal2Gun'],
 ]);

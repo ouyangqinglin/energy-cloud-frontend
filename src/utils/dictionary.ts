@@ -65,6 +65,8 @@ export enum DeviceProductTypeEnum {
   PvEnergy = 543,
   Dehumidifier = 544,
   FireFight = 545,
+  ChargeMaster = 546,
+  ChargeTerminal = 547,
 }
 
 export enum DeviceTypeEnum {
