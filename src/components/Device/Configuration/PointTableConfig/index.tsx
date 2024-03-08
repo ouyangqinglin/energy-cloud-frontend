@@ -9,10 +9,11 @@
 import React, { useMemo } from 'react';
 import Detail from '@/components/Detail';
 import type { GroupItem } from '@/components/Detail';
-import { Button } from 'antd';
+import { Button, Upload, message } from 'antd';
 import type { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
-import { download } from './service';
+import { download, importConfig } from './service';
+import { ExportOutlined, ImportOutlined } from '@ant-design/icons';
 
 export type CommunityProps = {
   deviceData: DeviceDataType;
@@ -24,8 +25,19 @@ const CommunityDetail: React.FC<CommunityProps> = (props) => {
     const deviceId = deviceData?.deviceId || '';
     download(deviceId);
   };
-  const importFile = () => {
-    console.log('importFile>>', 'importFile');
+  const importFile = async (file: any) => {
+    const hide = message.loading('正在导入');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      await importConfig(formData);
+      hide();
+      message.success('导入成功');
+    } catch (error) {
+      hide();
+      message.error('导出失败，请重试');
+    }
+    return false;
   };
   const communityItems = useMemo(() => {
     const groupItem: GroupItem[] = [];
@@ -39,11 +51,16 @@ const CommunityDetail: React.FC<CommunityProps> = (props) => {
             })}
           >
             <Button type="primary" className="mr12" onClick={templatedownload}>
-              {formatMessage({ id: 'common.modify1', defaultMessage: '模版下载' })}
+              <ImportOutlined />
+              {formatMessage({ id: 'device.templateDownload', defaultMessage: '模版下载' })}
             </Button>
-            <Button type="primary" onClick={importFile}>
-              {formatMessage({ id: 'common.modify1', defaultMessage: '电表文件导入' })}
-            </Button>
+            <Upload key="upload" beforeUpload={importFile} showUploadList={false}>
+              <Button type="primary">
+                <ExportOutlined />
+                {formatMessage({ id: 'device.importFile', defaultMessage: '点表文件导入' })}
+              </Button>
+            </Upload>
+            ,
           </Detail.Label>
         ),
       });

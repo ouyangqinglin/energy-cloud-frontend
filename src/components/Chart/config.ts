@@ -6,8 +6,9 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
-import React from 'react';
-import EChartsReact, { EChartsReactProps } from 'echarts-for-react';
+import type React from 'react';
+import type EChartsReact from 'echarts-for-react';
+import type { EChartsReactProps } from 'echarts-for-react';
 
 export enum chartTypeEnum {
   Day,
