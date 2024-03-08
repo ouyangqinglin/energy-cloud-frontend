@@ -1,17 +1,17 @@
 /*
  * @Description:
  * @Author: YangJianFei
- * @Date: 2024-03-06 11:22:32
- * @LastEditTime: 2024-03-06 11:22:33
+ * @Date: 2024-03-08 11:05:25
+ * @LastEditTime: 2024-03-08 11:05:35
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeStack\service.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Device\components\Power\service.ts
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
 import { PowerDataType } from './typing';
 
 export const getPower = (params: any) => {
-  return request<ResponseCommonData<PowerDataType[]>>('/iot/device/es/getPowerCurve', {
+  return request<ResponseCommonData<PowerDataType[]>>('/iot/ytcharging/getPowerCurve', {
     method: 'GET',
     params,
   });

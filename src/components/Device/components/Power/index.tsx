@@ -10,25 +10,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { DatePicker, Spin } from 'antd';
 import { useRequest } from 'umi';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
-import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { formatMessage } from '@/utils';
 import { DeviceDataType } from '@/services/equipment';
-import { ResponseCommonData, ResponsePromise } from '@/utils/request';
 import { options } from './helper';
-
-type PowerDataType = {
-  eventTs: string;
-  doubleVal: number;
-};
+import { getPower } from './service';
 
 type PowerType = {
   deviceData?: DeviceDataType;
-  request: (params: any) => ResponsePromise<ResponseCommonData<PowerDataType[]>, any>;
 };
 
 const Power: React.FC<PowerType> = (props) => {
-  const { deviceData, request } = props;
+  const { deviceData } = props;
 
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -36,7 +29,7 @@ const Power: React.FC<PowerType> = (props) => {
     loading: loading,
     data: powerData,
     run,
-  } = useRequest(request, {
+  } = useRequest(getPower, {
     manual: true,
     pollingInterval: 2 * 60 * 1000,
   });
@@ -50,7 +43,6 @@ const Power: React.FC<PowerType> = (props) => {
       run({
         deviceId: deviceData?.deviceId,
         date: date.format('YYYY-MM-DD'),
-        visitType: 0,
       });
     }
   }, [deviceData?.deviceId, date]);

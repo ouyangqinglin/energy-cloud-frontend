@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2024-01-29 09:48:25
+ * @LastEditTime: 2024-03-07 17:40:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -148,7 +148,11 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
           {isOpen ? <LeftOutlined /> : <RightOutlined />}
         </div>
         <div className={styles.content}>
-          <DeviceProvider deviceId={selectOrg.deviceId} onChange={onChange}>
+          <DeviceProvider
+            deviceId={selectOrg.deviceId}
+            onChange={onChange}
+            deviceTreeData={treeData}
+          >
             <Device deviceTreeData={mergedTreeData} />
           </DeviceProvider>
         </div>

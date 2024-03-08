@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-02-19 11:49:41
+ * @LastEditTime: 2024-03-08 09:57:49
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -161,9 +161,20 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
         source,
       },
     });
-    if (deviceData?.productId && newLiquidWindBatteryProductIds.includes(deviceData?.productId)) {
+    if (
+      deviceData?.productId &&
+      (deviceData?.productId as any) >= DeviceTypeEnum.Wind2BatteryStack
+    ) {
       result.yAxis[0].name =
         formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' }) + '(mV)';
+      result.tooltip.formatter = (params: any) => {
+        const { value, name } = (params || {})[0];
+        return (
+          name +
+          '：' +
+          (value[1] === '' ? (value[2] === '' ? '' : value[2] + '℃') : value[1] + 'mV')
+        );
+      };
     }
     return result;
   }, [bmuData, deviceData, allLabel, activeKey]);

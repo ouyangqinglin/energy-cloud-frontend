@@ -4,7 +4,7 @@ import { formatMessage } from '@/utils';
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:45:35
- * @LastEditTime: 2024-02-27 16:28:04
+ * @LastEditTime: 2024-03-08 09:54:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\helper.ts
  */
@@ -18,7 +18,9 @@ export const chartOptions = {
   tooltip: {
     formatter: (params: any) => {
       const { value, name } = (params || {})[0];
-      return name + '：' + (value[1] === '' ? value[2] + '℃' : value[1] + 'V');
+      return (
+        name + '：' + (value[1] === '' ? (value[2] === '' ? '' : value[2] + '℃') : value[1] + 'V')
+      );
     },
   },
   xAxis: {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-01-30 10:33:31
+ * @LastEditTime: 2024-03-08 15:42:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -414,6 +414,14 @@ export const allItems: Record<string, DetailItem> = {
     ),
     field: 'softVersion',
   },
+  gunNumber: {
+    label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
+    field: 'gunNumber',
+  },
+  terminalNumber: {
+    label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
+    field: 'terminalNumber',
+  },
 };
 
 const emsKeys = [
@@ -439,6 +447,13 @@ const emsKeys = [
 ];
 
 const pcsKeys = ['ratedPower', 'meterSerialNumber', 'emsCommunicationMethod'];
+const pvEnergyPcsKeys = [
+  'ratedPower',
+  'meterSerialNumber',
+  'hardwareVersion',
+  'softwareVersion',
+  'emsCommunicationMethod',
+];
 
 const bmsKeys = [
   'bcmuSn',
@@ -484,6 +499,10 @@ const dehumidifierKeys = [
   'emsCommunicationMethod',
 ];
 
+const chargeKeys = ['ratedPower', 'gunNumber'];
+
+const chargeStackKeys = ['ratedPower', 'gunNumber'];
+
 const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Ems, emsKeys],
   [DeviceProductTypeEnum.Pcs, pcsKeys],
@@ -493,9 +512,19 @@ const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.FireFight, fireFightKeys],
   [DeviceProductTypeEnum.Dehumidifier, dehumidifierKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
+  [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
 ]);
 
-const productIdKeysMap = new Map([[DeviceTypeEnum.Liquid2Air, liquidCoolerKeys]]);
+const productIdKeysMap = new Map([
+  [DeviceTypeEnum.Liquid2Air, liquidCoolerKeys],
+  [DeviceTypeEnum.ChargeY601, chargeKeys],
+  [DeviceTypeEnum.ChargeY602, chargeKeys],
+  [DeviceTypeEnum.ChargeY801, chargeKeys],
+  [DeviceTypeEnum.ChargeY802, chargeKeys],
+  [DeviceTypeEnum.ChargeY801, chargeKeys],
+  [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
+  [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
+]);
 
 export const getDetailItems = (data?: DeviceDataType) => {
   const result: DetailItem[] = [];

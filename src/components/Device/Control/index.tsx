@@ -2,11 +2,20 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-02-23 17:27:46
+ * @LastEditTime: 2024-03-08 16:49:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
-import React, { Suspense, lazy, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  Suspense,
+  lazy,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import type {
   DeviceArrayType,
   DeviceDoubleType,
@@ -44,8 +53,10 @@ import Authority from '@/components/Authority';
 import useAuthority, { AuthorityModeEnum } from '@/hooks/useAuthority';
 import RadioButton from '@/components/RadioButton';
 import { useRequest } from 'umi';
-import styels from './index.less';
+import styles from './index.less';
 import { useSubscribe } from '@/hooks';
+import { EditOutlined, RedoOutlined } from '@ant-design/icons';
+import DeviceContext from '../Context/DeviceContext';
 
 export type ControlType = {
   deviceId?: string;
@@ -60,6 +71,7 @@ const singleFieldName = 'arryField';
 const Control: React.FC<ControlType> = memo((props) => {
   const { deviceId, deviceData, groupData, realTimeData, onLoadChange } = props;
 
+  const { refreshDataByRequest } = useContext(DeviceContext);
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
   const [currentFormInfo, setCurrentFormInfo] = useState<{
@@ -151,6 +163,25 @@ const Control: React.FC<ControlType> = memo((props) => {
       });
     },
     [deviceData?.deviceId],
+  );
+
+  const onRefresh = useCallback(
+    (service: DeviceServiceType | DeviceServiceModelType) => {
+      const ids = getPropsFromTree([service]);
+      refreshDataByRequest?.({
+        deviceId: service?.deviceId || deviceId || '',
+        input: {
+          queryList: ids,
+        },
+      }).then(({ code }) => {
+        if (code == '200') {
+          message.success(
+            formatMessage({ id: 'device.refreshSuccess', defaultMessage: '刷新成功' }),
+          );
+        }
+      });
+    },
+    [refreshDataByRequest, deviceId],
   );
 
   const passAuthority = useCallback(
@@ -306,19 +337,6 @@ const Control: React.FC<ControlType> = memo((props) => {
           });
           break;
         case DeviceModelTypeEnum.TimeRange:
-          detailItems.push?.({
-            field: field?.id || '',
-            label: field?.name,
-            valueInterceptor: (_, data) => {
-              if (field?.deviceId) {
-                const realField = field?.id?.split?.('.') || [];
-                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
-              } else {
-                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
-              }
-            },
-            format: (value) => formatModelValue(value, field?.dataType || {}),
-          });
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
@@ -348,6 +366,41 @@ const Control: React.FC<ControlType> = memo((props) => {
               };
             },
             renderFormItem: () => <TimeRangePicker />,
+          });
+          detailItems.push?.({
+            field: field?.id || '',
+            label: field?.name,
+            valueInterceptor: (_, data) => {
+              if (field?.deviceId) {
+                const realField = field?.id?.split?.('.') || [];
+                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+              }
+            },
+            format: (value) => formatModelValue(value, field?.dataType || {}),
+            extral: (
+              <>
+                {field?.buttons?.includes?.('refresh') && (
+                  <RedoOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() => onRefresh(field)}
+                  />
+                )}
+                {field?.buttons?.includes?.('edit') && (
+                  <EditOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() =>
+                      onClick(
+                        { ...field, id: field.serviceId },
+                        columns.map((item) => ({ ...item, colProps: { span: 24 } })),
+                        1,
+                      )
+                    }
+                  />
+                )}
+              </>
+            ),
           });
           break;
         case DeviceModelTypeEnum.Enum:
@@ -446,19 +499,6 @@ const Control: React.FC<ControlType> = memo((props) => {
               });
               break;
             default:
-              detailItems.push?.({
-                field: field?.id || '',
-                label: field?.name,
-                valueInterceptor: (_, data) => {
-                  if (field?.deviceId) {
-                    const realField = field?.id?.split?.('.') || [];
-                    return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
-                  } else {
-                    return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
-                  }
-                },
-                format: (value) => formatModelValue(value, field?.dataType || {}),
-              });
               columns.push({
                 title: field?.name,
                 dataIndex: field?.id,
@@ -491,23 +531,45 @@ const Control: React.FC<ControlType> = memo((props) => {
                         ],
                 },
               });
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                valueInterceptor: (_, data) => {
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+                  }
+                },
+                format: (value) => formatModelValue(value, field?.dataType || {}),
+                extral: (
+                  <>
+                    {field?.buttons?.includes?.('refresh') && (
+                      <RedoOutlined
+                        className={`cl-primary cursor ${styles.refresh}`}
+                        onClick={() => onRefresh(field)}
+                      />
+                    )}
+                    {field?.buttons?.includes?.('edit') && (
+                      <EditOutlined
+                        className={`cl-primary cursor ${styles.refresh}`}
+                        onClick={() =>
+                          onClick(
+                            { ...field, id: field.serviceId },
+                            columns.map((item) => ({ ...item, colProps: { span: 24 } })),
+                            1,
+                          )
+                        }
+                      />
+                    )}
+                  </>
+                ),
+              });
               break;
           }
           break;
         case DeviceModelTypeEnum.TimeStamp:
-          detailItems.push?.({
-            field: field?.id || '',
-            label: field?.name,
-            valueInterceptor: (_, data) => {
-              if (field?.deviceId) {
-                const realField = field?.id?.split?.('.') || [];
-                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
-              } else {
-                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
-              }
-            },
-            format: (value) => formatModelValue(value, field?.dataType || {}),
-          });
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
@@ -530,13 +592,6 @@ const Control: React.FC<ControlType> = memo((props) => {
             },
             renderFormItem: () => <DateStamp />,
           });
-          break;
-        case DeviceModelTypeEnum.Int:
-        case DeviceModelTypeEnum.Double:
-        case DeviceModelTypeEnum.Long:
-          valueType = 'digit';
-        case DeviceModelTypeEnum.String:
-        default:
           detailItems.push?.({
             field: field?.id || '',
             label: field?.name,
@@ -549,7 +604,36 @@ const Control: React.FC<ControlType> = memo((props) => {
               }
             },
             format: (value) => formatModelValue(value, field?.dataType || {}),
+            extral: (
+              <>
+                {field?.buttons?.includes?.('refresh') && (
+                  <RedoOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() => onRefresh(field)}
+                  />
+                )}
+                {field?.buttons?.includes?.('edit') && (
+                  <EditOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() =>
+                      onClick(
+                        { ...field, id: field.serviceId },
+                        columns.map((item) => ({ ...item, colProps: { span: 24 } })),
+                        1,
+                      )
+                    }
+                  />
+                )}
+              </>
+            ),
           });
+          break;
+        case DeviceModelTypeEnum.Int:
+        case DeviceModelTypeEnum.Double:
+        case DeviceModelTypeEnum.Long:
+          valueType = 'digit';
+        case DeviceModelTypeEnum.String:
+        default:
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
@@ -583,13 +667,48 @@ const Control: React.FC<ControlType> = memo((props) => {
                     ],
             },
           });
+          detailItems.push?.({
+            field: field?.id || '',
+            label: field?.name,
+            valueInterceptor: (_, data) => {
+              if (field?.deviceId) {
+                const realField = field?.id?.split?.('.') || [];
+                return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+              } else {
+                return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+              }
+            },
+            format: (value) => formatModelValue(value, field?.dataType || {}),
+            extral: (
+              <>
+                {field?.buttons?.includes?.('refresh') && (
+                  <RedoOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() => onRefresh(field)}
+                  />
+                )}
+                {field?.buttons?.includes?.('edit') && (
+                  <EditOutlined
+                    className={`cl-primary cursor ${styles.refresh}`}
+                    onClick={() =>
+                      onClick(
+                        { ...field, id: field.serviceId },
+                        columns.map((item) => ({ ...item, colProps: { span: 24 } })),
+                        1,
+                      )
+                    }
+                  />
+                )}
+              </>
+            ),
+          });
       }
       return {
         items: detailItems,
         cols: columns,
       };
     },
-    [realTimeData, deviceData, btnClick, loading, passAuthority],
+    [realTimeData, deviceData, btnClick, loading, passAuthority, onClick, onRefresh],
   );
 
   const getServiceItem = useCallback(
@@ -621,7 +740,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         detailItems[1].span = 2;
       }
       const groupItem: GroupItem = {
-        className: styels.btnDetail,
+        className: styles.btnDetail,
         items: detailItems,
       };
       if (service.showType != DeviceModelShowTypeEnum.HideName) {
@@ -631,7 +750,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               <>
                 {service?.name}
                 {!!service?.tip && (
-                  <Typography.Text className={styels.tip} type="secondary">
+                  <Typography.Text className={styles.tip} type="secondary">
                     ({service?.tip})
                   </Typography.Text>
                 )}
@@ -642,28 +761,35 @@ const Control: React.FC<ControlType> = memo((props) => {
               code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
               mode={AuthorityModeEnum.Within}
             >
-              <Button
-                type="primary"
-                onClick={() => onClick(service, columns, columnsLength)}
-                disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
-              >
-                {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
-              </Button>
+              {service?.buttons?.includes?.('refresh') ? (
+                <RedoOutlined
+                  className={`cl-primary cursor ${styles.refresh}`}
+                  onClick={() => onRefresh(service)}
+                />
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() => onClick(service, columns, columnsLength)}
+                  disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
+                >
+                  {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
+                </Button>
+              )}
             </Authority>
           </Detail.Label>
         );
       }
       return groupItem;
     },
-    [deviceData, getFieldItem, onClick, passAuthority],
+    [deviceData, getFieldItem, onClick, onRefresh, passAuthority],
   );
 
   const getGroupItems = useCallback(
     (modelDescribeItem: DeviceModelDescribeType) => {
       const result: GroupItem[] = [];
-      switch (modelDescribeItem.type) {
-        case DeviceModelDescribeTypeEnum.Group:
-          if (passAuthority(modelDescribeItem?.authority)) {
+      if (passAuthority(modelDescribeItem?.authority)) {
+        switch (modelDescribeItem.type) {
+          case DeviceModelDescribeTypeEnum.Group:
             if (
               modelDescribeItem.children &&
               (modelDescribeItem.children.length > 1 ||
@@ -676,7 +802,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                       <>
                         {modelDescribeItem?.name}
                         {!!modelDescribeItem?.tip && (
-                          <Typography.Text className={styels.tip} type="secondary">
+                          <Typography.Text className={styles.tip} type="secondary">
                             ({modelDescribeItem?.tip})
                           </Typography.Text>
                         )}
@@ -691,52 +817,52 @@ const Control: React.FC<ControlType> = memo((props) => {
                 result.push(...getGroupItems(item));
               }
             });
-          }
-          break;
-        case DeviceModelDescribeTypeEnum.PropertyGroup:
-        case DeviceModelDescribeTypeEnum.Service:
-          result.push(getServiceItem(modelDescribeItem));
-          break;
-        case DeviceModelDescribeTypeEnum.Tab:
-          const tabItems: GroupItem['tabItems'] = [];
-          modelDescribeItem?.children?.forEach?.((item) => {
-            if (passAuthority(item?.authority)) {
-              if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
-                const tabGroupItems: GroupItem[] = [];
-                (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
-                  tabGroupItems.push(...getGroupItems(tabGroupItem));
-                });
-                tabItems.push({
-                  key: item.id || '',
-                  label: item.name,
-                  groupItems: tabGroupItems,
-                });
+            break;
+          case DeviceModelDescribeTypeEnum.PropertyGroup:
+          case DeviceModelDescribeTypeEnum.Service:
+            result.push(getServiceItem(modelDescribeItem));
+            break;
+          case DeviceModelDescribeTypeEnum.Tab:
+            const tabItems: GroupItem['tabItems'] = [];
+            modelDescribeItem?.children?.forEach?.((item) => {
+              if (passAuthority(item?.authority)) {
+                if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
+                  const tabGroupItems: GroupItem[] = [];
+                  (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
+                    tabGroupItems.push(...getGroupItems(tabGroupItem));
+                  });
+                  tabItems.push({
+                    key: item.id || '',
+                    label: item.name,
+                    groupItems: tabGroupItems,
+                  });
+                }
               }
-            }
-          });
-          result.push({
-            tabItems,
-          });
-          break;
-        case DeviceModelDescribeTypeEnum.Component:
-          if (modelDescribeItem.id) {
-            const Component = components[modelDescribeItem.id];
-            result.push({
-              component: (
-                <Suspense
-                  fallback={
-                    <div className="tx-center">
-                      <Spin />
-                    </div>
-                  }
-                >
-                  <Component deviceId={deviceData?.deviceId} />
-                </Suspense>
-              ),
             });
-          }
-          break;
-        default:
+            result.push({
+              tabItems,
+            });
+            break;
+          case DeviceModelDescribeTypeEnum.Component:
+            if (modelDescribeItem.id) {
+              const Component = components[modelDescribeItem.id];
+              result.push({
+                component: (
+                  <Suspense
+                    fallback={
+                      <div className="tx-center">
+                        <Spin />
+                      </div>
+                    }
+                  >
+                    <Component deviceId={deviceData?.deviceId} />
+                  </Suspense>
+                ),
+              });
+            }
+            break;
+          default:
+        }
       }
       return result;
     },

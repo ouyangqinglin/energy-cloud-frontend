@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 14:40:05
- * @LastEditTime: 2024-03-05 16:53:46
+ * @LastEditTime: 2024-03-08 14:06:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\index.tsx
  */
@@ -13,23 +13,18 @@ import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import moment, { Moment } from 'moment';
 import { formatMessage } from '@/utils';
 import { DeviceDataType } from '@/services/equipment';
-import { ResponseCommonData, ResponsePromise } from '@/utils/request';
-import { options } from './helper';
-
-type PowerDataType = {
-  eventTs: string;
-  doubleVal: number;
-};
+import { detailItems, options } from './helper';
+import { getPower } from './service';
+import Detail from '@/components/Detail';
 
 type PowerType = {
   className?: string;
   label?: string;
   deviceData?: DeviceDataType;
-  request: (params: any) => ResponsePromise<ResponseCommonData<PowerDataType[]>, any>;
 };
 
 const Trend: React.FC<PowerType> = (props) => {
-  const { label, className, deviceData, request } = props;
+  const { label, className, deviceData } = props;
 
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -37,7 +32,7 @@ const Trend: React.FC<PowerType> = (props) => {
     loading: loading,
     data: powerData,
     run,
-  } = useRequest(request, {
+  } = useRequest(getPower, {
     manual: true,
     pollingInterval: 2 * 60 * 1000,
   });
@@ -51,7 +46,6 @@ const Trend: React.FC<PowerType> = (props) => {
       run({
         deviceId: deviceData?.deviceId,
         date: date.format('YYYY-MM-DD'),
-        visitType: 0,
       });
     }
   }, [deviceData?.deviceId, date]);
@@ -60,11 +54,14 @@ const Trend: React.FC<PowerType> = (props) => {
     const result: TypeChartDataType[] = [
       {
         name: formatMessage({ id: 'device.chargeCapacity', defaultMessage: '充电电量' }),
-        data: powerData?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+        data: powerData?.list?.map?.((item) => ({
+          label: item.time,
+          value: item.chargeElectricity,
+        })),
       },
       {
         name: formatMessage({ id: 'device.chargeNumber', defaultMessage: '充电次数' }),
-        data: powerData?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
+        data: powerData?.list?.map?.((item) => ({ label: item.time, value: item.chargeCount })),
       },
     ];
     setChartData(result);
@@ -85,7 +82,10 @@ const Trend: React.FC<PowerType> = (props) => {
           />
           {loading && <Spin className="ml12" />}
         </div>
-        <TypeChart date={date} option={options} data={chartData} />
+        <div>
+          <Detail items={detailItems} data={powerData} column={2} />
+        </div>
+        <TypeChart step={60} date={date} option={options} data={chartData} />
       </div>
     </>
   );
