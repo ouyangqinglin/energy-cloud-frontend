@@ -367,6 +367,8 @@ export default {
   'device.address': 'Address',
   'device.gunNumber': 'Number of Chargeing Guns',
   'device.terminalNumber': 'Number of Terminals',
+  'device.dailyChargingCapacity': 'Daily Charging Capacity',
+  'device.dailyChargingNumber': 'Daily Charging Number',
   'device.curve': 'Curve',
   'device.todayCurve': 'Today Curve',
   'device.voltageCurrentCurve': 'voltage-current Curve',

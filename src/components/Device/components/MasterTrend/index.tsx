@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 14:40:05
- * @LastEditTime: 2024-03-05 16:53:46
+ * @LastEditTime: 2024-03-08 11:43:46
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\components\MasterTrend\index.tsx
  */
 import React, { useState, useEffect, useCallback } from 'react';
 import { DatePicker, Spin } from 'antd';
@@ -49,7 +49,6 @@ const MasterTrend: React.FC<PowerType> = (props) => {
       run({
         deviceId: deviceData?.deviceId,
         date: date.format('YYYY-MM-DD'),
-        visitType: 0,
       });
     }
   }, [deviceData?.deviceId, date]);

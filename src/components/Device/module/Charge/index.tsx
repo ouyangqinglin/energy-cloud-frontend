@@ -13,7 +13,6 @@ import { Col, Row } from 'antd';
 import DeviceContext from '../../Context/DeviceContext';
 import Power from '../../components/Power';
 import Trend from '../../components/Trend';
-import { getPower } from './service';
 
 const Charge: React.FC = () => {
   const { data: deviceData } = useContext(DeviceContext);
@@ -25,8 +24,8 @@ const Charge: React.FC = () => {
           <Cabinet deviceData={deviceData} />
         </Col>
         <Col span={10}>
-          <Power deviceData={deviceData} request={getPower} />
-          <Trend deviceData={deviceData} request={getPower} />
+          <Power deviceData={deviceData} />
+          <Trend deviceData={deviceData} />
         </Col>
       </Row>
     </>

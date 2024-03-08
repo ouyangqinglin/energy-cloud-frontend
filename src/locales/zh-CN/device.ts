@@ -355,6 +355,8 @@ export default {
   'device.address': '详细地址',
   'device.gunNumber': '充电枪数量',
   'device.terminalNumber': '终端数量',
+  'device.dailyChargingCapacity': '日充电量',
+  'device.dailyChargingNumber': '日充电次数',
   'device.curve': '曲线',
   'device.todayCurve': '今日曲线',
   'device.voltageCurrentCurve': '电压电流曲线',

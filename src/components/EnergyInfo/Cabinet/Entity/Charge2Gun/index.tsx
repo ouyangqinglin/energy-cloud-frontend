@@ -108,7 +108,7 @@ const configs: ConfigType[] = [
     line: PowerLineImg,
     linePosition: { top: 22, left: -222 },
     data: [
-      { field: 'IndoorTemperature' },
+      { field: 'WorkStatus' },
       { field: 'Humidity' },
       { field: 'Humidity1' },
       { field: 'Humidity2' },

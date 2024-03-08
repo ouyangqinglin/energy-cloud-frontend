@@ -2,12 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 15:19:49
- * @LastEditTime: 2024-03-05 16:52:23
+ * @LastEditTime: 2024-03-08 14:13:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\helper.ts
  */
 
+import { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { powerHourFormat } from '@/utils/format';
+import styles from './index.less';
 
 export const options = {
   grid: {
@@ -15,6 +18,9 @@ export const options = {
     top: 30,
     right: 0,
     bottom: 30,
+  },
+  legend: {
+    icon: 'rect',
   },
   dataZoom: [
     {
@@ -44,12 +50,25 @@ export const options = {
   ],
   series: [
     {
-      type: 'line',
+      type: 'bar',
       color: 'rgba(21, 154, 255, 1)',
     },
     {
-      type: 'line',
+      type: 'bar',
       color: 'rgba(255, 151, 74, 1)',
     },
   ],
 };
+
+export const detailItems: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.dailyChargingCapacity', defaultMessage: '日充电量' }),
+    field: 'chargeElectricityTotal',
+    format: powerHourFormat,
+    className: styles.charge,
+  },
+  {
+    label: formatMessage({ id: 'device.dailyChargingNumber', defaultMessage: '日充电次数' }),
+    field: 'chargeCountTotal',
+  },
+];

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-06 11:32:38
+ * @LastEditTime: 2024-03-08 11:40:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeStack\index.tsx
  */
@@ -17,10 +17,9 @@ import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import { CarouselRef } from 'antd/lib/carousel';
 import styles from './index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import MasterTrend from '../../components/MasterTrend';
-import { getPower } from './service';
 import Trend from '../../components/Trend';
 import { formatMessage } from '@/utils';
+import Power from '../../components/Power';
 
 const Charge: React.FC = () => {
   const { data: deviceData } = useContext(DeviceContext);
@@ -77,7 +76,7 @@ const Charge: React.FC = () => {
             <Cabinet deviceData={masterDeviceData} />
           </Col>
           <Col span={10}>
-            <MasterTrend deviceData={deviceData} request={getPower} />
+            <Power deviceData={deviceData} />
           </Col>
           <Col span={24}>
             <Divider />
@@ -105,10 +104,12 @@ const Charge: React.FC = () => {
           </Col>
           <Col span={10}>
             <Trend
-                label={formatMessage({ id: 'device.terminalChargingTrends', defaultMessage: '终端充电趋势' })}
+              label={formatMessage({
+                id: 'device.terminalChargingTrends',
+                defaultMessage: '终端充电趋势',
+              })}
               className="mt20"
               deviceData={terminalsDeviceData[activeIndex]}
-              request={getPower}
             />
           </Col>
         </Row>

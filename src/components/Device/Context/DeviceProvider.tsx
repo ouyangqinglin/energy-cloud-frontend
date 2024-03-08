@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 11:29:52
- * @LastEditTime: 2024-03-07 17:35:20
+ * @LastEditTime: 2024-03-08 11:39:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Context\DeviceProvider.tsx
  */
-import { DeviceDataType, getDeviceInfo, remoteSetting } from '@/services/equipment';
+import { DeviceDataType, editSetting, getDeviceInfo } from '@/services/equipment';
 import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useRequest } from 'umi';
 import DeviceContext, { RefreshRequestParams } from './DeviceContext';
@@ -54,8 +54,9 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
   }, [deviceId, onChange]);
 
   const refreshDataByRequest = useCallback((params: RefreshRequestParams) => {
-    return remoteSetting({
+    return editSetting({
       serviceId: 'queryParam',
+      createBy: 1,
       ...params,
     });
   }, []);
