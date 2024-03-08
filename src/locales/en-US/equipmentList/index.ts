@@ -1,6 +1,7 @@
 export default {
   'equipmentList.deleteTips': 'Are you sure you want to delete this device?',
   'equipmentList.unbindTips': 'Are you sure you want to unbind this device?',
+  'equipmentList.exportTips': 'Are you sure you want to export the device template?',
   'equipmentList.affSite': 'Belonging Site',
   'equipmentList.comStatus': 'Communication Status',
   'equipmentList.affSubsys': 'Subsystem to which it belongs',
@@ -8,4 +9,10 @@ export default {
   'equipmentList.subRequire': 'Subsystem Required',
   'equipmentList.devicePhoto': 'Device Photos',
   'equipmentList.snForEms': 'EMS Device SN',
+  'equipmentList.imei': 'IMEI/ICCID',
+  'equipmentList.installStatus': 'InstallStatus',
+  'equipmentList.unInstall': 'unInstall',
+  'equipmentList.installed': 'installed',
+  'equipmentList.exportTemplate': 'Export Divice Template',
+  'equipmentList.importTemplate': 'Import Divice',
 };

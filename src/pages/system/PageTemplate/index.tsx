@@ -113,7 +113,7 @@ const PhysicalModel: React.FC = () => {
               setShowType('check');
             }}
           >
-            {formatMessage({ id: 'common.viewDetail1', defaultMessage: '查看' })}
+            {formatMessage({ id: 'taskManage.view', defaultMessage: '查看' })}
           </Button>,
           <Button
             type="link"

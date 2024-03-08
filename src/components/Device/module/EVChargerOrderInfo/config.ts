@@ -141,9 +141,9 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
     hideInTable: true,
   },
   {
-    title: formatMessage({ id: 'device.starmeterRead', defaultMessage: '开始电表读数' }),
+    title: formatMessage({ id: 'device.startmeterRead', defaultMessage: '开始电表读数' }),
     hideInSearch: true,
-    dataIndex: 'starmeterRead',
+    dataIndex: 'startmeterRead',
     hideInTable: true,
   },
   {
@@ -198,7 +198,7 @@ export const option = {
   grid: {
     top: 30,
     bottom: 50,
-    right: 20,
+    right: 30,
     left: 15,
   },
   legend: {
@@ -225,7 +225,7 @@ export const option = {
   series: [
     {
       name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }),
-      color: '#ffd15c',
+      color: '#1890FF',
       type: 'line',
       yAxisIndex: 0,
     },
@@ -234,7 +234,7 @@ export const option = {
         id: 'device.chargeAmount',
         defaultMessage: '已充电量',
       }),
-      color: '#ffd15c',
+      color: '#2FC25B',
       type: 'line',
       yAxisIndex: 1,
     },

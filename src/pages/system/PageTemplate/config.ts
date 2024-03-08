@@ -5,26 +5,26 @@ import type { ModeTreeDataNode } from './data';
 export const tabsItem: TabsProps['items'] = [
   {
     key: 'property',
-    label: '属性',
+    label: formatMessage({ id: 'user.attribute', defaultMessage: '属性' }),
   },
   {
     key: 'event',
-    label: '事件',
+    label: formatMessage({ id: 'user.event', defaultMessage: '事件' }),
   },
   {
     key: 'service',
-    label: '服务',
+    label: formatMessage({ id: 'user.service', defaultMessage: '服务' }),
   },
 ];
 
 export const typeOption = [
   {
     value: 'property',
-    label: '属性',
+    label: formatMessage({ id: 'user.attribute', defaultMessage: '属性' }),
   },
   {
     value: 'service',
-    label: '服务',
+    label: formatMessage({ id: 'user.service', defaultMessage: '服务' }),
   },
 ];
 
@@ -36,13 +36,13 @@ export const typeObj = {
 
 export const modeType = {
   property: {
-    text: '属性',
+    text: formatMessage({ id: 'user.attribute', defaultMessage: '属性' }),
   },
   event: {
-    text: '事件',
+    text: formatMessage({ id: 'user.event', defaultMessage: '事件' }),
   },
   service: {
-    text: '服务',
+    text: formatMessage({ id: 'user.service', defaultMessage: '服务' }),
   },
 };
 export const defaultData: ModeTreeDataNode[] = [
@@ -74,13 +74,12 @@ export const defaultData: ModeTreeDataNode[] = [
     children: [],
   },
 ];
-
 export const modeDefine = {
   0: {
-    text: '预定义',
+    text: formatMessage({ id: 'common.predefine', defaultMessage: '预定义' }),
   },
   1: {
-    text: '自定义',
+    text: formatMessage({ id: 'common.custom', defaultMessage: '自定义' }),
   },
 };
 
