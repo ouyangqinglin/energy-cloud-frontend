@@ -369,6 +369,7 @@ export default {
   'device.terminalNumber': 'Number of Terminals',
   'device.dailyChargingCapacity': 'Daily Charging Capacity',
   'device.dailyChargingNumber': 'Daily Charging Number',
+  'device.refreshSuccess': 'Refresh Success',
   'device.curve': 'Curve',
   'device.todayCurve': 'Today Curve',
   'device.voltageCurrentCurve': 'voltage-current Curve',

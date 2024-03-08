@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 11:29:52
- * @LastEditTime: 2024-03-08 11:39:00
+ * @LastEditTime: 2024-03-08 15:52:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Context\DeviceProvider.tsx
  */
@@ -15,6 +15,7 @@ import { MessageEventType } from '@/utils/connection';
 import { merge } from 'lodash';
 import { DataCenter } from '../DataCenter';
 import { getPropsFromTree } from '@/utils';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type DeviceProviderType = {
   deviceId?: string;
@@ -68,10 +69,14 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
   }, [deviceId]);
 
   useEffect(() => {
-    if (deviceTreeData?.length) {
+    if (
+      deviceTreeData?.length &&
+      deviceTreeData?.[0]?.productTypeId == DeviceProductTypeEnum.DCChargePile &&
+      (deviceTreeData?.[0]?.productId as any) >= DeviceTypeEnum.ChargeY602
+    ) {
       const ids = getPropsFromTree(deviceTreeData);
       dataCenter.init(ids);
-      dataCenter.getModelData(ids, (res) => {
+      dataCenter.getModelData({ ids, isAll: true }, (res) => {
         ids.forEach((id) => {
           const keys = Object.keys(res?.[id] || {});
           const num = Math.ceil(keys.length / 100);

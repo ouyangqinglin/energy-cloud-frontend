@@ -6,14 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
-import React from 'react';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { ProFormColumnsType } from '@ant-design/pro-components';
-import { Col, FormInstance, Row, TimePicker } from 'antd';
-import { Moment } from 'moment';
-import { formatMessage, formatModelValue } from '@/utils';
+import { Col, FormInstance, Row } from 'antd';
+import { formatMessage } from '@/utils';
 import moment from 'moment';
-import { DeviceServiceModelType } from '@/types/device';
 
 const hourFormat = 'HH:mm';
 const contrastDate = '2023-01-01 ';

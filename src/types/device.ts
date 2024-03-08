@@ -84,6 +84,7 @@ export type DeviceServiceModelType = {
         type?: DeviceModelTypeEnum;
         specs?: DeviceServiceModelType[];
       };
+  buttons?: 'refresh' | 'edit';
 };
 
 export type DeviceServiceType = {
@@ -98,6 +99,7 @@ export type DeviceServiceType = {
   outputData?: DeviceServiceModelType[];
   children?: DeviceServiceModelType[];
   authority?: DeviceModelAuthorityType[];
+  buttons?: 'refresh' | 'edit';
 };
 
 export type DeviceLocationType = {

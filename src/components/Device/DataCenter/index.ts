@@ -18,6 +18,7 @@ type DeviceData = {
     id?: string;
     baseData?: DeviceDataType;
     modelData?: Record<string, DeviceModelType>;
+    allModelData?: Record<string, DeviceModelType>;
     detailGroup?: DeviceModelDescribeType;
     remoteControlGroup?: DeviceModelDescribeType;
     configGroup?: DeviceModelDescribeType;
@@ -55,17 +56,38 @@ export class DataCenter {
           const detailGroupData = data.data?.find?.(
             (item) => item?.id == DeviceServicePageEnum.RunningData,
           );
+          const configGroupData = data.data?.find?.(
+            (item) => item?.id == DeviceServicePageEnum.RemoteControl,
+          );
+          const remoteControlGroupData = data.data?.find?.(
+            (item) => item?.id == DeviceServicePageEnum.Config,
+          );
           this.deviceData[deviceId].detailGroup = detailGroupData;
-          if (detailGroupData?.children && detailGroupData?.children?.length) {
-            const childrens = getPropsFromTree<DeviceModelDescribeType, DeviceModelDescribeType[]>(
-              detailGroupData?.children,
-              'children',
-            )?.reduce?.((arr, item) => {
-              arr.push(...item);
-              return arr;
-            }, []);
-            this.deviceData[deviceId].modelData = getModelByProps(childrens || []);
-          }
+          this.deviceData[deviceId].configGroup = configGroupData;
+          this.deviceData[deviceId].remoteControlGroup = remoteControlGroupData;
+
+          const detailChildrens = getPropsFromTree<
+            DeviceModelDescribeType,
+            DeviceModelDescribeType[]
+          >(detailGroupData?.children || [], 'children')?.reduce?.((arr, item) => {
+            arr.push(...item);
+            return arr;
+          }, []);
+          this.deviceData[deviceId].modelData = getModelByProps(detailChildrens || []);
+          const configChildrens = getPropsFromTree<
+            DeviceModelDescribeType,
+            DeviceModelDescribeType[]
+          >(
+            (configGroupData?.children || []).concat(remoteControlGroupData?.children || []),
+            'children',
+          )?.reduce?.((arr, item) => {
+            arr.push(...item);
+            return arr;
+          }, []);
+          this.deviceData[deviceId].allModelData = {
+            ...this.deviceData[deviceId].modelData,
+            ...getModelByProps(configChildrens || []),
+          };
         }),
       );
     });
@@ -77,13 +99,16 @@ export class DataCenter {
     });
   }
 
-  getModelData(ids: string[], cb: ModelDataCallBack) {
+  getModelData({ ids, isAll }: { ids: string[]; isAll?: boolean }, cb: ModelDataCallBack) {
     const getData = () => {
       let hasEmpty = false;
       const result: Record<string, Record<string, DeviceModelType>> = {};
       ids?.forEach?.((id) => {
         if (this.deviceData[id].modelData) {
-          result[id] = merge({}, this.deviceData[id].modelData);
+          result[id] = merge(
+            {},
+            isAll ? this.deviceData[id].allModelData : this.deviceData[id].modelData,
+          );
         } else {
           hasEmpty = true;
         }
