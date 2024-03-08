@@ -24,7 +24,7 @@ import GunBLine from '@/assets/image/station/charge-terminal-1gun/gun-line.png';
 const configs: ConfigType[] = [
   {
     label: '',
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     showLabel: false,
     position: { top: 55, left: 69 },
     icon: DoorImg,
@@ -39,7 +39,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     showLabel: false,
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     position: { top: 40, left: 687 },
     icon: RunImg,
     line: RunLineImg,
@@ -48,17 +48,17 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.chargingGun', defaultMessage: '充电枪' }),
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.ChargeGun,
     position: { top: 106, left: 687 },
     icon: GunImg,
     line: GunBLine,
     linePosition: { top: 26, left: -156 },
     data: [
-      { field: 'AirConditioningUnitOperationStatus' },
-      { field: 'IndoorTemperature' },
-      { field: 'Humidity' },
-      { field: 'Humidity1' },
-      { field: 'Humidity2' },
+      { field: 'WorkStatus' },
+      { field: 'gcu' },
+      { field: 'gci' },
+      { field: 'SOC' },
+      { field: 'gst' },
     ],
   },
 ];

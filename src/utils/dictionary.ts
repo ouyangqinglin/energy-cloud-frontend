@@ -155,6 +155,7 @@ export enum DeviceTypeEnum {
   ChargeMaster = 127,
   ChargeTerminal2 = 128,
   ChargeTerminal1 = 129,
+  ChargeY801 = 134,
   Device = 'default',
 }
 

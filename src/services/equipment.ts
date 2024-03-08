@@ -269,6 +269,13 @@ export const editSetting = (data: any) => {
   });
 };
 
+export const remoteSetting = (data: any) => {
+  return request(`/iot/device/remote_setting`, {
+    method: 'POST',
+    data,
+  });
+};
+
 export const getProductModelByType = (params: any) => {
   return request<ResponseCommonData<ProductModelType[]>>(
     `/iot/product/getAllProductsByproductType`,

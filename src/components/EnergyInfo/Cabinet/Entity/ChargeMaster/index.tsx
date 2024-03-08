@@ -22,7 +22,7 @@ import PowerLineImg from '@/assets/image/station/charge-master/power-line.png';
 const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.environmentalInformation', defaultMessage: '环境信息' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     position: { top: 86, left: 71 },
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
@@ -31,14 +31,13 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.powerInformation', defaultMessage: '功率信息' }),
-    productTypeId: DeviceProductTypeEnum.Pcs,
-    dataProductTypeIds: [DeviceProductTypeEnum.BatteryStack],
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     position: { top: 86, left: 712 },
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -149 },
     data: [
-      { field: 'IndoorTemperature' },
+      { field: 'WorkStatus' },
       { field: 'Humidity' },
       { field: 'Humidity1' },
       { field: 'Humidity2' },

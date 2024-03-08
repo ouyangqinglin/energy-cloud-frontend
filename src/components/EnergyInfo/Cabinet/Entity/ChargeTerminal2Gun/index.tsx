@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-06 10:42:18
+ * @LastEditTime: 2024-03-08 09:39:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal2Gun\index.tsx
  */
@@ -25,7 +25,7 @@ import GunBLine from '@/assets/image/station/charge-terminal-2gun/gun-b-line.png
 const configs: ConfigType[] = [
   {
     label: '',
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     showLabel: false,
     position: { top: 48, left: 69 },
     icon: DoorImg,
@@ -40,7 +40,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     showLabel: false,
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.DCChargePile,
     position: { top: 40, left: 706 },
     icon: RunImg,
     line: RunLineImg,
@@ -54,17 +54,17 @@ const configs: ConfigType[] = [
         name: 'A',
       },
     ),
-    productTypeId: DeviceProductTypeEnum.Air,
+    productTypeId: DeviceProductTypeEnum.ChargeGun,
     position: { top: 112, left: 69 },
     icon: GunImg,
     line: GunALine,
     linePosition: { top: 22, left: 71 },
     data: [
-      { field: 'AirConditioningUnitOperationStatus' },
-      { field: 'IndoorTemperature' },
-      { field: 'Humidity' },
-      { field: 'Humidity1' },
-      { field: 'Humidity2' },
+      { field: 'WorkStatus' },
+      { field: 'gcu' },
+      { field: 'gci' },
+      { field: 'SOC' },
+      { field: 'gst' },
     ],
   },
   {
@@ -74,17 +74,17 @@ const configs: ConfigType[] = [
         name: 'B',
       },
     ),
-    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    productTypeId: DeviceProductTypeEnum.ChargeGun,
     position: { top: 112, left: 706 },
     icon: GunImg,
     line: GunBLine,
     linePosition: { top: 26, left: -156 },
     data: [
-      { field: 'AirConditioningUnitOperationStatus' },
-      { field: 'IndoorTemperature' },
-      { field: 'Humidity' },
-      { field: 'Humidity1' },
-      { field: 'Humidity2' },
+      { field: 'WorkStatus' },
+      { field: 'gcu' },
+      { field: 'gci' },
+      { field: 'SOC' },
+      { field: 'gst' },
     ],
   },
 ];

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 17:35:58
- * @LastEditTime: 2024-01-30 08:53:31
+ * @LastEditTime: 2024-03-06 18:25:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\SmallEnergy\index.tsx
  */
@@ -20,7 +20,7 @@ import FireFightImg from '@/assets/image/station/energy/fire-fight.png';
 import AirImg from '@/assets/image/station/energy/air.png';
 import BmsLineImg from '@/assets/image/station/small-energy/bms-line.svg';
 import PeakLineImg from '@/assets/image/station/small-energy/peak-line.svg';
-import PcsLineImg from '@/assets/image/station/small-energy/pcs-line.svg';
+import PcsLineImg from '@/assets/image/station/small-energy/pcs-line.png';
 import FirefightLineImg from '@/assets/image/station/small-energy/firefight-line.svg';
 import AirLineImg from '@/assets/image/station/small-energy/air-line.svg';
 import DoorLineImg from '@/assets/image/station/small-energy/door-line.svg';
@@ -150,7 +150,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
     productTypeId: DeviceProductTypeEnum.Ems,
-    position: { top: 432, left: 2 },
+    position: { top: 440, left: 2 },
     icon: PvEnergyInverterImg,
     line: PcsLineImg,
     linePosition: { top: 12, left: 124 },
