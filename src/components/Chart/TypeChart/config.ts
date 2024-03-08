@@ -6,7 +6,8 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\Line\config.ts
  */
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import type { Moment } from 'moment';
 import { chartTypeEnum } from '../config';
 
 const getAllMinute = (step = 2) => {

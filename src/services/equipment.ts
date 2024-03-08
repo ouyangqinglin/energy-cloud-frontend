@@ -7,14 +7,15 @@
  * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
  */
 
-import request, { ResponseCommonData, ResponsePageData } from '@/utils/request';
-import {
+import type { ResponseCommonData, ResponsePageData } from '@/utils/request';
+import request from '@/utils/request';
+import type {
   DeviceMasterMode,
   DeviceProductTypeEnum,
   DeviceTypeEnum,
   ListDataType,
 } from '@/utils/dictionary';
-import { DeviceModelDataType } from '@/types/device';
+import type { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
   id?: string;
@@ -51,6 +52,7 @@ export type DeviceDataType = {
   canBeDeleted?: number;
   canUnbind?: number;
   children?: DeviceDataType[];
+  values: any[];
 };
 export type EmsDevicesType = {
   deviceId: any;
@@ -109,6 +111,20 @@ export const editDeviceInfo = (data: DeviceDataType) => {
 
 export const getChildEquipment = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>(`/oss/device/subDevice`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getChargeDayCurve = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/getChargeDayCurve`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getChargeTCurve = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/getChargeTCurve`, {
     method: 'GET',
     params,
   });
