@@ -18,6 +18,7 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 export type AuthorityProps = {
   type?: string;
@@ -30,9 +31,30 @@ const Authority: React.FC<AuthorityProps> = (props) => {
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [initialValues, setInitialValues] = useState<RoleInfo>({} as RoleInfo);
   const actionRef = useRef<ActionType>(null);
+  const { authorityMap } = useAuthority([
+    'system:role:custom:add',
+    'system:role:custom:edit',
+    'system:role:custom:delete',
+    'system:role:predefine:add',
+    'system:role:predefine:edit',
+    'system:role:predefine:delete',
+  ]);
 
   const customConfig: YTProTableCustomProps<RoleInfo, any> = {
-    toolBarRenderOptions: {
+    toolBarRenderOptions: {},
+    option: {
+      modalDeleteText: formatMessage({
+        id: 'user.deleteRoleConfirm',
+        defaultMessage: '您确认要删除该角色吗？删除之后无法恢复！',
+      }),
+    },
+  };
+
+  if (
+    (type == '1' && authorityMap.get('system:role:custom:add')) ||
+    (type == '0' && authorityMap.get('system:role:predefine:add'))
+  ) {
+    customConfig.toolBarRenderOptions = {
       add: {
         onClick() {
           setInitialValues({} as RoleInfo);
@@ -41,31 +63,28 @@ const Authority: React.FC<AuthorityProps> = (props) => {
         },
         text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
       },
-    },
-    option: {
-      ...(type == '1'
-        ? {
-            onDeleteChange(_, entity) {
-              deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
-                if (data) {
-                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-                  actionRef?.current?.reload?.();
-                }
-              });
-            },
-          }
-        : {}),
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
-      modalDeleteText: formatMessage({
-        id: 'user.deleteRoleConfirm',
-        defaultMessage: '您确认要删除该角色吗？删除之后无法恢复！',
-      }),
-    },
-  };
+    };
+  }
+  if (type == '1' && authorityMap.get('system:role:custom:delete')) {
+    customConfig.option.onDeleteChange = (_, entity) => {
+      deleteRole?.({ roleIds: [entity?.roleId] })?.then?.(({ data }) => {
+        if (data) {
+          message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+          actionRef?.current?.reload?.();
+        }
+      });
+    };
+  }
+  if (
+    (type == '1' && authorityMap.get('system:role:custom:edit')) ||
+    (type == '0' && authorityMap.get('system:role:predefine:edit'))
+  ) {
+    customConfig.option.onEditChange = (_, entity) => {
+      setInitialValues({ ...entity });
+      setOperations(FormOperations.UPDATE);
+      set(true);
+    };
+  }
 
   const visibleUpdated = operations !== FormOperations.READ;
 
