@@ -21,6 +21,12 @@ export const getProductTypeIdMap = (data: DeviceDataType[]) => {
         deviceId: item.id,
         productId: item.productId,
       };
+      if (item.aliasSn) {
+        productTypeIdMap[item.productTypeId + '' + item.aliasSn] = {
+          deviceId: item.id,
+          productId: item.productId,
+        };
+      }
     }
     if (item.children && item.children?.length) {
       const result = getProductTypeIdMap(item.children);

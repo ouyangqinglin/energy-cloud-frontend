@@ -52,7 +52,7 @@ export type DeviceDataType = {
   canBeDeleted?: number;
   canUnbind?: number;
   children?: DeviceDataType[];
-  values: any[];
+  values?: any[];
 };
 export type EmsDevicesType = {
   deviceId: any;
@@ -278,10 +278,11 @@ export const getChargeHost = (params: any) => {
   });
 };
 
-export const editSetting = (data: any) => {
+export const editSetting = (data: any, showMessage = true) => {
   return request(`/oss/device/remote_setting`, {
     method: 'POST',
     data,
+    showMessage,
   });
 };
 

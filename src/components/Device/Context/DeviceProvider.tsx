@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 11:29:52
- * @LastEditTime: 2024-03-08 15:52:46
+ * @LastEditTime: 2024-03-09 10:53:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Context\DeviceProvider.tsx
  */
@@ -54,12 +54,15 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
     runGetDevice({ deviceId });
   }, [deviceId, onChange]);
 
-  const refreshDataByRequest = useCallback((params: RefreshRequestParams) => {
-    return editSetting({
-      serviceId: 'queryParam',
-      createBy: 1,
-      ...params,
-    });
+  const refreshDataByRequest = useCallback((params: RefreshRequestParams, showMessage) => {
+    return editSetting(
+      {
+        serviceId: 'queryParam',
+        createBy: 1,
+        ...params,
+      },
+      showMessage,
+    );
   }, []);
 
   useEffect(() => {
@@ -81,12 +84,15 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
           const keys = Object.keys(res?.[id] || {});
           const num = Math.ceil(keys.length / 100);
           for (let i = 0; i < num; i++) {
-            refreshDataByRequest({
-              deviceId: id,
-              input: {
-                queryList: keys.slice(i * 100, (i + 1) * 100),
+            refreshDataByRequest(
+              {
+                deviceId: id,
+                input: {
+                  queryList: keys.slice(i * 100, (i + 1) * 100),
+                },
               },
-            });
+              false,
+            );
           }
         });
       });
