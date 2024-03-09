@@ -5,15 +5,13 @@ import { useRef } from 'react';
 import moment from 'moment';
 import { option } from '../config';
 import { formatMessage } from '@/utils';
-import type { OrderDataType } from '../data';
 
 export type DetailProps = {
   onCancel: () => void;
   visible: boolean;
-  values: OrderDataType;
 };
 const OrderCurve: React.FC<DetailProps> = (props) => {
-  const { visible, values, onCancel } = props;
+  const { visible, onCancel } = props;
   const chartRef = useRef() as any;
   const handleCancel = () => {
     onCancel();

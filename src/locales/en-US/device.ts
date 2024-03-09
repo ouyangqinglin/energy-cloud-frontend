@@ -29,6 +29,8 @@ export default {
   'device.upgradableVersion': 'Upgradable version',
   'device.communicationInformation': 'Communication information',
   'device.pointTableConfig': 'Point Table Config',
+  'device.templateDownload': 'Template Download',
+  'device.importFile': 'Import File',
   'device.currentRatio': 'Current transformation ratio',
   'device.voltageRatio': 'Voltage transformation ratio',
   'device.electricRatio': 'Electric energy transformation ratio',

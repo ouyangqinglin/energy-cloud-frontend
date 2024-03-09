@@ -7,10 +7,12 @@
  * @FilePath: \energy-cloud-frontend\src\components\Chart\TypeChart\index.tsx
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import { defaultLineOption, ChartProps, chartTypeEnum } from '../config';
+import { defaultLineOption, chartTypeEnum } from '../config';
+import type { ChartProps } from '../config';
 import Chart from '..';
 import { merge } from 'lodash';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import type { Moment } from 'moment';
 import { typeMap } from './config';
 
 export type TypeChartDataType = {
@@ -39,7 +41,7 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
     const category = ['product']; // 数据类型 ['product','分类1','分类2']
     const valueMap = new Map<string, (string | number)[]>(xLabels?.map?.((item) => [item, [item]])); // ['x轴','100','200']
 
-    data?.forEach?.((seriesItem) => {
+    data?.forEach?.((seriesItem: TypeChartDataType) => {
       category.push(seriesItem.name);
       const seriesDataMap = new Map<string, number | string>();
       seriesItem?.data?.forEach?.((dataItem) => {

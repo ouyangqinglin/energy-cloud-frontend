@@ -24,7 +24,6 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const [detailVisible, setDetailVisible] = useState<boolean>(false);
   const [curveVisible, setCurveVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<OrderDataType>({});
-
   const [columns, setColumns] = useState<ProColumns<OrderDataType>[]>(defaultColumns(false));
   console.log('deviceData>>', deviceData);
   console.log('props>>', props);
@@ -153,7 +152,6 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           setCurveVisible(false);
         }}
         visible={curveVisible}
-        values={currentRow}
       />
     </div>
   );
