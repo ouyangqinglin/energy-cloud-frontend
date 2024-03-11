@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-08 09:39:46
+ * @LastEditTime: 2024-03-11 18:09:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal2Gun\index.tsx
  */
@@ -33,7 +33,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'AccessControlStatus',
+        field: 'tlocstu',
       },
     ],
   },
@@ -45,7 +45,7 @@ const configs: ConfigType[] = [
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -195 },
-    data: [{ field: 'Humidity3' }],
+    data: [{ field: 'trunst' }],
   },
   {
     label: formatMessage(

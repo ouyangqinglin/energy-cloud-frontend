@@ -36,7 +36,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'AccessControlStatus',
+        field: 'tlocstu',
       },
     ],
   },
@@ -62,7 +62,7 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
-    data: [{ field: 'Humidity2' }, { field: 'Humidity3' }, { field: 'Humidity4' }],
+    data: [{ field: 'mt1' }, { field: 'mt2' }, { field: 'mh' }],
   },
   {
     label: '',
@@ -72,7 +72,7 @@ const configs: ConfigType[] = [
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -222 },
-    data: [{ field: 'Humidity3' }],
+    data: [{ field: 'trunst' }],
   },
   {
     label: formatMessage({ id: 'device.powerInformation', defaultMessage: '功率信息' }),
@@ -81,12 +81,7 @@ const configs: ConfigType[] = [
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -222 },
-    data: [
-      { field: 'WorkStatus' },
-      { field: 'Humidity' },
-      { field: 'Humidity1' },
-      { field: 'Humidity2' },
-    ],
+    data: [{ field: 'Ua' }, { field: 'Ub' }, { field: 'Uc' }],
   },
 ];
 
