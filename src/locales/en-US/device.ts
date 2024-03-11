@@ -433,4 +433,15 @@ export default {
   'device.deleteTerminal': 'Confirm deletion of terminal',
   'device.openTerminal':
     ' terminal will activate the associated host,Other terminals will automatically close the association relationship！',
+  'device.card': 'Card',
+  'device.app': 'App',
+  'device.localManage': 'LocalManage',
+  'device.vin': 'Vin',
+  'device.passWord': 'PassWord',
+  'device.hand': 'Hand',
+  'device.auto': 'auto',
+  'device.time': 'time',
+  'device.money': 'money',
+  'device.quantity': 'quantity',
+  'device.soc': 'soc',
 };

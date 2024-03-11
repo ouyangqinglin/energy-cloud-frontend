@@ -61,6 +61,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     'iot:device:add',
     'iot:device:page',
     'iot:siteManage:siteConfig:deviceManage:page',
+    'iot:device:export',
+    'iot:device:import',
   ]);
 
   const authorPage = isStationChild
@@ -152,46 +154,58 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     });
   };
 
-  const toolBar = useCallback(
-    () =>
+  const toolBar = useCallback(() => {
+    const toolBarArray = [];
+    if (!isStationChild) {
+      if (authorityMap.get('iot:device:export')) {
+        toolBarArray.push(
+          <Button
+            type="primary"
+            key="add"
+            onClick={() => {
+              Modal.confirm({
+                title: formatMessage({ id: 'common.export', defaultMessage: '导出' }),
+                content: formatMessage({
+                  id: 'equipmentList.exportTips',
+                  defaultMessage: '确定要导出设备模版吗？',
+                }),
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                onOk: () => {
+                  exportTemp();
+                },
+              });
+            }}
+          >
+            <ExportOutlined />
+            <FormattedMessage id="equipmentList.exportTemplate" defaultMessage="导出设备模板" />
+          </Button>,
+        );
+      }
+      if (authorityMap.get('iot:device:import')) {
+        toolBarArray.push(
+          <Upload key="upload" beforeUpload={importDevice} showUploadList={false}>
+            <Button type="primary">
+              <ImportOutlined />
+              <FormattedMessage id="equipmentList.importTemplate" defaultMessage="导入设备" />
+            </Button>
+          </Upload>,
+        );
+      }
+    }
+    if (
       (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
       (!isStationChild && authorityMap.get('iot:device:add'))
-        ? [
-            <Button
-              type="primary"
-              key="add"
-              onClick={() => {
-                Modal.confirm({
-                  title: formatMessage({ id: 'common.export', defaultMessage: '导出' }),
-                  content: formatMessage({
-                    id: 'equipmentList.exportTips',
-                    defaultMessage: '确定要导出设备模版吗？',
-                  }),
-                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                  onOk: () => {
-                    exportTemp();
-                  },
-                });
-              }}
-            >
-              <ExportOutlined />
-              <FormattedMessage id="equipmentList.exportTemplate" defaultMessage="导出设备模板" />
-            </Button>,
-            <Upload key="upload" beforeUpload={importDevice} showUploadList={false}>
-              <Button type="primary">
-                <ImportOutlined />
-                <FormattedMessage id="equipmentList.importTemplate" defaultMessage="导入设备" />
-              </Button>
-            </Upload>,
-            <Button type="primary" key="add" onClick={onAddClick}>
-              <PlusOutlined />
-              <FormattedMessage id="common.add" defaultMessage="新建" />
-            </Button>,
-          ]
-        : [],
-    [authorityMap, isStationChild],
-  );
+    ) {
+      toolBarArray.push(
+        <Button type="primary" key="add" onClick={onAddClick}>
+          <PlusOutlined />
+          <FormattedMessage id="common.add" defaultMessage="新建" />
+        </Button>,
+      );
+    }
+    return toolBarArray;
+  }, [authorityMap, isStationChild]);
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       {!isStationChild && record.canBeDeleted !== 0 ? (

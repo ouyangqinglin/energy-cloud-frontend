@@ -19,6 +19,7 @@ import type { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
   id?: string;
+  forShort?: string;
   deviceId?: string;
   deviceName?: string;
   siteId?: string;
@@ -118,6 +119,13 @@ export const getChildEquipment = (params: any) => {
 
 export const getChargeDayCurve = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/getChargeDayCurve`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getytOrdercurve = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/ytOrder/curve`, {
     method: 'GET',
     params,
   });
@@ -245,6 +253,13 @@ export const getClusterByStack = (params: any) => {
 
 export const getEmsAssociationDevice = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/oss/site/monitor/device/getDescendants', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getytOrder = (params: any) => {
+  return request<ResponseCommonData<any[]>>('/iot/ytcharging/ytOrder/page', {
     method: 'GET',
     params,
   });

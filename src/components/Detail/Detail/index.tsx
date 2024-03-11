@@ -7,9 +7,10 @@
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
 import React, { cloneElement, useMemo } from 'react';
-import { Descriptions, DescriptionsProps } from 'antd';
+import { Descriptions } from 'antd';
+import type { DescriptionsProps } from 'antd';
 import { isEmpty } from '@/utils';
-import { ProFormColumnsType } from '@ant-design/pro-components';
+import type { ProFormColumnsType } from '@ant-design/pro-components';
 
 export type DetailItem = {
   className?: string;
@@ -50,7 +51,7 @@ const Detail: React.FC<DetailProps> = (props) => {
     colon = true,
     format,
     extral,
-    valueStyle,
+    valueStyle = {},
     ...restProps
   } = props;
 

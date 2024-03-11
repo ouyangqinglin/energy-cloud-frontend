@@ -1,4 +1,5 @@
 export type OrderDataType = {
+  id?: string;
   orderNumber?: string;
   orderNumber?: string;
   chargeMode?: string;

@@ -289,6 +289,7 @@ const Run: React.FC<RunType> = (props) => {
           detailProps={{
             extral,
             labelStyle: { width: 140 },
+            contentStyle: { width: 50 },
           }}
         />
       ) : (
