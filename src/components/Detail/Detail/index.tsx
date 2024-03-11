@@ -27,7 +27,7 @@ export type DetailItem = {
   valueStyle?: React.CSSProperties;
   show?: boolean | ((value: any, data?: any) => boolean);
   showExtra?: boolean;
-  unit?: string;
+  unit?: React.ReactNode;
   extral?: React.ReactElement;
   [key: string]: any;
 };

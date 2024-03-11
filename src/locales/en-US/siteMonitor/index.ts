@@ -324,4 +324,9 @@ export default {
   'siteMonitor.120kWDCEVCharger': '120kW DC EV Charger',
   'siteMonitor.7kWACEVCharger': '7kW AC EV Charger',
   'siteMonitor.PV-ESS-EVManagementCloudPlatform': 'PV-ESS-EV Management Cloud Platform',
+  'siteMonitor.power': 'Power',
+  'siteMonitor.maximumVoltage': 'Maximum Voltage',
+  'siteMonitor.minimumVoltage': 'Minimum Voltage',
+  'siteMonitor.maximumTemperature': 'Maximum Temperature',
+  'siteMonitor.minimumTemperature': 'Minimum Temperature',
 };

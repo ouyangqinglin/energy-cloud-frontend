@@ -13,7 +13,8 @@ import { formatMessage } from '@/utils';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import { useSubscribe } from '@/hooks';
 import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
-import { maxConfig } from './helper';
+import { maxConfig, peakItems } from './helper';
+import Detail from '@/components/Detail';
 
 //获取实时数据订阅id
 const getDataIds = (data: DeviceDataType[]): string[] => {
@@ -139,55 +140,28 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
         </div>
 
         <div className={styles.dataContain}>
-          <Progress
-            className={styles.progress}
-            percent={realTimeData?.SOC || '--'}
-            format={(percent) => `SOC ${percent}%`}
-            size={'default'}
-            strokeColor={'#00B42A'}
-            trailColor="#C9CDD4"
-            strokeWidth={20}
-          />
-          <Progress
-            className={`my16 ${styles.progress}`}
-            percent={realTimeData?.SOH || '--'}
-            format={(percent) => `SOH ${percent}%`}
-            size={'default'}
-            strokeColor={'#007DFF'}
-            trailColor="#C9CDD4"
-            strokeWidth={20}
-          />
           <div className={`${styles.maxContain}`}>
-            <div className={`flex flex-between px12 py8 mb20 ${styles.maxContent}`}>{maxItems}</div>
+            <div className={`flex flex-between px12 py8 mb16 ${styles.maxContent}`}>{maxItems}</div>
+            <Progress
+              className={styles.progress}
+              percent={realTimeData?.SOC || '--'}
+              format={(percent) => `SOC ${percent}%`}
+              size={'default'}
+              strokeColor={'#00B42A'}
+              trailColor="#C9CDD4"
+              strokeWidth={20}
+            />
+            <Progress
+              className={`mt14 mb16 ${styles.progress}`}
+              percent={realTimeData?.SOH || '--'}
+              format={(percent) => `SOH ${percent}%`}
+              size={'default'}
+              strokeColor={'#007DFF'}
+              trailColor="#C9CDD4"
+              strokeWidth={20}
+            />
             <div>
-              <div className="flex">
-                <img src={IconVoltage} className={styles.voltageImg} />
-                <div className="ml8 mr4">
-                  <span>{realTimeData?.MVVOASU ?? '--'}</span>
-                  {/* <span className={styles.maxUnit}>V</span> */}
-                </div>
-                <ArrowUpOutlined className="cl-error" />
-                <div className="flex1"></div>
-                <div>
-                  <span>{realTimeData?.MVVOSU ?? '--'}</span>
-                </div>
-                {/* <span className={styles.maxUnit}>V</span> */}
-                <ArrowDownOutlined className="cl-green" />
-              </div>
-              <div className="flex mt12">
-                <img src={IconTemp} className={styles.voltageImg} />
-                <div className="ml8 mr4">
-                  <span>{realTimeData?.MaximumIndividualTemperature ?? '--'}</span>
-                  <span className={styles.maxUnit}>℃</span>
-                </div>
-                <ArrowUpOutlined className="cl-error" />
-                <div className="flex1"></div>
-                <div>
-                  <span>{realTimeData?.LVOMT ?? '--'}</span>
-                  <span className={styles.maxUnit}>℃</span>
-                </div>
-                <ArrowDownOutlined className="cl-green" />
-              </div>
+              <Detail items={peakItems} data={realTimeData} column={1} />
             </div>
           </div>
         </div>
