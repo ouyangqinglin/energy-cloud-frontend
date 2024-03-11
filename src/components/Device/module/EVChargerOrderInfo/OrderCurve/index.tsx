@@ -1,41 +1,67 @@
 import { Modal, Button } from 'antd';
 import TypeChart from '@/components/Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { getytOrdercurve } from '@/services/equipment';
+import type { OrderDataType } from '../data';
 import moment from 'moment';
 import { option } from '../config';
 import { formatMessage } from '@/utils';
+import { cloneDeep } from 'lodash';
 
+const defaultChartData = [
+  { data: [] }, //SOC
+  { data: [] }, //已充电量
+];
 export type DetailProps = {
   onCancel: () => void;
   visible: boolean;
+  orderId: number | string;
 };
 const OrderCurve: React.FC<DetailProps> = (props) => {
-  const { visible, onCancel } = props;
+  const { visible, onCancel, orderId } = props;
   const chartRef = useRef() as any;
+  const [ChartData, setChartData] = useState(defaultChartData);
+
   const handleCancel = () => {
     onCancel();
   };
-  //mock
-  const ChartData = [
-    {
-      name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }),
-      data: [
-        { label: '2024-03-05 08:10:00', value: 30 },
-        { label: '2024-03-05 08:15:00', value: 50 },
-      ],
-    },
-    {
-      name: formatMessage({
-        id: 'device.chargeAmount',
-        defaultMessage: '已充电量',
-      }),
-      data: [
-        { label: '2024-03-05 04:10:00', value: 10 },
-        { label: '2024-03-05 04:15:00', value: 20 },
-      ],
-    },
-  ];
+  const getChartData = (id: number | string) => {
+    if (id) {
+      getytOrdercurve({ id }).then(({ data }) => {
+        if (!data || !data.length) return;
+        const currentVChartData = cloneDeep(defaultChartData);
+        data.forEach((item) => {
+          if (!item.values || !item.values.length) return;
+          const currentValue = item.values.map((i) => ({
+            label: i.eventTs,
+            value: i.val,
+          })) as never[];
+          switch (item.key) {
+            case 'SOC': //SOC
+              currentVChartData[0].data = currentValue;
+              break;
+            case 'mq': //已充电量
+              currentVChartData[1].data = currentValue;
+              break;
+            default:
+              return;
+          }
+        });
+        setChartData(currentVChartData);
+      });
+    }
+  };
+  useEffect(() => {
+    getChartData(orderId || '');
+    const timer = setInterval(() => {
+      getChartData(orderId || '');
+    }, 5 * 60 * 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [orderId]);
+
   return (
     <Modal
       width={800}
@@ -51,7 +77,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
     >
       <TypeChart
         type={chartTypeEnum.Day}
-        step={5}
+        step={1}
         chartRef={chartRef}
         date={moment()}
         option={option}
