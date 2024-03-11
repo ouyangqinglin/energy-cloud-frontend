@@ -135,6 +135,8 @@ const Overview: React.FC<OverviewProps> = (props) => {
   }, [deviceData]);
 
   const title = useMemo(() => {
+    console.log('deviceNameInfo>>', deviceNameInfo);
+    console.log('deviceData>>', deviceData);
     if (deviceNameInfo.showEdit) {
       return (
         <Input
@@ -155,6 +157,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
                 : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
             })`}
           {deviceNameInfo?.name}
+          {deviceData?.forShort && `（${deviceData?.forShort}）`}
           <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
         </>
       );

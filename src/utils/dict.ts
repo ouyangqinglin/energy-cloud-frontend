@@ -106,6 +106,62 @@ export const onlineStatus: ValueEnum = {
   },
 };
 
+export enum ChargingTypeEnum {
+  Card,
+  App,
+  LocalManage,
+  Vin,
+  PassWord,
+  Hand,
+}
+
+export const ChargingType: ValueEnum = {
+  [ChargingTypeEnum.Card]: {
+    text: formatMessage({ id: 'device.card', defaultMessage: '刷卡' }),
+  },
+  [ChargingTypeEnum.App]: {
+    text: formatMessage({ id: 'device.app', defaultMessage: 'App启动' }),
+  },
+  [ChargingTypeEnum.LocalManage]: {
+    text: formatMessage({ id: 'device.localManage', defaultMessage: '本地管理员' }),
+  },
+  [ChargingTypeEnum.Vin]: {
+    text: formatMessage({ id: 'device.vin', defaultMessage: 'Vin码' }),
+  },
+  [ChargingTypeEnum.PassWord]: {
+    text: formatMessage({ id: 'device.passWord', defaultMessage: '密码' }),
+  },
+  [ChargingTypeEnum.Hand]: {
+    text: formatMessage({ id: 'device.hand', defaultMessage: '手动' }),
+  },
+};
+
+export enum ChargingStrategyEnum {
+  Auto,
+  Time,
+  Money,
+  Quantity,
+  SOC,
+}
+
+export const ChargingStrategy: ValueEnum = {
+  [ChargingStrategyEnum.Auto]: {
+    text: formatMessage({ id: 'device.auto', defaultMessage: '自动充满' }),
+  },
+  [ChargingStrategyEnum.Time]: {
+    text: formatMessage({ id: 'device.time', defaultMessage: '按时间' }),
+  },
+  [ChargingStrategyEnum.Money]: {
+    text: formatMessage({ id: 'device.money', defaultMessage: '按金额' }),
+  },
+  [ChargingStrategyEnum.Quantity]: {
+    text: formatMessage({ id: 'device.quantity', defaultMessage: '按电量' }),
+  },
+  [ChargingStrategyEnum.SOC]: {
+    text: formatMessage({ id: 'device.soc', defaultMessage: '按soc' }),
+  },
+};
+
 export const onInstallStatus = {
   0: {
     text: formatMessage({ id: 'equipmentList.unInstall', defaultMessage: '未安装' }),

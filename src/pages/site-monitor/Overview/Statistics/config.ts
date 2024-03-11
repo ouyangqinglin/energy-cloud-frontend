@@ -58,7 +58,8 @@ export const config = (siteType: string) => {
             defaultMessage: '今日充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,
+          value: (entity: StoredEnergy) =>
+            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
         },
         // {
         //   label: `${formatMessage({
@@ -110,7 +111,8 @@ export const config = (siteType: string) => {
             defaultMessage: '今日系统充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) => `${entity?.charge ?? ''} / ${entity?.discharge ?? ''}`,
+          value: (entity: StoredEnergy) =>
+            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
         },
         {
           label: `${formatMessage({
@@ -220,7 +222,7 @@ export const config = (siteType: string) => {
           labelUnit: '/kWh',
           show: ['123', '23', '13', '3', ''].includes(siteType),
           value: (entity: Load) =>
-            `${entity?.chargingPileCharge ?? ''} / ${entity?.otherLoadCharge ?? ''}`,
+            `${entity?.chargingPileCharge || '--'} / ${entity?.otherLoadCharge || '--'}`,
         },
         {
           label: `${formatMessage({
@@ -239,7 +241,7 @@ export const config = (siteType: string) => {
           labelUnit: '/kW',
           show: ['123', '23', '13', '3', ''].includes(siteType),
           value: (entity: Load) =>
-            `${entity?.chargingPilePower ?? ''} / ${entity?.otherLoadPower ?? ''}`,
+            `${entity?.chargingPilePower || '--'} / ${entity?.otherLoadPower || '--'}`,
         },
       ],
     },

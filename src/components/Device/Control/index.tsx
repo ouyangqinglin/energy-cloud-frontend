@@ -902,6 +902,10 @@ const Control: React.FC<ControlType> = memo((props) => {
           <Detail.Group
             data={{ ...merge({}, realTimeData, transformData, extralDeviceRealTimeData) }}
             items={groupsItems}
+            detailProps={{
+              labelStyle: { width: 140 },
+              contentStyle: { width: 50 },
+            }}
           />
           <ConfigModal
             width={currentFormInfo?.width || '816px'}
