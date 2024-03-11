@@ -225,7 +225,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '创建时间' }),
+        title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,

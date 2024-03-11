@@ -342,7 +342,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInTable: !isStationChild,
       },
       {
-        title: formatMessage({ id: 'common.addTime', defaultMessage: '添加时间' }),
+        title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,

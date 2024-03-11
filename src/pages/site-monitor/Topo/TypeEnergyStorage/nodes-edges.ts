@@ -154,11 +154,6 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
           },
           column: [
             {
-              label: 'SOC(%):',
-              value: data?.soc,
-              field: 'todayConsumption',
-            },
-            {
               label: `${formatMessage({
                 id: 'device.totalVoltage',
                 defaultMessage: '总电压',
@@ -172,6 +167,11 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
                 defaultMessage: '总电流',
               })}(A):`,
               value: data?.totalBatteryCurrent,
+              field: 'todayConsumption',
+            },
+            {
+              label: 'SOC(%):',
+              value: data?.soc,
               field: 'todayConsumption',
             },
           ],
@@ -200,22 +200,6 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
           column: [
             {
               label: `${formatMessage({
-                id: 'siteMonitor.MonomerMaxHeat',
-                defaultMessage: '单体最高温度',
-              })}(℃):`,
-              value: data?.maximumIndividualTemperature,
-              field: 'todayConsumption',
-            },
-            {
-              label: `${formatMessage({
-                id: 'siteMonitor.MonomerMaxHeat',
-                defaultMessage: '单体最低温度',
-              })}(℃):`,
-              value: data?.lvomt,
-              field: 'todayConsumption',
-            },
-            {
-              label: `${formatMessage({
                 id: 'siteMonitor.MonomerMaxVoltage',
                 defaultMessage: '单体最高电压',
               })}(℃):`,
@@ -228,6 +212,22 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
                 defaultMessage: '单体最低电压',
               })}(℃):`,
               value: data?.mvvosu,
+              field: 'todayConsumption',
+            },
+            {
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMaxHeat',
+                defaultMessage: '单体最高温度',
+              })}(℃):`,
+              value: data?.maximumIndividualTemperature,
+              field: 'todayConsumption',
+            },
+            {
+              label: `${formatMessage({
+                id: 'siteMonitor.MonomerMaxHeat',
+                defaultMessage: '单体最低温度',
+              })}(℃):`,
+              value: data?.lvomt,
               field: 'todayConsumption',
             },
           ],

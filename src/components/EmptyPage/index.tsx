@@ -8,12 +8,20 @@
  */
 import React from 'react';
 import { Empty, EmptyProps } from 'antd';
+import { formatMessage } from '@/utils';
 
 const EmptyPage: React.FC<EmptyProps> = (props) => {
   return (
     <>
       <div className="flex" style={{ marginTop: '25vh' }}>
-        <Empty className="flex1" description="页面开发中，敬请期待..." {...props} />
+        <Empty
+          className="flex1"
+          description={formatMessage({
+            id: 'common.noneYet',
+            defaultMessage: '页面开发中，敬请期待',
+          })}
+          {...props}
+        />
       </div>
     </>
   );

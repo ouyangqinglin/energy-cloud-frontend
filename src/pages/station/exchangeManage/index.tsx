@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-04 17:57:56
+ * @LastEditTime: 2024-03-11 11:15:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\exchangeManage\index.tsx
  */
@@ -233,7 +233,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime1', defaultMessage: '创建时间' }),
+        title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,

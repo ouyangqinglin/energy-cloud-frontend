@@ -394,7 +394,7 @@ export enum timeDimensionEnum {
 
 export const cleanUpType = {
   0: '自动恢复',
-  1: '手动清除',
+  1: '手动消除',
 };
 
 export const logType = {

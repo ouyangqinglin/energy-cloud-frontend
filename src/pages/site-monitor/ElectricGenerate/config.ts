@@ -12,13 +12,6 @@ export const columns: YTProColumns<ElectricGenerateInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
-    dataIndex: 'deviceId',
-    width: 150,
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
     title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
     dataIndex: 'sn',
     hideInSearch: true,

@@ -22,13 +22,6 @@ export const getOtColumns = (onClick) => {
       },
     },
     {
-      title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
-      dataIndex: 'deviceId',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
       title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
       dataIndex: 'sn',
       width: 150,

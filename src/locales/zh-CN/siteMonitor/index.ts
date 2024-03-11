@@ -274,7 +274,7 @@ export default {
   'siteMonitor.logs': '日志',
   'siteMonitor.logContent': '日志内容',
   'siteMonitor.logtype': '日志类型',
-  'siteMonitor.logFileName': '日志文件名称',
+  'siteMonitor.logName': '日志名称',
   'siteMonitor.logDetails': '日志详情',
   'siteMonitor.siteEnergyFlow': '站点能量流',
   'siteMonitor.pvSystemEnergyFlow': '光伏系统能量流',

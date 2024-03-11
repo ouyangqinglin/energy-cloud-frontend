@@ -8,11 +8,12 @@
  */
 import React from 'react';
 import EmptyPage from '@/components/EmptyPage';
+import { formatMessage } from '@/utils';
 
 const Index: React.FC = () => {
   return (
     <>
-      <EmptyPage />
+      <EmptyPage description={formatMessage({ id: 'common.noneYet', defaultMessage: '暂无' })} />
     </>
   );
 };

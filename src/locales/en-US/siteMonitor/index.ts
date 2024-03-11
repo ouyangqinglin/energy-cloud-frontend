@@ -276,7 +276,7 @@ export default {
   'siteMonitor.logs': 'Logs',
   'siteMonitor.logContent': 'Log Content',
   'siteMonitor.logtype': 'Log Type',
-  'siteMonitor.logFileName': 'Log File Name',
+  'siteMonitor.logName': 'Log Name',
   'siteMonitor.logDetails': 'Log Details',
   'siteMonitor.siteEnergyFlow': 'Site Energy Flow',
   'siteMonitor.pvSystemEnergyFlow': 'PV System Energy Flow',

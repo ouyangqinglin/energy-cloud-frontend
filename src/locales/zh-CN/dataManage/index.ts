@@ -59,5 +59,5 @@ export default {
   'dataManage.generate': '告警中',
   'dataManage.eliminate': '已消除',
   'dataManage.automaticRecovery': '自动恢复',
-  'dataManage.manualClear': '手动清除',
+  'dataManage.manualClear': '手动消除',
 };
