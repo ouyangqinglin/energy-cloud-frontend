@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
-import { Button, Modal, message, Upload } from 'antd';
+import { Button, Modal, message, Upload, Tooltip } from 'antd';
 import { useHistory, useModel } from 'umi';
 import {
   CaretDownFilled,
@@ -303,10 +303,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
           return (
             <>
-              <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
-                {Component && <Component className="mr8" />}
-                {record.name}
-              </span>
+              <Tooltip title={record.name}>
+                <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
+                  {Component && <Component className="mr8" />}
+                  {record.name}
+                </span>
+              </Tooltip>
             </>
           );
         },
