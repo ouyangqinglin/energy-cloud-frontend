@@ -2,7 +2,9 @@ import { Modal, Form } from 'antd';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import type { ConfigDataType } from '../data';
 import { formatMessage } from '@/utils';
-import { useEffect } from 'react';
+import { useEffect, useContext, useState } from 'react';
+import { getProductModelByType } from '@/services/equipment';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 export type DetailProps = {
   onCancel: () => void;
@@ -12,11 +14,20 @@ export type DetailProps = {
 const AddForm: React.FC<DetailProps> = (props) => {
   const { visible, onCancel, onSubmit } = props;
   const [form] = Form.useForm();
+  const { data: deviceData } = useContext(DeviceContext);
+  const [modeloptions, setModeloptions] = useState([]);
+
+  const requestProductType = () => {
+    getProductModelByType({ productTypeId: 547 }).then(({ data }) => {
+      setModeloptions(data || []);
+    });
+  };
   useEffect(() => {
     if (visible) {
       form.resetFields();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    requestProductType();
   }, [visible]);
   const handleCancel = () => {
     onCancel();
@@ -24,19 +35,29 @@ const AddForm: React.FC<DetailProps> = (props) => {
   const handleFinish = async (value: Record<string, any>) => {
     onSubmit(value);
   };
+  const handleOk = () => {
+    form.submit();
+  };
   return (
     <Modal
       width={800}
       title={formatMessage({ id: 'pages.searchTable.new', defaultMessage: '新建' })}
       visible={visible}
       destroyOnClose
+      onOk={handleOk}
       onCancel={handleCancel}
     >
       <Form form={form} onFinish={handleFinish} layout="vertical">
         <ProFormSelect
-          options={[]}
+          options={modeloptions}
           width="xl"
-          name="model"
+          name="productId"
+          fieldProps={{
+            fieldNames: {
+              label: 'model',
+              value: 'id',
+            },
+          }}
           label={formatMessage({
             id: 'device.model',
             defaultMessage: '型号',
@@ -56,7 +77,7 @@ const AddForm: React.FC<DetailProps> = (props) => {
           ]}
         />
         <ProFormText
-          name="ConfigName"
+          name="name"
           label={formatMessage({
             id: 'device.ConfigName',
             defaultMessage: '名称',
@@ -71,7 +92,7 @@ const AddForm: React.FC<DetailProps> = (props) => {
           ]}
         />
         <ProFormText
-          name="serialNumber"
+          name="sn"
           label={formatMessage({
             id: 'device.serialNumber',
             defaultMessage: '序列号',

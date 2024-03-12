@@ -42,7 +42,7 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
     const valueMap = new Map<string, (string | number)[]>(xLabels?.map?.((item) => [item, [item]])); // ['x轴','100','200']
 
     data?.forEach?.((seriesItem: TypeChartDataType) => {
-      category.push(seriesItem.name);
+      seriesItem.name && category.push(seriesItem.name);
       const seriesDataMap = new Map<string, number | string>();
       seriesItem?.data?.forEach?.((dataItem) => {
         if (type === chartTypeEnum.Label) {

@@ -1,7 +1,8 @@
 export type ConfigDataType = {
-  serialNumber?: string;
-  ConfigName?: string;
-  networkStatus?: string;
-  ratedCurrent?: string;
-  associatedHosts?: string;
+  sn?: string;
+  id?: string | number;
+  deviceName?: string;
+  alarmStatus?: string;
+  ratedCur?: string;
+  isBindMainServer?: string;
 };

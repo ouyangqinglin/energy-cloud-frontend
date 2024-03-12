@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProFormText } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, Tabs } from 'antd';
-import { useIntl, FormattedMessage } from 'umi';
+import { useIntl } from 'umi';
 import { formatMessage } from '@/utils';
 import type { ProColumnType, ActionType } from '@ant-design/pro-components';
 import { PlusOutlined } from '@ant-design/icons';
@@ -40,9 +40,9 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
-  const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
-  let version: number;
+  const [version, setVersion] = useState(0);
 
+  const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
   const handleThingsConfig = (data: ThingsConfigType): ThingsConfigType => {
     const result: ThingsConfigType = initThingsConfig;
     Object.keys(data).forEach((key) => {
@@ -62,7 +62,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
         remark: data.remark,
       });
       setThingsConfig(handleThingsConfig(data.thingsConfig));
-      version = data.version;
+      setVersion(data.version);
     }
   };
   useEffect(() => {

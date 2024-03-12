@@ -83,14 +83,18 @@ const Run: React.FC<RunType> = (props) => {
     }
   }, []);
 
-  const extral = (
-    <Button
-      deviceId={collectionInfo.deviceId || deviceData?.deviceId}
-      title={collectionInfo.title}
-      collection={collectionInfo.collection}
-      model={modelMap?.[collectionInfo.originCollection]}
-      onClick={onClick}
-    />
+  const extral = useMemo(
+    () => (
+      <Button
+        deviceId={collectionInfo.deviceId || deviceData?.deviceId}
+        title={collectionInfo.title}
+        collection={collectionInfo.collection}
+        model={modelMap?.[collectionInfo.originCollection]}
+        onClick={onClick}
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      />
+    ),
+    [collectionInfo],
   );
 
   const authorityCodes = useMemo(() => {

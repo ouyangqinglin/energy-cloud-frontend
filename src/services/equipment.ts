@@ -22,6 +22,7 @@ export type DeviceDataType = {
   forShort?: string;
   deviceId?: string;
   deviceName?: string;
+  isBindMainServer?: string | number;
   siteId?: string;
   productImg?: string;
   name?: string;
@@ -238,9 +239,10 @@ export const getProductTypeList = (params: any) => {
   });
 };
 
-export const getProductTypeTree = () => {
+export const getProductTypeTree = (params: any) => {
   return request<ResponseCommonData<ListDataType[]>>('/iot/product/getProductTypeTree', {
     method: 'GET',
+    params,
   });
 };
 
@@ -254,6 +256,32 @@ export const getClusterByStack = (params: any) => {
 export const getEmsAssociationDevice = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/oss/site/monitor/device/getDescendants', {
     method: 'GET',
+    params,
+  });
+};
+
+export const getChargeTerm = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/getChargeTerm', {
+    method: 'GET',
+    params,
+  });
+};
+export const addTerminal = (data: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/addTerminal', {
+    method: 'POST',
+    data,
+  });
+};
+
+export const termBindMainServer = (data: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/termBindMainServer', {
+    method: 'PUT',
+    data,
+  });
+};
+export const delTerm = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/delTerm', {
+    method: 'DELETE',
     params,
   });
 };

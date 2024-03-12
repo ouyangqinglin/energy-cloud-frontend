@@ -74,9 +74,11 @@ const ConfigurationTab: React.FC<ConfigProps> = (props) => {
             <div ref={containRef} className="px24">
               {deviceData?.masterSlaveMode != DeviceMasterMode.Slave && (
                 <>
-                  {deviceData?.paramConfigType ? <Community deviceData={deviceData} /> : <></>}
                   {deviceData?.paramConfigType ? (
-                    <PointTableConfig deviceData={deviceData} />
+                    <>
+                      <Community deviceData={deviceData} />
+                      <PointTableConfig deviceData={deviceData} />
+                    </>
                   ) : (
                     <></>
                   )}

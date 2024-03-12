@@ -44,7 +44,7 @@ const OrderDetail: React.FC<DetailProps> = (props) => {
           }
           return label ? (
             <Descriptions.Item label={label} key={item} span={8}>
-              {!value && value !== 0 ? '--' : ''}
+              {!value && value !== 0 ? '--' : value}
             </Descriptions.Item>
           ) : (
             ''

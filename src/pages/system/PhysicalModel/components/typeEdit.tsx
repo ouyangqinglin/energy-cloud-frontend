@@ -145,6 +145,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
             <YTProTable
               columns={fieldColumns}
               onSubmit={handleSearch}
+              rowKey={(record) => `${record.sourceName}-${record.name}-${record.id}-${record.type}`}
               actionRef={actionRef}
               dataSource={dataSource}
               pagination={false}

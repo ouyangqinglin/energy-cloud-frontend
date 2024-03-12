@@ -444,4 +444,5 @@ export default {
   'device.money': 'money',
   'device.quantity': 'quantity',
   'device.soc': 'soc',
+  'device.keepOne': 'Please keep at least one terminal associated host!',
 };

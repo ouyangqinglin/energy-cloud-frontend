@@ -9,7 +9,8 @@
 import React, { useMemo, useEffect } from 'react';
 import { useBoolean } from 'ahooks';
 import EChartsReact from 'echarts-for-react';
-import { defaultOption, ChartProps } from './config';
+import { defaultOption } from './config';
+import type { ChartProps } from './config';
 import { merge } from 'lodash';
 
 const Chart: React.FC<ChartProps> = (props) => {

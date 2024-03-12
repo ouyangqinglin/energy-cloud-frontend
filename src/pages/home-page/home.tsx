@@ -126,7 +126,6 @@ const HomePage: React.FC = () => {
             siteType || '',
           )
         ) {
-          console.log('112233>>', 112233);
           return;
         }
       } else if (item.field == 'chargePower') {
