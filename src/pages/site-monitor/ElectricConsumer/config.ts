@@ -12,13 +12,6 @@ export const columns: YTProColumns<DeviceInfo>[] = [
     hideInSearch: true,
   },
   {
-    title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
-    dataIndex: 'deviceId',
-    width: 150,
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
     title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
     dataIndex: 'sn',
     width: 120,
@@ -72,13 +65,6 @@ export const loadColumns: YTProColumns<DeviceInfo>[] = [
     title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
     dataIndex: 'name',
     width: 120,
-    ellipsis: true,
-    hideInSearch: true,
-  },
-  {
-    title: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
-    dataIndex: 'deviceId',
-    width: 150,
     ellipsis: true,
     hideInSearch: true,
   },

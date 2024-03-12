@@ -274,7 +274,7 @@ export default {
   'siteMonitor.logs': '日志',
   'siteMonitor.logContent': '日志内容',
   'siteMonitor.logtype': '日志类型',
-  'siteMonitor.logFileName': '日志文件名称',
+  'siteMonitor.logName': '日志名称',
   'siteMonitor.logDetails': '日志详情',
   'siteMonitor.siteEnergyFlow': '站点能量流',
   'siteMonitor.pvSystemEnergyFlow': '光伏系统能量流',
@@ -323,4 +323,9 @@ export default {
   'siteMonitor.120kWDCEVCharger': '120kW直流充电桩',
   'siteMonitor.7kWACEVCharger': '7kW交流充电桩',
   'siteMonitor.PV-ESS-EVManagementCloudPlatform': '光储充及工商储运维管理云平台',
+  'siteMonitor.power': '功率',
+  'siteMonitor.maximumVoltage': '最高单体电压',
+  'siteMonitor.minimumVoltage': '最低单体电压',
+  'siteMonitor.maximumTemperature': '最高单体温度',
+  'siteMonitor.minimumTemperature': '最低单体温度',
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-05 13:42:14
+ * @LastEditTime: 2024-03-11 19:00:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -206,10 +206,13 @@ const Run: React.FC<RunType> = (props) => {
       const result: GroupItem[] = [];
       switch (modelDescribeItem.type) {
         case DeviceModelDescribeTypeEnum.Group:
+        case DeviceModelDescribeTypeEnum.PropertyGroup:
           if (passAuthority(modelDescribeItem?.authority)) {
-            result.push({
-              label: <Detail.Label title={modelDescribeItem.name} />,
-            });
+            if (modelDescribeItem.showType != DeviceModelShowTypeEnum.HideName) {
+              result.push({
+                label: <Detail.Label title={modelDescribeItem.name} />,
+              });
+            }
             if (modelDescribeItem.showType == DeviceModelShowTypeEnum.Grid) {
               result.push({
                 component: getGridComponent(modelDescribeItem.children, modelDescribeItem?.columns),

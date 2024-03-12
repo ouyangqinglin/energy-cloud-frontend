@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:50:47
- * @LastEditTime: 2024-03-05 11:00:03
+ * @LastEditTime: 2024-03-09 11:21:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\Part.tsx
  */

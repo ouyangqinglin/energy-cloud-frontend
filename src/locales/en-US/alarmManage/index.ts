@@ -16,7 +16,7 @@ export default {
   'alarmManage.occurrenceTime': 'Occurrence Time',
   'alarmManage.clearTime': 'Clear Time',
   'alarmManage.clearType': 'Clear Type',
-  'alarmManage.reportSource': 'Alarm Report Source',
+  'alarmManage.reportSource': 'Source Of Alarm ',
   'alarmManage.alarmInformation': 'Alarm Information',
   'alarmManage.alarmCode': 'Alarm Code',
   'alarmManage.alarmBy': 'Cleaner',

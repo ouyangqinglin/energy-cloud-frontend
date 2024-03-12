@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-02-26 16:13:17
+ * @LastEditTime: 2024-03-11 11:27:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -273,12 +273,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       field: 'alarmTime',
     },
     {
-      label: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }),
+      label: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '消除时间' }),
       field: 'recoveryTime',
       show: (_, data) => data?.status == 1,
     },
     {
-      label: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' }),
+      label: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' }),
       field: 'recoverType',
       format: (value) => cleanUpType[value],
       show: (_, data) => data?.status == 1,
@@ -370,7 +370,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.History,
       },
       {
-        title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警上报源' }),
+        title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警来源' }),
         dataIndex: 'fromResource',
         valueEnum: alarmSource,
         width: 120,
@@ -403,7 +403,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' }),
+        title: formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' }),
         dataIndex: 'recoverType',
         valueType: 'select',
         valueEnum: cleanUpType,
@@ -412,14 +412,14 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '清除时间' }),
+        title: formatMessage({ id: 'alarmManage.clearTime', defaultMessage: '消除时间' }),
         dataIndex: 'recoveryTime',
         width: 150,
         hideInSearch: true,
         hideInTable: type == PageTypeEnum.Current,
       },
       {
-        title: formatMessage({ id: 'alarmManage.alarmBy', defaultMessage: '清除人' }),
+        title: formatMessage({ id: 'alarmManage.alarmBy', defaultMessage: '消除人' }),
         dataIndex: 'recoveryByName',
         width: 120,
         ellipsis: true,
@@ -481,7 +481,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         ) : (
           <>
             <span>
-              {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '清除类型' })}：
+              {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' })}：
             </span>
             <Checkbox.Group
               options={cleanUpOptions}

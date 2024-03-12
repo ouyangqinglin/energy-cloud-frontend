@@ -27,7 +27,7 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 110 },
-    data: [{ field: 'Humidity2' }, { field: 'Humidity3' }, { field: 'Humidity4' }],
+    data: [{ field: 'mt1' }, { field: 'mt2' }, { field: 'mh' }],
   },
   {
     label: formatMessage({ id: 'device.powerInformation', defaultMessage: '功率信息' }),
@@ -36,12 +36,7 @@ const configs: ConfigType[] = [
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -149 },
-    data: [
-      { field: 'WorkStatus' },
-      { field: 'Humidity' },
-      { field: 'Humidity1' },
-      { field: 'Humidity2' },
-    ],
+    data: [{ field: 'Ua' }, { field: 'Ub' }, { field: 'Uc' }],
   },
 ];
 

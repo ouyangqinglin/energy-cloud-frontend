@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-01-25 10:45:55
+ * @LastEditTime: 2024-03-11 16:21:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -293,7 +293,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
           dataIndex: 'orgId',
           valueType: 'treeSelect',
           request: () => {
-            return getDeptList().then(({ data }) => {
+            return getDeptList({ excludeRootId: 1 }).then(({ data }) => {
               return buildTreeData(data || [], 'orgId', 'orgName', '', '', '');
             });
           },

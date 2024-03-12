@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-02-29 17:48:52
+ * @LastEditTime: 2024-03-09 14:49:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -356,7 +356,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInTable: !isStationChild,
       },
       {
-        title: formatMessage({ id: 'common.addTime', defaultMessage: '添加时间' }),
+        title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
@@ -384,17 +384,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'connectStatus',
         valueType: 'select',
         valueEnum: onlineStatus,
-        width: 120,
-      },
-      {
-        title: formatMessage({ id: 'equipmentList.imei', defaultMessage: 'IMEI/ICCID' }),
-        dataIndex: 'imei',
-      },
-      {
-        title: formatMessage({ id: 'equipmentList.installStatus', defaultMessage: '安装状态' }),
-        dataIndex: 'installStatus',
-        valueType: 'select',
-        valueEnum: onInstallStatus,
         width: 120,
       },
       {

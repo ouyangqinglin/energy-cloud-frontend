@@ -32,7 +32,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'AccessControlStatus',
+        field: 'tlocstu',
       },
     ],
   },
@@ -44,7 +44,7 @@ const configs: ConfigType[] = [
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -183 },
-    data: [{ field: 'Humidity3' }],
+    data: [{ field: 'trunst' }],
   },
   {
     label: formatMessage({ id: 'device.chargingGun', defaultMessage: '充电枪' }),

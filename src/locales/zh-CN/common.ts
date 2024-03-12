@@ -96,7 +96,7 @@ export default {
   'common.site.siteType': '站点类型',
   'common.workbentch': '工作台',
   'common.export': '导出',
-  'common.addTime': '添加时间',
+  'common.addTime': '创建时间',
   'common.upTime': '上线时间',
   'common.unknown': '未知',
   'common.other': '其他',
@@ -210,4 +210,6 @@ export default {
   'common.google': '谷歌',
   'common.binder': '绑定人',
   'common.binderTime': '绑定时间',
+  'common.noneYet': '暂无',
+  'common.pageDevelopmenting': '页面开发中，敬请期待',
 };

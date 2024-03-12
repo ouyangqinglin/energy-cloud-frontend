@@ -21,7 +21,10 @@ export type DeviceContextType = {
   data?: DeviceDataType;
   updateData?: any;
   loading?: boolean;
-  refreshDataByRequest?: (params: RefreshRequestParams) => Promise<ResponseCommonData<string[]>>;
+  refreshDataByRequest?: (
+    params: RefreshRequestParams,
+    showMessage?: boolean,
+  ) => Promise<ResponseCommonData<string[]>>;
 };
 
 const DeviceContext = createContext<DeviceContextType>({

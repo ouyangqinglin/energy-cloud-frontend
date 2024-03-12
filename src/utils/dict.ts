@@ -348,7 +348,7 @@ export const alarmClearStatus = {
 
 export const cleanUpType = {
   0: formatMessage({ id: 'dataManage.automaticRecovery', defaultMessage: '自动恢复' }),
-  1: formatMessage({ id: 'dataManage.manualClear', defaultMessage: '手动清除' }),
+  1: formatMessage({ id: 'dataManage.manualClear', defaultMessage: '手动消除' }),
 };
 
 export const effectStatus = {

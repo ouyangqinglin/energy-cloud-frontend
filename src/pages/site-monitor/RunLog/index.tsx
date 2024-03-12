@@ -121,7 +121,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       hideInSearch: isDeviceChild,
     },
     {
-      title: formatMessage({ id: 'siteMonitor.logFileName', defaultMessage: '日志文件名称' }),
+      title: formatMessage({ id: 'siteMonitor.logName', defaultMessage: '日志名称' }),
       dataIndex: 'content',
       width: 150,
       ellipsis: true,

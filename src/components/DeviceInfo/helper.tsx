@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-08 15:42:33
+ * @LastEditTime: 2024-03-11 16:27:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -126,7 +126,7 @@ export const allItems: Record<string, DetailItem> = {
   },
   deviceCode: {
     label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
-    field: 'deviceId',
+    field: 'devid',
   },
   externalIpAddress: {
     label: formatMessage({ id: 'device.externalIpAddress', defaultMessage: '外网IP' }),

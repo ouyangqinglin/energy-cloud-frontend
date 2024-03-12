@@ -71,8 +71,12 @@ const Model: React.FC<CabinetProps> = (props) => {
       return (
         <Part
           config={config}
-          deviceId={productIdMap?.[config.productTypeId || '']?.deviceId}
-          productId={productIdMap?.[config.productTypeId || '']?.productId}
+          deviceId={
+            productIdMap?.[(config.productTypeId || '') + (config?.fixValue || '')]?.deviceId
+          }
+          productId={
+            productIdMap?.[(config.productTypeId || '') + (config?.fixValue || '')]?.productId
+          }
           productIdMap={productIdMap}
           source={source}
         />

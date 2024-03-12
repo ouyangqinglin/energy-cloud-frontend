@@ -209,4 +209,6 @@ export default {
   'common.google': 'Google',
   'common.binder': 'Binder',
   'common.binderTime': 'Binding Time',
+  'common.noneYet': 'None Yet',
+  'common.pageDevelopmenting': 'The page is under development, please stay tuned',
 };

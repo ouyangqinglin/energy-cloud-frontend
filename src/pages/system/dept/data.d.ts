@@ -52,4 +52,5 @@ export type DeptListParams = {
   currentPage?: string;
   filter?: string;
   sorter?: string;
+  excludeRootId?: number;
 };

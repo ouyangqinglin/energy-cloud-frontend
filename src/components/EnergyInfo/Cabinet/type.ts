@@ -16,6 +16,7 @@ export type ConfigType = {
   label: string;
   showLabel?: false;
   productTypeId?: DeviceProductTypeEnum;
+  fixValue?: string;
   dataProductTypeIds?: DeviceProductTypeEnum[];
   position: {
     top: number;
