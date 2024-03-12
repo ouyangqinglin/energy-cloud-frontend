@@ -22,12 +22,17 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
   const [form] = Form.useForm();
   const oldId = values?.id;
   const isEdit = Boolean(oldId);
-  const [dataSource, setDataSource] = useState<FieldType[]>([]);
   const actionRef = useRef<ActionType>();
 
   const handleSearch = async (params: Partial<FieldType>) => {
-    const { data, code } = await getTypePage({ ...params, type });
-    if (code == '200') setDataSource(data);
+    return getTypePage({ ...params, type }).then((res) => {
+      return {
+        data: {
+          list: res.data,
+          total: res.data.length,
+        },
+      };
+    });
   };
   useEffect(() => {
     form.resetFields();
@@ -41,12 +46,10 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       return;
     }
     form.submit();
-    setDataSource(() => []);
   };
   const handleCancel = () => {
     props.onCancel();
     form.resetFields();
-    setDataSource(() => []);
   };
   const handleFinish = async (value: FieldFormType) => {
     const formData = value;
@@ -64,6 +67,13 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
         json: JSON.stringify({ name, id }),
       });
     }
+  };
+  const handleJsonChange = () => {
+    const json = JSON.parse(form.getFieldValue('json'));
+    form.setFieldsValue({
+      name: json.name,
+      id: json.id,
+    });
   };
 
   return (
@@ -129,6 +139,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                 id: 'physicalModel.fieldConfig',
                 defaultMessage: '配置',
               })}
+              onChange={handleJsonChange}
               width="xl"
               placeholder="请输入配置"
               rules={[
@@ -144,10 +155,9 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
           <Col span={24}>
             <YTProTable
               columns={fieldColumns}
-              onSubmit={handleSearch}
               rowKey={(record) => `${record.sourceName}-${record.name}-${record.id}-${record.type}`}
               actionRef={actionRef}
-              dataSource={dataSource}
+              request={handleSearch}
               pagination={false}
               toolBarRender={() => []}
               rowSelection={{

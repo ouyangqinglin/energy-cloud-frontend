@@ -35,16 +35,16 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const { showType, visible, values } = props;
   const actionRef = useRef<ActionType>();
   const [form] = Form.useForm();
-  const [type, setType] = useState<string>('property');
+  const [type, setType] = useState<string>();
   const [currentRow, setCurrentRow] = useState<Partial<FieldFormType>>({});
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [existItem, setExistItem] = useState<any[]>([]);
   const [version, setVersion] = useState(0);
 
-  const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(initThingsConfig);
+  const [thingsConfig, setThingsConfig] = useState<ThingsConfigType>(cloneDeep(initThingsConfig));
   const handleThingsConfig = (data: ThingsConfigType): ThingsConfigType => {
-    const result: ThingsConfigType = initThingsConfig;
+    const result: ThingsConfigType = cloneDeep(initThingsConfig);
     Object.keys(data).forEach((key) => {
       const item = data[key as keyof typeof data].map((i: any) => {
         i.json = JSON.stringify(i);
@@ -62,15 +62,10 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
         remark: data.remark,
       });
       setThingsConfig(handleThingsConfig(data.thingsConfig));
+      setType('property');
       setVersion(data.version);
     }
   };
-  useEffect(() => {
-    if (values?.id) {
-      getDetailData(values?.id);
-    }
-  }, [values]);
-
   /*
    *@Author: aoshilin
    *@Date: 2024-01-24 16:03:01
@@ -80,6 +75,11 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   const tabChange = (key: string) => {
     setType(key);
   };
+  useEffect(() => {
+    if (values?.id) {
+      getDetailData(values?.id);
+    }
+  }, [values]);
 
   /*
    *@Author: aoshilin
@@ -160,7 +160,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   useEffect(() => {
     if (visible) {
       form.resetFields();
-      setThingsConfig(initThingsConfig);
+      setThingsConfig(cloneDeep(initThingsConfig));
     }
   }, [form, visible]);
 
