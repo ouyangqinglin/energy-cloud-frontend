@@ -1,6 +1,22 @@
 import { formatMessage } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { ConfigDataType } from './data';
+export enum OnlineStatusEnum {
+  None,
+  Online,
+}
+export const onlineStatus = {
+  [OnlineStatusEnum.None]: {
+    text: '离线',
+    icon: 'red',
+    status: 'Error',
+  },
+  [OnlineStatusEnum.Online]: {
+    text: '在线',
+    icon: 'green',
+    status: 'Processing',
+  },
+};
 export const columns: ProColumns<ConfigDataType>[] = [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
@@ -10,22 +26,23 @@ export const columns: ProColumns<ConfigDataType>[] = [
   },
   {
     title: formatMessage({ id: 'device.serialNumber', defaultMessage: '序列号' }),
-    dataIndex: 'serialNumber',
+    dataIndex: 'sn',
     hideInSearch: true,
   },
   {
     title: formatMessage({ id: 'device.ConfigName', defaultMessage: '名称' }),
     hideInSearch: true,
-    dataIndex: 'ConfigName',
+    dataIndex: 'deviceName',
   },
   {
     title: formatMessage({ id: 'device.networkStatus', defaultMessage: '网络状态' }),
     hideInSearch: true,
-    dataIndex: 'networkStatus',
+    dataIndex: 'alarmStatus',
+    valueEnum: onlineStatus,
   },
   {
     title: formatMessage({ id: 'device.ratedCurrent', defaultMessage: '额定电流' }) + '(A)',
     hideInSearch: true,
-    dataIndex: 'ratedCurrent',
+    dataIndex: 'ratedCur',
   },
 ];

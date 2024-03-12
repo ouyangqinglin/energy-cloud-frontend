@@ -171,6 +171,7 @@ export type FileType = {
 export type ListDataType = {
   id?: string;
   name?: string;
+  children?: any[];
   [key: string]: any;
 };
 

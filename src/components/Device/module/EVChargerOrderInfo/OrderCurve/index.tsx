@@ -3,7 +3,6 @@ import TypeChart from '@/components/Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
 import { useRef, useState, useEffect } from 'react';
 import { getytOrdercurve } from '@/services/equipment';
-import type { OrderDataType } from '../data';
 import moment from 'moment';
 import { option } from '../config';
 import { formatMessage } from '@/utils';

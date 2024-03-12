@@ -1,16 +1,15 @@
 import Detail from '@/components/Detail';
 import { Button, Modal, Switch } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useEffect, useRef, useContext, useState } from 'react';
+import { useRef, useState } from 'react';
 import { formatMessage } from '@/utils';
-import DeviceContext from '@/components/Device/Context/DeviceContext';
-import { useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ConfigDataType } from './data';
 import { columns } from './config';
-import { getEmsAssociationDevice } from '@/services/equipment';
+import { getChargeTerm, addTerminal, termBindMainServer, delTerm } from '@/services/equipment';
 import AddForm from './AddForm/index';
+import { cloneDeep } from 'lodash';
 
 export type EVChargerOrderInfoType = {
   deviceId?: string;
@@ -18,78 +17,106 @@ export type EVChargerOrderInfoType = {
 
 const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
-  const { data: deviceData } = useContext(DeviceContext);
   const [addVisible, setAddVisible] = useState<boolean>(false);
+  const [bindMainServer, setBindMainServer] = useState([]);
 
-  console.log('deviceData>>', deviceData);
-  console.log('props>>', props);
   const actionRef = useRef<ActionType>();
-  const {
-    data: associationData,
-    run,
-    loading,
-  } = useRequest(getEmsAssociationDevice, {
-    manual: true,
-  });
-  const mockData = [
-    {
-      serialNumber: '1',
-      ConfigName: '1',
-      networkStatus: '1',
-      ratedCurrent: '1',
-      associatedHosts: '1',
-    },
-  ];
-  useEffect(() => {
-    if (deviceId) {
-      run({ deviceId });
+  const handleRequest = () => {
+    return getChargeTerm({
+      deviceId,
+    }).then((res) => {
+      const result: any = [];
+      res.data.forEach((i) => {
+        result.push(i.id);
+      });
+      setBindMainServer(result);
+      return {
+        data: {
+          list: res.data,
+          total: res.data.length,
+        },
+      };
+    });
+  };
+
+  const handleRemoveOne = async (rowData: ConfigDataType) => {
+    try {
+      await delTerm({ deviceId: rowData.id });
+      return true;
+    } catch {
+      return false;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceId]);
-
-  const handleRemoveOne = (rowData: ConfigDataType) => {
-    console.log('rowData>>', rowData);
-    return true;
   };
 
-  const handleOpenAssociate = (rowData: ConfigDataType) => {
-    console.log('rowData>>', rowData);
-    return true;
+  const handleOpenAssociate = async (rowData: ConfigDataType) => {
+    const bindTermId = rowData.id;
+    const notBindTermId = cloneDeep(bindMainServer);
+    const index = notBindTermId.findIndex((i) => i === bindTermId);
+    notBindTermId.splice(index, 1);
+    try {
+      await termBindMainServer({ bindTermId, notBindTermId });
+      return true;
+    } catch {
+      return false;
+    }
   };
-  const handleAdd = (rowData: ConfigDataType) => {
-    console.log('rowData>>', rowData);
-    return true;
+  const handleAdd = async (rowData: ConfigDataType) => {
+    try {
+      await addTerminal({ ...rowData, chargingId: deviceId });
+      return true;
+    } catch {
+      return false;
+    }
   };
   const actionColumn: ProColumns[] = [
     {
       title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
-      dataIndex: 'associatedHosts',
+      dataIndex: 'isBindMainServer',
       ellipsis: true,
       hideInSearch: true,
       render: (_, record) => {
         const rowData = record as ConfigDataType;
         return [
           <Switch
-            checked={Boolean(record.associatedHosts)}
+            checked={record.isBindMainServer == 0} //0--关联 1-未关联
             key="Checke"
-            onClick={async () => {
-              Modal.confirm({
-                title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
-                content: `${rowData.ConfigName}${formatMessage({
-                  id: 'device.openTerminal',
-                  defaultMessage: '开启关联',
-                })}`,
-                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                onOk: async () => {
-                  const success = await handleOpenAssociate(rowData);
-                  if (success) {
-                    if (actionRef.current) {
-                      actionRef.current.reload();
+            onClick={async (value) => {
+              console.log('value>>', value);
+              if (value) {
+                Modal.confirm({
+                  title: formatMessage({
+                    id: 'device.associatedHosts',
+                    defaultMessage: '关联主机',
+                  }),
+                  content: `${rowData.deviceName} ${formatMessage({
+                    id: 'device.openTerminal',
+                    defaultMessage: '开启关联',
+                  })}`,
+                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                  onOk: async () => {
+                    const success = await handleOpenAssociate(rowData);
+                    if (success) {
+                      if (actionRef.current) {
+                        actionRef.current.reload();
+                      }
                     }
-                  }
-                },
-              });
+                  },
+                });
+              } else {
+                Modal.confirm({
+                  title: formatMessage({
+                    id: 'device.associatedHosts',
+                    defaultMessage: '关联主机',
+                  }),
+                  content: formatMessage({
+                    id: 'device.keepOne',
+                    defaultMessage: '请至少保留一个终端关联主机！',
+                  }),
+                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                });
+              }
             }}
           />,
         ];
@@ -114,7 +141,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
                 content: `${formatMessage({
                   id: 'device.deleteTerminal',
                   defaultMessage: '确定删除终端',
-                })}${rowData.ConfigName}？`,
+                })}${rowData.deviceName}？`,
                 okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
                 cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
                 onOk: async () => {
@@ -141,10 +168,9 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
         className="mt16"
       />
       <YTProTable<ConfigDataType>
-        loading={loading}
         actionRef={actionRef}
         columns={[...columns, ...actionColumn]}
-        dataSource={mockData}
+        request={handleRequest}
         search={false}
         scroll={{ y: 'auto' }}
         toolBarRender={() => [
