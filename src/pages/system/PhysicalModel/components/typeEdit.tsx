@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, message } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
@@ -59,9 +59,11 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
   const handleInputChange = () => {
     const { name, id, json } = form.getFieldsValue();
     if (json) {
-      form.setFieldsValue({
-        json: JSON.stringify({ ...JSON.parse(json), name, id }),
-      });
+      try {
+        form.setFieldsValue({
+          json: JSON.stringify({ ...JSON.parse(json), name, id }),
+        });
+      } catch {}
     } else {
       form.setFieldsValue({
         json: JSON.stringify({ name, id }),
@@ -69,13 +71,23 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
     }
   };
   const handleJsonChange = () => {
-    const json = JSON.parse(form.getFieldValue('json'));
-    form.setFieldsValue({
-      name: json.name,
-      id: json.id,
-    });
+    try {
+      const json = JSON.parse(form.getFieldValue('json'));
+      form.setFieldsValue({
+        name: json.name,
+        id: json.id,
+      });
+    } catch {}
   };
 
+  const customValidator = (_rule: any, value: string) => {
+    try {
+      JSON.parse(value);
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject('json格式错误!');
+    }
+  };
   return (
     <Modal
       width={1000}
@@ -147,6 +159,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                   required: true,
                   message: <FormattedMessage id="请输入配置！" defaultMessage="请输入配置！" />,
                 },
+                { validator: customValidator },
               ]}
             />
           </Col>
