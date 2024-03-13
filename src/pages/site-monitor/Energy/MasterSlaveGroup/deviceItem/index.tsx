@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { useRequest } from 'umi';
+import { useRequest, useHistory } from 'umi';
 import styles from './index.less';
 import { Divider, Progress } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import DeviceImg from '@/assets/image/masterSlaveGroup/device.png';
-import IconVoltage from '@/assets/image/masterSlaveGroup/icon_voltage.png';
-import IconTemp from '@/assets/image/masterSlaveGroup/icon_temp.png';
 import IconCharge from '@/assets/image/masterSlaveGroup/icon_charge.png';
 import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
@@ -15,6 +12,7 @@ import { useSubscribe } from '@/hooks';
 import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
 import { maxConfig, peakItems } from './helper';
 import Detail from '@/components/Detail';
+import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
 
 //获取实时数据订阅id
 const getDataIds = (data: DeviceDataType[]): string[] => {
@@ -56,7 +54,11 @@ const chargeFormat = (value: string) => {
     },
   };
   return {
-    content: <span className={map[value]?.color}>{map[value]?.text || '静置'}</span>,
+    content: (
+      <span className={map[value]?.color}>
+        {map[value]?.text || formatMessage({ id: 'device.stewing', defaultMessage: '静置' })}
+      </span>
+    ),
     icon: map[value]?.icon || IconStewing,
   };
 };
@@ -70,6 +72,7 @@ export type DeviceItemProps = {
 const DeviceItem: React.FC<DeviceItemProps> = (props) => {
   const { deviceData, onClickDeviceData, onRealTimeDataChange } = props;
 
+  const history = useHistory();
   const [deviceIds, setDeviceIds] = useState<string[]>();
   const realTimeData = useSubscribe(deviceIds, true);
   const { run } = useRequest(getWholeDeviceTree, {
@@ -79,6 +82,13 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
   const onDeviceDetail = useCallback(() => {
     onClickDeviceData(true, deviceData?.deviceId);
   }, [deviceData]);
+
+  const onAlarmClick = useCallback(() => {
+    history.push({
+      pathname: '/alarm/current',
+      search: `?siteId=${deviceData?.siteId}&deviceName=${deviceData?.deviceName}`,
+    });
+  }, [deviceData?.siteId]);
 
   useEffect(() => {
     if (deviceData?.deviceId) {
@@ -117,18 +127,29 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
     <>
       <div className={styles.contain}>
         <div className={styles.topLineContain}>
-          <Divider className={styles.divider} type="vertical" />
           <div className={styles.chargeStaus}>
-            <div className={`w-full pl7 ellipsis ${styles.deviceName}`}>
+            <div className={'flex'}>
+              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}：
+              {onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
+            </div>
+            <div className={'flex'}>
+              {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
+              {deviceAlarmStatusFormat((deviceData?.alarmStatus ?? '') as string)}
+              <span className="cursor ml8" onClick={onAlarmClick}>
+                {!!deviceData?.alarmCount && deviceData?.alarmCount}
+              </span>
+            </div>
+          </div>
+          <Divider className={styles.divider} type="vertical" />
+          <div className={styles.energyInfo}>
+            <div className={`w-full ellipsis ${styles.deviceName}`}>
               {deviceData?.deviceName || '--'}
               {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
                 ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
                 : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
             </div>
-            <div className="flex">
-              <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />
-              {chargeFormat(realTimeData.CADI)?.content}
-            </div>
+            <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />
+            <div>{chargeFormat(realTimeData.CADI)?.content}</div>
           </div>
         </div>
         <div className="my6" onClick={onDeviceDetail}>

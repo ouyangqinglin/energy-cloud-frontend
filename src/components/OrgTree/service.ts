@@ -10,8 +10,9 @@ import request from '@/utils/request';
 import type { ResponseCommonData } from '@/utils/request';
 import { TreeData } from './type';
 
-export const getOrgTree = () => {
+export const getOrgTree = (params: any) => {
   return request(`/uc/user/orgSiteTree`, {
     method: 'GET',
+    params,
   });
 };

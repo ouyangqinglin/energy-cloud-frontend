@@ -2,77 +2,64 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-07 16:41:03
- * @LastEditTime: 2023-07-27 11:58:36
+ * @LastEditTime: 2024-03-13 15:34:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\index.tsx
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
-import OrgTree from '@/components/OrgTree';
-import { OrgTypeEnum, TreeNode } from '@/components/OrgTree/type';
-import styles from '../index.less';
-import { isEmpty } from '@/utils';
-import { AccountDataType } from './config';
-import { default as UserAccount } from './Account';
+import React, { useMemo, memo } from 'react';
+import { formatMessage } from '@/utils';
+import { Tabs, TabsProps } from 'antd';
+import { useAuthority } from '@/hooks';
+import AccountTree from './AccountTree';
+import { OrgTypeEnum } from '@/components/OrgTree/type';
 
 const Account: React.FC = () => {
-  const [selectOrg, setSelectOrg] = useState<TreeNode | null>({ id: 100, key: '100', type: 0 });
-  const [selectType, setSelectType] = useState(0);
-  const selectedKeys = useMemo<string[]>(() => {
-    return isEmpty(selectOrg?.id) ? [] : [selectOrg?.id as string];
-  }, [selectOrg]);
+  const { authorityMap } = useAuthority([
+    'system:user:account:system',
+    'system:user:account:install',
+    'system:user:account:owner',
+    'system:user:account:operator',
+  ]);
 
-  const searchParams = useMemo<AccountDataType>(() => {
-    if (selectOrg) {
-      if (!isEmpty(selectOrg?.siteId)) {
-        return {
-          orgTypes:
-            selectOrg.type == OrgTypeEnum.Install
-              ? [OrgTypeEnum.Install, OrgTypeEnum.Operator, OrgTypeEnum.Owner]
-              : [selectOrg.type],
-          orgId: selectOrg?.parentId,
-          siteId: selectOrg?.siteId,
-          siteName: selectOrg?.siteName,
-          parentId: selectOrg.parentId,
-        };
-      } else {
-        return {
-          orgTypes:
-            selectOrg.type == OrgTypeEnum.Install
-              ? [OrgTypeEnum.Install, OrgTypeEnum.Operator, OrgTypeEnum.Owner]
-              : [selectOrg.type],
-          orgId: selectOrg?.id as string,
-          parentId: selectOrg.parentId,
-        };
-      }
-    } else {
-      return {};
+  const items = useMemo<TabsProps['items']>(() => {
+    const result: TabsProps['items'] = [];
+    if (authorityMap.get('system:user:account:system')) {
+      result.push({
+        key: 'system',
+        label: formatMessage({ id: 'user.system', defaultMessage: '系统管理员' }),
+        children: <AccountTree type={OrgTypeEnum.System} />,
+      });
     }
-  }, [selectOrg]);
-
-  const onSelect = useCallback((_, { selected, node }: { selected: boolean; node: TreeNode }) => {
-    if (selected) {
-      setSelectOrg(node);
-      setSelectType(node?.type);
+    if (authorityMap.get('system:user:account:install')) {
+      result.push({
+        key: 'install',
+        label: formatMessage({ id: 'user.install', defaultMessage: '安装商' }),
+        children: <AccountTree type={OrgTypeEnum.Install} />,
+      });
     }
-  }, []);
-
-  const afterRequest = useCallback((data) => {
-    setSelectOrg(data[0]);
-  }, []);
+    if (authorityMap.get('system:user:account:owner')) {
+      result.push({
+        key: 'owner',
+        label: formatMessage({ id: 'user.owner', defaultMessage: '业主' }),
+        children: <AccountTree type={OrgTypeEnum.Owner} />,
+      });
+    }
+    if (authorityMap.get('system:user:account:operator')) {
+      result.push({
+        key: 'operator',
+        label: formatMessage({ id: 'user.operator', defaultMessage: '运营商' }),
+        children: <AccountTree type={OrgTypeEnum.Operator} />,
+      });
+    }
+    return result;
+  }, [authorityMap]);
 
   return (
     <>
-      <div className={styles.contain}>
-        <div className={styles.tree}>
-          <OrgTree selectedKeys={selectedKeys} onSelect={onSelect} afterRequest={afterRequest} />
-        </div>
-        <div className={styles.table}>
-          <UserAccount params={searchParams} type={selectType} />
-        </div>
-      </div>
+      <Tabs className="category-tabs" items={items} tabBarGutter={24} />
     </>
   );
 };
 
-export default Account;
+export default memo(Account);

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:11:39
- * @LastEditTime: 2024-01-25 11:17:55
+ * @LastEditTime: 2024-03-13 15:56:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\Account.tsx
  */
@@ -15,13 +15,14 @@ import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
 import { message } from 'antd';
-import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
+import { tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { api } from '@/services';
 import { OptionType } from '@/types';
 import { arrayToMap, formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
+import { YTProTableProps } from '@/components/YTProTable/typing';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -29,7 +30,7 @@ export type AccountProps = {
 };
 
 const Account: React.FC<AccountProps> = (props) => {
-  const { params } = props;
+  const { params, type } = props;
   const actionRef = useRef<ActionType>();
   const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
   const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
@@ -38,14 +39,31 @@ const Account: React.FC<AccountProps> = (props) => {
     id: '',
   });
   const { authorityMap } = useAuthority([
-    'systemManage:userManage:account:add',
-    'systemManage:userManage:account:edit',
-    'systemManage:userManage:account:delete',
+    'system:user:account:system:add',
+    'system:user:account:system:edit',
+    'system:user:account:system:delete',
+
+    'system:user:account:install:add',
+    'system:user:account:install:edit',
+    'system:user:account:install:delete',
+
+    'system:user:account:owner:add',
+    'system:user:account:owner:edit',
+    'system:user:account:owner:delete',
+
+    'system:user:account:operator:add',
+    'system:user:account:operator:edit',
+    'system:user:account:operator:delete',
   ]);
 
-  useMemo(() => {
-    console.log('roleOptions>>', roleOptions);
-  }, [roleOptions]);
+  const showAdd = useMemo(() => {
+    return (
+      (type == OrgTypeEnum.System && authorityMap.get('system:user:account:system:add')) ||
+      (type == OrgTypeEnum.Install && authorityMap.get('system:user:account:install:add')) ||
+      (type == OrgTypeEnum.Owner && authorityMap.get('system:user:account:owner:add')) ||
+      (type == OrgTypeEnum.Operator && authorityMap.get('system:user:account:operator:add'))
+    );
+  }, [type, authorityMap]);
 
   const tableColumns = useMemo(() => {
     return getTableColumns(params?.orgTypes);
@@ -105,6 +123,27 @@ const Account: React.FC<AccountProps> = (props) => {
       }
     });
   }, []);
+
+  const options = useMemo(() => {
+    const result: YTProTableProps<any, any>['option'] = {};
+    if (
+      (type == OrgTypeEnum.System && authorityMap.get('system:user:account:system:edit')) ||
+      (type == OrgTypeEnum.Install && authorityMap.get('system:user:account:install:edit')) ||
+      (type == OrgTypeEnum.Owner && authorityMap.get('system:user:account:owner:edit')) ||
+      (type == OrgTypeEnum.Operator && authorityMap.get('system:user:account:operator:edit'))
+    ) {
+      result.onEditChange = onEditClick;
+    }
+    if (
+      (type == OrgTypeEnum.System && authorityMap.get('system:user:account:system:delete')) ||
+      (type == OrgTypeEnum.Install && authorityMap.get('system:user:account:install:delete')) ||
+      (type == OrgTypeEnum.Owner && authorityMap.get('system:user:account:owner:delete')) ||
+      (type == OrgTypeEnum.Operator && authorityMap.get('system:user:account:operator:delete'))
+    ) {
+      result.onDeleteChange = onDeleteClick;
+    }
+    return result;
+  }, [type, authorityMap, onEditClick, onDeleteClick]);
 
   const beforeSubmit = (formData: AccountDataType) => {
     formData.roleIds = [formData?.roleId || ''];
@@ -178,19 +217,12 @@ const Account: React.FC<AccountProps> = (props) => {
         }}
         toolBarRenderOptions={{
           add: {
-            show: authorityMap.get('systemManage:userManage:account:add'),
+            show: showAdd,
             onClick: onAddClick,
             text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
           },
         }}
-        option={{
-          ...(authorityMap.get('systemManage:userManage:account:edit')
-            ? { onEditChange: onEditClick }
-            : {}),
-          ...(authorityMap.get('systemManage:userManage:account:delete')
-            ? { onDeleteChange: onDeleteClick }
-            : {}),
-        }}
+        option={options}
       />
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <SchemaForm<AccountDataType, TABLESELECTVALUETYPE>
