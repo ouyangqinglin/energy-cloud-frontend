@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-08 10:50:56
+ * @LastEditTime: 2024-03-13 10:23:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal1Gun\index.tsx
  */
@@ -24,7 +24,7 @@ import GunBLine from '@/assets/image/station/charge-terminal-1gun/gun-line.png';
 const configs: ConfigType[] = [
   {
     label: '',
-    productTypeId: DeviceProductTypeEnum.DCChargePile,
+    productTypeId: DeviceProductTypeEnum.ChargeTerminal,
     showLabel: false,
     position: { top: 55, left: 69 },
     icon: DoorImg,
@@ -39,7 +39,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     showLabel: false,
-    productTypeId: DeviceProductTypeEnum.DCChargePile,
+    productTypeId: DeviceProductTypeEnum.ChargeTerminal,
     position: { top: 40, left: 687 },
     icon: RunImg,
     line: RunLineImg,
