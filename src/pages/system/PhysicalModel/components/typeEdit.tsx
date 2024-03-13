@@ -175,7 +175,6 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                 })}
                 rules={[
                   {
-                    required: true,
                     message: formatMessage({
                       id: 'common.pleaseSelect',
                       defaultMessage: '请选择',
