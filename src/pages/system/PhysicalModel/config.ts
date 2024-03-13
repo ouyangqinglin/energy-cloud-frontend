@@ -17,6 +17,25 @@ export const tabsItem: TabsProps['items'] = [
   },
 ];
 
+export const alarmLevelOptions = [
+  {
+    value: 'info',
+    label: formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' }),
+  },
+  {
+    value: 'warn',
+    label: formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' }),
+  },
+  {
+    value: 'alarm',
+    label: formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' }),
+  },
+  {
+    value: 'error',
+    label: formatMessage({ id: 'alarmManage.emergent', defaultMessage: '严重' }),
+  },
+];
+
 export const typeObj = {
   property: 'properties',
   event: 'events',
@@ -139,3 +158,13 @@ export const fieldColumns: ProColumnType[] = [
     renderText: (json) => JSON.stringify(json),
   },
 ];
+
+export const eventsDefaultJson = {
+  dataType: {
+    specs: {
+      '0': '正常',
+      '1': '故障',
+    },
+    type: 'enum',
+  },
+};

@@ -348,7 +348,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
           setModalVisible(false);
           setCurrentRow({});
         }}
-        type={type}
+        modelType={type}
         existItem={existItem}
         visible={modalVisible}
         values={currentRow}

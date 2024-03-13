@@ -173,6 +173,7 @@ export default {
   'common.logCode': '日志编码',
   'common.cleared': '清空了',
   'common.clear': '清空',
+  'common.reset': '重置',
   'common.viewMore': '查看更多',
   'common.notice': '通知',
   'common.viewedAllNotifications': '你已查看所有通知',

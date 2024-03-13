@@ -170,6 +170,7 @@ export default {
   'common.logCode': 'Log code',
   'common.cleared': 'Cleared',
   'common.clear': 'Clear',
+  'common.reset': 'reset',
   'common.viewMore': 'View more',
   'common.notice': 'Notice',
   'common.viewedAllNotifications': 'You have viewed all notifications',

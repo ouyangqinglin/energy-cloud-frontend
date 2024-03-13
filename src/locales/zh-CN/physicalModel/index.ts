@@ -15,6 +15,7 @@ export default {
   'physicalModel.fieldJson': '结构体',
   'physicalModel.fieldConfig': '配置',
   'physicalModel.fieldType': '字段类型',
+  'physicalModel.alarmLevel': '告警等级',
   'pageTemplate.name': '页面名称',
   'pageTemplate.editable': '页面类型',
   'pageTemplate.platform': '引用端',
