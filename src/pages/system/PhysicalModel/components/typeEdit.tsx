@@ -1,31 +1,32 @@
 import React, { useEffect, useRef } from 'react';
-import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { Form, Modal, Row, Col, message } from 'antd';
+import { ProFormText, ProFormTextArea, ProFormSelect } from '@ant-design/pro-form';
+import { Form, Modal, Row, Col, message, Button } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import type { FieldFormType, FieldType } from '../data';
 import YTProTable from '@/components/YTProTable';
 import type { ActionType } from '@ant-design/pro-components';
-import { fieldColumns } from '../config';
+import { fieldColumns, alarmLevelOptions, eventsDefaultJson } from '../config';
 import { getTypePage } from '../service';
+import { formatMessage } from '@/utils';
 
 export type TypeEditProps = {
   onCancel: () => void;
   onSubmit: (values: FieldFormType) => Promise<void>;
   visible: boolean;
   values: Partial<FieldFormType>;
-  type: string;
+  modelType: string;
   existItem: string[];
 };
 
 const TypeEdit: React.FC<TypeEditProps> = (props) => {
-  const { type, existItem, values } = props;
+  const { modelType = 'property', existItem, values } = props;
   const [form] = Form.useForm();
   const oldId = values?.id;
   const isEdit = Boolean(oldId);
   const actionRef = useRef<ActionType>();
 
   const handleSearch = async (params: Partial<FieldType>) => {
-    return getTypePage({ ...params, type }).then((res) => {
+    return getTypePage({ ...params, type: modelType }).then((res) => {
       return {
         data: {
           list: res.data,
@@ -34,8 +35,21 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       };
     });
   };
-  useEffect(() => {
+  const clearJson = () => {
     form.resetFields();
+  };
+  const resetJson = () => {
+    if (isEdit) {
+      form.setFieldsValue(values);
+    } else {
+      clearJson();
+      if (modelType == 'event') {
+        form.setFieldValue('json', JSON.stringify(eventsDefaultJson));
+      }
+    }
+  };
+  useEffect(() => {
+    resetJson();
   }, [form, props]);
 
   const intl = useIntl();
@@ -57,16 +71,16 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
     props.onSubmit(formData);
   };
   const handleInputChange = () => {
-    const { name, id, json } = form.getFieldsValue();
+    const { name, id, json, type } = form.getFieldsValue();
     if (json) {
       try {
         form.setFieldsValue({
-          json: JSON.stringify({ ...JSON.parse(json), name, id }),
+          json: JSON.stringify({ ...JSON.parse(json), name, id, type }),
         });
       } catch {}
     } else {
       form.setFieldsValue({
-        json: JSON.stringify({ name, id }),
+        json: JSON.stringify({ name, id, type }),
       });
     }
   };
@@ -88,8 +102,10 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       return Promise.reject('json格式错误!');
     }
   };
+
   return (
     <Modal
+      maskClosable={false}
       width={1000}
       title={intl.formatMessage({
         id: 'physicalModel.fieldEdit',
@@ -100,7 +116,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} onFinish={handleFinish} initialValues={values} layout="vertical">
+      <Form form={form} onFinish={handleFinish} layout="vertical">
         <Row gutter={[16, 16]}>
           <Col span={12} order={1}>
             <ProFormText
@@ -142,9 +158,37 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
               ]}
             />
           </Col>
+          {modelType == 'event' ? (
+            <Col span={12} order={2}>
+              <ProFormSelect
+                options={alarmLevelOptions}
+                onChange={handleInputChange}
+                width="xl"
+                name="type"
+                label={formatMessage({
+                  id: 'physicalModel.alarmLevel',
+                  defaultMessage: '告警等级',
+                })}
+                placeholder={formatMessage({
+                  id: 'common.pleaseSelect',
+                  defaultMessage: '请选择',
+                })}
+                rules={[
+                  {
+                    message: formatMessage({
+                      id: 'common.pleaseSelect',
+                      defaultMessage: '请选择',
+                    }),
+                  },
+                ]}
+              />
+            </Col>
+          ) : (
+            ''
+          )}
         </Row>
-        <Row gutter={[16, 16]}>
-          <Col span={24}>
+        <Row gutter={[16, 16]} align="middle">
+          <Col span={14}>
             <ProFormTextArea
               name="json"
               label={intl.formatMessage({
@@ -163,6 +207,14 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
               ]}
             />
           </Col>
+          <Col offset={1} span={6}>
+            <Button className="mr16" key="add" onClick={resetJson}>
+              {formatMessage({ id: 'common.reset', defaultMessage: '重置' })}
+            </Button>
+            <Button type="primary" key="add" onClick={clearJson}>
+              {formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
+            </Button>
+          </Col>
         </Row>
         <Row gutter={[16, 16]}>
           <Col span={24}>
@@ -176,11 +228,15 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
               rowSelection={{
                 type: 'radio', // 设置选择类型为单选
                 onChange: (_, selectedRows: any) => {
-                  form.setFieldsValue({
-                    json: JSON.stringify(selectedRows[0]?.json || ''),
-                    id: selectedRows[0]?.id || '',
-                    name: selectedRows[0]?.name || '',
-                  });
+                  if (selectedRows.length) {
+                    form.setFieldsValue({
+                      json: JSON.stringify(selectedRows[0]?.json || ''),
+                      id: selectedRows[0]?.id || '',
+                      name: selectedRows[0]?.name || '',
+                    });
+                  } else {
+                    resetJson();
+                  }
                 },
               }}
             />

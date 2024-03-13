@@ -248,6 +248,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
   return (
     <Modal
       width={1000}
+      maskClosable={false}
       title={intl.formatMessage({
         id: 'physicalModel',
         defaultMessage: `${
@@ -348,7 +349,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
           setModalVisible(false);
           setCurrentRow({});
         }}
-        type={type}
+        modelType={type}
         existItem={existItem}
         visible={modalVisible}
         values={currentRow}
