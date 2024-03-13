@@ -135,8 +135,6 @@ const Overview: React.FC<OverviewProps> = (props) => {
   }, [deviceData]);
 
   const title = useMemo(() => {
-    console.log('deviceNameInfo>>', deviceNameInfo);
-    console.log('deviceData>>', deviceData);
     if (deviceNameInfo.showEdit) {
       return (
         <Input

@@ -7,8 +7,10 @@
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
 import React, { useMemo } from 'react';
-import Detail, { DetailItem, DetailProps } from './Detail';
-import { Tabs, TabsProps } from 'antd';
+import type { DetailItem, DetailProps } from './Detail';
+import Detail from './Detail';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
 
 export type GroupItem = {
   label?: React.ReactNode;

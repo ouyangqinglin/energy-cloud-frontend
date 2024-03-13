@@ -26,10 +26,11 @@ const PhysicalModel: React.FC = () => {
       hide();
       if (resp.code === 200) {
         message.success('添加成功');
+        return true;
       } else {
         message.error(resp.msg);
+        return false;
       }
-      return true;
     } catch (error) {
       hide();
       message.error('添加失败请重试！');
@@ -48,10 +49,11 @@ const PhysicalModel: React.FC = () => {
       hide();
       if (resp.code === 200) {
         message.success('配置成功');
+        return true;
       } else {
         message.error(resp.msg);
+        return false;
       }
-      return true;
     } catch (error) {
       hide();
       message.error('配置失败请重试！');

@@ -35,9 +35,10 @@ const ChartBox = ({
   const onChange = (value: any) => {
     setDate(value);
   };
-  useEffect(() => {
-    chartRef?.current?.getEchartsInstance()?.clear?.();
-  }, [siteType]);
+  // useEffect(() => {
+  //   chartRef?.current?.getEchartsInstance()?.clear?.();
+  // }, [siteType]);
+
   const timeTypeChange = (type: TimeType) => {
     chartRef?.current?.getEchartsInstance()?.clear?.();
     setTimeType(type);

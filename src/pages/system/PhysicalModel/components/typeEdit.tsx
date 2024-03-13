@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { Form, Modal, Row, Col, message } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
@@ -22,12 +22,17 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
   const [form] = Form.useForm();
   const oldId = values?.id;
   const isEdit = Boolean(oldId);
-  const [dataSource, setDataSource] = useState<FieldType[]>([]);
   const actionRef = useRef<ActionType>();
 
   const handleSearch = async (params: Partial<FieldType>) => {
-    const { data, code } = await getTypePage({ ...params, type });
-    if (code == '200') setDataSource(data);
+    return getTypePage({ ...params, type }).then((res) => {
+      return {
+        data: {
+          list: res.data,
+          total: res.data.length,
+        },
+      };
+    });
   };
   useEffect(() => {
     form.resetFields();
@@ -41,12 +46,10 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       return;
     }
     form.submit();
-    setDataSource(() => []);
   };
   const handleCancel = () => {
     props.onCancel();
     form.resetFields();
-    setDataSource(() => []);
   };
   const handleFinish = async (value: FieldFormType) => {
     const formData = value;
@@ -56,16 +59,35 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
   const handleInputChange = () => {
     const { name, id, json } = form.getFieldsValue();
     if (json) {
-      form.setFieldsValue({
-        json: JSON.stringify({ ...JSON.parse(json), name, id }),
-      });
+      try {
+        form.setFieldsValue({
+          json: JSON.stringify({ ...JSON.parse(json), name, id }),
+        });
+      } catch {}
     } else {
       form.setFieldsValue({
         json: JSON.stringify({ name, id }),
       });
     }
   };
+  const handleJsonChange = () => {
+    try {
+      const json = JSON.parse(form.getFieldValue('json'));
+      form.setFieldsValue({
+        name: json.name,
+        id: json.id,
+      });
+    } catch {}
+  };
 
+  const customValidator = (_rule: any, value: string) => {
+    try {
+      JSON.parse(value);
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject('json格式错误!');
+    }
+  };
   return (
     <Modal
       width={1000}
@@ -129,6 +151,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                 id: 'physicalModel.fieldConfig',
                 defaultMessage: '配置',
               })}
+              onChange={handleJsonChange}
               width="xl"
               placeholder="请输入配置"
               rules={[
@@ -136,6 +159,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
                   required: true,
                   message: <FormattedMessage id="请输入配置！" defaultMessage="请输入配置！" />,
                 },
+                { validator: customValidator },
               ]}
             />
           </Col>
@@ -144,9 +168,9 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
           <Col span={24}>
             <YTProTable
               columns={fieldColumns}
-              onSubmit={handleSearch}
+              rowKey={(record) => `${record.sourceName}-${record.name}-${record.id}-${record.type}`}
               actionRef={actionRef}
-              dataSource={dataSource}
+              request={handleSearch}
               pagination={false}
               toolBarRender={() => []}
               rowSelection={{
