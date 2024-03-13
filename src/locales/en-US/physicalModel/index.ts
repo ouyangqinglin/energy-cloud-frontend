@@ -14,6 +14,7 @@ export default {
   'physicalModel.fieldJson': 'Field Json',
   'physicalModel.fieldType': 'Field Type',
   'physicalModel.fieldConfig': 'Field Config',
+  'physicalModel.alarmLevel': 'Alarm Level',
   'physicalModel.fieldEdit': 'Field Edit',
   'pageTemplate.name': 'Page Template Name',
   'pageTemplate.editable': 'Page Template Editable',
