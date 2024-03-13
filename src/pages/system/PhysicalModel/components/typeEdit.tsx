@@ -105,6 +105,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
 
   return (
     <Modal
+      maskClosable={false}
       width={1000}
       title={intl.formatMessage({
         id: 'physicalModel.fieldEdit',
