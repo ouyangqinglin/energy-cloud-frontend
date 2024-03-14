@@ -24,6 +24,8 @@ import DoorImg from '@/assets/image/station/energy/door.png';
 import DoorLineImg from '@/assets/image/station/fgc-energy/door-line.png';
 import EmsImg from '@/assets/image/station/energy/ems.png';
 import EmsLineImg from '@/assets/image/station/fgc-energy/ems-line.png';
+import StackImg from '@/assets/image/station/energy/stack.png';
+import StackLineImg from '@/assets/image/station/fgc-energy/bms-line.png';
 
 const configs: ConfigType[] = [
   {
@@ -72,6 +74,20 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: -160 },
     data: [{ field: 'systemOperatingMode' }, { field: 'systemWorkingStatus' }],
   },
+  {
+    label: formatMessage({ id: 'device.batteryStack', defaultMessage: '电池堆' }),
+    productTypeId: DeviceProductTypeEnum.Ems,
+    position: { top: 190, left: 734 },
+    icon: StackImg,
+    line: StackLineImg,
+    linePosition: { top: 30, left: -190 },
+    data: [
+      { field: 'batteryPackOperatingMode' },
+      { field: 'batteryPackWorkingStatus' },
+      { field: 'a' },
+      { field: 'soc' },
+    ],
+  },
 ];
 
 const Front: React.FC<EntityType> = (props) => {
@@ -81,7 +97,7 @@ const Front: React.FC<EntityType> = (props) => {
     <>
       <Model
         modelStyle={{
-          height: '300px',
+          height: '370px',
           backgroundImage: `url(${Energy})`,
           backgroundSize: '22%',
         }}

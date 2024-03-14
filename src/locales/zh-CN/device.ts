@@ -433,4 +433,5 @@ export default {
   'device.quantity': '按电量',
   'device.soc': '按soc',
   'device.keepOne': '请至少保留一个终端关联主机！',
+  'device.batteryStack': '电池堆',
 };

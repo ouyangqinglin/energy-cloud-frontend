@@ -22,6 +22,7 @@ import styles from './index.less';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallBackRender from '../FallBackRender';
 import { DeviceDataType } from '@/services/equipment';
+import { useAuthority } from '@/hooks';
 
 type DeviceType = {
   deviceTreeData?: DeviceDataType[];
@@ -34,6 +35,8 @@ const Device: React.FC<DeviceType> = memo((props) => {
   const onEditSuccess = useCallback(() => {
     updateData?.();
   }, [updateData]);
+
+  const { authorityMap } = useAuthority(['device:detail:communicationMessage']);
 
   const items = useMemo<TabsProps['items']>(() => {
     const debug = [
@@ -117,10 +120,10 @@ const Device: React.FC<DeviceType> = memo((props) => {
       DeviceProductTypeEnum.DCChargePile,
       DeviceProductTypeEnum.ACChargePile,
       DeviceProductTypeEnum.ChargeTerminal,
-    ].includes(+deviceData?.productTypeId)
+    ].includes(+deviceData?.productTypeId) && authorityMap.get('device:detail:communicationMessage')
       ? [...arr, ...debug]
       : arr;
-  }, [deviceData]);
+  }, [deviceData, authorityMap]);
 
   return (
     <>
