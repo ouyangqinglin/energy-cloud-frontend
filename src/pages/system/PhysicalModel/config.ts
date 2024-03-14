@@ -32,7 +32,7 @@ export const alarmLevelOptions = [
   },
   {
     value: 'error',
-    label: formatMessage({ id: 'alarmManage.emergent', defaultMessage: '严重' }),
+    label: formatMessage({ id: 'alarmManage.emergent', defaultMessage: '紧急' }),
   },
 ];
 
