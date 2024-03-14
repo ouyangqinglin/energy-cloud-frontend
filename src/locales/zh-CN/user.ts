@@ -65,4 +65,8 @@ export default {
   'user.moduleIdentification': '模块标识',
   'user.productDetails': '产品详情',
   'user.moduleManagement': '模块管理',
+  'user.system': '系统管理员',
+  'user.install': '安装商',
+  'user.operator': '运营商',
+  'user.owner': '业主',
 };

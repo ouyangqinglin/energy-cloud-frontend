@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-08 11:40:06
+ * @LastEditTime: 2024-03-13 09:57:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeStack\index.tsx
  */
@@ -35,17 +35,24 @@ const Charge: React.FC = () => {
   });
 
   const masterDeviceData = useMemo(() => {
-    return energyData?.children?.find?.(
+    const result = energyData?.children?.find?.(
       (item) => item.productTypeId == DeviceProductTypeEnum.ChargeMaster,
     );
+    if (result) {
+      result.deviceId = result.id;
+    }
+    return result;
   }, [energyData]);
 
   const terminalsDeviceData = useMemo(() => {
-    return (
+    const result =
       energyData?.children?.filter?.(
         (item) => item.productTypeId == DeviceProductTypeEnum.ChargeTerminal,
-      ) || []
-    );
+      ) || [];
+    result.forEach((item) => {
+      item.deviceId = item.id;
+    });
+    return result;
   }, [energyData]);
 
   const carouselItems = useMemo(() => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-21 10:57:01
- * @LastEditTime: 2023-07-31 09:50:27
+ * @LastEditTime: 2024-03-13 15:30:34
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\OrgTree\index.tsx
  */
@@ -30,6 +30,7 @@ const orgIconMap = new Map([
 ]);
 
 export type OrgTreeProps = Omit<TreeProps, 'treeData' | 'onSelect'> & {
+  type?: OrgTypeEnum;
   onSelect?: TreeProps<TreeNode>['onSelect'];
   afterRequest?: (data: any) => void;
 };
@@ -77,7 +78,7 @@ const filterData = (data: TreeNode[], searchValue: string) => {
 };
 
 const OrgTree: React.FC<OrgTreeProps> = (props) => {
-  const { onSelect, afterRequest, ...restProps } = props;
+  const { type, onSelect, afterRequest, ...restProps } = props;
 
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -107,8 +108,8 @@ const OrgTree: React.FC<OrgTreeProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    run();
-  }, []);
+    run({ type });
+  }, [type]);
 
   return (
     <>

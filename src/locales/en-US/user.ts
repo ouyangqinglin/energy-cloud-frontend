@@ -64,4 +64,8 @@ export default {
   'user.moduleIdentification': 'Module identification',
   'user.productDetails': 'Product details',
   'user.moduleManagement': 'Module management',
+  'user.system': 'System Administrator',
+  'user.install': 'Installer',
+  'user.operator': 'Operator',
+  'user.owner': 'Owner',
 };
