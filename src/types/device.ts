@@ -67,6 +67,7 @@ export type DeviceServiceModelType = {
   deviceId?: string;
   parentId?: string;
   serviceId?: string;
+  queryId?: string;
   name?: string;
   required?: boolean;
   span?: number;
@@ -89,6 +90,7 @@ export type DeviceServiceModelType = {
 
 export type DeviceServiceType = {
   id?: string;
+  queryId?: string;
   deviceId?: string;
   disabled?: string;
   name?: string;
@@ -121,6 +123,7 @@ export type DevicePageModels = {
 
 export type DeviceModelDescribeType = {
   id?: string;
+  queryId?: string;
   name?: string;
   type?: DeviceModelDescribeTypeEnum;
   showType?: DeviceModelShowTypeEnum;

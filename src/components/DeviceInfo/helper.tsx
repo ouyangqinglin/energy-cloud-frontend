@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-11 16:27:34
+ * @LastEditTime: 2024-03-14 10:11:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -195,15 +195,15 @@ export const allItems: Record<string, DetailItem> = {
     showPlaceholder: false,
     format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
   },
-  // converterCommunication: {
-  //   label: formatMessage(
-  //     { id: 'device.communicationSentence', defaultMessage: '通信' },
-  //     { name: formatMessage({ id: 'device.converter', defaultMessage: '逆变器' }) },
-  //   ),
-  //   field: 'converterCommunication',
-  //   showPlaceholder: false,
-  //   format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
-  // },
+  inverterCommunication: {
+    label: formatMessage(
+      { id: 'device.communicationSentence', defaultMessage: '通信' },
+      { name: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }) },
+    ),
+    field: 'inverterCommunication',
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
+  },
   bmsCommunication: {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
@@ -250,7 +250,8 @@ export const allItems: Record<string, DetailItem> = {
     show: (_, data: DeviceDataType) =>
       data.productId == DeviceTypeEnum.Wind2EnergyEms ||
       data.productId == DeviceTypeEnum.SmallEnergyEms ||
-      data.productId == DeviceTypeEnum.PvEnergyEms,
+      data.productId == DeviceTypeEnum.PvEnergyEms ||
+      data.productId == DeviceTypeEnum.FGCCEnergyEms,
   },
   fireFightCommunication: {
     label: formatMessage(
@@ -299,6 +300,14 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage(
       { id: 'device.communicationMethodSentence', defaultMessage: '通信方式' },
       { name: 'EMS' },
+    ),
+    field: 'comm',
+    format: emsConnectMethodFormat,
+  },
+  inverterCommunicationMethod: {
+    label: formatMessage(
+      { id: 'device.communicationMethodSentence', defaultMessage: '通信方式' },
+      { name: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }) },
     ),
     field: 'comm',
     format: emsConnectMethodFormat,
@@ -480,7 +489,7 @@ const fgccEmsKeys = [
   'iccid',
   'thirdCloudPlatformCommunication',
   'lightBoardCommunication',
-  'converterCommunication',
+  'inverterCommunication',
   'bmsCommunication',
   'liquidCoolerCommunication',
   'dehumidifierCommunication',
@@ -547,6 +556,8 @@ const chargeKeys = ['ratedPower', 'gunNumber'];
 
 const chargeStackKeys = ['ratedPower', 'gunNumber'];
 
+const dynamoKeys = ['ratedPower', 'inverterCommunicationMethod'];
+
 const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Ems, emsKeys],
   [DeviceProductTypeEnum.Pcs, pcsKeys],
@@ -557,6 +568,7 @@ const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Dehumidifier, dehumidifierKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
+  [DeviceProductTypeEnum.Dynamo, dynamoKeys],
 ]);
 
 const productIdKeysMap = new Map([

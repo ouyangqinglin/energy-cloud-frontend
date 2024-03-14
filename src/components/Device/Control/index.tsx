@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-08 16:49:18
+ * @LastEditTime: 2024-03-14 14:17:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -56,7 +56,7 @@ import { useRequest } from 'umi';
 import styles from './index.less';
 import { useSubscribe } from '@/hooks';
 import { EditOutlined, RedoOutlined } from '@ant-design/icons';
-import DeviceContext from '../Context/DeviceContext';
+import DeviceContext, { RefreshRequestParams } from '../Context/DeviceContext';
 
 export type ControlType = {
   deviceId?: string;
@@ -168,12 +168,16 @@ const Control: React.FC<ControlType> = memo((props) => {
   const onRefresh = useCallback(
     (service: DeviceServiceType | DeviceServiceModelType) => {
       const ids = getPropsFromTree([service]);
-      refreshDataByRequest?.({
+      const refreshParams: RefreshRequestParams = {
         deviceId: service?.deviceId || deviceId || '',
         input: {
           queryList: ids,
         },
-      }).then(({ code }) => {
+      };
+      if (service.queryId) {
+        refreshParams.serviceId = service.queryId;
+      }
+      refreshDataByRequest?.(refreshParams).then(({ code }) => {
         if (code == '200') {
           message.success(
             formatMessage({ id: 'device.refreshSuccess', defaultMessage: '刷新成功' }),
@@ -718,6 +722,7 @@ const Control: React.FC<ControlType> = memo((props) => {
       service?.children?.forEach?.((field) => {
         if (passAuthority(field.authority)) {
           field.serviceId = service.id;
+          field.queryId = service.queryId;
           const { items, cols } = getFieldItem(field);
           if (field.dataType?.type == DeviceModelTypeEnum.Array) {
             if (detailItems.length > 1) {

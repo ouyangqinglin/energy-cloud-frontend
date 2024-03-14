@@ -67,6 +67,7 @@ export enum DeviceProductTypeEnum {
   FireFight = 545,
   ChargeMaster = 546,
   ChargeTerminal = 547,
+  Dynamo = 548,
 }
 
 export enum DeviceTypeEnum {
