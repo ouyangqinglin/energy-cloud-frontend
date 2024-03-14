@@ -16,6 +16,13 @@ export const getTypePage = (params: any) => {
   });
 };
 
+export const getProductConfigType = (params: any) => {
+  return request(`/iot/productConfig/productConfigType`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getDetail = (params: any) => {
   return request(`/iot/model`, {
     method: 'GET',

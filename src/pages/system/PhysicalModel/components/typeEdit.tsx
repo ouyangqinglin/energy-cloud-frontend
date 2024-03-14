@@ -45,6 +45,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
       clearJson();
       if (modelType == 'event') {
         form.setFieldValue('json', JSON.stringify(eventsDefaultJson));
+        form.setFieldValue('type', 'error');
       }
     }
   };
