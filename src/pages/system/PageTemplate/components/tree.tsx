@@ -241,8 +241,8 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     form.resetFields();
   };
   const setfieldConfig = () => {
-    const { type, name, id, productConfigType } = form.getFieldsValue();
-    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id, productConfigType }));
+    const { type, name, id } = form.getFieldsValue();
+    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id }));
   };
   const handleChange = () => {
     setfieldConfig();
@@ -288,11 +288,10 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
 
   const configvalidator = (_rule: any, value: string) => {
     try {
-      const { id, name, type, productConfigType } = JSON.parse(value);
+      const { id, name, type } = JSON.parse(value);
       if (!id) return Promise.reject('id requested!');
       if (!name) return Promise.reject('name requested!');
       if (!type) return Promise.reject('type requested!');
-      if (!productConfigType) return Promise.reject('productConfigType requested!');
       return Promise.resolve();
     } catch (err) {
       return Promise.reject('json format error!');
@@ -447,7 +446,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                   options: configTypeOptions || [],
                 }}
                 width="xl"
-                name="productConfigType"
+                name="type"
                 label={formatMessage({
                   id: 'physicalModel.type',
                   defaultMessage: '类型',
