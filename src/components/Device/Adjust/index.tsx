@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-07-04 10:04:53
+ * @LastEditTime: 2024-03-14 17:13:40
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Adjust\index.tsx
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Switch, Tag, Input, message } from 'antd';
@@ -53,10 +53,14 @@ const Index: React.FC = (props) => {
     if (Object.keys(data).length > 1) {
       setLoading(false);
       let time;
-      const msg = JSON.parse(JSON.stringify(data.msg));
-      for (const v in msg) {
-        if (Array.isArray(msg[v]) && msg[v][0].ts)
-          time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
+      try {
+        const dataMsg = JSON.parse(JSON.stringify(data.msg));
+        for (const v in dataMsg) {
+          if (Array.isArray(dataMsg[v]) && dataMsg[v][0].ts)
+            time = moment(dataMsg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
+        }
+      } catch {
+        time = '';
       }
       const item = {
         msg: data.msg,
@@ -160,7 +164,7 @@ const Index: React.FC = (props) => {
           </div>
         </div>
         {/* 充电桩 */}
-        {[DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ACChargePile].includes(
+        {[DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ChargeTerminal].includes(
           productTypeId,
         ) && (
           <div className={styles.send}>
