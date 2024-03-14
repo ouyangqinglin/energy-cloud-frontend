@@ -21,6 +21,7 @@ export default {
   'pageTemplate.platform': 'Page Template Platform',
   'pageTemplate.remark': 'Page Template Remark',
   'pageTemplate.productModels': 'Page Template Product',
-  'pageTemplate.type': 'Type',
+  'pageTemplate.classification': 'Type',
   'physicalModel.field': 'field',
+  'pageTemplate.type': 'Type',
 };
