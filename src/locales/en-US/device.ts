@@ -335,6 +335,7 @@ export default {
   'device.communicationSentence': '{name} communication',
   'device.upperComputer': 'Upper computer',
   'device.cloudPlatform': 'Cloud platform',
+  'device.thirdCloudPlatform': 'Third-Party Cloud Platform',
   'device.YTCloud': 'YT Cloud',
   'device.lightBoard': 'Light board',
   'device.converter': 'Converter',

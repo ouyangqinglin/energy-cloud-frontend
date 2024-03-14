@@ -125,7 +125,7 @@ export const allItems: Record<string, DetailItem> = {
     format: (value) => masterSlave1Enum[value]?.text,
   },
   deviceCode: {
-    label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
+    label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备ID' }),
     field: 'devid',
   },
   externalIpAddress: {
@@ -150,6 +150,10 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage({ id: 'device.imeiNumber', defaultMessage: 'IMEI号' }),
     field: 'imei',
   },
+  iccid: {
+    label: 'ICCID',
+    field: 'iccid',
+  },
   upperComputerCommunication: {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
@@ -162,6 +166,14 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
       { name: formatMessage({ id: 'device.cloudPlatform', defaultMessage: '云平台' }) },
+    ),
+    field: 'e603',
+    format: onlineStatus1Format,
+  },
+  thirdCloudPlatformCommunication: {
+    label: formatMessage(
+      { id: 'device.communicationSentence', defaultMessage: '通信' },
+      { name: formatMessage({ id: 'device.thirdCloudPlatform', defaultMessage: '第三方云平台' }) },
     ),
     field: 'e603',
     format: onlineStatus1Format,
@@ -183,6 +195,15 @@ export const allItems: Record<string, DetailItem> = {
     showPlaceholder: false,
     format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
   },
+  // converterCommunication: {
+  //   label: formatMessage(
+  //     { id: 'device.communicationSentence', defaultMessage: '通信' },
+  //     { name: formatMessage({ id: 'device.converter', defaultMessage: '逆变器' }) },
+  //   ),
+  //   field: 'converterCommunication',
+  //   showPlaceholder: false,
+  //   format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
+  // },
   bmsCommunication: {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
@@ -446,6 +467,29 @@ const emsKeys = [
   'inverterMeterCommunication',
 ];
 
+const fgccEmsKeys = [
+  'ipAddress',
+  'ratedPower',
+  'ratedCapacity',
+  'masterSlave',
+  'deviceCode',
+  'externalIpAddress',
+  'emsHardwareVersion',
+  'emsSoftwareVersion',
+  'imeiNumber',
+  'iccid',
+  'thirdCloudPlatformCommunication',
+  'lightBoardCommunication',
+  'converterCommunication',
+  'bmsCommunication',
+  'liquidCoolerCommunication',
+  'dehumidifierCommunication',
+  'airCommunication',
+  'fireFightCommunication',
+  'gridMeterCommunication',
+  'inverterMeterCommunication',
+];
+
 const pcsKeys = ['ratedPower', 'meterSerialNumber', 'emsCommunicationMethod'];
 const pvEnergyPcsKeys = [
   'ratedPower',
@@ -524,6 +568,7 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.ChargeY801, chargeKeys],
   [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
   [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
+  [DeviceTypeEnum.FGCCEnergyEms, fgccEmsKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {

@@ -61,7 +61,7 @@ export default {
   'common.setDetails': 'Setting details',
   'common.deviceName': 'Device Name',
   'common.deviceSn': 'Device sn',
-  'common.deviceCode': 'Device Code',
+  'common.deviceCode': 'Device ID',
   'common.equipmentSerial': 'Device SN',
   'common.equipmentEmsSerial': 'Ems SN',
   'common.currentVersion': 'Current Version',

@@ -323,6 +323,7 @@ export default {
   'device.communicationSentence': '{name}通信',
   'device.upperComputer': '上位机',
   'device.cloudPlatform': '云平台',
+  'device.thirdCloudPlatform': '第三方云平台',
   'device.YTCloud': '永泰云',
   'device.lightBoard': '灯板',
   'device.converter': '变流器',
