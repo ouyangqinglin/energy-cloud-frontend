@@ -4,9 +4,9 @@ import type { TreeProps } from 'antd';
 import { Modal, Row, Form, Col } from 'antd';
 import { typeOption, getUniqueNumber } from '../config';
 import type { ModeTreeDataNode } from '../data';
-import { useIntl, useRequest, FormattedMessage } from 'umi';
+import { useIntl, useRequest } from 'umi';
 import { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { getPage, getTypePage } from '../service';
+import { getPage, getTypePage, getProductConfigType } from '../service';
 import {
   DownOutlined,
   EditOutlined,
@@ -14,6 +14,7 @@ import {
   MinusCircleOutlined,
 } from '@ant-design/icons';
 import { cloneDeep, debounce } from 'lodash';
+import { formatMessage } from '@/utils';
 const { Search } = Input;
 
 type ConfigTreeProps = {
@@ -84,6 +85,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const [modelTyep, setModelTyep] = useState<string>('add');
   const { data: physicalModelOption, run } = useRequest(getPage);
   const { data: fieldOptions, run: runField } = useRequest(getTypePage, { manual: true });
+  const { data: configTypeOptions } = useRequest(getProductConfigType);
 
   const dataList: { key: string; name: string }[] = [];
   const generateList = (data: ModeTreeDataNode[]) => {
@@ -206,41 +208,43 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     setVisible(true);
   };
   const handleOk = () => {
-    const fieldConfig = JSON.parse(form.getFieldValue('fieldConfig'));
-    if (fieldConfig.hasOwnProperty('disabled')) {
-      fieldConfig.enable = fieldConfig.disabled;
-      delete fieldConfig.disabled;
-    }
-    if (modelTyep == 'add') {
-      //新增
-      if (!treeNode.children) {
-        treeNode.children = [];
+    form.validateFields().then(() => {
+      const fieldConfig = JSON.parse(form.getFieldValue('fieldConfig'));
+      if (fieldConfig.hasOwnProperty('disabled')) {
+        fieldConfig.enable = fieldConfig.disabled;
+        delete fieldConfig.disabled;
       }
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      fieldConfig.key = getUniqueNumber();
-      treeNode.children.push(fieldConfig);
-    } else {
-      //编辑
-      Object.assign(treeNode, fieldConfig);
-      Object.keys(treeNode).forEach((key) => {
-        //编辑删除一些字段做的处理
-        const hasKey = fieldConfig.hasOwnProperty(key);
-        if (!hasKey && key !== 'children') delete treeNode[key as keyof typeof treeNode];
-      });
-    }
-    form.resetFields();
-    setTreeData(() => [...treeData]);
-    setVisible(false);
+      if (modelTyep == 'add') {
+        //新增
+        if (!treeNode.children) {
+          treeNode.children = [];
+        }
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        fieldConfig.key = getUniqueNumber();
+        treeNode.children.push(fieldConfig);
+      } else {
+        //编辑
+        Object.assign(treeNode, fieldConfig);
+        Object.keys(treeNode).forEach((key) => {
+          //编辑删除一些字段做的处理
+          const hasKey = fieldConfig.hasOwnProperty(key);
+          if (!hasKey && key !== 'children') delete treeNode[key as keyof typeof treeNode];
+        });
+      }
+      form.resetFields();
+      setTreeData(() => [...treeData]);
+      setVisible(false);
+    });
   };
   const handleCancel = () => {
     setVisible(false);
     form.resetFields();
   };
   const setfieldConfig = () => {
-    const { type, name, id } = form.getFieldsValue();
-    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id }));
+    const { type, name, id, productConfigType } = form.getFieldsValue();
+    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id, productConfigType }));
   };
-  const handleNameChange = () => {
+  const handleChange = () => {
     setfieldConfig();
   };
 
@@ -281,6 +285,19 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   useImperativeHandle(ref, () => ({
     getTreeData,
   }));
+
+  const configvalidator = (_rule: any, value: string) => {
+    try {
+      const { id, name, type, productConfigType } = JSON.parse(value);
+      if (!id) return Promise.reject('id requested!');
+      if (!name) return Promise.reject('name requested!');
+      if (!type) return Promise.reject('type requested!');
+      if (!productConfigType) return Promise.reject('productConfigType requested!');
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject('json format error!');
+    }
+  };
 
   return (
     <>
@@ -323,7 +340,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
       />
       <Modal
         width={1000}
-        title={modelTyep == 'add' ? '新增' : '编辑'}
+        title={
+          modelTyep == 'add'
+            ? formatMessage({ id: 'common.add', defaultMessage: '新增' })
+            : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
+        }
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -341,20 +362,15 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                   options: physicalModelOption?.list || [],
                 }}
                 onChange={handlephysicalModelChange}
-                label={intl.formatMessage({
+                label={formatMessage({
                   id: 'physicalModel.name',
                   defaultMessage: '关联物模型',
                 })}
-                placeholder="请选择关联物模型"
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
                 rules={[
                   {
                     required: true,
-                    message: (
-                      <FormattedMessage
-                        id="请选择关联物模型！"
-                        defaultMessage="请选择关联物模型！"
-                      />
-                    ),
+                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                   },
                 ]}
               />
@@ -365,15 +381,15 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 width="xl"
                 name="type"
                 label={intl.formatMessage({
-                  id: 'pageTemplate.type',
+                  id: 'pageTemplate.classification',
                   defaultMessage: '分类',
                 })}
                 onChange={handTypeChange}
-                placeholder="请选择分类"
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
                 rules={[
                   {
                     required: true,
-                    message: <FormattedMessage id="请选择分类！" defaultMessage="请选择分类！" />,
+                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                   },
                 ]}
               />
@@ -388,38 +404,60 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 }}
                 width="xl"
                 name="id"
-                label={intl.formatMessage({
-                  id: 'pageTemplate.field',
+                label={formatMessage({
+                  id: 'physicalModel.field',
                   defaultMessage: '字段',
                 })}
                 onChange={handleFieldChange}
-                placeholder="请选择字段"
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
                 rules={[
                   {
                     required: true,
-                    message: <FormattedMessage id="请选择字段！" defaultMessage="请选择字段！" />,
+                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                   },
                 ]}
               />
             </Col>
           </Row>
           <Row gutter={[16, 16]}>
-            <Col span={24} order={1}>
+            <Col span={12} order={1}>
               <ProFormText
                 name="name"
                 label={intl.formatMessage({
                   id: 'physicalModel.fieldName',
                   defaultMessage: '字段名称',
                 })}
-                onChange={handleNameChange}
+                onChange={handleChange}
                 width="xl"
-                placeholder="请输入字段名称"
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
                 rules={[
                   {
                     required: true,
-                    message: (
-                      <FormattedMessage id="请输入字段名称！" defaultMessage="请输入字段名称！" />
-                    ),
+                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+                  },
+                ]}
+              />
+            </Col>
+            <Col span={12} order={1}>
+              <ProFormSelect
+                fieldProps={{
+                  showSearch: true,
+                  onSearch: fieldSearch,
+                  fieldNames: { label: 'description', value: 'productConfigType' },
+                  options: configTypeOptions || [],
+                }}
+                width="xl"
+                name="productConfigType"
+                label={formatMessage({
+                  id: 'physicalModel.type',
+                  defaultMessage: '类型',
+                })}
+                onChange={handleChange}
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
+                rules={[
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
                   },
                 ]}
               />
@@ -430,15 +468,18 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
               <ProFormTextArea
                 name="fieldConfig"
                 label={intl.formatMessage({
-                  id: 'pageTemplate.fieldConfig',
+                  id: 'physicalModel.fieldConfig',
                   defaultMessage: '配置',
                 })}
                 width="xl"
-                placeholder="请输入配置"
+                placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
                 rules={[
                   {
                     required: true,
-                    message: <FormattedMessage id="请输入配置！" defaultMessage="请输入配置！" />,
+                    message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+                  },
+                  {
+                    validator: configvalidator,
                   },
                 ]}
               />

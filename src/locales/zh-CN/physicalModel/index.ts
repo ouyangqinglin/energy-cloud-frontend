@@ -21,5 +21,6 @@ export default {
   'pageTemplate.platform': '引用端',
   'pageTemplate.remark': '页面描述',
   'pageTemplate.productModels': '关联产品型号',
-  'pageTemplate.type': '分类',
+  'pageTemplate.classification': '分类',
+  'pageTemplate.type': '类型',
 };
