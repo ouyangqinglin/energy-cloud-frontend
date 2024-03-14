@@ -142,11 +142,14 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           </div>
           <Divider className={styles.divider} type="vertical" />
           <div className={styles.energyInfo}>
-            <div className={`w-full ellipsis ${styles.deviceName}`}>
-              {deviceData?.deviceName || '--'}
+            <div
+              className={`w-full ellipsis ${styles.deviceName}`}
+              title={deviceData?.deviceName || '--'}
+            >
               {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
                 ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
                 : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+              {deviceData?.deviceName || '--'}
             </div>
             <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />
             <div>{chargeFormat(realTimeData.CADI)?.content}</div>
