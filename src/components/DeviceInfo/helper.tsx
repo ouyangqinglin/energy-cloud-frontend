@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-15 11:41:30
+ * @LastEditTime: 2024-03-15 17:25:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -112,6 +112,11 @@ export const allItems: Record<string, DetailItem> = {
   ratedPower: {
     label: formatMessage({ id: 'device.ratedPower', defaultMessage: '额定功率' }),
     field: 'ratedOutputPower',
+    format: powerFormat,
+  },
+  chargeRatedPower: {
+    label: formatMessage({ id: 'device.ratedPower', defaultMessage: '额定功率' }),
+    field: 'tsysp',
     format: powerFormat,
   },
   ratedCapacity: {
@@ -490,6 +495,10 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
     field: 'gunNumber',
   },
+  chargeGunNumber: {
+    label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
+    field: 'tgnum',
+  },
   terminalNumber: {
     label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
     field: 'terminalNumber',
@@ -604,9 +613,9 @@ const dehumidifierKeys = [
   'emsCommunicationMethod',
 ];
 
-const chargeKeys = ['ratedPower', 'gunNumber'];
+const chargeKeys = ['chargeRatedPower', 'chargeGunNumber'];
 
-const chargeStackKeys = ['ratedPower', 'gunNumber'];
+const chargeStackKeys = ['chargeRatedPower', 'chargeGunNumber'];
 
 const dynamoKeys = ['ratedPower', 'inverterCommunicationMethod'];
 
