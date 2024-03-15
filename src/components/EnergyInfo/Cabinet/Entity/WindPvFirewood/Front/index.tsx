@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-14 11:31:33
- * @LastEditTime: 2024-03-14 14:03:57
+ * @LastEditTime: 2024-03-15 10:31:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Front\index.tsx
  */
@@ -31,7 +31,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.inventer', defaultMessage: '逆变器' }),
     productTypeId: DeviceProductTypeEnum.Pcs,
-    position: { top: 6, left: 80 },
+    position: { top: 6, left: 66 },
     icon: PcsImg,
     line: PcsLineImg,
     linePosition: { top: 22, left: 92 },
@@ -40,7 +40,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
     productTypeId: DeviceProductTypeEnum.FireFight,
-    position: { top: 138, left: 80 },
+    position: { top: 138, left: 66 },
     icon: FireFightImg,
     line: FireFightLineImg,
     linePosition: { top: 22, left: 76 },
@@ -49,7 +49,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
     productTypeId: DeviceProductTypeEnum.EnergyElectricMeter,
-    position: { top: 238, left: 80 },
+    position: { top: 244, left: 66 },
     icon: MeterImg,
     line: MeterLineImg,
     linePosition: { top: 22, left: 76 },
@@ -68,10 +68,10 @@ const configs: ConfigType[] = [
   {
     label: 'EMS',
     productTypeId: DeviceProductTypeEnum.Ems,
-    position: { top: 80, left: 734 },
+    position: { top: 70, left: 734 },
     icon: EmsImg,
     line: EmsLineImg,
-    linePosition: { top: 22, left: -160 },
+    linePosition: { top: 22, left: -187 },
     data: [{ field: 'systemOperatingMode' }, { field: 'systemWorkingStatus' }],
   },
   {
@@ -80,7 +80,7 @@ const configs: ConfigType[] = [
     position: { top: 190, left: 734 },
     icon: StackImg,
     line: StackLineImg,
-    linePosition: { top: 30, left: -190 },
+    linePosition: { top: 25, left: -190 },
     data: [
       { field: 'batteryPackOperatingMode' },
       { field: 'batteryPackWorkingStatus' },
@@ -99,7 +99,7 @@ const Front: React.FC<EntityType> = (props) => {
         modelStyle={{
           height: '370px',
           backgroundImage: `url(${Energy})`,
-          backgroundSize: '22%',
+          backgroundSize: '29%',
         }}
         configs={configs}
         {...restProps}

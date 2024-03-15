@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:50:47
- * @LastEditTime: 2024-03-09 11:21:55
+ * @LastEditTime: 2024-03-15 10:44:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\Part.tsx
  */
@@ -68,12 +68,7 @@ const Part: React.FC<PartType> = (props) => {
   const mergedConfig = useMemo(() => {
     const result = merge({}, config || {});
     result?.data?.forEach?.((item) => {
-      const label = item.label || modelMap?.[item?.field || '']?.name;
-      item.label = (
-        <span title={label as any} className={`ellipsis ${styles.label}`}>
-          {label}
-        </span>
-      );
+      item.label = item.label || modelMap?.[item?.field || '']?.name;
       item.format =
         item.customFormat || ((value) => formatModelValue(value, modelMap?.[item?.field || '']));
     });
@@ -103,6 +98,9 @@ const Part: React.FC<PartType> = (props) => {
           items={mergedConfig.data}
           data={realTimeData}
           column={1}
+          labelStyle={{
+            maxWidth: '92px',
+          }}
         />
         {mergedConfig.showLabel === false ? (
           <></>

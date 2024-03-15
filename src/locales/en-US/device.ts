@@ -345,7 +345,8 @@ export default {
   'device.inverterMeter': 'Inverter side meter',
   'device.communicationMethodSentence': 'Communication method with {name}',
   'device.communicationStatusWithSentence': 'Communication status with {name}',
-  'device.bmuNumber': 'Number of battery modules',
+  'device.bmuNumber': 'Number Of Battery Modules',
+  'device.bsNumber': 'Number Of Battery Cluster',
   'device.meterNumber': 'Electricity meter SN',
   'device.meterAddress': 'Electricity meter address',
   'device.liquidCooler': 'Liquid cooler',
@@ -447,4 +448,8 @@ export default {
   'device.soc': 'soc',
   'device.keepOne': 'Please keep at least one terminal associated host!',
   'device.batteryStack': 'Battery Stack',
+  'device.batteryCluster': 'Battery Cluster',
+  'device.monomerExtremeValueInformation': 'Monomer Extreme Value Information',
+  'device.frontView': 'Front View',
+  'device.rearView': 'Rear View',
 };

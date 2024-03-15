@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-14 10:11:43
+ * @LastEditTime: 2024-03-15 11:41:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -350,8 +350,50 @@ export const allItems: Record<string, DetailItem> = {
       data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
       data.productId != DeviceTypeEnum.PvEnergyBms,
   },
+  bauSn: {
+    label: formatMessage(
+      { id: 'common.serialSentence', defaultMessage: '序列号' },
+      { name: 'BAU' },
+    ),
+    field: 'b105',
+  },
+  bauManufacturer: {
+    label: formatMessage(
+      { id: 'common.manufacturerSentence', defaultMessage: '厂商' },
+      { name: 'BAU' },
+    ),
+    field: 'b106',
+  },
+  bauModel: {
+    label: formatMessage({ id: 'common.modelSentence', defaultMessage: '型号' }, { name: 'BAU' }),
+    field: 'b107',
+  },
+  bauHardwareVersion: {
+    label: formatMessage(
+      { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
+      { name: 'BAU' },
+    ),
+    field: 'hv',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
+      data.productId != DeviceTypeEnum.PvEnergyBms,
+  },
+  bauSoftwareVersion: {
+    label: formatMessage(
+      { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
+      { name: 'BAU' },
+    ),
+    field: 'softVersion',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
+      data.productId != DeviceTypeEnum.PvEnergyBms,
+  },
   bmuNumber: {
     label: formatMessage({ id: 'device.bmuNumber', defaultMessage: '电池模块个数' }),
+    field: 'b121',
+  },
+  bsNumber: {
+    label: formatMessage({ id: 'device.bsNumber', defaultMessage: '电池簇个数' }),
     field: 'b121',
   },
   airHardwareVersion: {
@@ -519,6 +561,16 @@ const bmsKeys = [
   'bmuNumber',
 ];
 
+const fgccStackKeys = [
+  'bauSn',
+  'bauManufacturer',
+  'bauModel',
+  'bauHardwareVersion',
+  'bauSoftwareVersion',
+  'bsNumber',
+  'emsCommunicationMethod',
+];
+
 const airKeys = [
   'airHardwareVersion',
   'airSoftwareVersion',
@@ -581,6 +633,7 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
   [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
   [DeviceTypeEnum.FGCCEnergyEms, fgccEmsKeys],
+  [DeviceTypeEnum.FGCCEnergyBatteryStack, fgccStackKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {
