@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-02-23 14:47:01
+ * @LastEditTime: 2024-03-15 10:08:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -11,6 +11,7 @@ import { Descriptions } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { isEmpty } from '@/utils';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
+import styles from './index.less';
 
 export type DetailItem = {
   className?: string;
@@ -40,6 +41,7 @@ export type DetailProps = DescriptionsProps & {
   format?: (value: any, data?: any) => React.ReactNode;
   extral?: React.ReactElement;
   valueStyle?: React.CSSProperties;
+  unitInLabel?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
@@ -52,6 +54,7 @@ const Detail: React.FC<DetailProps> = (props) => {
     format,
     extral,
     valueStyle = {},
+    unitInLabel = false,
     ...restProps
   } = props;
 
@@ -82,7 +85,14 @@ const Detail: React.FC<DetailProps> = (props) => {
         content.push(
           <Descriptions.Item
             className={item.className || ''}
-            label={item.label ?? item.title}
+            label={
+              <>
+                <span className={styles.label} title={(item.label ?? item.title) as string}>
+                  {item.label ?? item.title}
+                </span>
+                {unitInLabel && (item?.unit || '')}
+              </>
+            }
             labelStyle={item.labelStyle}
             contentStyle={item.contentStyle}
             span={item.span || 1}
@@ -98,7 +108,7 @@ const Detail: React.FC<DetailProps> = (props) => {
                     : fieldValue ?? ''
                   : '--'}
               </span>
-              <span>{item.unit || ''}</span>
+              {!unitInLabel && <span>{item.unit || ''}</span>}
               {item.extral}
               {item.showExtra !== false && extralNode}
             </div>
