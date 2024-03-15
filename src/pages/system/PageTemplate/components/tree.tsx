@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons';
 import { cloneDeep, debounce } from 'lodash';
 import { formatMessage } from '@/utils';
+import { json } from 'express';
 const { Search } = Input;
 
 type ConfigTreeProps = {
@@ -247,6 +248,12 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const handleChange = () => {
     setfieldConfig();
   };
+  const handleConfigChange = () => {
+    try {
+      const { type, name, id } = JSON.parse(form.getFieldValue('fieldConfig'));
+      form.setFieldsValue({ type, name, id });
+    } catch {}
+  };
 
   const handlephysicalModelChange = (thingModelId: any) => {
     form.setFieldsValue({
@@ -289,9 +296,9 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   const configvalidator = (_rule: any, value: string) => {
     try {
       const { id, name, type } = JSON.parse(value);
-      if (!id) return Promise.reject('id requested!');
-      if (!name) return Promise.reject('name requested!');
-      if (!type) return Promise.reject('type requested!');
+      if (!id) return Promise.reject('id is required!');
+      if (!name) return Promise.reject('name is required!');
+      if (!type) return Promise.reject('type is required!');
       return Promise.resolve();
     } catch (err) {
       return Promise.reject('json format error!');
@@ -363,15 +370,9 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 onChange={handlephysicalModelChange}
                 label={formatMessage({
                   id: 'physicalModel.name',
-                  defaultMessage: '关联物模型',
+                  defaultMessage: '物模型名称',
                 })}
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
-                rules={[
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
-                  },
-                ]}
               />
             </Col>
             <Col span={8} order={1}>
@@ -385,12 +386,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 })}
                 onChange={handTypeChange}
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
-                rules={[
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
-                  },
-                ]}
               />
             </Col>
             <Col span={8} order={1}>
@@ -409,12 +404,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 })}
                 onChange={handleFieldChange}
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
-                rules={[
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
-                  },
-                ]}
               />
             </Col>
           </Row>
@@ -429,12 +418,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 onChange={handleChange}
                 width="xl"
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
-                rules={[
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
-                  },
-                ]}
               />
             </Col>
             <Col span={12} order={1}>
@@ -453,12 +436,6 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 })}
                 onChange={handleChange}
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
-                rules={[
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
-                  },
-                ]}
               />
             </Col>
           </Row>
@@ -470,6 +447,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                   id: 'physicalModel.fieldConfig',
                   defaultMessage: '配置',
                 })}
+                onChange={handleConfigChange}
                 width="xl"
                 placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
                 rules={[
