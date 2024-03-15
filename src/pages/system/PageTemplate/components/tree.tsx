@@ -2,7 +2,7 @@ import React, { useState, useMemo, useImperativeHandle, forwardRef } from 'react
 import { Tree, Input } from 'antd';
 import type { TreeProps } from 'antd';
 import { Modal, Row, Form, Col } from 'antd';
-import { typeOption, getUniqueNumber } from '../config';
+import { typeOption, getUniqueNumber, modeType } from '../config';
 import type { ModeTreeDataNode } from '../data';
 import { useIntl, useRequest } from 'umi';
 import { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
@@ -15,7 +15,6 @@ import {
 } from '@ant-design/icons';
 import { cloneDeep, debounce } from 'lodash';
 import { formatMessage } from '@/utils';
-import { json } from 'express';
 const { Search } = Input;
 
 type ConfigTreeProps = {
@@ -395,6 +394,9 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                   onSearch: fieldSearch,
                   fieldNames: { label: 'name', value: 'id' },
                   options: fieldOptions || [],
+                  optionItemRender(item) {
+                    return `${item.label}（${modeType[item.type as keyof typeof modeType]?.text}）`;
+                  },
                 }}
                 width="xl"
                 name="id"
