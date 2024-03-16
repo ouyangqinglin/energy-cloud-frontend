@@ -241,11 +241,14 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     form.resetFields();
   };
   const setfieldConfig = () => {
+    const { type, name, id, fieldConfig } = form.getFieldsValue();
+    let newJson = {};
     try {
-      const { type, name, id, fieldConfig } = form.getFieldsValue();
-      const newJson = { ...JSON.parse(fieldConfig), type, name, id };
-      form.setFieldValue('fieldConfig', JSON.stringify(newJson));
-    } catch {}
+      newJson = { ...JSON.parse(fieldConfig), type, name, id };
+    } catch {
+      newJson = { type, name, id };
+    }
+    form.setFieldValue('fieldConfig', JSON.stringify(newJson));
   };
   const handleChange = () => {
     setfieldConfig();
