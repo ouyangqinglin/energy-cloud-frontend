@@ -36,7 +36,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'tlocstu',
+        field: 'g.glocstu',
       },
     ],
   },
