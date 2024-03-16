@@ -9,6 +9,7 @@ export type FormUpdateBaseProps = {
   operations: FormOperations;
   initialValues?: any;
   id?: string;
+  setType?: string;
   onSuccess?: () => void;
 };
 

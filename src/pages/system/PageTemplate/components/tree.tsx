@@ -241,8 +241,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
     form.resetFields();
   };
   const setfieldConfig = () => {
-    const { type, name, id } = form.getFieldsValue();
-    form.setFieldValue('fieldConfig', JSON.stringify({ type, name, id }));
+    try {
+      const { type, name, id, fieldConfig } = form.getFieldsValue();
+      const newJson = { ...JSON.parse(fieldConfig), type, name, id };
+      form.setFieldValue('fieldConfig', JSON.stringify(newJson));
+    } catch {}
   };
   const handleChange = () => {
     setfieldConfig();
@@ -410,7 +413,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
             </Col>
           </Row>
           <Row gutter={[16, 16]}>
-            <Col span={12} order={1}>
+            <Col span={8} order={1}>
               <ProFormText
                 name="name"
                 label={intl.formatMessage({
@@ -422,7 +425,16 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
                 placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
               />
             </Col>
-            <Col span={12} order={1}>
+            <Col span={8} order={1}>
+              <ProFormText
+                name="id"
+                label="id"
+                onChange={handleChange}
+                width="xl"
+                placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
+              />
+            </Col>
+            <Col span={8} order={1}>
               <ProFormSelect
                 fieldProps={{
                   showSearch: true,

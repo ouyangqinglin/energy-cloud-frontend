@@ -76,6 +76,7 @@ export default {
     'Please select the historical data retention period',
   'siteManage.set.electricPriceSetting': 'Grid Price Setting',
   'siteManage.set.pvGridElectricityPriceSetting': 'PV on-grid electricity price setting',
+  'siteManage.set.ESSElectricityPriceSetting': 'ESS electricity price setting',
   'siteManage.set.chargePileChargingSettings': 'EV Charger Charging Settings',
   'siteManage.set.delTariffRule':
     'Are you sure you want to delete this tariff rule? Cannot be recovered after deletion!',

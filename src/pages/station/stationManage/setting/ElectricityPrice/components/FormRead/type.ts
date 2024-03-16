@@ -8,6 +8,7 @@ export type FormReadBaseProps = {
   operations: FormOperations;
   initialValues?: any;
   id?: string;
+  setType?: string;
 };
 
 export type FormReadProps<T, U> = {

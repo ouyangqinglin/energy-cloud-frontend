@@ -24,6 +24,7 @@ const FormTableList = <DataType extends Record<string, any>>(
     formUpdateChild,
     formReadChild,
     requestDefaultPrice,
+    setType,
     ...restProps
   } = props;
 
@@ -88,6 +89,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         onVisibleChange: set,
         onSuccess: onSuccess,
         id: initialValues?.id,
+        setType,
       },
       null,
     );
@@ -101,6 +103,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         visible: visibleRead && state,
         onVisibleChange: set,
         id: initialValues?.id,
+        setType,
       },
       null,
     );
@@ -120,7 +123,7 @@ const FormTableList = <DataType extends Record<string, any>>(
             defaultMessage: '默认电价',
           })}：${defaultPrice}`
         }
-        params={{ siteId }}
+        params={{ siteId, type: setType }}
       />
       {FormUpdate}
       {FormRead}
