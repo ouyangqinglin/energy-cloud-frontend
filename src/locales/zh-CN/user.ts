@@ -69,4 +69,11 @@ export default {
   'user.install': '安装商',
   'user.operator': '运营商',
   'user.owner': '业主',
+  'system.User.userInfo': '个人信息',
+  'system.User.baseInfo': '基础信息',
+  'system.User.resetPassword': '重置密码',
+  'system.User.gender': '性别',
+  'system.User.man': '男',
+  'system.User.woman': '女',
+  'system.User.department': '部门',
 };

@@ -3,6 +3,7 @@ import { Form, message, Row } from 'antd';
 import ProForm, { ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
 import { updateUserProfile } from '@/pages/system/user/service';
+import { formatMessage } from '@/utils';
 
 export type BaseInfoProps = {
   values: Partial<API.CurrentUser> | undefined;
@@ -35,13 +36,11 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
               defaultMessage: '用户昵称',
             })}
             width="xl"
-            placeholder="请输入用户昵称"
+            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
             rules={[
               {
                 required: true,
-                message: (
-                  <FormattedMessage id="请输入用户昵称！" defaultMessage="请输入用户昵称！" />
-                ),
+                message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
               },
             ]}
           />
@@ -50,17 +49,15 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
           <ProFormText
             name="phone"
             label={intl.formatMessage({
-              id: 'system.User.phone',
+              id: 'system.User.phonenumber',
               defaultMessage: '手机号码',
             })}
             width="xl"
-            placeholder="请输入手机号码"
+            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
             rules={[
               {
                 required: false,
-                message: (
-                  <FormattedMessage id="请输入手机号码！" defaultMessage="请输入手机号码！" />
-                ),
+                message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
               },
             ]}
           />
@@ -73,7 +70,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
               defaultMessage: '邮箱',
             })}
             width="xl"
-            placeholder="请输入邮箱"
+            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
             rules={[
               {
                 type: 'email',
@@ -81,7 +78,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
               },
               {
                 required: false,
-                message: <FormattedMessage id="请输入邮箱！" defaultMessage="请输入邮箱！" />,
+                message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
               },
             ]}
           />
@@ -90,11 +87,11 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
           <ProFormRadio.Group
             options={[
               {
-                label: '男',
+                label: formatMessage({ id: 'system.User.man', defaultMessage: '男' }),
                 value: '0',
               },
               {
-                label: '女',
+                label: formatMessage({ id: 'system.User.woman', defaultMessage: '女' }),
                 value: '1',
               },
             ]}
@@ -107,7 +104,7 @@ const BaseInfo: React.FC<BaseInfoProps> = (props) => {
             rules={[
               {
                 required: false,
-                message: <FormattedMessage id="请输入性别！" defaultMessage="请输入性别！" />,
+                message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
               },
             ]}
           />

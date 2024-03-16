@@ -8,7 +8,10 @@ import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
 import { formatMessage } from '@/utils';
-export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
+export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProFormColumnsType[] = (
+  timeColum,
+  setType,
+) => [
   {
     title: (
       <div className={styles.title}>
@@ -147,6 +150,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
             style: { width: 'unset' },
           },
           min: 1,
+          ...(setType === 1 ? { max: 10 } : ''),
           deleteIconProps: {
             Icon: (prop: any) => {
               return <MinusCircleOutlined {...prop} style={{ color: '#165dff' }} />;

@@ -27,6 +27,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
     columns,
     request,
     id,
+    setType,
     onSuccess,
     ...resetProps
   } = props;
@@ -80,7 +81,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         item.intervalEndTime = endTime == '23:59' ? '24:00' : endTime;
       });
       const run = isCreate ? onFinishCreate : onFinishUpdate;
-      return run({ ...formData, siteId, id }, {}).then(({ data }) => {
+      return run({ type: setType, ...formData, siteId, id }, {}).then(({ data }) => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           onSuccess?.();
@@ -111,7 +112,7 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         span: 24,
       }}
       layoutType={'ModalForm'}
-      columns={[...columns(timeColum), statusColumn]}
+      columns={[...columns(timeColum, setType), statusColumn]}
       onSubmitCapture={() => {
         resetTimeStore();
       }}

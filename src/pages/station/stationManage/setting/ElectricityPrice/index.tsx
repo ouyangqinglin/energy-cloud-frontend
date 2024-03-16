@@ -15,6 +15,7 @@ import { SiteTypeEnum } from '@/utils/dict';
 const enum TabKeys {
   MARKET = 'MARKET',
   PHOTOVOLTAIC = 'PHOTOVOLTAIC',
+  ESS = 'ESS',
   CHARGING = 'CHARGING',
 }
 
@@ -23,10 +24,12 @@ const Customer: React.FC = () => {
   const siteType = (location as LocationType).query?.siteType;
   const chargingActionRef = useRef<ActionType>(null);
   const photovoltaicActionRef = useRef<ActionType>(null);
+  const ESSActionRef = useRef<ActionType>(null);
   const marketActionRef = useRef<ActionType>(null);
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:electricPriceManage:electric',
     'siteManage:siteConfig:electricPriceManage:pv',
+    'siteManage:siteConfig:electricPriceManage:ESS',
     'siteManage:siteConfig:electricPriceManage:charge',
   ]);
 
@@ -41,11 +44,20 @@ const Customer: React.FC = () => {
       case TabKeys.PHOTOVOLTAIC:
         photovoltaicActionRef.current?.reload();
         break;
+      case TabKeys.ESS:
+        ESSActionRef.current?.reload();
+        break;
     }
   };
 
   const category = useMemo(() => {
     const result: TabsProps['items'] = [];
+    const isShowESSTab = [
+      SiteTypeEnum.ES,
+      SiteTypeEnum.PV_ES,
+      SiteTypeEnum.ES_CS,
+      SiteTypeEnum.PV_ES_CS,
+    ].includes(Number(siteType));
     const isShowPVTab = [
       SiteTypeEnum.PV,
       SiteTypeEnum.PV_ES,
@@ -75,7 +87,17 @@ const Customer: React.FC = () => {
           defaultMessage: '光伏上网电价设置',
         }),
         key: TabKeys.PHOTOVOLTAIC,
-        children: <PricePhotovoltaicList actionRef={photovoltaicActionRef} />,
+        children: <PricePhotovoltaicList setType={0} actionRef={photovoltaicActionRef} />,
+      });
+    }
+    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:ESS') && isShowESSTab) {
+      result.push({
+        label: formatMessage({
+          id: 'siteManage.set.ESSElectricityPriceSetting',
+          defaultMessage: '储能放电电价设置',
+        }),
+        key: TabKeys.ESS,
+        children: <PricePhotovoltaicList setType={1} actionRef={ESSActionRef} />,
       });
     }
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:charge') && isShowChargeTab) {
