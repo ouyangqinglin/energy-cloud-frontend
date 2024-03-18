@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-16 13:51:41
+ * @LastEditTime: 2024-03-18 09:43:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal2Gun\index.tsx
  */
@@ -26,6 +26,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     productTypeId: DeviceProductTypeEnum.ChargeTerminal,
+    dataProductTypeIds: [DeviceProductTypeEnum.ChargeGun],
     showLabel: false,
     position: { top: 48, left: 69 },
     icon: DoorImg,

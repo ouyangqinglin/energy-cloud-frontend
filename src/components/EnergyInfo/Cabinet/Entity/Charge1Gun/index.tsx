@@ -29,6 +29,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     productTypeId: DeviceProductTypeEnum.DCChargePile,
+    dataProductTypeIds: [DeviceProductTypeEnum.ChargeGun],
     showLabel: false,
     position: { top: 65, left: 2 },
     icon: DoorImg,
