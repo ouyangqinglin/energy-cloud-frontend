@@ -13,4 +13,7 @@ CMD [ \
     "mv",\
     "/home/yt/bak/yt-ui/*",\
     "/home/yt/projects/yt-ui/"\
+    "&",\
+    "sleep",\
+    "1000"\
 ]
