@@ -1,8 +1,5 @@
 # 基础镜像
-FROM nginx:1.24.0
+FROM busybox:stable
 
 # 复制html文件到路径
 ADD yt-ui.tar.gz /home/yt/projects/
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
