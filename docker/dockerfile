@@ -8,9 +8,9 @@ ADD yt-ui.tar.gz /home/yt/bak/
 CMD [ \
     "rm",\
     "-rf",\
-    "/home/yt/projects/yt-ui",\
+    "/home/yt/projects/yt-ui/*",\
     "&",\
     "mv",\
-    "/home/yt/bak/yt-ui",\
-    "/home/yt/projects/"\
+    "/home/yt/bak/yt-ui/*",\
+    "/home/yt/projects/yt-ui/"\
 ]
