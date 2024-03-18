@@ -1,12 +1,11 @@
 import React from 'react';
 import { Form, message } from 'antd';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { useIntl, FormattedMessage } from 'umi';
 import { updateUserPwd } from '@/pages/system/user/service';
+import { formatMessage } from '@/utils';
 
 const ResetPassword: React.FC = () => {
   const [form] = Form.useForm();
-  const intl = useIntl();
 
   const handleFinish = async (values: Record<string, any>) => {
     const resp = await updateUserPwd(values.oldPassword, values.newPassword);
@@ -30,46 +29,46 @@ const ResetPassword: React.FC = () => {
       <ProForm form={form} onFinish={handleFinish}>
         <ProFormText
           name="oldPassword"
-          label={intl.formatMessage({
+          label={formatMessage({
             id: 'system.User.old_password',
             defaultMessage: '旧密码',
           })}
           width="xl"
-          placeholder="请输入旧密码"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="请输入旧密码！" defaultMessage="请输入旧密码！" />,
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
           ]}
         />
         <ProFormText
           name="newPassword"
-          label={intl.formatMessage({
+          label={formatMessage({
             id: 'system.User.new_password',
             defaultMessage: '新密码',
           })}
           width="xl"
-          placeholder="请输入新密码"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="请输入新密码！" defaultMessage="请输入新密码！" />,
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
           ]}
         />
         <ProFormText
           name="confirmPassword"
-          label={intl.formatMessage({
+          label={formatMessage({
             id: 'system.User.confirm_password',
             defaultMessage: '确认密码',
           })}
           width="xl"
-          placeholder="请输入确认密码"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="请输入确认密码！" defaultMessage="请输入确认密码！" />,
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
             { validator: checkPassword },
           ]}

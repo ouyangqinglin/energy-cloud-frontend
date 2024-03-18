@@ -74,6 +74,7 @@ export default {
   'siteManage.set.selectHistoryDatSaveDuration': '请选择历史数据保存时长',
   'siteManage.set.electricPriceSetting': '市电电价设置',
   'siteManage.set.pvGridElectricityPriceSetting': '光伏上网电价设置',
+  'siteManage.set.ESSElectricityPriceSetting': '储能放电电价设置',
   'siteManage.set.chargePileChargingSettings': '充电桩计费设置',
   'siteManage.set.delTariffRule': '您确认要删除该电价规则吗？删除之后无法恢复！',
   'siteManage.set.defaultPrice': '默认电价',

@@ -19,15 +19,18 @@ import WrapContent from '@/components/WrapContent';
 import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
 import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
+import { formatMessage } from '@/utils';
 
 const operationTabList = [
   {
     key: 'base',
-    tab: <span>基本资料</span>,
+    tab: <span>{formatMessage({ id: 'system.User.baseInfo', defaultMessage: '基本资料' })}</span>,
   },
   {
     key: 'password',
-    tab: <span>重置密码</span>,
+    tab: (
+      <span>{formatMessage({ id: 'system.User.resetPassword', defaultMessage: '重置密码' })}</span>
+    ),
   },
 ];
 
@@ -69,7 +72,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            用户名
+            {formatMessage({ id: 'common.userName', defaultMessage: '用户名' })}
           </div>
           <div>{userName}</div>
         </List.Item>
@@ -80,9 +83,13 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            性别
+            {formatMessage({ id: 'system.User.gender', defaultMessage: '性别' })}
           </div>
-          <div>{sex === '1' ? '女' : '男'}</div>
+          <div>
+            {sex === '1'
+              ? formatMessage({ id: 'system.User.woman', defaultMessage: '女' })
+              : formatMessage({ id: 'system.User.man', defaultMessage: '男' })}
+          </div>
         </List.Item>
         <List.Item>
           <div>
@@ -91,7 +98,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            电话
+            {formatMessage({ id: 'system.phone', defaultMessage: '电话' })}
           </div>
           <div>{phone}</div>
         </List.Item>
@@ -102,7 +109,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            邮箱
+            {formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' })}
           </div>
           <div>{email}</div>
         </List.Item>
@@ -113,7 +120,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            部门
+            {formatMessage({ id: 'system.User.department', defaultMessage: '部门' })}
           </div>
           <div>{orgName}</div>
         </List.Item>
@@ -141,7 +148,11 @@ const Center: React.FC = () => {
       <div className="px24">
         <Row gutter={[16, 24]}>
           <Col lg={6} md={24}>
-            <Card title="个人信息" bordered={false} loading={loading}>
+            <Card
+              title={formatMessage({ id: 'system.User.userInfo', defaultMessage: '个人信息' })}
+              bordered={false}
+              loading={loading}
+            >
               {!loading && (
                 <div style={{ textAlign: 'center' }}>
                   <div
@@ -162,7 +173,9 @@ const Center: React.FC = () => {
                   {renderUserInfo(currentUser)}
                   <Divider dashed />
                   <div className={styles.team}>
-                    <div className={styles.teamTitle}>权限</div>
+                    <div className={styles.teamTitle}>
+                      {formatMessage({ id: 'menu.admin', defaultMessage: '权限' })}
+                    </div>
                     <Row gutter={36}>
                       {currentUser.roles &&
                         currentUser.roles.map((item: any) => (
