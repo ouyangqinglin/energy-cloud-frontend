@@ -21,6 +21,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
   const { visible, onCancel, orderId } = props;
   const chartRef = useRef() as any;
   const [ChartData, setChartData] = useState(defaultChartData);
+  const [allLabel, setAllLabel] = useState([]);
 
   const handleCancel = () => {
     onCancel();
@@ -30,12 +31,18 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
       getytOrdercurve({ id }).then(({ data }) => {
         if (!data || !data.length) return;
         const currentVChartData = cloneDeep(defaultChartData);
+        const currentAllLabel: any = [];
         data.forEach((item) => {
           if (!item.values || !item.values.length) return;
-          const currentValue = item.values.map((i) => ({
-            label: i.eventTs,
-            value: i.val,
-          })) as never[];
+          const currentValue = item.values.map((i) => {
+            const currentLabel = moment(i.eventTs).format('HH:mm');
+            currentAllLabel.push(currentLabel);
+            setAllLabel(currentAllLabel);
+            return {
+              label: currentLabel,
+              value: i.val,
+            };
+          }) as never[];
           switch (item.key) {
             case 'SOC': //SOC
               currentVChartData[0].data = currentValue;
@@ -75,10 +82,9 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
       ]}
     >
       <TypeChart
-        type={chartTypeEnum.Day}
-        step={1}
+        allLabel={allLabel}
         chartRef={chartRef}
-        date={moment()}
+        type={chartTypeEnum.Label}
         option={option}
         style={{ height: '400px' }}
         data={ChartData}

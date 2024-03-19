@@ -2,7 +2,7 @@ import { Modal, Descriptions, Button } from 'antd';
 import type { OrderDataType } from '../data';
 import { formatMessage } from '@/utils';
 import { columns } from '../config';
-import { ChargingType, ChargingStrategy } from '@/utils/dict';
+import { ChargingType, ChargingStrategy, GunType, SourceType, ServerType } from '@/utils/dict';
 
 const columnstitle: Partial<{ string: string }> = {};
 columns(true).forEach((item) => {
@@ -35,12 +35,22 @@ const OrderDetail: React.FC<DetailProps> = (props) => {
         {Object.keys(values).map((item) => {
           const label = columnstitle[item as keyof typeof columnstitle];
           let value: string | number | undefined = values[item as keyof typeof values];
-          if (item == 'chargingType') {
-            value = ChargingType[Number(value)]?.text || ('' as any);
-          } else if (item == 'chargingStrategy') {
-            value = ChargingStrategy[Number(value)]?.text || ('' as any);
-          } else if (['startSoc', 'endSoc'].includes(item)) {
-            value = value + '%';
+          switch (item) {
+            case 'chargingType':
+              value = ChargingType[Number(value)]?.text || ('' as any);
+              break;
+            case 'chargingStrategy':
+              value = ChargingStrategy[Number(value)]?.text || ('' as any);
+              break;
+            case 'gumType':
+              value = GunType[Number(value)]?.text || ('' as any);
+              break;
+            case 'sourceType':
+              value = SourceType[Number(value)]?.text || ('' as any);
+              break;
+            case 'serverType':
+              value = ServerType[Number(value)]?.text || ('' as any);
+              break;
           }
           return label ? (
             <Descriptions.Item label={label} key={item} span={8}>

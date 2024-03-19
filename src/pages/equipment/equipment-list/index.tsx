@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp } from './service';
-import { onlineStatus, onInstallStatus } from '@/utils/dict';
+import { onlineStatus } from '@/utils/dict';
 import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
@@ -303,12 +303,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
           return (
             <>
-              <Tooltip title={record.name}>
-                <span className="cl-primary cursor" onClick={() => onDetailClick(record)}>
-                  {Component && <Component className="mr8" />}
-                  {record.name}
-                </span>
-              </Tooltip>
+              <span
+                className="cl-primary cursor"
+                title={record.name}
+                onClick={() => onDetailClick(record)}
+              >
+                {Component && <Component className="mr8" />}
+                {record.name}
+              </span>
             </>
           );
         },
