@@ -136,6 +136,96 @@ export const ChargingType: ValueEnum = {
   },
 };
 
+export enum GunTypeEnum {
+  DC = 1,
+  AC = 2,
+}
+
+export const GunType: ValueEnum = {
+  [GunTypeEnum.DC]: {
+    text: formatMessage({ id: 'device.DC', defaultMessage: '直流' }),
+  },
+  [GunTypeEnum.AC]: {
+    text: formatMessage({ id: 'device.AC', defaultMessage: '交流' }),
+  },
+};
+
+export enum SourceTypeEnum {
+  Voltage12V,
+  Voltage24V,
+}
+
+export const SourceType: ValueEnum = {
+  [SourceTypeEnum.Voltage12V]: {
+    text: '12V',
+  },
+  [SourceTypeEnum.Voltage24V]: {
+    text: '24V',
+  },
+};
+
+export enum ServerTypeEnum {
+  Null,
+  SINOPEC,
+  XIAOJI,
+  JoinFastCharge,
+  None,
+  FastCharg,
+  StateGrid,
+  SANYUN,
+  ZHJN,
+  PT,
+  XXCD,
+  XX,
+  XYSPT,
+  YKCen,
+}
+
+export const ServerType: ValueEnum = {
+  [ServerTypeEnum.Null]: {
+    text: formatMessage({ id: 'device.not', defaultMessage: '无' }),
+  },
+  [ServerTypeEnum.SINOPEC]: {
+    text: formatMessage({ id: 'device.SINOPEC', defaultMessage: '中石化' }),
+  },
+  [ServerTypeEnum.XIAOJI]: {
+    text: formatMessage({ id: 'device.XIAOJI', defaultMessage: '小桔' }),
+  },
+  [ServerTypeEnum.JoinFastCharge]: {
+    text: formatMessage({ id: 'device.JoinFastCharge', defaultMessage: '联合快充' }),
+  },
+  [ServerTypeEnum.None]: {
+    text: formatMessage({ id: 'device.None', defaultMessage: '暂无' }),
+  },
+  [ServerTypeEnum.FastCharg]: {
+    text: formatMessage({ id: 'device.FastCharg', defaultMessage: '速充' }),
+  },
+  [ServerTypeEnum.StateGrid]: {
+    text: formatMessage({ id: 'device.StateGrid', defaultMessage: '国网电动' }),
+  },
+  [ServerTypeEnum.SANYUN]: {
+    text: formatMessage({ id: 'device.SANYUN', defaultMessage: '三盈' }),
+  },
+  [ServerTypeEnum.ZHJN]: {
+    text: formatMessage({ id: 'device.ZHJN', defaultMessage: '中核汇能' }),
+  },
+  [ServerTypeEnum.PT]: {
+    text: formatMessage({ id: 'device.PT', defaultMessage: '普天' }),
+  },
+  [ServerTypeEnum.XXCD]: {
+    text: formatMessage({ id: 'device.XXCD', defaultMessage: '星星充电' }),
+  },
+  [ServerTypeEnum.XX]: {
+    text: formatMessage({ id: 'device.XX', defaultMessage: '协鑫' }),
+  },
+  [ServerTypeEnum.XYSPT]: {
+    text: formatMessage({ id: 'device.XYSPT', defaultMessage: '三盈双平台监控后台' }),
+  },
+  [ServerTypeEnum.YKCen]: {
+    text: formatMessage({ id: 'device.YKCen', defaultMessage: '云快充等' }),
+  },
+};
+
 export enum ChargingStrategyEnum {
   Auto,
   Time,

@@ -42,7 +42,7 @@ const EVChargerChart = () => {
           if (!item.values || !item.values.length) return;
           const currentValue = item.values.map((i) => ({
             label: i.eventTs,
-            value: i.val,
+            value: Number(i.val),
           })) as never[];
           switch (item.key) {
             case 'gcmaxoutvo': //最高允许充电电压
@@ -63,14 +63,13 @@ const EVChargerChart = () => {
             case 'gxqi': //需求电流
               currentVChartData[5].data = currentValue;
               break;
-            case 'gci': //电输出电流
+            case 'gci': //充电输出电流
               currentVChartData[6].data = currentValue;
               break;
-            case 'gxqi': //BMS测量电流
+            case 'gdct': //BMS测量电流
               currentVChartData[7].data = currentValue;
               break;
             default:
-              return;
           }
         });
         setVChartData(currentVChartData);
@@ -101,7 +100,6 @@ const EVChargerChart = () => {
               currentCChartData[4].data = currentValue;
               break;
             default:
-              return;
           }
         });
         setCChartData(currentCChartData);
