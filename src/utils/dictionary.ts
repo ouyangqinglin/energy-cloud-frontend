@@ -67,6 +67,7 @@ export enum DeviceProductTypeEnum {
   FireFight = 545,
   ChargeMaster = 546,
   ChargeTerminal = 547,
+  Dynamo = 548,
 }
 
 export enum DeviceTypeEnum {
@@ -160,6 +161,14 @@ export enum DeviceTypeEnum {
   Charge5001 = 132,
   Charge5002 = 133,
   ChargeY801 = 134,
+  FGCCEnergyEms = 136,
+  FGCCEnergyAir = 137,
+  FGCCEnergyPcs = 138,
+  FGCCEnergyBatteryStack = 139,
+  FGCCEnergy = 140,
+  FGCCEnergyBatteryCluster = 142,
+  FGCCEnergyBatteryModule = 141,
+  FGCCEnergyWindTurbine = 143,
   Device = 'default',
 }
 

@@ -77,4 +77,5 @@ export const energyProductIdMap = new Map([
   [DeviceTypeEnum.Charge2502, 'ChargeTerminal2Gun'],
   [DeviceTypeEnum.Charge6002, 'ChargeTerminal2Gun'],
   [DeviceTypeEnum.Charge5002, 'ChargeTerminal2Gun'],
+  [DeviceTypeEnum.FGCCEnergy, 'WindPvFirewood'],
 ]);

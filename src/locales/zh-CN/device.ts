@@ -323,6 +323,7 @@ export default {
   'device.communicationSentence': '{name}通信',
   'device.upperComputer': '上位机',
   'device.cloudPlatform': '云平台',
+  'device.thirdCloudPlatform': '第三方云平台',
   'device.YTCloud': '永泰云',
   'device.lightBoard': '灯板',
   'device.converter': '变流器',
@@ -333,6 +334,7 @@ export default {
   'device.communicationMethodSentence': '与{name}通信方式',
   'device.communicationStatusWithSentence': '与{name}通信状态',
   'device.bmuNumber': '电池模块个数',
+  'device.bsNumber': '电池簇个数',
   'device.meterNumber': '电表序号',
   'device.meterAddress': '电表地址',
   'device.liquidCooler': '液冷机',
@@ -434,7 +436,6 @@ export default {
   'device.quantity': '按电量',
   'device.soc': '按soc',
   'device.keepOne': '请至少保留一个终端关联主机！',
-
   'device.SINOPEC': '中石化',
   'device.XIAOJI': '小桔',
   'device.JoinFastCharge': '联合快充',
@@ -448,4 +449,9 @@ export default {
   'device.XX': '协鑫',
   'device.XYSPT': '三盈双平台监控后台',
   'device.YKCen': '云快充等',
+  'device.batteryStack': '电池堆',
+  'device.batteryCluster': '电池簇',
+  'device.monomerExtremeValueInformation': '单体极值信息',
+  'device.frontView': '前视图',
+  'device.rearView': '后视图',
 };

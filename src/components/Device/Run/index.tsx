@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-11 19:00:41
+ * @LastEditTime: 2024-03-15 15:45:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -138,7 +138,8 @@ const Run: React.FC<RunType> = (props) => {
       const result: DetailItem[] = [];
       service?.forEach?.((item, index) => {
         if (item.showType == DeviceModelShowTypeEnum.Line) {
-          result[result?.length - 1].span = 4 - (result.length % 3);
+          result[result?.length - 1].span =
+            4 - (result.reduce((sum, col) => sum + (col.span ?? 1), 0) % 3);
           result.push({
             className: styles.line,
             span: 3,
@@ -163,7 +164,8 @@ const Run: React.FC<RunType> = (props) => {
         }
       });
       if (result.length > 1) {
-        result[result?.length - 1].span = 4 - (result.length % 3);
+        result[result?.length - 1].span =
+          4 - (result.reduce((sum, item) => sum + (item.span ?? 1), 0) % 3);
       }
       return result;
     },

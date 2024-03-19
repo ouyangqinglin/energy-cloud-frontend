@@ -32,7 +32,7 @@ export default {
   'common.setDetails': '设置详情',
   'common.deviceName': '设备名称',
   'common.deviceSn': '设备sn',
-  'common.deviceCode': '设备编码',
+  'common.deviceCode': '设备ID',
   'common.equipmentSerial': '设备序列号',
   'common.equipmentEmsSerial': 'ems序列号',
   'common.currentVersion': '当前版本',

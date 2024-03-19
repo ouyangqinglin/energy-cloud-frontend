@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-03-09 14:49:50
+ * @LastEditTime: 2024-03-14 09:03:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -305,8 +305,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             <>
               <span
                 className="cl-primary cursor"
-                title={record.name}
                 onClick={() => onDetailClick(record)}
+                title={record.name}
               >
                 {Component && <Component className="mr8" />}
                 {record.name}

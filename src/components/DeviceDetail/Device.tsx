@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-02-19 11:12:54
+ * @LastEditTime: 2024-03-14 17:09:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
@@ -22,6 +22,7 @@ import styles from './index.less';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallBackRender from '../FallBackRender';
 import { DeviceDataType } from '@/services/equipment';
+import { useAuthority } from '@/hooks';
 
 type DeviceType = {
   deviceTreeData?: DeviceDataType[];
@@ -35,6 +36,8 @@ const Device: React.FC<DeviceType> = memo((props) => {
     updateData?.();
   }, [updateData]);
 
+  const { authorityMap } = useAuthority(['device:detail:communicationMessage']);
+
   const items = useMemo<TabsProps['items']>(() => {
     const debug = [
       {
@@ -42,7 +45,10 @@ const Device: React.FC<DeviceType> = memo((props) => {
         key: '6',
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
-            <Adjust deviceId={deviceData?.deviceId || ''} productTypeId={deviceData?.productTypeId} />
+            <Adjust
+              deviceId={deviceData?.deviceId || ''}
+              productTypeId={deviceData?.productTypeId}
+            />
           </ErrorBoundary>
         ),
       },
@@ -109,8 +115,15 @@ const Device: React.FC<DeviceType> = memo((props) => {
         ),
       },
     ];
-    return [DeviceProductTypeEnum.Ems, DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ACChargePile].includes(+deviceData?.productTypeId) ? [...arr, ...debug] : arr;
-  }, [deviceData]);
+    return [
+      DeviceProductTypeEnum.Ems,
+      DeviceProductTypeEnum.DCChargePile,
+      DeviceProductTypeEnum.ACChargePile,
+      DeviceProductTypeEnum.ChargeTerminal,
+    ].includes(+deviceData?.productTypeId) && authorityMap.get('device:detail:communicationMessage')
+      ? [...arr, ...debug]
+      : arr;
+  }, [deviceData, authorityMap]);
 
   return (
     <>

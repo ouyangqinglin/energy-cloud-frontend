@@ -68,8 +68,7 @@ export const EMScolumns = [
 export const ESColumns = [
   {
     title: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
-    dataIndex: 'workStatus',
-    valueEnum: workStatus,
+    dataIndex: 'workStatusName',
     hideInSearch: true,
     width: 120,
     ellipsis: true,

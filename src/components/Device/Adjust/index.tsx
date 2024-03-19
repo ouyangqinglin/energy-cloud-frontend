@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2023-07-04 10:04:53
+ * @LastEditTime: 2024-03-14 17:13:40
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\alarm\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\Adjust\index.tsx
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Switch, Tag, Input, message  } from 'antd';
+import { Button, Switch, Tag, Input, message } from 'antd';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
@@ -16,12 +16,12 @@ import { useSubscribe } from '@/hooks';
 import moment from 'moment';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import classnames from 'classnames';
-import { sendDebug } from '@/services/equipment'
+import { sendDebug } from '@/services/equipment';
 
 const { TextArea } = Input;
 
 const Index: React.FC = (props) => {
-  const { deviceId, productTypeId  } = props;
+  const { deviceId, productTypeId } = props;
   const [list, setList] = useState([]);
   const [isScrolle, setIsScrolle] = useState(true);
   const [isSubscribe, setIsSubscribe] = useState(true);
@@ -53,10 +53,14 @@ const Index: React.FC = (props) => {
     if (Object.keys(data).length > 1) {
       setLoading(false);
       let time;
-      const msg = JSON.parse(data.msg);
-      for (const v in msg) {
-        if (Array.isArray(msg[v]) && msg[v][0].ts)
-          time = moment(msg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
+      try {
+        const dataMsg = JSON.parse(JSON.stringify(data.msg));
+        for (const v in dataMsg) {
+          if (Array.isArray(dataMsg[v]) && dataMsg[v][0].ts)
+            time = moment(dataMsg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
+        }
+      } catch {
+        time = '';
       }
       const item = {
         msg: data.msg,
@@ -97,25 +101,35 @@ const Index: React.FC = (props) => {
   };
 
   const onChange = (e) => {
-    setMsg(e.target.value)
-  }
+    setMsg(e.target.value);
+  };
   const sendMessage = () => {
-    if (!msg.trim()) return
+    if (!msg.trim()) return;
     const params = {
       deviceId,
-      data: msg
-    }
-    sendDebug(params).then(res => {
+      data: msg,
+    };
+    sendDebug(params).then((res) => {
       if (+res.code === 200) {
-        message.success('发送成功！')
-        setMsg('')
+        message.success('发送成功！');
+        setMsg('');
       }
-    })
-  }
+    });
+  };
   return (
     <>
       <div className={styles.adjust}>
-        <div className={styles.message}>
+        <div
+          className={styles.message}
+          style={{
+            width: [
+              DeviceProductTypeEnum.DCChargePile,
+              DeviceProductTypeEnum.ACChargePile,
+            ].includes(productTypeId)
+              ? 'calc(100% - 350px)'
+              : '100%',
+          }}
+        >
           <div className={styles.title}>
             <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听' })}</div>
             {loading ? (
@@ -128,38 +142,38 @@ const Index: React.FC = (props) => {
             </Button>
           </div>
           <div className={styles.parent} ref={warper}>
-              <div className={styles.child} ref={childDom}>
-                {list.map((item, index) => (
-                  <div
-                    key={index}
-                    className={classnames(styles.item, item.type ? styles.blue : '')}
-                    onMouseOver={() => hoverHandler(false)}
-                    onMouseOut={() => hoverHandler(true)}
-                  >
-                    <div>
-                      <Tag color={['#87d068', '#108ee9'][item.type]}>{item.type ? '上行' : '下行'}</Tag>
-                      <span>{item.time}</span>
-                    </div>
-                    <span className={styles.topic}>Topic: {item.topic}</span>
-                    <div className={styles.msg}>{item.msg}</div>
+            <div className={styles.child} ref={childDom}>
+              {list.map((item, index) => (
+                <div
+                  key={index}
+                  className={classnames(styles.item, item.type ? styles.blue : '')}
+                  onMouseOver={() => hoverHandler(false)}
+                  onMouseOut={() => hoverHandler(true)}
+                >
+                  <div>
+                    <Tag color={['#87d068', '#108ee9'][item.type]}>
+                      {item.type ? '上行' : '下行'}
+                    </Tag>
+                    <span>{item.time}</span>
                   </div>
-                ))}
-              </div>
+                  <span className={styles.topic}>Topic: {item.topic}</span>
+                  <div className={styles.msg}>{item.msg}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         {/* 充电桩 */}
-        {[DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ACChargePile].includes(productTypeId) && (
+        {[DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ChargeTerminal].includes(
+          productTypeId,
+        ) && (
           <div className={styles.send}>
             <div className={styles.title}>
               <div>发送信息</div>
               <Button onClick={sendMessage}>发送</Button>
             </div>
             <div className={styles.data}>
-            <TextArea
-            rows={4}
-            onChange={onChange}
-            value={msg}
-            />
+              <TextArea rows={4} onChange={onChange} value={msg} />
             </div>
           </div>
         )}

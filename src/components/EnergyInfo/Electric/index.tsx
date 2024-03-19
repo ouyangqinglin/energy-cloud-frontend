@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-05 11:47:30
+ * @LastEditTime: 2024-03-19 10:29:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -15,24 +15,44 @@ import { getElectic } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
-import { formatMessage } from '@/utils';
+import { arrayToMap, formatMessage } from '@/utils';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
+import Detail from '@/components/Detail';
+import { chartOption, detailItems } from './helper';
 
 const typeMap = [
   {
+    value: chartTypeEnum.Day,
+    label: formatMessage({ id: 'common.time.day', defaultMessage: '日' }),
+    dateType: 'date',
+    format: 'YYYY-MM-DD',
+  },
+  {
     value: chartTypeEnum.Month,
     label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }),
+    dateType: 'month',
+    format: 'YYYY-MM',
   },
   {
     value: chartTypeEnum.Year,
     label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }),
+    dateType: 'year',
+    format: 'YYYY',
+  },
+  {
+    value: chartTypeEnum.Label,
+    label: formatMessage({ id: 'common.time.total', defaultMessage: '累计' }),
+    dateType: 'year',
+    format: 'YYYY',
   },
 ];
+
 export enum EnergySourceEnum {
   SiteMonitor,
   DeviceManage,
 }
+
 const Electric: React.FC<ComProps> = (props) => {
   const { deviceData, source } = props;
 
@@ -40,24 +60,7 @@ const Electric: React.FC<ComProps> = (props) => {
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [loading, { setTrue, setFalse }] = useBoolean(false);
-
-  const chartOption = useMemo(() => {
-    return {
-      yAxis: {
-        name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
-      },
-      series: [
-        {
-          type: 'line',
-          color: 'rgba(21, 154, 255, 1)',
-        },
-        {
-          type: 'line',
-          color: 'rgba(255, 151, 74, 1)',
-        },
-      ],
-    };
-  }, []);
+  const [statisInfo, setStatisInfo] = useState<Record<string, any>>({});
 
   const onTypeSelect = useCallback((value) => {
     setChartType(value);
@@ -70,7 +73,60 @@ const Electric: React.FC<ComProps> = (props) => {
   useEffect(() => {
     setChartData([]);
     if (deviceData?.deviceId) {
-      const totalNum = chartTypeEnum.Month == chartType ? 5 : 3;
+      const totalNum = chartTypeEnum.Month == chartType ? 7 : 4;
+      let dates: { start: Moment; end: Moment }[] = [];
+      if (chartType == chartTypeEnum.Month) {
+        const nowWeek = 4 - (moment(date).startOf('M').day() || 7);
+        dates = [
+          {
+            start: moment(date).startOf('M'),
+            end: moment(date)
+              .startOf('M')
+              .add(nowWeek > 0 ? nowWeek - 1 : 7 + nowWeek - 1, 'd'),
+          },
+        ];
+
+        while (
+          dates[dates.length - 1].end.isBefore(moment(date).endOf('M'), 'day') &&
+          dates[dates.length - 1].end.isBefore(moment(), 'day')
+        ) {
+          dates.push({
+            start: moment(dates[dates.length - 1].end).add(1, 'd'),
+            end: moment(dates[dates.length - 1].end).add(7, 'd'),
+          });
+          if (dates[dates.length - 1].end.isAfter(moment(date).endOf('M'), 'day')) {
+            dates[dates.length - 1].end = moment(date).endOf('M');
+          }
+          if (dates[dates.length - 1].end.isAfter(moment(), 'day')) {
+            dates[dates.length - 1].end = moment().endOf('d');
+          }
+        }
+      } else if (chartType == chartTypeEnum.Year) {
+        dates = [
+          {
+            start: moment(date).startOf('y'),
+            end: moment(date).startOf('y').add(2, 'M').endOf('M'),
+          },
+        ];
+        while (dates.length < totalNum && dates[dates.length - 1].end.isBefore(moment(), 'month')) {
+          dates.push({
+            start: moment(dates[dates.length - 1].end)
+              .add(1, 'M')
+              .startOf('M'),
+            end: moment(dates[dates.length - 1].end)
+              .add(3, 'M')
+              .endOf('M'),
+          });
+        }
+      } else {
+        dates = [
+          {
+            start: date,
+            end: date,
+          },
+        ];
+      }
+
       let requestNum = 0;
       const result: TypeChartDataType[] = [
         {
@@ -82,69 +138,49 @@ const Electric: React.FC<ComProps> = (props) => {
           data: [],
         },
       ];
-      const allRequest: Promise<any>[] = [];
+      const totalResult = {
+        totalCharge: 0,
+        totalDischarge: 0,
+      };
+      dates.reverse();
 
       const request = () => {
-        if (requestNum < totalNum) {
-          let startTime, endTime;
-          if (chartTypeEnum.Month == chartType) {
-            startTime = moment(date)
-              .startOf('M')
-              .add((30 * requestNum) / totalNum, 'd');
-            if (requestNum == totalNum - 1) {
-              endTime = moment(date).endOf('M');
-            } else {
-              endTime = moment(date)
-                .startOf('M')
-                .add((30 * (requestNum + 1)) / totalNum - 1, 'd');
-            }
-          } else if (chartTypeEnum.Year == chartType) {
-            startTime = moment(date)
-              .startOf('y')
-              .add((12 * requestNum) / totalNum, 'M');
-            if (requestNum == totalNum - 1) {
-              endTime = moment(date).endOf('y');
-            } else {
-              endTime = moment(date)
-                .startOf('y')
-                .add((12 * (requestNum + 1)) / totalNum - 1, 'M')
-                .endOf('M');
-            }
-          }
-          allRequest.push(
-            getElectic({
-              deviceId: deviceData?.deviceId,
-              type: chartType,
-              startDate: startTime?.format?.('YYYY-MM-DD'),
-              endDate: endTime?.format?.('YYYY-MM-DD'),
-              visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
-            }).then(({ data }) => {
-              result[0].data?.push?.(
-                ...(data?.charge?.map?.((item) => ({
-                  label: item.eventTs,
-                  value: item.doubleVal,
-                })) || []),
-              );
-              result[1].data?.push?.(
-                ...(data?.discharge?.map?.((item) => ({
-                  label: item.eventTs,
-                  value: item.doubleVal,
-                })) || []),
-              );
-              setChartData(merge([], result));
-            }),
-          );
-          requestNum++;
-          request();
+        if (requestNum < dates.length) {
+          getElectic({
+            deviceId: deviceData?.deviceId,
+            type: chartType,
+            startDate: dates[requestNum].start?.format?.('YYYY-MM-DD'),
+            endDate: dates[requestNum].end?.format?.('YYYY-MM-DD'),
+            visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
+          }).then(({ data }) => {
+            result[0].data?.push?.(
+              ...(data?.charge?.map?.((item) => ({
+                label: item.eventTs,
+                value: item.doubleVal,
+              })) || []),
+            );
+            result[1].data?.push?.(
+              ...(data?.discharge?.map?.((item) => ({
+                label: item.eventTs,
+                value: item.doubleVal,
+              })) || []),
+            );
+            totalResult.totalCharge =
+              ((totalResult.totalCharge + (data?.totalCharge || 0)).toFixed(2) as any) * 1;
+            totalResult.totalDischarge =
+              ((totalResult.totalDischarge + (data?.totalDischarge || 0)).toFixed(2) as any) * 1;
+            setChartData(merge([], result));
+            setStatisInfo(merge({}, totalResult));
+            requestNum++;
+            request();
+          });
+        } else {
+          setFalse();
         }
       };
 
       setTrue();
       request();
-
-      Promise.allSettled(allRequest).then(() => {
-        setFalse();
-      });
 
       return () => {
         requestNum = 100;
@@ -173,16 +209,19 @@ const Electric: React.FC<ComProps> = (props) => {
             options={typeMap}
             onSelect={onTypeSelect}
           />
-          <DatePicker
-            picker={chartType == chartTypeEnum.Month ? 'month' : 'year'}
-            defaultValue={date}
-            format={chartType == chartTypeEnum.Month ? 'YYYY-MM' : 'YYYY'}
-            onChange={onChange}
-            allowClear={false}
-          />
+          {chartType != chartTypeEnum.Label && (
+            <DatePicker
+              picker={typeMap.find((item) => chartType == item.value)?.dateType}
+              defaultValue={date}
+              format={typeMap.find((item) => chartType == item.value)?.format}
+              onChange={onChange}
+              allowClear={false}
+            />
+          )}
           {loading && <Spin className="ml12" />}
         </div>
-        <TypeChart type={chartType} date={date} option={chartOption} data={chartData} />
+        <Detail items={detailItems} data={statisInfo} column={2} unitInLabel={true} />
+        <TypeChart type={chartType} date={date} option={chartOption} data={chartData} step={60} />
       </div>
     </>
   );

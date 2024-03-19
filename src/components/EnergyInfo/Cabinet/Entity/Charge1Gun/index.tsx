@@ -29,6 +29,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     productTypeId: DeviceProductTypeEnum.DCChargePile,
+    dataProductTypeIds: [DeviceProductTypeEnum.ChargeGun],
     showLabel: false,
     position: { top: 65, left: 2 },
     icon: DoorImg,
@@ -36,7 +37,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'tlocstu',
+        field: 'glocstu',
       },
     ],
   },

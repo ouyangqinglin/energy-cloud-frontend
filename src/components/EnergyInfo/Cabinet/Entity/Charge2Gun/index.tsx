@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-13 10:31:38
+ * @LastEditTime: 2024-03-16 13:49:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Charge2Gun\index.tsx
  */
@@ -30,6 +30,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     productTypeId: DeviceProductTypeEnum.DCChargePile,
+    dataProductTypeIds: [DeviceProductTypeEnum.ChargeGun],
     showLabel: false,
     position: { top: 65, left: 2 },
     icon: DoorImg,
@@ -37,7 +38,7 @@ const configs: ConfigType[] = [
     linePosition: { top: 22, left: 142 },
     data: [
       {
-        field: 'tlocstu',
+        field: 'glocstu',
       },
     ],
   },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-12 10:36:31
- * @LastEditTime: 2024-03-11 16:13:50
+ * @LastEditTime: 2024-03-15 10:20:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\MasterSlaveGroup\deviceItem\helper.tsx
  */
@@ -33,25 +33,29 @@ export const peakItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.maximumVoltage', defaultMessage: '最高单体电压' }),
     field: 'MVVOASU',
-    unit: <ArrowUpOutlined className="cl-error" />,
+    unit: '(V)',
+    extral: <ArrowUpOutlined className="cl-error" />,
     valueStyle: { flex: 1 },
   },
   {
     label: formatMessage({ id: 'siteMonitor.minimumVoltage', defaultMessage: '最低单体电压' }),
     field: 'MVVOSU',
-    unit: <ArrowDownOutlined className="cl-green" />,
+    unit: '(V)',
+    extral: <ArrowDownOutlined className="cl-green" />,
     valueStyle: { flex: 1 },
   },
   {
     label: formatMessage({ id: 'siteMonitor.maximumTemperature', defaultMessage: '最高单体温度' }),
     field: 'MaximumIndividualTemperature',
-    unit: <ArrowUpOutlined className="cl-error" />,
+    unit: '(℃)',
+    extral: <ArrowUpOutlined className="cl-error" />,
     valueStyle: { flex: 1 },
   },
   {
     label: formatMessage({ id: 'siteMonitor.minimumTemperature', defaultMessage: '最低单体温度' }),
     field: 'LVOMT',
-    unit: <ArrowDownOutlined className="cl-green" />,
+    unit: '(℃)',
+    extral: <ArrowDownOutlined className="cl-green" />,
     valueStyle: { flex: 1 },
   },
 ];

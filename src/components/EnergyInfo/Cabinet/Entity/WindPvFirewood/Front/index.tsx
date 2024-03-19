@@ -1,0 +1,111 @@
+/*
+ * @Description:
+ * @Author: YangJianFei
+ * @Date: 2024-03-14 11:31:33
+ * @LastEditTime: 2024-03-15 10:31:20
+ * @LastEditors: YangJianFei
+ * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Front\index.tsx
+ */
+
+import React from 'react';
+import { EntityType } from '../../../type';
+import Model from '../../../Model';
+import { ConfigType } from '../../../type';
+import { formatMessage } from '@/utils';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import Energy from '@/assets/image/station/fgc-energy/energy.png';
+import PcsImg from '@/assets/image/station/energy/pcs.png';
+import PcsLineImg from '@/assets/image/station/fgc-energy/pcs-line.png';
+import FireFightImg from '@/assets/image/station/energy/fire-fight.png';
+import FireFightLineImg from '@/assets/image/station/fgc-energy/firefight-line.png';
+import MeterImg from '@/assets/image/station/fgc-energy/meter.png';
+import MeterLineImg from '@/assets/image/station/fgc-energy/meter-line.png';
+import DoorImg from '@/assets/image/station/energy/door.png';
+import DoorLineImg from '@/assets/image/station/fgc-energy/door-line.png';
+import EmsImg from '@/assets/image/station/energy/ems.png';
+import EmsLineImg from '@/assets/image/station/fgc-energy/ems-line.png';
+import StackImg from '@/assets/image/station/energy/stack.png';
+import StackLineImg from '@/assets/image/station/fgc-energy/bms-line.png';
+
+const configs: ConfigType[] = [
+  {
+    label: formatMessage({ id: 'device.inventer', defaultMessage: '逆变器' }),
+    productTypeId: DeviceProductTypeEnum.Pcs,
+    position: { top: 6, left: 66 },
+    icon: PcsImg,
+    line: PcsLineImg,
+    linePosition: { top: 22, left: 92 },
+    data: [{ field: 'a' }, { field: 'b' }, { field: 'c' }],
+  },
+  {
+    label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
+    productTypeId: DeviceProductTypeEnum.FireFight,
+    position: { top: 138, left: 66 },
+    icon: FireFightImg,
+    line: FireFightLineImg,
+    linePosition: { top: 22, left: 76 },
+    data: [{ field: 'a' }, { field: 'b' }],
+  },
+  {
+    label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
+    productTypeId: DeviceProductTypeEnum.EnergyElectricMeter,
+    position: { top: 244, left: 66 },
+    icon: MeterImg,
+    line: MeterLineImg,
+    linePosition: { top: 22, left: 76 },
+    data: [{ field: 'a' }, { field: 'b' }, { field: 'c' }],
+  },
+  {
+    label: '',
+    productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    showLabel: false,
+    position: { top: 6, left: 734 },
+    icon: DoorImg,
+    line: DoorLineImg,
+    linePosition: { top: 22, left: -160 },
+    data: [{ field: 'a' }],
+  },
+  {
+    label: 'EMS',
+    productTypeId: DeviceProductTypeEnum.Ems,
+    position: { top: 70, left: 734 },
+    icon: EmsImg,
+    line: EmsLineImg,
+    linePosition: { top: 22, left: -187 },
+    data: [{ field: 'systemOperatingMode' }, { field: 'systemWorkingStatus' }],
+  },
+  {
+    label: formatMessage({ id: 'device.batteryStack', defaultMessage: '电池堆' }),
+    productTypeId: DeviceProductTypeEnum.Ems,
+    position: { top: 190, left: 734 },
+    icon: StackImg,
+    line: StackLineImg,
+    linePosition: { top: 25, left: -190 },
+    data: [
+      { field: 'batteryPackOperatingMode' },
+      { field: 'batteryPackWorkingStatus' },
+      { field: 'a' },
+      { field: 'soc' },
+    ],
+  },
+];
+
+const Front: React.FC<EntityType> = (props) => {
+  const { ...restProps } = props;
+
+  return (
+    <>
+      <Model
+        modelStyle={{
+          height: '370px',
+          backgroundImage: `url(${Energy})`,
+          backgroundSize: '29%',
+        }}
+        configs={configs}
+        {...restProps}
+      ></Model>
+    </>
+  );
+};
+
+export default Front;

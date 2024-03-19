@@ -15,6 +15,7 @@ export type RefreshRequestParams = {
   input: {
     queryList: string[];
   };
+  serviceId?: string;
 };
 
 export type DeviceContextType = {

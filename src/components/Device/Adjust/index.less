@@ -1,7 +1,7 @@
 .adjust {
-  padding: 24px;
   display: flex;
   justify-content: space-between;
+  padding: 24px;
   .title {
     display: flex;
     align-items: center;
@@ -15,12 +15,12 @@
     }
   }
   .message {
-    flex: 1;
     height: 50vh;
   }
   .send {
+    flex-shrink: 0;
+    width: 300px;
     margin-left: 40px;
-    flex: 0.3;
     .title {
       display: flex;
       align-items: center;
@@ -40,9 +40,9 @@
     margin-top: 20px;
     :global {
       .ant-input {
+        height: 50vh;
         border: 1px solid #dcdcdc;
         border-radius: 8px;
-        height: 50vh;
       }
     }
   }

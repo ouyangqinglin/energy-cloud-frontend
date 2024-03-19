@@ -128,9 +128,28 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
       <div className={styles.contain}>
         <div className={styles.topLineContain}>
           <div className={styles.chargeStaus}>
+            <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />
+            <div>{chargeFormat(realTimeData.CADI)?.content}</div>
+          </div>
+          <Divider className={styles.divider} type="vertical" />
+          <div className={styles.energyInfo}>
+            <div
+              className={`w-full ellipsis ${styles.deviceName}`}
+              title={deviceData?.deviceName || '--'}
+            >
+              {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
+                ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
+                : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+              {deviceData?.deviceName || '--'}
+            </div>
             <div className={'flex'}>
-              {formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}：
-              {onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
+              <div
+                className={`ellipsis ${styles.statusLabel}`}
+                title={formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}
+              >
+                {formatMessage({ id: 'siteMonitor.communication', defaultMessage: '通信' })}
+              </div>
+              ：{onlineStatusFormat(deviceData?.status ?? (deviceData?.networkStatus as any))}
             </div>
             <div className={'flex'}>
               {formatMessage({ id: 'common.warning', defaultMessage: '告警' })}：
@@ -139,17 +158,6 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
                 {!!deviceData?.alarmCount && deviceData?.alarmCount}
               </span>
             </div>
-          </div>
-          <Divider className={styles.divider} type="vertical" />
-          <div className={styles.energyInfo}>
-            <div className={`w-full ellipsis ${styles.deviceName}`}>
-              {deviceData?.deviceName || '--'}
-              {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
-                ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
-                : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
-            </div>
-            <img className={styles.chargeImg} src={chargeFormat(realTimeData.CADI)?.icon} />
-            <div>{chargeFormat(realTimeData.CADI)?.content}</div>
           </div>
         </div>
         <div className="my6" onClick={onDeviceDetail}>
@@ -182,7 +190,13 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
               strokeWidth={20}
             />
             <div>
-              <Detail items={peakItems} data={realTimeData} column={1} />
+              <Detail
+                items={peakItems}
+                data={realTimeData}
+                column={1}
+                labelStyle={{ maxWidth: '140px' }}
+                unitInLabel={true}
+              />
             </div>
           </div>
         </div>

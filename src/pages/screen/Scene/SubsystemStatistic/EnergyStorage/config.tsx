@@ -173,7 +173,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
   {
     title: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
     floatLength: 2,
-    field: 'discharge',
+    field: 'disCharge',
     unit: 'kWh',
     numStyle: {
       width: 'auto',

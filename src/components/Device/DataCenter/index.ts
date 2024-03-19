@@ -19,6 +19,7 @@ type DeviceData = {
     baseData?: DeviceDataType;
     modelData?: Record<string, DeviceModelType>;
     allModelData?: Record<string, DeviceModelType>;
+    allGroup?: DeviceModelDescribeType[];
     detailGroup?: DeviceModelDescribeType;
     remoteControlGroup?: DeviceModelDescribeType;
     configGroup?: DeviceModelDescribeType;
@@ -50,7 +51,9 @@ export class DataCenter {
     const allRequest: Promise<any>[] = [];
 
     resetDeviceIds.forEach((deviceId) => {
-      this.deviceData[deviceId] = {};
+      this.deviceData[deviceId] = {
+        id: deviceId,
+      };
       allRequest.push(
         getDeviceGroupModel({ deviceId }).then(({ data }) => {
           const detailGroupData = data.data?.find?.(
@@ -62,9 +65,10 @@ export class DataCenter {
           const remoteControlGroupData = data.data?.find?.(
             (item) => item?.id == DeviceServicePageEnum.Config,
           );
-          this.deviceData[deviceId].detailGroup = detailGroupData;
-          this.deviceData[deviceId].configGroup = configGroupData;
-          this.deviceData[deviceId].remoteControlGroup = remoteControlGroupData;
+          this.deviceData[deviceId].allGroup = data.data || [];
+          this.deviceData[deviceId].detailGroup = detailGroupData || {};
+          this.deviceData[deviceId].configGroup = configGroupData || {};
+          this.deviceData[deviceId].remoteControlGroup = remoteControlGroupData || {};
 
           const detailChildrens = getPropsFromTree<
             DeviceModelDescribeType,

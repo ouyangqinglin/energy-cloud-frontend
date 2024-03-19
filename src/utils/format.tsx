@@ -318,8 +318,8 @@ export const alarmArrFormat = (value: string) => {
     1: { text: formatMessage({ id: 'things.alarm', defaultMessage: '告警' }), color: 'cl-error' },
   };
   return (
-    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
-      {map[valueArr.includes(0) ? 0 : 1]?.text}
+    <span className={`${map[valueArr.includes(0) || !valueArr.length ? 0 : 1]?.color} mr8`}>
+      {map[valueArr.includes(0) || !valueArr.length ? 0 : 1]?.text}
     </span>
   );
 };

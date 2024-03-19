@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-11 16:27:34
+ * @LastEditTime: 2024-03-15 17:25:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -114,6 +114,11 @@ export const allItems: Record<string, DetailItem> = {
     field: 'ratedOutputPower',
     format: powerFormat,
   },
+  chargeRatedPower: {
+    label: formatMessage({ id: 'device.ratedPower', defaultMessage: '额定功率' }),
+    field: 'tsysp',
+    format: powerFormat,
+  },
   ratedCapacity: {
     label: formatMessage({ id: 'device.ratedCapacity', defaultMessage: '额定容量' }),
     field: 'ratedCapacity',
@@ -125,7 +130,7 @@ export const allItems: Record<string, DetailItem> = {
     format: (value) => masterSlave1Enum[value]?.text,
   },
   deviceCode: {
-    label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备编码' }),
+    label: formatMessage({ id: 'common.deviceCode', defaultMessage: '设备ID' }),
     field: 'devid',
   },
   externalIpAddress: {
@@ -150,6 +155,10 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage({ id: 'device.imeiNumber', defaultMessage: 'IMEI号' }),
     field: 'imei',
   },
+  iccid: {
+    label: 'ICCID',
+    field: 'iccid',
+  },
   upperComputerCommunication: {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
@@ -162,6 +171,14 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage(
       { id: 'device.communicationSentence', defaultMessage: '通信' },
       { name: formatMessage({ id: 'device.cloudPlatform', defaultMessage: '云平台' }) },
+    ),
+    field: 'e603',
+    format: onlineStatus1Format,
+  },
+  thirdCloudPlatformCommunication: {
+    label: formatMessage(
+      { id: 'device.communicationSentence', defaultMessage: '通信' },
+      { name: formatMessage({ id: 'device.thirdCloudPlatform', defaultMessage: '第三方云平台' }) },
     ),
     field: 'e603',
     format: onlineStatus1Format,
@@ -180,6 +197,15 @@ export const allItems: Record<string, DetailItem> = {
       { name: formatMessage({ id: 'device.converter', defaultMessage: '变流器' }) },
     ),
     field: 'converterCommunication',
+    showPlaceholder: false,
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
+  },
+  inverterCommunication: {
+    label: formatMessage(
+      { id: 'device.communicationSentence', defaultMessage: '通信' },
+      { name: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }) },
+    ),
+    field: 'inverterCommunication',
     showPlaceholder: false,
     format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Pcs], []),
   },
@@ -229,7 +255,8 @@ export const allItems: Record<string, DetailItem> = {
     show: (_, data: DeviceDataType) =>
       data.productId == DeviceTypeEnum.Wind2EnergyEms ||
       data.productId == DeviceTypeEnum.SmallEnergyEms ||
-      data.productId == DeviceTypeEnum.PvEnergyEms,
+      data.productId == DeviceTypeEnum.PvEnergyEms ||
+      data.productId == DeviceTypeEnum.FGCCEnergyEms,
   },
   fireFightCommunication: {
     label: formatMessage(
@@ -282,6 +309,14 @@ export const allItems: Record<string, DetailItem> = {
     field: 'comm',
     format: emsConnectMethodFormat,
   },
+  inverterCommunicationMethod: {
+    label: formatMessage(
+      { id: 'device.communicationMethodSentence', defaultMessage: '通信方式' },
+      { name: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }) },
+    ),
+    field: 'comm',
+    format: emsConnectMethodFormat,
+  },
   bcmuSn: {
     label: formatMessage(
       { id: 'common.serialSentence', defaultMessage: '序列号' },
@@ -320,8 +355,50 @@ export const allItems: Record<string, DetailItem> = {
       data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
       data.productId != DeviceTypeEnum.PvEnergyBms,
   },
+  bauSn: {
+    label: formatMessage(
+      { id: 'common.serialSentence', defaultMessage: '序列号' },
+      { name: 'BAU' },
+    ),
+    field: 'b105',
+  },
+  bauManufacturer: {
+    label: formatMessage(
+      { id: 'common.manufacturerSentence', defaultMessage: '厂商' },
+      { name: 'BAU' },
+    ),
+    field: 'b106',
+  },
+  bauModel: {
+    label: formatMessage({ id: 'common.modelSentence', defaultMessage: '型号' }, { name: 'BAU' }),
+    field: 'b107',
+  },
+  bauHardwareVersion: {
+    label: formatMessage(
+      { id: 'device.hardwareVersionSentence', defaultMessage: '硬件版本' },
+      { name: 'BAU' },
+    ),
+    field: 'hv',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
+      data.productId != DeviceTypeEnum.PvEnergyBms,
+  },
+  bauSoftwareVersion: {
+    label: formatMessage(
+      { id: 'device.softwareVersionSentence', defaultMessage: '软件版本' },
+      { name: 'BAU' },
+    ),
+    field: 'softVersion',
+    show: (value, data) =>
+      data.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
+      data.productId != DeviceTypeEnum.PvEnergyBms,
+  },
   bmuNumber: {
     label: formatMessage({ id: 'device.bmuNumber', defaultMessage: '电池模块个数' }),
+    field: 'b121',
+  },
+  bsNumber: {
+    label: formatMessage({ id: 'device.bsNumber', defaultMessage: '电池簇个数' }),
     field: 'b121',
   },
   airHardwareVersion: {
@@ -418,6 +495,10 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
     field: 'gunNumber',
   },
+  chargeGunNumber: {
+    label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
+    field: 'tgnum',
+  },
   terminalNumber: {
     label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
     field: 'terminalNumber',
@@ -446,6 +527,29 @@ const emsKeys = [
   'inverterMeterCommunication',
 ];
 
+const fgccEmsKeys = [
+  'ipAddress',
+  'ratedPower',
+  'ratedCapacity',
+  'masterSlave',
+  'deviceCode',
+  'externalIpAddress',
+  'emsHardwareVersion',
+  'emsSoftwareVersion',
+  'imeiNumber',
+  'iccid',
+  'thirdCloudPlatformCommunication',
+  'lightBoardCommunication',
+  'inverterCommunication',
+  'bmsCommunication',
+  'liquidCoolerCommunication',
+  'dehumidifierCommunication',
+  'airCommunication',
+  'fireFightCommunication',
+  'gridMeterCommunication',
+  'inverterMeterCommunication',
+];
+
 const pcsKeys = ['ratedPower', 'meterSerialNumber', 'emsCommunicationMethod'];
 const pvEnergyPcsKeys = [
   'ratedPower',
@@ -464,6 +568,16 @@ const bmsKeys = [
   'meterSerialNumber',
   'emsCommunicationMethod',
   'bmuNumber',
+];
+
+const fgccStackKeys = [
+  'bauSn',
+  'bauManufacturer',
+  'bauModel',
+  'bauHardwareVersion',
+  'bauSoftwareVersion',
+  'bsNumber',
+  'emsCommunicationMethod',
 ];
 
 const airKeys = [
@@ -499,9 +613,11 @@ const dehumidifierKeys = [
   'emsCommunicationMethod',
 ];
 
-const chargeKeys = ['ratedPower', 'gunNumber'];
+const chargeKeys = ['chargeRatedPower', 'chargeGunNumber'];
 
-const chargeStackKeys = ['ratedPower', 'gunNumber'];
+const chargeStackKeys = ['chargeRatedPower', 'chargeGunNumber'];
+
+const dynamoKeys = ['ratedPower', 'inverterCommunicationMethod'];
 
 const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Ems, emsKeys],
@@ -513,6 +629,7 @@ const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Dehumidifier, dehumidifierKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
+  [DeviceProductTypeEnum.Dynamo, dynamoKeys],
 ]);
 
 const productIdKeysMap = new Map([
@@ -524,6 +641,8 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.ChargeY801, chargeKeys],
   [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
   [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
+  [DeviceTypeEnum.FGCCEnergyEms, fgccEmsKeys],
+  [DeviceTypeEnum.FGCCEnergyBatteryStack, fgccStackKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {
