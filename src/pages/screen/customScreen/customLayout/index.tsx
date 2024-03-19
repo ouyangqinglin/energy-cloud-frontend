@@ -8,7 +8,9 @@ import { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } fr
 //import { useRequest } from 'umi';
 //import EChartsReact from 'echarts-for-react';
 import Chart from '@/components/Chart';
-import { photovoltaicOption, energyStorageOption, energyOption } from './config';
+import sit_status from '@/assets/image/jiechen/sit_status.png';
+
+import { photovoltaicOption, energyStorageOption, energyOption, defaultSiteStatus } from './config';
 import {
   getStorageData,
   getChargePileData,
@@ -56,7 +58,11 @@ const CustomLayout = () => {
   //   storageChartData: false,
   // });
 
-  const chartRef = useRef(null);
+  const siteStatus = useMemo(() => {
+    const { pcsRunStatus, emsSystemStatus, systemMode, batteryStatus } = totalData as any;
+    return defaultSiteStatus(pcsRunStatus, emsSystemStatus, systemMode, batteryStatus);
+  }, [totalData]);
+
   const newStorageOption = useMemo(() => {
     const xdata: any[] = [];
     const ydata: any[] = [];
@@ -377,6 +383,27 @@ const CustomLayout = () => {
         {/* 右边 */}
         <Col span={9}>
           <div className={styles.rightCol}>
+            <div className={styles.status_wrapper}>
+              <img className={styles.status_title} src={sit_status} alt="" />
+              <div className={styles.status_content}>
+                {siteStatus.map((item) => {
+                  return (
+                    <div key={item.icon} className={styles.content_item}>
+                      <img src={item.icon} alt="" className={styles.item_icon} />
+                      <div className={styles.item_text}>
+                        <p className={styles.text_label}>{item.label}</p>
+                        <p
+                          className={styles.text_value}
+                          style={{ color: `${item.value == '自动' ? '#FFD15C' : '#28f0ee'}` }}
+                        >
+                          {item.value}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             <div className={styles.energyChart}>
               <div className={styles.chartLable}>能耗（kwh）</div>
               <div className={styles.energySubtitle}>

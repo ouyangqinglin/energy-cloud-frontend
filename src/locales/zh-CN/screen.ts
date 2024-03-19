@@ -182,4 +182,8 @@ export default {
   'weather.热': '热',
   'weather.wind': 'wind',
   'weather.未知': '未知',
+  'screen.systemRunStatus': '系统运行状态',
+  'screen.systemMode': '系统模式',
+  'screen.batterystatus': '电池状态',
+  'screen.pcsRunStatus': 'PCS运行状态',
 };
