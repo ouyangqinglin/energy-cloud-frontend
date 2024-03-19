@@ -39,4 +39,6 @@ export type PowerType = {
 export type ElectricType = {
   charge?: PowerType[];
   discharge?: PowerType[];
+  totalCharge?: number;
+  totalDischarge?: number;
 };

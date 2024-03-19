@@ -388,6 +388,16 @@ div {
   }
 }
 
+.detail-label-center {
+  .ant-descriptions-item-container {
+    justify-content: end;
+  }
+  .ant-descriptions-item-content {
+    flex: none;
+    margin-right: 8px;
+  }
+}
+
 .generate-mp(40);
 .generate-mp(@n, @i: 0) when (@i =< @n) {
   .m@{i} {
