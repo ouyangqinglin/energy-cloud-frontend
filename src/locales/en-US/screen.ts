@@ -183,4 +183,8 @@ export default {
   'weather.热': 'Heatwave',
   'weather.wind': 'wind',
   'weather.未知': 'Unknow',
+  'screen.systemRunStatus': 'System Run Status',
+  'screen.systemMode': 'System Mode',
+  'screen.batterystatus': 'Battery Status',
+  'screen.pcsRunStatus': 'PCS Run Status',
 };

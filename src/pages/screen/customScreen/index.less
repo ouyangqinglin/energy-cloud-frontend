@@ -178,11 +178,48 @@
   color: #fff;
   font-size: 25px;
 }
+
+.status_wrapper {
+  margin: 20px 0 23px;
+  .status_title {
+    width: 100%;
+    height: 43px;
+  }
+  .status_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 23px;
+    .content_item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .item_icon {
+        width: 58px;
+        height: 66px;
+      }
+      .item_text {
+        margin-left: 12px;
+        .text_label {
+          height: 22px;
+          margin-bottom: 5px;
+          color: #fff;
+          font-weight: 400;
+          font-size: 16px;
+        }
+        .text_value {
+          margin-bottom: 0;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
 //右上角的曲线
 .energyChart {
   position: relative;
   height: 830px;
-  margin-top: 20px;
   //background-image: url('https://cdn-upload.datav.aliyun.com/upload/download/1652775320674-eg3gB2RE.png');
   background-color: rgba(18, 19, 20, 0.8);
   /* stylelint-disable-next-line */
@@ -190,10 +227,10 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @media screen and (max-width: 1920px) {
-    height: 530px;
+    height: 376px;
   }
   @media screen and (max-width: 2560px) {
-    height: 530px;
+    height: 376px;
   }
   .energySubtitle {
     position: absolute;
