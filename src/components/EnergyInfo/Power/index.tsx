@@ -172,7 +172,7 @@ const Power: React.FC<ComProps> = (props) => {
           />
           {powerLoading && <Spin className="ml12" />}
         </div>
-        <TypeChart date={date} option={chartOption} data={chartData} min={-10} />
+        <TypeChart date={date} option={chartOption} step={4} data={chartData} min={-10} />
       </div>
     </>
   );

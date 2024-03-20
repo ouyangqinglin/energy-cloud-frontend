@@ -64,7 +64,7 @@ export const Voption = {
       yAxisIndex: 0,
     },
     {
-      name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电出电压' }),
+      name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电输出电压' }),
       color: '#5D7092',
       type: 'line',
       yAxisIndex: 0,
@@ -88,7 +88,7 @@ export const Voption = {
       yAxisIndex: 1,
     },
     {
-      name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '电输出电流' }),
+      name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '充电输出电流' }),
       color: '#8080FF',
       type: 'line',
       yAxisIndex: 1,
@@ -170,7 +170,7 @@ export const Coption = {
     {
       name: formatMessage({
         id: 'device.chargeGunCathodetemp',
-        defaultMessage: '充电枪负极负温度',
+        defaultMessage: '充电枪负极温度',
       }),
       color: '#FAC958',
       type: 'line',

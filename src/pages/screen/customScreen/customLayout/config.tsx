@@ -3,6 +3,39 @@
 // )=> {} = (data, title) =>
 
 import { formatMessage } from '@/utils';
+import system_status from '@/assets/image/jiechen/system_status.png';
+import system_model from '@/assets/image/jiechen/system_model.png';
+import battary_status from '@/assets/image/jiechen/battary_status.png';
+import pcs_status from '@/assets/image/jiechen/pcs_status.png';
+
+export const defaultSiteStatus = (
+  pcsRunStatus: string = '--',
+  emsSystemStatus: string = '--',
+  systemMode: string = '--',
+  batteryStatus: string = '--',
+) => [
+  {
+    id: '0',
+    label: formatMessage({ id: 'screen.systemRunStatus', defaultMessage: '系统运行状态' }),
+    value: emsSystemStatus,
+    icon: system_status,
+  },
+  {
+    label: formatMessage({ id: 'screen.systemMode', defaultMessage: '系统模式' }),
+    value: systemMode,
+    icon: system_model,
+  },
+  {
+    label: formatMessage({ id: 'screen.batterystatus', defaultMessage: '电池状态' }),
+    value: batteryStatus,
+    icon: battary_status,
+  },
+  {
+    label: formatMessage({ id: 'screen.pcsRunStatus', defaultMessage: 'PCS运行状态' }),
+    value: pcsRunStatus,
+    icon: pcs_status,
+  },
+];
 
 export const photovoltaicOption = (data: any, title: any): any => {
   const xdata: any[] = []; //横坐标

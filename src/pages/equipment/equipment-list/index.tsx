@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp } from './service';
-import { onlineStatus, onInstallStatus } from '@/utils/dict';
+import { onlineStatus } from '@/utils/dict';
 import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
