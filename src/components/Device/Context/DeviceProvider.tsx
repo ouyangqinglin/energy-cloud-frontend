@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 11:29:52
- * @LastEditTime: 2024-03-14 17:00:21
+ * @LastEditTime: 2024-03-20 16:37:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Context\DeviceProvider.tsx
  */
@@ -13,10 +13,6 @@ import DeviceContext, { RefreshRequestParams } from './DeviceContext';
 import { useSubscribe } from '@/hooks';
 import { MessageEventType } from '@/utils/connection';
 import { merge } from 'lodash';
-import { DataCenter } from '../DataCenter';
-import { DeviceModelDescribeTypeEnum, getPropsFromTree } from '@/utils';
-import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
-import { DeviceModelDescribeType } from '@/types/device';
 
 export type DeviceProviderType = {
   deviceId?: string;
@@ -27,7 +23,6 @@ export type DeviceProviderType = {
 const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
   const { deviceId, deviceTreeData, onChange, children } = props;
 
-  const dataCenter = new DataCenter();
   const realTimeNetwork = useSubscribe(deviceId, true, MessageEventType.NETWORKSTSTUS);
   const realTimeAlarmData = useSubscribe(deviceId, true, MessageEventType.DEVICE_EVENT_DATA);
 
@@ -71,63 +66,6 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
       runGetDevice({ deviceId });
     }
   }, [deviceId]);
-
-  useEffect(() => {
-    if (
-      deviceTreeData?.length &&
-      deviceTreeData?.[0]?.productTypeId == DeviceProductTypeEnum.DCChargePile &&
-      (deviceTreeData?.[0]?.productId as any) >= DeviceTypeEnum.ChargeY602
-    ) {
-      const ids = getPropsFromTree(deviceTreeData);
-      dataCenter.init(ids);
-
-      const refresh = (keys: string[], id: string, serviceId?: string) => {
-        const num = Math.ceil(keys.length / 100);
-        for (let i = 0; i < num; i++) {
-          refreshDataByRequest(
-            {
-              deviceId: id,
-              input: {
-                queryList: keys.slice(i * 100, (i + 1) * 100),
-              },
-              ...(serviceId ? { serviceId } : {}),
-            },
-            false,
-          );
-        }
-      };
-
-      dataCenter.getModelData({ ids, isAll: true }, (res) => {
-        ids.forEach((id) => {
-          const modelChildren = getPropsFromTree<
-            DeviceModelDescribeType,
-            DeviceModelDescribeType[]
-          >(dataCenter.deviceData[id].allGroup, 'children');
-          const queryData: Record<string, string[]> = {};
-          let allQueryData: string[] = [];
-          modelChildren.forEach((child) => {
-            child.forEach((item) => {
-              if (item.queryId) {
-                queryData[item.queryId] = getPropsFromTree(
-                  item.children,
-                  'id',
-                  'children',
-                  (propData) => propData.type == DeviceModelDescribeTypeEnum.Property,
-                );
-                allQueryData = [...allQueryData, ...queryData[item.queryId]];
-              }
-            });
-          });
-
-          const keys = Object.keys(res?.[id] || {}).filter((item) => !allQueryData.includes(item));
-          refresh(keys, id);
-          Object.keys(queryData).forEach((item) => {
-            refresh(queryData[item], id, item);
-          });
-        });
-      });
-    }
-  }, [deviceTreeData]);
 
   return (
     <>
