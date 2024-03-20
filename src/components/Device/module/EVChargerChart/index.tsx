@@ -10,21 +10,48 @@ import DeviceContext from '@/components/Device/Context/DeviceContext';
 import { cloneDeep } from 'lodash';
 
 const defaultVChartData = [
-  { data: [] }, //最高允许充电电压
-  { data: [] }, //需求电压
-  { data: [] }, //充电出电压
-  { data: [] }, //BMS测量电压
-  { data: [] }, //最高允许充电电流
-  { data: [] }, //需求电流
-  { data: [] }, //电输出电流
-  { data: [] }, //BMS测量电流
+  {
+    name: formatMessage({ id: 'device.maxAllowVoltage', defaultMessage: '最高允许充电电压' }),
+    data: [],
+  }, //最高允许充电电压
+  { name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }), data: [] }, //需求电压
+  {
+    name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电输出电压' }),
+    data: [],
+  }, //充电输出电压
+  {
+    name: formatMessage({ id: 'device.bMSMeasureVoltage', defaultMessage: 'BMS测量电压' }),
+    data: [],
+  }, //BMS测量电压
+  {
+    name: formatMessage({ id: 'device.maxAllowCurrent', defaultMessage: '最高允许充电电流' }),
+    data: [],
+  }, //最高允许充电电流
+  { name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }), data: [] }, //需求电流
+  { name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '充电输出电流' }), data: [] }, //充电输出电流
+  {
+    name: formatMessage({ id: 'device.bMSMeasureCurrent', defaultMessage: 'BMS测量电流' }),
+    data: [],
+  }, //BMS测量电流
 ];
 const defaultCChartData = [
-  { data: [] }, //枪温度
-  { data: [] }, //单体电池最高温度{ label: '2024-03-05 04:10:00', value: 10 }
-  { data: [] }, //单体电池最低温度
-  { data: [] }, //充电枪正极温度
-  { data: [] }, //充电枪负极负温度
+  { name: formatMessage({ id: 'device.gunTemp', defaultMessage: '枪温度' }), data: [] }, //枪温度
+  {
+    name: formatMessage({ id: 'device.singleBatteryMaxtemp', defaultMessage: '单体电池最高温度' }),
+    data: [],
+  }, //单体电池最高温度
+  {
+    name: formatMessage({ id: 'device.singleBatteryMintemp', defaultMessage: '单体电池最低温度' }),
+    data: [],
+  }, //单体电池最低温度
+  {
+    name: formatMessage({ id: 'device.chargeGunAnodetemp', defaultMessage: '充电枪正极温度' }),
+    data: [],
+  }, //充电枪正极温度
+  {
+    name: formatMessage({ id: 'device.chargeGunCathodetemp', defaultMessage: '充电枪负极温度' }),
+    data: [],
+  }, //充电枪负极负温度
 ];
 
 const EVChargerChart = () => {
@@ -72,6 +99,7 @@ const EVChargerChart = () => {
             default:
           }
         });
+        console.log('currentVChartData>>', currentVChartData);
         setVChartData(currentVChartData);
       });
       getChargeTCurve({ deviceId: deviceData?.deviceId }).then(({ data }) => {
