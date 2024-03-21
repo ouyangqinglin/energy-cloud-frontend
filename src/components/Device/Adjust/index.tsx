@@ -20,8 +20,14 @@ import { sendDebug } from '@/services/equipment';
 
 const { TextArea } = Input;
 
-const Index: React.FC = (props) => {
-  const { deviceId, productTypeId } = props;
+type AdjustType = {
+  className?: string;
+  deviceId?: string;
+  productTypeId?: string;
+};
+
+const Index: React.FC<AdjustType> = (props) => {
+  const { deviceId, productTypeId, className = '' } = props;
   const [list, setList] = useState([]);
   const [isScrolle, setIsScrolle] = useState(true);
   const [isSubscribe, setIsSubscribe] = useState(true);
@@ -118,7 +124,7 @@ const Index: React.FC = (props) => {
   };
   return (
     <>
-      <div className={styles.adjust}>
+      <div className={`${styles.adjust} ${className}`}>
         <div
           className={styles.message}
           style={{

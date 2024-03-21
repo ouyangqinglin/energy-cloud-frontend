@@ -353,7 +353,7 @@ export default {
   'device.compressor': 'Compressor',
   'device.softwareCoding': 'Software coding',
   'device.systemMessage': 'monitor',
-  'device.debug': 'Communication message',
+  'device.debug': 'Debug',
   'device.alarmStatus': 'Alarm status',
   'device.startOverallStatus': 'Start overall status',
   'device.doorStatus': 'Door Status',

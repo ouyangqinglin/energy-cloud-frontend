@@ -677,3 +677,11 @@ export const outputMethodFormat = (value: number) => {
   };
   return <span className="">{map[value]}</span>;
 };
+
+export const yesFormat = (value: number) => {
+  const map: MapType = {
+    0: formatMessage({ id: 'debug.no', defaultMessage: '无' }),
+    1: formatMessage({ id: 'debug.yes', defaultMessage: '有' }),
+  };
+  return <span className={''}>{map[value]}</span>;
+};

@@ -410,3 +410,10 @@ export const sendDebug = (data: any) => {
     data,
   });
 };
+
+export const openVpn = (data: any) => {
+  return request(`/iot/processRealData/saveRealTimeData`, {
+    method: 'POST',
+    data,
+  });
+};

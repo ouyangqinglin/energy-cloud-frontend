@@ -36,6 +36,7 @@ import physicalModel from './zh-CN/physicalModel';
 import version from './zh-CN/version';
 import date from './zh-CN/date';
 import things from './zh-CN/things';
+import debug from './zh-CN/debug';
 
 export default {
   'navBar.lang': '语言',
@@ -84,4 +85,5 @@ export default {
   ...version,
   ...date,
   ...things,
+  ...debug,
 };
