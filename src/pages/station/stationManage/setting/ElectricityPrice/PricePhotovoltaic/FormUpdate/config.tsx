@@ -8,6 +8,26 @@ import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
 import { formatMessage } from '@/utils';
+
+export const PriceTypeOptions = [
+  {
+    label: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+    value: PriceType.SHARP,
+  },
+  {
+    label: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+    value: PriceType.PEAK,
+  },
+  {
+    label: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+    value: PriceType.SHOULDER,
+  },
+  {
+    label: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+    value: PriceType.OFF_PEAK,
+  },
+];
+
 export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProFormColumnsType[] = (
   timeColum,
   setType,
@@ -201,11 +221,41 @@ export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProForm
                 dataIndex: 'electricityFees',
                 valueType: 'digit',
                 colProps: {
-                  span: 11,
+                  span: setType === 1 ? 7 : 11,
                   offset: 1,
                 },
                 width: '100%',
               },
+              ...(setType === 1
+                ? [
+                    {
+                      title: formatMessage({
+                        id: 'device.electricityPriceType',
+                        defaultMessage: '电价类型',
+                      }),
+                      formItemProps: {
+                        rules: [
+                          {
+                            required: true,
+                            message: formatMessage({
+                              id: 'common.pleaseSelect',
+                              defaultMessage: '请选择',
+                            }),
+                          },
+                        ],
+                      },
+                      fieldProps: {
+                        options: PriceTypeOptions,
+                      },
+                      dataIndex: 'elecType',
+                      valueType: 'select',
+                      colProps: {
+                        span: 5,
+                      },
+                      width: '100%',
+                    } as any,
+                  ]
+                : []),
             ],
           },
         ],
