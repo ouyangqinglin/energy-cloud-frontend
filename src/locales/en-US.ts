@@ -36,6 +36,7 @@ import version from './en-US/version';
 import physicalModel from './en-US/physicalModel';
 import date from './en-US/date';
 import things from './en-US/things';
+import debug from './en-US/debug';
 
 export default {
   'navBar.lang': 'Languages',
@@ -84,4 +85,5 @@ export default {
   ...version,
   ...date,
   ...things,
+  ...debug,
 };

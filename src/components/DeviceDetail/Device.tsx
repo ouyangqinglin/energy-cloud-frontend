@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-03-14 17:09:44
+ * @LastEditTime: 2024-03-21 15:19:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
@@ -23,6 +23,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import FallBackRender from '../FallBackRender';
 import { DeviceDataType } from '@/services/equipment';
 import { useAuthority } from '@/hooks';
+import Debug from '../Device/components/Debug';
 
 type DeviceType = {
   deviceTreeData?: DeviceDataType[];
@@ -36,24 +37,13 @@ const Device: React.FC<DeviceType> = memo((props) => {
     updateData?.();
   }, [updateData]);
 
-  const { authorityMap } = useAuthority(['device:detail:communicationMessage']);
+  const { authorityMap } = useAuthority([
+    'device:detail:communicationMessage',
+    'deviceManage:detail:debug',
+  ]);
 
   const items = useMemo<TabsProps['items']>(() => {
-    const debug = [
-      {
-        label: formatMessage({ id: 'device.debug', defaultMessage: '通信报文' }),
-        key: '6',
-        children: (
-          <ErrorBoundary fallbackRender={FallBackRender}>
-            <Adjust
-              deviceId={deviceData?.deviceId || ''}
-              productTypeId={deviceData?.productTypeId}
-            />
-          </ErrorBoundary>
-        ),
-      },
-    ];
-    const arr = [
+    const result: TabsProps['items'] = [
       {
         label: formatMessage({ id: 'siteMonitor.deviceDetails', defaultMessage: '设备详情' }),
         key: '1',
@@ -115,14 +105,45 @@ const Device: React.FC<DeviceType> = memo((props) => {
         ),
       },
     ];
-    return [
-      DeviceProductTypeEnum.Ems,
-      DeviceProductTypeEnum.DCChargePile,
-      DeviceProductTypeEnum.ACChargePile,
-      DeviceProductTypeEnum.ChargeTerminal,
-    ].includes(+deviceData?.productTypeId) && authorityMap.get('device:detail:communicationMessage')
-      ? [...arr, ...debug]
-      : arr;
+    if (
+      deviceData?.productTypeId &&
+      [
+        DeviceProductTypeEnum.DCChargePile,
+        DeviceProductTypeEnum.ACChargePile,
+        DeviceProductTypeEnum.ChargeTerminal,
+      ].includes(deviceData?.productTypeId) &&
+      authorityMap.get('device:detail:communicationMessage')
+    ) {
+      result.push({
+        label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
+        key: '6',
+        children: (
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Adjust
+              className="pb24 px24"
+              deviceId={deviceData?.deviceId || ''}
+              productTypeId={deviceData?.productTypeId}
+            />
+          </ErrorBoundary>
+        ),
+      });
+    }
+    if (
+      deviceData?.productTypeId &&
+      [DeviceProductTypeEnum.Ems].includes(deviceData?.productTypeId) &&
+      authorityMap.get('deviceManage:detail:debug')
+    ) {
+      result.push({
+        label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
+        key: '7',
+        children: (
+          <ErrorBoundary fallbackRender={FallBackRender}>
+            <Debug deviceData={deviceData} />
+          </ErrorBoundary>
+        ),
+      });
+    }
+    return result;
   }, [deviceData, authorityMap]);
 
   return (
