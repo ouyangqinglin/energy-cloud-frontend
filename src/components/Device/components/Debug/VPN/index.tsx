@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-21 15:24:24
+ * @LastEditTime: 2024-03-21 16:40:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -66,7 +66,7 @@ const VPN: React.FC = () => {
       labelStyle: {
         lineHeight: '32px',
       },
-      format: () => (
+      format: (_, data) => (
         <>
           <Button
             loading={loading}
@@ -74,6 +74,7 @@ const VPN: React.FC = () => {
             onClick={() => {
               onControl(1);
             }}
+            disabled={data.vpnSupport != 1}
           >
             {formatMessage({ id: 'things.open1', defaultMessage: '开启' })}
           </Button>
@@ -82,6 +83,7 @@ const VPN: React.FC = () => {
             onClick={() => {
               onControl(0);
             }}
+            disabled={data.vpnSupport != 1}
           >
             {formatMessage({ id: 'things.closeDown', defaultMessage: '关闭' })}
           </Button>
