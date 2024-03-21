@@ -1,4 +1,3 @@
-import FullScreen from '../../components/FullScreen';
 import { Col, Row } from 'antd';
 import styles from '../index.less';
 import Header from '../components/header';
@@ -469,8 +468,6 @@ const CustomLayout = () => {
           </div>
         </Col>
       </Row>
-
-      {/* <FullScreen /> */}
     </>
   );
 };
