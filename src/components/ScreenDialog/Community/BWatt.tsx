@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-28 09:02:14
- * @LastEditTime: 2024-03-20 15:48:07
+ * @LastEditTime: 2024-03-22 15:17:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\BWatt.tsx
  */
@@ -140,6 +140,14 @@ const BWatt: React.FC<CommunityProps> = (props) => {
             getPopupContainer: (triggerNode: any) => triggerNode?.parentElement,
           };
         },
+      },
+      {
+        title: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) + ' ID',
+        dataIndex: 'powerGridSideId',
+      },
+      {
+        title: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
+        dataIndex: 'inverterSideId',
       },
       {
         dataIndex: 'thirdSiteName',

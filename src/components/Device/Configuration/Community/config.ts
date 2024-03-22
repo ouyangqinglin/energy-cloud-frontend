@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:23:48
- * @LastEditTime: 2023-12-22 15:24:35
+ * @LastEditTime: 2024-03-22 15:16:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\Community\config.ts
  */
@@ -112,5 +112,13 @@ export const bWattItem: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
     field: 'thirdSiteName',
+  },
+  {
+    label: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) + ' ID',
+    field: 'powerGridSideId',
+  },
+  {
+    label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
+    field: 'inverterSideId',
   },
 ];

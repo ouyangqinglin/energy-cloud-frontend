@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-21 16:40:27
+ * @LastEditTime: 2024-03-22 14:57:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -51,6 +51,7 @@ const VPN: React.FC = () => {
       label: formatMessage({ id: 'debug.VPNTunnelStatus', defaultMessage: 'VPN隧道状态' }),
       field: 'vpnSwitch',
       format: openFormat,
+      show: (value, data) => data.vpnSupport == 1,
     },
     {
       label: formatMessage({ id: 'debug.VPNTunnelIp', defaultMessage: 'VPN隧道IP' }),

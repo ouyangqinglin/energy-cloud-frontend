@@ -28,7 +28,7 @@ export const config = (siteType: string) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.SelfGeneratedElectriConsumption',
+            id: 'siteMonitor.TodaySelfGeneratedElectriConsumption',
             defaultMessage: '今日自发自用电量',
           })}(kWh)`,
           labelUnit: '/kWh',
