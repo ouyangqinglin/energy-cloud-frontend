@@ -13,6 +13,7 @@ export type FormReadBaseProps = {
 
 export type FormReadProps<T, U> = {
   title: string;
+  setType?: string;
   request?: ProRequestData<T, U>;
-  columns: ProFormColumnsType[];
+  columns: (setType: any) => ProFormColumnsType[];
 } & FormReadBaseProps;

@@ -4,8 +4,23 @@ import dayjs from 'dayjs';
 import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
+import { PriceType } from '../../type';
 import { formatMessage } from '@/utils';
-export const columns: ProFormColumnsType[] = [
+export const PriceTypeEnum = {
+  [PriceType.SHARP]: {
+    text: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+  },
+  [PriceType.PEAK]: {
+    text: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+  },
+  [PriceType.SHOULDER]: {
+    text: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+  },
+  [PriceType.OFF_PEAK]: {
+    text: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+  },
+};
+export const columns = (setType: 0 | 1): ProFormColumnsType[] => [
   {
     title: (
       <div className={styles.title}>
@@ -98,7 +113,7 @@ export const columns: ProFormColumnsType[] = [
         dataIndex: 'hoursPriceList',
         render: (_, { value: hoursPrices = [] }: { value: HoursPriceList[] }) => {
           const Cols = hoursPrices.map((priceItem, index) => {
-            const { intervalStartTime, intervalEndTime, id, electricityFees } = priceItem;
+            const { intervalStartTime, intervalEndTime, id, electricityFees, elecType } = priceItem;
             const isLastOneChild = index === hoursPrices.length - 1;
             return (
               <React.Fragment key={id}>
@@ -106,16 +121,32 @@ export const columns: ProFormColumnsType[] = [
                   {formatMessage({ id: 'siteManage.set.timeSlot', defaultMessage: '时间段' })}
                   {index + 1}:
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                   {intervalStartTime} - {intervalEndTime}
                 </Col>
                 <Col span={2}>
                   {formatMessage({ id: 'device.electrovalence', defaultMessage: '电价' })}:
                 </Col>
-                <Col span={10}>
+                <Col span={6}>
                   {electricityFees}
                   {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
                 </Col>
+                {setType == 1 ? (
+                  <>
+                    <Col span={4}>
+                      {formatMessage({
+                        id: 'device.electricityPriceType',
+                        defaultMessage: '电价类型',
+                      })}
+                      :
+                    </Col>
+                    <Col span={2}>
+                      {PriceTypeEnum[elecType as keyof typeof PriceTypeEnum]?.text}
+                    </Col>
+                  </>
+                ) : (
+                  ''
+                )}
               </React.Fragment>
             );
           });
