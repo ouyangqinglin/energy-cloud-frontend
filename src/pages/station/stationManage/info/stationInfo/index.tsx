@@ -13,7 +13,7 @@ import { LocationType } from '@/types';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder, getValue } from '@/utils';
 import { useAuthority } from '@/hooks';
 import { StationType } from '../../../stationList/data.d';
 
@@ -123,7 +123,9 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
     },
     {
       label: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
-      field: 'agentName',
+      field: 'orgs',
+      format: (value) =>
+        getPlaceholder(value?.map?.((item) => item.orgName)?.join?.(',') || undefined),
     },
     {
       label: formatMessage({ id: 'siteManage.siteList.voltageLevel', defaultMessage: '电压等级' }),
