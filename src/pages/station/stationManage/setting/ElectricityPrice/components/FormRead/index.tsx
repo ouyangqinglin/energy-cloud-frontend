@@ -13,11 +13,11 @@ export const FormRead = <FormData = any, Param = Record<string, any>>({
   request,
   columns,
   title,
+  setType,
   id,
   ...restProps
 }: FormReadProps<FormData, Param>) => {
   const [form] = Form.useForm();
-
   useEffect(() => {
     if (restProps.visible) {
       form?.resetFields();
@@ -38,7 +38,7 @@ export const FormRead = <FormData = any, Param = Record<string, any>>({
         span: 24,
       }}
       layoutType={'ModalForm'}
-      columns={columns}
+      columns={typeof columns == 'function' ? columns(setType) : columns}
       {...restProps}
     />
   );
