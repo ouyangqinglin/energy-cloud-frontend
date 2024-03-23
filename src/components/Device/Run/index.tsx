@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-15 15:45:00
+ * @LastEditTime: 2024-03-23 14:31:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
 
+import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
 import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Meter from '@/components/Meter';
@@ -27,14 +28,21 @@ import {
   isEmpty,
 } from '@/utils';
 import { Empty, Spin } from 'antd';
-import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
+import * as interceptorFn from '../components/interceptor';
 import styles from './index.less';
+import { merge } from 'lodash';
 
 export type RunType = {
   deviceData?: DeviceDataType;
   realTimeData?: Record<string, any>;
   groupData?: DeviceModelDescribeType[];
   modelMap?: Record<string, DeviceModelType>;
+};
+
+type interceptorDataType = {
+  id: string;
+  dataInterceptor: string;
+  deviceId: string;
 };
 
 const Run: React.FC<RunType> = (props) => {
@@ -51,6 +59,31 @@ const Run: React.FC<RunType> = (props) => {
     return Array.from(new Set(result));
   }, [groupData]);
   const extralDeviceRealTimeData = useSubscribe(extralDeviceIds, true);
+
+  const interceptor = useMemo(() => {
+    return getPropsFromTree<DeviceModelDescribeType, interceptorDataType>(
+      groupData,
+      ['id', 'dataInterceptor', 'deviceId'],
+      'children',
+      (item) => !!item.dataInterceptor,
+    );
+  }, [groupData]);
+
+  const interceptorData = useMemo(() => {
+    const result: Record<string, any> = {};
+    interceptor.forEach(({ id, dataInterceptor, deviceId }) => {
+      if (deviceId) {
+        result[deviceId] = {};
+        result[deviceId][id] = (interceptorFn as any)?.[dataInterceptor]?.(
+          id,
+          realTimeData?.[deviceId]?.[id],
+        );
+      } else {
+        result[id] = (interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[id]);
+      }
+    });
+    return merge({}, realTimeData, result);
+  }, [realTimeData, interceptor]);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -236,6 +269,7 @@ const Run: React.FC<RunType> = (props) => {
           break;
         case DeviceModelDescribeTypeEnum.Tab:
           const tabItems: GroupItem['tabItems'] = [];
+
           modelDescribeItem?.children?.forEach?.((item) => {
             if (passAuthority(item?.authority)) {
               if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
@@ -260,7 +294,7 @@ const Run: React.FC<RunType> = (props) => {
             const Component = components[modelDescribeItem.id];
             !!Component &&
               result.push({
-                component: (
+                component: (data) => (
                   <Suspense
                     fallback={
                       <div className="tx-center">
@@ -268,7 +302,7 @@ const Run: React.FC<RunType> = (props) => {
                       </div>
                     }
                   >
-                    <Component deviceId={deviceData?.deviceId} />
+                    <Component deviceId={deviceData?.deviceId} realTimeData={data} />
                   </Suspense>
                 ),
               });
@@ -293,7 +327,7 @@ const Run: React.FC<RunType> = (props) => {
     <>
       {groupsItems.length ? (
         <Detail.Group
-          data={{ ...realTimeData, ...extralDeviceRealTimeData }}
+          data={{ ...interceptorData, ...extralDeviceRealTimeData }}
           items={groupsItems}
           detailProps={{
             extral,

@@ -133,6 +133,7 @@ export type DeviceModelDescribeType = {
   tip?: string;
   authority?: DeviceModelAuthorityType[];
   children?: DeviceModelDescribeType[] | DeviceServiceType[];
+  dataInterceptor?: string;
 };
 
 export type DeviceModelDataType = {
