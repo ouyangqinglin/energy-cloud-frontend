@@ -37,6 +37,7 @@ import physicalModel from './en-US/physicalModel';
 import date from './en-US/date';
 import things from './en-US/things';
 import debug from './en-US/debug';
+import charge from './en-US/charge';
 
 export default {
   'navBar.lang': 'Languages',
@@ -86,4 +87,5 @@ export default {
   ...date,
   ...things,
   ...debug,
+  ...charge,
 };

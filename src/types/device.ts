@@ -86,6 +86,7 @@ export type DeviceServiceModelType = {
         specs?: DeviceServiceModelType[];
       };
   buttons?: 'refresh' | 'edit';
+  defaultValue?: string;
 };
 
 export type DeviceServiceType = {
@@ -102,6 +103,7 @@ export type DeviceServiceType = {
   children?: DeviceServiceModelType[];
   authority?: DeviceModelAuthorityType[];
   buttons?: 'refresh' | 'edit';
+  extraParams?: any;
 };
 
 export type DeviceLocationType = {
@@ -132,6 +134,7 @@ export type DeviceModelDescribeType = {
   tip?: string;
   authority?: DeviceModelAuthorityType[];
   children?: DeviceModelDescribeType[] | DeviceServiceType[];
+  dataInterceptor?: string;
 };
 
 export type DeviceModelDataType = {

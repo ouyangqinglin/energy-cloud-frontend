@@ -168,9 +168,11 @@ export const mvFormat = (value: string | number) => {
   return getValue(value, 'mV');
 };
 export const clusterFormat = (value: number) => {
-  return value === 0
-    ? formatMessage({ id: 'things.break', defaultMessage: '断开' })
-    : formatMessage({ id: 'things.close', defaultMessage: '闭合' });
+  const map: MapType = {
+    0: formatMessage({ id: 'things.break', defaultMessage: '断开' }),
+    1: formatMessage({ id: 'things.close', defaultMessage: '闭合' }),
+  };
+  return map[value];
 };
 export const powerFormat = (value: string | number) => {
   return getValue(value, 'kW');
@@ -684,4 +686,11 @@ export const yesFormat = (value: number) => {
     1: formatMessage({ id: 'debug.yes', defaultMessage: '有' }),
   };
   return <span className={''}>{map[value]}</span>;
+};
+export const startUpFormat = (value: number) => {
+  const map: MapType = {
+    0: formatMessage({ id: 'charge.shutDown', defaultMessage: '关机' }),
+    1: formatMessage({ id: 'charge.powerOn', defaultMessage: '开机' }),
+  };
+  return map[value];
 };

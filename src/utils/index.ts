@@ -431,17 +431,31 @@ export const flatObj = (data: Record<string, any>, parentField = '') => {
 
 export const getPropsFromTree = <T extends Record<string, any>, U = string>(
   data?: T[],
-  key = 'id',
+  key?: string | string[],
   children = 'children',
   interceptor = (params: T) => true,
 ): U[] => {
+  const keys = key || 'id';
+  const isArray = Array.isArray(keys);
   const result: U[] = [];
   data?.forEach?.((item) => {
-    if (!isEmpty(item?.[key]) && (!interceptor || interceptor(item))) {
-      result.push(item?.[key]);
+    if (isArray) {
+      if (!interceptor || interceptor(item)) {
+        const obj: any = {};
+        keys?.forEach?.((childKey) => {
+          if (!isEmpty(item?.[childKey])) {
+            obj[childKey] = item?.[childKey];
+          }
+        });
+        result.push(obj);
+      }
+    } else {
+      if (!isEmpty(item?.[keys]) && (!interceptor || interceptor(item))) {
+        result.push(item?.[keys]);
+      }
     }
     if (item?.[children] && item?.[children]?.length) {
-      const childrenResult: U[] = getPropsFromTree(item?.[children], key, children, interceptor);
+      const childrenResult: U[] = getPropsFromTree(item?.[children], keys, children, interceptor);
       result.push(...childrenResult);
     }
   });
