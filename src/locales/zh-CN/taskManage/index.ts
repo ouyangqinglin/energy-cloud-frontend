@@ -15,6 +15,7 @@ export default {
   'taskManage.customerNameTips': '请输入客户名称',
   'taskManage.selectCustomerName': '请选择客户名称',
   'taskManage.phoneError': '电话格式错误',
+  'taskManage.example': '示例',
   'taskManage.installerName': '安装商名称',
   'taskManage.selectAppointTime': '请选择预约时间',
   'taskManage.customerAddress': '客户地址',

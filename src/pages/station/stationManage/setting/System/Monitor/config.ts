@@ -18,7 +18,7 @@ export const monitorTypeMap = new Map([
         {
           name: formatMessage({
             id: 'siteManage.set.mainsElectricConsumption',
-            defaultMessage: '市电用电量',
+            defaultMessage: '市电供电量',
           }),
           area: 'row1',
           subType: 2,
@@ -100,7 +100,7 @@ export const monitorTypeMap = new Map([
         {
           name: formatMessage({
             id: 'siteManage.set.chargeElectricConsumption',
-            defaultMessage: '充电桩用电量',
+            defaultMessage: '充电桩充电量',
           }),
           area: 'row1',
           subType: 2,

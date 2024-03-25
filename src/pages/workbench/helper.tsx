@@ -18,6 +18,7 @@ import {
 } from '@/components/TableSelect';
 import { getDeviceCollection, getMultipleDeviceTree } from '@/services/equipment';
 import { DeviceTreeDataType } from '@/types/device';
+import { formatMessage } from '@/utils';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -93,14 +94,28 @@ const requestTree = () => {
 
 export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESELECTVALUETYPE>[] = [
   {
-    title: '采集点',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'collection',
     valueType: TABLETREESELECT,
     formItemProps: {
-      rules: [{ required: true, message: '请选择数据采集点' }],
+      rules: [
+        {
+          required: true,
+          message: formatMessage({
+            id: 'common.pleaseSelect',
+            defaultMessage: '请选择',
+          }),
+        },
+      ],
     },
     fieldProps: {
-      title: '选择数据采集点',
+      title: formatMessage({
+        id: 'common.pleaseSelect',
+        defaultMessage: '请选择',
+      }),
       treeProps: {
         fieldNames: {
           title: 'deviceName',

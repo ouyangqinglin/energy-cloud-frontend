@@ -127,6 +127,7 @@ export default {
   'siteMonitor.protectInformation': 'Protect Information',
   'siteMonitor.controlInformation': 'Control Information',
   'siteMonitor.deviceCommunicationStatus': 'Communication Status',
+  'siteMonitor.deviceMonitor': 'Device Monitor',
   'siteMonitor.controlCommand': 'Control Command',
   'siteMonitor.systemStartup': 'System Startup',
   'siteMonitor.systemHalt': 'System Halt',

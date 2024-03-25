@@ -126,6 +126,7 @@ export default {
   'siteMonitor.protectInformation': '保护信息',
   'siteMonitor.controlInformation': '控制信息',
   'siteMonitor.deviceCommunicationStatus': '通信状态',
+  'siteMonitor.deviceMonitor': '设备监控',
   'siteMonitor.controlCommand': '控制指令',
   'siteMonitor.systemStartup': '系统启动',
   'siteMonitor.systemHalt': '系统停止',

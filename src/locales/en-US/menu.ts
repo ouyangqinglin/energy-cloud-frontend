@@ -13,7 +13,7 @@ export default {
   'menu.exchangeMonitor.travelRecord': 'Travel Record',
   'menu.siteMonitor': 'Site Monitor',
   'menu.siteMonitor.overview': 'Site Overview',
-  'menu.siteMonitor.topo': 'Site Topo',
+  'menu.siteMonitor.topo': 'Site Topology',
   'menu.siteMonitor.deviceDetail': 'Device Monitor-Detail',
   'menu.siteMonitor.electricGenerate': 'Power generation unit monitoring',
   'menu.siteMonitor.energy': 'Energy storage unit monitoring',

@@ -250,10 +250,10 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
       width={1000}
       maskClosable={false}
       title={intl.formatMessage({
-        id: 'physicalModel',
-        defaultMessage: `${
-          showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'
-        }物模型`,
+        id: `${
+          showType == 'add' ? 'common.add' : showType == 'edit' ? 'common.edit' : 'common.view'
+        }`,
+        defaultMessage: `${showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'}`,
       })}
       visible={props.visible}
       destroyOnClose

@@ -3,14 +3,14 @@ import { ProFormText, ProFormRadio, ProFormTextArea } from '@ant-design/pro-form
 import { Form, Modal } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import type { DictTypeType } from '../data.d';
+import { formatMessage } from '@/utils';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 export type DictTypeFormValueType = Record<string, unknown> & Partial<DictTypeType>;
 
@@ -91,11 +91,11 @@ const DictTypeForm: React.FC<DictTypeFormProps> = (props) => {
             defaultMessage: '字典名称',
           })}
           width="xl"
-          placeholder="请输入字典名称"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: false,
-              message: <FormattedMessage id="请输入字典名称！" defaultMessage="请输入字典名称！" />,
+              message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
             },
           ]}
         />
@@ -106,7 +106,7 @@ const DictTypeForm: React.FC<DictTypeFormProps> = (props) => {
             defaultMessage: '字典类型',
           })}
           width="xl"
-          placeholder="请输入字典类型"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: false,
@@ -123,7 +123,7 @@ const DictTypeForm: React.FC<DictTypeFormProps> = (props) => {
           })}
           width="xl"
           labelCol={{ span: 24 }}
-          placeholder="请输入状态"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: false,
@@ -138,7 +138,7 @@ const DictTypeForm: React.FC<DictTypeFormProps> = (props) => {
             defaultMessage: '备注',
           })}
           width="xl"
-          placeholder="请输入备注"
+          placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
           rules={[
             {
               required: false,

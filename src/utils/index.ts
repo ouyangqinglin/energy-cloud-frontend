@@ -457,3 +457,5 @@ export const initLocale = (userLocale?: string) => {
     window.location.reload();
   }
 };
+
+export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);
