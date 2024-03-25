@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-22 11:14:08
+ * @LastEditTime: 2024-03-25 09:30:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -554,6 +554,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                           },
                         ],
                 },
+                initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
               });
               if (field?.span == 24) {
                 columns.push({

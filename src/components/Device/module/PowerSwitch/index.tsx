@@ -11,6 +11,7 @@ import React, { memo, useMemo } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { columns } from './helper';
 import { clusterFormat } from '@/utils/format';
+import { parseToArray } from '@/utils';
 
 type PowerSwitchType = {
   realTimeData?: Record<string, any>;
@@ -25,7 +26,7 @@ const PowerSwitch: React.FC<PowerSwitchType> = (props) => {
   const { realTimeData } = props;
 
   const dataSource: Record<string, any>[] = [];
-  const powerData: PowerDataType[] = realTimeData?.mpswiss || [];
+  const powerData: PowerDataType[] = parseToArray(realTimeData?.mpswiss || []);
 
   powerData?.forEach?.((item, index) => {
     if (index % 3 == 0) {

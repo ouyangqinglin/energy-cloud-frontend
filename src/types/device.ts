@@ -86,6 +86,7 @@ export type DeviceServiceModelType = {
         specs?: DeviceServiceModelType[];
       };
   buttons?: 'refresh' | 'edit';
+  defaultValue?: string;
 };
 
 export type DeviceServiceType = {
