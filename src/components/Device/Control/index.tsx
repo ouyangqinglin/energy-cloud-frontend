@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-25 09:30:39
+ * @LastEditTime: 2024-03-25 09:36:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -377,6 +377,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               };
             },
             renderFormItem: () => <TimeRangePicker />,
+            initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
           });
           if (field?.span == 24) {
             columns.push({
@@ -629,6 +630,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     ],
             },
             renderFormItem: () => <DateStamp />,
+            initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
           });
           if (field?.span == 24) {
             columns.push({
@@ -717,6 +719,11 @@ const Control: React.FC<ControlType> = memo((props) => {
                       },
                     ],
             },
+            initialValue: isEmpty(field?.defaultValue)
+              ? undefined
+              : valueType == 'digit'
+              ? field?.defaultValue
+              : field?.defaultValue + '',
           });
           if (field?.span == 24) {
             columns.push({
