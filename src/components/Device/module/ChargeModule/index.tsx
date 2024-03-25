@@ -20,7 +20,7 @@ type ChargeModuleType = {
 const ChargeModule: React.FC<ChargeModuleType> = (props) => {
   const { realTimeData } = props;
 
-  const dataSource = parseToArray(realTimeData?.mmodsarr || []);
+  const dataSource = parseToArray(realTimeData?.mmoduarr || []);
 
   dataSource?.forEach?.((item: any) => {
     item.mnfs = startUpFormat(item.mnfs);

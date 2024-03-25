@@ -15,6 +15,7 @@ export const columns: ProColumns[] = [
     title: formatMessage({ id: 'charge.module', defaultMessage: '模块' }),
     dataIndex: 'mode',
     width: 100,
+    ellipsis: true,
   },
   {
     title: formatMessage({ id: 'charge.moduleAddress', defaultMessage: '模块地址' }),
