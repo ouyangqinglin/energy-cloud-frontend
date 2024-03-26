@@ -84,6 +84,7 @@ const MyDetail: React.FC<MyDetailProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   useEffect(() => {
+    console.log('detailData?.productIntroduce>>', detailData?.productIntroduce);
     if (detailData?.productIntroduce) {
       setFileList(JSON.parse(detailData.productIntroduce) || []);
     }
@@ -114,6 +115,7 @@ const MyDetail: React.FC<MyDetailProps> = (props) => {
         const currentFileList = cloneDeep(fileList);
         currentFileList.push({ ...res.data, uid: getUniqueNumber() });
         setFileList(currentFileList);
+        updateProductIntroduce({ productIntroduce: currentFileList, id: detailData?.id });
       }
       hide();
       message.success('导入成功');
@@ -129,13 +131,8 @@ const MyDetail: React.FC<MyDetailProps> = (props) => {
     const index = currentFileList.findIndex((i) => i.uid == file.uid);
     currentFileList.splice(index, 1);
     setFileList(currentFileList);
+    updateProductIntroduce({ productIntroduce: currentFileList, id: detailData?.id });
   };
-
-  useEffect(() => {
-    updateProductIntroduce({ productIntroduce: fileList, id: detailData?.id });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileList]);
-
   return (
     <>
       <Detail className="p24" items={detailItems} data={detailData} column={4} />

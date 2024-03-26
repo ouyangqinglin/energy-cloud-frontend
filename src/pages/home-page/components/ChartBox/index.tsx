@@ -293,7 +293,6 @@ const ChartBox = ({
     }
 
     optionHandle(isDay, series);
-    console.log('result>>', result);
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartData, subSystemType, timeType]);
