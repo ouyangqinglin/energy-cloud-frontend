@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-26 09:45:24
+ * @LastEditTime: 2024-03-26 09:53:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -69,7 +69,7 @@ const VPN: React.FC = () => {
       vpnRetentionTime: timeRef.current,
     }).then((data) => {
       if (data) {
-        message.success('操作成功');
+        message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
       }
     });
   };
@@ -88,7 +88,15 @@ const VPN: React.FC = () => {
         >
           <RedoOutlined
             className={`cl-primary cursor ${styles.refresh}`}
-            onClick={() => run({ deviceId: deviceData?.deviceId })}
+            onClick={() =>
+              run({ deviceId: deviceData?.deviceId }).then((res) => {
+                if (res) {
+                  message.success(
+                    formatMessage({ id: 'common.refreshSuccess', defaultMessage: '刷新成功' }),
+                  );
+                }
+              })
+            }
           />
         </Detail.Label>
       ),
@@ -167,7 +175,7 @@ const VPN: React.FC = () => {
                 {value}
                 <div>
                   <Typography.Text type="secondary">
-                    到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间
+                    到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。
                   </Typography.Text>
                 </div>
               </>

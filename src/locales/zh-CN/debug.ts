@@ -19,4 +19,5 @@ export default {
   'debug.tunnelExpirationTime': '隧道到期时间',
   'debug.tunnelInformation': '隧道信息',
   'debug.hour': '小时',
+  'debug.tunnelTip': '到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间',
 };
