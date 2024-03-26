@@ -38,6 +38,22 @@ export function resolveBlob(res: any, mimeType: string) {
   document.body.removeChild(aLink);
 }
 
+/**
+ * 通过a链接下载
+ * @param {*} url 下载地址
+ * @param {String} name 文件名
+ */
+export const aLinkDownLoad = (url: string, fileName: string) => {
+  const aLink = document.createElement('a');
+  aLink.style.display = 'none';
+  aLink.href = url; // 设置下载文件路径
+  aLink.setAttribute('download', fileName); // 设置下载文件名称
+  document.body.appendChild(aLink);
+  aLink.click();
+  URL.revokeObjectURL(aLink.href); // 清除引用
+  document.body.removeChild(aLink);
+};
+
 export async function downLoadXlsx(url: string, params: any, fileName: string, method = 'POST') {
   return request(url, {
     ...params,

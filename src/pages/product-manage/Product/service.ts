@@ -31,3 +31,9 @@ export const importPruductFile = (data: any) => {
     data,
   });
 };
+export const updateProductIntroduce = (data: any) => {
+  return request('/iot/product/updateProductIntroduce', {
+    method: 'POST',
+    data,
+  });
+};

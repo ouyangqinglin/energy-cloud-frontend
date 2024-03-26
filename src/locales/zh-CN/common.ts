@@ -39,7 +39,7 @@ export default {
   'common.original': '原始版本',
   'common.siteName': '站点名称',
   'common.upload': '上传',
-  'common.supportFile': '支持上传扩展名',
+  'common.supportFile': '支持扩展名',
   'common.confirm': '确认',
   'common.cancel': '取消',
   'common.hide': '隐藏',

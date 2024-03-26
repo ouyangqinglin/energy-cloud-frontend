@@ -110,6 +110,7 @@ export default {
   'siteMonitor.entryTime': '录入时间',
   'siteMonitor.enteredBy': '录入人',
   'siteMonitor.productIntroduction': '产品介绍',
+  'siteMonitor.productInfo': '产品资料',
   'siteMonitor.masterSlaveSystemName': '主从系统名称',
   'siteMonitor.editDeviceInformation': '编辑设备信息',
   'siteMonitor.deviceDetails': '设备详情',

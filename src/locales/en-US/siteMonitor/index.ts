@@ -111,6 +111,7 @@ export default {
   'siteMonitor.entryTime': 'Entry Time',
   'siteMonitor.enteredBy': 'Entered By',
   'siteMonitor.productIntroduction': 'Product Introduction',
+  'siteMonitor.productInfo': 'Product Information',
   'siteMonitor.masterSlaveSystemName': 'Master Slave System Name',
   'siteMonitor.editDeviceInformation': 'Edit Device Information',
   'siteMonitor.deviceDetails': 'Device Details',
