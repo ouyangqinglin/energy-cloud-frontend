@@ -77,6 +77,7 @@ export default {
   'common.hide': 'Hide',
   'common.displayRealTimeInfo': 'Display real-time information',
   'common.operateSuccess': 'Successful operation',
+  'common.refreshSuccess': 'Successful Refresh',
   'common.not': 'Not',
   'common.all': 'All',
   'common.del': 'Successfully deleted',

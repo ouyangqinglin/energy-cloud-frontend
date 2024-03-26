@@ -42,7 +42,7 @@ const Debug: React.FC<DebugType> = (props) => {
 
   if (authorityMap.get('deviceManage:detail:debug:vpn')) {
     items.push({
-      label: formatMessage({ id: 'debug.vpnTunnel', defaultMessage: 'VPN隧道' }),
+      label: formatMessage({ id: 'debug.debugTunnel', defaultMessage: '调试隧道' }),
       key: 'vpn',
       children: <VPN />,
     });

@@ -51,6 +51,7 @@ export default {
   'common.predefine': '预定义',
 
   'common.operateSuccess': '操作成功',
+  'common.refreshSuccess': '刷新成功',
   'common.power': '功率',
   'common.groupString': '组串',
   'common.dayPowerConsumption': '日用电量',
