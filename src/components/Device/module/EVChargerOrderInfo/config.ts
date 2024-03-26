@@ -69,7 +69,8 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
     valueEnum: ChargingStrategy,
   },
   {
-    title: formatMessage({ id: 'device.chargeStrategyParame', defaultMessage: '充电策略参数' }),
+    title:
+      formatMessage({ id: 'device.chargeStrategyParame', defaultMessage: '充电策略参数' }) + '(s)',
     hideInSearch: true,
     dataIndex: 'chargingStrategyParam',
     hideInTable: true,

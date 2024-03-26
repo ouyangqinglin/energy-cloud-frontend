@@ -121,7 +121,7 @@ const MyDetail: React.FC<MyDetailProps> = (props) => {
       message.success('导入成功');
     } catch (error) {
       hide();
-      message.error('导出失败，请重试');
+      message.error('导入失败，请重试');
     }
     return false;
   };
