@@ -160,7 +160,7 @@ const ChartBox = ({
 
   const typeChartData = useMemo(() => {
     let data = [];
-    const result: { data: any }[] = [];
+    const result: { name: string; data: any }[] = [];
     const isDay = timeType === TimeType.DAY;
     const isTotal = timeType === TimeType.TOTAL;
     let series: any[] = [
@@ -181,7 +181,7 @@ const ChartBox = ({
             })
           : formatMessage({ id: 'index.chart.powerGeneration', defaultMessage: '发电量' });
         data = isDay ? chartData?.pvPower || [] : chartData?.pvPowerGeneration || [];
-        result.push({ data: chartDataHandle(isDay, data) });
+        result.push({ name: series[0].name, data: chartDataHandle(isDay, data) });
         break;
       case 1: //储能
         if (isDay) {
@@ -190,14 +190,14 @@ const ChartBox = ({
             defaultMessage: '储能总功率',
           });
           data = chartData?.esPower || [];
-          result.push({ data: chartDataHandle(isDay, data) });
+          result.push({ name: series[0].name, data: chartDataHandle(isDay, data) });
         } else {
           series[0].name = formatMessage({
             id: 'index.chart.powerCharge',
             defaultMessage: '充电量',
           });
           data = chartData?.charge || [];
-          result.push({ data: chartDataHandle(isDay, data) });
+          result.push({ name: series[0].name, data: chartDataHandle(isDay, data) });
           const pushData = cloneDeep(series[0]);
           pushData.name = formatMessage({
             id: 'index.chart.powerDischarge',
@@ -206,7 +206,7 @@ const ChartBox = ({
           pushData.color = '#11DA81';
           series.push(pushData);
           data = chartData?.discharge || [];
-          result.push({ data: chartDataHandle(isDay, data) });
+          result.push({ name: pushData.name, data: chartDataHandle(isDay, data) });
         }
         break;
       case 2: //收益
@@ -217,75 +217,83 @@ const ChartBox = ({
           Number(siteType || ''),
         );
         if (isCanUser) {
+          const name = formatMessage({ id: 'index.chart.pvIncome', defaultMessage: '光伏收益/元' });
           series.push({
             ...deepData,
-            name: formatMessage({ id: 'index.chart.pvIncome', defaultMessage: '光伏收益/元' }),
+            name,
             type: 'bar',
             color: '#ffd15c',
             barGap: '-100%',
           });
           data = chartData?.pvIncome || [];
-          result.push({ data: incomeHandle(isDay, data) });
+          result.push({ name, data: incomeHandle(isDay, data) });
         }
         // 储能收益/元
         isCanUser = ![SiteTypeEnum.PV, SiteTypeEnum.CS].includes(Number(siteType || ''));
         if (isCanUser) {
+          const name = formatMessage({
+            id: 'index.chart.energyIncome',
+            defaultMessage: '储能收益/元',
+          });
           series.push({
             ...deepData,
-            name: formatMessage({ id: 'index.chart.energyIncome', defaultMessage: '储能收益/元' }),
+            name,
             type: 'bar',
             color: '#159aff',
             barGap: '-100%',
           });
           data = chartData?.esIncome || [];
-          result.push({ data: incomeHandle(isDay, data) });
+          result.push({ name, data: incomeHandle(isDay, data) });
         }
         //充电桩收益/元
         isCanUser = ![SiteTypeEnum.PV, SiteTypeEnum.ES, SiteTypeEnum.PV_ES].includes(
           Number(siteType || ''),
         );
         if (isCanUser) {
+          const name = formatMessage({
+            id: 'index.chart.chargeIncome',
+            defaultMessage: '充电桩收益/元',
+          });
           series.push({
             ...deepData,
-            name: formatMessage({
-              id: 'index.chart.chargeIncome',
-              defaultMessage: '充电桩收益/元',
-            }),
+            name: name,
             type: 'bar',
             color: '#01cfa1',
           });
           data = chartData?.csIncome || [];
-          result.push({ data: incomeHandle(isDay, data) });
+          result.push({ name, data: incomeHandle(isDay, data) });
         }
         //总收益/元
+        const name = formatMessage({ id: 'index.chart.totalIncome', defaultMessage: '总收益/元' });
         series.push({
           ...deepData,
-          name: formatMessage({ id: 'index.chart.totalIncome', defaultMessage: '总收益/元' }),
+          name,
           type: 'line',
           color: '#FF7B7B',
         });
         data = chartData?.income || [];
-        result.push({ data: incomeHandle(isDay, data) });
+        result.push({ name, data: incomeHandle(isDay, data) });
         break;
       case 3: //充电桩
         series[0].name = isDay
           ? formatMessage({ id: 'index.chart.chargePower', defaultMessage: '充电功率' })
           : formatMessage({ id: 'index.chart.powerCharge', defaultMessage: '充电量' });
         data = isDay ? chartData?.csPower || [] : chartData?.powerConsumption || [];
-        result.push({ data: chartDataHandle(isDay, data) });
+        result.push({ name: series[0].name, data: chartDataHandle(isDay, data) });
         break;
       case 4: //市电
         series[0].name = isDay
           ? formatMessage({ id: 'index.chart.power', defaultMessage: '功率' })
           : formatMessage({ id: 'index.chart.powerConsum', defaultMessage: '用电量' });
         data = isDay ? chartData?.mePower || [] : (chartData?.meConsumption || []).reverse();
-        result.push({ data: chartDataHandle(isDay, data) });
+        result.push({ name: series[0].name, data: chartDataHandle(isDay, data) });
         break;
       default:
         return;
     }
 
     optionHandle(isDay, series);
+    console.log('result>>', result);
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartData, subSystemType, timeType]);
