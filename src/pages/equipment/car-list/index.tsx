@@ -7,8 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\car-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message } from 'antd';
-import { useHistory, useModel } from 'umi';
+import { Button } from 'antd';
+import { useModel } from 'umi';
 import {
   PlusOutlined,
   DeleteOutlined,
@@ -18,8 +18,8 @@ import {
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { onlineStatus, vehicleDrivingStatus } from '@/utils/dictionary';
-import { getPage, unbindDevice } from './service';
+import { vehicleDrivingStatus } from '@/utils/dictionary';
+import { getPage } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getProductTypeList } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -36,14 +36,10 @@ type DeviceListProps = {
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const { siteId } = useModel('station', (model: any) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-  });
   const { authorityMap } = useAuthority([
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',
@@ -88,16 +84,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     }
   }, [isStationChild]);
 
-  const onDetailClick = useCallback(
-    (rowData: DeviceDataType) => {
-      history.push({
-        pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
-      });
-    },
-    [history, isStationChild],
-  );
-
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
@@ -112,21 +98,21 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <PlusOutlined />
         <FormattedMessage id="common.add" defaultMessage="添加" />
       </Button>,
-      <Button type="primary" key="add">
+      <Button type="primary" key="cancel">
         <DeleteOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="作废" />
+        <FormattedMessage id="exchangeMonitor.cancel" defaultMessage="作废" />
       </Button>,
-      <Button type="primary" key="add">
+      <Button type="primary" key="export">
         <ExportOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="导出" />
+        <FormattedMessage id="common.export" defaultMessage="导出" />
       </Button>,
-      <Button type="primary" key="add">
+      <Button type="primary" key="import">
         <ImportOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="导入" />
+        <FormattedMessage id="common.import" defaultMessage="导入" />
       </Button>,
-      <Button type="primary" key="add">
+      <Button type="primary" key="templateDownload">
         <DownloadOutlined />
-        <FormattedMessage id="common.add1" defaultMessage="模版下载" />
+        <FormattedMessage id="device.templateDownload" defaultMessage="模版下载" />
       </Button>,
     ],
     [authorityMap, onAddClick],
@@ -144,88 +130,94 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '车辆搜索' }),
+        title: formatMessage({ id: 'exchangeMonitor.vehicleSearch', defaultMessage: '车辆搜索' }),
         dataIndex: 'carName',
         width: 200,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请输入车架号/车牌号/出厂SN编号',
+          placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
         },
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceName1', defaultMessage: '车辆名称' }),
+        title: formatMessage({ id: 'exchangeMonitor.vehicleName', defaultMessage: '车辆名称' }),
         dataIndex: 'carName',
         width: 200,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.deviceCode1', defaultMessage: '车架号' }),
+        title: formatMessage({ id: 'exchangeMonitor.frameNumber', defaultMessage: '车架号' }),
         dataIndex: 'vin',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '车牌号' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.LicensePlateNumber',
+          defaultMessage: '车牌号',
+        }),
         dataIndex: 'carNumber',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.model1', defaultMessage: '车型名称' }),
+        title: formatMessage({
+          id: 'exchangeMonitor.vehicleModelName',
+          defaultMessage: '车型名称',
+        }),
         dataIndex: 'modelName',
         width: 150,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请选择车型名称',
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
       },
       {
-        title: formatMessage({ id: 'common.productType1', defaultMessage: '使用性质' }),
+        title: formatMessage({ id: 'exchangeMonitor.userNature', defaultMessage: '使用性质' }),
         dataIndex: 'useCharacter',
         width: 120,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请选择使用性质',
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
       },
       {
-        title: formatMessage({ id: 'equipmentList.affSite1', defaultMessage: '车辆行驶状态' }),
+        title: formatMessage({ id: 'exchangeMonitor.driveStatus', defaultMessage: '车辆行驶状态' }),
         dataIndex: 'driveStatus',
         valueEnum: vehicleDrivingStatus,
         width: 150,
         ellipsis: true,
         fieldProps: {
-          placeholder: '请选择车辆行驶状态',
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
       },
       {
-        title: formatMessage({ id: 'equipmentList.comStatus1', defaultMessage: '所属车队' }),
+        title: formatMessage({ id: 'exchangeMonitor.fleet', defaultMessage: '所属车队' }),
         dataIndex: 'fleet',
         fieldProps: {
-          placeholder: '请选择车队',
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
         width: 120,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '出厂SN编号' }),
+        title: formatMessage({ id: 'exchangeMonitor.factorySn', defaultMessage: '出厂SN编号' }),
         dataIndex: 'factorySn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '创建人' }),
+        title: formatMessage({ id: 'exchangeMonitor.createBy', defaultMessage: '创建人' }),
         dataIndex: 'createBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
+        title: formatMessage({ id: 'exchangeMonitor.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
         render: (_, record) => <span>{record.createTime}</span>,
@@ -242,14 +234,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.equipmentSerial1', defaultMessage: '最后修改人' }),
+        title: formatMessage({ id: 'exchangeMonitor.updateBy', defaultMessage: '最后修改人' }),
         dataIndex: 'updateBy',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.upTime1', defaultMessage: '最后修改时间' }),
+        title: formatMessage({ id: 'exchangeMonitor.updateTime', defaultMessage: '最后修改时间' }),
         dataIndex: 'updateTime',
         valueType: 'dateTime',
         hideInSearch: true,
@@ -264,7 +256,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         render: rowBar,
       },
     ];
-  }, [siteColumn, productTypeColumn]);
+  }, []);
 
   return (
     <>

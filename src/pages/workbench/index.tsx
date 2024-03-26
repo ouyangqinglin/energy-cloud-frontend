@@ -22,6 +22,7 @@ import { ProConfigProvider } from '@ant-design/pro-components';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import FullScreen from './FullScreen';
 import { useBoolean } from 'ahooks';
+import { formatMessage } from '@/utils';
 
 const layoutGridMap = new Map([
   [4, { row: 2, col: 2 }],
@@ -173,7 +174,9 @@ const Workbench: React.FC = () => {
   return (
     <>
       <div ref={contentRef} className="p24 bg-white">
-        <div className="flex page-label mr12 mt2 mb0 float">设备监控</div>
+        <div className="flex page-label mr12 mt2 mb0 float">
+          {formatMessage({ id: 'siteMonitor.deviceMonitor', defaultMessage: '设备监控' })}
+        </div>
         <SchemaForm<SearchType>
           className="p0 mb24"
           columns={column}

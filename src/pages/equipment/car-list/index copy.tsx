@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-04 11:03:31
+ * @LastEditTime: 2023-12-04 10:13:56
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\equipment\battery-list\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\equipment\car-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
 import { Button } from 'antd';
-import { useHistory, useModel } from 'umi';
+import { useModel } from 'umi';
 import {
   PlusOutlined,
   DeleteOutlined,
@@ -18,6 +18,7 @@ import {
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
+import { vehicleDrivingStatus } from '@/utils/dictionary';
 import { getPage } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getProductTypeList } from '@/services/equipment';
@@ -35,14 +36,10 @@ type DeviceListProps = {
 
 const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
+  const { siteId } = useModel('station', (model: any) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-  });
   const { authorityMap } = useAuthority([
     'iot:siteManage:siteConfig:deviceManage:add',
     'iot:siteManage:siteConfig:deviceManage:unbind',
@@ -87,16 +84,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     }
   }, [isStationChild]);
 
-  const onDetailClick = useCallback(
-    (rowData: DeviceDataType) => {
-      history.push({
-        pathname: isStationChild ? '/station/device-detail' : '/equipment/device-detail',
-        search: `?id=${rowData.deviceId}&productId=${rowData.productId}`,
-      });
-    },
-    [history, isStationChild],
-  );
-
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
@@ -132,10 +119,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
-      <Button type="link" size="small" key="view">
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.view" defaultMessage="查看" />
       </Button>
-      <Button type="link" size="small" key="edit">
+      <Button type="link" size="small" key="detail">
         <FormattedMessage id="common.edit" defaultMessage="编辑" />
       </Button>
     </>
@@ -143,8 +130,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       {
-        title: formatMessage({ id: 'exchangeMonitor.batterySearch', defaultMessage: '电池搜索' }),
-        dataIndex: 'batteryName',
+        title: formatMessage({ id: 'exchangeMonitor.vehicleSearch', defaultMessage: '车辆搜索' }),
+        dataIndex: 'carName',
         width: 200,
         ellipsis: true,
         fieldProps: {
@@ -153,84 +140,71 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         hideInTable: true,
       },
       {
-        title: formatMessage({ id: 'exchangeMonitor.batteryName', defaultMessage: '电池名称' }),
-        dataIndex: 'batteryName',
+        title: formatMessage({ id: 'exchangeMonitor.vehicleName', defaultMessage: '车辆名称' }),
+        dataIndex: 'carName',
         width: 200,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'exchangeMonitor.batterySn', defaultMessage: '电池SN编号' }),
-        dataIndex: 'batterySn',
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: formatMessage({
-          id: 'exchangeMonitor.batteryModelName',
-          defaultMessage: '电池型号名称',
-        }),
-        dataIndex: 'batteryModel',
+        title: formatMessage({ id: 'exchangeMonitor.frameNumber', defaultMessage: '车架号' }),
+        dataIndex: 'vin',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({
-          id: 'exchangeMonitor.associationStation',
-          defaultMessage: '关联换电站',
+          id: 'exchangeMonitor.LicensePlateNumber',
+          defaultMessage: '车牌号',
         }),
-        dataIndex: 'associatedExchangeSite',
+        dataIndex: 'carNumber',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({
+          id: 'exchangeMonitor.vehicleModelName',
+          defaultMessage: '车型名称',
+        }),
+        dataIndex: 'modelName',
         width: 150,
         ellipsis: true,
         fieldProps: {
-          placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
       },
       {
-        title: formatMessage({
-          id: 'exchangeMonitor.batteryCellsProduceDate',
-          defaultMessage: '电芯生产日期',
-        }),
-        dataIndex: 'cellCreateDate',
-        valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
-        search: {
-          transform: (value) => {
-            return {
-              startTime: value[0],
-              endTime: value[1],
-            };
-          },
+        title: formatMessage({ id: 'exchangeMonitor.userNature', defaultMessage: '使用性质' }),
+        dataIndex: 'useCharacter',
+        width: 120,
+        ellipsis: true,
+        fieldProps: {
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
+      },
+      {
+        title: formatMessage({ id: 'exchangeMonitor.driveStatus', defaultMessage: '车辆行驶状态' }),
+        dataIndex: 'driveStatus',
+        valueEnum: vehicleDrivingStatus,
         width: 150,
         ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: formatMessage({
-          id: 'exchangeMonitor.batteryCellsDeliveryDate',
-          defaultMessage: '电芯交付日期',
-        }),
-        dataIndex: 'batteryDeliveryDate',
-        valueType: 'dateRange',
-        render: (_, record) => <span>{record.createTime}</span>,
-        search: {
-          transform: (value) => {
-            return {
-              startTime: value[0],
-              endTime: value[1],
-            };
-          },
+        fieldProps: {
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
-        dataIndex: 'remark',
+        title: formatMessage({ id: 'exchangeMonitor.fleet', defaultMessage: '所属车队' }),
+        dataIndex: 'fleet',
+        fieldProps: {
+          placeholder: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+        },
+        width: 120,
+      },
+      {
+        title: formatMessage({ id: 'exchangeMonitor.factorySn', defaultMessage: '出厂SN编号' }),
+        dataIndex: 'factorySn',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -282,7 +256,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         render: rowBar,
       },
     ];
-  }, [siteColumn, productTypeColumn]);
+  }, []);
 
   return (
     <>

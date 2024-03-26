@@ -13,7 +13,8 @@ import {
 } from '@/pages/user-manager/accounts/Customer/service';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 // 工单类型 0：安装工单 1：维护工单 2修复工单
 const userType = new Map([
@@ -170,7 +171,7 @@ export const Columns: (
           {
             required: true,
             message: formatMessage({
-              id: 'taskManage. customerNameTips',
+              id: 'taskManage.customerNameTips',
               defaultMessage: '请输入客户名称',
             }),
           },
@@ -192,7 +193,12 @@ export const Columns: (
                   return Promise.resolve();
                 } else {
                   return Promise.reject(
-                    formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }),
+                    formatMessage({ id: 'taskManage.phoneError', defaultMessage: '电话格式错误' }) +
+                      formatMessage({
+                        id: 'taskManage.example',
+                        defaultMessage: '示例',
+                      }) +
+                      `: ${isUS ? '222-333-4444' : '131123456789'}`,
                   );
                 }
               },

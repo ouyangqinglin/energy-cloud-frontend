@@ -6,12 +6,17 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Image, Input, InputProps, Skeleton, message } from 'antd';
-import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { Button, Image, Input, Skeleton, message, Modal, Row, Col, Empty } from 'antd';
+import type { InputProps } from 'antd';
+import { EditOutlined, LoadingOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
-import { DeviceDataType, editDeviceInfo } from '@/services/equipment';
+import type { UploadFile } from 'antd';
+import { editDeviceInfo, getFileUrl } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
+
 import Detail from '../Detail';
 import styles from './index.less';
 import Dialog from '@/components/Dialog';
@@ -19,6 +24,7 @@ import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog';
 import { formatMessage, isEmpty } from '@/utils';
+import { aLinkDownLoad } from '@/utils/downloadfile';
 import { DeviceMasterMode } from '@/utils/dictionary';
 import { topItems, bottomItems, getDetailItems } from './helper';
 import { useSubscribe } from '@/hooks';
@@ -52,6 +58,8 @@ const Overview: React.FC<OverviewProps> = (props) => {
     masterSlaveMode: '',
     masterSlaveSystemName: '',
   });
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const realTimeData = useSubscribe(deviceData?.deviceId, true);
 
   const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
@@ -62,7 +70,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const middleItems = useMemo(() => {
     return getDetailItems(deviceData);
-  }, [deviceData?.productId, deviceData?.productTypeId]);
+  }, [deviceData]);
 
   const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现
@@ -71,6 +79,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
       setEditNameOpen(true);
       setEmsNameValues(deviceNameInfo);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceNameInfo]);
 
   const onDeviceNameChange = useCallback((e: ChangeEvent) => {
@@ -84,7 +93,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const editName = useCallback(() => {
     if (deviceNameInfo.name) {
       if (deviceNameInfo.name != deviceData?.name) {
-        run({ name: deviceNameInfo.name, deviceId: deviceData?.deviceId }).then((data) => {
+        run({ name: deviceNameInfo.name, deviceId: deviceData?.deviceId }).then((data: any) => {
           if (data) {
             message.success(
               formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
@@ -134,6 +143,21 @@ const Overview: React.FC<OverviewProps> = (props) => {
     });
   }, [deviceData]);
 
+  const downloadFile = (file: UploadFile) => {
+    if (file.url) {
+      getFileUrl({ url: file.url, platform: 1 }).then((res) => {
+        if (res.data) {
+          aLinkDownLoad(res.data, file.name);
+        }
+      });
+    }
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const title = useMemo(() => {
     if (deviceNameInfo.showEdit) {
       return (
@@ -147,19 +171,27 @@ const Overview: React.FC<OverviewProps> = (props) => {
       );
     } else {
       return (
-        <>
-          {!isEmpty(deviceData?.masterSlaveMode) &&
-            `(${
-              deviceData?.masterSlaveMode === DeviceMasterMode.Master
-                ? formatMessage({ id: 'device.host', defaultMessage: '主机' })
-                : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
-            })`}
-          {deviceNameInfo?.name}
-          {deviceData?.forShort && `（${deviceData?.forShort}）`}
-          <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
-        </>
+        <div className={styles.device_title}>
+          <div>
+            {!isEmpty(deviceData?.masterSlaveMode) &&
+              `(${
+                deviceData?.masterSlaveMode === DeviceMasterMode.Master
+                  ? formatMessage({ id: 'device.host', defaultMessage: '主机' })
+                  : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
+              })`}
+            {deviceNameInfo?.name}
+            {deviceData?.forShort && `（${deviceData?.forShort}）`}
+            <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
+          </div>
+          <div>
+            <Button type="primary" onClick={openModal}>
+              {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
+            </Button>
+          </div>
+        </div>
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceNameInfo, editNameloading, deviceData]);
 
   return (
@@ -220,6 +252,29 @@ const Overview: React.FC<OverviewProps> = (props) => {
         initialValues={emsNameValues}
         beforeSubmit={beforeSubmitEditName}
       />
+      <Modal
+        title={formatMessage({ id: 'siteMonitor.productInfo', defaultMessage: '产品资料' })}
+        open={isModalOpen}
+        onOk={closeModal}
+        onCancel={closeModal}
+      >
+        {deviceData?.productIntroduce ? (
+          <Row gutter={[20, 8]}>
+            {(JSON.parse(deviceData?.productIntroduce) || []).map((item: UploadFile) => (
+              <Col span={24} key={item.uid} className={styles.device_title}>
+                <span>{item.name}</span>
+                <Button
+                  type="link"
+                  icon={<CloudDownloadOutlined />}
+                  onClick={() => downloadFile(item)}
+                />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Empty />
+        )}
+      </Modal>
     </>
   );
 };

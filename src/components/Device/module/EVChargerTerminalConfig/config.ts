@@ -37,7 +37,7 @@ export const columns: ProColumns<ConfigDataType>[] = [
   {
     title: formatMessage({ id: 'device.networkStatus', defaultMessage: '网络状态' }),
     hideInSearch: true,
-    dataIndex: 'alarmStatus',
+    dataIndex: 'status',
     valueEnum: onlineStatus,
   },
   {

@@ -8,10 +8,11 @@
  */
 import React, { useCallback, useMemo } from 'react';
 import { history } from 'umi';
-import { getColumns, ProductDataType } from './config';
+import { getColumns } from './config';
+import type { ProductDataType } from './config';
 import YTProTable from '@/components/YTProTable';
 import { useSearchSelect } from '@/hooks';
-import { SearchParams } from '@/hooks/useSearchSelect';
+import type { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
 import { getPage } from './service';
 import { formatMessage } from '@/utils';
@@ -59,6 +60,7 @@ const Product: React.FC = () => {
     <>
       <YTProTable
         columns={columns}
+        toolBarRender={false}
         request={getPage}
         option={{
           onDetailChange,

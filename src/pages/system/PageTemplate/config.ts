@@ -147,5 +147,3 @@ export const getColumns = (operationColumn: ProColumnType[]): ProColumnType[] =>
   },
   ...operationColumn,
 ];
-
-export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);

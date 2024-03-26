@@ -29,6 +29,7 @@ export type DeviceDataType = {
   sn?: string;
   model?: string;
   productId?: DeviceTypeEnum;
+  productIntroduce?: string;
   productType?: DeviceProductTypeEnum;
   productTypeId?: DeviceProductTypeEnum;
   productTypeName?: string;
@@ -422,5 +423,10 @@ export const getVpn = (params: any) => {
   return request(`/iot/es/vpnStatus`, {
     method: 'GET',
     params,
+  });
+};
+export const getFileUrl = (data: any) => {
+  return request(`/uc/fileUrl?${new URLSearchParams(data).toString()}`, {
+    method: 'GET',
   });
 };

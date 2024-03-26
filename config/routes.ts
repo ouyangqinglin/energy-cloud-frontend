@@ -364,6 +364,22 @@ const routers: RouterType[] = [
         keepAlive: true,
         locale: 'menu.device.deviceMonitor',
       },
+      {
+        path: 'car-list',
+        name: 'carList',
+        component: './equipment/car-list',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.deviceManage.carList',
+      },
+      {
+        path: 'battery-list',
+        name: 'batteryList',
+        component: './equipment/battery-list',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.deviceManage.batteryList',
+      },
     ],
   },
   {
@@ -372,10 +388,6 @@ const routers: RouterType[] = [
     component: '@/layouts/TabsLayout',
     locale: 'menu.exchangeDevice',
     routes: [
-      {
-        path: '/exchange-device',
-        redirect: '/exchange-device/car-list',
-      },
       {
         path: 'car-list',
         name: 'carList',
@@ -441,6 +453,7 @@ const routers: RouterType[] = [
       },
     ],
   },
+
   {
     path: '/work-order',
     name: 'workOrder',

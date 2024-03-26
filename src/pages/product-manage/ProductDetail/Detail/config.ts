@@ -11,6 +11,7 @@ import { DetailItem } from '@/components/Detail';
 import { DevicePropsType } from '@/types/device';
 import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
+import { Button } from 'antd';
 
 export type CollectionDetailType = {
   value?: string;

@@ -156,7 +156,7 @@ export const siteColumns: ProColumns[] = [
         title:
           formatMessage({
             id: 'siteManage.set.chargeElectricConsumption',
-            defaultMessage: '充电桩用电量',
+            defaultMessage: '充电桩充电量',
           }) + '(kWh)',
         dataIndex: 'cspc',
         width: 150,

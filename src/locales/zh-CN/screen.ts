@@ -104,7 +104,7 @@ export default {
   'screen.return': '返回',
   'screen.storageChargingStation': '光储充站',
   'screen.otherSites': '其他站点',
-  'screen.mainsElectricityConsumption': '市电用电量',
+  'screen.mainsElectricityConsumption': '市电供电量',
   'screen.siteRevenue': '站点收益',
   'screen.siteRanking': '站点排名',
   'screen.installationOrder': '安装工单',
