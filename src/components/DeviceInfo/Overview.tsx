@@ -6,13 +6,17 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Image, Input, InputProps, Skeleton, message, Modal, Row, Col } from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { Button, Image, Input, Skeleton, message, Modal, Row, Col, Empty } from 'antd';
+import type { InputProps } from 'antd';
 import { EditOutlined, LoadingOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { useBoolean, useToggle } from 'ahooks';
 import { useRequest } from 'umi';
 import type { UploadFile } from 'antd';
-import { DeviceDataType, editDeviceInfo } from '@/services/equipment';
+import { editDeviceInfo, getFileUrl } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
+
 import Detail from '../Detail';
 import styles from './index.less';
 import Dialog from '@/components/Dialog';
@@ -66,7 +70,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const middleItems = useMemo(() => {
     return getDetailItems(deviceData);
-  }, [deviceData?.productId, deviceData?.productTypeId]);
+  }, [deviceData]);
 
   const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现
@@ -75,6 +79,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
       setEditNameOpen(true);
       setEmsNameValues(deviceNameInfo);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceNameInfo]);
 
   const onDeviceNameChange = useCallback((e: ChangeEvent) => {
@@ -88,7 +93,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const editName = useCallback(() => {
     if (deviceNameInfo.name) {
       if (deviceNameInfo.name != deviceData?.name) {
-        run({ name: deviceNameInfo.name, deviceId: deviceData?.deviceId }).then((data) => {
+        run({ name: deviceNameInfo.name, deviceId: deviceData?.deviceId }).then((data: any) => {
           if (data) {
             message.success(
               formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
@@ -140,7 +145,11 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const downloadFile = (file: UploadFile) => {
     if (file.url) {
-      aLinkDownLoad(file.url, file.name);
+      getFileUrl({ url: file.url, platform: 1 }).then((res) => {
+        if (res.data) {
+          aLinkDownLoad(res.data, file.name);
+        }
+      });
     }
   };
   const openModal = () => {
@@ -182,6 +191,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
         </div>
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceNameInfo, editNameloading, deviceData]);
 
   return (
@@ -262,7 +272,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
             ))}
           </Row>
         ) : (
-          ''
+          <Empty />
         )}
       </Modal>
     </>

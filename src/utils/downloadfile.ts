@@ -45,9 +45,9 @@ export function resolveBlob(res: any, mimeType: string) {
  */
 export const aLinkDownLoad = (url: string, fileName: string) => {
   const aLink = document.createElement('a');
+  aLink.setAttribute('download', fileName); // 设置下载文件名称
   aLink.style.display = 'none';
   aLink.href = url; // 设置下载文件路径
-  aLink.setAttribute('download', fileName); // 设置下载文件名称
   document.body.appendChild(aLink);
   aLink.click();
   URL.revokeObjectURL(aLink.href); // 清除引用
