@@ -417,3 +417,10 @@ export const openVpn = (data: any) => {
     data,
   });
 };
+
+export const getVpn = (params: any) => {
+  return request(`/iot/es/vpnStatus`, {
+    method: 'GET',
+    params,
+  });
+};

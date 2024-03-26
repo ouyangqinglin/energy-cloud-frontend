@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import type { DetailItem, DetailProps } from './Detail';
 import Detail from './Detail';
 import { Tabs } from 'antd';
@@ -70,4 +70,4 @@ const Group: React.FC<GroupProps> = (props) => {
   return <>{details}</>;
 };
 
-export default Group;
+export default memo(Group);

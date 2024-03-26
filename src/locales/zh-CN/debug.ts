@@ -9,11 +9,14 @@
 
 export default {
   'debug.communicationMessage': '通信报文',
-  'debug.vpnTunnel': 'VPN隧道',
-  'debug.VPNTunnelCapabilities': 'VPN隧道能力',
-  'debug.VPNTunnelStatus': 'VPN隧道状态',
-  'debug.VPNTunnelIp': 'VPN隧道IP',
-  'debug.VPNTunnelStatusControl': 'VPN隧道状态控制',
+  'debug.debugTunnel': '调试隧道',
+  'debug.tunnelStatus': '隧道状态',
+  'debug.tunnelIp': '隧道IP',
+  'debug.tunnelStatusControl': '隧道状态控制',
   'debug.yes': '有',
   'debug.no': '无',
+  'debug.tunnelHoldTime': '隧道保持时间',
+  'debug.tunnelExpirationTime': '隧道到期时间',
+  'debug.tunnelInformation': '隧道信息',
+  'debug.hour': '小时',
 };

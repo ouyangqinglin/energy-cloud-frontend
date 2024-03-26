@@ -9,11 +9,14 @@
 
 export default {
   'debug.communicationMessage': 'Communication Message',
-  'debug.vpnTunnel': 'VPN Tunnel',
-  'debug.VPNTunnelCapabilities': 'VPN Tunnel Capabilities',
-  'debug.VPNTunnelStatus': 'VPN Tunnel Status',
-  'debug.VPNTunnelIp': 'VPN Tunnel Ip',
-  'debug.VPNTunnelStatusControl': 'VPN Tunnel Status Control',
+  'debug.debugTunnel': 'Debug Tunnel',
+  'debug.tunnelStatus': 'Tunnel Status',
+  'debug.tunnelIp': 'Tunnel Ip',
+  'debug.tunnelStatusControl': 'Tunnel Status Control',
   'debug.yes': 'Yes',
   'debug.no': 'No',
+  'debug.tunnelHoldTime': 'Tunnel Hold Time',
+  'debug.tunnelExpirationTime': 'Tunnel Expiration Time',
+  'debug.tunnelInformation': 'Tunnel Information',
+  'debug.hour': ' Hour',
 };

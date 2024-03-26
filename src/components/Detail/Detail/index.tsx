@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
-import React, { cloneElement, useMemo } from 'react';
+import React, { cloneElement, memo, useMemo } from 'react';
 import { Descriptions } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { isEmpty } from '@/utils';
@@ -132,4 +132,4 @@ const Detail: React.FC<DetailProps> = (props) => {
   );
 };
 
-export default Detail;
+export default memo(Detail);
