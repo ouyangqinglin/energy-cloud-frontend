@@ -29,6 +29,7 @@ export type DeviceDataType = {
   sn?: string;
   model?: string;
   productId?: DeviceTypeEnum;
+  productIntroduce?: string;
   productType?: DeviceProductTypeEnum;
   productTypeId?: DeviceProductTypeEnum;
   productTypeName?: string;

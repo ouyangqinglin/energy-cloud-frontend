@@ -124,6 +124,7 @@ export default {
   'screen.messageContent': 'Message Content',
   'screen.alarmSource': 'Alarm Source',
   'screen.recoveryTime': 'Recovery Time',
+  'screen.dailyPowerGeneration': 'Daily Power Generation',
   'screen.communicationPile': 'AC EV Charger',
   'weather.晴': 'Clear',
   'weather.少云': 'Partly Cloudy',

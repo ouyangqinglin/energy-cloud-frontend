@@ -7,8 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\deviceSn\index.tsx
  */
 import React, { useState, useCallback } from 'react';
-import { Form, Modal } from 'antd';
-import { useRequest, useModel } from 'umi';
+import { Form } from 'antd';
 import Dialog from '@/components/Dialog';
 import { ProForm, ProFormText } from '@ant-design/pro-form';
 import { formatMessage } from '@/utils';
@@ -28,7 +27,7 @@ export type EquipFormType = {
   sn?: string;
 };
 const DeviceSn: React.FC<DeviceSnProps> = (props) => {
-  const { id, model, open, onCancel, onSuccess, isStationChild, initialValues } = props;
+  const { model, open, onCancel, onSuccess, isStationChild, initialValues } = props;
   const [openDeviceDetail, setOpenDeviceDetail] = useState(false);
   const [descValues, setDescValues] = useState({});
   const [form] = Form.useForm<EquipFormType>();
@@ -58,12 +57,12 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title={'新增设备'}
+        title={formatMessage({ id: 'common.addSentence', defaultMessage: '新增' })}
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
-        okText="下一步"
-        cancelText="取消"
+        okText={formatMessage({ id: 'exchangeMonitor.next', defaultMessage: '下一步' })}
+        cancelText={formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}
       >
         <ProForm
           form={form}
@@ -78,12 +77,12 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
         >
           <ProFormText
             name="sn"
-            label={'设备sn'}
-            placeholder="请输入设备sn"
+            label={formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' })}
+            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
             rules={[
               {
                 required: true,
-                message: '请输入设备sn',
+                message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
               },
             ]}
           />

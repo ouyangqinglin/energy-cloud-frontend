@@ -16,6 +16,7 @@ export default {
   'taskManage.installerName': 'Installer Name',
   'taskManage.customerNameTips': 'Please enter customer name',
   'taskManage.phoneError': 'Phone Format Error',
+  'taskManage.example': 'Example',
   'taskManage.selectAppointTime': 'Please select an appointment time',
   'taskManage.customerAddress': 'Customer Address',
   'taskManage.customerAddressTips': 'Please enter customer address',

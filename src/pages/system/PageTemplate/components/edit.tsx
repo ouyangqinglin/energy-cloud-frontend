@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { useRequest, useIntl, FormattedMessage } from 'umi';
+import { useRequest, useIntl } from 'umi';
 import { Form, Modal, Row, Col } from 'antd';
 import type { PageTemplateType, ModeTreeDataNode } from '../data';
-import { platformEnum, defaultData, getUniqueNumber } from '../config';
+import { platformEnum, defaultData } from '../config';
 import { getproduct, getproductDetail } from '../service';
 import ConfigTree from './tree';
-import { formatMessage } from '@/utils';
+import { formatMessage, getUniqueNumber } from '@/utils';
 
 export type MenuFormProps = {
   onCancel: () => void;

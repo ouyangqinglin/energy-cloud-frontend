@@ -25,3 +25,15 @@ export const getData = (id: string) => {
     },
   });
 };
+export const importPruductFile = (data: any) => {
+  return request('/uc/upload', {
+    method: 'POST',
+    data,
+  });
+};
+export const updateProductIntroduce = (data: any) => {
+  return request('/iot/product/updateProductIntroduce', {
+    method: 'POST',
+    data,
+  });
+};

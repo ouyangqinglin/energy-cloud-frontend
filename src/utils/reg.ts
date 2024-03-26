@@ -6,13 +6,14 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\reg.ts
  */
-
-const phoneReg = /^1\d{10}$/;
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
+const ZHPhoneReg = /^1\d{10}$/;
+const USPhoneReg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
 const secretReg = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{8,16}$/;
-
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
-  return phoneReg.test(str);
+  return isUS ? USPhoneReg.test(str) : ZHPhoneReg.test(str);
 };
 
 export const getPasswordLevel = (password: string) => {
