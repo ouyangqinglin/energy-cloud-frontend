@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-26 09:53:38
+ * @LastEditTime: 2024-03-26 10:12:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -17,6 +17,7 @@ import { RedoOutlined } from '@ant-design/icons';
 import { Button, message, Select, SelectProps, Typography } from 'antd';
 import { useRequest } from 'umi';
 import styles from './index.less';
+import moment from 'moment';
 
 const timeOption: SelectProps['options'] = [
   {
@@ -70,6 +71,7 @@ const VPN: React.FC = () => {
     }).then((data) => {
       if (data) {
         message.success(formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }));
+        run({ deviceId: deviceData?.deviceId });
       }
     });
   };
@@ -169,10 +171,11 @@ const VPN: React.FC = () => {
             defaultMessage: '隧道到期时间',
           }),
           field: 'vpnExpireTime',
+          span: 3,
           format: (value) => {
             return (
               <>
-                {value}
+                {moment(value).format('YYYY-MM-DD HH:mm:ss')}
                 <div>
                   <Typography.Text type="secondary">
                     到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。
