@@ -2,16 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-14 00:28:59
- * @LastEditTime: 2023-10-17 14:31:51
+ * @LastEditTime: 2024-03-26 16:42:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Ems\Run\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
 import {
   closeFormat,
   modelFormat,
+  parallelGridFormat,
   runFormat,
   singleBFormat,
   singleFormat,
@@ -51,6 +53,15 @@ export const controlItems: DetailItem[] = [
     }),
     field: 'EmergencyStopSignal',
     format: singleFormat,
+  },
+  {
+    label: formatMessage({
+      id: 'device.parallelOffGridMode',
+      defaultMessage: '并离网模式',
+    }),
+    field: 'parallelOffGridMode',
+    format: parallelGridFormat,
+    show: (value, data) => data?.productId == DeviceTypeEnum.React100XEmsEnergy,
   },
 ];
 

@@ -33,7 +33,6 @@ import {
   booleanFormat,
   airsetFormat,
   electricModelFormat,
-  externalFaultFormat,
   alarmArrFormat,
   kVAFormat,
   noPowerFormat,
@@ -791,7 +790,7 @@ export const bmsStatusItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.externalFaultStatus', defaultMessage: '对外故障' }),
     field: 'externalFaultStatus',
-    format: externalFaultFormat,
+    format: alarmArrFormat,
   },
   {
     label: formatMessage({ id: 'siteMonitor.firstLevelAlarm', defaultMessage: '一级报警' }),

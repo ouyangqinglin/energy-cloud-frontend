@@ -301,18 +301,6 @@ export const faultFormat = (value: number) => {
     </span>
   );
 };
-export const externalFaultFormat = (value: string) => {
-  const valueArr = strToArray(value);
-  const map: MapDataType = {
-    0: { text: formatMessage({ id: 'things.normal', defaultMessage: '正常' }), color: '' },
-    1: { text: formatMessage({ id: 'things.fault', defaultMessage: '故障' }), color: 'cl-error' },
-  };
-  return (
-    <span className={`${map[valueArr.includes(0) ? 0 : 1]?.color} mr8`}>
-      {map[valueArr.includes(0) ? 0 : 1]?.text}
-    </span>
-  );
-};
 export const alarmArrFormat = (value: string) => {
   const valueArr = strToArray(value);
   const map: MapDataType = {
@@ -691,6 +679,13 @@ export const startUpFormat = (value: number) => {
   const map: MapType = {
     0: formatMessage({ id: 'charge.shutDown', defaultMessage: '关机' }),
     1: formatMessage({ id: 'charge.powerOn', defaultMessage: '开机' }),
+  };
+  return map[value];
+};
+export const parallelGridFormat = (value: number) => {
+  const map: MapType = {
+    0: formatMessage({ id: 'device.gridConnection', defaultMessage: '并网' }),
+    1: formatMessage({ id: 'device.offGrid', defaultMessage: '离网' }),
   };
   return map[value];
 };

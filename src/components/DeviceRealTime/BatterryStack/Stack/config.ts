@@ -21,7 +21,6 @@ import {
   faultFormat,
   singleFormat,
   doorFormat,
-  externalFaultFormat,
   hydrogenFormat,
   contactorFormat,
   alarmArrFormat,
@@ -90,7 +89,7 @@ export const controlItemsTow: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.externalFaultStatus', defaultMessage: '对外故障' }),
     field: 'externalFaultStatus',
-    format: externalFaultFormat,
+    format: alarmArrFormat,
   },
   {
     label: formatMessage({

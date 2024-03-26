@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-19 10:29:57
+ * @LastEditTime: 2024-03-26 14:47:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -72,6 +72,7 @@ const Electric: React.FC<ComProps> = (props) => {
 
   useEffect(() => {
     setChartData([]);
+    setStatisInfo({});
     if (deviceData?.deviceId) {
       const totalNum = chartTypeEnum.Month == chartType ? 7 : 4;
       let dates: { start: Moment; end: Moment }[] = [];
@@ -153,26 +154,28 @@ const Electric: React.FC<ComProps> = (props) => {
             endDate: dates[requestNum].end?.format?.('YYYY-MM-DD'),
             visitType: source == EnergySourceEnum.SiteMonitor ? 0 : 1,
           }).then(({ data }) => {
-            result[0].data?.push?.(
-              ...(data?.charge?.map?.((item) => ({
-                label: item.eventTs,
-                value: item.doubleVal,
-              })) || []),
-            );
-            result[1].data?.push?.(
-              ...(data?.discharge?.map?.((item) => ({
-                label: item.eventTs,
-                value: item.doubleVal,
-              })) || []),
-            );
-            totalResult.totalCharge =
-              ((totalResult.totalCharge + (data?.totalCharge || 0)).toFixed(2) as any) * 1;
-            totalResult.totalDischarge =
-              ((totalResult.totalDischarge + (data?.totalDischarge || 0)).toFixed(2) as any) * 1;
-            setChartData(merge([], result));
-            setStatisInfo(merge({}, totalResult));
-            requestNum++;
-            request();
+            if (requestNum < dates.length) {
+              result[0].data?.push?.(
+                ...(data?.charge?.map?.((item) => ({
+                  label: item.eventTs,
+                  value: item.doubleVal,
+                })) || []),
+              );
+              result[1].data?.push?.(
+                ...(data?.discharge?.map?.((item) => ({
+                  label: item.eventTs,
+                  value: item.doubleVal,
+                })) || []),
+              );
+              totalResult.totalCharge =
+                ((totalResult.totalCharge + (data?.totalCharge || 0)).toFixed(2) as any) * 1;
+              totalResult.totalDischarge =
+                ((totalResult.totalDischarge + (data?.totalDischarge || 0)).toFixed(2) as any) * 1;
+              setChartData(merge([], result));
+              setStatisInfo(merge({}, totalResult));
+              requestNum++;
+              request();
+            }
           });
         } else {
           setFalse();

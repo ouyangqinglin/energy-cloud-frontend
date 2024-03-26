@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:23:48
- * @LastEditTime: 2024-03-22 15:16:03
+ * @LastEditTime: 2024-03-26 17:09:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\Community\config.ts
  */
@@ -101,6 +101,83 @@ export const bWattItem: DetailItem[] = [
   },
   {
     label: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
+    field: 'clockDeviceId',
+  },
+  {
+    label:
+      formatMessage({ id: 'device.energyConsumptionStatistics', defaultMessage: '能耗统计' }) +
+      ' ID',
+    field: 'statisticsDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
+    field: 'thirdSiteName',
+  },
+  {
+    label: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) + ' ID',
+    field: 'powerGridSideId',
+  },
+  {
+    label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
+    field: 'inverterSideId',
+  },
+];
+
+export const react100WItem: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
+    field: 'projectId',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.masterSentence', defaultMessage: '主机' },
+      { name: 'EMS ID' },
+    ),
+    field: 'masterEmsId',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.masterSentence', defaultMessage: '主机' },
+      {
+        name: formatMessage(
+          { id: 'device.systemClock', defaultMessage: '系统时钟' },
+          { name: 'ID' },
+        ),
+      },
+    ),
+    field: 'masterClockDeviceId',
+  },
+  { label: 'BMS ID', field: 'bmsId' },
+  {
+    label: formatMessage(
+      { id: 'device.slaveSentence', defaultMessage: '从机' },
+      { name: 'EMS ID' },
+    ),
+    field: 'emsId',
+  },
+  { label: 'PCS ID', field: 'pcsId' },
+  {
+    label: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) + ' ID',
+    field: 'temperatureDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) + ' ID',
+    field: 'voltageDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) + ' ID',
+    field: 'airConditionerId',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.slaveSentence', defaultMessage: '从机' },
+      {
+        name: formatMessage(
+          { id: 'device.systemClock', defaultMessage: '系统时钟' },
+          { name: 'ID' },
+        ),
+      },
+    ),
     field: 'clockDeviceId',
   },
   {

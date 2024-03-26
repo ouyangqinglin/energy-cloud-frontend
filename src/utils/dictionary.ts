@@ -169,6 +169,10 @@ export enum DeviceTypeEnum {
   FGCCEnergyBatteryCluster = 142,
   FGCCEnergyBatteryModule = 141,
   FGCCEnergyWindTurbine = 143,
+  React100XEnergy = 144,
+  React100XEmsEnergy = 145,
+  React100WEnergy = 148,
+  React100WEmsEnergy = 149,
   Device = 'default',
 }
 
