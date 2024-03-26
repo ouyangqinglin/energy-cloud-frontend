@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-25 09:36:13
+ * @LastEditTime: 2024-03-26 10:31:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -485,6 +485,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   if (field?.deviceId) {
                     const realField = field?.id?.split?.('.') || [];
                     childData = formatData?.[field?.deviceId || ''];
+                    data = childData;
                     formatValue = childData?.[realField?.[realField?.length - 1]];
                   } else {
                     data = formatData?.[deviceData?.deviceId || ''];
