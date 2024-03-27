@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2023-09-20 11:21:19
+ * @LastEditTime: 2024-03-27 13:50:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -84,6 +84,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           layout="inline"
           layoutType="QueryFilter"
           onFinish={onFinish}
+          onReset={onFinish}
         />
         <CollectionChart
           title={title}

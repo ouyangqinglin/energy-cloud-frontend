@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2024-03-14 17:13:40
+ * @LastEditTime: 2024-03-27 14:41:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Adjust\index.tsx
  */
@@ -34,7 +34,7 @@ const Index: React.FC<AdjustType> = (props) => {
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState('');
-  const { connection } = useWebsocket(true);
+  const { connection } = useWebsocket();
 
   const speed = 1;
   const warper = useRef();
@@ -91,13 +91,17 @@ const Index: React.FC<AdjustType> = (props) => {
       // 打开
       setLoading(true);
       setIsSubscribe(true);
-      connection.reconnect();
       setIsOpen(true);
     } else {
       // 关闭
       connection.sendMessage({
         data: {
           command: RequestCommandEnum.UNSUBSCRIBE,
+          params: [
+            {
+              device: deviceId,
+            },
+          ],
         },
         type: MessageEventType.DEVICEMSG,
       });
@@ -122,6 +126,23 @@ const Index: React.FC<AdjustType> = (props) => {
       }
     });
   };
+
+  useEffect(() => {
+    return () => {
+      connection.sendMessage({
+        data: {
+          command: RequestCommandEnum.UNSUBSCRIBE,
+          params: [
+            {
+              device: deviceId,
+            },
+          ],
+        },
+        type: MessageEventType.DEVICEMSG,
+      });
+    };
+  }, []);
+
   return (
     <>
       <div className={`${styles.adjust} ${className}`}>
