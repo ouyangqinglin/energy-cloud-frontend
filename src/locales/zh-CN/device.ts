@@ -136,7 +136,7 @@ export default {
   'device.enableSettings': '使能设置',
   'device.communicationParameterSetting': '通信参数设置',
   'device.parameterSetting': '参数设置',
-  'device.systemSetting': '系统设置',
+  'device.system': '系统',
   'device.converterSetting': '变流器设置',
   'device.batterySetting': '电池设置',
   'device.energyManagement': '能量管理',

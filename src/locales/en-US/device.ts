@@ -144,7 +144,7 @@ export default {
   'device.enableSettings': 'Enable settings',
   'device.communicationParameterSetting': 'Communication parameter setting',
   'device.parameterSetting': 'Parameter setting',
-  'device.systemSetting': 'System setting',
+  'device.system': 'System',
   'device.converterSetting': 'Converter Setting',
   'device.batterySetting': 'Battery setting',
   'device.energyManagement': 'Energy management',
