@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-15 17:25:39
+ * @LastEditTime: 2024-03-27 09:02:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -116,7 +116,7 @@ export const allItems: Record<string, DetailItem> = {
   },
   chargeRatedPower: {
     label: formatMessage({ id: 'device.ratedPower', defaultMessage: '额定功率' }),
-    field: 'tsysp',
+    field: 'ratedPower',
     format: powerFormat,
   },
   ratedCapacity: {
@@ -497,7 +497,7 @@ export const allItems: Record<string, DetailItem> = {
   },
   chargeGunNumber: {
     label: formatMessage({ id: 'device.gunNumber', defaultMessage: '充电枪数量' }),
-    field: 'tgnum',
+    field: 'gunNumVal',
   },
   terminalNumber: {
     label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
@@ -643,6 +643,8 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
   [DeviceTypeEnum.FGCCEnergyEms, fgccEmsKeys],
   [DeviceTypeEnum.FGCCEnergyBatteryStack, fgccStackKeys],
+  [DeviceTypeEnum.React100XEmsEnergy, []],
+  [DeviceTypeEnum.React100WEmsEnergy, []],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {

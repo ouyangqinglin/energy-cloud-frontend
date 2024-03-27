@@ -34,7 +34,7 @@ const timeOption: SelectProps['options'] = [
   },
   {
     label: '4' + formatMessage({ id: 'debug.hour', defaultMessage: '小时' }),
-    value: 5,
+    value: 4,
   },
 ];
 
