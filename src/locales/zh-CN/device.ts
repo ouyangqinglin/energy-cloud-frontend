@@ -454,4 +454,5 @@ export default {
   'device.monomerExtremeValueInformation': '单体极值信息',
   'device.frontView': '前视图',
   'device.rearView': '后视图',
+  'device.timeRequire': '所有时间范围相加未满24小时',
 };

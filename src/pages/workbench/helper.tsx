@@ -25,7 +25,15 @@ export const column: ProFormColumnsType<SearchType>[] = [
     dataIndex: 'date',
     valueType: 'dateRange',
     formItemProps: {
-      rules: [{ required: true, message: '请选择查询日期' }],
+      rules: [
+        {
+          required: true,
+          message: formatMessage({
+            id: 'common.pleaseSelect',
+            defaultMessage: '请选择',
+          }),
+        },
+      ],
     },
     initialValue: [moment(), moment()],
   },
@@ -33,17 +41,17 @@ export const column: ProFormColumnsType<SearchType>[] = [
 
 export const layoutConfig = [
   {
-    title: '四宫格',
+    title: formatMessage({ id: 'siteManage.4grid', defaultMessage: '四宫格' }),
     value: 4,
     icon: <YTCellFourOutlined />,
   },
   {
-    title: '六宫格',
+    title: formatMessage({ id: 'siteManage.6grid', defaultMessage: '六宫格' }),
     value: 6,
     icon: <YTCellSixOutlined />,
   },
   {
-    title: '九宫格',
+    title: formatMessage({ id: 'siteManage.9grid', defaultMessage: '九宫格' }),
     value: 9,
     icon: <YTCellNineOutlined />,
   },
@@ -51,21 +59,30 @@ export const layoutConfig = [
 
 const tableSelectColumns: ProColumns[] = [
   {
-    title: '数据采集点',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'modelName',
     width: 200,
     ellipsis: true,
     hideInTable: true,
   },
   {
-    title: '数据采集点',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
     dataIndex: 'paramName',
     width: 200,
     ellipsis: true,
     hideInSearch: true,
   },
   {
-    title: '数据采集点标识',
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPointIdIdentify',
+      defaultMessage: '数据采集点标识',
+    }),
     dataIndex: 'paramCode',
     width: 150,
     ellipsis: true,

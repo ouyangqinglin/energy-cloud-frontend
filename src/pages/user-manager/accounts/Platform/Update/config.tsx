@@ -12,6 +12,7 @@ import { buildTreeData } from '@/utils/utils';
 import { verifyPhone, verifyPassword } from '@/utils/reg';
 import { isEmpty } from '@/utils';
 import { OptionType } from '@/types';
+import { formatMessage } from '@/utils';
 
 export const Columns: (
   operation: FormOperations,
@@ -23,7 +24,7 @@ export const Columns: (
       hideInForm: true,
     },
     {
-      title: '账号名',
+      title: formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
       formItemProps: {
         rules: [
           {
@@ -35,7 +36,7 @@ export const Columns: (
       dataIndex: ['userName'],
     },
     {
-      title: '用户名',
+      title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
       formItemProps: {
         rules: [
           {
@@ -81,7 +82,7 @@ export const Columns: (
       },
     },
     {
-      title: '角色',
+      title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleIds',
       formItemProps: {
         rules: [

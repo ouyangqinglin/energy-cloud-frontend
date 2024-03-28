@@ -66,7 +66,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
           {
             required: true,
             message:
-              formatMessage({ id: 'common.PleaseSelect', defaultMessage: '请选择' }) +
+              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
               formatMessage({ id: 'system.installer', defaultMessage: '安装商' }),
           },
         ],

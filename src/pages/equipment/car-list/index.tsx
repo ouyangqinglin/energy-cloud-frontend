@@ -120,10 +120,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       <Button type="link" size="small" key="detail">
-        <FormattedMessage id="common.viewDetail1" defaultMessage="查看" />
+        <FormattedMessage id="common.view" defaultMessage="查看" />
       </Button>
       <Button type="link" size="small" key="detail">
-        <FormattedMessage id="common.viewDetail1" defaultMessage="编辑" />
+        <FormattedMessage id="common.edit" defaultMessage="编辑" />
       </Button>
     </>
   );

@@ -118,4 +118,7 @@ export default {
   'siteManage.set.timeSlot': '时间段',
   'siteManage.timeZone': '时区',
   'siteManage.map': '地图',
+  'siteManage.4grid': '4宫格',
+  'siteManage.6grid': '6宫格',
+  'siteManage.9grid': '9宫格',
 };

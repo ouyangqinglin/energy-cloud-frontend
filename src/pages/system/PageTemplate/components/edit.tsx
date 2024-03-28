@@ -85,10 +85,13 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
   return (
     <Modal
       width={1000}
-      title={formatMessage({
-        id: 'physicalModel',
-        defaultMessage: `${showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'}`,
-      })}
+      title={
+        showType == 'add'
+          ? formatMessage({ id: 'common.add', defaultMessage: '新增' })
+          : showType == 'edit'
+          ? formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
+          : formatMessage({ id: 'common.view', defaultMessage: '查看' })
+      }
       visible={visible}
       destroyOnClose
       onOk={handleOk}
