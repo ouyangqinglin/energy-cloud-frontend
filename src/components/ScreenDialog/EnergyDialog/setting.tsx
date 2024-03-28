@@ -810,7 +810,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -842,7 +842,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -874,7 +874,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -906,7 +906,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -938,7 +938,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>

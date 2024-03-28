@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-03-11 16:21:31
+ * @LastEditTime: 2024-03-28 09:46:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -75,13 +75,13 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
       valueType: 'select',
       width: 150,
       ellipsis: true,
-      hideInSearch: [OrgTypeEnum.Operator, OrgTypeEnum.Owner].includes(types[0]),
+      hideInSearch: [OrgTypeEnum.Operator, OrgTypeEnum.Owner].includes(types?.[0]),
       render: (_, record) => {
         return record?.roles?.map?.((item) => item.roleName)?.join('，');
       },
       request: () => {
         return api
-          .getRoles({ builtInRole: types[0] === OrgTypeEnum.System ? 0 : 1 })
+          .getRoles({ builtInRole: types?.[0] === OrgTypeEnum.System ? 0 : 1 })
           .then(({ data }) => {
             return data?.map?.((item: any) => {
               return {
@@ -271,7 +271,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
         return {
           options: roleOptions,
           onChange: () => {
-            types[0] !== OrgTypeEnum.System && form?.setFieldValue?.('orgId', null);
+            types?.[0] !== OrgTypeEnum.System && form?.setFieldValue?.('orgId', null);
             form?.setFieldValue?.('webConfig', undefined);
           },
         };
@@ -287,7 +287,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
         ],
       },
     },
-    types[0] === OrgTypeEnum.System
+    types?.[0] === OrgTypeEnum.System
       ? {
           title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
           dataIndex: 'orgId',
@@ -470,7 +470,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
                 title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
                 dataIndex: 'sites',
                 valueType: TABLESELECT,
-                hideInForm: types[0] === OrgTypeEnum.System,
+                hideInForm: types?.[0] === OrgTypeEnum.System,
                 colProps: {
                   span: 24,
                 },

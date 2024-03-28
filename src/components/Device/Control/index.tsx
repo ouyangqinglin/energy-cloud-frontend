@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-26 10:31:16
+ * @LastEditTime: 2024-03-28 09:30:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -688,6 +688,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           valueType = 'digit';
         case DeviceModelTypeEnum.String:
         default:
+          const doubleSpecs = (field?.dataType as DeviceDoubleType)?.specs;
           columns.push({
             title: field?.name,
             dataIndex: field?.id,
@@ -695,12 +696,13 @@ const Control: React.FC<ControlType> = memo((props) => {
             fieldProps: {
               ...(valueType == 'digit'
                 ? {
-                    min: Number.MIN_SAFE_INTEGER,
+                    min: (doubleSpecs?.enable && doubleSpecs?.min) || Number.MIN_SAFE_INTEGER,
+                    max: (doubleSpecs?.enable && doubleSpecs?.max) || Number.MAX_SAFE_INTEGER,
                   }
                 : {}),
-              ...((field?.dataType as DeviceDoubleType)?.specs?.unit
+              ...(doubleSpecs?.unit
                 ? {
-                    addonAfter: (field?.dataType as DeviceDoubleType)?.specs?.unit,
+                    addonAfter: doubleSpecs?.unit,
                   }
                 : {}),
             },
@@ -719,6 +721,13 @@ const Control: React.FC<ControlType> = memo((props) => {
                         ),
                       },
                     ],
+              extra: doubleSpecs?.enable
+                ? `${formatMessage({ id: 'device.min', defaultMessage: '最小值' })}：${
+                    doubleSpecs?.min
+                  },${formatMessage({ id: 'device.max', defaultMessage: '最大值' })}：${
+                    doubleSpecs?.max
+                  }`
+                : undefined,
             },
             initialValue: isEmpty(field?.defaultValue)
               ? undefined

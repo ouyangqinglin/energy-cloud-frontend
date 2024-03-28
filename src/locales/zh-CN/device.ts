@@ -462,4 +462,6 @@ export default {
   'device.whetherGridSwitch': '是否执行并离网切换指令',
   'device.masterSentence': '主机{name}',
   'device.slaveSentence': '从机{name}',
+  'device.min': '最小值',
+  'device.max': '最大值',
 };

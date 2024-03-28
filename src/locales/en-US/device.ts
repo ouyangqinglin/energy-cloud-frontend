@@ -475,4 +475,6 @@ export default {
   'device.whetherGridSwitch': 'Whether to execute and switch off network instructions.',
   'device.masterSentence': 'Master {name}',
   'device.slaveSentence': 'Slave {name}',
+  'device.min': 'Min',
+  'device.max': 'Max',
 };
