@@ -53,7 +53,6 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
     resetJson();
   }, [form, props]);
 
-  const intl = useIntl();
   const handleOk = () => {
     const id = form.getFieldValue('id');
     if (!isEdit && existItem.includes(id)) {
@@ -108,7 +107,7 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
     <Modal
       maskClosable={false}
       width={1000}
-      title={intl.formatMessage({
+      title={formatMessage({
         id: 'physicalModel.fieldEdit',
         defaultMessage: `${isEdit ? '编辑' : '新增'}字段`,
       })}
@@ -122,19 +121,17 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
           <Col span={12} order={1}>
             <ProFormText
               name="name"
-              label={intl.formatMessage({
+              label={formatMessage({
                 id: 'physicalModel.fieldName',
                 defaultMessage: '字段名称',
               })}
               width="xl"
               onChange={handleInputChange}
-              placeholder="请输入字段名称"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: true,
-                  message: (
-                    <FormattedMessage id="请输入字段名称！" defaultMessage="请输入字段名称！" />
-                  ),
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
               ]}
             />
@@ -142,19 +139,17 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
           <Col span={12} order={2}>
             <ProFormText
               name="id"
-              label={intl.formatMessage({
+              label={formatMessage({
                 id: 'physicalModel.fieldKey',
                 defaultMessage: '字段key',
               })}
               onChange={handleInputChange}
               width="xl"
-              placeholder="请输入字段key"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: true,
-                  message: (
-                    <FormattedMessage id="请输入字段key！" defaultMessage="请输入字段key！" />
-                  ),
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
               ]}
             />
@@ -192,17 +187,17 @@ const TypeEdit: React.FC<TypeEditProps> = (props) => {
           <Col span={14}>
             <ProFormTextArea
               name="json"
-              label={intl.formatMessage({
+              label={formatMessage({
                 id: 'physicalModel.fieldConfig',
                 defaultMessage: '配置',
               })}
               onChange={handleJsonChange}
               width="xl"
-              placeholder="请输入配置"
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="请输入配置！" defaultMessage="请输入配置！" />,
+                  message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
                 },
                 { validator: customValidator },
               ]}

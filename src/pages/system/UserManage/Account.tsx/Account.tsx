@@ -149,7 +149,7 @@ const Account: React.FC<AccountProps> = (props) => {
     formData.roleIds = [formData?.roleId || ''];
     const roleType = roleOptions.filter((i) => i.roleId == formData.roleId)[0]?.type || 0;
     if (roleType == 1) {
-      formData.siteIds = formData?.webConfig || [];
+      formData.siteIds = formData?.webConfig?.filter((i) => !i.includes('#')) || [];
     } else {
       formData.siteIds = formData?.sites?.map?.((item) => item.id) || [];
     }

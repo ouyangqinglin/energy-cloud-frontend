@@ -121,4 +121,7 @@ export default {
   'siteManage.set.timeSlot': 'Time Slot',
   'siteManage.timeZone': 'Time Zone',
   'siteManage.map': 'Map',
+  'siteManage.4grid': '4-grid',
+  'siteManage.6grid': '6-grid',
+  'siteManage.9grid': '9-grid',
 };

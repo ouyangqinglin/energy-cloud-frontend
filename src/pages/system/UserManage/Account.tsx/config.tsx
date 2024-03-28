@@ -234,7 +234,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
             required: true,
             message:
               formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) +
-              formatMessage({ id: 'common.accountName', defaultMessage: '账号名' }),
+              formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
           },
         ],
       },
@@ -423,7 +423,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
                       return Promise.reject(
                         formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) +
                           formatMessage({
-                            id: 'system.confirmPassword',
+                            id: 'user.confirmPassword',
                             defaultMessage: '确认密码',
                           }),
                       );

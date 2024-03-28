@@ -182,7 +182,6 @@ export const Columns: (
       title: formatMessage({ id: 'common.telephone', defaultMessage: '联系电话' }),
       dataIndex: 'phone',
       formItemProps: {
-        required: true,
         rules: [
           () => {
             return {
@@ -203,6 +202,10 @@ export const Columns: (
                 }
               },
             };
+          },
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
           },
         ],
       },

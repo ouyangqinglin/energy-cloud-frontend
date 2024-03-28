@@ -35,6 +35,7 @@ import moment from 'moment';
 import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
 import type { dealTreeDataType } from '@/components/TableSelect';
+import { formatMessage } from '@/utils';
 
 const YtStation: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -139,13 +140,19 @@ const YtStation: React.FC = (props) => {
 
   const tableSelectColumns: ProColumns[] = [
     {
-      title: '数据采集点',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPoints',
+        defaultMessage: '数据采集点',
+      }),
       dataIndex: 'paramName',
       width: 200,
       ellipsis: true,
     },
     {
-      title: '数据采集点标识',
+      title: formatMessage({
+        id: 'siteManage.set.dataCollectionPointIdIdentify',
+        defaultMessage: '数据采集点标识',
+      }),
       dataIndex: 'paramCode',
       width: 150,
       ellipsis: true,

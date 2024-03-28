@@ -468,6 +468,7 @@ export default {
   'device.monomerExtremeValueInformation': 'Monomer Extreme Value Information',
   'device.frontView': 'Front View',
   'device.rearView': 'Rear View',
+  'device.timeRequire': 'All time less than 24 hours',
   'device.parallelOffGridMode': 'Parallel Off Grid Mode',
   'device.gridConnection': 'Grid Connection',
   'device.offGrid': 'Off Grid',

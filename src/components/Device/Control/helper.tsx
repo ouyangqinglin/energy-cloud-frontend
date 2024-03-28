@@ -95,7 +95,10 @@ export const timeRangeColumn: ProFormColumnsType = {
     copyIconProps: false,
     creatorButtonProps: {
       className: 'pl0',
-      creatorButtonText: '新增时间段',
+      creatorButtonText: formatMessage({
+        id: 'siteManage.set.addTimeSlot',
+        defaultMessage: '新增时间段',
+      }),
       icon: <PlusCircleOutlined />,
       type: 'link',
       style: { width: 'unset' },
