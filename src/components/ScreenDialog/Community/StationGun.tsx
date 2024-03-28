@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-20 10:40:19
- * @LastEditTime: 2023-09-01 11:54:04
+ * @LastEditTime: 2024-03-26 17:37:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\StationGun.tsx
  */
 
-import React, { useCallback, useState, useRef, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useRef, useEffect, useMemo, useContext } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
@@ -18,11 +18,13 @@ import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
 import { OptionType } from '@/types';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 const StationGun: React.FC<CommunityProps> = (props) => {
   const { id, type, productConfigType, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
+  const { updateData } = useContext(DeviceContext);
 
   const modalProps = getModalProps(model);
 
@@ -59,11 +61,12 @@ const StationGun: React.FC<CommunityProps> = (props) => {
       }).then(({ data }) => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          updateData?.();
           return true;
         }
       });
     },
-    [id, equipData, productConfigType],
+    [id, equipData, productConfigType, updateData],
   );
 
   useEffect(() => {

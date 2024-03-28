@@ -16,6 +16,7 @@ import {
   thirtySiteGunItem,
   bWattItem,
   selfEnergyMeterItem,
+  react100WItem,
 } from './config';
 import Community, { CommunityTypeEnum } from '@/components/ScreenDialog/Community';
 import type { DeviceDataType } from '@/services/equipment';
@@ -33,6 +34,7 @@ const communityItemMap = new Map([
   [CommunityTypeEnum.StationGun, thirtySiteGunItem],
   [CommunityTypeEnum.BWatt, bWattItem],
   [CommunityTypeEnum.SelfEnergyMeter, selfEnergyMeterItem],
+  [CommunityTypeEnum.React100W, react100WItem],
 ]);
 
 const CommunityDetail: React.FC<CommunityProps> = memo((props) => {

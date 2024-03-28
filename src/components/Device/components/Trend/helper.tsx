@@ -2,15 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 15:19:49
- * @LastEditTime: 2024-03-08 14:13:15
+ * @LastEditTime: 2024-03-26 15:48:14
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\helper.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\helper.tsx
  */
 
 import { DetailItem } from '@/components/Detail';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder } from '@/utils';
 import { powerHourFormat } from '@/utils/format';
 import styles from './index.less';
+import moment from 'moment';
 
 export const options = {
   grid: {
@@ -33,6 +34,28 @@ export const options = {
       bottom: 10,
     },
   ],
+  tooltip: {
+    formatter: (params: any) => {
+      console.log(params);
+      const data0 = params?.[0]?.data;
+      const data1 = params?.[1]?.data;
+      return `<div>
+        ${data0[0]}-${moment('2023-01-01 ' + data0[0])
+        .add(1, 'h')
+        .format('HH:mm')}
+        <div>
+          <div>${formatMessage({
+            id: 'device.chargeCapacity',
+            defaultMessage: '充电电量',
+          })}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
+          <div>${formatMessage({
+            id: 'device.chargeNumber',
+            defaultMessage: '充电次数',
+          })}：<span style="font-weight: bold;">${getPlaceholder(data1[2])}</span></div>
+        </div>
+      </div>`;
+    },
+  },
   yAxis: [
     {
       name: formatMessage({ id: 'device.chargeCapacity', defaultMessage: '充电电量' }) + '（kWh）',

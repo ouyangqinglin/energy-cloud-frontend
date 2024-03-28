@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-28 09:02:14
- * @LastEditTime: 2024-03-22 15:17:16
+ * @LastEditTime: 2024-03-26 17:21:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\BWatt.tsx
  */
 
-import React, { useCallback, useState, useRef, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useRef, useEffect, useMemo, useContext } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
@@ -18,11 +18,14 @@ import { getModalProps } from '@/components/Dialog';
 import { CommunityProps } from './';
 import { OptionType } from '@/types';
 import { formatMessage } from '@/utils';
+import { DeviceTypeEnum } from '@/utils/dictionary';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 const BWatt: React.FC<CommunityProps> = (props) => {
-  const { id, type, productConfigType, open, onOpenChange, model } = props;
+  const { id, type, deviceData, productConfigType, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
+  const { updateData } = useContext(DeviceContext);
 
   const modalProps = getModalProps(model);
 
@@ -59,11 +62,12 @@ const BWatt: React.FC<CommunityProps> = (props) => {
       }).then(({ data }) => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          updateData?.();
           return true;
         }
       });
     },
-    [id, equipData, productConfigType],
+    [id, equipData, productConfigType, updateData],
   );
 
   useEffect(() => {
@@ -93,11 +97,38 @@ const BWatt: React.FC<CommunityProps> = (props) => {
         dataIndex: 'projectId',
       },
       {
+        title: formatMessage(
+          { id: 'device.masterSentence', defaultMessage: '主机' },
+          { name: 'EMS ID' },
+        ),
+        dataIndex: 'masterEmsId',
+        hideInForm: deviceData?.productId != DeviceTypeEnum.React100WEmsEnergy,
+      },
+      {
+        title: formatMessage(
+          { id: 'device.masterSentence', defaultMessage: '主机' },
+          {
+            name: formatMessage(
+              { id: 'device.systemClock', defaultMessage: '系统时钟' },
+              { name: 'ID' },
+            ),
+          },
+        ),
+        dataIndex: 'masterClockDeviceId',
+        hideInForm: deviceData?.productId != DeviceTypeEnum.React100WEmsEnergy,
+      },
+      {
         title: 'BMS ID',
         dataIndex: 'bmsId',
       },
       {
-        title: 'EMS ID',
+        title:
+          deviceData?.productId == DeviceTypeEnum.React100WEmsEnergy
+            ? formatMessage(
+                { id: 'device.slaveSentence', defaultMessage: '从机' },
+                { name: 'EMS ID' },
+              )
+            : 'EMS ID',
         dataIndex: 'emsId',
       },
       {
@@ -117,7 +148,21 @@ const BWatt: React.FC<CommunityProps> = (props) => {
         dataIndex: 'airConditionerId',
       },
       {
-        title: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
+        title:
+          deviceData?.productId == DeviceTypeEnum.React100WEmsEnergy
+            ? formatMessage(
+                { id: 'device.slaveSentence', defaultMessage: '从机' },
+                {
+                  name: formatMessage(
+                    { id: 'device.systemClock', defaultMessage: '系统时钟' },
+                    { name: 'ID' },
+                  ),
+                },
+              )
+            : formatMessage(
+                { id: 'device.systemClock', defaultMessage: '系统时钟' },
+                { name: 'ID' },
+              ),
         dataIndex: 'clockDeviceId',
       },
       {
@@ -157,7 +202,7 @@ const BWatt: React.FC<CommunityProps> = (props) => {
       },
     ];
     return result;
-  }, [requestStation, productConfigType]);
+  }, [requestStation, productConfigType, deviceData]);
 
   return (
     <>

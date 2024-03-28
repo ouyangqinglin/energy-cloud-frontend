@@ -132,7 +132,7 @@ const Stack: React.FC<StackProps> = (props) => {
         className="mt16"
       />
       <Detail
-        data={realTimeData}
+        data={{ ...realTimeData, productId }}
         items={controlItems}
         extral={extral}
         colon={false}

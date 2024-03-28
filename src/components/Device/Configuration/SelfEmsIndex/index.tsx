@@ -43,7 +43,7 @@ const SelfEmsIndex: React.FC<ConfigProps> = (props) => {
   if (authorityMap.get('iot:device:config:systemSetting')) {
     items.push({
       key: '1',
-      label: formatMessage({ id: 'device.systemSetting', defaultMessage: '系统设置' }),
+      label: formatMessage({ id: 'device.system', defaultMessage: '系统' }),
       children: (
         <SystemSetting deviceId={deviceId} realTimeData={realTimeData} deviceData={deviceData} />
       ),

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import { message } from 'antd';
 import { ProConfigProvider, BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
@@ -11,6 +11,7 @@ import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { omit } from 'lodash';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 type DeviceDataType = {
   id: string;
@@ -21,6 +22,7 @@ const Meter: React.FC<CommunityProps> = (props) => {
   const { id, type, open, onOpenChange, model } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
+  const { updateData } = useContext(DeviceContext);
 
   const modalProps = getModalProps(model);
 
@@ -37,11 +39,12 @@ const Meter: React.FC<CommunityProps> = (props) => {
       }).then(({ data }) => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          updateData?.();
           return true;
         }
       });
     },
-    [id, equipData],
+    [id, equipData, updateData],
   );
 
   useEffect(() => {

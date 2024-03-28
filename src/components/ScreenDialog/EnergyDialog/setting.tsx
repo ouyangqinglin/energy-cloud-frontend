@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2024-01-15 18:10:15
+ * @LastEditTime: 2024-03-26 16:50:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -205,6 +205,16 @@ const Setting: React.FC<SettingProps> = (props) => {
               {formatMessage({
                 id: 'device.whetherExecuteSystemResetCommand',
                 defaultMessage: '是否执行系统复位指令',
+              })}
+            </span>
+          );
+          break;
+        case 'parallelOffGridModeSwitch':
+          content = (
+            <span>
+              {formatMessage({
+                id: 'device.whetherGridSwitch',
+                defaultMessage: '是否执行并离网切换指令',
               })}
             </span>
           );
@@ -548,7 +558,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               <Switch />
             </Form.Item>
           </Col>
-          {type === DeviceTypeEnum.BWattEms ? (
+          {type === DeviceTypeEnum.BWattEms || type === DeviceTypeEnum.React100XEmsEnergy ? (
             <Col flex="25%">
               <Form.Item
                 name="sysReset"
@@ -561,6 +571,21 @@ const Setting: React.FC<SettingProps> = (props) => {
             </Col>
           ) : (
             <></>
+          )}
+          {type === DeviceTypeEnum.React100XEmsEnergy && (
+            <Col flex="25%">
+              <Form.Item
+                name="parallelOffGridModeSwitch"
+                label={formatMessage({
+                  id: 'device.andOffGridSwitching',
+                  defaultMessage: '并离网切换',
+                })}
+                labelCol={{ flex: '116px' }}
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
           )}
         </Row>
       </Form>
@@ -785,7 +810,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -817,7 +842,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -849,7 +874,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -881,7 +906,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>
@@ -913,7 +938,7 @@ const Setting: React.FC<SettingProps> = (props) => {
               })}
               rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
             >
-              <InputNumber className="w-full" addonAfter="kW" min={-110} max={110} />
+              <InputNumber className="w-full" addonAfter="kW" />
             </Form.Item>
           </Col>
         </Row>

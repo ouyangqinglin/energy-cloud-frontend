@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 14:56:51
- * @LastEditTime: 2024-01-05 16:03:07
+ * @LastEditTime: 2024-03-26 18:58:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\index.tsx
  */
@@ -21,6 +21,7 @@ export enum CommunityTypeEnum {
   Station,
   BWatt,
   SelfEnergyMeter = 7,
+  React100W,
 }
 
 export const communityTypeMap = new Map([
@@ -29,6 +30,7 @@ export const communityTypeMap = new Map([
   [CommunityTypeEnum.StationGun, 'StationGun'],
   [CommunityTypeEnum.Station, 'Station'],
   [CommunityTypeEnum.BWatt, 'BWatt'],
+  [CommunityTypeEnum.React100W, 'BWatt'],
   [CommunityTypeEnum.SelfEnergyMeter, 'SelfEnergyMeter'],
 ]);
 
@@ -43,10 +45,11 @@ export type CommunityProps = {
   passwordLabel?: string;
   type?: CommunityTypeEnum;
   productConfigType?: number;
+  onSuccess?: () => void;
 };
 
 const Community: React.FC<Omit<CommunityProps, 'open' | 'onOpenChange'>> = (props) => {
-  const { type, deviceData, ...restProps } = props;
+  const { type, ...restProps } = props;
 
   const [open, { set, setTrue }] = useBoolean(false);
   const [Component, setComponent] = useState<React.FC<CommunityProps>>();

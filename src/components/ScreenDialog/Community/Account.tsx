@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Community\AccountCommunity.tsx
  */
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import { message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
@@ -16,6 +16,7 @@ import { getEquipInfo, editEquipConfig } from '@/services/equipment';
 import { getModalProps } from '@/components/Dialog';
 import type { CommunityProps } from './index';
 import { formatMessage } from '@/utils';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 type AccountType = CommunityProps & {
   userLabel?: string;
@@ -34,6 +35,7 @@ const Account: React.FC<AccountType> = (props) => {
   } = props;
   const formRef = useRef<ProFormInstance>();
   const [equipData, setEquipData] = useState<EquipFormType>();
+  const { updateData } = useContext(DeviceContext);
 
   const modalProps = getModalProps(model);
 
@@ -63,11 +65,12 @@ const Account: React.FC<AccountType> = (props) => {
       }).then(({ data }) => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          updateData?.();
           return true;
         }
       });
     },
-    [id, equipData],
+    [id, equipData, updateData],
   );
 
   const columns: ProFormColumnsType<MeterCommunityType>[] = [

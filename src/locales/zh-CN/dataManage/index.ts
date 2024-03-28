@@ -13,6 +13,7 @@ export default {
   'dataManage.reportType': '报表类型',
   'dataManage.selectedEquipment': '所选设备',
   'dataManage.statisticalDimension': '统计维度',
+  'dataManage.statisticalCycle': '统计周期',
   'dataManage.statisticalTime': '统计时间',
   'dataManage.utilityCharge': '市电电费',
   'dataManage.chargingPileAmount': '充电桩充电量',
@@ -60,4 +61,5 @@ export default {
   'dataManage.eliminate': '已消除',
   'dataManage.automaticRecovery': '自动恢复',
   'dataManage.manualClear': '手动消除',
+  'dataManage.minutesSentence': '{name}分钟',
 };

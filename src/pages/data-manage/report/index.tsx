@@ -186,7 +186,6 @@ const Report: React.FC<ReportProps> = (props) => {
         fieldColumns = cloneDeep(chargeOrderStatColumns);
       }
     }
-    console.log('fieldColumns>>', fieldColumns);
     return [...siteSearch, ...currentSearchColumns, ...fieldColumns];
   }, [siteSearchColumn, searchParams, isStationChild, currentSearchColumns, currentSiteColumns]);
 
