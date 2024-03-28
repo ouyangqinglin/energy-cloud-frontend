@@ -45,13 +45,13 @@ const Account: React.FC = () => {
         children: <AccountTree type={OrgTypeEnum.Owner} />,
       });
     }
-    if (authorityMap.get('system:user:account:operator')) {
-      result.push({
-        key: 'operator',
-        label: formatMessage({ id: 'user.operator', defaultMessage: '运营商' }),
-        children: <AccountTree type={OrgTypeEnum.Operator} />,
-      });
-    }
+    // if (authorityMap.get('system:user:account:operator')) {
+    //   result.push({
+    //     key: 'operator',
+    //     label: formatMessage({ id: 'user.operator', defaultMessage: '运营商' }),
+    //     children: <AccountTree type={OrgTypeEnum.Operator} />,
+    //   });
+    // }
     return result;
   }, [authorityMap]);
 

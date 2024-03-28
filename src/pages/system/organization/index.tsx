@@ -40,13 +40,13 @@ const UserManage: React.FC = () => {
         children: <Owner />,
       });
     }
-    if (authorityMap.get('orgManage:operator')) {
-      result.push({
-        key: '4',
-        label: formatMessage({ id: 'system.operator', defaultMessage: '运营商' }),
-        children: <Operator />,
-      });
-    }
+    // if (authorityMap.get('orgManage:operator')) {
+    //   result.push({
+    //     key: '4',
+    //     label: formatMessage({ id: 'system.operator', defaultMessage: '运营商' }),
+    //     children: <Operator />,
+    //   });
+    // }
     return result;
   }, [authorityMap]);
 
