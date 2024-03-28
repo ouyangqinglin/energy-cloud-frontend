@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-01-23 10:38:06
+ * @LastEditTime: 2024-03-28 17:01:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -21,6 +21,15 @@ const pickerMap = new Map([
   [timeDimensionEnum.Month, { picker: 'month', format: 'YYYY-MM' }],
   [timeDimensionEnum.Year, { picker: 'year', format: 'YYYY' }],
   [timeDimensionEnum.Cycle, { picker: 'year', format: 'YYYY' }],
+]);
+
+const timeOption = new Map([
+  [0, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 10 })],
+  [1, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 20 })],
+  [2, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 30 })],
+  [3, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 40 })],
+  [4, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 50 })],
+  [5, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 60 })],
 ]);
 
 export const searchColumns = (reportType: any): ProColumns[] => [
@@ -114,6 +123,27 @@ export const searchColumns = (reportType: any): ProColumns[] => [
       };
     },
     initialValue: moment(),
+    hideInTable: true,
+  },
+  {
+    title: formatMessage({ id: 'dataManage.statisticalCycle', defaultMessage: '统计周期' }),
+    dataIndex: ' periodType',
+    valueType: 'select',
+    valueEnum: timeOption,
+    dependencies: ['timeDimension', 'reportType'],
+    formItemProps: (form, config) => {
+      const reportTypeValue = form?.getFieldValue?.('reportType');
+      const timeDimensionValue = form?.getFieldValue?.('timeDimension');
+      const hidden =
+        reportTypeEnum.ChargeOrder == reportTypeValue ||
+        timeDimensionValue != timeDimensionEnum.Day;
+      return {
+        hidden,
+        noStyle: hidden,
+        rules: [{ required: !hidden }],
+      };
+    },
+    initialValue: 0,
     hideInTable: true,
   },
 ];
@@ -853,6 +883,7 @@ export const chargeOrderColumns: ProColumns[] = [
     dataIndex: 'index',
     width: 50,
     onCell,
+    hideInSearch: true,
   },
   {
     title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),

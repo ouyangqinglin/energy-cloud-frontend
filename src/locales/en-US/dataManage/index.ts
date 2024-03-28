@@ -13,6 +13,7 @@ export default {
   'dataManage.reportType': 'Report Type',
   'dataManage.selectedEquipment': 'Selected Device',
   'dataManage.statisticalDimension': 'Statistical Dimension',
+  'dataManage.statisticalCycle': 'Statistical Cycle',
   'dataManage.statisticalTime': 'Statistical Time',
   'dataManage.utilityCharge': 'Grid Charge',
   'dataManage.chargingPileAmount': 'Charging Amount of EV Charger',
@@ -60,4 +61,5 @@ export default {
   'dataManage.eliminate': 'Eliminated',
   'dataManage.automaticRecovery': 'Automatic Recovery',
   'dataManage.manualClear': 'Manual Clear',
+  'dataManage.minutesSentence': '{name} Minutes',
 };
