@@ -127,7 +127,7 @@ export const searchColumns = (reportType: any): ProColumns[] => [
   },
   {
     title: formatMessage({ id: 'dataManage.statisticalCycle', defaultMessage: '统计周期' }),
-    dataIndex: ' periodType',
+    dataIndex: 'periodType',
     valueType: 'select',
     valueEnum: timeOption,
     dependencies: ['timeDimension', 'reportType'],
