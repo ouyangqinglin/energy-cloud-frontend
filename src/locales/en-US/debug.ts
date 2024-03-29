@@ -21,4 +21,6 @@ export default {
   'debug.hour': ' Hour',
   'debug.tunnelTip':
     'After expiration, the tunnel will be automatically disconnected. When it is about to expire, you can click to open it again to delay the tunnel time.',
+  'debug.lastTimeDevice': 'Last Sync Time(Device)',
+  'debug.lastTimePlatform': 'Last Sync Time(Platform)',
 };
