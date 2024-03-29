@@ -327,7 +327,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return result ?? value;
+  return JSON.stringify(result ?? value);
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {

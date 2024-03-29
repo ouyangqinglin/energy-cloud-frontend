@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-23 14:31:58
+ * @LastEditTime: 2024-03-29 16:52:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -72,18 +72,16 @@ const Run: React.FC<RunType> = (props) => {
   const interceptorData = useMemo(() => {
     const result: Record<string, any> = {};
     interceptor.forEach(({ id, dataInterceptor, deviceId }) => {
-      if (deviceId) {
-        result[deviceId] = {};
-        result[deviceId][id] = (interceptorFn as any)?.[dataInterceptor]?.(
-          id,
-          realTimeData?.[deviceId]?.[id],
-        );
-      } else {
-        result[id] = (interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[id]);
+      const resultDeviceId = deviceId || deviceData?.deviceId;
+      if (resultDeviceId) {
+        result[resultDeviceId] = {
+          ...result[resultDeviceId],
+          ...(interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[deviceId]?.[id]),
+        };
       }
     });
     return merge({}, realTimeData, result);
-  }, [realTimeData, interceptor]);
+  }, [realTimeData, interceptor, deviceData?.deviceId]);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
