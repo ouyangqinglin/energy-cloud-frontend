@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:29:07
- * @LastEditTime: 2024-03-21 14:29:07
+ * @LastEditTime: 2024-03-29 10:28:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\debug.ts
  */
@@ -21,6 +21,6 @@ export default {
   'debug.hour': ' Hour',
   'debug.tunnelTip':
     'After expiration, the tunnel will be automatically disconnected. When it is about to expire, you can click to open it again to delay the tunnel time.',
-  'debug.lastTimeDevice': 'Last Sync Time(Device)',
-  'debug.lastTimePlatform': 'Last Sync Time(Platform)',
+  'debug.syncTimeDevice': 'Sync Time(Device)',
+  'debug.syncTimePlatform': 'Sync Time(Platform)',
 };

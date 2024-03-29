@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-29 09:41:54
+ * @LastEditTime: 2024-03-29 10:30:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -115,16 +115,16 @@ const VPN: React.FC = () => {
         },
         {
           label: formatMessage({
-            id: 'debug.lastTimeDevice',
-            defaultMessage: '最后一次同步时间(设备时间)',
+            id: 'debug.syncTimeDevice',
+            defaultMessage: '同步时间(设备时间)',
           }),
           field: 'deviceTs',
           format: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
         },
         {
           label: formatMessage({
-            id: 'debug.lastTimePlatform',
-            defaultMessage: '最后一次同步时间(平台时间)',
+            id: 'debug.syncTimePlatform',
+            defaultMessage: '同步时间(平台时间)',
           }),
           field: 'serverTs',
           format: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
@@ -135,7 +135,6 @@ const VPN: React.FC = () => {
       label: (
         <Detail.Label
           title={formatMessage({ id: 'debug.tunnelStatusControl', defaultMessage: '隧道状态控制' })}
-          showLine={false}
         />
       ),
       items: [

@@ -151,7 +151,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
         open={open}
         title={
           type === FormTypeEnum.Add
-            ? formatMessage({ id: 'common.add', defaultMessage: '新建' })
+            ? formatMessage({ id: 'common.new', defaultMessage: '新建' })
             : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
         }
         width="552px"

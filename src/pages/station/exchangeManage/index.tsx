@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-03-11 11:15:25
+ * @LastEditTime: 2024-03-29 10:25:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\exchangeManage\index.tsx
  */
@@ -114,7 +114,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       </Button>,
       <Button type="primary" key="add">
         <PlusOutlined />
-        <FormattedMessage id="common.add" defaultMessage="添加" />
+        <FormattedMessage id="common.new" defaultMessage="添加" />
       </Button>,
       <Button type="primary" key="add">
         <DeleteOutlined />

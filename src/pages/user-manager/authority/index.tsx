@@ -61,7 +61,7 @@ const Authority: React.FC<AuthorityProps> = (props) => {
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
+        text: formatMessage({ id: 'common.new', defaultMessage: '新建' }),
       },
     };
   }

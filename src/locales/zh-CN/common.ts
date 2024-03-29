@@ -1,5 +1,6 @@
 export default {
-  'common.add': '新建',
+  'common.new': '新建',
+  'common.add': '新增',
   'common.delete': '删除',
   'common.edit': '编辑',
   'common.detail': '查看详情',

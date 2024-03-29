@@ -251,7 +251,7 @@ const PhysicalModelForm: React.FC<MenuFormProps> = (props) => {
       maskClosable={false}
       title={intl.formatMessage({
         id: `${
-          showType == 'add' ? 'common.add' : showType == 'edit' ? 'common.edit' : 'common.view'
+          showType == 'add' ? 'common.new' : showType == 'edit' ? 'common.edit' : 'common.view'
         }`,
         defaultMessage: `${showType == 'add' ? '新增' : showType == 'edit' ? '编辑' : '查看'}`,
       })}

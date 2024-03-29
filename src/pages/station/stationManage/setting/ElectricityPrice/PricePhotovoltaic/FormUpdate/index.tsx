@@ -9,7 +9,7 @@ import { formatMessage } from '@/utils';
 export const FormUpdateForCharging = (props: FormUpdateBaseProps) => {
   return (
     <FormUpdate<PhotovoltaicElectricityPriceInfo, PhotovoltaicElectricityPriceParams>
-      titleCreate={formatMessage({ id: 'common.add', defaultMessage: '新建' })}
+      titleCreate={formatMessage({ id: 'common.new', defaultMessage: '新建' })}
       titleUpdate={formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
       columns={columns}
       onFinishUpdate={updatePhotovoltaicPrice}

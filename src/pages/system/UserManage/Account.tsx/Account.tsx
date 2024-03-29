@@ -219,7 +219,7 @@ const Account: React.FC<AccountProps> = (props) => {
           add: {
             show: showAdd,
             onClick: onAddClick,
-            text: formatMessage({ id: 'common.add', defaultMessage: '新建' }),
+            text: formatMessage({ id: 'common.new', defaultMessage: '新建' }),
           },
         }}
         option={options}

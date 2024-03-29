@@ -197,7 +197,7 @@ export const peakLoadShiftItems: FormAndDetailType[] = [
       creatorButtonProps: {
         className: 'pl0',
         creatorButtonText:
-          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'common.new', defaultMessage: '新建' }) +
           formatMessage({ id: 'device.timePeriod', defaultMessage: '时段' }),
         icon: <PlusCircleOutlined />,
         type: 'link',
@@ -536,7 +536,7 @@ export const PeakSetColumns: ProFormColumnsType[] = [
       creatorButtonProps: {
         className: 'pl0',
         creatorButtonText:
-          formatMessage({ id: 'common.add', defaultMessage: '新建' }) +
+          formatMessage({ id: 'common.new', defaultMessage: '新建' }) +
           formatMessage({ id: 'device.timePeriod', defaultMessage: '时间段' }),
         icon: <PlusCircleOutlined />,
         type: 'link',

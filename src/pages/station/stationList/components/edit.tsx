@@ -144,7 +144,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         title={
           type === FormTypeEnum.Edit
             ? formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
-            : formatMessage({ id: 'common.add', defaultMessage: '新建' })
+            : formatMessage({ id: 'common.new', defaultMessage: '新建' })
         }
         autoFocusFirstInput
         onFinish={onFinish}

@@ -1,4 +1,5 @@
 export default {
+  'common.new': 'New',
   'common.add': 'Add',
   'common.delete': 'Delete',
   'common.edit': 'Edit',

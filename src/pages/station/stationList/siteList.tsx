@@ -81,7 +81,7 @@ const StationList: React.FC = () => {
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
-      {formatMessage({ id: 'common.add', defaultMessage: '新建' })}
+      {formatMessage({ id: 'common.new', defaultMessage: '新建' })}
     </Button>,
   ];
 
