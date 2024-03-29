@@ -327,7 +327,11 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return JSON.stringify(result ?? value);
+  result = result ?? value;
+  if (typeof result == 'function' || typeof result == 'object' || typeof result == 'symbol') {
+    result = JSON.stringify(result);
+  }
+  return result;
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {
