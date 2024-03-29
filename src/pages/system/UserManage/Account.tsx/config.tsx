@@ -21,7 +21,6 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 export type AccountDataType = {
   userId?: string;
@@ -128,7 +127,7 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
         },
       },
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       width: 150,
     },

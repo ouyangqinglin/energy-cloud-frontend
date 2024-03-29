@@ -32,7 +32,6 @@ import { productTypeIconMap } from '@/utils/IconUtil';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import { getDeviceListSites } from '@/services/station';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -365,7 +364,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'createTime',
         valueType: 'dateRange',
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {

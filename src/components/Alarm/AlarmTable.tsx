@@ -27,7 +27,7 @@ import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { formatMessage, isEmpty, getLocale } from '@/utils';
 import eventBus from '@/utils/eventBus';
-const isUS = getLocale().isEnUS;
+
 export enum PageTypeEnum {
   Current,
   History,
@@ -394,7 +394,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'dateRange',
         width: 150,
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => record.alarmTime,
         search: {

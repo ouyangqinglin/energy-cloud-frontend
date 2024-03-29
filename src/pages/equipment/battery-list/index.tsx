@@ -28,7 +28,6 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage, getLocale } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
-const isUS = getLocale().isEnUS;
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -206,7 +205,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           },
         },
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         width: 150,
         ellipsis: true,
@@ -220,7 +219,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'batteryDeliveryDate',
         valueType: 'dateRange',
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -254,7 +253,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         dataIndex: 'createTime',
         valueType: 'dateRange',
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {

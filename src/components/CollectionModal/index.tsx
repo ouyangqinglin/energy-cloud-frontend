@@ -18,7 +18,6 @@ import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 type Searchtype = CollectionSearchType & {
   date: string[];
 };
@@ -59,7 +58,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           rules: [{ required: true }],
         },
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         initialValue: [moment(), moment()],
       },

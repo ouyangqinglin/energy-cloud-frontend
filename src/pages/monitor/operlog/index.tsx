@@ -21,7 +21,7 @@ import WrapContent from '@/components/WrapContent';
 import YTProTable from '@/components/YTProTable';
 import { operateUserType } from '@/utils/dictionary';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
+
 /* *
  *
  * @author whiteshader@163.com
@@ -278,7 +278,7 @@ const OperlogTableList: React.FC = () => {
       dataIndex: 'operTime',
       valueType: 'dateRange',
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       render: (_, record) => <span>{record.operTime}</span>,
       search: {
@@ -306,7 +306,7 @@ const OperlogTableList: React.FC = () => {
             setCurrentRow(record);
           }}
         >
-          <FormattedMessage id="detaile" defaultMessage="查看详情" />
+          <FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />
         </Button>,
       ],
     },

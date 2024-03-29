@@ -14,20 +14,14 @@ import RightContent from '@/components/header/RightContent';
 import styles from './index.less';
 import IconMenu from '@/assets/image/menu.png';
 import IconMenuRight from '@/assets/image/menu-right.png';
-import MyMenu from '../Menu';
 import Breadcrumb from '@/components/Breadcrumb';
 import SiteSwitch from '@/components/SiteSwitch';
 
 const siteSwitchPath = ['/site-monitor', '/index/station', '/station/station-list'];
 
 const MyHeader: React.FC = () => {
-  const [open, setOpen] = useState(false);
   const { initialState, setInitialState } = useModel('@@initialState');
   const location = useLocation();
-
-  const switchDrawer = useCallback((status) => {
-    setOpen(status);
-  }, []);
 
   const onSwitchClick = useCallback(() => {
     setInitialState((prevData) => {

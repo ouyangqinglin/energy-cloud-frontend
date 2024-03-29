@@ -21,7 +21,6 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
 import { formatMessage, getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -172,7 +171,7 @@ const StationList: React.FC = () => {
       dataIndex: 'createTime',
       valueType: 'dateRange',
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       render: (_, record) => <span>{record.createTime}</span>,
       search: {
