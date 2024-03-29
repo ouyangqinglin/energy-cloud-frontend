@@ -34,7 +34,7 @@ export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
         .join('，');
     },
     fieldProps: {
-      format: 'MM-DD',
+      format: isUS ? 'MM/DD' : 'MM-DD',
     },
     search: {
       transform: (value) => {

@@ -131,7 +131,7 @@ export const searchColumns = (reportType: any): ProColumns[] => [
     valueType: 'select',
     valueEnum: timeOption,
     dependencies: ['timeDimension', 'reportType'],
-    formItemProps: (form, config) => {
+    formItemProps: (form) => {
       const reportTypeValue = form?.getFieldValue?.('reportType');
       const timeDimensionValue = form?.getFieldValue?.('timeDimension');
       const hidden =

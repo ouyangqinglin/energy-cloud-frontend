@@ -16,6 +16,8 @@ import { getList, getDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 const Alarm: React.FC = (props) => {
   const [open, setOpen] = useState(false);
@@ -81,6 +83,9 @@ const Alarm: React.FC = (props) => {
             endTime: value[1],
           };
         },
+      },
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
       },
     },
     {

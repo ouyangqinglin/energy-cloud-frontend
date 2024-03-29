@@ -7,8 +7,10 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../type';
 import styles from '../index.less';
 import { PriceType } from '../type';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 import { electricMoneyMap } from '@/utils/dict';
+const isUS = getLocale().isEnUS;
+
 export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
   {
     title: (
@@ -107,7 +109,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                   ],
                 },
                 fieldProps: {
-                  format: 'MM/DD',
+                  format: isUS ? 'MM/DD' : 'MM-DD',
                 },
                 convertValue: (value, field) => {
                   return value;

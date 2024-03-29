@@ -33,6 +33,8 @@ import DeviceSn from './deviceSn';
 import { statisticsItems } from './helper';
 import styles from './index.less';
 import { useInterval } from 'ahooks';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -238,6 +240,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.updateTime', defaultMessage: '更新时间' }),
         dataIndex: 'updateTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {

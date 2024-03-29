@@ -21,6 +21,8 @@ import type { DataNode } from 'antd/lib/tree';
 import { getMenuTree } from '../menu/service';
 import { formatTreeSelectData } from '@/utils/utils';
 import WrapContent from '@/components/WrapContent';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 /* *
  *
@@ -209,6 +211,9 @@ const RoleTableList: React.FC = () => {
             'params[endTime]': value[1],
           };
         },
+      },
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
       },
       hideInSearch: true,
     },

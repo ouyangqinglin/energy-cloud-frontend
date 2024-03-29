@@ -4,6 +4,8 @@ import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser, getCustomer } from './service';
 import { CustomerInfo } from './type';
 import { formatMessage } from '@/utils';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
@@ -79,6 +81,9 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     valueType: 'dateRange',
     width: 150,
     render: (_, record) => record.createTime,
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+    },
     search: {
       transform: (value) => {
         return {

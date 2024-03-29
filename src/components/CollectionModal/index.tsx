@@ -17,17 +17,16 @@ import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 type Searchtype = CollectionSearchType & {
   date: string[];
 };
 
 const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => {
   const { deviceId, collection, model, title, open, ...restProps } = props;
-
   const formRef = useRef<ProFormInstance>(null);
   const [date, setDate] = useState<string[]>();
-
   const modelData = useMemo(() => {
     const enumObj: any = parseToObj(model?.specs);
     let enumKeys: string[] = [];
@@ -41,18 +40,15 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
       unit: enumObj?.unit,
     };
   }, [model]);
-
   const onFinish = useCallback((formData: Searchtype) => {
     setDate(formData.date);
     return Promise.resolve(true);
   }, []);
-
   useEffect(() => {
     if (open && deviceId) {
       formRef?.current?.submit?.();
     }
   }, [deviceId, collection, open]);
-
   const searchColumns = useMemo<ProFormColumnsType<Searchtype>[]>(() => {
     return [
       {
@@ -61,6 +57,9 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
         valueType: 'dateRange',
         formItemProps: {
           rules: [{ required: true }],
+        },
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
         },
         initialValue: [moment(), moment()],
       },

@@ -2,6 +2,8 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { FaultType } from './type';
 import { formatMessage } from '@/utils';
 import { OrderType } from '../maintenance/type';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 // export const orderStatus = new Map([
 //   [OrderStatus.READY, '待处理'],
 //   [OrderStatus.DEALING, '维修中'],
@@ -38,6 +40,9 @@ export const columns: ProColumns<FaultType>[] = [
     title: formatMessage({ id: 'taskManage.creationTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
     valueType: 'dateRange',
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+    },
     width: 150,
     render: (_, record) => record.createTime,
     search: {
