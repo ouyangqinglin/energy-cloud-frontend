@@ -20,6 +20,8 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export type AccountDataType = {
   userId?: string;
@@ -124,6 +126,9 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
             endTime: value[1],
           };
         },
+      },
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
       },
       width: 150,
     },

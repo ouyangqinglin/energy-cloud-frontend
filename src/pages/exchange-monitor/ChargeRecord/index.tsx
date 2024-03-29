@@ -29,7 +29,8 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -190,6 +191,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -219,6 +223,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             };
           },
         },
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -239,6 +246,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
               endTime: value[1],
             };
           },
+        },
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
         },
         width: 150,
         ellipsis: true,

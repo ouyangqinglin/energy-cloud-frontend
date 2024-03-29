@@ -15,7 +15,7 @@ import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
 import { formatMessage, getLocale } from '@/utils';
-
+const isUS = getLocale().isEnUS;
 export type LogTableProps = {
   params?: {
     id: string;
@@ -61,7 +61,7 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         },
         initialValue: [moment(), moment()],
         fieldProps: {
-          format: 'YYYY-MM-DD',
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
           getPopupContainer: (triggerNode: any) => triggerNode.parentElement,
           ranges: {
             [formatMessage({ id: 'date.nearly24Hours', defaultMessage: '近24小时' })]: [

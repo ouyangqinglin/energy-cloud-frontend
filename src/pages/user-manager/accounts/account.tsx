@@ -17,6 +17,8 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import YTModalForm from '@/components/YTModalForm';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { effectStatus } from '@/utils/dict';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export enum PageTypeEnum {
   Custom,
@@ -82,6 +84,9 @@ const Account: React.FC<AccountsProps> = (props) => {
         dataIndex: 'createTime',
         valueType: 'dateRange',
         hideInSearch: true,
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         width: 150,
       },
       {

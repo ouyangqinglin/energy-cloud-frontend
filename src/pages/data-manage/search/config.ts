@@ -9,7 +9,8 @@ import type {
 import { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
 import moment, { Moment } from 'moment';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
@@ -153,6 +154,7 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     },
     fieldProps: (form) => {
       return {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];

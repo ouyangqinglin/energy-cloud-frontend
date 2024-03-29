@@ -1,7 +1,8 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import type { MaintenanceListType } from './type';
 import { OrderStatus, OrderType } from './type';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const orderStatus = new Map([
   [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
@@ -111,6 +112,9 @@ export const columns: ProColumns<MaintenanceListType>[] = [
     dataIndex: 'createTime',
     valueType: 'dateRange',
     width: 150,
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+    },
     render: (_, record) => record.createTime,
     search: {
       transform: (value) => {

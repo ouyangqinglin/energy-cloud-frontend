@@ -25,9 +25,10 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import type { SearchParams } from '@/hooks/useSearchSelect';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
+const isUS = getLocale().isEnUS;
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -204,6 +205,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             };
           },
         },
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         width: 150,
         ellipsis: true,
         hideInSearch: true,
@@ -215,6 +219,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         }),
         dataIndex: 'batteryDeliveryDate',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -246,6 +253,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {

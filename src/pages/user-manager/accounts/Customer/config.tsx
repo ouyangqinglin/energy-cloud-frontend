@@ -3,7 +3,8 @@ import { effectStatus } from '@/utils/dict';
 import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser } from './service';
 import { CustomerInfo } from './type';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
@@ -88,6 +89,9 @@ export const columns: YTProColumns<CustomerInfo>[] = [
           endTime: value[1],
         };
       },
+    },
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
     },
   },
 ];

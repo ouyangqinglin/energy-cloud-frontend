@@ -20,7 +20,8 @@ import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
 import YTProTable from '@/components/YTProTable';
 import { operateUserType } from '@/utils/dictionary';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 /* *
  *
  * @author whiteshader@163.com
@@ -276,6 +277,9 @@ const OperlogTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.Operlog.oper_time" defaultMessage="操作时间" />,
       dataIndex: 'operTime',
       valueType: 'dateRange',
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      },
       render: (_, record) => <span>{record.operTime}</span>,
       search: {
         transform: (value) => {

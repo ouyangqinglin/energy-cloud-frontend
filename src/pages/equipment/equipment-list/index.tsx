@@ -31,7 +31,8 @@ import DeviceSn from './deviceSn';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import { getDeviceListSites } from '@/services/station';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -368,6 +369,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {

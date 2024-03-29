@@ -18,7 +18,8 @@ import {
 } from '@/components/TableSelect';
 import { getDeviceCollection, getMultipleDeviceTree } from '@/services/equipment';
 import { DeviceTreeDataType } from '@/types/device';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -34,6 +35,9 @@ export const column: ProFormColumnsType<SearchType>[] = [
           }),
         },
       ],
+    },
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
     },
     initialValue: [moment(), moment()],
   },

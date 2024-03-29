@@ -44,7 +44,7 @@ export default {
   'system.ownerName': "Owner's Name",
   'system.ownerId': 'Owner ID',
   'system.deleteOwnerConfirm':
-    'Are you sure you want to delete this owner? Cannot be recovered after deletion!',
+    'Are you sure you want to delete this organization? Cannot be recovered after deletion!',
   'system.deleteInstallerConfirm':
     'Are you sure you want to delete this installer? Cannot be recovered after deletion!',
   'system.deleteVersionConfirm':

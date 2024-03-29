@@ -33,7 +33,7 @@ export default {
   'system.deleteOperatorConfirm': '您确认要删除该运营商吗？删除之后无法恢复！',
   'system.ownerName': '业主名称',
   'system.ownerId': '业主ID',
-  'system.deleteOwnerConfirm': '您确认要删除该业主吗？删除之后无法恢复！',
+  'system.deleteOwnerConfirm': '您确认要删除该组织吗？删除之后无法恢复！',
   'system.deleteInstallerConfirm': '您确认要删除该安装商吗？删除之后无法恢复！',
   'system.deleteVersionConfirm': '您确认要删除该版本吗？删除之后无法恢复！',
   'system.productPermissions': '产品权限',
