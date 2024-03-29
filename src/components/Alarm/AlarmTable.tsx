@@ -25,9 +25,9 @@ import { debounce } from 'lodash';
 import type { OptionType } from '@/types';
 import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from './index.less';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage, isEmpty, getLocale } from '@/utils';
 import eventBus from '@/utils/eventBus';
-
+const isUS = getLocale().isEnUS;
 export enum PageTypeEnum {
   Current,
   History,
@@ -393,6 +393,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         dataIndex: 'alarmTime',
         valueType: 'dateRange',
         width: 150,
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => record.alarmTime,
         search: {
           transform: (value) => {

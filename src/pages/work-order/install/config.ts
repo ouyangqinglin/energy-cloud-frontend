@@ -2,6 +2,8 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { InstallListType } from './type';
 import { OrderStatus, OrderType } from './type';
 import { formatMessage } from '@/utils';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 export const orderStatus = new Map([
   [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
@@ -138,6 +140,9 @@ export const columns: ProColumns<InstallListType>[] = [
     title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
     valueType: 'dateRange',
+    fieldProps: {
+      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+    },
     width: 150,
     search: {
       transform: (value) => {

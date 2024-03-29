@@ -20,6 +20,8 @@ import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import SchemaForm from '@/components/SchemaForm';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 const Fault: React.FC = () => {
   const [openDetail, { setTrue, setFalse }] = useBoolean(false);
@@ -88,6 +90,9 @@ const Fault: React.FC = () => {
               endTime: value[1],
             };
           },
+        },
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
         },
         width: 150,
       },

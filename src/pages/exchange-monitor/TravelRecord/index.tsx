@@ -22,7 +22,8 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -161,6 +162,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.startTime', defaultMessage: '起始时间' }),
         dataIndex: 'startTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -185,6 +189,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.endTime', defaultMessage: '结束时间' }),
         dataIndex: 'endTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -337,6 +344,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -354,6 +364,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'exchangeMonitor.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
+        fieldProps: {
+          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {

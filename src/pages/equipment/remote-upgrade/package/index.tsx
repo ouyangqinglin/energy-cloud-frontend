@@ -14,7 +14,8 @@ import { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductSnList } from '../comService';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { PackageListType } from './type';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 const Package: React.FC = () => {
   const [initialValues, setInitialValues] = useState<PackageListType>({} as PackageListType); //初始值为空对象
   const [operations, setOperations] = useState(FormOperations.CREATE);
@@ -51,7 +52,7 @@ const Package: React.FC = () => {
       name: 'productTypeId',
     },
     fieldProps: {
-      onChange: (productTypeId: any) => { },
+      onChange: (productTypeId: any) => {},
     },
     hideInTable: true,
 
@@ -201,6 +202,9 @@ const Package: React.FC = () => {
       title: intl.formatMessage({ id: 'common.uploadDate', defaultMessage: '上传时间' }),
       dataIndex: 'uploadTime',
       valueType: 'dateRange',
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      },
       render: (_, record) => <span>{record.uploadTime}</span>,
       search: {
         transform: (value) => {

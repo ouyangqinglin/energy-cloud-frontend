@@ -7,15 +7,15 @@ import ProTable from '@ant-design/pro-table';
 import type { OnlineUserType, OnlineUserListParams } from './data.d';
 import { getOnlineUserList, forceLogout } from './service';
 import WrapContent from '@/components/WrapContent';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 const handleRemoveOne = async (selectedRow: OnlineUserType) => {
   const hide = message.loading('正在强制下线');
@@ -82,6 +82,9 @@ const OnlineUserTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.OnlineUser.login_time" defaultMessage="登录时间" />,
       dataIndex: 'loginTime',
       valueType: 'dateRange',
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {
         transform: (value) => {

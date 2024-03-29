@@ -7,15 +7,11 @@ import { FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type { LogininforType, LogininforListParams } from './data.d';
-import {
-  getLogininforList,
-  removeLogininfor,
-  exportLogininfor,
-  cleanLogininfor,
-} from './service';
+import { getLogininforList, removeLogininfor, exportLogininfor, cleanLogininfor } from './service';
 import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
-
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 /* *
  *
  * @author whiteshader@163.com
@@ -36,7 +32,7 @@ const handleRemove = async (selectedRows: LogininforType[]) => {
   try {
     const resp = await removeLogininfor(selectedRows.map((row) => row.infoId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -59,7 +55,7 @@ const handleRemoveAll = async () => {
       try {
         const resp = await cleanLogininfor();
         hide();
-        if(resp.code === 200) {
+        if (resp.code === 200) {
           message.success('删除成功，即将刷新');
         } else {
           message.error(resp.msg);
@@ -84,7 +80,7 @@ const handleExport = async () => {
   const hide = message.loading('正在导出');
   try {
     await exportLogininfor();
-    message.success('导出成功');    
+    message.success('导出成功');
     hide();
     return true;
   } catch (error) {
@@ -93,7 +89,6 @@ const handleExport = async () => {
     return false;
   }
 };
-
 
 const LogininforTableList: React.FC = () => {
   const formTableRef = useRef<FormInstance>();
@@ -172,6 +167,9 @@ const LogininforTableList: React.FC = () => {
       title: <FormattedMessage id="monitor.Logininfor.login_time" defaultMessage="访问时间" />,
       dataIndex: 'loginTime',
       valueType: 'dateRange',
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {
         transform: (value) => {
@@ -203,7 +201,9 @@ const LogininforTableList: React.FC = () => {
             <Button
               type="primary"
               key="remove"
-              hidden={selectedRowsState?.length === 0 || !access.hasPerms('monitor:logininfor:remove')}
+              hidden={
+                selectedRowsState?.length === 0 || !access.hasPerms('monitor:logininfor:remove')
+              }
               onClick={async () => {
                 const success = await handleRemove(selectedRowsState);
                 if (success) {

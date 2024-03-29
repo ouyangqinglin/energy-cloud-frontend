@@ -20,7 +20,8 @@ import { siteType as siteTypeEnum } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -170,6 +171,9 @@ const StationList: React.FC = () => {
       title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
       valueType: 'dateRange',
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      },
       render: (_, record) => <span>{record.createTime}</span>,
       search: {
         transform: (value) => {

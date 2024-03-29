@@ -11,6 +11,8 @@ import { getConfigList, removeConfig, addConfig, updateConfig, exportConfig } fr
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import YTProTable from '@/components/YTProTable';
+import { getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 /**
  *
@@ -205,6 +207,9 @@ const ConfigTableList: React.FC = () => {
             'params[endTime]': value[1],
           };
         },
+      },
+      fieldProps: {
+        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
       },
       width: 150,
     },

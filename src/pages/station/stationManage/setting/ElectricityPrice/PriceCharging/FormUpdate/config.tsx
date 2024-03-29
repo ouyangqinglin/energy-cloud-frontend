@@ -2,7 +2,9 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { Col, Row } from 'antd';
 import styles from '../index.less';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
+
 export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = (timeColum) => [
   {
     title: (
@@ -94,7 +96,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
                   ],
                 },
                 fieldProps: {
-                  format: 'MM/DD',
+                  format: isUS ? 'MM/DD' : 'MM-DD',
                 },
                 convertValue: (value, field) => {
                   return value;

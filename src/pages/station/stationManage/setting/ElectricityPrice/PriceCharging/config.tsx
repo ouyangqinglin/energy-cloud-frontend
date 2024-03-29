@@ -42,7 +42,7 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
       },
     },
     fieldProps: {
-      format: 'MM-DD',
+      format: isUS ? 'MM/DD' : 'MM-DD',
     },
   },
   {
