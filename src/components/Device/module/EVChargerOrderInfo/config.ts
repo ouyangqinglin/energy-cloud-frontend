@@ -2,7 +2,6 @@ import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { OrderDataType } from './data';
 import { ChargingType, ChargingStrategy, GunType, SourceType, ServerType } from '@/utils/dict';
-const isUS = getLocale().isEnUS;
 export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
   {
     title: formatMessage({ id: 'device.gunId', defaultMessage: '枪号' }),
@@ -135,7 +134,7 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
     dataIndex: 'createTime',
     valueType: 'dateRange',
     fieldProps: {
-      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      format: getLocale().dateFormat,
     },
     search: {
       transform: (value) => {

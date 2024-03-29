@@ -12,6 +12,7 @@ import {
   UndoOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
+import { formatMessage } from '@/utils';
 
 /* *
  *
@@ -125,7 +126,7 @@ const AvatarCropperForm: React.FC<AvatarCropperProps> = (props) => {
           <Upload beforeUpload={beforeUpload} maxCount={1} accept="image/*">
             <Button>
               <UploadOutlined />
-              上传
+              {formatMessage({ id: 'common.upload', defaultMessage: '上传' })}
             </Button>
           </Upload>
         </Col>

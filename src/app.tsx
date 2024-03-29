@@ -1,9 +1,8 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading, SettingDrawer } from '@ant-design/pro-layout';
+import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { MenuDataItem } from '@umijs/route-utils';
-import { history, setLocale } from 'umi';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { getUserInfo, getRoutersInfo } from './services/session';
 import MyHeader from '@/components/header/MyHeader';
@@ -12,7 +11,6 @@ import {
   getPathTitleMap,
   getPathArrary,
   getLocaleMenus,
-  getBrowserLang,
   formatMessage,
   initLocale,
 } from '@/utils';
@@ -36,7 +34,7 @@ export type initialStateType = {
   site?: SiteDataType;
 };
 
-const isDev = process.env.NODE_ENV === 'development';
+// const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 const appDownloadPath = '/download/app';
 
@@ -70,6 +68,7 @@ export async function getInitialState(): Promise<initialStateType> {
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo({ showMessage: false });
+      console.log('resp>>', resp);
       initLocale(resp?.user?.lang);
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);

@@ -22,7 +22,7 @@ import { buildTreeData } from '@/utils/utils';
 import type { DataNode } from 'antd/lib/tree';
 import { createIcon } from '@/utils/IconUtil';
 import YTProTable from '@/components/YTProTable';
-
+import { formatMessage } from '@/utils';
 /* *
  *
  * @author whiteshader@163.com
@@ -243,10 +243,13 @@ const MenuTableList: React.FC = () => {
           hidden={!access.hasPerms('system:menu:remove')}
           onClick={async () => {
             Modal.confirm({
-              title: '删除',
-              content: '确定删除该项吗？',
-              okText: '确认',
-              cancelText: '取消',
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'system.Notice.delete_item_confirm',
+                defaultMessage: '确定删除该项吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
               onOk: async () => {
                 const success = await handleRemoveOne(record);
                 if (success) {

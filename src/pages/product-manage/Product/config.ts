@@ -11,7 +11,6 @@ import { getFactoryList, getProductModelByType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 export type ProductDataType = {
   id?: string;
@@ -95,7 +94,7 @@ export const getColumns = (
         },
       },
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       width: 150,
     },

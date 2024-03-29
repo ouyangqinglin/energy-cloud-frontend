@@ -4,7 +4,6 @@ import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser } from './service';
 import { CustomerInfo } from './type';
 import { formatMessage, getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
@@ -91,7 +90,7 @@ export const columns: YTProColumns<CustomerInfo>[] = [
       },
     },
     fieldProps: {
-      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      format: getLocale().dateFormat,
     },
   },
 ];

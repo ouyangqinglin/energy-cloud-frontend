@@ -192,10 +192,13 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
   };
   const deleteTree = (nodeData: ModeTreeDataNode) => {
     Modal.confirm({
-      title: '删除',
-      content: '确定删除该项吗？',
-      okText: '确认',
-      cancelText: '取消',
+      title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+      content: formatMessage({
+        id: 'system.Notice.delete_item_confirm',
+        defaultMessage: '确定删除该项吗？',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: async () => {
         removeItemFromTree(nodeData.key, treeData);
         setTreeData(() => [...treeData]);

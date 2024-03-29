@@ -20,7 +20,6 @@ import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import { useMaintenance } from '@/hooks';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 export enum PageTypeEnum {
   Install,
@@ -101,7 +100,7 @@ const ServiceRecord: React.FC<ServiceRecordProps> = (props) => {
         dataIndex: 'endTime',
         valueType: 'dateRange',
         fieldProps: {
-          format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => record.endTime,
         search: {

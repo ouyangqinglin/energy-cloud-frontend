@@ -141,7 +141,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       valueType: 'dateRange',
       width: 150,
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
       search: {

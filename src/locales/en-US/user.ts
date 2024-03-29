@@ -78,4 +78,5 @@ export default {
   'system.User.man': 'Man',
   'system.User.woman': 'Woman',
   'system.User.department': 'Department',
+  'system.User.modify_avatar': 'Modify Avatar',
 };

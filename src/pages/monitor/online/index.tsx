@@ -8,7 +8,6 @@ import type { OnlineUserType, OnlineUserListParams } from './data.d';
 import { getOnlineUserList, forceLogout } from './service';
 import WrapContent from '@/components/WrapContent';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 /* *
  *
@@ -83,7 +82,7 @@ const OnlineUserTableList: React.FC = () => {
       dataIndex: 'loginTime',
       valueType: 'dateRange',
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {

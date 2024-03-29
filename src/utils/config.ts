@@ -8,11 +8,15 @@
  */
 import YTIcon from '@/assets/image/icon-yt.png';
 import YTLogo from '@/assets/image/logo-yt.png';
+import YTLogoUS from '@/assets/image/logo-yt-us.png';
+import { getLocale } from '@/utils';
+const isZhCN = getLocale().isZhCN;
+console.log('isZhCN>>', isZhCN);
 
 export const adminAuthority = '*:*:*';
 
 export const defaultSystemInfo = {
   title: '新能源能量管理云平台',
   icon: YTIcon,
-  logo: YTLogo,
+  logo: isZhCN ? YTLogo : YTLogoUS,
 };
