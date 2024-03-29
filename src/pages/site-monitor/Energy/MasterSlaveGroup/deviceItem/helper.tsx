@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-12 10:36:31
- * @LastEditTime: 2024-03-15 10:20:04
+ * @LastEditTime: 2024-03-28 17:33:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Energy\MasterSlaveGroup\deviceItem\helper.tsx
  */
@@ -33,14 +33,14 @@ export const peakItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'siteMonitor.maximumVoltage', defaultMessage: '最高单体电压' }),
     field: 'MVVOASU',
-    unit: '(V)',
+    unit: '(mV)',
     extral: <ArrowUpOutlined className="cl-error" />,
     valueStyle: { flex: 1 },
   },
   {
     label: formatMessage({ id: 'siteMonitor.minimumVoltage', defaultMessage: '最低单体电压' }),
     field: 'MVVOSU',
-    unit: '(V)',
+    unit: '(mV)',
     extral: <ArrowDownOutlined className="cl-green" />,
     valueStyle: { flex: 1 },
   },
