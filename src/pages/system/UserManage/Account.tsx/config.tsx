@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-03-28 09:46:05
+ * @LastEditTime: 2024-03-29 15:04:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -145,6 +145,13 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
 
 const tableSelectColumns: ProColumns[] = [
   {
+    title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
+    dataIndex: 'siteName',
+    width: 200,
+    ellipsis: true,
+    hideInTable: true,
+  },
+  {
     title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
     dataIndex: 'id',
     width: 150,
@@ -156,6 +163,7 @@ const tableSelectColumns: ProColumns[] = [
     dataIndex: 'name',
     width: 200,
     ellipsis: true,
+    hideInSearch: true,
   },
 ];
 

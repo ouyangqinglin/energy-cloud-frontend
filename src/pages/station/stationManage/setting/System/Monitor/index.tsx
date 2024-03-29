@@ -315,10 +315,12 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
       render: (_, record) => {
-        return (
+        return authorityMap.get('iot:siteConfig:deviceTree') ? (
           <Button type="link" size="small" key="device" onClick={() => onClick(record)}>
             {record.deviceName}
           </Button>
+        ) : (
+          record.deviceName
         );
       },
       width: 120,
@@ -400,7 +402,6 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           header={item.title}
           key={item.key}
           extra={
-            !authorityMap.get('iot:siteConfig:monitoringOnOff') &&
             defaultOpenKeys.includes(item.key) ? (
               <></>
             ) : (
@@ -408,6 +409,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
                 checked={activeKeysSet.has(item.key)}
                 loading={loading || editStatusLoading || editConfigLoading}
                 onChange={(checked) => onSwitchChange(item.key, checked)}
+                disabled={!authorityMap.get('iot:siteConfig:monitoringOnOff')}
               />
             )
           }

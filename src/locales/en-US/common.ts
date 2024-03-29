@@ -90,6 +90,7 @@ export default {
   'common.viewDetail': 'Detail',
   'common.tobeDone': 'To be executed',
   'common.done': 'Executed',
+  'common.upgradeDuring': 'During Upgrade',
   'common.upgradeSuc': 'Upgrade Successful',
   'common.upgradeFai': 'Upgrade failed',
   'common.supportFile': 'Support File',

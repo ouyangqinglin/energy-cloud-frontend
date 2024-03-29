@@ -92,6 +92,7 @@ export default {
   'common.deliveryTime': '交付时间',
   'common.lastPer': '最后更新人',
   'common.tobeDone': '待执行',
+  'common.upgradeDuring': '升级中',
   'common.upgradeSuc': '升级成功',
   'common.upgradeFai': '升级失败',
   'common.execute': '执行',
