@@ -9,6 +9,7 @@ import { getRoleListForCurrentUser, getServiceProviderList, getSiteList } from '
 import type { TransformCustomerUpdateInfo } from '../type';
 import { isEmpty } from '@/utils';
 import { verifyPhone, verifyPassword } from '@/utils/reg';
+import { formatMessage } from '@/utils';
 
 export const Columns: (
   operation: FormOperations,
@@ -83,7 +84,7 @@ export const Columns: (
       }),
     },
     {
-      title: '账号名',
+      title: formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
       formItemProps: {
         rules: [
           {
@@ -95,7 +96,7 @@ export const Columns: (
       dataIndex: ['userName'],
     },
     {
-      title: '用户名',
+      title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
       formItemProps: {
         rules: [
           {
@@ -128,7 +129,7 @@ export const Columns: (
       },
     },
     {
-      title: '角色',
+      title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
       dataIndex: 'roleId',
       formItemProps: {
         rules: [

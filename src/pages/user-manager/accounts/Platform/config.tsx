@@ -3,6 +3,7 @@ import { effectStatus } from '@/utils/dict';
 import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser, getCustomer } from './service';
 import { CustomerInfo } from './type';
+import { formatMessage } from '@/utils';
 
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
@@ -12,18 +13,18 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     width: 48,
   },
   {
-    title: '账号名',
+    title: formatMessage({ id: 'user.accountName', defaultMessage: '账号名' }),
     dataIndex: 'userName',
     width: 140,
     ellipsis: true,
   },
   {
-    title: '用户名',
+    title: formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
     width: 140,
     dataIndex: 'nickName',
   },
   {
-    title: '角色',
+    title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
     dataIndex: 'roles',
     width: 140,
     render: (_, entity) => {
@@ -37,7 +38,7 @@ export const columns: YTProColumns<CustomerInfo>[] = [
   },
 
   {
-    title: '角色',
+    title: formatMessage({ id: 'user.role', defaultMessage: '角色' }),
     dataIndex: 'roleId',
     hideInTable: true,
     valueType: 'select',
@@ -53,7 +54,7 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     },
   },
   {
-    title: '组织名称',
+    title: formatMessage({ id: 'system.organizationName', defaultMessage: '组织名称' }),
     dataIndex: 'orgName',
     width: 150,
     ellipsis: true,

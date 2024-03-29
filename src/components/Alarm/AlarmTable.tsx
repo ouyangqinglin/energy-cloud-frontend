@@ -228,7 +228,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const getExportName = useCallback(
     (searchParams: TableSearchType) => {
       return `${params?.deviceName ? params?.deviceName + '-' : ''}${
-        type == PageTypeEnum.Current ? '当前告警' : '历史告警'
+        type == PageTypeEnum.Current
+          ? formatMessage({ id: 'alarmManage.currentAlarm', defaultMessage: '当前告警' })
+          : formatMessage({ id: 'alarmManage.historicalAlarm', defaultMessage: '历史告警' })
       }`;
     },
     [type, params],
