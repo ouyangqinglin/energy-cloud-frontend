@@ -15,4 +15,5 @@ export const defaultSystemInfo = {
   title: '新能源能量管理云平台',
   icon: YTIcon,
   logo: YTLogo,
+  appStore: '//itunes.apple.com/app/6473716201',
 };

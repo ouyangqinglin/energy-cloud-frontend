@@ -11,6 +11,7 @@ import { updateUserLang } from '@/services/session';
 import { formatMessage } from '@/utils';
 import { localeInfo } from 'umi';
 import { useAuthority } from '@/hooks';
+import App from '../App';
 export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
@@ -58,6 +59,7 @@ const GlobalHeaderRight: React.FC = () => {
   return (
     <Space className={className} size={16}>
       {passAuthority ? <Workbench /> : <></>}
+      <App />
       <Avatar menu />
       <SelectLang className={`${styles.action} p0`} onItemClick={onLangClick} />
     </Space>

@@ -1,7 +1,6 @@
 .pxToVW (@px, @attr: width) {
   @vw: (@px / 375) * 100;
-
-  @{attr}: ~'@{vw}vw';
+  @{attr}:~'@{vw}vw';
 }
 
 .container {
@@ -11,8 +10,7 @@
   justify-content: flex-end;
   /* stylelint-disable-next-line */
   background: url(~@/assets/image/app-download-bg.png) no-repeat top center / 100% auto;
-  .pxToVW(812, height);
-
+  height: 80vh;
   :global {
     .qr-wrap {
       background-color: #fff;

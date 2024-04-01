@@ -59,9 +59,9 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
       return {
         ...time,
         timeRange: [
-          moment('2023-06-14 ' + time.intervalStartTime),
+          moment(moment().format('YYYY-MM-DD ') + time.intervalStartTime),
           moment(
-            '2023-06-14 ' + (time.intervalEndTime == '24:00' ? '23:59' : time.intervalEndTime),
+            moment().format('YYYY-MM-DD ') + (time.intervalEndTime == '24:00' ? '23:59' : time.intervalEndTime),
           ),
         ],
       };
@@ -76,8 +76,8 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         item.expirationTime = moment(item.effectiveDateScoped[1]).format('MM-DD');
       });
       formData?.hoursPriceList?.forEach?.((item: any) => {
-        item.intervalStartTime = moment('2023-06-14 ' + item.timeRange[0]).format('HH:mm');
-        const endTime = moment('2023-06-14 ' + item.timeRange[1]).format('HH:mm');
+        item.intervalStartTime = moment(moment().format('YYYY-MM-DD ') + item.timeRange[0]).format('HH:mm');
+        const endTime = moment(moment().format('YYYY-MM-DD ') + item.timeRange[1]).format('HH:mm');
         item.intervalEndTime = endTime == '23:59' ? '24:00' : endTime;
       });
       const run = isCreate ? onFinishCreate : onFinishUpdate;

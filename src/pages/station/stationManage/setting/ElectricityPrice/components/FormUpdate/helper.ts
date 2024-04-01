@@ -15,7 +15,7 @@ export const isWholeDay = (times: { ts: Date; tn: Date }[]) => {
 
   let start = 0;
   let end = 0;
-  const oneDayDuration = dayjs().endOf('d').subtract(15, 'm').diff(dayjs().startOf('d'), 's');
+  const oneDayDuration = dayjs().endOf('d').subtract(1, 'm').diff(dayjs().startOf('d'), 's');
 
   return sortedTimes.some(({ ts, tn }) => {
     // 时间存在间隔
