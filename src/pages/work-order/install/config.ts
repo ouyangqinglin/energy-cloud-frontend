@@ -141,7 +141,7 @@ export const columns: ProColumns<InstallListType>[] = [
     dataIndex: 'createTime',
     valueType: 'dateRange',
     fieldProps: {
-      format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+      format: getLocale().dateFormat,
     },
     width: 150,
     search: {

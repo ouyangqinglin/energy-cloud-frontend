@@ -20,7 +20,6 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { tableSelectValueTypeMap, TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
 
 const Agent: React.FC = () => {
   const requestList: YTProTableCustomProps<AgentType, AgentType>['request'] = (params) => {
@@ -139,7 +138,7 @@ const Agent: React.FC = () => {
       valueType: 'dateRange',
       width: 150,
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
     },
     {

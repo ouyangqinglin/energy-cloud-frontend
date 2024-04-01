@@ -11,14 +11,14 @@ import type { PostType, PostListParams } from './data.d';
 import { getPostList, removePost, addPost, updatePost, exportPost } from './service';
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
+import { formatMessage } from '@/utils';
 
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
-
 
 /**
  * 添加节点
@@ -30,7 +30,7 @@ const handleAdd = async (fields: PostType) => {
   try {
     const resp = await addPost({ ...fields });
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('添加成功');
     } else {
       message.error(resp.msg);
@@ -53,7 +53,7 @@ const handleUpdate = async (fields: PostType) => {
   try {
     const resp = await updatePost(fields);
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('配置成功');
     } else {
       message.error(resp.msg);
@@ -77,7 +77,7 @@ const handleRemove = async (selectedRows: PostType[]) => {
   try {
     const resp = await removePost(selectedRows.map((row) => row.postId).join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -97,7 +97,7 @@ const handleRemoveOne = async (selectedRow: PostType) => {
     const params = [selectedRow.postId];
     const resp = await removePost(params.join(','));
     hide();
-    if(resp.code === 200) {
+    if (resp.code === 200) {
       message.success('删除成功，即将刷新');
     } else {
       message.error(resp.msg);
@@ -118,7 +118,7 @@ const handleRemoveOne = async (selectedRow: PostType) => {
 const handleExport = async () => {
   const hide = message.loading('正在导出');
   try {
-    await exportPost();    
+    await exportPost();
     hide();
     message.success('导出成功');
     return true;
@@ -211,10 +211,13 @@ const PostTableList: React.FC = () => {
           hidden={!access.hasPerms('system:post:remove')}
           onClick={async () => {
             Modal.confirm({
-              title: '删除',
-              content: '确定删除该项吗？',
-              okText: '确认',
-              cancelText: '取消',
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'system.Notice.delete_item_confirm',
+                defaultMessage: '确定删除该项吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
               onOk: async () => {
                 const success = await handleRemoveOne(record);
                 if (success) {

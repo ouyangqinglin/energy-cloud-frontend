@@ -11,8 +11,7 @@ import { getConfigList, removeConfig, addConfig, updateConfig, exportConfig } fr
 import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import YTProTable from '@/components/YTProTable';
-import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
+import { getLocale, formatMessage } from '@/utils';
 
 /**
  *
@@ -209,7 +208,7 @@ const ConfigTableList: React.FC = () => {
         },
       },
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       width: 150,
     },
@@ -239,10 +238,13 @@ const ConfigTableList: React.FC = () => {
           hidden={!access.hasPerms('system:config:remove')}
           onClick={async () => {
             Modal.confirm({
-              title: '删除',
-              content: '确定删除该项吗？',
-              okText: '确认',
-              cancelText: '取消',
+              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+              content: formatMessage({
+                id: 'system.Notice.delete_item_confirm',
+                defaultMessage: '确定删除该项吗？',
+              }),
+              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
               onOk: async () => {
                 const success = await handleRemoveOne(record);
                 if (success) {

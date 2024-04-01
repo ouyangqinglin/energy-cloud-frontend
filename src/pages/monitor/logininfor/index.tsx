@@ -10,8 +10,7 @@ import type { LogininforType, LogininforListParams } from './data.d';
 import { getLogininforList, removeLogininfor, exportLogininfor, cleanLogininfor } from './service';
 import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
-import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
+import { getLocale, formatMessage } from '@/utils';
 /* *
  *
  * @author whiteshader@163.com
@@ -168,7 +167,7 @@ const LogininforTableList: React.FC = () => {
       dataIndex: 'loginTime',
       valueType: 'dateRange',
       fieldProps: {
-        format: isUS ? 'MM/DD/YYYY' : 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
       },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {
@@ -186,7 +185,7 @@ const LogininforTableList: React.FC = () => {
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
         <ProTable<LogininforType>
-          headerTitle={intl.formatMessage({
+          headerTitle={formatMessage({
             id: 'pages.searchTable.title',
             defaultMessage: '信息',
           })}
@@ -272,10 +271,13 @@ const LogininforTableList: React.FC = () => {
             hidden={!access.hasPerms('monitor:logininfor:remove')}
             onClick={async () => {
               Modal.confirm({
-                title: '删除',
-                content: '确定删除该项吗？',
-                okText: '确认',
-                cancelText: '取消',
+                title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+                content: formatMessage({
+                  id: 'system.Notice.delete_item_confirm',
+                  defaultMessage: '确定删除该项吗？',
+                }),
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
                 onOk: async () => {
                   const success = await handleRemove(selectedRowsState);
                   if (success) {
