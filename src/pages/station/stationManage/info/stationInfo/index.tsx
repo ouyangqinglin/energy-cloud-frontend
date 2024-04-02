@@ -86,7 +86,11 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
       label: formatMessage({ id: 'siteManage.set.siteStatus', defaultMessage: '站点状态' }),
       field: 'constructionStatus',
       span: 3,
-      format: (value) => <ProField text={value} mode="read" valueEnum={buildStatus} />,
+      format: (value) => (
+        <span className="pl4">
+          <ProField text={value} mode="read" valueEnum={buildStatus} />
+        </span>
+      ),
     },
     {
       label: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),

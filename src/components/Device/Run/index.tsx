@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-29 16:52:29
+ * @LastEditTime: 2024-04-02 16:33:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -15,6 +15,7 @@ import { GridItemType } from '@/components/Meter/helper';
 import { useAuthority, useSubscribe } from '@/hooks';
 import { DeviceDataType } from '@/services/equipment';
 import {
+  DeviceDoubleType,
   DeviceModelAuthorityType,
   DeviceModelDescribeType,
   DeviceModelType,
@@ -182,6 +183,7 @@ const Run: React.FC<RunType> = (props) => {
             field: item?.id || '',
             label: item?.name,
             deviceId: item?.deviceId,
+            unit: (item?.dataType as DeviceDoubleType)?.specs?.unit,
             valueInterceptor: (_, data) => {
               if (item?.deviceId) {
                 const realField = item?.id?.split?.('.') || [];
@@ -190,7 +192,7 @@ const Run: React.FC<RunType> = (props) => {
                 return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
               }
             },
-            format: (value) => formatModelValue(value, item?.dataType || {}),
+            format: (value) => formatModelValue(value, item?.dataType || {}, false),
           });
         }
       });
@@ -331,6 +333,8 @@ const Run: React.FC<RunType> = (props) => {
             extral,
             labelStyle: { width: 140 },
             contentStyle: { width: 50 },
+            unitInLabel: true,
+            valueStyle: { width: '150px', maxWidth: '80%' },
           }}
         />
       ) : (

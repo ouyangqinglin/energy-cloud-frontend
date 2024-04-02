@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-29 10:30:31
+ * @LastEditTime: 2024-04-02 16:51:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -193,7 +193,11 @@ const VPN: React.FC = () => {
                 {moment(value).format('YYYY-MM-DD HH:mm:ss')}
                 <div>
                   <Typography.Text type="secondary">
-                    到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。
+                    {formatMessage({
+                      id: 'debug.tunnelTip',
+                      defaultMessage:
+                        '到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。',
+                    })}
                   </Typography.Text>
                 </div>
               </>
@@ -206,7 +210,13 @@ const VPN: React.FC = () => {
 
   return (
     <>
-      <Detail.Group items={items} data={tunnelData} />
+      <Detail.Group
+        items={items}
+        data={tunnelData}
+        detailProps={{
+          labelStyle: { width: 140 },
+        }}
+      />
     </>
   );
 };

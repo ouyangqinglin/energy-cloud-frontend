@@ -263,7 +263,11 @@ export const parseToObj = (value: any): Record<string, any> => {
   return result;
 };
 
-export const formatModelValue = (value: string, model: DeviceModelType): string => {
+export const formatModelValue = (
+  value: string,
+  model: DeviceModelType,
+  showUnit = true,
+): string => {
   let specs: Record<string, any> = {};
   if (typeof model?.specs !== 'object') {
     try {
@@ -282,7 +286,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
-      result = value + (specs?.unit ?? '');
+      result = value + (showUnit ? specs?.unit ?? '' : '');
       break;
     case DeviceModelTypeEnum.TimeStamp:
       result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
