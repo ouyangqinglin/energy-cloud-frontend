@@ -84,7 +84,7 @@ export const getFieldByLabel = (label: string) => {
   return field + num;
 };
 
-export const labelMap = new Map([
+export const labelMap = new Map<DeviceTypeEnum | undefined, string[]>([
   [
     DeviceTypeEnum.LiquidEnergy232BatteryPack,
     [

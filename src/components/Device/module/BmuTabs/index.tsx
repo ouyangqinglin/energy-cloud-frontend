@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-04-02 14:00:40
+ * @LastEditTime: 2024-04-02 16:01:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -83,18 +83,12 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   );
 
   const allLabel = useMemo(() => {
-    const result: string[] = labelMap.get(DeviceTypeEnum.LiquidEnergy232BatteryPack) || [];
+    const result: string[] = labelMap.get(deviceData?.productId) || [];
     if (result.length) {
       return result;
     }
     let tempNum = 2;
-    Array.from({
-      length: isLiquid
-        ? DeviceTypeEnum.LiquidEnergy232BatteryPack == deviceData?.productId
-          ? 52
-          : 48
-        : 24,
-    }).forEach((_, index) => {
+    Array.from({ length: isLiquid ? 48 : 24 }).forEach((_, index) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
       if (isLiquid) {
