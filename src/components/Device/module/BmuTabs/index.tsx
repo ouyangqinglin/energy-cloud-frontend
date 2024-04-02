@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-03-08 09:57:49
+ * @LastEditTime: 2024-04-02 14:00:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -18,7 +18,7 @@ import DeviceContext from '@/components/Device/Context/DeviceContext';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { getChildEquipment } from '@/services/equipment';
-import { chartOptions, getFieldByLabel } from './helper';
+import { chartOptions, getFieldByLabel, labelMap } from './helper';
 import { merge } from 'lodash';
 import { defaultLineOption } from '@/components/Chart/config';
 import { useBoolean } from 'ahooks';
@@ -31,11 +31,7 @@ type BmuTabsType = {
 const LiquidEnergyBatteryProductIds = [
   DeviceTypeEnum.LiquidEnergyBatteryStack,
   DeviceTypeEnum.Liquid2EnergyBatteryCluster,
-];
-
-const newLiquidWindBatteryProductIds = [
-  DeviceTypeEnum.Wind2BatteryStack,
-  DeviceTypeEnum.Liquid2BatteryStack,
+  DeviceTypeEnum.LiquidEnergy232BatteryPack,
 ];
 
 const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
@@ -87,11 +83,18 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   );
 
   const allLabel = useMemo(() => {
-    const result: string[] = [];
+    const result: string[] = labelMap.get(DeviceTypeEnum.LiquidEnergy232BatteryPack) || [];
+    if (result.length) {
+      return result;
+    }
     let tempNum = 2;
     Array.from({
-      length: isLiquid ? 48 : 24,
-    }).forEach((item, index) => {
+      length: isLiquid
+        ? DeviceTypeEnum.LiquidEnergy232BatteryPack == deviceData?.productId
+          ? 52
+          : 48
+        : 24,
+    }).forEach((_, index) => {
       const num = index + 1;
       result.push(formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' }) + num);
       if (isLiquid) {
@@ -123,7 +126,7 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
       result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
     }
     return result;
-  }, [isLiquid]);
+  }, [isLiquid, deviceData?.productId]);
 
   const chartOption = useMemo(() => {
     const source = [
