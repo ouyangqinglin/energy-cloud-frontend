@@ -116,10 +116,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      await importTemp(formData);
+      const res = await importTemp(formData);
+      if (res.code == 200) {
+        message.success('导入成功');
+        actionRef?.current?.reload?.();
+      }
       hide();
-      message.success('导入成功');
-      actionRef?.current?.reload?.();
     } catch (error) {
       hide();
       message.error('导出失败，请重试');
