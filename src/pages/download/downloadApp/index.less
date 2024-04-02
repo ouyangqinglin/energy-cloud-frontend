@@ -1,55 +1,26 @@
-.pxToVW (@px, @attr: width) {
-  @vw: (@px / 375) * 100;
-  @{attr}:~'@{vw}vw';
-}
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  /* stylelint-disable-next-line */
-  background: url(~@/assets/image/app-download-bg.png) no-repeat top center / 100% auto;
   height: 80vh;
+  /* stylelint-disable-next-line */
+  background: url(~@/assets/image/app_download_bg.png) no-repeat top center / 100% auto;
   :global {
-    .qr-wrap {
-      background-color: #fff;
-      box-shadow: 0 4px 24px 0 rgba(12, 20, 48, 0.16);
-      .pxToVW(200);
-      .pxToVW(200, height);
-      .pxToVW(8, border-radius);
-      .pxToVW(12, padding);
-      .qrcode {
-        .pxToVW(176);
-        .pxToVW(176, height);
-      }
-    }
-    .desc {
-      color: #666;
-      .pxToVW(112);
-      .pxToVW(20, height);
-      .pxToVW(14, font-size);
-      .pxToVW(20, line-height);
-      .pxToVW(16, margin-top);
-      .pxToVW(40, margin-bottom);
-    }
     .download-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 500;
-      background: #0984f9;
-      .pxToVW(295);
-      .pxToVW(48, height);
-      .pxToVW(14, font-size);
-      .pxToVW(50, margin-bottom);
-      .pxToVW(20, line-height);
-      .pxToVW(6, border-radius);
-      img {
-        .pxToVW(24);
-        .pxToVW(24, height);
-        .pxToVW(10, margin-right);
+      position: absolute;
+      bottom: 20vh;
+      width: 100%;
+      padding-top: 20px;
+      text-align: center;
+      background: white;
+      .ant-btn {
+        width: 295px;
+        max-width: 80%;
+        height: 48px;
+      }
+      .ant-typography {
+        font-size: 12px;
       }
     }
   }

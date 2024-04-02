@@ -4,9 +4,11 @@ import { getVersionList, getFileUrl } from '@/pages/system/version/service';
 import android from '@/assets/image/android.png';
 import styles from './index.less';
 import { defaultSystemInfo } from '@/utils/config';
+import { Button, Typography } from 'antd';
 
 const DownloadApp: React.FC = () => {
   const [fileUrl, setFileUrl] = useState<string>('');
+  const [version, setVersion] = useState('');
 
   const isIOS = useMemo(() => {
     return !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
@@ -19,6 +21,9 @@ const DownloadApp: React.FC = () => {
         getFileUrl({ url, platform: 2 }).then((res) => {
           setFileUrl(res?.data || '');
         });
+      }
+      if (data?.list?.[0]?.version) {
+        setVersion(data?.list?.[0]?.version);
       }
     });
   };
@@ -33,9 +38,13 @@ const DownloadApp: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className="download-btn" onClick={downlaodApp}>
-        <img src={android} alt="" />
-        下载App
+      <div className="download-btn">
+        <Button type="primary" onClick={downlaodApp}>
+          下载App
+        </Button>
+        <div className="mt12">
+          <Typography.Text type="secondary">版本号：{version}</Typography.Text>
+        </div>
       </div>
     </div>
   );
