@@ -118,7 +118,7 @@ const EVChargerChart = () => {
             case 'ght': //单体电池最高温度
               currentCChartData[1].data = currentValue;
               break;
-            case 'ghu': //单体电池最低温度
+            case 'glt': //单体电池最低温度
               currentCChartData[2].data = currentValue;
               break;
             case 'gdct': //充电枪正极温度

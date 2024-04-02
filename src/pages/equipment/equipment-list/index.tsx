@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp } from './service';
-import { onlineStatus } from '@/utils/dict';
+import { onlineStatus, onInstallStatus } from '@/utils/dict';
 import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
@@ -397,6 +397,20 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         valueType: 'select',
         valueEnum: onlineStatus,
         width: 120,
+      },
+      {
+        title: formatMessage({ id: 'equipmentList.imei', defaultMessage: 'IMEI/ICCID' }),
+        dataIndex: 'imei',
+        width: 120,
+        hideInTable: true,
+      },
+      {
+        title: formatMessage({ id: 'equipmentList.installStatus', defaultMessage: '安装状态' }),
+        dataIndex: 'installStatus',
+        valueType: 'select',
+        valueEnum: onInstallStatus,
+        width: 120,
+        hideInTable: true,
       },
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
