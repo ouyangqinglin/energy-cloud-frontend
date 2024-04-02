@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 15:03:45
- * @LastEditTime: 2024-01-29 17:24:09
+ * @LastEditTime: 2024-04-02 15:31:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\LiquidE\index.tsx
  */
@@ -13,7 +13,7 @@ import Model from '../../Model';
 import EnergyImg from '@/assets/image/station/liquid-energy/energy.png';
 import { ConfigType } from '../../type';
 import { formatMessage } from '@/utils';
-import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import DoorImg from '@/assets/image/station/energy/door.png';
 import LiquidDoorLineImg from '@/assets/image/station/liquid-energy/door-line.png';
 import PeakImg from '@/assets/image/station/energy/peak.png';
@@ -112,10 +112,20 @@ const configs: ConfigType[] = [
       {
         label: formatMessage({ id: 'device.sensorStatus', defaultMessage: '传感器状态' }),
         field: 'SensorStatus',
+        show: (value, data) => data?.productId != DeviceTypeEnum.LiquidEnergy232FireFight,
       },
       {
         label: formatMessage({ id: 'device.coConcentration', defaultMessage: 'CO浓度' }),
         field: 'DetectorCo',
+        show: (value, data) => data?.productId != DeviceTypeEnum.LiquidEnergy232FireFight,
+      },
+      {
+        field: 'x8',
+        show: (value, data) => data?.productId == DeviceTypeEnum.LiquidEnergy232FireFight,
+      },
+      {
+        field: 'alms',
+        show: (value, data) => data?.productId == DeviceTypeEnum.LiquidEnergy232FireFight,
       },
     ],
   },

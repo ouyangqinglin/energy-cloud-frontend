@@ -96,7 +96,7 @@ const Part: React.FC<PartType> = (props) => {
         <Detail
           className={styles.detail}
           items={mergedConfig.data}
-          data={realTimeData}
+          data={{ ...realTimeData, productId }}
           column={1}
           labelStyle={{
             maxWidth: '92px',
