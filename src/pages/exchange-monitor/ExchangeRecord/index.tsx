@@ -19,7 +19,6 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
-import DeviceSn from './deviceSn';
 import { getLocale } from '@/utils';
 
 type DeviceListProps = {
@@ -284,25 +283,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={toolBar}
         request={handleRequest}
       />
-      {isStationChild ? (
-        <>
-          <DeviceSn
-            open={snOpen}
-            onCancel={onCancelSn}
-            isStationChild={isStationChild}
-            onSuccess={onSuccess}
-            //onOk={triggerSubmit}
-          />
-        </>
-      ) : (
-        <EquipForm
-          open={open}
-          onCancel={onSwitchOpen}
-          type={FormTypeEnum.Add}
-          onSuccess={onSuccess}
-          initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
-        />
-      )}
     </>
   );
 };

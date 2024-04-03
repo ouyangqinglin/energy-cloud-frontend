@@ -77,7 +77,7 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
         >
           <ProFormText
             name="sn"
-            label={formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' })}
+            label={formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' })}
             placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
             rules={[
               {

@@ -18,7 +18,7 @@ const Settings: LayoutSettings & {
   fixedHeader: true,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'system.title',
+  title: '新能源能量管理云平台',
   pwa: false,
   iconfontUrl: '',
   tabsLayout: true,

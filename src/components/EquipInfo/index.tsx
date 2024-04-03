@@ -84,7 +84,7 @@ const EquipInfo: React.FC<EquipInfoProps> = (props) => {
       format: onlineFormat,
     },
     { label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }), field: 'model' },
-    { label: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' }), field: 'sn' },
+    { label: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }), field: 'sn' },
     {
       label: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       field: 'name',

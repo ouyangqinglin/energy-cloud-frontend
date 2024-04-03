@@ -217,4 +217,5 @@ export default {
   'common.binderTime': 'Binding Time',
   'common.noneYet': 'None Yet',
   'common.pageDevelopmenting': 'The page is under development, please stay tuned',
+  'common.next': 'Next',
 };
