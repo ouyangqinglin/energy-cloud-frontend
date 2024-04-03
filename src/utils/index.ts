@@ -129,6 +129,7 @@ export const getLocale = () => {
     isEnUS: false,
     isJaJP: false,
     dateFormat: '',
+    dateTimeFormat: '',
     monthDateFormat: '',
   };
   switch (locale) {
@@ -136,12 +137,14 @@ export const getLocale = () => {
       result.isZh = true;
       result.isZhCN = true;
       result.dateFormat = 'YYYY-MM-DD';
+      result.dateTimeFormat = 'YYYY-MM-DD HH:mm';
       result.monthDateFormat = 'MM-DD';
       break;
     case 'en-US':
       result.isEn = true;
       result.isEnUS = true;
       result.dateFormat = 'MM/DD/YYYY';
+      result.dateTimeFormat = 'MM/DD/YYYY HH:mm';
       result.monthDateFormat = 'MM/DD';
       break;
     default:
