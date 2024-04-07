@@ -11,6 +11,7 @@ import useFullScreen from './useFullScreen';
 import useDeviceModel from './useDeviceModel';
 import useWindowSize from './useWindowSize';
 import useGeocoder from './map/useGeocoder';
+import useAutocomplete from './map/useAutocomplete';
 
 export {
   useArea,
@@ -26,4 +27,5 @@ export {
   useDeviceModel,
   useWindowSize,
   useGeocoder,
+  useAutocomplete,
 };

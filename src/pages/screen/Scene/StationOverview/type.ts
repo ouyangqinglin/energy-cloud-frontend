@@ -1,3 +1,5 @@
+import { MapTypeEnum } from '@/utils/dictionary';
+
 export interface SiteInfoRes extends SiteInfoFront {
   id: number;
   sn: string;
@@ -11,6 +13,7 @@ export interface SiteInfoRes extends SiteInfoFront {
   cityCode: string;
   longitude: number;
   latitude: number;
+  map?: MapTypeEnum;
 }
 
 export interface SiteInfoFront {

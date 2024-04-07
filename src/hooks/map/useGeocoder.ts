@@ -23,7 +23,7 @@ const useGeocoder = (props: useGeocoderType | undefined) => {
   const geocoder = google ? new google.maps.Geocoder() : null;
 
   useEffect(() => {
-    if (props?.params?.location || props?.params?.address) {
+    if (props?.params?.location || props?.params?.address || props?.params?.placeId) {
       geocoder
         ?.geocode?.(props?.params)
         ?.then?.((response) => {

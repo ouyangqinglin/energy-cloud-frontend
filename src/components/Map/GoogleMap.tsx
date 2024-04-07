@@ -16,7 +16,7 @@ type GoogleMapType = Partial<IMapProps> & {
 };
 
 const GoogleMap = forwardRef<React.ReactNode, GoogleMapType>((props, ref) => {
-  const { style } = props;
+  const { style, onReady } = props;
 
   const [mapInstance, setMapInstance] = useState<google.maps.Map>();
 
@@ -28,14 +28,15 @@ const GoogleMap = forwardRef<React.ReactNode, GoogleMapType>((props, ref) => {
     [mapInstance],
   );
 
-  const onReady = useCallback((_, map) => {
+  const onMapReady = useCallback((_, map) => {
     setMapInstance(map);
+    onReady?.(map);
   }, []);
 
   return (
     <>
       <div className={styles.map} style={style}>
-        <Map {...props} onReady={onReady} />
+        <Map {...props} onReady={onMapReady} />
       </div>
     </>
   );

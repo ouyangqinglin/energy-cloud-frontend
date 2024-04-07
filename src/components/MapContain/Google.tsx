@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 16:04:35
- * @LastEditTime: 2024-02-28 16:35:43
+ * @LastEditTime: 2024-04-07 16:45:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\MapContain\Google.tsx
  */
@@ -35,6 +35,10 @@ const MapContain: React.FC<MapContainType> = (props) => {
   );
 };
 
-export default GoogleApiWrapper({
-  apiKey: mapAks[MapTypeEnum.Google][0].key,
-})(MapContain);
+export default GoogleApiWrapper(
+  {
+    apiKey: mapAks[MapTypeEnum.Google][0].key,
+    libraries: ['places'],
+  },
+  'wahaha',
+)(MapContain);

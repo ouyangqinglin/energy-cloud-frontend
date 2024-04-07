@@ -23,10 +23,14 @@ const StationOverview: React.FC<StationOverviewType> = memo((props) => {
       onChange?.(res);
     },
   });
-  const data: SiteInfoRes = defaults(rawData, DEFAULT_DATA);
+  const data = useMemo(() => {
+    return defaults(rawData, DEFAULT_DATA);
+  }, [rawData]);
+
   const child = useMemo(() => {
     return [<StationInfo data={data} key="1" />, <StationDevices data={data} key="2" />];
   }, [data]);
+
   return (
     <Cell cursor="default" width={400} height={363} left={24} top={81}>
       <DecorationCarousel
