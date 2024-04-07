@@ -110,6 +110,7 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
         point={{ lng: data.longitude, lat: data.latitude }}
         onCancel={onCancel}
         model="screen"
+        mapType={data?.map}
       />
     </>
   );

@@ -316,7 +316,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
               fieldProps={{ addonAfter: 'kW' }}
             />
           </Col>
-          {/* <Col span={8}>
+          <Col span={8}>
             <ProFormSelect
               label={formatMessage({
                 id: 'siteManage.timeZone',
@@ -347,7 +347,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 },
               ]}
             />
-          </Col> */}
+          </Col>
         </Row>
         <ProFormDependency name={['timeZone', 'map']}>
           {({ timeZone, map }) => {
