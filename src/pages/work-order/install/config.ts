@@ -3,7 +3,8 @@ import type { InstallListType } from './type';
 import { OrderStatus, OrderType } from './type';
 import { formatMessage } from '@/utils';
 import { getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
@@ -18,7 +19,7 @@ export const orderType = new Map([
   [OrderType.REPAIR, formatMessage({ id: 'taskManage.repair', defaultMessage: '修复' })],
 ]);
 
-export const columns: ProColumns<InstallListType>[] = [
+export const columns: ProColumns<InstallListType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'taskManage.workOrderCode', defaultMessage: '工单编码' }),
     dataIndex: 'id',
@@ -139,16 +140,17 @@ export const columns: ProColumns<InstallListType>[] = [
   {
     title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     fieldProps: {
-      format: getLocale().dateFormat,
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
     },
     width: 150,
     search: {
       transform: (value) => {
         return {
-          startTime: moment(value[0]).format('YYYY-MM-DD'),
-          endTime: moment(value[1]).format('YYYY-MM-DD'),
+          startTime: value[0],
+          endTime: value[1],
         };
       },
     },

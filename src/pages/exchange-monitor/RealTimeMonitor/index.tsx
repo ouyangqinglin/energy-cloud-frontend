@@ -7,24 +7,15 @@
  * @FilePath: \energy-cloud-frontend\src\pages\exchange-monitor\RealTimeMonitor\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo } from 'react';
-import { Button, Modal, message, Row, Col } from 'antd';
+import { Button, Row, Col } from 'antd';
 import { useHistory, useModel } from 'umi';
-import { Card } from 'antd';
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  ExportOutlined,
-  ImportOutlined,
-  DownloadOutlined,
-} from '@ant-design/icons';
+import { ExportOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
-import { getPage, unbindDevice } from './service';
+import { getPage } from './service';
 import type { DeviceDataType } from '@/services/equipment';
 import { getProductTypeList } from '@/services/equipment';
-import { FormTypeEnum } from '@/components/SchemaForm';
-import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage, startExchangeTime } from '@/utils';
@@ -34,6 +25,10 @@ import styles from './index.less';
 import { useInterval } from 'ahooks';
 import { getLocale } from '@/utils';
 import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -238,16 +233,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.updateTime', defaultMessage: '更新时间' }),
         dataIndex: 'updateTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -289,12 +285,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       <div className="p20">
         <Row gutter={20}>{statistics}</Row>
       </div>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={toolBar}
-        request={handleRequest}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={toolBar}
+          request={handleRequest}
+        />
+      </ProConfigProvider>
     </>
   );
 };

@@ -17,7 +17,6 @@ import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';
-import { getLocale } from '@/utils';
 type Searchtype = CollectionSearchType & {
   date: string[];
 };
@@ -56,9 +55,6 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
         valueType: 'dateRange',
         formItemProps: {
           rules: [{ required: true }],
-        },
-        fieldProps: {
-          // format: getLocale().dateFormat,
         },
         initialValue: [moment(), moment()],
       },

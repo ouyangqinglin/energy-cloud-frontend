@@ -7,7 +7,6 @@
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Time\index.tsx
  */
 import React, { useEffect, useState } from 'react';
-import { weekInfoUS } from '@/utils/dictionary';
 import { weekInfo } from '@/utils/dict';
 import { getLocale } from '@/utils';
 import moment from 'moment';

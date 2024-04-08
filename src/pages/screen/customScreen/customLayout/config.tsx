@@ -1,19 +1,15 @@
-// export const photovoltaicOption: (
-//   data: any, title: any
-// )=> {} = (data, title) =>
-
 import { formatMessage } from '@/utils';
 import system_status from '@/assets/image/jiechen/system_status.png';
 import system_model from '@/assets/image/jiechen/system_model.png';
 import battary_status from '@/assets/image/jiechen/battary_status.png';
 import pcs_status from '@/assets/image/jiechen/pcs_status.png';
 
-export const defaultSiteStatus = (
-  pcsRunStatus: string = '--',
-  emsSystemStatus: string = '--',
-  systemMode: string = '--',
-  batteryStatus: string = '--',
-) => [
+export const defaultSiteStatus = ({
+  pcsRunStatus = '--',
+  emsSystemStatus = '--',
+  accessSwitch = '--',
+  storageFault = '--',
+}) => [
   {
     id: '0',
     label: formatMessage({ id: 'screen.systemRunStatus', defaultMessage: '系统运行状态' }),
@@ -21,13 +17,13 @@ export const defaultSiteStatus = (
     icon: system_status,
   },
   {
-    label: formatMessage({ id: 'screen.systemMode', defaultMessage: '系统模式' }),
-    value: systemMode,
+    label: formatMessage({ id: 'screen.accessSwitch', defaultMessage: '门禁开关' }),
+    value: accessSwitch,
     icon: system_model,
   },
   {
-    label: formatMessage({ id: 'screen.batterystatus', defaultMessage: '电池状态' }),
-    value: batteryStatus,
+    label: formatMessage({ id: 'screen.storageFault', defaultMessage: '储能故障' }),
+    value: storageFault,
     icon: battary_status,
   },
   {

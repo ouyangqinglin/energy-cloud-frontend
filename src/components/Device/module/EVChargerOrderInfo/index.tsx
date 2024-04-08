@@ -11,7 +11,8 @@ import { columns as defaultColumns } from './config';
 import { getytOrder } from '@/services/equipment';
 import OrderDetail from './OrderDetail/index';
 import OrderCurve from './OrderCurve/index';
-
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 export type EVChargerOrderInfoType = {
   deviceId?: string;
 };
@@ -97,27 +98,34 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
         className="mt16"
       />
       <Tabs className={styles.tabs} items={tabItems} onChange={onTabChange} />
-      <YTProTable<OrderDataType>
-        actionRef={actionRef}
-        columns={[...columns, actionColumn]}
-        toolBarRender={false}
-        request={handleRequest}
-        scroll={{ y: 'auto' }}
-      />
-      <OrderDetail
-        onCancel={() => {
-          setDetailVisible(false);
+
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        visible={detailVisible}
-        values={currentRow}
-      />
-      <OrderCurve
-        onCancel={() => {
-          setCurveVisible(false);
-        }}
-        orderId={orderId}
-        visible={curveVisible}
-      />
+      >
+        <YTProTable<OrderDataType>
+          actionRef={actionRef}
+          columns={[...columns, actionColumn]}
+          toolBarRender={false}
+          request={handleRequest}
+          scroll={{ y: 'auto' }}
+        />
+        <OrderDetail
+          onCancel={() => {
+            setDetailVisible(false);
+          }}
+          visible={detailVisible}
+          values={currentRow}
+        />
+        <OrderCurve
+          onCancel={() => {
+            setCurveVisible(false);
+          }}
+          orderId={orderId}
+          visible={curveVisible}
+        />
+      </ProConfigProvider>
     </div>
   );
 };

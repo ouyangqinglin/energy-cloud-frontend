@@ -12,6 +12,10 @@ import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
 import { getLocale, formatMessage } from '@/utils';
 import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 /* *
  *
@@ -116,7 +120,7 @@ const LogininforTableList: React.FC = () => {
     });
   }, []);
 
-  const columns: ProColumns<LogininforType>[] = [
+  const columns: ProColumns<LogininforType, YTDATERANGEVALUETYPE>[] = [
     {
       title: <FormattedMessage id="monitor.Logininfor.info_id" defaultMessage="访问ID" />,
       dataIndex: 'infoId',
@@ -167,16 +171,17 @@ const LogininforTableList: React.FC = () => {
     {
       title: <FormattedMessage id="monitor.Logininfor.login_time" defaultMessage="访问时间" />,
       dataIndex: 'loginTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
-            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
+            'params[beginTime]': value[0],
+            'params[endTime]': value[1],
           };
         },
       },
@@ -186,77 +191,83 @@ const LogininforTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<LogininforType>
-          headerTitle={formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="infoId"
-          key="logininforList"
-          search={{
-            labelWidth: 120,
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
           }}
-          toolBarRender={() => [
-            <Button
-              type="primary"
-              key="remove"
-              hidden={
-                selectedRowsState?.length === 0 || !access.hasPerms('monitor:logininfor:remove')
-              }
-              onClick={async () => {
-                const success = await handleRemove(selectedRowsState);
-                if (success) {
-                  setSelectedRows([]);
-                  actionRef.current?.reloadAndRest?.();
+        >
+          <ProTable<LogininforType>
+            headerTitle={formatMessage({
+              id: 'pages.searchTable.title',
+              defaultMessage: '信息',
+            })}
+            actionRef={actionRef}
+            formRef={formTableRef}
+            rowKey="infoId"
+            key="logininforList"
+            search={{
+              labelWidth: 120,
+            }}
+            toolBarRender={() => [
+              <Button
+                type="primary"
+                key="remove"
+                hidden={
+                  selectedRowsState?.length === 0 || !access.hasPerms('monitor:logininfor:remove')
                 }
-              }}
-            >
-              <DeleteOutlined />
-              <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>,
-            <Button
-              type="primary"
-              key="clear"
-              hidden={!access.hasPerms('monitor:logininfor:remove')}
-              onClick={async () => {
-                handleRemoveAll();
-                actionRef.current?.reloadAndRest?.();
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.clear" defaultMessage="清空" />
-            </Button>,
-            <Button
-              type="primary"
-              key="export"
-              hidden={!access.hasPerms('monitor:logininfor:export')}
-              onClick={async () => {
-                handleExport();
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
-            </Button>,
-          ]}
-          request={(params) =>
-            getLogininforList({ ...params } as LogininforListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
-          }
-          columns={columns}
-          rowSelection={{
-            onChange: (_, selectedRows) => {
-              setSelectedRows(selectedRows);
-            },
-          }}
-        />
+                onClick={async () => {
+                  const success = await handleRemove(selectedRowsState);
+                  if (success) {
+                    setSelectedRows([]);
+                    actionRef.current?.reloadAndRest?.();
+                  }
+                }}
+              >
+                <DeleteOutlined />
+                <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
+              </Button>,
+              <Button
+                type="primary"
+                key="clear"
+                hidden={!access.hasPerms('monitor:logininfor:remove')}
+                onClick={async () => {
+                  handleRemoveAll();
+                  actionRef.current?.reloadAndRest?.();
+                }}
+              >
+                <PlusOutlined />
+                <FormattedMessage id="pages.searchTable.clear" defaultMessage="清空" />
+              </Button>,
+              <Button
+                type="primary"
+                key="export"
+                hidden={!access.hasPerms('monitor:logininfor:export')}
+                onClick={async () => {
+                  handleExport();
+                }}
+              >
+                <PlusOutlined />
+                <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
+              </Button>,
+            ]}
+            request={(params) =>
+              getLogininforList({ ...params } as LogininforListParams).then((res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              })
+            }
+            columns={columns}
+            rowSelection={{
+              onChange: (_, selectedRows) => {
+                setSelectedRows(selectedRows);
+              },
+            }}
+          />
+        </ProConfigProvider>
       </div>
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

@@ -1,13 +1,10 @@
 import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { ProConfigProvider } from '@ant-design/pro-components';
 import { timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
-import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
@@ -15,6 +12,8 @@ import moment, { Moment } from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 type DeviceMapDataType = {
   sn: string;
   deviceName: string;

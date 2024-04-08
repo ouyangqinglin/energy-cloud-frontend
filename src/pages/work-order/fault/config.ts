@@ -3,8 +3,8 @@ import type { FaultType } from './type';
 import { formatMessage } from '@/utils';
 import { OrderType } from '../maintenance/type';
 import { getLocale } from '@/utils';
-import moment from 'moment';
-
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 // export const orderStatus = new Map([
 //   [OrderStatus.READY, '待处理'],
 //   [OrderStatus.DEALING, '维修中'],
@@ -36,21 +36,22 @@ export const orderStatus = {
     text: formatMessage({ id: 'taskManage.finished', defaultMessage: '完成' }),
   },
 };
-export const columns: ProColumns<FaultType>[] = [
+export const columns: ProColumns<FaultType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'taskManage.creationTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     fieldProps: {
-      format: getLocale().dateFormat,
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
     },
     width: 150,
     render: (_, record) => record.createTime,
     search: {
       transform: (value) => {
         return {
-          startTime: moment(value[0]).format('YYYY-MM-DD'),
-          endTime: moment(value[1]).format('YYYY-MM-DD'),
+          startTime: value[0],
+          endTime: value[1],
         };
       },
     },

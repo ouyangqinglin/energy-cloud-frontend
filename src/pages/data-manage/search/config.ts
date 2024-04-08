@@ -5,13 +5,14 @@ import type {
   TableTreeModalProps,
   dealTreeDataType,
 } from '@/components/TableSelect';
-import { YTDATERANGE } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import type { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
+
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
@@ -131,12 +132,12 @@ export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
     dataIndex: 'date',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     search: {
       transform: (value) => {
         return {
-          startTime: moment(value[0]).format('YYYY-MM-DD') + ' 00:00:00',
-          endTime: moment(value[1]).format('YYYY-MM-DD') + ' 23:59:59',
+          startTime: value[0] + ' 00:00:00',
+          endTime: value[1] + ' 23:59:59',
         };
       },
     },
@@ -154,7 +155,8 @@ export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
     },
     fieldProps: (form) => {
       return {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];

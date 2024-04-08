@@ -19,7 +19,7 @@ export const statisticsItems = [
     }),
     icon: SiteIcon,
     field: 'site',
-    unit: '个',
+    unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
   },
   {
     label: formatMessage({
@@ -28,7 +28,7 @@ export const statisticsItems = [
     }),
     icon: ExchangeIcon,
     field: 'exchangeNum',
-    unit: '次',
+    unit: formatMessage({ id: 'screen.times', defaultMessage: '次' }),
   },
   {
     label: formatMessage({ id: 'exchangeMonitor.chargeTotalNumber', defaultMessage: '总充电量' }),
