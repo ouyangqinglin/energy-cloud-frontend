@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:23:48
- * @LastEditTime: 2024-04-08 15:12:06
+ * @LastEditTime: 2024-04-08 15:21:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\Community\config.ts
  */
@@ -81,48 +81,7 @@ export const thirtySiteGunItem: DetailItem[] = [
   },
 ];
 
-export const bWattItem: DetailItem[] = [
-  {
-    label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
-    field: 'projectId',
-  },
-  { label: 'BMS ID', field: 'bmsId' },
-  { label: 'EMS ID', field: 'emsId' },
-  { label: 'PCS ID', field: 'pcsId' },
-  {
-    label: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) + ' ID',
-    field: 'temperatureDeviceId',
-  },
-  {
-    label: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) + ' ID',
-    field: 'voltageDeviceId',
-  },
-  {
-    label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) + ' ID',
-    field: 'airConditionerId',
-  },
-  {
-    label: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
-    field: 'clockDeviceId',
-  },
-  {
-    label:
-      formatMessage({ id: 'device.energyConsumptionStatistics', defaultMessage: '能耗统计' }) +
-      ' ID',
-    field: 'statisticsDeviceId',
-  },
-  {
-    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
-    field: 'thirdSiteName',
-  },
-  {
-    label: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) + ' ID',
-    field: 'powerGridSideId',
-  },
-  {
-    label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
-    field: 'inverterSideId',
-  },
+const deviceTypeItems: DetailItem[] = [
   {
     label: formatMessage(
       { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
@@ -235,6 +194,51 @@ export const bWattItem: DetailItem[] = [
   },
 ];
 
+export const bWattItem: DetailItem[] = [
+  {
+    label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
+    field: 'projectId',
+  },
+  { label: 'BMS ID', field: 'bmsId' },
+  { label: 'EMS ID', field: 'emsId' },
+  { label: 'PCS ID', field: 'pcsId' },
+  {
+    label: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }) + ' ID',
+    field: 'temperatureDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }) + ' ID',
+    field: 'voltageDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.airConditioner', defaultMessage: '空调' }) + ' ID',
+    field: 'airConditionerId',
+  },
+  {
+    label: formatMessage({ id: 'device.systemClock', defaultMessage: '系统时钟' }) + ' ID',
+    field: 'clockDeviceId',
+  },
+  {
+    label:
+      formatMessage({ id: 'device.energyConsumptionStatistics', defaultMessage: '能耗统计' }) +
+      ' ID',
+    field: 'statisticsDeviceId',
+  },
+  {
+    label: formatMessage({ id: 'device.thirdPartySite', defaultMessage: '第三方站点' }),
+    field: 'thirdSiteName',
+  },
+  {
+    label: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }) + ' ID',
+    field: 'powerGridSideId',
+  },
+  {
+    label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
+    field: 'inverterSideId',
+  },
+  ...deviceTypeItems,
+];
+
 export const react100WItem: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
@@ -310,4 +314,5 @@ export const react100WItem: DetailItem[] = [
     label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
     field: 'inverterSideId',
   },
+  ...deviceTypeItems,
 ];
