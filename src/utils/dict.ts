@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-03-14 17:42:14
+ * @LastEditTime: 2024-04-08 09:52:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -306,7 +306,7 @@ export const alarmStatus = {
 export const alarmStatus1 = {
   0: {
     text: formatMessage({ id: 'common.normal', defaultMessage: '正常' }),
-    status: 'Default',
+    status: 'success',
   },
   1: {
     text: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),

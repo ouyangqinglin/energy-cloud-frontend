@@ -464,4 +464,8 @@ export default {
   'device.slaveSentence': '从机{name}',
   'device.min': '最小值',
   'device.max': '最大值',
+  'device.deviceTypeSentence': '{name}设备类型',
+  'device.singleClock': '单体时钟',
+  'device.statistics': '数据统计',
+  'device.clock': '时钟',
 };

@@ -47,6 +47,7 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
     } catch (e) {
       data = {};
     }
+    data.masterSlaveMode = deviceData?.masterSlaveMode;
     return data;
   }, [deviceData]);
 
