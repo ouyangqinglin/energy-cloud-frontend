@@ -1,14 +1,16 @@
 import type { ProColumns } from '@ant-design/pro-components';
-import { TABLETREESELECT, TABLESELECT } from '@/components/TableSelect';
+import { TABLETREESELECT } from '@/components/TableSelect';
 import type {
   TABLETREESELECTVALUETYPE,
-  TABLESELECTVALUETYPE,
   TableTreeModalProps,
   dealTreeDataType,
 } from '@/components/TableSelect';
-import { TableSearchType, CollectionValueType, TableDataType } from './type';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import type { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
@@ -107,7 +109,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           dealTreeData,
           proTableProps: {
             pagination: false,
-            columns: tableSelectColumns,
+            columns: tableSelectColumns as any,
             request: getDeviceCollection,
           },
           valueId: 'selectName',
@@ -125,17 +127,16 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
   return searchColumns;
 };
 
-export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
+export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
     dataIndex: 'date',
     valueType: 'dateRange',
-    render: (_, record) => record.time,
     search: {
       transform: (value) => {
         return {
-          startTime: value[0] + ' 00:00:00',
-          endTime: value[1] + ' 23:59:59',
+          startTime: moment(value[0]).format('YYYY-MM-DD') + ' 00:00:00',
+          endTime: moment(value[1]).format('YYYY-MM-DD') + ' 23:59:59',
         };
       },
     },

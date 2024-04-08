@@ -12,6 +12,7 @@ import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import YTProTable from '@/components/YTProTable';
 import { getLocale, formatMessage } from '@/utils';
+import moment from 'moment';
 
 /**
  *
@@ -202,8 +203,8 @@ const ConfigTableList: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': value[0],
-            'params[endTime]': value[1],
+            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
+            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

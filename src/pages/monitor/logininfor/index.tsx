@@ -11,6 +11,8 @@ import { getLogininforList, removeLogininfor, exportLogininfor, cleanLogininfor 
 import { getDict } from '@/pages/system/dict/service';
 import WrapContent from '@/components/WrapContent';
 import { getLocale, formatMessage } from '@/utils';
+import moment from 'moment';
+
 /* *
  *
  * @author whiteshader@163.com
@@ -173,8 +175,8 @@ const LogininforTableList: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': value[0],
-            'params[endTime]': value[1],
+            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
+            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

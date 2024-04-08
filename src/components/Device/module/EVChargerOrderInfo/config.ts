@@ -2,6 +2,7 @@ import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { OrderDataType } from './data';
 import { ChargingType, ChargingStrategy, GunType, SourceType, ServerType } from '@/utils/dict';
+import moment from 'moment';
 export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
   {
     title: formatMessage({ id: 'device.gunId', defaultMessage: '枪号' }),
@@ -139,8 +140,8 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          startTime: moment(value[0]).format('YYYY-MM-DD'),
+          endTime: moment(value[1]).format('YYYY-MM-DD'),
         };
       },
     },

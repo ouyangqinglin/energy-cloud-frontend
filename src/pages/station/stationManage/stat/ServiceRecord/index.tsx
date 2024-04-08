@@ -20,6 +20,7 @@ import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import { useMaintenance } from '@/hooks';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 export enum PageTypeEnum {
   Install,
@@ -106,8 +107,8 @@ const ServiceRecord: React.FC<ServiceRecordProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },

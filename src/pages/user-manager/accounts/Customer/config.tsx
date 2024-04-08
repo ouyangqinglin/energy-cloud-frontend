@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser } from './service';
 import { CustomerInfo } from './type';
 import { formatMessage, getLocale } from '@/utils';
+import moment from 'moment';
 
 export const columns: YTProColumns<CustomerInfo>[] = [
   {
@@ -84,8 +85,8 @@ export const columns: YTProColumns<CustomerInfo>[] = [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          startTime: moment(value[0]).format('YYYY-MM-DD'),
+          endTime: moment(value[1]).format('YYYY-MM-DD'),
         };
       },
     },

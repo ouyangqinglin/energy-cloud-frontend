@@ -27,6 +27,7 @@ import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { formatMessage, isEmpty, getLocale } from '@/utils';
 import eventBus from '@/utils/eventBus';
+import moment from 'moment';
 
 export enum PageTypeEnum {
   Current,
@@ -400,8 +401,8 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },

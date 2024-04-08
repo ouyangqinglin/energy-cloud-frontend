@@ -22,6 +22,8 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { getLocale } from '@/utils';
+import moment from 'moment';
+
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -167,8 +169,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },
@@ -194,8 +196,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },
@@ -349,8 +351,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },
@@ -369,8 +371,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },

@@ -33,7 +33,6 @@ const YTProTable = <
     resizableOptions,
     ...restProps
   } = props;
-
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const myTableRef = useRef<HTMLDivElement>();
   const [collapsed, { set: setCollapse }] = useBoolean(false);

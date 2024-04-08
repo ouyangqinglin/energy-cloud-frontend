@@ -11,6 +11,7 @@ import { getFactoryList, getProductModelByType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 export type ProductDataType = {
   id?: string;
@@ -88,8 +89,8 @@ export const getColumns = (
       search: {
         transform: (value) => {
           return {
-            startTime: value[0],
-            endTime: value[1],
+            startTime: moment(value[0]).format('YYYY-MM-DD'),
+            endTime: moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

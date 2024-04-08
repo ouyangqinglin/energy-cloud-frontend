@@ -3,6 +3,8 @@ import type { FaultType } from './type';
 import { formatMessage } from '@/utils';
 import { OrderType } from '../maintenance/type';
 import { getLocale } from '@/utils';
+import moment from 'moment';
+
 // export const orderStatus = new Map([
 //   [OrderStatus.READY, '待处理'],
 //   [OrderStatus.DEALING, '维修中'],
@@ -47,8 +49,8 @@ export const columns: ProColumns<FaultType>[] = [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          startTime: moment(value[0]).format('YYYY-MM-DD'),
+          endTime: moment(value[1]).format('YYYY-MM-DD'),
         };
       },
     },

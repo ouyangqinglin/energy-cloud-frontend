@@ -3,7 +3,7 @@ import type { InstallListType } from './type';
 import { OrderStatus, OrderType } from './type';
 import { formatMessage } from '@/utils';
 import { getLocale } from '@/utils';
-const isUS = getLocale().isEnUS;
+import moment from 'moment';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
@@ -147,8 +147,8 @@ export const columns: ProColumns<InstallListType>[] = [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          startTime: moment(value[0]).format('YYYY-MM-DD'),
+          endTime: moment(value[1]).format('YYYY-MM-DD'),
         };
       },
     },

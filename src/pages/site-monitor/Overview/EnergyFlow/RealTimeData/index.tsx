@@ -46,7 +46,7 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
       show: ['123', '12', '23', '2', ''].includes(siteType),
     },
     {
-      label: formatMessage({ id: 'device.storageCharge', defaultMessage: '储能充电电费' }),
+      label: formatMessage({ id: 'device.storageCharge', defaultMessage: '储能充电费用' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.storageCharge ?? '--',
       show: ['2', '23'].includes(siteType),

@@ -21,6 +21,7 @@ import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import SchemaForm from '@/components/SchemaForm';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 const Fault: React.FC = () => {
   const [openDetail, { setTrue, setFalse }] = useBoolean(false);
@@ -85,8 +86,8 @@ const Fault: React.FC = () => {
         search: {
           transform: (value) => {
             return {
-              startTime: value[0],
-              endTime: value[1],
+              startTime: moment(value[0]).format('YYYY-MM-DD'),
+              endTime: moment(value[1]).format('YYYY-MM-DD'),
             };
           },
         },
