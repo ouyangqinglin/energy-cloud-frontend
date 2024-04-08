@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-23 10:57:35
- * @LastEditTime: 2024-03-25 10:39:14
+ * @LastEditTime: 2024-04-08 09:19:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\PowerSwitch\index.tsx
  */
@@ -32,7 +32,7 @@ const PowerSwitch: React.FC<PowerSwitchType> = (props) => {
     if (index % 3 == 0) {
       dataSource.push({});
     }
-    dataSource[dataSource.length - 1]['order' + (index % 3)] = index;
+    dataSource[dataSource.length - 1]['order' + (index % 3)] = index + 1;
     dataSource[dataSource.length - 1]['mposfeed' + (index % 3)] = clusterFormat(item?.mposfeed);
     dataSource[dataSource.length - 1]['mnegfeed' + (index % 3)] = clusterFormat(item?.mnegfeed);
   });
