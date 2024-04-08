@@ -20,6 +20,7 @@ import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage, getLocale } from '@/utils';
 const isUS = getLocale().isEnUS;
+import moment from 'moment';
 
 export type OperationLogProps = {
   isDeviceChild?: boolean;
@@ -147,8 +148,8 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       search: {
         transform: (value) => {
           return {
-            startTime: value[0],
-            endTime: value[1],
+            startTime: moment(value[0]).format('YYYY-MM-DD'),
+            endTime: moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

@@ -6,6 +6,8 @@ import { timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
@@ -168,7 +170,11 @@ const Search: React.FC<SearchProps> = (props) => {
   return (
     <>
       <ProConfigProvider
-        valueTypeMap={{ ...tableTreeSelectValueTypeMap, ...tableSelectValueTypeMap }}
+        valueTypeMap={{
+          ...tableTreeSelectValueTypeMap,
+          ...tableSelectValueTypeMap,
+          ...YTDateRangeValueTypeMap,
+        }}
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}

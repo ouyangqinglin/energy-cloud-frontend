@@ -15,6 +15,7 @@ import { getProductSnList } from '../comService';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { PackageListType } from './type';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 const Package: React.FC = () => {
   const [initialValues, setInitialValues] = useState<PackageListType>({} as PackageListType); //初始值为空对象
@@ -209,8 +210,8 @@ const Package: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            startTime: value[0],
-            endTime: value[1],
+            startTime: moment(value[0]).format('YYYY-MM-DD'),
+            endTime: moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

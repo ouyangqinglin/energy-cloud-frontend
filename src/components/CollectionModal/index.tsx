@@ -58,7 +58,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           rules: [{ required: true }],
         },
         fieldProps: {
-          format: getLocale().dateFormat,
+          // format: getLocale().dateFormat,
         },
         initialValue: [moment(), moment()],
       },

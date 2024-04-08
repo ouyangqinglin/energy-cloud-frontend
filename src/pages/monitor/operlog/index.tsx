@@ -21,6 +21,7 @@ import WrapContent from '@/components/WrapContent';
 import YTProTable from '@/components/YTProTable';
 import { operateUserType } from '@/utils/dictionary';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 /* *
  *
@@ -284,8 +285,8 @@ const OperlogTableList: React.FC = () => {
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': value[0],
-            'params[endTime]': value[1],
+            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
+            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

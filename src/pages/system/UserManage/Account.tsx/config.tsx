@@ -21,6 +21,7 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 export type AccountDataType = {
   userId?: string;
@@ -121,8 +122,8 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
       search: {
         transform: (value) => {
           return {
-            startTime: value[0],
-            endTime: value[1],
+            startTime: moment(value[0]).format('YYYY-MM-DD'),
+            endTime: moment(value[1]).format('YYYY-MM-DD'),
           };
         },
       },

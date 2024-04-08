@@ -10,7 +10,7 @@ export default {
   'device.totalRevenue': '总收益',
   'device.pvRevenue': '光伏收益',
   'device.storageRevenue': '储能收益',
-  'device.storageCharge': '储能充电电费',
+  'device.storageCharge': '储能充电费用',
   'device.storageDischarge': '储能放电收入',
   'device.chargingRevenue': '充电桩收益',
   'device.selfUseRate': '自发自用率',

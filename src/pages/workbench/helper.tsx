@@ -36,7 +36,7 @@ export const column: ProFormColumnsType<SearchType>[] = [
       ],
     },
     fieldProps: {
-      format: getLocale().dateFormat,
+      // format: getLocale().dateFormat,
     },
     initialValue: [moment(), moment()],
   },

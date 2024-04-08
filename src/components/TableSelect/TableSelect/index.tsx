@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableSelect\index.tsx
  */
 import React, { useState, useMemo, useCallback, CSSProperties } from 'react';
-import { Tag, Modal } from 'antd';
+import { Tag } from 'antd';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
 import styles from '../index.less';
