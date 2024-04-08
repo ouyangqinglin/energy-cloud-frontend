@@ -11,7 +11,8 @@ import { getFactoryList, getProductModelByType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { ProColumns } from '@ant-design/pro-components';
 import { getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 export type ProductDataType = {
   id?: string;
@@ -20,8 +21,8 @@ export type ProductDataType = {
 };
 
 export const getColumns = (
-  productTypeColumn: ProColumns<ProductDataType>,
-): ProColumns<ProductDataType>[] => {
+  productTypeColumn: ProColumns<ProductDataType, YTDATERANGEVALUETYPE>,
+): ProColumns<ProductDataType, YTDATERANGEVALUETYPE>[] => {
   return [
     {
       title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
@@ -84,18 +85,19 @@ export const getColumns = (
     {
       title: formatMessage({ id: 'user.inputTime', defaultMessage: '录入时间' }),
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       render: (_, record) => record.createTime,
       search: {
         transform: (value) => {
           return {
-            startTime: moment(value[0]).format('YYYY-MM-DD'),
-            endTime: moment(value[1]).format('YYYY-MM-DD'),
+            startTime: value[0],
+            endTime: value[1],
           };
         },
       },
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       width: 150,
     },

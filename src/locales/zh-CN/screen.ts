@@ -183,7 +183,8 @@ export default {
   'weather.wind': 'wind',
   'weather.未知': '未知',
   'screen.systemRunStatus': '系统运行状态',
-  'screen.systemMode': '系统模式',
-  'screen.batterystatus': '电池状态',
+  'screen.accessSwitch': '门禁开关',
+  'screen.storageFault': '储能故障',
   'screen.pcsRunStatus': 'PCS运行状态',
+  'screen.templateImport': '设备导入模版',
 };

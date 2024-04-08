@@ -2,7 +2,8 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { MaintenanceListType } from './type';
 import { OrderStatus, OrderType } from './type';
 import { formatMessage, getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 export const orderStatus = new Map([
   [OrderStatus.READY, formatMessage({ id: 'taskManage.pending', defaultMessage: '待处理' })],
@@ -17,7 +18,7 @@ export const orderType = new Map([
   [OrderType.REPAIR, formatMessage({ id: 'taskManage.repair', defaultMessage: '修复' })],
 ]);
 
-export const columns: ProColumns<MaintenanceListType>[] = [
+export const columns: ProColumns<MaintenanceListType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'taskManage.workOrderCode', defaultMessage: '工单编码' }),
     dataIndex: 'id',
@@ -110,17 +111,18 @@ export const columns: ProColumns<MaintenanceListType>[] = [
   {
     title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     width: 150,
     fieldProps: {
-      format: getLocale().dateFormat,
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
     },
     render: (_, record) => record.createTime,
     search: {
       transform: (value) => {
         return {
-          startTime: moment(value[0]).format('YYYY-MM-DD'),
-          endTime: moment(value[1]).format('YYYY-MM-DD'),
+          startTime: value[0],
+          endTime: value[1],
         };
       },
     },

@@ -23,6 +23,10 @@ import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { getLocale } from '@/utils';
 import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -161,16 +165,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.startTime', defaultMessage: '起始时间' }),
         dataIndex: 'startTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -188,16 +193,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.endTime', defaultMessage: '结束时间' }),
         dataIndex: 'endTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -343,16 +349,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -363,16 +370,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -407,12 +415,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={toolBar}
-        request={handleRequest}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={toolBar}
+          request={handleRequest}
+        />
+      </ProConfigProvider>
     </>
   );
 };

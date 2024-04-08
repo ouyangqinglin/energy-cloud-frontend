@@ -9,6 +9,10 @@ import { getOnlineUserList, forceLogout } from './service';
 import WrapContent from '@/components/WrapContent';
 import { getLocale } from '@/utils';
 import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 /* *
  *
@@ -81,16 +85,17 @@ const OnlineUserTableList: React.FC = () => {
     {
       title: <FormattedMessage id="monitor.OnlineUser.login_time" defaultMessage="登录时间" />,
       dataIndex: 'loginTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => <span>{record.loginTime}</span>,
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
-            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
+            'params[beginTime]': value[0],
+            'params[endTime]': value[1],
           };
         },
       },
@@ -133,30 +138,36 @@ const OnlineUserTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<OnlineUserType>
-          headerTitle={intl.formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="infoId"
-          key="logininforList"
-          search={{
-            labelWidth: 120,
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
           }}
-          request={(params) =>
-            getOnlineUserList({ ...params } as OnlineUserListParams).then((res) => {
-              const result = {
-                data: res.rows,
-                total: res.total,
-                success: true,
-              };
-              return result;
-            })
-          }
-          columns={columns}
-        />
+        >
+          <ProTable<OnlineUserType>
+            headerTitle={intl.formatMessage({
+              id: 'pages.searchTable.title',
+              defaultMessage: '信息',
+            })}
+            actionRef={actionRef}
+            formRef={formTableRef}
+            rowKey="infoId"
+            key="logininforList"
+            search={{
+              labelWidth: 120,
+            }}
+            request={(params) =>
+              getOnlineUserList({ ...params } as OnlineUserListParams).then((res) => {
+                const result = {
+                  data: res.rows,
+                  total: res.total,
+                  success: true,
+                };
+                return result;
+              })
+            }
+            columns={columns}
+          />
+        </ProConfigProvider>
       </div>
     </WrapContent>
   );

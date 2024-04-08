@@ -15,7 +15,10 @@ import { getProductSnList } from '../comService';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { PackageListType } from './type';
 import { getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Package: React.FC = () => {
   const [initialValues, setInitialValues] = useState<PackageListType>({} as PackageListType); //初始值为空对象
@@ -152,7 +155,7 @@ const Package: React.FC = () => {
       )}
     </>
   );
-  const columns: ProColumns<PackageListType>[] = [
+  const columns: ProColumns<PackageListType, YTDATERANGEVALUETYPE>[] = [
     productTypeColumn,
     productSnColumn,
     {
@@ -202,16 +205,17 @@ const Package: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'common.uploadDate', defaultMessage: '上传时间' }),
       dataIndex: 'uploadTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => <span>{record.uploadTime}</span>,
       search: {
         transform: (value) => {
           return {
-            startTime: moment(value[0]).format('YYYY-MM-DD'),
-            endTime: moment(value[1]).format('YYYY-MM-DD'),
+            startTime: value[0],
+            endTime: value[1],
           };
         },
       },
@@ -245,12 +249,19 @@ const Package: React.FC = () => {
 
   return (
     <>
-      <YTProTable<PackageListType, PackageListType>
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={authorityMap.get('upgradManage:package:add') ? toolBar : () => [<></>]}
-        request={requestList}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable<PackageListType, PackageListType>
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={authorityMap.get('upgradManage:package:add') ? toolBar : () => [<></>]}
+          request={requestList}
+        />
+      </ProConfigProvider>
+
       <UpdatePackageForm
         {...{
           operations: operations,

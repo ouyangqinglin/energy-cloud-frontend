@@ -1,16 +1,15 @@
-import { DatePicker, Form } from 'antd';
+import { DatePicker } from 'antd';
 import type { ProRenderFieldPropsType } from '@ant-design/pro-components';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
 
 const YTDateRange = (props: any) => {
-  const [form] = Form.useForm();
-  const { format, ...resetProps } = props;
+  const { format, dateFormat, onChange, ...resetProps } = props;
   const handleRangeChange = (dates: any) => {
-    form.setFieldsValue({ date: dates });
+    onChange([moment(dates[0].format(format)), moment(dates[1].format(format))]);
   };
-  return <RangePicker format={format} onChange={handleRangeChange} {...resetProps} />;
+  return <RangePicker format={dateFormat} {...resetProps} onChange={handleRangeChange} />;
 };
 const valueRender: ProRenderFieldPropsType['render'] = (value) => {
   return value;

@@ -9,7 +9,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { getTableColumns, getFormColumns, AccountDataType } from './config';
-import { ProConfigProvider } from '@ant-design/pro-components';
 import { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
@@ -23,6 +22,8 @@ import { OptionType } from '@/types';
 import { arrayToMap, formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 import { YTProTableProps } from '@/components/YTProTable/typing';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -205,25 +206,32 @@ const Account: React.FC<AccountProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={tableColumns}
-        request={requestPage}
-        search={{
-          labelWidth: 75,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        form={{
-          labelAlign: 'left',
-        }}
-        toolBarRenderOptions={{
-          add: {
-            show: showAdd,
-            onClick: onAddClick,
-            text: formatMessage({ id: 'common.new', defaultMessage: '新建' }),
-          },
-        }}
-        option={options}
-      />
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={tableColumns}
+          request={requestPage}
+          search={{
+            labelWidth: 75,
+          }}
+          form={{
+            labelAlign: 'left',
+          }}
+          toolBarRenderOptions={{
+            add: {
+              show: showAdd,
+              onClick: onAddClick,
+              text: formatMessage({ id: 'common.new', defaultMessage: '新建' }),
+            },
+          }}
+          option={options}
+        />
+      </ProConfigProvider>
+
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <SchemaForm<AccountDataType, TABLESELECTVALUETYPE>
           width="816px"

@@ -4,9 +4,10 @@ import { isEmpty } from 'lodash';
 import { getRoleListForCurrentUser } from './service';
 import { CustomerInfo } from './type';
 import { formatMessage, getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
-export const columns: YTProColumns<CustomerInfo>[] = [
+export const columns: YTProColumns<CustomerInfo, YTDATERANGEVALUETYPE>[] = [
   {
     title: '序号',
     dataIndex: 'index',
@@ -79,19 +80,20 @@ export const columns: YTProColumns<CustomerInfo>[] = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     width: 150,
     render: (_, record) => record.createTime,
     search: {
       transform: (value) => {
         return {
-          startTime: moment(value[0]).format('YYYY-MM-DD'),
-          endTime: moment(value[1]).format('YYYY-MM-DD'),
+          startTime: value[0],
+          endTime: value[1],
         };
       },
     },
     fieldProps: {
-      format: getLocale().dateFormat,
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
     },
   },
 ];

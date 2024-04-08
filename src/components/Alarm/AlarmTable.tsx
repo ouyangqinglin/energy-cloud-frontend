@@ -14,7 +14,9 @@ import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType, TableSearchType } from './data';
 import { alarmSource, alarmStatus } from '@/utils/dict';
-import { alarmClearStatus, cleanUpType } from '@/utils/dict';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { cleanUpType } from '@/utils/dict';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
@@ -27,7 +29,7 @@ import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from './index.less';
 import { formatMessage, isEmpty, getLocale } from '@/utils';
 import eventBus from '@/utils/eventBus';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
 
 export enum PageTypeEnum {
   Current,
@@ -392,17 +394,18 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       {
         title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         dataIndex: 'alarmTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         width: 150,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => record.alarmTime,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -502,57 +505,63 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   return (
     <>
-      <YTProTable<AlarmType, AlarmType>
-        className={styles.table}
-        headerTitle={headerTitle}
-        actionRef={actionRef}
-        formRef={formRef}
-        columns={columns}
-        request={requestList}
-        toolBarRenderOptions={{
-          add: {
-            show: false,
-          },
-          export: {
-            show: true,
-            requestExport: requestExport,
-            getExportName: getExportName,
-          },
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        search={
-          isStationChild
-            ? {}
-            : {
-                labelWidth: 'auto',
-              }
-        }
-        form={
-          isStationChild
-            ? {}
-            : {
-                labelAlign: 'left',
-              }
-        }
-        scroll={
-          isStationChild
-            ? {
-                y: 490,
-              }
-            : {}
-        }
-      />
-      <DetailDialog
-        width="600px"
-        title={formatMessage({ id: 'alarmManage.alarmDetails', defaultMessage: '告警详情' })}
-        open={open}
-        onCancel={switchOpen}
-        detailProps={{
-          data: detailData,
-          items: detailItems,
-          column: 1,
-          labelStyle: { width: 'auto' },
-        }}
-      />
+      >
+        <YTProTable<AlarmType, AlarmType>
+          className={styles.table}
+          headerTitle={headerTitle}
+          actionRef={actionRef}
+          formRef={formRef}
+          columns={columns}
+          request={requestList}
+          toolBarRenderOptions={{
+            add: {
+              show: false,
+            },
+            export: {
+              show: true,
+              requestExport: requestExport,
+              getExportName: getExportName,
+            },
+          }}
+          search={
+            isStationChild
+              ? {}
+              : {
+                  labelWidth: 'auto',
+                }
+          }
+          form={
+            isStationChild
+              ? {}
+              : {
+                  labelAlign: 'left',
+                }
+          }
+          scroll={
+            isStationChild
+              ? {
+                  y: 490,
+                }
+              : {}
+          }
+        />
+        <DetailDialog
+          width="600px"
+          title={formatMessage({ id: 'alarmManage.alarmDetails', defaultMessage: '告警详情' })}
+          open={open}
+          onCancel={switchOpen}
+          detailProps={{
+            data: detailData,
+            items: detailItems,
+            column: 1,
+            labelStyle: { width: 'auto' },
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

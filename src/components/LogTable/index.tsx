@@ -15,6 +15,11 @@ import moment from 'moment';
 import Empty from '../Empty';
 import { DialogContext } from '@/components/Dialog';
 import { formatMessage, getLocale } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+
 export type LogTableProps = {
   params?: {
     id: string;
@@ -40,12 +45,12 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
     deviceId: params?.id,
   };
 
-  const columns = useMemo<ProColumns<LogType>[]>(() => {
+  const columns = useMemo<ProColumns<LogType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
       {
         title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         width: 200,
         ellipsis: true,
         render: (_, record) =>
@@ -53,14 +58,15 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
         initialValue: [moment(), moment()],
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
           getPopupContainer: (triggerNode: any) => triggerNode.parentElement,
           ranges: {
             [formatMessage({ id: 'date.nearly24Hours', defaultMessage: '近24小时' })]: [
@@ -112,17 +118,23 @@ const AlarmTable: React.FC<LogTableProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        className="log-table"
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={() => [<></>]}
-        params={searchParams}
-        request={request && params?.id ? (query) => request(query) : undefined}
-        locale={{
-          emptyText: dialogContext.model == 'screen' ? <Empty /> : <AntEmpty />,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-      />
+      >
+        <YTProTable
+          className="log-table"
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={() => [<></>]}
+          params={searchParams}
+          request={request && params?.id ? (query) => request(query) : undefined}
+          locale={{
+            emptyText: dialogContext.model == 'screen' ? <Empty /> : <AntEmpty />,
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

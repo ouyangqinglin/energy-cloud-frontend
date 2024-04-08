@@ -32,7 +32,10 @@ import { productTypeIconMap } from '@/utils/IconUtil';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import { getDeviceListSites } from '@/services/station';
 import { getLocale } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -296,7 +299,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       )}
     </>
   );
-  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
+  const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
       ...(isStationChild ? [] : [siteColumn]),
       productTypeColumn,
@@ -370,16 +373,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'common.addTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
             return {
-              startTime: moment(value[0]).format('YYYY-MM-DD'),
-              endTime: moment(value[1]).format('YYYY-MM-DD'),
+              startTime: value[0],
+              endTime: value[1],
             };
           },
         },
@@ -428,40 +432,46 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   return (
     <>
       {authorPage ? (
-        <YTProTable
-          actionRef={actionRef}
-          columns={columns}
-          toolBarRender={toolBar}
-          request={handleRequest}
-          rowKey="deviceId"
-          resizable={true}
-          expandable={{
-            childrenColumnName: 'childDeviceList',
-            expandIcon: ({ expanded, expandable, record, onExpand }) => {
-              return (
-                <>
-                  {expandable ? (
-                    <>
-                      {expanded ? (
-                        <CaretDownFilled
-                          className="mr8 cursor table-expand-icon"
-                          onClick={(e) => onExpand(record, e)}
-                        />
-                      ) : (
-                        <CaretRightFilled
-                          className="mr8 cursor table-expand-icon"
-                          onClick={(e) => onExpand(record, e)}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <span className="mr8 table-expand-icon"></span>
-                  )}
-                </>
-              );
-            },
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
           }}
-        />
+        >
+          <YTProTable
+            actionRef={actionRef}
+            columns={columns}
+            toolBarRender={toolBar}
+            request={handleRequest}
+            rowKey="deviceId"
+            resizable={true}
+            expandable={{
+              childrenColumnName: 'childDeviceList',
+              expandIcon: ({ expanded, expandable, record, onExpand }) => {
+                return (
+                  <>
+                    {expandable ? (
+                      <>
+                        {expanded ? (
+                          <CaretDownFilled
+                            className="mr8 cursor table-expand-icon"
+                            onClick={(e) => onExpand(record, e)}
+                          />
+                        ) : (
+                          <CaretRightFilled
+                            className="mr8 cursor table-expand-icon"
+                            onClick={(e) => onExpand(record, e)}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <span className="mr8 table-expand-icon"></span>
+                    )}
+                  </>
+                );
+              },
+            }}
+          />
+        </ProConfigProvider>
       ) : (
         <></>
       )}

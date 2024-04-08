@@ -22,7 +22,10 @@ import { getMenuTree } from '../menu/service';
 import { formatTreeSelectData } from '@/utils/utils';
 import WrapContent from '@/components/WrapContent';
 import { getLocale, formatMessage } from '@/utils';
-import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 /* *
  *
@@ -202,18 +205,19 @@ const RoleTableList: React.FC = () => {
     {
       title: <FormattedMessage id="system.Role.create_time" defaultMessage="创建时间" />,
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       render: (_, record) => <span>{record.createTime}</span>,
       search: {
         transform: (value) => {
           return {
-            'params[beginTime]': moment(value[0]).format('YYYY-MM-DD'),
-            'params[endTime]': moment(value[1]).format('YYYY-MM-DD'),
+            'params[beginTime]': value[0],
+            'params[endTime]': value[1],
           };
         },
       },
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       hideInSearch: true,
     },
@@ -285,83 +289,90 @@ const RoleTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <ProTable<RoleType>
-          headerTitle={intl.formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="roleId"
-          key="roleList"
-          search={{
-            labelWidth: 120,
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
           }}
-          toolBarRender={() => [
-            <Button
-              type="primary"
-              key="add"
-              hidden={!access.hasPerms('system:role:add')}
-              onClick={async () => {
-                getMenuTree().then((res: any) => {
-                  if (res.code === 200) {
-                    const treeData = formatTreeSelectData(res.data);
-                    setMenuTree(treeData);
-                    setMenuIds([]);
-                    setModalVisible(true);
-                    setCurrentRow(undefined);
-                  } else {
-                    message.warn(res.msg);
+        >
+          <ProTable<RoleType>
+            headerTitle={intl.formatMessage({
+              id: 'pages.searchTable.title',
+              defaultMessage: '信息',
+            })}
+            actionRef={actionRef}
+            formRef={formTableRef}
+            rowKey="roleId"
+            key="roleList"
+            search={{
+              labelWidth: 120,
+            }}
+            toolBarRender={() => [
+              <Button
+                type="primary"
+                key="add"
+                hidden={!access.hasPerms('system:role:add')}
+                onClick={async () => {
+                  getMenuTree().then((res: any) => {
+                    if (res.code === 200) {
+                      const treeData = formatTreeSelectData(res.data);
+                      setMenuTree(treeData);
+                      setMenuIds([]);
+                      setModalVisible(true);
+                      setCurrentRow(undefined);
+                    } else {
+                      message.warn(res.msg);
+                    }
+                  });
+                }}
+              >
+                <PlusOutlined />{' '}
+                <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+              </Button>,
+              <Button
+                type="primary"
+                key="remove"
+                hidden={selectedRowsState?.length === 0 || !access.hasPerms('system:role:remove')}
+                onClick={async () => {
+                  const success = await handleRemove(selectedRowsState);
+                  if (success) {
+                    setSelectedRows([]);
+                    actionRef.current?.reloadAndRest?.();
                   }
-                });
-              }}
-            >
-              <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
-            </Button>,
-            <Button
-              type="primary"
-              key="remove"
-              hidden={selectedRowsState?.length === 0 || !access.hasPerms('system:role:remove')}
-              onClick={async () => {
-                const success = await handleRemove(selectedRowsState);
-                if (success) {
-                  setSelectedRows([]);
-                  actionRef.current?.reloadAndRest?.();
-                }
-              }}
-            >
-              <DeleteOutlined />
-              <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>,
-            <Button
-              type="primary"
-              key="export"
-              hidden={!access.hasPerms('system:role:export')}
-              onClick={async () => {
-                handleExport();
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
-            </Button>,
-          ]}
-          request={(params) =>
-            getRoleList({ ...params } as RoleListParams).then((res) => {
-              const { data = {} } = res;
-              return {
-                data: data.list,
-                total: data.total,
-                success: true,
-              };
-            })
-          }
-          columns={columns}
-          rowSelection={{
-            onChange: (_, selectedRows) => {
-              setSelectedRows(selectedRows);
-            },
-          }}
-        />
+                }}
+              >
+                <DeleteOutlined />
+                <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
+              </Button>,
+              <Button
+                type="primary"
+                key="export"
+                hidden={!access.hasPerms('system:role:export')}
+                onClick={async () => {
+                  handleExport();
+                }}
+              >
+                <PlusOutlined />
+                <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
+              </Button>,
+            ]}
+            request={(params) =>
+              getRoleList({ ...params } as RoleListParams).then((res) => {
+                const { data = {} } = res;
+                return {
+                  data: data.list,
+                  total: data.total,
+                  success: true,
+                };
+              })
+            }
+            columns={columns}
+            rowSelection={{
+              onChange: (_, selectedRows) => {
+                setSelectedRows(selectedRows);
+              },
+            }}
+          />
+        </ProConfigProvider>
       </div>
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
