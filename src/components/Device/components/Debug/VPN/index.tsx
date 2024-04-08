@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-21 14:39:51
- * @LastEditTime: 2024-03-26 10:12:42
+ * @LastEditTime: 2024-04-02 16:51:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Debug\VPN\index.tsx
  */
@@ -113,13 +113,28 @@ const VPN: React.FC = () => {
           label: formatMessage({ id: 'debug.tunnelIp', defaultMessage: '隧道IP' }),
           field: 'vip',
         },
+        {
+          label: formatMessage({
+            id: 'debug.syncTimeDevice',
+            defaultMessage: '同步时间(设备时间)',
+          }),
+          field: 'deviceTs',
+          format: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
+        },
+        {
+          label: formatMessage({
+            id: 'debug.syncTimePlatform',
+            defaultMessage: '同步时间(平台时间)',
+          }),
+          field: 'serverTs',
+          format: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
+        },
       ],
     },
     {
       label: (
         <Detail.Label
           title={formatMessage({ id: 'debug.tunnelStatusControl', defaultMessage: '隧道状态控制' })}
-          showLine={false}
         />
       ),
       items: [
@@ -178,7 +193,11 @@ const VPN: React.FC = () => {
                 {moment(value).format('YYYY-MM-DD HH:mm:ss')}
                 <div>
                   <Typography.Text type="secondary">
-                    到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。
+                    {formatMessage({
+                      id: 'debug.tunnelTip',
+                      defaultMessage:
+                        '到期后会自动断开隧道，快到期时可以再次点击开启，延迟隧道时间。',
+                    })}
                   </Typography.Text>
                 </div>
               </>
@@ -191,7 +210,13 @@ const VPN: React.FC = () => {
 
   return (
     <>
-      <Detail.Group items={items} data={tunnelData} />
+      <Detail.Group
+        items={items}
+        data={tunnelData}
+        detailProps={{
+          labelStyle: { width: 140 },
+        }}
+      />
     </>
   );
 };

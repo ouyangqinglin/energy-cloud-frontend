@@ -10,6 +10,7 @@ export default {
   'system.title': 'YT New energy energy management cloud platform',
   'system.company': 'Shenzhen Yongtai Digital Energy Technology Co. Ltd.',
   'system.applyName': 'Apply Name',
+  'system.scanApp': 'Scan the code to download the YT EMS Cloud App',
   'system.applyId': 'Apply ID',
   'system.key': 'Key',
   'system.valid': 'Valid',

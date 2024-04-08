@@ -97,7 +97,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     () => [
       <Button type="primary" key="add">
         <PlusOutlined />
-        <FormattedMessage id="common.add" defaultMessage="添加" />
+        <FormattedMessage id="common.new" defaultMessage="添加" />
       </Button>,
       <Button type="primary" key="cancel">
         <DeleteOutlined />

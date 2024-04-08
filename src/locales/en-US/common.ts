@@ -1,4 +1,5 @@
 export default {
+  'common.new': 'New',
   'common.add': 'Add',
   'common.delete': 'Delete',
   'common.edit': 'Edit',
@@ -89,6 +90,7 @@ export default {
   'common.viewDetail': 'Detail',
   'common.tobeDone': 'To be executed',
   'common.done': 'Executed',
+  'common.upgradeDuring': 'During Upgrade',
   'common.upgradeSuc': 'Upgrade Successful',
   'common.upgradeFai': 'Upgrade failed',
   'common.supportFile': 'Support File',
@@ -215,4 +217,5 @@ export default {
   'common.binderTime': 'Binding Time',
   'common.noneYet': 'None Yet',
   'common.pageDevelopmenting': 'The page is under development, please stay tuned',
+  'common.next': 'Next',
 };

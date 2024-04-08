@@ -18,6 +18,7 @@ declare module 'react-fittext';
 declare module 'bizcharts-plugin-slider';
 declare module 'react-bmapgl';
 declare module 'file-saver';
+declare module 'qrcodejs2';
 // declare module 'reactflow';
 // declare module '@chuxiaguo/data-view-react-plus/es/scrollBoard';
 

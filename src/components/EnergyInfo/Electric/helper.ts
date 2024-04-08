@@ -22,28 +22,6 @@ export const chartOption = {
   yAxis: {
     name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
   },
-  tooltip: {
-    formatter: (params: any) => {
-      console.log(params);
-      const data0 = params?.[0]?.data;
-      const data1 = params?.[1]?.data;
-      return `<div>
-        ${data0[0]}-${moment('2023-01-01 ' + data0[0])
-        .add(1, 'h')
-        .format('HH:mm')}
-        <div>
-          <div>${formatMessage({
-            id: 'siteMonitor.allCharge',
-            defaultMessage: '总充电量',
-          })}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
-          <div>${formatMessage({
-            id: 'siteMonitor.allDisharge',
-            defaultMessage: '总放电量',
-          })}：<span style="font-weight: bold;">${getPlaceholder(data1[2])}</span></div>
-        </div>
-      </div>`;
-    },
-  },
   series: [
     {
       type: 'line',

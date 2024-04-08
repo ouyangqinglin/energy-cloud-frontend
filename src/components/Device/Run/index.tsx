@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-03-23 14:31:58
+ * @LastEditTime: 2024-04-02 16:33:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -15,6 +15,7 @@ import { GridItemType } from '@/components/Meter/helper';
 import { useAuthority, useSubscribe } from '@/hooks';
 import { DeviceDataType } from '@/services/equipment';
 import {
+  DeviceDoubleType,
   DeviceModelAuthorityType,
   DeviceModelDescribeType,
   DeviceModelType,
@@ -72,18 +73,16 @@ const Run: React.FC<RunType> = (props) => {
   const interceptorData = useMemo(() => {
     const result: Record<string, any> = {};
     interceptor.forEach(({ id, dataInterceptor, deviceId }) => {
-      if (deviceId) {
-        result[deviceId] = {};
-        result[deviceId][id] = (interceptorFn as any)?.[dataInterceptor]?.(
-          id,
-          realTimeData?.[deviceId]?.[id],
-        );
-      } else {
-        result[id] = (interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[id]);
+      const resultDeviceId = deviceId || deviceData?.deviceId;
+      if (resultDeviceId) {
+        result[resultDeviceId] = {
+          ...result[resultDeviceId],
+          ...(interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[deviceId]?.[id]),
+        };
       }
     });
     return merge({}, realTimeData, result);
-  }, [realTimeData, interceptor]);
+  }, [realTimeData, interceptor, deviceData?.deviceId]);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -184,6 +183,7 @@ const Run: React.FC<RunType> = (props) => {
             field: item?.id || '',
             label: item?.name,
             deviceId: item?.deviceId,
+            unit: (item?.dataType as DeviceDoubleType)?.specs?.unit,
             valueInterceptor: (_, data) => {
               if (item?.deviceId) {
                 const realField = item?.id?.split?.('.') || [];
@@ -192,7 +192,7 @@ const Run: React.FC<RunType> = (props) => {
                 return data?.[deviceData?.deviceId || '']?.[item?.id || ''];
               }
             },
-            format: (value) => formatModelValue(value, item?.dataType || {}),
+            format: (value) => formatModelValue(value, item?.dataType || {}, false),
           });
         }
       });
@@ -333,6 +333,8 @@ const Run: React.FC<RunType> = (props) => {
             extral,
             labelStyle: { width: 140 },
             contentStyle: { width: 50 },
+            unitInLabel: true,
+            valueStyle: { width: '150px', maxWidth: '80%' },
           }}
         />
       ) : (

@@ -11,6 +11,7 @@ import { api } from '@/services';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { Descriptions } from 'antd';
+import Detail from '../Detail';
 
 export type EquipFormProps = {
   id?: string;
@@ -96,53 +97,26 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
 
   const items = [
     {
-      key: '1',
-      label: '所属单元',
-      children: '66666',
+      label: formatMessage({ id: 'equipmentList.affTeam', defaultMessage: '所属单元' }),
       field: 'subsystemName',
     },
     {
-      key: '2',
-      label: '产品类型',
-      children: 'Zhejiang',
+      label: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
       field: 'productTypeName',
     },
     {
-      key: '3',
-      label: '产品型号',
-      children: 'Hangzhou, Zhejiang',
+      label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
       field: 'model',
     },
     {
-      key: '4',
-      label: '设备SN',
-      children: 'empty',
+      label: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }),
       field: 'sn',
     },
     {
-      key: '5',
-      label: '设备名称',
-      children: 'No. 18, Wantang Road,',
+      label: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       field: 'name',
     },
   ];
-  const descriptionItems = useMemo(() => {
-    const content: React.ReactNode[] = [];
-    items.forEach((item, index) => {
-      content.push(
-        <Descriptions.Item
-          label={item.label}
-          span={12}
-          key={index}
-          contentStyle={{ fontSize: '15px' }}
-          labelStyle={{ fontSize: '15px' }}
-        >
-          {descValues[item.field]}
-        </Descriptions.Item>,
-      );
-    });
-    return content;
-  }, [descValues]);
 
   return (
     <>
@@ -151,7 +125,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
         open={open}
         title={
           type === FormTypeEnum.Add
-            ? formatMessage({ id: 'common.add', defaultMessage: '新建' })
+            ? formatMessage({ id: 'common.new', defaultMessage: '新建' })
             : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
         }
         width="552px"
@@ -171,7 +145,7 @@ const SiteConfigNewDevice: React.FC<EquipFormProps> = (props) => {
           }}
           initialValues={initialValues}
         >
-          <Descriptions column={24}>{descriptionItems}</Descriptions>
+          <Detail items={items} data={descValues} column={2} />
           <ProFormUploadButton
             label={<FormattedMessage id="equipmentList.devicePhoto" defaultMessage="设备照片" />}
             name="photosList"

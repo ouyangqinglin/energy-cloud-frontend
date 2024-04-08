@@ -355,7 +355,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         width={1000}
         title={
           modelTyep == 'add'
-            ? formatMessage({ id: 'common.add', defaultMessage: '新增' })
+            ? formatMessage({ id: 'common.new', defaultMessage: '新增' })
             : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
         }
         visible={visible}

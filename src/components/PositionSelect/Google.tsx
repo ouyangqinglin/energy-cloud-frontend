@@ -2,101 +2,104 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-02-28 17:18:43
+ * @LastEditTime: 2024-04-07 11:38:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { AutoComplete, Row, Col, Input, message } from 'antd';
-import { Marker } from 'google-maps-react';
+import { Marker, mapEventHandler } from 'google-maps-react';
 import GoogleMap from '../Map/GoogleMap';
 import type { OptionType } from '@/types';
-import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
-import { formatMessage, getAreaCodeByAdCode, getLocale } from '@/utils';
-import { AmapLang } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
 import { PositionSelectType } from '.';
 import MapContext from '../MapContain/MapContext';
+import { useAutocomplete, useGeocoder } from '@/hooks';
 
 const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   const { value, onChange, disabled, readonly, className, initCenter } = props;
 
+  const mapRef = useRef<google.maps.Map>();
   const { google } = useContext(MapContext);
   const [address, setAddress] = useState<string>();
   const [options, setOptions] = useState<OptionType[]>([]);
-  const [point, setPoint] = useState<AMap.LngLat>();
+  const [point, setPoint] = useState<google.maps.LatLngLiteral>();
   const [inputPoint, setInputPoint] = useState('');
-  const [center, setCenter] = useState<AMap.LngLat>();
-  const [zoom, setZoom] = useState(11);
+  const [center, setCenter] = useState<google.maps.LatLngLiteral>();
+  const [autocompleteParams, setAutocompleteParams] = useState<google.maps.AutocompletionRequest>();
+  const [geocoderParams, setGeocoderParams] = useState<google.maps.GeocoderRequest>();
 
-  const lang = useMemo(() => {
-    return getLocale().isZh ? '' : AmapLang.En;
+  const onGeoSuccess = useCallback(
+    (result: google.maps.GeocoderResult) => {
+      if (geocoderParams?.location) {
+        setPoint(geocoderParams?.location);
+        setAddress(result?.formatted_address);
+        onChange?.({
+          address: result?.formatted_address,
+          point: {
+            lng: geocoderParams?.location?.lng,
+            lat: geocoderParams?.location?.lat,
+          },
+          // countryCode,
+          // provinceCode,
+          // cityCode,
+          // adcode: res?.regeocode?.addressComponent?.adcode,
+        });
+      } else if (geocoderParams?.placeId) {
+        const pointResult = {
+          lng: result?.geometry?.location?.lng(),
+          lat: result?.geometry?.location?.lat(),
+        };
+        const addressResult = options?.find?.((item) => item.place_id == geocoderParams?.placeId)
+          ?.value as string;
+        setPoint(pointResult);
+        setAddress(addressResult);
+        onChange?.({
+          address: addressResult,
+          point: {
+            ...pointResult,
+          },
+          // countryCode,
+          // provinceCode,
+          // cityCode,
+          // adcode: res?.regeocode?.addressComponent?.adcode,
+        });
+      }
+    },
+    [geocoderParams, options],
+  );
+
+  const onGeoError = useCallback(() => {
+    message.success(formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }));
   }, []);
+
+  useGeocoder({
+    params: geocoderParams,
+    onSuccess: onGeoSuccess,
+    onError: onGeoError,
+  });
+
+  const onAutoSuccess = useCallback((result: google.maps.AutocompletionRequest[]) => {
+    setOptions(result?.map?.((item) => ({ ...item, value: item.description })));
+  }, []);
+
+  useAutocomplete({
+    params: autocompleteParams,
+    onSuccess: onAutoSuccess,
+  });
 
   const autoSearch = useCallback(
     debounce((data: string) => {
-      getAutoComplete().then(({ search }) => {
-        search(data).then((result: any) => {
-          setOptions(result);
-        });
-      });
+      setAutocompleteParams({ input: data });
     }, 700),
     [],
   );
 
   const onSelect = (_: any, data: any) => {
-    setPoint(data.location);
-    const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(data?.adcode || '');
-    onChange?.({
-      address: data.label,
-      point: {
-        lng: data.location.lng,
-        lat: data.location.lat,
-      },
-      countryCode,
-      provinceCode,
-      cityCode,
-      adcode: data.adcode,
-    });
-
-    // const code = item.adcode ? item.adcode * 1 : 900000;
-    // emit('update:province', parseInt(code / 10000 + '') + '0000');
-    // emit('update:city', parseInt(code / 100 + '') + '00');
-    // emit('update:area', code);
-  };
-
-  const getAddressByPoint = (pointObj: AMap.LngLat) => {
-    getGeocoder().then(({ getAddress }) => {
-      getAddress(pointObj).then((res) => {
-        if (res) {
-          if (res.regeocode && res.regeocode.formattedAddress) {
-            const adcode = res?.regeocode?.addressComponent?.adcode || '';
-            const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(adcode);
-            setPoint(pointObj);
-            setAddress(res.regeocode.formattedAddress);
-            onChange?.({
-              address: res.regeocode.formattedAddress,
-              point: {
-                lng: pointObj.lng,
-                lat: pointObj.lat,
-              },
-              countryCode,
-              provinceCode,
-              cityCode,
-              adcode: res?.regeocode?.addressComponent?.adcode,
-            });
-          } else {
-            message.success(
-              formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }),
-            );
-          }
-        } else {
-          message.success(
-            formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }),
-          );
-        }
-      });
+    setGeocoderParams({
+      placeId: data.place_id,
     });
   };
 
@@ -108,11 +111,16 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
     setAddress(data);
   };
 
-  const onClick = (e: any) => {
-    if (!disabled && !readonly && e && e.lnglat) {
-      getAddressByPoint(e.lnglat);
+  const onClick = useCallback<mapEventHandler>((prop, map, e) => {
+    if (!disabled && !readonly && e && e.latLng) {
+      setGeocoderParams({
+        location: {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng(),
+        },
+      });
     }
-  };
+  }, []);
 
   const onPointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = e.target;
@@ -125,11 +133,12 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
       pointObj.length > 1 &&
       (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
     ) {
-      try {
-        getPoint(Number(pointObj[0]), Number(pointObj[1])).then((res) => {
-          getAddressByPoint(res);
-        });
-      } catch (e) {}
+      setGeocoderParams({
+        location: {
+          lat: point?.lng,
+          lng: point?.lat,
+        },
+      });
     }
   };
 
@@ -142,13 +151,9 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   useEffect(() => {
     setAddress(value?.address || '');
     if (value?.point && value?.point?.lng && value?.point?.lat) {
-      getPoint(value.point?.lng, value.point?.lat).then((res) => {
-        if (res) {
-          setPoint(res);
-          setCenter(res);
-          setZoom(17);
-        }
-      });
+      setPoint(value?.point);
+      setCenter(value?.point);
+      mapRef?.current?.setZoom?.(17);
     }
   }, [value]);
 
@@ -199,14 +204,14 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
           )}
         </Row>
         <GoogleMap
+          ref={mapRef}
           google={google}
           center={center}
-          zoom={zoom}
+          zoom={11}
           onClick={onClick}
           style={{
             height: '220px',
           }}
-          lang={lang}
         >
           {point && <Marker position={point} />}
         </GoogleMap>

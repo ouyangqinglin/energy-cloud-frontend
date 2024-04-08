@@ -87,7 +87,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       width={1000}
       title={
         showType == 'add'
-          ? formatMessage({ id: 'common.add', defaultMessage: '新增' })
+          ? formatMessage({ id: 'common.new', defaultMessage: '新增' })
           : showType == 'edit'
           ? formatMessage({ id: 'common.edit', defaultMessage: '编辑' })
           : formatMessage({ id: 'common.view', defaultMessage: '查看' })

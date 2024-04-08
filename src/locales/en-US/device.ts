@@ -478,4 +478,8 @@ export default {
   'device.slaveSentence': 'Slave {name}',
   'device.min': 'Min',
   'device.max': 'Max',
+  'device.deviceTypeSentence': '{name} Device Type',
+  'device.singleClock': 'single Clock',
+  'device.statistics': 'Statistics',
+  'device.clock': 'Clock',
 };

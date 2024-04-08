@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:55:22
- * @LastEditTime: 2024-01-03 11:21:09
+ * @LastEditTime: 2024-04-02 16:43:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Group.tsx
  */
@@ -56,7 +56,9 @@ const Group: React.FC<GroupProps> = (props) => {
               className="mb16"
               items={item.tabItems?.map?.((tabItem) => {
                 if (tabItem?.groupItems && tabItem?.groupItems?.length) {
-                  tabItem.children = <Group data={data} items={tabItem?.groupItems} />;
+                  tabItem.children = (
+                    <Group data={data} items={tabItem?.groupItems} detailProps={detailProps} />
+                  );
                 }
                 return tabItem;
               })}

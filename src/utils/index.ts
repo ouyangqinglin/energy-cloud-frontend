@@ -129,6 +129,7 @@ export const getLocale = () => {
     isEnUS: false,
     isJaJP: false,
     dateFormat: '',
+    dateTimeFormat: '',
     monthDateFormat: '',
   };
   switch (locale) {
@@ -136,12 +137,14 @@ export const getLocale = () => {
       result.isZh = true;
       result.isZhCN = true;
       result.dateFormat = 'YYYY-MM-DD';
+      result.dateTimeFormat = 'YYYY-MM-DD HH:mm';
       result.monthDateFormat = 'MM-DD';
       break;
     case 'en-US':
       result.isEn = true;
       result.isEnUS = true;
       result.dateFormat = 'MM/DD/YYYY';
+      result.dateTimeFormat = 'MM/DD/YYYY HH:mm';
       result.monthDateFormat = 'MM/DD';
       break;
     default:
@@ -263,7 +266,11 @@ export const parseToObj = (value: any): Record<string, any> => {
   return result;
 };
 
-export const formatModelValue = (value: string, model: DeviceModelType): string => {
+export const formatModelValue = (
+  value: string,
+  model: DeviceModelType,
+  showUnit = true,
+): string => {
   let specs: Record<string, any> = {};
   if (typeof model?.specs !== 'object') {
     try {
@@ -282,7 +289,7 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
     case DeviceModelTypeEnum.Int:
     case DeviceModelTypeEnum.Long:
     case DeviceModelTypeEnum.Double:
-      result = value + (specs?.unit ?? '');
+      result = value + (showUnit ? specs?.unit ?? '' : '');
       break;
     case DeviceModelTypeEnum.TimeStamp:
       result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
@@ -333,7 +340,11 @@ export const formatModelValue = (value: string, model: DeviceModelType): string 
       result = value;
       break;
   }
-  return result ?? value;
+  result = result ?? value;
+  if (typeof result == 'function' || typeof result == 'object' || typeof result == 'symbol') {
+    result = JSON.stringify(result);
+  }
+  return result;
 };
 
 export const formatNum = (num: number, separator = '--', floatLength = 2): ValueUnitType => {

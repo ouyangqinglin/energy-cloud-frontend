@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-03-28 09:30:10
+ * @LastEditTime: 2024-04-02 16:48:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -312,6 +312,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               items.push({
                 field: (item?.id || '') + index,
                 label: (item?.name ?? '') + (itemFieldIndex ? '' : index + 1),
+                unit: (item?.dataType as DeviceDoubleType)?.specs?.unit,
                 valueInterceptor: (_, data) => {
                   if (item?.deviceId) {
                     const realField = item?.id?.split?.('.') || [];
@@ -322,7 +323,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     return data?.[deviceData?.deviceId || '']?.[(item?.id || '') + index];
                   }
                 },
-                format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}),
+                format: (formatValue) => formatModelValue(formatValue, item?.dataType || {}, false),
               });
               detailData[field?.deviceId || deviceData?.deviceId || ''][(item?.id || '') + index] =
                 transformValue[item?.id || ''];
@@ -394,6 +395,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
+              unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
                   const realField = field?.id?.split?.('.') || [];
@@ -402,7 +404,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }
               },
-              format: (value) => formatModelValue(value, field?.dataType || {}),
+              format: (value) => formatModelValue(value, field?.dataType || {}, false),
               extral: (
                 <>
                   {field?.buttons?.includes?.('refresh') && (
@@ -438,7 +440,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 label: field?.name,
                 showPlaceholder: false,
                 labelStyle: {
-                  width: '145px',
+                  width: '140px',
                   marginTop: '4px',
                 },
                 format: (value, data) => {
@@ -475,7 +477,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 label: field?.name,
                 showPlaceholder: false,
                 labelStyle: {
-                  width: '145px',
+                  width: '140px',
                   marginTop: '4px',
                 },
                 format: (value, formatData) => {
@@ -573,6 +575,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 detailItems.push?.({
                   field: field?.id || '',
                   label: field?.name,
+                  unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
                   valueInterceptor: (_, data) => {
                     if (field?.deviceId) {
                       const realField = field?.id?.split?.('.') || [];
@@ -581,7 +584,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                       return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                     }
                   },
-                  format: (value) => formatModelValue(value, field?.dataType || {}),
+                  format: (value) => formatModelValue(value, field?.dataType || {}, false),
                   extral: (
                     <>
                       {field?.buttons?.includes?.('refresh') && (
@@ -648,6 +651,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
+              unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
                   const realField = field?.id?.split?.('.') || [];
@@ -656,7 +660,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }
               },
-              format: (value) => formatModelValue(value, field?.dataType || {}),
+              format: (value) => formatModelValue(value, field?.dataType || {}, false),
               extral: (
                 <>
                   {field?.buttons?.includes?.('refresh') && (
@@ -750,6 +754,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
+              unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
                   const realField = field?.id?.split?.('.') || [];
@@ -758,7 +763,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }
               },
-              format: (value) => formatModelValue(value, field?.dataType || {}),
+              format: (value) => formatModelValue(value, field?.dataType || {}, false),
               extral: (
                 <>
                   {field?.buttons?.includes?.('refresh') && (
@@ -884,7 +889,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                       <>
                         {modelDescribeItem?.name}
                         {!!modelDescribeItem?.tip && (
-                          <Typography.Text className={styles.tip} type="secondary">
+                          <Typography.Text className={`ml12 ${styles.tip}`} type="secondary">
                             ({modelDescribeItem?.tip})
                           </Typography.Text>
                         )}
@@ -986,7 +991,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             items={groupsItems}
             detailProps={{
               labelStyle: { width: 140 },
-              contentStyle: { width: 50 },
+              unitInLabel: true,
             }}
           />
           <ConfigModal

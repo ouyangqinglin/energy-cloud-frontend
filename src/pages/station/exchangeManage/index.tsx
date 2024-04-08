@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-03-11 11:15:25
+ * @LastEditTime: 2024-03-29 10:25:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\exchangeManage\index.tsx
  */
@@ -28,7 +28,6 @@ import { useSiteColumn, useSearchSelect, useAuthority } from '@/hooks';
 import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
-import DeviceSn from './deviceSn';
 import { getLocale } from '@/utils';
 import moment from 'moment';
 
@@ -116,7 +115,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       </Button>,
       <Button type="primary" key="add">
         <PlusOutlined />
-        <FormattedMessage id="common.add" defaultMessage="添加" />
+        <FormattedMessage id="common.new" defaultMessage="添加" />
       </Button>,
       <Button type="primary" key="add">
         <DeleteOutlined />
@@ -287,25 +286,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={toolBar}
         request={handleRequest}
       />
-      {isStationChild ? (
-        <>
-          <DeviceSn
-            open={snOpen}
-            onCancel={onCancelSn}
-            isStationChild={isStationChild}
-            onSuccess={onSuccess}
-            //onOk={triggerSubmit}
-          />
-        </>
-      ) : (
-        <EquipForm
-          open={open}
-          onCancel={onSwitchOpen}
-          type={FormTypeEnum.Add}
-          onSuccess={onSuccess}
-          initialValues={isStationChild ? { siteId: parseInt(siteId) } : {}}
-        />
-      )}
     </>
   );
 };

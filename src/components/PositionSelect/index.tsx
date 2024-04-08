@@ -15,7 +15,7 @@ import GoogleMapContain from '@/components/MapContain/Google';
 
 export type PositionSelectValueType = {
   address?: string;
-  point?: AMap.LngLat;
+  point?: google.maps.LatLngLiteral;
   countryCode?: string;
   provinceCode?: string;
   cityCode?: string;
@@ -29,7 +29,7 @@ export type PositionSelectType = {
   readonly?: boolean;
   className?: string;
   type?: MapTypeEnum;
-  initCenter?: AMap.LngLat;
+  initCenter?: google.maps.LatLngLiteral;
 };
 
 const Index: React.FC<PositionSelectType> = (props) => {

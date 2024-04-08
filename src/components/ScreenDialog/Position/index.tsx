@@ -2,40 +2,27 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-13 13:50:09
- * @LastEditTime: 2023-05-16 08:51:12
+ * @LastEditTime: 2024-04-07 17:16:53
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Position\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\Position\index.tsx
  */
-import React, { useState, useEffect, useMemo } from 'react';
-import { Modal } from 'antd';
+
+import React from 'react';
 import Dialog from '@/components/Dialog';
-import MapContain from '@/components/MapContain';
-import { Map, Marker } from '@uiw/react-amap';
 import type { BusinessDialogProps } from '@/components/ScreenDialog';
-import { getPoint } from '@/utils/map';
-import { formatMessage, getLocale } from '@/utils';
-import { AmapLang } from '@/utils/dictionary';
+import { formatMessage } from '@/utils';
+import { MapTypeEnum } from '@/utils/dictionary';
+import AMapPosition from './AMap';
+import GooglePosition from './Google';
+import GoogleMapContain from '@/components/MapContain/Google';
 
 export type PositionProps = BusinessDialogProps & {
   point: AMap.LngLat;
+  mapType?: MapTypeEnum;
 };
 
 const Position: React.FC<PositionProps> = (props) => {
-  const { point, open, onCancel, model } = props;
-  const [zoom] = useState(15);
-  const [center, setCenter] = useState<AMap.LngLat>();
-
-  const lang = useMemo(() => {
-    return getLocale().isZh ? '' : AmapLang.En;
-  }, []);
-
-  useEffect(() => {
-    if (point && point.lng && point.lat) {
-      getPoint(point.lng, point.lat).then((res) => {
-        setCenter(res);
-      });
-    }
-  }, [point]);
+  const { point, open, onCancel, model, mapType } = props;
 
   return (
     <>
@@ -47,11 +34,13 @@ const Position: React.FC<PositionProps> = (props) => {
         footer={null}
         destroyOnClose
       >
-        <MapContain style={{ height: '100%' }}>
-          <Map center={center} zoom={zoom} lang={lang}>
-            {center && <Marker position={center} />}
-          </Map>
-        </MapContain>
+        {mapType == MapTypeEnum.Google ? (
+          <GoogleMapContain>
+            <GooglePosition point={point} />
+          </GoogleMapContain>
+        ) : (
+          <AMapPosition point={point} />
+        )}
       </Dialog>
     </>
   );

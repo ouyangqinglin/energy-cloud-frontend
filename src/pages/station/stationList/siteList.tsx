@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-03-11 17:13:39
+ * @LastEditTime: 2024-04-03 14:34:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -82,7 +82,7 @@ const StationList: React.FC = () => {
   const toolBar = () => [
     <Button type="primary" key="add" onClick={onAddClick}>
       <PlusOutlined />
-      {formatMessage({ id: 'common.add', defaultMessage: '新建' })}
+      {formatMessage({ id: 'common.new', defaultMessage: '新建' })}
     </Button>,
   ];
 
@@ -174,7 +174,7 @@ const StationList: React.FC = () => {
       fieldProps: {
         format: getLocale().dateFormat,
       },
-      render: (_, record) => <span>{record.createTime}</span>,
+      render: (_, record) => record.createTime,
       search: {
         transform: (value) => {
           return {

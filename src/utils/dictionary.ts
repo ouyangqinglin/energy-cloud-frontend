@@ -103,10 +103,9 @@ export enum DeviceTypeEnum {
   BWattEnergy = 44,
   YunCharge120 = 45,
   GRWTPvInverter = 47,
-  //新增localEms
   YtCharge360LocalEms = 51,
   HwChargeLocalEms = 52,
-  EnergyLocalEms = 54, //永泰工商业储能
+  EnergyLocalEms = 54,
   PvInverter4LocalEms = 55,
   PvInverter11LocalEms = 56,
   YtCharge160LocalEms = 57,
@@ -173,6 +172,12 @@ export enum DeviceTypeEnum {
   React100XEmsEnergy = 145,
   React100WEnergy = 148,
   React100WEmsEnergy = 149,
+  LiquidEnergy232 = 150,
+  LiquidEnergy232Ems = 151,
+  LiquidEnergy232Pcs = 152,
+  LiquidEnergy232BatteryPack = 153,
+  LiquidEnergy232BatteryModule = 154,
+  LiquidEnergy232FireFight = 157,
   Device = 'default',
 }
 

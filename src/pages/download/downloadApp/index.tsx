@@ -1,20 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import QRCode from 'qrcodejs2';
 import { getVersionList, getFileUrl } from '@/pages/system/version/service';
 import android from '@/assets/image/android.png';
 import styles from './index.less';
+import { defaultSystemInfo } from '@/utils/config';
+import { Button, Typography } from 'antd';
 
 const DownloadApp: React.FC = () => {
-  const qrRef = useRef<null | HTMLDivElement>(null);
   const [fileUrl, setFileUrl] = useState<string>('');
+  const [version, setVersion] = useState('');
 
-  const getPersonQRCode = (url: string) => {
-    const qrcode = new QRCode(qrRef.current, {
-      width: qrRef.current?.clientWidth,
-      height: qrRef.current?.clientWidth,
-    });
-    qrcode.makeCode(url);
-  };
+  const isIOS = useMemo(() => {
+    return !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  }, []);
 
   const getDownloadUrl = () => {
     getVersionList({ appType: 1, platform: 0 }).then(({ data }) => {
@@ -22,8 +20,10 @@ const DownloadApp: React.FC = () => {
       if (url) {
         getFileUrl({ url, platform: 2 }).then((res) => {
           setFileUrl(res?.data || '');
-          getPersonQRCode(res?.data || '');
         });
+      }
+      if (data?.list?.[0]?.version) {
+        setVersion(data?.list?.[0]?.version);
       }
     });
   };
@@ -33,18 +33,18 @@ const DownloadApp: React.FC = () => {
   }, []);
 
   const downlaodApp = () => {
-    window.open(fileUrl);
+    window.open(isIOS ? defaultSystemInfo.appStore : fileUrl);
   };
 
   return (
     <div className={styles.container}>
-      <div className="qr-wrap">
-        <div className="qrcode" ref={qrRef} />
-      </div>
-      <div className="desc">手机扫码快速进入</div>
-      <div className="download-btn" onClick={downlaodApp}>
-        <img src={android} alt="" />
-        Android下载
+      <div className="download-btn">
+        <Button type="primary" onClick={downlaodApp}>
+          下载App
+        </Button>
+        <div className="mt12">
+          <Typography.Text type="secondary">版本号：{version}</Typography.Text>
+        </div>
       </div>
     </div>
   );

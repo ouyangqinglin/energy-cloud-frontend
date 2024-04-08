@@ -596,14 +596,22 @@ export const airAlarmFormat = (value: string) => {
   );
 };
 export const onlineStatusFormat = (value: string) => {
-  return <ProField mode="read" text={value} valueEnum={onlineStatus} />;
+  return (
+    <span className="pl4">
+      <ProField mode="read" text={value} valueEnum={onlineStatus} />
+    </span>
+  );
 };
 export const onlineStatus1Format = (value: string) => {
-  return <ProField mode="read" text={value} valueEnum={onlineStatus1} />;
+  return (
+    <span className="pl4">
+      <ProField mode="read" text={value} valueEnum={onlineStatus1} />
+    </span>
+  );
 };
 export const deviceAlarmStatusFormat = (value: string) => {
   return (
-    <span className="profield-alarm">
+    <span className="profield-alarm pl4">
       <ProField mode="read" text={value} valueEnum={deviceAlarmStatus} />
     </span>
   );

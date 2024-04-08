@@ -8,7 +8,7 @@ export default {
   'equipmentList.affTeam': '所属单元',
   'equipmentList.subRequire': '子系统必选',
   'equipmentList.devicePhoto': '设备照片',
-  'equipmentList.snForEms': 'EMS 设备SN',
+  'equipmentList.snForEms': 'EMS 设备序列号',
   'equipmentList.imei': 'IMEI/ICCID',
   'equipmentList.installStatus': '安装状态',
   'equipmentList.unInstall': '未安装',

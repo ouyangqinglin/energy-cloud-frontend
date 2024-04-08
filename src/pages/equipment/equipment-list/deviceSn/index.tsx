@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-10 11:19:17
- * @LastEditTime: 2023-12-01 11:03:03
+ * @LastEditTime: 2024-04-03 09:46:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\deviceSn\index.tsx
  */
@@ -58,12 +58,12 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
       <Dialog
         model={model}
         open={open}
-        title={'新增设备'}
+        title={formatMessage({ id: 'common.add', defaultMessage: '新增' })}
         width="600px"
         onCancel={onCancel}
         onOk={triggerSubmit}
-        okText="下一步"
-        cancelText="取消"
+        okText={formatMessage({ id: 'common.next', defaultMessage: '下一步' })}
+        cancelText={formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}
       >
         <ProForm
           form={form}
@@ -78,12 +78,14 @@ const DeviceSn: React.FC<DeviceSnProps> = (props) => {
         >
           <ProFormText
             name="sn"
-            label={'设备sn'}
-            placeholder="请输入设备sn"
+            label={formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' })}
             rules={[
               {
                 required: true,
-                message: '请输入设备sn',
+                message: formatMessage({
+                  id: 'common.pleaseEnterSn',
+                  defaultMessage: '请输入设备序列号',
+                }),
               },
             ]}
           />

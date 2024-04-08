@@ -55,6 +55,7 @@ import {
   FireFight,
   GenerralDevice,
   AlarmFull,
+  App,
 } from './YTSvg';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
@@ -241,6 +242,10 @@ const YTGenerralDeviceOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={GenerralDevice} {...props} />
 );
 
+const YTAppOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={App} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -288,4 +293,5 @@ export {
   YTDehumidifierOutlined,
   YTFireFightOutlined,
   YTGenerralDeviceOutlined,
+  YTAppOutlined,
 };

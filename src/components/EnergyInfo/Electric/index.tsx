@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-26 14:47:08
+ * @LastEditTime: 2024-04-03 14:32:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -15,7 +15,7 @@ import { getElectic } from '../service';
 import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
-import { arrayToMap, formatMessage } from '@/utils';
+import { arrayToMap, formatMessage, getPlaceholder } from '@/utils';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import Detail from '@/components/Detail';
@@ -69,6 +69,38 @@ const Electric: React.FC<ComProps> = (props) => {
   const onChange = useCallback((value: Moment | null) => {
     setDate(value || moment());
   }, []);
+
+  const options = useMemo(() => {
+    const result: Record<string, any> = {};
+    result.tooltip = {
+      formatter: (params: any) => {
+        const data0 = params?.[0]?.data;
+        const data1 = params?.[1]?.data;
+        return `<div>
+          ${
+            chartType == chartTypeEnum.Day
+              ? data0[0] +
+                '-' +
+                moment('2023-01-01 ' + data0[0])
+                  .add(1, 'h')
+                  .format('HH:mm')
+              : data0[0]
+          }
+        <div>
+          <div>${formatMessage({
+            id: 'siteMonitor.allCharge',
+            defaultMessage: '总充电量',
+          })}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
+          <div>${formatMessage({
+            id: 'siteMonitor.allDisharge',
+            defaultMessage: '总放电量',
+          })}：<span style="font-weight: bold;">${getPlaceholder(data1[2])}</span></div>
+        </div>
+      </div>`;
+      },
+    };
+    return merge({}, chartOption, result);
+  }, [chartType]);
 
   useEffect(() => {
     setChartData([]);
@@ -224,7 +256,7 @@ const Electric: React.FC<ComProps> = (props) => {
           {loading && <Spin className="ml12" />}
         </div>
         <Detail items={detailItems} data={statisInfo} column={2} unitInLabel={true} />
-        <TypeChart type={chartType} date={date} option={chartOption} data={chartData} step={60} />
+        <TypeChart type={chartType} date={date} option={options} data={chartData} step={60} />
       </div>
     </>
   );

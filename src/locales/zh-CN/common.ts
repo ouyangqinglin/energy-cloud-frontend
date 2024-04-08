@@ -1,5 +1,6 @@
 export default {
-  'common.add': '新建',
+  'common.new': '新建',
+  'common.add': '新增',
   'common.delete': '删除',
   'common.edit': '编辑',
   'common.detail': '查看详情',
@@ -31,7 +32,7 @@ export default {
   'common.set': '设置',
   'common.setDetails': '设置详情',
   'common.deviceName': '设备名称',
-  'common.deviceSn': '设备sn',
+  'common.deviceSn': '设备序列号',
   'common.deviceCode': '设备ID',
   'common.equipmentSerial': '设备序列号',
   'common.equipmentEmsSerial': 'ems序列号',
@@ -91,6 +92,7 @@ export default {
   'common.deliveryTime': '交付时间',
   'common.lastPer': '最后更新人',
   'common.tobeDone': '待执行',
+  'common.upgradeDuring': '升级中',
   'common.upgradeSuc': '升级成功',
   'common.upgradeFai': '升级失败',
   'common.execute': '执行',
@@ -216,4 +218,5 @@ export default {
   'common.binderTime': '绑定时间',
   'common.noneYet': '暂无',
   'common.pageDevelopmenting': '页面开发中，敬请期待',
+  'common.next': '下一步',
 };

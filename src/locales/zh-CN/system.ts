@@ -2,6 +2,7 @@ export default {
   'system.title': '新能源能量管理云平台',
   'system.company': '深圳永泰数能科技有限公司',
   'system.applyName': '应用名称',
+  'system.scanApp': '扫码下载永泰新能源App',
   'system.applyId': '应用ID',
   'system.key': '密匙',
   'system.valid': '有效',

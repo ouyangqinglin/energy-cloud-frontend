@@ -104,7 +104,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         },
       },
       {
-        title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备sn' }),
+        title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }),
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,

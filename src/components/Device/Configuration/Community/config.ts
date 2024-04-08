@@ -2,13 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 16:23:48
- * @LastEditTime: 2024-03-26 17:09:15
+ * @LastEditTime: 2024-04-08 15:21:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Configuration\Community\config.ts
  */
 
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { masterSlaveEnum } from '@/utils/dict';
+import { DeviceMasterMode } from '@/utils/dictionary';
 
 export const accountItem: DetailItem[] = [
   {
@@ -79,6 +81,119 @@ export const thirtySiteGunItem: DetailItem[] = [
   },
 ];
 
+const deviceTypeItems: DetailItem[] = [
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      { name: 'BMS' },
+    ),
+    field: 'bmsDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      { name: 'EMS' },
+    ),
+    field: 'emsDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      { name: 'PCS' },
+    ),
+    field: 'pcsDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.cellTemperature', defaultMessage: '单体温度' }),
+      },
+    ),
+    field: 'temperatureDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.cellVoltage', defaultMessage: '单体电压' }),
+      },
+    ),
+    field: 'voltageDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.air', defaultMessage: '空调' }),
+      },
+    ),
+    field: 'airConditionerDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.singleClock', defaultMessage: '单体时钟' }),
+      },
+    ),
+    field: 'clockDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.Statistics', defaultMessage: '数据统计' }),
+      },
+    ),
+    field: 'statisticsDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.gridMeter', defaultMessage: '电网侧电表' }),
+      },
+    ),
+    field: 'powerGridSideDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }),
+      },
+    ),
+    field: 'inverterSideDeviceType',
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage(
+          { id: 'device.masterSentence', defaultMessage: '主机' },
+          { name: 'EMS' },
+        ),
+      },
+    ),
+    field: 'masterEmsDeviceType',
+    show: (_, data) => data.masterSlaveMode != DeviceMasterMode.Slave,
+  },
+  {
+    label: formatMessage(
+      { id: 'device.deviceTypeSentence', defaultMessage: '设备类型' },
+      {
+        name: formatMessage(
+          { id: 'device.masterSentence', defaultMessage: '主机' },
+          { name: formatMessage({ id: 'device.clock', defaultMessage: '时钟' }) },
+        ),
+      },
+    ),
+    field: 'masterClockDeviceType',
+    show: (_, data) => data.masterSlaveMode != DeviceMasterMode.Slave,
+  },
+];
+
 export const bWattItem: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.item', defaultMessage: '项目' }) + ' ID',
@@ -121,6 +236,7 @@ export const bWattItem: DetailItem[] = [
     label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
     field: 'inverterSideId',
   },
+  ...deviceTypeItems,
 ];
 
 export const react100WItem: DetailItem[] = [
@@ -198,4 +314,5 @@ export const react100WItem: DetailItem[] = [
     label: formatMessage({ id: 'device.inverterMeter', defaultMessage: '逆变侧电表' }) + ' ID',
     field: 'inverterSideId',
   },
+  ...deviceTypeItems,
 ];

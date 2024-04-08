@@ -55,7 +55,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
     <ModalForm<VersionInfo>
       visible={props.open}
       form={form}
-      title={formatMessage({ id: 'common.add', defaultMessage: '新建' })}
+      title={formatMessage({ id: 'common.new', defaultMessage: '新建' })}
       autoFocusFirstInput
       onFinish={onFinish}
       onVisibleChange={props.onOpenChange}

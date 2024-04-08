@@ -13,6 +13,21 @@ import { formatMessage } from '@/utils';
 export const columns: ProColumns[] = [
   {
     title: formatMessage({ id: 'charge.serialNumber', defaultMessage: '序号' }),
+    dataIndex: 'order0',
+    width: 50,
+  },
+  {
+    title: formatMessage({ id: 'charge.positiveFeedback', defaultMessage: '正极反馈' }),
+    dataIndex: 'mposfeed0',
+    width: 120,
+  },
+  {
+    title: formatMessage({ id: 'charge.negativeFeedback', defaultMessage: '负极反馈' }),
+    dataIndex: 'mnegfeed0',
+    width: 120,
+  },
+  {
+    title: formatMessage({ id: 'charge.serialNumber', defaultMessage: '序号' }),
     dataIndex: 'order1',
     width: 50,
   },
@@ -39,21 +54,6 @@ export const columns: ProColumns[] = [
   {
     title: formatMessage({ id: 'charge.negativeFeedback', defaultMessage: '负极反馈' }),
     dataIndex: 'mnegfeed2',
-    width: 120,
-  },
-  {
-    title: formatMessage({ id: 'charge.serialNumber', defaultMessage: '序号' }),
-    dataIndex: 'order3',
-    width: 50,
-  },
-  {
-    title: formatMessage({ id: 'charge.positiveFeedback', defaultMessage: '正极反馈' }),
-    dataIndex: 'mposfeed3',
-    width: 120,
-  },
-  {
-    title: formatMessage({ id: 'charge.negativeFeedback', defaultMessage: '负极反馈' }),
-    dataIndex: 'mnegfeed3',
     width: 120,
   },
 ];

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-03-14 09:03:55
+ * @LastEditTime: 2024-03-29 10:07:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
@@ -196,14 +196,19 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         );
       }
     }
-    if (
-      (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) ||
-      (!isStationChild && authorityMap.get('iot:device:add'))
-    ) {
+    if (!isStationChild && authorityMap.get('iot:device:add')) {
       toolBarArray.push(
         <Button type="primary" key="add" onClick={onAddClick}>
           <PlusOutlined />
-          <FormattedMessage id="common.add" defaultMessage="新建" />
+          <FormattedMessage id="common.new" defaultMessage="新建" />
+        </Button>,
+      );
+    }
+    if (isStationChild && authorityMap.get('iot:siteManage:siteConfig:deviceManage:add')) {
+      toolBarArray.push(
+        <Button type="primary" key="add" onClick={onAddClick}>
+          <PlusOutlined />
+          <FormattedMessage id="common.add" defaultMessage="新增" />
         </Button>,
       );
     }

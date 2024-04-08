@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-03-15 11:48:15
+ * @LastEditTime: 2024-04-02 16:55:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -36,6 +36,7 @@ export type DetailItem = {
 export type FormAndDetailType = ProFormColumnsType & DetailItem;
 
 export type DetailProps = DescriptionsProps & {
+  className?: string;
   items: DetailItem[];
   data: any;
   format?: (value: any, data?: any) => React.ReactNode;
@@ -46,6 +47,7 @@ export type DetailProps = DescriptionsProps & {
 
 const Detail: React.FC<DetailProps> = (props) => {
   const {
+    className = '',
     items,
     column = 3,
     labelStyle = {},
@@ -82,6 +84,14 @@ const Detail: React.FC<DetailProps> = (props) => {
             onClick: () => extral.props?.onClick?.(item, fieldValue, data),
           });
         }
+        const value =
+          !isEmpty(fieldValue) || item.showPlaceholder === false
+            ? item.format
+              ? item.format(fieldValue ?? '', data)
+              : format
+              ? format(fieldValue ?? '', data)
+              : fieldValue ?? ''
+            : '--';
         content.push(
           <Descriptions.Item
             className={item.className || ''}
@@ -90,7 +100,7 @@ const Detail: React.FC<DetailProps> = (props) => {
                 <span className={styles.label} title={(item.label ?? item.title) as string}>
                   {item.label ?? item.title}
                 </span>
-                {unitInLabel && (item?.unit || '')}
+                {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
               </>
             }
             labelStyle={item.labelStyle}
@@ -99,14 +109,12 @@ const Detail: React.FC<DetailProps> = (props) => {
             key={item?.field ?? item?.dataIndex}
           >
             <div className="flex w-full detail-value">
-              <span style={item.valueStyle || valueStyle}>
-                {!isEmpty(fieldValue) || item.showPlaceholder === false
-                  ? item.format
-                    ? item.format(fieldValue ?? '', data)
-                    : format
-                    ? format(fieldValue ?? '', data)
-                    : fieldValue ?? ''
-                  : '--'}
+              <span
+                className={styles.value}
+                style={item.valueStyle || valueStyle}
+                title={['function', 'object', 'symbol'].includes(typeof value) ? undefined : value}
+              >
+                {value}
               </span>
               {!unitInLabel && <span>{item.unit || ''}</span>}
               {item.extral}
@@ -121,6 +129,7 @@ const Detail: React.FC<DetailProps> = (props) => {
 
   return (
     <Descriptions
+      className={`${styles.detail} ${className}`}
       column={column}
       labelStyle={labelStyle}
       contentStyle={contentStyle}

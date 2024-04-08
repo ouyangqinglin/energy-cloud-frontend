@@ -109,7 +109,7 @@ export async function getInitialState(): Promise<initialStateType> {
       collapsed,
     };
   } else {
-    const localLocale = localStorage.getItem('umi_locale');
+    const localLocale = localStorage.getItem('umi_locale') || 'zh-CN';
     const systemInfo = merge({}, defaultSystemInfo);
     if (localLocale != 'zh-CN') {
       systemInfo.title = 'YT EMS Cloud';
