@@ -125,10 +125,10 @@ const SchemaForm = <
       const defaultSubmitter: FormSchema['submitter'] =
         layoutType !== 'QueryFilter'
           ? {
-              submitButtonProps: {
-                disabled: disableSubmitter,
-              },
-            }
+            submitButtonProps: {
+              disabled: disableSubmitter,
+            },
+          }
           : {};
       return merge(defaultSubmitter, submitter);
     }
@@ -210,6 +210,7 @@ const SchemaForm = <
       scrollToFirstError
       modalProps={{
         centered: true,
+        maskClosable: false,
       }}
       loading={getLoading || addLoading || editLoading}
       title={title}

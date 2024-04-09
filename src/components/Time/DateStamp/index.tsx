@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-30 11:18:34
- * @LastEditTime: 2024-01-09 11:05:05
+ * @LastEditTime: 2024-04-09 17:34:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Time\DateStamp\index.tsx
  */
@@ -30,6 +30,10 @@ const DateStamp: React.FC<DateStampType> = memo((props) => {
     [onChange],
   );
 
+  const onOpenChange = useCallback(() => { 
+    onChange?.(value);
+  },[]);
+
   return (
     <>
       <DatePicker
@@ -37,6 +41,7 @@ const DateStamp: React.FC<DateStampType> = memo((props) => {
         value={mergedValue}
         onChange={mergedOnChange}
         showTime={showTime}
+        onOpenChange={onOpenChange}
         {...restProps}
       />
     </>
