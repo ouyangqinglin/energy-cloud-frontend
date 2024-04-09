@@ -8,6 +8,7 @@
  */
 import request from '@/utils/request';
 import { downLoadXlsx } from '@/utils/downloadfile';
+import { formatMessage } from '@/utils';
 
 export const getTabs = (params: any) => {
   return request(`/iot/device/summary`, {
@@ -31,7 +32,12 @@ export const unbindDevice = (data: any) => {
 };
 
 export const exportTemp = () => {
-  return downLoadXlsx(`/iot/device/exportDeviceTemplate`, {}, '设备导入模版.xlsx', 'GET');
+  return downLoadXlsx(
+    `/iot/device/exportDeviceTemplate`,
+    {},
+    formatMessage({ id: 'screen.templateImport', defaultMessage: '设备导入模版' }) + '.xlsx',
+    'GET',
+  );
 };
 export const importTemp = (data: any) => {
   return request(`/iot/device/excelImportDevice`, {

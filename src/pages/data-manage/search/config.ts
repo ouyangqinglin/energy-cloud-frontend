@@ -1,15 +1,18 @@
 import type { ProColumns } from '@ant-design/pro-components';
-import { TABLETREESELECT, TABLESELECT } from '@/components/TableSelect';
+import { TABLETREESELECT } from '@/components/TableSelect';
 import type {
   TABLETREESELECTVALUETYPE,
-  TABLESELECTVALUETYPE,
   TableTreeModalProps,
   dealTreeDataType,
 } from '@/components/TableSelect';
-import { TableSearchType, CollectionValueType, TableDataType } from './type';
+import type { TableSearchType, CollectionValueType, TableDataType } from './type';
 import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
+
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
@@ -107,7 +110,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           dealTreeData,
           proTableProps: {
             pagination: false,
-            columns: tableSelectColumns,
+            columns: tableSelectColumns as any,
             request: getDeviceCollection,
           },
           valueId: 'selectName',
@@ -125,12 +128,11 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
   return searchColumns;
 };
 
-export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
+export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
     dataIndex: 'date',
-    valueType: 'dateRange',
-    render: (_, record) => record.time,
+    valueType: YTDATERANGE,
     search: {
       transform: (value) => {
         return {
@@ -153,7 +155,8 @@ export const timeColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     },
     fieldProps: (form) => {
       return {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];

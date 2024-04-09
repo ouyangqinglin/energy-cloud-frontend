@@ -5,7 +5,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 import type { OperlogType, OperlogListParams } from './data.d';
 import {
   getOperlogList,
@@ -21,6 +24,7 @@ import WrapContent from '@/components/WrapContent';
 import YTProTable from '@/components/YTProTable';
 import { operateUserType } from '@/utils/dictionary';
 import { getLocale } from '@/utils';
+import moment from 'moment';
 
 /* *
  *
@@ -276,9 +280,10 @@ const OperlogTableList: React.FC = () => {
     {
       title: <FormattedMessage id="monitor.Operlog.oper_time" defaultMessage="操作时间" />,
       dataIndex: 'operTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => <span>{record.operTime}</span>,
       search: {
@@ -315,19 +320,25 @@ const OperlogTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <YTProTable<OperlogType>
-          headerTitle={intl.formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="operId"
-          key="operlogList"
-          toolBarRender={() => [<></>]}
-          request={(params) => getOperlogList({ ...params } as OperlogListParams)}
-          columns={columns}
-        />
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
+          }}
+        >
+          <YTProTable<OperlogType>
+            headerTitle={intl.formatMessage({
+              id: 'pages.searchTable.title',
+              defaultMessage: '信息',
+            })}
+            actionRef={actionRef}
+            formRef={formTableRef}
+            rowKey="operId"
+            key="operlogList"
+            toolBarRender={() => [<></>]}
+            request={(params) => getOperlogList({ ...params } as OperlogListParams)}
+            columns={columns}
+          />
+        </ProConfigProvider>
       </div>
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

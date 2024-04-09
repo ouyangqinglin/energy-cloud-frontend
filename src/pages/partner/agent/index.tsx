@@ -138,7 +138,7 @@ const Agent: React.FC = () => {
       valueType: 'dateRange',
       width: 150,
       fieldProps: {
-        format: getLocale().dateFormat,
+        // format: getLocale().dateFormat,
       },
     },
     {

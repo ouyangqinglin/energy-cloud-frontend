@@ -28,7 +28,11 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage, getLocale } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
-
+import moment from 'moment';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -140,7 +144,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       </Button>
     </>
   );
-  const columns = useMemo<ProColumns<DeviceDataType>[]>(() => {
+  const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
       {
         title: formatMessage({ id: 'exchangeMonitor.batterySearch', defaultMessage: '电池搜索' }),
@@ -194,7 +198,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           defaultMessage: '电芯生产日期',
         }),
         dataIndex: 'cellCreateDate',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -205,7 +209,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           },
         },
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         width: 150,
         ellipsis: true,
@@ -217,9 +222,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           defaultMessage: '电芯交付日期',
         }),
         dataIndex: 'batteryDeliveryDate',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -251,9 +257,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -295,12 +302,19 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={toolBar}
-        request={handleRequest}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={toolBar}
+          request={handleRequest}
+        />
+      </ProConfigProvider>
+
       {isStationChild ? (
         <>
           <DeviceSn

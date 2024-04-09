@@ -83,9 +83,6 @@ const Account: React.FC<AccountsProps> = (props) => {
         dataIndex: 'createTime',
         valueType: 'dateRange',
         hideInSearch: true,
-        fieldProps: {
-          format: getLocale().dateFormat,
-        },
         width: 150,
       },
       {

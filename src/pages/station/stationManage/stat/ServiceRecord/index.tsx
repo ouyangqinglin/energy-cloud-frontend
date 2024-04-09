@@ -20,7 +20,10 @@ import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import { useMaintenance } from '@/hooks';
 import { getLocale } from '@/utils';
-
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 export enum PageTypeEnum {
   Install,
   Maintenance,
@@ -98,9 +101,10 @@ const ServiceRecord: React.FC<ServiceRecordProps> = (props) => {
       {
         title: '完成时间',
         dataIndex: 'endTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => record.endTime,
         search: {
@@ -152,14 +156,21 @@ const ServiceRecord: React.FC<ServiceRecordProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        columns={columns}
-        option={{
-          onDetailChange: onDetailChange,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        toolBarRender={() => [<></>]}
-        request={requestList}
-      />
+      >
+        <YTProTable
+          columns={columns}
+          option={{
+            onDetailChange: onDetailChange,
+          }}
+          toolBarRender={() => [<></>]}
+          request={requestList}
+        />
+      </ProConfigProvider>
+
       <DetailDialog
         title="详情"
         width="700px"

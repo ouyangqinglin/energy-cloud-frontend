@@ -12,6 +12,10 @@ import UpdateForm from './components/edit';
 import { getDict } from '../dict/service';
 import YTProTable from '@/components/YTProTable';
 import { getLocale, formatMessage } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 /**
  *
@@ -156,7 +160,7 @@ const ConfigTableList: React.FC = () => {
     });
   }, []);
 
-  const columns: ProColumns<ConfigType>[] = [
+  const columns: ProColumns<ConfigType, YTDATERANGEVALUETYPE>[] = [
     {
       title: <FormattedMessage id="system.Config.config_name" defaultMessage="参数名称" />,
       dataIndex: 'configName',
@@ -197,7 +201,7 @@ const ConfigTableList: React.FC = () => {
     {
       title: <FormattedMessage id="system.Config.create_time" defaultMessage="创建时间" />,
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       render: (_, record) => <span>{record.createTime}</span>,
       search: {
         transform: (value) => {
@@ -208,7 +212,8 @@ const ConfigTableList: React.FC = () => {
         },
       },
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       width: 150,
     },
@@ -265,74 +270,80 @@ const ConfigTableList: React.FC = () => {
   return (
     <WrapContent>
       <div style={{ width: '100%', float: 'right' }}>
-        <YTProTable<ConfigType>
-          headerTitle={intl.formatMessage({
-            id: 'pages.searchTable.title',
-            defaultMessage: '信息',
-          })}
-          actionRef={actionRef}
-          formRef={formTableRef}
-          rowKey="configId"
-          key="configList"
-          toolBarRender={() => [
-            <Button
-              type="primary"
-              key="add"
-              hidden={!access.hasPerms('system:config:add')}
-              onClick={async () => {
-                setCurrentRow(undefined);
-                setModalVisible(true);
-              }}
-            >
-              <PlusOutlined />
-              <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
-            </Button>,
-            <Button
-              type="primary"
-              key="remove"
-              hidden={selectedRowsState?.length === 0 || !access.hasPerms('system:config:remove')}
-              onClick={async () => {
-                const success = await handleRemove(selectedRowsState);
-                if (success) {
-                  setSelectedRows([]);
-                  actionRef.current?.reloadAndRest?.();
-                }
-              }}
-            >
-              <DeleteOutlined />
-              <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-            </Button>,
-            <Button
-              type="primary"
-              key="export"
-              hidden={!access.hasPerms('system:config:export')}
-              onClick={async () => {
-                handleExport();
-              }}
-            >
-              <ExportOutlined />
-              <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
-            </Button>,
-          ]}
-          request={(params) =>
-            getConfigList({ ...params } as ConfigListParams).then((res) => {
-              return {
-                code: '200',
-                data: {
-                  list: res.rows,
-                  total: res.total,
-                },
-                msg: '',
-              };
-            })
-          }
-          columns={columns}
-          rowSelection={{
-            onChange: (_, selectedRows) => {
-              setSelectedRows(selectedRows);
-            },
+        <ProConfigProvider
+          valueTypeMap={{
+            ...YTDateRangeValueTypeMap,
           }}
-        />
+        >
+          <YTProTable<ConfigType>
+            headerTitle={intl.formatMessage({
+              id: 'pages.searchTable.title',
+              defaultMessage: '信息',
+            })}
+            actionRef={actionRef}
+            formRef={formTableRef}
+            rowKey="configId"
+            key="configList"
+            toolBarRender={() => [
+              <Button
+                type="primary"
+                key="add"
+                hidden={!access.hasPerms('system:config:add')}
+                onClick={async () => {
+                  setCurrentRow(undefined);
+                  setModalVisible(true);
+                }}
+              >
+                <PlusOutlined />
+                <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+              </Button>,
+              <Button
+                type="primary"
+                key="remove"
+                hidden={selectedRowsState?.length === 0 || !access.hasPerms('system:config:remove')}
+                onClick={async () => {
+                  const success = await handleRemove(selectedRowsState);
+                  if (success) {
+                    setSelectedRows([]);
+                    actionRef.current?.reloadAndRest?.();
+                  }
+                }}
+              >
+                <DeleteOutlined />
+                <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
+              </Button>,
+              <Button
+                type="primary"
+                key="export"
+                hidden={!access.hasPerms('system:config:export')}
+                onClick={async () => {
+                  handleExport();
+                }}
+              >
+                <ExportOutlined />
+                <FormattedMessage id="pages.searchTable.export" defaultMessage="导出" />
+              </Button>,
+            ]}
+            request={(params) =>
+              getConfigList({ ...params } as ConfigListParams).then((res) => {
+                return {
+                  code: '200',
+                  data: {
+                    list: res.rows,
+                    total: res.total,
+                  },
+                  msg: '',
+                };
+              })
+            }
+            columns={columns}
+            rowSelection={{
+              onChange: (_, selectedRows) => {
+                setSelectedRows(selectedRows);
+              },
+            }}
+          />
+        </ProConfigProvider>
       </div>
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

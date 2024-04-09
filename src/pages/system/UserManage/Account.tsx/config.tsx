@@ -21,6 +21,8 @@ import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
 import { getLocale } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 
 export type AccountDataType = {
   userId?: string;
@@ -51,7 +53,7 @@ export type AccountDataType = {
 };
 
 export const getTableColumns = (types: OrgTypeEnum[]) => {
-  const tableColumns: ProColumns<AccountDataType>[] = [
+  const tableColumns: ProColumns<AccountDataType, YTDATERANGEVALUETYPE>[] = [
     {
       title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',
@@ -116,7 +118,7 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
     {
       title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       render: (_, record) => record.createTime,
       search: {
         transform: (value) => {
@@ -127,7 +129,8 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
         },
       },
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       width: 150,
     },

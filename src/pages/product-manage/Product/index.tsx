@@ -16,6 +16,8 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
 import { getPage } from './service';
 import { formatMessage } from '@/utils';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Product: React.FC = () => {
   const requestProductType = useCallback((searchParams: SearchParams) => {
@@ -58,14 +60,20 @@ const Product: React.FC = () => {
 
   return (
     <>
-      <YTProTable
-        columns={columns}
-        toolBarRender={false}
-        request={getPage}
-        option={{
-          onDetailChange,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-      />
+      >
+        <YTProTable
+          columns={columns}
+          toolBarRender={false}
+          request={getPage}
+          option={{
+            onDetailChange,
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

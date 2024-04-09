@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel, useRequest } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { ProConfigProvider } from '@ant-design/pro-components';
 import { timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { useSiteColumn } from '@/hooks';
@@ -13,6 +12,8 @@ import moment, { Moment } from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 type DeviceMapDataType = {
   sn: string;
   deviceName: string;
@@ -168,7 +169,11 @@ const Search: React.FC<SearchProps> = (props) => {
   return (
     <>
       <ProConfigProvider
-        valueTypeMap={{ ...tableTreeSelectValueTypeMap, ...tableSelectValueTypeMap }}
+        valueTypeMap={{
+          ...tableTreeSelectValueTypeMap,
+          ...tableSelectValueTypeMap,
+          ...YTDateRangeValueTypeMap,
+        }}
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}

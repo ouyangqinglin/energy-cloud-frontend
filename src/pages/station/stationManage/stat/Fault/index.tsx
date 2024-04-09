@@ -21,6 +21,10 @@ import type { DetailItem } from '@/components/Detail';
 import Steps from '@/components/Steps';
 import SchemaForm from '@/components/SchemaForm';
 import { getLocale } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Fault: React.FC = () => {
   const [openDetail, { setTrue, setFalse }] = useBoolean(false);
@@ -80,7 +84,7 @@ const Fault: React.FC = () => {
       {
         title: '创建时间',
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
           transform: (value) => {
@@ -91,7 +95,8 @@ const Fault: React.FC = () => {
           },
         },
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         width: 150,
       },
@@ -152,21 +157,28 @@ const Fault: React.FC = () => {
 
   return (
     <>
-      <YTProTable<FaultType, Pick<FaultType, 'siteId'>>
-        actionRef={actionRef}
-        columns={columns}
-        toolbar={{
-          onChange: onAddClick,
-          buttonText: '故障申报',
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        option={{
-          onDetailChange: onDetailChange,
-        }}
-        params={{
-          siteId,
-        }}
-        request={getPage}
-      />
+      >
+        <YTProTable<FaultType, Pick<FaultType, 'siteId'>>
+          actionRef={actionRef}
+          columns={columns}
+          toolbar={{
+            onChange: onAddClick,
+            buttonText: '故障申报',
+          }}
+          option={{
+            onDetailChange: onDetailChange,
+          }}
+          params={{
+            siteId,
+          }}
+          request={getPage}
+        />
+      </ProConfigProvider>
+
       <DetailDialog
         title="故障申报详情"
         width="700px"

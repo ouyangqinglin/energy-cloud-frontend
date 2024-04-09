@@ -2,7 +2,10 @@ import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { OrderDataType } from './data';
 import { ChargingType, ChargingStrategy, GunType, SourceType, ServerType } from '@/utils/dict';
-export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+
+export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERANGEVALUETYPE>[] => [
   {
     title: formatMessage({ id: 'device.gunId', defaultMessage: '枪号' }),
     hideInSearch: true,
@@ -132,9 +135,10 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType>[] => [
       defaultMessage: '开始时间',
     }),
     dataIndex: 'createTime',
-    valueType: 'dateRange',
+    valueType: YTDATERANGE,
     fieldProps: {
-      format: getLocale().dateFormat,
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
     },
     search: {
       transform: (value) => {

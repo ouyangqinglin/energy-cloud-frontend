@@ -13,6 +13,8 @@ import { getInstallerList } from './service';
 import type { OptionType } from '@/types';
 import { message } from 'antd';
 import { formatMessage } from '@/utils';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Install = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
@@ -115,14 +117,21 @@ const Install = () => {
 
   return (
     <>
-      <YTProTable<InstallListType, InstallListType>
-        columns={combinColumns}
-        // toolBarRender={() => []}
-        actionRef={actionRef}
-        request={requestList}
-        rowKey="id"
-        {...customConfig}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable<InstallListType, InstallListType>
+          columns={combinColumns}
+          // toolBarRender={() => []}
+          actionRef={actionRef}
+          request={requestList}
+          rowKey="id"
+          {...customConfig}
+        />
+      </ProConfigProvider>
+
       <Update
         {...{
           operations: operations,

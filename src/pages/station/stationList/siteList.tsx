@@ -21,6 +21,10 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
 import { formatMessage, getLocale } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -127,7 +131,7 @@ const StationList: React.FC = () => {
       )}
     </>
   );
-  const columns: ProColumns<StationType>[] = [
+  const columns: ProColumns<StationType, YTDATERANGEVALUETYPE>[] = [
     {
       title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',
@@ -169,9 +173,10 @@ const StationList: React.FC = () => {
     {
       title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => record.createTime,
       search: {
@@ -262,13 +267,20 @@ const StationList: React.FC = () => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
-        request={requestList}
-        resizable={true}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
+          request={requestList}
+          resizable={true}
+        />
+      </ProConfigProvider>
+
       <StationForm
         id={siteId}
         open={open}

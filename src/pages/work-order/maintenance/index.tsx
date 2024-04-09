@@ -15,6 +15,8 @@ import { message } from 'antd';
 import SelectSiteModal from './SelectSite';
 import { formatMessage } from '@/utils';
 import { OptionType } from '@/types';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Maintenance = () => {
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
@@ -132,14 +134,20 @@ const Maintenance = () => {
   } as ProColumns<MaintenanceListType>;
   return (
     <>
-      <YTProTable<MaintenanceListType, MaintenanceListType>
-        columns={[siteSearchColumn, maintenanceColumns, ...columns]}
-        // toolBarRender={() => []}
-        actionRef={actionRef}
-        request={requestList}
-        rowKey="id"
-        {...customConfig}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable<MaintenanceListType, MaintenanceListType>
+          columns={[siteSearchColumn, maintenanceColumns, ...columns]}
+          actionRef={actionRef}
+          request={requestList}
+          rowKey="id"
+          {...customConfig}
+        />
+      </ProConfigProvider>
+
       <SelectSiteModal
         onChange={ensureSite}
         open={siteModal}

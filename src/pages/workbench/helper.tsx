@@ -11,14 +11,10 @@ import moment from 'moment';
 import { CollectionDataType, CollectionSearchType, SearchType } from './typing';
 import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 import { YTCellFourOutlined, YTCellNineOutlined, YTCellSixOutlined } from '@/components/YTIcons';
-import {
-  TABLETREESELECT,
-  TABLETREESELECTVALUETYPE,
-  TableTreeModalProps,
-} from '@/components/TableSelect';
+import { TABLETREESELECT, TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getDeviceCollection, getMultipleDeviceTree } from '@/services/equipment';
 import { DeviceTreeDataType } from '@/types/device';
-import { formatMessage, getLocale } from '@/utils';
+import { formatMessage } from '@/utils';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -34,9 +30,6 @@ export const column: ProFormColumnsType<SearchType>[] = [
           }),
         },
       ],
-    },
-    fieldProps: {
-      format: getLocale().dateFormat,
     },
     initialValue: [moment(), moment()],
   },

@@ -15,11 +15,12 @@ import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { onlineStatus } from '@/utils/dictionary';
 import { getPage } from './service';
 import type { DeviceDataType } from '@/services/equipment';
-import { FormTypeEnum } from '@/components/SchemaForm';
-import EquipForm from '@/components/EquipForm';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { getLocale } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -183,9 +184,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       {
         title: formatMessage({ id: 'exchangeMonitor.time', defaultMessage: '时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.createTime}</span>,
         search: {
@@ -206,9 +208,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           defaultMessage: '换电起始时间',
         }),
         dataIndex: 'exchangeStartTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.exchangeStartTime}</span>,
         search: {
@@ -229,9 +232,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           defaultMessage: '换电结束时间',
         }),
         dataIndex: 'exchangeEndTime',
-        valueType: 'dateRange',
+        valueType: YTDATERANGE,
         fieldProps: {
-          format: getLocale().dateFormat,
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
         render: (_, record) => <span>{record.exchangeEndTime}</span>,
         search: {
@@ -277,12 +281,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
 
   return (
     <>
-      <YTProTable
-        actionRef={actionRef}
-        columns={columns}
-        toolBarRender={toolBar}
-        request={handleRequest}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable
+          actionRef={actionRef}
+          columns={columns}
+          toolBarRender={toolBar}
+          request={handleRequest}
+        />
+      </ProConfigProvider>
     </>
   );
 };

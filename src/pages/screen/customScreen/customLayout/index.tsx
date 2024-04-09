@@ -58,8 +58,7 @@ const CustomLayout = () => {
   // });
 
   const siteStatus = useMemo(() => {
-    const { pcsRunStatus, emsSystemStatus, systemMode, batteryStatus } = totalData as any;
-    return defaultSiteStatus(pcsRunStatus, emsSystemStatus, systemMode, batteryStatus);
+    return defaultSiteStatus(totalData as any);
   }, [totalData]);
 
   const newStorageOption = useMemo(() => {

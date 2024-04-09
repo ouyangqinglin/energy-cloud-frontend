@@ -14,6 +14,8 @@ import { Button } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
 import { MaintenanceUpdate } from './Update';
 import { formatMessage } from '@/utils';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -65,74 +67,81 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
 
   return (
     <>
-      <YTProTable<ObstacleReportInfo, ObstacleReportInfo>
-        columns={[siteSearchColumn, ...columns]}
-        toolBarRender={() => []}
-        actionRef={actionRef}
-        request={requestList}
-        rowKey="id"
-        search={{
-          labelWidth: 70,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        form={{
-          labelAlign: 'left',
-        }}
-        {...customConfig}
-        {...props}
-      />
-      <FormRead<ObstacleReportInfo>
-        titleRead={formatMessage({
-          id: 'taskManage.viewFaultRepairOrder',
-          defaultMessage: '查看故障修复工单',
-        })}
-        columns={columnsRead}
-        submitter={{
-          render: () => {
-            return [
-              <Button
-                key="cancel"
-                onClick={() => {
-                  set(false);
-                }}
-              >
-                取消
-              </Button>,
-              <Button
-                className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
-                key="ok"
-                type="primary"
-                onClick={() => {
-                  setStatusModal(true);
-                }}
-              >
-                {formatMessage({ id: 'taskManage.finished', defaultMessage: '完成' })}
-              </Button>,
-              <Button
-                className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
-                key="ok"
-                type="primary"
-                onClick={() => {
-                  set(false);
-                  setMaintenanceModal(true);
-                }}
-              >
-                {formatMessage({
-                  id: 'taskManage.createMaintenanceOrder',
-                  defaultMessage: '创建维修工单',
-                })}
-              </Button>,
-            ];
-          },
-        }}
-        request={getObstacleReport}
-        {...{
-          operations: operations,
-          visible: state,
-          onVisibleChange: set,
-          id: initialValues?.id,
-          keyForId: 'faultId',
-        }}
-      />
+      >
+        <YTProTable<ObstacleReportInfo, ObstacleReportInfo>
+          columns={[siteSearchColumn, ...columns]}
+          toolBarRender={() => []}
+          actionRef={actionRef}
+          request={requestList}
+          rowKey="id"
+          search={{
+            labelWidth: 70,
+          }}
+          form={{
+            labelAlign: 'left',
+          }}
+          {...customConfig}
+          {...props}
+        />
+        <FormRead<ObstacleReportInfo>
+          titleRead={formatMessage({
+            id: 'taskManage.viewFaultRepairOrder',
+            defaultMessage: '查看故障修复工单',
+          })}
+          columns={columnsRead}
+          submitter={{
+            render: () => {
+              return [
+                <Button
+                  key="cancel"
+                  onClick={() => {
+                    set(false);
+                  }}
+                >
+                  取消
+                </Button>,
+                <Button
+                  className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
+                  key="ok"
+                  type="primary"
+                  onClick={() => {
+                    setStatusModal(true);
+                  }}
+                >
+                  {formatMessage({ id: 'taskManage.finished', defaultMessage: '完成' })}
+                </Button>,
+                <Button
+                  className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}
+                  key="ok"
+                  type="primary"
+                  onClick={() => {
+                    set(false);
+                    setMaintenanceModal(true);
+                  }}
+                >
+                  {formatMessage({
+                    id: 'taskManage.createMaintenanceOrder',
+                    defaultMessage: '创建维修工单',
+                  })}
+                </Button>,
+              ];
+            },
+          }}
+          request={getObstacleReport}
+          {...{
+            operations: operations,
+            visible: state,
+            onVisibleChange: set,
+            id: initialValues?.id,
+            keyForId: 'faultId',
+          }}
+        />
+      </ProConfigProvider>
+
       <MaintenanceUpdate
         visible={maintenanceModal}
         onVisibleChange={setMaintenanceModal}

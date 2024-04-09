@@ -16,6 +16,10 @@ import { getList, getDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 import { getLocale } from '@/utils';
 
 const Alarm: React.FC = (props) => {
@@ -73,7 +77,7 @@ const Alarm: React.FC = (props) => {
     {
       title: formatMessage({ id: 'common.updatedTime', defaultMessage: '更新时间' }),
       dataIndex: 'operTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       render: (_, record) => record.operTime,
       search: {
         transform: (value) => {
@@ -84,7 +88,8 @@ const Alarm: React.FC = (props) => {
         },
       },
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
     },
     {
@@ -96,18 +101,25 @@ const Alarm: React.FC = (props) => {
 
   return (
     <>
-      <YTProTable<AlarmType, AlarmType>
-        columns={columns}
-        request={requestList}
-        toolBarRender={() => [<></>]}
-        rowKey="recordId"
-        option={{
-          columnsProp: {
-            width: '100px',
-          },
-          onDetailChange: onDetailClick,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-      />
+      >
+        <YTProTable<AlarmType, AlarmType>
+          columns={columns}
+          request={requestList}
+          toolBarRender={() => [<></>]}
+          rowKey="recordId"
+          option={{
+            columnsProp: {
+              width: '100px',
+            },
+            onDetailChange: onDetailClick,
+          }}
+        />
+      </ProConfigProvider>
+
       <DetailDialog
         width="500px"
         title={formatMessage({ id: 'common.setDetails', defaultMessage: '设置详情' })}

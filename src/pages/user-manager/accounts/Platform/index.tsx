@@ -9,6 +9,8 @@ import { FormOperations } from '@/components/YTModalForm/typing';
 import { useToggle } from 'ahooks';
 import { message } from 'antd';
 import type { ActionType } from '@ant-design/pro-components';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const Platform = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformSearchType }) => {
   const [state, { set }] = useToggle<boolean>(false);
@@ -60,14 +62,21 @@ const Platform = (props: { actionRef?: React.Ref<ActionType>; params?: PlatformS
   };
   return (
     <>
-      <YTProTable<CustomerInfo, CustomerInfo>
-        columns={columns}
-        actionRef={actionRef}
-        {...customConfig}
-        request={requestList}
-        rowKey="userId"
-        {...props}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable<CustomerInfo, CustomerInfo>
+          columns={columns}
+          actionRef={actionRef}
+          {...customConfig}
+          request={requestList}
+          rowKey="userId"
+          {...props}
+        />
+      </ProConfigProvider>
+
       <Update
         {...{
           operations: operations,

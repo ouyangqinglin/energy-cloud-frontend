@@ -20,6 +20,10 @@ import { format } from 'timeago.js';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage, getLocale } from '@/utils';
 const isUS = getLocale().isEnUS;
+import { YTDATERANGE } from '@/components/YTDateRange';
+import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 export type OperationLogProps = {
   isDeviceChild?: boolean;
@@ -88,7 +92,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
     },
   ];
 
-  const columns: ProColumns<OperationLogType>[] = [
+  const columns: ProColumns<OperationLogType, YTDATERANGEVALUETYPE>[] = [
     {
       title: formatMessage({ id: 'siteMonitor.logtype', defaultMessage: '日志类型' }),
       dataIndex: 'type',
@@ -138,10 +142,11 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
     {
       title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
       dataIndex: 'createTime',
-      valueType: 'dateRange',
+      valueType: YTDATERANGE,
       width: 150,
       fieldProps: {
-        format: getLocale().dateFormat,
+        dateFormat: getLocale().dateFormat,
+        format: 'YYYY-MM-DD',
       },
       render: (_, record) => `${record.createTime} (${format(record.createTime, 'zh_CN')})`,
       search: {
@@ -173,26 +178,34 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
   return (
     <>
       {isDeviceChild ? <></> : <SiteLabel className="px24 pt24 mb0" onChange={onChange} />}
-      <YTProTable<OperationLogType, OperationLogType>
-        actionRef={actionRef}
-        columns={columns}
-        request={requestList}
-        manualRequest={true}
-        toolBarRender={() => [<></>]}
-        option={{
-          columnsProp: {
-            width: '100px',
-          },
-          onDetailChange: onDetailClick,
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
         }}
-        scroll={
-          isDeviceChild
-            ? {
-                y: 550,
-              }
-            : {}
-        }
-      />
+      >
+        {' '}
+        <YTProTable<OperationLogType, OperationLogType>
+          actionRef={actionRef}
+          columns={columns}
+          request={requestList}
+          manualRequest={true}
+          toolBarRender={() => [<></>]}
+          option={{
+            columnsProp: {
+              width: '100px',
+            },
+            onDetailChange: onDetailClick,
+          }}
+          scroll={
+            isDeviceChild
+              ? {
+                  y: 550,
+                }
+              : {}
+          }
+        />{' '}
+      </ProConfigProvider>
+
       <DetailDialog
         width="420px"
         title={formatMessage({ id: 'siteMonitor.logDetails', defaultMessage: '日志详情' })}
