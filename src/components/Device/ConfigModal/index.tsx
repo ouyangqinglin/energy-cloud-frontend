@@ -108,7 +108,7 @@ const ConfigModal: React.FC<ConfigModalType> = (props) => {
   }, [openSchemaForm, open]);
 
   useEffect(() => {
-    if (!isEditing) {
+    if (!isEditing || (!openSchemaForm && !open)) {
       setInitialValues({ ...realTimeData });
     }
   }, [realTimeData]);
