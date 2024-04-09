@@ -210,14 +210,12 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       dataIndex: 'deviceName',
       width: 150,
       ellipsis: true,
-      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
       dataIndex: 'deviceSn',
       width: 150,
       ellipsis: true,
-      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'common.currentVersion', defaultMessage: '当前版本' }),
@@ -402,16 +400,16 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
             request: requestTree,
           },
           proTableProps: {
-            pagination: false,
             columns: deviceSelectColumns,
             request: (params: any) => {
               return getDeviceListBySiteId({
                 ...params,
                 productId: form?.getFieldValue?.('productId'),
                 siteId: params.deviceId == -1 ? '' : params.deviceId,
-                current: 1,
-                pageSize: 20,
               });
+            },
+            scroll: {
+              y: 340,
             },
           },
           onFocus: () => {
