@@ -12,6 +12,7 @@ export default {
   'siteMonitor.mainsCapacity': 'Consumption From Grid',
   'siteMonitor.powerConsumption': 'Load Power',
   'siteMonitor.chargingPileChargingAmount': 'EV Charger Consumption',
+  'siteMonitor.loadElectricConsumption': 'Load Consumption',
   'siteMonitor.otherLoadElectricConsumption': 'Other Load Consumption',
   'siteMonitor.chargingCapacity': 'Charging Energy',
   'siteMonitor.disChargingCapacity': 'Discharging Energy',

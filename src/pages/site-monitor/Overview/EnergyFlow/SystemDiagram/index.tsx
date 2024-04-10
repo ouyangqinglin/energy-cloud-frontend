@@ -1,6 +1,8 @@
 import { ReactComponent as SVGStatic } from './svg/SVGStatic.svg';
 import { ReactComponent as SVGStatic23 } from './svg/SVGStatic23.svg';
 import { ReactComponent as SVGStatic3 } from './svg/SVGStatic3.svg';
+import { ReactComponent as SVGT } from './svg/svgT.svg';
+import IconDot from './svg/dot.png';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
 import styles from './index.less';
@@ -30,8 +32,15 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string 
       case '23':
       case '13':
       case '1':
-      case '2':
         setSvgLine(() => <SVGStatic23 style={{ width: 289, height: 209, marginLeft: 90 }} />);
+        break;
+      case '2':
+        setSvgLine(
+          <>
+            <SVGT style={{ width: 283, height: 209, marginLeft: 90 }} />
+            <img className={styles.dot} src={IconDot} />
+          </>,
+        );
         break;
       case '3':
         setSvgLine(() => <SVGStatic3 style={{ width: 261, height: 370, marginLeft: 116 }} />);

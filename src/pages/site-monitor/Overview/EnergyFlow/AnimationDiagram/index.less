@@ -8,6 +8,15 @@
   border-radius: 50%;
   animation: move linear normal infinite;
 }
+
+.out {
+  animation: moveOut linear normal infinite;
+}
+
+.in {
+  animation: moveIn linear normal infinite;
+}
+
 .animationWrapper {
   position: absolute;
   top: 219px;
@@ -15,8 +24,33 @@
   transform: rotate(180deg);
   transform-origin: center;
 }
+
 @keyframes move {
   0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes moveOut {
+  0% {
+    offset-distance: 0%;
+  }
+  50% {
+    offset-distance: 100%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes moveIn {
+  0% {
+    offset-distance: 0%;
+  }
+  50% {
     offset-distance: 0%;
   }
   100% {

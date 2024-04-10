@@ -11,7 +11,6 @@ export const paths = (
     case '23':
     case '13':
     case '1':
-    case '2':
       return [
         {
           id: 'electric-supply',
@@ -31,6 +30,39 @@ export const paths = (
           path: 'M7.613,158.394 L116.885,158.395 C130.140,158.394 140.885,147.649 140.885,134.394 L140.885,0.116 L140.885,0.116',
           reverse: energyStore.direction === -1,
           hide: energyStore?.direction === 0,
+          style: { top: '32px', left: '-6px' },
+        },
+      ];
+    case '2':
+      return [
+        {
+          id: 'electric-supply',
+          path: 'M 300,158 L 155,158',
+          duration: 4,
+          route: electricSupply.direction === -1 ? 'in' : 'out',
+          repeat: 5,
+          reverse: electricSupply.direction === -1,
+          hide: electricSupply?.direction === 0,
+          style: { top: '32px', left: '-6px' },
+        },
+        {
+          id: 'energy_store',
+          duration: 4,
+          route: electricSupply.direction === -1 ? 'in' : 'out',
+          repeat: 5,
+          path: 'M 0,158 L 155,158',
+          reverse: energyStore.direction === -1,
+          hide: energyStore?.direction === 0,
+          style: { top: '32px', left: '-6px' },
+        },
+        {
+          id: 'load',
+          duration: 4,
+          route: electricSupply.direction === -1 ? 'out' : 'in',
+          repeat: 5,
+          path: 'M 155 158 L 155 5',
+          reverse: load.direction === -1,
+          hide: load?.direction === 0,
           style: { top: '32px', left: '-6px' },
         },
       ];
