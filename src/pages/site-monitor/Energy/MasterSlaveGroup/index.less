@@ -31,6 +31,11 @@
 
 .cabinetContain {
   position: relative;
+  :global {
+    .ant-carousel .slick-track {
+      transition: transform 0.8s linear 0s !important;
+    }
+  }
 }
 
 .col {
@@ -64,6 +69,11 @@
     height: 82px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
   }
+  :global {
+    .ant-carousel .slick-track {
+      transition: transform 0.8s linear 0s !important;
+    }
+  }
 }
 
 .vertical {
@@ -83,15 +93,16 @@
   &::before {
     position: absolute;
     top: 0;
-    left: 50%;
+    right: 50%;
     display: block;
     width: 100%;
     border-top: 2px solid #ececec;
     content: '';
   }
-  &:last-child::before {
-    display: none;
-  }
+}
+
+.firstItem::before {
+  display: none;
 }
 
 .editWrap {

@@ -72,7 +72,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
 
   const carouselItems = useMemo(() => {
     const items: React.ReactNode[][] = [[]];
-    data?.forEach?.((device) => {
+    data?.forEach?.((device, index) => {
       const lastIndex = items.length - 1;
       if (items[lastIndex].length >= 3) {
         items.push([
@@ -87,7 +87,7 @@ const GroupItem: React.FC<GroupItemProps> = (props) => {
         ]);
       } else {
         items[lastIndex].push(
-          <div className={`flex1 ${styles.itemContain}`}>
+          <div className={`flex1 ${styles.itemContain} ${index ? '' : styles.firstItem}`}>
             <DeviceItem
               key={device.deviceId}
               deviceData={device}
