@@ -2,6 +2,11 @@ import { formatMessage } from '@/utils';
 import { TimeType } from '../../components/TimeButtonGroup';
 import { ChartConfigType, FlagType } from '../type';
 
+export const subTypeMap = [
+  { label: formatMessage({ id: 'siteMonitor.powerCurve', defaultMessage: '功率曲线' }), value: 0 },
+  { label: formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }), value: 1 },
+];
+
 export const barLegendMap = new Map([
   [
     'charge',
@@ -25,6 +30,7 @@ export const barLegendMap = new Map([
 ]);
 
 export const TimeFormat = new Map([
+  [TimeType.DAY, 'HH:mm'],
   [TimeType.MONTH, 'YYYY-MM-DD'],
   [TimeType.YEAR, 'YYYY-MM'],
   [TimeType.TOTAL, 'YYYY'],

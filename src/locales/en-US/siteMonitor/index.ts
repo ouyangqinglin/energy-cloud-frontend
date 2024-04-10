@@ -332,4 +332,5 @@ export default {
   'siteMonitor.minimumVoltage': 'Minimum Voltage',
   'siteMonitor.maximumTemperature': 'Maximum Temperature',
   'siteMonitor.minimumTemperature': 'Minimum Temperature',
+  'siteMonitor.powerCurve': 'Power Curve',
 };

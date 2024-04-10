@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { TimeType } from '@/components/TimeButtonGroup';
+import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
@@ -13,10 +13,11 @@ type RealTimePowerProps = {
   date?: Moment;
   siteId?: number | string;
   timeType: TimeType;
+  subType: SubTypeEnum;
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId, timeType } = props;
+  const { date, siteId, timeType, subType } = props;
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -25,7 +26,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
-  const shouldShowLine = timeType === TimeType.DAY;
+  const shouldShowLine = timeType === TimeType.DAY && subType == 0;
 
   useEffect(() => {
     if (!powerData) {
@@ -62,10 +63,11 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       run({
         siteId,
         type: timeType,
+        subType,
         date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
       });
     }
-  }, [siteId, date, run, timeType]);
+  }, [siteId, date, run, timeType, subType]);
 
   const allLabel = chartData?.[0]?.data?.map(({ label }) => label);
   const option = {
@@ -90,7 +92,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     legend: {
       show: true,
       icon: 'rect',
-      top: 'top',
+      top: 'bottom',
       itemHeight: 10,
       itemWidth: 10,
     },
@@ -116,7 +118,10 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   };
 
   return (
-    <div onMouseOver={() => timerRef.current.stop = true} onMouseOut={() => timerRef.current.stop = false}>
+    <div
+      onMouseOver={() => (timerRef.current.stop = true)}
+      onMouseOut={() => (timerRef.current.stop = false)}
+    >
       <TypeChart
         type={timeType}
         chartRef={chartRef}

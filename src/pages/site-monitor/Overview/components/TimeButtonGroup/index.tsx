@@ -10,6 +10,11 @@ export const enum TimeType {
   YEAR,
   TOTAL,
 }
+
+export const enum SubTypeEnum {
+  Power,
+  Electricity,
+}
 export type TimeButtonGroupProps = {
   onChange?: (type: TimeType) => void;
   className?: string;
