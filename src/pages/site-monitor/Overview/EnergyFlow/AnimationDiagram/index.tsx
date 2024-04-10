@@ -14,7 +14,6 @@ const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType
     <div className={styles.animationWrapper}>
       {currentPaths.map((p) => {
         let styleConfig = {
-          animationDelay: `-${p.delay}s`,
           animationDuration: `${p.duration}s`,
           animationPlayState: 'running',
           offsetPath: `path('${p.path}')`,
@@ -26,7 +25,16 @@ const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType
           styleConfig = { ...styleConfig, ...p.style };
         }
 
-        return <div className={styles.flow} key={p.id} id={p.id} style={styleConfig} />;
+        return (
+          <div
+            className={`${styles.flow} ${p?.route == 'in' ? styles.in : ''} ${
+              p?.route == 'out' ? styles.out : ''
+            }`}
+            key={p.id}
+            id={p.id}
+            style={styleConfig}
+          />
+        );
       })}
     </div>
   );

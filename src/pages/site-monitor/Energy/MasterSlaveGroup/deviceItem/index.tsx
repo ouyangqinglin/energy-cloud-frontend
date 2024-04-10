@@ -133,15 +133,6 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
           </div>
           <Divider className={styles.divider} type="vertical" />
           <div className={styles.energyInfo}>
-            <div
-              className={`w-full ellipsis ${styles.deviceName}`}
-              title={deviceData?.deviceName || '--'}
-            >
-              {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
-                ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
-                : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
-              {deviceData?.deviceName || '--'}
-            </div>
             <div className={'flex'}>
               <div
                 className={`ellipsis ${styles.statusLabel}`}
@@ -160,14 +151,25 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
             </div>
           </div>
         </div>
-        <div className="my6" onClick={onDeviceDetail}>
+        <div className="my6">
           <img
             className={`cursor ${styles.deviceImg}`}
             src={DeviceImg}
             alt={formatMessage({ id: 'device.equipmentDrawing', defaultMessage: '设备图' })}
+            onClick={onDeviceDetail}
           />
         </div>
-
+        <div>
+          <div
+            className={`w-full ellipsis ${styles.deviceName}`}
+            title={deviceData?.deviceName || '--'}
+          >
+            {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
+              ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
+              : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+            {deviceData?.deviceName || '--'}
+          </div>
+        </div>
         <div className={styles.dataContain}>
           <div className={`${styles.maxContain}`}>
             <div className={`flex flex-between px12 py8 mb16 ${styles.maxContent}`}>{maxItems}</div>

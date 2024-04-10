@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 15:10:33
- * @LastEditTime: 2024-01-29 17:34:15
+ * @LastEditTime: 2024-04-09 09:31:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\PvEnergy\index.tsx
  */
@@ -152,7 +152,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }),
     productTypeId: DeviceProductTypeEnum.Ems,
-    position: { top: 200, left: 783 },
+    position: { top: 208, left: 783 },
     icon: PvEnergyInverterImg,
     line: PvEnergyInverterLineImg,
     linePosition: { top: -19, left: -140 },

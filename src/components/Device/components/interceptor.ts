@@ -2,16 +2,18 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-23 14:19:52
- * @LastEditTime: 2024-03-26 10:43:18
+ * @LastEditTime: 2024-04-09 13:55:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\interceptor.ts
  */
 
-export const flat = (key: string, data: Record<string, any>[]) => {
+import { parseToArray } from '@/utils';
+
+export const flat = (key: string, data: string) => {
   const result: Record<string, any> = {};
-  data?.forEach?.((item, index) => {
+  parseToArray(data)?.forEach?.((item, index) => {
     Object.keys(item)?.forEach?.((itemKey) => {
-      result[`${key}[${index}].${itemKey}`] = item[itemKey];
+      result[`${key}[${index}]['${itemKey}']`] = item[itemKey];
     });
   });
   return result;

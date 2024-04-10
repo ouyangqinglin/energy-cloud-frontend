@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2023-12-22 15:28:19
+ * @LastEditTime: 2024-04-09 15:51:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -33,9 +33,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [activeTab, setActiveTab] = useState('tab0');
   const [tabItems, setTabItems] = useState<OptionType[]>([]);
   const actionRef = useRef<ActionType>();
-  const [searchParams, setSearchParams] = useState({
-    classType: 1,
-  });
+  const [searchParams, setSearchParams] = useState<{ classType?: number }>({});
   const [columns, setColumns] = useState([...EMScolumns]);
   const { passAuthority } = useAuthority('oss:monitor:device:delete');
 
@@ -80,13 +78,15 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     (key: React.Key | undefined) => {
       setActiveTab(key as string);
       const realKey = (key as string).replace('tab', '');
-      if (realKey) {
-        setSearchParams({
-          classType: Number(realKey),
-        });
-        const tableColumns = TabColumnsMap?.get(Number(realKey)) || [];
-        setColumns([...getOtColumns(onDetailClick), ...tableColumns]);
-      }
+      setSearchParams(
+        realKey
+          ? {
+              classType: Number(realKey),
+            }
+          : {},
+      );
+      const tableColumns = TabColumnsMap?.get(Number(realKey)) || [];
+      setColumns([...getOtColumns(onDetailClick), ...tableColumns]);
       actionRef.current?.reloadAndRest?.();
     },
     [tabItems, passAuthority],
@@ -103,7 +103,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
               value: item.count,
             };
           });
-          const key = 'tab' + (items[0]?.id || 0);
+          const key = 'tab' + items[0]?.id;
           setTabItems(items);
           onTabChange(key);
         } else {

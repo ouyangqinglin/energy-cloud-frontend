@@ -405,14 +405,14 @@ const TableTreeModal = <
           <Col className={styles.treeCol} flex="1">
             <ProTable<DataType, Params>
               className={styles.proTable}
+              scroll={{
+                y: 380,
+              }}
               {...tableProps}
               params={tableParams}
               request={requestTable}
               locale={{
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
-              }}
-              scroll={{
-                y: 380,
               }}
             />
           </Col>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-04-02 16:33:40
+ * @LastEditTime: 2024-04-09 13:40:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -57,8 +57,12 @@ const Run: React.FC<RunType> = (props) => {
   });
   const extralDeviceIds = useMemo(() => {
     const result = getPropsFromTree(groupData, 'deviceId');
-    return Array.from(new Set(result));
-  }, [groupData]);
+    const resultSet = new Set(result);
+    if (deviceData?.deviceId) {
+      resultSet.delete(deviceData?.deviceId);
+    }
+    return Array.from(resultSet);
+  }, [groupData, deviceData?.deviceId]);
   const extralDeviceRealTimeData = useSubscribe(extralDeviceIds, true);
 
   const interceptor = useMemo(() => {
@@ -83,6 +87,10 @@ const Run: React.FC<RunType> = (props) => {
     });
     return merge({}, realTimeData, result);
   }, [realTimeData, interceptor, deviceData?.deviceId]);
+
+  const allRealTimeData = useMemo(() => {
+    return merge({}, interceptorData, extralDeviceRealTimeData);
+  }, [interceptorData, extralDeviceRealTimeData]);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -327,7 +335,7 @@ const Run: React.FC<RunType> = (props) => {
     <>
       {groupsItems.length ? (
         <Detail.Group
-          data={{ ...interceptorData, ...extralDeviceRealTimeData }}
+          data={allRealTimeData}
           items={groupsItems}
           detailProps={{
             extral,
