@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 16:45:44
- * @LastEditTime: 2024-04-02 09:39:55
+ * @LastEditTime: 2024-04-11 11:13:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\helper.tsx
  */
@@ -68,8 +68,24 @@ export const energyProductIdMap = new Map([
   [DeviceTypeEnum.Wind2Energy, 'WindD'],
   [DeviceTypeEnum.SmallEnergy, 'SmallEnergy'],
   [DeviceTypeEnum.PvEnergy, 'PvEnergy'],
-  [DeviceTypeEnum.ChargeY602, 'Charge2Gun'],
   [DeviceTypeEnum.ChargeY601, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge601, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge801, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge1201, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge1601, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge1801, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge2401, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge3201, 'Charge1Gun'],
+  [DeviceTypeEnum.Charge4001, 'Charge1Gun'],
+  [DeviceTypeEnum.ChargeY602, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge602, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge802, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge1202, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge1602, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge1802, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge2402, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge3202, 'Charge2Gun'],
+  [DeviceTypeEnum.Charge4002, 'Charge2Gun'],
   [DeviceTypeEnum.ChargeMaster, 'ChargeMaster'],
   [DeviceTypeEnum.Charge2501, 'ChargeTerminal1Gun'],
   [DeviceTypeEnum.Charge6001, 'ChargeTerminal1Gun'],

@@ -343,6 +343,7 @@ const Run: React.FC<RunType> = (props) => {
             contentStyle: { width: 50 },
             unitInLabel: true,
             valueStyle: { width: '150px', maxWidth: '80%' },
+            ellipsis: false,
           }}
         />
       ) : (

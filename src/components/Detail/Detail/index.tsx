@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-04-02 16:55:42
+ * @LastEditTime: 2024-04-11 10:34:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -43,6 +43,7 @@ export type DetailProps = DescriptionsProps & {
   extral?: React.ReactElement;
   valueStyle?: React.CSSProperties;
   unitInLabel?: boolean;
+  ellipsis?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
@@ -57,6 +58,7 @@ const Detail: React.FC<DetailProps> = (props) => {
     extral,
     valueStyle = {},
     unitInLabel = false,
+    ellipsis = true,
     ...restProps
   } = props;
 
@@ -96,12 +98,19 @@ const Detail: React.FC<DetailProps> = (props) => {
           <Descriptions.Item
             className={item.className || ''}
             label={
-              <>
-                <span className={styles.label} title={(item.label ?? item.title) as string}>
+              ellipsis ? (
+                <>
+                  <span className={styles.label} title={(item.label ?? item.title) as string}>
+                    {item.label ?? item.title}
+                  </span>
+                  {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
+                </>
+              ) : (
+                <span title={(item.label ?? item.title) as string}>
                   {item.label ?? item.title}
+                  {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
                 </span>
-                {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
-              </>
+              )
             }
             labelStyle={item.labelStyle}
             contentStyle={item.contentStyle}

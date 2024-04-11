@@ -107,7 +107,7 @@ export default {
   'device.converterGeneralLowTemperatureLimit': '一般低温限值',
   'device.converterSevereLowTemperatureLimit': '严重低温限值',
   'device.antiBackflowThreshold': '防逆流阈值',
-  'device.maximumLoadOfTransformer': '变压器最大负荷',
+  'device.maximumLoadOfTransformer': '变压器最大功率',
   'device.converterProtectionParameterSettings': '变流器保护参数设置',
   'device.gridParameterSetting': '电网参数设置',
   'device.configureGridSettings': '配置电网设置',

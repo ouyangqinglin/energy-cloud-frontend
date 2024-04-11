@@ -66,6 +66,14 @@ export const standardRequestTableData = <D, P>(
     return;
   }
   const simpleRequest: ProTableProps<D, P>['request'] = async (...props) => {
+    if (props[1]) {
+      const sortParams = props[1] || {};
+      const searchParams: any = { ...props[0], sortMode: {} };
+      Object.entries(sortParams)?.forEach?.(([key, value]) => {
+        searchParams.sortMode[key] = value == 'ascend' ? 0 : 1;
+      });
+      props[0] = searchParams;
+    }
     const { data } = await request(...props);
     return {
       data: data?.list,

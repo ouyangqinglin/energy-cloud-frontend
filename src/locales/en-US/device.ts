@@ -115,7 +115,7 @@ export default {
   'device.converterGeneralLowTemperatureLimit': 'General low temperature limit',
   'device.converterSevereLowTemperatureLimit': 'Severe low temperature limit',
   'device.antiBackflowThreshold': 'Anti backflow threshold',
-  'device.maximumLoadOfTransformer': 'Transformer maximum load',
+  'device.maximumLoadOfTransformer': 'Transformer Maximum Power',
   'device.converterProtectionParameterSettings': 'Converter protection parameter Settings',
   'device.gridParameterSetting': 'Grid parameter setting',
   'device.configureGridSettings': 'Configure grid Settings',

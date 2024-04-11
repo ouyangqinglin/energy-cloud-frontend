@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-04-10 14:40:12
+ * @LastEditTime: 2024-04-11 10:37:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -1028,6 +1028,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             detailProps={{
               labelStyle: { width: 140 },
               unitInLabel: true,
+              ellipsis: false,
             }}
           />
           <ConfigModal
