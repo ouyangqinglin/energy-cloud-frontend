@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-04-09 15:51:05
+ * @LastEditTime: 2024-04-10 15:57:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -121,7 +121,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <>
           <span>
             {item.label}
-            {renderBadge(item.value, activeTab === key)}
+            {item.id && renderBadge(item.value, activeTab === key)}
           </span>
         </>
       ),

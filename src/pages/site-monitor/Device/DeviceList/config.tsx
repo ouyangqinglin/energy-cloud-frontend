@@ -1,3 +1,4 @@
+import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import {
   alarmStatus,
@@ -8,6 +9,7 @@ import {
   runningState,
   onlineStatus,
 } from '@/utils/dict';
+import { DeviceMasterMode } from '@/utils/dictionary';
 
 // 其他设备
 export const getOtColumns = (onClick) => {
@@ -17,8 +19,16 @@ export const getOtColumns = (onClick) => {
       dataIndex: 'deviceName',
       width: 120,
       ellipsis: true,
-      render: (_, record) => {
-        return <a onClick={() => onClick?.(record)}>{record.deviceName}</a>;
+      render: (_, record: DeviceDataType) => {
+        return (
+          <a onClick={() => onClick?.(record)}>
+            {record.masterSlaveMode === DeviceMasterMode.Master &&
+              `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+            {record.masterSlaveMode === DeviceMasterMode.Slave &&
+              `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`}
+            {record.deviceName}
+          </a>
+        );
       },
     },
     {

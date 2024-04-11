@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-04-02 16:48:42
+ * @LastEditTime: 2024-04-10 14:40:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -411,6 +411,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                     <RedoOutlined
                       className={`cl-primary cursor ${styles.refresh}`}
                       onClick={() => onRefresh(field)}
+                      title={formatMessage({
+                        id: 'common.refresh',
+                        defaultMessage: '刷新',
+                      })}
                     />
                   )}
                   {field?.buttons?.includes?.('edit') && (
@@ -423,6 +427,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                           1,
                         )
                       }
+                      title={formatMessage({
+                        id: 'common.edit',
+                        defaultMessage: '编辑',
+                      })}
                     />
                   )}
                 </>
@@ -591,6 +599,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                         <RedoOutlined
                           className={`cl-primary cursor ${styles.refresh}`}
                           onClick={() => onRefresh(field)}
+                          title={formatMessage({
+                            id: 'common.refresh',
+                            defaultMessage: '刷新',
+                          })}
                         />
                       )}
                       {field?.buttons?.includes?.('edit') && (
@@ -603,6 +615,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                               1,
                             )
                           }
+                          title={formatMessage({
+                            id: 'common.edit',
+                            defaultMessage: '编辑',
+                          })}
                         />
                       )}
                     </>
@@ -667,6 +683,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                     <RedoOutlined
                       className={`cl-primary cursor ${styles.refresh}`}
                       onClick={() => onRefresh(field)}
+                      title={formatMessage({
+                        id: 'common.refresh',
+                        defaultMessage: '刷新',
+                      })}
                     />
                   )}
                   {field?.buttons?.includes?.('edit') && (
@@ -679,6 +699,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                           1,
                         )
                       }
+                      title={formatMessage({
+                        id: 'common.edit',
+                        defaultMessage: '编辑',
+                      })}
                     />
                   )}
                 </>
@@ -770,6 +794,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                     <RedoOutlined
                       className={`cl-primary cursor ${styles.refresh}`}
                       onClick={() => onRefresh(field)}
+                      title={formatMessage({
+                        id: 'common.refresh',
+                        defaultMessage: '刷新',
+                      })}
                     />
                   )}
                   {field?.buttons?.includes?.('edit') && (
@@ -782,6 +810,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                           1,
                         )
                       }
+                      title={formatMessage({
+                        id: 'common.edit',
+                        defaultMessage: '编辑',
+                      })}
                     />
                   )}
                 </>
@@ -852,6 +884,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                 <RedoOutlined
                   className={`cl-primary cursor ${styles.refresh}`}
                   onClick={() => onRefresh(service)}
+                  title={formatMessage({
+                    id: 'common.refresh',
+                    defaultMessage: '刷新',
+                  })}
                 />
               ) : (
                 <Button
