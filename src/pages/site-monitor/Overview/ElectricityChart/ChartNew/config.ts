@@ -48,6 +48,7 @@ export const lineFieldMap: ChartConfigType[] = [
     flag: FlagType.ELECTRIC_SUPPLY_TYPE,
     show: false,
     color: '#FF7B7B',
+    unit: 'kWh',
   },
   {
     name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
@@ -55,6 +56,7 @@ export const lineFieldMap: ChartConfigType[] = [
     flag: FlagType.PHOTOVOLTAIC_TYPE,
     show: false,
     color: '#FFC542',
+    unit: 'kWh',
   },
   {
     name: formatMessage({ id: 'device.storage', defaultMessage: '储能系统' }),
@@ -62,6 +64,7 @@ export const lineFieldMap: ChartConfigType[] = [
     flag: FlagType.ES_TYPE,
     show: false,
     color: '#FFC542',
+    unit: 'kWh',
   },
   {
     name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
@@ -69,6 +72,7 @@ export const lineFieldMap: ChartConfigType[] = [
     flag: FlagType.CHARGING_TYPE,
     show: false,
     color: '#3DD598',
+    unit: 'kWh',
   },
   {
     name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
@@ -76,6 +80,7 @@ export const lineFieldMap: ChartConfigType[] = [
     flag: FlagType.LOAD_TYPE,
     show: false,
     color: '#50B5FF',
+    unit: 'kWh',
   },
 ];
 

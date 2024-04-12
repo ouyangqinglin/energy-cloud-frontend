@@ -84,7 +84,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const option = {
     yAxis: {
       type: 'value',
-      name: shouldShowLine ? '(kW)' : '(kWh)',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {
@@ -113,9 +112,23 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         type: 'shadow',
       },
       formatter: function (params: any[]) {
-        let result = params[0].name + '<br />';
+        const currentTime = moment('2023-01-01 ' + params[0].name);
+        const time =
+          subType == 0
+            ? currentTime.add(2, 'm').format('HH:mm')
+            : currentTime.add(1, 'h').format('HH:mm');
+        let result =
+          (timeType === TimeType.DAY ? `${params[0].name}-${time}` : params[0].name) + '<br />';
         params.forEach((item) => {
-          let lable = `${item.marker} ${item.seriesName}: ${item.value || 0}`;
+          let seriesName = null;
+          if (item.seriesName == formatMessage({ id: 'index.tab.income' })) {
+            //收益
+            seriesName =
+              item.seriesName + `(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
+          } else {
+            seriesName = item.seriesName + '(kwh)';
+          }
+          let lable = `${item.marker} ${seriesName}: ${item.value || 0}`;
           if (item.seriesName == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (item.value) item.value >= 0 ? (lable += `(充电)`) : (lable += `(放电)`);
@@ -148,7 +161,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       <div className={styles.total}>
         {!shouldShowLine
           ? chartData?.map((item) => (
-              <div key={item.name}>
+              <div className={styles.totalWrapperr} key={item.name}>
                 <div className={styles.totallable}>
                   {item.name}
                   {`(${item.unit})`}
