@@ -252,7 +252,9 @@ export const get = <R, U = 'common'>(
         options,
         ...{ params },
       };
-  return httpRequest?.instance?.get?.<InferResponseData<R, U>>(url, composeOptions);
+  const requestOptions = merge({ method: 'get' }, composeOptions);
+  optionInterceptor(requestOptions);
+  return httpRequest?.instance?.get?.<InferResponseData<R, U>>(url, requestOptions);
 };
 
 export const del = <R = any, U = 'common'>(
