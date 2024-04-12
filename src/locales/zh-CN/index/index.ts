@@ -43,6 +43,7 @@ export default {
   'index.tab.energy': '储能',
   'index.tab.charge': '充电桩',
   'index.tab.income': '收益',
+  'index.tab.incomeTotalize': '收益累计值',
   'index.chart.power': '功率',
   'index.chart.powerConsum': '用电量',
   'index.chart.powerGeneration': '发电量',

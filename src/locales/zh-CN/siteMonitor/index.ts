@@ -332,4 +332,5 @@ export default {
   'siteMonitor.minimumVoltage': '最低单体电压',
   'siteMonitor.maximumTemperature': '最高单体温度',
   'siteMonitor.minimumTemperature': '最低单体温度',
+  'siteMonitor.powerCurve': '功率曲线',
 };
