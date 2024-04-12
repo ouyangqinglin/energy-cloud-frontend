@@ -43,6 +43,7 @@ export default {
   'index.tab.energy': 'ESS',
   'index.tab.charge': 'EV Charger',
   'index.tab.income': 'Revenue',
+  'index.tab.incomeTotalize': 'Revenue Totalize',
   'index.chart.power': 'Power',
   'index.chart.powerConsum': 'Energy Consumption',
   'index.chart.powerGeneration': 'Power Generation',

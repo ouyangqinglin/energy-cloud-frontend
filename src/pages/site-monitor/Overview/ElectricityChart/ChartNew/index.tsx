@@ -3,11 +3,18 @@ import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
+import { formatMessage } from '@/utils';
 import type { Moment } from 'moment';
 import { getData } from '../service';
-import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
+import styles from './index.less';
+import {
+  getBarChartData,
+  getLineChartData,
+  makeDataVisibleAccordingFlag,
+  getTotalData,
+} from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
-import { barFieldMap, lineFieldMap } from './config';
+import { barFieldMap, lineFieldMap, totalMap } from './config';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -21,6 +28,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
+  const [totalData, setTotalData] = useState<any[]>(totalMap);
   const chartRef = useRef();
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
@@ -34,13 +42,24 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
     let calcData: TypeChartDataType[] = [];
     if (shouldShowLine) {
-      const fieldConfig = makeDataVisibleAccordingFlag([...lineFieldMap], powerData.flag);
+      const fieldConfig = makeDataVisibleAccordingFlag(
+        [...lineFieldMap],
+        powerData.flag,
+        timeType as number,
+      );
       calcData = getLineChartData(powerData, fieldConfig);
+      console.log('fieldConfig>>', fieldConfig);
+      console.log('calcData>>', calcData);
     } else {
-      const fieldConfig = makeDataVisibleAccordingFlag([...barFieldMap], powerData.flag);
-      calcData = getBarChartData(powerData, fieldConfig, timeType);
+      const fieldConfig = makeDataVisibleAccordingFlag(
+        [...barFieldMap],
+        powerData.flag,
+        timeType as number,
+      );
+      calcData = getBarChartData(powerData, fieldConfig, timeType as number);
     }
     setChartData(calcData);
+    setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
     let currentIndex = -1;
     const dataLen = calcData?.[0].data.length;
@@ -101,6 +120,19 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       axisPointer: {
         type: 'shadow',
       },
+      formatter: function (params: any[]) {
+        let result = params[0].name + '<br />';
+        console.log('params>>', params);
+        params.forEach((item) => {
+          let lable = `${item.marker} ${item.seriesName}: ${item.value || 0}`;
+          if (item.seriesName == formatMessage({ id: 'device.storage' })) {
+            //储能系统
+            if (item.value) item.value >= 0 ? (lable += `(充电)`) : (lable += `(放电)`);
+          }
+          result += `${lable}<br />`;
+        });
+        return result;
+      },
     },
     dataZoom: [
       {
@@ -122,6 +154,14 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       onMouseOver={() => (timerRef.current.stop = true)}
       onMouseOut={() => (timerRef.current.stop = false)}
     >
+      <div className={styles.total}>
+        {totalData.map((item) => (
+          <div key={item.field}>
+            <div className={styles.totallable}>{item.name}</div>
+            <div className={styles.totalvalue}>{item.value}</div>
+          </div>
+        ))}
+      </div>
       <TypeChart
         type={timeType}
         chartRef={chartRef}

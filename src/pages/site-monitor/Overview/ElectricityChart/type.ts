@@ -14,6 +14,13 @@ export type ChartConfigType = {
   field: string;
   flag: FlagType;
   show: boolean;
+  color: string;
+};
+
+export type TotalConfigType = {
+  name: string;
+  field: string;
+  value: string;
 };
 
 export const enum FlagType {
@@ -22,6 +29,7 @@ export const enum FlagType {
   CHARGING_TYPE,
   LOAD_TYPE,
   ELECTRIC_SUPPLY_TYPE,
+  GAIN,
 }
 
 export interface Flag {

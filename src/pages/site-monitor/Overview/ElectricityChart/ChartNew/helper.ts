@@ -1,10 +1,14 @@
 import moment from 'moment';
 import type { TimeType } from '../../components/TimeButtonGroup';
-import type { ChartConfigType, ChartItemType, ChartType, Flag } from '../type';
+import type { ChartConfigType, ChartItemType, ChartType, Flag, TotalConfigType } from '../type';
 import { TimeFormat } from './config';
 import { TypeChartDataType } from '@/components/Chart/TypeChart';
 
-export const makeDataVisibleAccordingFlag = (config: ChartConfigType[], flags: Flag[]) => {
+export const makeDataVisibleAccordingFlag = (
+  config: ChartConfigType[],
+  flags: Flag[],
+  timeType: TimeType,
+) => {
   const configForVisible = config.map((item) => {
     const shouldIShow = flags.some(({ code, flag: show }) => {
       if (item.flag === code) {
@@ -13,7 +17,8 @@ export const makeDataVisibleAccordingFlag = (config: ChartConfigType[], flags: F
       return false;
     });
     item.show = false;
-    if (shouldIShow) {
+    if (shouldIShow || (item.field == 'gain' && timeType != 0)) {
+      //收益除了日，其他一直都有
       item.show = true;
     }
     return item;
@@ -50,9 +55,14 @@ const getChartData = (data: ChartItemType[]): any[] => {
 export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartConfigType[]) => {
   const result: TypeChartDataType[] = [];
   for (let index = 0; index < fieldConfig.length; index++) {
-    const { field, show, name } = fieldConfig[index];
+    const { field, show, name, color } = fieldConfig[index];
     if (!show) continue;
-    result.push({ name, type: 'line', data: getChartData(rawSourceData?.[field] || []) });
+    result.push({
+      name,
+      type: 'line',
+      data: getChartData(rawSourceData?.[field] || []),
+      itemStyle: { color },
+    });
   }
   return result;
 };
@@ -65,12 +75,19 @@ export const getBarChartData = (
   const result: TypeChartDataType[] = [];
   for (let index = 0; index < fieldConfig.length; index++) {
     const arr: any = [];
-    const { field, show, name } = fieldConfig[index];
+    const { field, show, name, color } = fieldConfig[index];
     if (!show) continue;
     rawSourceData?.[field]?.forEach(({ eventTs, doubleVal }) => {
       arr.push({ label: moment(eventTs).format(TimeFormat.get(timeType)), value: doubleVal });
     });
-    result.push({ name, type: 'bar', barMaxWidth: 25, data: arr });
+    result.push({ name, type: 'bar', barMaxWidth: 25, data: arr, itemStyle: { color } });
   }
   return result;
+};
+
+export const getTotalData = (totalMap: TotalConfigType[], rawSourceData: any) => {
+  return totalMap.map((item: any) => {
+    item.value = rawSourceData[item.field] || '--';
+    return item;
+  });
 };
