@@ -192,6 +192,7 @@ const Run: React.FC<RunType> = (props) => {
             label: item?.name,
             deviceId: item?.deviceId,
             unit: (item?.dataType as DeviceDoubleType)?.specs?.unit,
+            showExtra: item?.showHistory,
             valueInterceptor: (_, data) => {
               if (item?.deviceId) {
                 const realField = item?.id?.split?.('.') || [];
@@ -264,6 +265,9 @@ const Run: React.FC<RunType> = (props) => {
               if (modelDescribeItem?.children?.[0]?.type == DeviceModelDescribeTypeEnum.Property) {
                 result.push({
                   items: getDetailItems(modelDescribeItem?.children),
+                  detailProps: {
+                    showExtra: modelDescribeItem?.showHistory,
+                  },
                 });
               } else {
                 modelDescribeItem?.children?.forEach?.((item) => {
@@ -343,6 +347,7 @@ const Run: React.FC<RunType> = (props) => {
             contentStyle: { width: 50 },
             unitInLabel: true,
             valueStyle: { width: '150px', maxWidth: '80%' },
+            ellipsis: false,
           }}
         />
       ) : (

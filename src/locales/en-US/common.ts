@@ -3,6 +3,7 @@ export default {
   'common.add': 'Add',
   'common.delete': 'Delete',
   'common.edit': 'Edit',
+  'common.refresh': 'Refresh',
   'common.detail': 'Detail',
   'common.productType': 'Product Type',
   'common.model': 'Product Model',

@@ -17,7 +17,7 @@ import type { RequestData } from '@ant-design/pro-table';
 import { clearSessionToken, getAccessToken, getRefreshToken, getTokenExpireTime } from '../access';
 import { LoginPageUrl } from './utils';
 import defaultSettings from '../../config/defaultSettings';
-import { isEmpty } from 'lodash';
+import { isEmpty, merge } from 'lodash';
 import { RequestCode } from './dictionary';
 import { stringify } from 'querystring';
 
@@ -107,6 +107,21 @@ interface HttpRequestType<R = false> {
       : ResponsePromise<T>;
   };
 }
+
+const optionInterceptor = (
+  options?: (ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) &
+    CustomRequestOptions,
+) => {
+  if (options?.method?.toLowerCase?.() == 'get') {
+    const params: Record<string, any> = options?.params || {};
+    if (params?.sortMode) {
+      Object.entries(params?.sortMode)?.forEach?.(([key, value]) => {
+        params[`sortMode.${key}`] = value;
+      });
+      delete params.sortMode;
+    }
+  }
+};
 
 export class HttpRequest implements HttpRequestType {
   instance: RequestMethod<false> = extend({});
@@ -205,7 +220,9 @@ export class HttpRequest implements HttpRequestType {
     options?: (ExtendOptionsWithoutResponse | ExtendOptionsWithResponse | ExtendOptionsInit) &
       CustomRequestOptions,
   ) {
-    const result = this?.instance?.<T>(url, options);
+    const requestOptions = merge({}, options);
+    optionInterceptor(requestOptions);
+    const result = this?.instance?.<T>(url, requestOptions);
     if (result) {
       result['tableThen'] = () => {
         return result.then(({ data }: any) => {
@@ -235,7 +252,9 @@ export const get = <R, U = 'common'>(
         options,
         ...{ params },
       };
-  return httpRequest?.instance?.get?.<InferResponseData<R, U>>(url, composeOptions);
+  const requestOptions = merge({ method: 'get' }, composeOptions);
+  optionInterceptor(requestOptions);
+  return httpRequest?.instance?.get?.<InferResponseData<R, U>>(url, requestOptions);
 };
 
 export const del = <R = any, U = 'common'>(

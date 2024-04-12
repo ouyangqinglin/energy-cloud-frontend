@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-30 11:18:34
- * @LastEditTime: 2024-04-09 17:34:45
+ * @LastEditTime: 2024-04-11 08:41:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Time\DateStamp\index.tsx
  */
@@ -30,9 +30,14 @@ const DateStamp: React.FC<DateStampType> = memo((props) => {
     [onChange],
   );
 
-  const onOpenChange = useCallback(() => { 
-    onChange?.(value);
-  },[]);
+  const onOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) {
+        onChange?.(value);
+      }
+    },
+    [value],
+  );
 
   return (
     <>

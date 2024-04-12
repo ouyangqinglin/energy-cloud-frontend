@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-23 15:56:10
- * @LastEditTime: 2023-12-14 09:44:46
+ * @LastEditTime: 2024-04-12 09:44:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\Alarm\config.ts
  */
@@ -25,7 +25,7 @@ export const items: DigitStatItemType[] = [
     icon: IconAlarm,
     title: formatMessage({
       id: 'screen.alarmNotHandledOverDay',
-      defaultMessage: '超24h未处理报警',
+      defaultMessage: '超24h未处理告警',
     }),
     unit: formatMessage({ id: 'screen.num', defaultMessage: '条' }),
     field: 'timeOut',

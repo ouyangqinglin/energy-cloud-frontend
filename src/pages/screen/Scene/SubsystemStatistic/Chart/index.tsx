@@ -107,7 +107,7 @@ const StatisticChart: FC<Props> = ({
             },
           }}
           title={{
-            text: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '(kW·h)',
+            text: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '(kWh)',
             position: 'end',
             autoRotate: false,
             offset: 0,

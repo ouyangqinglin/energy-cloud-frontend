@@ -89,7 +89,7 @@ export default {
   'screen.systemRunningData': '系统运行数据',
   'screen.economicProportion': '经济占比',
   'screen.num': '条',
-  'screen.alarmNotHandledOverDay': '超24h未处理报警',
+  'screen.alarmNotHandledOverDay': '超24h未处理告警',
   'screen.totalNumberDevices': '设备总数',
   'screen.offLineDevices': '离线设备',
   'screen.onLineDevices': '在线设备',
