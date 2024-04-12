@@ -68,7 +68,6 @@ export async function getInitialState(): Promise<initialStateType> {
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo({ showMessage: false });
-      console.log('resp>>', resp);
       initLocale(resp?.user?.lang);
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);
