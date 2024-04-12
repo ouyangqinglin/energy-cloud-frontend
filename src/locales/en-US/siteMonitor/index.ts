@@ -26,7 +26,7 @@ export default {
   'siteMonitor.storagePower': 'ESS power',
   'siteMonitor.chargingPileOther': 'EV Charger / Other',
   'siteMonitor.powerQuantity': 'Power Quantity',
-  'siteMonitor.siteRealtimepower': 'Real-time Power',
+  'siteMonitor.siteRealtimepower': 'Operation Data Graph',
   'siteMonitor.siteAccumulatedpower': 'Accumulated Energy',
   'siteMonitor.address': 'Address',
   'siteMonitor.gridTime': 'Grid Connection Time',

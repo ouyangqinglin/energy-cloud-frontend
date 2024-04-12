@@ -22,6 +22,7 @@ export type TypeChartDataType = {
     label: string;
     value?: number;
   }[];
+  [key: string]: any;
 };
 
 export type TypeChartProps = ChartProps & {

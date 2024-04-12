@@ -75,12 +75,20 @@ export const getBarChartData = (
   const result: TypeChartDataType[] = [];
   for (let index = 0; index < fieldConfig.length; index++) {
     const arr: any = [];
-    const { field, show, name, color } = fieldConfig[index];
+    const { field, show, name, color, totalField, unit } = fieldConfig[index];
     if (!show) continue;
     rawSourceData?.[field]?.forEach(({ eventTs, doubleVal }) => {
       arr.push({ label: moment(eventTs).format(TimeFormat.get(timeType)), value: doubleVal });
     });
-    result.push({ name, type: 'bar', barMaxWidth: 25, data: arr, itemStyle: { color } });
+    result.push({
+      name,
+      type: 'bar',
+      barMaxWidth: 25,
+      data: arr,
+      itemStyle: { color },
+      total: rawSourceData?.[totalField] || '--',
+      unit,
+    });
   }
   return result;
 };

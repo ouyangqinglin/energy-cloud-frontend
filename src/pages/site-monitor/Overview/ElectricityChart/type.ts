@@ -15,6 +15,8 @@ export type ChartConfigType = {
   flag: FlagType;
   show: boolean;
   color: string;
+  totalField?: string;
+  unit?: string;
 };
 
 export type TotalConfigType = {
