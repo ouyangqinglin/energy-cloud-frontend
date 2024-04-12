@@ -33,9 +33,9 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [activeKeysSet, setActiveKeysSet] = useState<Set<string>>(new Set());
   const [allTableData, setAllTableData] = useState<AllTableDataType>({
-    electric: { row1: [], row2: [] },
+    electric: { row1: [], row2: [], row3: [] },
     photovoltaic: { row1: [], row2: [] },
-    energy: { row1: [], row2: [] },
+    energy: { row1: [], row2: [], row3: [], row4: [] },
     charge: { row1: [], row2: [] },
     load: { row1: [], row2: [] },
   });
@@ -421,6 +421,10 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
               ...allTableData[item.key].row1,
               ...allTableData[item.key].row2,
               ...(allTableData[item.key].row3 || []),
+              ...(allTableData[item.key].row4 || []),
+              ...(allTableData[item.key].row5 || []),
+              ...(allTableData[item.key].row6 || []),
+              ...(allTableData[item.key].row7 || []),
             ]}
             size="small"
             bordered

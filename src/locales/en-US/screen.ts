@@ -39,7 +39,7 @@ export default {
   'screen.pvPowerGeneration': 'PV production',
   'screen.pvPowerGenerationTotalize': 'PV production Totalize',
   'screen.pvPowerSelfuse': 'PV Selfuse',
-  'screen.pvPowerSelfuseTotalize': 'PV Selfuse Totalize',
+  'screen.pvPowerSelfuseTotalize': 'PV Selfuse',
   'screen.selectDevice': 'Select device',
   'screen.charge': 'Charge',
   'screen.filledWith': 'Fully charged',
