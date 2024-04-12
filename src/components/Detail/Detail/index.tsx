@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-04-11 10:34:33
+ * @LastEditTime: 2024-04-12 09:31:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -44,6 +44,7 @@ export type DetailProps = DescriptionsProps & {
   valueStyle?: React.CSSProperties;
   unitInLabel?: boolean;
   ellipsis?: boolean;
+  showExtra?: boolean;
 };
 
 const Detail: React.FC<DetailProps> = (props) => {
@@ -59,6 +60,7 @@ const Detail: React.FC<DetailProps> = (props) => {
     valueStyle = {},
     unitInLabel = false,
     ellipsis = true,
+    showExtra,
     ...restProps
   } = props;
 
@@ -127,7 +129,7 @@ const Detail: React.FC<DetailProps> = (props) => {
               </span>
               {!unitInLabel && <span>{item.unit || ''}</span>}
               {item.extral}
-              {item.showExtra !== false && extralNode}
+              {showExtra !== false && item.showExtra !== false && extralNode}
             </div>
           </Descriptions.Item>,
         );

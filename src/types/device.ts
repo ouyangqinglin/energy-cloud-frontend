@@ -90,6 +90,7 @@ export type DeviceServiceModelType = {
       };
   buttons?: 'refresh' | 'edit';
   defaultValue?: string;
+  showHistory?: boolean;
 };
 
 export type DeviceServiceType = {
@@ -138,6 +139,7 @@ export type DeviceModelDescribeType = {
   authority?: DeviceModelAuthorityType[];
   children?: DeviceModelDescribeType[] | DeviceServiceType[];
   dataInterceptor?: string;
+  showHistory?: boolean;
 };
 
 export type DeviceModelDataType = {

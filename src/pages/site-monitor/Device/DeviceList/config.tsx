@@ -1,5 +1,6 @@
 import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
+import { productTypeIconMap } from '@/utils/IconUtil';
 import {
   alarmStatus,
   alarmStatus1,
@@ -9,7 +10,7 @@ import {
   runningState,
   onlineStatus,
 } from '@/utils/dict';
-import { DeviceMasterMode } from '@/utils/dictionary';
+import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
 
 // 其他设备
 export const getOtColumns = (onClick) => {
@@ -17,17 +18,27 @@ export const getOtColumns = (onClick) => {
     {
       title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
-      width: 120,
+      width: 200,
       ellipsis: true,
       render: (_, record: DeviceDataType) => {
+        const Component =
+          productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
+          productTypeIconMap.get(DeviceProductTypeEnum.Default);
         return (
-          <a onClick={() => onClick?.(record)}>
-            {record.masterSlaveMode === DeviceMasterMode.Master &&
-              `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
-            {record.masterSlaveMode === DeviceMasterMode.Slave &&
-              `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`}
-            {record.deviceName}
-          </a>
+          <>
+            <span
+              className="cl-primary cursor"
+              onClick={() => onClick(record)}
+              title={record.deviceName}
+            >
+              {Component && <Component className="mr8" />}
+              {record.masterSlaveMode === DeviceMasterMode.Master &&
+                `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+              {record.masterSlaveMode === DeviceMasterMode.Slave &&
+                `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`}
+              {record.deviceName}
+            </span>
+          </>
         );
       },
     },
@@ -36,6 +47,20 @@ export const getOtColumns = (onClick) => {
       dataIndex: 'sn',
       width: 150,
       ellipsis: true,
+    },
+    {
+      title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
+      dataIndex: 'model',
+      width: 220,
+      hideInSearch: true,
+      ellipsis: true,
+    },
+    {
+      title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
+      dataIndex: 'productTypeName',
+      width: 120,
+      ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: formatMessage({ id: 'siteMonitor.owningSite', defaultMessage: '所属站点' }),

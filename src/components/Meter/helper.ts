@@ -280,7 +280,7 @@ export const gridConfig: GridItemType[] = [
   {
     title:
       formatMessage({ id: 'siteMonitor.accumulatedElectricity', defaultMessage: '累计电量' }) +
-      '(kW·h）',
+      '(kWh）',
     icon: '/static/img/today-electric.png',
     item: [
       {

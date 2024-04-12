@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-04-10 15:57:11
+ * @LastEditTime: 2024-04-12 10:03:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Device\DeviceList\index.tsx
  */
@@ -19,6 +19,7 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { EMScolumns, getOtColumns, TabColumnsMap } from './config';
 import { useAuthority } from '@/hooks';
+import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons';
 
 type DeviceListProps = {
   onDetail?: (rowData: DeviceType) => boolean;
@@ -137,6 +138,32 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         toolBarRender={() => [<></>]}
         request={handleRequest}
         manualRequest={true}
+        expandable={{
+          childrenColumnName: 'childDeviceList',
+          expandIcon: ({ expanded, expandable, record, onExpand }) => {
+            return (
+              <>
+                {expandable ? (
+                  <>
+                    {expanded ? (
+                      <CaretDownFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    ) : (
+                      <CaretRightFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span className="mr8 table-expand-icon"></span>
+                )}
+              </>
+            );
+          },
+        }}
       />
       <EquipForm
         open={open}

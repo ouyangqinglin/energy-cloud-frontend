@@ -1,6 +1,8 @@
 export default {
   'device.pv': '光伏',
   'device.storage': '储能系统',
+  'device.storageCharging': '储能充电',
+  'device.storageDischarge': '储能放电',
   'device.storageBattery': '储能电池',
   'device.electricSupply': '市电',
   'device.chargingPile': '充电桩',
@@ -11,7 +13,7 @@ export default {
   'device.pvRevenue': '光伏收益',
   'device.storageRevenue': '储能收益',
   'device.storageCharge': '储能充电费用',
-  'device.storageDischarge': '储能放电收入',
+  'device.storageDischargeIncome': '储能放电收入',
   'device.chargingRevenue': '充电桩收益',
   'device.selfUseRate': '自发自用率',
   'device.loadSelfRate': '负载用电自给率',

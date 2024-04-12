@@ -52,7 +52,7 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
       show: ['2', '23'].includes(siteType),
     },
     {
-      label: formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电收入' }),
+      label: formatMessage({ id: 'device.storageDischargeIncome', defaultMessage: '储能放电收入' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.storageDischarge ?? '--',
       show: ['2', '23'].includes(siteType),

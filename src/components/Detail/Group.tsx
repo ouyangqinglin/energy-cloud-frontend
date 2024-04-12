@@ -11,6 +11,7 @@ import type { DetailItem, DetailProps } from './Detail';
 import Detail from './Detail';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import { merge } from 'lodash';
 
 export type GroupItem = {
   label?: React.ReactNode;
@@ -20,6 +21,7 @@ export type GroupItem = {
     groupItems?: GroupItem[];
   })[];
   component?: React.ReactNode | ((data?: Record<string, any>) => React.ReactNode);
+  detailProps?: Omit<DetailProps, 'items' | 'data'>;
 };
 
 export type GroupProps = {
@@ -48,7 +50,7 @@ const Group: React.FC<GroupProps> = (props) => {
               key={index}
               data={data}
               items={item.items}
-              {...(detailProps || {})}
+              {...merge({}, detailProps, item?.detailProps)}
             />
           )}
           {!!item?.tabItems?.length && (
