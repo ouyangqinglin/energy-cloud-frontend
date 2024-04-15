@@ -35,7 +35,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
   const [allTableData, setAllTableData] = useState<AllTableDataType>({
     electric: { row1: [], row2: [], row3: [] },
     photovoltaic: { row1: [], row2: [] },
-    energy: { row1: [], row2: [], row3: [], row4: [] },
+    energy: { row1: [], row2: [], row3: [], row4: [], row5: [], row6: [], row7: [] },
     charge: { row1: [], row2: [] },
     load: { row1: [], row2: [] },
   });
@@ -191,13 +191,16 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       });
       bingData(rowData, selectedRow.type, areaMap.get(selectedRow.area) || 0);
       setAllTableData((prevData) => {
-        return {
+        console.log('prevData>>', prevData);
+        const newData = {
           ...prevData,
           [selectedRow.type]: {
             ...prevData[selectedRow.type],
             [selectedRow.area]: rowData,
           },
         };
+        console.log('newData>>', newData);
+        return newData;
       });
     },
     [selectedRow, valueMap],
@@ -216,16 +219,22 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         });
       });
     }
-    [...(tableData.row1 || []), ...(tableData.row2 || []), ...(tableData.row3 || [])].forEach(
-      (item) => {
-        data.push({
-          siteId: siteId,
-          selectName: (item.id + '').indexOf('noData') === -1 ? item.id : '',
-          type: monitorTypeMap.get(item.type)?.type,
-          subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
-        });
-      },
-    );
+    [
+      ...(tableData.row1 || []),
+      ...(tableData.row2 || []),
+      ...(tableData.row3 || []),
+      ...(tableData.row4 || []),
+      ...(tableData.row5 || []),
+      ...(tableData.row6 || []),
+      ...(tableData.row7 || []),
+    ].forEach((item) => {
+      data.push({
+        siteId: siteId,
+        selectName: (item.id + '').indexOf('noData') === -1 ? item.id : '',
+        type: monitorTypeMap.get(item.type)?.type,
+        subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
+      });
+    });
     runEditConfig(data).then((result) => {
       if (result) {
         message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
@@ -259,9 +268,9 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       run({ siteId }).then((data) => {
         const keys = new Set<string>([...defaultOpenKeys]);
         const datas: AllTableDataType = {
-          electric: { row1: [], row2: [] },
+          electric: { row1: [], row2: [], row3: [] },
           photovoltaic: { row1: [], row2: [] },
-          energy: { row1: [], row2: [] },
+          energy: { row1: [], row2: [], row3: [], row4: [], row5: [], row6: [], row7: [] },
           charge: { row1: [], row2: [] },
           load: { row1: [], row2: [] },
         };
@@ -348,10 +357,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       key: 'electric',
       title: formatMessage({ id: 'siteManage.set.mainsMonitor', defaultMessage: '市电监测' }),
     },
-    {
-      key: 'load',
-      title: formatMessage({ id: 'siteManage.set.otherLoad', defaultMessage: '其他负载' }),
-    },
+
     {
       key: 'photovoltaic',
       title: formatMessage({ id: 'siteManage.set.pvMonitor', defaultMessage: '光伏监测' }),
@@ -369,6 +375,10 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         id: 'siteManage.set.chargePileMonitor',
         defaultMessage: '充电桩监测',
       }),
+    },
+    {
+      key: 'load',
+      title: formatMessage({ id: 'siteManage.set.otherLoad', defaultMessage: '其他负载' }),
     },
   ];
 
@@ -429,7 +439,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
             size="small"
             bordered
             pagination={false}
-            rowKey="rowId"
+            rowKey={(row) => `${row.rowId}-${row.id}`}
           />
           <div className="tx-right mt12 mb24">
             {authorityMap.get('iot:siteConfig:monitoringSave') ? (
