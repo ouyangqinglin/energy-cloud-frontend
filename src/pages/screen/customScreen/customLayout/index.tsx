@@ -392,7 +392,11 @@ const CustomLayout = () => {
                         <p className={styles.text_label}>{item.label}</p>
                         <p
                           className={styles.text_value}
-                          style={{ color: `${item.value == '自动' ? '#FFD15C' : '#28f0ee'}` }}
+                          style={{
+                            color: `${
+                              ['停机', '告警'].includes(item.value) ? '#FF5656' : '#28f0ee'
+                            }`,
+                          }}
                         >
                           {item.value}
                         </p>
