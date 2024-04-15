@@ -31,6 +31,14 @@ export const monitorTypeMap = new Map([
           area: 'row2',
           subType: 4,
         },
+        {
+          name: formatMessage({
+            id: 'siteManage.set.gridBackPower',
+            defaultMessage: '市电馈网电量',
+          }),
+          area: 'row3',
+          subType: 3,
+        },
       ],
     },
   ],
@@ -87,6 +95,38 @@ export const monitorTypeMap = new Map([
             defaultMessage: '储能实时功率',
           }),
           area: 'row3',
+          subType: 4,
+        },
+        {
+          name: formatMessage({
+            id: 'siteManage.set.energyStorageBatteryCharge',
+            defaultMessage: '储能电池充电量',
+          }),
+          area: 'row4',
+          subType: 2,
+        },
+        {
+          name: formatMessage({
+            id: 'siteManage.set.energyStorageBatteryDischarge',
+            defaultMessage: '储能电池放电量',
+          }),
+          area: 'row5',
+          subType: 3,
+        },
+        {
+          name: formatMessage({
+            id: 'siteManage.set.energyStorageBatteryEnableDischarge',
+            defaultMessage: '储能电池可放电量',
+          }),
+          area: 'row6',
+          subType: 3,
+        },
+        {
+          name: formatMessage({
+            id: 'siteManage.set.storageBatteryRealtimePower',
+            defaultMessage: '储能电池实时功率',
+          }),
+          area: 'row7',
           subType: 4,
         },
       ],

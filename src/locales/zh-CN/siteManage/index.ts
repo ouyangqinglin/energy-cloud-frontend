@@ -60,6 +60,7 @@ export default {
   'siteManage.set.monitorItem': '监测项目',
   'siteManage.set.mainsElectricConsumption': '市电供电量',
   'siteManage.set.mainsRealtimePower': '市电实时功率',
+  'siteManage.set.gridBackPower': '市电馈网电量',
   'siteManage.set.pvPowerGeneration': '光伏发电量',
   'siteManage.set.pvGridPower': '光伏上网电量',
   'siteManage.set.pvPower': '光伏发电功率',
@@ -121,4 +122,8 @@ export default {
   'siteManage.4grid': '4宫格',
   'siteManage.6grid': '6宫格',
   'siteManage.9grid': '9宫格',
+  'siteManage.set.energyStorageBatteryCharge': '储能电池充电量',
+  'siteManage.set.energyStorageBatteryDischarge': '储能电池放电量',
+  'siteManage.set.energyStorageBatteryEnableDischarge': '储能电池可放电量',
+  'siteManage.set.storageBatteryRealtimePower': '储能电池实时功率',
 };

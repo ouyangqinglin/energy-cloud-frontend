@@ -1,7 +1,9 @@
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { useToggle } from 'ahooks';
-import { Button, Col, Radio, Row, Statistic } from 'antd';
+import { Button, Col, Row, Statistic } from 'antd';
 import classNames from 'classnames';
+import { SiteTypeEnum } from '@/utils/dict';
+
 import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
@@ -31,49 +33,85 @@ const RealTimeData = ({ siteId, siteType }: { siteId?: number; siteType: string 
       label: formatMessage({ id: 'device.totalRevenue', defaultMessage: '总收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.totalGains ?? '--',
-      show: ['123', '12', '23', '13', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.PV_ES),
+        String(SiteTypeEnum.ES_CS),
+        String(SiteTypeEnum.PV_CS),
+        '',
+      ].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.photovoltaicGains ?? '--',
-      show: ['123', '12', '13', '1', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.PV_ES),
+        String(SiteTypeEnum.PV_CS),
+        String(SiteTypeEnum.PV),
+        '',
+      ].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.essGains ?? '--',
-      show: ['123', '12', '23', '2', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.PV_ES),
+        String(SiteTypeEnum.ES_CS),
+        String(SiteTypeEnum.ES),
+        '',
+      ].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.storageCharge', defaultMessage: '储能充电费用' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.storageCharge ?? '--',
-      show: ['2', '23'].includes(siteType),
+      show: ['2', String(SiteTypeEnum.ES_CS)].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.storageDischargeIncome', defaultMessage: '储能放电收入' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.storageDischarge ?? '--',
-      show: ['2', '23'].includes(siteType),
+      show: ['2', String(SiteTypeEnum.ES_CS)].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.chargingRevenue', defaultMessage: '充电桩收益' }),
       unit: formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
       value: data?.chargingPileGains ?? '--',
-      show: ['123', '23', '13', '3', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.ES_CS),
+        String(SiteTypeEnum.PV_CS),
+        String(SiteTypeEnum.CS),
+        '',
+      ].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.selfUseRate', defaultMessage: '自发自用率' }),
       unit: '(%)',
       value: data?.selfUseRate ?? '--',
-      show: ['123', '12', '13', '1', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.PV_ES),
+        String(SiteTypeEnum.PV_CS),
+        String(SiteTypeEnum.PV),
+        '',
+      ].includes(siteType),
     },
     {
       label: formatMessage({ id: 'device.loadSelfRate', defaultMessage: '负载用电自给率' }),
       unit: '(%)',
       value: data?.selfSufficiencyRate ?? '--',
-      show: ['123', '12', '13', '1', ''].includes(siteType),
+      show: [
+        String(SiteTypeEnum.PV_ES_CS),
+        String(SiteTypeEnum.PV_ES),
+        String(SiteTypeEnum.PV_CS),
+        String(SiteTypeEnum.PV),
+        '',
+      ].includes(siteType),
     },
   ];
 

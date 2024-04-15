@@ -61,6 +61,7 @@ export default {
   'siteManage.set.monitorItem': 'Monitoring Item',
   'siteManage.set.mainsElectricConsumption': 'Import Energy',
   'siteManage.set.mainsRealtimePower': 'Grid Power',
+  'siteManage.set.gridBackPower': 'Grid Back Power',
   'siteManage.set.pvPowerGeneration': 'Generation Energy',
   'siteManage.set.pvGridPower': 'PV Export Energy',
   'siteManage.set.pvPower': 'PV Power',
@@ -124,4 +125,8 @@ export default {
   'siteManage.4grid': '4-grid',
   'siteManage.6grid': '6-grid',
   'siteManage.9grid': '9-grid',
+  'siteManage.set.energyStorageBatteryCharge': 'Energy Storage Battery Charge',
+  'siteManage.set.energyStorageBatteryDischarge': 'Energy Storage Battery Discharge',
+  'siteManage.set.energyStorageBatteryEnableDischarge': 'Energy Storage Battery Enable Discharge',
+  'siteManage.set.storageBatteryRealtimePower': 'Storage Battery Realtime Power',
 };

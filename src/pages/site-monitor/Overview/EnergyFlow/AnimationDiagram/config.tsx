@@ -1,4 +1,5 @@
 import type { ystemDiagram } from '../../EnergyFlow/type';
+import { SiteTypeEnum } from '@/utils/dict';
 export const paths = (
   electricSupply: ystemDiagram,
   energyStore: ystemDiagram,
@@ -8,9 +9,9 @@ export const paths = (
   siteType: string,
 ) => {
   switch (siteType) {
-    case '23':
-    case '13':
-    case '1':
+    case String(SiteTypeEnum.ES_CS):
+    case String(SiteTypeEnum.PV_CS):
+    case String(SiteTypeEnum.PV):
       return [
         {
           id: 'electric-supply',
@@ -33,7 +34,7 @@ export const paths = (
           style: { top: '32px', left: '-6px' },
         },
       ];
-    case '2':
+    case String(SiteTypeEnum.ES):
       return [
         {
           id: 'electric-supply',
@@ -66,7 +67,7 @@ export const paths = (
           style: { top: '32px', left: '-6px' },
         },
       ];
-    case '3':
+    case String(SiteTypeEnum.CS):
       return [
         {
           id: 'electric-supply',

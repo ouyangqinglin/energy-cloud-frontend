@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
@@ -7,14 +7,9 @@ import { formatMessage } from '@/utils';
 import type { Moment } from 'moment';
 import { getData } from '../service';
 import styles from './index.less';
-import {
-  getBarChartData,
-  getLineChartData,
-  makeDataVisibleAccordingFlag,
-  getTotalData,
-} from './helper';
+import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
-import { barFieldMap, lineFieldMap, totalMap } from './config';
+import { barFieldMap, lineFieldMap } from './config';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -28,8 +23,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const [totalData, setTotalData] = useState<any[]>(totalMap);
   const chartRef = useRef();
+  const [allLabel, setAllLabel] = useState<string[]>([]);
+
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -48,8 +44,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         timeType as number,
       );
       calcData = getLineChartData(powerData, fieldConfig);
-      console.log('fieldConfig>>', fieldConfig);
-      console.log('calcData>>', calcData);
     } else {
       const fieldConfig = makeDataVisibleAccordingFlag(
         [...barFieldMap],
@@ -58,8 +52,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       );
       calcData = getBarChartData(powerData, fieldConfig, timeType as number);
     }
+    console.log('calcData>>', calcData);
     setChartData(calcData);
-    setTotalData(getTotalData([...totalMap], powerData));
+    // setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
     let currentIndex = -1;
     const dataLen = calcData?.[0].data.length;
@@ -88,11 +83,18 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
   }, [siteId, date, run, timeType, subType]);
 
-  const allLabel = chartData?.[0]?.data?.map(({ label }) => label);
+  useEffect(() => {
+    chartData?.forEach((item) => {
+      const data = item.data;
+      if (data && data.length) {
+        setAllLabel(data.map(({ label }) => label));
+      }
+    });
+  }, [chartData]);
+
   const option = {
     yAxis: {
       type: 'value',
-      name: shouldShowLine ? '(kW)' : '(kWh)',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {
@@ -121,11 +123,23 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         type: 'shadow',
       },
       formatter: function (params: any[]) {
-        let result = params[0].name + '<br />';
-        console.log('params>>', params);
+        const currentTime = moment('2023-01-01 ' + params[0].name);
+        const time =
+          subType == 0
+            ? currentTime.add(2, 'm').format('HH:mm')
+            : currentTime.add(1, 'h').format('HH:mm');
+        let result =
+          (timeType === TimeType.DAY ? `${params[0].name}-${time}` : params[0].name) + '<br />';
         params.forEach((item) => {
-          let lable = `${item.marker} ${item.seriesName}: ${item.value || 0}`;
-          if (item.seriesName == formatMessage({ id: 'device.storage' })) {
+          let seriesName = item.seriesName;
+          if (seriesName == formatMessage({ id: 'index.tab.income' })) {
+            //收益
+            seriesName += `(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
+          } else {
+            seriesName += shouldShowLine ? '(kW)' : '(kWh)';
+          }
+          let lable = `${item.marker} ${seriesName}: ${item.value || 0}`;
+          if (seriesName == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (item.value) item.value >= 0 ? (lable += `(充电)`) : (lable += `(放电)`);
           }
@@ -155,12 +169,17 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       onMouseOut={() => (timerRef.current.stop = false)}
     >
       <div className={styles.total}>
-        {totalData.map((item) => (
-          <div key={item.field}>
-            <div className={styles.totallable}>{item.name}</div>
-            <div className={styles.totalvalue}>{item.value}</div>
-          </div>
-        ))}
+        {!shouldShowLine
+          ? chartData?.map((item) => (
+              <div className={styles.totalWrapperr} key={item.name}>
+                <div className={styles.totallable}>
+                  {item.name}
+                  {`(${item.unit})`}
+                </div>
+                <div className={styles.totalvalue}>{item.total}</div>
+              </div>
+            ))
+          : ''}
       </div>
       <TypeChart
         type={timeType}

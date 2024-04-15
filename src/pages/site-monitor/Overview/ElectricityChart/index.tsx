@@ -50,12 +50,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
     <RowBox span={18} className={styles.chartWrapper}>
       <div className={styles.topBar}>
         <h1 className={styles.title}>
-          {timeType === TimeType.DAY
-            ? formatMessage({ id: 'siteMonitor.siteRealtimepower', defaultMessage: '站点实时功率' })
-            : formatMessage({
-                id: 'siteMonitor.siteAccumulatedpower',
-                defaultMessage: '站点累计电量',
-              })}
+          {formatMessage({ id: 'siteMonitor.siteRealtimepower', defaultMessage: '站点运行数据图' })}
         </h1>
         {timeType === TimeType.DAY ? (
           <Radio.Group

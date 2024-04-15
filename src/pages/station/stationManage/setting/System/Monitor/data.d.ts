@@ -25,6 +25,10 @@ export type TableDataType = {
   row1: MonitorDataType[];
   row2: MonitorDataType[];
   row3?: MonitorDataType[];
+  row4?: MonitorDataType[];
+  row5?: MonitorDataType[];
+  row6?: MonitorDataType[];
+  row7?: MonitorDataType[];
 };
 
 export type AllTableDataType = {
