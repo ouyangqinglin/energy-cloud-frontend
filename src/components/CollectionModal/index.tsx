@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2024-03-27 13:50:00
+ * @LastEditTime: 2024-04-15 15:24:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Modal } from 'antd';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { CollectionSearchType } from '@/services/data';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import SchemaForm from '@/components/SchemaForm';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { DeviceModelTypeEnum, formatMessage } from '@/utils';
@@ -57,6 +57,38 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           rules: [{ required: true }],
         },
         initialValue: [moment(), moment()],
+        fieldProps: (form) => {
+          return {
+            onOpenChange: (openDate: boolean) => {
+              if (openDate) {
+                window.collectionSearchDates = [];
+                window.collectionSelectDates = form?.getFieldValue?.('date');
+                form?.setFieldValue?.('date', []);
+              } else {
+                if (window.collectionSearchDates?.[0] && window.collectionSearchDates?.[1]) {
+                  form?.setFieldValue?.('date', window.collectionSearchDates);
+                } else {
+                  form?.setFieldValue?.('date', window.collectionSelectDates);
+                }
+              }
+            },
+            onCalendarChange: (val: Moment[]) => {
+              window.collectionSearchDates = [...(val || [])];
+            },
+            disabledDate: (current: Moment) => {
+              if (!window.collectionSearchDates) {
+                return false;
+              }
+              const tooLate =
+                window.collectionSearchDates?.[0] &&
+                current.diff(window.collectionSearchDates?.[0], 'days') > 6;
+              const tooEarly =
+                window.collectionSearchDates?.[1] &&
+                window.collectionSearchDates?.[1].diff(current, 'days') > 6;
+              return !!tooEarly || !!tooLate;
+            },
+          };
+        },
       },
     ];
   }, []);
