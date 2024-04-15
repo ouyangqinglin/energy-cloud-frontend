@@ -120,16 +120,15 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         let result =
           (timeType === TimeType.DAY ? `${params[0].name}-${time}` : params[0].name) + '<br />';
         params.forEach((item) => {
-          let seriesName = null;
-          if (item.seriesName == formatMessage({ id: 'index.tab.income' })) {
+          let seriesName = item.seriesName;
+          if (seriesName == formatMessage({ id: 'index.tab.income' })) {
             //收益
-            seriesName =
-              item.seriesName + `(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
+            seriesName += `(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
           } else {
-            seriesName = item.seriesName + '(kwh)';
+            seriesName += shouldShowLine ? '(kW)' : '(kWh)';
           }
           let lable = `${item.marker} ${seriesName}: ${item.value || 0}`;
-          if (item.seriesName == formatMessage({ id: 'device.storage' })) {
+          if (seriesName == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (item.value) item.value >= 0 ? (lable += `(充电)`) : (lable += `(放电)`);
           }
