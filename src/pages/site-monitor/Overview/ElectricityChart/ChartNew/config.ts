@@ -112,18 +112,18 @@ export const barFieldMap: ChartConfigType[] = [
     color: '#007DFF',
     unit: 'kWh',
   },
-  // {
-  //   name: formatMessage({
-  //     id: 'siteManage.set.energyStorageDischarge',
-  //     defaultMessage: '储能放电量',
-  //   }),
-  //   field: 'essDisCharge',
-  // totalField:'essDischargeTotal',
-  //   flag: FlagType.ES_TYPE,
-  //   show: false,
-  //   color: '#FF974A',
-  // unit:'kWh'
-  // },
+  {
+    name: formatMessage({
+      id: 'siteManage.set.energyStorageDischarge',
+      defaultMessage: '储能放电量',
+    }),
+    field: 'essDischarge',
+    totalField: 'essDischargeTotal',
+    flag: FlagType.ES_TYPE,
+    show: false,
+    color: '#FF974A',
+    unit: 'kWh',
+  },
   {
     name: formatMessage({
       id: 'siteMonitor.chargingPileChargingAmount',
