@@ -24,6 +24,8 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const chartRef = useRef();
+  const [allLabel, setAllLabel] = useState<string[]>([]);
+
   const { data: powerData, run } = useRequest(getData, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -50,6 +52,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       );
       calcData = getBarChartData(powerData, fieldConfig, timeType as number);
     }
+    console.log('calcData>>', calcData);
     setChartData(calcData);
     // setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
@@ -80,7 +83,15 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
   }, [siteId, date, run, timeType, subType]);
 
-  const allLabel = chartData?.[0]?.data?.map(({ label }) => label);
+  useEffect(() => {
+    chartData?.forEach((item) => {
+      const data = item.data;
+      if (data && data.length&&data.length>allLabel.length) {
+        setAllLabel(data.map(({ label }) => label));
+      }
+    });
+  }, [chartData]);
+
   const option = {
     yAxis: {
       type: 'value',
