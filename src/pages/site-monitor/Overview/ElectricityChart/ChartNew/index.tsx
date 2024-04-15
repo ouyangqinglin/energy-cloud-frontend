@@ -86,7 +86,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   useEffect(() => {
     chartData?.forEach((item) => {
       const data = item.data;
-      if (data && data.length&&data.length>allLabel.length) {
+      if (data && data.length) {
         setAllLabel(data.map(({ label }) => label));
       }
     });
