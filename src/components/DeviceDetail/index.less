@@ -97,3 +97,44 @@
   top: 4px;
   left: 17px;
 }
+
+.detail {
+  :global {
+    .ant-descriptions {
+      overflow: hidden;
+      .ant-descriptions-view {
+        width: auto;
+        margin-right: -50px;
+        margin-left: -50px;
+        tr.ant-descriptions-row {
+          td.ant-descriptions-item {
+            padding-right: 50px;
+            padding-left: 50px;
+            .ant-descriptions-item-label::after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .detail {
+    :global {
+      .ant-descriptions {
+        .ant-descriptions-view {
+          margin-right: -12px;
+          margin-left: -12px;
+          tr.ant-descriptions-row {
+            td.ant-descriptions-item {
+              padding-right: 12px;
+              padding-left: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

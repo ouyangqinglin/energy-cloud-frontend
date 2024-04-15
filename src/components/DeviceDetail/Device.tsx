@@ -50,7 +50,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
         children: (
           <>
             <div
-              className={`px24 ${
+              className={`px24 ${styles.detail} ${
                 deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''
               }`}
             >

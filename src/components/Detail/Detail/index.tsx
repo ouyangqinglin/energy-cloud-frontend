@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-04-12 09:31:44
+ * @LastEditTime: 2024-04-15 09:58:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -138,6 +138,18 @@ const Detail: React.FC<DetailProps> = (props) => {
     return content;
   }, [items, contentStyle, valueStyle, data, extral]);
 
+  const emptyColumn = useMemo(() => {
+    if (typeof column === 'number') {
+      return Array.from({ length: column }).map((_, index) => {
+        return (
+          <Descriptions.Item className={styles.empty} key={index}>
+            <span></span>
+          </Descriptions.Item>
+        );
+      });
+    }
+  }, [column]);
+
   return (
     <Descriptions
       className={`${styles.detail} ${className}`}
@@ -147,6 +159,7 @@ const Detail: React.FC<DetailProps> = (props) => {
       colon={colon}
       {...restProps}
     >
+      {emptyColumn}
       {descriptionItems}
     </Descriptions>
   );
