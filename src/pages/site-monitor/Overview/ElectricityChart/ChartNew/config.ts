@@ -63,7 +63,7 @@ export const lineFieldMap: ChartConfigType[] = [
     field: 'es',
     flag: FlagType.ES_TYPE,
     show: false,
-    color: '#FFC542',
+    color: '#007DFF',
     unit: 'kWh',
   },
   {
