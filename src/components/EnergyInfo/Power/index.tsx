@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-01 14:34:42
+ * @LastEditTime: 2024-04-15 15:48:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -15,6 +15,7 @@ import styles from '../index.less';
 import moment, { Moment } from 'moment';
 import { ComProps } from '../type';
 import { formatMessage } from '@/utils';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 enum colorEnum {
   Charge = 'rgba(0, 125, 255, 1)',
@@ -135,7 +136,10 @@ const Power: React.FC<ComProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (deviceData?.deviceId) {
+    if (
+      deviceData?.deviceId &&
+      (!deviceData?.productTypeId || deviceData?.productTypeId == DeviceProductTypeEnum.Energy)
+    ) {
       run({
         deviceId: deviceData?.deviceId,
         date: date.format('YYYY-MM-DD'),

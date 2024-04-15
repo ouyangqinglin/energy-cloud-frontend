@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-03 14:32:08
+ * @LastEditTime: 2024-04-15 15:32:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -19,34 +19,8 @@ import { arrayToMap, formatMessage, getPlaceholder } from '@/utils';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import Detail from '@/components/Detail';
-import { chartOption, detailItems } from './helper';
-
-const typeMap = [
-  {
-    value: chartTypeEnum.Day,
-    label: formatMessage({ id: 'common.time.day', defaultMessage: '日' }),
-    dateType: 'date',
-    format: 'YYYY-MM-DD',
-  },
-  {
-    value: chartTypeEnum.Month,
-    label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }),
-    dateType: 'month',
-    format: 'YYYY-MM',
-  },
-  {
-    value: chartTypeEnum.Year,
-    label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }),
-    dateType: 'year',
-    format: 'YYYY',
-  },
-  {
-    value: chartTypeEnum.Label,
-    label: formatMessage({ id: 'common.time.total', defaultMessage: '累计' }),
-    dateType: 'year',
-    format: 'YYYY',
-  },
-];
+import { chartOption, detailItems, typeMap } from './helper';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 export enum EnergySourceEnum {
   SiteMonitor,
@@ -105,7 +79,10 @@ const Electric: React.FC<ComProps> = (props) => {
   useEffect(() => {
     setChartData([]);
     setStatisInfo({});
-    if (deviceData?.deviceId) {
+    if (
+      deviceData?.deviceId &&
+      (!deviceData?.productTypeId || deviceData?.productTypeId == DeviceProductTypeEnum.Energy)
+    ) {
       const totalNum = chartTypeEnum.Month == chartType ? 7 : 4;
       let dates: { start: Moment; end: Moment }[] = [];
       if (chartType == chartTypeEnum.Month) {

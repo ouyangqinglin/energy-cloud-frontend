@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 15:19:49
- * @LastEditTime: 2024-03-26 15:48:14
+ * @LastEditTime: 2024-04-15 16:54:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\helper.tsx
  */
@@ -18,10 +18,11 @@ export const options = {
     left: 0,
     top: 30,
     right: 0,
-    bottom: 30,
+    bottom: 50,
   },
   legend: {
     icon: 'rect',
+    top: 'bottom',
   },
   dataZoom: [
     {
@@ -31,7 +32,7 @@ export const options = {
       start: 0,
       end: 100,
       height: 15,
-      bottom: 10,
+      bottom: 30,
     },
   ],
   tooltip: {
@@ -87,8 +88,8 @@ export const detailItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.dailyChargingCapacity', defaultMessage: '日充电量' }),
     field: 'chargeElectricityTotal',
-    format: powerHourFormat,
     className: styles.charge,
+    unit: 'kWh',
   },
   {
     label: formatMessage({ id: 'device.dailyChargingNumber', defaultMessage: '日充电次数' }),
