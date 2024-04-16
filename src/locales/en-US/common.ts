@@ -74,6 +74,7 @@ export default {
   'common.dayPowerConsumption': 'daily power consumption',
   'common.totalPowerConsumption': 'Accumulated electricity consumption',
   'common.upload': 'Upload',
+  'common.ok': 'Ok',
   'common.confirm': 'Confirm',
   'common.cancel': 'Cancel',
   'common.hide': 'Hide',
@@ -219,4 +220,5 @@ export default {
   'common.noneYet': 'None Yet',
   'common.pageDevelopmenting': 'The page is under development, please stay tuned',
   'common.next': 'Next',
+  'common.minute': 'Minute',
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 15:12:51
- * @LastEditTime: 2023-06-29 17:39:01
+ * @LastEditTime: 2024-04-16 16:39:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DetailDialog\index.tsx
  */
@@ -11,6 +11,7 @@ import { Modal, Button } from 'antd';
 import type { ModalProps } from 'antd';
 import Detail from '../Detail';
 import type { DetailProps } from '../Detail';
+import { formatMessage } from '@/utils';
 
 export type DetailDialogProps = ModalProps & {
   detailProps: DetailProps;
@@ -24,10 +25,10 @@ const DetailDialog: React.FC<DetailDialogProps> = (props) => {
   return (
     <>
       <Modal
-        title="详情"
+        title={formatMessage({ id: 'common.view', defaultMessage: '详情' })}
         footer={[
           <Button key="confirm" type="primary" onClick={onCancel} loading={confirmLoading}>
-            确定
+            {formatMessage({ id: 'common.ok', defaultMessage: '确定' })}
           </Button>,
         ]}
         onCancel={onCancel}

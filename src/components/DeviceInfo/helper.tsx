@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-27 09:02:38
+ * @LastEditTime: 2024-04-16 11:09:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
 
+import React from 'react';
 import { formatMessage, getPlaceholder, getPropsFromTree, isEmpty } from '@/utils';
 import {
   deviceAlarmStatusFormat,
@@ -20,6 +21,7 @@ import { DetailItem } from '../Detail';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { masterSlave1Enum, meterSerialNumberEnum } from '@/utils/dict';
 import { DeviceDataType } from '@/services/equipment';
+import { Typography } from 'antd';
 
 const connectFormat = (
   data: DeviceDataType[],
@@ -158,6 +160,9 @@ export const allItems: Record<string, DetailItem> = {
   iccid: {
     label: 'ICCID',
     field: 'iccid',
+    format: (value, _, emit) => {
+      return <Typography.Link onClick={() => emit?.('iccidClick')}>{value}</Typography.Link>;
+    },
   },
   upperComputerCommunication: {
     label: formatMessage(
@@ -515,6 +520,7 @@ const emsKeys = [
   'emsHardwareVersion',
   'emsSoftwareVersion',
   'imeiNumber',
+  'iccid',
   'cloudPlatformCommunication',
   'lightBoardCommunication',
   'converterCommunication',

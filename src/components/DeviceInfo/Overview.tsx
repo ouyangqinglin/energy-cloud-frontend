@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-04-16 09:29:56
+ * @LastEditTime: 2024-04-16 15:02:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -28,6 +28,7 @@ import { aLinkDownLoad } from '@/utils/downloadfile';
 import { DeviceMasterMode } from '@/utils/dictionary';
 import { topItems, bottomItems, getDetailItems } from './helper';
 import { useSubscribe } from '@/hooks';
+import IccidModal from './IccidModal';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
@@ -51,6 +52,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
+  const [openIccid, { setFalse: setIccidFalse, setTrue: setIccidTrue }] = useBoolean(false);
   const [deviceNameInfo, setDeviceNameInfo] = useState<DeviceNameInfoType>({
     name: '',
     showEdit: false,
@@ -132,6 +134,12 @@ const Overview: React.FC<OverviewProps> = (props) => {
     },
     [deviceData],
   );
+
+  const onEvent = useCallback((eventName) => {
+    if (eventName == 'iccidClick') {
+      setIccidTrue();
+    }
+  }, []);
 
   useEffect(() => {
     setDeviceNameInfo({
@@ -231,6 +239,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
               lg: 2,
             }}
             labelStyle={{ maxWidth: '130px' }}
+            onEvent={onEvent}
           />
         </div>
       )}
@@ -280,6 +289,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
           <Empty />
         )}
       </Modal>
+      <IccidModal open={openIccid} onCancel={() => setIccidFalse()} iccid={realTimeData?.iccid} />
     </>
   );
 };

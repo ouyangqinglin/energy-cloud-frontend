@@ -38,6 +38,7 @@ import date from './zh-CN/date';
 import things from './zh-CN/things';
 import debug from './zh-CN/debug';
 import charge from './zh-CN/charge';
+import iccid from './zh-CN/iccid';
 
 export default {
   'navBar.lang': '语言',
@@ -88,4 +89,5 @@ export default {
   ...things,
   ...debug,
   ...charge,
+  ...iccid,
 };
