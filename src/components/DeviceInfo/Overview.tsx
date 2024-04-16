@@ -161,7 +161,14 @@ const Overview: React.FC<OverviewProps> = (props) => {
     }
   };
   const openModal = () => {
-    setIsModalOpen(true);
+    const product = deviceData?.productIntroduce
+      ? JSON.parse(deviceData?.productIntroduce || '')
+      : [];
+    if (product.length) {
+      setIsModalOpen(true);
+    } else {
+      message.info('暂无产品资料！');
+    }
   };
   const closeModal = () => {
     setIsModalOpen(false);
@@ -191,11 +198,9 @@ const Overview: React.FC<OverviewProps> = (props) => {
             {deviceData?.forShort && `（${deviceData?.forShort}）`}
             <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
           </div>
-          <div>
-            <Button type="primary" onClick={openModal}>
-              {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
-            </Button>
-          </div>
+          <span onClick={openModal} className="ant-btn ant-btn-primary">
+            {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
+          </span>
         </div>
       );
     }
