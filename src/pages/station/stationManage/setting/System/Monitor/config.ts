@@ -6,7 +6,7 @@ export const areaMap = new Map([
   ['row3', 2],
 ]);
 
-export const defaultOpenKeys = ['electric', 'load'];
+export const defaultOpenKeys = ['electric'];
 
 export const monitorTypeMap = new Map([
   // subType =1 电气 =2充/发/用电量  =3 放/馈电量 =4 功率
@@ -103,7 +103,7 @@ export const monitorTypeMap = new Map([
             defaultMessage: '储能电池充电量',
           }),
           area: 'row4',
-          subType: 2,
+          subType: 6,
         },
         {
           name: formatMessage({
@@ -111,7 +111,7 @@ export const monitorTypeMap = new Map([
             defaultMessage: '储能电池放电量',
           }),
           area: 'row5',
-          subType: 3,
+          subType: 7,
         },
         {
           name: formatMessage({
@@ -119,7 +119,7 @@ export const monitorTypeMap = new Map([
             defaultMessage: '储能电池可放电量',
           }),
           area: 'row6',
-          subType: 3,
+          subType: 8,
         },
         {
           name: formatMessage({
@@ -127,7 +127,7 @@ export const monitorTypeMap = new Map([
             defaultMessage: '储能电池实时功率',
           }),
           area: 'row7',
-          subType: 4,
+          subType: 5,
         },
       ],
     },
