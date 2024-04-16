@@ -21,10 +21,7 @@ import { SiteTypeEnum } from '@/utils/dict';
 const keyToSystemTitle = new Map([
   [1, formatMessage({ id: 'siteMonitor.siteEnergyFlow', defaultMessage: '站点能量流' })],
   [2, formatMessage({ id: 'siteMonitor.pvSystemEnergyFlow', defaultMessage: '光伏系统能量流' })],
-  [
-    3,
-    formatMessage({ id: 'siteMonitor.storageSystemEnergyFlow', defaultMessage: '储能系统能量流' }),
-  ],
+  [3, formatMessage({ id: 'siteMonitor.storageSystemEnergyFlow', defaultMessage: '储能能量流' })],
   [
     4,
     formatMessage({ id: 'siteMonitor.deviceSystemEnergyFlow', defaultMessage: '用电设备能量流' }),
@@ -55,8 +52,6 @@ const Index: React.FC = () => {
   }, []);
 
   const columns = useMemo<ProColumns<EquipmentType>[]>(() => {
-
-
     return [
       {
         title: formatMessage({ id: 'siteMonitor.topology', defaultMessage: '拓扑' }),
@@ -75,12 +70,22 @@ const Index: React.FC = () => {
         },
         valueEnum: new Map([
           [1, formatMessage({ id: 'siteMonitor.siteTopology', defaultMessage: '站点拓扑' })],
-          [SiteTypeEnum.PV + '', SiteTypeEnum.PV_CS + '', SiteTypeEnum.PV_ES + '', SiteTypeEnum.PV_ES_CS + ''].includes(siteData?.siteType) ?
-            [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })] :
-            [] as any,
-          [SiteTypeEnum.ES + '', SiteTypeEnum.ES_CS + '', SiteTypeEnum.PV_ES + '', SiteTypeEnum.PV_ES_CS + ''].includes(siteData?.siteType) ?
-            [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })] :
-            [] as any,
+          [
+            SiteTypeEnum.PV + '',
+            SiteTypeEnum.PV_CS + '',
+            SiteTypeEnum.PV_ES + '',
+            SiteTypeEnum.PV_ES_CS + '',
+          ].includes(siteData?.siteType)
+            ? [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })]
+            : ([] as any),
+          [
+            SiteTypeEnum.ES + '',
+            SiteTypeEnum.ES_CS + '',
+            SiteTypeEnum.PV_ES + '',
+            SiteTypeEnum.PV_ES_CS + '',
+          ].includes(siteData?.siteType)
+            ? [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })]
+            : ([] as any),
           [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })],
           [
             5,

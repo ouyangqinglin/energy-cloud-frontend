@@ -57,7 +57,7 @@ export const lineFieldMap: ChartConfigType[] = [
     unit: 'kWh',
   },
   {
-    name: formatMessage({ id: 'device.storage', defaultMessage: '储能系统' }),
+    name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
     field: 'es',
     show: false,
     color: '#007DFF',

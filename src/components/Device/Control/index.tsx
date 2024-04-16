@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-04-11 10:37:32
+ * @LastEditTime: 2024-04-15 10:29:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -448,9 +448,9 @@ const Control: React.FC<ControlType> = memo((props) => {
                 label: field?.name,
                 showPlaceholder: false,
                 labelStyle: {
-                  width: '140px',
                   marginTop: '4px',
                 },
+                span: 3,
                 format: (value, data) => {
                   let formatValue = value;
                   if (field?.deviceId) {
@@ -485,9 +485,9 @@ const Control: React.FC<ControlType> = memo((props) => {
                 label: field?.name,
                 showPlaceholder: false,
                 labelStyle: {
-                  width: '140px',
                   marginTop: '4px',
                 },
+                span: 3,
                 format: (value, formatData) => {
                   let data;
                   let childData;
@@ -1026,9 +1026,10 @@ const Control: React.FC<ControlType> = memo((props) => {
             data={{ ...merge({}, realTimeData, transformData, extralDeviceRealTimeData) }}
             items={groupsItems}
             detailProps={{
-              labelStyle: { width: 140 },
+              labelStyle: { width: 166, paddingRight: 12 },
               unitInLabel: true,
               ellipsis: false,
+              colon: false,
             }}
           />
           <ConfigModal

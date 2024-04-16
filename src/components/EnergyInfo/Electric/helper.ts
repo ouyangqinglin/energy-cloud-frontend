@@ -7,6 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\helper.ts
  */
 
+import { chartTypeEnum } from '@/components/Chart/config';
 import { DetailItem } from '@/components/Detail';
 import { formatMessage, getPlaceholder } from '@/utils';
 import moment from 'moment';
@@ -45,5 +46,32 @@ export const detailItems: DetailItem[] = [
     label: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
     field: 'totalDischarge',
     unit: 'kWh',
+  },
+];
+
+export const typeMap = [
+  {
+    value: chartTypeEnum.Day,
+    label: formatMessage({ id: 'common.time.day', defaultMessage: '日' }),
+    dateType: 'date',
+    format: 'YYYY-MM-DD',
+  },
+  {
+    value: chartTypeEnum.Month,
+    label: formatMessage({ id: 'common.time.month', defaultMessage: '月' }),
+    dateType: 'month',
+    format: 'YYYY-MM',
+  },
+  {
+    value: chartTypeEnum.Year,
+    label: formatMessage({ id: 'common.time.year', defaultMessage: '年' }),
+    dateType: 'year',
+    format: 'YYYY',
+  },
+  {
+    value: chartTypeEnum.Label,
+    label: formatMessage({ id: 'common.time.total', defaultMessage: '累计' }),
+    dateType: 'year',
+    format: 'YYYY',
   },
 ];

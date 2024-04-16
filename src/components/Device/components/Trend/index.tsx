@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 14:40:05
- * @LastEditTime: 2024-03-08 14:06:34
+ * @LastEditTime: 2024-04-15 16:50:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\index.tsx
  */
@@ -83,7 +83,7 @@ const Trend: React.FC<PowerType> = (props) => {
           {loading && <Spin className="ml12" />}
         </div>
         <div>
-          <Detail items={detailItems} data={powerData} column={2} />
+          <Detail items={detailItems} data={powerData} column={2} unitInLabel />
         </div>
         <TypeChart step={60} date={date} option={options} data={chartData} />
       </div>

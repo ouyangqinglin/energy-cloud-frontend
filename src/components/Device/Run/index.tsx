@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-04-09 13:40:41
+ * @LastEditTime: 2024-04-16 09:43:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -205,10 +205,6 @@ const Run: React.FC<RunType> = (props) => {
           });
         }
       });
-      if (result.length > 1) {
-        result[result?.length - 1].span =
-          4 - (result.reduce((sum, item) => sum + (item.span ?? 1), 0) % 3);
-      }
       return result;
     },
     [deviceData?.deviceId],
@@ -343,11 +339,11 @@ const Run: React.FC<RunType> = (props) => {
           items={groupsItems}
           detailProps={{
             extral,
-            labelStyle: { width: 140 },
-            contentStyle: { width: 50 },
+            labelStyle: { width: 166, paddingRight: 14 },
             unitInLabel: true,
-            valueStyle: { width: '150px', maxWidth: '80%' },
+            valueStyle: { width: '100%' },
             ellipsis: false,
+            colon: false,
           }}
         />
       ) : (

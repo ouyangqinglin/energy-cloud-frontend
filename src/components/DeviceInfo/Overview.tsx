@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-01-10 11:52:18
+ * @LastEditTime: 2024-04-16 09:29:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -230,7 +230,12 @@ const Overview: React.FC<OverviewProps> = (props) => {
           <Detail
             items={[...topItems, ...middleItems, ...bottomItems]}
             data={{ ...deviceData, deviceTreeData, ...realTimeData }}
-            column={4}
+            column={{
+              xxl: 4,
+              xl: 3,
+              lg: 2,
+            }}
+            labelStyle={{ maxWidth: '130px' }}
           />
         </div>
       )}

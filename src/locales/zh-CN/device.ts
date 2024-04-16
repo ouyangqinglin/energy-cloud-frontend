@@ -1,6 +1,6 @@
 export default {
   'device.pv': '光伏',
-  'device.storage': '储能系统',
+  'device.storage': '储能',
   'device.storageCharging': '储能充电',
   'device.storageDischarge': '储能放电',
   'device.storageBattery': '储能电池',
