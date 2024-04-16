@@ -45,7 +45,6 @@ export const lineFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
     field: 'me',
-    flag: FlagType.ELECTRIC_SUPPLY_TYPE,
     show: false,
     color: '#FF7B7B',
     unit: 'kWh',
@@ -53,7 +52,6 @@ export const lineFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
     field: 'pv',
-    flag: FlagType.PHOTOVOLTAIC_TYPE,
     show: false,
     color: '#FFC542',
     unit: 'kWh',
@@ -61,7 +59,6 @@ export const lineFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'device.storage', defaultMessage: '储能系统' }),
     field: 'es',
-    flag: FlagType.ES_TYPE,
     show: false,
     color: '#007DFF',
     unit: 'kWh',
@@ -69,7 +66,6 @@ export const lineFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
     field: 'cs',
-    flag: FlagType.CHARGING_TYPE,
     show: false,
     color: '#3DD598',
     unit: 'kWh',
@@ -77,7 +73,6 @@ export const lineFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
     field: 'load',
-    flag: FlagType.LOAD_TYPE,
     show: false,
     color: '#50B5FF',
     unit: 'kWh',
@@ -88,8 +83,6 @@ export const barFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'siteMonitor.mainsCapacity', defaultMessage: '市电供电量' }),
     field: 'mainsUse',
-    totalField: 'mainsUseTotal',
-    flag: FlagType.ELECTRIC_SUPPLY_TYPE,
     show: false,
     color: '#FF7B7B',
     unit: 'kWh',
@@ -97,8 +90,6 @@ export const barFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'siteManage.set.pvPowerGeneration', defaultMessage: '光伏发电量' }),
     field: 'pvPowerGeneration',
-    totalField: 'pvPowerGenerationTotal',
-    flag: FlagType.PHOTOVOLTAIC_TYPE,
     show: false,
     color: '#FFC542',
     unit: 'kWh',
@@ -106,8 +97,6 @@ export const barFieldMap: ChartConfigType[] = [
   {
     name: formatMessage({ id: 'siteManage.set.energyStorageCharge', defaultMessage: '储能充电量' }),
     field: 'essCharge',
-    totalField: 'essChargeTotal',
-    flag: FlagType.ES_TYPE,
     show: false,
     color: '#007DFF',
     unit: 'kWh',
@@ -118,8 +107,6 @@ export const barFieldMap: ChartConfigType[] = [
       defaultMessage: '储能放电量',
     }),
     field: 'essDischarge',
-    totalField: 'essDischargeTotal',
-    flag: FlagType.ES_TYPE,
     show: false,
     color: '#FF974A',
     unit: 'kWh',
@@ -130,8 +117,6 @@ export const barFieldMap: ChartConfigType[] = [
       defaultMessage: '充电桩充电量',
     }),
     field: 'cpCharge',
-    totalField: 'cpChargeTotal',
-    flag: FlagType.CHARGING_TYPE,
     show: false,
     color: '#3DD598',
     unit: 'kWh',
@@ -142,8 +127,6 @@ export const barFieldMap: ChartConfigType[] = [
       defaultMessage: '其他负载用电量',
     }),
     field: 'loadUse',
-    totalField: 'loadUseTotal',
-    flag: FlagType.LOAD_TYPE,
     show: false,
     color: '#50B5FF',
     unit: 'kWh',
@@ -154,8 +137,6 @@ export const barFieldMap: ChartConfigType[] = [
       defaultMessage: '自发自用电量',
     }),
     field: 'pvSelfUse',
-    totalField: 'pvSelfPowerTotal',
-    flag: FlagType.PHOTOVOLTAIC_TYPE,
     show: false,
     color: '#7A79FF',
     unit: 'kWh',
@@ -166,8 +147,6 @@ export const barFieldMap: ChartConfigType[] = [
       defaultMessage: '收益',
     }),
     field: 'gain',
-    totalField: 'gainTotal',
-    flag: FlagType.GAIN,
     show: false,
     color: '#FF7B7B',
     unit: formatMessage({

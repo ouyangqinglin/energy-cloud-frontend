@@ -40,16 +40,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     if (shouldShowLine) {
       const fieldConfig = makeDataVisibleAccordingFlag(
         [...lineFieldMap],
-        powerData.flag,
-        timeType as number,
+        powerData,
+        shouldShowLine,
       );
       calcData = getLineChartData(powerData, fieldConfig);
     } else {
-      const fieldConfig = makeDataVisibleAccordingFlag(
-        [...barFieldMap],
-        powerData.flag,
-        timeType as number,
-      );
+      const fieldConfig = makeDataVisibleAccordingFlag([...barFieldMap], powerData, shouldShowLine);
       calcData = getBarChartData(powerData, fieldConfig, timeType as number);
     }
     console.log('calcData>>', calcData);
@@ -57,7 +53,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     // setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
     let currentIndex = -1;
-    const dataLen = calcData?.[0].data.length;
+    const dataLen = calcData?.[0]?.data?.length || 0;
     const timer = setInterval(() => {
       if (dataLen && !timerRef.current.stop) {
         currentIndex = (currentIndex + 1) % dataLen; // 取余 循环展示
