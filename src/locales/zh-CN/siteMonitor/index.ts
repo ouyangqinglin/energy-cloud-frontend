@@ -282,7 +282,7 @@ export default {
   'siteMonitor.logDetails': '日志详情',
   'siteMonitor.siteEnergyFlow': '站点能量流',
   'siteMonitor.pvSystemEnergyFlow': '光伏系统能量流',
-  'siteMonitor.storageSystemEnergyFlow': '储能系统能量流',
+  'siteMonitor.storageSystemEnergyFlow': '储能能量流',
   'siteMonitor.deviceSystemEnergyFlow': '用电设备能量流',
   'siteMonitor.communicationTopology': '通信拓扑',
   'siteMonitor.topology': '拓扑',

@@ -101,7 +101,7 @@ export const config = (siteType: string) => {
     },
     {
       icon: IconEnergyStorage,
-      title: formatMessage({ id: 'device.storage', defaultMessage: '储能系统' }),
+      title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
       field: 'storedEnergy',
       show: ['123', '12', '23', '2', ''].includes(siteType),
       statistics: [

@@ -284,7 +284,7 @@ export default {
   'siteMonitor.logDetails': 'Log Details',
   'siteMonitor.siteEnergyFlow': 'Site Energy Flow',
   'siteMonitor.pvSystemEnergyFlow': 'PV System Energy Flow',
-  'siteMonitor.storageSystemEnergyFlow': 'Energy Flow of ESS System',
+  'siteMonitor.storageSystemEnergyFlow': 'Energy Flow of ESS',
   'siteMonitor.deviceSystemEnergyFlow': 'Energy Flow of Electrical Device',
   'siteMonitor.communicationTopology': 'Communication Topology',
   'siteMonitor.topology': 'Topology',
