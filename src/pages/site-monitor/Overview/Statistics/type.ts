@@ -24,6 +24,8 @@ export interface ElectricSupply {
 }
 
 export interface StoredEnergy {
+  chargeTotal?: any;
+  dischargeTotal?: any;
   charge?: any;
   discharge?: any;
   power?: any;

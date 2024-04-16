@@ -116,12 +116,12 @@ export const config = (siteType: string) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dumpEnergy',
-            defaultMessage: '剩余电量',
+            id: 'siteMonitor.chargeTotal/dischargeTotal',
+            defaultMessage: '累计系统充/放电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'dischargeableCapacity',
-          // value: '164.92',
+          value: (entity: StoredEnergy) =>
+            `${entity?.chargeTotal || '--'} / ${entity?.dischargeTotal || '--'}`,
         },
         {
           label: `${formatMessage({
@@ -130,8 +130,6 @@ export const config = (siteType: string) => {
           })}(kW)`,
           labelUnit: '/kW',
           field: 'power',
-          // value: '1083.4/968.3',
-          // valueUnit: '(放)',
         },
       ],
     },
@@ -142,21 +140,21 @@ export const config = (siteType: string) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayPowerSupply',
-            defaultMessage: '今日市电供电量',
+            id: 'siteMonitor.dayPowerSupply/dayGridPowerSupply',
+            defaultMessage: '今日供电量/馈网电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'charge',
-          value: '14024.9',
+          value: (entity: StoredEnergy) =>
+            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayGridPowerSupply',
-            defaultMessage: '今日馈网电量',
+            id: 'siteMonitor.TotalPowerSupply/TotalGridPowerSupply',
+            defaultMessage: '累计供电量/馈网电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'discharge',
-          value: '0',
+          value: (entity: StoredEnergy) =>
+            `${entity?.chargeTotal || '--'} / ${entity?.dischargeTotal || '--'}`,
         },
         {
           label: `${formatMessage({

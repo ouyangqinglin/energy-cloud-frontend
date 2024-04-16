@@ -191,7 +191,6 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       });
       bingData(rowData, selectedRow.type, areaMap.get(selectedRow.area) || 0);
       setAllTableData((prevData) => {
-        console.log('prevData>>', prevData);
         const newData = {
           ...prevData,
           [selectedRow.type]: {
@@ -199,7 +198,6 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
             [selectedRow.area]: rowData,
           },
         };
-        console.log('newData>>', newData);
         return newData;
       });
     },
@@ -246,16 +244,35 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     (params) => {
       let paramName = '';
       if (selectedRow?.area?.startsWith?.('row')) {
-        if (selectedRow?.area == 'row1') {
-          paramName = '电量';
-        } else if (selectedRow?.area == 'row2') {
-          if (selectedRow?.type == 'photovoltaic' || selectedRow?.type == 'energy') {
+        switch (selectedRow?.area) {
+          case 'row1':
             paramName = '电量';
-          } else {
+            break;
+          case 'row2':
+            if (selectedRow?.type == 'photovoltaic' || selectedRow?.type == 'energy') {
+              paramName = '电量';
+            } else {
+              paramName = '功率';
+            }
+            break;
+          case 'row3':
+            if (['electric'].includes(selectedRow?.type)) {
+              paramName = '电量';
+            } else {
+              paramName = '功率';
+            }
+            break;
+          case 'row4':
+          case 'row5':
+          case 'row6':
+            if (['energy'].includes(selectedRow?.type)) {
+              paramName = '电量';
+            } else {
+              paramName = '功率';
+            }
+            break;
+          default:
             paramName = '功率';
-          }
-        } else {
-          paramName = '功率';
         }
       }
       return getDeviceCollection({ ...params, paramName });

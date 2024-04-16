@@ -4,6 +4,10 @@ export const areaMap = new Map([
   ['row1', 0],
   ['row2', 1],
   ['row3', 2],
+  ['row4', 3],
+  ['row5', 4],
+  ['row6', 5],
+  ['row7', 6],
 ]);
 
 export const defaultOpenKeys = ['electric'];

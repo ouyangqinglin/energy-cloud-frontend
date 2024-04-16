@@ -1,26 +1,21 @@
 import moment from 'moment';
 import type { TimeType } from '../../components/TimeButtonGroup';
-import type { ChartConfigType, ChartItemType, ChartType, Flag, TotalConfigType } from '../type';
+import type { ChartConfigType, ChartItemType, ChartType, TotalConfigType } from '../type';
 import { TimeFormat } from './config';
 import { TypeChartDataType } from '@/components/Chart/TypeChart';
 
 export const makeDataVisibleAccordingFlag = (
   config: ChartConfigType[],
-  flags: Flag[],
-  timeType: TimeType,
+  powerData: any,
+  shouldShowLine: boolean,
 ) => {
   const configForVisible = config.map((item) => {
-    const shouldIShow = flags.some(({ code, flag: show }) => {
-      if (item.flag === code) {
-        return show;
-      }
-      return false;
-    });
-    item.show = false;
-    if (shouldIShow || (item.field == 'gain' && timeType != 0)) {
-      //收益除了日，其他一直都有
-      item.show = true;
+    let shouldIShow = powerData?.[item.field]?.flag;
+    //收益除了日，其他一直都有
+    if (item.field == 'gain' && shouldShowLine) {
+      shouldIShow = false;
     }
+    item.show = shouldIShow;
     return item;
   });
   return configForVisible;
@@ -60,7 +55,7 @@ export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartCon
     result.push({
       name,
       type: 'line',
-      data: getChartData(rawSourceData?.[field] || []),
+      data: getChartData(rawSourceData?.[field]?.data || []),
       itemStyle: { color },
     });
   }
@@ -75,9 +70,9 @@ export const getBarChartData = (
   const result: TypeChartDataType[] = [];
   for (let index = 0; index < fieldConfig.length; index++) {
     const arr: any = [];
-    const { field, show, name, color, totalField, unit } = fieldConfig[index];
+    const { field, show, name, color, unit } = fieldConfig[index];
     if (!show) continue;
-    rawSourceData?.[field]?.forEach(({ eventTs, doubleVal }) => {
+    rawSourceData?.[field]?.data?.forEach(({ eventTs, doubleVal }) => {
       arr.push({ label: moment(eventTs).format(TimeFormat.get(timeType)), value: doubleVal });
     });
     result.push({
@@ -86,7 +81,7 @@ export const getBarChartData = (
       barMaxWidth: 25,
       data: arr,
       itemStyle: { color },
-      total: rawSourceData?.[totalField] || '--',
+      total: rawSourceData?.[field]?.total || '--',
       unit,
     });
   }
