@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-17 15:53:59
- * @LastEditTime: 2024-01-16 09:13:51
+ * @LastEditTime: 2024-04-17 11:44:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\CollectionChart.tsx
  */
@@ -24,6 +24,7 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
   const chartRef = useRef<EChartsReact>(null);
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Day);
+  const [step, setStep] = useState(2);
   const { run } = useRequest(getCollectionData, {
     manual: true,
   });
@@ -115,76 +116,89 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
   }, [chartData]);
 
   useEffect(() => {
+    let timer: NodeJS.Timer;
     if (deviceId && collection && date && date[0] && date[1]) {
-      run({
-        deviceId: deviceId,
-        key: collection,
-        startTime: date[0] + ' 00:00:00',
-        endTime: date[1] + ' 23:59:59',
-        // msgType: 1,
-      }).then((data) => {
-        if (moment(date[0]).format('YYYY-MM-DD') == moment(date[1]).format('YYYY-MM-DD')) {
-          setChartType(chartTypeEnum.Day);
-          const result: TypeChartDataType = {
-            name: title || '',
-            data: [],
-          };
-          data?.forEach?.((collectionValue) => {
-            if (modelData.type == DeviceModelTypeEnum.Enum) {
-              const index = modelData.keys.findIndex(
-                (item) => item == (collectionValue?.value as any),
-              );
-              result?.data?.push?.({
-                label: collectionValue?.eventTs || '',
-                value: index,
-              });
-            } else {
-              result?.data?.push?.({
-                label: collectionValue?.eventTs || '',
-                value: collectionValue?.value,
-              });
-            }
-          });
-          setChartData([result]);
-        } else {
-          setChartType(chartTypeEnum.Label);
-          const resultData = {
-            dataset: {
-              source: [['product', title]],
-            },
-            yAxis: {
-              max:
-                modelData.type == DeviceModelTypeEnum.Enum ? modelData.keys.length - 1 : undefined,
-              min: undefined,
-            },
-          };
-          data?.forEach?.((collectionValue) => {
-            if (modelData.type == DeviceModelTypeEnum.Enum) {
-              const index = modelData.keys.findIndex(
-                (item) => item == (collectionValue?.value as any),
-              );
-              resultData.dataset.source.push([collectionValue?.eventTs || '', index as any]);
-            } else {
-              resultData.dataset.source.push([
-                collectionValue?.eventTs || '',
-                collectionValue?.value as any,
-              ]);
-            }
-          });
-          setTimeout(() => {
-            chartRef?.current?.getEchartsInstance().setOption(resultData);
-          }, 300);
-        }
-        return true;
-      });
+      const request = () => {
+        run({
+          deviceId: deviceId,
+          key: collection,
+          startTime: date[0] + ' 00:00:00',
+          endTime: date[1] + ' 23:59:59',
+          // msgType: 1,
+        }).then((data) => {
+          if (moment(date[0]).format('YYYY-MM-DD') == moment(date[1]).format('YYYY-MM-DD')) {
+            setChartType(chartTypeEnum.Day);
+            const result: TypeChartDataType = {
+              name: title || '',
+              data: [],
+            };
+            data?.forEach?.((collectionValue) => {
+              if (modelData.type == DeviceModelTypeEnum.Enum) {
+                const index = modelData.keys.findIndex(
+                  (item) => item == (collectionValue?.value as any),
+                );
+                result?.data?.push?.({
+                  label: collectionValue?.eventTs || '',
+                  value: index,
+                });
+              } else {
+                result?.data?.push?.({
+                  label: collectionValue?.eventTs || '',
+                  value: collectionValue?.value,
+                });
+              }
+            });
+            setChartData([result]);
+          } else {
+            setChartType(chartTypeEnum.Label);
+            const resultData = {
+              dataset: {
+                source: [['product', title]],
+              },
+              yAxis: {
+                max:
+                  modelData.type == DeviceModelTypeEnum.Enum
+                    ? modelData.keys.length - 1
+                    : undefined,
+                min: undefined,
+              },
+            };
+            data?.forEach?.((collectionValue) => {
+              if (modelData.type == DeviceModelTypeEnum.Enum) {
+                const index = modelData.keys.findIndex(
+                  (item) => item == (collectionValue?.value as any),
+                );
+                resultData.dataset.source.push([collectionValue?.eventTs || '', index as any]);
+              } else {
+                resultData.dataset.source.push([
+                  collectionValue?.eventTs || '',
+                  collectionValue?.value as any,
+                ]);
+              }
+            });
+            setTimeout(() => {
+              chartRef?.current?.getEchartsInstance().setOption(resultData);
+            }, 300);
+          }
+          return true;
+        });
+      };
+      request();
+      timer = setInterval(() => {
+        request();
+      }, step * 60 * 1000);
     }
-  }, [deviceId, collection, modelData, date]);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [deviceId, collection, date, step]);
 
   return (
     <>
       <TypeChart
         chartRef={chartRef}
         type={chartType}
+        step={step}
         option={chartOption}
         style={{ height }}
         data={chartData}

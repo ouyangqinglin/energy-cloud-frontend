@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-16 14:15:43
- * @LastEditTime: 2024-04-16 16:30:43
+ * @LastEditTime: 2024-04-16 16:59:02
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\IccidModal\helper.tsx
  */
@@ -89,13 +89,6 @@ export const baseInfoItems: DetailItem[] = [
     format: (value, data) => (
       <Tag color={data?.status == 1 ? 'processing' : 'default'}>{value}</Tag>
     ),
-  },
-  {
-    label: formatMessage({
-      id: 'iccid.machineCardSeparationDiagnosis',
-      defaultMessage: '机卡分离诊断',
-    }),
-    field: '',
     span: 2,
   },
   {
@@ -108,10 +101,6 @@ export const baseInfoItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'iccid.supplier', defaultMessage: '供应商' }),
     field: 'supplierName',
-  },
-  {
-    label: formatMessage({ id: 'iccid.dealer', defaultMessage: '经销商' }),
-    field: '',
   },
 ];
 
