@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-15 15:32:19
+ * @LastEditTime: 2024-04-17 14:36:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -30,7 +30,7 @@ export enum EnergySourceEnum {
 const Electric: React.FC<ComProps> = (props) => {
   const { deviceData, source } = props;
 
-  const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Month);
+  const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Day);
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [loading, { setTrue, setFalse }] = useBoolean(false);
