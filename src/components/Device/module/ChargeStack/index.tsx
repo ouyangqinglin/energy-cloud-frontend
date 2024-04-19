@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-17 14:32:34
+ * @LastEditTime: 2024-04-18 17:27:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeStack\index.tsx
  */
@@ -57,7 +57,12 @@ const Charge: React.FC = () => {
 
   const carouselItems = useMemo(() => {
     return terminalsDeviceData?.map((item) => {
-      return <Cabinet key={item.deviceId} deviceData={item} />;
+      return (
+        <>
+          <div className="tx-center">{item.name}</div>
+          <Cabinet key={item.deviceId} deviceData={item} />
+        </>
+      );
     });
   }, [terminalsDeviceData]);
 

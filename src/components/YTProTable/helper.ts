@@ -1,9 +1,12 @@
 import { get as requestGet, post as requestPost } from '@/utils/request';
 import type { ProTableProps } from '@ant-design/pro-components';
-import { get, isEmpty, isNil } from 'lodash';
-import type { YTProColumns, YTProTableCustomProps } from './typing';
+import { get, isEmpty } from 'lodash';
+import type { EmitType, YTProColumns, YTProTableCustomProps } from './typing';
 
-export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | undefined) => {
+export const normalizeRequestOption = <D, V>(
+  columns: YTProColumns<D & EmitType, V>[] | undefined,
+  onEvent: YTProTableCustomProps<D, V>['onEvent'],
+) => {
   if (!Array.isArray(columns) || !columns.length) {
     return [];
   }
@@ -48,6 +51,14 @@ export const normalizeRequestOption = <D, V>(columns: YTProColumns<D, V>[] | und
           console.log('[YTProTable]: 请求数据解析异常 ', error);
           return [];
         }
+      };
+    }
+    if (col.renderWithEmit) {
+      col.render = (...params) => {
+        params[1].emit = (...emitParams) => {
+          onEvent?.(...emitParams);
+        };
+        return col?.renderWithEmit?.(...params);
       };
     }
     return col;

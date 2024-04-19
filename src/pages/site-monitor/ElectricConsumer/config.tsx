@@ -2,6 +2,8 @@ import type { YTProColumns } from '@/components/YTProTable/typing';
 import { connectStatus, onlineStatus } from '@/utils/dict';
 import type { DeviceInfo } from './type';
 import { formatMessage } from '@/utils';
+import { productTypeIconMap } from '@/utils/IconUtil';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 export const columns: YTProColumns<DeviceInfo>[] = [
   {
@@ -10,6 +12,19 @@ export const columns: YTProColumns<DeviceInfo>[] = [
     width: 120,
     ellipsis: true,
     hideInSearch: true,
+    render: (_, record) => {
+      const Component =
+        productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
+        productTypeIconMap.get(DeviceProductTypeEnum.Default);
+      return (
+        <>
+          <span title={record.name}>
+            {Component && <Component className="mr8" />}
+            {record.name}
+          </span>
+        </>
+      );
+    },
   },
   {
     title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),

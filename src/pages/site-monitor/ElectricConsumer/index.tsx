@@ -16,6 +16,7 @@ import { ActionType } from '@ant-design/pro-table';
 import { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage } from '@/utils';
+import { CaretDownFilled, CaretRightFilled } from '@ant-design/icons';
 
 export const enum TabType {
   CHARGE_STACK = 'CHARGE_STACK',
@@ -120,6 +121,33 @@ const Energy = () => {
         request={requestList}
         rowKey="deviceId"
         manualRequest={true}
+        resizable
+        expandable={{
+          childrenColumnName: 'childDeviceList',
+          expandIcon: ({ expanded, expandable, record, onExpand }) => {
+            return (
+              <>
+                {expandable ? (
+                  <>
+                    {expanded ? (
+                      <CaretDownFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    ) : (
+                      <CaretRightFilled
+                        className="mr8 cursor table-expand-icon"
+                        onClick={(e) => onExpand(record, e)}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span className="mr8 table-expand-icon"></span>
+                )}
+              </>
+            );
+          },
+        }}
       />
     </>
   );
