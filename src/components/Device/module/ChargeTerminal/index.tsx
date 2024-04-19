@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-18 17:27:45
+ * @LastEditTime: 2024-04-19 13:51:24
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeStack\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\components\Device\module\ChargeTerminal\index.tsx
  */
 
 import React, { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -19,9 +19,8 @@ import styles from './index.less';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import Trend from '../../components/Trend';
 import { formatMessage } from '@/utils';
-import Power from '../../components/Power';
 
-const Charge: React.FC = () => {
+const ChargeTerminal: React.FC = () => {
   const { data: deviceData } = useContext(DeviceContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<CarouselRef>(null);
@@ -33,16 +32,6 @@ const Charge: React.FC = () => {
   } = useRequest(getWholeDeviceTree, {
     manual: true,
   });
-
-  const masterDeviceData = useMemo(() => {
-    const result = energyData?.children?.find?.(
-      (item) => item.productTypeId == DeviceProductTypeEnum.ChargeMaster,
-    );
-    if (result) {
-      result.deviceId = result.id;
-    }
-    return result;
-  }, [energyData]);
 
   const terminalsDeviceData = useMemo(() => {
     const result =
@@ -84,12 +73,6 @@ const Charge: React.FC = () => {
         </div>
       ) : (
         <Row className="mb20" gutter={20}>
-          <Col span={14}>
-            <Cabinet deviceData={masterDeviceData} />
-          </Col>
-          <Col span={10}>
-            <Power deviceData={deviceData} />
-          </Col>
           <Col span={24}>
             <Divider />
           </Col>
@@ -130,4 +113,4 @@ const Charge: React.FC = () => {
   );
 };
 
-export default memo(Charge);
+export default memo(ChargeTerminal);

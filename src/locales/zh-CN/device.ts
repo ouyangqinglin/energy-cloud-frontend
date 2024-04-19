@@ -474,4 +474,7 @@ export default {
   'device.statistics': '数据统计',
   'device.clock': '时钟',
   'device.totalize': '累计值',
+  'device.chargingModuleInformation': '充电模块信息',
+  'device.powerDistributionUnitInformation': '功率分配单元信息',
+  'device.hostStatusInformation': '主机状态信息',
 };

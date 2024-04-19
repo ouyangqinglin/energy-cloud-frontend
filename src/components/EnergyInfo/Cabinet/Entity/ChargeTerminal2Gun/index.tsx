@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-18 09:43:58
+ * @LastEditTime: 2024-04-19 13:37:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal2Gun\index.tsx
  */
@@ -46,7 +46,7 @@ const configs: ConfigType[] = [
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -195 },
-    data: [{ field: 'trunst' }],
+    data: [{ field: 'WorkStatus' }, { field: 'talarmStatus' }],
   },
   {
     label: formatMessage(
@@ -62,9 +62,15 @@ const configs: ConfigType[] = [
     line: GunALine,
     linePosition: { top: 22, left: 71 },
     data: [
+      { field: 'gworkmode' },
       { field: 'WorkStatus' },
+      { field: 'galarmStatus' },
+      { field: 'gp' },
       { field: 'gcu' },
       { field: 'gci' },
+      { field: 'gcapacity' },
+      { field: 'gxqu' },
+      { field: 'gxqi' },
       { field: 'SOC' },
       { field: 'gst' },
     ],
@@ -83,9 +89,15 @@ const configs: ConfigType[] = [
     line: GunBLine,
     linePosition: { top: 26, left: -156 },
     data: [
+      { field: 'gworkmode' },
       { field: 'WorkStatus' },
+      { field: 'galarmStatus' },
+      { field: 'gp' },
       { field: 'gcu' },
       { field: 'gci' },
+      { field: 'gcapacity' },
+      { field: 'gxqu' },
+      { field: 'gxqi' },
       { field: 'SOC' },
       { field: 'gst' },
     ],

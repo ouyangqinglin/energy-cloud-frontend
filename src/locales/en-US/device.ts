@@ -488,4 +488,7 @@ export default {
   'device.clock': 'Clock',
   'device.totalize': ' Totalize',
   'device.electricSupplyTotalize': 'Grid Totalize',
+  'device.chargingModuleInformation': 'Charging Module Information',
+  'device.powerDistributionUnitInformation': 'Power Distribution Unit Information',
+  'device.hostStatusInformation': 'Host Status Information',
 };
