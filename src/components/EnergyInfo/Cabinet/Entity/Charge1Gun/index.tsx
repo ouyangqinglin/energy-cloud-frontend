@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-05 17:18:53
+ * @LastEditTime: 2024-04-22 11:43:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Charge1Gun\index.tsx
  */
@@ -31,7 +31,7 @@ const configs: ConfigType[] = [
     productTypeId: DeviceProductTypeEnum.DCChargePile,
     dataProductTypeIds: [DeviceProductTypeEnum.ChargeGun],
     showLabel: false,
-    position: { top: 65, left: 2 },
+    position: { top: 16, left: 2 },
     icon: DoorImg,
     line: DoorLineImg,
     linePosition: { top: 22, left: 142 },
@@ -44,7 +44,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.chargingGun', defaultMessage: '充电枪' }),
     productTypeId: DeviceProductTypeEnum.ChargeGun,
-    position: { top: 210, left: 754 },
+    position: { top: 79, left: 754 },
     icon: GunImg,
     line: GunBLine,
     linePosition: { top: 26, left: -156 },
@@ -68,7 +68,7 @@ const configs: ConfigType[] = [
       defaultMessage: '充电模块信息',
     }),
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 437, left: 2 },
+    position: { top: 423, left: 2 },
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
@@ -80,7 +80,7 @@ const configs: ConfigType[] = [
       defaultMessage: '功率分配单元信息',
     }),
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 500, left: 2 },
+    position: { top: 505, left: 2 },
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
@@ -90,7 +90,7 @@ const configs: ConfigType[] = [
     label: '',
     showLabel: false,
     productTypeId: DeviceProductTypeEnum.DCChargePile,
-    position: { top: 65, left: 754 },
+    position: { top: 26, left: 754 },
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -222 },
@@ -99,7 +99,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.hostStatusInformation', defaultMessage: '主机状态信息' }),
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 520, left: 754 },
+    position: { top: 490, left: 754 },
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -222 },

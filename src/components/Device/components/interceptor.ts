@@ -8,6 +8,7 @@
  */
 
 import { parseToArray } from '@/utils';
+import { default as utilsRequest } from '@/utils/request';
 
 export const flat = (key: string, data: string) => {
   const result: Record<string, any> = {};
@@ -17,4 +18,13 @@ export const flat = (key: string, data: string) => {
     });
   });
   return result;
+};
+
+export const request = (url: string, params: Record<string, any>) => {
+  return utilsRequest(url, {
+    method: 'GET',
+    params,
+  }).then((res) => {
+    return res?.data || {};
+  });
 };

@@ -10,11 +10,15 @@
 export type PowerDataType = {
   chargeElectricity: number;
   chargeCount: number;
+  chargeMoney: number;
+  chargeDuration: number;
   time: string;
 };
 
 export type TrendDataType = {
   chargeElectricityTotal?: number;
   chargeCountTotal?: number;
+  todayChargeTime?: number;
+  todayMoney?: number;
   list?: PowerDataType[];
 };

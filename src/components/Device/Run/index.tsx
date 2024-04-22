@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-04-17 11:30:23
+ * @LastEditTime: 2024-04-22 16:45:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
 
-import React, { Suspense, lazy, useCallback, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import Button from '@/components/CollectionModal/Button';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Meter from '@/components/Meter';
@@ -49,6 +49,7 @@ type interceptorDataType = {
 const Run: React.FC<RunType> = (props) => {
   const { deviceData, realTimeData, groupData, modelMap } = props;
 
+  const [interceptorRequestData, setInterceptorRequestData] = useState({});
   const [collectionInfo, setCollectionInfo] = useState({
     title: '',
     collection: '',
@@ -77,20 +78,25 @@ const Run: React.FC<RunType> = (props) => {
   const interceptorData = useMemo(() => {
     const result: Record<string, any> = {};
     interceptor.forEach(({ id, dataInterceptor, deviceId }) => {
-      const resultDeviceId = deviceId || deviceData?.deviceId;
-      if (resultDeviceId) {
-        result[resultDeviceId] = {
-          ...result[resultDeviceId],
-          ...(interceptorFn as any)?.[dataInterceptor]?.(id, realTimeData?.[deviceId]?.[id]),
-        };
+      if (dataInterceptor != 'request') {
+        const resultDeviceId = deviceId || deviceData?.deviceId;
+        if (resultDeviceId) {
+          result[resultDeviceId] = {
+            ...result[resultDeviceId],
+            ...(interceptorFn as any)?.[dataInterceptor]?.(
+              id,
+              realTimeData?.[resultDeviceId]?.[id],
+            ),
+          };
+        }
       }
     });
     return merge({}, realTimeData, result);
   }, [realTimeData, interceptor, deviceData?.deviceId]);
 
   const allRealTimeData = useMemo(() => {
-    return merge({}, interceptorData, extralDeviceRealTimeData);
-  }, [interceptorData, extralDeviceRealTimeData]);
+    return merge({}, interceptorRequestData, interceptorData, extralDeviceRealTimeData);
+  }, [interceptorRequestData, interceptorData, extralDeviceRealTimeData]);
 
   const components = useMemo<
     Record<string, React.LazyExoticComponent<React.ComponentType<any>>>
@@ -330,6 +336,26 @@ const Run: React.FC<RunType> = (props) => {
     });
     return result;
   }, [groupData, getGroupItems, authorityMap, collectionInfo]);
+
+  useEffect(() => {
+    const result: Record<string, any> = {};
+    interceptor.forEach(({ id, dataInterceptor, deviceId }) => {
+      if (dataInterceptor == 'request') {
+        const resultDeviceId = deviceId || deviceData?.deviceId;
+        if (resultDeviceId) {
+          (interceptorFn as any)
+            ?.[dataInterceptor]?.(id, { deviceId: resultDeviceId })
+            ?.then?.((res: Record<string, any>) => {
+              result[resultDeviceId] = {
+                ...result[resultDeviceId],
+                ...res,
+              };
+              setInterceptorRequestData({ ...result });
+            });
+        }
+      }
+    });
+  }, [interceptor]);
 
   return (
     <>

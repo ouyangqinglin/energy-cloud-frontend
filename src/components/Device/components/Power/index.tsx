@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-03-05 15:04:29
+ * @LastEditTime: 2024-04-19 16:28:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Power\index.tsx
  */
@@ -31,7 +31,7 @@ const Power: React.FC<PowerType> = (props) => {
     run,
   } = useRequest(getPower, {
     manual: true,
-    pollingInterval: 2 * 60 * 1000,
+    pollingInterval: 4 * 60 * 1000,
   });
 
   const onChange = useCallback((value: Moment | null) => {
@@ -48,11 +48,21 @@ const Power: React.FC<PowerType> = (props) => {
   }, [deviceData?.deviceId, date]);
 
   useEffect(() => {
-    const result: TypeChartDataType = {
-      name: '',
-      data: powerData?.map?.((item) => ({ label: item.eventTs, value: item.doubleVal })),
-    };
-    setChartData([result]);
+    const result: TypeChartDataType[] = [
+      {
+        name: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }),
+        data: [],
+      },
+      {
+        name: formatMessage({ id: 'device.powerUtilization', defaultMessage: '功率利用率' }),
+        data: [],
+      },
+    ];
+    powerData?.list?.forEach?.((item) => {
+      result[0].data?.push({ label: item.time, value: item.power });
+      result[1].data?.push({ label: item.time, value: item.powerUseRate });
+    });
+    setChartData(result);
   }, [powerData]);
 
   return (
@@ -60,7 +70,7 @@ const Power: React.FC<PowerType> = (props) => {
       <div className="card-wrap shadow p20 mb20">
         <div className="flex mb16">
           <label className={`flex1`}>
-            {formatMessage({ id: 'device.realTimePower', defaultMessage: '实时功率' })}
+            {formatMessage({ id: 'device.realTimePower', defaultMessage: '实时曲线' })}
           </label>
           <DatePicker
             defaultValue={date}

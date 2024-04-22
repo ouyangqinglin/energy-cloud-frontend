@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-17 14:36:50
+ * @LastEditTime: 2024-04-19 14:21:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -35,6 +35,7 @@ const Electric: React.FC<ComProps> = (props) => {
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   const [statisInfo, setStatisInfo] = useState<Record<string, any>>({});
+  const [allLabel, setAllLabel] = useState<string[]>([]);
 
   const onTypeSelect = useCallback((value) => {
     setChartType(value);
@@ -182,6 +183,9 @@ const Electric: React.FC<ComProps> = (props) => {
                 ((totalResult.totalDischarge + (data?.totalDischarge || 0)).toFixed(2) as any) * 1;
               setChartData(merge([], result));
               setStatisInfo(merge({}, totalResult));
+              if (chartType == chartTypeEnum.Label) {
+                setAllLabel(result[0].data?.map?.((item) => item.label) || []);
+              }
               requestNum++;
               request();
             }
@@ -233,7 +237,14 @@ const Electric: React.FC<ComProps> = (props) => {
           {loading && <Spin className="ml12" />}
         </div>
         <Detail items={detailItems} data={statisInfo} column={2} unitInLabel={true} />
-        <TypeChart type={chartType} date={date} option={options} data={chartData} step={60} />
+        <TypeChart
+          type={chartType}
+          date={date}
+          option={options}
+          data={chartData}
+          step={60}
+          allLabel={allLabel}
+        />
       </div>
     </>
   );

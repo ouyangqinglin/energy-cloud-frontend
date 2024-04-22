@@ -21,7 +21,7 @@ export type ChartProps = Omit<EChartsReactProps, 'option'> & {
   option?: any;
   min?: number;
   max?: number;
-  chartRef?: React.LegacyRef<EChartsReact>;
+  chartRef?: React.MutableRefObject<EChartsReact | undefined>;
   calculateMax?: boolean;
 };
 
