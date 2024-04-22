@@ -42,6 +42,7 @@ export default {
   'common.siteName': '站点名称',
   'common.upload': '上传',
   'common.supportFile': '支持扩展名',
+  'common.ok': '确定',
   'common.confirm': '确认',
   'common.cancel': '取消',
   'common.hide': '隐藏',
@@ -220,4 +221,5 @@ export default {
   'common.noneYet': '暂无',
   'common.pageDevelopmenting': '页面开发中，敬请期待',
   'common.next': '下一步',
+  'common.minute': '分钟',
 };

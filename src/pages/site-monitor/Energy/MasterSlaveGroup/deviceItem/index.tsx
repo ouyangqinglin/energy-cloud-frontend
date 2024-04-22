@@ -8,8 +8,8 @@ import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
 import { formatMessage } from '@/utils';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
-import { useSubscribe } from '@/hooks';
-import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
+import { useDeviceModel, useSubscribe } from '@/hooks';
+import { DeviceMasterMode, DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { maxConfig, peakItems } from './helper';
 import Detail from '@/components/Detail';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
@@ -74,7 +74,11 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
 
   const history = useHistory();
   const [deviceIds, setDeviceIds] = useState<string[]>();
+  const [bmsDeviceId, setBmsDeviceId] = useState<string>('');
   const realTimeData = useSubscribe(deviceIds, true);
+  const { modelMap } = useDeviceModel({
+    deviceId: bmsDeviceId,
+  });
   const { run } = useRequest(getWholeDeviceTree, {
     manual: true,
   });
@@ -90,10 +94,27 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
     });
   }, [deviceData?.siteId]);
 
+  const peakDetailItems = useMemo(() => {
+    return peakItems.map((item) => {
+      return {
+        ...item,
+        unit: modelMap?.[item?.field || '']?.specs?.unit || item.unit,
+      };
+    });
+  }, [modelMap]);
+
   useEffect(() => {
     if (deviceData?.deviceId) {
       run({ deviceId: deviceData?.deviceId }).then((data) => {
         setDeviceIds(getDataIds(data?.children || []));
+        const bmsDevice = data?.children?.find?.(
+          (item) =>
+            item.productTypeId == DeviceProductTypeEnum.BatteryStack ||
+            item.productTypeId == DeviceProductTypeEnum.BatteryCluster,
+        );
+        if (bmsDevice?.id) {
+          setBmsDeviceId(bmsDevice?.id);
+        }
       });
     }
   }, [deviceData?.deviceId]);
@@ -193,7 +214,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
             />
             <div>
               <Detail
-                items={peakItems}
+                items={peakDetailItems}
                 data={realTimeData}
                 column={1}
                 labelStyle={{ maxWidth: '140px' }}

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-04-16 09:29:56
+ * @LastEditTime: 2024-04-22 15:37:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -17,17 +17,19 @@ import type { UploadFile } from 'antd';
 import { editDeviceInfo, getFileUrl } from '@/services/equipment';
 import type { DeviceDataType } from '@/services/equipment';
 
-import Detail from '../Detail';
+import Detail, { DetailItem } from '../Detail';
 import styles from './index.less';
 import Dialog from '@/components/Dialog';
 import IconEmpty from '@/assets/image/device/empty.png';
 import DeviceImg from './DeviceImg';
 import DeviceNameDialog from './DeviceNameDialog';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage, formatModelValue, getPropsFromTree, isEmpty } from '@/utils';
 import { aLinkDownLoad } from '@/utils/downloadfile';
-import { DeviceMasterMode } from '@/utils/dictionary';
+import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
 import { topItems, bottomItems, getDetailItems } from './helper';
-import { useSubscribe } from '@/hooks';
+import { useDeviceModel, useSubscribe } from '@/hooks';
+import IccidModal from './IccidModal';
+import { merge } from 'lodash';
 
 export type OverviewProps = {
   deviceData?: DeviceDataType;
@@ -49,8 +51,27 @@ type DeviceNameInfoType = {
 const Overview: React.FC<OverviewProps> = (props) => {
   const { deviceData, deviceTreeData, loading = false, onChange, introImg, className = '' } = props;
 
+  const middleItems = useMemo(() => {
+    return getDetailItems(deviceData);
+  }, [deviceData]);
+
+  const middleExtraDeviceIds = useMemo(() => {
+    const productTypeIds = getPropsFromTree<DetailItem, DeviceProductTypeEnum>(
+      middleItems,
+      'productTypeId',
+    );
+    const result = getPropsFromTree(
+      deviceTreeData,
+      'deviceId',
+      'children',
+      (item) => !!(item?.productTypeId && productTypeIds.includes(item?.productTypeId)),
+    );
+    return result;
+  }, [middleItems, deviceTreeData]);
+
   const [openIntro, { setFalse, setTrue }] = useBoolean(false);
   const [openImg, { set: setOpenImg }] = useBoolean(false);
+  const [openIccid, { setFalse: setIccidFalse, setTrue: setIccidTrue }] = useBoolean(false);
   const [deviceNameInfo, setDeviceNameInfo] = useState<DeviceNameInfoType>({
     name: '',
     showEdit: false,
@@ -61,6 +82,11 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const realTimeData = useSubscribe(deviceData?.deviceId, true);
+  const middleExtraRealTimeData = useSubscribe(middleExtraDeviceIds, true);
+  const { modelMap } = useDeviceModel({
+    deviceId: middleExtraDeviceIds?.[0],
+    isGroup: true,
+  });
 
   const [editNameOpen, { set: setEditNameOpen }] = useToggle<boolean>(false);
   const [emsNameValues, setEmsNameValues] = useState({});
@@ -68,9 +94,15 @@ const Overview: React.FC<OverviewProps> = (props) => {
     manual: true,
   });
 
-  const middleItems = useMemo(() => {
-    return getDetailItems(deviceData);
-  }, [deviceData]);
+  const middleDetailItems = useMemo(() => {
+    const result: DetailItem[] = merge([], middleItems);
+    result.forEach((item) => {
+      item.label = item.label || modelMap[item?.field || '']?.name;
+      item.format =
+        item.format || ((value) => formatModelValue(value, modelMap?.[item?.field || '']));
+    });
+    return result;
+  }, [middleItems, modelMap]);
 
   const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现
@@ -132,6 +164,12 @@ const Overview: React.FC<OverviewProps> = (props) => {
     },
     [deviceData],
   );
+
+  const onEvent = useCallback((eventName) => {
+    if (eventName == 'iccidClick') {
+      setIccidTrue();
+    }
+  }, []);
 
   useEffect(() => {
     setDeviceNameInfo({
@@ -228,14 +266,15 @@ const Overview: React.FC<OverviewProps> = (props) => {
             )}
           </Detail.Label>
           <Detail
-            items={[...topItems, ...middleItems, ...bottomItems]}
-            data={{ ...deviceData, deviceTreeData, ...realTimeData }}
+            items={[...topItems, ...middleDetailItems, ...bottomItems]}
+            data={{ ...deviceData, deviceTreeData, ...middleExtraRealTimeData, ...realTimeData }}
             column={{
               xxl: 4,
               xl: 3,
               lg: 2,
             }}
             labelStyle={{ maxWidth: '130px' }}
+            onEvent={onEvent}
           />
         </div>
       )}
@@ -285,6 +324,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
           <Empty />
         )}
       </Modal>
+      <IccidModal open={openIccid} onCancel={() => setIccidFalse()} iccid={realTimeData?.iccid} />
     </>
   );
 };

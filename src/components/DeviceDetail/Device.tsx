@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-03-21 15:19:04
+ * @LastEditTime: 2024-04-22 16:36:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
  */
@@ -12,7 +12,7 @@ import { Tabs, TabsProps } from 'antd';
 import { formatMessage } from '@/utils';
 import DeviceRealTime from '../DeviceRealTime';
 import DeviceContext from '../Device/Context/DeviceContext';
-import { DeviceProductTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
 import Adjust from '../Device/Adjust';
@@ -107,30 +107,13 @@ const Device: React.FC<DeviceType> = memo((props) => {
     ];
     if (
       deviceData?.productTypeId &&
+      deviceData?.productId &&
       [
-        DeviceProductTypeEnum.DCChargePile,
-        DeviceProductTypeEnum.ACChargePile,
+        DeviceProductTypeEnum.Ems,
+        DeviceProductTypeEnum.ChargeMaster,
         DeviceProductTypeEnum.ChargeTerminal,
       ].includes(deviceData?.productTypeId) &&
-      authorityMap.get('device:detail:communicationMessage')
-    ) {
-      result.push({
-        label: formatMessage({ id: 'device.debug', defaultMessage: '调试' }),
-        key: '6',
-        children: (
-          <ErrorBoundary fallbackRender={FallBackRender}>
-            <Adjust
-              className="pb24 px24"
-              deviceId={deviceData?.deviceId || ''}
-              productTypeId={deviceData?.productTypeId}
-            />
-          </ErrorBoundary>
-        ),
-      });
-    }
-    if (
-      deviceData?.productTypeId &&
-      [DeviceProductTypeEnum.Ems].includes(deviceData?.productTypeId) &&
+      ![DeviceTypeEnum.ChargeMaster].includes(deviceData?.productId) &&
       authorityMap.get('deviceManage:detail:debug')
     ) {
       result.push({

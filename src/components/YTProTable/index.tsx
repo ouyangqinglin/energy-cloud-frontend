@@ -31,6 +31,8 @@ const YTProTable = <
     className,
     resizable = false,
     resizableOptions,
+    onEvent,
+    extraHeight,
     ...restProps
   } = props;
   const tableFormRef = useRef<ProFormInstance<Params>>();
@@ -65,7 +67,7 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request);
 
-  const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed);
+  const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed, extraHeight);
 
   const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => {
     return { minWidth: 100, ...resizableOptions, columns: resizable ? adaptionColumns : [] };
@@ -73,7 +75,7 @@ const YTProTable = <
 
   useEffect(() => {
     // TODO: 支持选项式的请求
-    const result = normalizeRequestOption<DataType, ValueType>(columns);
+    const result = normalizeRequestOption<DataType, ValueType>(columns, onEvent);
 
     // 合并默认的操作(删除，编辑，进入)
     const defaultOperation = genDefaultOperation<DataType, Params, ValueType>(props);
@@ -84,7 +86,7 @@ const YTProTable = <
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, scrollX]);
+  }, [columns, resizable, scrollX, onEvent]);
 
   return (
     <div ref={mergedTableRef}>

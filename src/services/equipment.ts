@@ -425,8 +425,16 @@ export const getVpn = (params: any) => {
     params,
   });
 };
+
 export const getFileUrl = (data: any) => {
   return request(`/uc/fileUrl?${new URLSearchParams(data).toString()}`, {
     method: 'GET',
+  });
+};
+
+export const getSimInfo = (params: any) => {
+  return request('/iot/sim/web', {
+    method: 'GET',
+    params,
   });
 };

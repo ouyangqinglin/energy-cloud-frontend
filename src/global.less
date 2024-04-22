@@ -399,6 +399,18 @@ div {
   }
 }
 
+.chart-series-icon {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  background: @primary-color;
+  border-radius: 50%;
+  &.chart-series-icon-rect {
+    border-radius: 0%;
+  }
+}
+
 .generate-mp(40);
 .generate-mp(@n, @i: 0) when (@i =< @n) {
   .m@{i} {

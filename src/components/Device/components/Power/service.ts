@@ -11,7 +11,7 @@ import request, { ResponseCommonData } from '@/utils/request';
 import { PowerDataType } from './typing';
 
 export const getPower = (params: any) => {
-  return request<ResponseCommonData<PowerDataType[]>>('/iot/ytcharging/getPowerCurve', {
+  return request<ResponseCommonData<PowerDataType>>('/iot/ytcharging/getPowerChart', {
     method: 'GET',
     params,
   });

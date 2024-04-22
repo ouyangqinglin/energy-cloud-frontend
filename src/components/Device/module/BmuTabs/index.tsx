@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-04-02 16:01:04
+ * @LastEditTime: 2024-04-17 15:28:56
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -117,7 +117,11 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
         formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '1',
       );
     } else {
-      result.push(formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13');
+      if (deviceData?.productId != DeviceTypeEnum.SmallEnergyBatteryCluster) {
+        result.push(
+          formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13',
+        );
+      }
     }
     return result;
   }, [isLiquid, deviceData?.productId]);

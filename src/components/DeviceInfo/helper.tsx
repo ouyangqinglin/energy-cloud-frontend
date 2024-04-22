@@ -2,11 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-03-27 09:02:38
+ * @LastEditTime: 2024-04-22 16:24:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
 
+import React from 'react';
 import { formatMessage, getPlaceholder, getPropsFromTree, isEmpty } from '@/utils';
 import {
   deviceAlarmStatusFormat,
@@ -20,6 +21,7 @@ import { DetailItem } from '../Detail';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import { masterSlave1Enum, meterSerialNumberEnum } from '@/utils/dict';
 import { DeviceDataType } from '@/services/equipment';
+import { Typography } from 'antd';
 
 const connectFormat = (
   data: DeviceDataType[],
@@ -158,6 +160,9 @@ export const allItems: Record<string, DetailItem> = {
   iccid: {
     label: 'ICCID',
     field: 'iccid',
+    format: (value, _, emit) => {
+      return <Typography.Link onClick={() => emit?.('iccidClick')}>{value}</Typography.Link>;
+    },
   },
   upperComputerCommunication: {
     label: formatMessage(
@@ -503,6 +508,86 @@ export const allItems: Record<string, DetailItem> = {
     label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
     field: 'terminalNumber',
   },
+  tsinglelinemaxI: {
+    field: 'tsinglelinemaxI',
+  },
+  tsn: {
+    field: 'tsn',
+  },
+  thardver: {
+    field: 'thardver',
+  },
+  softVersion: {
+    field: 'softVersion',
+  },
+  tcuct: {
+    field: 'tcuct',
+  },
+  tlocalip: {
+    field: 'tlocalip',
+  },
+  tsts: {
+    field: 'tsts',
+  },
+  msn: {
+    field: 'msn',
+  },
+  mhardver: {
+    field: 'mhardver',
+  },
+  mpcuv: {
+    field: 'mpcuv',
+  },
+  mpcuc: {
+    field: 'mpcuc',
+  },
+  tccuaconnect: {
+    field: 'tccuaconnect',
+  },
+  tccubconnect: {
+    field: 'tccubconnect',
+  },
+  tcloundconnet: {
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
+    field: 'tcloundconnet',
+  },
+  tappnet: {
+    field: 'tappnet',
+  },
+  tnets: {
+    field: 'tnets',
+  },
+  tnetprod: {
+    field: 'tnetprod',
+  },
+  ticcid: {
+    field: 'ticcid',
+  },
+  timsi: {
+    field: 'timsi',
+  },
+  tstu: {
+    field: 'tstu',
+  },
+  tsigStre: {
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
+    field: 'tsigStre',
+  },
+  tnetreg: {
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
+    field: 'tnetreg',
+  },
+  mccucon: { field: 'mccucon' },
+  mccutyep: { field: 'mccutyep' },
+  tpcuconnect: { field: 'tpcuconnect' },
+  gsn: { field: 'gsn' },
+  ghardversion: { field: 'ghardversion' },
+  gccusoftVersion: { field: 'gccusoftVersion' },
+  gccucompt: { field: 'gccucompt' },
+  gtcuconnect: { field: 'gtcuconnect' },
+  gtcucontype: { field: 'gtcucontype' },
+  gpcuconnect: { field: 'gpcuconnect' },
+  gpcucontype: { field: 'gpcucontype' },
 };
 
 const emsKeys = [
@@ -515,6 +600,7 @@ const emsKeys = [
   'emsHardwareVersion',
   'emsSoftwareVersion',
   'imeiNumber',
+  'iccid',
   'cloudPlatformCommunication',
   'lightBoardCommunication',
   'converterCommunication',
@@ -613,9 +699,81 @@ const dehumidifierKeys = [
   'emsCommunicationMethod',
 ];
 
-const chargeKeys = ['chargeRatedPower', 'chargeGunNumber'];
+const chargeKeys = ['chargeRatedPower', 'terminalNumber', 'chargeGunNumber', 'tcloundconnet'];
 
-const chargeStackKeys = ['chargeRatedPower', 'chargeGunNumber'];
+const chargeOneMasterKeys = [
+  'chargeRatedPower',
+  'terminalNumber',
+  'chargeGunNumber',
+  'tsinglelinemaxI',
+  'tsn',
+  'thardver',
+  'softVersion',
+  'tcuct',
+  'tlocalip',
+  'tsts',
+  'msn',
+  'mhardver',
+  'mpcuv',
+  'mpcuc',
+  'tccuaconnect',
+  'tccubconnect',
+  'tcloundconnet',
+  'tappnet',
+  'tnets',
+  'tnetprod',
+  'ticcid',
+  'timsi',
+  'tstu',
+  'tsigStre',
+  'tnetreg',
+];
+
+const chargeSplitMasterKeys = [
+  'chargeRatedPower',
+  'terminalNumber',
+  'chargeGunNumber',
+  'msn',
+  'mhardver',
+  'mpcuv',
+  'mpcuc',
+  'mccucon',
+  'mccutyep',
+];
+
+const chargeTerminalKeys = [
+  'chargeGunNumber',
+  'tsinglelinemaxI',
+  'tsn',
+  'thardver',
+  'softVersion',
+  'tcuct',
+  'tlocalip',
+  'tsts',
+  'tpcuconnect',
+  'tccuaconnect',
+  'tccubconnect',
+  'tcloundconnet',
+  'tappnet',
+  'tnets',
+  'tnetprod',
+  'ticcid',
+  'timsi',
+  'tstu',
+  'tsigStre',
+  'tnetreg',
+];
+
+const chargeGunKeys = [
+  'gsn',
+  'ghardversion',
+  'gccusoftVersion',
+  'gccucompt',
+  'gtcuconnect',
+  'gtcucontype',
+  'gpcuconnect',
+  'gpcucontype',
+];
 
 const dynamoKeys = ['ratedPower', 'inverterCommunicationMethod'];
 
@@ -630,21 +788,20 @@ const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.Dynamo, dynamoKeys],
+  [DeviceProductTypeEnum.ChargeGun, chargeGunKeys],
+  [DeviceProductTypeEnum.DCChargePile, chargeKeys],
+  [DeviceProductTypeEnum.ChargeMaster, chargeOneMasterKeys],
+  [DeviceProductTypeEnum.ChargeTerminal, chargeTerminalKeys],
 ]);
 
 const productIdKeysMap = new Map([
   [DeviceTypeEnum.Liquid2Air, liquidCoolerKeys],
-  [DeviceTypeEnum.ChargeY601, chargeKeys],
-  [DeviceTypeEnum.ChargeY602, chargeKeys],
-  [DeviceTypeEnum.ChargeY801, chargeKeys],
-  [DeviceTypeEnum.ChargeY802, chargeKeys],
-  [DeviceTypeEnum.ChargeY801, chargeKeys],
-  [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
   [DeviceTypeEnum.PvEnergyPcs, pvEnergyPcsKeys],
   [DeviceTypeEnum.FGCCEnergyEms, fgccEmsKeys],
   [DeviceTypeEnum.FGCCEnergyBatteryStack, fgccStackKeys],
   [DeviceTypeEnum.React100XEmsEnergy, []],
   [DeviceTypeEnum.React100WEmsEnergy, []],
+  [DeviceTypeEnum.ChargeMaster, chargeSplitMasterKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {

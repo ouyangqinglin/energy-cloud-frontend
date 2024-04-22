@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-18 10:54:25
+ * @LastEditTime: 2024-04-22 13:57:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeMaster\index.tsx
  */
@@ -14,6 +14,8 @@ import { ConfigType } from '../../type';
 import { formatMessage } from '@/utils';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import ChargeImg from '@/assets/image/station/charge-master/charge.png';
+import DoorImg from '@/assets/image/station/energy/door.png';
+import DoorLineImg from '@/assets/image/station/charge-master/door-line.png';
 import EnvironmentImg from '@/assets/image/station/charge-2gun/environment.png';
 import EnvironmentLineImg from '@/assets/image/station/charge-master/environment-line.png';
 import PowerImg from '@/assets/image/station/charge-2gun/power.png';
@@ -21,22 +23,62 @@ import PowerLineImg from '@/assets/image/station/charge-master/power-line.png';
 
 const configs: ConfigType[] = [
   {
-    label: formatMessage({ id: 'device.environmentalInformation', defaultMessage: '环境信息' }),
+    label: '',
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 86, left: 71 },
+    showLabel: false,
+    position: { top: 16, left: 71 },
+    icon: DoorImg,
+    line: DoorLineImg,
+    linePosition: { top: 22, left: 142 },
+    data: [
+      {
+        field: 'mlocstu',
+      },
+    ],
+  },
+  {
+    label: formatMessage({
+      id: 'device.chargingModuleInformation',
+      defaultMessage: '充电模块信息',
+    }),
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
+    position: { top: 105, left: 71 },
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 110 },
-    data: [{ field: 'mt1' }, { field: 'mt2' }, { field: 'mh' }],
+    data: [],
   },
   {
-    label: formatMessage({ id: 'device.powerInformation', defaultMessage: '功率信息' }),
+    label: formatMessage({
+      id: 'device.powerDistributionUnitInformation',
+      defaultMessage: '功率分配单元信息',
+    }),
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 86, left: 712 },
+    position: { top: 180, left: 71 },
+    icon: EnvironmentImg,
+    line: EnvironmentLineImg,
+    linePosition: { top: 22, left: 110 },
+    data: [],
+  },
+  {
+    label: formatMessage({ id: 'device.hostStatusInformation', defaultMessage: '主机状态信息' }),
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
+    position: { top: 60, left: 712 },
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -149 },
-    data: [{ field: 'Ua' }, { field: 'Ub' }, { field: 'Uc' }],
+    data: [
+      { field: 'mworkMode' },
+      { field: 'mWorkStatus' },
+      { field: 'malarmStatus' },
+      { field: 'mt1' },
+      { field: 'mt2' },
+      { field: 'mh' },
+      { field: 'Pa' },
+      { field: 'Pb' },
+      { field: 'Pc' },
+      { field: 'Ptotal' },
+    ],
   },
 ];
 

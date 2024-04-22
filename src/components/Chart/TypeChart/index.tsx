@@ -33,6 +33,16 @@ export type TypeChartProps = ChartProps & {
   allLabel?: string[];
 };
 
+const getLabelByData = (data?: TypeChartDataType[]): string[] => {
+  const set: Set<string> = new Set();
+  data?.forEach?.((dataItem) => {
+    dataItem?.data?.forEach?.((item) => {
+      set.add(item.label);
+    });
+  });
+  return Array.from(set);
+};
+
 const TypeChart: React.FC<TypeChartProps> = (props) => {
   const { option, type = chartTypeEnum.Day, date, data, step, allLabel, ...restProps } = props;
 
@@ -75,9 +85,11 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
 
   useEffect(() => {
     const labels =
-      typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any) || allLabel;
+      typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any) ||
+      allLabel ||
+      getLabelByData(data);
     setXLables(labels);
-  }, [type, step, date, allLabel]);
+  }, [type, step, date, allLabel, data]);
 
   return (
     <>

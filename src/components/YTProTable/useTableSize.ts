@@ -25,6 +25,7 @@ const useTableSize = (
   contain: React.MutableRefObject<HTMLDivElement | undefined>,
   scroll?: RcTableProps['scroll'],
   collapsed?: boolean,
+  extraHeight?: number,
 ) => {
   const [scrollX, setScrollX] = useState<number | undefined>();
 
@@ -38,7 +39,7 @@ const useTableSize = (
       const tableBody = contain?.current?.querySelector('.ant-table-body') as any;
       if (isEmpty(scroll?.y)) {
         if (contain?.current && tableBody) {
-          const height = getTableScroll(contain.current);
+          const height = getTableScroll(contain.current, extraHeight);
           tableBody.style.height = height;
           tableBody.style.maxHeight = height;
           tableBody.style.overflowY = 'scroll';
@@ -54,7 +55,7 @@ const useTableSize = (
         }
       }
     }, 300),
-    [contain, scroll, size, collapsed],
+    [contain, scroll, size, collapsed, extraHeight],
   );
 
   return {

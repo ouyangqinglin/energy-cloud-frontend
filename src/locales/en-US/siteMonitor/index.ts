@@ -310,6 +310,7 @@ export default {
   'siteMonitor.GridDataCard': 'Grid Data Card',
   'siteMonitor.TodayBuyElectricity': 'Buy Electricity(Today)',
   'siteMonitor.TodaySellElectricity': 'Sell Electricity(Today)',
+  'siteMonitor.todayDischarge': 'Today Discharge',
   'siteMonitor.todayCharge': 'Today Charge',
   'siteMonitor.DistributionCabinet': 'Distribution Cabinet',
   'siteMonitor.NumberOfStrings': 'Number Of Strings',
