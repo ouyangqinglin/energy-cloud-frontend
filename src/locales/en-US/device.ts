@@ -495,6 +495,6 @@ export default {
   'device.chargingStatistics': 'Charging Statistics',
   'device.numberOfChargingOrders': 'Number Of Charging Orders',
   'device.chargingFee': 'Charging Fee',
-  'device.orderUnit': '',
+  'device.orderUnit': ' ',
   'device.hour': 'Hour',
 };

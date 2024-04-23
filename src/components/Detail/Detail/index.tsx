@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-18 11:51:31
- * @LastEditTime: 2024-04-18 16:47:51
+ * @LastEditTime: 2024-04-22 17:06:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Detail\Detail\index.tsx
  */
@@ -120,12 +120,18 @@ const Detail: React.FC<DetailProps> = (props) => {
                     <span className={styles.label} title={(item.label ?? item.title) as string}>
                       {item.label ?? item.title}
                     </span>
-                    {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
+                    {unitInLabel &&
+                      (item?.unit && (typeof item?.unit !== 'string' || item?.unit?.trim?.())
+                        ? `(${item?.unit})`
+                        : '')}
                   </>
                 ) : (
                   <span title={(item.label ?? item.title) as string}>
                     {item.label ?? item.title}
-                    {unitInLabel && (item?.unit ? `(${item?.unit})` : '')}
+                    {unitInLabel &&
+                      (item?.unit && (typeof item?.unit !== 'string' || item?.unit?.trim?.())
+                        ? `(${item?.unit})`
+                        : '')}
                   </span>
                 )
               }

@@ -71,7 +71,7 @@ export default {
   'common.siteName': 'Site Name',
   'common.power': 'Power',
   'common.groupString': 'Group string',
-  'common.dayPowerConsumption': 'daily power consumption',
+  'common.dayPowerConsumption': 'Daily electricity consumption',
   'common.totalPowerConsumption': 'Accumulated electricity consumption',
   'common.upload': 'Upload',
   'common.ok': 'Ok',

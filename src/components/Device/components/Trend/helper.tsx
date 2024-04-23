@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 15:19:49
- * @LastEditTime: 2024-04-22 11:00:41
+ * @LastEditTime: 2024-04-22 17:15:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\helper.tsx
  */
@@ -14,12 +14,11 @@ import styles from './index.less';
 export const options = {
   grid: {
     left: 0,
-    top: 30,
+    top: 10,
     right: 20,
-    bottom: 50,
+    bottom: 70,
   },
   legend: {
-    icon: 'rect',
     top: 'bottom',
   },
   dataZoom: [
@@ -30,7 +29,7 @@ export const options = {
       start: 0,
       end: 100,
       height: 15,
-      bottom: 30,
+      bottom: 50,
     },
   ],
   yAxis: [

@@ -57,7 +57,7 @@ export default {
   'common.refreshSuccess': '刷新成功',
   'common.power': '功率',
   'common.groupString': '组串',
-  'common.dayPowerConsumption': '日供电量',
+  'common.dayPowerConsumption': '日用电量',
   'common.totalPowerConsumption': '累计用电量',
   //
 
