@@ -124,8 +124,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           subType == 0
             ? currentTime.add(2, 'm').format('HH:mm')
             : currentTime.add(1, 'h').format('HH:mm');
-        let result =
-          (timeType === TimeType.DAY ? `${params[0].name}-${time}` : params[0].name) + '<br />';
+        let result = (shouldShowLine ? params[0].name : `${params[0].name}-${time}`) + '<br />';
         params.forEach((item) => {
           let seriesName = item.seriesName;
           if (seriesName == formatMessage({ id: 'index.tab.income' })) {
