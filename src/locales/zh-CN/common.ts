@@ -222,4 +222,6 @@ export default {
   'common.pageDevelopmenting': '页面开发中，敬请期待',
   'common.next': '下一步',
   'common.minute': '分钟',
+  'common.tenThousand': '万',
+  'common.tenMillion': '千万',
 };

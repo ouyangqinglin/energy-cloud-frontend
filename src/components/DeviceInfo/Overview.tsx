@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-04-22 15:37:59
+ * @LastEditTime: 2024-04-23 16:56:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -83,6 +83,10 @@ const Overview: React.FC<OverviewProps> = (props) => {
 
   const realTimeData = useSubscribe(deviceData?.deviceId, true);
   const middleExtraRealTimeData = useSubscribe(middleExtraDeviceIds, true);
+  const { modelMap: deviceModelMap } = useDeviceModel({
+    deviceId: deviceData?.deviceId,
+    isGroup: true,
+  });
   const { modelMap } = useDeviceModel({
     deviceId: middleExtraDeviceIds?.[0],
     isGroup: true,
@@ -97,12 +101,18 @@ const Overview: React.FC<OverviewProps> = (props) => {
   const middleDetailItems = useMemo(() => {
     const result: DetailItem[] = merge([], middleItems);
     result.forEach((item) => {
-      item.label = item.label || modelMap[item?.field || '']?.name;
+      item.label =
+        item.label || modelMap[item?.field || '']?.name || deviceModelMap[item?.field || '']?.name;
       item.format =
-        item.format || ((value) => formatModelValue(value, modelMap?.[item?.field || '']));
+        item.format ||
+        ((value) =>
+          formatModelValue(
+            value,
+            modelMap?.[item?.field || ''] || deviceModelMap?.[item?.field || ''],
+          ));
     });
     return result;
-  }, [middleItems, modelMap]);
+  }, [middleItems, modelMap, deviceModelMap]);
 
   const onEditNameClick = useCallback(() => {
     setDeviceNameInfo((prevData) => ({ ...prevData, showEdit: true })); //input输入框出现

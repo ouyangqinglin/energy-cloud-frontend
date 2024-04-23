@@ -221,4 +221,6 @@ export default {
   'common.pageDevelopmenting': 'The page is under development, please stay tuned',
   'common.next': 'Next',
   'common.minute': 'Minute',
+  'common.tenThousand': 'Ten Thousand',
+  'common.tenMillion': 'Ten Million',
 };

@@ -16,6 +16,7 @@ export default {
   'dataManage.statisticalCycle': '统计周期',
   'dataManage.statisticalTime': '统计时间',
   'dataManage.utilityCharge': '市电电费',
+  'dataManage.chargingPileConsum': '充电桩用电量',
   'dataManage.chargingPileAmount': '充电桩充电量',
   'dataManage.electricityCost': '用电成本',
   'dataManage.chargingIncome': '充电收入',

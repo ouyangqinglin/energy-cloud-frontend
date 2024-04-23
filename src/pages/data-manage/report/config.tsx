@@ -185,8 +185,8 @@ export const siteColumns: ProColumns[] = [
       {
         title:
           formatMessage({
-            id: 'siteManage.set.chargeElectricConsumption',
-            defaultMessage: '充电桩充电量',
+            id: 'dataManage.chargingPileConsum',
+            defaultMessage: '充电桩用电量',
           }) + '(kWh)',
         dataIndex: 'cspc',
         width: 150,
@@ -947,7 +947,7 @@ export const chargeOrderColumns: ProColumns[] = [
   },
   {
     title:
-      formatMessage({ id: 'dataManage.chargingCapacity', defaultMessage: '电费金额' }) +
+      formatMessage({ id: 'dataManage.electricityRate', defaultMessage: '电费金额' }) +
       formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
     dataIndex: 'DetailElecMoney',
     hideInSearch: true,
