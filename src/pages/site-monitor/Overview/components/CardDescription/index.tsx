@@ -1,7 +1,6 @@
-import { Card, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import classnames from 'classnames';
 import { get, isFunction } from 'lodash';
-import { keepTwoDecimalWithoutNull } from '../../helper';
 import RowBox from '../RowBox';
 import styles from './index.less';
 import type { DescriptionCardConfig } from './type';
