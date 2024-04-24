@@ -56,7 +56,7 @@ export const columns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.dayPowerConsumption',
-      defaultMessage: '日供电量',
+      defaultMessage: '日用电量',
     })}(kWh)`,
     dataIndex: 'dailyElectricityConsumption',
     width: 150,
@@ -114,7 +114,7 @@ export const loadColumns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.dayPowerConsumption',
-      defaultMessage: '日供电量',
+      defaultMessage: '日用电量',
     })}(kWh)`,
     dataIndex: 'dailyElectricityConsumption',
     width: 150,

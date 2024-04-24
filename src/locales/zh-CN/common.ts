@@ -57,7 +57,7 @@ export default {
   'common.refreshSuccess': '刷新成功',
   'common.power': '功率',
   'common.groupString': '组串',
-  'common.dayPowerConsumption': '日供电量',
+  'common.dayPowerConsumption': '日用电量',
   'common.totalPowerConsumption': '累计用电量',
   //
 
@@ -222,4 +222,6 @@ export default {
   'common.pageDevelopmenting': '页面开发中，敬请期待',
   'common.next': '下一步',
   'common.minute': '分钟',
+  'common.tenThousand': '万',
+  'common.tenMillion': '千万',
 };

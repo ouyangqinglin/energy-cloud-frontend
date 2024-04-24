@@ -65,7 +65,7 @@ export default {
   'device.lowTemperatureOpen': 'Low temperature opening value',
   'device.lowTemperatureClosed': 'Low temperature shutdown value',
   'device.runFixedValueSetting': 'Running fixed value setting',
-  'device.issueSuccess': 'Issue success',
+  'device.issueSuccess': 'Set Success',
   'device.singleMaximumChargingVoltage': 'Single unit maximum allowable charging voltage',
   'device.overvoltageOvervoltageEliminationValue':
     'Individual overvoltage fault elimination return value',
@@ -495,6 +495,6 @@ export default {
   'device.chargingStatistics': 'Charging Statistics',
   'device.numberOfChargingOrders': 'Number Of Charging Orders',
   'device.chargingFee': 'Charging Fee',
-  'device.orderUnit': '',
+  'device.orderUnit': ' ',
   'device.hour': 'Hour',
 };

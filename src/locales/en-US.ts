@@ -39,6 +39,7 @@ import things from './en-US/things';
 import debug from './en-US/debug';
 import charge from './en-US/charge';
 import iccid from './en-US/iccid';
+import map from './en-US/map';
 
 export default {
   'navBar.lang': 'Languages',
@@ -90,4 +91,5 @@ export default {
   ...debug,
   ...charge,
   ...iccid,
+  ...map,
 };

@@ -358,10 +358,10 @@ export const formatNum = (num: number, separator = '--', floatLength = 2): Value
     let unit = '',
       value = num;
     if (-100000000 > num || num > 100000000) {
-      unit = '千万';
+      unit = formatMessage({ id: 'common.tenMillion', defaultMessage: '千万' });
       value = num / 100000000;
     } else if (-10000 > num || num > 10000) {
-      unit = '万';
+      unit = formatMessage({ id: 'common.tenThousand', defaultMessage: '万' });
       value = num / 10000;
     }
     return {

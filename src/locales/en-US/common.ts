@@ -71,7 +71,7 @@ export default {
   'common.siteName': 'Site Name',
   'common.power': 'Power',
   'common.groupString': 'Group string',
-  'common.dayPowerConsumption': 'daily power consumption',
+  'common.dayPowerConsumption': 'Daily electricity consumption',
   'common.totalPowerConsumption': 'Accumulated electricity consumption',
   'common.upload': 'Upload',
   'common.ok': 'Ok',
@@ -221,4 +221,6 @@ export default {
   'common.pageDevelopmenting': 'The page is under development, please stay tuned',
   'common.next': 'Next',
   'common.minute': 'Minute',
+  'common.tenThousand': 'Ten Thousand',
+  'common.tenMillion': 'Ten Million',
 };

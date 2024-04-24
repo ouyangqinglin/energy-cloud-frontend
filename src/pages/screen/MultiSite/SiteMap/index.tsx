@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2023-12-13 10:51:05
+ * @LastEditTime: 2024-04-23 17:07:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
@@ -19,7 +19,7 @@ import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import { getCountryData } from './service';
 import { REQUEST_INTERVAL_5_MINUTE } from '../config';
-import { arrayToMap } from '@/utils';
+import { arrayToMap, formatMessage } from '@/utils';
 import IconDot from '@/assets/image/multi-site/dot.png';
 import ProvinceMap from './ProvinceMap';
 import { Spin } from 'antd';
@@ -104,8 +104,13 @@ const SiteMap: React.FC = () => {
   useEffect(() => {
     setMapLoadingTrue();
     request('/chinaMap/china.json').then((chinaRes) => {
+      chinaRes?.features?.forEach?.((features: any) => {
+        if (features?.properties?.name) {
+          features.properties.name = formatMessage({ id: features.properties.name });
+        }
+      });
       setChinaData(chinaRes);
-      echarts.registerMap('china', chinaRes);
+      echarts.registerMap('china1', chinaRes);
       request('/chinaMap/china-outline.json').then((res) => {
         setMapLoadingFalse();
         echarts.registerMap('chinaMapOutline', res);

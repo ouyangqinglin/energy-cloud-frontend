@@ -578,7 +578,7 @@ export const allItems: Record<string, DetailItem> = {
     field: 'tnetreg',
   },
   mccucon: { field: 'mccucon' },
-  mccutyep: { field: 'mccutyep' },
+  mccutype: { field: 'mccutype' },
   tpcuconnect: { field: 'tpcuconnect' },
   gsn: { field: 'gsn' },
   ghardversion: { field: 'ghardversion' },
@@ -738,7 +738,7 @@ const chargeSplitMasterKeys = [
   'mpcuv',
   'mpcuc',
   'mccucon',
-  'mccutyep',
+  'mccutype',
 ];
 
 const chargeTerminalKeys = [

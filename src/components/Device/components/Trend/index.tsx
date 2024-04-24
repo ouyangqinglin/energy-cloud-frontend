@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 14:40:05
- * @LastEditTime: 2024-04-22 11:30:14
+ * @LastEditTime: 2024-04-22 16:58:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\index.tsx
  */

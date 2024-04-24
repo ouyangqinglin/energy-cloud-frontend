@@ -39,6 +39,7 @@ import things from './zh-CN/things';
 import debug from './zh-CN/debug';
 import charge from './zh-CN/charge';
 import iccid from './zh-CN/iccid';
+import map from './zh-CN/map';
 
 export default {
   'navBar.lang': '语言',
@@ -90,4 +91,5 @@ export default {
   ...debug,
   ...charge,
   ...iccid,
+  ...map,
 };
