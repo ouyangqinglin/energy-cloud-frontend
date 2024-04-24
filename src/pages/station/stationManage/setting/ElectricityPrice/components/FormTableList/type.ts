@@ -6,7 +6,9 @@ import type { ProRequestData } from '@ant-design/pro-components';
 import { get } from '@/utils/request';
 
 export type FormTableListBaseProps<DataType> = {
+  onChangeStatus?: any;
   actionRef?: React.Ref<ActionType>;
+  priceType: string;
   onDeleteChange?: ProColumns<DataType, any>['render'];
   columns?: YTProColumns<DataType, any>[];
   formReadChild?: (props: FormReadBaseProps) => JSX.Element;

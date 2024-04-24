@@ -1,5 +1,5 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
-import { Badge } from 'antd';
+import { Badge, Switch, Modal } from 'antd';
 import type { ReactNode } from 'react';
 import type { MarketElectricityPriceInfo } from './type';
 import { formatMessage, getLocale } from '@/utils';
@@ -54,27 +54,5 @@ export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
     title: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
     dataIndex: 'operator',
     hideInSearch: true,
-  },
-  {
-    title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
-    dataIndex: 'status',
-    valueEnum: new Map<number, ReactNode>([
-      // eslint-disable-next-line react/jsx-key
-      [
-        1,
-        <Badge
-          status="success"
-          text={formatMessage({ id: 'common.effect', defaultMessage: '生效' })}
-        />,
-      ],
-      // eslint-disable-next-line react/jsx-key
-      [
-        0,
-        <Badge
-          status="error"
-          text={formatMessage({ id: 'common.ineffect', defaultMessage: '未生效' })}
-        />,
-      ],
-    ]),
   },
 ];

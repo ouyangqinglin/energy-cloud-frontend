@@ -1,7 +1,8 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.less';
 import type { TabsProps } from 'antd';
-import { Tabs } from 'antd';
+import { Tabs, Button, Modal, message } from 'antd';
+import YTProTable from '@/components/YTProTable';
 import { useLocation } from 'umi';
 import PriceMarketList from './PriceMarket';
 import PricePhotovoltaicList from './PricePhotovoltaic';
@@ -11,21 +12,35 @@ import { formatMessage } from '@/utils';
 import type { LocationType } from '@/types';
 import { useAuthority } from '@/hooks';
 import { SiteTypeEnum } from '@/utils/dict';
+import { getList } from '@/pages/station/stationList/service';
+import { debounce } from 'lodash';
+import { columns as defaultColumns } from './config';
+//市电
+import { getMarketElectricityPriceList, syncSiteRule } from './PriceMarket/service';
+//光伏type=1，储能type=0
+import { getPhotovoltaicElectricityPriceList } from './PricePhotovoltaic/service';
+//充电桩
+import { getChargingElectricityPriceList } from './PriceCharging/service';
 
 const enum TabKeys {
-  MARKET = 'MARKET',
-  PHOTOVOLTAIC = 'PHOTOVOLTAIC',
-  ESS = 'ESS',
-  CHARGING = 'CHARGING',
+  MARKET = '1',
+  PHOTOVOLTAIC = '2',
+  ESS = '3',
+  CHARGING = '4',
 }
 
 const Customer: React.FC = () => {
   const location = useLocation<LocationType>();
-  const siteType = (location as LocationType).query?.siteType;
+  const { siteType, id } = (location as LocationType).query as any;
   const chargingActionRef = useRef<ActionType>(null);
   const photovoltaicActionRef = useRef<ActionType>(null);
   const ESSActionRef = useRef<ActionType>(null);
   const marketActionRef = useRef<ActionType>(null);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [siteList, setSiteList] = useState<any[]>([]);
+  const [type, setType] = useState<string>(TabKeys.MARKET);
+  const [ids, setIds] = useState<React.Key[]>([]);
+
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:electricPriceManage:electric',
     'siteManage:siteConfig:electricPriceManage:pv',
@@ -33,7 +48,30 @@ const Customer: React.FC = () => {
     'siteManage:siteConfig:electricPriceManage:charge',
   ]);
 
+  const getSiteData = (siteName = '') => {
+    getList({ energyOptions: siteType, name: siteName, current: 1, pageSize: 20 }).then((res) => {
+      if (res.code == 200) {
+        setSiteList(res.data.list);
+      }
+    });
+  };
+
+  const requestStation = useCallback(
+    debounce((searchText) => {
+      getSiteData(searchText);
+    }, 700),
+    [],
+  );
+
+  useEffect(() => {
+    if (visible) {
+      getSiteData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
+
   const onChange = (activeKey: string) => {
+    setType(activeKey);
     switch (activeKey) {
       case TabKeys.CHARGING:
         chargingActionRef.current?.reload();
@@ -77,7 +115,7 @@ const Customer: React.FC = () => {
           defaultMessage: '市电电价设置',
         }),
         key: TabKeys.MARKET,
-        children: <PriceMarketList actionRef={marketActionRef} />,
+        children: <PriceMarketList priceType={TabKeys.MARKET} actionRef={marketActionRef} />,
       });
     }
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:pv') && isShowPVTab) {
@@ -87,7 +125,13 @@ const Customer: React.FC = () => {
           defaultMessage: '光伏上网电价设置',
         }),
         key: TabKeys.PHOTOVOLTAIC,
-        children: <PricePhotovoltaicList setType={0} actionRef={photovoltaicActionRef} />,
+        children: (
+          <PricePhotovoltaicList
+            priceType={TabKeys.PHOTOVOLTAIC}
+            setType={0}
+            actionRef={photovoltaicActionRef}
+          />
+        ),
       });
     }
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:ESS') && isShowESSTab) {
@@ -97,7 +141,9 @@ const Customer: React.FC = () => {
           defaultMessage: '储能放电电价设置',
         }),
         key: TabKeys.ESS,
-        children: <PricePhotovoltaicList setType={1} actionRef={ESSActionRef} />,
+        children: (
+          <PricePhotovoltaicList setType={1} priceType={TabKeys.ESS} actionRef={ESSActionRef} />
+        ),
       });
     }
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:charge') && isShowChargeTab) {
@@ -107,15 +153,129 @@ const Customer: React.FC = () => {
           defaultMessage: '充电桩计费设置',
         }),
         key: TabKeys.CHARGING,
-        children: <PriceChargingList actionRef={chargingActionRef} />,
+        children: <PriceChargingList priceType={TabKeys.CHARGING} actionRef={chargingActionRef} />,
       });
     }
     return result;
   }, [authorityMap]);
+  const operations = (
+    <Button type="primary" onClick={() => setVisible(true)}>
+      {formatMessage({
+        id: 'siteManage.siteList.electricityPriceSynchronization',
+        defaultMessage: '电价同步',
+      })}
+    </Button>
+  );
+  const handleOk = () => {
+    if (ids.length) {
+      const params = {
+        ids,
+        type: Number(type),
+        siteId: id,
+      };
+      syncSiteRule(params).then((res) => {
+        if (res.data) {
+          onChange(type);
+          message.success(
+            formatMessage({
+              id: 'siteManage.siteList.electricityPriceSynchronizationSuc',
+              defaultMessage: '电价同步成功',
+            }),
+          );
+        } else {
+          message.success(
+            formatMessage({
+              id: 'siteManage.siteList.electricityPriceSynchronizationFil',
+              defaultMessage: '电价同步失败',
+            }),
+          );
+        }
+        setVisible(false);
+      });
+    } else {
+      setVisible(false);
+    }
+  };
+
+  const columns = useMemo(() => {
+    return [
+      {
+        title: formatMessage({
+          id: 'siteManage.siteList.siteName',
+          defaultMessage: '站点名称',
+        }),
+        dataIndex: 'siteId',
+        valueType: 'select',
+        formItemProps: {
+          name: 'siteId',
+        },
+        fieldProps: {
+          showSearch: true,
+          filterOption: false,
+          onSearch: requestStation,
+          options: siteList,
+          fieldNames: { label: 'name', value: 'id' },
+        },
+        width: 150,
+        ellipsis: true,
+        hideInTable: true,
+      },
+      ...defaultColumns,
+    ];
+  }, [requestStation, siteList]);
+
+  const requestList = useCallback(
+    (params) => {
+      switch (type) {
+        case TabKeys.CHARGING: //充电桩计费设置
+          return getChargingElectricityPriceList(params);
+        case TabKeys.MARKET: //市电电价设置
+          return getMarketElectricityPriceList(params);
+        case TabKeys.PHOTOVOLTAIC: //光伏上网电价设置
+          params.type = 0;
+          return getPhotovoltaicElectricityPriceList(params);
+        case TabKeys.ESS: //储能放电电价设置
+          params.type = 1;
+          return getPhotovoltaicElectricityPriceList(params);
+        default: //市电
+          return getMarketElectricityPriceList(params);
+      }
+    },
+    [type],
+  );
 
   return (
     <>
-      <Tabs onChange={onChange} className={styles.category} tabBarGutter={24} items={category} />
+      <Tabs
+        tabBarExtraContent={operations}
+        onChange={onChange}
+        className={styles.category}
+        tabBarGutter={24}
+        items={category}
+      />
+      <Modal
+        width={800}
+        title={formatMessage({
+          id: 'siteManage.siteList.electricityPriceSynchronization',
+          defaultMessage: '电价同步',
+        })}
+        visible={visible}
+        destroyOnClose
+        onOk={handleOk}
+        onCancel={() => setVisible(false)}
+      >
+        <YTProTable<any, any>
+          columns={columns}
+          toolBarRender={false}
+          request={requestList}
+          rowSelection={{
+            type: 'checkbox',
+            onChange: (selectedRowKeys: React.Key[]) => {
+              setIds(selectedRowKeys);
+            },
+          }}
+        />
+      </Modal>
     </>
   );
 };
