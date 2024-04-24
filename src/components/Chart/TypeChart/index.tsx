@@ -97,5 +97,4 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
     </>
   );
 };
-
 export default TypeChart;

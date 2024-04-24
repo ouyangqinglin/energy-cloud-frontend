@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
-import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
+import TypeChart from '@/components/Chart/TypeChart';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
 import { formatMessage } from '@/utils';
@@ -119,11 +120,25 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         type: 'shadow',
       },
       formatter: function (params: any[]) {
-        const currentTime = moment('2023-01-01 ' + params[0].name);
-        const time =
-          subType == 0
-            ? currentTime.add(2, 'm').format('HH:mm')
-            : currentTime.add(1, 'h').format('HH:mm');
+        const currentTime =
+          timeType == TimeType.DAY
+            ? moment('2023-01-01 ' + params[0].name)
+            : moment(params[0].name);
+        let time = null;
+        switch (timeType) {
+          case TimeType.DAY:
+            time = currentTime.add(1, 'hours').format('HH:mm');
+            break;
+          case TimeType.MONTH:
+            time = currentTime.add(1, 'days').format('YYYY-MM-DD');
+            break;
+          case TimeType.YEAR:
+            time = currentTime.add(1, 'months').format('YYYY-MM');
+            break;
+          case TimeType.TOTAL:
+            time = currentTime.add(1, 'years').format('YYYY');
+            break;
+        }
         let result = (shouldShowLine ? params[0].name : `${params[0].name}-${time}`) + '<br />';
         params.forEach((item) => {
           let seriesName = item.seriesName;

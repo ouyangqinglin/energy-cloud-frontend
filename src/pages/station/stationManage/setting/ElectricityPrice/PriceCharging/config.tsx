@@ -55,26 +55,4 @@ export const columns: YTProColumns<MarketElectricityPriceListItem>[] = [
     dataIndex: 'operator',
     hideInSearch: true,
   },
-  {
-    title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
-    dataIndex: 'status',
-    valueEnum: new Map<number, ReactNode>([
-      // eslint-disable-next-line react/jsx-key
-      [
-        1,
-        <Badge
-          status="success"
-          text={formatMessage({ id: 'common.effect', defaultMessage: '生效' })}
-        />,
-      ],
-      // eslint-disable-next-line react/jsx-key
-      [
-        0,
-        <Badge
-          status="error"
-          text={formatMessage({ id: 'common.ineffect', defaultMessage: '未生效' })}
-        />,
-      ],
-    ]),
-  },
 ];

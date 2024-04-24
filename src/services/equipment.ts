@@ -280,6 +280,13 @@ export const termBindMainServer = (data: any) => {
     data,
   });
 };
+
+export const updateTerm = (data: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/updateTerm', {
+    method: 'PUT',
+    data,
+  });
+};
 export const delTerm = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/delTerm', {
     method: 'DELETE',

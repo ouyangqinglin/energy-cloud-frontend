@@ -24,8 +24,15 @@ export default {
   'siteManage.siteList.chargingStationCapacity': 'Total EV Charger Power',
   'siteManage.siteList.siteLogo': 'Site Logo',
   'siteManage.siteList.basicCharge': 'Basic Charge',
+  'siteManage.siteList.electricityPriceSynchronization': 'Electricity Price Synchronization',
+  'siteManage.siteList.electricityPriceSynchronizationSuc':
+    'Electricity Price Synchronization Success',
+  'siteManage.siteList.electricityPriceSynchronizationFil':
+    'Electricity Price Synchronization Fail',
   'siteManage.siteList.sitePhotos': 'Site Photos',
   'siteManage.siteList.ruleName': 'Rule Name',
+  'siteManage.siteList.changeStatus': 'Change Status',
+  'siteManage.siteList.': 'Change Status',
   'siteManage.siteList.effectiveDate': 'Effective date',
   'siteManage.siteList.addEffectiveDate': 'Add Effective Date',
   'siteManage.set.baseInfo': 'Basic Information',
