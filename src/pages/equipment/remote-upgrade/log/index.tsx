@@ -169,7 +169,7 @@ const versionList= {
 const upgradTime = {
   title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间'}),
   dataIndex: 'upgradeTime',
-  valueType: 'dateTimeRange',
+  valueType: 'dateRange',
   width: 150,
   render: (_, record:any) => record.upgradeTime,
   search: {
@@ -263,14 +263,8 @@ const upgradTime = {
       width: 150,
       ellipsis: true,
       hideInSearch: true,
-    },
-    {
-      title: formatMessage({id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间',}),
-      dataIndex: 'upgradeTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
+      },
+      upgradTime,
     {
       title: formatMessage({id: 'upgradeManage.upgradeStatus', defaultMessage: '升级状态',}),
       dataIndex: 'status',
@@ -297,7 +291,6 @@ const upgradTime = {
       width: 100,
       ellipsis: true,
     },
-    upgradTime,
     ];
   }, [siteColumn, productTypeColumn]);
   return (
