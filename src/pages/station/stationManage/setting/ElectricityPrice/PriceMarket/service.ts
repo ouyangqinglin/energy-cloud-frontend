@@ -6,8 +6,16 @@ export const createMarketPrice = (data: any) => {
   return post(`/oss/site/mains/save`, data);
 };
 
+export const syncSiteRule = (data: any) => {
+  return post(`/oss/site/energyFlowDiagram/syncSiteRule`, data);
+};
+
 export const updateMarketPrice = (data: any) => {
   return put(`/oss/site/mains/update`, data);
+};
+
+export const updateStatus = (data: any) => {
+  return put(`/oss/site/energyFlowDiagram/updateElectrovalenceStatus`, data);
 };
 
 export const deleteMarketPrice = (data: any) => {

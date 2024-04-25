@@ -18,6 +18,10 @@ export const deletePhotovoltaicPrice = (data: any) => {
   return del(`/oss/site/internet/delete`, data);
 };
 
+export const updateStatus = (data: any) => {
+  return put(`/oss/site/energyFlowDiagram/updateElectrovalenceStatus`, data);
+};
+
 export const getPhotovoltaicElectricityPriceList = (params: {
   name?: string;
   startTime?: number;

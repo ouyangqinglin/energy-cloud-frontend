@@ -9,7 +9,7 @@ export const onlineStatus = {
   [OnlineStatusEnum.None]: {
     text: '离线',
     icon: 'red',
-    status: 'Error',
+    status: 'Default',
   },
   [OnlineStatusEnum.Online]: {
     text: '在线',

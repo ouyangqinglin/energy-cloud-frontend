@@ -1,5 +1,5 @@
 import Detail from '@/components/Detail';
-import { Button, Modal, Switch } from 'antd';
+import { Button, Modal, Switch, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useRef, useState } from 'react';
 import { formatMessage } from '@/utils';
@@ -7,8 +7,15 @@ import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ConfigDataType } from './data';
 import { columns } from './config';
-import { getChargeTerm, addTerminal, termBindMainServer, delTerm } from '@/services/equipment';
+import {
+  getChargeTerm,
+  addTerminal,
+  termBindMainServer,
+  delTerm,
+  updateTerm,
+} from '@/services/equipment';
 import AddForm from './AddForm/index';
+import EditForm from './EditForm/index';
 import { cloneDeep } from 'lodash';
 
 export type EVChargerOrderInfoType = {
@@ -19,6 +26,8 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const [bindMainServer, setBindMainServer] = useState([]);
+  const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [currentRow, setCurrentRow] = useState<any>();
 
   const actionRef = useRef<ActionType>();
   const handleRequest = () => {
@@ -63,6 +72,15 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const handleAdd = async (rowData: ConfigDataType) => {
     try {
       await addTerminal({ ...rowData, chargingId: deviceId });
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const handleEdit = async (rowData: ConfigDataType) => {
+    try {
+      await updateTerm(rowData);
+      message.success('配置成功');
       return true;
     } catch {
       return false;
@@ -130,6 +148,17 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
       render: (_, record) => {
         const rowData = record as ConfigDataType;
         return [
+          <Button
+            type="link"
+            size="small"
+            key="edit"
+            onClick={() => {
+              setEditVisible(true);
+              setCurrentRow(rowData);
+            }}
+          >
+            {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+          </Button>,
           <Button
             type="link"
             size="small"
@@ -201,6 +230,23 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           setAddVisible(false);
         }}
         visible={addVisible}
+      />
+      <EditForm
+        onSubmit={async (values) => {
+          let success = false;
+          success = await handleEdit({ ...values });
+          if (success) {
+            setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          setEditVisible(false);
+        }}
+        values={currentRow || {}}
+        visible={editVisible}
       />
     </div>
   );
