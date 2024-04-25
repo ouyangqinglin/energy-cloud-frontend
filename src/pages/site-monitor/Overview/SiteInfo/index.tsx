@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { Carousel } from 'antd';
 import { formatMessage } from '@/utils';
+import { SiteTypeStrEnum } from '@/utils/dict';
 
 const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string }) => {
   const [photos, setPhotos] = useState(Array);
@@ -59,11 +60,14 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
           <Tooltip placement="topRight" title={data?.name ?? '--'}>
             <div className={styles.value}>{data?.name ?? '--'}</div>
           </Tooltip>
-          <Tooltip placement="top" title={formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}>
-            <SettingOutlined
-              className='cl-primary cursor'
-              onClick={onClick}
-            />
+          <Tooltip
+            placement="top"
+            title={formatMessage({
+              id: 'siteManage.siteList.siteConfig',
+              defaultMessage: '站点配置',
+            })}
+          >
+            <SettingOutlined className="cl-primary cursor" onClick={onClick} />
           </Tooltip>
         </li>
         <li>
@@ -94,17 +98,31 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
         ) : (
           ''
         )}
-        <li>
-          <div className={styles.label}>
-            {formatMessage({
-              id: 'siteManage.siteList.totalEnergyStorageCapacity',
-              defaultMessage: '储能总容量',
-            })}
-            ：
-          </div>
-          <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${data?.energyStorageCapacity ?? '--'
+        {[SiteTypeStrEnum.CS].includes(siteType) ? (
+          <li>
+            <div className={styles.label}>
+              {formatMessage({
+                id: 'siteManage.siteList.chargingStationCapacity',
+                defaultMessage: '充电桩总功率',
+              })}
+              ：
+            </div>
+            <div className={styles.value}>{`${data?.chargingStationCapacity ?? '--'}kW`}</div>
+          </li>
+        ) : (
+          <li>
+            <div className={styles.label}>
+              {formatMessage({
+                id: 'siteManage.siteList.totalEnergyStorageCapacity',
+                defaultMessage: '储能总容量',
+              })}
+              ：
+            </div>
+            <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${
+              data?.energyStorageCapacity ?? '--'
             }kWh`}</div>
-        </li>
+          </li>
+        )}
         <li>
           <div className={styles.label}>
             {formatMessage({ id: 'siteMonitor.gridTime', defaultMessage: '交付时间' })}：
