@@ -138,7 +138,7 @@ const SvgComponent = (
             <div className={styles.desc}>
               <span className={styles.title} style={{ maxWidth: 188 }}>
                 {formatMessage({
-                  id: 'siteMonitor.dayPowerGeneration',
+                  id: 'device.todayElectricitygeneration',
                   defaultMessage: '今日发电量',
                 })}
                 (kWh)：

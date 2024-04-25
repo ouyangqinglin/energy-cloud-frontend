@@ -22,7 +22,7 @@ export default {
   'system.owner': 'Owner',
   'system.operator': 'Operator',
   'system.deleteAdministratorConfirm':
-    'Are you sure you want to delete this organization? It cannot be restored after deletion! ',
+    'Administrator user delete Confirm, Cannot be recovered after deletion! ',
   'system.organizationName': 'Organization Name',
   'system.organizationId': 'Organization ID',
   'system.requiredField': 'This is a required field',

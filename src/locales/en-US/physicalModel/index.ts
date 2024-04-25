@@ -1,6 +1,6 @@
 export default {
   'physicalModel.name': 'Name',
-  'physicalModel.typeName': 'Type Name',
+  'physicalModel.typeName': 'Attribute name',
   'physicalModel.editable': 'Editable',
   'physicalModel.remark': 'Remark',
   'physicalModel.createTime': 'CreateTime',
@@ -10,7 +10,7 @@ export default {
   'physicalModel.typeEdit': 'Edit',
   'physicalModel.source': 'Source',
   'physicalModel.fieldName': 'Field Name',
-  'physicalModel.fieldKey': 'Field Key',
+  'physicalModel.fieldKey': 'field',
   'physicalModel.fieldJson': 'Field Json',
   'physicalModel.fieldType': 'Field Type',
   'physicalModel.fieldConfig': 'Field Config',

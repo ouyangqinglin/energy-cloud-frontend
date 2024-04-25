@@ -25,6 +25,6 @@ export default {
   'system.Role.update_time': 'Update Time',
   'system.Role.remark': 'Remark',
   'system.Role.modify_info': 'Edit',
-  'system.Role.auth': 'Menu Authority',
+  'system.Role.auth': 'Role Authority',
   'system.Role.type': 'Role type',
 };

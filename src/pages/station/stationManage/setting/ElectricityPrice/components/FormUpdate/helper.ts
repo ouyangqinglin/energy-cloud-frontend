@@ -1,4 +1,24 @@
 import dayjs from 'dayjs';
+import moment from 'moment';
+
+export const timeList = (() => {
+  const timeIntervals = [];
+  // 设置初始时间为今天的凌晨 00:00
+  const startTime = moment().startOf('day');
+  // 循环24小时，每次增加半小时
+  for (let i = 0; i < 48; i++) {
+    // 将当前时间添加到数组
+    timeIntervals.push({
+      label: startTime.format('HH:mm'),
+      value: startTime.format('HH:mm:ss'),
+      id: i,
+    });
+    // 增加30分钟
+    startTime.add(30, 'minutes');
+  }
+  timeIntervals.push({ label: '24:00', value: '23:59:00', id: timeIntervals.length });
+  return timeIntervals;
+})();
 
 export const isWholeDay = (times: { ts: Date; tn: Date }[]) => {
   if (!Array.isArray(times) || times.length <= 0) {
@@ -44,6 +64,9 @@ const TimeCollections = class {
   };
   get = (key: string) => {
     return this.value.get(key);
+  };
+  remove = (key: string) => {
+    this.value.delete(key);
   };
 };
 export const timeStore = new TimeCollections();

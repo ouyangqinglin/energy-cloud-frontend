@@ -19,7 +19,7 @@ const RealTimeData = ({ data }: { data?: SystemDiagramRes }) => {
     }) + '(kW)';
   const title_dailyPowerGeneration =
     formatMessage({
-      id: 'screen.dailyPowerGeneration',
+      id: 'device.todayElectricitygeneration',
       defaultMessage: '今日发电',
     }) + '(kWh)';
   const title_energyStoragePower =

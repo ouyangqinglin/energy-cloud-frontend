@@ -5,6 +5,6 @@ export default {
   'system.Version.appType': 'App Type',
   'system.Version.version': 'Version',
   'system.Version.systemName': 'System Name',
-  'system.Version.uploadApp': 'Upload installation package',
-  'system.Version.package': 'Installation package',
+  'system.Version.uploadApp': 'Upload App',
+  'system.Version.package': 'package',
 };

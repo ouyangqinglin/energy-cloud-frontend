@@ -46,7 +46,7 @@ export const columns: ProColumns<FaultType, YTDATERANGEVALUETYPE>[] = [
       format: 'YYYY-MM-DD',
     },
     width: 150,
-    render: (_, record) => record.createTime,
+    render: (_, record) => `${getLocale().moment(record.createTime)}`,
     search: {
       transform: (value) => {
         return {
@@ -97,6 +97,7 @@ export const columns: ProColumns<FaultType, YTDATERANGEVALUETYPE>[] = [
     valueType: 'dateTime',
     hideInSearch: true,
     width: 150,
+    render: (_, record) => `${getLocale().moment(record.completeTime)}`,
   },
   {
     title: formatMessage({ id: 'taskManage.installioner', defaultMessage: '安装商' }),
@@ -118,6 +119,7 @@ export const columns: ProColumns<FaultType, YTDATERANGEVALUETYPE>[] = [
     valueType: 'dateTime',
     hideInSearch: true,
     width: 150,
+    render: (_, record) => `${getLocale().moment(record.updateTime)}`,
   },
   {
     title: formatMessage({ id: 'taskManage.updatedBy', defaultMessage: '更新人' }),

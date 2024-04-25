@@ -8,7 +8,7 @@ import type { DeptType } from '../../dept/data';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export type FormValueType = any & Partial<DeptType>;
@@ -52,7 +52,14 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       // 校验条件自定义
       return Promise.resolve();
     }
-    return Promise.reject(new Error('两次密码输入不一致'));
+    return Promise.reject(
+      new Error(
+        `${intl.formatMessage({
+          id: 'common.passwordinconsistency',
+          defaultMessage: '两次密码输入不一致',
+        })}`,
+      ),
+    );
   };
 
   return (

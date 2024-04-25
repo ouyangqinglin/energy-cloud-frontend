@@ -223,4 +223,31 @@ export default {
   'common.minute': 'Minute',
   'common.tenThousand': 'Ten Thousand',
   'common.tenMillion': 'Ten Million',
+  'common.requestError10000': 'Unknown system error, please provide feedback to the administrator',
+  'common.requestError200': 'The server successfully returned the requested data',
+  'common.requestError201': 'Successfully created or modified data',
+  'common.requestError202': 'A request has entered the backend queue (asynchronous task)',
+  'common.requestError204': 'Successfully deleted data',
+  'common.requestError400':
+    'The request sent has an error, and the server did not perform any new or modified data operations',
+  'common.requestError401':
+    'The user does not have permission (incorrect token, username, password)',
+  'common.requestError403': 'The user is authorized, but access is prohibited',
+  'common.requestError404':
+    'The request was made for a non-existent record, and the server did not take any action',
+  'common.requestError406': 'The requested format is not available',
+  'common.requestError410':
+    'The requested resource has been permanently deleted and will no longer be obtained.',
+  'common.requestError422': 'A validation error occurred when creating an object.',
+  'common.requestError500': 'The server encountered an error, please check the server.',
+  'common.requestError502': 'Gateway Error.',
+  'common.requestError503':
+    'Service unavailable, server temporarily overloaded or under maintenance.',
+  'common.requestError504': 'Gateway Timeout.',
+  'common.requestErrorAbnormalTips':
+    'Your network is experiencing an exception and unable to connect to the server',
+  'common.requestErrorAbnormal': 'Network Abnormality',
+  'common.requestError': 'Request Error',
+  'common.passwordResetSuccessful': 'Password Reset Successful',
+  'common.passwordinconsistency': 'The two password inputs are inconsistent',
 };

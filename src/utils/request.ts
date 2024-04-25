@@ -20,41 +20,83 @@ import defaultSettings from '../../config/defaultSettings';
 import { isEmpty, merge } from 'lodash';
 import { RequestCode } from './dictionary';
 import { stringify } from 'querystring';
+import { formatMessage } from './index';
 
-const codeMessage: Record<number, string> = {
-  10000: '系统未知错误，请反馈给管理员',
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+const codeMessage = (status: any) => {
+  const statusMessage = {
+    10000: formatMessage({
+      id: 'common.requestError10000',
+      defaultMessage: '系统未知错误，请反馈给管理员',
+    }),
+    200: formatMessage({
+      id: 'common.requestError200',
+      defaultMessage: '服务器成功返回请求的数据。',
+    }),
+    201: formatMessage({ id: 'common.requestError201', defaultMessage: '新建或修改数据成功。' }),
+    202: formatMessage({
+      id: 'common.requestError202',
+      defaultMessage: '一个请求已经进入后台排队（异步任务）。',
+    }),
+    204: formatMessage({ id: 'common.requestError204', defaultMessage: '删除数据成功。' }),
+    400: formatMessage({
+      id: 'common.requestError400',
+      defaultMessage: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+    }),
+    401: formatMessage({
+      id: 'common.requestError401',
+      defaultMessage: '用户没有权限（令牌、用户名、密码错误）。',
+    }),
+    403: formatMessage({
+      id: 'common.requestError403',
+      defaultMessage: '用户得到授权，但是访问是被禁止的。',
+    }),
+    404: formatMessage({
+      id: 'common.requestError404',
+      defaultMessage: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+    }),
+    406: formatMessage({ id: 'common.requestError406', defaultMessage: '请求的格式不可得。' }),
+    410: formatMessage({
+      id: 'common.requestError410',
+      defaultMessage: '请求的资源被永久删除，且不会再得到的。',
+    }),
+    422: formatMessage({
+      id: 'common.requestError422',
+      defaultMessage: '当创建一个对象时，发生一个验证错误。',
+    }),
+    500: formatMessage({
+      id: 'common.requestError500',
+      defaultMessage: '服务器发生错误，请检查服务器。',
+    }),
+    502: formatMessage({ id: 'common.requestError502', defaultMessage: '网关错误。' }),
+    503: formatMessage({
+      id: 'common.requestError503',
+      defaultMessage: '服务不可用，服务器暂时过载或维护。',
+    }),
+    504: formatMessage({ id: 'common.requestError504', defaultMessage: '网关超时。' }),
+  };
+  return statusMessage[status as keyof typeof statusMessage];
 };
-
 /** 异常处理程序 */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
   if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
+    const errorText = codeMessage(response.status) || response.statusText;
     const { status, url } = response;
 
     notification.error({
-      message: `请求错误 ${status}: ${url}`,
+      message: `${formatMessage({
+        id: 'common.requestError',
+        defaultMessage: '请求错误',
+      })} ${status}: ${url}`,
       description: errorText,
     });
   } else if (!response) {
     notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
+      description: formatMessage({
+        id: 'common.requestErrorAbnormalTips',
+        defaultMessage: '您的网络发生异常，无法连接服务器',
+      }),
+      message: formatMessage({ id: 'common.requestErrorAbnormal', defaultMessage: '网络异常' }),
     });
   }
   return response;
@@ -197,7 +239,7 @@ export class HttpRequest implements HttpRequestType {
                   });
                 }
               } else if (options.showMessage !== false) {
-                const msg = data.msg || codeMessage[code] || codeMessage[10000];
+                const msg = data.msg || codeMessage(code) || codeMessage(10000);
                 message.warn(`${code} ${msg}`);
               }
             }
@@ -206,7 +248,7 @@ export class HttpRequest implements HttpRequestType {
       } else {
         if (options.showMessage !== false) {
           if (status !== 404) {
-            const msg = codeMessage[status] || codeMessage[10000];
+            const msg = codeMessage(status) || codeMessage(10000);
             message.warn(`${status} ${msg}`);
           }
         }

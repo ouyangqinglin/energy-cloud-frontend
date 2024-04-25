@@ -145,7 +145,7 @@ export const columns = (setType: 0 | 1): ProFormColumnsType[] => [
                     </Col>
                   </>
                 ) : (
-                  ''
+                  <Col span={6} />
                 )}
               </React.Fragment>
             );

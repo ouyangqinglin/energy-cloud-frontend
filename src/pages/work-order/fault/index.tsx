@@ -102,7 +102,7 @@ const Customer = (props: { actionRef?: React.Ref<ActionType> }) => {
                     set(false);
                   }}
                 >
-                  取消
+                  {formatMessage({ id: 'common.cancel', defaultMessage: '取消' })}
                 </Button>,
                 <Button
                   className={initialValues?.status == OrderStatus.READY ? '' : 'hide'}

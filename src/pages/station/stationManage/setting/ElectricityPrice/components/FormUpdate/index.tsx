@@ -3,7 +3,9 @@ import { useModel } from 'umi';
 import { Button, Form, message } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import useSafeTimeRangeColum from './SafeTimeRange';
+import useSafeTimeRangeColum from './SafeTimeSelect';
+// import useSafeTimeRangeColum from './SafeTimeRange';
+
 import type { BasePriceInfo, FormUpdateProps } from './type';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import moment from 'moment';
@@ -61,7 +63,8 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         timeRange: [
           moment(moment().format('YYYY-MM-DD ') + time.intervalStartTime),
           moment(
-            moment().format('YYYY-MM-DD ') + (time.intervalEndTime == '24:00' ? '23:59' : time.intervalEndTime),
+            moment().format('YYYY-MM-DD ') +
+              (time.intervalEndTime == '24:00' ? '23:59' : time.intervalEndTime),
           ),
         ],
       };
@@ -76,7 +79,9 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         item.expirationTime = moment(item.effectiveDateScoped[1]).format('MM-DD');
       });
       formData?.hoursPriceList?.forEach?.((item: any) => {
-        item.intervalStartTime = moment(moment().format('YYYY-MM-DD ') + item.timeRange[0]).format('HH:mm');
+        item.intervalStartTime = moment(moment().format('YYYY-MM-DD ') + item.timeRange[0]).format(
+          'HH:mm',
+        );
         const endTime = moment(moment().format('YYYY-MM-DD ') + item.timeRange[1]).format('HH:mm');
         item.intervalEndTime = endTime == '23:59' ? '24:00' : endTime;
       });

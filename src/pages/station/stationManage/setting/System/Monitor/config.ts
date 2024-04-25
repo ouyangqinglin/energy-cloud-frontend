@@ -21,7 +21,7 @@ export const monitorTypeMap = new Map([
       data: [
         {
           name: formatMessage({
-            id: 'siteManage.set.mainsElectricConsumption',
+            id: 'siteMonitor.mainsCapacity',
             defaultMessage: '市电供电量',
           }),
           area: 'row1',

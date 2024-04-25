@@ -133,7 +133,7 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
   switch (type) {
     case 1:
       label = `${formatMessage({
-        id: 'screen.dailyPowerGeneration',
+        id: 'device.todayElectricitygeneration',
         defaultMessage: '今日发电量',
       })}(kWh)：`;
       break;
@@ -237,7 +237,7 @@ const genPVNode = (data: MainsSupply) => {
             {
               label:
                 formatMessage({
-                  id: 'screen.dailyPowerGeneration',
+                  id: 'device.todayElectricitygeneration',
                   defaultMessage: '今日发电量',
                 }) + '(kWh)：',
               value: data.todayConsumption,

@@ -150,7 +150,7 @@ const ElecPower: React.FC = () => {
       <Title
         className="mb8"
         title={formatMessage({
-          id: 'screen.mainsElectricityConsumption',
+          id: 'siteMonitor.mainsCapacity',
           defaultMessage: '市电供电量',
         })}
         unit={`${formatMessage({ id: 'common.unit', defaultMessage: '单位' })}(kWh)`}

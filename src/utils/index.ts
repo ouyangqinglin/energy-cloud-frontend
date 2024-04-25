@@ -125,6 +125,7 @@ export const getUnit = (unit = '') => {
 
 export const getLocale = () => {
   const locale = localStorage.getItem('umi_locale') || '';
+
   const result = {
     isZh: false,
     isZhCN: false,
@@ -141,19 +142,21 @@ export const getLocale = () => {
       result.isZh = true;
       result.isZhCN = true;
       result.dateFormat = 'YYYY-MM-DD';
-      result.dateTimeFormat = 'YYYY-MM-DD HH:mm';
+      result.dateTimeFormat = 'YYYY-MM-DD HH:mm:ss';
       result.monthDateFormat = 'MM-DD';
       break;
     case 'en-US':
       result.isEn = true;
       result.isEnUS = true;
       result.dateFormat = 'MM/DD/YYYY';
-      result.dateTimeFormat = 'MM/DD/YYYY HH:mm';
+      result.dateTimeFormat = 'MM/DD/YYYY HH:mm:ss';
       result.monthDateFormat = 'MM/DD';
       break;
     default:
   }
   return {
+    moment: (stringTime: string, dateFormat: string = result.dateTimeFormat) =>
+      stringTime ? moment(stringTime).format(dateFormat) : '-',
     locale,
     ...result,
   };

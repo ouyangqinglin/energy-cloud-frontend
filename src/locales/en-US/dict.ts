@@ -33,5 +33,5 @@ export default {
   'system.DictData.update_by': 'Updater',
   'system.DictData.update_time': 'Update Time',
   'system.DictData.remark': 'Remark',
-  'system.DictData.modify': 'Edit dictionary data',
+  'system.DictData.modify': 'Edit',
 };
