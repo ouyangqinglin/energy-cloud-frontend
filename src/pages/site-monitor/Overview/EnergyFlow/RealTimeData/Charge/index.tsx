@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-24 13:54:16
- * @LastEditTime: 2024-04-24 16:24:36
+ * @LastEditTime: 2024-04-25 13:43:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\EnergyFlow\RealTimeData\Charge\index.tsx
  */
@@ -64,6 +64,7 @@ const Charge: React.FC<ChargeType> = (props) => {
               defaultMessage: '充电枪实时状态',
             })}
             showLine={false}
+            bold={false}
           />
           <Row gutter={[10, 10]}>{stat}</Row>
         </div>

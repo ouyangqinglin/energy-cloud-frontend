@@ -482,9 +482,9 @@ export const upgradeStatus = {
 };
 
 export enum Size {
-  small,
-  normal,
-  large,
+  small = 'small',
+  normal = 'normal',
+  large = 'large',
 }
 
 export enum DeviceServicePageEnum {

@@ -348,4 +348,6 @@ export default {
   'siteMonitor.malfunctioning': '故障中',
   'siteMonitor.occupied': '占用中',
   'siteMonitor.chargingGunReal-TimeStatus': '充电枪实时状态',
+  'siteMonitor.electricityStatistics': '电量统计',
+  'siteMonitor.order': '单',
 };

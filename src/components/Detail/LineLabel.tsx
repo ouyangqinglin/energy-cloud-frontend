@@ -17,15 +17,26 @@ export type LineLabelProps = {
   labelClassName?: string;
   showLine?: boolean;
   size?: keyof typeof Size;
+  bold?: boolean;
 };
 
 export const LineLabel: React.FC<LineLabelProps> = (props) => {
-  const { title, className = '', labelClassName = '', showLine = true, children, size } = props;
+  const {
+    title,
+    className = '',
+    labelClassName = '',
+    showLine = true,
+    children,
+    size,
+    bold = true,
+  } = props;
 
   return (
     <>
       <div className={`flex ${className}`}>
-        <label className={`flex1 ${styles.label} ${labelClassName} ${size}`}>{title}</label>
+        <label className={`flex1 ${styles.label} ${labelClassName} ${size} ${bold ? 'bold' : ''}`}>
+          {title}
+        </label>
         {children}
       </div>
       {showLine && <Divider className="mt12" />}

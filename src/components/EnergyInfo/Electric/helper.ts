@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-18 18:00:46
- * @LastEditTime: 2024-03-26 15:49:41
+ * @LastEditTime: 2024-04-25 16:06:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\helper.ts
  */
@@ -40,7 +40,6 @@ export const detailItems: DetailItem[] = [
     label: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
     field: 'totalCharge',
     unit: 'kWh',
-    className: 'detail-label-center',
   },
   {
     label: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),

@@ -62,7 +62,7 @@ export const detailItems: DetailItem[] = [
     label: formatMessage({ id: 'device.numberOfChargingOrders', defaultMessage: '充电订单数' }),
     field: 'chargeCountTotal',
     className: styles.charge,
-    unit: formatMessage({ id: 'device.orderUnit', defaultMessage: '单' }),
+    unit: formatMessage({ id: 'siteMonitor.order', defaultMessage: '单' }),
   },
   {
     label: formatMessage({ id: 'device.chargeDuration', defaultMessage: '充电时长' }),

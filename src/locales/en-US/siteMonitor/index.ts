@@ -349,4 +349,6 @@ export default {
   'siteMonitor.malfunctioning': 'Malfunctioning',
   'siteMonitor.occupied': 'Occupied',
   'siteMonitor.chargingGunReal-TimeStatus': 'Charging Gun Real-Time Status',
+  'siteMonitor.electricityStatistics': 'Electricity Statistics',
+  'siteMonitor.order': 'Order',
 };

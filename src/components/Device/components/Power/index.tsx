@@ -70,7 +70,7 @@ const Power: React.FC<PowerType> = (props) => {
       <div className="card-wrap shadow p20 mb20">
         <div className="flex mb16">
           <label className={`flex1`}>
-            {formatMessage({ id: 'device.realTimePower', defaultMessage: '实时曲线' })}
+            {formatMessage({ id: 'device.realTimePower', defaultMessage: '实时功率' })}
           </label>
           <DatePicker
             defaultValue={date}

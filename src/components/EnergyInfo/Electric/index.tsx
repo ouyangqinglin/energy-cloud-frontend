@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-19 14:21:17
+ * @LastEditTime: 2024-04-25 16:12:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -236,7 +236,13 @@ const Electric: React.FC<ComProps> = (props) => {
           )}
           {loading && <Spin className="ml12" />}
         </div>
-        <Detail items={detailItems} data={statisInfo} column={2} unitInLabel={true} />
+        <Detail
+          className="detail-center"
+          items={detailItems}
+          data={statisInfo}
+          column={2}
+          unitInLabel={true}
+        />
         <TypeChart
           type={chartType}
           date={date}
