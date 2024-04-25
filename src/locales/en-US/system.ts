@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
 export default {
-  'system.title': 'YT New energy energy management cloud platform',
+  'system.title': 'YT EMS Cloud',
   'system.company': 'Shenzhen Yongtai Digital Energy Technology Co. Ltd.',
   'system.applyName': 'Apply Name',
   'system.scanApp': 'Scan the code to download the YT EMS Cloud App',
