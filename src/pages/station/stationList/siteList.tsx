@@ -2,11 +2,11 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-04-03 14:34:59
+ * @LastEditTime: 2024-04-26 15:25:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal, message } from 'antd';
 import { useHistory, useModel } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
@@ -89,181 +89,189 @@ const StationList: React.FC = () => {
     </Button>,
   ];
 
-  const rowBar = (_: any, record: StationType) => (
-    <>
-      {authorityMap.get('oss:site:update') && (
-        <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
-          {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
-        </Button>
-      )}
-      {authorityMap.get('system:site:delete') && (
-        <Button
-          type="link"
-          size="small"
-          key="delete"
-          onClick={() => {
-            Modal.confirm({
-              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
-              content: formatMessage({
-                id: 'common.confirmDelete',
-                defaultMessage: '请确认是否删除',
-              }),
-              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-              onOk: () => {
-                removeData({ siteId: record.id }).then(() => {
-                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-                  if (actionRef.current) {
-                    actionRef.current.reload();
-                  }
-                });
-              },
-            });
-          }}
-        >
-          {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
-        </Button>
-      )}
-      {authorityMap.get('system:site:config') && (
-        <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
-          {formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}
-        </Button>
-      )}
-    </>
+  const rowBar = useCallback(
+    (_: any, record: StationType) => (
+      <>
+        {authorityMap.get('oss:site:update') && (
+          <Button type="link" size="small" key="in" onClick={() => onEditClick(record)}>
+            {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+          </Button>
+        )}
+        {authorityMap.get('system:site:delete') && (
+          <Button
+            type="link"
+            size="small"
+            key="delete"
+            onClick={() => {
+              Modal.confirm({
+                title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+                content: formatMessage({
+                  id: 'common.confirmDelete',
+                  defaultMessage: '请确认是否删除',
+                }),
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                onOk: () => {
+                  removeData({ siteId: record.id }).then(() => {
+                    message.success(
+                      formatMessage({ id: 'common.del', defaultMessage: '删除成功' }),
+                    );
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                  });
+                },
+              });
+            }}
+          >
+            {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
+          </Button>
+        )}
+        {authorityMap.get('system:site:config') && (
+          <Button type="link" size="small" key="in" onClick={() => onSettingClick(record)}>
+            {formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}
+          </Button>
+        )}
+      </>
+    ),
+    [authorityMap, onEditClick, onSettingClick],
   );
-  const columns: ProColumns<StationType, YTDATERANGEVALUETYPE>[] = [
-    {
-      title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
-      dataIndex: 'index',
-      valueType: 'index',
-      width: 48,
-    },
-    {
-      title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
-      dataIndex: 'name',
-      width: 250,
-      ellipsis: true,
-      render: (_, record) => {
-        return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
+
+  const columns: ProColumns<StationType, YTDATERANGEVALUETYPE>[] = useMemo(() => {
+    return [
+      {
+        title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
+        dataIndex: 'index',
+        valueType: 'index',
+        width: 48,
       },
-    },
-    {
-      title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
-      dataIndex: 'id',
-      hideInSearch: true,
-      width: 150,
-      ellipsis: true,
-    },
-    {
-      title: formatMessage({ id: 'siteManage.siteList.siteType', defaultMessage: '站点类型' }),
-      dataIndex: 'energyOptions',
-      valueType: 'select',
-      valueEnum: siteTypeEnum,
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'common.createPerson', defaultMessage: '创建人' }),
-      dataIndex: 'createByName',
-      width: 120,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
-      dataIndex: 'createTime',
-      valueType: YTDATERANGE,
-      fieldProps: {
-        dateFormat: getLocale().dateFormat,
-        format: 'YYYY-MM-DD',
-      },
-      render: (_, record) => record.createTime,
-      search: {
-        transform: (value) => {
-          return {
-            startTime: value[0],
-            endTime: value[1],
-          };
+      {
+        title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
+        dataIndex: 'name',
+        width: 250,
+        ellipsis: true,
+        render: (_, record) => {
+          return <a onClick={() => onSiteClick(record)}>{record.name}</a>;
         },
       },
-      width: 150,
-    },
-    {
-      title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
-      dataIndex: 'deliveryTime',
-      valueType: 'dateTime',
-      hideInSearch: true,
-      width: 150,
-    },
-    {
-      title: formatMessage({ id: 'common.area', defaultMessage: '地区' }),
-      dataIndex: 'area',
-      valueType: 'cascader',
-      hideInTable: true,
-      fieldProps: {
-        options: areaOptions,
-        fieldNames: {
-          value: 'id',
+      {
+        title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
+        dataIndex: 'id',
+        hideInSearch: true,
+        width: 150,
+        ellipsis: true,
+      },
+      {
+        title: formatMessage({ id: 'siteManage.siteList.siteType', defaultMessage: '站点类型' }),
+        dataIndex: 'energyOptions',
+        valueType: 'select',
+        valueEnum: siteTypeEnum,
+        width: 120,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.createPerson', defaultMessage: '创建人' }),
+        dataIndex: 'createByName',
+        width: 120,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
+        dataIndex: 'createTime',
+        valueType: YTDATERANGE,
+        fieldProps: {
+          dateFormat: getLocale().dateFormat,
+          format: 'YYYY-MM-DD',
         },
-        changeOnSelect: true,
+        render: (_, record) => record.createTime,
+        search: {
+          transform: (value) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+        width: 150,
       },
-    },
-    {
-      title: formatMessage({ id: 'common.country', defaultMessage: '国家' }),
-      dataIndex: 'country',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'common.province', defaultMessage: '省份' }),
-      dataIndex: 'province',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'common.city', defaultMessage: '城市' }),
-      dataIndex: 'city',
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({
-        id: 'siteManage.siteList.constructionStatus',
-        defaultMessage: '建设状态',
-      }),
-      dataIndex: 'constructionStatus',
-      valueType: 'select',
-      valueEnum: buildStatus,
-      width: 150,
-      ellipsis: true,
-      hideInSearch: true,
-    },
-    {
-      title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
-      dataIndex: 'agent',
-      hideInSearch: true,
-      ellipsis: true,
-      width: 150,
-      render: (_, record) => {
-        return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
+      {
+        title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
+        dataIndex: 'deliveryTime',
+        valueType: 'dateTime',
+        hideInSearch: true,
+        width: 150,
       },
-    },
-    {
-      title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
-      valueType: 'option',
-      width: 200,
-      fixed: 'right',
-      render: rowBar,
-      hideInTable:
-        !authorityMap.get('system:site:config') &&
-        !authorityMap.get('system:site:delete') &&
-        !authorityMap.get('oss:site:update'),
-    },
-  ];
+      {
+        title: formatMessage({ id: 'common.area', defaultMessage: '地区' }),
+        dataIndex: 'area',
+        valueType: 'cascader',
+        hideInTable: true,
+        fieldProps: {
+          options: areaOptions,
+          fieldNames: {
+            value: 'id',
+          },
+          changeOnSelect: true,
+        },
+      },
+      {
+        title: formatMessage({ id: 'common.country', defaultMessage: '国家' }),
+        dataIndex: 'country',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.province', defaultMessage: '省份' }),
+        dataIndex: 'province',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.city', defaultMessage: '城市' }),
+        dataIndex: 'city',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({
+          id: 'siteManage.siteList.constructionStatus',
+          defaultMessage: '建设状态',
+        }),
+        dataIndex: 'constructionStatus',
+        valueType: 'select',
+        valueEnum: buildStatus,
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
+        dataIndex: 'agent',
+        hideInSearch: true,
+        ellipsis: true,
+        width: 150,
+        render: (_, record) => {
+          return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
+        },
+      },
+      {
+        title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
+        valueType: 'option',
+        width: 200,
+        fixed: 'right',
+        render: rowBar,
+        hideInTable:
+          !authorityMap.get('system:site:config') &&
+          !authorityMap.get('system:site:delete') &&
+          !authorityMap.get('oss:site:update'),
+      },
+    ];
+  }, [onSiteClick, rowBar, authorityMap]);
 
   return (
     <>

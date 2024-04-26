@@ -1,7 +1,7 @@
 import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
 import { Button, message, Modal } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useIntl, FormattedMessage, history, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
@@ -163,100 +163,102 @@ const DictTypeTableList: React.FC = () => {
     });
   }, []);
 
-  const columns: ProColumns<DictTypeType>[] = [
-    {
-      title: <FormattedMessage id="system.DictType.dict_id" defaultMessage="字典主键" />,
-      dataIndex: 'dictId',
-      valueType: 'text',
-      hideInSearch: true,
-      width: 100,
-    },
-    {
-      title: <FormattedMessage id="system.DictType.dict_name" defaultMessage="字典名称" />,
-      dataIndex: 'dictName',
-      valueType: 'text',
-      width: 100,
-    },
-    {
-      title: <FormattedMessage id="system.DictType.dict_type" defaultMessage="字典类型" />,
-      dataIndex: 'dictType',
-      valueType: 'text',
-      width: 100,
-      render: (dom, record) => {
-        return (
-          <a
+  const columns: ProColumns<DictTypeType>[] = useMemo(() => {
+    return [
+      {
+        title: <FormattedMessage id="system.DictType.dict_id" defaultMessage="字典主键" />,
+        dataIndex: 'dictId',
+        valueType: 'text',
+        hideInSearch: true,
+        width: 100,
+      },
+      {
+        title: <FormattedMessage id="system.DictType.dict_name" defaultMessage="字典名称" />,
+        dataIndex: 'dictName',
+        valueType: 'text',
+        width: 100,
+      },
+      {
+        title: <FormattedMessage id="system.DictType.dict_type" defaultMessage="字典类型" />,
+        dataIndex: 'dictType',
+        valueType: 'text',
+        width: 100,
+        render: (dom, record) => {
+          return (
+            <a
+              onClick={() => {
+                history.push(`/system/dict-data/index/${record.dictId}`);
+              }}
+            >
+              {dom}
+            </a>
+          );
+        },
+      },
+      {
+        title: <FormattedMessage id="system.DictType.status" defaultMessage="状态" />,
+        dataIndex: 'status',
+        valueType: 'select',
+        valueEnum: statusOptions,
+        width: 100,
+      },
+      {
+        title: <FormattedMessage id="system.DictType.remark" defaultMessage="备注" />,
+        dataIndex: 'remark',
+        valueType: 'textarea',
+        hideInSearch: true,
+        width: 100,
+      },
+      {
+        title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
+        dataIndex: 'option',
+        valueType: 'option',
+        width: 100,
+        render: (_, record) => [
+          <Button
+            type="link"
+            size="small"
+            key="edit"
+            hidden={!access.hasPerms('system:dictType:edit')}
             onClick={() => {
-              history.push(`/system/dict-data/index/${record.dictId}`);
+              setModalVisible(true);
+              setCurrentRow(record);
             }}
           >
-            {dom}
-          </a>
-        );
-      },
-    },
-    {
-      title: <FormattedMessage id="system.DictType.status" defaultMessage="状态" />,
-      dataIndex: 'status',
-      valueType: 'select',
-      valueEnum: statusOptions,
-      width: 100,
-    },
-    {
-      title: <FormattedMessage id="system.DictType.remark" defaultMessage="备注" />,
-      dataIndex: 'remark',
-      valueType: 'textarea',
-      hideInSearch: true,
-      width: 100,
-    },
-    {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
-      dataIndex: 'option',
-      valueType: 'option',
-      width: 100,
-      render: (_, record) => [
-        <Button
-          type="link"
-          size="small"
-          key="edit"
-          hidden={!access.hasPerms('system:dictType:edit')}
-          onClick={() => {
-            setModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          <FormattedMessage id="pages.searchTable.edit" defaultMessage="编辑" />
-        </Button>,
-        <Button
-          type="link"
-          size="small"
-          danger
-          key="batchRemove"
-          hidden={!access.hasPerms('system:dictType:remove')}
-          onClick={async () => {
-            Modal.confirm({
-              title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
-              content: formatMessage({
-                id: 'system.Notice.delete_item_confirm',
-                defaultMessage: '确定删除该项吗？',
-              }),
-              okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-              cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-              onOk: async () => {
-                const success = await handleRemoveOne(record);
-                if (success) {
-                  if (actionRef.current) {
-                    actionRef.current.reload();
+            <FormattedMessage id="pages.searchTable.edit" defaultMessage="编辑" />
+          </Button>,
+          <Button
+            type="link"
+            size="small"
+            danger
+            key="batchRemove"
+            hidden={!access.hasPerms('system:dictType:remove')}
+            onClick={async () => {
+              Modal.confirm({
+                title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+                content: formatMessage({
+                  id: 'system.Notice.delete_item_confirm',
+                  defaultMessage: '确定删除该项吗？',
+                }),
+                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                onOk: async () => {
+                  const success = await handleRemoveOne(record);
+                  if (success) {
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
                   }
-                }
-              },
-            });
-          }}
-        >
-          <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
-        </Button>,
-      ],
-    },
-  ];
+                },
+              });
+            }}
+          >
+            <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
+          </Button>,
+        ],
+      },
+    ];
+  }, [statusOptions, access]);
 
   return (
     <WrapContent>

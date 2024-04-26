@@ -59,6 +59,7 @@ const Operator = () => {
         {...customConfig}
         request={requestList}
         rowKey="id"
+        resizable
       />
       <StationForm
         open={open && operations === FormOperations.CREATE}

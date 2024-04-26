@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2024-04-23 17:07:17
+ * @LastEditTime: 2024-04-26 10:40:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
@@ -25,13 +25,14 @@ import ProvinceMap from './ProvinceMap';
 import { Spin } from 'antd';
 
 const geoCodeMap = arrayToMap(geoCoordData, 'adCode', 'lnglat');
+const geoCodeNameMap = arrayToMap(geoCoordData, 'adCode', 'name');
 
 const getGeoData = function (data: CountryDataType[]) {
   const result: GeoCoordDataType[] = [];
   data?.map?.((item) => {
     const geoData = geoCodeMap[item?.provinceCode || ''];
     result.push({
-      name: item?.provinceName || '',
+      name: geoCodeNameMap[item?.provinceCode || ''] || '',
       value: [...(geoData || []), item?.siteNum || 0],
     });
   });

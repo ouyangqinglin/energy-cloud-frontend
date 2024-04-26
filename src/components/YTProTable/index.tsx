@@ -46,7 +46,7 @@ const YTProTable = <
 
   const mergedTableRef = useMemo<any>(() => {
     return tableRef || myTableRef;
-  }, [formRef, myTableRef]);
+  }, [tableRef, myTableRef]);
 
   const mergedOnCollapse = useCallback(
     (value: boolean) => {
@@ -82,11 +82,11 @@ const YTProTable = <
     if (defaultOperation) {
       result?.push(defaultOperation);
     }
-    if (resizable && scrollX) {
+    if (resizable) {
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, scrollX, onEvent]);
+  }, [columns, resizable, onEvent]);
 
   return (
     <div ref={mergedTableRef}>

@@ -23,4 +23,5 @@ export type PowerDataType = {
   mainsUse?: ChartDataType;
   cpCharge?: ChartDataType;
   loadUse?: ChartDataType;
+  chargeOrder?: ChartDataType;
 };

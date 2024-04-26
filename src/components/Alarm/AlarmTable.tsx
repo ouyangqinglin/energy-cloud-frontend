@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-03-11 11:27:12
+ * @LastEditTime: 2024-04-26 14:57:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -365,16 +365,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInTable: isStationChild,
       },
       {
-        title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
-        dataIndex: 'status',
-        valueType: 'select',
-        valueEnum: alarmStatus,
-        width: 120,
-        ellipsis: true,
-        hideInSearch: true,
-        hideInTable: type == PageTypeEnum.History,
-      },
-      {
         title: formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警来源' }),
         dataIndex: 'fromResource',
         valueEnum: alarmSource,
@@ -476,18 +466,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         >
           <Space>{nums}</Space>
         </Checkbox.Group>
-        {type == PageTypeEnum.Current ? (
-          <>
-            <span>
-              {formatMessage({ id: 'alarmManage.alarmStatus', defaultMessage: '告警状态' })}：
-            </span>
-            <Checkbox.Group
-              options={alarmStatusOptions}
-              defaultValue={alarmStatusOptions.map((item) => item.value)}
-              onChange={(value) => onHeadChange(value, 'status')}
-            />
-          </>
-        ) : (
+        {type == PageTypeEnum.History && (
           <>
             <span>
               {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' })}：
