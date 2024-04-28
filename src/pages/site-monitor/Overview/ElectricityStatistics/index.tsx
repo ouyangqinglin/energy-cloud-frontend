@@ -55,7 +55,7 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
         siteId,
         date: date.format('YYYY-MM-DD'),
         type: chartType,
-        subType: 0,
+        subType: 1,
       });
     }
   }, [siteId, date, chartType]);

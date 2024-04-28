@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-04-28 14:24:51
+ * @LastEditTime: 2024-04-28 15:00:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -235,21 +235,21 @@ const StationList: React.FC = () => {
       },
       {
         title: formatMessage({ id: 'common.country', defaultMessage: '国家' }),
-        dataIndex: 'country',
+        dataIndex: 'countryName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.province', defaultMessage: '省份' }),
-        dataIndex: 'province',
+        dataIndex: 'provinceName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.city', defaultMessage: '城市' }),
-        dataIndex: 'city',
+        dataIndex: 'cityName',
         width: 150,
         ellipsis: true,
         hideInSearch: true,

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-04-26 14:57:07
+ * @LastEditTime: 2024-04-28 14:38:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -121,6 +121,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       const requestParams = {
         ...paramsData,
         ...(params || {}),
+        deviceName: undefined,
         isHistoryAlarm: type,
         ...headParams,
       };
@@ -215,6 +216,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       return exportList({
         ...searchParams,
         ...params,
+        deviceName: undefined,
         isHistoryAlarm: type,
         ...headParams,
         ...(date.length

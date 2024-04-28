@@ -131,7 +131,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
 export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
-    dataIndex: 'date',
+    dataIndex: 'time',
     valueType: YTDATERANGE,
     search: {
       transform: (value) => {
