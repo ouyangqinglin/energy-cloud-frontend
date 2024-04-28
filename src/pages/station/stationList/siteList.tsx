@@ -271,7 +271,7 @@ const StationList: React.FC = () => {
           !authorityMap.get('oss:site:update'),
       },
     ];
-  }, [onSiteClick, rowBar, authorityMap]);
+  }, [onSiteClick, rowBar, authorityMap, areaOptions]);
 
   return (
     <>

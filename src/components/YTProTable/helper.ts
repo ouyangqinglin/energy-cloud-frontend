@@ -72,10 +72,14 @@ export const normalizeRequestOption = <D, V>(
 
 export const standardRequestTableData = <D, P>(
   request?: YTProTableCustomProps<D, P>['request'],
+  expandable?: ProTableProps<D, P>['expandable'],
 ) => {
   if (!request) {
     return;
   }
+
+  const childrenKey = expandable?.childrenColumnName || 'children';
+
   const simpleRequest: ProTableProps<D, P>['request'] = async (...props) => {
     if (props[1]) {
       const sortParams = props[1] || {};
@@ -86,6 +90,15 @@ export const standardRequestTableData = <D, P>(
       props[0] = searchParams;
     }
     const { data } = await request(...props);
+    data?.list?.forEach?.((item: any) => {
+      if (
+        item?.[childrenKey] &&
+        Array.isArray(item?.[childrenKey]) &&
+        !item?.[childrenKey]?.length
+      ) {
+        item[childrenKey] = null;
+      }
+    });
     return {
       data: data?.list,
       total: data?.total,

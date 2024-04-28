@@ -2,16 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-24 14:07:40
- * @LastEditTime: 2024-04-24 14:07:50
+ * @LastEditTime: 2024-04-28 11:30:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\EnergyFlow\RealTimeData\Charge\helper.ts
  */
-import IconCharge from '@/assets/image/site-monitor/icon_充电桩_全部.png';
-import IconCharging from '@/assets/image/site-monitor/icon_充电桩_充电中.png';
-import IconIdle from '@/assets/image/site-monitor/icon_充电桩_空闲中.png';
-import IconOffline from '@/assets/image/site-monitor/icon_充电桩_离线中.png';
-import IconAlarm from '@/assets/image/site-monitor/icon_充电桩_故障中.png';
-import IconOccupy from '@/assets/image/site-monitor/icon_充电桩_占用中.png';
+import IconCharge from '@/assets/image/site-monitor/icon_充电桩_全部.svg';
+import IconCharging from '@/assets/image/site-monitor/icon_充电桩_充电中.svg';
+import IconIdle from '@/assets/image/site-monitor/icon_充电桩_空闲中.svg';
+import IconOffline from '@/assets/image/site-monitor/icon_充电桩_离线中.svg';
+import IconAlarm from '@/assets/image/site-monitor/icon_充电桩_故障中.svg';
+import IconOccupy from '@/assets/image/site-monitor/icon_充电桩_占用中.svg';
 import { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
 

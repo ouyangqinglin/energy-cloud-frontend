@@ -277,7 +277,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
             defaultMessage: '今日充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'chargingPileCharge',
+          field: 'todayChargeElec',
           value: '15286.43',
         },
         {
@@ -286,7 +286,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
             defaultMessage: '累计充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'accChargingPileCharge',
+          field: 'totalChargeElec',
           value: '15286.43',
         },
         {
