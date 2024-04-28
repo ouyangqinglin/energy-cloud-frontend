@@ -86,7 +86,7 @@ const YTProTable = <
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, onEvent]);
+  }, [columns, resizable, onEvent, props.option]);
 
   return (
     <div ref={mergedTableRef}>

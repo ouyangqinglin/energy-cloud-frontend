@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-23 15:43:20
- * @LastEditTime: 2024-04-23 16:46:34
+ * @LastEditTime: 2024-04-28 09:12:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\zh-CN\map.ts
  */
@@ -43,4 +43,47 @@ export default {
   'map.xg': '香港特别行政区',
   'map.am': '澳门',
   'map.siteSentence': '{name}个站点',
+  // 安徽省
+  'map.ah.hefei': '合肥市',
+  'map.ah.wuhu': '芜湖市',
+  'map.ah.bengbu': '蚌埠市',
+  'map.ah.huainan': '淮南市',
+  'map.ah.maanshan': '马鞍山市',
+  'map.ah.huaibei': '淮北市',
+  'map.ah.tongling': '铜陵市',
+  'map.ah.anqing': '安庆市',
+  'map.ah.huangshan': '黄山市',
+  'map.ah.chuzhou': '滁州市',
+  'map.ah.fuyang': '阜阳市',
+  'map.ah.suzhou': '宿州市',
+  'map.ah.luan': '六安市',
+  'map.ah.bozhou': '亳州市',
+  'map.ah.chizhou': '池州市',
+  'map.ah.xuancheng': '宣城市',
+  // 澳门
+  'map.am.fatima': '花地玛堂区',
+  'map.am.kao': '花王堂区',
+  'map.am.wangde': '望德堂区',
+  'map.am.lobby': '大堂区',
+  'map.am.fengshun': '风顺堂区',
+  'map.am.carmo': '嘉模堂区',
+  'map.am.cotaiReclamation': '路凼填海区',
+  'map.am.st.Francis': '圣方济各堂区',
+  // 北京
+  'map.am.dongcheng': '东城区',
+  'map.am.xicheng': '西城区',
+  'map.am.chaoyang': '朝阳区',
+  'map.am.fengtai': '丰台区',
+  'map.am.shijingshan': '石景山区',
+  'map.am.haidian': '海淀区',
+  'map.am.mentougou': '门头沟区',
+  'map.am.fangshan': '房山区',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
+  // 'map.am.': '',
 };

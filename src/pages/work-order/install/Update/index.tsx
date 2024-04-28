@@ -35,7 +35,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
 
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
     const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
-    const { handlerBy } = params.handler?.[0] ?? {};
+    const handlerBy = params.handler;
 
     return {
       ...omit(params, 'serviceProvider', 'handler', 'status'),
