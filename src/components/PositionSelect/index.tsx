@@ -20,6 +20,9 @@ export type PositionSelectValueType = {
   provinceCode?: string;
   cityCode?: string;
   adcode?: string;
+  countryName?: string;
+  provinceName?: string;
+  cityName?: string;
 };
 
 export type PositionSelectType = {

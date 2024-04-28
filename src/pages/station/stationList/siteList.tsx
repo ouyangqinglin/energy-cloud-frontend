@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-04-26 15:25:30
+ * @LastEditTime: 2024-04-28 14:24:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -31,7 +31,7 @@ const StationList: React.FC = () => {
   const [siteId, setSiteId] = useState('');
   const history = useHistory();
   const actionRef = useRef<ActionType>();
-  const tableRef = useRef();
+  const areaSelectRef = useRef<string[]>([]);
   const { state: areaOptions } = useArea();
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const { authorityMap } = useAuthority([
@@ -43,8 +43,18 @@ const StationList: React.FC = () => {
 
   const requestList = useCallback(
     (params) => {
-      const [countryCode, provinceCode, cityCode] = params?.area || [];
-      return getList({ ...params, countryCode, provinceCode, cityCode, energyOptions: siteType });
+      const [countryName, provinceName, cityName] = areaSelectRef.current || [];
+      const [countryCode, provinceCode, cityCode] = countryName ? [] : params?.area || [];
+      return getList({
+        ...params,
+        countryCode,
+        provinceCode,
+        cityCode,
+        countryName,
+        provinceName,
+        cityName,
+        energyOptions: siteType,
+      });
     },
     [siteType],
   );
@@ -212,6 +222,13 @@ const StationList: React.FC = () => {
           options: areaOptions,
           fieldNames: {
             value: 'id',
+          },
+          onChange: (_: any, options: any) => {
+            if (options?.[0]?.areaCode) {
+              areaSelectRef.current = [];
+            } else {
+              areaSelectRef.current = options?.map?.((item: any) => item.areaCode || item.label);
+            }
           },
           changeOnSelect: true,
         },

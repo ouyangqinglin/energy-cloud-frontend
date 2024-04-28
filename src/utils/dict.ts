@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-04-08 09:52:00
+ * @LastEditTime: 2024-04-28 14:03:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -581,13 +581,13 @@ export const timeZoneOptions: OptionType[] = [
   {
     label:
       '(UTC+08:00) ' + formatMessage({ id: 'system.chinaShanghai', defaultMessage: '中国，上海' }),
-    value: 0,
+    value: 8,
     position: { lng: 116.407649, lat: 39.903439 },
   },
   {
     label:
       '(UTC+0) ' + formatMessage({ id: 'system.africaGuinea', defaultMessage: '非洲，几内亚' }),
-    value: 1,
+    value: 0,
     position: { lng: -13.592248, lat: 9.643234 },
   },
 ];

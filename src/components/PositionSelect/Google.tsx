@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-04-07 11:38:18
+ * @LastEditTime: 2024-04-28 13:55:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
@@ -17,6 +17,7 @@ import { formatMessage } from '@/utils';
 import { PositionSelectType } from '.';
 import MapContext from '../MapContain/MapContext';
 import { useAutocomplete, useGeocoder } from '@/hooks';
+import { getLevelInfo } from '@/hooks/map/useGeocoder';
 
 const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   const { value, onChange, disabled, readonly, className, initCenter } = props;
@@ -33,6 +34,7 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
 
   const onGeoSuccess = useCallback(
     (result: google.maps.GeocoderResult) => {
+      const levelInfo = getLevelInfo(result);
       if (geocoderParams?.location) {
         setPoint(geocoderParams?.location);
         setAddress(result?.formatted_address);
@@ -42,10 +44,9 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
             lng: geocoderParams?.location?.lng,
             lat: geocoderParams?.location?.lat,
           },
-          // countryCode,
-          // provinceCode,
-          // cityCode,
-          // adcode: res?.regeocode?.addressComponent?.adcode,
+          countryName: levelInfo.countryName,
+          provinceName: levelInfo.provinceName,
+          cityName: levelInfo.cityName,
         });
       } else if (geocoderParams?.placeId) {
         const pointResult = {
@@ -61,10 +62,9 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
           point: {
             ...pointResult,
           },
-          // countryCode,
-          // provinceCode,
-          // cityCode,
-          // adcode: res?.regeocode?.addressComponent?.adcode,
+          countryName: levelInfo.countryName,
+          provinceName: levelInfo.provinceName,
+          cityName: levelInfo.cityName,
         });
       }
     },
