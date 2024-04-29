@@ -46,7 +46,7 @@ const YTProTable = <
 
   const mergedTableRef = useMemo<any>(() => {
     return tableRef || myTableRef;
-  }, [formRef, myTableRef]);
+  }, [tableRef, myTableRef]);
 
   const mergedOnCollapse = useCallback(
     (value: boolean) => {
@@ -65,7 +65,7 @@ const YTProTable = <
   );
 
   // 对request请求方法进行封装，解构表格数据格式
-  const standardRequest = standardRequestTableData<DataType, Params>(request);
+  const standardRequest = standardRequestTableData<DataType, Params>(request, props.expandable);
 
   const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed, extraHeight);
 
@@ -82,11 +82,11 @@ const YTProTable = <
     if (defaultOperation) {
       result?.push(defaultOperation);
     }
-    if (resizable && scrollX) {
+    if (resizable) {
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, scrollX, onEvent]);
+  }, [columns, resizable, onEvent, props.option]);
 
   return (
     <div ref={mergedTableRef}>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-04 16:39:45
- * @LastEditTime: 2024-02-29 10:19:56
+ * @LastEditTime: 2024-04-28 14:07:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\components\edit.tsx
  */
@@ -99,6 +99,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         provinceCode: formData?.addressInfo?.provinceCode,
         cityCode: formData?.addressInfo?.cityCode,
         adcode: formData?.addressInfo?.adcode,
+        countryName: formData?.addressInfo?.countryName,
+        provinceName: formData?.addressInfo?.provinceName,
+        cityName: formData?.addressInfo?.cityName,
       }).then((data) => {
         if (data) {
           message.success('保存成功');
@@ -125,6 +128,9 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
                 lat: data?.latitude,
               },
               adcode: data?.adcode,
+              countryName: data?.countryName,
+              provinceName: data?.provinceName,
+              cityName: data?.cityName,
             },
             logoList: data?.logo ? [{ url: data.logo }] : [],
             photosList: data?.photos ? data.photos.split(',').map((url: string) => ({ url })) : [],

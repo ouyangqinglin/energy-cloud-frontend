@@ -24,7 +24,7 @@ export type TableSearchType = {
   siteId?: string;
   collection?: CollectionValueType[];
   deviceCollection?: {}[];
-  date?: string[];
+  time?: string[];
   startTime?: string;
   endTime?: string;
   keyValue?: {

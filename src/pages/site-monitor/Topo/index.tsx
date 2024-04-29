@@ -16,7 +16,7 @@ import TopoTypePhotovoltaic from './TypePhotovoltaic';
 import TypeCommunication from './TypeCommunication';
 import TypePowerConsumption from './TypePowerComsumption';
 import { formatMessage } from '@/utils';
-import { SiteTypeEnum } from '@/utils/dict';
+import { SiteTypeEnum, SiteTypeStrEnum } from '@/utils/dict';
 
 const keyToSystemTitle = new Map([
   [1, formatMessage({ id: 'siteMonitor.siteEnergyFlow', defaultMessage: '站点能量流' })],
@@ -86,7 +86,14 @@ const Index: React.FC = () => {
           ].includes(siteData?.siteType)
             ? [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })]
             : ([] as any),
-          [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })],
+          [
+            SiteTypeStrEnum.CS,
+            SiteTypeStrEnum.ES_CS,
+            SiteTypeStrEnum.PV_CS,
+            SiteTypeStrEnum.PV_ES_CS,
+          ].includes(siteData?.siteType)
+            ? [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })]
+            : ([] as any),
           [
             5,
             formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' }),

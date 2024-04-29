@@ -140,7 +140,7 @@ const Search: React.FC<SearchProps> = (props) => {
   const requestExport = useCallback(
     (params: TableSearchType) => {
       dealParams(params, isDeviceChild, deviceData);
-      const date = params?.date || [];
+      const date = params?.time || [];
       return exportList({
         ...params,
         startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
@@ -152,7 +152,7 @@ const Search: React.FC<SearchProps> = (props) => {
   );
 
   const getExportName = useCallback((params: TableSearchType) => {
-    const date = params?.date || [];
+    const date = params?.time || [];
     return (
       formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
       '-' +

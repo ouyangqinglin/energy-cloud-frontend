@@ -229,7 +229,7 @@ export const Columns: (
           width: '100%',
         },
         showTime: true,
-        format: 'YYYY-MM-DD hh:mm:ss',
+        format: getLocale().dateTimeFormat,
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');
         },

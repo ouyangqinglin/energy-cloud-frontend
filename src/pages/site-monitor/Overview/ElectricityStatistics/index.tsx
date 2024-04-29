@@ -55,7 +55,7 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
         siteId,
         date: date.format('YYYY-MM-DD'),
         type: chartType,
-        subType: 0,
+        subType: 1,
       });
     }
   }, [siteId, date, chartType]);
@@ -86,7 +86,7 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
       grid: powerData?.mainsUse?.total,
       charge: powerData?.cpCharge?.total,
       otherLoad: powerData?.loadUse?.total,
-      // order:,
+      order: powerData?.chargeOrder?.total,
     };
     powerData?.mainsUse?.data?.forEach?.((item) => {
       result[0].data!.push({ label: item.eventTs, value: item?.doubleVal });
@@ -96,6 +96,9 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
     });
     powerData?.loadUse?.data?.forEach?.((item) => {
       result[2].data!.push({ label: item.eventTs, value: item?.doubleVal });
+    });
+    powerData?.chargeOrder?.data?.forEach?.((item) => {
+      result[3].data!.push({ label: item.eventTs, value: item?.doubleVal });
     });
     setChartData(result);
     setStatData(statResult);

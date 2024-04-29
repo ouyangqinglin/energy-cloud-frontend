@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-04-22 16:24:01
+ * @LastEditTime: 2024-04-25 17:59:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -701,6 +701,8 @@ const dehumidifierKeys = [
 
 const chargeKeys = ['chargeRatedPower', 'terminalNumber', 'chargeGunNumber', 'tcloundconnet'];
 
+const chargeStackKeys = ['chargeRatedPower', 'terminalNumber', 'chargeGunNumber'];
+
 const chargeOneMasterKeys = [
   'chargeRatedPower',
   'terminalNumber',
@@ -802,6 +804,14 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.React100XEmsEnergy, []],
   [DeviceTypeEnum.React100WEmsEnergy, []],
   [DeviceTypeEnum.ChargeMaster, chargeSplitMasterKeys],
+  [DeviceTypeEnum.ChargeS2801, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS3201, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS3601, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS4801, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS6001, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS6401, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS7201, chargeStackKeys],
+  [DeviceTypeEnum.ChargeS8001, chargeStackKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {

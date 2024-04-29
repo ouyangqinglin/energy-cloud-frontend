@@ -28,7 +28,7 @@ export default {
   'system.User.reset.password': 'Reset Password',
   'system.User.modify_info': 'Edit',
   'user.center': 'User Center',
-  'user.loginOut': 'Login Out',
+  'user.loginOut': 'Log Out',
   'user.localeLoading': 'Change Language ...',
   'user.localeDone': 'Change Done',
   'user.accountManagement': 'Account management',

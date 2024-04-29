@@ -1,6 +1,6 @@
 import { get as requestGet, post as requestPost } from '@/utils/request';
 import type { ProTableProps } from '@ant-design/pro-components';
-import { get, isEmpty } from 'lodash';
+import { get, isEmpty, merge } from 'lodash';
 import type { EmitType, YTProColumns, YTProTableCustomProps } from './typing';
 
 export const normalizeRequestOption = <D, V>(
@@ -72,10 +72,14 @@ export const normalizeRequestOption = <D, V>(
 
 export const standardRequestTableData = <D, P>(
   request?: YTProTableCustomProps<D, P>['request'],
+  expandable?: ProTableProps<D, P>['expandable'],
 ) => {
   if (!request) {
     return;
   }
+
+  const childrenKey = expandable?.childrenColumnName || 'children';
+
   const simpleRequest: ProTableProps<D, P>['request'] = async (...props) => {
     if (props[1]) {
       const sortParams = props[1] || {};
@@ -86,6 +90,15 @@ export const standardRequestTableData = <D, P>(
       props[0] = searchParams;
     }
     const { data } = await request(...props);
+    data?.list?.forEach?.((item: any) => {
+      if (
+        item?.[childrenKey] &&
+        Array.isArray(item?.[childrenKey]) &&
+        !item?.[childrenKey]?.length
+      ) {
+        item[childrenKey] = null;
+      }
+    });
     return {
       data: data?.list,
       total: data?.total,
@@ -98,22 +111,25 @@ export const calculateColumns = <D, P>(
   columns: YTProColumns<D, P>[],
   contain: React.MutableRefObject<HTMLDivElement | undefined>,
 ) => {
-  const cols = contain?.current
-    ?.querySelector?.('table:first-child')
-    ?.querySelectorAll?.('col:not(.ant-table-selection-col):not(.ant-table-expand-icon-col)');
+  // const columns = merge([],);
+  const tableWidth =
+    contain?.current?.querySelector?.('.ant-table')?.getBoundingClientRect()?.width || 1640;
+  let totalColumnWidth = 0,
+    lastNotFixedColumnIndex = 0,
+    hasEmptyWidth = false;
 
-  let effectColumnIndex = 0;
-  let lastNotFixedColumnIndex = 0;
-  let hasEmptyWidth = false;
   columns?.forEach?.((item, index) => {
     if (!item.hideInTable) {
       if (item.width) {
-        const width = (cols?.[effectColumnIndex] as HTMLTableColElement)?.style?.width;
-        item.width = width && parseInt(width);
+        item.width = parseInt(item.width as string);
+        if (isNaN(item.width)) {
+          hasEmptyWidth = true;
+        } else {
+          totalColumnWidth += item.width;
+        }
       } else {
         hasEmptyWidth = true;
       }
-      effectColumnIndex++;
       if (!item.fixed) {
         lastNotFixedColumnIndex = index;
       }
@@ -121,6 +137,17 @@ export const calculateColumns = <D, P>(
   });
 
   if (!hasEmptyWidth) {
+    if (totalColumnWidth < tableWidth) {
+      columns?.forEach?.((item, index) => {
+        if (!item.hideInTable) {
+          if (item.width) {
+            if (!['index', 'checkbox', 'radio'].includes(item.valueType as string)) {
+              item.width = ((item.width as number) * tableWidth) / totalColumnWidth;
+            }
+          }
+        }
+      });
+    }
     delete columns[lastNotFixedColumnIndex].width;
   }
 };

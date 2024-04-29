@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-23 15:43:20
- * @LastEditTime: 2024-04-23 15:43:21
+ * @LastEditTime: 2024-04-28 09:24:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\map.ts
  */
@@ -43,4 +43,39 @@ export default {
   'map.xg': 'Hong Kong',
   'map.am': 'Macao',
   'map.siteSentence': '{name} Sites',
+  // 安徽省
+  'map.ah.hefei': 'Hefei',
+  'map.ah.wuhu': 'Wuhu',
+  'map.ah.bengbu': 'Bengbu',
+  'map.ah.huainan': 'Huainan',
+  'map.ah.maanshan': 'Maanshan',
+  'map.ah.huaibei': 'Huaibei',
+  'map.ah.tongling': 'Tongling',
+  'map.ah.anqing': 'Anqing',
+  'map.ah.huangshan': 'Huangshan',
+  'map.ah.chuzhou': 'Chuzhou',
+  'map.ah.fuyang': 'Fuyang',
+  'map.ah.suzhou': 'Suzhou',
+  'map.ah.luan': 'Luan',
+  'map.ah.bozhou': 'Bozhou',
+  'map.ah.chizhou': 'Chizhou',
+  'map.ah.xuancheng': 'Xuancheng',
+  // 澳门
+  'map.am.fatima': 'Fatima',
+  'map.am.kao': 'Kao',
+  'map.am.wangde': 'Wangde',
+  'map.am.lobby': 'Lobby',
+  'map.am.fengshun': 'Fengshun',
+  'map.am.carmo': 'Carmo',
+  'map.am.cotaiReclamation': 'Cotai Reclamation',
+  'map.am.st.Francis': 'St. Francis',
+  // 北京
+  'map.am.dongcheng': 'Dongcheng',
+  'map.am.xicheng': 'Xicheng',
+  'map.am.chaoyang': 'Chaoyang',
+  'map.am.fengtai': 'Fengtai',
+  'map.am.shijingshan': 'Shijingshan',
+  'map.am.haidian': 'Haidian',
+  'map.am.mentougou': 'Mentougou',
+  'map.am.fangshan': 'Fangshan',
 };

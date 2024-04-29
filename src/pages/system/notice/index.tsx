@@ -312,6 +312,7 @@ const NoticeTableList: React.FC = () => {
             })
           }
           columns={columns}
+          resizable
           rowSelection={{
             onChange: (_, selectedRows) => {
               setSelectedRows(selectedRows);

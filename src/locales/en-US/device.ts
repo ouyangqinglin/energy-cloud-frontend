@@ -308,7 +308,7 @@ export default {
   'device.coConcentration': 'CO concentration',
   'device.power': 'Power',
   'device.batteryPack': 'Battery pack',
-  'device.cellNumber': 'Cell nmber',
+  'device.cellNumber': 'Cell Number',
   'device.temperaturePoint': 'Temperature point',
   'device.energyStorageInverter': 'PCS',
   'device.inverter': 'inverter',

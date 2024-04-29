@@ -103,7 +103,7 @@ export const columns: ProColumns<MaintenanceListType, YTDATERANGEVALUETYPE>[] = 
   },
   {
     title: formatMessage({ id: 'taskManage.installManu', defaultMessage: '安装商' }),
-    dataIndex: 'service',
+    dataIndex: 'orgName',
     hideInSearch: true,
     width: 100,
     ellipsis: true,

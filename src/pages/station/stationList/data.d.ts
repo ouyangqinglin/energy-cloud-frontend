@@ -52,6 +52,9 @@ export type StationFormType = {
     provinceCode?: string;
     cityCode?: string;
     adcode?: string;
+    countryName?: string;
+    provinceName?: string;
+    cityName?: string;
   };
   address?: string;
   longitude?: number;
@@ -60,6 +63,9 @@ export type StationFormType = {
   countryCode?: string;
   provinceCode?: string;
   cityCode?: string;
+  countryName?: string;
+  provinceName?: string;
+  cityName?: string;
   logo?: string;
   logoList?: FileType[];
   photos?: string;

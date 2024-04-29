@@ -3,7 +3,7 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { MaintenanceOrderUpdateParam } from '../type';
 import { OrderStatus, OrderType } from '../type';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage, getLocale, isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
 import { getCustomerList } from '../service';
@@ -221,7 +221,7 @@ export const Columns: (
           width: '100%',
         },
         showTime: true,
-        format: 'YYYY-MM-DD hh:mm:ss',
+        format: getLocale().dateTimeFormat,
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');
         },

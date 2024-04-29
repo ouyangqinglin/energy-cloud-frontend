@@ -16,6 +16,28 @@ type useGeocoderType = {
   params?: google.maps.GeocoderRequest;
 };
 
+type LevelInfoType = {
+  countryName?: string;
+  provinceName?: string;
+  cityName?: string;
+};
+
+export const getLevelInfo = (data: google.maps.GeocoderResult): LevelInfoType => {
+  const result: LevelInfoType = {};
+  data?.address_components?.forEach?.((item) => {
+    if (item?.types?.includes?.('country')) {
+      result.countryName = item?.long_name;
+    }
+    if (item?.types?.includes?.('administrative_area_level_1')) {
+      result.provinceName = item?.long_name;
+    }
+    if (item?.types?.includes?.('administrative_area_level_2')) {
+      result.cityName = item?.long_name;
+    }
+  });
+  return result;
+};
+
 const useGeocoder = (props: useGeocoderType | undefined) => {
   const [geocoderResult, setGeocoderResult] = useState<google.maps.GeocoderResult>();
   const { google } = useContext(MapContext);
@@ -27,9 +49,10 @@ const useGeocoder = (props: useGeocoderType | undefined) => {
       geocoder
         ?.geocode?.(props?.params)
         ?.then?.((response) => {
-          if (response?.results?.[0]) {
-            setGeocoderResult(response.results[0]);
-            props?.onSuccess?.(response.results[0]);
+          const result = response?.results?.[0]; //address_components
+          if (result) {
+            setGeocoderResult(result);
+            props?.onSuccess?.(result);
           } else {
             props?.onError?.();
           }
