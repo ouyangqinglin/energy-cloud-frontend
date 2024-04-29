@@ -16,7 +16,7 @@ export default {
   'dataManage.statisticalCycle': 'Statistical Cycle',
   'dataManage.statisticalTime': 'Statistical Time',
   'dataManage.utilityCharge': 'Grid Charge',
-  'dataManage.chargingPileConsum': 'Charging Pile Power Consumption',
+  'dataManage.chargingPileConsum': 'EV Charger Power Consumption',
   'dataManage.chargingPileAmount': 'Charging Amount of EV Charger',
   'dataManage.electricityCost': 'Electricity Cost',
   'dataManage.chargingIncome': 'Charging Income',

@@ -1,4 +1,6 @@
 export default {
+  // 只放一些业务无关的不会变化的基础单词和单位
+
   'common.new': '新建',
   'common.add': '新增',
   'common.delete': '删除',
