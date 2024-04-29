@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-04-29 14:00:08
+ * @LastEditTime: 2024-04-29 18:55:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -506,7 +506,7 @@ export const allItems: Record<string, DetailItem> = {
   },
   terminalNumber: {
     label: formatMessage({ id: 'device.terminalNumber', defaultMessage: '终端数量' }),
-    field: 'terminalNumber',
+    field: 'tcuNumVal',
   },
   tsinglelinemaxI: {
     field: 'tsinglelinemaxI',

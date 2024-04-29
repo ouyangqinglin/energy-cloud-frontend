@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-22 11:43:21
+ * @LastEditTime: 2024-04-29 19:03:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Charge1Gun\index.tsx
  */
@@ -72,34 +72,22 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
-    data: [],
-  },
-  {
-    label: formatMessage({
-      id: 'device.powerDistributionUnitInformation',
-      defaultMessage: '功率分配单元信息',
-    }),
-    productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 505, left: 2 },
-    icon: EnvironmentImg,
-    line: EnvironmentLineImg,
-    linePosition: { top: 22, left: 120 },
-    data: [],
+    data: [{ field: 'mmodp' }, { field: 'mgmodnum' }],
   },
   {
     label: '',
     showLabel: false,
     productTypeId: DeviceProductTypeEnum.DCChargePile,
-    position: { top: 26, left: 754 },
+    position: { top: 20, left: 754 },
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -222 },
-    data: [{ field: 'trunst' }],
+    data: [{ field: 'sctlmd' }, { field: 'swmode' }],
   },
   {
     label: formatMessage({ id: 'device.hostStatusInformation', defaultMessage: '主机状态信息' }),
     productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 490, left: 754 },
+    position: { top: 510, left: 754 },
     icon: PowerImg,
     line: PowerLineImg,
     linePosition: { top: 22, left: -222 },
