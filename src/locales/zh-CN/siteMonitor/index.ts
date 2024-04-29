@@ -13,7 +13,6 @@ export default {
   'siteMonitor.allGridPowerSupply': '累计售电量',
   'siteMonitor.mainsPower': '市电功率',
   'siteMonitor.mainsCapacity': '市电供电量',
-  'siteMonitor.chargingPileChargingAmount': '充电桩充电量',
   'siteMonitor.loadElectricConsumption': '负载用电量',
   'siteMonitor.otherLoadElectricConsumption': '其他负载用电量',
   'siteMonitor.chargingCapacity': '充电量',

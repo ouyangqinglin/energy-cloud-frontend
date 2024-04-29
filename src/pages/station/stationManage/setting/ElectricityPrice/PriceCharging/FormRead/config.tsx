@@ -116,7 +116,6 @@ export const columns: ProFormColumnsType[] = [
                 </Col>
                 <Col span={4}>
                   {electricityFees}
-                  {electricityFees}
                   {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
                 </Col>
                 <Col span={2}>

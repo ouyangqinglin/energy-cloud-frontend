@@ -16,6 +16,13 @@ export const getList = (params: any) => {
   });
 };
 
+export const getRulesSyncSite = (params: any) => {
+  return request(`/oss/site/energyFlowDiagram/getRulesSyncSite`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getData = (id: string) => {
   return request(`/oss/site/details`, {
     method: 'GET',

@@ -83,7 +83,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            {formatMessage({ id: 'system.User.gender', defaultMessage: '性别' })}
+            {formatMessage({ id: 'system.User.sex', defaultMessage: '性别' })}
           </div>
           <div>
             {sex === '1'
@@ -98,7 +98,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            {formatMessage({ id: 'system.phone', defaultMessage: '电话' })}
+            {formatMessage({ id: 'system.User.phonenumber', defaultMessage: '电话' })}
           </div>
           <div>{phone}</div>
         </List.Item>
@@ -109,7 +109,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            {formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' })}
+            {formatMessage({ id: 'system.User.email', defaultMessage: '邮箱' })}
           </div>
           <div>{email}</div>
         </List.Item>
@@ -120,7 +120,7 @@ const Center: React.FC = () => {
                 marginRight: 8,
               }}
             />
-            {formatMessage({ id: 'system.User.department', defaultMessage: '部门' })}
+            {formatMessage({ id: 'system.User.dept_id', defaultMessage: '部门' })}
           </div>
           <div>{orgName}</div>
         </List.Item>

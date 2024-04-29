@@ -505,7 +505,12 @@ const UserTableList: React.FC = () => {
             setResetPwdModalVisible(false);
             setSelectedRows([]);
             setCurrentRow(undefined);
-            message.success('密码重置成功。');
+            message.success(
+              `${formatMessage({
+                id: 'common.passwordResetSuccessful',
+                defaultMessage: '密码重置成功',
+              })}`,
+            );
           }
         }}
         onCancel={() => {

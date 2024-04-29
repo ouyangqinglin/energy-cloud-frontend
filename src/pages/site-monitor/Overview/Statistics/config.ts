@@ -22,7 +22,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayPowerGeneration',
+            id: 'device.todayElectricitygeneration',
             defaultMessage: '今日发电量',
           })}(kWh)`,
           labelUnit: '/kWh',

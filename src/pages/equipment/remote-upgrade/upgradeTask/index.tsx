@@ -1,27 +1,31 @@
-
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { getUpgradeTaskList, getProductSnList, getVersionList, getModuleList, deleteTaskList } from './service';
-import { UpgradeListType } from './type';
+import {
+  getUpgradeTaskList,
+  getProductSnList,
+  getVersionList,
+  getModuleList,
+  deleteTaskList,
+} from './service';
+import type { UpgradeListType } from './type';
 import { taskStatus, taskDetailColumns } from './config';
-import { SearchParams } from '@/hooks/useSearchSelect';
-import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import type { SearchParams } from '@/hooks/useSearchSelect';
+import type { DeviceDataType } from '@/services/equipment';
+import { getProductTypeList } from '@/services/equipment';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { ActionType } from '@ant-design/pro-components';
+import type { ActionType } from '@ant-design/pro-components';
 import { useToggle } from 'ahooks';
 import { Update } from './Update';
 import { Modal, message, Button } from 'antd';
-import { RemoteUpgradeDataRes } from '../log/type';
+import type { RemoteUpgradeDataRes } from '../log/type';
 import { TaskDetail } from './ReadDetail/config';
-import {
-  getTaskDetail
-} from './service';
+import { getTaskDetail } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import Detail from '@/components/Detail';
-import { formatMessage } from '@/utils'
-import { FormattedMessage, } from 'umi';
+import { formatMessage } from '@/utils';
+import { FormattedMessage } from 'umi';
 
 const UpgradeTask: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
@@ -32,7 +36,7 @@ const UpgradeTask: React.FC = () => {
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
     setInitialValues({ type: '2' });
-    setUpdateModal(true);//打开弹窗
+    setUpdateModal(true); //打开弹窗
   }, []);
   const customListConfig: YTProTableCustomProps<UpgradeListType, any> = {
     toolBarRenderOptions: {
@@ -44,16 +48,14 @@ const UpgradeTask: React.FC = () => {
   const customConfig: YTProTableCustomProps<UpgradeListType, any> = {
     toolBarRenderOptions: {
       add: {
-        show: false
+        show: false,
       },
     },
   };
 
-  const requestList = useCallback(
-    (params) => {
-      return getUpgradeTaskList({ ...params });
-    }, []
-  );
+  const requestList = useCallback((params) => {
+    return getUpgradeTaskList({ ...params });
+  }, []);
   //获取产品类型
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -86,7 +88,7 @@ const UpgradeTask: React.FC = () => {
   const requestProductSn = useCallback((params) => {
     if (params?.productTypeId) {
       return getProductSnList({
-        productTypeId: params?.productTypeId
+        productTypeId: params?.productTypeId,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -100,7 +102,7 @@ const UpgradeTask: React.FC = () => {
     }
   }, []);
   const productSnColumn = {
-    title: formatMessage({ id: 'common.model', defaultMessage: '产品型号', }),
+    title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
     dataIndex: 'productModel',
     formItemProps: {
       name: 'productModel',
@@ -112,7 +114,7 @@ const UpgradeTask: React.FC = () => {
       return {
         onChange: () => {
           form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
-          form?.setFieldValue?.('id', '');//清空版本号数据
+          form?.setFieldValue?.('id', ''); //清空版本号数据
         },
       };
     },
@@ -121,7 +123,7 @@ const UpgradeTask: React.FC = () => {
   const requestModule = useCallback((params) => {
     if (params?.productModel) {
       return getModuleList({
-        productId: params?.productModel
+        productId: params?.productModel,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -135,7 +137,7 @@ const UpgradeTask: React.FC = () => {
     }
   }, []);
   const moduleColumn = {
-    title: formatMessage({ id: 'common.module', defaultMessage: '模块', }),
+    title: formatMessage({ id: 'common.module', defaultMessage: '模块' }),
     dataIndex: 'moduleName',
     formItemProps: {
       name: 'moduleMark',
@@ -147,14 +149,16 @@ const UpgradeTask: React.FC = () => {
   //获取升级版本号--依赖产品型号id
   const requestVersion = useCallback((params) => {
     if (params?.productModel) {
-      return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(({ data }) => {
-        return data?.map?.((item) => {
-          return {
-            label: item?.version || '',
-            value: item?.id || '',
-          };
-        });
-      });
+      return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
+        ({ data }) => {
+          return data?.map?.((item) => {
+            return {
+              label: item?.version || '',
+              value: item?.id || '',
+            };
+          });
+        },
+      );
     } else {
       return Promise.resolve([]);
     }
@@ -188,8 +192,15 @@ const UpgradeTask: React.FC = () => {
   //删除升级任务
   const onCleanClick = useCallback((record: any) => {
     Modal.confirm({
-      title: <strong><FormattedMessage id='upgradeManage.clearConfirm' defaultMessage="清除确认" /></strong>,
-      content: formatMessage({ id: 'upgradeManage.clearConfirmTips', defaultMessage: '您确认要删除该升级任务吗？删除之后无法恢复' }),
+      title: (
+        <strong>
+          <FormattedMessage id="upgradeManage.clearConfirm" defaultMessage="清除确认" />
+        </strong>
+      ),
+      content: formatMessage({
+        id: 'upgradeManage.clearConfirmTips',
+        defaultMessage: '您确认要删除该升级任务吗？删除之后无法恢复',
+      }),
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
@@ -198,19 +209,19 @@ const UpgradeTask: React.FC = () => {
             message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
             actionRef?.current?.reload?.();
           }
-        })
-      }
+        });
+      },
     });
   }, []);
 
   //编辑升级任务
-  let onEditEvents = useCallback((record: any) => {
+  const onEditEvents = useCallback((record: any) => {
     //掉接口获取数据吗
     setInitialValues({ ...record });
     setOperations(FormOperations.UPDATE);
     setUpdateModal(true);
   }, []);
-  const [open, setOpen] = useState(false);//打开查看详情弹窗
+  const [open, setOpen] = useState(false); //打开查看详情弹窗
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
   }, []);
@@ -218,25 +229,23 @@ const UpgradeTask: React.FC = () => {
   const [viewDetailData, setViewDetailData] = useState();
   const [detailParams, setDetailParams] = useState();
   //查看详情
-  let onViewEvents = useCallback((record) => {
+  const onViewEvents = useCallback((record) => {
     switchOpen();
     setViewDetailData(record);
     setDetailParams(record);
   }, []);
   //查看详情列表--根据列表id获取
-  const requestDetailList = useCallback(
-    (params) => {
-      return getTaskDetail(params).then(({ data }) => {
-        const listdata = {
-          data: {
-            list: data?.upgradeRecordList,
-            total: data?.upgradeRecordList.length,
-          }
-        };
-        return listdata;
-      });
-    }, []
-  );
+  const requestDetailList = useCallback((params) => {
+    return getTaskDetail(params).then(({ data }) => {
+      const listdata = {
+        data: {
+          list: data?.upgradeRecordList,
+          total: data?.upgradeRecordList.length,
+        },
+      };
+      return listdata;
+    });
+  }, []);
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       productTypeColumn,
@@ -250,27 +259,27 @@ const UpgradeTask: React.FC = () => {
         width: 80,
       },
       {
-        title: formatMessage({ id: 'common.model', defaultMessage: '产品型号', }),
+        title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
         dataIndex: 'productModel',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.version', defaultMessage: '版本号', }),
+        title: formatMessage({ id: 'common.version', defaultMessage: '版本号' }),
         dataIndex: 'version',
         width: 120,
         ellipsis: true,
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '软件包名', }),
+        title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '软件包名' }),
         dataIndex: 'packageName',
         width: 120,
         ellipsis: true,
       },
       {
-        title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '模块', }),
+        title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '模块' }),
         dataIndex: 'moduleName',
         width: 120,
         ellipsis: true,
@@ -308,7 +317,7 @@ const UpgradeTask: React.FC = () => {
       },
       //自定义操作栏
       {
-        title: formatMessage({ id: 'common.operate', defaultMessage: '操作', }),
+        title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
         width: 100,
         fixed: 'right',
@@ -336,25 +345,29 @@ const UpgradeTask: React.FC = () => {
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
-
   //查看详情--设备列表
-  const viewDetailTable = <>
-    <Detail.DotLabel title={<FormattedMessage id='upgradeManage.upgradeRes' defaultMessage="升级结果" />} />
-    <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
-      columns={taskDetailColumns}
-      request={requestDetailList}
-      //request={requestList}
-      rowKey="id"
-      {...customConfig}
-      params={detailParams}
-      search={false} //隐藏搜索重置按钮
-      options={{
-        setting: false,//隐藏设置按钮
-        density: false,
-        fullScreen: false,
-        reload: false,
-      }}
-    /></>
+  const viewDetailTable = (
+    <>
+      <Detail.DotLabel
+        title={<FormattedMessage id="upgradeManage.upgradeRes" defaultMessage="升级结果" />}
+      />
+      <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
+        columns={taskDetailColumns}
+        request={requestDetailList}
+        //request={requestList}
+        rowKey="id"
+        {...customConfig}
+        params={detailParams}
+        search={false} //隐藏搜索重置按钮
+        options={{
+          setting: false, //隐藏设置按钮
+          density: false,
+          fullScreen: false,
+          reload: false,
+        }}
+      />
+    </>
+  );
   return (
     <>
       <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
@@ -377,7 +390,7 @@ const UpgradeTask: React.FC = () => {
       {/* 查看详情弹窗 */}
       <DetailDialog
         width="50%"
-        title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
+        title={<FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />}
         open={open}
         onCancel={switchOpen}
         detailProps={{
@@ -386,7 +399,11 @@ const UpgradeTask: React.FC = () => {
           column: 4,
           labelStyle: { width: '90px' },
         }}
-        prepend={<Detail.DotLabel title={<FormattedMessage id='upgradeManage.taskDetail' defaultMessage="任务详情" />} />}
+        prepend={
+          <Detail.DotLabel
+            title={<FormattedMessage id="upgradeManage.taskDetail" defaultMessage="任务详情" />}
+          />
+        }
         append={viewDetailTable}
       />
     </>

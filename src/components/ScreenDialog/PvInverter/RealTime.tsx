@@ -115,7 +115,7 @@ const RealTime: React.FC<
       },
       {
         label: formatMessage({
-          id: 'siteMonitor.dayPowerGeneration',
+          id: 'device.todayElectricitygeneration',
           defaultMessage: '今日发电量',
         }),
         field: 'dayCap',

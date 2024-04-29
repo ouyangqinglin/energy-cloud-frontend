@@ -53,7 +53,7 @@ export const YTFormUpdate = <FormData = any, Param = Record<string, any>>(
       const run = isCreate ? requestCrate : requestUpdate;
       return run({ ...formData }, {}).then(({ data, code }) => {
         if (code === 200 || data) {
-          message.success('保存成功');
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           onSuccess?.();
           return true;
         }

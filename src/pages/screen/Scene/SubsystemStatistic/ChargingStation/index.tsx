@@ -119,7 +119,7 @@ const ChargingStation: FC = () => {
       </div>
       <StatisticChart
         title={formatMessage({
-          id: 'siteMonitor.chargingPileChargingAmount',
+          id: 'siteManage.set.chargeElectricConsumption',
           defaultMessage: '充电桩充电量',
         })}
         onDateChange={onDateChange}

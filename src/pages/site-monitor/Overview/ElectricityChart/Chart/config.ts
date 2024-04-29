@@ -102,7 +102,7 @@ export const barFieldMap: ChartConfigType[] = [
   },
   {
     name: formatMessage({
-      id: 'siteMonitor.chargingPileChargingAmount',
+      id: 'siteManage.set.chargeElectricConsumption',
       defaultMessage: '充电桩充电量',
     }),
     field: 'cpCharge',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2023-10-13 16:17:04
+ * @LastEditTime: 2024-04-29 14:14:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -18,9 +18,9 @@ export default {
   'siteManage.siteList.siteConfig': 'Site Config',
   'siteManage.siteList.voltageLevel': 'Voltage Level',
   'siteManage.siteList.transformerCapacity': 'Transformer Capacity',
-  'siteManage.siteList.totalPhotovoltaicCapacity': 'Total PV Capacity',
-  'siteManage.siteList.totalEnergyStorageCapacity': 'Total Energy ESS Capacity',
-  'siteManage.siteList.energyStoragePower': 'Energy ESS Power',
+  'siteManage.siteList.totalPhotovoltaicCapacity': 'PV Capacity',
+  'siteManage.siteList.totalEnergyStorageCapacity': 'ESS Capacity',
+  'siteManage.siteList.energyStoragePower': 'ESS Rated power',
   'siteManage.siteList.chargingStationCapacity': 'Total EV Charger Power',
   'siteManage.siteList.siteLogo': 'Site Logo',
   'siteManage.siteList.basicCharge': 'Basic Charge',
@@ -55,7 +55,7 @@ export default {
   'siteManage.set.associateDevice': 'Associated Device',
   'siteManage.set.closeMonitorSiteConfirm': 'Close The Monitoring Site To Confirm',
   'siteManage.set.closeMonitorSiteConfirmContent':
-    'Whether to close the monitoring point the main monitoring page will no longer monitor the loop after closing',
+    'Monitor point set comfirm, the main page will no display after closing',
   'siteManage.set.allDataCollectionPoints': 'All data collection points',
   'siteManage.set.dataCollectionPoints': 'Data Collection',
   'siteManage.set.dataCollectionPointIdIdentify': 'Data collection point identification',
@@ -72,16 +72,15 @@ export default {
   'siteManage.set.pvPowerGeneration': 'Generation Energy',
   'siteManage.set.pvGridPower': 'PV Export Energy',
   'siteManage.set.pvPower': 'PV Power',
-  'siteManage.set.energyStorageCharge': 'ESS Charging Energy',
-  'siteManage.set.energyStorageDischarge': 'ESS Discharge Energy',
+  'siteManage.set.energyStorageCharge': 'ESS Charge energy',
+  'siteManage.set.energyStorageDischarge': 'ESS Discharge energy',
   'siteManage.set.storageRealtimePower': 'ESS Current Power',
-  'siteManage.set.chargeElectricConsumption': 'Energy Consumption of Charging Pile',
+  'siteManage.set.chargeElectricConsumption': 'Charger pile Charge Energy',
   'siteManage.set.chargeRealtimePower': 'Charging Pile Current Power',
   'siteManage.set.loadPowerConsumption': 'Load Energy Consumption',
   'siteManage.set.loadRealtimePower': 'Load Current Power',
-  'siteManage.set.historyDatSaveDuration': 'Historical Data Retention Duration',
-  'siteManage.set.selectHistoryDatSaveDuration':
-    'Please select the historical data retention period',
+  'siteManage.set.historyDatSaveDuration': 'History data Storage time limit',
+  'siteManage.set.selectHistoryDatSaveDuration': 'History data Storage time limit Select',
   'siteManage.set.electricPriceSetting': 'Grid Price Setting',
   'siteManage.set.pvGridElectricityPriceSetting': 'PV on-grid electricity price setting',
   'siteManage.set.ESSElectricityPriceSetting': 'ESS electricity price setting',

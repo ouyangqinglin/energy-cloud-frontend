@@ -62,7 +62,6 @@ export default {
   'siteManage.set.chargePileMonitor': '充电桩监测',
   'siteManage.set.electricMonitor': '电气监测',
   'siteManage.set.monitorItem': '监测项目',
-  'siteManage.set.mainsElectricConsumption': '市电供电量',
   'siteManage.set.mainsRealtimePower': '市电实时功率',
   'siteManage.set.gridBackPower': '市电馈网电量',
   'siteManage.set.pvPowerGeneration': '光伏发电量',

@@ -11,8 +11,8 @@ export default {
   'monitor.JobLog.job_name': 'mission name',
   'monitor.JobLog.job_group': 'Task group name',
   'monitor.JobLog.invoke_target': 'Call target string',
-  'monitor.JobLog.job_message': 'Log information',
+  'monitor.JobLog.job_message': 'Log Info',
   'monitor.JobLog.status': 'Execution status',
-  'monitor.JobLog.exception_info': 'Exception information',
-  'monitor.JobLog.create_time': 'Creation time',
+  'monitor.JobLog.exception_info': 'Exception info',
+  'monitor.JobLog.create_time': 'Add time',
 };

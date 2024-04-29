@@ -1,13 +1,8 @@
-import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { isCreate } from '@/components/YTModalForm/helper';
-import { FormOperations } from '@/components/YTModalForm/typing';
-import { YTProColumns } from '@/components/YTProTable/typing';
-import { effectStatus } from '@/utils/dict';
+import type { YTProColumns } from '@/components/YTProTable/typing';
 import { orderStatus } from './config';
-import { ObstacleReportInfo } from './type';
-import styles from './index.less';
+import type { ObstacleReportInfo } from './type';
 import Detail from '@/components/Detail';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
   {
     title: (
@@ -63,6 +58,7 @@ export const columnsRead: YTProColumns<ObstacleReportInfo>[] = [
       {
         title: formatMessage({ id: 'taskManage.creationTime', defaultMessage: '创建时间' }),
         dataIndex: ['createTime'],
+        render: (_, record: any) => `${getLocale().moment(record.value)}`,
       },
     ],
   },

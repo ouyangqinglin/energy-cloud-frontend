@@ -12,7 +12,7 @@ import { formatMessage } from '@/utils';
 import type { LocationType } from '@/types';
 import { useAuthority } from '@/hooks';
 import { SiteTypeEnum } from '@/utils/dict';
-import { getList } from '@/pages/station/stationList/service';
+import { getRulesSyncSite } from '@/pages/station/stationList/service';
 import { debounce } from 'lodash';
 import { columns as defaultColumns } from './config';
 //市电
@@ -49,9 +49,9 @@ const Customer: React.FC = () => {
   ]);
 
   const getSiteData = (siteName = '') => {
-    getList({ energyOptions: siteType, name: siteName, current: 1, pageSize: 20 }).then((res) => {
+    getRulesSyncSite({ siteId: id, name: siteName, type }).then((res) => {
       if (res.code == 200) {
-        setSiteList(res.data.list);
+        setSiteList(res.data);
       }
     });
   };

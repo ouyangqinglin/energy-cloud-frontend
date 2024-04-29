@@ -151,7 +151,16 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           let lable = `${item.marker} ${seriesName}: ${item.value || 0}`;
           if (item.seriesName == formatMessage({ id: 'device.storage' })) {
             //储能系统
-            if (item.value) item.value >= 0 ? (lable += `(充电)`) : (lable += `(放电)`);
+            if (item.value)
+              item.value >= 0
+                ? (lable += `(${formatMessage({
+                    id: 'device.charge',
+                    defaultMessage: '充电',
+                  })})`)
+                : (lable += `(${formatMessage({
+                    id: 'device.discharge',
+                    defaultMessage: '放电',
+                  })})`);
           }
           result += `${lable}<br />`;
         });

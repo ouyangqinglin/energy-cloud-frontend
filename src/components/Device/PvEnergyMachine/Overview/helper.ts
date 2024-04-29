@@ -100,7 +100,7 @@ export const config: OverviewItemType[] = [
       },
       {
         label:
-          formatMessage({ id: 'siteMonitor.dayPowerGeneration', defaultMessage: '今日发电量' }) +
+          formatMessage({ id: 'device.todayElectricitygeneration', defaultMessage: '今日发电量' }) +
           '（kWh）',
         field: 'b',
       },

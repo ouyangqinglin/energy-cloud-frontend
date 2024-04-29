@@ -10,7 +10,12 @@ const ResetPassword: React.FC = () => {
   const handleFinish = async (values: Record<string, any>) => {
     const resp = await updateUserPwd(values.oldPassword, values.newPassword);
     if (resp.code === 200) {
-      message.success('密码重置成功。');
+      message.success(
+        `${formatMessage({
+          id: 'common.passwordResetSuccessful',
+          defaultMessage: '密码重置成功',
+        })}`,
+      );
     } else {
       message.warn(resp.msg);
     }
@@ -21,7 +26,14 @@ const ResetPassword: React.FC = () => {
     if (value === login_password) {
       return Promise.resolve();
     }
-    return Promise.reject(new Error('两次密码输入不一致'));
+    return Promise.reject(
+      new Error(
+        `${formatMessage({
+          id: 'common.passwordinconsistency',
+          defaultMessage: '两次密码输入不一致',
+        })}`,
+      ),
+    );
   };
 
   return (

@@ -194,8 +194,10 @@ export const siteColumns: ProColumns[] = [
       },
       {
         title:
-          formatMessage({ id: 'dataManage.chargingPileAmount', defaultMessage: '充电桩充电量' }) +
-          '(kWh)',
+          formatMessage({
+            id: 'siteManage.set.chargeElectricConsumption',
+            defaultMessage: '充电桩充电量',
+          }) + '(kWh)',
         dataIndex: 'cscc',
         width: 150,
         ellipsis: true,

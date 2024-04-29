@@ -4,7 +4,8 @@ import { SubSystemType } from '../..';
 import styles from './index.less';
 import { AllChartType, PVChart } from './type';
 import { SiteTypeEnum, SiteTypeEnumType } from '@/utils/dict';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
+const isUS = getLocale().isEnUS;
 
 const descByTimeType = new Map([
   [TimeType.DAY, formatMessage({ id: 'common.time.day', defaultMessage: '日' })],
@@ -32,8 +33,8 @@ const RenderTitle = ({
   chartData: AllChartType;
   siteType?: SiteTypeEnumType;
 }) => {
-  const desc = getDescByTimeType(timeType);
-
+  let desc = getDescByTimeType(timeType);
+  if (isUS) desc += ' ';
   if (subSystemType === SubSystemType.PV)
     return (
       <div className={styles.title}>

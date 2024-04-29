@@ -38,7 +38,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
     Object.entries(values).forEach(([key, val]) => formDataRef.current!.append(key, val));
     return insertVersion(formDataRef.current).then((res) => {
       if (res) {
-        message.success('保存成功');
+        message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
         onSuccess?.();
         return true;
       }
