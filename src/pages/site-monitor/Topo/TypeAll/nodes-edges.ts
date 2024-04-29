@@ -10,6 +10,7 @@ import type { ExtraNodeData, GraphNode } from '../type';
 import type { AllTypeData, MainsSupply } from './type';
 import { SubsystemTypeForNode } from './type';
 import { isEmpty, uniqueId } from 'lodash';
+import { isEmpty as utilIsEmpty } from '@/utils';
 import { SiteTypeEnum } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 
@@ -306,9 +307,7 @@ const genESNode = (data: MainsSupply) => ({
 
     title: `${formatMessage({ id: 'screen.storage', defaultMessage: '储能' })}${
       data?.extraName ?? ''
-    }（${formatMessage({ id: 'siteMonitor.dumpEnergy', defaultMessage: '剩余电量' })}:${
-      data?.soc?.toFixed?.(2) || 0
-    }%）`,
+    }（SOC：${utilIsEmpty(data?.soc) ? '--' : (data?.soc?.toFixed?.(2) || 0) + '%'}）`,
     textContent: {
       column: [
         {

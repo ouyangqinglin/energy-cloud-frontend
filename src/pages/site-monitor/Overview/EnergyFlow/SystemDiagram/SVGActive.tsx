@@ -14,9 +14,14 @@ import type { AlarmTreeData } from './useWatchingAlarmForSystem';
 import { SubsystemType } from './type';
 import { formatMessage } from '@/utils';
 import { useEffect, useState } from 'react';
-const SvgComponent = (
-  props: SVGProps<SVGSVGElement> & { data: SystemDiagramRes; alarmData: AlarmTreeData },
-) => {
+
+type SvgComponentType = SVGProps<SVGSVGElement> & {
+  data: SystemDiagramRes;
+  alarmData: AlarmTreeData;
+  siteType: string;
+};
+
+const SvgComponent: React.FC<SvgComponentType> = (props) => {
   const { data, alarmData, siteType } = props;
   const pv = data?.[SubSystemType.PV] ?? {};
   const electricSupply = data?.[SubSystemType.E] ?? {};
@@ -27,21 +32,6 @@ const SvgComponent = (
   const chargeAndElestNum = useMemo(() => {
     return (alarmData?.[SubsystemType.EC] || 0) + (alarmData?.[SubsystemType.OT] || 0);
   }, [alarmData]);
-
-  const [styleInfo, setStyleInfo] = useState({ show: true });
-
-  useEffect(() => {
-    switch (siteType) {
-      case '23':
-      case '13':
-      case '1':
-      case '2':
-        setStyleInfo({});
-        break;
-      default:
-        setStyleInfo({});
-    }
-  }, [siteType]);
 
   return (
     <div className={styles.activeWrapper}>
@@ -168,45 +158,20 @@ const SvgComponent = (
               left: 100,
             }}
           >
-            <LoadCSIcon />
+            <LoadCSIcon style={{ width: 86, height: 86 }} />
             <div className={styles.desc}>
-              <span
-                className={styles.title}
-                style={{ fontSize: 12, width: 'auto', marginLeft: '-12px' }}
-              >
-                {formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}(kW)：
+              <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
+                {formatMessage({
+                  id: 'siteMonitor.chargingPowerOfChargingPile',
+                  defaultMessage: '充电桩充电功率',
+                })}
+                (kW)：
               </span>
               <span className={styles.value} style={{ fontSize: 12 }}>
                 {chargeStack?.p ?? '--'}
               </span>
             </div>
             <div>
-              {/* <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.powerConsumption',
-                    defaultMessage: '用电功率',
-                  })}
-                  (kW)：
-                </span>
-                <span className={styles.value}>
-                  {keepTwoDecimalWithoutNull((load?.p ?? 0) + (chargeStack?.p ?? 0))}
-                </span>
-              </div> */}
-
-              <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.powerQuantity',
-                    defaultMessage: '用电电量',
-                  })}
-                  (kWh)：
-                </span>
-                <span className={styles.value}>
-                  {keepTwoDecimalWithoutNull((load?.charge ?? 0) + (chargeStack?.charge ?? 0))}
-                </span>
-              </div>
-
               <div className={styles.desc}>
                 <span className={styles.title}>
                   {formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' })}：
@@ -231,57 +196,24 @@ const SvgComponent = (
             <LoadOtherIcon
               style={{
                 marginBottom: '2px',
+                width: 99,
+                height: 84,
               }}
             />
             {chargeStack.flag && (
               <div className={styles.desc}>
                 <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
-                  {formatMessage({ id: 'common.other', defaultMessage: '其他' })}(kW)：
+                  {formatMessage({
+                    id: 'siteMonitor.electricPowerConsumptionOfOtherLoads',
+                    defaultMessage: '其他负载用电功率',
+                  })}
+                  (kW)：
                 </span>
                 <span className={styles.value} style={{ fontSize: 12 }}>
                   {load.p ?? '--'}
                 </span>
               </div>
             )}
-            <div>
-              {/* <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.powerConsumption',
-                    defaultMessage: '用电功率',
-                  })}
-                  (kW)：
-                </span>
-                <span className={styles.value}>
-                  {keepTwoDecimalWithoutNull((load?.p ?? 0) + (chargeStack?.p ?? 0))}
-                </span>
-              </div> */}
-
-              <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.powerQuantity',
-                    defaultMessage: '用电电量',
-                  })}
-                  (kWh)：
-                </span>
-                <span className={styles.value}>
-                  {keepTwoDecimalWithoutNull((load?.charge ?? 0) + (chargeStack?.charge ?? 0))}
-                </span>
-              </div>
-
-              <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' })}：
-                </span>
-                <span className={styles.alarm}>
-                  {deviceAlarmStatusFormat(chargeAndElestNum ? '1' : '0')}
-                  <span className={styles.number}>
-                    {chargeAndElestNum ? chargeAndElestNum : ''}
-                  </span>
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       ) : (

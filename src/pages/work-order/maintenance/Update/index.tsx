@@ -24,12 +24,12 @@ export const MaintenanceUpdate = (
   const [config, setConfig] = useState(Columns([]));
   const convertRequestData = (res: MaintenanceOrderUpdateInfo) => {
     if (res) {
-      const { orgId, orgName, handlerBy, handlerName, userId, userName } = res;
+      const { orgId, handlerBy, handlerName, userId, userName } = res;
       // setOrgId(rawOrgId);
       return {
         ...res,
-        ...{ serviceProvider: [{ orgId, orgName }] },
-        ...{ handler: [{ handlerBy, handlerName }] },
+        ...{ serviceProvider: orgId },
+        ...{ handler: handlerBy },
         ...{ customer: [{ userId, userName }] },
       } as MaintenanceOrderUpdateInfo;
     }
@@ -37,13 +37,13 @@ export const MaintenanceUpdate = (
   };
 
   const convertUpdateParams = (params: MaintenanceOrderUpdateInfo) => {
-    const { orgId, orgName } = params.serviceProvider?.[0] ?? {};
-    const { handlerBy } = params.handler?.[0] ?? {};
+    const orgId = params.serviceProvider;
+    const handlerBy = params.handler;
     const { userId, userName } = params.customer?.[0] ?? {};
 
     return {
       ...omit(params, 'serviceProvider', 'handler', 'customer', 'status'),
-      ...{ orgId, orgName, handlerBy, userId, userName },
+      ...{ orgId, handlerBy, userId, userName },
     } as MaintenanceOrderUpdateParam;
   };
 

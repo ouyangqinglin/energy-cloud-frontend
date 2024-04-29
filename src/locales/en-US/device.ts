@@ -314,7 +314,7 @@ export default {
   'device.inverter': 'inverter',
   'device.parallelMachineNum': 'Parallel machine number',
   'device.masterSlaveIdentification': 'Master slave identification',
-  'device.host': 'Host',
+  'device.host': 'Master',
   'device.slave': 'Slave',
   'device.self': 'Self',
   'device.systemWorkMode': 'System work mode',

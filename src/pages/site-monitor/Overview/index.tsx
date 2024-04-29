@@ -11,6 +11,9 @@ import { ReactComponent as IconScreen } from '@/assets/image/station/overview/ic
 import { SiteDataType, getSiteScreenConfig } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage } from '@/utils';
+import { SiteTypeStrEnum } from '@/utils/dict';
+import RealTimePower from './RealTimePower';
+import ElectricityStatistics from './ElectricityStatistics';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
@@ -76,8 +79,17 @@ const Index: React.FC = () => {
         <Row gutter={[16, 16]}>
           <Statistics siteId={siteId} siteType={siteType} />
           <EnergyFlow siteId={siteId} siteType={siteType} />
-          <Benefit siteId={siteId} />
-          <ElectricityChart siteId={siteId} />
+          {[SiteTypeStrEnum.CS].includes(siteType) ? (
+            <>
+              <RealTimePower siteId={siteId} />
+              <ElectricityStatistics siteId={siteId} />
+            </>
+          ) : (
+            <>
+              <Benefit siteId={siteId} />
+              <ElectricityChart siteId={siteId} />
+            </>
+          )}
           <SiteInfo siteId={siteId} siteType={siteType} />
         </Row>
       </div>

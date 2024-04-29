@@ -65,7 +65,7 @@ const Trend: React.FC<PowerType> = (props) => {
           id: 'device.numberOfChargingOrders',
           defaultMessage: '充电订单数',
         })}${getUnit(
-          formatMessage({ id: 'device.orderUnit', defaultMessage: '单' }),
+          formatMessage({ id: 'siteMonitor.order', defaultMessage: '单' }),
         )}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
             <div><span class="chart-series-icon chart-series-icon-rect" style="background-color: ${
               params[1]?.color

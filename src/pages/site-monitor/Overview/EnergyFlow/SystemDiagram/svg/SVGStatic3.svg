@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="270px" height="126px" viewBox="0 0 270 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>线条备份3</title>
+<svg width="273px" height="126px" viewBox="0 0 273 126" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>线条2</title>
     <g id="光储充及工商储管理系统V1.5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-        <g id="3_1_8.站点概览_充电站" transform="translate(-413.000000, -408.000000)" stroke="#B4B4B4">
+        <g id="3_1_11.站点监视_站点概览_充电站" transform="translate(-411.000000, -408.000000)" stroke="#B4B4B4">
             <g id="main" transform="translate(212.000000, 102.000000)">
                 <g id="2" transform="translate(20.000000, 182.000000)">
                     <g id="能流图2" transform="translate(80.000000, 24.000000)">
-                        <g id="线条备份3" transform="translate(236.000000, 163.000000) scale(-1, -1) translate(-236.000000, -163.000000) translate(101.500000, 101.000000)">
-                            <path d="M0,0 L100,0 C113.807119,-2.53632657e-15 125,11.1928813 125,25 L125,124 L125,124" id="路径-11"></path>
-                            <path d="M269,0 L169.853059,0 C156.04594,2.53632657e-15 144.853059,11.1928813 144.853059,25 L144.853059,124 L144.853059,124" id="路径-12"></path>
+                        <g id="线条2" transform="translate(235.500000, 163.000000) scale(-1, -1) translate(-235.500000, -163.000000) translate(100.000000, 101.000000)">
+                            <polyline id="路径-11" points="1.73397036e-12 7.45986606e-13 136 0 136 124"></polyline>
+                            <polyline id="路径-12" points="271 7.45986606e-13 136 -2.2750477e-14 136 124"></polyline>
                         </g>
                     </g>
                 </g>

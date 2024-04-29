@@ -32,29 +32,24 @@ export const options = {
   ],
   yAxis: [
     {
-      name: formatMessage({ id: 'device.chargingPower', defaultMessage: '充电功率' }) + '（kW）',
+      name: formatMessage({ id: 'common.power', defaultMessage: '功率' }) + '（kW）',
       nameTextStyle: {
         align: 'left',
-      },
-      alignTicks: true,
-    },
-    {
-      name:
-        formatMessage({ id: 'device.powerUtilization', defaultMessage: '功率利用率' }) + '（%）',
-      nameTextStyle: {
-        align: 'right',
       },
     },
   ],
   series: [
     {
       type: 'line',
-      color: 'rgba(21, 154, 255, 1)',
+      color: '#FF7B7B',
     },
     {
       type: 'line',
-      yAxisIndex: 1,
-      color: 'rgba(255, 151, 74, 1)',
+      color: '#3DD598',
+    },
+    {
+      type: 'line',
+      color: '#50B5FF',
     },
   ],
 };

@@ -2,12 +2,12 @@
 .realTimeData {
   position: absolute;
   top: 0;
-  right: 16px;
+  right: 0;
   z-index: 10;
   display: flex;
   justify-content: flex-end;
   min-width: 300px;
-  padding: 16px 0;
+  padding: 14px 16px 0;
   .realBtn {
     order: 2;
   }
@@ -35,6 +35,15 @@
           }
         }
       }
+    }
+  }
+}
+
+.detail {
+  width: 120px;
+  :global {
+    .ant-descriptions-item {
+      padding-bottom: 0;
     }
   }
 }

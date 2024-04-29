@@ -136,6 +136,7 @@ export const getLocale = () => {
     dateFormat: '',
     dateTimeFormat: '',
     monthDateFormat: '',
+    monthYearFormat: '',
   };
   switch (locale) {
     case 'zh-CN':
@@ -144,6 +145,7 @@ export const getLocale = () => {
       result.dateFormat = 'YYYY-MM-DD';
       result.dateTimeFormat = 'YYYY-MM-DD HH:mm:ss';
       result.monthDateFormat = 'MM-DD';
+      result.monthYearFormat = 'YYYY-MM';
       break;
     case 'en-US':
       result.isEn = true;
@@ -151,6 +153,7 @@ export const getLocale = () => {
       result.dateFormat = 'MM/DD/YYYY';
       result.dateTimeFormat = 'MM/DD/YYYY HH:mm:ss';
       result.monthDateFormat = 'MM/DD';
+      result.monthYearFormat = 'MM/YYYY';
       break;
     default:
   }
