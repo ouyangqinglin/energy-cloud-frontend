@@ -160,13 +160,13 @@ export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];
-            window.dataSearchSelectDates = form?.getFieldValue?.('date');
-            form?.setFieldValue?.('date', []);
+            window.dataSearchSelectDates = form?.getFieldValue?.('time');
+            form?.setFieldValue?.('time', []);
           } else {
             if (window.dataSearchDates?.[0] && window.dataSearchDates?.[1]) {
-              form?.setFieldValue?.('date', window.dataSearchDates);
+              form?.setFieldValue?.('time', window.dataSearchDates);
             } else {
-              form?.setFieldValue?.('date', window.dataSearchSelectDates);
+              form?.setFieldValue?.('time', window.dataSearchSelectDates);
             }
           }
         },
