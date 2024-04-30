@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2024-04-29 17:26:14
+ * @LastEditTime: 2024-04-30 09:07:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -100,7 +100,7 @@ export default {
   'siteManage.set.Peak': 'Peak',
   'siteManage.set.Average': 'Average',
   'siteManage.set.Valley': 'Valley',
-  'siteManage.set.rmb/kwh': 'rmb/kWh',
+  'siteManage.set.rmb/kwh': '￥/kWh',
   'siteManage.set.addTimeSlot': 'AddTimeSlot',
   'siteManage.set.ElectricityPriceRulesName': 'ElectricityPriceRules Name',
   'siteManage.set.EffectiveStatus': 'Effective Status',

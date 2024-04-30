@@ -490,4 +490,5 @@ export default {
   'device.chargingFee': 'Charging Fee',
   'device.orderUnit': ' ',
   'device.hour': 'Hour',
+  'device.1001': 'PV Production',
 };

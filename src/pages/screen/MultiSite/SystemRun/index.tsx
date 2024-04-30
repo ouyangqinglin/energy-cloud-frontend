@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 09:54:42
- * @LastEditTime: 2023-08-30 15:43:43
+ * @LastEditTime: 2024-04-30 09:10:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SystemRun\index.tsx
  */
@@ -42,10 +42,7 @@ const powerNameMap = new Map([
 ]);
 const elecNameMap = new Map([
   ['meConsumption', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
-  [
-    'pvPowerGeneration',
-    formatMessage({ id: 'device.pvPowerGeneration', defaultMessage: '光伏发电' }),
-  ],
+  ['pvPowerGeneration', formatMessage({ id: 'device.1001', defaultMessage: '光伏发电' })],
   ['charge', formatMessage({ id: 'device.storageCharging', defaultMessage: '储能充电' })],
   ['discharge', formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电' })],
   ['csCharge', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],

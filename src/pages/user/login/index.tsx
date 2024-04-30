@@ -92,19 +92,12 @@ const Login: React.FC = () => {
         refresh();
         return;
       } else {
-        console.log('login failed');
         clearSessionToken();
         // 如果失败去设置用户错误信息
         setUserLoginState({ status: 'error', type: 'account', massage: msg });
-        message.error(msg);
       }
     } catch (error) {
       clearSessionToken();
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
-      message.error(defaultLoginFailureMessage);
     }
   };
   const { status, type: loginType, massage } = userLoginState;

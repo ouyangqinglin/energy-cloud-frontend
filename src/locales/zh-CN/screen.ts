@@ -189,4 +189,5 @@ export default {
   'screen.storageFault': '储能故障',
   'screen.pcsRunStatus': 'PCS运行状态',
   'screen.templateImport': '设备导入模版',
+  'screen.1001': '日总收益',
 };
