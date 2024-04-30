@@ -27,7 +27,7 @@ export const Update = (props: FormUpdateBaseProps<InstallListType>) => {
       return {
         ...res,
         ...{ serviceProvider: [{ orgId, orgName }] },
-        ...{ handler: [{ handlerBy, handlerName }] },
+        ...{ handler: handlerBy },
       } as InstallOrderUpdateInfo;
     }
     return {} as InstallOrderUpdateInfo;
