@@ -11,7 +11,7 @@ import { clearSessionToken, setSessionToken } from '@/access';
 import { useLocation } from '@/hooks';
 import request from '@/utils/request';
 //import { getRoutersInfo } from '@/services/session';
-import { getLocaleMenus, getMenus, initLocale } from '@/utils';
+import { getLocale, getLocaleMenus, getMenus, initLocale } from '@/utils';
 
 export type QueryParams = {
   redirect?: string;
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
         code,
         data: { access_token: accessToken, homePath = '' },
         msg,
-      } = await login({ ...values, uuid });
+      } = await login({ ...values, uuid, lang: getLocale().locale });
       if (code === 200) {
         localStorage.removeItem('siteId');
         const defaultLoginSuccessMessage = intl.formatMessage({

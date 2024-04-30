@@ -14,6 +14,7 @@ import type { AlarmTreeData } from './useWatchingAlarmForSystem';
 import { SubsystemType } from './type';
 import { formatMessage } from '@/utils';
 import { useEffect, useState } from 'react';
+import { SiteTypeStrEnum } from '@/utils/dict';
 
 type SvgComponentType = SVGProps<SVGSVGElement> & {
   data: SystemDiagramRes;
@@ -221,7 +222,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
           className={styles.cell}
           style={{
             top: 224,
-            left: ['13', '23'].includes(siteType) ? 185 : ['1', '2'].includes(siteType) ? 241 : 385,
+            left: ['13', '23'].includes(siteType) ? 185 : ['1', '2'].includes(siteType) ? 241 : 423,
           }}
         >
           <Row
@@ -306,7 +307,14 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
           ) : (
             <div
               style={{
-                margin: ['1', '2'].includes(siteType) ? '0' : '5px auto',
+                margin: [
+                  SiteTypeStrEnum.CS,
+                  SiteTypeStrEnum.PV_CS,
+                  SiteTypeStrEnum.ES_CS,
+                  SiteTypeStrEnum.PV_ES_CS,
+                ].includes(siteType)
+                  ? '5px auto'
+                  : '-14px 0 0',
               }}
             >
               {/* <div className={styles.desc}>

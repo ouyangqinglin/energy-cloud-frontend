@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:00:23
- * @LastEditTime: 2024-03-08 10:45:54
+ * @LastEditTime: 2024-04-30 10:35:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\index.tsx
  */
@@ -55,8 +55,7 @@ const Model: React.FC<CabinetProps> = (props) => {
 
   const scaleNum = useMemo(() => {
     const scaleWidth = (bodySize?.width || 964.83) / 964.83;
-    const scaleHeight = (bodySize?.height || 300) / 300;
-    return Math.min(scaleWidth, scaleHeight);
+    return scaleWidth < 1 ? scaleWidth : 1;
   }, [bodySize]);
 
   const onAlarmClick = useCallback(() => {
@@ -86,7 +85,10 @@ const Model: React.FC<CabinetProps> = (props) => {
 
   useEffect(() => {
     if (deviceData?.deviceId) {
-      run({ deviceId: deviceData?.deviceId }).then((data) => {
+      run({
+        deviceId: deviceData?.deviceId,
+        containTopParentDevice: 1,
+      }).then((data) => {
         setProductIdMap(getProductTypeIdMap(data ? [data] : []));
       });
     } else {

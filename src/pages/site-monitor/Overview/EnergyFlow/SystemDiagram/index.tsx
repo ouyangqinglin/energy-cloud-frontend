@@ -2,6 +2,7 @@ import { ReactComponent as SVGStatic } from './svg/SVGStatic.svg';
 import { ReactComponent as SVGStatic23 } from './svg/SVGStatic23.svg';
 import { ReactComponent as SVGStaticUp } from './svg/SVGStatic3.svg';
 import { ReactComponent as SVGT } from './svg/svgT.svg';
+import { ReactComponent as SVGX } from './svg/svgX.svg';
 import IconDot from './svg/dot.png';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
@@ -12,7 +13,8 @@ import { useEffect, useState } from 'react';
 import { isNil } from 'lodash';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { useWatchingAlarmForSystem } from './useWatchingAlarmForSystem';
-const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string }) => {
+import { SiteTypeStrEnum } from '@/utils/dict';
+const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTypeStrEnum }) => {
   const { data, run } = useRequest(getSystemDiagram, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -29,12 +31,10 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string 
 
   useEffect(() => {
     switch (siteType) {
-      case '23':
-      case '13':
-      case '1':
-        setSvgLine(() => <SVGStatic23 style={{ width: 289, height: 209, marginLeft: 90 }} />);
-        break;
-      case '2':
+      case SiteTypeStrEnum.ES_CS:
+      case SiteTypeStrEnum.PV_CS:
+      case SiteTypeStrEnum.PV:
+      case SiteTypeStrEnum.ES:
         setSvgLine(
           <>
             <SVGT style={{ width: 283, height: 209, marginLeft: 90 }} />
@@ -42,7 +42,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string 
           </>,
         );
         break;
-      case '3':
+      case SiteTypeStrEnum.CS:
         setSvgLine(
           <>
             <SVGStaticUp style={{ width: 261, height: 370, marginLeft: 116 }} />
@@ -51,7 +51,12 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: string 
         );
         break;
       default:
-        setSvgLine(() => <SVGStatic style={{ width: 557, height: 332 }} />);
+        setSvgLine(
+          <>
+            <SVGX style={{ width: 248, height: 179, marginLeft: 102, marginTop: 40 }} />
+            <img className={styles.dot} src={IconDot} style={{ top: 117, left: 213 }} />
+          </>,
+        );
     }
   }, [siteType]);
   return (
