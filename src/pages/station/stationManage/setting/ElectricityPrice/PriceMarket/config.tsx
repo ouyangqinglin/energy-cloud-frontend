@@ -1,6 +1,4 @@
 import type { YTProColumns } from '@/components/YTProTable/typing';
-import { Badge, Switch, Modal } from 'antd';
-import type { ReactNode } from 'react';
 import type { MarketElectricityPriceInfo } from './type';
 import { formatMessage, getLocale } from '@/utils';
 const isUS = getLocale().isEnUS;

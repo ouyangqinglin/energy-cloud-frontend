@@ -15,34 +15,46 @@ type SelectProps = {
 
 const SafeTimeSelect: React.FC<SelectProps> = memo((props) => {
   const { value = [], onChange } = props;
-  const [currentValue, setCurrentValue] = useState<string[]>(value);
+  const [currentValue, setCurrentValue] = useState<any[]>([]);
 
-  const timeChange = (e: string, index: number) => {
+  useEffect(() => {
+    let [satrtValue, endValue] = value;
+    if (value.length) {
+      if (moment.isMoment(satrtValue) && moment.isMoment(endValue)) {
+        satrtValue = moment(satrtValue).format('HH:mm:ss');
+        endValue = moment(endValue).format('HH:mm:ss');
+        //当编辑模式，没有修改value，需要做处理
+        onChange?.([satrtValue, endValue]);
+      }
+      setCurrentValue([satrtValue, endValue]);
+    }
+    return () => {
+      timeStore.remove(currentField);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  const selectChange = (e: string, index: number) => {
     let cloneValue = cloneDeep(currentValue);
     cloneValue[index] = e;
     const [satrtValue, endValue] = cloneValue;
-    const startIndex = timeList.findIndex((item) => item.value == satrtValue);
-    const endIndex = timeList.findIndex((item) => item.value == endValue);
-    if (startIndex != -1 && endIndex != -1 && endIndex < startIndex) {
+    if (
+      moment(moment().format('YYYY-MM-DD ') + endValue).isBefore(
+        moment(moment().format('YYYY-MM-DD ') + satrtValue),
+      )
+    ) {
       cloneValue = [endValue, satrtValue];
     }
     setCurrentValue(cloneValue);
     onChange?.(cloneValue);
   };
-
-  useEffect(() => {
-    return () => {
-      timeStore.remove(currentField);
-    };
-  }, []);
-
   return (
     <Row align="middle">
       <Col span={10}>
         <Select
           showSearch
-          onChange={(e) => timeChange(e, 0)}
           value={currentValue[0]}
+          onChange={(e) => selectChange(e, 0)}
           options={timeList}
           placeholder={formatMessage({
             id: 'pages.searchTable.updateForm.schedulingPeriod.timeLabel',
@@ -56,8 +68,8 @@ const SafeTimeSelect: React.FC<SelectProps> = memo((props) => {
       <Col span={10}>
         <Select
           showSearch
-          onChange={(e) => timeChange(e, 1)}
           value={currentValue[1]}
+          onChange={(e) => selectChange(e, 1)}
           options={timeList}
           placeholder={formatMessage({ id: 'dataManage.endTime', defaultMessage: '结束时间' })}
         />

@@ -69,7 +69,6 @@ export const FormUpdate = <FormData extends BasePriceInfo, Param = Record<string
         ],
       };
     });
-
     return { ...data, effectiveTimeList, hoursPriceList };
   };
   const onFinish = useCallback(
