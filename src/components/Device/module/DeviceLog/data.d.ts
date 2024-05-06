@@ -1,10 +1,12 @@
 export type ConfigDataType = {
-  sn?: string;
   id?: string | number;
-  deviceName?: string;
   deviceId?: string;
-  alarmStatus?: string;
-  name?: string;
-  ratedCur?: string;
-  isBindMainServer?: string;
+  type?: string;
+  logName?: string;
+  logUrl?: string;
+  deviceName?: string;
+  createTime?: string;
+  time?: string;
+  logDate?: any;
+  downLoadUrl?: string;
 };
