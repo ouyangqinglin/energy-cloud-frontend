@@ -37,13 +37,17 @@ const SafeTimeSelect: React.FC<SelectProps> = memo((props) => {
   const selectChange = (e: string, index: number) => {
     let cloneValue = cloneDeep(currentValue);
     cloneValue[index] = e;
-    const [satrtValue, endValue] = cloneValue;
-    if (
-      moment(moment().format('YYYY-MM-DD ') + endValue).isBefore(
-        moment(moment().format('YYYY-MM-DD ') + satrtValue),
-      )
-    ) {
-      cloneValue = [endValue, satrtValue];
+    // eslint-disable-next-line prefer-const
+    let [satrtValue, endValue] = cloneValue;
+    const startIndex = timeList.findIndex((i) => i.value == satrtValue);
+    const endIndex = timeList.findIndex((i) => i.value == endValue);
+    if (startIndex > endIndex) {
+      if (startIndex >= timeList.length - 1) {
+        endValue = satrtValue;
+      } else {
+        endValue = timeList[startIndex + 1].value;
+      }
+      cloneValue = [satrtValue, endValue];
     }
     setCurrentValue(cloneValue);
     onChange?.(cloneValue);

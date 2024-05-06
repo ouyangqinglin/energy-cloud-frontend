@@ -1,5 +1,5 @@
 import Detail from '@/components/Detail';
-import { Button, Modal, Switch, message } from 'antd';
+import { Button, Modal, Switch } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useRef, useState } from 'react';
 import { formatMessage } from '@/utils';
@@ -7,13 +7,7 @@ import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ConfigDataType } from './data';
 import { columns } from './config';
-import {
-  getChargeTerm,
-  addTerminal,
-  termBindMainServer,
-  delTerm,
-  updateTerm,
-} from '@/services/equipment';
+import { getChargeTerm, termBindMainServer, delTerm } from '@/services/equipment';
 import { cloneDeep } from 'lodash';
 
 export type EVChargerOrderInfoType = {
@@ -67,23 +61,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
       return false;
     }
   };
-  const handleAdd = async (rowData: ConfigDataType) => {
-    try {
-      await addTerminal({ ...rowData, chargingId: deviceId });
-      return true;
-    } catch {
-      return false;
-    }
-  };
-  const handleEdit = async (rowData: ConfigDataType) => {
-    try {
-      await updateTerm(rowData);
-      message.success('配置成功');
-      return true;
-    } catch {
-      return false;
-    }
-  };
+
   const actionColumn: ProColumns[] = [
     {
       title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
