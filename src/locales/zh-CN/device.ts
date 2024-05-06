@@ -483,4 +483,5 @@ export default {
   'device.chargingFee': '充电费用',
   'device.orderUnit': '单',
   'device.hour': '小时',
+  'device.1001': '光伏发电',
 };

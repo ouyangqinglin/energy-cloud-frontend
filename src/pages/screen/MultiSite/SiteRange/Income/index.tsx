@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2023-12-15 16:01:57
+ * @LastEditTime: 2024-04-30 09:12:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -25,7 +25,9 @@ const getOptionsByData = (data: SiteDataType[], totalNum?: number) => {
   result.tooltip.formatter = '{b}<br/>{c}';
   result.angleAxis.max = ((data?.[0]?.income || 4) * 4) / 3;
   const value = formatNum(totalNum || 0);
-  result.title[0].text = `日总收益(${value.unit}元)`;
+  result.title[0].text = `${formatMessage({ id: 'screen.1001', defaultMessage: '日总收益' })}(${
+    value.unit
+  }${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
   result.title[1].text = value.value;
   data?.reverse()?.forEach?.((item, index) => {
     result.radiusAxis.data.push(item.name);

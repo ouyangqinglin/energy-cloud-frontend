@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-03-16 13:49:43
+ * @LastEditTime: 2024-04-30 08:36:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Charge2Gun\index.tsx
  */
@@ -79,29 +79,17 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
-    data: [],
-  },
-  {
-    label: formatMessage({
-      id: 'device.powerDistributionUnitInformation',
-      defaultMessage: '功率分配单元信息',
-    }),
-    productTypeId: DeviceProductTypeEnum.ChargeMaster,
-    position: { top: 505, left: 2 },
-    icon: EnvironmentImg,
-    line: EnvironmentLineImg,
-    linePosition: { top: 22, left: 120 },
-    data: [],
+    data: [{ field: 'mmodp' }, { field: 'mgmodnum' }],
   },
   {
     label: '',
     showLabel: false,
     productTypeId: DeviceProductTypeEnum.DCChargePile,
-    position: { top: 26, left: 754 },
+    position: { top: 20, left: 754 },
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -222 },
-    data: [{ field: 'trunst' }],
+    data: [{ field: 'sctlmd' }, { field: 'swmode' }],
   },
   {
     label: formatMessage(

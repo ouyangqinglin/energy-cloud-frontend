@@ -143,6 +143,7 @@ declare namespace API {
     password?: string;
     code?: string;
     uuid?: string;
+    lang?: string;
   };
 
   type ErrorResponse = {

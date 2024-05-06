@@ -4,6 +4,9 @@
       padding: 10px 13px;
       /* stylelint-disable-next-line */
       background-image: url(~@/assets/image/multi-site/device-block.png);
+      .digit-stat-content {
+        max-width: 30%;
+      }
       .digit-stat-content:nth-of-type(2) {
         text-align: center;
       }
@@ -13,6 +16,11 @@
     }
     .ant-col + .ant-col {
       margin-top: 8px;
+    }
+    .digit-stat-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

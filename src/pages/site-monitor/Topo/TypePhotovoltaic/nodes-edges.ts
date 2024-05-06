@@ -209,9 +209,9 @@ const genOverviewNode = (data: TypePhotovoltaicData) => ({
         {
           label:
             formatMessage({
-              id: 'index.dailyPowerGeneration',
-              defaultMessage: '今日发电(kWh)',
-            }) + '：',
+              id: 'siteMonitor.top.1001',
+              defaultMessage: '今日发电',
+            }) + '(kWh)：',
           value: data.totalGenerateElec,
           field: 'todayConsumption',
         },
