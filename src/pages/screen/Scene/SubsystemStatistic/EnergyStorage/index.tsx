@@ -117,7 +117,6 @@ const EnergyStorage: FC = () => {
       />
       <div className={styles.batteryStatus}>
         <span>SOC：{keepTwoDecimalWithUnit(statisticsData?.soc)}%</span>
-        <span>SOH：{keepTwoDecimalWithUnit(statisticsData?.soh)}%</span>
       </div>
       <ChartProcess
         discharge={statisticsData?.discharge}

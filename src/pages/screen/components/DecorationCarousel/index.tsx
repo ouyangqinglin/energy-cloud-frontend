@@ -45,7 +45,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
   }) => {
     const carouselRef = useRef<CarouselRef>(null);
     const carouselSiteTypeRef = useRef<CarouselRef>(null);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(valueType === 'siteType' ? 0 : 1);
     const goToPage = (page: number) => {
       carouselRef?.current?.goTo(page - 1);
       setCurrentPage(page);
