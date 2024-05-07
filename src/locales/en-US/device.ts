@@ -423,6 +423,7 @@ export default {
   'device.SOC': 'SOC',
   'device.chargeAmount': 'chargeAmount',
   'device.terminalConfig': 'Terminal Config',
+  'device.deviceLog': 'Device Log',
   'device.serialNumber': 'Serial Number',
   'device.ConfigName': 'Config Name',
   'device.networkStatus': 'Network Status',
@@ -490,4 +491,9 @@ export default {
   'device.orderUnit': ' ',
   'device.hour': 'Hour',
   'device.1001': 'PV Production',
+  'device.logName': 'Log Name',
+  'device.createTime': 'Create Time',
+  'device.getDeviceLog': 'Get Device Log',
+  'device.exportLog': 'Export Log',
+  'device.selectDate': 'Select Date',
 };

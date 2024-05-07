@@ -267,6 +267,21 @@ export const getChargeTerm = (params: any) => {
     params,
   });
 };
+
+export const getDeviceLocalLog = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/deviceLocalLog/page', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getLocalLog = (params: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>('/iot/deviceLocalLog/getLocalLog', {
+    method: 'GET',
+    params,
+  });
+};
+
 export const addTerminal = (data: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>('/iot/ytcharging/addTerminal', {
     method: 'POST',

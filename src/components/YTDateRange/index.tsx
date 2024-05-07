@@ -7,7 +7,11 @@ const { RangePicker } = DatePicker;
 const YTDateRange = (props: any) => {
   const { format, dateFormat, onChange, ...resetProps } = props;
   const handleRangeChange = (dates: any) => {
-    onChange([moment(dates[0].format(format)), moment(dates[1].format(format))]);
+    if (dates?.length) {
+      onChange([moment(dates[0]?.format(format)), moment(dates[1]?.format(format))]);
+    } else {
+      onChange([]);
+    }
   };
   return <RangePicker format={dateFormat} {...resetProps} onChange={handleRangeChange} />;
 };

@@ -420,6 +420,7 @@ export default {
   'device.SOC': 'SOC',
   'device.chargeAmount': '已充电量',
   'device.terminalConfig': '终端配置',
+  'device.deviceLog': '设备日志',
   'device.serialNumber': '序列号',
   'device.ConfigName': '名称',
   'device.networkStatus': '网络状态',
@@ -484,4 +485,9 @@ export default {
   'device.orderUnit': '单',
   'device.hour': '小时',
   'device.1001': '光伏发电',
+  'device.logName': '日志名称',
+  'device.createTime': '生成时间',
+  'device.getDeviceLog': '获取设备日志',
+  'device.exportLog': '日志导出',
+  'device.selectDate': '请选择日期',
 };

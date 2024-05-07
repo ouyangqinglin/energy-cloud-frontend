@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Run\index.tsx
  */
-import React, { useState, useCallback, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useCallback, useEffect, Suspense, lazy, useContext } from 'react';
 import { Spin, Tabs, TabsProps } from 'antd';
 import Detail, { DetailItem, GroupItem } from '@/components/Detail';
 import Button from '@/components/CollectionModal/Button';
@@ -14,6 +14,8 @@ import { formatModelValue, parseToArray } from '@/utils';
 import { DeviceModelDataType, DeviceModelType, DevicePropsType } from '@/types/device';
 import { DeviceModelTypeEnum } from '@/utils';
 import Empty from 'antd/es/empty';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 
 const getShowExtral = (type?: DeviceModelTypeEnum) => {
   return !(
@@ -30,6 +32,8 @@ export type RunProps = {
 
 const Run: React.FC<RunProps> = (props) => {
   const { deviceId, realTimeData, groupData, modelMap } = props;
+  const { data: deviceData } = useContext(DeviceContext);
+  console.log('deviceData>>', deviceData);
 
   const [detailGroup, setDetailGroup] = useState<GroupItem[]>([]);
   const [collectionInfo, setCollectionInfo] = useState({
@@ -129,7 +133,25 @@ const Run: React.FC<RunProps> = (props) => {
         });
       }
     });
+    //换电柜加上设备日志
+    if (DeviceProductTypeEnum.ExchangeCabinet == deviceData?.productTypeId) {
+      const Component = lazy(() => import('@/components/Device/module/DeviceLog'));
+      group.push({
+        component: (
+          <Suspense
+            fallback={
+              <div className="tx-center">
+                <Spin />
+              </div>
+            }
+          >
+            <Component deviceId={deviceId} />
+          </Suspense>
+        ),
+      });
+    }
     setDetailGroup(group);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupData, modelMap, collectionInfo, realTimeData]);
 
   return (

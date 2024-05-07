@@ -1,20 +1,19 @@
 import Detail from '@/components/Detail';
-import { Button, Modal, Switch, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { useRef, useState } from 'react';
-import { formatMessage } from '@/utils';
+import { Button, Modal, Form, message } from 'antd';
+import { useRef, useState, useContext } from 'react';
+import { formatMessage, getLocale } from '@/utils';
+import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ConfigDataType } from './data';
 import { columns } from './config';
-import {
-  getChargeTerm,
-  addTerminal,
-  termBindMainServer,
-  delTerm,
-  updateTerm,
-} from '@/services/equipment';
-import { cloneDeep } from 'lodash';
+import { ProConfigProvider } from '@ant-design/pro-components';
+import { ProFormDatePicker } from '@ant-design/pro-form';
+import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { getDeviceLocalLog, getLocalLog } from '@/services/equipment';
+import moment from 'moment';
+import { aLinkDownLoad } from '@/utils/downloadfile';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 export type EVChargerOrderInfoType = {
   deviceId?: string;
@@ -22,122 +21,37 @@ export type EVChargerOrderInfoType = {
 
 const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
-  const [addVisible, setAddVisible] = useState<boolean>(false);
-  const [bindMainServer, setBindMainServer] = useState([]);
-  const [editVisible, setEditVisible] = useState<boolean>(false);
-  const [currentRow, setCurrentRow] = useState<any>();
-
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState<boolean>(false);
+  const { data: deviceData } = useContext(DeviceContext);
   const actionRef = useRef<ActionType>();
-  const handleRequest = () => {
-    return getChargeTerm({
+  const handleRequest = (params: any) => {
+    return getDeviceLocalLog({
       deviceId,
-    }).then((res) => {
-      const result: any = [];
-      res.data.forEach((i) => {
-        result.push(i.id);
-      });
-      setBindMainServer(result);
-      return {
-        data: {
-          list: res.data,
-          total: res.data.length,
-        },
-      };
+      ...params,
     });
   };
 
-  const handleRemoveOne = async (rowData: ConfigDataType) => {
-    try {
-      await delTerm({ deviceId: rowData.id });
-      return true;
-    } catch {
-      return false;
-    }
+  const handleOk = () => {
+    form.submit();
   };
 
-  const handleOpenAssociate = async (rowData: ConfigDataType) => {
-    const bindTermId = rowData.id;
-    const notBindTermId = cloneDeep(bindMainServer);
-    const index = notBindTermId.findIndex((i) => i === bindTermId);
-    notBindTermId.splice(index, 1);
-    try {
-      await termBindMainServer({ bindTermId, notBindTermId });
-      return true;
-    } catch {
-      return false;
-    }
+  const downloadLog = (rowData: ConfigDataType) => {
+    aLinkDownLoad(rowData.downLoadUrl || '', rowData.logName || '');
   };
-  const handleAdd = async (rowData: ConfigDataType) => {
-    try {
-      await addTerminal({ ...rowData, chargingId: deviceId });
-      return true;
-    } catch {
-      return false;
-    }
+
+  const handleFinish = async (rowData?: ConfigDataType) => {
+    getLocalLog({
+      deviceId,
+      context: { logDate: rowData ? moment(rowData.logDate).format('YYYY-MM-DD') : '' },
+    }).then((res: any) => {
+      if (res?.data?.succeed) {
+        message.success(res?.data?.message);
+      }
+    });
   };
-  const handleEdit = async (rowData: ConfigDataType) => {
-    try {
-      await updateTerm(rowData);
-      message.success('配置成功');
-      return true;
-    } catch {
-      return false;
-    }
-  };
+
   const actionColumn: ProColumns[] = [
-    {
-      title: formatMessage({ id: 'device.associatedHosts', defaultMessage: '关联主机' }),
-      dataIndex: 'isBindMainServer',
-      ellipsis: true,
-      hideInSearch: true,
-      render: (_, record) => {
-        const rowData = record as ConfigDataType;
-        return [
-          <Switch
-            checked={record.isBindMainServer == 0} //0--关联 1-未关联
-            key="Checke"
-            onClick={async (value) => {
-              console.log('value>>', value);
-              if (value) {
-                Modal.confirm({
-                  title: formatMessage({
-                    id: 'device.associatedHosts',
-                    defaultMessage: '关联主机',
-                  }),
-                  content: `${rowData.deviceName} ${formatMessage({
-                    id: 'device.openTerminal',
-                    defaultMessage: '开启关联',
-                  })}`,
-                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                  onOk: async () => {
-                    const success = await handleOpenAssociate(rowData);
-                    if (success) {
-                      if (actionRef.current) {
-                        actionRef.current.reload();
-                      }
-                    }
-                  },
-                });
-              } else {
-                Modal.confirm({
-                  title: formatMessage({
-                    id: 'device.associatedHosts',
-                    defaultMessage: '关联主机',
-                  }),
-                  content: formatMessage({
-                    id: 'device.keepOne',
-                    defaultMessage: '请至少保留一个终端关联主机！',
-                  }),
-                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                });
-              }
-            }}
-          />,
-        ];
-      },
-    },
     {
       title: formatMessage({ id: 'alarmManage.operate', defaultMessage: '操作' }),
       valueType: 'option',
@@ -149,40 +63,12 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
           <Button
             type="link"
             size="small"
-            key="edit"
+            key="doload"
             onClick={() => {
-              setEditVisible(true);
-              setCurrentRow(rowData);
+              downloadLog(rowData);
             }}
           >
-            {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
-          </Button>,
-          <Button
-            type="link"
-            size="small"
-            danger
-            key="batchRemove"
-            onClick={async () => {
-              Modal.confirm({
-                title: formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' }),
-                content: `${formatMessage({
-                  id: 'device.deleteTerminal',
-                  defaultMessage: '确定删除终端',
-                })}${rowData.deviceName}？`,
-                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                onOk: async () => {
-                  const success = await handleRemoveOne(rowData);
-                  if (success) {
-                    if (actionRef.current) {
-                      actionRef.current.reload();
-                    }
-                  }
-                },
-              });
-            }}
-          >
-            {formatMessage({ id: 'pages.searchTable.delete', defaultMessage: '删除' })}
+            {formatMessage({ id: 'common.download', defaultMessage: '下载' })}
           </Button>,
         ];
       },
@@ -191,28 +77,66 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   return (
     <div>
       <Detail.Label
-        title={formatMessage({ id: 'device.terminalConfig1', defaultMessage: '设备日志' })}
+        title={formatMessage({ id: 'device.deviceLog', defaultMessage: '设备日志' })}
         className="mt16"
       />
-      <YTProTable<ConfigDataType>
-        actionRef={actionRef}
-        columns={[...columns, ...actionColumn]}
-        request={handleRequest}
-        search={false}
-        scroll={{ y: 'auto' }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="add"
-            onClick={async () => {
-              setAddVisible(true);
-            }}
-          >
-            <PlusOutlined />{' '}
-            {formatMessage({ id: 'pages.searchTable.new', defaultMessage: '新建' })}
-          </Button>,
-        ]}
-      />
+      <ProConfigProvider
+        valueTypeMap={{
+          ...YTDateRangeValueTypeMap,
+        }}
+      >
+        <YTProTable<ConfigDataType>
+          actionRef={actionRef}
+          columns={[...columns, ...actionColumn]}
+          request={handleRequest}
+          scroll={{ y: 'auto' }}
+          toolBarRender={() => [
+            <Button
+              type="primary"
+              key="get"
+              onClick={async () => {
+                //充电桩
+                if (DeviceProductTypeEnum.ChargeMaster == deviceData?.productTypeId) {
+                  handleFinish();
+                } else {
+                  setVisible(true);
+                }
+              }}
+            >
+              {formatMessage({ id: 'device.getDeviceLog', defaultMessage: '获取设备日志' })}
+            </Button>,
+          ]}
+        />
+      </ProConfigProvider>
+      <Modal
+        width={800}
+        title={formatMessage({ id: 'device.exportLog', defaultMessage: '日志导出' })}
+        visible={visible}
+        destroyOnClose
+        onOk={handleOk}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      >
+        <Form form={form} onFinish={handleFinish} layout="vertical">
+          <ProFormDatePicker
+            name="logDate"
+            label={formatMessage({
+              id: 'device.selectDate',
+              defaultMessage: '请选择日期',
+            })}
+            width="xl"
+            format={getLocale().dateFormat}
+            placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+              },
+            ]}
+          />
+        </Form>
+      </Modal>
     </div>
   );
 };
