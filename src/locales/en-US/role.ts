@@ -8,15 +8,15 @@
 export default {
   'system.Role.role_id': 'Role ID',
   'system.Role.role_name': 'Role Name',
-  'system.Role.role_key': 'Role permission string',
+  'system.Role.role_key': 'Role Key',
   'system.Role.role_sort': 'Sort',
   'system.Role.data_scope': 'Data Scope',
   'system.Role.menu_check_strictly':
-    'Whether menu tree selection items are displayed in association',
+    'Menu tree selection items are displayed in association, yes or on',
   'system.Role.dept_check_strictly':
-    'Whether department tree selection items are displayed in association',
+    'Department tree selection items are displayed in association, yes or on',
   'system.Role.status': 'Status',
-  'system.Role.del_flag': 'delete flag',
+  'system.Role.del_flag': 'Flag',
   'system.Role.login_ip': 'IP',
   'system.Role.login_date': 'Login Date',
   'system.Role.create_by': 'Creator',

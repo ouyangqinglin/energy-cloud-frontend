@@ -1,6 +1,6 @@
 export default {
   'physicalModel.name': 'Name',
-  'physicalModel.typeName': 'Attribute name',
+  'physicalModel.typeName': 'Attribute Name',
   'physicalModel.editable': 'Editable',
   'physicalModel.remark': 'Remark',
   'physicalModel.createTime': 'CreateTime',
@@ -10,7 +10,7 @@ export default {
   'physicalModel.typeEdit': 'Edit',
   'physicalModel.source': 'Source',
   'physicalModel.fieldName': 'Field Name',
-  'physicalModel.fieldKey': 'field',
+  'physicalModel.fieldKey': 'Field',
   'physicalModel.fieldJson': 'Field Json',
   'physicalModel.fieldType': 'Field Type',
   'physicalModel.fieldConfig': 'Field Config',
@@ -22,6 +22,6 @@ export default {
   'pageTemplate.remark': 'Page Template Remark',
   'pageTemplate.productModels': 'Page Template Product',
   'pageTemplate.classification': 'Type',
-  'physicalModel.field': 'field',
+  'physicalModel.field': 'Field',
   'pageTemplate.type': 'Type',
 };

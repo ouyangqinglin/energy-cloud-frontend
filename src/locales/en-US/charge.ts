@@ -17,7 +17,7 @@ export default {
   'charge.moduleAddress': 'Module Address',
   'charge.moduleInherentInformation': 'Module Inherent Information',
   'charge.groupAddress': 'Group Address',
-  'charge.onAndOffStatus': 'On And Off Status',
+  'charge.onAndOffStatus': 'On and Off Status',
   'charge.moduleOtherStatus': 'Module Other Status',
   'charge.moduleStatusFlags': 'Module Status Flags',
   'charge.moduleOutputVoltage': 'Module Output Voltage',

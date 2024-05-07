@@ -1,13 +1,12 @@
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
-  'monitor.OnlineUser.id': 'id',
+  'monitor.OnlineUser.id': 'Id',
   'monitor.OnlineUser.user_name': 'User',
   'monitor.OnlineUser.ipaddr': 'IP',
   'monitor.OnlineUser.login_location': 'Location',

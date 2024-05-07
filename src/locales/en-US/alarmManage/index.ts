@@ -4,7 +4,7 @@ export default {
   'alarmManage.importance': 'Importance',
   'alarmManage.secondary': 'Secondary',
   'alarmManage.tips': 'INFO',
-  'alarmManage.clearConfirm': 'Clear Confirmation',
+  'alarmManage.clearConfirm': 'Clear Confirm',
   'alarmManage.clearConfirmContent':
     'The fault for which the alarm is generated may not be cleared. Do you want to forcibly clear the selected alarm?',
   'alarmManage.alarmName': 'Alarm Name',
@@ -24,7 +24,7 @@ export default {
   'alarmManage.alarmStatus': 'Alarm Status',
   'alarmManage.alarmDetails': 'Alarm Details',
   'alarmManage.currentAlarm': 'Current Alarm',
-  'alarmManage.historicalAlarm': 'Historical Alarm',
+  'alarmManage.historicalAlarm': 'History Alarm',
   'alarmManage.alarmContent': 'Alarm Content',
   'alarmManage.generateTime': 'Alarm time',
   'alarmManage.alarmList': 'Alarm List',

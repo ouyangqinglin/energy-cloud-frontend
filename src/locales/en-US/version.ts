@@ -6,5 +6,5 @@ export default {
   'system.Version.version': 'Version',
   'system.Version.systemName': 'System Name',
   'system.Version.uploadApp': 'Upload App',
-  'system.Version.package': 'package',
+  'system.Version.package': 'Package',
 };
