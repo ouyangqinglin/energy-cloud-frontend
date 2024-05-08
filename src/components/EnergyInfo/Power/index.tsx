@@ -26,7 +26,7 @@ export enum EnergySourceEnum {
   DeviceManage,
 }
 const Power: React.FC<ComProps> = (props) => {
-  const { deviceData, loading, source } = props;
+  const { deviceData, source } = props;
   const [date, setDate] = useState<Moment>(moment());
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const {
