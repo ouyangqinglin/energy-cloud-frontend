@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2024-04-15 15:24:28
+ * @LastEditTime: 2024-05-08 10:52:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -17,6 +17,7 @@ import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
 import { CollectionModalType } from './helper';
+import { useBoolean } from 'ahooks';
 type Searchtype = CollectionSearchType & {
   date: string[];
 };
@@ -25,6 +26,8 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
   const { deviceId, collection, model, title, open, ...restProps } = props;
   const formRef = useRef<ProFormInstance>(null);
   const [date, setDate] = useState<string[]>();
+  const [loading, { set, setTrue, setFalse }] = useBoolean(false);
+
   const modelData = useMemo(() => {
     const enumObj: any = parseToObj(model?.specs);
     let enumKeys: string[] = [];
@@ -38,15 +41,23 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
       unit: enumObj?.unit,
     };
   }, [model]);
+
   const onFinish = useCallback((formData: Searchtype) => {
     setDate(formData.date);
+    setTrue();
     return Promise.resolve(true);
   }, []);
+
+  const onLoadingChange = useCallback((value: boolean) => {
+    set(value);
+  }, []);
+
   useEffect(() => {
     if (open && deviceId) {
       formRef?.current?.submit?.();
     }
   }, [deviceId, collection, open]);
+
   const searchColumns = useMemo<ProFormColumnsType<Searchtype>[]>(() => {
     return [
       {
@@ -111,6 +122,8 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           layoutType="QueryFilter"
           onFinish={onFinish}
           onReset={onFinish}
+          loading={loading}
+          title={undefined}
         />
         <CollectionChart
           title={title}
@@ -118,6 +131,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           collection={collection}
           model={model}
           date={date}
+          onLoadingChange={onLoadingChange}
         />
       </Modal>
     </>

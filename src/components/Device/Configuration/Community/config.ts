@@ -9,7 +9,6 @@
 
 import type { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
-import { masterSlaveEnum } from '@/utils/dict';
 import { DeviceMasterMode } from '@/utils/dictionary';
 
 export const accountItem: DetailItem[] = [

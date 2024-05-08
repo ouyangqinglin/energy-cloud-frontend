@@ -16,10 +16,10 @@ import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
 import { reportTypeEnum, timeDimensionEnum } from '@/utils/dictionary';
 import { reportType, timeDimension } from '@/utils/dict';
-
 import { cloneDeep } from 'lodash';
 import moment from 'moment';
 import { formatMessage } from '@/utils';
+import './index.less';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -209,6 +209,7 @@ const Report: React.FC<ReportProps> = (props) => {
         search={{
           collapsed: false,
           collapseRender: false,
+          className: 'data-report-search',
         }}
         form={{
           ignoreRules: false,

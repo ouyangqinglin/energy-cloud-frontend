@@ -36,4 +36,6 @@ export interface MainsSupply {
   children: MainsSupply[];
   soc: number;
   extraName?: string;
+  deviceName?: string;
+  masterSlaveMode?: string;
 }

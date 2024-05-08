@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-03-28 17:01:39
+ * @LastEditTime: 2024-05-08 09:00:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -84,6 +84,17 @@ export const searchColumns = (reportType: any): ProColumns[] => [
       }
       return Promise.resolve(options);
     },
+    formItemProps: (form, config) => {
+      const time = form?.getFieldValue?.('reportType');
+      const hidden = time != reportTypeEnum.ChargeOrder;
+      const $col: HTMLDivElement | null = document?.querySelector?.(
+        '.data-report-search .ant-col:nth-child(3)',
+      );
+      if ($col) {
+        $col.style.display = hidden ? 'none' : 'block';
+      }
+      return {};
+    },
     hideInTable: true,
   },
   {
@@ -137,6 +148,14 @@ export const searchColumns = (reportType: any): ProColumns[] => [
       const hidden =
         reportTypeEnum.ChargeOrder == reportTypeValue ||
         timeDimensionValue != timeDimensionEnum.Day;
+
+      const $col: HTMLDivElement | null = document?.querySelector?.(
+        '.data-report-search .ant-col:nth-child(6)',
+      );
+      if ($col) {
+        $col.style.display = hidden ? 'none' : 'block';
+      }
+
       return {
         hidden,
         noStyle: hidden,

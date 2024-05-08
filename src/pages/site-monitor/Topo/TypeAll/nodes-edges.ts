@@ -11,7 +11,7 @@ import type { AllTypeData, MainsSupply } from './type';
 import { SubsystemTypeForNode } from './type';
 import { isEmpty, uniqueId } from 'lodash';
 import { isEmpty as utilIsEmpty } from '@/utils';
-import { SiteTypeEnum } from '@/utils/dict';
+import { SiteTypeEnum, masterSlave2Enum } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 
 const position = { x: 0, y: 0 };
@@ -305,11 +305,18 @@ const genESNode = (data: MainsSupply) => ({
     width: 70,
     height: 80,
 
-    title: `${formatMessage({ id: 'screen.storage', defaultMessage: '储能' })}${
-      data?.extraName ?? ''
-    }（SOC：${utilIsEmpty(data?.soc) ? '--' : (data?.soc?.toFixed?.(2) || 0) + '%'}）`,
+    title: `${
+      utilIsEmpty(data?.masterSlaveMode)
+        ? ''
+        : '(' + masterSlave2Enum[data?.masterSlaveMode as string]?.text + ')'
+    }${data?.deviceName ?? ''}`,
     textContent: {
       column: [
+        {
+          label: `SOC(%)：`,
+          value: data?.soc,
+          field: 'todayConsumption',
+        },
         {
           label: `${formatMessage({
             id: 'siteMonitor.todayCharge',
