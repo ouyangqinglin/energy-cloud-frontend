@@ -25,7 +25,7 @@ export default {
   'system.DictData.dict_value': 'Value',
   'system.DictData.dict_type': 'Type',
   'system.DictData.css_class': 'CSS',
-  'system.DictData.list_class': 'Table echo style',
+  'system.DictData.list_class': 'List Class',
   'system.DictData.is_default': 'Default',
   'system.DictData.status': 'Status',
   'system.DictData.create_by': 'Creator',

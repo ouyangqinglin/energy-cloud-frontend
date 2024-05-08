@@ -16,6 +16,7 @@ export type CollectionChartType = {
   model?: DeviceModelType;
   date?: string[];
   height?: number | string;
+  onLoadingChange?: (value: boolean) => void;
 };
 
 export type CollectionModalType = Omit<ModalProps, 'title'> & CollectionChartType;

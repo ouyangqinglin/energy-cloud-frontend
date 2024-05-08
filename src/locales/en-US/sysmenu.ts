@@ -2,7 +2,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -26,10 +26,10 @@ export default {
   'system.Menu.remark': 'Remark',
   'system.Menu.query': 'Query',
   'system.Menu.modify': 'Edit',
-  'icon.selector.tab.direction': '方向性图标',
-  'icon.selector.tab.suggestion': '提示建议性图标',
-  'icon.selector.tab.editor': '编辑类图标',
-  'icon.selector.tab.data': '数据类图标',
-  'icon.selector.tab.logo': '品牌和标识',
-  'icon.selector.tab.other': '网站通用图标',
+  'icon.selector.tab.direction': 'Directional',
+  'icon.selector.tab.suggestion': 'Tips Suggestive',
+  'icon.selector.tab.editor': 'Edit',
+  'icon.selector.tab.data': 'Data',
+  'icon.selector.tab.logo': 'Branding And Identity',
+  'icon.selector.tab.other': 'Website General',
 };

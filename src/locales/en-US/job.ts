@@ -6,13 +6,13 @@
  * */
 
 export default {
-  'monitor.Job.job_id': 'Task ID',
-  'monitor.Job.job_name': 'Task name',
-  'monitor.Job.job_group': 'Task group name',
-  'monitor.Job.invoke_target': 'Call target string',
-  'monitor.Job.cron_expression': 'cron execute expression',
-  'monitor.Job.misfire_policy': 'Plan to execute wrong strategy',
-  'monitor.Job.concurrent': 'Whether to execute concurrently',
+  'monitor.Job.job_id': 'ID',
+  'monitor.Job.job_name': 'Name',
+  'monitor.Job.job_group': 'Group',
+  'monitor.Job.invoke_target': 'Invoke',
+  'monitor.Job.cron_expression': 'Cron Exp',
+  'monitor.Job.misfire_policy': 'Policy',
+  'monitor.Job.concurrent': 'Concurrent',
   'monitor.Job.status': 'Status',
   'monitor.Job.del_flag': 'Flag',
   'monitor.Job.login_ip': 'IP',
@@ -21,6 +21,6 @@ export default {
   'monitor.Job.create_time': 'Create Time',
   'monitor.Job.update_by': 'Updater',
   'monitor.Job.update_time': 'Update Time',
-  'monitor.Job.remark': 'Remark information',
-  'monitor.Job.modify': 'Edit scheduled task schedule',
+  'monitor.Job.remark': 'Remark',
+  'monitor.Job.modify': 'Edit',
 };

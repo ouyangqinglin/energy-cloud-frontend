@@ -6,13 +6,13 @@
  * */
 
 export default {
-  'monitor.JobLog.title': 'Timed task scheduling log',
-  'monitor.JobLog.job_log_id': 'Task log ID',
-  'monitor.JobLog.job_name': 'mission name',
-  'monitor.JobLog.job_group': 'Task group name',
-  'monitor.JobLog.invoke_target': 'Call target string',
+  'monitor.JobLog.title': 'Timed Task Scheduling Log',
+  'monitor.JobLog.job_log_id': 'Task Log ID',
+  'monitor.JobLog.job_name': 'Mission Name',
+  'monitor.JobLog.job_group': 'Task Group Name',
+  'monitor.JobLog.invoke_target': 'Call Target String',
   'monitor.JobLog.job_message': 'Log Info',
-  'monitor.JobLog.status': 'Execution status',
-  'monitor.JobLog.exception_info': 'Exception info',
-  'monitor.JobLog.create_time': 'Add time',
+  'monitor.JobLog.status': 'Execution Status',
+  'monitor.JobLog.exception_info': 'Exception Info',
+  'monitor.JobLog.create_time': 'Add Time',
 };

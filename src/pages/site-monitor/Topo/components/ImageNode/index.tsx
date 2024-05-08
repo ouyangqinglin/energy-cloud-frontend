@@ -44,7 +44,11 @@ export function ImageNode({ data }: { data: ExtraNodeData }) {
               backgroundSize: '100% 100%',
             }}
           />
-          {title && <div className={styles.boxTitle}>{title}</div>}
+          {title && (
+            <div className={`ellipsis ${styles.boxTitle}`} title={title}>
+              {title}
+            </div>
+          )}
         </div>
       )}
       {textContent && (

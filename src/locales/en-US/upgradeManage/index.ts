@@ -13,7 +13,6 @@ export default {
   'upgradeManage.uploader': 'Uploader',
   'upgradeManage.status': 'Status',
   'upgradeManage.operate': 'Operate',
-  'upgradeManage.newBuilt': 'NewBuilt',
   'upgradeManage.module': 'Module',
   'upgradeManage.selectDevice': 'Select Device',
   'upgradeManage.upgradable': 'Upgradable Version',
@@ -21,7 +20,7 @@ export default {
   'upgradeManage.signature': 'Signature Algorithm',
   'upgradeManage.disable': 'Disable',
   'upgradeManage.enable': 'Enable',
-  'upgradeManage.refer': 'Description (optional)',
+  'upgradeManage.refer': 'Description(Optional)',
   'upgradeManage.deviceName': 'Device Name',
   'upgradeManage.equipmentSerial': 'Device SN',
   'upgradeManage.currentVersion': 'Current Version',
@@ -41,7 +40,7 @@ export default {
   'upgradeManage.upgradeTips':
     'Performing an immediate upgrade operation may affect running devices. Do you want to perform an immediate upgrade operation?',
   'upgradeManage.upgradeStatus': 'Upgrade Status',
-  'upgradeManage.upgradePer': 'Upgraded by',
+  'upgradeManage.upgradePer': 'Upgraded By',
   'upgradeManage.clearConfirm': 'Clear Confirmation',
   'upgradeManage.clearConfirmTips':
     'Are you sure you want to delete the upgrade task? Cannot recover after deletion!',
@@ -50,5 +49,5 @@ export default {
   'upgradeManage.upgradeFailed': 'Upgrade Failed',
   'upgradeManage.upgradeSuc': 'Upgrade Successful',
   'upgradeManage.upgrading': 'Upgrading',
-  'upgradeManage.failReason': 'The cause of failure: ',
+  'upgradeManage.failReason': 'The Cause of Failure: ',
 };
