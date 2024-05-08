@@ -117,9 +117,7 @@ export async function getInitialState(): Promise<initialStateType> {
       fetchUserInfo,
       settings: defaultSettings,
       collapsed,
-      currentUser: {
-        systemInfo,
-      },
+      currentUser: {},
     };
   }
 }

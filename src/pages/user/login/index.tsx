@@ -109,14 +109,14 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          logo={
-            initialState?.currentUser?.systemInfo?.icon ? (
-              <img alt="logo" src={initialState?.currentUser?.systemInfo?.icon} />
-            ) : (
-              ''
-            )
-          }
-          title={initialState?.currentUser?.systemInfo?.title}
+          // logo={
+          //   initialState?.currentUser?.systemInfo?.icon ? (
+          //     <img alt="logo" src={initialState?.currentUser?.systemInfo?.icon} />
+          //   ) : (
+          //     ''
+          //   )
+          // }
+          // title={initialState?.currentUser?.systemInfo?.title}
           initialValues={{
             autoLogin: true,
           }}
@@ -222,7 +222,7 @@ const Login: React.FC = () => {
           </div>
         </LoginForm>
       </div>
-      <Footer className={styles.footer} />
+      {/* <Footer className={styles.footer} /> */}
     </div>
   );
 };

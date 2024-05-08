@@ -7,6 +7,7 @@ import type { MenuType } from '../data.d';
 import IconSelector from '@/components/IconSelector';
 import { createIcon } from '@/utils/IconUtil';
 import { IntlProvider } from 'react-intl';
+import { formatMessage } from '@/utils';
 
 /* *
  *
@@ -115,13 +116,11 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '菜单ID',
               })}
               width="xl"
-              placeholder="请输入菜单ID"
               disabled
               hidden={true}
               rules={[
                 {
                   required: false,
-                  message: <FormattedMessage id="请输入菜单ID！" defaultMessage="请输入菜单ID！" />,
                 },
               ]}
             />
@@ -138,11 +137,10 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               request={async () => {
                 return menuTree;
               }}
-              placeholder="请选择父菜单"
+              placeholder={formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' })}
               rules={[
                 {
                   required: true,
-                  message: <FormattedMessage id="请选择父菜单！" defaultMessage="请选择父菜单！" />,
                 },
               ]}
             />
@@ -152,9 +150,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
           <Col span={12} order={1}>
             <ProFormRadio.Group
               valueEnum={{
-                M: '目录',
-                C: '菜单',
-                F: '按钮',
+                M: formatMessage({ id: 'system.Menu.catalog', defaultMessage: '目录' }),
+                C: formatMessage({ id: 'system.Menu.menu', defaultMessage: '菜单' }),
+                F: formatMessage({ id: 'system.Menu.button', defaultMessage: '按钮' }),
               }}
               name="menuType"
               label={intl.formatMessage({
@@ -168,13 +166,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               }}
               initialValue="C"
               width="xl"
-              placeholder="请输入菜单类型"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入菜单类型！" defaultMessage="请输入菜单类型！" />
-                  ),
                 },
               ]}
             />
@@ -184,7 +178,6 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               name="icon"
               allowClear={true}
               hidden={menuTypeId === 'F'}
-              placeholder="请选择"
               fieldProps={{
                 addonAfter: createIcon(menuIconName),
                 onClick: () => {
@@ -198,9 +191,6 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请选择菜单图标！" defaultMessage="请选择菜单图标！" />
-                  ),
                 },
               ]}
             />
@@ -215,13 +205,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '菜单名称',
               })}
               width="xl"
-              placeholder="请输入菜单名称"
               rules={[
                 {
                   required: true,
-                  message: (
-                    <FormattedMessage id="请输入菜单名称！" defaultMessage="请输入菜单名称！" />
-                  ),
                 },
               ]}
             />
@@ -235,13 +221,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               })}
               initialValue="0"
               width="xl"
-              placeholder="请输入显示顺序"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入显示顺序！" defaultMessage="请输入显示顺序！" />
-                  ),
                 },
               ]}
             />
@@ -252,8 +234,14 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             <ProFormRadio.Group
               name="isFrame"
               valueEnum={{
-                0: '是',
-                1: '否',
+                0: formatMessage({
+                  id: 'common.yes',
+                  defaultMessage: '是',
+                }),
+                1: formatMessage({
+                  id: 'common.no',
+                  defaultMessage: '否',
+                }),
               }}
               initialValue="1"
               label={intl.formatMessage({
@@ -262,13 +250,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               })}
               width="xl"
               hidden={menuTypeId === 'F'}
-              placeholder="请输入是否为外链"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入是否为外链！" defaultMessage="请输入是否为外链！" />
-                  ),
                 },
               ]}
             />
@@ -281,14 +265,10 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '路由地址',
               })}
               width="xl"
-              placeholder="请输入路由地址"
               hidden={menuTypeId === 'F'}
               rules={[
                 {
                   required: menuTypeId !== 'F',
-                  message: (
-                    <FormattedMessage id="请输入路由地址！" defaultMessage="请输入路由地址！" />
-                  ),
                 },
               ]}
             />
@@ -303,14 +283,10 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '权限标识',
               })}
               width="xl"
-              placeholder="请输入权限标识"
               hidden={menuTypeId === 'M'}
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入权限标识！" defaultMessage="请输入权限标识！" />
-                  ),
                 },
               ]}
             />
@@ -323,14 +299,10 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '组件路径',
               })}
               width="xl"
-              placeholder="请输入组件路径"
               hidden={menuTypeId !== 'C'}
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入组件路径！" defaultMessage="请输入组件路径！" />
-                  ),
                 },
               ]}
             />
@@ -345,14 +317,10 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 defaultMessage: '路由参数',
               })}
               width="xl"
-              placeholder="请输入权路由参数"
               hidden={menuTypeId !== 'C'}
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入路由参数！" defaultMessage="请输入路由参数！" />
-                  ),
                 },
               ]}
             />
@@ -361,8 +329,14 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             <ProFormRadio.Group
               name="isCache"
               valueEnum={{
-                0: '缓存',
-                1: '不缓存',
+                0: formatMessage({
+                  id: 'system.Menu.cache',
+                  defaultMessage: '缓存',
+                }),
+                1: formatMessage({
+                  id: 'system.Menu.noCache',
+                  defaultMessage: '不缓存',
+                }),
               }}
               initialValue="0"
               label={intl.formatMessage({
@@ -371,13 +345,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               })}
               width="xl"
               hidden={menuTypeId !== 'C'}
-              placeholder="请输入是否缓存"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入是否缓存！" defaultMessage="请输入是否缓存！" />
-                  ),
                 },
               ]}
             />
@@ -395,13 +365,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               initialValue="0"
               width="xl"
               hidden={menuTypeId === 'F'}
-              placeholder="请输入可见状态"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入可见状态！" defaultMessage="请输入可见状态！" />
-                  ),
                 },
               ]}
             />
@@ -417,13 +383,9 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               initialValue="0"
               width="xl"
               hidden={menuTypeId === 'F'}
-              placeholder="请输入菜单状态"
               rules={[
                 {
                   required: false,
-                  message: (
-                    <FormattedMessage id="请输入菜单状态！" defaultMessage="请输入菜单状态！" />
-                  ),
                 },
               ]}
             />

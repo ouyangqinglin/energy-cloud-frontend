@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-04-28 15:00:01
+ * @LastEditTime: 2024-05-08 16:02:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -279,7 +279,7 @@ const StationList: React.FC = () => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: 200,
+        width: getLocale().isZh ? 180 : 250,
         fixed: 'right',
         render: rowBar,
         hideInTable:

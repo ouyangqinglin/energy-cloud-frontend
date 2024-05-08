@@ -248,4 +248,7 @@ export default {
   'common.requestError': '请求错误',
   'common.passwordResetSuccessful': '密码重置成功',
   'common.passwordinconsistency': '两次密码输入不一致',
+
+  'common.yes': '是',
+  'common.no': '否',
 };

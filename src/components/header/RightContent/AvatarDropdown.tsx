@@ -13,9 +13,11 @@ import HeaderDropdown from '../../HeaderDropdown';
 import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import { logout } from '@/services/session';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
+import { merge } from 'lodash';
+import { defaultSystemInfo } from '@/utils/config';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -48,7 +50,11 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
-        setInitialState((s) => ({ ...s, currentUser: undefined, menus: undefined }));
+        const systemInfo = merge({}, defaultSystemInfo);
+        if (!getLocale().isZh) {
+          systemInfo.title = 'YT EMS Cloud';
+        }
+        setInitialState((s) => ({ ...s, currentUser: { systemInfo }, menus: undefined }));
         dispatch({ type: 'CHANGESTATE', payload: { tabList: [] } });
         loginOut();
         return;
