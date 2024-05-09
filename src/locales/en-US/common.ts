@@ -140,7 +140,7 @@ export default {
   'common.notificationPerson': 'Notifier',
   'common.selectNotificationPerson': 'Please select a notifier',
   'common.notConfigured': 'Not Configured',
-  'common.onLine': 'On line',
+  'common.onLine': 'Online',
   'common.offline': 'Offline',
   'common.rmb': '￥',
   'common.more': 'More',

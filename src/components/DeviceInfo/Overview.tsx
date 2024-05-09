@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-04-23 16:56:04
+ * @LastEditTime: 2024-05-08 17:41:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -207,7 +207,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
     if (product.length) {
       setIsModalOpen(true);
     } else {
-      message.info('暂无产品资料！');
+      message.warning(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
     }
   };
   const closeModal = () => {

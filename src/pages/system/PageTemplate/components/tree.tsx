@@ -314,7 +314,11 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
 
   return (
     <>
-      <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={treeSearch} />
+      <Search
+        style={{ marginBottom: 8 }}
+        placeholder={formatMessage({ id: 'common.search', defaultMessage: '搜索' })}
+        onChange={treeSearch}
+      />
       <Tree
         showLine
         switcherIcon={<DownOutlined />}
