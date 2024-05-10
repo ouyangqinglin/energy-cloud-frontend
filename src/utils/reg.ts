@@ -11,6 +11,8 @@ const isUS = getLocale().isEnUS;
 const ZHPhoneReg = /^1\d{10}$/;
 const USPhoneReg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
 const secretReg = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{8,16}$/;
+const hourRange = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
+
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
   return isUS ? USPhoneReg.test(str) : ZHPhoneReg.test(str);
@@ -52,4 +54,8 @@ export const getPasswordLevel = (password: string) => {
 export const verifyPassword = (password: string) => {
   const str = password ?? '';
   return secretReg.test(str);
+};
+
+export const isHourRange = (value: string) => {
+  return hourRange.test(value ?? '');
 };

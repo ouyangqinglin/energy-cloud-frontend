@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-25 14:08:31
- * @LastEditTime: 2024-04-25 16:09:56
+ * @LastEditTime: 2024-05-10 17:40:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\ElectricityStatistics\index.tsx
  */
@@ -65,10 +65,12 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
       {
         name: formatMessage({ id: 'siteMonitor.mainsCapacity', defaultMessage: '市电供电量' }),
         data: [],
+        unit: 'kWh',
       },
       {
         name: formatMessage({ id: 'siteMonitor.chargingCapacity', defaultMessage: '充电量' }),
         data: [],
+        unit: 'kWh',
       },
       {
         name: formatMessage({
@@ -76,10 +78,12 @@ const ElectricityStatistics: React.FC<ElectricityStatisticsType> = (props) => {
           defaultMessage: '其他负载用电量',
         }),
         data: [],
+        unit: 'kWh',
       },
       {
         name: formatMessage({ id: 'device.numberOfChargingOrders', defaultMessage: '充电订单数' }),
         data: [],
+        unit: formatMessage({ id: 'siteMonitor.order', defaultMessage: '单' }),
       },
     ];
     const statResult = {

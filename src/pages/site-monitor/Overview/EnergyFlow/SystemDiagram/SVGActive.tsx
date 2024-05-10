@@ -63,7 +63,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
       <div
         className={styles.cell}
         style={{
-          top: 42,
+          top: 37,
           left: 424,
         }}
       >
@@ -222,43 +222,34 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
           className={styles.cell}
           style={{
             top: 224,
-            left: ['13', '23'].includes(siteType) ? 185 : ['1', '2'].includes(siteType) ? 241 : 423,
+            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 241 : 423,
+            transform: ['13', '23'].includes(siteType) ? 'translateX(-50%)' : '',
           }}
         >
-          <Row
-            // gutter={21}
-            justify={'center'}
+          <div
+            className="flex py8"
             style={{
-              width: 240,
-              height: 110,
+              minWidth: 240,
               border: chargeStack.flag ? '1px solid #E4E6E8' : 0,
+              alignItems: 'end',
             }}
           >
-            <Col
-              span={chargeStack.flag ? 12 : 0}
-              style={{
-                padding: '8px 20px',
-              }}
+            <div
+              className="px20"
+              style={{ display: chargeStack.flag ? 'block' : 'none', marginRight: '-20px' }}
             >
               <LoadCSIcon />
               <div className={styles.desc}>
-                <span
-                  className={styles.title}
-                  style={{ fontSize: 12, width: 'auto', marginLeft: '-12px' }}
-                >
+                <span className={styles.title} style={{ fontSize: 12, width: 'auto' }}>
                   {formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })}(kW)：
                 </span>
                 <span className={styles.value} style={{ fontSize: 12 }}>
                   {chargeStack?.p ?? '--'}
                 </span>
               </div>
-            </Col>
-            <Col
-              span={!chargeStack.flag ? 24 : 12}
-              style={{
-                padding: '16px 20px',
-              }}
-            >
+            </div>
+
+            <div className="px20">
               <LoadOtherIcon
                 style={{
                   marginBottom: '2px',
@@ -275,8 +266,8 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                   </span>
                 </div>
               )}
-            </Col>
-          </Row>
+            </div>
+          </div>
           {['2'].includes(siteType) ? (
             <div
               style={{

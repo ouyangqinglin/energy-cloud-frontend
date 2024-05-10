@@ -144,7 +144,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.mainsPower',
+            id: 'siteMonitor.1001',
             defaultMessage: '市电功率',
           })}(kW)`,
           labelUnit: '/kW',
@@ -181,7 +181,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayPowerConsumption',
+            id: 'siteMonitor.1002',
             defaultMessage: '今日负载用电量',
           })}(kWh)`,
           labelUnit: '/kWh',
@@ -211,7 +211,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.powerConsumption',
+            id: 'siteMonitor.1003',
             defaultMessage: '负载用电功率',
           })}(kW)`,
           labelUnit: '/kW',

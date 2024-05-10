@@ -29,6 +29,13 @@ export const config: CardInfo[] = [
         }),
         field: 'pvAndEssAndChargePowerStationCount',
         value: 1,
+        show: (value, data) =>
+          value ||
+          (!data.pvAndEssPowerStationCount &&
+            !data.essAndChargePowerStationCount &&
+            !data.pvPowerStationCount &&
+            !data.essPowerStationCount &&
+            !data.chargePowerStationCount),
       },
       {
         label: formatMessage({
@@ -37,6 +44,7 @@ export const config: CardInfo[] = [
         }),
         field: 'pvAndEssPowerStationCount',
         value: 0,
+        show: (value) => value,
       },
       {
         label: formatMessage({
@@ -45,6 +53,7 @@ export const config: CardInfo[] = [
         }),
         field: 'essAndChargePowerStationCount',
         value: 0,
+        show: (value) => value,
       },
       {
         label: formatMessage({
@@ -53,6 +62,7 @@ export const config: CardInfo[] = [
         }),
         field: 'pvPowerStationCount',
         value: 0,
+        show: (value) => value,
       },
       {
         label: formatMessage({
@@ -61,6 +71,7 @@ export const config: CardInfo[] = [
         }),
         field: 'essPowerStationCount',
         value: 0,
+        show: (value) => value,
       },
       {
         label: formatMessage({
@@ -69,6 +80,7 @@ export const config: CardInfo[] = [
         }),
         field: 'chargePowerStationCount',
         value: 0,
+        show: (value) => value,
       },
     ],
   },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-02 16:06:43
- * @LastEditTime: 2023-12-02 16:13:14
+ * @LastEditTime: 2024-05-10 14:07:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\home.tsx
  */
@@ -43,12 +43,12 @@ const HomePage: React.FC = () => {
       await Promise.all([
         getPowerStationOverview(params).then((res) => {
           let originalData: Record<string, any> = {
-            pvAndEssAndChargePowerStationCount: '--',
-            pvAndEssPowerStationCount: '--',
-            essAndChargePowerStationCount: '--',
-            pvPowerStationCount: '--',
-            essPowerStationCount: '--',
-            chargePowerStationCount: '--',
+            pvAndEssAndChargePowerStationCount: '',
+            pvAndEssPowerStationCount: '',
+            essAndChargePowerStationCount: '',
+            pvPowerStationCount: '',
+            essPowerStationCount: '',
+            chargePowerStationCount: '',
           };
           switch (siteType) {
             case SiteTypeEnum.PV + '':
@@ -143,13 +143,15 @@ const HomePage: React.FC = () => {
         </div>,
       );
     });
-    if (4 < result.length && result.length < 8) {
-      const nextPageItems = result.slice(4, 8);
-      const fillPageItems = result.slice(4 - (4 - nextPageItems.length), 4);
-      return [...result.slice(0, 4), ...fillPageItems, ...nextPageItems];
+    const lastPageNum = result.length % slidesPerRow;
+    const preNum = result.length - lastPageNum;
+    if (lastPageNum) {
+      const lastPageItems = result.slice(preNum);
+      const fillPageItems = result.slice(preNum - (slidesPerRow - lastPageNum), preNum);
+      return [...result.slice(0, preNum), ...fillPageItems, ...lastPageItems];
     }
     return result;
-  }, [siteType, statistic]);
+  }, [siteType, statistic, slidesPerRow]);
 
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];
@@ -214,7 +216,7 @@ const HomePage: React.FC = () => {
       ) : (
         <></>
       )}
-      <Carousel className={styles.sliderWrapper} slidesPerRow={slidesPerRow}>
+      <Carousel className={styles.sliderWrapper} slidesToScroll={1} slidesPerRow={slidesPerRow}>
         {items}
       </Carousel>
       <Tabs className={styles.chartCard} items={tabsItem} />

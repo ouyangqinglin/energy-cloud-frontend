@@ -9,7 +9,7 @@ import moment from 'moment';
 import defaultSettings from '../../config/defaultSettings';
 
 export enum DeviceModelShowTypeEnum {
-  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button 8-线
+  // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button 8-线 9-表单元素
   Tile = 1,
   HideName,
   Grid,
@@ -18,6 +18,7 @@ export enum DeviceModelShowTypeEnum {
   Switch,
   Button,
   Line,
+  Form,
 }
 
 export enum DeviceModelDescribeTypeEnum {
