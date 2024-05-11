@@ -84,6 +84,8 @@ export default {
   'common.not': 'Not',
   'common.all': 'All',
   'common.del': 'Successfully Deleted',
+  'common.addSuccess': 'Successfully Added',
+  'common.editSuccess': 'Successfully edited',
   'common.unbind': 'Unbind',
   'common.unbindSuccess': 'Successfully Unbind',
   'common.createTime': 'Creation Time',

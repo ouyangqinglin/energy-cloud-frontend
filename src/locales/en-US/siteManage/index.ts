@@ -132,4 +132,8 @@ export default {
   'siteManage.set.energyStorageBatteryDischarge': 'Energy Storage Battery Discharge',
   'siteManage.set.energyStorageBatteryEnableDischarge': 'Energy Storage Battery Enable Discharge',
   'siteManage.set.storageBatteryRealtimePower': 'Storage Battery Realtime Power',
+
+  'siteManage.unitName': 'Unit Name',
+  'siteManage.electricityMeter': 'Electricity Meter',
+  'siteManage.unitManage': 'ESS Unit Manage',
 };

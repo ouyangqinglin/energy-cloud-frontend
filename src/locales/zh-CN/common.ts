@@ -92,6 +92,8 @@ export default {
   'common.not': '无',
   'common.all': '全部',
   'common.del': '删除成功',
+  'common.addSuccess': '新增成功',
+  'common.editSuccess': '修改成功',
   'common.createTime': '创建时间',
   'common.deliveryTime': '交付时间',
   'common.lastPer': '最后更新人',

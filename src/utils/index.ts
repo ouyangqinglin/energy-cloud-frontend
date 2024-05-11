@@ -499,4 +499,7 @@ export const initLocale = (userLocale?: string) => {
   }
 };
 
-export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);
+export const getUniqueNumber = (digit = 13) =>
+  Math.random()
+    .toString(36)
+    .substring(2, 2 + digit);

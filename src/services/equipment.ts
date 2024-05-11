@@ -226,6 +226,27 @@ export const getSiteDeviceTree = (params: any) => {
   });
 };
 
+export const optionalDeviceList = (params: any) => {
+  return request(`/iot/es/optionalDeviceList`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const unitDeviceList = (params: any) => {
+  return request(`/iot/es/unitDeviceList`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const updataUnitDeviceList = (data: any) => {
+  return request(`/iot/es/unitDeviceList`, {
+    method: 'POST',
+    data,
+  });
+};
+
 export const getDeviceCollection = (params: any) => {
   return request('/iot/siteSystemConfiguration/dataSource/deviceParamList', {
     method: 'GET',

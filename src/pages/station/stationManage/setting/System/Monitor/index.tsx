@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Collapse, Switch, Modal, message, Divider, Table, Button } from 'antd';
+import { Collapse, Switch, Modal, message, Divider, Table, Button, Input } from 'antd';
 import { useToggle } from 'ahooks';
 import type { TableColumnProps } from 'antd';
 import type { ProColumns } from '@ant-design/pro-components';
@@ -9,6 +9,7 @@ import styles from './index.less';
 import { TableTreeModal, SelectTypeEnum } from '@/components/TableSelect';
 import type { dealTreeDataType } from '@/components/TableSelect';
 import { getDeviceTree, getDeviceCollection } from '@/services/equipment';
+import EnergyUnitManage from './UnitManage';
 import type {
   TreeDataType,
   MonitorDataType,
@@ -19,6 +20,7 @@ import type {
 import { useAuthority } from '@/hooks';
 import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
 import { formatMessage } from '@/utils';
+import { cloneDeep } from 'lodash';
 type CollectionChartType = {
   deviceTree: boolean;
 };
@@ -71,6 +73,9 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         area: monitorTypeMap.get(type)?.data[index].area || '',
         type: type,
         span: 1,
+        maximumLoadOfTransformer: {},
+        esMap: '--',
+        esMapData: [],
       });
     } else {
       data[0].project = monitorTypeMap.get(type)?.data[index].name;
@@ -172,7 +177,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
 
   const onChange = useCallback(
     (selectedData) => {
-      const rowData: MonitorDataType[] = selectedData.map((item: any) => {
+      const rowData: MonitorDataType[] = selectedData.map((item: any, t: number) => {
         return {
           id: item[valueMap.valueId],
           rowId: selectedRow.type + item[valueMap.valueId],
@@ -187,6 +192,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           sn: item?.node?.deviceSN,
           area: selectedRow.area,
           type: selectedRow.type,
+          esMap: selectedRow.esMapData?.[t] || '--',
         };
       });
       bingData(rowData, selectedRow.type, areaMap.get(selectedRow.area) || 0);
@@ -231,6 +237,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         selectName: (item.id + '').indexOf('noData') === -1 ? item.id : '',
         type: monitorTypeMap.get(item.type)?.type,
         subType: monitorTypeMap.get(item.type)?.data[areaMap.get(item.area) || 0].subType,
+        maximumLoadOfTransformer: item.maximumLoadOfTransformer,
       });
     });
     runEditConfig(data).then((result) => {
@@ -298,7 +305,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           }
           item.data.forEach((row, index) => {
             const rowData =
-              data?.[item.type]?.valueMap?.[row.subType]?.map?.((record: any) => {
+              data?.[item.type]?.valueMap?.[row.subType]?.map?.((record: any, t: number) => {
                 return {
                   id: row.area == 'elec' ? record.deviceId : record?.selectName,
                   rowId: row.area == 'elec' ? record.deviceId : record?.selectName,
@@ -313,6 +320,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
                   sn: record?.deviceSN,
                   area: row.area,
                   type: type,
+                  maximumLoadOfTransformer: record?.maximumLoadOfTransformer || {},
+                  esMap: data?.[item.type]?.esMap?.[row.subType]?.[t]?.groupName || '--',
+                  esMapData: data?.[item.type]?.esMap?.[row.subType]?.map(
+                    (es: any) => es.groupName,
+                  ),
                 };
               }) || [];
             bingData(rowData, type, index);
@@ -325,7 +337,19 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     }
   }, [siteId]);
 
-  const columns: TableColumnProps<MonitorDataType>[] = [
+  const setMaximumLoadOfTransformer = (
+    record: MonitorDataType,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const cloneAllData = cloneDeep(allTableData);
+    const index = cloneAllData[record.type][record.area].findIndex(
+      (i: any) => i.rowId == record.id,
+    );
+    cloneAllData[record.type][record.area][index].maximumLoadOfTransformer.value = e.target.value;
+    setAllTableData(cloneAllData);
+  };
+
+  const columns = (key: string): TableColumnProps<MonitorDataType>[] => [
     {
       title: formatMessage({ id: 'siteManage.set.monitorItem', defaultMessage: '监测项目' }),
       dataIndex: 'project',
@@ -337,6 +361,20 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       width: 100,
       ellipsis: true,
     },
+    //储能监测加储能单元
+    ...(key == 'energy'
+      ? [
+          {
+            title: `${formatMessage({
+              id: 'siteMonitor.energyStorageUnit',
+              defaultMessage: '储能单元',
+            })}（kW）`,
+            dataIndex: 'esMap',
+            width: 150,
+            ellipsis: true,
+          },
+        ]
+      : []),
     {
       title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
@@ -367,6 +405,35 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
       width: 150,
       ellipsis: true,
     },
+    ...(key == 'electric'
+      ? [
+          {
+            title: `${formatMessage({
+              id: 'device.maximumLoadOfTransformer',
+              defaultMessage: '变压器最大功率',
+            })}（kW）`,
+            dataIndex: 'maximumLoadOfTransformer',
+            width: 150,
+            render: (_, record: MonitorDataType) => {
+              const value = record.maximumLoadOfTransformer?.value || '';
+              return authorityMap.get('iot:siteConfig:deviceTree') &&
+                record.maximumLoadOfTransformer?.editable ? (
+                <Input
+                  value={value}
+                  onChange={(e) => setMaximumLoadOfTransformer(record, e)}
+                  placeholder={formatMessage({
+                    id: 'common.pleaseEnter',
+                    defaultMessage: '请输入',
+                  })}
+                />
+              ) : (
+                value
+              );
+            },
+            ellipsis: true,
+          },
+        ]
+      : []),
   ];
 
   const panelData = [
@@ -442,8 +509,9 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           }
         >
           <Divider className="mt0" />
+          {item.key == 'energy' ? <EnergyUnitManage /> : ''}
           <Table
-            columns={columns}
+            columns={columns(item.key)}
             dataSource={[
               ...allTableData[item.key].row1,
               ...allTableData[item.key].row2,
