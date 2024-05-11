@@ -14,6 +14,7 @@ export type CardInfoItem = {
   field?: keyof AllCardRes;
   render?: (data: AllCardRes) => ReactNode;
   value?: number;
+  show?: (value: any, data: Record<string, any>) => boolean;
 };
 
 export interface AllCardRes

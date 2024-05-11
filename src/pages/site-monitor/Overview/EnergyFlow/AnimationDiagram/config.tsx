@@ -73,7 +73,7 @@ export const paths = (
           repeat: 5,
           path: 'M 155 158 L 155 5',
           reverse: load.direction === -1 || chargingStation?.direction === 1,
-          hide: load?.direction === 0 || chargingStation?.direction === 0,
+          hide: load?.direction === 0 && chargingStation?.direction === 0,
           style: { top: '32px', left: '-6px' },
         },
       ];

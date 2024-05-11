@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-25 16:12:14
+ * @LastEditTime: 2024-05-10 16:31:18
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -45,44 +45,19 @@ const Electric: React.FC<ComProps> = (props) => {
     setDate(value || moment());
   }, []);
 
-  const options = useMemo(() => {
-    const result: Record<string, any> = {};
-    result.tooltip = {
-      formatter: (params: any) => {
-        const data0 = params?.[0]?.data;
-        const data1 = params?.[1]?.data;
-        return `<div>
-          ${
-            chartType == chartTypeEnum.Day
-              ? data0[0] +
-                '-' +
-                moment('2023-01-01 ' + data0[0])
-                  .add(1, 'h')
-                  .format('HH:mm')
-              : data0[0]
-          }
-        <div>
-          <div>${formatMessage({
-            id: 'siteMonitor.allCharge',
-            defaultMessage: '总充电量',
-          })}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
-          <div>${formatMessage({
-            id: 'siteMonitor.allDisharge',
-            defaultMessage: '总放电量',
-          })}：<span style="font-weight: bold;">${getPlaceholder(data1[2])}</span></div>
-        </div>
-      </div>`;
-      },
-    };
-    return merge({}, chartOption, result);
-  }, [chartType]);
-
   useEffect(() => {
     setChartData([]);
     setStatisInfo({});
     if (
       deviceData?.deviceId &&
-      (!deviceData?.productTypeId || deviceData?.productTypeId == DeviceProductTypeEnum.Energy)
+      (!deviceData?.productTypeId ||
+        [
+          DeviceProductTypeEnum.Energy,
+          DeviceProductTypeEnum.PvEnergy,
+          DeviceProductTypeEnum.SmallEnergy,
+          DeviceProductTypeEnum.WindPvFirewoodEnergy,
+          DeviceProductTypeEnum.BEnergy,
+        ].includes(deviceData?.productTypeId))
     ) {
       const totalNum = chartTypeEnum.Month == chartType ? 7 : 4;
       let dates: { start: Moment; end: Moment }[] = [];
@@ -143,10 +118,12 @@ const Electric: React.FC<ComProps> = (props) => {
         {
           name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
           data: [],
+          unit: 'kWh',
         },
         {
           name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
           data: [],
+          unit: 'kWh',
         },
       ];
       const totalResult = {
@@ -246,7 +223,7 @@ const Electric: React.FC<ComProps> = (props) => {
         <TypeChart
           type={chartType}
           date={date}
-          option={options}
+          option={chartOption}
           data={chartData}
           step={60}
           allLabel={allLabel}

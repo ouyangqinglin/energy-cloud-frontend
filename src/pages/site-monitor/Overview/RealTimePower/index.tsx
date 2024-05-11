@@ -56,14 +56,17 @@ const RealTimePower: React.FC<PowerType> = (props) => {
       {
         name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
         data: [],
+        unit: 'kW',
       },
       {
         name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
         data: [],
+        unit: 'kW',
       },
       {
         name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
         data: [],
+        unit: 'kW',
       },
     ];
     powerData?.me?.data?.forEach?.((item) => {

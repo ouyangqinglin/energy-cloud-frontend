@@ -10,6 +10,7 @@ const EnergyFlow = ({ siteId, siteType }: { siteId?: number; siteType: string })
       <div className={styles.content}>
         <SystemDiagram siteId={siteId} siteType={siteType} />
       </div>
+      {/* <VideoCameraAddOutlined /> */}
     </RowBox>
   );
 };

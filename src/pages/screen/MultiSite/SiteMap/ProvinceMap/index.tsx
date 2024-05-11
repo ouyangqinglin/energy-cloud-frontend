@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-05 09:43:40
- * @LastEditTime: 2023-12-13 11:16:26
+ * @LastEditTime: 2024-05-11 14:02:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\ProvinceMap\index.tsx
  */
@@ -112,6 +112,11 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
       setMapLoadingTrue();
       if (link) {
         request(link).then((provinceRes) => {
+          provinceRes?.features?.forEach?.((features: any) => {
+            if (features?.properties?.name) {
+              features.properties.name = formatMessage({ id: features.properties.name });
+            }
+          });
           echarts.registerMap('' + adCode, provinceRes);
           const provinceGeoData = getProvinceGeoByAdCode(adCode, chinaData);
           echarts.registerMap('Outline' + adCode, provinceGeoData);

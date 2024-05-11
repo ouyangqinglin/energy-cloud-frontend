@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-04-15 15:46:05
+ * @LastEditTime: 2024-05-10 09:33:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -62,12 +62,15 @@ export enum DeviceProductTypeEnum {
   ElectricMeter = 539,
   LocalEms = 541,
   EnergyElectricMeter = 542,
-  PvEnergy = 543,
   Dehumidifier = 544,
   FireFight = 545,
   ChargeMaster = 546,
   ChargeTerminal = 547,
   Dynamo = 548,
+  PvEnergy = 549,
+  SmallEnergy = 550,
+  WindPvFirewoodEnergy = 551,
+  BEnergy = 553,
 }
 
 export enum DeviceTypeEnum {
@@ -132,9 +135,8 @@ export enum DeviceTypeEnum {
   Liquid2InverterMeter = 96,
   Liquid2Energy = 97,
   Wind2EnergyEms = 98,
-  Wind2BatteryStack = 106,
-  Liquid2BatteryStack = 107,
   Wind2Energy = 105,
+  Wind2BatteryStack = 106,
   Liquid2EnergyBatteryCluster = 107,
   ChargeY602 = 108,
   SmallEnergy = 109,
@@ -228,6 +230,7 @@ export enum DeviceTypeEnum {
   Charge3201Master = 207,
   Charge3202Master = 208,
   Charge4002Master = 209,
+  Liquid2Battery16 = 224,
   Device = 'default',
 }
 

@@ -2,37 +2,39 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 11:28:24
- * @LastEditTime: 2023-08-01 14:24:08
+ * @LastEditTime: 2024-05-10 16:19:12
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\Chart\Line\config.ts
+ * @FilePath: \energy-cloud-frontend\src\components\Chart\TypeChart\config.ts
  */
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { chartTypeEnum } from '../config';
 
-const getAllMinute = (step = 2) => {
+const getAllMinute = (step = 2, hourRange: boolean) => {
   return Array.from({ length: (24 * 60) / step }).map((_, index) => {
-    return moment()
+    const time = moment()
       .startOf('day')
-      .add(index * step, 'minute')
-      .format('HH:mm');
+      .add(index * step, 'minute');
+    return hourRange && step == 60
+      ? `${time.format('HH:mm')}-${time.add(1, 'h').format('HH:mm')}`
+      : time.format('HH:mm');
   });
 };
 
 const getAllDay = (date: Moment) => {
   return Array.from({ length: moment(date).daysInMonth() }).map((_, index) => {
-    return index + 1 + '';
+    return moment(date).startOf('M').add(index, 'd').format('YYYY-MM-DD');
   });
 };
 
-const getAllMonth = () => {
+const getAllMonth = (date: Moment) => {
   return Array.from({ length: 12 }).map((_, index) => {
-    return index + 1 + '';
+    return moment(date).startOf('y').add(index, 'M').format('YYYY-MM');
   });
 };
 
 export const typeMap = new Map([
   [chartTypeEnum.Day, { format: 'HH:mm', fun: getAllMinute }],
-  [chartTypeEnum.Month, { format: 'D', fun: getAllDay }],
-  [chartTypeEnum.Year, { format: 'M', fun: getAllMonth }],
+  [chartTypeEnum.Month, { format: 'YYYY-MM-DD', fun: getAllDay }],
+  [chartTypeEnum.Year, { format: 'YYYY-MM', fun: getAllMonth }],
 ]);

@@ -7,7 +7,7 @@ export default {
   'common.detail': 'Detail',
   'common.productType': 'Product Type',
   'common.model': 'Product Model',
-  'common.screen': 'Screen',
+  'common.screen': 'Fscreen',
   'common.screenArchitecture': 'Large Screen Architecture Diagram',
   'common.alarmDisplayConfiguration': 'Alarm Display Configuration',
   'common.time.day': 'Day',
@@ -142,7 +142,7 @@ export default {
   'common.notificationPerson': 'Notifier',
   'common.selectNotificationPerson': 'Please select a notifier',
   'common.notConfigured': 'Not Configured',
-  'common.onLine': 'On line',
+  'common.onLine': 'Online',
   'common.offline': 'Offline',
   'common.rmb': '￥',
   'common.more': 'More',
@@ -252,4 +252,7 @@ export default {
   'common.requestError': 'Request Error',
   'common.passwordResetSuccessful': 'Password Reset Successful',
   'common.passwordinconsistency': 'The two password inputs are inconsistent',
+
+  'common.yes': 'Yes',
+  'common.no': 'No',
 };

@@ -2,7 +2,7 @@
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export default {
@@ -32,4 +32,9 @@ export default {
   'icon.selector.tab.data': '数据类图标',
   'icon.selector.tab.logo': '品牌和标识',
   'icon.selector.tab.other': '网站通用图标',
+  'system.Menu.catalog': '目录',
+  'system.Menu.menu': '菜单',
+  'system.Menu.button': '按钮',
+  'system.Menu.cache': '缓存',
+  'system.Menu.noCache': '不缓存',
 };

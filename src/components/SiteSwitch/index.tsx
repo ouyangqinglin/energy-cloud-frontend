@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-05 14:50:51
- * @LastEditTime: 2024-02-29 14:13:59
+ * @LastEditTime: 2024-05-09 18:07:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SiteSwitch\index.tsx
  */
 import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
-import { useModel } from 'umi';
+import { useModel, useRequest } from 'umi';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-form';
 import SchemaForm, { SchemaFormProps } from '@/components/SchemaForm';
 import { useLocation, useSiteColumn } from '@/hooks';
@@ -37,6 +37,20 @@ const SiteSwitch = <ValueType = 'text',>(
   const { setInitialState } = useModel('@@initialState');
   const formRef = useRef<ProFormInstance>();
   const location = useLocation();
+  const promiseRef = useRef<Promise<string>>();
+  const { data: siteTypeOptions, run } = useRequest(getSiteType, {
+    manual: true,
+    formatResult({ data }) {
+      return (
+        data?.map?.((item) => {
+          return {
+            value: item.value || '',
+            label: item.name,
+          };
+        }) || []
+      );
+    },
+  });
 
   const changeSite = useCallback(
     (data: SiteDataType, type?: string) => {
@@ -92,17 +106,6 @@ const SiteSwitch = <ValueType = 'text',>(
 
   const [siteColumn, siteOptions] = useSiteColumn<SiteType, ValueType>(siteColumnOption);
 
-  const requestSiteType = useCallback(() => {
-    return getSiteType().then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          value: item.value || '',
-          label: item.name,
-        };
-      });
-    });
-  }, []);
-
   const siteOptionsMap = useMemo<Record<string, SiteDataType>>(() => {
     const result = {};
     siteOptions?.forEach((item) => {
@@ -139,15 +142,27 @@ const SiteSwitch = <ValueType = 'text',>(
   );
 
   useEffect(() => {
+    promiseRef.current = new Promise((resolve) => {
+      run().then(() => {
+        resolve('');
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     if (siteOptions?.[0]) {
       const localSiteId = localStorage.getItem('siteId');
-      const localSite = siteOptions?.find?.(item => item.value == localSiteId);
+      const localSite = siteOptions?.find?.((item) => item.value == localSiteId);
       if (localSite) {
         formRef?.current?.setFieldValue?.('siteId', localSite.value);
-        changeSite(localSite, '');
+        promiseRef?.current?.then?.(() => {
+          changeSite(localSite, siteTypeOptions?.[0]?.value ?? '');
+        });
       } else {
         formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
-        changeSite(siteOptions[0], '');
+        promiseRef?.current?.then?.(() => {
+          changeSite(siteOptions[0], siteTypeOptions?.[0]?.value ?? '');
+        });
       }
     }
   }, [siteOptions]);
@@ -166,8 +181,10 @@ const SiteSwitch = <ValueType = 'text',>(
         title: formatMessage({ id: 'common.site.siteType', defaultMessage: '站点类型' }),
         dataIndex: 'siteType',
         valueType: 'select',
-        request: requestSiteType,
         readonly: true,
+        fieldProps: {
+          options: siteTypeOptions,
+        },
         hideInForm:
           location?.pathname?.indexOf?.('/index/station') > -1 ||
           location?.pathname?.indexOf?.('/station/station-list') > -1,
@@ -176,16 +193,16 @@ const SiteSwitch = <ValueType = 'text',>(
         title: formatMessage({ id: 'common.site.siteType', defaultMessage: '站点类型' }),
         dataIndex: 'type',
         valueType: 'select',
-        request: requestSiteType,
         width: 200,
         fieldProps: {
           allowClear: false,
           onChange: onSiteTypeChange,
+          options: siteTypeOptions,
         },
         hideInForm: location?.pathname?.indexOf?.('/site-monitor') > -1,
       },
     ];
-  }, [siteColumn, onSiteTypeChange, location]);
+  }, [siteColumn, onSiteTypeChange, location, siteTypeOptions]);
 
   return (
     <>

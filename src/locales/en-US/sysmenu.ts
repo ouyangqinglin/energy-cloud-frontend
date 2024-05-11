@@ -32,4 +32,9 @@ export default {
   'icon.selector.tab.data': 'Data',
   'icon.selector.tab.logo': 'Branding And Identity',
   'icon.selector.tab.other': 'Website General',
+  'system.Menu.catalog': 'Catalog',
+  'system.Menu.menu': 'Menu',
+  'system.Menu.button': 'Button',
+  'system.Menu.cache': 'Cache',
+  'system.Menu.noCache': 'No Cache',
 };

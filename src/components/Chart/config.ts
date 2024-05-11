@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2024-04-23 17:13:00
+ * @LastEditTime: 2024-05-10 15:37:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -32,7 +32,7 @@ export const defaultLineOption: any = {
   grid: {
     left: 10,
     top: 60,
-    right: 10,
+    right: 25,
     bottom: 10,
     containLabel: true,
   },

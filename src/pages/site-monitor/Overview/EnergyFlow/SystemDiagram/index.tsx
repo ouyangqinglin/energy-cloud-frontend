@@ -1,9 +1,8 @@
-import { ReactComponent as SVGStatic } from './svg/SVGStatic.svg';
-import { ReactComponent as SVGStatic23 } from './svg/SVGStatic23.svg';
 import { ReactComponent as SVGStaticUp } from './svg/SVGStatic3.svg';
 import { ReactComponent as SVGT } from './svg/svgT.svg';
 import { ReactComponent as SVGX } from './svg/svgX.svg';
 import IconDot from './svg/dot.png';
+import IconDot25 from './svg/dot2.5.png';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
 import styles from './index.less';
@@ -54,7 +53,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
         setSvgLine(
           <>
             <SVGX style={{ width: 248, height: 179, marginLeft: 102, marginTop: 40 }} />
-            <img className={styles.dot} src={IconDot} style={{ top: 117, left: 213 }} />
+            <img className={styles.dot} src={IconDot25} style={{ top: 120, left: 211 }} />
           </>,
         );
     }

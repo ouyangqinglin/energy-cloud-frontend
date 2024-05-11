@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 14:40:05
- * @LastEditTime: 2024-04-22 16:58:07
+ * @LastEditTime: 2024-05-10 17:49:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\components\Trend\index.tsx
  */
@@ -40,64 +40,6 @@ const Trend: React.FC<PowerType> = (props) => {
     pollingInterval: 60 * 60 * 1000,
   });
 
-  const chartOptions = useMemo(() => {
-    const result: Record<string, any> = {};
-    result.tooltip = {
-      formatter: (params: any) => {
-        const data0 = params?.[0]?.data;
-        const data1 = params?.[1]?.data;
-        const data2 = params?.[2]?.data;
-        const data3 = params?.[3]?.data;
-        return `<div>
-          ${
-            chartType == chartTypeEnum.Day
-              ? data0[0] +
-                '-' +
-                moment('2023-01-01 ' + data0[0])
-                  .add(1, 'h')
-                  .format('HH:mm')
-              : data0[0]
-          }
-          <div>
-            <div><span class="chart-series-icon chart-series-icon-rect" style="background-color: ${
-              params[0]?.color
-            };"></span>${formatMessage({
-          id: 'device.numberOfChargingOrders',
-          defaultMessage: '充电订单数',
-        })}${getUnit(
-          formatMessage({ id: 'siteMonitor.order', defaultMessage: '单' }),
-        )}：<span style="font-weight: bold;">${getPlaceholder(data0[1])}</span></div>
-            <div><span class="chart-series-icon chart-series-icon-rect" style="background-color: ${
-              params[1]?.color
-            };"></span>${formatMessage({
-          id: 'device.chargeDuration',
-          defaultMessage: '充电时长',
-        })}${getUnit(
-          formatMessage({ id: 'device.hour', defaultMessage: '小时' }),
-        )}：<span style="font-weight: bold;">${getPlaceholder(data1[2])}</span></div>
-            <div><span class="chart-series-icon chart-series-icon-rect" style="background-color: ${
-              params[2]?.color
-            };"></span>${formatMessage({
-          id: 'device.chargingCapacity',
-          defaultMessage: '充电量',
-        })}${getUnit('kWh')}：<span style="font-weight: bold;">${getPlaceholder(
-          data2[3],
-        )}</span></div>
-            <div><span class="chart-series-icon chart-series-icon-rect" style="background-color: ${
-              params[3]?.color
-            };"></span>${formatMessage({
-          id: 'device.chargingFee',
-          defaultMessage: '充电费用',
-        })}${getUnit(
-          formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
-        )}：<span style="font-weight: bold;">${getPlaceholder(data3[4])}</span></div>
-          </div>
-        </div>`;
-      },
-    };
-    return merge(result, options);
-  }, [chartType]);
-
   const onChange = useCallback((value: Moment | null) => {
     setDate(value || moment());
   }, []);
@@ -121,18 +63,22 @@ const Trend: React.FC<PowerType> = (props) => {
       {
         name: formatMessage({ id: 'device.numberOfChargingOrders', defaultMessage: '充电订单数' }),
         data: [],
+        unit: formatMessage({ id: 'siteMonitor.order', defaultMessage: '单' }),
       },
       {
         name: formatMessage({ id: 'device.chargeDuration', defaultMessage: '充电时长' }),
         data: [],
+        unit: formatMessage({ id: 'device.hour', defaultMessage: '小时' }),
       },
       {
         name: formatMessage({ id: 'device.chargingCapacity', defaultMessage: '充电量' }),
         data: [],
+        unit: 'kWh',
       },
       {
         name: formatMessage({ id: 'device.chargingFee', defaultMessage: '充电费用' }),
         data: [],
+        unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
       },
     ];
     powerData?.list?.forEach?.((item) => {
@@ -157,7 +103,7 @@ const Trend: React.FC<PowerType> = (props) => {
         <div>
           <Detail items={detailItems} data={powerData} column={2} unitInLabel />
         </div>
-        <TypeChart step={60} type={chartType} date={date} option={chartOptions} data={chartData} />
+        <TypeChart step={60} type={chartType} date={date} option={options} data={chartData} />
       </div>
     </>
   );

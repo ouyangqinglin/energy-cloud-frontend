@@ -23,14 +23,19 @@ const SliderCard = ({ config, data }: { config: CardInfo; data: AllCardRes }) =>
           </div>
         </div>
         <Row gutter={16} className={styles.detail}>
-          {config.items.map(({ label, field, render }) => (
-            <Col span={8} key={label} className={styles.detailItem}>
-              <Tooltip title={label}>
-                <div className={styles.ellipsis}>{label}：</div>
-              </Tooltip>
-              {render ? render(data) : <span>{keepTwoDecimalWithUnit(data?.[field])}</span>}
-            </Col>
-          ))}
+          {config.items.map(({ label, field, show, render }) => {
+            const isShow = show ? show(data?.[field], data) : true;
+            return (
+              !!isShow && (
+                <Col span={8} key={label} className={styles.detailItem}>
+                  <Tooltip title={label}>
+                    <div className={styles.ellipsis}>{label}：</div>
+                  </Tooltip>
+                  {render ? render(data) : <span>{keepTwoDecimalWithUnit(data?.[field])}</span>}
+                </Col>
+              )
+            );
+          })}
         </Row>
         {/* <div className={styles.detail}>
           {config.items.map(({ label, field }) => (

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-04-17 15:28:56
+ * @LastEditTime: 2024-05-08 17:15:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -32,6 +32,7 @@ const LiquidEnergyBatteryProductIds = [
   DeviceTypeEnum.LiquidEnergyBatteryStack,
   DeviceTypeEnum.Liquid2EnergyBatteryCluster,
   DeviceTypeEnum.LiquidEnergy232BatteryPack,
+  DeviceTypeEnum.Liquid2Battery16,
 ];
 
 const BmuTabs: React.FC<BmuTabsType> = memo((props) => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2024-04-30 09:07:11
+ * @LastEditTime: 2024-05-08 17:51:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -42,7 +42,7 @@ export default {
   'siteManage.set.operateManagement': 'Operation Management',
   'siteManage.set.systemParameterSet': 'System Parameter Setting',
   'siteManage.set.electricPriceManagement': 'Electricity Price Management',
-  'siteManage.set.configLog': 'Configuration Log',
+  'siteManage.set.configLog': 'Config Log',
   'siteManage.set.siteComplete': 'Site Completed',
   'siteManage.set.statusInformation': 'Status Information',
   'siteManage.set.confirmCompleteTitle': 'Completion Confirm',

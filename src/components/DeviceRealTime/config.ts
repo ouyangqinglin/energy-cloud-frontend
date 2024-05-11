@@ -29,6 +29,10 @@ export const deviceProductTypeMap: Record<
   }
 > = {
   [DeviceProductTypeEnum.Energy]: { component: 'Energy' },
+  [DeviceProductTypeEnum.PvEnergy]: { component: 'Energy' },
+  [DeviceProductTypeEnum.SmallEnergy]: { component: 'Energy' },
+  [DeviceProductTypeEnum.WindPvFirewoodEnergy]: { component: 'Energy' },
+  [DeviceProductTypeEnum.BEnergy]: { component: 'Energy' },
 };
 
 export const deviceRealTimeMap: any = {

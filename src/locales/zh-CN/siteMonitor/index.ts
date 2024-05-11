@@ -349,4 +349,7 @@ export default {
   'siteMonitor.chargingGunReal-TimeStatus': '充电枪实时状态',
   'siteMonitor.electricityStatistics': '电量统计',
   'siteMonitor.order': '单',
+  'siteMonitor.1001': '市电功率',
+  'siteMonitor.1002': '今日负载用电量',
+  'siteMonitor.1003': '负载用电功率',
 };
