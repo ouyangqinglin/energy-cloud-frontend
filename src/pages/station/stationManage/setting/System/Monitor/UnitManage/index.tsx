@@ -112,7 +112,7 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
 
   const onSaveClick = () => {
     const groups = energyData.map((item) => {
-      const deviceIds = item.esDevices.map((i: any) => i.deviceId);
+      const deviceIds = item.esDevices.filter((i: any) => i.deviceId).map((i: any) => i.deviceId);
       return {
         groupId: item.isAdd ? '' : item.groupId,
         groupName: item.groupName,
