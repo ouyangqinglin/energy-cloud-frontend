@@ -5,7 +5,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110101,
-        "name": "map.am.dongcheng",
+        "name": "map.1001",
         "center": [
           116.418757,
           39.917544
@@ -247,7 +247,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110102,
-        "name": "map.am.xicheng",
+        "name": "map.1002",
         "center": [
           116.366794,
           39.915309
@@ -449,7 +449,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110105,
-        "name": "map.am.chaoyang",
+        "name": "map.1003",
         "center": [
           116.486409,
           39.921489
@@ -1275,7 +1275,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110106,
-        "name": "map.am.fengtai",
+        "name": "map.1004",
         "center": [
           116.286968,
           39.863642
@@ -2053,7 +2053,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110107,
-        "name": "map.am.shijingshan",
+        "name": "map.1005",
         "center": [
           116.195445,
           39.914601
@@ -2355,7 +2355,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110108,
-        "name": "map.am.haidian",
+        "name": "map.1006",
         "center": [
           116.310316,
           39.956074
@@ -3049,7 +3049,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110109,
-        "name": "map.am.mentougou",
+        "name": "map.1007",
         "center": [
           116.105381,
           39.937183
@@ -4239,7 +4239,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110111,
-        "name": "map.am.fangshan",
+        "name": "map.1008",
         "center": [
           116.139157,
           39.735535
@@ -5813,7 +5813,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110112,
-        "name": "通州区",
+        "name": "map.1009",
         "center": [
           116.658603,
           39.902486
@@ -7063,7 +7063,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110113,
-        "name": "顺义区",
+        "name": "map.1010",
         "center": [
           116.653525,
           40.128936
@@ -8225,7 +8225,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110114,
-        "name": "昌平区",
+        "name": "map.1011",
         "center": [
           116.235906,
           40.218085
@@ -9563,7 +9563,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110115,
-        "name": "大兴区",
+        "name": "map.1012",
         "center": [
           116.338033,
           39.728908
@@ -10973,7 +10973,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110116,
-        "name": "怀柔区",
+        "name": "map.1013",
         "center": [
           116.637122,
           40.324272
@@ -13111,7 +13111,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110117,
-        "name": "平谷区",
+        "name": "map.1014",
         "center": [
           117.112335,
           40.144783
@@ -14125,7 +14125,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110118,
-        "name": "密云区",
+        "name": "map.1015",
         "center": [
           116.843352,
           40.377362
@@ -15859,7 +15859,7 @@
       "type": "Feature",
       "properties": {
         "adcode": 110119,
-        "name": "延庆区",
+        "name": "map.1016",
         "center": [
           115.985006,
           40.465325
