@@ -1,7 +1,9 @@
 import { get as requestGet, post as requestPost } from '@/utils/request';
-import type { ProTableProps } from '@ant-design/pro-components';
+import type { ProColumns, ProTableProps } from '@ant-design/pro-components';
 import { get, isEmpty, merge } from 'lodash';
 import type { EmitType, YTProColumns, YTProTableCustomProps } from './typing';
+import { dateFormatMap } from '@/utils/dictionary';
+import moment from 'moment';
 
 export const normalizeRequestOption = <D, V>(
   columns: YTProColumns<D & EmitType, V>[] | undefined,
@@ -150,4 +152,48 @@ export const calculateColumns = <D, P>(
     }
     delete columns[lastNotFixedColumnIndex].width;
   }
+};
+
+const dateTypes = ['date', 'dateTime'];
+const dateRangeTypes = ['dateRange', 'dateTimeRange'];
+
+export const dateFormat = (data: Record<string, any>, columns?: ProColumns<any, any>[]) => {
+  columns?.forEach?.((col) => {
+    if (col?.valueType && col.dataIndex && typeof col.dataIndex == 'string') {
+      if (dateTypes.includes(col.valueType)) {
+        const format = dateFormatMap[col.valueType];
+        const value = data?.[col.dataIndex];
+        if (format && value) {
+          data[col.dataIndex] = moment(value).format(format);
+        }
+      } else if (dateRangeTypes.includes(col.valueType)) {
+        const type = col.valueType;
+        const format = dateFormatMap[type.replace('Range', '')];
+
+        if (format && data?.[col.dataIndex]) {
+          const valueArr = data?.[col.dataIndex]?.map?.((value: any) => {
+            let result = value;
+            if (result && typeof result === 'string') {
+              result = moment(result).format(format);
+            }
+            return result;
+          });
+          data[col.dataIndex] = valueArr;
+        }
+
+        if (col?.search) {
+          const result = col?.search?.transform?.([], '', []);
+          if (typeof result == 'object') {
+            Object.keys(result).forEach((key) => {
+              const value = data?.[key];
+              if (value && format) {
+                data[key] = moment(value).format(format);
+              }
+            });
+          }
+        }
+      }
+    }
+  });
+  return data;
 };

@@ -4,7 +4,12 @@ import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProColumns, YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
-import { calculateColumns, normalizeRequestOption, standardRequestTableData } from './helper';
+import {
+  dateFormat,
+  calculateColumns,
+  normalizeRequestOption,
+  standardRequestTableData,
+} from './helper';
 import styles from './index.less';
 import useToolBarRender from './useToolBarRender';
 import useTableSize from './useTableSize';
@@ -67,6 +72,13 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request, props.expandable);
 
+  const beforeSearchSubmit = useCallback(
+    (data) => {
+      return dateFormat(data, columns);
+    },
+    [columns],
+  );
+
   const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed, extraHeight);
 
   const { resizableColumns, components, tableWidth } = useAntdColumnResize(() => {
@@ -108,6 +120,7 @@ const YTProTable = <
         request={standardRequest}
         rowKey={rowKey}
         className={styles.ytTable + ' ' + className}
+        beforeSearchSubmit={beforeSearchSubmit}
         {...restProps}
         scroll={{
           x: resizable ? tableWidth : scrollX,

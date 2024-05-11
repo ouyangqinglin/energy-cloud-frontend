@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-05-10 09:33:01
+ * @LastEditTime: 2024-05-11 14:34:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -527,4 +527,11 @@ export const vehicleType = {
 
 export const chargeType = {
   0: { text: '换电站充电' },
+};
+
+export const dateFormatMap: Record<string, string> = {
+  dateTime: 'YYYY-MM-DD HH:mm', // 不要加秒
+  dateTimeSecond: 'YYYY-MM-DD HH:mm:ss',
+  date: 'YYYY-MM-DD',
+  month: 'YYYY-MM',
 };

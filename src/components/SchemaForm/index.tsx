@@ -18,6 +18,7 @@ import { tableSelectValueTypeMap } from '../TableSelect';
 import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
 import { formatMessage } from '@/utils';
+import { dateFormat } from '../YTProTable/helper';
 
 export enum FormTypeEnum {
   Add = 'add',
@@ -81,6 +82,7 @@ const SchemaForm = <
     onValuesChange,
     initialValues,
     onRef,
+    columns,
     ...restProps
   } = props;
 
@@ -125,10 +127,10 @@ const SchemaForm = <
       const defaultSubmitter: FormSchema['submitter'] =
         layoutType !== 'QueryFilter'
           ? {
-            submitButtonProps: {
-              disabled: disableSubmitter,
-            },
-          }
+              submitButtonProps: {
+                disabled: disableSubmitter,
+              },
+            }
           : {};
       return merge(defaultSubmitter, submitter);
     }
@@ -146,6 +148,7 @@ const SchemaForm = <
 
   const onFinish = useCallback(
     (formData: FormData) => {
+      dateFormat(formData, columns);
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       const beforeSubmitResult = beforeSubmit?.(formData);
       if (beforeSubmitResult !== false) {
@@ -222,6 +225,7 @@ const SchemaForm = <
       }}
       submitter={mergedSubmitter}
       onValuesChange={mergedOnValuesChange}
+      columns={columns}
       {...restProps}
     />
   );

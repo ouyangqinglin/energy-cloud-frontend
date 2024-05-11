@@ -228,13 +228,12 @@ export const Columns: (
         style: {
           width: '100%',
         },
-        showTime: true,
-        format: getLocale().dateTimeFormat,
+        format: getLocale().dateTimeNoSecondFormat,
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');
         },
       },
-      valueType: 'date',
+      valueType: 'dateTime',
     },
     {
       title: formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' }),

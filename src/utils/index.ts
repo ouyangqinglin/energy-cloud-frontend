@@ -136,6 +136,7 @@ export const getLocale = () => {
     isJaJP: false,
     dateFormat: '',
     dateTimeFormat: '',
+    dateTimeNoSecondFormat: '',
     monthDateFormat: '',
     monthYearFormat: '',
   };
@@ -145,6 +146,7 @@ export const getLocale = () => {
       result.isZhCN = true;
       result.dateFormat = 'YYYY-MM-DD';
       result.dateTimeFormat = 'YYYY-MM-DD HH:mm:ss';
+      result.dateTimeNoSecondFormat = 'YYYY-MM-DD HH:mm';
       result.monthDateFormat = 'MM-DD';
       result.monthYearFormat = 'YYYY-MM';
       break;
@@ -153,6 +155,7 @@ export const getLocale = () => {
       result.isEnUS = true;
       result.dateFormat = 'MM/DD/YYYY';
       result.dateTimeFormat = 'MM/DD/YYYY HH:mm:ss';
+      result.dateTimeNoSecondFormat = 'MM/DD/YYYY HH:mm';
       result.monthDateFormat = 'MM/DD';
       result.monthYearFormat = 'MM/YYYY';
       break;
@@ -501,3 +504,15 @@ export const initLocale = (userLocale?: string) => {
 };
 
 export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);
+
+export const deleteEmptyKey = (data: Record<string, any>) => {
+  try {
+    Object.keys(data)?.forEach?.((key) => {
+      if (isEmpty(data[key])) {
+        delete data[key];
+      }
+    });
+  } catch (err) {
+    console.error('删除key', err);
+  }
+};

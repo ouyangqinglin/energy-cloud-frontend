@@ -3,7 +3,7 @@ import { TABLESELECT } from '@/components/TableSelect';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { MaintenanceOrderUpdateParam } from '../../maintenance/type';
 import { OrderStatus, OrderType } from '../../maintenance/type';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage, getLocale, isEmpty } from '@/utils';
 import { verifyPhone } from '@/utils/reg';
 import { orderStatus, orderType } from '../config';
 import { getCustomerList } from '../../maintenance/service';
@@ -220,13 +220,12 @@ export const Columns: (
         style: {
           width: '100%',
         },
-        showTime: true,
-        format: 'YYYY-MM-DD hh:mm:ss',
+        format: getLocale().dateTimeNoSecondFormat,
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');
         },
       },
-      valueType: 'date',
+      valueType: 'dateTime',
     },
     {
       title: formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' }),

@@ -13,6 +13,7 @@ import {
   getLocaleMenus,
   formatMessage,
   initLocale,
+  deleteEmptyKey,
 } from '@/utils';
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
@@ -68,6 +69,7 @@ export async function getInitialState(): Promise<initialStateType> {
   const fetchUserInfo = async () => {
     try {
       const resp = await getUserInfo({ showMessage: false });
+      deleteEmptyKey(resp?.systemInfo);
       initLocale(resp?.user?.lang);
       if (resp === undefined || resp.code !== 200) {
         history.push(loginPath);

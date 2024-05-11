@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-08 16:02:47
+ * @LastEditTime: 2024-05-11 16:35:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -21,10 +21,6 @@ import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
 import { formatMessage, getLocale } from '@/utils';
-import { YTDATERANGE } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
-import { ProConfigProvider } from '@ant-design/pro-components';
-import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -147,7 +143,7 @@ const StationList: React.FC = () => {
     [authorityMap, onEditClick, onSettingClick],
   );
 
-  const columns: ProColumns<StationType, YTDATERANGEVALUETYPE>[] = useMemo(() => {
+  const columns: ProColumns<StationType>[] = useMemo(() => {
     return [
       {
         title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
@@ -190,10 +186,9 @@ const StationList: React.FC = () => {
       {
         title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
-        valueType: YTDATERANGE,
+        valueType: 'dateRange',
         fieldProps: {
-          dateFormat: getLocale().dateFormat,
-          format: 'YYYY-MM-DD',
+          format: getLocale().dateFormat,
         },
         render: (_, record) => record.createTime,
         search: {
@@ -292,20 +287,13 @@ const StationList: React.FC = () => {
 
   return (
     <>
-      <ProConfigProvider
-        valueTypeMap={{
-          ...YTDateRangeValueTypeMap,
-        }}
-      >
-        <YTProTable
-          actionRef={actionRef}
-          columns={columns}
-          toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
-          request={requestList}
-          resizable={true}
-        />
-      </ProConfigProvider>
-
+      <YTProTable
+        actionRef={actionRef}
+        columns={columns}
+        toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
+        request={requestList}
+        resizable={true}
+      />
       <StationForm
         id={siteId}
         open={open}
