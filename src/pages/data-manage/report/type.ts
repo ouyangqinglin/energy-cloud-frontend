@@ -22,3 +22,8 @@ export type TableDataType = {
   rowSpan?: number;
   chargeDetails?: string;
 };
+
+export type GruopDataType = {
+  groupId?: number;
+  groupName?: string;
+};

@@ -64,4 +64,6 @@ export default {
   'dataManage.automaticRecovery': '自动恢复',
   'dataManage.manualClear': '手动消除',
   'dataManage.minutesSentence': '{name}分钟',
+  'dataManage.1001': '储能单元',
+  'dataManage.1002': '效率',
 };

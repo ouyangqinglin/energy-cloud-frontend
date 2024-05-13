@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-05-08 09:00:52
+ * @LastEditTime: 2024-05-13 10:58:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -15,6 +15,7 @@ import { getDevicePage } from '@/services/equipment';
 import moment from 'moment';
 import { DatePicker } from 'antd';
 import { formatMessage } from '@/utils';
+import { getGroupList } from './service';
 
 const pickerMap = new Map([
   [timeDimensionEnum.Day, { picker: 'date', format: 'YYYY-MM-DD' }],
@@ -24,11 +25,11 @@ const pickerMap = new Map([
 ]);
 
 const timeOption = new Map([
-  [0, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 10 })],
-  [1, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 20 })],
+  // [0, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 10 })],
+  // [1, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 20 })],
   [2, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 30 })],
-  [3, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 40 })],
-  [4, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 50 })],
+  // [3, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 40 })],
+  // [4, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 50 })],
   [5, formatMessage({ id: 'dataManage.minutesSentence', defaultMessage: '分钟' }, { name: 60 })],
 ]);
 
@@ -49,6 +50,52 @@ export const searchColumns = (reportType: any): ProColumns[] => [
         },
       };
     },
+  },
+  {
+    title: formatMessage({ id: 'dataManage.1001', defaultMessage: '储能单元' }),
+    dataIndex: 'groupId',
+    valueType: 'select',
+    dependencies: ['siteId', 'reportType'],
+    hideInTable: true,
+    request: (params) => {
+      const options: OptionType[] = [
+        { label: formatMessage({ id: 'common.all', defaultMessage: '全部' }), value: '' },
+      ];
+      if (params.reportType == reportTypeEnum.Energy) {
+        return getGroupList(params).then(({ data }) => {
+          if (data?.length > 1) {
+            data?.forEach?.((item) => {
+              options.push({
+                label: item?.groupName || '',
+                value: item?.groupId || -1,
+              });
+            });
+          }
+          return options;
+        });
+      } else {
+        return Promise.resolve(options);
+      }
+    },
+    formItemProps: (form, config) => {
+      const type = form?.getFieldValue?.('reportType');
+      const hidden = type != reportTypeEnum.Energy;
+      const $col: HTMLDivElement | null = document?.querySelector?.(
+        '.data-report-search .ant-col:nth-child(3)',
+      );
+      if ($col) {
+        $col.style.display = hidden ? 'none' : 'block';
+      }
+      return {};
+    },
+    fieldProps: (form, config) => {
+      return {
+        onChange: (_: any, option: OptionType) => {
+          form?.setFieldValue?.('groupName', option.label);
+        },
+      };
+    },
+    initialValue: '',
   },
   {
     title: formatMessage({ id: 'dataManage.selectedEquipment', defaultMessage: '所选设备' }),
@@ -88,7 +135,7 @@ export const searchColumns = (reportType: any): ProColumns[] => [
       const time = form?.getFieldValue?.('reportType');
       const hidden = time != reportTypeEnum.ChargeOrder;
       const $col: HTMLDivElement | null = document?.querySelector?.(
-        '.data-report-search .ant-col:nth-child(3)',
+        '.data-report-search .ant-col:nth-child(4)',
       );
       if ($col) {
         $col.style.display = hidden ? 'none' : 'block';
@@ -150,7 +197,7 @@ export const searchColumns = (reportType: any): ProColumns[] => [
         timeDimensionValue != timeDimensionEnum.Day;
 
       const $col: HTMLDivElement | null = document?.querySelector?.(
-        '.data-report-search .ant-col:nth-child(6)',
+        '.data-report-search .ant-col:nth-child(7)',
       );
       if ($col) {
         $col.style.display = hidden ? 'none' : 'block';
@@ -162,8 +209,22 @@ export const searchColumns = (reportType: any): ProColumns[] => [
         rules: [{ required: !hidden }],
       };
     },
-    initialValue: 0,
+    initialValue: 2,
     hideInTable: true,
+  },
+  {
+    title: '',
+    dataIndex: 'groupName',
+    hideInTable: true,
+    formItemProps: () => {
+      const $col: HTMLDivElement | null = document?.querySelector?.(
+        '.data-report-search .ant-col:nth-child(8)',
+      );
+      if ($col) {
+        $col.style.display = 'none';
+      }
+      return {};
+    },
   },
 ];
 
@@ -882,6 +943,12 @@ export const energyColumns: ProColumns[] = [
           formatMessage({ id: 'dataManage.totalRevenue', defaultMessage: '总收益' }) +
           formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
         dataIndex: 'income',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title: formatMessage({ id: 'dataManage.1002', defaultMessage: '效率' }) + '(%)',
+        dataIndex: 'efficiency',
         width: 120,
         ellipsis: true,
       },

@@ -127,7 +127,6 @@ const Report: React.FC<ReportProps> = (props) => {
 
   const onSubmit = useCallback(
     (params: TableSearchType) => {
-      console.log('params>>', params);
       setSearchParams(params);
       run({
         ...params,
@@ -161,7 +160,7 @@ const Report: React.FC<ReportProps> = (props) => {
     return `${
       reportType.get(params?.reportType || reportTypeEnum.Site) ||
       formatMessage({ id: 'dataManage.siteReport', defaultMessage: '站点报表' })
-    }${
+    }${params.groupId ? '-' + params.groupName : ''}${
       dimensionTime
         ? '_' +
           moment(params?.dimensionTime).format(
@@ -184,6 +183,11 @@ const Report: React.FC<ReportProps> = (props) => {
         searchParams?.timeDimension !== timeDimensionEnum.Day
       ) {
         fieldColumns = cloneDeep(chargeOrderStatColumns);
+      }
+      if (searchParams?.reportType == reportTypeEnum.Energy) {
+        const totalColumn = (fieldColumns[fieldColumns.length - 1] as any).children;
+        totalColumn[totalColumn.length - 1].hideInTable =
+          searchParams?.timeDimension === timeDimensionEnum.Day;
       }
     }
     return [...siteSearch, ...currentSearchColumns, ...fieldColumns];

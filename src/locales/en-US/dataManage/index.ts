@@ -65,4 +65,6 @@ export default {
   'dataManage.automaticRecovery': 'Automatic Recovery',
   'dataManage.manualClear': 'Manual Clear',
   'dataManage.minutesSentence': '{name} Minutes',
+  'dataManage.1001': 'ESS Unit',
+  'dataManage.1002': 'Efficiency',
 };

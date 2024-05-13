@@ -138,6 +138,7 @@ export const timeColumns: ProColumns<TableDataType>[] = [
         };
       },
     },
+    render: (_, record) => record?.time,
     initialValue: [moment().startOf('day'), moment().endOf('day')],
     width: 150,
     formItemProps: {

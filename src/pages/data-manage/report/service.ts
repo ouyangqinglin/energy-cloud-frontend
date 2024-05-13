@@ -8,7 +8,7 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import type { TableDataType, TableSearchType } from './type';
+import type { GruopDataType, TableDataType, TableSearchType } from './type';
 
 export const getList = (params: TableSearchType) => {
   return request<ResponseCommonData<TableDataType[]>>(`/oss/reportForms/getReport`, {
@@ -22,5 +22,12 @@ export const exportList = (params: TableSearchType) => {
     method: 'GET',
     params,
     responseType: 'blob',
+  });
+};
+
+export const getGroupList = (params: TableSearchType) => {
+  return request<ResponseCommonData<GruopDataType[]>>(`/iot/es/group_list`, {
+    method: 'GET',
+    params,
   });
 };
