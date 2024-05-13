@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-13 16:47:40
+ * @LastEditTime: 2024-05-13 17:22:39
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -342,9 +342,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               label: (specsItem as DeviceStructType)?.specs?.[0]?.name + '1',
             });
           }
-          if (passAuthority(field?.authority)) {
-            detailItems.push(...items);
-          }
+          detailItems.push(...items);
           setTransformData((prevData: any) => {
             const mergedData = merge({}, prevData, detailData);
             return {
@@ -398,10 +396,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               });
             }
           }
-          if (
-            field.showType != DeviceModelShowTypeEnum.HideName &&
-            passAuthority(field?.authority)
-          ) {
+          if (field.showType != DeviceModelShowTypeEnum.HideName) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
@@ -453,38 +448,36 @@ const Control: React.FC<ControlType> = memo((props) => {
           const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
           switch (field.showType) {
             case DeviceModelShowTypeEnum.Switch:
-              if (passAuthority(field?.authority)) {
-                detailItems.push?.({
-                  field: field?.id || '',
-                  label: field?.name,
-                  showPlaceholder: false,
-                  labelStyle: {
-                    marginTop: '4px',
-                  },
-                  span: 3,
-                  format: (value, data) => {
-                    let formatValue = value;
-                    if (field?.deviceId) {
-                      const realField = field?.id?.split?.('.') || [];
-                      formatValue =
-                        data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
-                    } else {
-                      formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
-                    }
-                    return (
-                      <Switch
-                        checked={!!formatValue}
-                        disabled={
-                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
-                          !passAuthority(field?.authority, 'edit')
-                        }
-                        loading={loading}
-                        onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
-                      />
-                    );
-                  },
-                });
-              }
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                showPlaceholder: false,
+                labelStyle: {
+                  marginTop: '4px',
+                },
+                span: 3,
+                format: (value, data) => {
+                  let formatValue = value;
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    formatValue =
+                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  } else {
+                    formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+                  }
+                  return (
+                    <Switch
+                      checked={!!formatValue}
+                      disabled={
+                        deviceData?.networkStatus === OnlineStatusEnum.Offline ||
+                        !passAuthority(field?.authority, 'edit')
+                      }
+                      loading={loading}
+                      onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
+                    />
+                  );
+                },
+              });
               break;
             case DeviceModelShowTypeEnum.RadioButton:
             case DeviceModelShowTypeEnum.Button:
@@ -492,63 +485,59 @@ const Control: React.FC<ControlType> = memo((props) => {
                 value: isEmpty(value) ? '' : value + '',
                 label,
               }));
-              if (passAuthority(field?.authority)) {
-                detailItems.push?.({
-                  field: field?.id || '',
-                  label: field?.name,
-                  showPlaceholder: false,
-                  labelStyle: {
-                    marginTop: '4px',
-                  },
-                  span: 3,
-                  format: (value, formatData) => {
-                    let data;
-                    let childData;
-                    let formatValue = value;
-                    if (field?.deviceId) {
-                      const realField = field?.id?.split?.('.') || [];
-                      childData = formatData?.[field?.deviceId || ''];
-                      data = childData;
-                      formatValue = childData?.[realField?.[realField?.length - 1]];
-                    } else {
-                      data = formatData?.[deviceData?.deviceId || ''];
-                      formatValue = data?.[field?.id || ''];
-                    }
-                    let fieldDisabled = false;
-                    if (field?.disabled) {
-                      try {
-                        const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
-                        if (typeof evalResult == 'boolean') {
-                          fieldDisabled = evalResult;
+              detailItems.push?.({
+                field: field?.id || '',
+                label: field?.name,
+                showPlaceholder: false,
+                labelStyle: {
+                  marginTop: '4px',
+                },
+                span: 3,
+                format: (value, formatData) => {
+                  let data;
+                  let childData;
+                  let formatValue = value;
+                  if (field?.deviceId) {
+                    const realField = field?.id?.split?.('.') || [];
+                    childData = formatData?.[field?.deviceId || ''];
+                    data = childData;
+                    formatValue = childData?.[realField?.[realField?.length - 1]];
+                  } else {
+                    data = formatData?.[deviceData?.deviceId || ''];
+                    formatValue = data?.[field?.id || ''];
+                  }
+                  let fieldDisabled = false;
+                  if (field?.disabled) {
+                    try {
+                      const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
+                      if (typeof evalResult == 'boolean') {
+                        fieldDisabled = evalResult;
+                      }
+                    } catch {}
+                  }
+                  return (
+                    <>
+                      <RadioButton
+                        options={options}
+                        type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
+                        value={isEmpty(formatValue) ? '' : formatValue + ''}
+                        disabled={
+                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
+                          fieldDisabled ||
+                          !passAuthority(field?.authority, 'edit')
                         }
-                      } catch {}
-                    }
-                    return (
-                      <>
-                        <RadioButton
-                          options={options}
-                          type={
-                            field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'
-                          }
-                          value={isEmpty(formatValue) ? '' : formatValue + ''}
-                          disabled={
-                            deviceData?.networkStatus === OnlineStatusEnum.Offline ||
-                            fieldDisabled ||
-                            !passAuthority(field?.authority, 'edit')
-                          }
-                          onChange={(btnValue) => btnClick(field, btnValue)}
-                          loading={loading}
-                        />
-                        {!!field?.tip && (
-                          <div>
-                            <Typography.Text type="secondary">{field?.tip}</Typography.Text>
-                          </div>
-                        )}
-                      </>
-                    );
-                  },
-                });
-              }
+                        onChange={(btnValue) => btnClick(field, btnValue)}
+                        loading={loading}
+                      />
+                      {!!field?.tip && (
+                        <div>
+                          <Typography.Text type="secondary">{field?.tip}</Typography.Text>
+                        </div>
+                      )}
+                    </>
+                  );
+                },
+              });
               break;
             default:
               if (passAuthority(field?.authority, 'edit')) {
@@ -597,10 +586,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   });
                 }
               }
-              if (
-                field.showType != DeviceModelShowTypeEnum.HideName &&
-                passAuthority(field?.authority)
-              ) {
+              if (field.showType != DeviceModelShowTypeEnum.HideName) {
                 detailItems.push?.({
                   field: field?.id || '',
                   label: field?.name,
@@ -686,10 +672,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               });
             }
           }
-          if (
-            field.showType != DeviceModelShowTypeEnum.HideName &&
-            passAuthority(field?.authority)
-          ) {
+          if (field.showType != DeviceModelShowTypeEnum.HideName) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
@@ -802,10 +785,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               });
             }
           }
-          if (
-            field.showType != DeviceModelShowTypeEnum.HideName &&
-            passAuthority(field?.authority)
-          ) {
+          if (field.showType != DeviceModelShowTypeEnum.HideName) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
@@ -907,20 +887,20 @@ const Control: React.FC<ControlType> = memo((props) => {
               </>
             }
           >
-            <Authority
-              code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
-              mode={AuthorityModeEnum.Within}
-            >
-              {service?.buttons?.includes?.('refresh') ? (
-                <RedoOutlined
-                  className={`cl-primary cursor ${styles.refresh}`}
-                  onClick={() => onRefresh(service)}
-                  title={formatMessage({
-                    id: 'common.refresh',
-                    defaultMessage: '刷新',
-                  })}
-                />
-              ) : (
+            {service?.buttons?.includes?.('refresh') ? (
+              <RedoOutlined
+                className={`cl-primary cursor ${styles.refresh}`}
+                onClick={() => onRefresh(service)}
+                title={formatMessage({
+                  id: 'common.refresh',
+                  defaultMessage: '刷新',
+                })}
+              />
+            ) : (
+              <Authority
+                code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
+                mode={AuthorityModeEnum.Within}
+              >
                 <Button
                   type="primary"
                   onClick={() => onClick(service, columns, columnsLength)}
@@ -928,8 +908,8 @@ const Control: React.FC<ControlType> = memo((props) => {
                 >
                   {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
                 </Button>
-              )}
-            </Authority>
+              </Authority>
+            )}
           </Detail.Label>
         );
       }
