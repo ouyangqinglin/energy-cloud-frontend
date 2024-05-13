@@ -181,13 +181,21 @@ export const dateFormat = (data: Record<string, any>, columns?: ProColumns<any, 
           data[col.dataIndex] = valueArr;
         }
 
-        if (col?.search) {
-          const result = col?.search?.transform?.([], '', []);
+        if (col?.search && format) {
+          let result: any = col?.search?.transform?.([], '', []);
           if (typeof result == 'object') {
+            const valueArr: string[] = [];
             Object.keys(result).forEach((key) => {
               const value = data?.[key];
-              if (value && format) {
-                data[key] = moment(value).format(format);
+              if (value) {
+                valueArr.push(moment(value).format(format));
+              }
+            });
+            result = col?.search?.transform?.(valueArr, '', []);
+            Object.keys(result).forEach((key) => {
+              const value = result?.[key];
+              if (value) {
+                data[key] = value;
               }
             });
           }

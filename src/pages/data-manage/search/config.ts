@@ -11,9 +11,6 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
 
-import { YTDATERANGE } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
-
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: formatMessage({
@@ -128,11 +125,11 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
   return searchColumns;
 };
 
-export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
+export const timeColumns: ProColumns<TableDataType>[] = [
   {
     title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
     dataIndex: 'time',
-    valueType: YTDATERANGE,
+    valueType: 'dateRange',
     search: {
       transform: (value) => {
         return {
@@ -155,8 +152,7 @@ export const timeColumns: ProColumns<TableDataType, YTDATERANGEVALUETYPE>[] = [
     },
     fieldProps: (form) => {
       return {
-        dateFormat: getLocale().dateFormat,
-        format: 'YYYY-MM-DD',
+        format: getLocale().dateFormat,
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];
