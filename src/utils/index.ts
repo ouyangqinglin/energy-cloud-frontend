@@ -503,8 +503,6 @@ export const initLocale = (userLocale?: string) => {
   }
 };
 
-export const getUniqueNumber = () => Math.random().toString(36).substring(2, 15);
-
 export const deleteEmptyKey = (data: Record<string, any>) => {
   try {
     Object.keys(data)?.forEach?.((key) => {
@@ -516,3 +514,7 @@ export const deleteEmptyKey = (data: Record<string, any>) => {
     console.error('删除key', err);
   }
 };
+export const getUniqueNumber = (digit = 13) =>
+  Math.random()
+    .toString(36)
+    .substring(2, 2 + digit);

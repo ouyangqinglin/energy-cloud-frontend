@@ -12,6 +12,9 @@ export type TreeDataType = {
 export type MonitorDataType = {
   span?: number;
   project?: string;
+  esMap?: string;
+  esMapData?: string[];
+  deviceId?: string;
   deviceName?: string;
   sn?: string;
   collection?: string;
@@ -19,6 +22,8 @@ export type MonitorDataType = {
   rowId?: string;
   area: string;
   type: string;
+  maximumLoadOfTransformer: { name?: string; value?: strting; editable?: 0 | 1 };
+  mainsSupplyMeters?: MonitorDataType[];
 };
 
 export type TableDataType = {

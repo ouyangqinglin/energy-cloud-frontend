@@ -129,4 +129,8 @@ export default {
   'siteManage.set.energyStorageBatteryDischarge': '储能电池放电量',
   'siteManage.set.energyStorageBatteryEnableDischarge': '储能电池可放电量',
   'siteManage.set.storageBatteryRealtimePower': '储能电池实时功率',
+
+  'siteManage.unitName': '单元名称',
+  'siteManage.electricityMeter': '市电电表',
+  'siteManage.unitManage': '储能单元管理',
 };
