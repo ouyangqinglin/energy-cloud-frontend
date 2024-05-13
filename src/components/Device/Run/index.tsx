@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-04-22 16:45:16
+ * @LastEditTime: 2024-05-13 16:56:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -192,7 +192,10 @@ const Run: React.FC<RunType> = (props) => {
             showPlaceholder: false,
             showExtra: false,
           });
-        } else if (item.showType != DeviceModelShowTypeEnum.HideName) {
+        } else if (
+          item.showType != DeviceModelShowTypeEnum.HideName &&
+          passAuthority(item?.authority)
+        ) {
           result.push({
             field: item?.id || '',
             label: item?.name,
@@ -213,7 +216,7 @@ const Run: React.FC<RunType> = (props) => {
       });
       return result;
     },
-    [deviceData?.deviceId],
+    [deviceData?.deviceId, passAuthority],
   );
 
   const getGridComponent = useCallback(

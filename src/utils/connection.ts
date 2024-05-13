@@ -26,7 +26,7 @@ const enum ConnectStatus {
 export const enum MessageEventType {
   // 设备实时数据
   DEVICE_REAL_TIME_DATA = 1,
-  // 设备告警数据
+  // 站点告警数据
   DEVICE_EVENT_DATA,
   // 心跳消息
   HEARTBEAT,
@@ -37,6 +37,8 @@ export const enum MessageEventType {
   MONITORDATA,
   NETWORKSTSTUS,
   DEVICEMSG,
+  // 设备告警数据
+  DeviceAlarm,
 }
 
 export enum RequestCommandEnum {

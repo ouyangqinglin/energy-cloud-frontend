@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 11:29:52
- * @LastEditTime: 2024-03-20 16:37:29
+ * @LastEditTime: 2024-05-13 16:35:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Context\DeviceProvider.tsx
  */
@@ -24,7 +24,7 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
   const { deviceId, deviceTreeData, onChange, children } = props;
 
   const realTimeNetwork = useSubscribe(deviceId, true, MessageEventType.NETWORKSTSTUS);
-  const realTimeAlarmData = useSubscribe(deviceId, true, MessageEventType.DEVICE_EVENT_DATA);
+  const realTimeAlarmData = useSubscribe(deviceId, true, MessageEventType.DeviceAlarm);
 
   const {
     data: deviceData,

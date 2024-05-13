@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-04-15 10:29:57
+ * @LastEditTime: 2024-05-13 16:47:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -287,7 +287,10 @@ const Control: React.FC<ControlType> = memo((props) => {
             cols[0].colProps = { span: specsLength < 3 ? 24 / specsLength : 8 };
             (column?.columns as any)?.[0]?.columns?.push?.(...cols);
           });
-          columns.push(column);
+
+          if (passAuthority(field?.authority, 'edit')) {
+            columns.push(column);
+          }
 
           let fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           if (field?.deviceId) {
@@ -339,7 +342,9 @@ const Control: React.FC<ControlType> = memo((props) => {
               label: (specsItem as DeviceStructType)?.specs?.[0]?.name + '1',
             });
           }
-          detailItems.push(...items);
+          if (passAuthority(field?.authority)) {
+            detailItems.push(...items);
+          }
           setTransformData((prevData: any) => {
             const mergedData = merge({}, prevData, detailData);
             return {
@@ -349,49 +354,54 @@ const Control: React.FC<ControlType> = memo((props) => {
           });
           break;
         case DeviceModelTypeEnum.TimeRange:
-          columns.push({
-            title: field?.name,
-            dataIndex: field?.id,
-            valueType: 'timeRange',
-            formItemProps: ({ getFieldValue }) => {
-              return {
-                rules: [
-                  ...(field?.required === false
-                    ? []
-                    : [
-                        {
-                          required: true,
-                          message: formatMessage(
-                            { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
-                            {
-                              content: field?.name,
-                            },
-                          ),
-                        },
-                      ]),
-                  {
-                    validator: (rule, value) => {
-                      return validatorTime(rule, value, field?.parentId || '', getFieldValue);
-                    },
-                  },
-                ],
-              };
-            },
-            renderFormItem: () => <TimeRangePicker />,
-            initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
-          });
-          if (field?.span == 24) {
+          if (passAuthority(field?.authority, 'edit')) {
             columns.push({
-              formItemProps: {
-                noStyle: true,
+              title: field?.name,
+              dataIndex: field?.id,
+              valueType: 'timeRange',
+              formItemProps: ({ getFieldValue }) => {
+                return {
+                  rules: [
+                    ...(field?.required === false
+                      ? []
+                      : [
+                          {
+                            required: true,
+                            message: formatMessage(
+                              { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                              {
+                                content: field?.name,
+                              },
+                            ),
+                          },
+                        ]),
+                    {
+                      validator: (rule, value) => {
+                        return validatorTime(rule, value, field?.parentId || '', getFieldValue);
+                      },
+                    },
+                  ],
+                };
               },
-              renderFormItem: () => <div />,
-              colProps: {
-                span: 24,
-              },
+              renderFormItem: () => <TimeRangePicker />,
+              initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
             });
+            if (field?.span == 24) {
+              columns.push({
+                formItemProps: {
+                  noStyle: true,
+                },
+                renderFormItem: () => <div />,
+                colProps: {
+                  span: 24,
+                },
+              });
+            }
           }
-          if (field.showType != DeviceModelShowTypeEnum.HideName) {
+          if (
+            field.showType != DeviceModelShowTypeEnum.HideName &&
+            passAuthority(field?.authority)
+          ) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
@@ -443,36 +453,38 @@ const Control: React.FC<ControlType> = memo((props) => {
           const enumSpecs = parseToObj((field?.dataType as DeviceEnumType)?.specs || {});
           switch (field.showType) {
             case DeviceModelShowTypeEnum.Switch:
-              detailItems.push?.({
-                field: field?.id || '',
-                label: field?.name,
-                showPlaceholder: false,
-                labelStyle: {
-                  marginTop: '4px',
-                },
-                span: 3,
-                format: (value, data) => {
-                  let formatValue = value;
-                  if (field?.deviceId) {
-                    const realField = field?.id?.split?.('.') || [];
-                    formatValue =
-                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
-                  } else {
-                    formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
-                  }
-                  return (
-                    <Switch
-                      checked={!!formatValue}
-                      disabled={
-                        deviceData?.networkStatus === OnlineStatusEnum.Offline ||
-                        !passAuthority(field?.authority, 'edit')
-                      }
-                      loading={loading}
-                      onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
-                    />
-                  );
-                },
-              });
+              if (passAuthority(field?.authority)) {
+                detailItems.push?.({
+                  field: field?.id || '',
+                  label: field?.name,
+                  showPlaceholder: false,
+                  labelStyle: {
+                    marginTop: '4px',
+                  },
+                  span: 3,
+                  format: (value, data) => {
+                    let formatValue = value;
+                    if (field?.deviceId) {
+                      const realField = field?.id?.split?.('.') || [];
+                      formatValue =
+                        data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                    } else {
+                      formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+                    }
+                    return (
+                      <Switch
+                        checked={!!formatValue}
+                        disabled={
+                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
+                          !passAuthority(field?.authority, 'edit')
+                        }
+                        loading={loading}
+                        onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
+                      />
+                    );
+                  },
+                });
+              }
               break;
             case DeviceModelShowTypeEnum.RadioButton:
             case DeviceModelShowTypeEnum.Button:
@@ -480,106 +492,115 @@ const Control: React.FC<ControlType> = memo((props) => {
                 value: isEmpty(value) ? '' : value + '',
                 label,
               }));
-              detailItems.push?.({
-                field: field?.id || '',
-                label: field?.name,
-                showPlaceholder: false,
-                labelStyle: {
-                  marginTop: '4px',
-                },
-                span: 3,
-                format: (value, formatData) => {
-                  let data;
-                  let childData;
-                  let formatValue = value;
-                  if (field?.deviceId) {
-                    const realField = field?.id?.split?.('.') || [];
-                    childData = formatData?.[field?.deviceId || ''];
-                    data = childData;
-                    formatValue = childData?.[realField?.[realField?.length - 1]];
-                  } else {
-                    data = formatData?.[deviceData?.deviceId || ''];
-                    formatValue = data?.[field?.id || ''];
-                  }
-                  let fieldDisabled = false;
-                  if (field?.disabled) {
-                    try {
-                      const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
-                      if (typeof evalResult == 'boolean') {
-                        fieldDisabled = evalResult;
-                      }
-                    } catch {}
-                  }
-                  return (
-                    <>
-                      <RadioButton
-                        options={options}
-                        type={field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'}
-                        value={isEmpty(formatValue) ? '' : formatValue + ''}
-                        disabled={
-                          deviceData?.networkStatus === OnlineStatusEnum.Offline ||
-                          fieldDisabled ||
-                          !passAuthority(field?.authority, 'edit')
-                        }
-                        onChange={(btnValue) => btnClick(field, btnValue)}
-                        loading={loading}
-                      />
-                      {!!field?.tip && (
-                        <div>
-                          <Typography.Text type="secondary">{field?.tip}</Typography.Text>
-                        </div>
-                      )}
-                    </>
-                  );
-                },
-              });
-              break;
-            default:
-              columns.push({
-                title: field?.name,
-                dataIndex: field?.id,
-                valueType: 'select',
-                fieldProps: {
-                  options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
-                    value: isEmpty(value) ? '' : value + '',
-                    label,
-                  })),
-                  placeholder: formatMessage({
-                    id: 'common.pleaseSelect',
-                    defaultMessage: '请选择',
-                  }),
-                },
-                convertValue: (value) => (isEmpty(value) ? '' : value + ''),
-                formItemProps: {
-                  rules:
-                    field?.required === false
-                      ? []
-                      : [
-                          {
-                            required: true,
-                            message: formatMessage(
-                              { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
-                              {
-                                content: field?.name,
-                              },
-                            ),
-                          },
-                        ],
-                },
-                initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
-              });
-              if (field?.span == 24) {
-                columns.push({
-                  formItemProps: {
-                    noStyle: true,
+              if (passAuthority(field?.authority)) {
+                detailItems.push?.({
+                  field: field?.id || '',
+                  label: field?.name,
+                  showPlaceholder: false,
+                  labelStyle: {
+                    marginTop: '4px',
                   },
-                  renderFormItem: () => <div />,
-                  colProps: {
-                    span: 24,
+                  span: 3,
+                  format: (value, formatData) => {
+                    let data;
+                    let childData;
+                    let formatValue = value;
+                    if (field?.deviceId) {
+                      const realField = field?.id?.split?.('.') || [];
+                      childData = formatData?.[field?.deviceId || ''];
+                      data = childData;
+                      formatValue = childData?.[realField?.[realField?.length - 1]];
+                    } else {
+                      data = formatData?.[deviceData?.deviceId || ''];
+                      formatValue = data?.[field?.id || ''];
+                    }
+                    let fieldDisabled = false;
+                    if (field?.disabled) {
+                      try {
+                        const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
+                        if (typeof evalResult == 'boolean') {
+                          fieldDisabled = evalResult;
+                        }
+                      } catch {}
+                    }
+                    return (
+                      <>
+                        <RadioButton
+                          options={options}
+                          type={
+                            field.showType == DeviceModelShowTypeEnum.Button ? 'button' : 'radio'
+                          }
+                          value={isEmpty(formatValue) ? '' : formatValue + ''}
+                          disabled={
+                            deviceData?.networkStatus === OnlineStatusEnum.Offline ||
+                            fieldDisabled ||
+                            !passAuthority(field?.authority, 'edit')
+                          }
+                          onChange={(btnValue) => btnClick(field, btnValue)}
+                          loading={loading}
+                        />
+                        {!!field?.tip && (
+                          <div>
+                            <Typography.Text type="secondary">{field?.tip}</Typography.Text>
+                          </div>
+                        )}
+                      </>
+                    );
                   },
                 });
               }
-              if (field.showType != DeviceModelShowTypeEnum.HideName) {
+              break;
+            default:
+              if (passAuthority(field?.authority, 'edit')) {
+                columns.push({
+                  title: field?.name,
+                  dataIndex: field?.id,
+                  valueType: 'select',
+                  fieldProps: {
+                    options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
+                      value: isEmpty(value) ? '' : value + '',
+                      label,
+                    })),
+                    placeholder: formatMessage({
+                      id: 'common.pleaseSelect',
+                      defaultMessage: '请选择',
+                    }),
+                  },
+                  convertValue: (value) => (isEmpty(value) ? '' : value + ''),
+                  formItemProps: {
+                    rules:
+                      field?.required === false
+                        ? []
+                        : [
+                            {
+                              required: true,
+                              message: formatMessage(
+                                { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                                {
+                                  content: field?.name,
+                                },
+                              ),
+                            },
+                          ],
+                  },
+                  initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
+                });
+                if (field?.span == 24) {
+                  columns.push({
+                    formItemProps: {
+                      noStyle: true,
+                    },
+                    renderFormItem: () => <div />,
+                    colProps: {
+                      span: 24,
+                    },
+                  });
+                }
+              }
+              if (
+                field.showType != DeviceModelShowTypeEnum.HideName &&
+                passAuthority(field?.authority)
+              ) {
                 detailItems.push?.({
                   field: field?.id || '',
                   label: field?.name,
@@ -629,41 +650,46 @@ const Control: React.FC<ControlType> = memo((props) => {
           }
           break;
         case DeviceModelTypeEnum.TimeStamp:
-          columns.push({
-            title: field?.name,
-            dataIndex: field?.id,
-            formItemProps: {
-              validateTrigger: 'submit',
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: formatMessage(
-                          { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
-                          {
-                            content: field?.name,
-                          },
-                        ),
-                      },
-                    ],
-            },
-            renderFormItem: () => <DateStamp />,
-            initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
-          });
-          if (field?.span == 24) {
+          if (passAuthority(field?.authority, 'edit')) {
             columns.push({
+              title: field?.name,
+              dataIndex: field?.id,
               formItemProps: {
-                noStyle: true,
+                validateTrigger: 'submit',
+                rules:
+                  field?.required === false
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: formatMessage(
+                            { id: 'common.pleaseSelectSentence', defaultMessage: '请选择' },
+                            {
+                              content: field?.name,
+                            },
+                          ),
+                        },
+                      ],
               },
-              renderFormItem: () => <div />,
-              colProps: {
-                span: 24,
-              },
+              renderFormItem: () => <DateStamp />,
+              initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
             });
+            if (field?.span == 24) {
+              columns.push({
+                formItemProps: {
+                  noStyle: true,
+                },
+                renderFormItem: () => <div />,
+                colProps: {
+                  span: 24,
+                },
+              });
+            }
           }
-          if (field.showType != DeviceModelShowTypeEnum.HideName) {
+          if (
+            field.showType != DeviceModelShowTypeEnum.HideName &&
+            passAuthority(field?.authority)
+          ) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
@@ -717,64 +743,69 @@ const Control: React.FC<ControlType> = memo((props) => {
         case DeviceModelTypeEnum.String:
         default:
           const doubleSpecs = (field?.dataType as DeviceDoubleType)?.specs;
-          columns.push({
-            title: field?.name,
-            dataIndex: field?.id,
-            valueType: valueType,
-            fieldProps: {
-              ...(valueType == 'digit'
-                ? {
-                    min: (doubleSpecs?.enable && doubleSpecs?.min) || Number.MIN_SAFE_INTEGER,
-                    max: (doubleSpecs?.enable && doubleSpecs?.max) || Number.MAX_SAFE_INTEGER,
-                  }
-                : {}),
-              ...(doubleSpecs?.unit
-                ? {
-                    addonAfter: doubleSpecs?.unit,
-                  }
-                : {}),
-            },
-            formItemProps: {
-              rules:
-                field?.required === false
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: formatMessage(
-                          { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
-                          {
-                            content: field?.name,
-                          },
-                        ),
-                      },
-                    ],
-              extra: doubleSpecs?.enable
-                ? `${formatMessage({ id: 'device.min', defaultMessage: '最小值' })}：${
-                    doubleSpecs?.min
-                  },${formatMessage({ id: 'device.max', defaultMessage: '最大值' })}：${
-                    doubleSpecs?.max
-                  }`
-                : undefined,
-            },
-            initialValue: isEmpty(field?.defaultValue)
-              ? undefined
-              : valueType == 'digit'
-              ? field?.defaultValue
-              : field?.defaultValue + '',
-          });
-          if (field?.span == 24) {
+          if (passAuthority(field?.authority, 'edit')) {
             columns.push({
+              title: field?.name,
+              dataIndex: field?.id,
+              valueType: valueType,
+              fieldProps: {
+                ...(valueType == 'digit'
+                  ? {
+                      min: (doubleSpecs?.enable && doubleSpecs?.min) || Number.MIN_SAFE_INTEGER,
+                      max: (doubleSpecs?.enable && doubleSpecs?.max) || Number.MAX_SAFE_INTEGER,
+                    }
+                  : {}),
+                ...(doubleSpecs?.unit
+                  ? {
+                      addonAfter: doubleSpecs?.unit,
+                    }
+                  : {}),
+              },
               formItemProps: {
-                noStyle: true,
+                rules:
+                  field?.required === false
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: formatMessage(
+                            { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                            {
+                              content: field?.name,
+                            },
+                          ),
+                        },
+                      ],
+                extra: doubleSpecs?.enable
+                  ? `${formatMessage({ id: 'device.min', defaultMessage: '最小值' })}：${
+                      doubleSpecs?.min
+                    },${formatMessage({ id: 'device.max', defaultMessage: '最大值' })}：${
+                      doubleSpecs?.max
+                    }`
+                  : undefined,
               },
-              renderFormItem: () => <div />,
-              colProps: {
-                span: 24,
-              },
+              initialValue: isEmpty(field?.defaultValue)
+                ? undefined
+                : valueType == 'digit'
+                ? field?.defaultValue
+                : field?.defaultValue + '',
             });
+            if (field?.span == 24) {
+              columns.push({
+                formItemProps: {
+                  noStyle: true,
+                },
+                renderFormItem: () => <div />,
+                colProps: {
+                  span: 24,
+                },
+              });
+            }
           }
-          if (field.showType != DeviceModelShowTypeEnum.HideName) {
+          if (
+            field.showType != DeviceModelShowTypeEnum.HideName &&
+            passAuthority(field?.authority)
+          ) {
             detailItems.push?.({
               field: field?.id || '',
               label: field?.name,
