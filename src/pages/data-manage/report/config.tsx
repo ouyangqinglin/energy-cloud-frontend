@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-05-13 10:58:40
+ * @LastEditTime: 2024-05-13 17:35:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -65,10 +65,12 @@ export const searchColumns = (reportType: any): ProColumns[] => [
         return getGroupList(params).then(({ data }) => {
           if (data?.length > 1) {
             data?.forEach?.((item) => {
-              options.push({
-                label: item?.groupName || '',
-                value: item?.groupId || -1,
-              });
+              if (item?.groupId) {
+                options.push({
+                  label: item?.groupName || '',
+                  value: item?.groupId || -1,
+                });
+              }
             });
           }
           return options;
