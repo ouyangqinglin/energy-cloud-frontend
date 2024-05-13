@@ -204,7 +204,7 @@ export const Columns: (
     },
     {
       title: formatMessage({ id: 'taskManage.appointmentTime', defaultMessage: '预约时间' }),
-      dataIndex: ['timeOfAppointment'],
+      dataIndex: 'timeOfAppointment',
       formItemProps: {
         rules: [
           {
@@ -220,7 +220,6 @@ export const Columns: (
         style: {
           width: '100%',
         },
-        format: getLocale().dateTimeNoSecondFormat,
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day');
         },

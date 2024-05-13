@@ -2,13 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-30 11:18:34
- * @LastEditTime: 2024-04-11 08:41:16
+ * @LastEditTime: 2024-05-13 15:14:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Time\DateStamp\index.tsx
  */
 import React, { memo, useCallback, useMemo } from 'react';
 import { DatePicker, DatePickerProps } from 'antd';
 import moment, { Moment } from 'moment';
+import { getLocale } from '@/utils';
 
 export type DateStampType = Omit<DatePickerProps, 'value' | 'onChange'> & {
   value?: number;
@@ -47,6 +48,7 @@ const DateStamp: React.FC<DateStampType> = memo((props) => {
         onChange={mergedOnChange}
         showTime={showTime}
         onOpenChange={onOpenChange}
+        format={getLocale().dateTimeFormat}
         {...restProps}
       />
     </>

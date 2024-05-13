@@ -5,7 +5,7 @@ import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProColumns, YTProTableProps } from './typing';
 import genDefaultOperation from './operation';
 import {
-  dateFormat,
+  formatData,
   calculateColumns,
   normalizeRequestOption,
   standardRequestTableData,
@@ -38,6 +38,8 @@ const YTProTable = <
     resizableOptions,
     onEvent,
     extraHeight,
+    beforeSearchSubmit,
+    onSubmit,
     ...restProps
   } = props;
   const tableFormRef = useRef<ProFormInstance<Params>>();
@@ -72,11 +74,21 @@ const YTProTable = <
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(request, props.expandable);
 
-  const beforeSearchSubmit = useCallback(
+  const mergedBeforeSearchSubmit = useCallback(
     (data) => {
-      return dateFormat(data, columns);
+      const result = formatData(data, columns);
+      beforeSearchSubmit?.(data);
+      return result;
     },
-    [columns],
+    [columns, beforeSearchSubmit],
+  );
+
+  const mergedOnSubmit = useCallback(
+    (data) => {
+      formatData(data, columns);
+      onSubmit?.(data);
+    },
+    [columns, onSubmit],
   );
 
   const { scrollX } = useTableSize(mergedTableRef, restProps.scroll, collapsed, extraHeight);
@@ -120,7 +132,8 @@ const YTProTable = <
         request={standardRequest}
         rowKey={rowKey}
         className={styles.ytTable + ' ' + className}
-        beforeSearchSubmit={beforeSearchSubmit}
+        beforeSearchSubmit={mergedBeforeSearchSubmit}
+        onSubmit={mergedOnSubmit}
         {...restProps}
         scroll={{
           x: resizable ? tableWidth : scrollX,

@@ -153,7 +153,6 @@ export const timeColumns: ProColumns<TableDataType>[] = [
     },
     fieldProps: (form) => {
       return {
-        format: getLocale().dateFormat,
         onOpenChange: (open: boolean) => {
           if (open) {
             window.dataSearchDates = [];

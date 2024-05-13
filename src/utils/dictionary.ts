@@ -533,5 +533,5 @@ export const dateFormatMap: Record<string, string> = {
   dateTime: 'YYYY-MM-DD HH:mm', // 不要加秒
   dateTimeSecond: 'YYYY-MM-DD HH:mm:ss',
   date: 'YYYY-MM-DD',
-  month: 'YYYY-MM',
+  dateMonth: 'YYYY-MM',
 };

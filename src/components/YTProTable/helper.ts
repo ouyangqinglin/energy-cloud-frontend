@@ -4,6 +4,70 @@ import { get, isEmpty, merge } from 'lodash';
 import type { EmitType, YTProColumns, YTProTableCustomProps } from './typing';
 import { dateFormatMap } from '@/utils/dictionary';
 import moment from 'moment';
+import { getLocale } from '@/utils';
+
+const dateTypes = ['dateMonth', 'date', 'dateTime'];
+const dateRangeTypes = ['dateMonthRange', 'dateRange', 'dateTimeRange'];
+
+const locale = getLocale();
+
+const typeFormatMap: Record<string, string> = {
+  dateMonth: locale.monthYearFormat,
+  date: locale.dateFormat,
+  dateTime: locale.dateTimeNoSecondFormat,
+};
+
+export const formatColumns = <D, V>(columns: ProColumns[]) => {
+  if (!Array.isArray(columns) || !columns.length) {
+    return [];
+  }
+
+  const result = columns.map((col) => {
+    if (col?.valueType && typeof col.valueType == 'string') {
+      if (dateTypes.includes(col.valueType) || dateRangeTypes.includes(col.valueType)) {
+        const type = col.valueType.replace('Range', '');
+        const fieldProps: any = col.fieldProps;
+        if (fieldProps) {
+          if (typeof fieldProps == 'function') {
+            col.fieldProps = (...params: any[]) => {
+              return {
+                format: typeFormatMap[type],
+                ...fieldProps?.(...params),
+              };
+            };
+          } else if (typeof fieldProps == 'object') {
+            col.fieldProps = {
+              format: typeFormatMap[type],
+              ...fieldProps,
+            };
+          }
+        } else {
+          col.fieldProps = {
+            format: typeFormatMap[type],
+          };
+        }
+        if (col?.dataIndex && typeof col.dataIndex == 'string' && col.renderFormat) {
+          const render = col.render;
+          col.render = (...params) => {
+            const record = params[1];
+            const value = record[col.dataIndex as string];
+            if (value) {
+              try {
+                record[col.dataIndex as string] = moment(value).format(col.renderFormat);
+              } catch {
+                record[col.dataIndex as string] = value;
+              }
+            }
+            return render ? render?.(...params) : record[col.dataIndex as string];
+          };
+        }
+      }
+    }
+    return col;
+  });
+
+  return result;
+};
 
 export const normalizeRequestOption = <D, V>(
   columns: YTProColumns<D & EmitType, V>[] | undefined,
@@ -15,7 +79,7 @@ export const normalizeRequestOption = <D, V>(
 
   let hasEmptyWidth = false;
 
-  const result = columns.map((col) => {
+  let result = columns.map((col) => {
     if (!col.width) {
       hasEmptyWidth = true;
     }
@@ -69,6 +133,8 @@ export const normalizeRequestOption = <D, V>(
   if (!hasEmptyWidth) {
     // delete result[result.length - 1].width;
   }
+
+  result = formatColumns(result as ProColumns[]) as any;
   return result;
 };
 
@@ -154,16 +220,16 @@ export const calculateColumns = <D, P>(
   }
 };
 
-const dateTypes = ['date', 'dateTime'];
-const dateRangeTypes = ['dateRange', 'dateTimeRange'];
-
-export const dateFormat = (data: Record<string, any>, columns?: ProColumns<any, any>[]) => {
+export const formatData = (data: Record<string, any>, columns?: ProColumns<any, any>[]) => {
   columns?.forEach?.((col) => {
     if (col?.valueType && col.dataIndex && typeof col.dataIndex == 'string') {
       if (dateTypes.includes(col.valueType)) {
         const format = dateFormatMap[col.valueType];
-        const value = data?.[col.dataIndex];
+        let value = data?.[col.dataIndex];
         if (format && value) {
+          if (col.valueType == 'dateMonth' && !getLocale().isZhCN) {
+            value = value.split('/').reverse().join('-');
+          }
           data[col.dataIndex] = moment(value).format(format);
         }
       } else if (dateRangeTypes.includes(col.valueType)) {
@@ -174,6 +240,9 @@ export const dateFormat = (data: Record<string, any>, columns?: ProColumns<any, 
           const valueArr = data?.[col.dataIndex]?.map?.((value: any) => {
             let result = value;
             if (result && typeof result === 'string') {
+              if (col.valueType == 'dateMonthRange' && !getLocale().isZhCN) {
+                result = result.split('/').reverse().join('-');
+              }
               result = moment(result).format(format);
             }
             return result;
@@ -186,8 +255,11 @@ export const dateFormat = (data: Record<string, any>, columns?: ProColumns<any, 
           if (typeof result == 'object') {
             const valueArr: string[] = [];
             Object.keys(result).forEach((key) => {
-              const value = data?.[key];
+              let value = data?.[key];
               if (value) {
+                if (col.valueType == 'dateMonthRange' && !getLocale().isZhCN) {
+                  value = value.split('/').reverse().join('-');
+                }
                 valueArr.push(moment(value).format(format));
               }
             });

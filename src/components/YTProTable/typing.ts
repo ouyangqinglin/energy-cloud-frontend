@@ -70,4 +70,5 @@ export type YTProColumns<D, V = 'text'> = ProColumns<D, V> & {
     dataIndex?: string;
   };
   renderWithEmit?: ProColumns<D, V>['render'];
+  renderFormat?: string;
 };

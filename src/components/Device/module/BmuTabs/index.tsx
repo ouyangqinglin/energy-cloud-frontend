@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-05-08 17:15:44
+ * @LastEditTime: 2024-05-13 15:25:40
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -15,7 +15,7 @@ import { Tabs, TabsProps } from 'antd';
 import styles from './index.less';
 import CollectionModal from '@/components/CollectionModal';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { getChildEquipment } from '@/services/equipment';
 import { chartOptions, getFieldByLabel, labelMap } from './helper';
@@ -59,6 +59,10 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
 
   const isPvEnergy = useMemo(() => {
     return deviceData?.productId == DeviceTypeEnum.PvEnergyBms;
+  }, [deviceData]);
+
+  const isWindPvWood = useMemo(() => {
+    return deviceData?.productTypeId == DeviceProductTypeEnum.WindPvFirewoodEnergy;
   }, [deviceData]);
 
   const onTabChange = useCallback((key) => {
@@ -182,6 +186,14 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   }, [bmuData, deviceData, allLabel, activeKey]);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
+    let bmuTabNum = 10;
+    if (isLiquid) {
+      bmuTabNum = 5;
+    } else if (isPvEnergy) {
+      bmuTabNum = 9;
+    } else if (isWindPvWood) {
+      bmuTabNum = 7;
+    }
     return Array.from({
       length: isLiquid ? 5 : isPvEnergy ? 9 : 10,
     }).map((_, index) => {

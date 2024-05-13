@@ -305,9 +305,6 @@ export const formatModelValue = (
     case DeviceModelTypeEnum.Double:
       result = value + (showUnit ? specs?.unit ?? '' : '');
       break;
-    case DeviceModelTypeEnum.TimeStamp:
-      result = moment(value)?.format('YYYY-MM-DD HH:mm:ss');
-      break;
     case DeviceModelTypeEnum.Boolean:
     case DeviceModelTypeEnum.Enum:
       result = specs[value];
@@ -343,7 +340,7 @@ export const formatModelValue = (
       break;
     case DeviceModelTypeEnum.TimeStamp:
       try {
-        result = moment(value)?.format?.('YYYY-MM-DD HH:mm:ss');
+        result = moment(value)?.format?.(getLocale().dateTimeFormat);
         result = result ?? value;
       } catch {
         result = value;

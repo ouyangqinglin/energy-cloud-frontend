@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2023-11-27 13:57:43
+ * @LastEditTime: 2024-05-13 15:06:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
 import React, { useMemo, useEffect, useCallback, useRef } from 'react';
 import { useRequest } from 'umi';
 import { message } from 'antd';
-import type { ProFormInstance, ProFormLayoutType } from '@ant-design/pro-components';
+import type { ProColumns, ProFormInstance, ProFormLayoutType } from '@ant-design/pro-components';
 import { BetaSchemaForm, ProConfigProvider } from '@ant-design/pro-components';
 import type { CombineService } from '@ahooksjs/use-request/lib/types';
 import { merge } from 'lodash';
@@ -18,7 +18,7 @@ import { tableSelectValueTypeMap } from '../TableSelect';
 import type { FormSchema } from '@ant-design/pro-components/node_modules/@ant-design/pro-form/es/components/SchemaForm/index.d.ts';
 import type { InferResponseData } from '@/utils/request';
 import { formatMessage } from '@/utils';
-import { dateFormat } from '../YTProTable/helper';
+import { formatData, formatColumns } from '../YTProTable/helper';
 
 export enum FormTypeEnum {
   Add = 'add',
@@ -82,7 +82,7 @@ const SchemaForm = <
     onValuesChange,
     initialValues,
     onRef,
-    columns,
+    columns: formColumns,
     ...restProps
   } = props;
 
@@ -120,6 +120,10 @@ const SchemaForm = <
     }
   }, [type, suffixTitle]);
 
+  const columns = useMemo(() => {
+    return formatColumns(formColumns as ProColumns[]);
+  }, [formColumns]);
+
   const mergedSubmitter = useMemo(() => {
     if (typeof submitter == 'boolean') {
       return submitter;
@@ -148,7 +152,7 @@ const SchemaForm = <
 
   const onFinish = useCallback(
     (formData: FormData) => {
-      dateFormat(formData, columns);
+      formatData(formData, columns);
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
       const beforeSubmitResult = beforeSubmit?.(formData);
       if (beforeSubmitResult !== false) {
@@ -183,7 +187,7 @@ const SchemaForm = <
         return Promise.resolve(false);
       }
     },
-    [type, id, runAdd, runEdit, onSuccess, extraData, layoutType, beforeSubmit],
+    [type, id, runAdd, runEdit, onSuccess, extraData, layoutType, beforeSubmit, columns],
   );
 
   useEffect(() => {

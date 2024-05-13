@@ -187,10 +187,7 @@ const StationList: React.FC = () => {
         title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         valueType: 'dateRange',
-        fieldProps: {
-          format: getLocale().dateFormat,
-        },
-        render: (_, record) => record.createTime,
+        renderFormat: getLocale().dateTimeFormat,
         search: {
           transform: (value) => {
             return {
@@ -205,6 +202,7 @@ const StationList: React.FC = () => {
         title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
         dataIndex: 'deliveryTime',
         valueType: 'dateTime',
+        renderFormat: getLocale().dateTimeFormat,
         hideInSearch: true,
         width: 150,
       },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-04-29 18:55:52
+ * @LastEditTime: 2024-05-13 15:38:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -83,6 +83,7 @@ export const topItems: DetailItem[] = [
   {
     label: formatMessage({ id: 'device.equipmentManufacturer', defaultMessage: '设备厂商' }),
     field: 'factoryName',
+    show: false,
   },
   { label: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }), field: 'model' },
   {

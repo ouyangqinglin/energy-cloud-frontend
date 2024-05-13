@@ -292,13 +292,11 @@ export const Update = (props: FormUpdateBaseProps) => {
         style: {
           width: '100%',
         },
-        showTime: true,
-        format: 'YYYY/MM/DD HH:mm:ss',
         disabledDate: (current: Dayjs) => {
           return current && current < dayjs().startOf('day'); //只能选择今天以及之后的时间
         },
       },
-      valueType: 'date',
+      valueType: 'dateTime',
       dependencies: ['type'],
       colProps: {
         span: 12,

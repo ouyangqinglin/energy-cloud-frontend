@@ -34,18 +34,10 @@ export const columns: ProColumns<ConfigDataType, YTDATERANGEVALUETYPE>[] = [
     hideInSearch: true,
   },
   {
-    title: formatMessage({ id: 'device.createTime', defaultMessage: '生成时间' }),
-    hideInSearch: true,
-    dataIndex: 'createTime',
-  },
-  {
     title: formatMessage({ id: 'common.createTime', defaultMessage: '生成时间' }),
-    dataIndex: 'time',
-    valueType: YTDATERANGE,
-    fieldProps: {
-      dateFormat: getLocale().dateFormat,
-      format: 'YYYY-MM-DD',
-    },
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    renderFormat: getLocale().dateTimeFormat,
     search: {
       transform: (value) => {
         return {
@@ -54,8 +46,6 @@ export const columns: ProColumns<ConfigDataType, YTDATERANGEVALUETYPE>[] = [
         };
       },
     },
-    hideInTable: true,
-    width: 150,
     ellipsis: true,
   },
 ];
