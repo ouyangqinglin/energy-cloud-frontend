@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2023-10-13 14:37:17
+ * @LastEditTime: 2024-05-14 18:08:30
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\zh-CN\siteManage\index.ts
  */
@@ -142,4 +142,5 @@ export default {
   'siteManage.1009': 'IOS应用',
   'siteManage.1010': '厂家',
   'siteManage.1011': '用户ID',
+  'siteManage.set.1001': '储能单元',
 };

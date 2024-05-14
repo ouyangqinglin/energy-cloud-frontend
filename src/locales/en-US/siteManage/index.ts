@@ -145,4 +145,5 @@ export default {
   'siteManage.1009': 'IOS App',
   'siteManage.1010': 'Factory',
   'siteManage.1011': 'User ID',
+  'siteManage.set.1001': 'ESS Unit',
 };

@@ -64,10 +64,13 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
     cloneEnergyData.push({
       groupId: `${getUniqueNumber(5)}`,
       isAdd: true,
-      groupName: `${dataLength}#储能单元`,
+      groupName: `${dataLength}#${formatMessage({
+        id: 'siteManage.set.1001',
+        defaultMessage: '储能单元',
+      })}`,
       esDevices: [
         {
-          deviceName: '关联数据采集点',
+          deviceName: formatMessage({ id: 'device.selectDevice', defaultMessage: '选择设备' }),
           sn: '--',
         },
       ],
@@ -136,7 +139,7 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
         currentRow as MonitorDataType,
         [
           {
-            deviceName: '关联数据采集点',
+            deviceName: formatMessage({ id: 'device.selectDevice', defaultMessage: '选择设备' }),
             sn: '--',
           },
         ],
