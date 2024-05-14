@@ -269,11 +269,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
             </div>
           </div>
           {['2'].includes(siteType) ? (
-            <div
-              style={{
-                marginTop: '-18px',
-              }}
-            >
+            <div>
               <div className={styles.desc}>
                 <span className={styles.title}>
                   {formatMessage({
@@ -305,7 +301,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                   SiteTypeStrEnum.PV_ES_CS,
                 ].includes(siteType)
                   ? '5px auto'
-                  : '-14px 0 0',
+                  : '',
               }}
             >
               {/* <div className={styles.desc}>

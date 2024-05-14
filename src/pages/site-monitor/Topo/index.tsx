@@ -70,34 +70,34 @@ const Index: React.FC = () => {
         },
         valueEnum: new Map([
           [1, formatMessage({ id: 'siteMonitor.siteTopology', defaultMessage: '站点拓扑' })],
-          [
-            SiteTypeEnum.PV + '',
-            SiteTypeEnum.PV_CS + '',
-            SiteTypeEnum.PV_ES + '',
-            SiteTypeEnum.PV_ES_CS + '',
-          ].includes(siteData?.siteType)
-            ? [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })]
-            : ([] as any),
-          [
-            SiteTypeEnum.ES + '',
-            SiteTypeEnum.ES_CS + '',
-            SiteTypeEnum.PV_ES + '',
-            SiteTypeEnum.PV_ES_CS + '',
-          ].includes(siteData?.siteType)
-            ? [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })]
-            : ([] as any),
-          [
-            SiteTypeStrEnum.CS,
-            SiteTypeStrEnum.ES_CS,
-            SiteTypeStrEnum.PV_CS,
-            SiteTypeStrEnum.PV_ES_CS,
-          ].includes(siteData?.siteType)
-            ? [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })]
-            : ([] as any),
-          [
-            5,
-            formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' }),
-          ],
+          // [
+          //   SiteTypeEnum.PV + '',
+          //   SiteTypeEnum.PV_CS + '',
+          //   SiteTypeEnum.PV_ES + '',
+          //   SiteTypeEnum.PV_ES_CS + '',
+          // ].includes(siteData?.siteType)
+          //   ? [2, formatMessage({ id: 'siteMonitor.pvTopology', defaultMessage: '光伏拓扑' })]
+          //   : ([] as any),
+          // [
+          //   SiteTypeEnum.ES + '',
+          //   SiteTypeEnum.ES_CS + '',
+          //   SiteTypeEnum.PV_ES + '',
+          //   SiteTypeEnum.PV_ES_CS + '',
+          // ].includes(siteData?.siteType)
+          //   ? [3, formatMessage({ id: 'siteMonitor.storageTopology', defaultMessage: '储能拓扑' })]
+          //   : ([] as any),
+          // [
+          //   SiteTypeStrEnum.CS,
+          //   SiteTypeStrEnum.ES_CS,
+          //   SiteTypeStrEnum.PV_CS,
+          //   SiteTypeStrEnum.PV_ES_CS,
+          // ].includes(siteData?.siteType)
+          //   ? [4, formatMessage({ id: 'siteMonitor.powerTopology', defaultMessage: '用电拓扑' })]
+          //   : ([] as any),
+          // [
+          //   5,
+          //   formatMessage({ id: 'siteMonitor.communicationTopology', defaultMessage: '通信拓扑' }),
+          // ],
         ]),
       },
     ];
