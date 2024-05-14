@@ -255,6 +255,7 @@ const ChartBox = ({
         break;
       case 2: //收益
         const deepData = cloneDeep(series[0]);
+        deepData.stack = '收益';
         series = [];
         //光伏收益/元
         let isCanUser = ![SiteTypeEnum.ES, SiteTypeEnum.CS, SiteTypeEnum.ES_CS].includes(
@@ -311,6 +312,7 @@ const ChartBox = ({
         const name = formatMessage({ id: 'index.chart.totalIncome', defaultMessage: '总收益/元' });
         series.push({
           ...deepData,
+          stack: '',
           name,
           type: 'line',
           color: '#FF7B7B',

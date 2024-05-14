@@ -53,7 +53,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
       icon: IconStorageBattery,
       title: formatMessage({ id: 'device.storageBattery', defaultMessage: '储能电池' }),
       field: 'battery',
-      show: ['23', '2'].includes(siteType),
+      show: ['23', '12', '2'].includes(siteType),
       statistics: [
         {
           label: `${formatMessage({
@@ -88,7 +88,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
       icon: IconEnergyStorage,
       title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
       field: 'storedEnergy',
-      show: ['123', '12', '23', '2', ''].includes(siteType),
+      show: ['123', '23', '2', ''].includes(siteType),
       statistics: [
         {
           label: `${formatMessage({
@@ -101,12 +101,19 @@ export const config = (siteType: SiteTypeStrEnum) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.chargeTotal/dischargeTotal',
-            defaultMessage: '累计系统充/放电量',
+            id: 'siteMonitor.1004',
+            defaultMessage: '累计系统充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) =>
-            `${entity?.chargeTotal || '--'} / ${entity?.dischargeTotal || '--'}`,
+          field: 'chargeTotal',
+        },
+        {
+          label: `${formatMessage({
+            id: 'siteMonitor.1005',
+            defaultMessage: '累计系统放电量',
+          })}(kWh)`,
+          labelUnit: '/kWh',
+          field: 'dischargeTotal',
         },
         {
           label: `${formatMessage({
@@ -135,12 +142,19 @@ export const config = (siteType: SiteTypeStrEnum) => {
         },
         {
           label: `${formatMessage({
-            id: 'siteMonitor.TotalPowerSupply/TotalGridPowerSupply',
-            defaultMessage: '累计供电量/馈网电量',
+            id: 'siteMonitor.1006',
+            defaultMessage: '累计供电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) =>
-            `${entity?.chargeTotal || '--'} / ${entity?.dischargeTotal || '--'}`,
+          field: 'chargeTotal',
+        },
+        {
+          label: `${formatMessage({
+            id: 'siteMonitor.1007',
+            defaultMessage: '累计馈网电量',
+          })}(kWh)`,
+          labelUnit: '/kWh',
+          field: 'dischargeTotal',
         },
         {
           label: `${formatMessage({
