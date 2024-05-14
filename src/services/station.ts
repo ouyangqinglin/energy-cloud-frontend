@@ -42,6 +42,14 @@ export type AlarmConfigDataType = {
   alarmShow?: number;
 };
 
+export type VideoMonitorDataType = {
+  monitorStatus?: string;
+  jumpMethod?: string;
+  config?: string;
+  code?: string;
+  url?: string;
+};
+
 export const getStations = (params?: any) => {
   return request(`/oss/site/getList`, {
     method: 'GET',
@@ -97,5 +105,12 @@ export const getSiteScreenConfig = (params: any) => {
 export const getRoleSiteList = () => {
   return request<ResponseCommonData<SiteOptionType[]>>(`/uc/site/allSiteType`, {
     method: 'GET',
+  });
+};
+
+export const getVideoMonitorData = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorDataType>>(`/uc/site/videoMonitor`, {
+    method: 'GET',
+    params,
   });
 };

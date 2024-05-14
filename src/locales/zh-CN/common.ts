@@ -253,4 +253,9 @@ export default {
 
   'common.yes': '是',
   'common.no': '否',
+  'common.1001': '直接跳转',
+  'common.1002': 'SSO跳转',
+  'common.1003': 'Url格式错误',
+  'common.1004': '请配置',
+  'common.1005': '令牌获取失败，请重试！',
 };

@@ -133,4 +133,13 @@ export default {
   'siteManage.unitName': '单元名称',
   'siteManage.electricityMeter': '市电电表',
   'siteManage.unitManage': '储能单元管理',
+  'siteManage.1001': '视频监控',
+  'siteManage.1002': '监控状态',
+  'siteManage.1003': 'Web配置',
+  'siteManage.1004': '跳转方式',
+  'siteManage.1007': 'App配置',
+  'siteManage.1008': '安卓应用',
+  'siteManage.1009': 'IOS应用',
+  'siteManage.1010': '厂家',
+  'siteManage.1011': '用户ID',
 };

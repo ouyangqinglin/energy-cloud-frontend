@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useEffect, useMemo, useRef } from 'react';
 import { useState } from 'react';
 import { SiteTypeEnum } from '@/utils/dict';
-import type { SubSystemType } from '../..';
+import { SubSystemType } from '../..';
 import styles from './index.less';
 import RenderTitle from './RenderTitle';
 import { useFetchChartData } from './useFetchChartData';
@@ -374,7 +374,7 @@ const ChartBox = ({
       </div>
       <TypeChart
         type={timeType}
-        step={subSystemType == 2 ? 10 : 5}
+        step={subSystemType == SubSystemType.EI ? 30 : 5}
         chartRef={chartRef}
         date={date}
         option={option}

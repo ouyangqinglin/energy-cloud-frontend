@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-04-28 14:03:23
+ * @LastEditTime: 2024-05-14 18:06:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -52,6 +52,17 @@ export const enableStatus = {
   },
   1: {
     text: formatMessage({ id: 'common.enable', defaultMessage: '启用' }),
+    status: 'Error',
+  },
+};
+
+export const jumpMethodEnum = {
+  0: {
+    text: formatMessage({ id: 'common.1001', defaultMessage: '直接跳转' }),
+    status: 'Success',
+  },
+  1: {
+    text: formatMessage({ id: 'common.1002', defaultMessage: 'SSO跳转' }),
     status: 'Error',
   },
 };
