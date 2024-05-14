@@ -133,4 +133,5 @@ export default {
   'siteManage.unitName': '单元名称',
   'siteManage.electricityMeter': '市电电表',
   'siteManage.unitManage': '储能单元管理',
+  'siteManage.set.1001': '储能单元',
 };

@@ -136,4 +136,5 @@ export default {
   'siteManage.unitName': 'Unit Name',
   'siteManage.electricityMeter': 'Electricity Meter',
   'siteManage.unitManage': 'ESS Unit Manage',
+  'siteManage.set.1001': 'ESS Unit',
 };
