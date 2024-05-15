@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-14 09:55:59
- * @LastEditTime: 2024-05-14 15:24:25
+ * @LastEditTime: 2024-05-15 15:28:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\VideoMonitor\index.tsx
  */
@@ -33,6 +33,8 @@ const VideoMonitor: React.FC = () => {
   const afterRequest = useCallback((data) => {
     data.monitorStatus = data.monitorStatus + '';
     data.jumpMethod = data.jumpMethod + '';
+    data.androidAppId = data.androidAppId + '';
+    data.iosAppId = data.iosAppId + '';
     try {
       data.config = JSON.parse(data?.config);
     } catch {
@@ -49,7 +51,7 @@ const VideoMonitor: React.FC = () => {
   return (
     <>
       <Card
-        className="mt16 mx24"
+        className="my16 mx24"
         title={formatMessage({ id: 'siteManage.1001', defaultMessage: '视频监控' })}
         extra={
           isEdit ? (

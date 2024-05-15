@@ -38,4 +38,6 @@ export type HkyfConfig = {
   userId?: string;
   appKey?: string;
   secretKey?: string;
+  productCode?: string;
+  path?: string;
 };

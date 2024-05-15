@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 16:00:49
- * @LastEditTime: 2024-01-11 13:52:49
+ * @LastEditTime: 2024-05-15 16:57:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
@@ -153,4 +153,9 @@ export const getColumnsLength = (columns?: ProFormColumnsType[]): number => {
     maxColumnLength = Math.max(maxColumnLength, item.length);
   });
   return maxColumnLength;
+};
+
+export const getRealField = (fieldId?: string) => {
+  const result = (fieldId ?? '')?.split('.') || [];
+  return result[result.length - 1];
 };

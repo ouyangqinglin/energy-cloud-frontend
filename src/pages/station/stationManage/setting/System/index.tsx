@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 18:08:53
- * @LastEditTime: 2024-05-14 14:37:02
+ * @LastEditTime: 2024-05-15 15:27:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\index.tsx
  */
@@ -46,8 +46,8 @@ const System: React.FC = () => {
       result.push({
         key: 'video',
         label: formatMessage({
-          id: 'siteManage.1001',
-          defaultMessage: '视频监控',
+          id: 'siteManage.1012',
+          defaultMessage: '监控配置',
         }),
         children: <VideoMonitor />,
       });

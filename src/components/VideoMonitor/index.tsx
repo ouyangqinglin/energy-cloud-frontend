@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-14 15:37:16
- * @LastEditTime: 2024-05-14 17:49:00
+ * @LastEditTime: 2024-05-15 11:07:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\VideoMonitor\index.tsx
  */
@@ -11,10 +11,9 @@ import React, { memo, useCallback, useEffect } from 'react';
 import { VideoCameraAddOutlined } from '@ant-design/icons';
 import { useRequest } from 'umi';
 import { getVideoMonitorData } from '@/services/station';
-import { StatusEnum, VideoFactoryEnum } from '@/utils/dictionary';
+import { StatusEnum } from '@/utils/dictionary';
 import { message } from 'antd';
-import { formatMessage, parseToObj } from '@/utils';
-import { openHkyf } from './helper';
+import { formatMessage } from '@/utils';
 import { isUrl } from '@/utils/reg';
 
 type VideoMonitorType = {
@@ -40,11 +39,8 @@ const VideoMonitor: React.FC<VideoMonitorType> = (props) => {
         return;
       }
     } else if (data?.jumpMethod == '1') {
-      if (data?.code == VideoFactoryEnum.HKYF) {
-        const config = parseToObj(data?.config);
-        openHkyf(config);
-        return;
-      }
+      window.open(`/video-monitor?id=${siteId}`);
+      return;
     }
     message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
   }, [data]);
@@ -57,7 +53,7 @@ const VideoMonitor: React.FC<VideoMonitorType> = (props) => {
 
   return (
     <>
-      {data?.monitorStatus == StatusEnum.Enable && false && (
+      {data?.monitorStatus == StatusEnum.Enable && (
         <VideoCameraAddOutlined className={className} onClick={onClick} />
       )}
     </>

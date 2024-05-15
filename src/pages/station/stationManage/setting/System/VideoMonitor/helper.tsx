@@ -20,18 +20,6 @@ import { VideoFactoryEnum } from '@/utils/dictionary';
 const factoryColumnsMap: Record<string, ProFormColumnsType[]> = {
   [VideoFactoryEnum.HKYF]: [
     {
-      title: 'URL',
-      dataIndex: ['config', 'SSOUrl'],
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            type: 'url',
-          },
-        ],
-      },
-    },
-    {
       title: formatMessage({ id: 'siteManage.1011', defaultMessage: '用户ID' }),
       dataIndex: ['config', 'userId'],
       formItemProps: {
@@ -56,6 +44,40 @@ const factoryColumnsMap: Record<string, ProFormColumnsType[]> = {
     {
       title: 'Secret Key',
       dataIndex: ['config', 'secretKey'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
+      },
+    },
+    {
+      title: 'URL',
+      dataIndex: ['config', 'SSOUrl'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            type: 'url',
+          },
+        ],
+      },
+    },
+    {
+      title: formatMessage({ id: 'siteManage.1013', defaultMessage: '项目编码' }),
+      dataIndex: ['config', 'productCode'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
+      },
+    },
+    {
+      title: formatMessage({ id: 'siteManage.1014', defaultMessage: '路由' }),
+      dataIndex: ['config', 'path'],
       formItemProps: {
         rules: [
           {

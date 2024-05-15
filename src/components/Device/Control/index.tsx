@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-13 17:22:39
+ * @LastEditTime: 2024-05-15 16:46:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -41,7 +41,7 @@ import {
 } from '@/utils';
 import ConfigModal from '../ConfigModal';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
-import { getColumnsLength, timeRangeColumn, validatorTime } from './helper';
+import { getColumnsLength, getRealField, timeRangeColumn, validatorTime } from './helper';
 import { merge } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
@@ -155,10 +155,11 @@ const Control: React.FC<ControlType> = memo((props) => {
         }),
         okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
         cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-        onOk: () =>
-          run({
+        onOk: () => {
+          const idArr = (field.id || '')?.split('.') || [''];
+          return run({
             deviceId: field.deviceId || deviceData?.deviceId,
-            input: { [field.id || '']: value },
+            input: { [idArr[idArr.length - 1]]: value },
             serviceId: field.serviceId,
           }).then((data: any) => {
             if (data) {
@@ -166,7 +167,8 @@ const Control: React.FC<ControlType> = memo((props) => {
                 formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
               );
             }
-          }),
+          });
+        },
       });
     },
     [deviceData?.deviceId],
@@ -250,7 +252,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           }
           const column: ProFormColumnsType = merge(
             {
-              dataIndex: field.id,
+              dataIndex: getRealField(field.id),
               formItemProps: {
                 rules:
                   field?.required === false
@@ -294,9 +296,8 @@ const Control: React.FC<ControlType> = memo((props) => {
 
           let fieldValue = parseToArray(realTimeData?.[field?.id || '']);
           if (field?.deviceId) {
-            const realField = field?.id?.split?.('.') || [];
             fieldValue = parseToArray(
-              realTimeData?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]],
+              realTimeData?.[field?.deviceId || '']?.[getRealField(field?.id)],
             );
           }
           const items: DetailItem[] = [];
@@ -318,10 +319,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 unit: (item?.dataType as DeviceDoubleType)?.specs?.unit,
                 valueInterceptor: (_, data) => {
                   if (item?.deviceId) {
-                    const realField = item?.id?.split?.('.') || [];
-                    return data?.[item?.deviceId || '']?.[
-                      realField?.[realField?.length - 1] + index
-                    ];
+                    return data?.[item?.deviceId || '']?.[getRealField(item?.id) + index];
                   } else {
                     return data?.[deviceData?.deviceId || '']?.[(item?.id || '') + index];
                   }
@@ -355,7 +353,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           if (passAuthority(field?.authority, 'edit')) {
             columns.push({
               title: field?.name,
-              dataIndex: field?.id,
+              dataIndex: getRealField(field?.id),
               valueType: 'timeRange',
               formItemProps: ({ getFieldValue }) => {
                 return {
@@ -403,8 +401,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
-                  const realField = field?.id?.split?.('.') || [];
-                  return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  return data?.[field?.deviceId || '']?.[getRealField(field?.id)];
                 } else {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }
@@ -459,9 +456,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 format: (value, data) => {
                   let formatValue = value;
                   if (field?.deviceId) {
-                    const realField = field?.id?.split?.('.') || [];
-                    formatValue =
-                      data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                    formatValue = data?.[field?.deviceId || '']?.[getRealField(field?.id)];
                   } else {
                     formatValue = data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                   }
@@ -498,10 +493,9 @@ const Control: React.FC<ControlType> = memo((props) => {
                   let childData;
                   let formatValue = value;
                   if (field?.deviceId) {
-                    const realField = field?.id?.split?.('.') || [];
                     childData = formatData?.[field?.deviceId || ''];
                     data = childData;
-                    formatValue = childData?.[realField?.[realField?.length - 1]];
+                    formatValue = childData?.[getRealField(field?.id)];
                   } else {
                     data = formatData?.[deviceData?.deviceId || ''];
                     formatValue = data?.[field?.id || ''];
@@ -543,7 +537,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               if (passAuthority(field?.authority, 'edit')) {
                 columns.push({
                   title: field?.name,
-                  dataIndex: field?.id,
+                  dataIndex: getRealField(field?.id),
                   valueType: 'select',
                   fieldProps: {
                     options: Object.entries(enumSpecs)?.map?.(([value, label]) => ({
@@ -593,8 +587,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                   unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
                   valueInterceptor: (_, data) => {
                     if (field?.deviceId) {
-                      const realField = field?.id?.split?.('.') || [];
-                      return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                      return data?.[field?.deviceId || '']?.[getRealField(field?.id)];
                     } else {
                       return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                     }
@@ -639,7 +632,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           if (passAuthority(field?.authority, 'edit')) {
             columns.push({
               title: field?.name,
-              dataIndex: field?.id,
+              dataIndex: getRealField(field?.id),
               formItemProps: {
                 validateTrigger: 'submit',
                 rules:
@@ -679,8 +672,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
-                  const realField = field?.id?.split?.('.') || [];
-                  return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  return data?.[field?.deviceId || '']?.[getRealField(field?.id)];
                 } else {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }
@@ -729,7 +721,7 @@ const Control: React.FC<ControlType> = memo((props) => {
           if (passAuthority(field?.authority, 'edit')) {
             columns.push({
               title: field?.name,
-              dataIndex: field?.id,
+              dataIndex: getRealField(field?.id),
               valueType: valueType,
               fieldProps: {
                 ...(valueType == 'digit'
@@ -792,8 +784,7 @@ const Control: React.FC<ControlType> = memo((props) => {
               unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
               valueInterceptor: (_, data) => {
                 if (field?.deviceId) {
-                  const realField = field?.id?.split?.('.') || [];
-                  return data?.[field?.deviceId || '']?.[realField?.[realField?.length - 1]];
+                  return data?.[field?.deviceId || '']?.[getRealField(field?.id)];
                 } else {
                   return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
                 }

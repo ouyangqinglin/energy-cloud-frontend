@@ -143,4 +143,7 @@ export default {
   'siteManage.1010': '厂家',
   'siteManage.1011': '用户ID',
   'siteManage.set.1001': '储能单元',
+  'siteManage.1012': '监控配置',
+  'siteManage.1013': '项目编码',
+  'siteManage.1014': '路由',
 };
