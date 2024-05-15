@@ -2,17 +2,17 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-14 15:37:16
- * @LastEditTime: 2024-05-15 11:07:17
+ * @LastEditTime: 2024-05-15 17:45:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\VideoMonitor\index.tsx
  */
 
 import React, { memo, useCallback, useEffect } from 'react';
-import { VideoCameraAddOutlined } from '@ant-design/icons';
+import { YTVideoOutlined } from '@/components/YTIcons';
 import { useRequest } from 'umi';
 import { getVideoMonitorData } from '@/services/station';
 import { StatusEnum } from '@/utils/dictionary';
-import { message } from 'antd';
+import { Button, message } from 'antd';
 import { formatMessage } from '@/utils';
 import { isUrl } from '@/utils/reg';
 
@@ -54,7 +54,7 @@ const VideoMonitor: React.FC<VideoMonitorType> = (props) => {
   return (
     <>
       {data?.monitorStatus == StatusEnum.Enable && (
-        <VideoCameraAddOutlined className={className} onClick={onClick} />
+        <Button shape="circle" icon={<YTVideoOutlined />} className={className} onClick={onClick} />
       )}
     </>
   );
