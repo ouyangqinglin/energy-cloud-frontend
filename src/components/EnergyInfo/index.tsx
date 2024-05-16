@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-21 14:31:10
- * @LastEditTime: 2024-03-05 10:27:43
+ * @LastEditTime: 2024-05-16 10:12:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\index.tsx
  */
@@ -30,8 +30,8 @@ export type EnergyInfoType = {
 const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.Liquid2Energy,
   DeviceTypeEnum.Wind2Energy,
-  DeviceTypeEnum.PvEnergy,
-  DeviceTypeEnum.SmallEnergy,
+  // DeviceTypeEnum.PvEnergy,
+  // DeviceTypeEnum.SmallEnergy,
 ];
 
 const EnergyInfo: React.FC<EnergyInfoType> = (props) => {
