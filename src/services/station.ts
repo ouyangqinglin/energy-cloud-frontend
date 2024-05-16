@@ -48,6 +48,12 @@ export type VideoMonitorDataType = {
   config?: string;
   code?: string;
   url?: string;
+  factoryId?: number;
+};
+
+export type VideoMonitorTokenType = {
+  authorization?: string;
+  refreshToken?: string;
 };
 
 export const getStations = (params?: any) => {
@@ -110,6 +116,13 @@ export const getRoleSiteList = () => {
 
 export const getVideoMonitorData = (params: any) => {
   return request<ResponseCommonData<VideoMonitorDataType>>(`/uc/site/videoMonitor`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getVideoMonitorToken = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorTokenType>>(`/uc/site/videoMonitor/token`, {
     method: 'GET',
     params,
   });

@@ -10,4 +10,5 @@
 export default {
   'videoMonitor.1001': 'The manufacturer has not yet connected, please check the configuration!',
   'videoMonitor.1002': 'Video Surveillance',
+  'videoMonitor.1003': 'Video surveillance is not enabled',
 };

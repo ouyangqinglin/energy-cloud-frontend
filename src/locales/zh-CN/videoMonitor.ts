@@ -10,4 +10,5 @@
 export default {
   'videoMonitor.1001': '厂家暂未对接，请检查配置！',
   'videoMonitor.1002': '视频监控',
+  'videoMonitor.1003': '视频监控未启用',
 };

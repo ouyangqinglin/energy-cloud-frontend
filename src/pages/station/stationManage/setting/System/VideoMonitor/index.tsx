@@ -35,6 +35,7 @@ const VideoMonitor: React.FC = () => {
     data.jumpMethod = data.jumpMethod + '';
     data.androidAppId = data.androidAppId + '';
     data.iosAppId = data.iosAppId + '';
+    data.factoryId = data.factoryId + '';
     try {
       data.config = JSON.parse(data?.config);
     } catch {
