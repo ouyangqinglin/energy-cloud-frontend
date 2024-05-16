@@ -365,10 +365,10 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     ...(key == 'energy'
       ? [
           {
-            title: `${formatMessage({
+            title: formatMessage({
               id: 'siteMonitor.energyStorageUnit',
               defaultMessage: '储能单元',
-            })}（kW）`,
+            }),
             dataIndex: 'esMap',
             width: 150,
             ellipsis: true,

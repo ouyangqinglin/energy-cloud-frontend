@@ -12,10 +12,7 @@ import { useAuthority } from '@/hooks';
 import { optionalDeviceList, unitDeviceList, updataUnitDeviceList } from '@/services/equipment';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 
-type UnitManagePropsType = {
-  deviceTree?: boolean;
-};
-const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
+const EnergyUnitManage: React.FC = () => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const actionRef = useRef<ActionType>();
   const { authorityMap } = useAuthority([
@@ -132,6 +129,7 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
   };
 
   const handleOk = () => {
+    console.log('selectedRowsState>>', selectedRowsState);
     if (selectedRowsState.length) {
       changeTableData(currentRow as MonitorDataType, selectedRowsState, 'esDevices');
     } else {
@@ -175,6 +173,7 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
             <Table
               showHeader={false}
               size="small"
+              bordered={false}
               pagination={false}
               columns={[
                 {
@@ -222,16 +221,16 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
       dataIndex: 'mainsSupplyMeters',
       width: 150,
       render: (_, record) => {
-        return (
-          <>
-            <Table
-              showHeader={false}
-              size="small"
-              pagination={false}
-              columns={[{ dataIndex: 'deviceName' }]}
-              dataSource={record?.mainsSupplyMeters || []}
-            />
-          </>
+        return record?.mainsSupplyMeters?.length ? (
+          <Table
+            showHeader={false}
+            size="small"
+            pagination={false}
+            columns={[{ dataIndex: 'deviceName' }]}
+            dataSource={record?.mainsSupplyMeters}
+          />
+        ) : (
+          '--'
         );
       },
       ellipsis: true,
@@ -244,21 +243,21 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
       dataIndex: 'mainsSupplyMeters',
       width: 150,
       render: (_, record) => {
-        return (
-          <>
-            <Table
-              showHeader={false}
-              size="small"
-              pagination={false}
-              columns={[
-                {
-                  dataIndex: 'maximumLoadOfTransformer',
-                  render: (_s, row) => row.maximumLoadOfTransformer?.value,
-                },
-              ]}
-              dataSource={record?.mainsSupplyMeters || []}
-            />
-          </>
+        return record?.mainsSupplyMeters?.length ? (
+          <Table
+            showHeader={false}
+            size="small"
+            pagination={false}
+            columns={[
+              {
+                dataIndex: 'maximumLoadOfTransformer',
+                render: (_s, row) => row.maximumLoadOfTransformer?.value,
+              },
+            ]}
+            dataSource={record?.mainsSupplyMeters || []}
+          />
+        ) : (
+          '--'
         );
       },
       ellipsis: true,
@@ -269,7 +268,7 @@ const EnergyUnitManage: React.FC<UnitManagePropsType> = (props) => {
             title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
             fixed: 'right',
             width: 80,
-            render: (_, record: MonitorDataType) => (
+            render: (_: any, record: MonitorDataType) => (
               <Button onClick={() => deleteData(record)} type="link">
                 {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
               </Button>
