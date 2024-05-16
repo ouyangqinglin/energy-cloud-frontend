@@ -535,3 +535,12 @@ export const dateFormatMap: Record<string, string> = {
   date: 'YYYY-MM-DD',
   dateMonth: 'YYYY-MM',
 };
+
+export enum VideoFactoryEnum {
+  HKYF = 'hkyf',
+}
+
+export enum StatusEnum {
+  Disable = '0',
+  Enable = '1',
+}

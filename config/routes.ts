@@ -927,6 +927,12 @@ const routers: RouterType[] = [
     ],
   },
   {
+    path: '/video-monitor',
+    name: 'videoMonitor',
+    layout: false,
+    component: './videoMonitor',
+  },
+  {
     path: '/',
     component: '@/layouts/TabsLayout',
     routes: [

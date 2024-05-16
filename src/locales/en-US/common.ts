@@ -255,4 +255,9 @@ export default {
 
   'common.yes': 'Yes',
   'common.no': 'No',
+  'common.1001': 'Jump Directly',
+  'common.1002': 'SSO Jump',
+  'common.1003': 'Url Format Error',
+  'common.1004': 'Please Config',
+  'common.1005': 'Failed to obtain token, please try again!',
 };

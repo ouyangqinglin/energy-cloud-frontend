@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-01 18:08:53
- * @LastEditTime: 2023-12-21 11:49:45
+ * @LastEditTime: 2024-05-15 15:27:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\System\index.tsx
  */
@@ -11,6 +11,7 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import Monitor from './Monitor';
 import OverviewSetting from './OverviewSetting';
+import VideoMonitor from './VideoMonitor';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
@@ -19,6 +20,7 @@ const System: React.FC = () => {
     'siteManage:siteConfig:runManage:monitorSetting',
     'siteManage:siteConfig:runManage:overviewSetting',
     'iot:siteConfig:deviceTree', //关联设备/采集点
+    'siteManage:siteConfig:runManage:videoMonitor',
   ]);
   const deviceTree = authorityMap.get('iot:siteConfig:deviceTree') || false;
   const tabItems = useMemo(() => {
@@ -38,6 +40,16 @@ const System: React.FC = () => {
           defaultMessage: '大屏配置',
         }),
         children: <OverviewSetting />,
+      });
+    }
+    if (authorityMap.get('siteManage:siteConfig:runManage:videoMonitor')) {
+      result.push({
+        key: 'video',
+        label: formatMessage({
+          id: 'siteManage.1012',
+          defaultMessage: '监控配置',
+        }),
+        children: <VideoMonitor />,
       });
     }
     return result;

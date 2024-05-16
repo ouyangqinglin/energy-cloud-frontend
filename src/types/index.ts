@@ -13,7 +13,7 @@ export type LocationType<Params = Record<string, any>> = {
   query?: Params;
 };
 
-export type OptionType = {
+export type OptionType<T = any> = T & {
   label: string;
   value: string | number;
   [key: string]: any;
@@ -31,4 +31,13 @@ export type SiteOptionType = {
   name?: string;
   value?: string;
   unitName?: string;
+};
+
+export type HkyfConfig = {
+  SSOUrl?: string;
+  userId?: string;
+  appKey?: string;
+  secretKey?: string;
+  productCode?: string;
+  path?: string;
 };

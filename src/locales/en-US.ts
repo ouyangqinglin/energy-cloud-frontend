@@ -41,6 +41,7 @@ import debug from './en-US/debug';
 import charge from './en-US/charge';
 import iccid from './en-US/iccid';
 import map from './en-US/map';
+import videoMonitor from './en-US/videoMonitor';
 
 export default {
   'navBar.lang': 'Languages',
@@ -94,4 +95,5 @@ export default {
   ...charge,
   ...iccid,
   ...map,
+  ...videoMonitor,
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-05-13 15:25:40
+ * @LastEditTime: 2024-05-14 17:44:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -62,7 +62,7 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
   }, [deviceData]);
 
   const isWindPvWood = useMemo(() => {
-    return deviceData?.productTypeId == DeviceProductTypeEnum.WindPvFirewoodEnergy;
+    return deviceData?.productId == DeviceTypeEnum.FGCCEnergyBatteryCluster;
   }, [deviceData]);
 
   const onTabChange = useCallback((key) => {
@@ -195,7 +195,7 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
       bmuTabNum = 7;
     }
     return Array.from({
-      length: isLiquid ? 5 : isPvEnergy ? 9 : 10,
+      length: bmuTabNum,
     }).map((_, index) => {
       return {
         key: index + '',

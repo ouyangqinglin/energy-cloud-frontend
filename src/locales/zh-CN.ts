@@ -41,6 +41,7 @@ import debug from './zh-CN/debug';
 import charge from './zh-CN/charge';
 import iccid from './zh-CN/iccid';
 import map from './zh-CN/map';
+import videoMonitor from './zh-CN/videoMonitor';
 
 export default {
   'navBar.lang': '语言',
@@ -94,4 +95,5 @@ export default {
   ...charge,
   ...iccid,
   ...map,
+  ...videoMonitor,
 };

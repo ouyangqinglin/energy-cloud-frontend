@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-02-20 16:01:44
+ * @LastEditTime: 2024-05-15 17:41:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -14,8 +14,8 @@ import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import { ProTable } from '@ant-design/pro-components';
-import type { ProTableProps, ActionType } from '@ant-design/pro-components';
-import { mergeWith } from 'lodash';
+import type { ProTableProps, ActionType, ProFormInstance } from '@ant-design/pro-components';
+import { debounce, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
@@ -125,6 +125,7 @@ const TableTreeModal = <
   const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
   const colRef = useRef<HTMLDivElement>(null);
   const colSize = useSize(colRef);
+  const tableFormRef = useRef<ProFormInstance<Params>>();
 
   const treeSelectAndCheckData = useMemo(() => {
     if (selectType === SelectTypeEnum.Device) {
@@ -247,6 +248,13 @@ const TableTreeModal = <
       }
     },
     [proTableProps?.request, proTableProps?.pagination, valueId],
+  );
+
+  const onSearchChange = useCallback(
+    debounce(() => {
+      tableFormRef.current?.submit?.();
+    }, 700),
+    [],
   );
 
   useEffect(() => {
@@ -404,6 +412,7 @@ const TableTreeModal = <
           </Col>
           <Col className={styles.treeCol} flex="1">
             <ProTable<DataType, Params>
+              formRef={tableFormRef}
               className={styles.proTable}
               scroll={{
                 y: 380,
@@ -413,6 +422,12 @@ const TableTreeModal = <
               request={requestTable}
               locale={{
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
+              }}
+              search={{
+                optionRender: () => [],
+              }}
+              form={{
+                onValuesChange: onSearchChange,
               }}
             />
           </Col>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:43:33
- * @LastEditTime: 2023-10-17 11:04:00
+ * @LastEditTime: 2024-05-16 09:40:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
@@ -40,6 +40,20 @@ export type ConfigDataType = {
 export type AlarmConfigDataType = {
   siteId?: string;
   alarmShow?: number;
+};
+
+export type VideoMonitorDataType = {
+  monitorStatus?: string;
+  jumpMethod?: string;
+  config?: string;
+  code?: string;
+  url?: string;
+  factoryId?: number;
+};
+
+export type VideoMonitorTokenType = {
+  authorization?: string;
+  refreshToken?: string;
 };
 
 export const getStations = (params?: any) => {
@@ -97,5 +111,19 @@ export const getSiteScreenConfig = (params: any) => {
 export const getRoleSiteList = () => {
   return request<ResponseCommonData<SiteOptionType[]>>(`/uc/site/allSiteType`, {
     method: 'GET',
+  });
+};
+
+export const getVideoMonitorData = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorDataType>>(`/uc/site/videoMonitor`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getVideoMonitorToken = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorTokenType>>(`/uc/site/videoMonitor/token`, {
+    method: 'GET',
+    params,
   });
 };

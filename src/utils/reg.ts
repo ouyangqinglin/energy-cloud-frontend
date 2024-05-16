@@ -12,6 +12,15 @@ const ZHPhoneReg = /^1\d{10}$/;
 const USPhoneReg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
 const secretReg = /^(?![a-zA-Z]+$)(?!\d+$)(?![^\da-zA-Z\s]+$).{8,16}$/;
 const hourRange = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
+const urlReg = new RegExp(
+  '^(https?:\\/\\/)' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', // fragment locator
+  'i', // case insensitive
+);
 
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
@@ -58,4 +67,8 @@ export const verifyPassword = (password: string) => {
 
 export const isHourRange = (value: string) => {
   return hourRange.test(value ?? '');
+};
+
+export const isUrl = (value?: string) => {
+  return urlReg.test(value ?? '');
 };

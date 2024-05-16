@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2024-05-08 17:51:20
+ * @LastEditTime: 2024-05-14 14:34:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -136,5 +136,14 @@ export default {
   'siteManage.unitName': 'Unit Name',
   'siteManage.electricityMeter': 'Electricity Meter',
   'siteManage.unitManage': 'ESS Unit Manage',
+  'siteManage.1001': 'Video Surveillance',
+  'siteManage.1002': 'Monitor Status',
+  'siteManage.1003': 'Web Config',
+  'siteManage.1004': 'Jump Method',
+  'siteManage.1007': 'App Config',
+  'siteManage.1008': 'Android App',
+  'siteManage.1009': 'IOS App',
+  'siteManage.1010': 'Factory',
+  'siteManage.1011': 'User ID',
   'siteManage.set.1001': 'ESS Unit',
 };

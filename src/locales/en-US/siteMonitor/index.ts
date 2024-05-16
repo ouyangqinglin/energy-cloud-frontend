@@ -355,4 +355,7 @@ export default {
   'siteMonitor.1005': 'Discharge Energy Total',
   'siteMonitor.1006': 'Consumption Energy Total',
   'siteMonitor.1007': 'Feed-in Energy Total',
+  'siteManage.1012': 'Monitoring Config',
+  'siteManage.1013': 'Product Code',
+  'siteManage.1014': 'Path',
 };
