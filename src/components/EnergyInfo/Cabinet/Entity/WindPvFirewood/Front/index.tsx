@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-14 11:31:33
- * @LastEditTime: 2024-03-15 10:31:20
+ * @LastEditTime: 2024-05-17 09:15:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Front\index.tsx
  */
@@ -12,7 +12,7 @@ import { EntityType } from '../../../type';
 import Model from '../../../Model';
 import { ConfigType } from '../../../type';
 import { formatMessage } from '@/utils';
-import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import Energy from '@/assets/image/station/fgc-energy/energy.png';
 import PcsImg from '@/assets/image/station/energy/pcs.png';
 import PcsLineImg from '@/assets/image/station/fgc-energy/pcs-line.png';
@@ -31,11 +31,13 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.inventer', defaultMessage: '逆变器' }),
     productTypeId: DeviceProductTypeEnum.Pcs,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
+    dataProductIds: [DeviceTypeEnum.Liquid2InverterMeter],
     position: { top: 6, left: 66 },
     icon: PcsImg,
     line: PcsLineImg,
     linePosition: { top: 22, left: 92 },
-    data: [{ field: 'a' }, { field: 'b' }, { field: 'c' }],
+    data: [{ field: 'converterWorkingStatus' }, { field: 'alms' }],
   },
   {
     label: formatMessage({ id: 'device.fireFight', defaultMessage: '消防' }),
@@ -44,7 +46,7 @@ const configs: ConfigType[] = [
     icon: FireFightImg,
     line: FireFightLineImg,
     linePosition: { top: 22, left: 76 },
-    data: [{ field: 'a' }, { field: 'b' }],
+    data: [{ field: 'alms' }, { field: 'x15' }],
   },
   {
     label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
@@ -53,17 +55,17 @@ const configs: ConfigType[] = [
     icon: MeterImg,
     line: MeterLineImg,
     linePosition: { top: 22, left: 76 },
-    data: [{ field: 'a' }, { field: 'b' }, { field: 'c' }],
+    data: [{ field: 'DACC' }, { field: 'DADC' }, { field: 'P' }],
   },
   {
     label: '',
-    productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    productTypeId: DeviceProductTypeEnum.BatteryStack,
     showLabel: false,
     position: { top: 6, left: 734 },
     icon: DoorImg,
     line: DoorLineImg,
     linePosition: { top: 22, left: -160 },
-    data: [{ field: 'a' }],
+    data: [{ field: 'd13' }],
   },
   {
     label: 'EMS',
@@ -76,16 +78,17 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.batteryStack', defaultMessage: '电池堆' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.BatteryStack,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     position: { top: 190, left: 734 },
     icon: StackImg,
     line: StackLineImg,
     linePosition: { top: 25, left: -190 },
     data: [
-      { field: 'batteryPackOperatingMode' },
       { field: 'batteryPackWorkingStatus' },
-      { field: 'a' },
-      { field: 'soc' },
+      { field: 'alms' },
+      { field: 'd5' },
+      { field: 'SOC' },
     ],
   },
 ];
