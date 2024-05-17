@@ -168,7 +168,7 @@ export const standardRequestTableData = <D, P>(
       }
     });
     return {
-      data: data?.list,
+      data: data?.list || [],
       total: data?.total,
     };
   };
