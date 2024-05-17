@@ -8,7 +8,7 @@ export const enum SubTypeEnum {
 }
 
 export const subTypeMap = [
-  { label: formatMessage({ id: 'device.curve', defaultMessage: '曲线' }), value: 0 },
+  { label: formatMessage({ id: 'siteMonitor.power', defaultMessage: '功率' }), value: 0 },
   { label: formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }), value: 1 },
 ];
 
