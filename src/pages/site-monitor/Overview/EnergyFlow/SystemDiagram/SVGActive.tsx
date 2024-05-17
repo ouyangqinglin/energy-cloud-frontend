@@ -1,4 +1,4 @@
-import { useMemo, type SVGProps } from 'react';
+import { useCallback, useMemo, type SVGProps } from 'react';
 import MarketEleIcon from './svg/market_ele.svg';
 import { ReactComponent as EsIcon } from './svg/es.svg';
 import { ReactComponent as PVcon } from './svg/pv.svg';
@@ -8,7 +8,7 @@ import styles from './index.less';
 import { keepTwoDecimalWithoutNull } from '../../helper';
 import type { SystemDiagramRes } from '../type';
 import { SubSystemType } from '../type';
-import { Col, Row } from 'antd';
+import { history } from 'umi';
 import { deviceAlarmStatusFormat } from '@/utils/format';
 import type { AlarmTreeData } from './useWatchingAlarmForSystem';
 import { SubsystemType } from './type';
@@ -20,10 +20,11 @@ type SvgComponentType = SVGProps<SVGSVGElement> & {
   data: SystemDiagramRes;
   alarmData: AlarmTreeData;
   siteType: string;
+  siteId: number;
 };
 
 const SvgComponent: React.FC<SvgComponentType> = (props) => {
-  const { data, alarmData, siteType } = props;
+  const { data, alarmData, siteType, siteId } = props;
   const pv = data?.[SubSystemType.PV] ?? {};
   const electricSupply = data?.[SubSystemType.E] ?? {};
   const energyStore = data?.[SubSystemType.ES] ?? {};
@@ -33,6 +34,13 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
   const chargeAndElestNum = useMemo(() => {
     return (alarmData?.[SubsystemType.EC] || 0) + (alarmData?.[SubsystemType.OT] || 0);
   }, [alarmData]);
+
+  const onClick = useCallback(() => {
+    history.push({
+      pathname: '/alarm/current',
+      search: `?siteId=${siteId}`,
+    });
+  }, [siteId]);
 
   return (
     <div className={styles.activeWrapper}>
@@ -94,7 +102,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
               </span>
               <span className={styles.alarm}>
                 {deviceAlarmStatusFormat(alarmData?.[SubsystemType.ES] ? '1' : '0')}
-                <span className={styles.number}>
+                <span className={`cursor-pure ${styles.number}`} onClick={onClick}>
                   {alarmData?.[SubsystemType.ES] ? alarmData?.[SubsystemType.ES] : ''}
                 </span>
               </span>
@@ -142,7 +150,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
               </span>
               <span className={styles.alarm}>
                 {deviceAlarmStatusFormat(alarmData?.[SubsystemType.PG] ? '1' : '0')}
-                <span className={styles.number}>
+                <span className={`cursor-pure ${styles.number}`} onClick={onClick}>
                   {alarmData?.[SubsystemType.PG] ? alarmData?.[SubsystemType.PG] : ''}
                 </span>
               </span>
@@ -179,7 +187,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                 </span>
                 <span className={styles.alarm}>
                   {deviceAlarmStatusFormat(chargeAndElestNum ? '1' : '0')}
-                  <span className={styles.number}>
+                  <span className={`cursor-pure ${styles.number}`} onClick={onClick}>
                     {chargeAndElestNum ? chargeAndElestNum : ''}
                   </span>
                 </span>
@@ -332,7 +340,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                 </span>
                 <span className={styles.alarm}>
                   {deviceAlarmStatusFormat(chargeAndElestNum ? '1' : '0')}
-                  <span className={styles.number}>
+                  <span className={`cursor-pure ${styles.number}`} onClick={onClick}>
                     {chargeAndElestNum ? chargeAndElestNum : ''}
                   </span>
                 </span>
