@@ -174,11 +174,14 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
     },
 
     {
-      title: formatMessage({ id: 'common.1001', defaultMessage: '浏览器title' }),
+      title: formatMessage({ id: 'system.1001', defaultMessage: '浏览器title' }),
       colProps: {
         span: 12,
       },
       valueType: 'input',
+      fieldProps: {
+        maxLength: 14,
+      },
       formItemProps: {
         rules: [
           {
@@ -190,9 +193,12 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       dataIndex: ['orgIcon', 'title'],
     },
     {
-      title: formatMessage({ id: 'common.1002', defaultMessage: '多站点大屏title' }),
+      title: formatMessage({ id: 'system.1002', defaultMessage: '多站点大屏title' }),
       colProps: {
         span: 12,
+      },
+      fieldProps: {
+        maxLength: 14,
       },
       valueType: 'input',
       dataIndex: ['orgIcon', 'multiSiteLargeScreenTitle'],
@@ -256,7 +262,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       },
     },
     {
-      title: formatMessage({ id: 'common.1003', defaultMessage: 'app首页背景图' }),
+      title: formatMessage({ id: 'system.1003', defaultMessage: 'app首页背景图' }),
       colProps: {
         span: 12,
       },
@@ -281,7 +287,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       },
     },
     {
-      title: formatMessage({ id: 'common.1004', defaultMessage: 'app个人背景图' }),
+      title: formatMessage({ id: 'system.1004', defaultMessage: 'app个人背景图' }),
       colProps: {
         span: 12,
       },

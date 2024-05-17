@@ -30,7 +30,11 @@ const sourceItem = {
     position: 'right',
     formatter: (params: any) => {
       const { name, count } = params.data;
-      return `{a|${name}}` + `{b|${count}}` + '{a|个}';
+      return (
+        `{a|${name}}` +
+        `{b|${count}}` +
+        `{a|${formatMessage({ id: 'screen.item', defaultMessage: '个' })}}`
+      );
     },
     rich: {
       a: {

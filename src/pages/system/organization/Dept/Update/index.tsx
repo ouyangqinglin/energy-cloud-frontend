@@ -12,7 +12,6 @@ import { useModel } from 'umi';
 
 export const Update = memo((props: FormUpdateBaseProps) => {
   const { initialState } = useModel('@@initialState');
-  console.log('initialState>>', initialState);
   const [orgId, setOrgId] = useState<number>();
   const convertRequestData = async (param: { orgId: number }) => {
     const res = await getService(param);

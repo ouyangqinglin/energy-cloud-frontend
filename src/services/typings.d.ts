@@ -51,6 +51,7 @@ declare namespace API {
     title?: string;
     icon?: string;
     logo?: string;
+    multiSiteLargeScreenTitle?: string;
   };
 
   type CurrentUser = {
