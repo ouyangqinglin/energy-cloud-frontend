@@ -103,6 +103,8 @@ export default {
   'screen.greenCertificates': 'Number of Green Certificates',
   'screen.ccerHoldings': 'CCER Holdings',
   'screen.piece': 'Piece',
+  'screen.item': 'Piece',
+
   'screen.energySavingReduction': 'Energy Conservation',
   'screen.return': 'Return',
   'screen.storageChargingStation': 'Optical Storage And EV Charger',

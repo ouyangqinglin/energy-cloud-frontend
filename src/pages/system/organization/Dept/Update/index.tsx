@@ -1,17 +1,18 @@
 import { Columns } from './config';
 import type { ServiceParam, ServiceUpdateInfo } from '../type';
 import { createService, getService, getServiceId, updateService } from '../service';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, memo } from 'react';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { set, unset } from 'lodash';
 import type { PositionSelectType } from '@/components/PositionSelect';
 import { FormUpdate } from '../../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { formatMessage } from '@/utils';
+import { useModel } from 'umi';
 
-export const Update = (props: FormUpdateBaseProps) => {
+export const Update = memo((props: FormUpdateBaseProps) => {
+  const { initialState } = useModel('@@initialState');
   const [orgId, setOrgId] = useState<number>();
-
   const convertRequestData = async (param: { orgId: number }) => {
     const res = await getService(param);
     if (res?.data) {
@@ -60,6 +61,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       onFinishUpdate={(params) => {
         return updateService(convertUpdateData(params));
       }}
+      initialValues={{ orgIcon: initialState?.currentUser?.systemInfo }}
       orgId={orgId}
       onFinishCreate={(params) => {
         return createService(convertUpdateData(params));
@@ -68,4 +70,5 @@ export const Update = (props: FormUpdateBaseProps) => {
       {...props}
     />
   );
-};
+});
+export default Update;

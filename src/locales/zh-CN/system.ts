@@ -41,4 +41,8 @@ export default {
   'system.sitePermissions': '站点权限',
   'system.chinaShanghai': '中国，上海',
   'system.africaGuinea': '非洲，几内亚',
+  'system.1001': '浏览器title',
+  'system.1002': '多站点大屏title',
+  'system.1003': 'app首页背景图',
+  'system.1004': 'app个人背景图',
 };

@@ -54,4 +54,8 @@ export default {
   'system.sitePermissions': 'Site Permissions',
   'system.chinaShanghai': 'China,Shanghai',
   'system.africaGuinea': 'Africa,Guinea',
+  'system.1001': 'Browser Title',
+  'system.1002': 'Screen Title',
+  'system.1003': 'APP Homepage Background Image',
+  'system.1004': 'APP Personal Background Image',
 };

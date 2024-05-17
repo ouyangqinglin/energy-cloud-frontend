@@ -103,6 +103,7 @@ export default {
   'screen.greenCertificates': '绿证数量',
   'screen.ccerHoldings': 'CCER持有量',
   'screen.piece': '张',
+  'screen.item': '个',
   'screen.energySavingReduction': '节能减排',
   'screen.return': '返回',
   'screen.storageChargingStation': '光储充站',
