@@ -58,4 +58,7 @@ export default {
   'system.1002': 'Screen Title',
   'system.1003': 'APP Homepage Background Image',
   'system.1004': 'APP Personal Background Image',
+  'system.1005': 'Suggested Size',
+  'system.1006': 'APP',
+  'system.1007': 'Up to 14 characters',
 };

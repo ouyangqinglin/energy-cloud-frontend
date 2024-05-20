@@ -45,4 +45,7 @@ export default {
   'system.1002': '多站点大屏title',
   'system.1003': 'app首页背景图',
   'system.1004': 'app个人背景图',
+  'system.1005': '建议尺寸',
+  'system.1006': 'APP',
+  'system.1007': '最多14个字符',
 };

@@ -31,7 +31,7 @@ type ChartDataType = {
   eventTs: string;
   doubleVal: number;
 };
-
+//动态
 const legendMap = new Map([
   ['me', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
   ['pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],

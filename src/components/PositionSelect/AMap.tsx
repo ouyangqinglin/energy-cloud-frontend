@@ -63,6 +63,12 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
   );
 
   const onSelect = (_: any, data: any) => {
+    if (!data.location) {
+      message.success(
+        formatMessage({ id: 'device.invalidCoordinates', defaultMessage: '坐标无效' }),
+      );
+      return;
+    }
     setPoint(data.location);
     const [countryCode, provinceCode, cityCode] = getAreaCodeByAdCode(data?.adcode || '');
     onChange?.({
@@ -76,14 +82,19 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
       cityCode,
       adcode: data.adcode,
     });
-
-    // const code = item.adcode ? item.adcode * 1 : 900000;
-    // emit('update:province', parseInt(code / 10000 + '') + '0000');
-    // emit('update:city', parseInt(code / 100 + '') + '00');
-    // emit('update:area', code);
   };
 
-  const getAddressByPoint = (pointObj: AMap.LngLat) => {
+  const getAddressByPoint = (pointObj?: AMap.LngLat) => {
+    if (!pointObj) {
+      onChange?.({
+        address: '',
+        point: {
+          lng: '',
+          lat: '',
+        },
+      });
+      return;
+    }
     getGeocoder().then(({ getAddress }) => {
       getAddress(pointObj).then((res) => {
         if (res) {
@@ -123,6 +134,10 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
 
   const onAutoCompleteChange = (data: string) => {
     setAddress(data);
+    if (!data) {
+      setInputPoint('');
+      getAddressByPoint();
+    }
   };
 
   const onClick = (e: any) => {
@@ -138,15 +153,15 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
 
   const onBlur = () => {
     const pointObj = inputPoint.split(',');
-    if (
-      pointObj.length > 1 &&
-      (point?.lng + '' !== pointObj[0] || point?.lat + '' !== pointObj[1])
-    ) {
+    if (pointObj.length > 1) {
       try {
         getPoint(Number(pointObj[0]), Number(pointObj[1])).then((res) => {
           getAddressByPoint(res);
         });
       } catch (e) {}
+    } else {
+      setAddress('');
+      getAddressByPoint();
     }
   };
 
