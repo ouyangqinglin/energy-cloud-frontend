@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-04-28 14:38:37
+ * @LastEditTime: 2024-05-17 16:42:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -88,6 +88,7 @@ const alarmStatusOptions: OptionType[] = [
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
 
+  const formParamRef = useRef(formParam);
   const [headParams, setHeadParams] = useState<Record<string, string[]>>({});
   const formRef = useRef<ProFormInstance>();
   const history = useHistory();
@@ -120,6 +121,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     (paramsData) => {
       const requestParams = {
         ...paramsData,
+        ...formParamRef.current,
         ...(params || {}),
         deviceName: undefined,
         isHistoryAlarm: type,
@@ -249,6 +251,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     actionRef?.current?.reloadAndRest?.();
   }, [params]);
 
+  useEffect(() => {
+    formParamRef.current = formParam;
+    formRef.current?.setFieldsValue({
+      ...formParam,
+      siteId: formParam?.siteId && formParam?.siteId * 1,
+    });
+    actionRef.current?.reload?.();
+  }, [formParam]);
+
   const detailItems: DetailItem[] = [
     {
       label: formatMessage({ id: 'alarmManage.alarmName', defaultMessage: '告警名称' }),
@@ -324,7 +335,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               },
               width: 150,
               ellipsis: true,
-              initialValue: formParam?.siteId && formParam?.siteId * 1,
               hideInTable: true,
             } as ProColumns<AlarmType>,
           ]),
@@ -347,7 +357,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         dataIndex: 'deviceName',
         width: 150,
         ellipsis: true,
-        initialValue: formParam?.deviceName,
         hideInSearch: isStationChild,
       },
       {
@@ -355,7 +364,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         dataIndex: 'sn',
         width: 150,
         ellipsis: true,
-        initialValue: formParam?.sn,
         hideInSearch: isStationChild,
       },
       {
@@ -508,13 +516,14 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               getExportName: getExportName,
             },
           }}
-          search={
-            isStationChild
+          onSubmit={() => (formParamRef.current = {})}
+          search={{
+            ...(isStationChild
               ? {}
               : {
                   labelWidth: 'auto',
-                }
-          }
+                }),
+          }}
           form={
             isStationChild
               ? {}

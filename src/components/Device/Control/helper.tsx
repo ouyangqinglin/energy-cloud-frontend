@@ -2,15 +2,32 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 16:00:49
- * @LastEditTime: 2024-05-15 16:57:32
+ * @LastEditTime: 2024-05-16 17:43:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+  RedoOutlined,
+} from '@ant-design/icons';
 import { ProFormColumnsType } from '@ant-design/pro-components';
 import { Col, FormInstance, Row } from 'antd';
-import { formatMessage } from '@/utils';
+import {
+  DeviceModelShowTypeEnum,
+  DeviceModelTypeEnum,
+  formatMessage,
+  formatModelValue,
+  isEmpty,
+} from '@/utils';
 import moment from 'moment';
+import { DeviceDoubleType, DeviceServiceModelType } from '@/types/device';
+import { FieldModeEnum } from './type';
+import TreeSelect from './components/TreeSelect';
+import { DetailItem } from '@/components/Detail';
+import { DeviceDataType } from '@/services/equipment';
+import styles from './index.less';
 
 const hourFormat = 'HH:mm';
 const contrastDate = '2023-01-01 ';
@@ -158,4 +175,133 @@ export const getColumnsLength = (columns?: ProFormColumnsType[]): number => {
 export const getRealField = (fieldId?: string) => {
   const result = (fieldId ?? '')?.split('.') || [];
   return result[result.length - 1];
+};
+
+const selectFieldType: (DeviceModelTypeEnum | undefined)[] = [DeviceModelTypeEnum.TreeSelect];
+
+export const getFieldItems = (
+  field: DeviceServiceModelType,
+  {
+    deviceData,
+    onRefresh,
+    onClick,
+    passAuthority,
+  }: {
+    deviceData?: DeviceDataType;
+    onRefresh: (...params: any) => void;
+    onClick: (...params: any) => void;
+    passAuthority: (...params: any) => boolean;
+  },
+) => {
+  const columns: ProFormColumnsType[] = [];
+  const details: DetailItem[] = [];
+  if (passAuthority(field?.authority, 'edit')) {
+    columns.push({
+      title: field?.name,
+      dataIndex: getRealField(field?.id),
+      formItemProps: {
+        validateTrigger: 'submit',
+        rules:
+          field?.required === false
+            ? []
+            : [
+                {
+                  required: true,
+                  message: formatMessage(
+                    {
+                      id: selectFieldType.includes(field.dataType?.type)
+                        ? 'common.pleaseSelectSentence'
+                        : 'common.pleaseEnterSentence',
+                      defaultMessage: '请选择',
+                    },
+                    {
+                      content: field?.name,
+                    },
+                  ),
+                },
+              ],
+      },
+      renderFormItem: () => {
+        switch (field.dataType?.type) {
+          case DeviceModelTypeEnum.TreeSelect:
+            return <TreeSelect field={field} type={FieldModeEnum.Edit} />;
+          default:
+            return <></>;
+        }
+      },
+      initialValue: isEmpty(field?.defaultValue) ? undefined : field?.defaultValue + '',
+    });
+    if (field?.form?.span == 24) {
+      columns.push({
+        formItemProps: {
+          noStyle: true,
+        },
+        renderFormItem: () => <div />,
+        colProps: {
+          span: 24,
+        },
+      });
+    }
+  }
+  if (field.showType != DeviceModelShowTypeEnum.HideName) {
+    details.push?.({
+      field: field?.id || '',
+      label: field?.name,
+      showPlaceholder: false,
+      span: field?.span,
+      unit: (field?.dataType as DeviceDoubleType)?.specs?.unit,
+      valueStyle: {
+        width: '100%',
+      },
+      valueInterceptor: (_, data) => {
+        if (field?.deviceId) {
+          return data?.[field?.deviceId || '']?.[getRealField(field?.id)];
+        } else {
+          return data?.[deviceData?.deviceId || '']?.[field?.id || ''];
+        }
+      },
+      format: (value) => {
+        switch (field.dataType?.type) {
+          case DeviceModelTypeEnum.TreeSelect:
+            return <TreeSelect className="w-full" field={field} />;
+          default:
+            return <></>;
+        }
+      },
+      extral: (
+        <>
+          {field?.buttons?.includes?.('refresh') && (
+            <RedoOutlined
+              className={`cl-primary cursor ${styles.refresh}`}
+              onClick={() => onRefresh(field)}
+              title={formatMessage({
+                id: 'common.refresh',
+                defaultMessage: '刷新',
+              })}
+            />
+          )}
+          {field?.buttons?.includes?.('edit') && (
+            <EditOutlined
+              className={`cl-primary cursor ${styles.refresh}`}
+              onClick={() =>
+                onClick(
+                  { ...field, id: field.serviceId },
+                  columns.map((item) => ({ ...item, colProps: { span: 24 } })),
+                  1,
+                )
+              }
+              title={formatMessage({
+                id: 'common.edit',
+                defaultMessage: '编辑',
+              })}
+            />
+          )}
+        </>
+      ),
+    });
+  }
+  return {
+    columns,
+    details,
+  };
 };

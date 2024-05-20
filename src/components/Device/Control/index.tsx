@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-15 16:46:59
+ * @LastEditTime: 2024-05-17 08:56:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -41,7 +41,13 @@ import {
 } from '@/utils';
 import ConfigModal from '../ConfigModal';
 import type { ProFormColumnsType } from '@ant-design/pro-components';
-import { getColumnsLength, getRealField, timeRangeColumn, validatorTime } from './helper';
+import {
+  getColumnsLength,
+  getFieldItems,
+  getRealField,
+  timeRangeColumn,
+  validatorTime,
+} from './helper';
 import { merge } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
@@ -711,6 +717,16 @@ const Control: React.FC<ControlType> = memo((props) => {
             });
           }
           break;
+        case DeviceModelTypeEnum.TreeSelect: // 未来的字段都走这个逻辑
+          const result = getFieldItems(field, {
+            deviceData,
+            onRefresh,
+            onClick,
+            passAuthority,
+          });
+          columns.push(...result.columns);
+          detailItems.push(...result.details);
+          break;
         case DeviceModelTypeEnum.Int:
         case DeviceModelTypeEnum.Double:
         case DeviceModelTypeEnum.Long:
@@ -895,7 +911,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 <Button
                   type="primary"
                   onClick={() => onClick(service, columns, columnsLength)}
-                  disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
+                  // disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
                 >
                   {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
                 </Button>

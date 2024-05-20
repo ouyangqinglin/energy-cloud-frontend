@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:50:47
- * @LastEditTime: 2024-03-15 10:44:21
+ * @LastEditTime: 2024-05-17 11:33:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\Part.tsx
  */
@@ -14,7 +14,7 @@ import { EnergySourceEnum } from '../..';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { message } from 'antd';
 import { useHistory } from 'umi';
-import { formatMessage, formatModelValue } from '@/utils';
+import { arrayToMap, formatMessage, formatModelValue } from '@/utils';
 import { merge } from 'lodash';
 import styles from '../../index.less';
 import Detail from '@/components/Detail';
@@ -41,13 +41,37 @@ const Part: React.FC<PartType> = (props) => {
         result.push(id);
       }
     });
+    const productIdDeviceIds = arrayToMap(
+      Object.values(productIdMap || {}),
+      'productId',
+      'deviceId',
+    );
+    config?.dataProductIds?.forEach?.((item) => {
+      if (productIdDeviceIds[item]) {
+        result.push(productIdDeviceIds[item]);
+      }
+    });
     return result;
   }, [deviceId, config, productIdMap]);
+
+  const productIds = useMemo(() => {
+    const result: DeviceTypeEnum[] = [];
+    if (productId) {
+      result.push(productId);
+    }
+    config?.dataProductTypeIds?.forEach?.((item) => {
+      const id = productIdMap?.[item]?.productId;
+      if (id) {
+        result.push(id);
+      }
+    });
+    return result;
+  }, [productId, productIdMap, config]);
 
   const history = useHistory();
   const realTimeData = useSubscribe(dataDeviceIds, true);
   const { modelMap: modelMap } = useDeviceModel({
-    productId,
+    productId: productIds,
     isGroup: true,
   });
 
@@ -68,9 +92,14 @@ const Part: React.FC<PartType> = (props) => {
   const mergedConfig = useMemo(() => {
     const result = merge({}, config || {});
     result?.data?.forEach?.((item) => {
-      item.label = item.label || modelMap?.[item?.field || '']?.name;
+      const showUnit = !!item.label;
       item.format =
-        item.customFormat || ((value) => formatModelValue(value, modelMap?.[item?.field || '']));
+        item.customFormat ||
+        ((value) => formatModelValue(value, modelMap?.[item?.field || ''], showUnit));
+      if (!item.label) {
+        item.label = modelMap?.[item?.field || '']?.name;
+        item.unit = modelMap?.[item?.field || '']?.specs?.unit;
+      }
     });
     return result;
   }, [config, modelMap]);
@@ -101,6 +130,7 @@ const Part: React.FC<PartType> = (props) => {
           labelStyle={{
             maxWidth: '92px',
           }}
+          unitInLabel
         />
         {mergedConfig.showLabel === false ? (
           <></>

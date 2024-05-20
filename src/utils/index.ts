@@ -44,6 +44,7 @@ export enum DeviceModelTypeEnum {
   TimeRange = 'timeRange',
   TimeStamp = 'timestamp',
   Button = 'button',
+  TreeSelect = 'treeSelect',
 }
 
 export type AntMenuProps = {

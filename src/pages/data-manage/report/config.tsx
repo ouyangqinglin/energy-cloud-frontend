@@ -61,7 +61,7 @@ export const searchColumns = (reportType: any): ProColumns[] => [
       const options: OptionType[] = [
         { label: formatMessage({ id: 'common.all', defaultMessage: '全部' }), value: '' },
       ];
-      if (params.reportType == reportTypeEnum.Energy) {
+      if (params.reportType == reportTypeEnum.Energy && params.siteId) {
         return getGroupList(params).then(({ data }) => {
           if (data?.length > 1) {
             data?.forEach?.((item) => {

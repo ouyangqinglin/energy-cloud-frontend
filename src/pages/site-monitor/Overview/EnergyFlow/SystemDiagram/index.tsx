@@ -78,6 +78,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
         data={data}
         siteType={siteType}
         alarmData={alarmSubsystemTree}
+        siteId={siteId}
         style={{
           position: 'absolute',
           width: '100%',

@@ -37,6 +37,14 @@ export type DeviceArrayType = {
   };
 };
 
+export type DeviceTreeSelectType = {
+  type?: DeviceModelTypeEnum;
+  specs?: {
+    id?: string;
+    name?: string;
+  }[];
+};
+
 export type DeviceTimeRangeType = {
   type?: DeviceModelTypeEnum;
   specs?: {
@@ -84,6 +92,7 @@ export type DeviceServiceModelType = {
     | DeviceStructType
     | DeviceTimeRangeType
     | DeviceEnumType
+    | DeviceTreeSelectType
     | {
         type?: DeviceModelTypeEnum;
         specs?: DeviceServiceModelType[];
@@ -91,6 +100,10 @@ export type DeviceServiceModelType = {
   buttons?: 'refresh' | 'edit';
   defaultValue?: string;
   showHistory?: boolean;
+  form?: {
+    span?: number;
+    showType?: DeviceModelShowTypeEnum;
+  };
 };
 
 export type DeviceServiceType = {

@@ -40,6 +40,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
   const { authorityMap } = useAuthority([
     'device:detail:communicationMessage',
     'deviceManage:detail:debug',
+    'device:detail:alarm',
   ]);
 
   const items = useMemo<TabsProps['items']>(() => {
@@ -70,7 +71,9 @@ const Device: React.FC<DeviceType> = memo((props) => {
           </ErrorBoundary>
         ),
       },
-      {
+    ];
+    if (authorityMap.get('device:detail:alarm')) {
+      result.push({
         label: formatMessage({ id: 'common.warning', defaultMessage: '告警' }),
         key: '3',
         children: (
@@ -81,7 +84,9 @@ const Device: React.FC<DeviceType> = memo((props) => {
             />
           </ErrorBoundary>
         ),
-      },
+      });
+    }
+    result.push(
       {
         label: formatMessage({ id: 'common.logs', defaultMessage: '日志' }),
         key: '4',
@@ -104,7 +109,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
           </ErrorBoundary>
         ),
       },
-    ];
+    );
     if (
       deviceData?.productTypeId &&
       deviceData?.productId &&

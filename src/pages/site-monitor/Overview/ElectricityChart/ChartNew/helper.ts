@@ -21,42 +21,22 @@ export const makeDataVisibleAccordingFlag = (
   return configForVisible;
 };
 
-const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
-  return moment()
-    .startOf('day')
-    .add(index * 2, 'minute')
-    .format('HH:mm');
-});
-
-const getChartData = (data: ChartItemType[]): any[] => {
-  const valueMap = new Map(
-    data.map((item) => {
-      return [moment(item?.eventTs).format('HH:mm'), item?.doubleVal];
-    }),
-  );
-
-  const result: any[] = [];
-  const length = allMinute.length;
-  for (let i = 0; i < length; i++) {
-    result.push({
-      label: allMinute[i],
-      value: valueMap.get(allMinute[i]),
-    });
-  }
-
-  return result;
-};
-
 export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartConfigType[]) => {
   const result: TypeChartDataType[] = [];
   for (let index = 0; index < fieldConfig.length; index++) {
-    const { field, show, name, color } = fieldConfig[index];
+    const { field, show, name, color, unit } = fieldConfig[index];
     if (!show) continue;
     result.push({
       name,
       type: 'line',
-      data: getChartData(rawSourceData?.[field]?.data || []),
-      itemStyle: { color },
+      data: (rawSourceData?.[field]?.data || []).map((item) => {
+        return {
+          label: item.eventTs,
+          value: item.doubleVal,
+        };
+      }),
+      color,
+      unit,
     });
   }
   return result;
@@ -73,14 +53,14 @@ export const getBarChartData = (
     const { field, show, name, color, unit } = fieldConfig[index];
     if (!show) continue;
     rawSourceData?.[field]?.data?.forEach(({ eventTs, doubleVal }) => {
-      arr.push({ label: moment(eventTs).format(TimeFormat.get(timeType)), value: doubleVal });
+      arr.push({ label: eventTs, value: doubleVal });
     });
     result.push({
       name,
       type: 'bar',
       barMaxWidth: 25,
       data: arr,
-      itemStyle: { color },
+      color,
       total: rawSourceData?.[field]?.total || '--',
       unit,
     });

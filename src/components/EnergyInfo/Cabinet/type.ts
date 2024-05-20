@@ -18,6 +18,7 @@ export type ConfigType = {
   productTypeId?: DeviceProductTypeEnum;
   fixValue?: string;
   dataProductTypeIds?: DeviceProductTypeEnum[];
+  dataProductIds?: DeviceTypeEnum[];
   position: {
     top: number;
     left: number;

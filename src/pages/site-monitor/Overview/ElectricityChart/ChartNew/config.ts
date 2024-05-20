@@ -8,7 +8,7 @@ export const enum SubTypeEnum {
 }
 
 export const subTypeMap = [
-  { label: formatMessage({ id: 'device.curve', defaultMessage: '曲线' }), value: 0 },
+  { label: formatMessage({ id: 'siteMonitor.power', defaultMessage: '功率' }), value: 0 },
   { label: formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }), value: 1 },
 ];
 
@@ -47,35 +47,35 @@ export const lineFieldMap: ChartConfigType[] = [
     field: 'me',
     show: false,
     color: '#FF7B7B',
-    unit: 'kWh',
+    unit: 'kW',
   },
   {
     name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
     field: 'pv',
     show: false,
     color: '#FFC542',
-    unit: 'kWh',
+    unit: 'kW',
   },
   {
     name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
     field: 'es',
     show: false,
     color: '#007DFF',
-    unit: 'kWh',
+    unit: 'kW',
   },
   {
     name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
     field: 'cs',
     show: false,
     color: '#3DD598',
-    unit: 'kWh',
+    unit: 'kW',
   },
   {
     name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
     field: 'load',
     show: false,
     color: '#50B5FF',
-    unit: 'kWh',
+    unit: 'kW',
   },
 ];
 

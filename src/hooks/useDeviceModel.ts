@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:53:12
- * @LastEditTime: 2023-12-29 15:32:27
+ * @LastEditTime: 2024-05-17 11:00:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\hooks\useDeviceModel.ts
  */
@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 import { DeviceServicePageEnum, DeviceTypeEnum } from '@/utils/dictionary';
 
 export type useDeviceModelProps = {
-  productId?: DeviceTypeEnum;
+  productId?: DeviceTypeEnum | DeviceTypeEnum[];
   deviceId?: string;
   isGroup?: boolean;
   page?: DeviceServicePageEnum;
@@ -34,37 +34,65 @@ const useDeviceModel = (props: useDeviceModelProps) => {
 
   useEffect(() => {
     if (productId || deviceId) {
-      run(deviceId ? { deviceId } : { productId }).then((res) => {
-        let result = {};
-        if (isGroup) {
-          const serviceGroupData = res?.data?.find?.((item) => item?.id == page);
-          setServiceGruop(serviceGroupData?.children || []);
-          const detailGroupData = res?.data?.find?.(
-            (item) => item?.id == DeviceServicePageEnum.RunningData,
-          );
-          setDetailGroup(detailGroupData?.children || []);
+      let productIds: DeviceTypeEnum[] = [];
+      if (productId) {
+        if (Array.isArray(productId)) {
+          productIds = productId;
+        } else {
+          productIds = [productId];
+        }
+      }
+      let requestNum = 0;
+      const request = (params: Record<string, any>) => {
+        run(params).then((res) => {
+          let result = {};
+          if (isGroup) {
+            const serviceGroupData = res?.data?.find?.((item) => item?.id == page);
+            setServiceGruop(serviceGroupData?.children || []);
+            const detailGroupData = res?.data?.find?.(
+              (item) => item?.id == DeviceServicePageEnum.RunningData,
+            );
+            setDetailGroup(detailGroupData?.children || []);
 
-          if (detailGroupData?.children && detailGroupData?.children?.length) {
-            const childrens = getPropsFromTree<DeviceModelDescribeType, DeviceModelDescribeType[]>(
-              detailGroupData?.children,
-              'children',
-            )?.reduce?.((arr, item) => {
-              arr.push(...item);
-              return arr;
-            }, []);
-            result = getModelByProps(childrens || []);
+            if (detailGroupData?.children && detailGroupData?.children?.length) {
+              const childrens = getPropsFromTree<
+                DeviceModelDescribeType,
+                DeviceModelDescribeType[]
+              >(detailGroupData?.children, 'children')?.reduce?.((arr, item) => {
+                arr.push(...item);
+                return arr;
+              }, []);
+              result = getModelByProps(childrens || []);
+            } else {
+              res?.properties?.forEach?.((item) => {
+                result = { ...result, ...getModelByProps(item?.properties || []) };
+              });
+            }
           } else {
-            res?.properties?.forEach?.((item) => {
-              result = { ...result, ...getModelByProps(item?.properties || []) };
+            result = getModelByProps(res?.properties || []);
+          }
+          if (!isEmpty(result)) {
+            setModelMap((prevData) => {
+              return {
+                ...prevData,
+                ...result,
+              };
             });
           }
-        } else {
-          result = getModelByProps(res?.properties || []);
+          requestNum++;
+          if (requestNum < productIds.length) {
+            request({ productId: productIds[requestNum] });
+          }
+        });
+      };
+
+      if (deviceId) {
+        request({ deviceId });
+      } else {
+        if (productIds.length) {
+          request({ productId: productIds[requestNum] });
         }
-        if (!isEmpty(result)) {
-          setModelMap(result);
-        }
-      });
+      }
     }
   }, [productId, deviceId, isGroup]);
 

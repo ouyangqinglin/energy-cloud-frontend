@@ -86,6 +86,84 @@ export const config: CardInfo[] = [
   },
   {
     title: formatMessage({
+      id: 'index.economicBenefits',
+      defaultMessage: '经济效益',
+    }),
+    icon: IconBenifit,
+    field: 'gainsTotal',
+    value: 192963664,
+    description: formatMessage({
+      id: 'index.totalIncome',
+      defaultMessage: '累计收益/元',
+    }),
+    items: [
+      {
+        label: formatMessage({
+          id: 'index.todayPvIncome',
+          defaultMessage: '今日光伏收益/元',
+        }),
+        field: 'pvGainsDay',
+        value: 4085.87,
+      },
+      {
+        label: formatMessage({
+          id: 'index.todayEnergyIncome',
+          defaultMessage: '今日储能收益/元',
+        }),
+        field: 'essGainsDay',
+        value: 672.01,
+      },
+      {
+        label: formatMessage({
+          id: 'index.todayIncome',
+          defaultMessage: '今日收益/元',
+        }),
+        field: 'gainsDay',
+        value: 4755.46,
+      },
+    ],
+  },
+  {
+    title: formatMessage({
+      id: 'index.socialContribution',
+      defaultMessage: '社会贡献',
+    }),
+    icon: IconCo2,
+    field: 'totalReduceCO2',
+    value: 1947.1,
+    description: formatMessage({
+      id: 'index.totalCarbonEmission',
+      defaultMessage: '累计CO2减排/t',
+    }),
+    items: [
+      {
+        label: formatMessage({
+          id: 'index.todayEqualTree',
+          defaultMessage: '今日等效植树/棵',
+        }),
+        field: 'equivalentTreeNum',
+        value: 3.14,
+      },
+      {
+        label: formatMessage({
+          id: 'index.todayCarbonEmission',
+          defaultMessage: '今日CO2减排/t',
+        }),
+        field: 'todayReduceCO2',
+        value: 0.48,
+      },
+      {
+        label: formatMessage({
+          id: 'index.todaySaveCoal',
+          defaultMessage: '今日节约标准煤/t',
+        }),
+        field: 'todayReduceCoal',
+        value: 171.04,
+      },
+    ],
+  },
+  {
+    title: formatMessage({
       id: 'index.pvIndicator',
       defaultMessage: '光伏指标',
     }),
@@ -247,84 +325,6 @@ export const config: CardInfo[] = [
         }),
         field: 'infoNum',
         value: 53,
-      },
-    ],
-  },
-  {
-    title: formatMessage({
-      id: 'index.economicBenefits',
-      defaultMessage: '经济效益',
-    }),
-    icon: IconBenifit,
-    field: 'gainsDay',
-    value: 4755.46,
-    description: formatMessage({
-      id: 'index.todayIncome',
-      defaultMessage: '今日收益/元',
-    }),
-    items: [
-      {
-        label: formatMessage({
-          id: 'index.todayPvIncome',
-          defaultMessage: '今日光伏收益/元',
-        }),
-        field: 'pvGainsDay',
-        value: 4085.87,
-      },
-      {
-        label: formatMessage({
-          id: 'index.todayEnergyIncome',
-          defaultMessage: '今日储能收益/元',
-        }),
-        field: 'essGainsDay',
-        value: 672.01,
-      },
-      {
-        label: formatMessage({
-          id: 'index.totalIncome',
-          defaultMessage: '累计收益/元',
-        }),
-        field: 'gainsTotal',
-        value: 192963664,
-      },
-    ],
-  },
-  {
-    title: formatMessage({
-      id: 'index.socialContribution',
-      defaultMessage: '社会贡献',
-    }),
-    icon: IconCo2,
-    field: 'totalReduceCO2',
-    value: 1947.1,
-    description: formatMessage({
-      id: 'index.totalCarbonEmission',
-      defaultMessage: '累计CO2减排/t',
-    }),
-    items: [
-      {
-        label: formatMessage({
-          id: 'index.todayEqualTree',
-          defaultMessage: '今日等效植树/棵',
-        }),
-        field: 'equivalentTreeNum',
-        value: 3.14,
-      },
-      {
-        label: formatMessage({
-          id: 'index.todayCarbonEmission',
-          defaultMessage: '今日CO2减排/t',
-        }),
-        field: 'todayReduceCO2',
-        value: 0.48,
-      },
-      {
-        label: formatMessage({
-          id: 'index.todaySaveCoal',
-          defaultMessage: '今日节约标准煤/t',
-        }),
-        field: 'todayReduceCoal',
-        value: 171.04,
       },
     ],
   },
