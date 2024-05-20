@@ -1,5 +1,5 @@
 /*
- * @Description:   
+ * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-01 14:40:45
  * @LastEditTime: 2024-04-01 16:16:34
@@ -15,16 +15,19 @@ import styles from './index.less';
 import { formatMessage } from '@/utils';
 
 const App: React.FC = () => {
-
   const qrcodeRef = useRef<HTMLDivElement>(null);
   const showRef = useRef(false);
 
-  const content = <>
-    <div className={`tx-center ${styles.qrcode}`}>
-      <div ref={qrcodeRef} />
-      <div className='mt12'>{formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载永泰新能源App' })}</div>
-    </div>
-  </>;
+  const content = (
+    <>
+      <div className={`tx-center ${styles.qrcode}`}>
+        <div ref={qrcodeRef} />
+        <div className="mt12">
+          {formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载E智慧能源App' })}
+        </div>
+      </div>
+    </>
+  );
 
   const onOpenChange = (visible: boolean) => {
     if (visible && !showRef.current) {
@@ -37,17 +40,15 @@ const App: React.FC = () => {
     }
   };
 
-  return <>
-    <Popover
-      content={content}
-      placement='bottom'
-      onOpenChange={onOpenChange}
-    >
-      <div className='head-icon'>
-        <YTAppOutlined />
-      </div>
-    </Popover>
-  </>;
+  return (
+    <>
+      <Popover content={content} placement="bottom" onOpenChange={onOpenChange}>
+        <div className="head-icon">
+          <YTAppOutlined />
+        </div>
+      </Popover>
+    </>
+  );
 };
 
 export default memo(App);
