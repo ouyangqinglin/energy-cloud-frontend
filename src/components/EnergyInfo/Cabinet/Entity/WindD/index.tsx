@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 11:30:32
- * @LastEditTime: 2024-01-29 17:12:56
+ * @LastEditTime: 2024-05-20 15:26:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindD\index.tsx
  */
@@ -83,7 +83,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     position: { top: 450, left: 2 },
     icon: StackImg,
     line: StackLineImg,
@@ -96,6 +97,9 @@ const configs: ConfigType[] = [
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
         field: 'batteryPackWorkingStatus',
+      },
+      {
+        field: 'SOC',
       },
     ],
   },

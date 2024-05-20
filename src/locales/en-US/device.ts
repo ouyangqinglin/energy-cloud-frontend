@@ -486,7 +486,7 @@ export default {
   'device.hostStatusInformation': 'Host Status Information',
   'device.powerUtilization': 'Power Utilization',
   'device.chargingStatistics': 'Charging Statistics',
-  'device.numberOfChargingOrders': 'Number Of Charging Orders',
+  'device.numberOfChargingOrders': 'Charging Orders',
   'device.chargingFee': 'Charging Fee',
   'device.orderUnit': ' ',
   'device.hour': 'Hour',

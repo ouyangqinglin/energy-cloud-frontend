@@ -85,7 +85,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     position: { top: 313, left: 768 },
     icon: StackImg,
     line: LiquidBmsLineImg,
@@ -98,6 +99,9 @@ const configs: ConfigType[] = [
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),
         field: 'batteryPackWorkingStatus',
+      },
+      {
+        field: 'SOC',
       },
     ],
   },

@@ -152,6 +152,11 @@ const Charge2Gun: React.FC<EntityType> = (props) => {
           backgroundSize: '36%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '120px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

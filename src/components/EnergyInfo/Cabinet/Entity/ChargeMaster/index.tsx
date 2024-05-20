@@ -93,6 +93,11 @@ const ChargeMaster: React.FC<EntityType> = (props) => {
           backgroundSize: '22%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '150px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>
