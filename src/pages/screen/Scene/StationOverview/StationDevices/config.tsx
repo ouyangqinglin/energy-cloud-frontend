@@ -48,6 +48,7 @@ export const config: DeviceConfigItem[] = [
       },
     ],
   },
+  //动态
   {
     icon: IconPhotovoltaicPanel,
     title: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
@@ -67,6 +68,7 @@ export const config: DeviceConfigItem[] = [
       },
     ],
   },
+  //动态
   {
     icon: IconEnergyStorageCapacity,
     title: formatMessage({ id: 'screen.energyStorageRating', defaultMessage: '储能额定电量' }),
@@ -92,7 +94,7 @@ export const config: DeviceConfigItem[] = [
       },
     ],
   },
-
+  //动态
   {
     icon: iconChargingStation,
     title: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),

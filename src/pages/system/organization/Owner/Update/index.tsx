@@ -8,9 +8,11 @@ import type { PositionSelectType } from '@/components/PositionSelect';
 import { FormUpdate } from '../../components/FormUpdate';
 import { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { formatMessage } from '@/utils';
+import { useModel } from 'umi';
 
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>();
+  const { initialState } = useModel('@@initialState');
 
   const convertRequestData = async (param: { orgId: number }) => {
     const res = await getService(param);
@@ -61,6 +63,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       onFinishUpdate={(params) => {
         return updateService(convertUpdateData(params));
       }}
+      initialValues={{ orgIcon: initialState?.currentUser?.systemInfo }}
       orgId={orgId}
       onFinishCreate={(params) => {
         return createService(convertUpdateData(params));

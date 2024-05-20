@@ -178,9 +178,14 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       colProps: {
         span: 12,
       },
+
       valueType: 'input',
       fieldProps: {
         maxLength: 14,
+        placeholder: `${formatMessage({
+          id: 'common.pleaseEnter',
+          defaultMessage: '请输入',
+        })}（${formatMessage({ id: 'system.1007', defaultMessage: '最多14个字符' })}）`,
       },
       formItemProps: {
         rules: [
@@ -199,6 +204,10 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       },
       fieldProps: {
         maxLength: 14,
+        placeholder: `${formatMessage({
+          id: 'common.pleaseEnter',
+          defaultMessage: '请输入',
+        })}（${formatMessage({ id: 'system.1007', defaultMessage: '最多14个字符' })}）`,
       },
       valueType: 'input',
       dataIndex: ['orgIcon', 'multiSiteLargeScreenTitle'],
@@ -221,18 +230,24 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       renderFormItem: (schema, config, form) => {
         const value = form.getFieldValue(['orgIcon', 'logo']);
         return (
-          <ProFormUploadButton
-            max={1}
-            accept="image/*"
-            value={value ? ([{ url: value, uid: '1' }] as UploadFile[]) : []}
-            title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-            fieldProps={{
-              name: 'file',
-              listType: 'picture-card',
-              beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'logo']),
-              onChange: () => form.setFieldValue(['orgIcon', 'logo'], ''),
-            }}
-          />
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              value={value ? ([{ url: value, uid: '1' }] as UploadFile[]) : []}
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'logo']),
+                onChange: () => form.setFieldValue(['orgIcon', 'logo'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
+            </div>
+          </>
         );
       },
     },
@@ -246,19 +261,39 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       renderFormItem: (schema, config, form) => {
         const value = form.getFieldValue(['orgIcon', 'icon']);
         return (
-          <ProFormUploadButton
-            max={1}
-            accept="image/*"
-            title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-            fieldProps={{
-              fileList: value ? ([{ url: value, uid: '2' }] as UploadFile[]) : [],
-              name: 'file',
-              listType: 'picture-card',
-              beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'icon']),
-              onChange: () => form.setFieldValue(['orgIcon', 'icon'], ''),
-            }}
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                fileList: value ? ([{ url: value, uid: '2' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'icon']),
+                onChange: () => form.setFieldValue(['orgIcon', 'icon'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      title: '',
+      renderFormItem: () => {
+        return (
+          <Detail.DotLabel
+            title={formatMessage({ id: 'system.1006', defaultMessage: 'APP' })}
+            className="mb0"
           />
         );
+      },
+      colProps: {
+        span: 24,
       },
     },
     {
@@ -271,18 +306,24 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       renderFormItem: (schema, config, form) => {
         const value = form.getFieldValue(['orgIcon', 'appHome']);
         return (
-          <ProFormUploadButton
-            max={1}
-            accept="image/*"
-            title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-            fieldProps={{
-              fileList: value ? ([{ url: value, uid: '3' }] as UploadFile[]) : [],
-              name: 'file',
-              listType: 'picture-card',
-              beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appHome']),
-              onChange: () => form.setFieldValue(['orgIcon', 'appHome'], ''),
-            }}
-          />
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                fileList: value ? ([{ url: value, uid: '3' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appHome']),
+                onChange: () => form.setFieldValue(['orgIcon', 'appHome'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：375*224px
+            </div>
+          </>
         );
       },
     },
@@ -296,18 +337,24 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
       renderFormItem: (schema, config, form) => {
         const value = form.getFieldValue(['orgIcon', 'appPerson']);
         return (
-          <ProFormUploadButton
-            max={1}
-            accept="image/*"
-            title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-            fieldProps={{
-              fileList: value ? ([{ url: value, uid: '4' }] as UploadFile[]) : [],
-              name: 'file',
-              listType: 'picture-card',
-              beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appPerson']),
-              onChange: () => form.setFieldValue(['orgIcon', 'appPerson'], ''),
-            }}
-          />
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                fileList: value ? ([{ url: value, uid: '4' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appPerson']),
+                onChange: () => form.setFieldValue(['orgIcon', 'appPerson'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：375*224px
+            </div>
+          </>
         );
       },
     },
@@ -321,6 +368,19 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
           {
             required: true,
             message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+          },
+          {
+            validator: (rule, value) => {
+              return new Promise((resolve, reject) => {
+                if (!value.address || !value.point.lng || !value.point.lat) {
+                  reject(
+                    formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+                  );
+                } else {
+                  resolve(0);
+                }
+              });
+            },
           },
         ],
       },

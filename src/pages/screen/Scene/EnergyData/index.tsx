@@ -50,6 +50,20 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
         },
         {
           label:
+            formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }) +
+            '(kWh)',
+          icon: energyCharge,
+          field: 'essCharge',
+        },
+        {
+          label: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + '(kWh)',
+          icon: charge,
+          field: 'chargingPile',
+        },
+      ],
+      right: [
+        {
+          label:
             formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }) + '(kWh)',
           icon: pvInvinter,
           field: 'photovoltaic',
@@ -61,24 +75,10 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
           icon: energyDischarge,
           field: 'essDischarge',
         },
-      ],
-      right: [
-        {
-          label: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + '(kWh)',
-          icon: charge,
-          field: 'chargingPile',
-        },
         {
           label: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }) + '(kWh)',
           icon: load,
           field: 'load',
-        },
-        {
-          label:
-            formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }) +
-            '(kWh)',
-          icon: energyCharge,
-          field: 'essCharge',
         },
       ],
     }),

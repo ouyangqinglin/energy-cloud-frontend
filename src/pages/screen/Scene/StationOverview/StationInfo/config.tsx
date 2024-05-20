@@ -36,11 +36,13 @@ export const stationBoxConfig = [
     field: 'transformerCapacity',
     unit: 'kVA',
   },
+  //动态
   {
     label: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
     field: 'photovoltaicInstalledCapacity',
     unit: 'kWp',
   },
+  //动态
   {
     label: formatMessage({ id: 'screen.energyStorageRating', defaultMessage: '储能额定电量' }),
     field: 'energyStorageCapacityFront',
@@ -58,6 +60,7 @@ export const stationBoxConfig = [
       );
     },
   },
+  //动态
   {
     label: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
     field: 'chargingStationCapacity',

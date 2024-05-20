@@ -109,7 +109,8 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
 
   useEffect(() => {
     setMyConfig((prevData) => {
-      prevData.legend.itemValue.formatter = legendFormat;
+      // prevData.legend.itemValue.formatter = legendFormat;
+      prevData.legend = false;
       prevData.label.formatter = labelFormat;
       prevData.statistic.content.customHtml = getCustomHtml(pieData?.totalGains);
       return { ...prevData };
@@ -128,7 +129,6 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
       });
     });
     const totalNum = (revenueData?.totalGains || 0) * 1;
-    console.log('typeData>>', typeData);
     setPieData({
       totalGains: (totalNum + '').length > 7 ? Math.floor(totalNum) : totalNum,
       data: typeData,
