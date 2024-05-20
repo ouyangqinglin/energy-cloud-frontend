@@ -7,7 +7,7 @@ import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import type { ActionType, ProColumns, ProFormInstance } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
@@ -27,11 +27,7 @@ type SearchProps = {
   deviceData?: DeviceDataType;
 };
 
-const dealParams = (
-  params: TableSearchType,
-  isDeviceChild?: boolean,
-  paramsDeviceData?: DeviceDataType,
-) => {
+const dealParams = (params: TableSearchType) => {
   const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
   const deviceData: TableSearchType['keyValue'] = [];
   const deviceDataMap = new Map<string, DeviceMapDataType>();
@@ -104,7 +100,7 @@ const Search: React.FC<SearchProps> = (props) => {
   const onRequest = useCallback(
     (params: TableSearchType) => {
       if (params?.collection && params?.collection?.length) {
-        const cols = dealParams(params, isDeviceChild, deviceData);
+        const cols = dealParams(params);
         setCollectionColumns(cols);
         const result = getList({
           ...params,
@@ -138,7 +134,7 @@ const Search: React.FC<SearchProps> = (props) => {
 
   const requestExport = useCallback(
     (params: TableSearchType) => {
-      dealParams(params, isDeviceChild, deviceData);
+      dealParams(params);
       const date = params?.time || [];
       return exportList({
         ...params,
@@ -162,8 +158,10 @@ const Search: React.FC<SearchProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    actionRef?.current?.reloadAndRest?.();
-  }, [deviceData]);
+    if (isDeviceChild) {
+      actionRef.current?.reset?.();
+    }
+  }, [deviceData?.deviceId]);
 
   return (
     <>
