@@ -490,4 +490,5 @@ export default {
   'device.getDeviceLog': '获取设备日志',
   'device.exportLog': '日志导出',
   'device.selectDate': '请选择日期',
+  'device.1002': '逆变器',
 };

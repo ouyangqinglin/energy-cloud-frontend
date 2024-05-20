@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-14 11:30:35
- * @LastEditTime: 2024-03-15 11:17:59
+ * @LastEditTime: 2024-05-20 14:23:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Back\index.tsx
  */
@@ -97,6 +97,11 @@ const Back: React.FC<EntityType> = (props) => {
           backgroundSize: '28%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '150px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

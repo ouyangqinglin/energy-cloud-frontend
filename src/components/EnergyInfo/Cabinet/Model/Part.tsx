@@ -17,7 +17,7 @@ import { useHistory } from 'umi';
 import { arrayToMap, formatMessage, formatModelValue } from '@/utils';
 import { merge } from 'lodash';
 import styles from '../../index.less';
-import Detail from '@/components/Detail';
+import Detail, { DetailItem } from '@/components/Detail';
 
 type PartType = {
   config: ConfigType;
@@ -25,10 +25,11 @@ type PartType = {
   productId?: DeviceTypeEnum;
   productIdMap?: ProductIdMapType;
   source?: EnergySourceEnum;
+  detailProps?: DetailItem;
 };
 
 const Part: React.FC<PartType> = (props) => {
-  const { config, deviceId, productId, productIdMap, source } = props;
+  const { config, deviceId, productId, productIdMap, source, detailProps } = props;
 
   const dataDeviceIds = useMemo(() => {
     const result: string[] = [];
@@ -131,6 +132,7 @@ const Part: React.FC<PartType> = (props) => {
             maxWidth: '92px',
           }}
           unitInLabel
+          {...detailProps}
         />
         {mergedConfig.showLabel === false ? (
           <></>

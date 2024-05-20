@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-14 11:31:33
- * @LastEditTime: 2024-05-17 09:15:21
+ * @LastEditTime: 2024-05-20 14:35:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Front\index.tsx
  */
@@ -29,7 +29,7 @@ import StackLineImg from '@/assets/image/station/fgc-energy/bms-line.png';
 
 const configs: ConfigType[] = [
   {
-    label: formatMessage({ id: 'device.inventer', defaultMessage: '逆变器' }),
+    label: formatMessage({ id: 'device.1002', defaultMessage: '逆变器' }),
     productTypeId: DeviceProductTypeEnum.Pcs,
     dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     dataProductIds: [DeviceTypeEnum.Liquid2InverterMeter],
@@ -105,6 +105,11 @@ const Front: React.FC<EntityType> = (props) => {
           backgroundSize: '29%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '100px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

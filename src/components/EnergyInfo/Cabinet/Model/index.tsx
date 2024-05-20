@@ -15,7 +15,7 @@ import { ComProps } from '../../type';
 import styles from '../../index.less';
 import { formatMessage, getPlaceholder } from '@/utils';
 import { deviceAlarmStatusFormat, onlineStatusFormat } from '@/utils/format';
-import Detail from '@/components/Detail';
+import Detail, { DetailItem } from '@/components/Detail';
 import { ConfigType } from '../type';
 import { EnergySourceEnum } from '../../';
 import { getWholeDeviceTree } from '@/services/equipment';
@@ -28,6 +28,7 @@ type CabinetProps = ComProps & {
   source?: EnergySourceEnum;
   configs?: ConfigType[];
   modelStyle?: React.CSSProperties;
+  detailProps?: DetailItem;
 };
 
 const Model: React.FC<CabinetProps> = (props) => {
@@ -39,6 +40,7 @@ const Model: React.FC<CabinetProps> = (props) => {
     children,
     configs,
     modelStyle,
+    detailProps,
   } = props;
 
   const divRef = useRef(null);
@@ -78,6 +80,7 @@ const Model: React.FC<CabinetProps> = (props) => {
           }
           productIdMap={productIdMap}
           source={source}
+          detailProps={detailProps}
         />
       );
     });
