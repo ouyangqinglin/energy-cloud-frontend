@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="268px" height="179px" viewBox="0 0 268 179" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>线条2</title>
+<svg width="276px" height="179px" viewBox="0 0 276 179" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>线条2备份 2</title>
     <g id="光储充及工商储管理系统V1.5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-        <g id="3_1_6.站点监视_站点概览_光储示范站" transform="translate(-374.000000, -347.000000)" stroke="#B4B4B4">
+        <g id="3_1_1.站点监视_站点概览_光储充示范站" transform="translate(-370.000000, -347.000000)" stroke="#B4B4B4">
             <g id="main" transform="translate(212.000000, 102.000000)">
                 <g id="2" transform="translate(20.000000, 182.000000)">
-                    <g id="能流图1" transform="translate(48.000000, 22.000000)">
-                        <g id="线条2" transform="translate(228.033037, 130.520741) scale(-1, -1) translate(-228.033037, -130.520741) translate(95.033037, 42.691728)">
-                            <line x1="1.46570718" y1="2.15031279" x2="131.56733" y2="90.0284549" id="直线-7" transform="translate(66.516518, 46.089384) rotate(-1.915956) translate(-66.516518, -46.089384) "></line>
-                            <line x1="134.465707" y1="2.15031279" x2="264.56733" y2="90.0284549" id="直线-7备份-4" transform="translate(199.516518, 46.089384) scale(-1, 1) rotate(-1.915956) translate(-199.516518, -46.089384) "></line>
-                            <line x1="134.43267" y1="85.6295717" x2="264.534293" y2="173.507714" id="直线-7备份-2" transform="translate(199.483482, 129.568643) rotate(-1.915956) translate(-199.483482, -129.568643) "></line>
-                            <line x1="1.43267048" y1="85.6295717" x2="131.534293" y2="173.507714" id="直线-7备份-3" transform="translate(66.483482, 129.568643) scale(-1, 1) rotate(-1.915956) translate(-66.483482, -129.568643) "></line>
+                    <g id="能流图6" transform="translate(48.000000, 22.000000)">
+                        <g id="线条2备份-2" transform="translate(228.033037, 130.520741) scale(-1, -1) translate(-228.033037, -130.520741) translate(91.533524, 42.371052)">
+                            <line x1="2.96521972" y1="4.47098835" x2="133.066842" y2="92.3491305" id="直线-7" transform="translate(68.016031, 48.410059) rotate(-4.037362) translate(-68.016031, -48.410059) "></line>
+                            <line x1="139.96522" y1="4.47098835" x2="270.066842" y2="92.3491305" id="直线-7备份-4" transform="translate(205.016031, 48.410059) scale(-1, 1) rotate(-4.037362) translate(-205.016031, -48.410059) "></line>
+                            <line x1="139.932183" y1="83.9502473" x2="270.033805" y2="171.828389" id="直线-7备份-2" transform="translate(204.982994, 127.889318) rotate(-4.037362) translate(-204.982994, -127.889318) "></line>
+                            <line x1="2.93218303" y1="83.9502473" x2="133.033805" y2="171.828389" id="直线-7备份-3" transform="translate(67.982994, 127.889318) scale(-1, 1) rotate(-4.037362) translate(-67.982994, -127.889318) "></line>
                         </g>
                     </g>
                 </g>

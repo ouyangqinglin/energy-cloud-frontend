@@ -4,13 +4,14 @@ import TypeChart from '@/components/Chart/TypeChart';
 import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import type { Moment } from 'moment';
 import { getData } from '../service';
 import styles from './index.less';
 import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { barFieldMap, lineFieldMap } from './config';
+import EChartsReact from 'echarts-for-react';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -24,7 +25,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
-  const chartRef = useRef();
+  const chartRef = useRef<EChartsReact>();
   const [allLabel, setAllLabel] = useState<string[]>([]);
 
   const { data: powerData, run } = useRequest(getData, {
@@ -48,8 +49,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     } else {
       const fieldConfig = makeDataVisibleAccordingFlag([...barFieldMap], powerData, shouldShowLine);
       calcData = getBarChartData(powerData, fieldConfig, timeType as number);
+      if (calcData[calcData.length - 1]) {
+        calcData[calcData.length - 1].type = 'line';
+        calcData[calcData.length - 1].color = '#FF9AD5';
+      }
     }
-    console.log('calcData>>', calcData);
+    chartRef.current?.getEchartsInstance?.()?.clear?.();
     setChartData(calcData);
     // setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
@@ -90,29 +95,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   }, [chartData]);
 
   const option = {
-    yAxis: {
-      type: 'value',
-      nameLocation: 'end',
-      splitLine: {
-        lineStyle: {
-          type: 'dashed', //虚线
-        },
-      },
-    },
-    xAxis: {
-      data: allLabel,
-    },
     grid: {
       bottom: 50,
-      top: 50,
-      right: 20,
     },
     legend: {
-      show: true,
       icon: 'rect',
       top: 'bottom',
-      itemHeight: 10,
-      itemWidth: 10,
     },
     tooltip: {
       trigger: 'axis',
@@ -120,47 +108,26 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         type: 'shadow',
       },
       formatter: function (params: any[]) {
-        const currentTime =
-          timeType == TimeType.DAY
-            ? moment('2023-01-01 ' + params[0].name)
-            : moment(params[0].name);
-        let time = null;
-        switch (timeType) {
-          case TimeType.DAY:
-            time = currentTime.add(1, 'hours').format('HH:mm');
-            break;
-          case TimeType.MONTH:
-            time = currentTime.add(1, 'days').format('YYYY-MM-DD');
-            break;
-          case TimeType.YEAR:
-            time = currentTime.add(1, 'months').format('YYYY-MM');
-            break;
-          case TimeType.TOTAL:
-            time = currentTime.add(1, 'years').format('YYYY');
-            break;
-        }
-        let result = (shouldShowLine ? params[0].name : `${params[0].name}-${time}`) + '<br />';
-        params.forEach((item) => {
-          let seriesName = item.seriesName;
-          if (seriesName == formatMessage({ id: 'index.tab.income' })) {
-            //收益
-            seriesName += `(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`;
-          } else {
-            seriesName += shouldShowLine ? '(kW)' : '(kWh)';
-          }
-          let lable = `${item.marker} ${seriesName}: ${item.value || 0}`;
+        let result = params[0].name + '<br />';
+        params.forEach((item, index) => {
+          const value = item.data[index + 1];
+          const seriesName = item.seriesName;
+          let lable = `${item.marker} ${seriesName}: ${isEmpty(value) ? '-' : value}`;
           if (item.seriesName == formatMessage({ id: 'device.storage' })) {
             //储能系统
-            if (item.value)
-              item.value >= 0
-                ? (lable += `(${formatMessage({
-                    id: 'device.charge',
-                    defaultMessage: '充电',
-                  })})`)
-                : (lable += `(${formatMessage({
-                    id: 'device.discharge',
-                    defaultMessage: '放电',
-                  })})`);
+            if (!isEmpty(value)) {
+              if (item.value) {
+                lable += `(${formatMessage({
+                  id: 'device.charge',
+                  defaultMessage: '充电',
+                })})`;
+              } else {
+                lable += `(${formatMessage({
+                  id: 'device.discharge',
+                  defaultMessage: '放电',
+                })})`;
+              }
+            }
           }
           result += `${lable}<br />`;
         });
@@ -179,7 +146,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         realtime: false,
       },
     ],
-    series: chartData,
+    series: chartData?.map((item) => {
+      return {
+        type: item.type,
+        color: item.color,
+        barMaxWidth: item.barMaxWidth,
+      };
+    }),
   };
 
   return (
@@ -208,8 +181,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         style={{ height: '340px' }}
         data={chartData}
         allLabel={allLabel}
-        calculateMax={false}
-        notMerge
+        step={shouldShowLine ? 2 : 60}
       />
     </div>
   );
