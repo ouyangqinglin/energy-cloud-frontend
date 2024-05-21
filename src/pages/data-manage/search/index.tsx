@@ -119,6 +119,7 @@ const Search: React.FC<SearchProps> = (props) => {
         });
         return result;
       } else {
+        setCollectionColumns([]);
         return Promise.resolve({
           code: '200',
           data: {
