@@ -263,7 +263,7 @@ export const Columns: (
             />
             <div style={{ marginTop: '-20px' }}>
               {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：64*64px
             </div>
           </>
         );
