@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\Part.tsx
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { ConfigType, ProductIdMapType } from '../type';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { EnergySourceEnum } from '../..';
@@ -18,6 +18,7 @@ import { arrayToMap, formatMessage, formatModelValue } from '@/utils';
 import { merge } from 'lodash';
 import styles from '../../index.less';
 import Detail, { DetailItem } from '@/components/Detail';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 type PartType = {
   config: ConfigType;
@@ -30,6 +31,8 @@ type PartType = {
 
 const Part: React.FC<PartType> = (props) => {
   const { config, deviceId, productId, productIdMap, source, detailProps } = props;
+
+  const { onSelect } = useContext(DeviceContext);
 
   const dataDeviceIds = useMemo(() => {
     const result: string[] = [];
@@ -78,13 +81,17 @@ const Part: React.FC<PartType> = (props) => {
 
   const onMoreClick = useCallback(() => {
     if (deviceId) {
-      history.push({
-        pathname:
-          source === EnergySourceEnum.SiteMonitor
-            ? '/site-monitor/device-detail'
-            : '/equipment/device-detail',
-        search: `?id=${deviceId}`,
-      });
+      if (onSelect) {
+        onSelect?.(deviceId);
+      } else {
+        history.push({
+          pathname:
+            source === EnergySourceEnum.SiteMonitor
+              ? '/site-monitor/device-detail'
+              : '/equipment/device-detail',
+          search: `?id=${deviceId}`,
+        });
+      }
     } else {
       message.error(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
     }

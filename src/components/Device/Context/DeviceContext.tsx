@@ -21,6 +21,7 @@ export type RefreshRequestParams = {
 export type DeviceContextType = {
   data?: DeviceDataType;
   updateData?: any;
+  onSelect?: (deviceId: string) => void;
   loading?: boolean;
   refreshDataByRequest?: (
     params: RefreshRequestParams,
@@ -32,6 +33,7 @@ const DeviceContext = createContext<DeviceContextType>({
   data: {},
   loading: false,
   updateData: () => {},
+  // onSelect: () => { },
   refreshDataByRequest: () => Promise.resolve({ code: '200', data: [], msg: '' }),
 });
 

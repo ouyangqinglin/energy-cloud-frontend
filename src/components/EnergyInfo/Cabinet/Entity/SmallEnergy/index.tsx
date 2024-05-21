@@ -67,7 +67,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.batteryPack', defaultMessage: '电池组' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
+    productTypeId: DeviceProductTypeEnum.BatteryCluster,
     position: { top: 77, left: 2 },
     icon: StackImg,
     line: BmsLineImg,
@@ -149,7 +150,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
+    productTypeId: DeviceProductTypeEnum.Pcs,
     position: { top: 440, left: 2 },
     icon: PvEnergyInverterImg,
     line: PcsLineImg,

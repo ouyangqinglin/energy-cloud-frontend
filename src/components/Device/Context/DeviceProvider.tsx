@@ -13,15 +13,17 @@ import DeviceContext, { RefreshRequestParams } from './DeviceContext';
 import { useSubscribe } from '@/hooks';
 import { MessageEventType } from '@/utils/connection';
 import { merge } from 'lodash';
+import { flatTree } from './helper';
 
 export type DeviceProviderType = {
   deviceId?: string;
   onChange?: () => void;
   deviceTreeData?: DeviceDataType[];
+  onSelect?: (data: DeviceDataType) => void;
 };
 
 const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
-  const { deviceId, deviceTreeData, onChange, children } = props;
+  const { deviceId, deviceTreeData, onChange, onSelect, children } = props;
 
   const realTimeNetwork = useSubscribe(deviceId, true, MessageEventType.NETWORKSTSTUS);
   const realTimeAlarmData = useSubscribe(deviceId, true, MessageEventType.DeviceAlarm);
@@ -50,6 +52,17 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
     runGetDevice({ deviceId });
   }, [deviceId, onChange]);
 
+  const onTreeSelect = useCallback(
+    (value: string) => {
+      const treeData = flatTree(deviceTreeData);
+      const result = treeData.find((item) => item.id == value);
+      if (result) {
+        onSelect?.(result);
+      }
+    },
+    [deviceTreeData, onSelect],
+  );
+
   const refreshDataByRequest = useCallback((params: RefreshRequestParams, showMessage) => {
     return editSetting(
       {
@@ -74,6 +87,7 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
           data: realTImeDeviceData,
           loading,
           updateData: updateData,
+          onSelect: onTreeSelect,
           refreshDataByRequest: refreshDataByRequest,
         }}
       >

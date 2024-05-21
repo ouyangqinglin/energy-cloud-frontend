@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:00:23
- * @LastEditTime: 2024-04-30 10:35:20
+ * @LastEditTime: 2024-05-21 15:26:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\index.tsx
  */
@@ -90,6 +90,7 @@ const Model: React.FC<CabinetProps> = (props) => {
     if (deviceData?.deviceId) {
       run({
         deviceId: deviceData?.deviceId,
+        component: 0,
         containTopParentDevice: 1,
       }).then((data) => {
         setProductIdMap(getProductTypeIdMap(data ? [data] : []));
