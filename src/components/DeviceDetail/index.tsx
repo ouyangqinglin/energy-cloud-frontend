@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2024-03-07 17:40:02
+ * @LastEditTime: 2024-05-21 15:30:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -100,6 +100,13 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     [],
   );
 
+  const onProviderSelect = useCallback((data: DeviceDataType) => {
+    if (data) {
+      data.deviceId = data.id;
+      setSelectOrg(data);
+    }
+  }, []);
+
   const onChange = useCallback(() => {
     runGetDeviceTree({
       deviceId: id,
@@ -150,8 +157,9 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         <div className={styles.content}>
           <DeviceProvider
             deviceId={selectOrg.deviceId}
-            onChange={onChange}
             deviceTreeData={treeData}
+            onChange={onChange}
+            onSelect={onProviderSelect}
           >
             <Device deviceTreeData={mergedTreeData} />
           </DeviceProvider>
