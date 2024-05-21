@@ -13,7 +13,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { StationType } from '../../stationList/data';
 
 const Setting = () => {
-
   const [siteInfo, setSiteInfo] = useState<StationType>();
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:baseInfo',
@@ -75,7 +74,7 @@ const Setting = () => {
           id: 'siteManage.set.electricPriceManagement',
           defaultMessage: '电价管理',
         }),
-        children: <ElectricityPrice />,
+        children: <ElectricityPrice siteType={siteInfo?.energyOptions} />,
       });
     }
     if (authorityMap.get('siteManage:siteConfig:configRecord')) {
@@ -86,19 +85,21 @@ const Setting = () => {
       });
     }
     return result;
-  }, [authorityMap]);
+  }, [authorityMap, siteInfo]);
 
-  return <>
-    <div className='px24 pt24'>
-      <label className={styles.label}>{siteInfo?.name}</label>
-    </div>
-    <Tabs
-      className={`${styles.tabsWrapper}`}
-      tabBarGutter={34}
-      defaultActiveKey="1"
-      items={items}
-    />
-  </>;
+  return (
+    <>
+      <div className="px24 pt24">
+        <label className={styles.label}>{siteInfo?.name}</label>
+      </div>
+      <Tabs
+        className={`${styles.tabsWrapper}`}
+        tabBarGutter={34}
+        defaultActiveKey="1"
+        items={items}
+      />
+    </>
+  );
 };
 
 export default Setting;

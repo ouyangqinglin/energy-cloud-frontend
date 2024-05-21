@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-21 11:33:05
+ * @LastEditTime: 2024-05-21 14:06:57
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -84,7 +84,7 @@ const StationList: React.FC = () => {
   const onSettingClick = useCallback((record) => {
     history.push({
       pathname: `/station/setting`,
-      search: `?id=${record.id}&siteType=${record.energyOptions}`,
+      search: `?id=${record.id}`,
     });
   }, []);
 

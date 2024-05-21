@@ -3,15 +3,14 @@ import styles from './index.less';
 import type { TabsProps } from 'antd';
 import { Tabs, Button, Modal, message } from 'antd';
 import YTProTable from '@/components/YTProTable';
-import { useLocation } from 'umi';
+import { useLocation } from '@/hooks';
 import PriceMarketList from './PriceMarket';
 import PricePhotovoltaicList from './PricePhotovoltaic';
 import PriceChargingList from './PriceCharging';
 import type { ActionType } from '@ant-design/pro-table';
 import { formatMessage } from '@/utils';
-import type { LocationType } from '@/types';
 import { useAuthority } from '@/hooks';
-import { SiteTypeEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/dict';
 import { getRulesSyncSite } from '@/pages/station/stationList/service';
 import { debounce } from 'lodash';
 import { columns as defaultColumns } from './config';
@@ -29,9 +28,19 @@ const enum TabKeys {
   CHARGING = '4',
 }
 
-const Customer: React.FC = () => {
+type ElectricPriceType = {
+  siteType?: SiteTypeStrEnum;
+};
+
+type LocationType = {
+  id?: string;
+};
+
+const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
+  const { siteType } = props;
+
   const location = useLocation<LocationType>();
-  const { siteType, id } = (location as LocationType).query as any;
+  const { id } = location?.query || {};
   const chargingActionRef = useRef<ActionType>(null);
   const photovoltaicActionRef = useRef<ActionType>(null);
   const ESSActionRef = useRef<ActionType>(null);
@@ -90,24 +99,26 @@ const Customer: React.FC = () => {
 
   const category = useMemo(() => {
     const result: TabsProps['items'] = [];
+
     const isShowESSTab = [
-      SiteTypeEnum.ES,
-      SiteTypeEnum.PV_ES,
-      SiteTypeEnum.ES_CS,
-      SiteTypeEnum.PV_ES_CS,
-    ].includes(Number(siteType));
+      SiteTypeStrEnum.ES,
+      SiteTypeStrEnum.PV_ES,
+      SiteTypeStrEnum.ES_CS,
+      SiteTypeStrEnum.PV_ES_CS,
+    ].includes(siteType as SiteTypeStrEnum);
     const isShowPVTab = [
-      SiteTypeEnum.PV,
-      SiteTypeEnum.PV_ES,
-      SiteTypeEnum.PV_ES_CS,
-      SiteTypeEnum.PV_CS,
-    ].includes(Number(siteType));
+      SiteTypeStrEnum.PV,
+      SiteTypeStrEnum.PV_ES,
+      SiteTypeStrEnum.PV_ES_CS,
+      SiteTypeStrEnum.PV_CS,
+    ].includes(siteType as SiteTypeStrEnum);
     const isShowChargeTab = [
-      SiteTypeEnum.CS,
-      SiteTypeEnum.ES_CS,
-      SiteTypeEnum.PV_CS,
-      SiteTypeEnum.PV_ES_CS,
-    ].includes(Number(siteType));
+      SiteTypeStrEnum.CS,
+      SiteTypeStrEnum.ES_CS,
+      SiteTypeStrEnum.PV_CS,
+      SiteTypeStrEnum.PV_ES_CS,
+    ].includes(siteType as SiteTypeStrEnum);
+
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:electric')) {
       result.push({
         label: formatMessage({
@@ -157,7 +168,7 @@ const Customer: React.FC = () => {
       });
     }
     return result;
-  }, [authorityMap]);
+  }, [authorityMap, siteType]);
 
   const operations = (
     <Button type="primary" onClick={() => setVisible(true)}>
@@ -282,4 +293,4 @@ const Customer: React.FC = () => {
   );
 };
 
-export default Customer;
+export default ElectricPrice;

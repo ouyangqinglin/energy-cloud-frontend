@@ -6,6 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
  */
+import { SiteTypeStrEnum } from '@/utils/dict';
 import type { FileType } from '@/utils/dictionary';
 
 export type StationType = {
@@ -28,6 +29,7 @@ export type StationType = {
     orgName: string;
   }[];
   collectFlag: number;
+  energyOptions?: SiteTypeStrEnum;
 };
 
 export type StationFormType = {
