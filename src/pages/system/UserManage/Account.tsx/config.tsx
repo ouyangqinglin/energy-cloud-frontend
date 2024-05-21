@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-03-29 15:04:32
+ * @LastEditTime: 2024-05-20 14:40:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -473,11 +473,13 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
         }),
       },
     },
-
     {
       valueType: 'dependency',
       name: ['roleId'],
       columns: ({ roleId }) => {
+        if (types?.[0] == OrgTypeEnum.Install) {
+          return [];
+        }
         const roleType = roleOptions.filter((i) => i.roleId == roleId)[0]?.type || 0;
         return roleType == 0
           ? [

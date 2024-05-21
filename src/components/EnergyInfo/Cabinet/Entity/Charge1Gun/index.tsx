@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-29 19:03:28
+ * @LastEditTime: 2024-05-20 15:14:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\Charge1Gun\index.tsx
  */
@@ -118,6 +118,11 @@ const Charge2Gun: React.FC<EntityType> = (props) => {
           backgroundSize: '38%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '120px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

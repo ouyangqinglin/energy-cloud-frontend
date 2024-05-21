@@ -82,6 +82,11 @@ const ChargeTerminal1Gun: React.FC<EntityType> = (props) => {
           backgroundSize: '20%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '120px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

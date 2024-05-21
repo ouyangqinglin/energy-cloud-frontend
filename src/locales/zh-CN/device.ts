@@ -335,8 +335,8 @@ export default {
   'device.converter': '变流器',
   'device.air': '空调',
   'device.fireFighting': '消防',
-  'device.gridMeter': '电网侧电表',
-  'device.inverterMeter': '逆变侧电表',
+  'device.gridMeter': '防逆流电表',
+  'device.inverterMeter': '计量电表',
   'device.communicationMethodSentence': '与{name}通信方式',
   'device.communicationStatusWithSentence': '与{name}通信状态',
   'device.bmuNumber': '电池模块个数',
@@ -490,4 +490,5 @@ export default {
   'device.getDeviceLog': '获取设备日志',
   'device.exportLog': '日志导出',
   'device.selectDate': '请选择日期',
+  'device.1002': '逆变器',
 };

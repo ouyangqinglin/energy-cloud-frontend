@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-19 13:37:28
+ * @LastEditTime: 2024-05-20 15:18:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeTerminal2Gun\index.tsx
  */
@@ -116,6 +116,11 @@ const ChargeTerminal2Gun: React.FC<EntityType> = (props) => {
           backgroundSize: '23%',
         }}
         configs={configs}
+        detailProps={{
+          labelStyle: {
+            maxWidth: '120px',
+          },
+        }}
         {...restProps}
       ></Model>
     </>

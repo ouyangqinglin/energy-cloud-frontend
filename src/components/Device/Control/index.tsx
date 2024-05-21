@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-17 08:56:17
+ * @LastEditTime: 2024-05-20 14:02:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -739,41 +739,66 @@ const Control: React.FC<ControlType> = memo((props) => {
               title: field?.name,
               dataIndex: getRealField(field?.id),
               valueType: valueType,
-              fieldProps: {
-                ...(valueType == 'digit'
-                  ? {
-                      min: (doubleSpecs?.enable && doubleSpecs?.min) || Number.MIN_SAFE_INTEGER,
-                      max: (doubleSpecs?.enable && doubleSpecs?.max) || Number.MAX_SAFE_INTEGER,
+              fieldProps: (form) => {
+                const data = form?.getFieldsValue?.() || {};
+                let fieldDisabled = false;
+                if (field?.disabled) {
+                  try {
+                    const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
+                    if (typeof evalResult == 'boolean') {
+                      fieldDisabled = evalResult;
                     }
-                  : {}),
-                ...(doubleSpecs?.unit
-                  ? {
-                      addonAfter: doubleSpecs?.unit,
-                    }
-                  : {}),
+                  } catch {}
+                }
+                return {
+                  ...(valueType == 'digit'
+                    ? {
+                        min: (doubleSpecs?.enable && doubleSpecs?.min) || Number.MIN_SAFE_INTEGER,
+                        max: (doubleSpecs?.enable && doubleSpecs?.max) || Number.MAX_SAFE_INTEGER,
+                      }
+                    : {}),
+                  ...(doubleSpecs?.unit
+                    ? {
+                        addonAfter: doubleSpecs?.unit,
+                      }
+                    : {}),
+                  disabled: fieldDisabled,
+                };
               },
-              formItemProps: {
-                rules:
-                  field?.required === false
-                    ? []
-                    : [
-                        {
-                          required: true,
-                          message: formatMessage(
-                            { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
-                            {
-                              content: field?.name,
-                            },
-                          ),
-                        },
-                      ],
-                extra: doubleSpecs?.enable
-                  ? `${formatMessage({ id: 'device.min', defaultMessage: '最小值' })}：${
-                      doubleSpecs?.min
-                    },${formatMessage({ id: 'device.max', defaultMessage: '最大值' })}：${
-                      doubleSpecs?.max
-                    }`
-                  : undefined,
+              formItemProps: (form) => {
+                const data = form?.getFieldsValue?.() || {};
+                let fieldDisabled = false;
+                if (field?.disabled) {
+                  try {
+                    const evalResult = eval(field?.disabled?.replace?.(/\$data/g, 'data'));
+                    if (typeof evalResult == 'boolean') {
+                      fieldDisabled = evalResult;
+                    }
+                  } catch {}
+                }
+                return {
+                  rules:
+                    field?.required === false || fieldDisabled
+                      ? []
+                      : [
+                          {
+                            required: true,
+                            message: formatMessage(
+                              { id: 'common.pleaseEnterSentence', defaultMessage: '请输入' },
+                              {
+                                content: field?.name,
+                              },
+                            ),
+                          },
+                        ],
+                  extra: doubleSpecs?.enable
+                    ? `${formatMessage({ id: 'device.min', defaultMessage: '最小值' })}：${
+                        doubleSpecs?.min
+                      },${formatMessage({ id: 'device.max', defaultMessage: '最大值' })}：${
+                        doubleSpecs?.max
+                      }`
+                    : undefined,
+                };
               },
               initialValue: isEmpty(field?.defaultValue)
                 ? undefined
