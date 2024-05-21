@@ -59,3 +59,17 @@ export const removeData = (params: any) => {
     params,
   });
 };
+
+export const starSite = (data: any) => {
+  return request(`/uc/site/collect`, {
+    method: 'post',
+    data,
+  });
+};
+
+export const unstarSite = (data: any) => {
+  return request(`/uc/site/collect`, {
+    method: 'delete',
+    data,
+  });
+};

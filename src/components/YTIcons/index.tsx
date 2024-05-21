@@ -2,12 +2,16 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-15 14:54:55
- * @LastEditTime: 2023-10-10 14:10:21
+ * @LastEditTime: 2024-05-21 10:07:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTIcons\index.tsx
  */
 import Icon from '@ant-design/icons';
-import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
+import type {
+  CustomIconComponentProps,
+  IconBaseProps,
+  IconComponentProps,
+} from '@ant-design/icons/lib/components/Icon';
 import {
   Home,
   Station,
@@ -57,7 +61,11 @@ import {
   AlarmFull,
   App,
   Video,
+  Star,
+  StarFull,
 } from './YTSvg';
+import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
+import React from 'react';
 
 const YTHomeOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Home} {...props} />
@@ -251,6 +259,14 @@ const YTVideoOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Video} {...props} />
 );
 
+const YTStarOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={Star} {...props} />
+);
+
+const YTStarFull = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={StarFull} {...props} />
+);
+
 export {
   YTHomeOutlined,
   YTStationOutlined,
@@ -300,4 +316,6 @@ export {
   YTGenerralDeviceOutlined,
   YTAppOutlined,
   YTVideoOutlined,
+  YTStarOutlined,
+  YTStarFull,
 };

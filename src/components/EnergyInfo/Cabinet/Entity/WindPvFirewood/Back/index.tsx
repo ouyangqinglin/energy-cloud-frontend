@@ -49,6 +49,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.batteryCluster', defaultMessage: '电池簇' }) + 1,
     productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    fixValue: 'BatteryPack-1',
     position: { top: 260, left: 90 },
     icon: EmsImg,
     line: ClusterLineImg,
@@ -77,6 +78,7 @@ const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.batteryCluster', defaultMessage: '电池簇' }) + 2,
     productTypeId: DeviceProductTypeEnum.BatteryCluster,
+    fixValue: 'BatteryPack-2',
     position: { top: 248, left: 738 },
     icon: EmsImg,
     line: Cluster2LineImg,
