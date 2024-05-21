@@ -27,6 +27,7 @@ export type StationType = {
   installers: {
     orgName: string;
   }[];
+  collectFlag: number;
 };
 
 export type StationFormType = {

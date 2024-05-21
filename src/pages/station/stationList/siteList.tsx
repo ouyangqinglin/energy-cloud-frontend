@@ -2,25 +2,27 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-11 16:35:27
+ * @LastEditTime: 2024-05-21 11:33:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal, message } from 'antd';
-import { useHistory, useModel } from 'umi';
+import { useHistory, useModel, useRequest } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { StationType } from './data.d';
 import { buildStatus } from '@/utils/dict';
-import { getList, removeData } from './service';
+import { getList, removeData, starSite, unstarSite } from './service';
 import StationForm from './components/edit';
 import { siteType as siteTypeEnum } from '@/utils/dict';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import { useArea, useAuthority } from '@/hooks';
 import eventBus from '@/utils/eventBus';
 import { formatMessage, getLocale } from '@/utils';
+import { YTStarFull, YTStarOutlined } from '@/components/YTIcons';
+import styles from './index.less';
 
 const StationList: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -36,6 +38,12 @@ const StationList: React.FC = () => {
     'system:site:create',
     'oss:site:update',
   ]);
+  const { run: runStar, loading: starLoading } = useRequest(starSite, {
+    manual: true,
+  });
+  const { run: runUnstar, loading: unstarLoading } = useRequest(unstarSite, {
+    manual: true,
+  });
 
   const requestList = useCallback(
     (params) => {
@@ -82,6 +90,18 @@ const StationList: React.FC = () => {
 
   const onSuccess = () => {
     actionRef?.current?.reload?.();
+  };
+
+  const onStarClick = (id: string) => {
+    runStar({ siteId: id }).then(() => {
+      actionRef.current?.reload?.();
+    });
+  };
+
+  const onUnstarClick = (id: string) => {
+    runUnstar({ siteId: id }).then(() => {
+      actionRef.current?.reload?.();
+    });
   };
 
   useEffect(() => {
@@ -138,9 +158,26 @@ const StationList: React.FC = () => {
             {formatMessage({ id: 'siteManage.siteList.siteConfig', defaultMessage: '站点配置' })}
           </Button>
         )}
+        {record.collectFlag ? (
+          <Button
+            size="large"
+            icon={<YTStarFull />}
+            onClick={() => onUnstarClick(record.id)}
+            type="link"
+            className={styles.button}
+          />
+        ) : (
+          <Button
+            size="large"
+            icon={<YTStarOutlined />}
+            onClick={() => onStarClick(record.id)}
+            type="link"
+            className={styles.button}
+          />
+        )}
       </>
     ),
-    [authorityMap, onEditClick, onSettingClick],
+    [authorityMap, onEditClick, onSettingClick, onStarClick, onUnstarClick],
   );
 
   const columns: ProColumns<StationType>[] = useMemo(() => {
@@ -272,13 +309,10 @@ const StationList: React.FC = () => {
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
-        width: getLocale().isZh ? 180 : 250,
+        width: getLocale().isZh ? 218 : 278,
         fixed: 'right',
         render: rowBar,
-        hideInTable:
-          !authorityMap.get('system:site:config') &&
-          !authorityMap.get('system:site:delete') &&
-          !authorityMap.get('oss:site:update'),
+        align: 'right',
       },
     ];
   }, [onSiteClick, rowBar, authorityMap, areaOptions]);

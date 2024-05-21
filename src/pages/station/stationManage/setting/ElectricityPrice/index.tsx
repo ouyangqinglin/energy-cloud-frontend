@@ -158,6 +158,7 @@ const Customer: React.FC = () => {
     }
     return result;
   }, [authorityMap]);
+
   const operations = (
     <Button type="primary" onClick={() => setVisible(true)}>
       {formatMessage({
@@ -166,6 +167,7 @@ const Customer: React.FC = () => {
       })}
     </Button>
   );
+
   const handleOk = () => {
     if (ids.length) {
       const params = {
