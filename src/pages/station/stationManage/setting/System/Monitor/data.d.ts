@@ -42,6 +42,8 @@ export type AllTableDataType = {
   energy: TableDataType;
   charge: TableDataType;
   load: TableDataType;
+  fanRatedPower: TableDataType;
+  dieselRatedPower: TableDataType;
 };
 
 export type TableTreeDataType = {

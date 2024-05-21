@@ -40,6 +40,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     energy: { row1: [], row2: [], row3: [], row4: [], row5: [], row6: [], row7: [] },
     charge: { row1: [], row2: [] },
     load: { row1: [], row2: [] },
+    fanRatedPower: { row1: [], row2: [], row3: [] },
+    dieselRatedPower: { row1: [], row2: [] },
   });
   const [openTableSelect, { setLeft, setRight }] = useToggle(false);
   const [selectedRow, setSelectedRow] = useState<MonitorDataType>({ area: '', type: '' });
@@ -256,7 +258,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
             paramName = '电量';
             break;
           case 'row2':
-            if (selectedRow?.type == 'photovoltaic' || selectedRow?.type == 'energy') {
+            if (['photovoltaic', 'energy', 'fanRatedPower'].includes(selectedRow?.type)) {
               paramName = '电量';
             } else {
               paramName = '功率';
@@ -297,6 +299,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           energy: { row1: [], row2: [], row3: [], row4: [], row5: [], row6: [], row7: [] },
           charge: { row1: [], row2: [] },
           load: { row1: [], row2: [] },
+          fanRatedPower: { row1: [], row2: [], row3: [] },
+          dieselRatedPower: { row1: [], row2: [] },
         };
         monitorTypeMap.forEach((item, type) => {
           if (data?.[item.type]?.flag) {
@@ -440,6 +444,14 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     {
       key: 'electric',
       title: formatMessage({ id: 'siteManage.set.mainsMonitor', defaultMessage: '市电监测' }),
+    },
+    {
+      key: 'fanRatedPower',
+      title: formatMessage({ id: 'siteManage.1017', defaultMessage: '风机监测' }),
+    },
+    {
+      key: 'dieselRatedPower',
+      title: formatMessage({ id: 'siteManage.1021', defaultMessage: '柴发监测' }),
     },
 
     {

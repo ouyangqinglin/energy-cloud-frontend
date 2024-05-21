@@ -184,4 +184,51 @@ export const monitorTypeMap = new Map([
       ],
     },
   ],
+  [
+    'fanRatedPower',
+    {
+      type: 6,
+      data: [
+        {
+          name: formatMessage({
+            id: 'siteManage.1018',
+            defaultMessage: '风机发电量',
+          }),
+          area: 'row1',
+          subType: 2,
+        },
+        {
+          name: formatMessage({ id: 'siteManage.1019', defaultMessage: '风机上网电量' }),
+          area: 'row2',
+          subType: 3,
+        },
+        {
+          name: formatMessage({ id: 'siteManage.1020', defaultMessage: '风机发电功率' }),
+          area: 'row3',
+          subType: 4,
+        },
+      ],
+    },
+  ],
+  [
+    'dieselRatedPower',
+    {
+      type: 7,
+      data: [
+        {
+          name: formatMessage({
+            id: 'siteManage.1022',
+            defaultMessage: '柴发发电量',
+          }),
+          area: 'row1',
+          subType: 2,
+        },
+        {
+          name: formatMessage({ id: 'siteManage.1023', defaultMessage: '柴发发电功率' }),
+          area: 'row2',
+          subType: 4,
+        },
+      ],
+    },
+  ],
 ]);
