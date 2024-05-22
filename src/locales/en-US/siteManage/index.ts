@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2024-05-14 14:34:23
+ * @LastEditTime: 2024-05-22 14:02:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -156,4 +156,6 @@ export default {
   'siteManage.1021': '',
   'siteManage.1022': '',
   'siteManage.1023': '',
+  'siteManage.1024': 'Collect',
+  'siteManage.1025': 'Cancel Collect',
 };

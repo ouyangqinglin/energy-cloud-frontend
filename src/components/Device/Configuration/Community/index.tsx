@@ -22,6 +22,7 @@ import Community, { CommunityTypeEnum } from '@/components/ScreenDialog/Communit
 import type { DeviceDataType } from '@/services/equipment';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 export type CommunityProps = {
   deviceData: DeviceDataType;
@@ -39,6 +40,11 @@ const communityItemMap = new Map([
 
 const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
   const { deviceData } = props;
+
+  const { authorityMap } = useAuthority([
+    'device:detail:config:communicationInfor:detail',
+    'device:detail:config:communicationInfor:edit',
+  ]);
 
   const communityData = useMemo(() => {
     let data: any = (deviceData || {})?.config || '{}';
@@ -62,23 +68,26 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
               defaultMessage: '通信信息',
             })}
           >
-            <Community
-              id={deviceData?.deviceId}
-              deviceData={deviceData}
-              siteId={deviceData?.siteId}
-              type={deviceData?.paramConfigType}
-              {...([DeviceTypeEnum.Energy, DeviceTypeEnum.Gateway].includes(
-                deviceData?.productId as any,
-              )
-                ? {
-                    userLabel:
-                      'EMS mqtt' +
-                      formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
-                    passwordLabel:
-                      'EMS mqtt' + formatMessage({ id: 'common.password', defaultMessage: '密码' }),
-                  }
-                : {})}
-            />
+            {authorityMap.get('device:detail:config:communicationInfor:edit') && (
+              <Community
+                id={deviceData?.deviceId}
+                deviceData={deviceData}
+                siteId={deviceData?.siteId}
+                type={deviceData?.paramConfigType}
+                {...([DeviceTypeEnum.Energy, DeviceTypeEnum.Gateway].includes(
+                  deviceData?.productId as any,
+                )
+                  ? {
+                      userLabel:
+                        'EMS mqtt' +
+                        formatMessage({ id: 'common.userName', defaultMessage: '用户名' }),
+                      passwordLabel:
+                        'EMS mqtt' +
+                        formatMessage({ id: 'common.password', defaultMessage: '密码' }),
+                    }
+                  : {})}
+              />
+            )}
           </Detail.Label>
         ),
         items: communityItemMap.get(deviceData.paramConfigType) || [],
@@ -89,11 +98,10 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
 
   return (
     <>
-      {deviceData?.paramConfigType ? (
-        <Detail.Group data={communityData} items={communityItems} />
-      ) : (
-        <></>
-      )}
+      {authorityMap.get('device:detail:config:communicationInfor:detail') &&
+        !!deviceData?.paramConfigType && (
+          <Detail.Group data={communityData} items={communityItems} />
+        )}
     </>
   );
 });

@@ -14,6 +14,7 @@ import type { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { download, importConfig } from './service';
 import { ExportOutlined, ImportOutlined } from '@ant-design/icons';
+import { useAuthority } from '@/hooks';
 
 export type CommunityProps = {
   deviceData: DeviceDataType;
@@ -21,6 +22,12 @@ export type CommunityProps = {
 
 const CommunityDetail: React.FC<CommunityProps> = (props) => {
   const { deviceData } = props;
+
+  const { authorityMap } = useAuthority([
+    'device:detail:config:communicationMeterConfig:detail',
+    'device:detail:config:communicationMeterConfig:edit',
+  ]);
+
   const templatedownload = () => {
     const deviceId = deviceData?.deviceId || '';
     download(deviceId);
@@ -50,17 +57,20 @@ const CommunityDetail: React.FC<CommunityProps> = (props) => {
               defaultMessage: '通信点表配置',
             })}
           >
-            <Button type="primary" className="mr12" onClick={templatedownload}>
-              <ImportOutlined />
-              {formatMessage({ id: 'device.templateDownload', defaultMessage: '模版下载' })}
-            </Button>
-            <Upload key="upload" beforeUpload={importFile} showUploadList={false}>
-              <Button type="primary">
-                <ExportOutlined />
-                {formatMessage({ id: 'device.importFile', defaultMessage: '点表文件导入' })}
-              </Button>
-            </Upload>
-            ,
+            {authorityMap.get('device:detail:config:communicationMeterConfig:edit') && (
+              <>
+                <Button type="primary" className="mr12" onClick={templatedownload}>
+                  <ImportOutlined />
+                  {formatMessage({ id: 'device.templateDownload', defaultMessage: '模版下载' })}
+                </Button>
+                <Upload key="upload" beforeUpload={importFile} showUploadList={false}>
+                  <Button type="primary">
+                    <ExportOutlined />
+                    {formatMessage({ id: 'device.importFile', defaultMessage: '点表文件导入' })}
+                  </Button>
+                </Upload>
+              </>
+            )}
           </Detail.Label>
         ),
       });
@@ -68,7 +78,12 @@ const CommunityDetail: React.FC<CommunityProps> = (props) => {
     return groupItem;
   }, [deviceData]);
 
-  return <>{deviceData?.paramConfigType ? <Detail.Group items={communityItems} /> : <></>}</>;
+  return (
+    <>
+      {authorityMap.get('device:detail:config:communicationMeterConfig:detail') &&
+        !!deviceData?.paramConfigType && <Detail.Group items={communityItems} />}
+    </>
+  );
 };
 
 export default CommunityDetail;

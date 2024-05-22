@@ -165,7 +165,7 @@ const MenuTableList: React.FC = () => {
       render: (_, record) => {
         return (
           <>
-            <span>{record.menuName}</span>
+            <span title={record.menuName}>{record.menuName}</span>
           </>
         );
       },
@@ -175,6 +175,7 @@ const MenuTableList: React.FC = () => {
       dataIndex: 'icon',
       valueType: 'text',
       hideInSearch: true,
+      width: 120,
       render: (text) => createIcon(text),
     },
     {
@@ -182,23 +183,27 @@ const MenuTableList: React.FC = () => {
       dataIndex: 'orderNum',
       valueType: 'text',
       hideInSearch: true,
+      width: 120,
     },
     {
       title: <FormattedMessage id="system.Menu.perms" defaultMessage="权限标识" />,
       dataIndex: 'perms',
       valueType: 'text',
+      width: 150,
     },
     {
       title: <FormattedMessage id="system.Menu.path" defaultMessage="路由地址" />,
       dataIndex: 'path',
       valueType: 'text',
       hideInSearch: true,
+      width: 150,
     },
     {
       title: <FormattedMessage id="system.Menu.component" defaultMessage="组件路径" />,
       dataIndex: 'component',
       valueType: 'text',
       hideInSearch: true,
+      hideInTable: true,
     },
     {
       title: <FormattedMessage id="system.Menu.menu_type" defaultMessage="菜单类型" />,
@@ -216,12 +221,14 @@ const MenuTableList: React.FC = () => {
       dataIndex: 'status',
       valueType: 'select',
       valueEnum: statusOptions,
+      width: 120,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="操作" />,
       dataIndex: 'option',
-      width: '220px',
       valueType: 'option',
+      width: 120,
+      fixed: 'right',
       render: (_, record) => [
         <Button
           type="link"
@@ -274,6 +281,7 @@ const MenuTableList: React.FC = () => {
           actionRef={actionRef}
           rowKey="menuId"
           key="menuList"
+          resizable
           toolBarRender={() => [
             <Button
               type="primary"
