@@ -18,7 +18,7 @@ export const columns: ProColumns<VersionInfo>[] = [
     width: 100,
   },
   {
-    title: formatMessage({ id: 'system.Version.appType', defaultMessage: 'app类型' }),
+    title: formatMessage({ id: 'system.Version.appType', defaultMessage: 'App类型' }),
     dataIndex: 'appType',
     width: 130,
     hideInSearch: true,
