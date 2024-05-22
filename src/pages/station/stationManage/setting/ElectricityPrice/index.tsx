@@ -55,6 +55,10 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
     'siteManage:siteConfig:electricPriceManage:pv',
     'siteManage:siteConfig:electricPriceManage:ESS',
     'siteManage:siteConfig:electricPriceManage:charge',
+    'oss:site:mains:priceSync',
+    'oss:site:internet:priceSync',
+    'oss:site:charge:priceSync',
+    'oss:site:discharge:priceSync',
   ]);
 
   const getSiteData = (siteName = '') => {
@@ -170,13 +174,33 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
     return result;
   }, [authorityMap, siteType]);
 
-  const operations = (
+  const haspriceSyncAuthority = useCallback(() => {
+    if (type == TabKeys.MARKET) {
+      //市电电价设置
+      return authorityMap.get('oss:site:mains:priceSync');
+    } else if (type == TabKeys.PHOTOVOLTAIC) {
+      //馈网电价设置
+      return authorityMap.get('oss:site:internet:priceSync');
+    } else if (type == TabKeys.ESS) {
+      //储能放电电价设置
+      return authorityMap.get('oss:site:discharge:priceSync');
+    } else if (type == TabKeys.CHARGING) {
+      //充电桩计费设置
+      return authorityMap.get('oss:site:charge:priceSync');
+    } else {
+      return true;
+    }
+  }, [authorityMap, type]);
+
+  const operations = haspriceSyncAuthority() ? (
     <Button type="primary" onClick={() => setVisible(true)}>
       {formatMessage({
-        id: 'siteManage.siteList.electricityPriceSynchronization',
+        id: 'siteManage.siteList.electricityPriceSynchronization1',
         defaultMessage: '电价同步',
       })}
     </Button>
+  ) : (
+    ''
   );
 
   const handleOk = () => {

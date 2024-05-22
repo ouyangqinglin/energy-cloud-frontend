@@ -9,8 +9,11 @@ import { formatMessage } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const defaultChartData = [
-  { data: [] }, //SOC
-  { data: [] }, //已充电量
+  { data: [], name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) }, //SOC
+  {
+    data: [],
+    name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }),
+  }, //已充电量
 ];
 export type DetailProps = {
   onCancel: () => void;
@@ -31,13 +34,13 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
       getytOrdercurve({ id }).then(({ data }) => {
         if (!data || !data.length) return;
         const currentVChartData = cloneDeep(defaultChartData);
-        const currentAllLabel: any = [];
+        // const currentAllLabel: any = [];
         data.forEach((item) => {
           if (!item.values || !item.values.length) return;
           const currentValue = item.values.map((i) => {
             const currentLabel = moment(i.eventTs).format('HH:mm');
-            currentAllLabel.push(currentLabel);
-            setAllLabel(currentAllLabel);
+            // currentAllLabel.push(currentLabel);
+            // setAllLabel(currentAllLabel);
             return {
               label: currentLabel,
               value: i.val,
@@ -54,6 +57,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
               return;
           }
         });
+        console.log(' currentVChartData>>', currentVChartData);
         setChartData(currentVChartData);
       });
     }

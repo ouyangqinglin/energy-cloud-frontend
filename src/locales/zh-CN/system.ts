@@ -48,4 +48,5 @@ export default {
   'system.1005': '建议尺寸',
   'system.1006': 'APP',
   'system.1007': '最多14个字符',
+  'system.1008': '全选',
 };

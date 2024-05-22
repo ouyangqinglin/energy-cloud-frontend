@@ -61,4 +61,5 @@ export default {
   'system.1005': 'Suggested Size',
   'system.1006': 'APP',
   'system.1007': 'Up to 14 characters',
+  'system.1008': 'Select All',
 };

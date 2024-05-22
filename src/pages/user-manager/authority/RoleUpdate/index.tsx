@@ -28,7 +28,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       });
       return [
         {
-          title: '全选',
+          title: formatMessage({ id: 'system.1008', defaultMessage: '全选' }),
           value: '',
           children,
         },
@@ -46,7 +46,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       });
       return [
         {
-          title: '全选',
+          title: formatMessage({ id: 'system.1008', defaultMessage: '全选' }),
           value: '',
           children,
         },

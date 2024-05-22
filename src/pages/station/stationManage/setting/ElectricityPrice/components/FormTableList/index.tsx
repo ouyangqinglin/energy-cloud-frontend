@@ -13,7 +13,14 @@ import type { FormUpdateBaseProps } from '../FormUpdate/type';
 import type { FormTableListBaseProps } from './type';
 import { formatMessage } from '@/utils';
 import type { YTProColumns } from '@/components/YTProTable/typing';
+import { useAuthority } from '@/hooks';
 
+const enum TabKeys {
+  MARKET = '1',
+  PHOTOVOLTAIC = '2',
+  ESS = '3',
+  CHARGING = '4',
+}
 const FormTableList = <DataType extends Record<string, any>>(
   props: FormTableListBaseProps<DataType>,
 ) => {
@@ -29,6 +36,70 @@ const FormTableList = <DataType extends Record<string, any>>(
     priceType,
     ...restProps
   } = props;
+  const { authorityMap } = useAuthority([
+    'oss:site:mains:setStatus',
+    'oss:site:internet:setStatus',
+    'oss:site:charge:setStatus',
+    'oss:site:discharge:setStatus',
+
+    'oss:site:mains:add',
+    'oss:site:internet:add',
+    'oss:site:charge:add',
+    'oss:site:discharge:add',
+
+    'oss:site:mains:update',
+    'oss:site:internet:update',
+    'oss:site:charge:update',
+    'oss:site:discharge:update',
+
+    'oss:site:mains:delete',
+    'oss:site:internet:delete',
+    'oss:site:charge:delete',
+    'oss:site:discharge:delete',
+  ]);
+
+  const hasAuthority = useCallback(() => {
+    if (priceType == TabKeys.MARKET) {
+      //市电电价设置
+      return {
+        setStatus: authorityMap.get('oss:site:mains:setStatus'),
+        add: authorityMap.get('oss:site:mains:add'),
+        update: authorityMap.get('oss:site:mains:update'),
+        delete: authorityMap.get('oss:site:mains:delete'),
+      };
+    } else if (priceType == TabKeys.PHOTOVOLTAIC) {
+      //馈网电价设置
+      return {
+        setStatus: authorityMap.get('oss:site:internet:setStatus'),
+        add: authorityMap.get('oss:site:internet:add'),
+        update: authorityMap.get('oss:site:internet:update'),
+        delete: authorityMap.get('oss:site:internet:delete'),
+      };
+    } else if (priceType == TabKeys.ESS) {
+      //储能放电电价设置
+      return {
+        setStatus: authorityMap.get('oss:site:discharge:setStatus'),
+        add: authorityMap.get('oss:site:discharge:add'),
+        update: authorityMap.get('oss:site:discharge:update'),
+        delete: authorityMap.get('oss:site:discharge:delete'),
+      };
+    } else if (priceType == TabKeys.CHARGING) {
+      //充电桩计费设置
+      return {
+        setStatus: authorityMap.get('oss:site:charge:setStatus'),
+        add: authorityMap.get('oss:site:charge:add'),
+        update: authorityMap.get('oss:site:charge:update'),
+        delete: authorityMap.get('oss:site:charge:delete'),
+      };
+    } else {
+      return {
+        setStatus: true,
+        add: false,
+        update: false,
+        delete: false,
+      };
+    }
+  }, [authorityMap, priceType]);
 
   const [state, { toggle, set }] = useToggle<boolean>(false);
   const [operations, setOperations] = useState(FormOperations.CREATE);
@@ -46,28 +117,36 @@ const FormTableList = <DataType extends Record<string, any>>(
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
+        text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
       },
     },
     option: {
-      onDeleteChange(_, entity) {
-        onDeleteChange?.({ id: entity?.id })?.then?.(({ data }) => {
-          if (data) {
-            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-            actionRef?.current?.reload?.();
+      ...(hasAuthority().delete
+        ? {
+            onDeleteChange(_, entity) {
+              onDeleteChange?.({ id: entity?.id })?.then?.(({ data }) => {
+                if (data) {
+                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+                  actionRef?.current?.reload?.();
+                }
+              });
+            },
           }
-        });
-      },
+        : {}),
       onDetailChange(_, entity) {
         setInitialValues({ ...entity });
         setOperations(FormOperations.READ);
         set(true);
       },
-      onEditChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.UPDATE);
-        set(true);
-      },
+      ...(hasAuthority().update
+        ? {
+            onEditChange(_, entity) {
+              setInitialValues({ ...entity });
+              setOperations(FormOperations.UPDATE);
+              set(true);
+            },
+          }
+        : {}),
       modalDeleteText: formatMessage({
         id: 'siteManage.set.delTariffRule',
         defaultMessage: '您确认要删除该电价规则吗？删除之后无法恢复！',
@@ -112,13 +191,14 @@ const FormTableList = <DataType extends Record<string, any>>(
   const currentColums: YTProColumns<DataType, any>[] = [
     ...(columns as any),
     {
-      title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
+      title: formatMessage({ id: 'common.currentState1', defaultMessage: '当前状态' }),
       dataIndex: 'status',
       hideInSearch: true,
       render: (_, record) => {
         const rowData = record as any;
         return [
           <Switch
+            disabled={!hasAuthority().setStatus}
             checked={rowData.status == 1} //0--未生效 1-生效
             checkedChildren={formatMessage({
               id: 'common.effect',
@@ -173,6 +253,7 @@ const FormTableList = <DataType extends Record<string, any>>(
       <YTDivider />
       <YTProTable<DataType, any>
         actionRef={actionRef}
+        {...(hasAuthority().add ? {} : { toolBarRender: false })}
         columns={currentColums}
         {...customConfig}
         {...restProps}
