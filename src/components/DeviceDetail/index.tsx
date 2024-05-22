@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-20 16:17:35
- * @LastEditTime: 2024-05-21 15:30:33
+ * @LastEditTime: 2024-05-22 16:04:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\index.tsx
  */
@@ -33,7 +33,7 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
       deviceName: item?.name,
       title: (
         <>
-          {item?.name}
+          <span title={item?.name}>{item?.name}</span>
           {networkStatusShows.includes(networkStatus) && (
             <span className={styles.network}>
               <ProField mode="read" text={networkStatus} valueEnum={netWorkStatusEnum} />

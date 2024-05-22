@@ -140,7 +140,7 @@ export const contactorFormat = (value: string) => {
     6: formatMessage({ id: 'things.ACCircuitBreakerClosed', defaultMessage: '交流断路器闭合' }),
     7: formatMessage({ id: 'things.accessControlClosed', defaultMessage: '门禁闭合' }),
   };
-  const result = valueArr?.map?.((item) => <span className={' mr8'}>{map[item]}</span>) || '';
+  const result = valueArr?.map?.((item) => map[item])?.join?.('，') || '';
   return result;
 };
 export const singleBFormat = (value: number) => {
