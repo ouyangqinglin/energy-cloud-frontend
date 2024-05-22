@@ -1048,7 +1048,6 @@ export const chargeOrderColumns: ProColumns[] = [
     title:
       formatMessage({ id: 'dataManage.platformServiceAmount', defaultMessage: '平台服务费金额' }) +
       formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-
     dataIndex: 'DetailSeviceMoney',
     hideInSearch: true,
     width: 170,
@@ -1058,7 +1057,6 @@ export const chargeOrderColumns: ProColumns[] = [
     title:
       formatMessage({ id: 'dataManage.totalOrderAmount', defaultMessage: '订单总金额' }) +
       formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-
     dataIndex: 'totalMoney',
     hideInSearch: true,
     width: 150,

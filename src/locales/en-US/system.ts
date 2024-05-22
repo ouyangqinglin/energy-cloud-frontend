@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:11:39
- * @LastEditTime: 2024-05-07 15:23:41
+ * @LastEditTime: 2024-05-22 10:05:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
@@ -56,10 +56,10 @@ export default {
   'system.africaGuinea': 'Africa,Guinea',
   'system.1001': 'Browser Title',
   'system.1002': 'Screen Title',
-  'system.1003': 'APP Homepage Background Image',
-  'system.1004': 'APP Personal Background Image',
+  'system.1003': 'App Homepage Background Image',
+  'system.1004': 'App Personal Background Image',
   'system.1005': 'Suggested Size',
-  'system.1006': 'APP',
+  'system.1006': 'App',
   'system.1007': 'Up to 14 characters',
   'system.1008': 'Select All',
 };

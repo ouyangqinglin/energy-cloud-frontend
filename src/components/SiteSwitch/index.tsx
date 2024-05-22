@@ -150,7 +150,7 @@ const SiteSwitch = <ValueType = 'text',>(
   }, []);
 
   useEffect(() => {
-    if (siteOptions?.[0]) {
+    if (siteOptions?.[0] && siteTypeOptions) {
       const localSiteId = localStorage.getItem('siteId');
       const localSite = siteOptions?.find?.((item) => item.value == localSiteId);
       if (localSite) {
@@ -165,7 +165,7 @@ const SiteSwitch = <ValueType = 'text',>(
         });
       }
     }
-  }, [siteOptions]);
+  }, [siteOptions, siteTypeOptions]);
 
   useEffect(() => {
     eventBus.on('changeSite', changeSiteBus);

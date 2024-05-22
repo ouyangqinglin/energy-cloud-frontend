@@ -274,7 +274,7 @@ export const Columns: (
       renderFormItem: () => {
         return (
           <Detail.DotLabel
-            title={formatMessage({ id: 'system.1006', defaultMessage: 'APP' })}
+            title={formatMessage({ id: 'system.1006', defaultMessage: 'App' })}
             className="mb0"
           />
         );
@@ -284,7 +284,7 @@ export const Columns: (
       },
     },
     {
-      title: formatMessage({ id: 'system.1003', defaultMessage: 'app首页背景图' }),
+      title: formatMessage({ id: 'system.1003', defaultMessage: 'App首页背景图' }),
       colProps: {
         span: 12,
       },
@@ -315,7 +315,7 @@ export const Columns: (
       },
     },
     {
-      title: formatMessage({ id: 'system.1004', defaultMessage: 'app个人背景图' }),
+      title: formatMessage({ id: 'system.1004', defaultMessage: 'App个人背景图' }),
       colProps: {
         span: 12,
       },

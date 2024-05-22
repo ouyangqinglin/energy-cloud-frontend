@@ -104,7 +104,7 @@ const HomePage: React.FC = () => {
         }
         assign(rawData, data);
       });
-      setStatistic({ ...rawData });
+      setStatistic({ ...rawData, siteType });
     });
   }, [getStatisticData, siteType]);
 

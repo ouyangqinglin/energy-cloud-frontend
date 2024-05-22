@@ -43,10 +43,10 @@ export default {
   'system.africaGuinea': '非洲，几内亚',
   'system.1001': '浏览器title',
   'system.1002': '多站点大屏title',
-  'system.1003': 'app首页背景图',
-  'system.1004': 'app个人背景图',
+  'system.1003': 'App首页背景图',
+  'system.1004': 'App个人背景图',
   'system.1005': '建议尺寸',
-  'system.1006': 'APP',
+  'system.1006': 'App',
   'system.1007': '最多14个字符',
   'system.1008': '全选',
 };
