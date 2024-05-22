@@ -117,6 +117,7 @@ const FormTableList = <DataType extends Record<string, any>>(
           setOperations(FormOperations.CREATE);
           set(true);
         },
+        show:hasAuthority().add,
         text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
       },
     },
@@ -253,7 +254,6 @@ const FormTableList = <DataType extends Record<string, any>>(
       <YTDivider />
       <YTProTable<DataType, any>
         actionRef={actionRef}
-        {...(hasAuthority().add ? {} : { toolBarRender: false })}
         columns={currentColums}
         {...customConfig}
         {...restProps}
