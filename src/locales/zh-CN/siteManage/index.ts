@@ -156,4 +156,5 @@ export default {
   'siteManage.1021': '柴发监测',
   'siteManage.1022': '柴发发电量',
   'siteManage.1023': '柴发发电功率',
+  'siteManage.1024': '充电桩用电量',
 };

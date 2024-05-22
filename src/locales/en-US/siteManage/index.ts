@@ -156,4 +156,5 @@ export default {
   'siteManage.1021': '',
   'siteManage.1022': '',
   'siteManage.1023': '',
+  'siteManage.1024': 'EV Charger Power Consumption',
 };
