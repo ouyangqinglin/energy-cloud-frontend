@@ -10,13 +10,17 @@ import React, { useMemo } from 'react';
 import { AirType } from './typing';
 import Detail, { GroupItem } from '@/components/Detail';
 import { runItems } from './helper';
-import { useSubscribe } from '@/hooks';
+import { useAuthority, useSubscribe } from '@/hooks';
 import RunForm from './RunForm';
 import { formatMessage } from '@/utils';
 
 const Air: React.FC<AirType> = (props) => {
   const { deviceId, deviceData } = props;
 
+  const { authorityMap } = useAuthority([
+    'iot:device:config:runConstantSetting',
+    'iot:device:config:runConstantSetting:distribute',
+  ]);
   const realTimeData = useSubscribe(deviceId, true);
 
   const groupItems = useMemo<GroupItem[]>(() => {
@@ -29,7 +33,9 @@ const Air: React.FC<AirType> = (props) => {
               defaultMessage: '运行定值设置',
             })}
           >
-            <RunForm deviceId={deviceId} deviceData={deviceData} runData={realTimeData} />
+            {authorityMap.get('iot:device:config:runConstantSetting:distribute') && (
+              <RunForm deviceId={deviceId} deviceData={deviceData} runData={realTimeData} />
+            )}
           </Detail.Label>
         ),
         items: runItems,
@@ -39,7 +45,9 @@ const Air: React.FC<AirType> = (props) => {
 
   return (
     <>
-      <Detail.Group items={groupItems} data={realTimeData} />
+      {authorityMap.get('iot:device:config:runConstantSetting') && (
+        <Detail.Group items={groupItems} data={realTimeData} />
+      )}
     </>
   );
 };

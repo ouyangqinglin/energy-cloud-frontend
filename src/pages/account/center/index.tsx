@@ -20,6 +20,7 @@ import PageLoading from '@/pages/dashboard/analysis/components/PageLoading';
 import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
 import { formatMessage } from '@/utils';
+import { useAuthority } from '@/hooks';
 
 const operationTabList = [
   {
@@ -37,6 +38,7 @@ const operationTabList = [
 const Center: React.FC = () => {
   const [tabKey, setTabKey] = useState<tabKeyType>('base');
   const [cropperModalVisible, setCropperModalVisible] = useState<boolean>(false);
+  const { authorityMap } = useAuthority(['accountCenter:edit', 'accountCenter:resetSecret']);
 
   //  获取用户信息
   const {
@@ -158,7 +160,7 @@ const Center: React.FC = () => {
                   <div
                     className={styles.avatarHolder}
                     onClick={() => {
-                      setCropperModalVisible(true);
+                      authorityMap.get('accountCenter:edit') && setCropperModalVisible(true);
                     }}
                   >
                     <img
@@ -197,7 +199,10 @@ const Center: React.FC = () => {
           <Col lg={18} md={24}>
             <Card
               bordered={false}
-              tabList={operationTabList}
+              tabList={[
+                ...(authorityMap.get('accountCenter:edit') ? [operationTabList[0]] : []),
+                ...(authorityMap.get('accountCenter:resetSecret') ? [operationTabList[1]] : []),
+              ]}
               activeTabKey={tabKey}
               onTabChange={(_tabKey: string) => {
                 setTabKey(_tabKey as tabKeyType);

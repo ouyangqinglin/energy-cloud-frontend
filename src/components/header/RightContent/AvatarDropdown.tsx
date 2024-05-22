@@ -18,6 +18,7 @@ import HeadIcon from '@/assets/image/img_avatar.png';
 import eventBus from '@/utils/eventBus';
 import { merge } from 'lodash';
 import { defaultSystemInfo } from '@/utils/config';
+import { useAuthority } from '@/hooks';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -45,6 +46,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { dispatch } = useModel('system');
   const [avatar, setAvatar] = useState('');
+  const { authorityMap } = useAuthority(['accountCenter']);
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -103,14 +105,15 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-      {menu && (
-        <Menu.Item key="/account/center">
-          <UserOutlined />
-          {formatMessage({ id: 'user.center', defaultMessage: '个人中心' })}
-        </Menu.Item>
+      {menu && authorityMap.get('accountCenter') && (
+        <>
+          <Menu.Item key="/account/center">
+            <UserOutlined />
+            {formatMessage({ id: 'user.center', defaultMessage: '个人中心' })}
+          </Menu.Item>
+          <Menu.Divider />
+        </>
       )}
-      {menu && <Menu.Divider />}
-
       <Menu.Item key="logout">
         <LogoutOutlined />
         {formatMessage({ id: 'user.loginOut', defaultMessage: '退出登录' })}

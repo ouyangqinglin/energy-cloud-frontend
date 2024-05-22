@@ -133,6 +133,7 @@ export type DeviceServiceGroupType = {
   location?: DeviceLocationType;
   services?: DeviceServiceType[];
   component?: string;
+  authority?: DeviceModelAuthorityType[];
 };
 
 export type DevicePageModels = {

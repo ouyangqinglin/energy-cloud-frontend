@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-10 10:38:13
- * @LastEditTime: 2023-12-25 14:45:34
+ * @LastEditTime: 2024-05-22 15:32:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\Control\index.tsx
  */
@@ -30,15 +30,24 @@ import {
   message,
 } from 'antd';
 import Detail from '@/components/Detail';
-import { DeviceModelDataType, DeviceModelType, DeviceServiceModelType } from '@/types/device';
+import {
+  DeviceModelAuthorityType,
+  DeviceModelDataType,
+  DeviceModelType,
+  DeviceServiceGroupType,
+  DeviceServiceModelType,
+} from '@/types/device';
 import { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import SchemaForm from '@/components/SchemaForm';
-import { DeviceModelTypeEnum, formatMessage } from '@/utils';
+import { DeviceModelTypeEnum, formatMessage, getPropsFromTree } from '@/utils';
 import styles from './index.less';
 import { DeviceDataType, editSetting } from '@/services/equipment';
 import { isEmpty, merge } from 'lodash';
 import moment from 'moment';
 import { OnlineStatusEnum } from '@/utils/dictionary';
+import { useAuthority } from '@/hooks';
+import Authority from '@/components/Authority';
+import { AuthorityModeEnum } from '@/hooks/useAuthority';
 
 export type ControlProps = {
   deviceId?: string;
@@ -63,6 +72,52 @@ const Control: React.FC<ControlProps> = (props) => {
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
+
+  const authorityCodes = useMemo(() => {
+    const result: string[] = [];
+    const authoritys = getPropsFromTree<DeviceServiceGroupType, DeviceModelAuthorityType[]>(
+      groupData?.services ? groupData?.services : [],
+      'authority',
+      'services',
+    );
+    authoritys?.forEach?.((item) => {
+      item?.forEach?.((child) => {
+        if (child.detail) {
+          result.push(child.detail);
+        }
+        if (child.edit) {
+          result.push(child.edit);
+        }
+      });
+    });
+    return result;
+  }, [groupData]);
+
+  const { authorityMap } = useAuthority(authorityCodes);
+
+  const passAuthority = useCallback(
+    (authoritys?: DeviceModelAuthorityType[], type?: 'detail' | 'edit') => {
+      const codes: string[] = [];
+      authoritys?.forEach?.((item) => {
+        if (type == 'edit') {
+          if (item?.edit) {
+            codes.push(item.edit);
+          }
+        } else {
+          if (item?.detail) {
+            codes.push(item.detail);
+          }
+        }
+      });
+      const passCodes = codes?.some?.((item) => authorityMap.get(item));
+      if (!codes?.length || passCodes) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [authorityMap],
+  );
 
   const onSwtichFormChange = useCallback(
     (formData, name?: string) => {
@@ -233,51 +288,69 @@ const Control: React.FC<ControlProps> = (props) => {
 
   const groups = useMemo(() => {
     return groupData?.services?.map?.((item) => {
+      if (!passAuthority(item.authority)) {
+        return <></>;
+      }
       const switchColumns: ProFormColumnsType[] = [];
       const tabItems: TabsProps['items'] = [];
       item?.services?.forEach?.((form) => {
         if (form?.outputData && form?.outputData?.length) {
-          const result = getColumns(form?.outputData);
-          const formRef = createRef<ProFormInstance>();
-          formsRef.current = { ...formsRef.current, [form?.id || '']: formRef };
-          tabItems.push({
-            key: form?.id || '',
-            label: form?.name,
-            children: (
-              <>
-                <Button
-                  className={styles.btn}
-                  type="primary"
-                  loading={loading}
-                  disabled={
-                    deviceData?.networkStatus === OnlineStatusEnum.Offline ||
-                    disableBtns?.[form?.id || ''] === undefined ||
-                    disableBtns?.[form?.id || ''] === true
-                  }
-                  onClick={() => onPushClick(form?.id)}
-                >
-                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-                </Button>
-                <Form
-                  ref={formRef}
-                  layout="horizontal"
-                  onValuesChange={() => onFormChange(form?.id)}
-                >
-                  <Row gutter={24}>{result.formItems}</Row>
-                  {result.tabs}
-                </Form>
-              </>
-            ),
-          });
+          if (passAuthority(form.authority)) {
+            const result = getColumns(form?.outputData);
+            const formRef = createRef<ProFormInstance>();
+            formsRef.current = { ...formsRef.current, [form?.id || '']: formRef };
+            tabItems.push({
+              key: form?.id || '',
+              label: form?.name,
+              children: (
+                <>
+                  <Authority
+                    code={form?.authority
+                      ?.map?.((authorityItem) => authorityItem.edit)
+                      ?.join?.(',')}
+                    mode={AuthorityModeEnum.Within}
+                  >
+                    <Button
+                      className={styles.btn}
+                      type="primary"
+                      loading={loading}
+                      disabled={
+                        deviceData?.networkStatus === OnlineStatusEnum.Offline ||
+                        disableBtns?.[form?.id || ''] === undefined ||
+                        disableBtns?.[form?.id || ''] === true
+                      }
+                      onClick={() => onPushClick(form?.id)}
+                    >
+                      {formatMessage({
+                        id: 'siteMonitor.issueParameters',
+                        defaultMessage: '下发参数',
+                      })}
+                    </Button>
+                  </Authority>
+                  <Form
+                    ref={formRef}
+                    layout="horizontal"
+                    onValuesChange={() => onFormChange(form?.id)}
+                    disabled={!passAuthority(form.authority, 'edit')}
+                  >
+                    <Row gutter={24}>{result.formItems}</Row>
+                    {result.tabs}
+                  </Form>
+                </>
+              ),
+            });
+          }
         } else {
-          switchColumns.push({
-            title: form?.name,
-            dataIndex: form?.id,
-            valueType: 'switch',
-            fieldProps: {
-              loading,
-            },
-          });
+          if (passAuthority(form.authority, 'edit')) {
+            switchColumns.push({
+              title: form?.name,
+              dataIndex: form?.id,
+              valueType: 'switch',
+              fieldProps: {
+                loading,
+              },
+            });
+          }
         }
       });
       return (
@@ -308,7 +381,7 @@ const Control: React.FC<ControlProps> = (props) => {
         </>
       );
     });
-  }, [groupData, deviceData, loading, onSwtichFormChange, disableBtns]);
+  }, [groupData, deviceData, loading, onSwtichFormChange, disableBtns, passAuthority]);
 
   return <>{groups}</>;
 };

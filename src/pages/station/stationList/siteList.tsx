@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-21 14:06:57
+ * @LastEditTime: 2024-05-22 14:03:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, Tooltip, message } from 'antd';
 import { useHistory, useModel, useRequest } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
@@ -159,21 +159,31 @@ const StationList: React.FC = () => {
           </Button>
         )}
         {record.collectFlag ? (
-          <Button
-            size="large"
-            icon={<YTStarFull />}
-            onClick={() => onUnstarClick(record.id)}
-            type="link"
-            className={styles.button}
-          />
+          <Tooltip
+            placement="top"
+            title={formatMessage({ id: 'siteManage.1025', defaultMessage: '取消收藏' })}
+          >
+            <Button
+              size="large"
+              icon={<YTStarFull />}
+              onClick={() => onUnstarClick(record.id)}
+              type="link"
+              className={styles.button}
+            />
+          </Tooltip>
         ) : (
-          <Button
-            size="large"
-            icon={<YTStarOutlined />}
-            onClick={() => onStarClick(record.id)}
-            type="link"
-            className={styles.button}
-          />
+          <Tooltip
+            placement="top"
+            title={formatMessage({ id: 'siteManage.1024', defaultMessage: '收藏' })}
+          >
+            <Button
+              size="large"
+              icon={<YTStarOutlined />}
+              onClick={() => onStarClick(record.id)}
+              type="link"
+              className={styles.button}
+            />
+          </Tooltip>
         )}
       </>
     ),

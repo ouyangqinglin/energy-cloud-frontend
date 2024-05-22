@@ -143,7 +143,7 @@ export const monitorTypeMap = new Map([
       data: [
         {
           name: formatMessage({
-            id: 'siteManage.1024',
+            id: 'siteManage.1026',
             defaultMessage: '充电桩用电量',
           }),
           area: 'row1',

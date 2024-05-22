@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-09 11:09:19
- * @LastEditTime: 2024-03-26 16:50:31
+ * @LastEditTime: 2024-05-22 14:40:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\ScreenDialog\EnergyDialog\setting.tsx
  */
@@ -32,6 +32,7 @@ import { closeFormat } from '@/utils/format';
 import lodash from 'lodash';
 import { useBoolean } from 'ahooks';
 import { DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
+import { useAuthority } from '@/hooks';
 
 export type ControlType = {
   systemFiring: boolean;
@@ -111,11 +112,21 @@ const timeMap = new Map([
 
 const Setting: React.FC<SettingProps> = (props) => {
   const { id, deviceData, isLineLabel = false, isDeviceChild, type } = props;
+
   const settingData = props.settingData || {};
   const [controlForm] = Form.useForm();
   const [protectFrom] = Form.useForm();
   const [runForm] = Form.useForm();
   const [timeForm] = Form.useForm();
+  const { authorityMap } = useAuthority([
+    'device:detail:remoteControl:controlCommand',
+    'device:detail:remoteControl:batterProtectSetting:detail',
+    'device:detail:remoteControl:batterProtectSetting:edit',
+    'device:detail:remoteControl:runParamSetting:detail',
+    'device:detail:remoteControl:runParamSetting:edit',
+    'device:detail:remoteControl:schoolTimeSetting:detail',
+    'device:detail:remoteControl:schoolTimeSetting:edit',
+  ]);
   const [disableProtect, { setTrue: setDisableProtectTrue, setFalse: setDisableProtectFlalse }] =
     useBoolean(true);
   const [disableRun, { setTrue: setDisableRunTrue, setFalse: setDisableRunFalse }] =
@@ -478,546 +489,623 @@ const Setting: React.FC<SettingProps> = (props) => {
 
   return (
     <>
-      {isLineLabel ? (
-        <LineLabel
-          title={formatMessage({ id: 'siteMonitor.controlCommand', defaultMessage: '控制指令' })}
-        />
-      ) : (
-        <Label
-          title={formatMessage({ id: 'siteMonitor.controlCommand', defaultMessage: '控制指令' })}
-        />
-      )}
-      <Form
-        form={controlForm}
-        className="setting-form"
-        layout="horizontal"
-        onValuesChange={onControlChange}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
-      >
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="sysStart"
-              label={formatMessage({ id: 'siteMonitor.systemStartup', defaultMessage: '系统启动' })}
-              labelCol={{ flex: '116px' }}
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="sysStop"
-              label={formatMessage({ id: 'siteMonitor.systemHalt', defaultMessage: '系统停止' })}
-              labelCol={{ flex: '116px' }}
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="bmsClose"
-              label={
-                'BMS' +
-                formatMessage({
-                  id: 'siteMonitor.mainContactorClosed',
-                  defaultMessage: '主接触器闭合',
-                })
-              }
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="bmsBreak"
-              label={
-                'BMS' +
-                formatMessage({
-                  id: 'siteMonitor.mainContactorDisconnected',
-                  defaultMessage: '主接触器断开',
-                })
-              }
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="manualAutomaticSwitch"
-              label={formatMessage({
-                id: 'siteMonitor.manualAutomaticSwitch',
-                defaultMessage: '手/自动切换',
+      {authorityMap.get('device:detail:remoteControl:controlCommand') && (
+        <>
+          {isLineLabel ? (
+            <LineLabel
+              title={formatMessage({
+                id: 'siteMonitor.controlCommand',
+                defaultMessage: '控制指令',
               })}
-              labelCol={{ flex: '116px' }}
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
-          {type === DeviceTypeEnum.BWattEms || type === DeviceTypeEnum.React100XEmsEnergy ? (
-            <Col flex="25%">
-              <Form.Item
-                name="sysReset"
-                label={formatMessage({ id: 'siteMonitor.systemReset', defaultMessage: '系统复位' })}
+            />
+          ) : (
+            <Label
+              title={formatMessage({
+                id: 'siteMonitor.controlCommand',
+                defaultMessage: '控制指令',
+              })}
+            />
+          )}
+          <Form
+            form={controlForm}
+            className="setting-form"
+            layout="horizontal"
+            onValuesChange={onControlChange}
+            disabled={deviceData?.status === OnlineStatusEnum.Offline}
+          >
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="sysStart"
+                  label={formatMessage({
+                    id: 'siteMonitor.systemStartup',
+                    defaultMessage: '系统启动',
+                  })}
+                  labelCol={{ flex: '116px' }}
+                  valuePropName="checked"
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="sysStop"
+                  label={formatMessage({
+                    id: 'siteMonitor.systemHalt',
+                    defaultMessage: '系统停止',
+                  })}
+                  labelCol={{ flex: '116px' }}
+                  valuePropName="checked"
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="bmsClose"
+                  label={
+                    'BMS' +
+                    formatMessage({
+                      id: 'siteMonitor.mainContactorClosed',
+                      defaultMessage: '主接触器闭合',
+                    })
+                  }
+                  valuePropName="checked"
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="bmsBreak"
+                  label={
+                    'BMS' +
+                    formatMessage({
+                      id: 'siteMonitor.mainContactorDisconnected',
+                      defaultMessage: '主接触器断开',
+                    })
+                  }
+                  valuePropName="checked"
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="manualAutomaticSwitch"
+                  label={formatMessage({
+                    id: 'siteMonitor.manualAutomaticSwitch',
+                    defaultMessage: '手/自动切换',
+                  })}
+                  labelCol={{ flex: '116px' }}
+                  valuePropName="checked"
+                >
+                  <Switch />
+                </Form.Item>
+              </Col>
+              {type === DeviceTypeEnum.BWattEms || type === DeviceTypeEnum.React100XEmsEnergy ? (
+                <Col flex="25%">
+                  <Form.Item
+                    name="sysReset"
+                    label={formatMessage({
+                      id: 'siteMonitor.systemReset',
+                      defaultMessage: '系统复位',
+                    })}
+                    labelCol={{ flex: '116px' }}
+                    valuePropName="checked"
+                  >
+                    <Switch />
+                  </Form.Item>
+                </Col>
+              ) : (
+                <></>
+              )}
+              {type === DeviceTypeEnum.React100XEmsEnergy && (
+                <Col flex="25%">
+                  <Form.Item
+                    name="parallelOffGridModeSwitch"
+                    label={formatMessage({
+                      id: 'device.andOffGridSwitching',
+                      defaultMessage: '并离网切换',
+                    })}
+                    labelCol={{ flex: '116px' }}
+                    valuePropName="checked"
+                  >
+                    <Switch />
+                  </Form.Item>
+                </Col>
+              )}
+            </Row>
+          </Form>
+        </>
+      )}
+      {authorityMap.get('device:detail:remoteControl:batterProtectSetting:detail') && (
+        <>
+          {!isDeviceChild ? (
+            <>
+              {isLineLabel ? (
+                <LineLabel
+                  title={formatMessage({
+                    id: 'siteMonitor.batteryProtectionParameterSet',
+                    defaultMessage: '电池保护参数设置',
+                  })}
+                >
+                  {authorityMap.get('device:detail:remoteControl:batterProtectSetting:edit') && (
+                    <Button
+                      type="primary"
+                      onClick={onProtectClick}
+                      loading={loading}
+                      disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
+                    >
+                      {formatMessage({
+                        id: 'siteMonitor.issueParameters',
+                        defaultMessage: '下发参数',
+                      })}
+                    </Button>
+                  )}
+                </LineLabel>
+              ) : (
+                <Label
+                  title={formatMessage({
+                    id: 'siteMonitor.batteryProtectionParameterSet',
+                    defaultMessage: '电池保护参数设置',
+                  })}
+                  operate={
+                    authorityMap.get('device:detail:remoteControl:batterProtectSetting:edit') && (
+                      <Button
+                        type="primary"
+                        onClick={onProtectClick}
+                        loading={loading}
+                        disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
+                      >
+                        {formatMessage({
+                          id: 'siteMonitor.issueParameters',
+                          defaultMessage: '下发参数',
+                        })}
+                      </Button>
+                    )
+                  }
+                />
+              )}
+              <Form
+                form={protectFrom}
+                className="setting-form"
+                layout="horizontal"
                 labelCol={{ flex: '116px' }}
-                valuePropName="checked"
+                onFinish={requestProtect}
+                onValuesChange={setDisableProtectFlalse}
+                disabled={
+                  deviceData?.status === OnlineStatusEnum.Offline ||
+                  !authorityMap.get('device:detail:remoteControl:batterProtectSetting:edit')
+                }
               >
-                <Switch />
-              </Form.Item>
-            </Col>
+                <Row>
+                  <Col flex="25%">
+                    <Form.Item
+                      name="OverchargeProtection"
+                      label={formatMessage({
+                        id: 'siteMonitor.overchargeProtection',
+                        defaultMessage: '过充保护',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            formatMessage({
+                              id: 'siteMonitor.overchargeProtection',
+                              defaultMessage: '过充保护',
+                            }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                        },
+                      ]}
+                    >
+                      <InputNumber className="w-full" addonAfter="V" />
+                    </Form.Item>
+                  </Col>
+                  <Col flex="25%">
+                    <Form.Item
+                      name="OverchargeRelease"
+                      label={formatMessage({
+                        id: 'siteMonitor.overchargeRelease',
+                        defaultMessage: '过充释放',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            formatMessage({
+                              id: 'siteMonitor.overchargeRelease',
+                              defaultMessage: '过充释放',
+                            }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                        },
+                      ]}
+                    >
+                      <InputNumber className="w-full" addonAfter="V" />
+                    </Form.Item>
+                  </Col>
+                  <Col flex="25%">
+                    <Form.Item
+                      name="OverdischargeProtection"
+                      label={formatMessage({
+                        id: 'siteMonitor.overDischargeProtection',
+                        defaultMessage: '过放保护',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            formatMessage({
+                              id: 'siteMonitor.overDischargeProtection',
+                              defaultMessage: '过放保护',
+                            }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                        },
+                      ]}
+                    >
+                      <InputNumber className="w-full" addonAfter="V" />
+                    </Form.Item>
+                  </Col>
+                  <Col flex="25%">
+                    <Form.Item
+                      name="Overrelease"
+                      label={formatMessage({
+                        id: 'siteMonitor.overrelease',
+                        defaultMessage: '过放释放',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            formatMessage({
+                              id: 'siteMonitor.overrelease',
+                              defaultMessage: '过放释放',
+                            }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                        },
+                      ]}
+                    >
+                      <InputNumber className="w-full" addonAfter="V" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
+            </>
           ) : (
             <></>
           )}
-          {type === DeviceTypeEnum.React100XEmsEnergy && (
-            <Col flex="25%">
-              <Form.Item
-                name="parallelOffGridModeSwitch"
-                label={formatMessage({
-                  id: 'device.andOffGridSwitching',
-                  defaultMessage: '并离网切换',
-                })}
-                labelCol={{ flex: '116px' }}
-                valuePropName="checked"
-              >
-                <Switch />
-              </Form.Item>
-            </Col>
-          )}
-        </Row>
-      </Form>
-      {!isDeviceChild ? (
+        </>
+      )}
+      {authorityMap.get('device:detail:remoteControl:runParamSetting:detail') && (
         <>
           {isLineLabel ? (
             <LineLabel
               title={formatMessage({
-                id: 'siteMonitor.batteryProtectionParameterSet',
-                defaultMessage: '电池保护参数设置',
+                id: 'siteMonitor.runningParameterSet',
+                defaultMessage: '运行参数设置',
               })}
             >
-              <Button
-                type="primary"
-                onClick={onProtectClick}
-                loading={loading}
-                disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
-              >
-                {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-              </Button>
+              {authorityMap.get('device:detail:remoteControl:runParamSetting:edit') && (
+                <Button
+                  type="primary"
+                  onClick={onRunClick}
+                  loading={loading}
+                  disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+                >
+                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
+                </Button>
+              )}
             </LineLabel>
           ) : (
             <Label
               title={formatMessage({
-                id: 'siteMonitor.batteryProtectionParameterSet',
-                defaultMessage: '电池保护参数设置',
+                id: 'siteMonitor.runningParameterSet',
+                defaultMessage: '运行参数设置',
               })}
               operate={
-                <Button
-                  type="primary"
-                  onClick={onProtectClick}
-                  loading={loading}
-                  disabled={disableProtect || deviceData?.status === OnlineStatusEnum.Offline}
-                >
-                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-                </Button>
+                authorityMap.get('device:detail:remoteControl:runParamSetting:edit') && (
+                  <Button
+                    type="primary"
+                    onClick={onRunClick}
+                    loading={loading}
+                    disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
+                  >
+                    {formatMessage({
+                      id: 'siteMonitor.issueParameters',
+                      defaultMessage: '下发参数',
+                    })}
+                  </Button>
+                )
               }
             />
           )}
           <Form
-            form={protectFrom}
+            form={runForm}
             className="setting-form"
             layout="horizontal"
+            labelAlign="right"
             labelCol={{ flex: '116px' }}
-            onFinish={requestProtect}
-            onValuesChange={setDisableProtectFlalse}
-            disabled={deviceData?.status === OnlineStatusEnum.Offline}
+            onFinish={requestRun}
+            onValuesChange={setDisableRunFalse}
+            disabled={
+              deviceData?.status === OnlineStatusEnum.Offline ||
+              !authorityMap.get('device:detail:remoteControl:runParamSetting:edit')
+            }
           >
             <Row>
               <Col flex="25%">
                 <Form.Item
-                  name="OverchargeProtection"
+                  name="handOpePcsPower"
                   label={formatMessage({
-                    id: 'siteMonitor.overchargeProtection',
-                    defaultMessage: '过充保护',
+                    id: 'siteMonitor.manualPCSPower',
+                    defaultMessage: '手动PCS功率',
                   })}
-                  rules={[
-                    {
-                      required: true,
-                      message:
-                        formatMessage({
-                          id: 'siteMonitor.overchargeProtection',
-                          defaultMessage: '过充保护',
-                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
-                    },
-                  ]}
                 >
-                  <InputNumber className="w-full" addonAfter="V" />
-                </Form.Item>
-              </Col>
-              <Col flex="25%">
-                <Form.Item
-                  name="OverchargeRelease"
-                  label={formatMessage({
-                    id: 'siteMonitor.overchargeRelease',
-                    defaultMessage: '过充释放',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message:
-                        formatMessage({
-                          id: 'siteMonitor.overchargeRelease',
-                          defaultMessage: '过充释放',
-                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
-                    },
-                  ]}
-                >
-                  <InputNumber className="w-full" addonAfter="V" />
-                </Form.Item>
-              </Col>
-              <Col flex="25%">
-                <Form.Item
-                  name="OverdischargeProtection"
-                  label={formatMessage({
-                    id: 'siteMonitor.overDischargeProtection',
-                    defaultMessage: '过放保护',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message:
-                        formatMessage({
-                          id: 'siteMonitor.overDischargeProtection',
-                          defaultMessage: '过放保护',
-                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
-                    },
-                  ]}
-                >
-                  <InputNumber className="w-full" addonAfter="V" />
-                </Form.Item>
-              </Col>
-              <Col flex="25%">
-                <Form.Item
-                  name="Overrelease"
-                  label={formatMessage({
-                    id: 'siteMonitor.overrelease',
-                    defaultMessage: '过放释放',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message:
-                        formatMessage({
-                          id: 'siteMonitor.overrelease',
-                          defaultMessage: '过放释放',
-                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
-                    },
-                  ]}
-                >
-                  <InputNumber className="w-full" addonAfter="V" />
+                  <InputNumber className="w-full" addonAfter="kW" />
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-        </>
-      ) : (
-        <></>
-      )}
-      {isLineLabel ? (
-        <LineLabel
-          title={formatMessage({
-            id: 'siteMonitor.runningParameterSet',
-            defaultMessage: '运行参数设置',
-          })}
-        >
-          <Button
-            type="primary"
-            onClick={onRunClick}
-            loading={loading}
-            disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
-          >
-            {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-          </Button>
-        </LineLabel>
-      ) : (
-        <Label
-          title={formatMessage({
-            id: 'siteMonitor.runningParameterSet',
-            defaultMessage: '运行参数设置',
-          })}
-          operate={
-            <Button
-              type="primary"
-              onClick={onRunClick}
-              loading={loading}
-              disabled={disableRun || deviceData?.status === OnlineStatusEnum.Offline}
-            >
-              {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-            </Button>
-          }
-        />
-      )}
-      <Form
-        form={runForm}
-        className="setting-form"
-        layout="horizontal"
-        labelAlign="right"
-        labelCol={{ flex: '116px' }}
-        onFinish={requestRun}
-        onValuesChange={setDisableRunFalse}
-        disabled={deviceData?.status === OnlineStatusEnum.Offline}
-      >
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="handOpePcsPower"
-              label={formatMessage({
-                id: 'siteMonitor.manualPCSPower',
-                defaultMessage: '手动PCS功率',
-              })}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time1"
-              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '1'}
-              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 1)]}
-            >
-              <TimePicker.RangePicker
-                className="w-full"
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={[
-                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
-                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
-                ]}
-                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="power1"
-              label={formatMessage({
-                id: 'siteMonitor.executionPower',
-                defaultMessage: '执行功率',
-              })}
-              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time2"
-              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '2'}
-              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 2)]}
-            >
-              <TimePicker.RangePicker
-                className="w-full"
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={[
-                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
-                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
-                ]}
-                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="power2"
-              label={formatMessage({
-                id: 'siteMonitor.executionPower',
-                defaultMessage: '执行功率',
-              })}
-              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time3"
-              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '3'}
-              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 3)]}
-            >
-              <TimePicker.RangePicker
-                className="w-full"
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={[
-                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
-                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
-                ]}
-                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="power3"
-              label={formatMessage({
-                id: 'siteMonitor.executionPower',
-                defaultMessage: '执行功率',
-              })}
-              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time4"
-              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '4'}
-              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 4)]}
-            >
-              <TimePicker.RangePicker
-                className="w-full"
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={[
-                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
-                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
-                ]}
-                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="power4"
-              label={formatMessage({
-                id: 'siteMonitor.executionPower',
-                defaultMessage: '执行功率',
-              })}
-              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col flex="25%">
-            <Form.Item
-              name="time5"
-              label={formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '5'}
-              rules={[({ getFieldValue }) => validatorTime(getFieldValue, 5)]}
-            >
-              <TimePicker.RangePicker
-                className="w-full"
-                format={timeFormat}
-                minuteStep={15}
-                placeholder={[
-                  formatMessage({ id: 'common.start', defaultMessage: '开始' }),
-                  formatMessage({ id: 'common.end', defaultMessage: '结束' }),
-                ]}
-                getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
-              />
-            </Form.Item>
-          </Col>
-          <Col flex="25%">
-            <Form.Item
-              name="power5"
-              label={formatMessage({
-                id: 'siteMonitor.executionPower',
-                defaultMessage: '执行功率',
-              })}
-              rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
-            >
-              <InputNumber className="w-full" addonAfter="kW" />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-      {!isDeviceChild ? (
-        <>
-          {isLineLabel ? (
-            <LineLabel
-              title={formatMessage({
-                id: 'siteMonitor.timingSettings',
-                defaultMessage: '校时设置',
-              })}
-            >
-              <Button
-                type="primary"
-                onClick={onTimeClick}
-                loading={loading}
-                disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
-              >
-                {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-              </Button>
-            </LineLabel>
-          ) : (
-            <Label
-              title={formatMessage({
-                id: 'siteMonitor.timingSettings',
-                defaultMessage: '校时设置',
-              })}
-              operate={
-                <Button
-                  type="primary"
-                  onClick={onTimeClick}
-                  loading={loading}
-                  disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
-                >
-                  {formatMessage({ id: 'siteMonitor.issueParameters', defaultMessage: '下发参数' })}
-                </Button>
-              }
-            />
-          )}
-          <Form
-            form={timeForm}
-            layout="horizontal"
-            labelCol={{ flex: '116px' }}
-            onFinish={onTimeFormFinish}
-            onValuesChange={setDisableTimeFalse}
-            disabled={deviceData?.status === OnlineStatusEnum.Offline}
-          >
             <Row>
               <Col flex="25%">
                 <Form.Item
-                  name="time"
-                  label={formatMessage({
-                    id: 'siteMonitor.systemTime',
-                    defaultMessage: '系统时间',
-                  })}
-                  rules={[
-                    {
-                      required: true,
-                      message:
-                        formatMessage({
-                          id: 'siteMonitor.systemTime',
-                          defaultMessage: '系统时间',
-                        }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
-                    },
-                  ]}
+                  name="time1"
+                  label={
+                    formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '1'
+                  }
+                  rules={[({ getFieldValue }) => validatorTime(getFieldValue, 1)]}
                 >
-                  <DatePick
+                  <TimePicker.RangePicker
                     className="w-full"
-                    getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
-                    showTime
+                    format={timeFormat}
+                    minuteStep={15}
+                    placeholder={[
+                      formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                      formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                    ]}
+                    getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
                   />
                 </Form.Item>
               </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="power1"
+                  label={formatMessage({
+                    id: 'siteMonitor.executionPower',
+                    defaultMessage: '执行功率',
+                  })}
+                  rules={[({ getFieldValue }) => validatorPower(getFieldValue, 1)]}
+                >
+                  <InputNumber className="w-full" addonAfter="kW" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="time2"
+                  label={
+                    formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '2'
+                  }
+                  rules={[({ getFieldValue }) => validatorTime(getFieldValue, 2)]}
+                >
+                  <TimePicker.RangePicker
+                    className="w-full"
+                    format={timeFormat}
+                    minuteStep={15}
+                    placeholder={[
+                      formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                      formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                    ]}
+                    getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+                  />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="power2"
+                  label={formatMessage({
+                    id: 'siteMonitor.executionPower',
+                    defaultMessage: '执行功率',
+                  })}
+                  rules={[({ getFieldValue }) => validatorPower(getFieldValue, 2)]}
+                >
+                  <InputNumber className="w-full" addonAfter="kW" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="time3"
+                  label={
+                    formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '3'
+                  }
+                  rules={[({ getFieldValue }) => validatorTime(getFieldValue, 3)]}
+                >
+                  <TimePicker.RangePicker
+                    className="w-full"
+                    format={timeFormat}
+                    minuteStep={15}
+                    placeholder={[
+                      formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                      formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                    ]}
+                    getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+                  />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="power3"
+                  label={formatMessage({
+                    id: 'siteMonitor.executionPower',
+                    defaultMessage: '执行功率',
+                  })}
+                  rules={[({ getFieldValue }) => validatorPower(getFieldValue, 3)]}
+                >
+                  <InputNumber className="w-full" addonAfter="kW" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="time4"
+                  label={
+                    formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '4'
+                  }
+                  rules={[({ getFieldValue }) => validatorTime(getFieldValue, 4)]}
+                >
+                  <TimePicker.RangePicker
+                    className="w-full"
+                    format={timeFormat}
+                    minuteStep={15}
+                    placeholder={[
+                      formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                      formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                    ]}
+                    getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+                  />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="power4"
+                  label={formatMessage({
+                    id: 'siteMonitor.executionPower',
+                    defaultMessage: '执行功率',
+                  })}
+                  rules={[({ getFieldValue }) => validatorPower(getFieldValue, 4)]}
+                >
+                  <InputNumber className="w-full" addonAfter="kW" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col flex="25%">
+                <Form.Item
+                  name="time5"
+                  label={
+                    formatMessage({ id: 'siteMonitor.TimePeriod', defaultMessage: '时段' }) + '5'
+                  }
+                  rules={[({ getFieldValue }) => validatorTime(getFieldValue, 5)]}
+                >
+                  <TimePicker.RangePicker
+                    className="w-full"
+                    format={timeFormat}
+                    minuteStep={15}
+                    placeholder={[
+                      formatMessage({ id: 'common.start', defaultMessage: '开始' }),
+                      formatMessage({ id: 'common.end', defaultMessage: '结束' }),
+                    ]}
+                    getPopupContainer={(triggerNode) => triggerNode.parentElement || document.body}
+                  />
+                </Form.Item>
+              </Col>
+              <Col flex="25%">
+                <Form.Item
+                  name="power5"
+                  label={formatMessage({
+                    id: 'siteMonitor.executionPower',
+                    defaultMessage: '执行功率',
+                  })}
+                  rules={[({ getFieldValue }) => validatorPower(getFieldValue, 5)]}
+                >
+                  <InputNumber className="w-full" addonAfter="kW" />
+                </Form.Item>
+              </Col>
             </Row>
           </Form>
         </>
-      ) : (
-        <></>
+      )}
+      {authorityMap.get('device:detail:remoteControl:schoolTimeSetting:detail') && (
+        <>
+          {!isDeviceChild ? (
+            <>
+              {isLineLabel ? (
+                <LineLabel
+                  title={formatMessage({
+                    id: 'siteMonitor.timingSettings',
+                    defaultMessage: '校时设置',
+                  })}
+                >
+                  {authorityMap.get('device:detail:remoteControl:schoolTimeSetting:edit') && (
+                    <Button
+                      type="primary"
+                      onClick={onTimeClick}
+                      loading={loading}
+                      disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
+                    >
+                      {formatMessage({
+                        id: 'siteMonitor.issueParameters',
+                        defaultMessage: '下发参数',
+                      })}
+                    </Button>
+                  )}
+                </LineLabel>
+              ) : (
+                <Label
+                  title={formatMessage({
+                    id: 'siteMonitor.timingSettings',
+                    defaultMessage: '校时设置',
+                  })}
+                  operate={
+                    authorityMap.get('device:detail:remoteControl:schoolTimeSetting:edit') && (
+                      <Button
+                        type="primary"
+                        onClick={onTimeClick}
+                        loading={loading}
+                        disabled={disableTime || deviceData?.status === OnlineStatusEnum.Offline}
+                      >
+                        {formatMessage({
+                          id: 'siteMonitor.issueParameters',
+                          defaultMessage: '下发参数',
+                        })}
+                      </Button>
+                    )
+                  }
+                />
+              )}
+              <Form
+                form={timeForm}
+                layout="horizontal"
+                labelCol={{ flex: '116px' }}
+                onFinish={onTimeFormFinish}
+                onValuesChange={setDisableTimeFalse}
+                disabled={
+                  deviceData?.status === OnlineStatusEnum.Offline ||
+                  !authorityMap.get('device:detail:remoteControl:schoolTimeSetting:edit')
+                }
+              >
+                <Row>
+                  <Col flex="25%">
+                    <Form.Item
+                      name="time"
+                      label={formatMessage({
+                        id: 'siteMonitor.systemTime',
+                        defaultMessage: '系统时间',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            formatMessage({
+                              id: 'siteMonitor.systemTime',
+                              defaultMessage: '系统时间',
+                            }) + formatMessage({ id: 'common.required', defaultMessage: '必填' }),
+                        },
+                      ]}
+                    >
+                      <DatePick
+                        className="w-full"
+                        getPopupContainer={(triggerNode: any) => triggerNode.parentElement}
+                        showTime
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </>
   );
