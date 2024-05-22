@@ -9,15 +9,47 @@ import { FormUpdate } from '../../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../../components/FormUpdate/type';
 import { formatMessage } from '@/utils';
 import { useModel } from 'umi';
+import { getServiceList } from '../service';
+import { buildTreeData } from '@/utils/utils';
 
 export const Update = memo((props: FormUpdateBaseProps) => {
   const { initialState } = useModel('@@initialState');
   const [orgId, setOrgId] = useState<number>();
-  const convertRequestData = async (param: { orgId: number }) => {
+  const [treeData, setTreeData] = useState<any[]>([]);
+
+  const getTreeData = async (id: number, name: string) => {
+    const { data: serviceList } = await getServiceList();
+    if (serviceList.length == 0) {
+      setTreeData([
+        {
+          id: 0,
+          title: formatMessage({ id: 'system.noSuperior', defaultMessage: '无上级' }),
+          children: undefined,
+          key: 0,
+          value: 0,
+        },
+      ]);
+      return;
+    }
+    if (id) {
+      const index = serviceList.findIndex((i) => i.orgId == id);
+      if (index <= 0) {
+        serviceList.push({ orgId: id, orgName: name } as any);
+      }
+    }
+    setTreeData(buildTreeData(serviceList, 'orgId', 'orgName', '', '', ''));
+  };
+  const convertRequestData = useCallback(async (param: { orgId: number }) => {
     const res = await getService(param);
     if (res?.data) {
-      const { address, longitude, latitude, orgId: rawOrgId } = res.data;
-
+      const {
+        address,
+        longitude,
+        latitude,
+        orgId: rawOrgId,
+        parentId: id,
+        parentName: name,
+      } = res.data;
       const addressInfo: PositionSelectType = {
         address,
         point: {
@@ -26,11 +58,11 @@ export const Update = memo((props: FormUpdateBaseProps) => {
         } as unknown,
       };
       set(res.data, 'addressInfo', addressInfo);
-
       setOrgId(rawOrgId);
+      getTreeData(id, name);
     }
     return res;
-  };
+  }, []);
 
   const convertUpdateData = (inputInfo: ServiceUpdateInfo): ServiceParam => {
     const params: ServiceParam = {
@@ -51,7 +83,7 @@ export const Update = memo((props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const getConfig = useCallback(() => Columns(orgId), [orgId]);
+  const getConfig = useCallback(() => Columns(orgId, treeData), [orgId, treeData]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>

@@ -154,6 +154,22 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
     },
     {
       label: formatMessage({
+        id: 'siteManage.1015',
+        defaultMessage: '风机额定功率',
+      }),
+      field: 'fanRatedPower',
+      format: powerFormat,
+    },
+    {
+      label: formatMessage({
+        id: 'siteManage.1016',
+        defaultMessage: '柴发额定功率',
+      }),
+      field: 'dieselRatedPower',
+      format: powerFormat,
+    },
+    {
+      label: formatMessage({
         id: 'siteManage.siteList.totalEnergyStorageCapacity',
         defaultMessage: '储能总容量',
       }),

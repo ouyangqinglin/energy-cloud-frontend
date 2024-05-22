@@ -133,7 +133,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
       result.push({
         label: formatMessage({
           id: 'siteManage.set.pvGridElectricityPriceSetting',
-          defaultMessage: '光伏上网电价设置',
+          defaultMessage: '馈网电价设置',
         }),
         key: TabKeys.PHOTOVOLTAIC,
         children: (

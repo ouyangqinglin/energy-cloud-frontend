@@ -145,5 +145,15 @@ export default {
   'siteManage.1009': 'IOS App',
   'siteManage.1010': 'Factory',
   'siteManage.1011': 'User ID',
+  'siteManage.1015': 'Rated Power Of Fan',
+  'siteManage.1016': 'Rated Power Of Diesel Generator',
   'siteManage.set.1001': 'ESS Unit',
+
+  'siteManage.1017': '',
+  'siteManage.1018': '',
+  'siteManage.1019': '',
+  'siteManage.1020': '',
+  'siteManage.1021': '',
+  'siteManage.1022': '',
+  'siteManage.1023': '',
 };

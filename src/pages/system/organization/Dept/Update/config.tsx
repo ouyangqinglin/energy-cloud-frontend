@@ -1,9 +1,7 @@
 import PositionSelect from '@/components/PositionSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { effectStatus } from '@/utils/dict';
-import { buildTreeData } from '@/utils/utils';
 import type { FormInstance, ProColumns } from '@ant-design/pro-components';
-import { getServiceList } from '../service';
 import type { ServiceUpdateInfo } from '../type';
 import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
@@ -23,9 +21,10 @@ const beforeUpload = (file: any, form: FormInstance<any>, field: string | string
   return false;
 };
 
-export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (
-  orgId,
-) => {
+export const Columns: (
+  orgId?: number,
+  treeData?: any[],
+) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId, treeData) => {
   return [
     {
       title: '',
@@ -94,11 +93,15 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
     {
       title: formatMessage({ id: 'system.supOrganization', defaultMessage: '上级组织' }),
       valueType: 'treeSelect',
-      fieldProps: {
-        placeholder:
-          formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请选择' }) +
-          formatMessage({ id: 'system.supOrganization', defaultMessage: '上级组织' }),
+      fieldProps: () => {
+        return {
+          placeholder:
+            formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请选择' }) +
+            formatMessage({ id: 'system.supOrganization', defaultMessage: '上级组织' }),
+          treeData: treeData,
+        };
       },
+      request: async () => {},
       formItemProps: {
         rules: [
           {
@@ -106,22 +109,6 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
             message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
           },
         ],
-      },
-      request: async () => {
-        const res = await getServiceList();
-        let depts = buildTreeData(res?.data as any[], 'orgId', 'orgName', '', '', '');
-        if (depts.length === 0) {
-          depts = [
-            {
-              id: 0,
-              title: formatMessage({ id: 'system.noSuperior', defaultMessage: '无上级' }),
-              children: undefined,
-              key: 0,
-              value: 0,
-            },
-          ];
-        }
-        return depts;
       },
       dataIndex: ['parentId'],
     },
@@ -276,7 +263,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
             />
             <div style={{ marginTop: '-20px' }}>
               {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：64*64px
             </div>
           </>
         );
