@@ -6,8 +6,9 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\models\siteType.ts
  */
-import { getSiteType } from '@/services/station';
+
 import React, { useReducer } from 'react';
+import { getSiteType } from '@/services/station';
 import { useRequest } from 'umi';
 
 export type SiteTypeType = {

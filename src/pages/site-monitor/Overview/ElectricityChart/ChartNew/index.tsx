@@ -113,7 +113,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           const value = item.data[item.seriesIndex + 1];
           const seriesName = item.seriesName;
           let lable = `${item.marker} ${seriesName}: ${isEmpty(value) ? '-' : value}`;
-          if (item.seriesName.replace('(kW)') == formatMessage({ id: 'device.storage' })) {
+          if (item.seriesName.replace('(kW)', '') == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (!isEmpty(value)) {
               if (item.value) {
