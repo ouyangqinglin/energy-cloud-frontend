@@ -76,7 +76,7 @@ const CommunityDetail: React.FC<CommunityProps> = (props) => {
       });
     }
     return groupItem;
-  }, [deviceData]);
+  }, [deviceData, authorityMap]);
 
   return (
     <>

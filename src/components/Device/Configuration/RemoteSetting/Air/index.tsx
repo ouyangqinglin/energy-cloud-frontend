@@ -41,7 +41,7 @@ const Air: React.FC<AirType> = (props) => {
         items: runItems,
       },
     ];
-  }, [deviceId, realTimeData]);
+  }, [deviceId, realTimeData, authorityMap]);
 
   return (
     <>
