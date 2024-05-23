@@ -7,8 +7,9 @@ import type { MenuType } from '../data.d';
 import IconSelector from '@/components/IconSelector';
 import { createIcon } from '@/utils/IconUtil';
 import { IntlProvider } from 'react-intl';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale as utilsLocale } from '@/utils';
 
+const isEnUS = utilsLocale().isEnUS;
 /* *
  *
  * @author whiteshader@163.com
@@ -204,6 +205,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
                 id: 'system.Menu.menu_name',
                 defaultMessage: '菜单名称',
               })}
+              disabled={isEnUS}
+              placeholder={
+                isEnUS
+                  ? 'Only Chinese Can Edit'
+                  : formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })
+              }
               width="xl"
               rules={[
                 {

@@ -133,8 +133,6 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
       getLabelByData(data);
     setXLables(labels);
   }, [type, step, date, allLabel, data]);
-  // console.log('chartOptions>>', chartOptions);
-  // console.log('restProps>>',restProps);
 
   return (
     <>

@@ -225,7 +225,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'sharpPrice',
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -239,7 +239,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'peakPrice',
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -253,7 +253,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'flatPrice',
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -267,7 +267,7 @@ export const columns: (timeColum: ProFormColumnsType) => ProFormColumnsType[] = 
         dataIndex: 'valleyPrice',
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -504,7 +504,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -520,7 +520,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -536,7 +536,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,
@@ -552,7 +552,7 @@ export const columnsReadonly: ProFormColumnsType[] = [
         },
         fieldProps: {
           placeholder: formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' }),
-          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          addonAfter: formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         },
         colProps: {
           span: 6,

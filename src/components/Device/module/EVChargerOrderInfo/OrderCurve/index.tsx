@@ -34,13 +34,15 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
       getytOrdercurve({ id }).then(({ data }) => {
         if (!data || !data.length) return;
         const currentVChartData = cloneDeep(defaultChartData);
-        // const currentAllLabel: any = [];
-        data.forEach((item) => {
+        const currentAllLabel: any = [];
+        data.forEach((item, index) => {
           if (!item.values || !item.values.length) return;
           const currentValue = item.values.map((i) => {
-            const currentLabel = moment(i.eventTs).format('HH:mm');
-            // currentAllLabel.push(currentLabel);
-            // setAllLabel(currentAllLabel);
+            const currentLabel = moment(i.eventTs).format('HH:mm:ss');
+            if (!index) {
+              currentAllLabel.push(currentLabel);
+            }
+            setAllLabel(currentAllLabel);
             return {
               label: currentLabel,
               value: i.val,
@@ -57,7 +59,6 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
               return;
           }
         });
-        console.log(' currentVChartData>>', currentVChartData);
         setChartData(currentVChartData);
       });
     }

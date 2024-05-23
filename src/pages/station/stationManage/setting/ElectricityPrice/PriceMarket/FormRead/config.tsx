@@ -171,7 +171,7 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -188,7 +188,7 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -205,7 +205,7 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -222,7 +222,7 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' }),
+          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },

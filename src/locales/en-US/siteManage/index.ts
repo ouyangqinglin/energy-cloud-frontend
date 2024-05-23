@@ -100,7 +100,7 @@ export default {
   'siteManage.set.Peak': 'Peak',
   'siteManage.set.Average': 'Average',
   'siteManage.set.Valley': 'Valley',
-  'siteManage.set.rmb/kwh': '￥/kWh',
+  'siteManage.set.rmb/kWh': '￥/kWh',
   'siteManage.set.addTimeSlot': 'AddTimeSlot',
   'siteManage.set.ElectricityPriceRulesName': 'ElectricityPriceRules Name',
   'siteManage.set.EffectiveStatus': 'Effective Status',

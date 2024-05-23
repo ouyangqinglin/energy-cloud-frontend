@@ -407,7 +407,7 @@ const CustomLayout = () => {
               </div>
             </div>
             <div className={styles.energyChart}>
-              <div className={styles.chartLable}>能耗（kwh）</div>
+              <div className={styles.chartLable}>能耗（kWh）</div>
               <div className={styles.energySubtitle}>
                 <div className={styles.subLeft}>
                   <div>近30天总能耗/kWh</div>

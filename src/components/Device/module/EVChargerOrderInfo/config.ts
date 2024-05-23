@@ -233,7 +233,7 @@ export const option = {
     },
     {
       type: 'value',
-      name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kwh）',
+      name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kWh）',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {

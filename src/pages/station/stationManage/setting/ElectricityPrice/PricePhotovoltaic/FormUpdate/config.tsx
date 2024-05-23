@@ -215,7 +215,7 @@ export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProForm
                 },
                 fieldProps: {
                   addonAfter: formatMessage({
-                    id: 'siteManage.set.rmb/kwh',
+                    id: 'siteManage.set.rmb/kWh',
                     defaultMessage: '元/kWh',
                   }),
                 },

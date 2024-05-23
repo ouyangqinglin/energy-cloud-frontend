@@ -93,7 +93,7 @@ export default {
   'siteManage.set.PeakElectricityPrice': '峰电价',
   'siteManage.set.AverageElectricityPrice': '平电价',
   'siteManage.set.ValleyElectricityPrice': '谷电价',
-  'siteManage.set.rmb/kwh': '元/kWh',
+  'siteManage.set.rmb/kWh': '元/kWh',
   'siteManage.set.addTimeSlot': '新增时间段',
   'siteManage.set.Sharp': '尖',
   'siteManage.set.Peak': '峰',

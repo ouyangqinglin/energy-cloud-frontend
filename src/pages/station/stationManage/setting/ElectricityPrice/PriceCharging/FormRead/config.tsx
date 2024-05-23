@@ -116,14 +116,14 @@ export const columns: ProFormColumnsType[] = [
                 </Col>
                 <Col span={4}>
                   {electricityFees}
-                  {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
+                  {formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' })}
                 </Col>
                 <Col span={2}>
                   {formatMessage({ id: 'siteManage.set.serviceCharge', defaultMessage: '服务费' })}:
                 </Col>
                 <Col span={4}>
                   {serviceFees}
-                  {formatMessage({ id: 'siteManage.set.rmb/kwh', defaultMessage: '元/kWh' })}
+                  {formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' })}
                 </Col>
               </React.Fragment>
             );
