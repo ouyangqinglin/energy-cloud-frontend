@@ -474,17 +474,6 @@ export const enum SiteTypeEnum {
   Exchange = 4,
 }
 
-export const enum SiteTypeStrEnum {
-  PV = '1',
-  ES = '2',
-  CS = '3',
-  ES_CS = '23',
-  PV_CS = '13',
-  PV_ES = '12',
-  PV_ES_CS = '123',
-  Exchange = '4',
-}
-
 export type SiteTypeEnumType = `${(typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]}`;
 
 export const siteType = {

@@ -10,7 +10,7 @@ import type { Load, StoredEnergy } from './type';
 import type { DescriptionCardConfig } from '../components/CardDescription/type';
 
 import { formatMessage } from '@/utils';
-import { SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 export const config = (siteType: SiteTypeStrEnum) => {
   let defaultConfig: DescriptionCardConfig[] = [

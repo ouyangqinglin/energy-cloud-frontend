@@ -7,7 +7,8 @@ import { ReactComponent as IconSite } from '@/assets/image/home-page/icon_站点
 import { ReactComponent as IconBenifit } from '@/assets/image/home-page/icon_今日收益.svg';
 import { ReactComponent as IconCo2 } from '@/assets/image/home-page/icon_碳减排.svg';
 import type { CardInfo } from './type';
-import { SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/enum';
+import { getUnitBySiteType } from '@/models/siteType';
 
 export const config: CardInfo[] = [
   {
@@ -105,7 +106,8 @@ export const config: CardInfo[] = [
         }),
         field: 'pvGainsDay',
         value: 4085.87,
-        show: (_, data) => !data?.siteType || data?.siteType?.indexOf?.(SiteTypeStrEnum.PV) > -1,
+        show: (_, data) =>
+          data?.siteType ? getUnitBySiteType(data?.siteType).hasPv : data?.unit?.hasPv,
       },
       {
         label: formatMessage({
@@ -114,7 +116,8 @@ export const config: CardInfo[] = [
         }),
         field: 'essGainsDay',
         value: 672.01,
-        show: (_, data) => !data?.siteType || data?.siteType?.indexOf?.(SiteTypeStrEnum.ES) > -1,
+        show: (_, data) =>
+          data?.siteType ? getUnitBySiteType(data?.siteType).hasEnergy : data?.unit?.hasEnergy,
       },
       {
         label: formatMessage({

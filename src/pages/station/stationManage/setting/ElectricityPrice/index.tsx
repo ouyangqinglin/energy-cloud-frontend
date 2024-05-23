@@ -10,7 +10,6 @@ import PriceChargingList from './PriceCharging';
 import type { ActionType } from '@ant-design/pro-table';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { SiteTypeStrEnum } from '@/utils/dict';
 import { getRulesSyncSite } from '@/pages/station/stationList/service';
 import { debounce } from 'lodash';
 import { columns as defaultColumns } from './config';
@@ -20,6 +19,7 @@ import { getMarketElectricityPriceList, syncSiteRule } from './PriceMarket/servi
 import { getPhotovoltaicElectricityPriceList } from './PricePhotovoltaic/service';
 //充电桩
 import { getChargingElectricityPriceList } from './PriceCharging/service';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 const enum TabKeys {
   MARKET = '1',

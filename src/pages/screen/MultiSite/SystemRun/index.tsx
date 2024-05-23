@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 09:54:42
- * @LastEditTime: 2024-04-30 09:10:35
+ * @LastEditTime: 2024-05-23 16:51:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SystemRun\index.tsx
  */
@@ -12,53 +12,150 @@ import DecorationCarousel from '../../components/DecorationCarousel';
 import { TimeType } from '../../components/TimeButtonGroup';
 import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
 import moment from 'moment';
-import { useRequest } from 'umi';
+import { useModel, useRequest } from 'umi';
 import { getData } from './service';
 import { REQUEST_INTERVAL_2_MINUTE } from '../config';
 import { formatMessage } from '@/utils';
-
-const powerColors = [
-  'rgba(255, 123, 123, 1)',
-  'rgba(255, 209, 92, 1)',
-  'rgba(21, 154, 255, 1)',
-  'rgba(0, 224, 219, 1)',
-  'rgba(1, 207, 161, 1)',
-  'rgba(255, 129, 68, 1)',
-];
-const elecColors = [
-  'rgba(255, 123, 123, 1)',
-  'rgba(255, 209, 92, 1)',
-  'rgba(21, 154, 255, 1)',
-  'rgba(1, 207, 161, 1)',
-  'rgba(255, 129, 68, 1)',
-];
+import { UnitType } from '@/models/siteType';
 
 const powerNameMap = new Map([
-  ['mePower', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
-  ['pvPower', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
-  ['esPower', formatMessage({ id: 'device.storage', defaultMessage: '储能' })],
-  ['csPower', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
-  ['loadPower', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
+  [
+    'mePower',
+    {
+      name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
+      color: '#ff7b7b',
+    },
+  ],
+  [
+    'pvPower',
+    { name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }), color: '#ffd15c' },
+  ],
+  [
+    'esPower',
+    { name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }), color: '#159aff' },
+  ],
+  [
+    'csPower',
+    {
+      name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
+      color: '#ff8144',
+    },
+  ],
+  [
+    'loadPower',
+    {
+      name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
+      color: '#5470c6',
+    },
+  ],
 ]);
 const elecNameMap = new Map([
-  ['meConsumption', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
-  ['pvPowerGeneration', formatMessage({ id: 'device.1001', defaultMessage: '光伏发电' })],
-  ['charge', formatMessage({ id: 'device.storageCharging', defaultMessage: '储能充电' })],
-  ['discharge', formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电' })],
-  ['csCharge', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
-  ['loadConsumption', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
+  [
+    'meConsumption',
+    {
+      name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
+      color: '#ff7b7b',
+    },
+  ],
+  [
+    'pvPowerGeneration',
+    { name: formatMessage({ id: 'device.1001', defaultMessage: '光伏发电' }), color: '#ffd15c' },
+  ],
+  [
+    'charge',
+    {
+      name: formatMessage({ id: 'device.storageCharging', defaultMessage: '储能充电' }),
+      color: '#159aff',
+    },
+  ],
+  [
+    'discharge',
+    {
+      name: formatMessage({ id: 'device.storageDischarge', defaultMessage: '储能放电' }),
+      color: '#01cfa1',
+    },
+  ],
+  [
+    'csCharge',
+    {
+      name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
+      color: '#ff8144',
+    },
+  ],
+  [
+    'loadConsumption',
+    {
+      name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
+      color: '#5470c6',
+    },
+  ],
 ]);
+
+const getShowByKey = (unit: UnitType, key: string) => {
+  let show = true;
+  if (key == 'pvPower') {
+    if (!unit.hasPv) {
+      show = false;
+    }
+  } else if (key == 'esPower') {
+    if (!unit.hasEnergy) {
+      show = false;
+    }
+  } else if (key == 'csPower') {
+    if (!unit.hasCharge) {
+      show = false;
+    }
+  } else if (key == 'pvPowerGeneration') {
+    if (!unit.hasPv) {
+      show = false;
+    }
+  } else if (key == 'charge' || key == 'discharge') {
+    if (!unit.hasEnergy) {
+      show = false;
+    }
+  } else if (key == 'csCharge') {
+    if (!unit.hasCharge) {
+      show = false;
+    }
+  }
+  return show;
+};
 
 const SystemRun: React.FC = () => {
   const [timeType, setTimeType] = useState(TimeType.DAY);
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [allLabel, setAllLabel] = useState<string[]>([]);
+  const { unit } = useModel('siteType');
   const { data: energyData, run } = useRequest(getData, {
     manual: true,
     pollingInterval: REQUEST_INTERVAL_2_MINUTE,
   });
 
   const chartOption = useMemo(() => {
+    const series: any = [];
+    if (timeType === TimeType.DAY) {
+      powerNameMap.forEach(({ color }, key) => {
+        if (getShowByKey(unit, key)) {
+          series.push({
+            type: 'line',
+            color: color,
+            showAllSymbol: true,
+            symbolSize: 1,
+          });
+        }
+      });
+    } else {
+      powerNameMap.forEach(({ color }, key) => {
+        if (getShowByKey(unit, key)) {
+          series.push({
+            type: 'bar',
+            color: color,
+            barMaxWidth: 4,
+          });
+        }
+      });
+    }
+
     return {
       grid: {
         top: 60,
@@ -112,21 +209,9 @@ const SystemRun: React.FC = () => {
           color: '#ACCCEC',
         },
       },
-      series:
-        timeType === TimeType.DAY
-          ? Array.from({ length: 5 }).map((_, index) => ({
-              type: 'line',
-              color: powerColors[index],
-              showAllSymbol: true,
-              symbolSize: 1,
-            }))
-          : Array.from({ length: 6 }).map((_, index) => ({
-              type: 'bar',
-              color: elecColors[index],
-              barMaxWidth: 4,
-            })),
+      series: series,
     };
-  }, [timeType]);
+  }, [timeType, unit]);
 
   useEffect(() => {
     run({ type: timeType });
@@ -135,30 +220,34 @@ const SystemRun: React.FC = () => {
   useEffect(() => {
     const result: TypeChartDataType[] = [];
     if (timeType == TimeType.DAY) {
-      powerNameMap.forEach((item, key) => {
-        result.push({
-          name: item,
-          data: energyData?.[key]?.map?.((dataItem: any) => ({
-            label: dataItem?.eventTs,
-            value: dataItem?.doubleVal,
-          })),
-        });
+      powerNameMap.forEach(({ name }, key) => {
+        if (getShowByKey(unit, key)) {
+          result.push({
+            name,
+            data: energyData?.[key]?.map?.((dataItem: any) => ({
+              label: dataItem?.eventTs,
+              value: dataItem?.doubleVal,
+            })),
+          });
+        }
       });
     } else {
       const labelSet = new Set<string>();
-      elecNameMap.forEach((item, key) => {
-        result.push({
-          name: item,
-          data: energyData?.[key]?.map?.((dataItem: any) => {
-            if (timeType == TimeType.TOTAL) {
-              const year = moment(dataItem?.timeDimension).format('YYYY');
-              labelSet.add(year);
-              return { label: year, value: dataItem?.electricity };
-            } else {
-              return { label: dataItem?.timeDimension, value: dataItem?.electricity };
-            }
-          }),
-        });
+      elecNameMap.forEach(({ name }, key) => {
+        if (getShowByKey(unit, key)) {
+          result.push({
+            name,
+            data: energyData?.[key]?.map?.((dataItem: any) => {
+              if (timeType == TimeType.TOTAL) {
+                const year = moment(dataItem?.timeDimension).format('YYYY');
+                labelSet.add(year);
+                return { label: year, value: dataItem?.electricity };
+              } else {
+                return { label: dataItem?.timeDimension, value: dataItem?.electricity };
+              }
+            }),
+          });
+        }
       });
       if (timeType == TimeType.TOTAL) {
         const labels = Array.from(labelSet);
@@ -167,7 +256,7 @@ const SystemRun: React.FC = () => {
       }
     }
     setChartData(result);
-  }, [energyData, timeType]);
+  }, [energyData, timeType, unit]);
 
   return (
     <>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-02 16:06:43
- * @LastEditTime: 2024-05-23 10:47:58
+ * @LastEditTime: 2024-05-23 15:55:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\home.tsx
  */
@@ -28,6 +28,7 @@ import { SiteTypeEnum } from '@/utils/dict';
 import type { TabsProps } from 'rc-tabs';
 import { useAuthority, useWindowSize } from '@/hooks';
 import { SubSystemType } from './index';
+import { getUnitBySiteType } from '@/models/siteType';
 
 const HomePage: React.FC = () => {
   const intl = useIntl();
@@ -37,6 +38,7 @@ const HomePage: React.FC = () => {
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const [statistic, setStatistic] = useState({});
   const { authorityMap } = useAuthority(['index:multiSite']);
+  const { unit } = useModel('siteType');
 
   const getStatisticData = useCallback(
     async (params: { energyOptions?: string }) =>
@@ -104,36 +106,24 @@ const HomePage: React.FC = () => {
         }
         assign(rawData, data);
       });
-      setStatistic({ ...rawData, siteType });
+      setStatistic({ ...rawData, siteType, unit });
     });
-  }, [getStatisticData, siteType]);
+  }, [getStatisticData, siteType, unit]);
 
   const items = useMemo(() => {
     const result: React.ReactNode[] = [];
     config.forEach((item) => {
       if (item.field == 'pvGeneratedPower') {
-        if (
-          [SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
-            siteType || '',
-          )
-        ) {
+        if (!(siteType ? getUnitBySiteType(siteType).hasPv : unit.hasPv)) {
           return;
         }
       } else if (item.field == 'essGeneratedPower') {
         //储能指标
-        if (
-          [SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS + ''].includes(
-            siteType || '',
-          )
-        ) {
+        if (!(siteType ? getUnitBySiteType(siteType).hasEnergy : unit.hasEnergy)) {
           return;
         }
       } else if (item.field == 'chargePower') {
-        if (
-          [SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
-            siteType || '',
-          )
-        ) {
+        if (!(siteType ? getUnitBySiteType(siteType).hasCharge : unit.hasCharge)) {
           return;
         }
       }
@@ -151,7 +141,7 @@ const HomePage: React.FC = () => {
       return [...result.slice(0, preNum), ...fillPageItems, ...lastPageItems];
     }
     return result;
-  }, [siteType, statistic, slidesPerRow]);
+  }, [siteType, statistic, slidesPerRow, unit]);
 
   const tabsItem = useMemo(() => {
     const result: TabsProps['items'] = [];
@@ -160,33 +150,21 @@ const HomePage: React.FC = () => {
       key: '4',
       children: <ChartBox siteType={siteType} type={SubSystemType.ELEC} />,
     });
-    if (
-      ![SiteTypeEnum.ES + '', SiteTypeEnum.CS + '', SiteTypeEnum.ES_CS + ''].includes(
-        siteType || '',
-      )
-    ) {
+    if (siteType ? getUnitBySiteType(siteType).hasPv : unit.hasPv) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.pv', defaultMessage: '光伏' }),
         key: '0',
         children: <ChartBox siteType={siteType} type={SubSystemType.PV} />,
       });
     }
-    if (
-      ![SiteTypeEnum.PV + '', SiteTypeEnum.CS + '', SiteTypeEnum.PV_CS + ''].includes(
-        siteType || '',
-      )
-    ) {
+    if (siteType ? getUnitBySiteType(siteType).hasEnergy : unit.hasEnergy) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.energy', defaultMessage: '储能' }),
         key: '1',
         children: <ChartBox siteType={siteType} type={SubSystemType.ES} />,
       });
     }
-    if (
-      ![SiteTypeEnum.PV + '', SiteTypeEnum.ES + '', SiteTypeEnum.PV_ES + ''].includes(
-        siteType || '',
-      )
-    ) {
+    if (siteType ? getUnitBySiteType(siteType).hasCharge : unit.hasCharge) {
       result.push({
         label: intl.formatMessage({ id: 'index.tab.charge', defaultMessage: '充电桩' }),
         key: '3',

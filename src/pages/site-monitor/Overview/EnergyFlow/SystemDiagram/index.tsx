@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { isNil } from 'lodash';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { useWatchingAlarmForSystem } from './useWatchingAlarmForSystem';
-import { SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/enum';
 const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTypeStrEnum }) => {
   const { data, run } = useRequest(getSystemDiagram, {
     manual: true,

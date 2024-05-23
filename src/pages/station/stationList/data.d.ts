@@ -6,8 +6,9 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\data.d.ts
  */
-import { SiteTypeStrEnum } from '@/utils/dict';
+
 import type { FileType } from '@/utils/dictionary';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 export type StationType = {
   name: string;

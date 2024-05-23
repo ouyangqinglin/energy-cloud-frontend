@@ -2,18 +2,26 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-23 09:18:31
- * @LastEditTime: 2024-05-23 11:24:45
+ * @LastEditTime: 2024-05-23 15:30:43
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\models\siteType.ts
  */
 
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { getSiteType } from '@/services/station';
 import { useRequest } from 'umi';
+import { mergeWith } from 'lodash';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 export type SiteTypeType = {
   label?: string;
   value: string;
+};
+
+export type UnitType = {
+  hasPv?: boolean;
+  hasEnergy?: boolean;
+  hasCharge?: boolean;
 };
 
 const reducer = (
@@ -27,8 +35,19 @@ const reducer = (
   }
 };
 
+export const getUnitBySiteType = (siteType: SiteTypeStrEnum | string): UnitType => {
+  const type = (siteType ?? '') + '';
+  const result: UnitType = {
+    hasPv: type?.indexOf?.(SiteTypeStrEnum.PV) > -1 || false,
+    hasEnergy: type?.indexOf?.(SiteTypeStrEnum.ES) > -1 || false,
+    hasCharge: type?.indexOf?.(SiteTypeStrEnum.CS) > -1 || false,
+  };
+  return result;
+};
+
 const useSiteTypeModel = () => {
   const [state, dispatch] = useReducer(reducer, undefined);
+  const [unit, setUnit] = useState<UnitType>({});
 
   const { run } = useRequest(getSiteType, {
     manual: true,
@@ -40,6 +59,18 @@ const useSiteTypeModel = () => {
             label: item.name,
           };
         }) || [];
+
+      const unitResult: UnitType = {};
+      result.forEach((item) => {
+        const itemUnit = getUnitBySiteType(item.value);
+        mergeWith(unitResult, itemUnit, (newValue: boolean, oldValue: boolean) => {
+          if (!oldValue) {
+            return newValue;
+          }
+          return oldValue;
+        });
+      });
+      setUnit(unitResult);
       dispatch({ payload: result });
     },
   });
@@ -47,6 +78,7 @@ const useSiteTypeModel = () => {
   return {
     siteTypes: state,
     refresh: run,
+    unit,
   };
 };
 

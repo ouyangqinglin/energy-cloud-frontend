@@ -1,7 +1,7 @@
-import { SiteTypeStrEnum } from '@/utils/dict';
 import React, { memo } from 'react';
 import Income from './Income';
 import Charge from './Charge';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 type RealTimeType = {
   siteId?: number;

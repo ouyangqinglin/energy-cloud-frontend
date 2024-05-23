@@ -1,5 +1,6 @@
+import { SiteTypeStrEnum } from '@/utils/enum';
 import type { ystemDiagram } from '../../EnergyFlow/type';
-import { SiteTypeStrEnum } from '@/utils/dict';
+
 export const paths = (
   electricSupply: ystemDiagram,
   energyStore: ystemDiagram,
