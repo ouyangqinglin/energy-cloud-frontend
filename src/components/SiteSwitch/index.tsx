@@ -35,22 +35,9 @@ const SiteSwitch = <ValueType = 'text',>(
 
   const { dispatch } = useModel('site');
   const { setInitialState } = useModel('@@initialState');
+  const { siteTypes } = useModel('siteType');
   const formRef = useRef<ProFormInstance>();
   const location = useLocation();
-  const promiseRef = useRef<Promise<string>>();
-  const { data: siteTypeOptions, run } = useRequest(getSiteType, {
-    manual: true,
-    formatResult({ data }) {
-      return (
-        data?.map?.((item) => {
-          return {
-            value: item.value || '',
-            label: item.name,
-          };
-        }) || []
-      );
-    },
-  });
 
   const changeSite = useCallback(
     (data: SiteDataType, type?: string) => {
@@ -142,30 +129,18 @@ const SiteSwitch = <ValueType = 'text',>(
   );
 
   useEffect(() => {
-    promiseRef.current = new Promise((resolve) => {
-      run().then(() => {
-        resolve('');
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    if (siteOptions?.[0] && siteTypeOptions) {
+    if (siteOptions?.[0] && siteTypes) {
       const localSiteId = localStorage.getItem('siteId');
       const localSite = siteOptions?.find?.((item) => item.value == localSiteId);
       if (localSite) {
         formRef?.current?.setFieldValue?.('siteId', localSite.value);
-        promiseRef?.current?.then?.(() => {
-          changeSite(localSite, siteTypeOptions?.[0]?.value ?? '');
-        });
+        changeSite(localSite, siteTypes?.[0]?.value ?? '');
       } else {
         formRef?.current?.setFieldValue?.('siteId', siteOptions[0].value);
-        promiseRef?.current?.then?.(() => {
-          changeSite(siteOptions[0], siteTypeOptions?.[0]?.value ?? '');
-        });
+        changeSite(siteOptions[0], siteTypes?.[0]?.value ?? '');
       }
     }
-  }, [siteOptions, siteTypeOptions]);
+  }, [siteOptions, siteTypes]);
 
   useEffect(() => {
     eventBus.on('changeSite', changeSiteBus);
@@ -183,7 +158,7 @@ const SiteSwitch = <ValueType = 'text',>(
         valueType: 'select',
         readonly: true,
         fieldProps: {
-          options: siteTypeOptions,
+          options: siteTypes,
         },
         hideInForm:
           location?.pathname?.indexOf?.('/index/station') > -1 ||
@@ -197,12 +172,12 @@ const SiteSwitch = <ValueType = 'text',>(
         fieldProps: {
           allowClear: false,
           onChange: onSiteTypeChange,
-          options: siteTypeOptions,
+          options: siteTypes,
         },
         hideInForm: location?.pathname?.indexOf?.('/site-monitor') > -1,
       },
     ];
-  }, [siteColumn, onSiteTypeChange, location, siteTypeOptions]);
+  }, [siteColumn, onSiteTypeChange, location, siteTypes]);
 
   return (
     <>

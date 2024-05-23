@@ -11,7 +11,7 @@ import RenderTitle from './RenderTitle';
 import { useFetchChartData } from './useFetchChartData';
 import TypeChart from '@/components/Chart/TypeChart';
 import { cloneDeep } from 'lodash';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 
 const ChartBox = ({
   type: subSystemType,
@@ -141,28 +141,30 @@ const ChartBox = ({
       tooltip: {
         trigger: 'axis',
         formatter: function (params: any[]) {
-          console.log('params>>', params);
           let result = params[0].name + '<br />';
-          params.forEach((item, index) => {
+          params.forEach((item) => {
             let seriesName = item.seriesName;
-            const value = item.value[index + 1] || 0;
+            const value = item.value[item.seriesIndex + 1];
             if (subSystemType !== 2) {
               //除了收益，其他加上单位
               seriesName += timeType == TimeType.DAY ? '(kW)' : '(kWh)';
             }
-            let lable = `${item.marker} ${seriesName}: ${value}`;
+            let lable = `${item.marker} ${seriesName}: ${isEmpty(value) ? '-' : value}`;
             if (subSystemType == 1 && timeType == TimeType.DAY) {
               //储能系统为日做处理
-              if (value)
-                value >= 0
-                  ? (lable += `(${formatMessage({
-                      id: 'device.charge',
-                      defaultMessage: '充电',
-                    })})`)
-                  : (lable += `(${formatMessage({
-                      id: 'device.discharge',
-                      defaultMessage: '放电',
-                    })})`);
+              if (!isEmpty(value)) {
+                if (value >= 0) {
+                  lable += `(${formatMessage({
+                    id: 'device.charge',
+                    defaultMessage: '充电',
+                  })})`;
+                } else {
+                  lable += `(${formatMessage({
+                    id: 'device.discharge',
+                    defaultMessage: '放电',
+                  })})`;
+                }
+              }
             }
             result += `${lable}<br />`;
           });

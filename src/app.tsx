@@ -1,5 +1,5 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
+import PageLoading from '@/layouts/loading/PageLoading';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { MenuDataItem } from '@umijs/route-utils';
 import { history } from 'umi';
@@ -18,7 +18,7 @@ import {
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
-import { SiteDataType, getSiteType } from './services/station';
+import { SiteDataType } from './services/station';
 import { defaultSystemInfo } from '@/utils/config';
 import { merge } from 'lodash';
 
@@ -62,19 +62,6 @@ const editFavicon = (data?: initialStateType) => {
   }, 700);
 };
 
-const initSiteType = async () => {
-  const result = await getSiteType().then((res) => {
-    return res?.data?.map?.((item) => {
-      return {
-        value: item.value || '',
-        label: item.name,
-      };
-    });
-  });
-  // const { dispatch } = useModel('siteType');
-  // dispatch({ payload: result });
-};
-
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
@@ -111,7 +98,6 @@ export async function getInitialState(): Promise<initialStateType> {
     if (currentUser) {
       const requestMenus = await getRoutersInfo();
       menus = getLocaleMenus(requestMenus);
-      // await initSiteType();
     }
     const antMenus = menus && getMenus(menus);
     return {
