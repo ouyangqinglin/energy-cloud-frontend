@@ -146,7 +146,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
             defaultMessage: '累计供电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'chargeTotal',
+          field: 'accCharge',
         },
         {
           label: `${formatMessage({
@@ -154,7 +154,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
             defaultMessage: '累计馈网电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          field: 'dischargeTotal',
+          field: 'accDischarge',
         },
         {
           label: `${formatMessage({

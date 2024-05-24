@@ -116,7 +116,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           if (item.seriesName.replace('(kW)', '') == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (!isEmpty(value)) {
-              if (item.value) {
+              if (item.value >= 0) {
                 lable += `(${formatMessage({
                   id: 'device.charge',
                   defaultMessage: '充电',
