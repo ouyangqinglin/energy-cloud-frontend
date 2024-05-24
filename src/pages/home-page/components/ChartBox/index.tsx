@@ -123,11 +123,6 @@ const ChartBox = ({
             : '(kWh)'
         }`,
         nameLocation: 'end',
-        splitLine: {
-          lineStyle: {
-            type: 'dashed', //虚线
-          },
-        },
       },
       grid: {
         top: 30,
