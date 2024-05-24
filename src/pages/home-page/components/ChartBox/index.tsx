@@ -11,7 +11,10 @@ import RenderTitle from './RenderTitle';
 import { useFetchChartData } from './useFetchChartData';
 import TypeChart from '@/components/Chart/TypeChart';
 import { cloneDeep } from 'lodash';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
+import { useModel } from 'umi';
+import { getUnitBySiteType } from '@/models/siteType';
+import { EChartsInstance } from 'echarts-for-react';
 
 const ChartBox = ({
   type: subSystemType,
@@ -29,8 +32,9 @@ const ChartBox = ({
   const [allLabel, setAllLabel] = useState<string[]>([]);
   const [option, setOption] = useState<any>();
   const resetDate = () => setDate(moment());
-  const chartRef = useRef();
+  const chartRef = useRef<EChartsInstance>();
   const { chartData } = useFetchChartData(date, subSystemType, timeType, siteType) as any;
+  const { unit } = useModel('siteType');
 
   const onChange = (value: any) => {
     setDate(value);
@@ -119,11 +123,6 @@ const ChartBox = ({
             : '(kWh)'
         }`,
         nameLocation: 'end',
-        splitLine: {
-          lineStyle: {
-            type: 'dashed', //虚线
-          },
-        },
       },
       grid: {
         top: 30,
@@ -141,28 +140,30 @@ const ChartBox = ({
       tooltip: {
         trigger: 'axis',
         formatter: function (params: any[]) {
-          console.log('params>>', params);
           let result = params[0].name + '<br />';
-          params.forEach((item, index) => {
+          params.forEach((item) => {
             let seriesName = item.seriesName;
-            const value = item.value[index + 1] || 0;
+            const value = item.value[item.seriesIndex + 1];
             if (subSystemType !== 2) {
               //除了收益，其他加上单位
               seriesName += timeType == TimeType.DAY ? '(kW)' : '(kWh)';
             }
-            let lable = `${item.marker} ${seriesName}: ${value}`;
+            let lable = `${item.marker} ${seriesName}: ${isEmpty(value) ? '-' : value}`;
             if (subSystemType == 1 && timeType == TimeType.DAY) {
               //储能系统为日做处理
-              if (value)
-                value >= 0
-                  ? (lable += `(${formatMessage({
-                      id: 'device.charge',
-                      defaultMessage: '充电',
-                    })})`)
-                  : (lable += `(${formatMessage({
-                      id: 'device.discharge',
-                      defaultMessage: '放电',
-                    })})`);
+              if (!isEmpty(value)) {
+                if (value >= 0) {
+                  lable += `(${formatMessage({
+                    id: 'device.charge',
+                    defaultMessage: '充电',
+                  })})`;
+                } else {
+                  lable += `(${formatMessage({
+                    id: 'device.discharge',
+                    defaultMessage: '放电',
+                  })})`;
+                }
+              }
             }
             result += `${lable}<br />`;
           });
@@ -254,14 +255,11 @@ const ChartBox = ({
         }
         break;
       case 2: //收益
+        chartRef?.current?.getEchartsInstance()?.clear?.();
         const deepData = cloneDeep(series[0]);
         deepData.stack = '收益';
         series = [];
-        //光伏收益/元
-        let isCanUser = ![SiteTypeEnum.ES, SiteTypeEnum.CS, SiteTypeEnum.ES_CS].includes(
-          Number(siteType || ''),
-        );
-        if (isCanUser) {
+        if (siteType ? getUnitBySiteType(siteType).hasPv : unit.hasPv) {
           const name = formatMessage({ id: 'index.chart.pvIncome', defaultMessage: '光伏收益/元' });
           series.push({
             ...deepData,
@@ -273,9 +271,7 @@ const ChartBox = ({
           data = chartData?.pvIncome || [];
           result.push({ name, data: incomeHandle(isDay, data), itemStyle: { color: '#FFD15C' } });
         }
-        // 储能收益/元
-        isCanUser = ![SiteTypeEnum.PV, SiteTypeEnum.CS].includes(Number(siteType || ''));
-        if (isCanUser) {
+        if (siteType ? getUnitBySiteType(siteType).hasEnergy : unit.hasEnergy) {
           const name = formatMessage({
             id: 'index.chart.energyIncome',
             defaultMessage: '储能收益/元',
@@ -290,11 +286,7 @@ const ChartBox = ({
           data = chartData?.esIncome || [];
           result.push({ name, data: incomeHandle(isDay, data), itemStyle: { color: '#007DFF' } });
         }
-        //充电桩收益/元
-        isCanUser = ![SiteTypeEnum.PV, SiteTypeEnum.ES, SiteTypeEnum.PV_ES].includes(
-          Number(siteType || ''),
-        );
-        if (isCanUser) {
+        if (siteType ? getUnitBySiteType(siteType).hasCharge : unit.hasCharge) {
           const name = formatMessage({
             id: 'index.chart.chargeIncome',
             defaultMessage: '充电桩收益/元',
@@ -349,7 +341,7 @@ const ChartBox = ({
     optionHandle(isDay, series);
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chartData, subSystemType, timeType]);
+  }, [chartData, subSystemType, timeType, siteType, unit]);
 
   return (
     <div className={styles.chartWrapper}>

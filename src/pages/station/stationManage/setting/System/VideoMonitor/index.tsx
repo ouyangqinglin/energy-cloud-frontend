@@ -31,11 +31,11 @@ const VideoMonitor: React.FC = () => {
   }, []);
 
   const afterRequest = useCallback((data) => {
-    data.monitorStatus = data.monitorStatus + '';
-    data.jumpMethod = data.jumpMethod + '';
-    data.androidAppId = data.androidAppId + '';
-    data.iosAppId = data.iosAppId + '';
-    data.factoryId = data.factoryId + '';
+    data.monitorStatus = (data.monitorStatus ?? '') + '';
+    data.jumpMethod = (data.jumpMethod ?? '') + '';
+    data.androidAppId = (data.androidAppId ?? '') + '';
+    data.iosAppId = (data.iosAppId ?? '') + '';
+    data.factoryId = (data.factoryId ?? '') + '';
     try {
       data.config = JSON.parse(data?.config);
     } catch {

@@ -6,7 +6,7 @@ import DeviceImg from '@/assets/image/masterSlaveGroup/device.png';
 import IconCharge from '@/assets/image/masterSlaveGroup/icon_charge.png';
 import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { DeviceMasterMode, DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
@@ -185,9 +185,11 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
             className={`w-full ellipsis ${styles.deviceName}`}
             title={deviceData?.deviceName || '--'}
           >
-            {deviceData?.masterSlaveMode == DeviceMasterMode.Slave
-              ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
-              : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`}
+            {!isEmpty(deviceData?.masterSlaveMode)
+              ? deviceData?.masterSlaveMode == DeviceMasterMode.Slave
+                ? `(${formatMessage({ id: 'common.slave', defaultMessage: '从' })})`
+                : `(${formatMessage({ id: 'common.master', defaultMessage: '主' })})`
+              : ''}
             {deviceData?.deviceName || '--'}
           </div>
         </div>

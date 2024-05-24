@@ -94,7 +94,7 @@ const CommunityDetail: React.FC<CommunityProps> = memo((props) => {
       });
     }
     return groupItem;
-  }, [deviceData]);
+  }, [deviceData, authorityMap]);
 
   return (
     <>

@@ -55,7 +55,7 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = memo((props) => {
         items: upgradeItems,
       },
     ];
-  }, [deviceId, versionData]);
+  }, [deviceId, versionData, authorityMap]);
 
   return (
     <>

@@ -38,6 +38,7 @@ const getRoutersList = () => {
 };
 const Login: React.FC = () => {
   const location = useLocation<QueryParams>();
+  const { refresh: refreshSiteType } = useModel('siteType');
 
   if (location?.query?.lang) {
     initLocale(location?.query?.lang);
@@ -90,6 +91,7 @@ const Login: React.FC = () => {
           search: pathArr[1] ? '?' + pathArr[1] : '',
         });
         refresh();
+        refreshSiteType();
         return;
       } else {
         clearSessionToken();

@@ -14,7 +14,7 @@ import type { AlarmTreeData } from './useWatchingAlarmForSystem';
 import { SubsystemType } from './type';
 import { formatMessage } from '@/utils';
 import { useEffect, useState } from 'react';
-import { SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 type SvgComponentType = SVGProps<SVGSVGElement> & {
   data: SystemDiagramRes;

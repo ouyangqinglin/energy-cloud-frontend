@@ -28,6 +28,7 @@ export type DigitStatItemType = {
   animation?: AnimObjectOrArray;
   isformatNum?: boolean;
   format?: (value: number) => ValueUnitType;
+  key?: string;
 };
 
 export type DigitStatProps = {

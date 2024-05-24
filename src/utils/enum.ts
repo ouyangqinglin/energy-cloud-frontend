@@ -1,0 +1,19 @@
+/*
+ * @Description:
+ * @Author: YangJianFei
+ * @Date: 2023-11-22 15:11:07
+ * @LastEditTime: 2024-05-23 15:33:29
+ * @LastEditors: YangJianFei
+ * @FilePath: \energy-cloud-frontend\src\utils\enum.ts
+ */
+
+export const enum SiteTypeStrEnum {
+  PV = '1',
+  ES = '2',
+  CS = '3',
+  ES_CS = '23',
+  PV_CS = '13',
+  PV_ES = '12',
+  PV_ES_CS = '123',
+  Exchange = '4',
+}

@@ -16,7 +16,7 @@ import TopoTypePhotovoltaic from './TypePhotovoltaic';
 import TypeCommunication from './TypeCommunication';
 import TypePowerConsumption from './TypePowerComsumption';
 import { formatMessage } from '@/utils';
-import { SiteTypeEnum, SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeEnum } from '@/utils/dict';
 
 const keyToSystemTitle = new Map([
   [1, formatMessage({ id: 'siteMonitor.siteEnergyFlow', defaultMessage: '站点能量流' })],

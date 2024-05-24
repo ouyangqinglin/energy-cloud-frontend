@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-22 14:03:45
+ * @LastEditTime: 2024-05-24 09:52:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -342,7 +342,7 @@ const StationList: React.FC = () => {
         onOpenChange={setOpen}
         type={siteId ? FormTypeEnum.Edit : FormTypeEnum.Add}
         onSuccess={onSuccess}
-        initValues={{ map: 0, timeZone: 0 }}
+        initValues={{ map: 0, timeZone: 8 }}
       />
     </>
   );

@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { Carousel } from 'antd';
 import { formatMessage } from '@/utils';
-import { SiteTypeStrEnum } from '@/utils/dict';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string }) => {
   const [photos, setPhotos] = useState(Array);

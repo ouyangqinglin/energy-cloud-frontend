@@ -11,9 +11,9 @@ import { ReactComponent as IconScreen } from '@/assets/image/station/overview/ic
 import { SiteDataType, getSiteScreenConfig } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage } from '@/utils';
-import { SiteTypeStrEnum } from '@/utils/dict';
 import RealTimePower from './RealTimePower';
 import ElectricityStatistics from './ElectricityStatistics';
+import { SiteTypeStrEnum } from '@/utils/enum';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();

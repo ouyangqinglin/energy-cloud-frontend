@@ -1,5 +1,5 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
+import PageLoading from '@/layouts/loading/PageLoading';
 import type { RunTimeLayoutConfig } from 'umi';
 import type { MenuDataItem } from '@umijs/route-utils';
 import { history } from 'umi';

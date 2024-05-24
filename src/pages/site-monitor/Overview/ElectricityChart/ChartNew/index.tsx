@@ -109,14 +109,14 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       },
       formatter: function (params: any[]) {
         let result = params[0].name + '<br />';
-        params.forEach((item, index) => {
-          const value = item.data[index + 1];
+        params.forEach((item) => {
+          const value = item.data[item.seriesIndex + 1];
           const seriesName = item.seriesName;
           let lable = `${item.marker} ${seriesName}: ${isEmpty(value) ? '-' : value}`;
-          if (item.seriesName == formatMessage({ id: 'device.storage' })) {
+          if (item.seriesName.replace('(kW)', '') == formatMessage({ id: 'device.storage' })) {
             //储能系统
             if (!isEmpty(value)) {
-              if (item.value) {
+              if (value >= 0) {
                 lable += `(${formatMessage({
                   id: 'device.charge',
                   defaultMessage: '充电',
