@@ -56,7 +56,7 @@ export const columns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.dayPowerConsumption',
-      defaultMessage: '日用电量',
+      defaultMessage: '日充电量',
     })}(kWh)`,
     dataIndex: 'dailyElectricityConsumption',
     width: 150,
@@ -66,7 +66,7 @@ export const columns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.totalPowerConsumption',
-      defaultMessage: '累计用电量',
+      defaultMessage: '累计充电量',
     })}(kWh)`,
     dataIndex: 'accumulatedElectricityConsumption',
     width: 150,
@@ -114,7 +114,7 @@ export const loadColumns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.dayPowerConsumption',
-      defaultMessage: '日用电量',
+      defaultMessage: '日充电量',
     })}(kWh)`,
     dataIndex: 'dailyElectricityConsumption',
     width: 150,
@@ -124,7 +124,7 @@ export const loadColumns: YTProColumns<DeviceInfo>[] = [
   {
     title: `${formatMessage({
       id: 'common.totalPowerConsumption',
-      defaultMessage: '累计用电量',
+      defaultMessage: '累计充电量',
     })}(kWh)`,
     dataIndex: 'accumulatedElectricityConsumption',
     width: 150,

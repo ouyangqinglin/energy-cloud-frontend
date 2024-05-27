@@ -16,6 +16,7 @@ export default {
   'siteMonitor.otherLoadElectricConsumption': 'Other Load Consumption',
   'siteMonitor.chargingCapacity': 'Charge Energy',
   'siteMonitor.disChargingCapacity': 'Discharge Energy',
+  'siteMonitor.selfSufficiencyConsumption': 'Self Sufficiency Consumption',
   'siteMonitor.SelfGeneratedElectriConsumption': 'Own Consumption',
   'siteMonitor.TodaySelfGeneratedElectriConsumption': 'Own Consumption Today',
   'siteMonitor.generatingCapacity': 'Production Power',

@@ -33,7 +33,7 @@ const Scene = () => {
 
   const EnergyDataWidget = useMemo(
     () => (
-      <Cell key={'EnergyData'} cursor="default" width={400} height={589} left={24} top={468}>
+      <Cell key={'EnergyData'} cursor="default" width={400} height={562} left={24} top={500}>
         <DecorationCarousel
           panelStyle={{ padding: '17px 16px' }}
           title={formatMessage({ id: 'screen.systemRunningData', defaultMessage: '系统运行数据' })}

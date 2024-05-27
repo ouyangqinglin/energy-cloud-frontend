@@ -1,4 +1,4 @@
-import { PositionSelectType } from '@/components/PositionSelect';
+import type { PositionSelectValueType } from '@/components/PositionSelect';
 
 export interface ServiceUpdateInfo {
   createBy: string;
@@ -25,7 +25,7 @@ export interface ServiceUpdateInfo {
   type: number;
 
   // font end
-  addressInfo: PositionSelectType;
+  addressInfo: PositionSelectValueType;
 }
 
 export interface ServiceInfo {

@@ -101,7 +101,6 @@ export const Columns: (
           treeData: treeData,
         };
       },
-      request: async () => {},
       formItemProps: {
         rules: [
           {

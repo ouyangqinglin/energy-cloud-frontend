@@ -8,11 +8,18 @@ import { stationBoxConfig, stationInfoConfig } from './config';
 import { isNumber } from 'lodash';
 import React from 'react';
 import { List } from 'antd';
+import { useModel } from 'umi';
 import { ReactComponent as TriangleIcon } from '@/assets/image/screen/stationOverview/icon_三角形元素.svg';
 import type { SiteInfoRes } from '../type';
+import { getUnitBySiteType } from '@/models/siteType';
 
 const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
   const [open, setOpen] = useState(false);
+  const { unit } = useModel('siteType');
+  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
+  const siteTypeObj = siteType ? getUnitBySiteType(siteType) : unit;
+
+  console.log('siteTypeObj>', siteTypeObj);
   const onCancel = () => {
     setOpen(false);
   };
@@ -73,12 +80,12 @@ const StationInfo = React.forwardRef(({ data }: { data: SiteInfoRes }) => {
         />
         <List
           grid={{
-            gutter: 16,
+            gutter: 8,
             column: 2,
           }}
-          dataSource={stationBoxConfig}
+          dataSource={stationBoxConfig(siteTypeObj)}
           renderItem={(item) => (
-            <List.Item>
+            <List.Item style={{ marginBottom: '7px' }}>
               <div className={styles.box}>
                 <div className={styles.boxTitle}>
                   <TriangleIcon className={styles.icon} />

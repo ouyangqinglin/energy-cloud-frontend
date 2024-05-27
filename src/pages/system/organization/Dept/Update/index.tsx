@@ -68,9 +68,9 @@ export const Update = memo((props: FormUpdateBaseProps) => {
     const params: ServiceParam = {
       ...inputInfo,
     };
-    params.address = inputInfo.addressInfo.address ?? '';
-    params.longitude = inputInfo.addressInfo?.point?.lng;
-    params.latitude = inputInfo.addressInfo?.point?.lat;
+    params.address = inputInfo.addressInfo?.address || '';
+    params.longitude = inputInfo.addressInfo?.point?.lng || '';
+    params.latitude = inputInfo.addressInfo?.point?.lat || '';
     unset(params, 'addressInfo');
     return params;
   };
@@ -83,7 +83,9 @@ export const Update = memo((props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const getConfig = useCallback(() => Columns(orgId, treeData), [orgId, treeData]);
+  const getConfig = useCallback(() => {
+    return Columns(orgId, treeData);
+  }, [orgId, treeData]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>

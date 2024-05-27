@@ -5,6 +5,7 @@ import type { DetailItem } from '@/components/Detail';
 import styles from './index.less';
 import type { SiteInfoRes } from '../type';
 import { formatMessage } from '@/utils';
+import type { UnitType } from '@/models/siteType';
 
 type StationInfo = {
   icon: any;
@@ -30,40 +31,70 @@ export const stationInfoConfig: StationInfo[] = [
   },
 ];
 
-export const stationBoxConfig = [
+export const stationBoxConfig = (siteType: UnitType) => [
   {
     label: formatMessage({ id: 'screen.transformerCapacity', defaultMessage: '变压器容量' }),
     field: 'transformerCapacity',
     unit: 'kVA',
   },
-  //动态
-  {
-    label: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
-    field: 'photovoltaicInstalledCapacity',
-    unit: 'kWp',
-  },
-  //动态
-  {
-    label: formatMessage({ id: 'screen.energyStorageRating', defaultMessage: '储能额定电量' }),
-    field: 'energyStorageCapacityFront',
-    render: (data: SiteInfoRes) => {
-      return (
-        <div className={styles.boxDescription}>
-          <span className={styles.boxValue}>{data.energyStoragePower}</span>
-          <span className={styles.boxUnit} style={{ marginRight: 4 }}>
-            kW
-          </span>
-          <span className={styles.boxValue}>/</span>
-          <span className={styles.boxValue}>{data.energyStorageCapacity}</span>
-          <span className={styles.boxUnit}>kWh</span>
-        </div>
-      );
-    },
-  },
-  //动态
-  {
-    label: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
-    field: 'chargingStationCapacity',
-    unit: 'kW',
-  },
+  ...((siteType.hasPv
+    ? [
+        {
+          label: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
+          field: 'photovoltaicInstalledCapacity',
+          unit: 'kWp',
+        },
+      ]
+    : []) as any),
+  ...(siteType.hasFan || true
+    ? [
+        {
+          label: formatMessage({ id: 'screen.1002', defaultMessage: '风机额定功率' }),
+          field: 'fanRatedPower',
+          unit: 'kW',
+        },
+      ]
+    : []),
+  ...(siteType.hasDiesel || true
+    ? [
+        {
+          label: formatMessage({ id: 'screen.1003', defaultMessage: '柴发额定功率' }),
+          field: 'dieselRatedPower',
+          unit: 'kW',
+        },
+      ]
+    : []),
+  ...(siteType.hasEnergy
+    ? [
+        {
+          label: formatMessage({
+            id: 'screen.energyStorageRating',
+            defaultMessage: '储能额定电量',
+          }),
+          field: 'energyStorageCapacityFront',
+          render: (data: SiteInfoRes) => {
+            return (
+              <div className={styles.boxDescription}>
+                <span className={styles.boxValue}>{data.energyStoragePower}</span>
+                <span className={styles.boxUnit} style={{ marginRight: 4 }}>
+                  kW
+                </span>
+                <span className={styles.boxValue}>/</span>
+                <span className={styles.boxValue}>{data.energyStorageCapacity}</span>
+                <span className={styles.boxUnit}>kWh</span>
+              </div>
+            );
+          },
+        },
+      ]
+    : []),
+  ...(siteType.hasCharge
+    ? [
+        {
+          label: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
+          field: 'chargingStationCapacity',
+          unit: 'kW',
+        },
+      ]
+    : []),
 ];

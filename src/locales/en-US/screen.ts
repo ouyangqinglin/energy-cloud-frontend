@@ -193,4 +193,6 @@ export default {
   'screen.pcsRunStatus': 'PCS Run Status',
   'screen.templateImport': 'Device Import Tempalate',
   'screen.1001': 'Daily Revenue',
+  'screen.1002': '',
+  'screen.1003': '',
 };

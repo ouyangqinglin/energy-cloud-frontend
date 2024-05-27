@@ -59,8 +59,8 @@ export default {
   'common.refreshSuccess': '刷新成功',
   'common.power': '功率',
   'common.groupString': '组串',
-  'common.dayPowerConsumption': '日用电量',
-  'common.totalPowerConsumption': '累计用电量',
+  'common.dayPowerConsumption': '日充电量',
+  'common.totalPowerConsumption': '累计充电量',
   //
 
   'common.screen': '大屏页',

@@ -32,12 +32,12 @@ const StationOverview: React.FC<StationOverviewType> = memo((props) => {
   }, [data]);
 
   return (
-    <Cell cursor="default" width={400} height={363} left={24} top={81}>
+    <Cell cursor="default" width={400} height={400} left={24} top={81}>
       <DecorationCarousel
         valueType="pagination"
         panelStyle={{ padding: 0 }}
         title={formatMessage({
-          id: 'screen.overviewSiteInformation',
+          id: 'screen.overviewSiteInformation1',
           defaultMessage: '站点信息概览',
         })}
       >

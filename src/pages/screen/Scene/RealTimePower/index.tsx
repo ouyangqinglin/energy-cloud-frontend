@@ -126,7 +126,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       <Chart
         padding={[50, 20, 20, 30]}
         ref={chartRef}
-        height={266}
+        height={190}
         scale={{
           time: {
             ticks: ticks,

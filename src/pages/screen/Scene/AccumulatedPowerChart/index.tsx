@@ -63,7 +63,7 @@ const AccumulatedPowerChart = () => {
     <StatisticChart
       showDatePicker={false}
       showLegend={true}
-      height={266}
+      height={190}
       chartConfigMap={{
         me: {
           name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),

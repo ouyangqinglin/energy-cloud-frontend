@@ -16,4 +16,6 @@ export const enum SiteTypeStrEnum {
   PV_ES = '12',
   PV_ES_CS = '123',
   Exchange = '4',
+  FAN = '6',
+  DIESEL = '7',
 }

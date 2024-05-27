@@ -47,6 +47,7 @@ export default {
   'siteMonitor.communicationBreak': '通信断链',
   'siteMonitor.spontaneousSelfUseRatio': '自发自用比例',
   'siteMonitor.selfSufficiencyRatio': '自给自足比例',
+  'siteMonitor.selfSufficiencyConsumption': '自给自足电量',
   'siteMonitor.number': '台',
   'siteMonitor.string': '串',
   'siteMonitor.owningSite': '所属站点',
@@ -354,4 +355,6 @@ export default {
   'siteMonitor.1005': '累计系统放电量',
   'siteMonitor.1006': '累计供电量',
   'siteMonitor.1007': '累计馈网电量',
+
+  'siteMonitor.1008': '自发自用电量',
 };
