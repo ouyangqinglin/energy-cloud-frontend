@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-14 11:31:33
- * @LastEditTime: 2024-05-21 15:39:39
+ * @LastEditTime: 2024-05-24 14:36:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindPvFirewood\Front\index.tsx
  */
@@ -47,15 +47,6 @@ const configs: ConfigType[] = [
     line: FireFightLineImg,
     linePosition: { top: 22, left: 76 },
     data: [{ field: 'alms' }, { field: 'x15' }],
-  },
-  {
-    label: formatMessage({ id: 'device.ammeter', defaultMessage: '电表' }),
-    productTypeId: DeviceProductTypeEnum.EnergyElectricMeter,
-    position: { top: 244, left: 66 },
-    icon: MeterImg,
-    line: MeterLineImg,
-    linePosition: { top: 22, left: 76 },
-    data: [{ field: 'DACC' }, { field: 'DADC' }, { field: 'P' }],
   },
   {
     label: '',
