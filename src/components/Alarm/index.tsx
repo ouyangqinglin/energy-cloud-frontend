@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2024-05-20 09:53:32
+ * @LastEditTime: 2024-05-27 14:12:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\index.tsx
  */
@@ -43,7 +43,7 @@ const Index: React.FC<AlarmProps> = (props) => {
       });
     }
     return result;
-  }, [authorityMap]);
+  }, [authorityMap, params]);
 
   return <Tabs className={styles.tabs} tabBarGutter={34} items={items} />;
 };
