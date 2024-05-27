@@ -2,20 +2,23 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-23 10:40:18
- * @LastEditTime: 2024-05-23 11:42:45
+ * @LastEditTime: 2024-05-27 10:28:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\layouts\loading\PageLoading.tsx
  */
 
 import { PageLoading as AntPageLoading } from '@ant-design/pro-layout';
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useModel } from 'umi';
+import defaultSettings from '../../../config/defaultSettings';
 
 const PageLoading: React.FC = () => {
   const { refresh } = useModel('siteType');
 
   useMemo(() => {
-    refresh();
+    if (!defaultSettings.authorityWhiteList?.includes(window.location.pathname)) {
+      refresh();
+    }
   }, []);
 
   return (
