@@ -159,4 +159,5 @@ export default {
   'siteManage.1024': '收藏',
   'siteManage.1025': '取消收藏',
   'siteManage.1026': '充电桩用电量',
+  'siteManage.1027': '放电电价',
 };

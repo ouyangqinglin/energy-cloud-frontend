@@ -198,10 +198,15 @@ export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProForm
             columns: [
               timeColum,
               {
-                title: formatMessage({
-                  id: 'siteManage.set.feedInTariff',
-                  defaultMessage: '上网电价',
-                }),
+                title: setType
+                  ? formatMessage({
+                      id: 'siteManage.1027',
+                      defaultMessage: '放电电价',
+                    })
+                  : formatMessage({
+                      id: 'siteManage.set.feedInTariff',
+                      defaultMessage: '上网电价',
+                    }),
                 formItemProps: {
                   rules: [
                     {

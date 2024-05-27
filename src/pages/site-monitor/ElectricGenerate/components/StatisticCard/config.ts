@@ -1,12 +1,12 @@
 import { formatMessage } from '@/utils';
-import { ReactComponent as icon_低效发电组串 } from './svg/icon_低效发电组串.svg';
 import { ReactComponent as icon_未发电 } from './svg/icon_未发电.svg';
-import { ReactComponent as icon_未发电组串 } from './svg/icon_未发电组串.svg';
 import { ReactComponent as icon_正在发电 } from './svg/icon_正在发电.svg';
 import { ReactComponent as icon_自发自用比例 } from './svg/icon_自发自用比例.svg';
 import { ReactComponent as icon_自给自足比例 } from './svg/icon_自给自足比例.svg';
+import { ReactComponent as icon_自发自用电量 } from './svg/icon_自发自用电量.svg';
+import { ReactComponent as icon_自给自足电量 } from './svg/icon_自给自足电量.svg';
 import { ReactComponent as icon_通信断链 } from './svg/icon_通信断链.svg';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface EnergyStatisticInfo {
   title: string;
@@ -43,7 +43,7 @@ export const config: EnergyStatisticInfo[] = [
       id: 'siteMonitor.SelfGeneratedElectriConsumption',
       defaultMessage: '自发自用电量',
     }),
-    icon: icon_自发自用比例,
+    icon: icon_自发自用电量,
     field: 'selfUseElectricity',
     value: 50,
     unit: 'KWh',
@@ -63,7 +63,7 @@ export const config: EnergyStatisticInfo[] = [
       id: 'siteMonitor.selfSufficiencyConsumption',
       defaultMessage: '自给自足电量',
     }),
-    icon: icon_自给自足比例,
+    icon: icon_自给自足电量,
     field: 'selfSufficiencyElectricity',
     value: 50,
     unit: 'KWh',

@@ -159,4 +159,5 @@ export default {
   'siteManage.1024': 'Collect',
   'siteManage.1025': 'Cancel Collect',
   'siteManage.1026': 'EV Charger Power Consumption',
+  'siteManage.1027': 'Discharge Tariff',
 };
