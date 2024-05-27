@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:37:14
- * @LastEditTime: 2024-05-22 14:02:03
+ * @LastEditTime: 2024-05-27 11:22:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\siteManage\index.ts
  */
@@ -160,4 +160,5 @@ export default {
   'siteManage.1025': 'Cancel Collect',
   'siteManage.1026': 'EV Charger Power Consumption',
   'siteManage.1027': 'Discharge Tariff',
+  'siteManage.1028': '',
 };

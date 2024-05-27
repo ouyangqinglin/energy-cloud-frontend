@@ -160,4 +160,5 @@ export default {
   'siteManage.1025': '取消收藏',
   'siteManage.1026': '充电桩用电量',
   'siteManage.1027': '放电电价',
+  'siteManage.1028': '按照市电电价进行计算',
 };
