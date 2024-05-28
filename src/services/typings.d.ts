@@ -47,11 +47,17 @@ declare namespace API {
     updateTime?: Date;
   };
 
-  type SystemInfo = {
+  export type SystemInfo = {
     title?: string;
     icon?: string;
     logo?: string;
     multiSiteLargeScreenTitle?: string;
+    appDownloadStatus?: 0 | 1;
+    appDownloadQr?: string;
+    appDownloadDesc?: string;
+    officialAccountsStatus?: 0 | 1;
+    officialAccountsQr?: string;
+    officialAccountsDesc?: string;
   };
 
   type CurrentUser = {

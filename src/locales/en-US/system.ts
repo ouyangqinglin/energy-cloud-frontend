@@ -11,6 +11,7 @@ export default {
   'system.company': 'Shenzhen Yongtai Digital Energy Technology Co. Ltd.',
   'system.applyName': 'Apply Name',
   'system.scanApp': 'Scan To Download App',
+  'system.scanOfficialAccount': 'Scan To Follow Official Account',
   'system.applyId': 'Apply ID',
   'system.key': 'Key',
   'system.valid': 'Valid',

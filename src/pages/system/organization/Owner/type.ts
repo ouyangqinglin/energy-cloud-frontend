@@ -24,7 +24,7 @@ export interface ServiceUpdateInfo {
   parentName?: any;
   type: number;
   orgEfs: OrgEf[];
-
+  orgIcon: any;
   // font end
   addressInfo: PositionSelectType;
 }
@@ -68,6 +68,7 @@ export interface ServiceParam {
   longitude: number;
   latitude: number;
   remark: string;
+  orgIcon: any;
   // font end
   addressInfo: PositionSelectType;
 }

@@ -51,6 +51,7 @@ export const FormUpdate = <FormData = any, Param = Record<string, any>>(
       form?.resetFields();
       if (!isCreate && orgId) {
         request({ orgId: orgId }, {}).then(({ data }) => {
+          console.log('111111>>', 111111);
           form?.setFieldsValue(data);
         });
       }

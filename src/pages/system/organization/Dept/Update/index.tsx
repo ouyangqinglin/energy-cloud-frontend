@@ -1,7 +1,7 @@
 import { Columns } from './config';
 import type { ServiceParam, ServiceUpdateInfo } from '../type';
 import { createService, getService, getServiceId, updateService } from '../service';
-import { useCallback, useEffect, useState, memo } from 'react';
+import { useCallback, useEffect, useState, memo, useMemo } from 'react';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { set, unset } from 'lodash';
 import type { PositionSelectType } from '@/components/PositionSelect';
@@ -16,8 +16,11 @@ export const Update = memo((props: FormUpdateBaseProps) => {
   const { initialState } = useModel('@@initialState');
   const [orgId, setOrgId] = useState<number>();
   const [treeData, setTreeData] = useState<any[]>([]);
-
-  const getTreeData = async (id: number, name: string) => {
+  const initialValues = useMemo(() => {
+    const orgIcon = initialState?.currentUser?.systemInfo || {};
+    return { orgIcon };
+  }, [initialState?.currentUser?.systemInfo]);
+  const getTreeData = async (id?: number, name?: string) => {
     const { data: serviceList } = await getServiceList();
     if (serviceList.length == 0) {
       setTreeData([
@@ -39,6 +42,9 @@ export const Update = memo((props: FormUpdateBaseProps) => {
     }
     setTreeData(buildTreeData(serviceList, 'orgId', 'orgName', '', '', ''));
   };
+  useEffect(() => {
+    getTreeData();
+  }, []);
   const convertRequestData = useCallback(async (param: { orgId: number }) => {
     const res = await getService(param);
     if (res?.data) {
@@ -84,8 +90,10 @@ export const Update = memo((props: FormUpdateBaseProps) => {
   }, [props.visible]);
 
   const getConfig = useCallback(() => {
-    return Columns(orgId, treeData);
-  }, [orgId, treeData]);
+    const defaultLog = initialValues.orgIcon.logo;
+    const defaultIcon = initialValues.orgIcon.icon;
+    return Columns(orgId, treeData, defaultIcon, defaultLog);
+  }, [initialValues, orgId, treeData]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>
@@ -95,7 +103,7 @@ export const Update = memo((props: FormUpdateBaseProps) => {
       onFinishUpdate={(params) => {
         return updateService(convertUpdateData(params));
       }}
-      initialValues={{ orgIcon: initialState?.currentUser?.systemInfo }}
+      initialValues={initialValues}
       orgId={orgId}
       onFinishCreate={(params) => {
         return createService(convertUpdateData(params));

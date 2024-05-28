@@ -60,6 +60,7 @@ import {
   GenerralDevice,
   AlarmFull,
   App,
+  OfficialAccount,
   Video,
   Star,
   StarFull,
@@ -255,6 +256,10 @@ const YTAppOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={App} {...props} />
 );
 
+const YTOfficialAccount = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={OfficialAccount} {...props} />
+);
+
 const YTVideoOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={Video} {...props} />
 );
@@ -318,4 +323,5 @@ export {
   YTVideoOutlined,
   YTStarOutlined,
   YTStarFull,
+  YTOfficialAccount,
 };

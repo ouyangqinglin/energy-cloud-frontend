@@ -8,8 +8,11 @@ import { formatMessage } from '@/utils';
 import { api } from '@/services';
 import { ProFormUploadButton } from '@ant-design/pro-form';
 import type { UploadFile } from 'antd';
-import AccountCode from '@/assets/image/account_code.png';
-import APPCode from '@/assets/image/app_code.png';
+import app_code from '@/assets/image/app_code.png';
+import account_code from '@/assets/image/account_code.png';
+import styles from './index.less';
+import app_home from '@/assets/image/app_home.png';
+import app_me from '@/assets/image/app_me.png';
 
 const beforeUpload = (file: any, form: FormInstance<any>, field: string | string[]) => {
   const formData = new FormData();
@@ -26,7 +29,9 @@ const beforeUpload = (file: any, form: FormInstance<any>, field: string | string
 export const Columns: (
   orgId?: number,
   treeData?: any[],
-) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId, treeData) => {
+  icon?: string,
+  logo?: string,
+) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId, treeData, icon, logo) => {
   return [
     {
       title: '',
@@ -208,82 +213,6 @@ export const Columns: (
         ],
       },
     },
-    {
-      title: 'logo',
-      dataIndex: ['orgIcon', 'logo'],
-      colProps: {
-        span: 12,
-      },
-      valueType: 'upload',
-      renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'logo']);
-        return (
-          <>
-            <ProFormUploadButton
-              max={1}
-              accept="image/*"
-              value={value ? ([{ url: value, uid: '1' }] as UploadFile[]) : []}
-              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-              fieldProps={{
-                name: 'file',
-                listType: 'picture-card',
-                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'logo']),
-                onChange: () => form.setFieldValue(['orgIcon', 'logo'], ''),
-              }}
-            />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      title: 'icon',
-      dataIndex: ['orgIcon', 'icon'],
-      colProps: {
-        span: 12,
-      },
-      valueType: 'upload',
-      renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'icon']);
-        return (
-          <>
-            <ProFormUploadButton
-              max={1}
-              accept="image/*"
-              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
-              fieldProps={{
-                fileList: value ? ([{ url: value, uid: '2' }] as UploadFile[]) : [],
-                name: 'file',
-                listType: 'picture-card',
-                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'icon']),
-                onChange: () => form.setFieldValue(['orgIcon', 'icon'], ''),
-              }}
-            />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：64*64px
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      title: '',
-      renderFormItem: () => {
-        return (
-          <Detail.DotLabel
-            title={formatMessage({ id: 'system.1006', defaultMessage: 'App' })}
-            className="mb0"
-          />
-        );
-      },
-      colProps: {
-        span: 24,
-      },
-    },
 
     {
       title: formatMessage({ id: 'system.1009', defaultMessage: '扫码下载App' }),
@@ -338,7 +267,7 @@ export const Columns: (
       dataIndex: ['orgIcon', 'appDownloadQr'],
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'appDownloadQr']);
+        const value = form.getFieldValue(['orgIcon', 'appDownloadQr']) || app_code;
         return (
           <>
             <ProFormUploadButton
@@ -346,18 +275,15 @@ export const Columns: (
               accept="image/*"
               title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               fieldProps={{
-                defaultFileList: [
-                  { url: '~@/assets/image/account_code.png', uid: '6' },
-                ] as UploadFile[],
-                fileList: value ? ([{ url: value, uid: '5' }] as UploadFile[]) : [],
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
                 name: 'file',
+                showUploadList: { showRemoveIcon: false },
                 listType: 'picture-card',
                 beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appDownloadQr']),
                 onChange: () => form.setFieldValue(['orgIcon', 'appDownloadQr'], ''),
               }}
             />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
+            <div className={styles.tips}>
               {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：160*160px
             </div>
           </>
@@ -372,7 +298,7 @@ export const Columns: (
       dataIndex: ['orgIcon', 'officialAccountsQr'],
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'officialAccountsQr']);
+        const value = form.getFieldValue(['orgIcon', 'officialAccountsQr']) || account_code;
         return (
           <>
             <ProFormUploadButton
@@ -380,15 +306,15 @@ export const Columns: (
               accept="image/*"
               title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               fieldProps={{
-                fileList: value ? ([{ url: value, uid: '5' }] as UploadFile[]) : [],
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
                 name: 'file',
+                showUploadList: { showRemoveIcon: false },
                 listType: 'picture-card',
                 beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'officialAccountsQr']),
                 onChange: () => form.setFieldValue(['orgIcon', 'officialAccountsQr'], ''),
               }}
             />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
+            <div className={styles.tips}>
               {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：160*160px
             </div>
           </>
@@ -425,7 +351,80 @@ export const Columns: (
         ],
       },
     },
-
+    {
+      title: 'logo',
+      dataIndex: ['orgIcon', 'logo'],
+      colProps: {
+        span: 12,
+      },
+      valueType: 'upload',
+      renderFormItem: (schema, config, form) => {
+        const value = form.getFieldValue(['orgIcon', 'logo']) || logo;
+        return (
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                name: 'file',
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'logo']),
+                onChange: () => form.setFieldValue(['orgIcon', 'logo'], ''),
+              }}
+            />
+            <div className={styles.tips}>
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：320*80px
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      title: 'icon',
+      dataIndex: ['orgIcon', 'icon'],
+      colProps: {
+        span: 12,
+      },
+      valueType: 'upload',
+      renderFormItem: (schema, config, form) => {
+        const value = form.getFieldValue(['orgIcon', 'icon']) || icon;
+        return (
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'icon']),
+                onChange: () => form.setFieldValue(['orgIcon', 'icon'], ''),
+              }}
+            />
+            <div className={styles.tips}>
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：64*64px
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      title: '',
+      renderFormItem: () => {
+        return (
+          <Detail.DotLabel
+            title={formatMessage({ id: 'system.1006', defaultMessage: 'App' })}
+            className="mb0"
+          />
+        );
+      },
+      colProps: {
+        span: 24,
+      },
+    },
     {
       title: formatMessage({ id: 'system.1003', defaultMessage: 'App首页背景图' }),
       colProps: {
@@ -434,7 +433,7 @@ export const Columns: (
       valueType: 'upload',
       dataIndex: ['orgIcon', 'appHome'],
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'appHome']);
+        const value = form.getFieldValue(['orgIcon', 'appHome']) || app_home;
         return (
           <>
             <ProFormUploadButton
@@ -442,16 +441,16 @@ export const Columns: (
               accept="image/*"
               title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               fieldProps={{
-                fileList: value ? ([{ url: value, uid: '3' }] as UploadFile[]) : [],
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
                 name: 'file',
+                showUploadList: { showRemoveIcon: false },
                 listType: 'picture-card',
                 beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appHome']),
                 onChange: () => form.setFieldValue(['orgIcon', 'appHome'], ''),
               }}
             />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：375*224px
+            <div className={styles.tips}>
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：1125*672px
             </div>
           </>
         );
@@ -465,7 +464,7 @@ export const Columns: (
       valueType: 'upload',
       dataIndex: ['orgIcon', 'appPerson'],
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'appPerson']);
+        const value = form.getFieldValue(['orgIcon', 'appPerson']) || app_me;
         return (
           <>
             <ProFormUploadButton
@@ -473,21 +472,22 @@ export const Columns: (
               accept="image/*"
               title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
               fieldProps={{
-                fileList: value ? ([{ url: value, uid: '4' }] as UploadFile[]) : [],
+                fileList: value ? ([{ url: value, uid: '1' }] as UploadFile[]) : [],
+                showUploadList: { showRemoveIcon: false },
                 name: 'file',
                 listType: 'picture-card',
                 beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appPerson']),
                 onChange: () => form.setFieldValue(['orgIcon', 'appPerson'], ''),
               }}
             />
-            <div style={{ marginTop: '-20px' }}>
-              {' '}
-              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：375*224px
+            <div className={styles.tips}>
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：1125*672px
             </div>
           </>
         );
       },
     },
+
     {
       title: formatMessage({ id: 'system.position', defaultMessage: '位置' }),
       colProps: {

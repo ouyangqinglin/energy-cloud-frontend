@@ -1,7 +1,7 @@
 import { Columns } from './config';
 import type { ServiceParam, ServiceUpdateInfo } from '../type';
 import { createService, getService, getServiceId, updateService } from '../service';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { isCreate } from '@/components/YTModalForm/helper';
 import { set, unset } from 'lodash';
 import type { PositionSelectType } from '@/components/PositionSelect';
@@ -13,6 +13,10 @@ import { useModel } from 'umi';
 export const Update = (props: FormUpdateBaseProps) => {
   const [orgId, setOrgId] = useState<number>();
   const { initialState } = useModel('@@initialState');
+  const initialValues = useMemo(() => {
+    const orgIcon = initialState?.currentUser?.systemInfo || {};
+    return { orgIcon };
+  }, [initialState?.currentUser?.systemInfo]);
   const convertRequestData = async (param: { orgId: number }) => {
     const res = await getService(param);
     if (res?.data) {
@@ -37,8 +41,8 @@ export const Update = (props: FormUpdateBaseProps) => {
       ...inputInfo,
     };
     params.address = inputInfo.addressInfo.address ?? '';
-    params.longitude = inputInfo.addressInfo?.point?.lng;
-    params.latitude = inputInfo.addressInfo?.point?.lat;
+    params.longitude = inputInfo.addressInfo?.point?.lng || '';
+    params.latitude = inputInfo.addressInfo?.point?.lat || '';
     unset(params, 'addressInfo');
     return params;
   };
@@ -51,7 +55,11 @@ export const Update = (props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const getConfig = useCallback(() => Columns(orgId), [orgId]);
+  const getConfig = useCallback(() => {
+    const defaultLog = initialValues.orgIcon.logo;
+    const defaultIcon = initialValues.orgIcon.icon;
+    return Columns(orgId, defaultIcon, defaultLog);
+  }, [initialValues, orgId]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>
@@ -61,7 +69,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       onFinishUpdate={(params) => {
         return updateService(convertUpdateData(params));
       }}
-      initialValues={{ orgIcon: initialState?.currentUser?.systemInfo }}
+      initialValues={initialValues}
       orgId={orgId}
       onFinishCreate={(params) => {
         return createService(convertUpdateData(params));
