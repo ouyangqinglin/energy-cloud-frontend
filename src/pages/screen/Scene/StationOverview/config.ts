@@ -7,4 +7,6 @@ export const DEFAULT_DATA = {
   energyStoragePower: '--',
   chargingStationCapacity: '--',
   address: '--',
+  fanRatedPower: '--',
+  dieselRatedPower: '--',
 };

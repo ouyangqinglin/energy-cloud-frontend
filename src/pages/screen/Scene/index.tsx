@@ -23,6 +23,9 @@ import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselIn
 import AccumulatedPowerChart from './AccumulatedPowerChart';
 import { SiteInfoRes } from './StationOverview/type';
 import { formatMessage } from '@/utils';
+import { useModel } from 'umi';
+import { getUnitBySiteType } from '@/models/siteType';
+import type { UnitType } from '@/models/siteType';
 
 const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
@@ -30,7 +33,9 @@ const Scene = () => {
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
   const [alarmShow, setAlarmShow] = useState<boolean>(false);
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
-
+  const { unit } = useModel('siteType');
+  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
+  const siteTypeConfig: UnitType = siteType ? getUnitBySiteType(siteType) : unit;
   const EnergyDataWidget = useMemo(
     () => (
       <Cell key={'EnergyData'} cursor="default" width={400} height={562} left={24} top={500}>
@@ -45,9 +50,6 @@ const Scene = () => {
             <RealTimePower />
             <AccumulatedPowerChart />
           </ButtonGroupCarouselInSystemData>
-          {/* <div className={styles.topBar}>
-            <h3 className={styles.chartTitle}>系统实时功率</h3>
-          </div> */}
         </DecorationCarousel>
       </Cell>
     ),
@@ -92,7 +94,7 @@ const Scene = () => {
       <Title title={siteInfo?.name} />
       <ScreenTime />
       <ScreenWeather />
-      <StationOverview onChange={onSiteChange} />
+      <StationOverview onChange={onSiteChange} siteTypeConfig={siteTypeConfig} />
       <Benefit />
       <SubsystemStatistic />
       <RunningLog />

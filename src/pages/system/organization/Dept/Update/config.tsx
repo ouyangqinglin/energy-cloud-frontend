@@ -8,6 +8,8 @@ import { formatMessage } from '@/utils';
 import { api } from '@/services';
 import { ProFormUploadButton } from '@ant-design/pro-form';
 import type { UploadFile } from 'antd';
+import AccountCode from '@/assets/image/account_code.png';
+import APPCode from '@/assets/image/app_code.png';
 
 const beforeUpload = (file: any, form: FormInstance<any>, field: string | string[]) => {
   const formData = new FormData();
@@ -282,6 +284,148 @@ export const Columns: (
         span: 24,
       },
     },
+
+    {
+      title: formatMessage({ id: 'system.1009', defaultMessage: '扫码下载App' }),
+      colProps: {
+        span: 12,
+      },
+      valueType: 'radio',
+      fieldProps: {
+        options: [
+          { label: '启用', value: 1 },
+          { label: '禁用', value: 0 },
+        ],
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+          },
+        ],
+      },
+      dataIndex: ['orgIcon', 'appDownloadStatus'],
+    },
+    {
+      title: formatMessage({ id: 'system.1011', defaultMessage: '扫码关注公众号' }),
+      colProps: {
+        span: 12,
+      },
+      valueType: 'radio',
+      fieldProps: {
+        options: [
+          { label: '启用', value: 1 },
+          { label: '禁用', value: 0 },
+        ],
+      },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+          },
+        ],
+      },
+      dataIndex: ['orgIcon', 'officialAccountsStatus'],
+    },
+
+    {
+      title: formatMessage({ id: 'system.1010', defaultMessage: 'app下载二维码' }),
+      colProps: {
+        span: 12,
+      },
+      dataIndex: ['orgIcon', 'appDownloadQr'],
+      valueType: 'upload',
+      renderFormItem: (schema, config, form) => {
+        const value = form.getFieldValue(['orgIcon', 'appDownloadQr']);
+        return (
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                defaultFileList: [
+                  { url: '~@/assets/image/account_code.png', uid: '6' },
+                ] as UploadFile[],
+                fileList: value ? ([{ url: value, uid: '5' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'appDownloadQr']),
+                onChange: () => form.setFieldValue(['orgIcon', 'appDownloadQr'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：160*160px
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      title: formatMessage({ id: 'system.1012', defaultMessage: '公众号二维码' }),
+      colProps: {
+        span: 12,
+      },
+      dataIndex: ['orgIcon', 'officialAccountsQr'],
+      valueType: 'upload',
+      renderFormItem: (schema, config, form) => {
+        const value = form.getFieldValue(['orgIcon', 'officialAccountsQr']);
+        return (
+          <>
+            <ProFormUploadButton
+              max={1}
+              accept="image/*"
+              title={formatMessage({ id: 'common.uploadPicture', defaultMessage: '上传图片' })}
+              fieldProps={{
+                fileList: value ? ([{ url: value, uid: '5' }] as UploadFile[]) : [],
+                name: 'file',
+                listType: 'picture-card',
+                beforeUpload: (file) => beforeUpload(file, form, ['orgIcon', 'officialAccountsQr']),
+                onChange: () => form.setFieldValue(['orgIcon', 'officialAccountsQr'], ''),
+              }}
+            />
+            <div style={{ marginTop: '-20px' }}>
+              {' '}
+              {formatMessage({ id: 'system.1005', defaultMessage: '建议尺寸' })}：160*160px
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      title: formatMessage({ id: 'system.1013', defaultMessage: 'app二维码说明' }),
+      colProps: {
+        span: 12,
+      },
+      dataIndex: ['orgIcon', 'appDownloadDesc'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+          },
+        ],
+      },
+    },
+    {
+      title: formatMessage({ id: 'system.1014', defaultMessage: '公众号二维码说明' }),
+      colProps: {
+        span: 12,
+      },
+      dataIndex: ['orgIcon', 'officialAccountsDesc'],
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
+          },
+        ],
+      },
+    },
+
     {
       title: formatMessage({ id: 'system.1003', defaultMessage: 'App首页背景图' }),
       colProps: {
@@ -353,12 +497,9 @@ export const Columns: (
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
-          },
-          {
             validator: (rule, value) => {
               return new Promise((resolve, reject) => {
-                if (!value.address || !value.point.lng || !value.point.lat) {
+                if (!value || !value.address || !value.point.lng || !value.point.lat) {
                   reject(
                     formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
                   );
@@ -371,7 +512,7 @@ export const Columns: (
         ],
       },
       dataIndex: ['addressInfo'],
-      renderFormItem(schema, config, form, action) {
+      renderFormItem() {
         return <PositionSelect />;
       },
     },

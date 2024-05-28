@@ -5,12 +5,10 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { columns } from './config';
 import { getElectricGenerateUnitList, getElectricGenerateUnitStatistic } from './service';
 import EnergyStatisticCard from './components/StatisticCard';
-import { getDefaultSite } from '@/hooks/useFetchDefaultSiteId';
 import { useHistory, useModel, useRequest } from 'umi';
-import { useToggle } from 'ahooks';
-import { SiteDataType } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
-import { ActionType } from '@ant-design/pro-table';
+import type { ActionType } from '@ant-design/pro-table';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 

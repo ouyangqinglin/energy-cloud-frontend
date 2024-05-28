@@ -195,4 +195,7 @@ export default {
   'screen.1001': 'Daily Revenue',
   'screen.1002': '',
   'screen.1003': '',
+  'screen.1004': '',
+  'screen.1005': '',
+  'screen.1006': '',
 };

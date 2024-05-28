@@ -191,7 +191,10 @@ export default {
   'screen.pcsRunStatus': 'PCS运行状态',
   'screen.templateImport': '设备导入模版',
   'screen.1001': '日总收益',
-
   'screen.1002': '风机额定功率',
   'screen.1003': '柴发额定功率',
+
+  'screen.1004': '风力发电机数量',
+  'screen.1005': '柴油发电机数量',
+  'screen.1006': '台',
 };
