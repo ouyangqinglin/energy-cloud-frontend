@@ -47,7 +47,7 @@ declare namespace API {
     updateTime?: Date;
   };
 
-  type SystemInfo = {
+  export type SystemInfo = {
     title?: string;
     icon?: string;
     logo?: string;

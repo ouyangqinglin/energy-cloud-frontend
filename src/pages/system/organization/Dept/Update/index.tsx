@@ -90,8 +90,10 @@ export const Update = memo((props: FormUpdateBaseProps) => {
   }, [props.visible]);
 
   const getConfig = useCallback(() => {
-    return Columns(orgId, treeData);
-  }, [orgId, treeData]);
+    const defaultLog = initialValues.orgIcon.logo;
+    const defaultIcon = initialValues.orgIcon.icon;
+    return Columns(orgId, treeData, defaultIcon, defaultLog);
+  }, [initialValues, orgId, treeData]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>

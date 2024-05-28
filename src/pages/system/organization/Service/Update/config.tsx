@@ -24,7 +24,11 @@ const beforeUpload = (file: any, form: FormInstance<any>, field: string | string
   });
   return false;
 };
-export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[] = (orgId) => {
+export const Columns: (
+  orgId?: number,
+  icon?: string,
+  logo?: string,
+) => ProColumns<ServiceUpdateInfo, 'text'>[] = (orgId, icon, logo) => {
   return [
     {
       title: '',
@@ -317,7 +321,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       },
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'logo']);
+        const value = form.getFieldValue(['orgIcon', 'logo']) || logo;
         return (
           <>
             <ProFormUploadButton
@@ -347,7 +351,7 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, 'text'>[
       },
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'icon']);
+        const value = form.getFieldValue(['orgIcon', 'icon']) || icon;
         return (
           <>
             <ProFormUploadButton

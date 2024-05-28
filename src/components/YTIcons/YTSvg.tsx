@@ -1179,19 +1179,13 @@ export const App = () => (
 );
 
 export const OfficialAccount = () => (
-  <svg
-    width="32px"
-    height="32px"
-    viewBox="0 0 32 32"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g transform="translate(-1750.000000, -12.000000)">
         <g transform="translate(1307.000000, 12.000000)">
           <g transform="translate(299.000000, 0.000000)">
             <g transform="translate(144.000000, 0.000000)">
-              <rect fill="#F5F5FA" opacity="0.1" x="0" y="0" width="32" height="32" rx="16" />
+              <rect opacity="0.1" x="0" y="0" width="32" height="32" rx="16" />
               <g transform="translate(8.000000, 8.000000)" fill="#ADB0B8" fillRule="nonzero">
                 <rect opacity="0" x="0" y="0" width="16" height="16" />
                 <path

@@ -57,7 +57,11 @@ export const Update = (props: FormUpdateBaseProps) => {
     }
   }, [props.visible]);
 
-  const getConfig = useCallback(() => Columns(orgId), [orgId]);
+  const getConfig = useCallback(() => {
+    const defaultLog = initialValues.orgIcon.logo;
+    const defaultIcon = initialValues.orgIcon.icon;
+    return Columns(orgId, defaultIcon, defaultLog);
+  }, [initialValues, orgId]);
 
   return (
     <FormUpdate<ServiceUpdateInfo, ServiceParam>

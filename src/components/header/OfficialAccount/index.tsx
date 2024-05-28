@@ -13,20 +13,22 @@ import React, { memo, useRef } from 'react';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 import account_code from '@/assets/image/account_code.png';
-import { useModel } from 'umi';
 
-const OfficialAccount: React.FC = () => {
+type OfficialAccountProps = {
+  systemInfo: any;
+};
+const OfficialAccount: React.FC<OfficialAccountProps> = (props) => {
+  const { systemInfo } = props;
   const showRef = useRef(false);
-  const { initialState } = useModel('@@initialState');
-  const appDownloadQr = initialState?.currentUser?.systemInfo?.officialAccountsQr || account_code;
-
+  const appDownloadQr = systemInfo.officialAccountsQr || account_code;
+  const officialAccountsDesc =
+    systemInfo.officialAccountsDesc ||
+    formatMessage({ id: 'system.scanOfficialAccount', defaultMessage: '扫码关注公众号' });
   const content = (
     <>
       <div className={`tx-center ${styles.qrcode}`}>
         <img src={appDownloadQr} className={styles.qrcodeImg} />
-        <div className="mt12">
-          {formatMessage({ id: 'system.scanOfficialAccount', defaultMessage: '扫码关注公众号' })}
-        </div>
+        <div className="mt12">{officialAccountsDesc}</div>
       </div>
     </>
   );

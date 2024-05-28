@@ -29,7 +29,9 @@ const beforeUpload = (file: any, form: FormInstance<any>, field: string | string
 export const Columns: (
   orgId?: number,
   treeData?: any[],
-) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId, treeData) => {
+  icon?: string,
+  logo?: string,
+) => ProColumns<ServiceUpdateInfo, TABLESELECTVALUETYPE>[] = (orgId, treeData, icon, logo) => {
   return [
     {
       title: '',
@@ -357,7 +359,7 @@ export const Columns: (
       },
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'logo']);
+        const value = form.getFieldValue(['orgIcon', 'logo']) || logo;
         return (
           <>
             <ProFormUploadButton
@@ -387,7 +389,7 @@ export const Columns: (
       },
       valueType: 'upload',
       renderFormItem: (schema, config, form) => {
-        const value = form.getFieldValue(['orgIcon', 'icon']);
+        const value = form.getFieldValue(['orgIcon', 'icon']) || icon;
         return (
           <>
             <ProFormUploadButton

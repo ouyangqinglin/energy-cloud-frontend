@@ -13,20 +13,22 @@ import React, { memo, useRef } from 'react';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 import app_code from '@/assets/image/app_code.png';
-import { useModel } from 'umi';
-
-const App: React.FC = () => {
+type AppProps = {
+  systemInfo: any;
+};
+const App: React.FC<AppProps> = (props) => {
+  const { systemInfo } = props;
   const showRef = useRef(false);
-  const { initialState } = useModel('@@initialState');
-  const appDownloadQr = initialState?.currentUser?.systemInfo?.appDownloadQr || app_code;
+  const appDownloadQr = systemInfo.appDownloadQr || app_code;
+  const appDownloadDesc =
+    systemInfo.appDownloadDesc ||
+    formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载E智慧能源App' });
 
   const content = (
     <>
       <div className={`tx-center ${styles.qrcode}`}>
         <img src={appDownloadQr} className={styles.qrcodeImg} />
-        <div className="mt12">
-          {formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载E智慧能源App' })}
-        </div>
+        <div className="mt12">{appDownloadDesc}</div>
       </div>
     </>
   );
