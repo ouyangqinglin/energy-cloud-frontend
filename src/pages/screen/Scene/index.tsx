@@ -45,7 +45,7 @@ const Scene = () => {
           valueType="timeButtonGroup"
           onTimeButtonChange={setEnergyTimeType}
         >
-          <EnergyData timeType={energyTimeType} />
+          <EnergyData timeType={energyTimeType} siteTypeConfig={siteTypeConfig} />
           <ButtonGroupCarouselInSystemData>
             <RealTimePower />
             <AccumulatedPowerChart />
@@ -80,7 +80,6 @@ const Scene = () => {
 
   const [geometryMode, setGeometryMode] = useState<SystemDiagramType>();
   const switchGeometry = (value: SystemDiagramType) => {
-    console.log('value>>', value);
     setGeometryMode(value);
   };
 

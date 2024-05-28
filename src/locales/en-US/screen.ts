@@ -198,4 +198,6 @@ export default {
   'screen.1004': '',
   'screen.1005': '',
   'screen.1006': '',
+  'screen.1007': '',
+  'screen.1008': '',
 };

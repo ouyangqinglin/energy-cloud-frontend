@@ -52,6 +52,12 @@ declare namespace API {
     icon?: string;
     logo?: string;
     multiSiteLargeScreenTitle?: string;
+    appDownloadStatus?: 0 | 1;
+    appDownloadQr?: string;
+    appDownloadDesc?: string;
+    officialAccountsStatus?: 0 | 1;
+    officialAccountsQr?: string;
+    officialAccountsDesc?: string;
   };
 
   type CurrentUser = {

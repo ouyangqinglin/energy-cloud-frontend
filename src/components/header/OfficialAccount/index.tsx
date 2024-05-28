@@ -7,25 +7,25 @@
  * @FilePath: \energy-cloud-frontend\src\components\header\App\index.tsx
  */
 
-import { YTAppOutlined } from '@/components/YTIcons';
+import { YTOfficialAccount } from '@/components/YTIcons';
 import { Popover } from 'antd';
 import React, { memo, useRef } from 'react';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
-import app_code from '@/assets/image/app_code.png';
+import account_code from '@/assets/image/account_code.png';
 import { useModel } from 'umi';
 
-const App: React.FC = () => {
+const OfficialAccount: React.FC = () => {
   const showRef = useRef(false);
   const { initialState } = useModel('@@initialState');
-  const appDownloadQr = initialState?.currentUser?.systemInfo?.appDownloadQr || app_code;
+  const appDownloadQr = initialState?.currentUser?.systemInfo?.officialAccountsQr || account_code;
 
   const content = (
     <>
       <div className={`tx-center ${styles.qrcode}`}>
         <img src={appDownloadQr} className={styles.qrcodeImg} />
         <div className="mt12">
-          {formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载E智慧能源App' })}
+          {formatMessage({ id: 'system.scanOfficialAccount', defaultMessage: '扫码关注公众号' })}
         </div>
       </div>
     </>
@@ -41,11 +41,11 @@ const App: React.FC = () => {
     <>
       <Popover content={content} placement="bottom" onOpenChange={onOpenChange}>
         <div className="head-icon">
-          <YTAppOutlined />
+          <YTOfficialAccount />
         </div>
       </Popover>
     </>
   );
 };
 
-export default memo(App);
+export default memo(OfficialAccount);

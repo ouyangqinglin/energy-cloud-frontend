@@ -3,6 +3,7 @@ export default {
   'system.company': '深圳永泰数能科技有限公司',
   'system.applyName': '应用名称',
   'system.scanApp': '扫码下载App',
+  'system.scanOfficialAccount': '扫码关注公众号',
   'system.applyId': '应用ID',
   'system.key': '密匙',
   'system.valid': '有效',

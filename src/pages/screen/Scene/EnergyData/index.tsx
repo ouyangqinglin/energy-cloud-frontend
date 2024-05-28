@@ -13,6 +13,7 @@ import type { TimeType } from '../../components/TimeButtonGroup';
 import { getData } from './service';
 import { getSiteId } from '../helper';
 import { formatMessage, getPlaceholder } from '@/utils';
+import type { UnitType } from '@/models/siteType';
 import pvInvinter from '@/assets/image/screen/energy-data/pvInvinter.gif';
 import transmission from '@/assets/image/screen/energy-data/transmission.gif';
 import energyDischarge from '@/assets/image/screen/energy-data/energy-discharge.gif';
@@ -21,14 +22,18 @@ import energyCharge from '@/assets/image/screen/energy-data/energy-charge.gif';
 import load from '@/assets/image/screen/energy-data/load.gif';
 import arrowRight from '@/assets/image/screen/energy-data/arrow-right.gif';
 import floor from '@/assets/image/screen/energy-data/floor.gif';
+import diesel from '@/assets/image/screen/energy-data/diesel-charge.gif';
+import fan from '@/assets/image/screen/energy-data/fan-charge.gif';
+
 import styles from './index.less';
 
 type EnergyDataProps = {
   timeType: TimeType;
+  siteTypeConfig: UnitType;
 };
 
 const EnergyData: React.FC<EnergyDataProps> = (props) => {
-  const { timeType } = props;
+  const { timeType, siteTypeConfig } = props;
   const siteId = getSiteId();
 
   const { data: energyData, run } = useRequest(getData, {
@@ -48,33 +53,69 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
           icon: transmission,
           field: 'electricSupply',
         },
-        {
-          label:
-            formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }) +
-            '(kWh)',
-          icon: energyCharge,
-          field: 'essCharge',
-        },
-        {
-          label: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + '(kWh)',
-          icon: charge,
-          field: 'chargingPile',
-        },
+        ...(siteTypeConfig.hasFan
+          ? [
+              {
+                label: formatMessage({ id: 'screen.1007', defaultMessage: '风机发电' }) + '(kWh)',
+                icon: fan,
+                field: '',
+              },
+            ]
+          : []),
+        ...(siteTypeConfig.hasEnergy
+          ? [
+              {
+                label:
+                  formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }) +
+                  '(kWh)',
+                icon: energyCharge,
+                field: 'essCharge',
+              },
+            ]
+          : []),
+        ...(siteTypeConfig.hasCharge
+          ? [
+              {
+                label:
+                  formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + '(kWh)',
+                icon: charge,
+                field: 'chargingPile',
+              },
+            ]
+          : []),
       ],
       right: [
-        {
-          label:
-            formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }) + '(kWh)',
-          icon: pvInvinter,
-          field: 'photovoltaic',
-        },
-        {
-          label:
-            formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }) +
-            '(kWh)',
-          icon: energyDischarge,
-          field: 'essDischarge',
-        },
+        ...(siteTypeConfig.hasPv
+          ? [
+              {
+                label:
+                  formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }) +
+                  '(kWh)',
+                icon: pvInvinter,
+                field: 'photovoltaic',
+              },
+            ]
+          : []),
+        ...(siteTypeConfig.hasDiesel
+          ? [
+              {
+                label: formatMessage({ id: 'screen.1008', defaultMessage: '柴发发电' }) + '(kWh)',
+                icon: diesel,
+                field: '',
+              },
+            ]
+          : []),
+        ...(siteTypeConfig.hasEnergy
+          ? [
+              {
+                label:
+                  formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }) +
+                  '(kWh)',
+                icon: energyDischarge,
+                field: 'essDischarge',
+              },
+            ]
+          : []),
         {
           label: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }) + '(kWh)',
           icon: load,
@@ -82,7 +123,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
         },
       ],
     }),
-    [],
+    [siteTypeConfig],
   );
 
   const leftItems = items.left.map((item) => {

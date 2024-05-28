@@ -23,7 +23,7 @@ export interface ServiceUpdateInfo {
   latitude: number;
   parentName?: any;
   type: number;
-
+  orgIcon: any;
   // font end
   addressInfo: PositionSelectValueType;
 }
@@ -62,7 +62,7 @@ export interface ServiceParam {
   longitude: number;
   latitude: number;
   remark: string;
-
+  orgIcon: any;
   // font end
   addressInfo: PositionSelectType;
 }
