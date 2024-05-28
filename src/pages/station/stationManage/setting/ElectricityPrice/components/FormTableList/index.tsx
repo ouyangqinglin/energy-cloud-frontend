@@ -117,7 +117,7 @@ const FormTableList = <DataType extends Record<string, any>>(
           setOperations(FormOperations.CREATE);
           set(true);
         },
-        show:hasAuthority().add,
+        show: hasAuthority().add,
         text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
       },
     },
@@ -258,11 +258,19 @@ const FormTableList = <DataType extends Record<string, any>>(
         {...customConfig}
         {...restProps}
         headerTitle={
-          defaultPrice &&
-          `${formatMessage({
-            id: 'siteManage.set.defaultPrice',
-            defaultMessage: '默认电价',
-          })}：${defaultPrice}`
+          setType == '1'
+            ? `${formatMessage({
+                id: 'siteManage.set.defaultPrice',
+                defaultMessage: '默认电价',
+              })}：${formatMessage({
+                id: 'siteManage.1028',
+                defaultMessage: '按照市电电价进行计算',
+              })}`
+            : defaultPrice &&
+              `${formatMessage({
+                id: 'siteManage.set.defaultPrice',
+                defaultMessage: '默认电价',
+              })}：${defaultPrice}`
         }
         params={{ siteId, type: setType }}
       />
