@@ -491,4 +491,5 @@ export default {
   'device.exportLog': '日志导出',
   'device.selectDate': '请选择日期',
   'device.1002': '逆变器',
+  'device.1003': '请先绑定站点',
 };

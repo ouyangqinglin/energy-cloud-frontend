@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unknown-property */
-import { message, Switch, Modal } from 'antd';
+import { message, Switch, Modal, Button, Typography } from 'antd';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import YTProTable from '@/components/YTProTable';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { useToggle } from 'ahooks';
-import React from 'react';
+import { useBoolean, useToggle } from 'ahooks';
+import React, { useMemo } from 'react';
 import { useState, useCallback } from 'react';
 import { useModel, useRequest } from 'umi';
 import YTDivider from '../Divider';
@@ -14,6 +14,8 @@ import type { FormTableListBaseProps } from './type';
 import { formatMessage } from '@/utils';
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { useAuthority } from '@/hooks';
+import { merge } from 'lodash';
+import { distributeElectricityPrice } from '@/services/station';
 
 const enum TabKeys {
   MARKET = '1',
@@ -34,8 +36,20 @@ const FormTableList = <DataType extends Record<string, any>>(
     requestDefaultPrice,
     setType,
     priceType,
+    inDevice,
+    siteId,
     ...restProps
   } = props;
+
+  const [state, { toggle, set }] = useToggle<boolean>(false);
+  const [operations, setOperations] = useState(FormOperations.CREATE);
+  const [initialValues, setInitialValues] = useState<DataType>({} as DataType);
+  const [hasTableData, { set: setHasTableData }] = useBoolean(false);
+  const [isDistributed, { set: setIsDistributed }] = useBoolean(false);
+  const { data: defaultPrice } = useRequest(() => {
+    return requestDefaultPrice?.({ siteId, type: setType });
+  });
+
   const { authorityMap } = useAuthority([
     'oss:site:mains:setStatus',
     'oss:site:internet:setStatus',
@@ -101,28 +115,53 @@ const FormTableList = <DataType extends Record<string, any>>(
     }
   }, [authorityMap, priceType]);
 
-  const [state, { toggle, set }] = useToggle<boolean>(false);
-  const [operations, setOperations] = useState(FormOperations.CREATE);
-  const [initialValues, setInitialValues] = useState<DataType>({} as DataType);
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
-  const { data: defaultPrice } = useRequest(() => {
-    return requestDefaultPrice?.({ siteId });
-  });
+  const onDistributeClick = useCallback(() => {
+    Modal.confirm({
+      title: formatMessage({
+        id: 'siteManage.1031',
+        defaultMessage: '确定要下发吗',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+      onOk: () => {
+        return distributeElectricityPrice({});
+      },
+    });
+  }, []);
 
   const customConfig: YTProTableCustomProps<DataType, any> = {
-    toolBarRenderOptions: {
-      add: {
-        onClick() {
-          setInitialValues({} as DataType);
-          setOperations(FormOperations.CREATE);
-          set(true);
-        },
-        show: hasAuthority().add,
-        text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
-      },
-    },
+    ...(inDevice
+      ? {
+          toolBarRender: () => [
+            hasTableData && (
+              <>
+                <Button type="primary" key="distribute" onClick={onDistributeClick}>
+                  {formatMessage({ id: 'siteManage.1029', defaultMessage: '下发' })}
+                </Button>
+                <Typography.Text type="secondary">
+                  {isDistributed
+                    ? formatMessage({ id: 'siteManage.1030', defaultMessage: '已下发' })
+                    : formatMessage({ id: 'siteManage.1032', defaultMessage: '未下发' })}
+                </Typography.Text>
+              </>
+            ),
+          ],
+        }
+      : {
+          toolBarRenderOptions: {
+            add: {
+              onClick() {
+                setInitialValues({} as DataType);
+                setOperations(FormOperations.CREATE);
+                set(true);
+              },
+              show: hasAuthority().add && !inDevice,
+              text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
+            },
+          },
+        }),
     option: {
-      ...(hasAuthority().delete
+      ...(hasAuthority().delete && !inDevice
         ? {
             onDeleteChange(_, entity) {
               onDeleteChange?.({ id: entity?.id })?.then?.(({ data }) => {
@@ -139,7 +178,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         setOperations(FormOperations.READ);
         set(true);
       },
-      ...(hasAuthority().update
+      ...(hasAuthority().update && !inDevice
         ? {
             onEditChange(_, entity) {
               setInitialValues({ ...entity });
@@ -189,12 +228,23 @@ const FormTableList = <DataType extends Record<string, any>>(
       },
       null,
     );
+
+  const tableColumns = useMemo(() => {
+    const result: YTProColumns<DataType, any>[] = merge([], columns);
+    if (inDevice) {
+      result[result.length - 1].hideInTable = true;
+      result[result.length - 2].hideInTable = true;
+    }
+    return result;
+  }, [inDevice, columns]);
+
   const currentColums: YTProColumns<DataType, any>[] = [
-    ...(columns as any),
+    ...tableColumns,
     {
       title: formatMessage({ id: 'common.currentState1', defaultMessage: '当前状态' }),
       dataIndex: 'status',
       hideInSearch: true,
+      hideInTable: inDevice,
       render: (_, record) => {
         const rowData = record as any;
         return [
@@ -249,30 +299,35 @@ const FormTableList = <DataType extends Record<string, any>>(
     },
   ];
 
+  const onDataSourceChange = useCallback((data) => {
+    setHasTableData(!!data?.length);
+  }, []);
+
   return (
     <>
       <YTDivider />
       <YTProTable<DataType, any>
         actionRef={actionRef}
         columns={currentColums}
+        search={inDevice ? false : {}}
         {...customConfig}
         {...restProps}
         headerTitle={
-          setType == '1'
-            ? `${formatMessage({
-                id: 'siteManage.set.defaultPrice',
-                defaultMessage: '默认电价',
-              })}：${formatMessage({
-                id: 'siteManage.1028',
-                defaultMessage: '按照市电电价进行计算',
-              })}`
-            : defaultPrice &&
-              `${formatMessage({
-                id: 'siteManage.set.defaultPrice',
-                defaultMessage: '默认电价',
-              })}：${defaultPrice}`
+          defaultPrice &&
+          `${formatMessage({
+            id: 'siteManage.set.defaultPrice',
+            defaultMessage: '默认电价',
+          })}：${
+            setType == '1'
+              ? formatMessage({
+                  id: 'siteManage.1028',
+                  defaultMessage: '按照市电电价进行计算',
+                })
+              : defaultPrice
+          }`
         }
-        params={{ siteId, type: setType }}
+        params={{ siteId, type: setType, ...(inDevice ? { status: 1 } : {}) }}
+        onDataSourceChange={onDataSourceChange}
       />
       {FormUpdate}
       {FormRead}

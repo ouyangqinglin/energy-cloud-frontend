@@ -15,4 +15,6 @@ export type FormTableListBaseProps<DataType> = {
   formUpdateChild?: (props: FormReadBaseProps) => JSX.Element;
   requestDefaultPrice: typeof get;
   setType: '0' | '1';
+  inDevice?: boolean;
+  siteId?: string;
 };

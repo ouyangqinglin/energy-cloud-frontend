@@ -20,6 +20,7 @@ import { getPhotovoltaicElectricityPriceList } from './PricePhotovoltaic/service
 //充电桩
 import { getChargingElectricityPriceList } from './PriceCharging/service';
 import { SiteTypeStrEnum } from '@/utils/enum';
+import { useModel } from 'umi';
 
 const enum TabKeys {
   MARKET = '1',
@@ -30,6 +31,8 @@ const enum TabKeys {
 
 type ElectricPriceType = {
   siteType?: SiteTypeStrEnum;
+  inDevice?: boolean;
+  siteId?: string;
 };
 
 type LocationType = {
@@ -37,7 +40,7 @@ type LocationType = {
 };
 
 const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
-  const { siteType } = props;
+  const { siteType, inDevice = false, siteId } = props;
 
   const location = useLocation<LocationType>();
   const { id } = location?.query || {};
@@ -130,7 +133,14 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
           defaultMessage: '市电电价设置',
         }),
         key: TabKeys.MARKET,
-        children: <PriceMarketList priceType={TabKeys.MARKET} actionRef={marketActionRef} />,
+        children: (
+          <PriceMarketList
+            priceType={TabKeys.MARKET}
+            actionRef={marketActionRef}
+            inDevice={inDevice}
+            siteId={inDevice ? siteId : id}
+          />
+        ),
       });
     }
     if (authorityMap.get('siteManage:siteConfig:electricPriceManage:pv') && isShowPVTab) {
@@ -145,6 +155,8 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
             priceType={TabKeys.PHOTOVOLTAIC}
             setType={0}
             actionRef={photovoltaicActionRef}
+            inDevice={inDevice}
+            siteId={inDevice ? siteId : id}
           />
         ),
       });
@@ -157,22 +169,38 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
         }),
         key: TabKeys.ESS,
         children: (
-          <PricePhotovoltaicList setType={1} priceType={TabKeys.ESS} actionRef={ESSActionRef} />
+          <PricePhotovoltaicList
+            setType={1}
+            priceType={TabKeys.ESS}
+            actionRef={ESSActionRef}
+            inDevice={inDevice}
+            siteId={inDevice ? siteId : id}
+          />
         ),
       });
     }
-    if (authorityMap.get('siteManage:siteConfig:electricPriceManage:charge') && isShowChargeTab) {
+    if (
+      authorityMap.get('siteManage:siteConfig:electricPriceManage:charge') &&
+      isShowChargeTab &&
+      !inDevice
+    ) {
       result.push({
         label: formatMessage({
           id: 'siteManage.set.chargePileChargingSettings',
           defaultMessage: '充电桩计费设置',
         }),
         key: TabKeys.CHARGING,
-        children: <PriceChargingList priceType={TabKeys.CHARGING} actionRef={chargingActionRef} />,
+        children: (
+          <PriceChargingList
+            priceType={TabKeys.CHARGING}
+            actionRef={chargingActionRef}
+            siteId={id}
+          />
+        ),
       });
     }
     return result;
-  }, [authorityMap, siteType]);
+  }, [authorityMap, siteType, inDevice, id]);
 
   const haspriceSyncAuthority = useCallback(() => {
     if (type == TabKeys.MARKET) {
@@ -192,16 +220,17 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
     }
   }, [authorityMap, type]);
 
-  const operations = haspriceSyncAuthority() ? (
-    <Button type="primary" onClick={() => setVisible(true)}>
-      {formatMessage({
-        id: 'siteManage.siteList.electricityPriceSynchronization1',
-        defaultMessage: '电价同步',
-      })}
-    </Button>
-  ) : (
-    ''
-  );
+  const operations =
+    haspriceSyncAuthority() && !inDevice ? (
+      <Button type="primary" onClick={() => setVisible(true)}>
+        {formatMessage({
+          id: 'siteManage.siteList.electricityPriceSynchronization1',
+          defaultMessage: '电价同步',
+        })}
+      </Button>
+    ) : (
+      ''
+    );
 
   const handleOk = () => {
     if (ids.length) {

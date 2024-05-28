@@ -9,14 +9,19 @@ import { FormUpdateForCharging } from './FormUpdate';
 import { FormReadForCharging } from './FormRead';
 import type { ActionType } from '@ant-design/pro-table';
 import FormTableList from '../components/FormTableList';
+import React from 'react';
 
 type SetType = 0 | 1; //0--光伏 1--储能
 
-const PricePhotovoltaicList = (props: {
+type ElectricPriceType = {
   actionRef?: React.Ref<ActionType>;
+  priceType?: string;
+  inDevice?: boolean;
   setType: SetType;
-  priceType: string;
-}) => {
+  siteId?: string;
+};
+
+const PricePhotovoltaicList: React.FC<ElectricPriceType> = (props) => {
   return (
     <FormTableList
       formReadChild={FormReadForCharging}
