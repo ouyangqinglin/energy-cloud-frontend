@@ -62,4 +62,10 @@ export default {
   'system.1006': 'App',
   'system.1007': 'Up to 14 characters',
   'system.1008': 'Select All',
+  'system.1009': 'Scan Code To download APP',
+  'system.1010': 'APP download QR code',
+  'system.1011': '',
+  'system.1012': '',
+  'system.1013': '',
+  'system.1014': ' ',
 };

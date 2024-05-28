@@ -1,14 +1,13 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRequest } from 'umi';
 import styles from './index.less';
 import { getDeviceNum } from './service';
-import QueueAnim from 'rc-queue-anim';
 import DeviceCard from '../component/DeviceCard';
-import { config } from './config';
+import type { DeviceConfigItem } from '../component/type';
 import type { CombineDeviceRes, SiteInfoRes } from '../type';
 import { isEmpty } from 'lodash';
 
-const StationDevices = ({ data }: { data: SiteInfoRes }) => {
+const StationDevices = ({ data, config }: { data: SiteInfoRes; config: DeviceConfigItem[] }) => {
   const { data: deviceListNum, run, cancel } = useRequest(getDeviceNum, { manual: true });
   const combineData = { ...data } as CombineDeviceRes;
   if (!isEmpty(deviceListNum)) {

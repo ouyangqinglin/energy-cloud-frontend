@@ -6,6 +6,7 @@ import IconEnergyStorageCapacity from '@/assets/image/screen/stationOverview/ico
 import iconChargingStation from '@/assets/image/screen/stationOverview/icon_charging_station.png';
 import type { SiteInfoRes } from '../type';
 import { formatMessage } from '@/utils';
+import type { UnitType } from '@/models/siteType';
 
 export const DEFAULT_DATA = {
   bodyData: [
@@ -31,7 +32,7 @@ export const DEFAULT_DATA = {
   ],
 };
 
-export const config: DeviceConfigItem[] = [
+export const config = (siteType: UnitType): DeviceConfigItem[] => [
   {
     icon: IconTransformerCapacity,
     title: formatMessage({ id: 'screen.transformerCapacity', defaultMessage: '变压器容量' }),
@@ -48,89 +49,150 @@ export const config: DeviceConfigItem[] = [
       },
     ],
   },
-  //动态
-  {
-    icon: IconPhotovoltaicPanel,
-    title: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
-    unit: 'kWh',
-    field: 'photovoltaicInstalledCapacity',
-    span: 12,
-    child: [
-      {
-        dividerSpan: 4,
-        title: formatMessage({
-          id: 'screen.pvInvertersCapacity',
-          defaultMessage: '光伏逆变器数量',
-        }),
-        field: 'pvinverterNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 8,
-      },
-    ],
-  },
-  //动态
-  {
-    icon: IconEnergyStorageCapacity,
-    title: formatMessage({ id: 'screen.energyStorageRating', defaultMessage: '储能额定电量' }),
-    render: (data: SiteInfoRes) => {
-      return (
-        <>
-          <span className={styles.value}>{data.energyStoragePower}</span>
-          <span className={styles.unit}>kW</span>
-          <span className={styles.value}>/{data.energyStorageCapacity}</span>
-          <span className={styles.unit}>kWh</span>
-        </>
-      );
-    },
-    unit: 'kW',
-    span: 12,
-    child: [
-      {
-        dividerSpan: 4,
-        title: formatMessage({ id: 'screen.storageDevicesNumber', defaultMessage: '储能设备数量' }),
-        field: 'energyStorageNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 8,
-      },
-    ],
-  },
-  //动态
-  {
-    icon: iconChargingStation,
-    title: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
-    field: 'chargingStationCapacity',
-    unit: 'kW',
-    span: 7,
-    gutter: 6,
-    child: [
-      {
-        dividerSpan: 0,
-        title: formatMessage({ id: 'screen.chargingStack', defaultMessage: '充电堆' }),
-        field: 'chargingHostNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 5,
-      },
-      {
-        dividerSpan: 0,
-        title: formatMessage({ id: 'screen.overchargedPile', defaultMessage: '超充桩' }),
-        field: 'overchargedPileNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 4,
-      },
-      {
-        dividerSpan: 0,
-        title: formatMessage({ id: 'screen.fastchargedPile', defaultMessage: '快充桩' }),
-        field: 'fastFillingPileNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 4,
-      },
-      {
-        dividerSpan: 0,
-        title: formatMessage({ id: 'screen.communicationPile', defaultMessage: '交流桩' }),
-        field: 'acpileNumber',
-        unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
-        span: 4,
-      },
-    ],
-  },
+  ...(siteType.hasPv || true
+    ? [
+        {
+          icon: IconPhotovoltaicPanel,
+          title: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
+          unit: 'kWh',
+          field: 'photovoltaicInstalledCapacity',
+          span: 12,
+          child: [
+            {
+              dividerSpan: 4,
+              title: formatMessage({
+                id: 'screen.pvInvertersCapacity',
+                defaultMessage: '光伏逆变器数量',
+              }),
+              field: 'pvinverterNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 8,
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(siteType.hasFan || true
+    ? [
+        {
+          icon: IconPhotovoltaicPanel,
+          title: formatMessage({ id: 'screen.1002', defaultMessage: '风机额定功率' }),
+          unit: 'kW',
+          field: '',
+          span: 12,
+          child: [
+            {
+              dividerSpan: 4,
+              title: formatMessage({
+                id: 'screen.1004',
+                defaultMessage: '风力发电机数量',
+              }),
+              field: 'pvinverterNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 8,
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(siteType.hasDiesel || true
+    ? [
+        {
+          icon: IconPhotovoltaicPanel,
+          title: formatMessage({ id: 'screen.1003', defaultMessage: '柴发额定功率' }),
+          unit: 'kW',
+          field: '',
+          span: 12,
+          child: [
+            {
+              dividerSpan: 4,
+              title: formatMessage({
+                id: 'screen.1005',
+                defaultMessage: '柴油发电机数量',
+              }),
+              field: 'pvinverterNumber',
+              unit: formatMessage({ id: 'screen.1006', defaultMessage: '台' }),
+              span: 8,
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(siteType.hasEnergy || true
+    ? [
+        {
+          icon: IconEnergyStorageCapacity,
+          title: formatMessage({
+            id: 'screen.energyStorageRating',
+            defaultMessage: '储能额定电量',
+          }),
+          render: (data: SiteInfoRes) => {
+            return (
+              <>
+                <span className={styles.value}>{data.energyStoragePower}</span>
+                <span className={styles.unit}>kW</span>
+                <span className={styles.value}>/{data.energyStorageCapacity}</span>
+                <span className={styles.unit}>kWh</span>
+              </>
+            );
+          },
+          unit: 'kW',
+          span: 12,
+          child: [
+            {
+              dividerSpan: 4,
+              title: formatMessage({
+                id: 'screen.storageDevicesNumber',
+                defaultMessage: '储能设备数量',
+              }),
+              field: 'energyStorageNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 8,
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(siteType.hasCharge || true
+    ? [
+        {
+          icon: iconChargingStation,
+          title: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),
+          field: 'chargingStationCapacity',
+          unit: 'kW',
+          span: 7,
+          gutter: 6,
+          child: [
+            {
+              dividerSpan: 0,
+              title: formatMessage({ id: 'screen.chargingStack', defaultMessage: '充电堆' }),
+              field: 'chargingHostNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 5,
+            },
+            {
+              dividerSpan: 0,
+              title: formatMessage({ id: 'screen.overchargedPile', defaultMessage: '超充桩' }),
+              field: 'overchargedPileNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 4,
+            },
+            {
+              dividerSpan: 0,
+              title: formatMessage({ id: 'screen.fastchargedPile', defaultMessage: '快充桩' }),
+              field: 'fastFillingPileNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 4,
+            },
+            {
+              dividerSpan: 0,
+              title: formatMessage({ id: 'screen.communicationPile', defaultMessage: '交流桩' }),
+              field: 'acpileNumber',
+              unit: formatMessage({ id: 'screen.individual', defaultMessage: '个' }),
+              span: 4,
+            },
+          ],
+        },
+      ]
+    : []),
 ];

@@ -31,6 +31,7 @@ export type DecorationProp = {
   onTimeButtonChange?: (time: TimeType) => void;
   onSiteTypeButtonChange?: (time: SiteType) => void;
   scroll?: boolean;
+  totalPage?: number;
 };
 
 const DecorationCarousel: FC<DecorationProp> = memo(
@@ -39,6 +40,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
     panelStyle,
     valueType,
     scroll,
+    totalPage = 2,
     onTimeButtonChange = noop,
     onSiteTypeButtonChange = noop,
     children,
@@ -65,7 +67,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
               size="small"
               className={styles.pagination}
               current={currentPage}
-              total={2}
+              total={totalPage}
               defaultPageSize={1}
               onChange={goToPage}
             />

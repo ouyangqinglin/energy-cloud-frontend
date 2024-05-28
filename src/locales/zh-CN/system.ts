@@ -49,4 +49,11 @@ export default {
   'system.1006': 'App',
   'system.1007': '最多14个字符',
   'system.1008': '全选',
+
+  'system.1009': '扫码下载App',
+  'system.1010': 'app下载二维码',
+  'system.1011': '扫码关注公众号',
+  'system.1012': '公众号二维码',
+  'system.1013': 'app二维码说明',
+  'system.1014': ' 公众号二维码说明',
 };
