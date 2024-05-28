@@ -515,12 +515,9 @@ export const Columns: (orgId?: number) => ProColumns<ServiceUpdateInfo, TABLESEL
         rules: [
           {
             required: true,
-            message: formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
-          },
-          {
             validator: (rule, value) => {
               return new Promise((resolve, reject) => {
-                if (!value.address || !value.point.lng || !value.point.lat) {
+                if (!value || !value.address || !value.point.lng || !value.point.lat) {
                   reject(
                     formatMessage({ id: 'system.requiredField', defaultMessage: '此项为必填项' }),
                   );

@@ -41,8 +41,8 @@ export const Update = (props: FormUpdateBaseProps) => {
       ...inputInfo,
     };
     params.address = inputInfo.addressInfo.address ?? '';
-    params.longitude = inputInfo.addressInfo?.point?.lng;
-    params.latitude = inputInfo.addressInfo?.point?.lat;
+    params.longitude = inputInfo.addressInfo?.point?.lng || '';
+    params.latitude = inputInfo.addressInfo?.point?.lat || '';
     unset(params, 'addressInfo');
     return params;
   };
