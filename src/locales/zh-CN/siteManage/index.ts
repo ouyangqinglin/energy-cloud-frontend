@@ -161,4 +161,8 @@ export default {
   'siteManage.1026': '充电桩用电量',
   'siteManage.1027': '放电电价',
   'siteManage.1028': '按照市电电价进行计算',
+  'siteManage.1029': '下发',
+  'siteManage.1030': '已下发',
+  'siteManage.1031': '确定要下发吗',
+  'siteManage.1032': '未下发',
 };

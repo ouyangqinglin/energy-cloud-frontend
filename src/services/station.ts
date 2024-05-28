@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-22 15:43:33
- * @LastEditTime: 2024-05-16 09:40:43
+ * @LastEditTime: 2024-05-28 09:01:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
@@ -123,6 +123,13 @@ export const getVideoMonitorData = (params: any) => {
 
 export const getVideoMonitorToken = (params: any) => {
   return request<ResponseCommonData<VideoMonitorTokenType>>(`/uc/site/videoMonitor/token`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const distributeElectricityPrice = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorTokenType>>(`/uc/site/videoMonitor/token1`, {
     method: 'GET',
     params,
   });

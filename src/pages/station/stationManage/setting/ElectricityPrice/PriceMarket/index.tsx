@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   deleteMarketPrice,
   getMarketElectricityPriceList,
@@ -11,7 +11,14 @@ import { FormReadForMarket } from './FormRead';
 import type { ActionType } from '@ant-design/pro-table';
 import FormTableList from '../components/FormTableList';
 
-const PriceMarketList = (props: { actionRef?: React.Ref<ActionType>; priceType?: string }) => {
+type ElectricPriceType = {
+  actionRef?: React.Ref<ActionType>;
+  priceType?: string;
+  inDevice?: boolean;
+  siteId?: string;
+};
+
+const PriceMarketList: React.FC<ElectricPriceType> = (props) => {
   const request = useCallback((params) => {
     return getMarketElectricityPriceList({ ...params });
   }, []);

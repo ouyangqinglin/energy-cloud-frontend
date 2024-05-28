@@ -497,4 +497,5 @@ export default {
   'device.exportLog': 'Export Log',
   'device.selectDate': 'Select Date',
   'device.1002': 'Inverter',
+  'device.1003': '',
 };

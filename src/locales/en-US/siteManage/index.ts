@@ -145,6 +145,9 @@ export default {
   'siteManage.1009': 'IOS App',
   'siteManage.1010': 'Factory',
   'siteManage.1011': 'User ID',
+  'siteManage.1012': 'Monitoring Config',
+  'siteManage.1013': 'Product Code',
+  'siteManage.1014': 'Path',
   'siteManage.1015': 'Rated Power Of Fan',
   'siteManage.1016': 'Rated Power Of Diesel Generator',
   'siteManage.set.1001': 'ESS Unit',
@@ -161,4 +164,8 @@ export default {
   'siteManage.1026': 'EV Charger Power Consumption',
   'siteManage.1027': 'Discharge Tariff',
   'siteManage.1028': '',
+  'siteManage.1029': 'Set',
+  'siteManage.1030': 'Seted',
+  'siteManage.1031': 'Please confirm whether to set',
+  'siteManage.1032': 'Not Set',
 };

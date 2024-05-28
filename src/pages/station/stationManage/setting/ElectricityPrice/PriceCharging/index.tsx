@@ -10,7 +10,11 @@ import { FormReadForCharging } from './FormRead';
 import type { ActionType } from '@ant-design/pro-table';
 import FormTableList from '../components/FormTableList';
 
-const PriceChargingList = (props: { actionRef?: React.Ref<ActionType>; priceType: string }) => {
+const PriceChargingList = (props: {
+  actionRef?: React.Ref<ActionType>;
+  priceType: string;
+  siteId?: string;
+}) => {
   return (
     <FormTableList
       formReadChild={FormReadForCharging}
