@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-20 14:02:13
+ * @LastEditTime: 2024-05-29 11:10:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -25,6 +25,7 @@ import type {
   DeviceServiceModelType,
   DeviceServiceType,
   DeviceStructType,
+  TipType,
 } from '@/types/device';
 import Detail from '@/components/Detail';
 import type { DetailItem, GroupItem } from '@/components/Detail';
@@ -48,7 +49,7 @@ import {
   timeRangeColumn,
   validatorTime,
 } from './helper';
-import { merge } from 'lodash';
+import { merge, template } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
@@ -151,30 +152,59 @@ const Control: React.FC<ControlType> = memo((props) => {
     [currentFormInfo],
   );
 
-  const btnClick = useCallback(
-    (field: DeviceServiceModelType, value: any) => {
+  const getTipConfirm = useCallback((rules: TipType[], callback: () => Promise<any>) => {
+    let num = 0;
+    const confirm = () => {
+      const rule = rules?.[num];
       Modal.confirm({
-        title: field?.name,
-        content: formatMessage({
-          id: 'device.whetherExecuteCurrentParameter',
-          defaultMessage: '是否执行当前参数下发',
-        }),
+        title: rule?.title || '',
+        content: rule?.content,
         okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
         cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
-          const idArr = (field.id || '')?.split('.') || [''];
-          return run({
-            deviceId: field.deviceId || deviceData?.deviceId,
-            input: { [idArr[idArr.length - 1]]: value },
-            serviceId: field.serviceId,
-          }).then((data: any) => {
-            if (data) {
-              message.success(
-                formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
-              );
-            }
-          });
+          num++;
+          if (num < rules?.length) {
+            confirm();
+            return;
+          } else {
+            return callback?.();
+          }
         },
+      });
+    };
+    confirm();
+  }, []);
+
+  const btnClick = useCallback(
+    (field: DeviceServiceModelType, value: any) => {
+      const rules: TipType[] = field?.promptRule?.map?.((item) => {
+        return {
+          title: template(item.title)(field),
+          content: template(item.content)(field),
+        };
+      }) || [
+        {
+          title: field?.name,
+          content: formatMessage({
+            id: 'device.whetherExecuteCurrentParameter',
+            defaultMessage: '是否执行当前参数下发',
+          }),
+        },
+      ];
+
+      getTipConfirm(rules, () => {
+        const idArr = (field.id || '')?.split('.') || [''];
+        return run({
+          deviceId: field.deviceId || deviceData?.deviceId,
+          input: { [idArr[idArr.length - 1]]: value },
+          serviceId: field.serviceId,
+        }).then((data: any) => {
+          if (data) {
+            message.success(
+              formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+            );
+          }
+        });
       });
     },
     [deviceData?.deviceId],

@@ -2,12 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-30 08:50:38
- * @LastEditTime: 2023-12-06 15:04:24
+ * @LastEditTime: 2024-05-29 09:31:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\RunLog\index.tsx
  */
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useRequest } from 'umi';
+import { Typography } from 'antd';
 import YTProTable from '@/components/YTProTable';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { getList, getDetail } from './service';
@@ -24,6 +25,7 @@ import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { ModelSizeEnum } from '@/utils/enum';
 
 export type OperationLogProps = {
   isDeviceChild?: boolean;
@@ -62,7 +64,11 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    actionRef?.current?.reloadAndRest?.();
+    if (deviceId) {
+      setTimeout(() => {
+        actionRef?.current?.reloadAndRest?.();
+      }, 300);
+    }
   }, [deviceId]);
 
   const detailItems: DetailItem[] = [
@@ -73,6 +79,20 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
     {
       label: formatMessage({ id: 'siteMonitor.logContent', defaultMessage: '日志内容' }),
       field: 'content',
+      format: (value) => (
+        <Typography.Paragraph
+          style={{
+            whiteSpace: 'normal',
+          }}
+          ellipsis={{
+            rows: 4,
+            expandable: true,
+            symbol: formatMessage({ id: 'common.more', defaultMessage: '更多' }),
+          }}
+        >
+          {value}
+        </Typography.Paragraph>
+      ),
     },
     {
       label: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
@@ -207,7 +227,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       </ProConfigProvider>
 
       <DetailDialog
-        width="420px"
+        width={ModelSizeEnum.TwoCol}
         title={formatMessage({ id: 'siteMonitor.logDetails', defaultMessage: '日志详情' })}
         open={open}
         onCancel={switchOpen}

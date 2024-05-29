@@ -28,6 +28,11 @@ export type DevicePropsType = {
   component?: string;
 };
 
+export type TipType = {
+  title?: string;
+  content?: string;
+};
+
 export type DeviceArrayType = {
   type?: DeviceModelTypeEnum;
   specs?: {
@@ -104,6 +109,7 @@ export type DeviceServiceModelType = {
     span?: number;
     showType?: DeviceModelShowTypeEnum;
   };
+  promptRule?: TipType[];
 };
 
 export type DeviceServiceType = {

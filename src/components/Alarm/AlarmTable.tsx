@@ -30,6 +30,7 @@ import styles from './index.less';
 import { formatMessage, isEmpty, getLocale } from '@/utils';
 import eventBus from '@/utils/eventBus';
 import { YTDATERANGE } from '@/components/YTDateRange';
+import { ModelSizeEnum } from '@/utils/enum';
 
 export enum PageTypeEnum {
   Current,
@@ -545,7 +546,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           }
         />
         <DetailDialog
-          width="600px"
+          width={ModelSizeEnum.TwoCol}
           title={formatMessage({ id: 'alarmManage.alarmDetails', defaultMessage: '告警详情' })}
           open={open}
           onCancel={switchOpen}

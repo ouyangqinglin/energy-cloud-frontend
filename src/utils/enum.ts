@@ -19,3 +19,9 @@ export const enum SiteTypeStrEnum {
   FAN = '6',
   DIESEL = '7',
 }
+
+export const enum ModelSizeEnum {
+  TwoCol = '552px',
+  ThreeCol = '816px',
+  FourCol = '1080px',
+}
