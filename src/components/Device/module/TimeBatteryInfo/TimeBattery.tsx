@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-05-29 15:59:08
- * @LastEditTime: 2024-05-29 15:59:09
+ * @LastEditTime: 2024-05-29 17:50:05
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\TimeBatteryInfo\TimeBattery.tsx
  */
@@ -35,7 +35,7 @@ const TimeBattery: React.FC<TimeBatteryType> = (props) => {
           result.push({});
         }
         result[result.length - 1]['time' + (index % 4)] = `${item?.startTime}-${item?.endTime}`;
-        result[result.length - 1]['capacity' + (index % 4)] = item.electiry;
+        result[result.length - 1]['capacity' + (index % 4)] = item.electricity;
       });
       return result;
     },
