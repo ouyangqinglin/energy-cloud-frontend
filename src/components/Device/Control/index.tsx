@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-29 11:10:24
+ * @LastEditTime: 2024-05-29 15:39:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -176,12 +176,26 @@ const Control: React.FC<ControlType> = memo((props) => {
   }, []);
 
   const btnClick = useCallback(
-    (field: DeviceServiceModelType, value: any) => {
+    (field: DeviceServiceModelType, value: any, oldValue: any) => {
+      const templeData = {
+        ...field,
+        oldValue,
+        newValue: value,
+        newValueFormat: formatModelValue(value, field?.dataType || {}, false),
+      };
       const rules: TipType[] = field?.promptRule?.map?.((item) => {
-        return {
-          title: template(item.title)(field),
-          content: template(item.content)(field),
-        };
+        try {
+          return {
+            title: template(item.title)(templeData),
+            content: template(item.content)(templeData),
+          };
+        } catch (e) {
+          console.error(e);
+          return {
+            title: item.title,
+            content: item.content,
+          };
+        }
       }) || [
         {
           title: field?.name,
@@ -504,7 +518,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                         !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
-                      onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
+                      onClick={() => btnClick(field, !!formatValue ? 1 : 0, formatValue)}
                     />
                   );
                 },
@@ -556,7 +570,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                           fieldDisabled ||
                           !passAuthority(field?.authority, 'edit')
                         }
-                        onChange={(btnValue) => btnClick(field, btnValue)}
+                        onChange={(btnValue) => btnClick(field, btnValue, formatValue)}
                         loading={loading}
                       />
                       {!!field?.tip && (
