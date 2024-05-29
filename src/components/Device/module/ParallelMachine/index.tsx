@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-01-13 11:43:52
+ * @LastEditTime: 2024-05-29 16:49:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */
@@ -194,6 +194,7 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         toolBarRender={false}
         dataSource={associationDeviceDataList}
         scroll={{ y: 'auto' }}
+        pagination={false}
       />
     </>
   );

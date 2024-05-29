@@ -498,4 +498,6 @@ export default {
   'device.selectDate': 'Select Date',
   'device.1002': 'Inverter',
   'device.1003': '',
+  'device.1004': 'Capacity',
+  'device.1005': 'Discharging Capacity',
 };

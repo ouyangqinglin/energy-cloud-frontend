@@ -492,4 +492,6 @@ export default {
   'device.selectDate': '请选择日期',
   'device.1002': '逆变器',
   'device.1003': '请先绑定站点',
+  'device.1004': '电量',
+  'device.1005': '放电量',
 };

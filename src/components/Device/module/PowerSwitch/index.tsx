@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-23 10:57:35
- * @LastEditTime: 2024-04-08 09:19:28
+ * @LastEditTime: 2024-05-29 16:57:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\PowerSwitch\index.tsx
  */
 
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { columns } from './helper';
 import { clusterFormat } from '@/utils/format';
@@ -47,6 +47,7 @@ const PowerSwitch: React.FC<PowerSwitchType> = (props) => {
         toolBarRender={false}
         dataSource={dataSource}
         scroll={{ y: 'auto' }}
+        pagination={false}
       />
     </>
   );
