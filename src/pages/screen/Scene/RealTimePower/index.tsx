@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RealTimePower\index.tsx
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'umi';
 import { Axis, Chart, LineAdvance, Legend, Annotation, Tooltip } from 'bizcharts';
 import moment from 'moment';
@@ -16,9 +16,11 @@ import styles from './index.less';
 import { getData } from './service';
 import { useToolTip } from '@/hooks';
 import { formatMessage } from '@/utils';
+import type { UnitType } from '@/models/siteType';
 
 type RealTimePowerProps = {
   date?: Moment;
+  siteTypeConfig: UnitType;
 };
 
 type DataType = {
@@ -31,14 +33,6 @@ type ChartDataType = {
   eventTs: string;
   doubleVal: number;
 };
-//动态
-const legendMap = new Map([
-  ['me', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
-  ['pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' })],
-  ['es', formatMessage({ id: 'device.storage', defaultMessage: '储能' })],
-  ['cs', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' })],
-  ['load', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' })],
-]);
 
 const allMinute = Array.from({ length: (24 * 60) / 2 }).map((_, index) => {
   return moment()
@@ -80,7 +74,25 @@ const getChartData = (data: ChartDataType[], field: string): DataType[] => {
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date } = props;
+  const { date, siteTypeConfig } = props;
+  const legendMap = useMemo(() => {
+    const map = new Map([
+      ['me', formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' })],
+    ]);
+    if (siteTypeConfig.hasPv)
+      map.set('pv', formatMessage({ id: 'device.pv', defaultMessage: '光伏' }));
+    if (siteTypeConfig.hasEnergy)
+      map.set('es', formatMessage({ id: 'device.storage', defaultMessage: '储能' }));
+    if (siteTypeConfig.hasCharge)
+      map.set('cs', formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }));
+    if (true)
+      map.set('load', formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }));
+    if (siteTypeConfig.hasDiesel)
+      map.set('diesel', formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }));
+    if (siteTypeConfig.hasFan)
+      map.set('fan', formatMessage({ id: 'screen.1010', defaultMessage: '风机' }));
+    return map;
+  }, [siteTypeConfig]);
 
   const [chartData, setChartData] = useState<DataType[]>();
   const [ticks, setTicks] = useState<string[]>();
@@ -119,6 +131,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       siteId,
       date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteId, date]);
 
   return (
@@ -126,7 +139,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       <Chart
         padding={[50, 20, 20, 30]}
         ref={chartRef}
-        height={190}
+        height={legendMap.size > 5 ? 163 : 235}
         scale={{
           time: {
             ticks: ticks,

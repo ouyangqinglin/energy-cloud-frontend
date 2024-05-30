@@ -44,23 +44,13 @@ const Photovoltaic: FC = () => {
     }
   }, []);
 
-  const chartConfigMap = {
-    pv: {
-      name: formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电' }),
-      unit: 'kWh',
-    },
-    fan: {
-      name: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
-      unit: 'kWh',
-    },
-  };
   const chartData: ChartRes =
     (rawChartData &&
-      rawChartData.map((it, index) => {
+      rawChartData.map((it) => {
         return {
           ts: it.time,
           value: it.value,
-          field: chartConfigMap.pv.name, //需要动态修改
+          field: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
         };
       })) ??
     [];
@@ -96,7 +86,7 @@ const Photovoltaic: FC = () => {
           }}
           dataSource={dataSource}
           renderItem={(item) => (
-            <List.Item style={{ marginBottom: '8px' }}>
+            <List.Item>
               <div className={styles.box}>
                 <DigitalFlipperItem {...item} data={statistics} />
                 <div className={classnames([styles.rect, styles['top-left']])} />
@@ -111,9 +101,7 @@ const Photovoltaic: FC = () => {
       <StatisticChart
         title={formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' })}
         onDateChange={onDateChange}
-        chartConfigMap={chartConfigMap}
         color={['#FFD15C']}
-        height={164}
         chartData={sortedData(convertToData(chartData))}
       />
     </div>

@@ -1,6 +1,5 @@
 import Title from './Title';
 import Benefit from './Benefits';
-import QueueAnim from 'rc-queue-anim';
 import StationOverview from './StationOverview';
 import ScreenTime from './Time';
 import ScreenWeather from './Weather';
@@ -21,7 +20,7 @@ import ButtonGroupCarousel, { SystemDiagramType } from '../components/ButtonGrou
 import GeometrySystem from './GeometrySystem';
 import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselInSystemData';
 import AccumulatedPowerChart from './AccumulatedPowerChart';
-import { SiteInfoRes } from './StationOverview/type';
+import type { SiteInfoRes } from './StationOverview/type';
 import { formatMessage } from '@/utils';
 import { useModel } from 'umi';
 import { getUnitBySiteType } from '@/models/siteType';
@@ -36,6 +35,10 @@ const Scene = () => {
   const { unit } = useModel('siteType');
   const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
   const siteTypeConfig: UnitType = siteType ? getUnitBySiteType(siteType) : unit;
+  //测试数据
+  // siteTypeConfig.hasFan = true
+  // siteTypeConfig.hasDiesel = true
+
   const EnergyDataWidget = useMemo(
     () => (
       <Cell key={'EnergyData'} cursor="default" width={400} height={562} left={24} top={500}>
@@ -47,8 +50,8 @@ const Scene = () => {
         >
           <EnergyData timeType={energyTimeType} siteTypeConfig={siteTypeConfig} />
           <ButtonGroupCarouselInSystemData>
-            <RealTimePower />
-            <AccumulatedPowerChart />
+            <RealTimePower siteTypeConfig={siteTypeConfig} />
+            <AccumulatedPowerChart siteTypeConfig={siteTypeConfig} />
           </ButtonGroupCarouselInSystemData>
         </DecorationCarousel>
       </Cell>
@@ -71,7 +74,7 @@ const Scene = () => {
           valueType="timeButtonGroup"
           onTimeButtonChange={setRevenueTimeType}
         >
-          <RevenueProportion timeType={revenueTimeType} />
+          <RevenueProportion timeType={revenueTimeType} siteTypeConfig={siteTypeConfig} />
         </DecorationCarousel>
       </Cell>
     ),
@@ -95,7 +98,7 @@ const Scene = () => {
       <ScreenWeather />
       <StationOverview onChange={onSiteChange} siteTypeConfig={siteTypeConfig} />
       <Benefit />
-      <SubsystemStatistic />
+      <SubsystemStatistic siteTypeConfig={siteTypeConfig} />
       <RunningLog />
       <ButtonGroupCarousel onChange={switchGeometry} setAlarmShow={setAlarmShow} />
       {geometryMode === SystemDiagramType.CUSTOMER && (
