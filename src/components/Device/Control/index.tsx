@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-29 15:39:46
+ * @LastEditTime: 2024-05-30 15:02:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -73,6 +73,13 @@ export type ControlType = {
   onLoadChange?: () => void;
 };
 
+type FormInfoType = {
+  service?: DeviceServiceType;
+  columns?: ProFormColumnsType[];
+  width?: string;
+  dataDeviceIds?: string[];
+};
+
 const singleFieldName = 'arryField';
 
 const Control: React.FC<ControlType> = memo((props) => {
@@ -81,11 +88,7 @@ const Control: React.FC<ControlType> = memo((props) => {
   const { refreshDataByRequest } = useContext(DeviceContext);
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
-  const [currentFormInfo, setCurrentFormInfo] = useState<{
-    service?: DeviceServiceType;
-    columns?: ProFormColumnsType[];
-    width?: string;
-  }>({});
+  const [currentFormInfo, setCurrentFormInfo] = useState<FormInfoType>({});
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
@@ -139,6 +142,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         service,
         columns,
         width: columnsLength < 3 ? '552px' : '816px',
+        dataDeviceIds: getPropsFromTree(service?.children, 'deviceId'),
       });
       setTrue();
     },
@@ -1131,6 +1135,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                 currentFormInfo?.service?.deviceId
                   ? extralDeviceRealTimeData?.[currentFormInfo?.service?.deviceId]
                   : realTimeData,
+                currentFormInfo?.dataDeviceIds?.reduce?.(
+                  (result, item) => ({ ...result, ...extralDeviceRealTimeData?.[item] }),
+                  {},
+                ),
                 transformData,
               ),
             }}

@@ -10,5 +10,6 @@
 export type TimeBatteryDataType = {
   startTime?: string;
   endTime?: string;
-  electricity?: string;
+  charge?: number;
+  discharge?: number;
 };
