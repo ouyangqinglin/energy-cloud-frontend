@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-31 14:06:20
- * @LastEditTime: 2024-04-30 09:12:03
+ * @LastEditTime: 2024-05-30 09:54:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\Income\index.tsx
  */
@@ -23,6 +23,7 @@ const colors = ['#FF8144', '#FF7B7B', '#FFD15C', '#01CFA1', '#159AFF'];
 const getOptionsByData = (data: SiteDataType[], totalNum?: number) => {
   const result = merge({}, defaultPolarBar);
   result.tooltip.formatter = '{b}<br/>{c}';
+  result.tooltip.confine = true;
   result.angleAxis.max = ((data?.[0]?.income || 4) * 4) / 3;
   const value = formatNum(totalNum || 0);
   result.title[0].text = `${formatMessage({ id: 'screen.1001', defaultMessage: '日总收益' })}(${

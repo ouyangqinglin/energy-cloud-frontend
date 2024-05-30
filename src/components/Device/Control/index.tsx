@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-20 14:02:13
+ * @LastEditTime: 2024-05-30 15:02:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -25,6 +25,7 @@ import type {
   DeviceServiceModelType,
   DeviceServiceType,
   DeviceStructType,
+  TipType,
 } from '@/types/device';
 import Detail from '@/components/Detail';
 import type { DetailItem, GroupItem } from '@/components/Detail';
@@ -48,7 +49,7 @@ import {
   timeRangeColumn,
   validatorTime,
 } from './helper';
-import { merge } from 'lodash';
+import { merge, template } from 'lodash';
 import { Button, Modal, Spin, message, Typography, Switch } from 'antd';
 import { useBoolean } from 'ahooks';
 import { TimeRangePicker, DateStamp } from '@/components/Time';
@@ -72,6 +73,13 @@ export type ControlType = {
   onLoadChange?: () => void;
 };
 
+type FormInfoType = {
+  service?: DeviceServiceType;
+  columns?: ProFormColumnsType[];
+  width?: string;
+  dataDeviceIds?: string[];
+};
+
 const singleFieldName = 'arryField';
 
 const Control: React.FC<ControlType> = memo((props) => {
@@ -80,11 +88,7 @@ const Control: React.FC<ControlType> = memo((props) => {
   const { refreshDataByRequest } = useContext(DeviceContext);
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
-  const [currentFormInfo, setCurrentFormInfo] = useState<{
-    service?: DeviceServiceType;
-    columns?: ProFormColumnsType[];
-    width?: string;
-  }>({});
+  const [currentFormInfo, setCurrentFormInfo] = useState<FormInfoType>({});
   const { loading, run } = useRequest(editSetting, {
     manual: true,
   });
@@ -138,6 +142,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         service,
         columns,
         width: columnsLength < 3 ? '552px' : '816px',
+        dataDeviceIds: getPropsFromTree(service?.children, 'deviceId'),
       });
       setTrue();
     },
@@ -151,30 +156,73 @@ const Control: React.FC<ControlType> = memo((props) => {
     [currentFormInfo],
   );
 
-  const btnClick = useCallback(
-    (field: DeviceServiceModelType, value: any) => {
+  const getTipConfirm = useCallback((rules: TipType[], callback: () => Promise<any>) => {
+    let num = 0;
+    const confirm = () => {
+      const rule = rules?.[num];
       Modal.confirm({
-        title: field?.name,
-        content: formatMessage({
-          id: 'device.whetherExecuteCurrentParameter',
-          defaultMessage: '是否执行当前参数下发',
-        }),
+        title: rule?.title || '',
+        content: rule?.content,
         okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
         cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
         onOk: () => {
-          const idArr = (field.id || '')?.split('.') || [''];
-          return run({
-            deviceId: field.deviceId || deviceData?.deviceId,
-            input: { [idArr[idArr.length - 1]]: value },
-            serviceId: field.serviceId,
-          }).then((data: any) => {
-            if (data) {
-              message.success(
-                formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
-              );
-            }
-          });
+          num++;
+          if (num < rules?.length) {
+            confirm();
+            return;
+          } else {
+            return callback?.();
+          }
         },
+      });
+    };
+    confirm();
+  }, []);
+
+  const btnClick = useCallback(
+    (field: DeviceServiceModelType, value: any, oldValue: any) => {
+      const templeData = {
+        ...field,
+        oldValue,
+        newValue: value,
+        newValueFormat: formatModelValue(value, field?.dataType || {}, false),
+      };
+      const rules: TipType[] = field?.promptRule?.map?.((item) => {
+        try {
+          return {
+            title: template(item.title)(templeData),
+            content: template(item.content)(templeData),
+          };
+        } catch (e) {
+          console.error(e);
+          return {
+            title: item.title,
+            content: item.content,
+          };
+        }
+      }) || [
+        {
+          title: field?.name,
+          content: formatMessage({
+            id: 'device.whetherExecuteCurrentParameter',
+            defaultMessage: '是否执行当前参数下发',
+          }),
+        },
+      ];
+
+      getTipConfirm(rules, () => {
+        const idArr = (field.id || '')?.split('.') || [''];
+        return run({
+          deviceId: field.deviceId || deviceData?.deviceId,
+          input: { [idArr[idArr.length - 1]]: value },
+          serviceId: field.serviceId,
+        }).then((data: any) => {
+          if (data) {
+            message.success(
+              formatMessage({ id: 'device.issueSuccess', defaultMessage: '下发成功' }),
+            );
+          }
+        });
       });
     },
     [deviceData?.deviceId],
@@ -474,7 +522,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                         !passAuthority(field?.authority, 'edit')
                       }
                       loading={loading}
-                      onClick={() => btnClick(field, !!formatValue ? 1 : 0)}
+                      onClick={() => btnClick(field, !!formatValue ? 1 : 0, formatValue)}
                     />
                   );
                 },
@@ -526,7 +574,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                           fieldDisabled ||
                           !passAuthority(field?.authority, 'edit')
                         }
-                        onChange={(btnValue) => btnClick(field, btnValue)}
+                        onChange={(btnValue) => btnClick(field, btnValue, formatValue)}
                         loading={loading}
                       />
                       {!!field?.tip && (
@@ -1087,6 +1135,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                 currentFormInfo?.service?.deviceId
                   ? extralDeviceRealTimeData?.[currentFormInfo?.service?.deviceId]
                   : realTimeData,
+                currentFormInfo?.dataDeviceIds?.reduce?.(
+                  (result, item) => ({ ...result, ...extralDeviceRealTimeData?.[item] }),
+                  {},
+                ),
                 transformData,
               ),
             }}

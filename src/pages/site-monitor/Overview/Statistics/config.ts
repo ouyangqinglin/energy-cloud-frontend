@@ -173,7 +173,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
           labelUnit: '/kWh',
           field: 'accCharge',
           value: '14024.9',
-          show: ['1', '3', '13'].includes(siteType),
+          show: ['3', '13'].includes(siteType),
         },
         {
           label: `${formatMessage({
@@ -183,7 +183,7 @@ export const config = (siteType: SiteTypeStrEnum) => {
           labelUnit: '/kWh',
           field: 'accDischarge',
           value: '14024.9',
-          show: ['1', '3', '13'].includes(siteType),
+          show: ['3', '13'].includes(siteType),
         },
       ],
     },

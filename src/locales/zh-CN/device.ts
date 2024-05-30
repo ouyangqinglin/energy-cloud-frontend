@@ -493,4 +493,10 @@ export default {
   'device.selectDate': '请选择日期',
   'device.1002': '逆变器',
   'device.1003': '请先绑定站点',
+  'device.1004': '电量',
+  'device.1005': '放电量',
+  'device.1006': '储能分时计量数据',
+  'device.1007': '储能充放电量',
+  'device.1008': '总充电量',
+  'device.1009': '总放电量',
 };
