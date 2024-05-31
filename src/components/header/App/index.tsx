@@ -11,15 +11,17 @@ import { YTAppOutlined } from '@/components/YTIcons';
 import { Popover } from 'antd';
 import React, { memo, useRef } from 'react';
 import styles from './index.less';
+import QRCode from 'qrcodejs2';
 import { formatMessage } from '@/utils';
-import app_code from '@/assets/image/app_code.png';
+
 type AppProps = {
   systemInfo: any;
 };
 const App: React.FC<AppProps> = (props) => {
   const { systemInfo } = props;
+  const qrcodeRef = useRef<HTMLDivElement>(null);
   const showRef = useRef(false);
-  const appDownloadQr = systemInfo.appDownloadQr || app_code;
+  const appDownloadQr = systemInfo.appDownloadQr;
   const appDownloadDesc =
     systemInfo.appDownloadDesc ||
     formatMessage({ id: 'system.scanApp', defaultMessage: '扫码下载E智慧能源App' });
@@ -27,7 +29,11 @@ const App: React.FC<AppProps> = (props) => {
   const content = (
     <>
       <div className={`tx-center ${styles.qrcode}`}>
-        <img src={appDownloadQr} className={styles.qrcodeImg} />
+        {appDownloadQr ? (
+          <img src={appDownloadQr} className={styles.qrcodeImg} />
+        ) : (
+          <div ref={qrcodeRef} />
+        )}
         <div className="mt12">{appDownloadDesc}</div>
       </div>
     </>
@@ -35,6 +41,13 @@ const App: React.FC<AppProps> = (props) => {
 
   const onOpenChange = (visible: boolean) => {
     if (visible && !showRef.current) {
+      if (!appDownloadQr) {
+        new QRCode(qrcodeRef.current, {
+          width: 160,
+          height: 160,
+          text: window.location.origin + '/download/app',
+        });
+      }
       showRef.current = true;
     }
   };

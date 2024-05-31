@@ -1,5 +1,6 @@
 export default {
   'device.pv': '光伏',
+  'device.green': '绿电',
   'device.storage': '储能',
   'device.storageCharging': '储能充电',
   'device.storageDischarge': '储能放电',

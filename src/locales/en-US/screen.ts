@@ -200,4 +200,12 @@ export default {
   'screen.1006': '',
   'screen.1007': '',
   'screen.1008': '',
+  'screen.1009': '',
+  'screen.1010': '',
+  'screen.1011': 'PV Power',
+  'screen.1012': '',
+  'screen.1013': '',
+  'screen.1014': '',
+  'screen.1015': '馈网电量',
+  'screen.1016': '额定功率',
 };

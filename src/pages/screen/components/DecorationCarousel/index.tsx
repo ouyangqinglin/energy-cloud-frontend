@@ -16,6 +16,7 @@ import type { CarouselRef } from 'antd/lib/carousel';
 import { noop } from 'lodash';
 import ButtonGroupSiteType from '../ButtonGroupSiteType';
 import type { SiteType } from '../ButtonGroupSiteType';
+import type { UnitType } from '@/models/siteType';
 
 export type DecorationValueType =
   | 'pagination'
@@ -32,10 +33,12 @@ export type DecorationProp = {
   onSiteTypeButtonChange?: (time: SiteType) => void;
   scroll?: boolean;
   totalPage?: number;
+  siteTypeConfig?: UnitType;
 };
 
 const DecorationCarousel: FC<DecorationProp> = memo(
   ({
+    siteTypeConfig,
     title,
     panelStyle,
     valueType,
@@ -100,6 +103,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
             <ButtonGroupSiteType
               isUseInterval={false}
               current={currentPage}
+              siteTypeConfig={siteTypeConfig}
               onChange={goSiteType}
             />
           ),
@@ -108,8 +112,8 @@ const DecorationCarousel: FC<DecorationProp> = memo(
               className={styles.carousel}
               dots={false}
               ref={carouselSiteTypeRef}
-              autoplay
-              autoplaySpeed={5000}
+              // autoplay
+              // autoplaySpeed={5000}
               afterChange={afterChange}
             >
               {children}

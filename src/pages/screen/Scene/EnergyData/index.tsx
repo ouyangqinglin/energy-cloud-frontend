@@ -160,7 +160,7 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
 
   const arrows = (
     <>
-      <Space className={styles.arrowContain} direction="vertical" size={26}>
+      <Space className={styles.arrowContain} direction="vertical" size={46}>
         {items.left.map((item) => {
           return (
             <Image
@@ -176,7 +176,10 @@ const EnergyData: React.FC<EnergyDataProps> = (props) => {
   );
 
   return (
-    <div className={`flex ${styles.energyContain}`}>
+    <div
+      className={`flex ${styles.energyContain}`}
+      style={{ height: items.left.length > 3 ? '254px' : '184px' }}
+    >
       <Space direction="vertical" size={26}>
         {leftItems}
       </Space>

@@ -49,7 +49,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
       },
     ],
   },
-  ...(siteType.hasPv || true
+  ...(siteType.hasPv
     ? [
         {
           icon: IconPhotovoltaicPanel,
@@ -72,7 +72,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
         },
       ]
     : []),
-  ...(siteType.hasFan || true
+  ...(siteType.hasFan
     ? [
         {
           icon: IconPhotovoltaicPanel,
@@ -95,7 +95,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
         },
       ]
     : []),
-  ...(siteType.hasDiesel || true
+  ...(siteType.hasDiesel
     ? [
         {
           icon: IconPhotovoltaicPanel,
@@ -118,7 +118,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
         },
       ]
     : []),
-  ...(siteType.hasEnergy || true
+  ...(siteType.hasEnergy
     ? [
         {
           icon: IconEnergyStorageCapacity,
@@ -153,7 +153,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
         },
       ]
     : []),
-  ...(siteType.hasCharge || true
+  ...(siteType.hasCharge
     ? [
         {
           icon: iconChargingStation,

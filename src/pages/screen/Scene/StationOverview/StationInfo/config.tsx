@@ -37,7 +37,7 @@ export const stationBoxConfig = (siteType: UnitType) => [
     field: 'transformerCapacity',
     unit: 'kVA',
   },
-  ...((siteType.hasPv || true
+  ...((siteType.hasPv
     ? [
         {
           label: formatMessage({ id: 'screen.pvStringCapacity', defaultMessage: '光伏组串容量' }),
@@ -46,7 +46,7 @@ export const stationBoxConfig = (siteType: UnitType) => [
         },
       ]
     : []) as any),
-  ...(siteType.hasFan || true
+  ...(siteType.hasFan
     ? [
         {
           label: formatMessage({ id: 'screen.1002', defaultMessage: '风机额定功率' }),
@@ -55,7 +55,7 @@ export const stationBoxConfig = (siteType: UnitType) => [
         },
       ]
     : []),
-  ...(siteType.hasDiesel || true
+  ...(siteType.hasDiesel
     ? [
         {
           label: formatMessage({ id: 'screen.1003', defaultMessage: '柴发额定功率' }),
@@ -64,7 +64,7 @@ export const stationBoxConfig = (siteType: UnitType) => [
         },
       ]
     : []),
-  ...(siteType.hasEnergy || true
+  ...(siteType.hasEnergy
     ? [
         {
           label: formatMessage({
@@ -88,7 +88,7 @@ export const stationBoxConfig = (siteType: UnitType) => [
         },
       ]
     : []),
-  ...(siteType.hasCharge || true
+  ...(siteType.hasCharge
     ? [
         {
           label: formatMessage({ id: 'screen.chargingTotalPower', defaultMessage: '充电桩总功率' }),

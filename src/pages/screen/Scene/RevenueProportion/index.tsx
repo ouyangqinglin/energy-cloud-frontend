@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\Scene\RevenueProportion\index.tsx
  */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRequest } from 'umi';
 import type { TimeType } from '../../components/TimeButtonGroup';
 import { Pie, G2 } from '@ant-design/plots';
@@ -17,9 +17,11 @@ import styles from './index.less';
 import { useToolTip } from '@/hooks';
 import { ChartTypeEnum } from '@/hooks/useTooltip';
 import { formatMessage } from '@/utils';
+import type { UnitType } from '@/models/siteType';
 
 type RevenueProportionProps = {
   timeType: TimeType;
+  siteTypeConfig: UnitType;
 };
 
 type DataType = {
@@ -35,20 +37,6 @@ type PieDataType = {
 const unit =
   formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
   formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' });
-const typeMap = new Map([
-  [
-    formatMessage({ id: 'device.pv', defaultMessage: '光伏' }) + unit,
-    ['photovoltaicGains', 'photovoltaicProportion'],
-  ],
-  [
-    formatMessage({ id: 'device.storage', defaultMessage: '储能' }) + unit,
-    ['essGains', 'essProportion'],
-  ],
-  [
-    formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + unit,
-    ['chargingPileGains', 'chargingPileProportion'],
-  ],
-]);
 
 const getCustomHtml = (value: number) => {
   return `<div>
@@ -61,7 +49,31 @@ const getCustomHtml = (value: number) => {
 };
 
 const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
-  const { timeType } = props;
+  const { timeType, siteTypeConfig } = props;
+
+  const typeMap = useMemo(() => {
+    const map = [] as any;
+    if (siteTypeConfig.hasPv || siteTypeConfig.hasFan) {
+      map.push([
+        formatMessage({ id: 'device.green', defaultMessage: '绿电' }) + unit,
+        ['photovoltaicGains', 'photovoltaicProportion'],
+      ]);
+    }
+    if (siteTypeConfig.hasEnergy) {
+      map.push([
+        formatMessage({ id: 'device.storage', defaultMessage: '储能' }) + unit,
+        ['essGains', 'essProportion'],
+      ]);
+    }
+    if (siteTypeConfig.hasCharge) {
+      map.push([
+        formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }) + unit,
+        ['chargingPileGains', 'chargingPileProportion'],
+      ]);
+    }
+    return new Map(map);
+  }, [siteTypeConfig]);
+
   const G = G2.getEngine('canvas');
   const [myConfig, setMyConfig] = useState(pieConfig);
   const [pieData, setPieData] = useState<PieDataType>({ data: [], totalGains: 0 });
@@ -72,60 +84,56 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
     pollingInterval: 5 * 60 * 1000,
   });
 
-  const legendFormat = useCallback(
-    (type) => {
-      const data = pieData.data.find((item) => item.type === type);
-      return data?.percent + '%';
+  const labelFormat = useCallback(
+    (data, mappingData) => {
+      const group = new G.Group({});
+      const lable = data.type.length > 12 ? data.type.substring(0, 12) + '...' : data.type;
+      group.addShape({
+        type: 'text',
+        attrs: {
+          x: 20,
+          y: 8,
+          text: `${data.value}(${data.percent}%)`,
+          fill: mappingData.color,
+          fontSize: 20,
+        },
+      });
+      group.addShape({
+        type: 'text',
+        attrs: {
+          x: 20,
+          y: 25,
+          text: lable,
+          fill: '#ACCCEC',
+          fontWeight: 400,
+          fontSize: 12,
+        },
+      });
+      return group;
     },
-    [pieData],
+    [G.Group],
   );
-
-  const labelFormat = useCallback((data, mappingData) => {
-    const group = new G.Group({});
-    const lable = data.type.length > 12 ? data.type.substring(0, 12) + '...' : data.type;
-    group.addShape({
-      type: 'text',
-      attrs: {
-        x: 20,
-        y: 8,
-        text: data.value,
-        fill: mappingData.color,
-        fontSize: 20,
-      },
-    });
-    group.addShape({
-      type: 'text',
-      attrs: {
-        x: 20,
-        y: 25,
-        text: lable,
-        fill: '#ACCCEC',
-        fontWeight: 400,
-        fontSize: 12,
-      },
-    });
-    return group;
-  }, []);
 
   useEffect(() => {
     setMyConfig((prevData) => {
-      // prevData.legend.itemValue.formatter = legendFormat;
       prevData.legend = false;
       prevData.label.formatter = labelFormat;
       prevData.statistic.content.customHtml = getCustomHtml(pieData?.totalGains);
       return { ...prevData };
     });
-  }, [pieData]);
+  }, [labelFormat, pieData]);
 
   useEffect(() => {
     const typeData: DataType[] = [];
     typeMap.forEach((item, key) => {
-      const valueNum = (revenueData?.[item[0]] || 0) * 1;
-      const percentNum = (revenueData?.[item[1]] || 0) * 1;
+      let valueNum = (revenueData?.[item[0]] || 0) * 1;
+      valueNum = (valueNum + '').length > 7 ? Math.floor(valueNum) : valueNum;
+      let percentNum = (revenueData?.[item[1]] || 0) * 1;
+      percentNum = (percentNum + '').length > 7 ? Math.floor(percentNum) : percentNum;
       typeData.push({
-        type: key,
-        value: (valueNum + '').length > 7 ? Math.floor(valueNum) : valueNum,
-        percent: (percentNum + '').length > 7 ? Math.floor(percentNum) : percentNum,
+        type: key as any,
+        value: valueNum,
+        percent: percentNum,
       });
     });
     const totalNum = (revenueData?.totalGains || 0) * 1;
@@ -133,7 +141,7 @@ const RevenueProportion: React.FC<RevenueProportionProps> = (props) => {
       totalGains: (totalNum + '').length > 7 ? Math.floor(totalNum) : totalNum,
       data: typeData,
     });
-  }, [revenueData]);
+  }, [revenueData, typeMap]);
 
   useEffect(() => {
     run({ siteId, type: timeType });

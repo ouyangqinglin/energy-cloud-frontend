@@ -4,7 +4,7 @@ export const DEFAULT_REQUEST_INTERVAL = 5 * 60 * 1000;
 
 export const dataSource: DigitalFlipperItemProps[] = [
   {
-    title: formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }),
+    title: formatMessage({ id: 'screen.1013', defaultMessage: '绿电收益' }),
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
     floatLength: 2,
     field: 'profit',
@@ -12,9 +12,10 @@ export const dataSource: DigitalFlipperItemProps[] = [
       width: 'auto',
       fontSize: 20,
       fontWeight: 500,
-      color: '#FFE04D',
+      color: '#FFD15C',
+      WebkitTextFillColor: 'inherit',
       backgroundImage:
-        'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
+        'linear-gradient(90deg, #FFFFFF 0%, #7EC2FF 100%), linear-gradient(90deg, #FFFFFF 0%, #A2D3FF 67%, #4DABFF 100%)',
     },
     unitStyle: {
       color: '#ACCCEC',
@@ -22,7 +23,25 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' }),
+    title: formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电量' }),
+    unit: 'kWh',
+    floatLength: 2,
+    field: 'charge',
+    numStyle: {
+      width: 'auto',
+      fontWeight: 500,
+      fontSize: 20,
+      color: '#4DD6F0',
+      background: 'none',
+      WebkitTextFillColor: 'inherit',
+    },
+    unitStyle: {
+      color: '#ACCCEC',
+      fontSize: 12,
+    },
+  },
+  {
+    title: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
     unit: 'kWh',
     floatLength: 2,
     field: 'charge',
@@ -61,7 +80,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: formatMessage({ id: 'screen.onGridPower', defaultMessage: '上网电量' }),
+    title: formatMessage({ id: 'screen.1015', defaultMessage: '馈网电量' }),
     unit: 'kWh',
     floatLength: 2,
     field: 'disCharge',
@@ -82,7 +101,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
 
 export const dataSourceRealTime: DigitalFlipperItemProps[] = [
   {
-    title: formatMessage({ id: 'screen.timeGeneratingCapacity', defaultMessage: '实时发电功率' }),
+    title: formatMessage({ id: 'screen.1011', defaultMessage: '光伏发电功率' }),
     unit: 'kW',
     floatLength: 2,
     field: 'realTimePowerGeneration',
@@ -90,9 +109,10 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
       width: 'auto',
       fontSize: 20,
       fontWeight: 500,
-      color: '#FFE04D',
+      color: '#4DD6F0',
+      WebkitTextFillColor: 'inherit',
       backgroundImage:
-        'linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 221, 155) 82%, rgb(255, 195, 79) 100%)',
+        'linear-gradient(90deg, #FFFFFF 0%, #7EC2FF 100%), linear-gradient(90deg, #FFFFFF 0%, #A2D3FF 67%, #4DABFF 100%);',
     },
     unitStyle: {
       color: '#ACCCEC',
@@ -100,8 +120,8 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     },
   },
   {
-    title: formatMessage({ id: 'screen.totalStringCapacity', defaultMessage: '组串总容量' }),
-    unit: 'kWp',
+    title: formatMessage({ id: 'screen.1012', defaultMessage: '风机发电功率' }),
+    unit: 'kW',
     floatLength: 2,
     field: 'totalStringCapacity',
     numStyle: {
@@ -109,7 +129,8 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
       fontWeight: 500,
       fontSize: 20,
       color: '#4DD6F0',
-      background: 'none',
+      backgroundImage:
+        'linear-gradient(90deg, #FFFFFF 0%, #7EC2FF 100%), linear-gradient(90deg, #FFFFFF 0%, #A2D3FF 67%, #4DABFF 100%);',
       WebkitTextFillColor: 'inherit',
     },
     unitStyle: {
