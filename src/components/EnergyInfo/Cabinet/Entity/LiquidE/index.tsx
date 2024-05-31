@@ -181,8 +181,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
-    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
-    productTypeId: DeviceProductTypeEnum.Pcs,
+    dataProductTypeIds: [DeviceProductTypeEnum.Pcs],
+    productTypeId: DeviceProductTypeEnum.Ems,
     position: { top: 200, left: 768 },
     icon: PcsImg,
     line: LiquidPcsLineImg,
@@ -191,6 +191,11 @@ const configs: ConfigType[] = [
       {
         label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
         field: 'converterOperatingMode',
+        show: (_, data) => data.productId != DeviceTypeEnum.LiquidEmsGrid,
+      },
+      {
+        field: 'OffGridStatus',
+        show: (_, data) => data.productId == DeviceTypeEnum.LiquidEmsGrid,
       },
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),

@@ -231,6 +231,8 @@ export enum DeviceTypeEnum {
   Charge3202Master = 208,
   Charge4002Master = 209,
   Liquid2Battery16 = 224,
+  LiquidEmsGrid = 228,
+  WindEmsGrid = 229,
   Device = 'default',
 }
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 11:30:32
- * @LastEditTime: 2024-05-20 15:26:54
+ * @LastEditTime: 2024-05-31 10:14:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\WindD\index.tsx
  */
@@ -13,7 +13,7 @@ import Model from '../../Model';
 import EnergyImg from '@/assets/image/station/energy/enery.png';
 import { ConfigType } from '../../type';
 import { formatMessage } from '@/utils';
-import { DeviceProductTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
 import AirImg from '@/assets/image/station/energy/air.png';
 import AirLineImg from '@/assets/image/station/energy/air-line.png';
 import DoorImg from '@/assets/image/station/energy/door.png';
@@ -169,8 +169,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
-    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
-    productTypeId: DeviceProductTypeEnum.Pcs,
+    dataProductTypeIds: [DeviceProductTypeEnum.Pcs],
+    productTypeId: DeviceProductTypeEnum.Ems,
     position: { top: 487, left: 802 },
     icon: PcsImg,
     line: PcsLineImg,
@@ -179,6 +179,11 @@ const configs: ConfigType[] = [
       {
         label: formatMessage({ id: 'siteMonitor.workingMode', defaultMessage: '工作模式' }),
         field: 'converterOperatingMode',
+        show: (_, data) => data.productId != DeviceTypeEnum.LiquidEmsGrid,
+      },
+      {
+        field: 'OffGridStatus',
+        show: (_, data) => data.productId == DeviceTypeEnum.LiquidEmsGrid,
       },
       {
         label: formatMessage({ id: 'siteMonitor.workingCondition', defaultMessage: '工作状态' }),

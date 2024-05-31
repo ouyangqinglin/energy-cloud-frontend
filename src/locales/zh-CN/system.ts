@@ -57,4 +57,6 @@ export default {
   'system.1012': '公众号二维码',
   'system.1013': 'app二维码说明',
   'system.1014': ' 公众号二维码说明',
+  'system.1015': '下载App',
+  'system.1016': '版本号',
 };
