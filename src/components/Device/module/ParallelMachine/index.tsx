@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-05-29 16:49:22
+ * @LastEditTime: 2024-05-31 16:42:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */

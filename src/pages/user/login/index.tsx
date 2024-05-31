@@ -1,6 +1,6 @@
 import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message, Row } from 'antd';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel, useAliveController } from 'umi';
 import Footer from '@/components/Footer';
@@ -40,16 +40,16 @@ const Login: React.FC = () => {
   const location = useLocation<QueryParams>();
   const { refresh: refreshSiteType } = useModel('siteType');
 
-  if (location?.query?.lang) {
-    initLocale(location?.query?.lang);
-  }
-
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
   const { initialState, refresh } = useModel('@@initialState');
   const { clear } = useAliveController();
 
   const [uuid, setUuid] = useState<string>('');
+
+  const onLangClick = useCallback(({ key }) => {
+    initLocale(key);
+  }, []);
 
   const intl = useIntl();
 
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.container} style={{ backgroundImage: `url(${BGImg})` }}>
       <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
+        {SelectLang && <SelectLang onItemClick={onLangClick} />}
       </div>
       <div className={styles.content}>
         <LoginForm

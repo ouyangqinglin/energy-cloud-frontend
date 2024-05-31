@@ -7,6 +7,7 @@ import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import moment from 'moment';
 import defaultSettings from '../../config/defaultSettings';
+import { parse } from 'querystring';
 
 export enum DeviceModelShowTypeEnum {
   // 1-平铺 2-服务名称隐藏 3-宫格 4-展示为radioButton 5-展示为select 6-展示为switch 7-展示为button 8-线 9-表单元素
@@ -152,6 +153,8 @@ export const getLocale = () => {
       result.monthYearFormat = 'YYYY-MM';
       break;
     case 'en-US':
+      result.isZh = false;
+      result.isZhCN = false;
       result.isEn = true;
       result.isEnUS = true;
       result.dateFormat = 'MM/DD/YYYY';
@@ -493,11 +496,21 @@ export const getPropsFromTree = <T extends Record<string, any>, U = string>(
 
 export const initLocale = (userLocale?: string) => {
   const localLocale = localStorage.getItem('umi_locale');
+  const queryLang = parse(window.location.search.replace('?', '')) as { lang: string };
   const locale =
-    userLocale || localLocale || getBrowserLang() || defaultSettings?.locale || 'zh-CN';
+    userLocale ||
+    queryLang.lang ||
+    localLocale ||
+    getBrowserLang() ||
+    defaultSettings?.locale ||
+    'zh-CN';
   if (localLocale != locale) {
     localStorage.setItem('umi_locale', locale);
-    window.location.reload();
+    if (queryLang.lang != locale && queryLang.lang) {
+      window.location.href = window.location.href.replace(queryLang.lang, locale);
+    } else {
+      window.location.reload();
+    }
   }
 };
 
