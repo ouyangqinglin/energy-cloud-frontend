@@ -129,17 +129,17 @@ export const getLocale = () => {
   const locale = localStorage.getItem('umi_locale') || '';
 
   const result = {
-    isZh: false,
-    isZhCN: false,
+    isZh: true,
+    isZhCN: true,
     isZhTW: false,
     isEn: false,
     isEnUS: false,
     isJaJP: false,
-    dateFormat: '',
-    dateTimeFormat: '',
-    dateTimeNoSecondFormat: '',
-    monthDateFormat: '',
-    monthYearFormat: '',
+    dateFormat: 'YYYY-MM-DD',
+    dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
+    dateTimeNoSecondFormat: 'YYYY-MM-DD HH:mm',
+    monthDateFormat: 'MM-DD',
+    monthYearFormat: 'YYYY-MM',
   };
   switch (locale) {
     case 'zh-CN':
