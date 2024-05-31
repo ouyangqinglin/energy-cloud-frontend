@@ -139,6 +139,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         request={handleRequest}
         manualRequest={true}
         rowKey="deviceId"
+        resizable
         expandable={{
           childrenColumnName: 'childDeviceList',
           expandIcon: ({ expanded, expandable, record, onExpand }) => {
