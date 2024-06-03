@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 09:36:55
- * @LastEditTime: 2023-09-22 09:53:49
+ * @LastEditTime: 2024-06-03 08:51:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\ElecPower\index.tsx
  */
@@ -130,7 +130,7 @@ const ElecPower: React.FC = () => {
         links.push({
           source: item.name,
           target: formatMessage({ id: 'screen.otherSites', defaultMessage: '其他站点' }),
-          value: elseSiteElec || 10,
+          value: Number((elseSiteElec || 10).toFixed(2)),
         });
       }
     });
@@ -141,7 +141,7 @@ const ElecPower: React.FC = () => {
       result.series.data.push(
         merge({}, targetItem, {
           name: formatMessage({ id: 'screen.otherSites', defaultMessage: '其他站点' }),
-          count: totalElseElec,
+          count: Number(totalElseElec.toFixed(2)),
         }),
       );
     }

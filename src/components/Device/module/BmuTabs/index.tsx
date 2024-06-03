@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-05-14 17:44:01
+ * @LastEditTime: 2024-06-03 09:52:10
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -122,7 +122,10 @@ const BmuTabs: React.FC<BmuTabsType> = memo((props) => {
         formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '1',
       );
     } else {
-      if (deviceData?.productId != DeviceTypeEnum.SmallEnergyBatteryCluster) {
+      if (
+        deviceData?.productId != DeviceTypeEnum.SmallEnergyBatteryCluster &&
+        deviceData?.productId != DeviceTypeEnum.PvEnergyBms
+      ) {
         result.push(
           formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' }) + '13',
         );
