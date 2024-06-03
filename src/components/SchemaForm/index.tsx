@@ -45,7 +45,9 @@ export type SchemaFormProps<FormData = any, ValueType = any, ParamData = any> = 
     formData: FormData,
     formRef: React.Ref<ProFormInstance | undefined>,
   ) => FormData | void;
-  beforeSubmit?: (formData: FormData) => boolean | void | ParamData;
+  beforeSubmit?: (
+    formData: FormData,
+  ) => boolean | void | ParamData | Promise<boolean | void | ParamData>;
   onSuccess?: (formData: FormData | ParamData) => boolean | void;
   onError?: (data: any) => void;
   extraData?: Record<string, any>;
@@ -151,11 +153,20 @@ const SchemaForm = <
   );
 
   const onFinish = useCallback(
-    (formData: FormData) => {
+    async (formData: FormData) => {
       formatData(formData, columns);
       const request = type == FormTypeEnum.Add ? runAdd : runEdit;
-      const beforeSubmitResult = beforeSubmit?.(formData);
-      if (beforeSubmitResult !== false) {
+      let beforeSubmitResult = beforeSubmit?.(formData);
+
+      if (typeof beforeSubmitResult === 'boolean') {
+        return Promise.resolve(beforeSubmitResult);
+      } else {
+        if (
+          typeof beforeSubmitResult == 'object' &&
+          beforeSubmitResult?.toString?.() == '[object Promise]'
+        ) {
+          beforeSubmitResult = await beforeSubmitResult;
+        }
         return request?.({
           ...((beforeSubmitResult as ParamData) ?? formData),
           [idKey]: id,
@@ -183,8 +194,6 @@ const SchemaForm = <
           ?.catch((data) => {
             onError?.(data);
           });
-      } else {
-        return Promise.resolve(false);
       }
     },
     [type, id, runAdd, runEdit, onSuccess, extraData, layoutType, beforeSubmit, columns],
