@@ -12,9 +12,11 @@ import EChartsReact from 'echarts-for-react';
 import { defaultOption } from './config';
 import type { ChartProps } from './config';
 import { merge } from 'lodash';
+import { Spin } from 'antd';
+import styles from './index.less';
 
 const Chart: React.FC<ChartProps> = (props) => {
-  const { option, min, max, chartRef, calculateMax = true, ...restProps } = props;
+  const { option, min, max, chartRef, calculateMax = true, loading = false, ...restProps } = props;
 
   const [show, { setTrue, setFalse }] = useBoolean(false);
   const [key, setKey] = useState('1');
@@ -66,13 +68,16 @@ const Chart: React.FC<ChartProps> = (props) => {
   return (
     <>
       {show && (
-        <EChartsReact
-          key={key}
-          ref={chartRef}
-          option={chartOptions}
-          style={{ height: 254 }}
-          {...restProps}
-        />
+        <div className={styles.chart}>
+          <EChartsReact
+            key={key}
+            ref={chartRef}
+            option={chartOptions}
+            style={{ height: 254 }}
+            {...restProps}
+          />
+          {loading && <Spin className={styles.loading} size="large" />}
+        </div>
       )}
     </>
   );

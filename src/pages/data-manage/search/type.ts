@@ -36,7 +36,7 @@ export type TableSearchType = {
   }[];
 };
 
-export type TableDataType = TableSearchType & {
+export type TableDataType = Omit<TableSearchType, 'time'> & {
   time?: string;
   devices?: {
     deviceId?: string;

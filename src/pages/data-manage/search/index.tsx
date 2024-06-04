@@ -7,12 +7,14 @@ import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
-import type { ActionType, ProColumns, ProFormInstance } from '@ant-design/pro-components';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
-
 import { ProConfigProvider } from '@ant-design/pro-components';
+import { Radio, RadioChangeEvent } from 'antd';
+import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import Chart, { ChartRefType } from './chart';
 type DeviceMapDataType = {
   sn: string;
   deviceName: string;
@@ -76,6 +78,10 @@ const Search: React.FC<SearchProps> = (props) => {
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
+  const [tableType, setTableType] = useState(0);
+  const [searchData, setSearchData] = useState<any>(null);
+  const [allTableData, setAllTableData] = useState<TableDataType[]>([]);
+  const chartRef = useRef<ChartRefType>();
   const [collectionColumns, setCollectionColumns] = useState<
     ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[]
   >([]);
@@ -98,14 +104,15 @@ const Search: React.FC<SearchProps> = (props) => {
   }, [siteSearchColumn, collectionColumns, deviceData]);
 
   const onRequest = useCallback(
-    (params: TableSearchType) => {
+    async (params: TableSearchType) => {
       if (params?.collection && params?.collection?.length) {
         const cols = dealParams(params);
         setCollectionColumns(cols);
-        const result = getList({
+        const searchDataResult = {
           ...params,
           ...(isDeviceChild ? { siteId } : {}),
-        }).then(({ data }) => {
+        };
+        const result = getList(searchDataResult).then(({ data }) => {
           data?.list?.forEach?.((item) => {
             item?.devices?.forEach?.((child) => {
               item[child?.key + '-' + child?.deviceId] = child?.value;
@@ -117,9 +124,18 @@ const Search: React.FC<SearchProps> = (props) => {
             msg: '',
           };
         });
+        await getList({
+          ...searchDataResult,
+          pageSize: 2147483647,
+        }).then((res) => {
+          setAllTableData(res?.data?.list?.reverse?.() || []);
+        });
+        setSearchData(searchDataResult);
         return result;
       } else {
         setCollectionColumns([]);
+        setSearchData(null);
+        setAllTableData([]);
         return Promise.resolve({
           code: '200',
           data: {
@@ -130,21 +146,7 @@ const Search: React.FC<SearchProps> = (props) => {
         });
       }
     },
-    [isDeviceChild, deviceData, siteId],
-  );
-
-  const requestExport = useCallback(
-    (params: TableSearchType) => {
-      dealParams(params);
-      const date = params?.time || [];
-      return exportList({
-        ...params,
-        startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
-        endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
-        ...(isDeviceChild ? { siteId } : {}),
-      });
-    },
-    [isDeviceChild, siteId, deviceData],
+    [isDeviceChild, deviceData, siteId, tableType],
   );
 
   const getExportName = useCallback((params: TableSearchType) => {
@@ -157,6 +159,35 @@ const Search: React.FC<SearchProps> = (props) => {
       moment(date[1]).format('YYYY-MM-DD')
     );
   }, []);
+
+  const requestExport = useCallback(
+    (params: TableSearchType) => {
+      dealParams(params);
+      const date = params?.time || [];
+      if (tableType) {
+        chartRef.current?.downLoadImg?.(getExportName(params));
+        return Promise.reject();
+      } else {
+        return exportList({
+          ...params,
+          startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
+          endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
+          ...(isDeviceChild ? { siteId } : {}),
+        });
+      }
+    },
+    [isDeviceChild, siteId, deviceData, tableType],
+  );
+
+  const onTypeChange = (e: RadioChangeEvent) => {
+    setTableType(e.target.value);
+  };
+
+  const chart = useMemo(() => {
+    return (
+      <Chart ref={chartRef} searchData={searchData} tableType={tableType} data={allTableData} />
+    );
+  }, [searchData, tableType]);
 
   useEffect(() => {
     if (isDeviceChild) {
@@ -174,10 +205,27 @@ const Search: React.FC<SearchProps> = (props) => {
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}
-          headerTitle={formatMessage({
-            id: 'dataManage.samplingDetail',
-            defaultMessage: '采样明细',
-          })}
+          headerTitle={
+            <>
+              {formatMessage({
+                id: 'dataManage.samplingDetail',
+                defaultMessage: '采样明细',
+              })}
+              <Radio.Group
+                className="ml12"
+                optionType="button"
+                value={tableType}
+                onChange={onTypeChange}
+              >
+                <Radio.Button value={0}>
+                  <UnorderedListOutlined />
+                </Radio.Button>
+                <Radio.Button value={1}>
+                  <LineChartOutlined />
+                </Radio.Button>
+              </Radio.Group>
+            </>
+          }
           toolBarRenderOptions={{
             add: {
               show: false,
@@ -187,6 +235,12 @@ const Search: React.FC<SearchProps> = (props) => {
               requestExport: requestExport,
               getExportName: getExportName,
             },
+          }}
+          options={{
+            density: false,
+            fullScreen: false,
+            reload: false,
+            setting: !tableType,
           }}
           columns={columns}
           request={onRequest}
@@ -205,6 +259,18 @@ const Search: React.FC<SearchProps> = (props) => {
                 }
               : {}
           }
+          tableRender={(_, dom, { toolbar }) => {
+            return tableType ? (
+              <>
+                <div className="px24 pb16">
+                  {toolbar}
+                  {chart}
+                </div>
+              </>
+            ) : (
+              dom
+            );
+          }}
         />
       </ProConfigProvider>
     </>

@@ -231,9 +231,9 @@ export const getPathArrary = (path: string): string[] => {
   return result;
 };
 
-export const saveFile = (data: Blob, name = '导出文件') => {
+export const saveFile = (data: Blob | string, name = '导出文件', ext = '.xlsx') => {
   // let blob = new Blob([data], { type: fileType.Xlxs })
-  FileSaver.saveAs(data, name + '.xlsx');
+  FileSaver.saveAs(data, name + ext);
 };
 
 export const strToArray = (value: number | string): number[] => {
