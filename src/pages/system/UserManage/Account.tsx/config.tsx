@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-05-20 14:40:37
+ * @LastEditTime: 2024-06-03 19:03:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -371,6 +371,11 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
             };
           },
         ],
+      },
+      fieldProps: {
+        onCompositionEnd: (e) => {
+          console.log(e);
+        },
       },
     },
     {

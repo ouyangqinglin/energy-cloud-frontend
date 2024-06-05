@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-05-30 15:02:15
+ * @LastEditTime: 2024-06-05 09:01:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -149,41 +149,41 @@ const Control: React.FC<ControlType> = memo((props) => {
     [],
   );
 
-  const onBeforeSubmit = useCallback(
-    (result) => {
-      result.input = { ...result.input, ...currentFormInfo.service?.extraParams };
+  const getTipConfirm = useCallback(
+    (rules: TipType[], callback: () => Promise<any>, cancelBack?: () => void) => {
+      let num = 0;
+      const confirm = () => {
+        const rule = rules?.[num];
+        Modal.confirm({
+          title: rule?.title || '',
+          content: rule?.content,
+          okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+          cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+          onOk: () => {
+            num++;
+            if (num < rules?.length) {
+              confirm();
+              return;
+            } else {
+              return callback?.();
+            }
+          },
+          onCancel: () => {
+            cancelBack?.();
+          },
+        });
+      };
+      confirm();
     },
-    [currentFormInfo],
+    [],
   );
-
-  const getTipConfirm = useCallback((rules: TipType[], callback: () => Promise<any>) => {
-    let num = 0;
-    const confirm = () => {
-      const rule = rules?.[num];
-      Modal.confirm({
-        title: rule?.title || '',
-        content: rule?.content,
-        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-        onOk: () => {
-          num++;
-          if (num < rules?.length) {
-            confirm();
-            return;
-          } else {
-            return callback?.();
-          }
-        },
-      });
-    };
-    confirm();
-  }, []);
 
   const btnClick = useCallback(
     (field: DeviceServiceModelType, value: any, oldValue: any) => {
       const templeData = {
         ...field,
         oldValue,
+        oldValueFormat: formatModelValue(oldValue, field?.dataType || {}, false),
         newValue: value,
         newValueFormat: formatModelValue(value, field?.dataType || {}, false),
       };
@@ -226,6 +226,53 @@ const Control: React.FC<ControlType> = memo((props) => {
       });
     },
     [deviceData?.deviceId],
+  );
+
+  const onBeforeSubmit = useCallback(
+    (result) => {
+      result.input = { ...result.input, ...currentFormInfo.service?.extraParams };
+
+      const templeData = {
+        ...currentFormInfo.service,
+        ...result.input,
+      };
+      const rules: TipType[] = currentFormInfo.service?.promptRule?.map?.((item) => {
+        try {
+          return {
+            title: template(item.title)(templeData),
+            content: template(item.content)(templeData),
+          };
+        } catch (e) {
+          console.error(e);
+          return {
+            title: item.title,
+            content: item.content,
+          };
+        }
+      }) || [
+        {
+          title: currentFormInfo.service?.name,
+          content: formatMessage({
+            id: 'device.whetherExecuteCurrentParameter',
+            defaultMessage: '是否执行当前参数下发',
+          }),
+        },
+      ];
+
+      return new Promise((resolve, reject) => {
+        getTipConfirm(
+          rules,
+          () => {
+            resolve(result);
+            return Promise.resolve(true);
+          },
+          () => {
+            reject();
+          },
+        );
+      });
+    },
+    [currentFormInfo],
   );
 
   const onRefresh = useCallback(
@@ -984,7 +1031,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                 <Button
                   type="primary"
                   onClick={() => onClick(service, columns, columnsLength)}
-                  // disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
+                  disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
                 >
                   {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
                 </Button>

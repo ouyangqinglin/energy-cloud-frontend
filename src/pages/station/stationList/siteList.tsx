@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-24 09:52:08
+ * @LastEditTime: 2024-05-31 10:59:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -244,6 +244,19 @@ const StationList: React.FC = () => {
           },
         },
         width: 150,
+        sorter: true,
+      },
+      {
+        title: formatMessage({
+          id: 'siteManage.siteList.constructionStatus',
+          defaultMessage: '建设状态',
+        }),
+        dataIndex: 'constructionStatus',
+        valueType: 'select',
+        valueEnum: buildStatus,
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
       },
       {
         title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '投运日期' }),
@@ -252,6 +265,17 @@ const StationList: React.FC = () => {
         renderFormat: getLocale().dateTimeFormat,
         hideInSearch: true,
         width: 150,
+        sorter: true,
+      },
+      {
+        title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
+        dataIndex: 'agent',
+        hideInSearch: true,
+        ellipsis: true,
+        width: 150,
+        render: (_, record) => {
+          return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
+        },
       },
       {
         title: formatMessage({ id: 'common.area', defaultMessage: '地区' }),
@@ -293,28 +317,6 @@ const StationList: React.FC = () => {
         width: 150,
         ellipsis: true,
         hideInSearch: true,
-      },
-      {
-        title: formatMessage({
-          id: 'siteManage.siteList.constructionStatus',
-          defaultMessage: '建设状态',
-        }),
-        dataIndex: 'constructionStatus',
-        valueType: 'select',
-        valueEnum: buildStatus,
-        width: 150,
-        ellipsis: true,
-        hideInSearch: true,
-      },
-      {
-        title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),
-        dataIndex: 'agent',
-        hideInSearch: true,
-        ellipsis: true,
-        width: 150,
-        render: (_, record) => {
-          return record?.installers?.map?.((item) => item.orgName)?.join?.('，');
-        },
       },
       {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),

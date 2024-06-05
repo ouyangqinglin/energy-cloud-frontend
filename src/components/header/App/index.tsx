@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-04-01 14:40:45
- * @LastEditTime: 2024-04-01 16:16:34
+ * @LastEditTime: 2024-05-31 15:28:35
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\header\App\index.tsx
  */
@@ -12,7 +12,7 @@ import { Popover } from 'antd';
 import React, { memo, useRef } from 'react';
 import styles from './index.less';
 import QRCode from 'qrcodejs2';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 
 type AppProps = {
   systemInfo: any;
@@ -45,7 +45,7 @@ const App: React.FC<AppProps> = (props) => {
         new QRCode(qrcodeRef.current, {
           width: 160,
           height: 160,
-          text: window.location.origin + '/download/app',
+          text: `${window.location.origin}/download/app?lang=${getLocale().locale}`,
         });
       }
       showRef.current = true;

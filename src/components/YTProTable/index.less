@@ -5,8 +5,17 @@
 }
 
 .ytTable {
-  :global(.ant-pro-table-search) {
-    padding: 0 !important;
+  :global {
+    .ant-pro-table-search {
+      padding: 0 !important;
+    }
+    .ant-table-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      overflow: hidden;
+      background: white;
+    }
   }
 }
 

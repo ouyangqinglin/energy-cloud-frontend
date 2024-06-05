@@ -41,6 +41,7 @@ export const columns: YTProColumns<MarketElectricityPriceInfo>[] = [
     },
     fieldProps: {
       format: isUS ? 'MM/DD' : 'MM-DD',
+      popupClassName: 'ant-picker-noyear',
     },
   },
   {

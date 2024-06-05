@@ -124,6 +124,7 @@ export const columns: (timeColum: ProFormColumnsType, setType: 0 | 1) => ProForm
                 },
                 fieldProps: {
                   format: isUS ? 'MM/DD' : 'MM-DD',
+                  popupClassName: 'ant-picker-noyear',
                 },
                 convertValue: (value, field) => {
                   return value;

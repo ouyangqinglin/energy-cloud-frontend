@@ -69,4 +69,6 @@ export default {
   'system.1012': '',
   'system.1013': '',
   'system.1014': ' ',
+  'system.1015': 'Download App',
+  'system.1016': 'Version',
 };

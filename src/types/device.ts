@@ -127,6 +127,7 @@ export type DeviceServiceType = {
   authority?: DeviceModelAuthorityType[];
   buttons?: 'refresh' | 'edit';
   extraParams?: any;
+  promptRule?: TipType[];
 };
 
 export type DeviceLocationType = {

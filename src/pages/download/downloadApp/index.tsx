@@ -1,10 +1,14 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import QRCode from 'qrcodejs2';
 import { getVersionList, getFileUrl } from '@/pages/system/version/service';
 import android from '@/assets/image/android.png';
 import styles from './index.less';
 import { defaultSystemInfo } from '@/utils/config';
 import { Button, Typography } from 'antd';
+import zhBg from '@/assets/image/app_download_bg.png';
+import enBg from '@/assets/image/app_download_bg_en.png';
+import { formatMessage, getLocale, initLocale } from '@/utils';
+import { SelectLang } from 'umi';
 
 const DownloadApp: React.FC = () => {
   const [fileUrl, setFileUrl] = useState<string>('');
@@ -12,6 +16,10 @@ const DownloadApp: React.FC = () => {
 
   const isIOS = useMemo(() => {
     return !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  }, []);
+
+  const onLangClick = useCallback(({ key }) => {
+    initLocale(key);
   }, []);
 
   const getDownloadUrl = () => {
@@ -37,13 +45,21 @@ const DownloadApp: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        backgroundImage: `url(${getLocale().isZh ? zhBg : enBg})`,
+      }}
+    >
+      {SelectLang && <SelectLang className={styles.lang} onItemClick={onLangClick} />}
       <div className="download-btn">
         <Button type="primary" onClick={downlaodApp}>
-          下载App
+          {formatMessage({ id: 'system.1015', defaultMessage: '下载App' })}
         </Button>
         <div className="mt12">
-          <Typography.Text type="secondary">版本号：{version}</Typography.Text>
+          <Typography.Text type="secondary">
+            {formatMessage({ id: 'system.1016', defaultMessage: '版本号' })}：{version}
+          </Typography.Text>
         </div>
       </div>
     </div>

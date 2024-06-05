@@ -33,6 +33,7 @@ export const columns: YTProColumns<PhotovoltaicElectricityPriceInfo>[] = [
     },
     fieldProps: {
       format: isUS ? 'MM/DD' : 'MM-DD',
+      popupClassName: 'ant-picker-noyear',
     },
     search: {
       transform: (value) => {
