@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-06-03 16:40:25
+ * @LastEditTime: 2024-06-05 09:01:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -263,7 +263,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         getTipConfirm(
           rules,
           () => {
-            resolve(undefined);
+            resolve(result);
             return Promise.resolve(true);
           },
           () => {
