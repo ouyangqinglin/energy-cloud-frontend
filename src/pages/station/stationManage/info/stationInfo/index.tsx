@@ -97,7 +97,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
       field: 'createTime',
     },
     {
-      label: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
+      label: formatMessage({ id: 'common.deliveryTime', defaultMessage: '投运日期' }),
       field: 'deliveryTime',
       span: 2,
     },
@@ -106,7 +106,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
       field: 'createByName',
     },
     {
-      label: formatMessage({ id: 'common.deliveryPerson', defaultMessage: '交付人' }),
+      label: formatMessage({ id: 'common.deliveryPerson', defaultMessage: '投运人' }),
       field: 'deliveryByName',
     },
   ];

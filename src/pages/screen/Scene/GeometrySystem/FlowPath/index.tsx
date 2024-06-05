@@ -6,6 +6,8 @@ import PathElectricSupply from './component/PathElectricSupply';
 import PathLoad from './component/PathLoad';
 import PathPowerConsumption from './component/PathPowerConsumption';
 import PathPV from './component/PathPV';
+import PathFan from './component/PathFan';
+
 const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<SVGSVGElement>) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={894} height={419} {...restProp}>
@@ -41,6 +43,10 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
         <linearGradient id="h" x1="0%" x2="0%" y1="0%" y2="0%">
           <stop offset="0%" stopColor="#65D5FF" />
           <stop offset="100%" stopColor="#0263C2" />
+        </linearGradient>
+        <linearGradient id="fan" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop stopColor="#65D5FF" offset="0%" />
+          <stop stopColor="#0263C2" offset="100%" />
         </linearGradient>
         <filter
           id="b"
@@ -82,6 +88,16 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
         >
           <feGaussianBlur in="SourceGraphic" stdDeviation={1.484} />
         </filter>
+        <filter
+          x="-3.9%"
+          y="-7.4%"
+          width="107.7%"
+          height="114.8%"
+          filterUnits="objectBoundingBox"
+          id="fan1"
+        >
+          <feGaussianBlur in="SourceGraphic" stdDeviation={1.48} />
+        </filter>
       </defs>
       <g fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
         <PathElectricSupply
@@ -101,6 +117,10 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           direction={data?.[SubSystemType.ES].direction}
         />
         <PathPV
+          show={data?.[SubSystemType.PV].flag}
+          direction={data?.[SubSystemType.PV].direction}
+        />
+        <PathFan
           show={data?.[SubSystemType.PV].flag}
           direction={data?.[SubSystemType.PV].direction}
         />

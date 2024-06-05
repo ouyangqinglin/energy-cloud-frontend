@@ -69,7 +69,6 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
   // 重置表单
   const formRef = useRef<ProFormInstance>();
   useEffect(() => {
-    console.log('2222222>>', 2222222);
     formRef?.current?.setFieldsValue?.(initialValues);
   }, [formRef, initialValues]);
 

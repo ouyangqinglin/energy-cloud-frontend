@@ -499,4 +499,5 @@ export default {
   'device.1007': '储能充放电量',
   'device.1008': '总充电量',
   'device.1009': '总放电量',
+  'device.timeRequire': '所有时间范围相加未满24小时',
 };

@@ -125,7 +125,7 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
         )}
         <li>
           <div className={styles.label}>
-            {formatMessage({ id: 'siteMonitor.gridTime', defaultMessage: '交付时间' })}：
+            {formatMessage({ id: 'siteMonitor.gridTime', defaultMessage: '投运日期' })}：
           </div>
           <div className={styles.value}>{data?.deliveryTime ?? '--'}</div>
         </li>

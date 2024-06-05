@@ -34,7 +34,7 @@ export default {
   'siteManage.siteList.addEffectiveDate': '新增生效日期',
   'siteManage.set.baseInfo': '基础信息',
   'siteManage.set.siteStatus': '站点状态',
-  'siteManage.set.siteStatusSuccess': '已交付',
+  'siteManage.set.siteStatusSuccess': '已投运',
   'siteManage.set.siteStatusProcessing': '建设中',
   'siteManage.set.deviceManage': '设备管理',
   'siteManage.set.operateManagement': '运行管理',
@@ -165,4 +165,7 @@ export default {
   'siteManage.1030': '已下发',
   'siteManage.1031': '确定要下发吗',
   'siteManage.1032': '未下发',
+
+  'siteManage.1033': '收益刷新',
+  'siteManage.1034': '是否确定刷新，确定后会对规则生效期间内的收益和整体收益进行刷新！',
 };

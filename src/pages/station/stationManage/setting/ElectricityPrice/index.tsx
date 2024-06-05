@@ -20,7 +20,6 @@ import { getPhotovoltaicElectricityPriceList } from './PricePhotovoltaic/service
 //充电桩
 import { getChargingElectricityPriceList } from './PriceCharging/service';
 import { SiteTypeStrEnum } from '@/utils/enum';
-import { useModel } from 'umi';
 
 const enum TabKeys {
   MARKET = '1',
@@ -50,7 +49,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
   const marketActionRef = useRef<ActionType>(null);
   const [visible, setVisible] = useState<boolean>(false);
   const [siteList, setSiteList] = useState<any[]>([]);
-  const [type, setType] = useState<string>(TabKeys.MARKET);
+  const [currentType, setCurrentType] = useState<string>(TabKeys.MARKET);
   const [ids, setIds] = useState<React.Key[]>([]);
 
   const { authorityMap } = useAuthority([
@@ -65,19 +64,16 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
   ]);
 
   const getSiteData = (siteName = '') => {
-    getRulesSyncSite({ siteId: id, name: siteName, type }).then((res) => {
+    getRulesSyncSite({ siteId: id, name: siteName, type: currentType }).then((res) => {
       if (res.code == 200) {
         setSiteList(res.data);
       }
     });
   };
 
-  const requestStation = useCallback(
-    debounce((searchText) => {
-      getSiteData(searchText);
-    }, 700),
-    [],
-  );
+  const requestStation = useCallback((searchText) => {
+    getSiteData(searchText);
+  }, []);
 
   useEffect(() => {
     if (visible) {
@@ -87,7 +83,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
   }, [visible]);
 
   const onChange = (activeKey: string) => {
-    setType(activeKey);
+    setCurrentType(activeKey);
     switch (activeKey) {
       case TabKeys.CHARGING:
         chargingActionRef.current?.reload();
@@ -200,31 +196,31 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
       });
     }
     return result;
-  }, [authorityMap, siteType, inDevice, id]);
+  }, [siteType, authorityMap, inDevice, siteId, id]);
 
   const haspriceSyncAuthority = useCallback(() => {
-    if (type == TabKeys.MARKET) {
+    if (currentType == TabKeys.MARKET) {
       //市电电价设置
       return authorityMap.get('oss:site:mains:priceSync');
-    } else if (type == TabKeys.PHOTOVOLTAIC) {
+    } else if (currentType == TabKeys.PHOTOVOLTAIC) {
       //馈网电价设置
       return authorityMap.get('oss:site:internet:priceSync');
-    } else if (type == TabKeys.ESS) {
+    } else if (currentType == TabKeys.ESS) {
       //储能放电电价设置
       return authorityMap.get('oss:site:discharge:priceSync');
-    } else if (type == TabKeys.CHARGING) {
+    } else if (currentType == TabKeys.CHARGING) {
       //充电桩计费设置
       return authorityMap.get('oss:site:charge:priceSync');
     } else {
       return true;
     }
-  }, [authorityMap, type]);
+  }, [authorityMap, currentType]);
 
   const operations =
     haspriceSyncAuthority() && !inDevice ? (
       <Button type="primary" onClick={() => setVisible(true)}>
         {formatMessage({
-          id: 'siteManage.siteList.electricityPriceSynchronization1',
+          id: 'siteManage.siteList.electricityPriceSynchronization',
           defaultMessage: '电价同步',
         })}
       </Button>
@@ -236,12 +232,12 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
     if (ids.length) {
       const params = {
         ids,
-        type: Number(type),
+        type: Number(currentType),
         siteId: id,
       };
       syncSiteRule(params).then((res) => {
         if (res.data) {
-          onChange(type);
+          onChange(currentType);
           message.success(
             formatMessage({
               id: 'siteManage.siteList.electricityPriceSynchronizationSuc',
@@ -277,8 +273,6 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
         },
         fieldProps: {
           showSearch: true,
-          filterOption: false,
-          onSearch: requestStation,
           options: siteList,
           fieldNames: { label: 'name', value: 'id' },
         },

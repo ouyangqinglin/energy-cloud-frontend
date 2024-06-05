@@ -168,4 +168,7 @@ export default {
   'siteManage.1030': 'Seted',
   'siteManage.1031': 'Please confirm whether to set',
   'siteManage.1032': 'Not Set',
+  'siteManage.1033': 'Revenue Refresh',
+  'siteManage.1034':
+    'Are you sure to refresh? Once confirmed, it will refresh the revenue and overall revenue during the effective period of the rule!',
 };
