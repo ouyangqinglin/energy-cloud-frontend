@@ -140,7 +140,7 @@ const Search: React.FC<SearchProps> = (props) => {
               total: data.total,
             });
             return {
-              code: 200,
+              code: '200',
               data: {
                 list: [],
                 total: 0,
@@ -161,7 +161,7 @@ const Search: React.FC<SearchProps> = (props) => {
           }).then((res) => {
             setAllTableData(res?.data?.list?.reverse?.() || []);
             return {
-              code: 200,
+              code: '200',
               data: {
                 list: [],
                 total: 0,
@@ -186,7 +186,7 @@ const Search: React.FC<SearchProps> = (props) => {
           total: 0,
         });
         return Promise.resolve({
-          code: 200,
+          code: '200',
           data: {
             list: [],
             total: 0,

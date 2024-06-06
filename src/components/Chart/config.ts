@@ -25,6 +25,7 @@ export type ChartProps = Omit<EChartsReactProps, 'option'> & {
   chartRef?: React.MutableRefObject<EChartsReact | undefined>;
   calculateMax?: boolean;
   loading?: boolean;
+  containClassName?: string;
 };
 
 export const defaultOption: any = {};

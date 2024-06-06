@@ -16,7 +16,16 @@ import { Spin } from 'antd';
 import styles from './index.less';
 
 const Chart: React.FC<ChartProps> = (props) => {
-  const { option, min, max, chartRef, calculateMax = true, loading = false, ...restProps } = props;
+  const {
+    option,
+    min,
+    max,
+    chartRef,
+    calculateMax = true,
+    loading = false,
+    containClassName = '',
+    ...restProps
+  } = props;
 
   const [show, { setTrue, setFalse }] = useBoolean(false);
   const [key, setKey] = useState('1');
@@ -68,7 +77,7 @@ const Chart: React.FC<ChartProps> = (props) => {
   return (
     <>
       {show && (
-        <div className={styles.chart}>
+        <div className={`${styles.chart} ${containClassName}`}>
           <EChartsReact
             key={key}
             ref={chartRef}

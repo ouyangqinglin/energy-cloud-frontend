@@ -17,6 +17,7 @@ export type CollectionChartType = {
   date?: string[];
   height?: number | string;
   onLoadingChange?: (value: boolean) => void;
+  containClassName?: string;
 };
 
 export type CollectionModalType = Omit<ModalProps, 'title'> & CollectionChartType;

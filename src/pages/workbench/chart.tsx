@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2023-10-18 17:48:10
+ * @LastEditTime: 2024-06-06 14:50:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\workbench\chart.tsx
  */
@@ -17,6 +17,7 @@ import { CollectionDataType } from './typing';
 import { getDeviceModel } from '@/services/equipment';
 import { getModelByProps } from '@/utils';
 import { useSubscribe } from '@/hooks';
+import styles from './index.less';
 
 export type ChartType = {
   date?: string[];
@@ -116,6 +117,7 @@ const Chart: React.FC<ChartType> = (props) => {
         model={model}
         date={chartDate}
         height={'100%'}
+        containClassName={styles.contain}
       />
     </>
   );

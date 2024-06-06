@@ -260,4 +260,5 @@ export default {
   'common.1003': 'Url Format Error',
   'common.1004': 'Please Config',
   'common.1005': 'Failed to obtain token, please try again!',
+  'common.1006': 'Number',
 };

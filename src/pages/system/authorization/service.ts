@@ -8,6 +8,27 @@ export const getPage = (params: any) => {
   });
 };
 
+export const addData = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'post',
+    data,
+  });
+};
+
+export const editData = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'put',
+    data,
+  });
+};
+
+export const getData = (params: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'get',
+    params,
+  });
+};
+
 export const deleteData = (data: any) => {
   return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
     method: 'delete',
@@ -16,7 +37,7 @@ export const deleteData = (data: any) => {
 };
 
 export const updateStatus = (data: any) => {
-  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp/changeStatus`, {
     method: 'put',
     data,
   });

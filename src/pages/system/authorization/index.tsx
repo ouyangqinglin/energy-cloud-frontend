@@ -2,29 +2,53 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2024-06-06 10:10:59
+ * @LastEditTime: 2024-06-06 16:16:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\authorization\index.tsx
  */
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
-import { columns } from './config';
-import { deleteData, getPage, updateStatus } from './service';
+import { columns, formColumns } from './config';
+import { deleteData, getPage, editData, addData, getData, updateStatus } from './service';
 import { AuthDataType } from './type';
 import { formatMessage } from '@/utils';
 import { Modal, message } from 'antd';
-import { ActionType } from '@ant-design/pro-components';
+import { ActionType, ProConfigProvider } from '@ant-design/pro-components';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
+import { useBoolean } from 'ahooks';
+import { tableSelectValueTypeMap } from '@/components/TableSelect';
 
 const RemoteUpgrade: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const [openForm, { set }] = useBoolean(false);
+  const [formInfo, setFormInfo] = useState({
+    type: FormTypeEnum.Add,
+    id: '',
+  });
 
   const request = useCallback((params) => {
     return getPage(params);
   }, []);
 
-  const onAddClick = useCallback(() => {}, []);
+  const onSuccess = useCallback(() => {
+    actionRef.current?.reload?.();
+  }, []);
 
-  const onEditClick = useCallback((_, record: AuthDataType) => {}, []);
+  const onAddClick = useCallback(() => {
+    setFormInfo({
+      type: FormTypeEnum.Add,
+      id: '',
+    });
+    set(true);
+  }, []);
+
+  const onEditClick = useCallback((_, record: AuthDataType) => {
+    setFormInfo({
+      type: FormTypeEnum.Edit,
+      id: record.id,
+    });
+    set(true);
+  }, []);
 
   const onEvent = useCallback((_, params: AuthDataType) => {
     Modal.confirm({
@@ -46,7 +70,7 @@ const RemoteUpgrade: React.FC = () => {
             message.success(
               formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
             );
-            actionRef.current?.reload?.();
+            onSuccess();
           }
         }),
     });
@@ -56,9 +80,19 @@ const RemoteUpgrade: React.FC = () => {
     return deleteData({ id: record.id }).then(({ data }) => {
       if (data) {
         message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-        actionRef.current?.reload();
+        onSuccess();
       }
     });
+  }, []);
+
+  const afterRequest = useCallback((data) => {
+    data.status = !!data.status;
+    data.siteIds = data?.sites || [];
+  }, []);
+
+  const beforeSubmit = useCallback((data) => {
+    data.status = Number(data.status);
+    data.siteIds = data?.siteIds?.map?.((item: any) => item.id) || [];
   }, []);
 
   return (
@@ -68,8 +102,7 @@ const RemoteUpgrade: React.FC = () => {
         columns={columns}
         toolBarRenderOptions={{
           add: {
-            onClick: () => {},
-            text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
+            onClick: onAddClick,
           },
         }}
         option={{
@@ -87,6 +120,27 @@ const RemoteUpgrade: React.FC = () => {
         onEvent={onEvent}
         resizable
       />
+      <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
+        <SchemaForm
+          width="816px"
+          type={formInfo.type}
+          columns={formColumns}
+          open={openForm}
+          onOpenChange={set}
+          shouldUpdate={false}
+          id={formInfo.id}
+          editData={editData}
+          addData={addData}
+          getData={getData}
+          beforeSubmit={beforeSubmit}
+          afterRequest={afterRequest}
+          onSuccess={onSuccess}
+          grid={true}
+          colProps={{
+            span: 12,
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

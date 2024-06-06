@@ -1,5 +1,5 @@
 export interface AuthDataType {
-  id: number;
+  id: string;
   secret?: string;
   encryptKey?: string;
   status?: number;

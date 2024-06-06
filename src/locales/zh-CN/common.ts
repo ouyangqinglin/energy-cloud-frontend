@@ -258,4 +258,5 @@ export default {
   'common.1003': 'Url格式错误',
   'common.1004': '请配置',
   'common.1005': '令牌获取失败，请重试！',
+  'common.1006': '次',
 };

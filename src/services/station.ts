@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\services\station.ts
  */
-import type { ResponseCommonData } from '@/utils/request';
+import type { ResponseCommonData, ResponsePageData } from '@/utils/request';
 import request from '@/utils/request';
 import { SiteTypeEnumType } from '@/utils/dict';
 import { SiteOptionType } from '@/types';
@@ -130,6 +130,13 @@ export const getVideoMonitorToken = (params: any) => {
 
 export const distributeElectricityPrice = (params: any) => {
   return request<ResponseCommonData<VideoMonitorTokenType>>(`/uc/site/videoMonitor/token1`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getSitePage = (params: any) => {
+  return request<ResponsePageData<SiteDataType>>(`/uc/site/page`, {
     method: 'GET',
     params,
   });

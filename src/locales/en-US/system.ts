@@ -74,4 +74,6 @@ export default {
   'system.1017': '',
   'system.1018': 'Are you sure you want to enable it?',
   'system.1019': 'Are you sure you want to disable it?',
+  'system.1020': 'Select Product',
+  'system.1021': '',
 };
