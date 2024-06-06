@@ -1164,7 +1164,7 @@ const Control: React.FC<ControlType> = memo((props) => {
             data={{ ...merge({}, realTimeData, transformData, extralDeviceRealTimeData) }}
             items={groupsItems}
             detailProps={{
-              labelStyle: { width: 166, paddingRight: 12 },
+              labelStyle: { width: 167, paddingRight: 12 },
               unitInLabel: true,
               ellipsis: false,
               colon: false,

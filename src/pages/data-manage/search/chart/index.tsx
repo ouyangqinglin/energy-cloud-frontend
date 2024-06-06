@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-06-04 15:49:09
+ * @LastEditTime: 2024-06-06 11:31:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -82,7 +82,7 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         setAllLabel([]);
       }
     }
-  }, [searchData, tableType]);
+  }, [searchData, tableType, data]);
 
   return (
     <>

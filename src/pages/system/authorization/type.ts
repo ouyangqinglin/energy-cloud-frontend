@@ -1,9 +1,6 @@
-export interface ListDataType {
+export interface AuthDataType {
   id: number;
-  applicationName: string;
-  applicationID: string;
-  secret: string;
-  status: number;
-  description: string;
-  createTime: string;
+  secret?: string;
+  encryptKey?: string;
+  status?: number;
 }

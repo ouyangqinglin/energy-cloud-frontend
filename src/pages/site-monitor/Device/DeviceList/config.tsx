@@ -135,7 +135,6 @@ export const BSColumns = [
     valueEnum: chargingAndDischargingStatus,
     hideInSearch: true,
     width: 120,
-    ellipsis: true,
   },
   {
     title:

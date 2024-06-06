@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-05-14 18:06:13
+ * @LastEditTime: 2024-06-06 09:00:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
  */
@@ -332,11 +332,11 @@ export const chargingAndDischargingStatus = {
   },
   1: {
     text: formatMessage({ id: 'siteMonitor.discharge', defaultMessage: '放电' }),
-    status: 'Processing',
+    status: 'Warning',
   },
   2: {
     text: formatMessage({ id: 'siteMonitor.charge', defaultMessage: '充电' }),
-    status: 'Error',
+    status: 'Processing',
   },
 };
 

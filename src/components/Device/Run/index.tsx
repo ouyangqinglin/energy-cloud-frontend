@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-29 09:58:34
- * @LastEditTime: 2024-05-13 16:56:11
+ * @LastEditTime: 2024-06-05 09:15:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Run\index.tsx
  */
@@ -368,7 +368,7 @@ const Run: React.FC<RunType> = (props) => {
           items={groupsItems}
           detailProps={{
             extral,
-            labelStyle: { width: 166, paddingRight: 14 },
+            labelStyle: { width: 167, paddingRight: 14 },
             unitInLabel: true,
             valueStyle: { width: '100%' },
             ellipsis: false,

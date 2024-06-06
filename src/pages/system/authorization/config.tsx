@@ -1,9 +1,9 @@
-import type { ProColumns } from '@ant-design/pro-components';
 import { Switch } from 'antd';
-import type { ListDataType } from './type';
+import type { AuthDataType } from './type';
 import { formatMessage } from '@/utils';
+import { YTProColumns } from '@/components/YTProTable/typing';
 
-export const columns: ProColumns<ListDataType>[] = [
+export const columns: YTProColumns<AuthDataType>[] = [
   {
     title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
     dataIndex: 'index',
@@ -12,57 +12,59 @@ export const columns: ProColumns<ListDataType>[] = [
   },
   {
     title: formatMessage({ id: 'system.applyName', defaultMessage: '应用名称' }),
-    dataIndex: 'applicationName',
+    dataIndex: 'appName',
     width: 120,
     ellipsis: true,
   },
   {
     title: formatMessage({ id: 'system.applyId', defaultMessage: '应用ID' }),
-    dataIndex: 'applicationID',
+    dataIndex: 'appId',
     width: 120,
     ellipsis: true,
   },
   {
     title: formatMessage({ id: 'system.key', defaultMessage: '密匙' }),
-    valueType: 'password',
     dataIndex: 'secret',
+    valueType: 'password',
     width: 150,
-    ellipsis: true,
     hideInSearch: true,
+    ellipsis: true,
+  },
+  {
+    title: 'Key',
+    dataIndex: 'encryptKey',
+    valueType: 'password',
+    width: 150,
+    hideInSearch: true,
+    ellipsis: true,
   },
   {
     title: formatMessage({ id: 'common.status', defaultMessage: '状态' }),
-    valueEnum: new Map<number, string>([
-      // eslint-disable-next-line react/jsx-key
-      [1, formatMessage({ id: 'system.valid', defaultMessage: '有效' })],
-      // eslint-disable-next-line react/jsx-key
-      [0, formatMessage({ id: 'system.invalid', defaultMessage: '无效' })],
-    ]),
-    render(dom, entity, index, action, schema) {
+    dataIndex: 'status',
+    renderWithEmit(_, { status, id, emit }) {
       return (
         <Switch
-          checkedChildren={formatMessage({ id: 'system.open', defaultMessage: '开启' })}
-          unCheckedChildren={formatMessage({ id: 'system.close', defaultMessage: '关闭' })}
-          checked={!!entity.status}
+          checkedChildren={formatMessage({ id: 'common.enable', defaultMessage: '启用' })}
+          unCheckedChildren={formatMessage({ id: 'common.disable', defaultMessage: '禁用' })}
+          checked={!!status}
+          onChange={(value) => emit?.('enable', { id, status: Number(value) })}
         />
       );
     },
-    dataIndex: 'status',
-    width: 150,
-    ellipsis: true,
+    width: 100,
   },
   {
     title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),
     dataIndex: 'description',
     hideInSearch: true,
     width: 150,
+    ellipsis: true,
   },
   {
-    title: formatMessage({ id: 'common.createTime', defaultMessage: '描述' }),
+    title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
     valueType: 'dateTime',
     hideInSearch: true,
-    width: 100,
-    ellipsis: true,
+    width: 120,
   },
 ];
