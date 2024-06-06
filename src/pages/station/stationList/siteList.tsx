@@ -259,7 +259,7 @@ const StationList: React.FC = () => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '交付时间' }),
+        title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '投运日期' }),
         dataIndex: 'deliveryTime',
         valueType: 'dateTime',
         renderFormat: getLocale().dateTimeFormat,

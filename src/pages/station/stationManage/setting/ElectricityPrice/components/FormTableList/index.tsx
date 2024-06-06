@@ -70,6 +70,11 @@ const FormTableList = <DataType extends Record<string, any>>(
     'oss:site:internet:delete',
     'oss:site:charge:delete',
     'oss:site:discharge:delete',
+
+    'oss:site:mains:refresh',
+    'oss:site:internet:refresh',
+    'oss:site:charge:refresh',
+    'oss:site:discharge:refresh',
   ]);
 
   const hasAuthority = useCallback(() => {
@@ -80,6 +85,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         add: authorityMap.get('oss:site:mains:add'),
         update: authorityMap.get('oss:site:mains:update'),
         delete: authorityMap.get('oss:site:mains:delete'),
+        refresh: authorityMap.get('oss:site:mains:refresh'),
       };
     } else if (priceType == TabKeys.PHOTOVOLTAIC) {
       //馈网电价设置
@@ -88,6 +94,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         add: authorityMap.get('oss:site:internet:add'),
         update: authorityMap.get('oss:site:internet:update'),
         delete: authorityMap.get('oss:site:internet:delete'),
+        refresh: authorityMap.get('oss:site:internet:refresh'),
       };
     } else if (priceType == TabKeys.ESS) {
       //储能放电电价设置
@@ -96,6 +103,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         add: authorityMap.get('oss:site:discharge:add'),
         update: authorityMap.get('oss:site:discharge:update'),
         delete: authorityMap.get('oss:site:discharge:delete'),
+        refresh: authorityMap.get('oss:site:discharge:refresh'),
       };
     } else if (priceType == TabKeys.CHARGING) {
       //充电桩计费设置
@@ -104,6 +112,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         add: authorityMap.get('oss:site:charge:add'),
         update: authorityMap.get('oss:site:charge:update'),
         delete: authorityMap.get('oss:site:charge:delete'),
+        refresh: authorityMap.get('oss:site:charge:refresh'),
       };
     } else {
       return {
@@ -111,6 +120,7 @@ const FormTableList = <DataType extends Record<string, any>>(
         add: false,
         update: false,
         delete: false,
+        refresh: false,
       };
     }
   }, [authorityMap, priceType]);
@@ -156,42 +166,25 @@ const FormTableList = <DataType extends Record<string, any>>(
                 set(true);
               },
               show: hasAuthority().add && !inDevice,
-              text: formatMessage({ id: 'common.newBuilt1', defaultMessage: '新建' }),
+              text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
             },
           },
         }),
-    option: {
-      ...(hasAuthority().delete && !inDevice
-        ? {
-            onDeleteChange(_, entity) {
-              onDeleteChange?.({ id: entity?.id })?.then?.(({ data }) => {
-                if (data) {
-                  message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-                  actionRef?.current?.reload?.();
-                }
-              });
-            },
-          }
-        : {}),
-      onDetailChange(_, entity) {
-        setInitialValues({ ...entity });
-        setOperations(FormOperations.READ);
-        set(true);
-      },
-      ...(hasAuthority().update && !inDevice
-        ? {
-            onEditChange(_, entity) {
-              setInitialValues({ ...entity });
-              setOperations(FormOperations.UPDATE);
-              set(true);
-            },
-          }
-        : {}),
-      modalDeleteText: formatMessage({
-        id: 'siteManage.set.delTariffRule',
-        defaultMessage: '您确认要删除该电价规则吗？删除之后无法恢复！',
-      }),
-    },
+    // option: {
+    //   ...(hasAuthority().update && !inDevice
+    //     ? {
+    //         onEditChange(_, entity) {
+    //           setInitialValues({ ...entity });
+    //           setOperations(FormOperations.UPDATE);
+    //           set(true);
+    //         },
+    //       }
+    //     : {}),
+    //   modalDeleteText: formatMessage({
+    //     id: 'siteManage.set.delTariffRule',
+    //     defaultMessage: '您确认要删除该电价规则吗？删除之后无法恢复！',
+    //   }),
+    // },
   };
   const visibleUpdated = operations !== FormOperations.READ;
   const visibleRead = !visibleUpdated;
@@ -238,10 +231,61 @@ const FormTableList = <DataType extends Record<string, any>>(
     return result;
   }, [inDevice, columns]);
 
+  const onDelete = (rowData: any) => {
+    Modal.confirm({
+      title: formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+      content: formatMessage({
+        id: 'siteManage.set.delTariffRule',
+        defaultMessage: '您确认要删除该电价规则吗？删除之后无法恢复！',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+      onOk: async () => {
+        onDeleteChange?.({ id: rowData?.id })?.then?.(({ data }) => {
+          if (data) {
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+    });
+  };
+  const onDetail = (rowData: any) => {
+    setInitialValues({ ...rowData });
+    setOperations(FormOperations.READ);
+    set(true);
+  };
+
+  const onEdit = (rowData: any) => {
+    setInitialValues({ ...rowData });
+    setOperations(FormOperations.UPDATE);
+    set(true);
+  };
+
+  const onRefresh = (rowData: any) => {
+    Modal.confirm({
+      title: formatMessage({ id: 'siteManage.1033', defaultMessage: '收益刷新' }),
+      content: formatMessage({
+        id: 'siteManage.1034',
+        defaultMessage: '是否确定刷新，确定后会对规则生效期间内的收益和整体收益进行刷新！',
+      }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+      onOk: async () => {
+        onDeleteChange?.({ id: rowData?.id })?.then?.(({ data }) => {
+          if (data) {
+            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+            actionRef?.current?.reload?.();
+          }
+        });
+      },
+    });
+  };
+
   const currentColums: YTProColumns<DataType, any>[] = [
     ...tableColumns,
     {
-      title: formatMessage({ id: 'common.currentState1', defaultMessage: '当前状态' }),
+      title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
       dataIndex: 'status',
       hideInSearch: true,
       hideInTable: inDevice,
@@ -295,6 +339,43 @@ const FormTableList = <DataType extends Record<string, any>>(
             }}
           />,
         ];
+      },
+    },
+    {
+      title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
+      valueType: 'option',
+      width: 250,
+      fixed: 'right',
+      render: (_, record) => {
+        const rowData = record as any;
+        return (
+          <>
+            {hasAuthority().refresh && rowData.status ? (
+              <Button type="link" size="small" key="refresh" onClick={() => onRefresh(rowData)}>
+                {formatMessage({ id: 'siteManage.1033', defaultMessage: '收益刷新' })}
+              </Button>
+            ) : (
+              <></>
+            )}
+            <Button type="link" size="small" key="delete" onClick={() => onDetail(rowData)}>
+              {formatMessage({ id: 'common.detail', defaultMessage: '查看详情' })}
+            </Button>
+            {hasAuthority().delete && !inDevice ? (
+              <Button type="link" size="small" key="delete" onClick={() => onDelete(rowData)}>
+                {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
+              </Button>
+            ) : (
+              <></>
+            )}
+            {hasAuthority().update && !inDevice ? (
+              <Button type="link" size="small" key="delete" onClick={() => onEdit(rowData)}>
+                {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+              </Button>
+            ) : (
+              <></>
+            )}
+          </>
+        );
       },
     },
   ];

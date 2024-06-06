@@ -29,7 +29,7 @@ export default {
   'siteMonitor.siteRealtimepower': '站点运行数据图',
   'siteMonitor.siteAccumulatedpower': '站点累计电量',
   'siteMonitor.address': '地理位置',
-  'siteMonitor.gridTime': '交付时间',
+  'siteMonitor.gridTime': '投运日期',
   'siteMonitor.runningState': '运行状态',
   'siteMonitor.annualEmissionReduction': '年CO₂减排量',
   'siteMonitor.accumulatedEmissionReduction': '累计减排量',

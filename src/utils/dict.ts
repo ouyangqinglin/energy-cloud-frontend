@@ -36,7 +36,7 @@ export const runningState = {
 
 export const buildStatus = {
   1: {
-    text: formatMessage({ id: 'siteManage.set.siteStatusSuccess', defaultMessage: '已交付' }),
+    text: formatMessage({ id: 'siteManage.set.siteStatusSuccess', defaultMessage: '已投运' }),
     status: 'Success',
   },
   0: {
