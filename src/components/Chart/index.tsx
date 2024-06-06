@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 17:39:51
- * @LastEditTime: 2024-05-17 17:40:26
+ * @LastEditTime: 2024-06-06 18:39:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\index.tsx
  */
@@ -33,16 +33,16 @@ const Chart: React.FC<ChartProps> = (props) => {
   const chartOptions = useMemo(() => {
     if (calculateMax) {
       const result: any = { yAxis: {} };
-      const values: number[] = [0];
+      let valueMax = 0,
+        valueMin = 0;
       option?.dataset?.source?.map?.((item: any) => {
         item?.forEach?.((value: any) => {
           if (typeof value === 'number') {
-            values.push(value);
+            valueMax = Math.max(valueMax, value);
+            valueMin = Math.min(valueMax, value);
           }
         });
       });
-      const valueMax = Math.max(...values);
-      const valueMin = Math.min(...values);
       if (valueMax > (max || 10)) {
         result.yAxis.max = undefined;
       } else {
