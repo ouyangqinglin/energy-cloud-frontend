@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 17:39:51
- * @LastEditTime: 2024-06-07 09:45:24
+ * @LastEditTime: 2024-06-07 10:33:13
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\index.tsx
  */
@@ -12,20 +12,9 @@ import EChartsReact from 'echarts-for-react';
 import { defaultOption } from './config';
 import type { ChartProps } from './config';
 import { merge } from 'lodash';
-import { Spin } from 'antd';
-import styles from './index.less';
 
 const Chart: React.FC<ChartProps> = (props) => {
-  const {
-    option,
-    min,
-    max,
-    chartRef,
-    calculateMax = true,
-    loading = false,
-    containClassName = '',
-    ...restProps
-  } = props;
+  const { option, min, max, chartRef, calculateMax = true, ...restProps } = props;
 
   const [show, { setTrue, setFalse }] = useBoolean(false);
   const [key, setKey] = useState('1');
@@ -77,7 +66,7 @@ const Chart: React.FC<ChartProps> = (props) => {
   return (
     <>
       {show && (
-        <div className={`${styles.chart} ${containClassName}`}>
+        <>
           <EChartsReact
             key={key}
             ref={chartRef}
@@ -85,8 +74,7 @@ const Chart: React.FC<ChartProps> = (props) => {
             style={{ height: 254 }}
             {...restProps}
           />
-          {loading && <Spin className={styles.loading} size="large" />}
-        </div>
+        </>
       )}
     </>
   );
