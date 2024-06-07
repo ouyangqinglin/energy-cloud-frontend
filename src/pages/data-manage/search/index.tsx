@@ -129,15 +129,16 @@ const Search: React.FC<SearchProps> = (props) => {
           requestRef.current.tableResolve = resolve;
         });
         const tableResult = requestRef.current.tablePromise.then(() => {
-          return getList(searchDataResult).then(({ data }) => {
+          return getList(searchDataResult).then((res) => {
+            const data = res?.data || {};
             data?.list?.forEach?.((item) => {
               item?.devices?.forEach?.((child) => {
                 item[child?.key + '-' + child?.deviceId] = child?.value;
               });
             });
             setTableData({
-              data: data.list || [],
-              total: data.total,
+              data: data?.list || [],
+              total: data?.total,
             });
             return {
               code: '200',

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-06-06 11:31:16
+ * @LastEditTime: 2024-06-07 09:50:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -51,8 +51,8 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         chartRef.current?.getEchartsInstance?.()?.clear?.();
         const series: any = [];
         const dataSource: TypeChartDataType[] = [];
-        const keyIndex: Record<string, number> = {};
-        searchData.keyValue?.forEach?.(({ name, key, deviceName }, index) => {
+        const deviceIdkeyIndex: Record<string, number> = {};
+        searchData.keyValue?.forEach?.(({ name, key, deviceName, deviceId }, index) => {
           series?.push({
             type: 'line',
           });
@@ -60,13 +60,13 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
             name: deviceName + '\n' + name,
             data: [],
           });
-          keyIndex[key || ''] = index;
+          deviceIdkeyIndex[(deviceId ?? '') + (key ?? '')] = index;
         });
         const labels: string[] = [];
         data?.forEach?.(({ time, devices }) => {
           labels.push(time || '');
           devices?.forEach?.((item) => {
-            dataSource[keyIndex[item.key || '']].data?.push({
+            dataSource[deviceIdkeyIndex[(item.deviceId ?? '') + (item.key ?? '')]].data?.push({
               label: time || '',
               value: item.value,
             });
