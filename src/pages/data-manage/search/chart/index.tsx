@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-06-07 09:50:42
+ * @LastEditTime: 2024-06-07 14:18:44
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -64,7 +64,9 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         });
         const labels: string[] = [];
         data?.forEach?.(({ time, devices }) => {
-          labels.push(time || '');
+          if (labels[labels.length - 1] !== time) {
+            labels.push(time || '');
+          }
           devices?.forEach?.((item) => {
             dataSource[deviceIdkeyIndex[(item.deviceId ?? '') + (item.key ?? '')]].data?.push({
               label: time || '',

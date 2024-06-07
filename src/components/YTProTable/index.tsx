@@ -40,6 +40,7 @@ const YTProTable = <
     extraHeight,
     beforeSearchSubmit,
     onSubmit,
+    pagination,
     ...restProps
   } = props;
   const tableFormRef = useRef<ProFormInstance<Params>>();
@@ -126,9 +127,15 @@ const YTProTable = <
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
         components={components}
         toolBarRender={toolBarRenderResult}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        pagination={
+          pagination == false
+            ? false
+            : {
+                showSizeChanger: true,
+                showQuickJumper: true,
+                ...pagination,
+              }
+        }
         request={standardRequest}
         rowKey={rowKey}
         className={styles.ytTable + ' ' + className}
