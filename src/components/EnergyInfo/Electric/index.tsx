@@ -6,16 +6,17 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Skeleton, DatePicker, Select, Spin } from 'antd';
-import { useRequest } from 'umi';
+import React, { useState, useEffect, useCallback } from 'react';
+import { DatePicker, Select, Spin } from 'antd';
 import { chartTypeEnum } from '@/components/Chart/config';
-import TypeChart, { TypeChartDataType } from '@/components/Chart/TypeChart';
+import TypeChart from '@/components/Chart/TypeChart';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { getElectic } from '../service';
 import styles from '../index.less';
-import moment, { Moment } from 'moment';
-import { ComProps } from '../type';
-import { arrayToMap, formatMessage, getPlaceholder } from '@/utils';
+import moment from 'moment';
+import type { Moment } from 'moment';
+import type { ComProps } from '../type';
+import { formatMessage } from '@/utils';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import Detail from '@/components/Detail';
@@ -125,6 +126,11 @@ const Electric: React.FC<ComProps> = (props) => {
           data: [],
           unit: 'kWh',
         },
+        {
+          name: formatMessage({ id: 'siteMonitor.totalRevenue', defaultMessage: '总收益' }),
+          data: [],
+          unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
+        },
       ];
       const totalResult = {
         totalCharge: 0,
@@ -217,7 +223,7 @@ const Electric: React.FC<ComProps> = (props) => {
           className="detail-center"
           items={detailItems}
           data={statisInfo}
-          column={2}
+          column={3}
           unitInLabel={true}
         />
         <TypeChart

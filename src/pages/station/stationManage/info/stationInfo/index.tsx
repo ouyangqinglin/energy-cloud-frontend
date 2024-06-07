@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Card, Button, Image, Modal, message } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Card, Button, Image, Modal, message, DatePicker, Space } from 'antd';
+import type { DatePickerProps } from 'antd';
 import { ProField } from '@ant-design/pro-components';
-import { useRequest, useModel, useLocation } from 'umi';
+import { useRequest, useLocation } from 'umi';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
@@ -13,7 +14,7 @@ import { LocationType } from '@/types';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
-import { formatMessage, getPlaceholder, getValue } from '@/utils';
+import { formatMessage, getPlaceholder, getLocale } from '@/utils';
 import { useAuthority } from '@/hooks';
 import { StationType } from '../../../stationList/data.d';
 
@@ -23,8 +24,9 @@ type StationInfoType = {
 
 const StationInfo: React.FC<StationInfoType> = (props) => {
   const { onSiteChange } = props;
-
   const location = useLocation<LocationType>();
+
+  const [deliveryDate, setDeliveryDate] = useState<string>('');
   const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
   const { authorityMap } = useAuthority([
@@ -41,20 +43,36 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
       onSiteChange?.(data);
     },
   });
+  const onDatePickerChange: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString);
+    setDeliveryDate(dateString);
+  };
 
   const onCompleteClick = useCallback(() => {
     Modal.confirm({
       title: formatMessage({
-        id: 'siteManage.set.confirmCompleteTitle',
-        defaultMessage: '完工确认',
+        id: 'siteManage.1035',
+        defaultMessage: '站点投运',
       }),
-      content: formatMessage({
-        id: 'siteManage.set.confirmCompleteContent',
-        defaultMessage: '确认站点已经完工，点击确认站点变更为已完工状态',
-      }),
+      content: (
+        <Space>
+          {formatMessage({ id: 'siteManage.1036', defaultMessage: '请选择站点投运日期' })}
+          <DatePicker
+            onChange={onDatePickerChange}
+            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请选择' })}
+            format={getLocale().dateFormat}
+          />
+        </Space>
+      ),
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: () => {
+        if (!deliveryDate) {
+          message.info(
+            formatMessage({ id: 'siteManage.1036', defaultMessage: '请选择站点投运日期' }),
+          );
+          return;
+        }
         setComplete(siteId).then(({ data }) => {
           if (data) {
             message.success(
@@ -65,7 +83,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
         });
       },
     });
-  }, [siteId]);
+  }, [deliveryDate, run, siteId]);
 
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
@@ -249,13 +267,13 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
             defaultMessage: '状态信息',
           })}
           extra={
-            detailData?.constructionStatus === 0 &&
+            detailData?.constructionStatus === 0 ||
             authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
               <Button type="primary" loading={loading} onClick={onCompleteClick}>
-                {formatMessage({ id: 'siteManage.set.siteComplete', defaultMessage: '站点完工' })}
+                {formatMessage({ id: 'siteManage.1035', defaultMessage: '站点投运' })}
               </Button>
             ) : (
-              ''
+              <></>
             )
           }
         >

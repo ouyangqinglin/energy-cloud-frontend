@@ -1,10 +1,12 @@
-// 1=光伏 2=储能 3=充电桩 4=负载 5=市电
+// 1=光伏 2=储能 3=充电桩 4=负载 5=市电 6风 7柴
 export const enum SubSystemType {
   PV = '1',
   ES = '2',
   CS = '3',
   L = '4',
   E = '5',
+  F = '6',
+  D = '7',
 }
 
 export const enum FlowDirection {

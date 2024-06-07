@@ -11,6 +11,7 @@ export default {
   'common.screenArchitecture': 'Large Screen Architecture Diagram',
   'common.alarmDisplayConfiguration': 'Alarm Display Configuration',
   'common.time.day': 'Day',
+  'common.time.day1': 'Day',
   'common.time.month': 'Month',
   'common.time.oneMonth': 'One Month',
   'common.time.threeMonth': 'Trimester',

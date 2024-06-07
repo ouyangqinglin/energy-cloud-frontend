@@ -89,6 +89,7 @@ export default {
   'siteMonitor.charge': 'Charge',
   'siteMonitor.allCharge': 'Total Charge',
   'siteMonitor.allDisharge': 'Total Discharge',
+  'siteMonitor.totalRevenue': 'Total Revenue',
   'siteMonitor.chargeTrendUnit': 'Charge And Discharge Trend of ESS Unit',
   'siteMonitor.chargeTrend': 'ESS Charge And Discharge Trend',
   'siteMonitor.communication': 'Communication',

@@ -3,21 +3,20 @@ import AnimationPoint from './AnimationPoint';
 
 const PathPV = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
-    <g>
+    <g transform="translate(234, 173)">
       {/* 光伏 */}
       <path
         stroke="#438BCC"
         strokeWidth={3}
-        id="pv"
-        d="m408.93 199.88-31.094 17.544v8.066l-23.219 13.107.202 20.567-38.614 24.521"
+        id="pve"
+        d="M128.36622,0 L97.2723872,17.5432149 L97.2723872,25.6090466 L74.0530044,38.7160232 L73.8616677,60.2218353 L41.5088045,41.5283622 L1.54890825e-13,66.7718772"
       />
-      <AnimationPoint duration={4} direction={direction} pathId="#pv" />
+      <AnimationPoint duration={4} direction={direction} pathId="#pve" />
       <path
-        stroke="url(#d)"
-        d="M95.946 4.033 64.853 21.576v8.066l-23.22 13.107.202 20.568-38.614 24.52"
-        filter="url(#e)"
+        stroke="url(#pv)"
+        d="M131.587207,4.03291749 L100.493374,21.5761324 L100.493374,29.6419641 L77.2739917,42.7489407 L77.082685,64.6746733 L44.7297917,45.5612797 L3.22098724,70.8047947"
+        filter="url(#pv1)"
         opacity={0.6}
-        transform="translate(316.205 199.88)"
       />
     </g>
   ) : (

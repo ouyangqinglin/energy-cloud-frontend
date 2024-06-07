@@ -1,23 +1,21 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
-
+//风机
 const PathFan = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
-    <g>
-      {/* 光伏 */}
+    <g transform="translate(311,197)">
       <path
         stroke="#438BCC"
         strokeWidth={3}
-        id="pv"
-        d="128.36622 0 97.2723872 17.5432149 97.2723872 25.6090466 74.0530044 38.7160232 73.8616677 60.2218353 41.5088045 41.5283622 1.54890825e-13 66.7718772"
+        id="feng"
+        d="M92.7255094,0 L61.6316767,17.5432149 L61.6316767,25.6090466 L38.4122939,38.7160232 L38.6141944,59.283925 L-1.34786901e-13,83.8048696"
       />
-      <AnimationPoint duration={4} direction={direction} pathId="#pv" />
+      <AnimationPoint duration={4} direction={direction} pathId="#feng" />
       <path
-        stroke="url(#fan)"
-        d="131.587207 4.03291749 100.493374 21.5761324 100.493374 29.6419641 77.2739917 42.7489407 77.082685 64.6746733 44.7297917 45.5612797 3.22098724 70.8047947"
-        filter="url(#fan1)"
+        stroke="url(#d)"
+        d="M95.9464966,4.03291749 L64.8526639,21.5761324 L64.8526639,29.6419641 L41.6332811,42.7489407 L41.8351816,63.3168425 L3.22098724,87.8377871"
+        filter="url(#e)"
         opacity={0.6}
-        transform="translate(200.205 199.88)"
       />
     </g>
   ) : (

@@ -1,5 +1,4 @@
-import QueueAnim from 'rc-queue-anim';
-import type { CSSProperties, MouseEventHandler, ReactNode, RefObject } from 'react';
+import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
 import React from 'react';
 
 export interface CellProps extends Pick<CSSProperties, 'zIndex' | 'cursor'> {

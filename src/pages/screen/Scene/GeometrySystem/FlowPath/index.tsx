@@ -7,6 +7,7 @@ import PathLoad from './component/PathLoad';
 import PathPowerConsumption from './component/PathPowerConsumption';
 import PathPV from './component/PathPV';
 import PathFan from './component/PathFan';
+import PathDiesel from './component/PathDiesel';
 
 const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<SVGSVGElement>) => {
   return (
@@ -44,7 +45,11 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           <stop offset="0%" stopColor="#65D5FF" />
           <stop offset="100%" stopColor="#0263C2" />
         </linearGradient>
-        <linearGradient id="fan" x1="0%" y1="50%" x2="100%" y2="50%">
+        <linearGradient id="diesel" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop stopColor="#65D5FF" offset="0%" />
+          <stop stopColor="#0263C2" offset="100%" />
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="pv">
           <stop stopColor="#65D5FF" offset="0%" />
           <stop stopColor="#0263C2" offset="100%" />
         </linearGradient>
@@ -94,9 +99,19 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           width="107.7%"
           height="114.8%"
           filterUnits="objectBoundingBox"
-          id="fan1"
+          id="diesel1"
         >
           <feGaussianBlur in="SourceGraphic" stdDeviation={1.48} />
+        </filter>
+        <filter
+          x="-3.9%"
+          y="-7.4%"
+          width="107.7%"
+          height="114.8%"
+          filterUnits="objectBoundingBox"
+          id="pv1"
+        >
+          <feGaussianBlur stdDeviation="1.48377908" in="SourceGraphic" />
         </filter>
       </defs>
       <g fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
@@ -121,6 +136,10 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           direction={data?.[SubSystemType.PV].direction}
         />
         <PathFan
+          show={data?.[SubSystemType.PV].flag}
+          direction={data?.[SubSystemType.PV].direction}
+        />
+        <PathDiesel
           show={data?.[SubSystemType.PV].flag}
           direction={data?.[SubSystemType.PV].direction}
         />

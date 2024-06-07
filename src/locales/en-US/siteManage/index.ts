@@ -171,4 +171,7 @@ export default {
   'siteManage.1033': 'Revenue Refresh',
   'siteManage.1034':
     'Are you sure to refresh? Once confirmed, it will refresh the revenue and overall revenue during the effective period of the rule!',
+  'siteManage.1035': 'Site Delivery',
+  'siteManage.1036': 'Please Select Site Delivery Date',
+  'siteManage.1037': 'Safe Operation',
 };

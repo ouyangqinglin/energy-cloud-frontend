@@ -101,38 +101,39 @@ export const monitorTypeMap = new Map([
           area: 'row3',
           subType: 4,
         },
-        {
-          name: formatMessage({
-            id: 'siteManage.set.energyStorageBatteryCharge',
-            defaultMessage: '储能电池充电量',
-          }),
-          area: 'row4',
-          subType: 6,
-        },
-        {
-          name: formatMessage({
-            id: 'siteManage.set.energyStorageBatteryDischarge',
-            defaultMessage: '储能电池放电量',
-          }),
-          area: 'row5',
-          subType: 7,
-        },
-        {
-          name: formatMessage({
-            id: 'siteManage.set.energyStorageBatteryEnableDischarge',
-            defaultMessage: '储能电池可放电量',
-          }),
-          area: 'row6',
-          subType: 8,
-        },
-        {
-          name: formatMessage({
-            id: 'siteManage.set.storageBatteryRealtimePower',
-            defaultMessage: '储能电池实时功率',
-          }),
-          area: 'row7',
-          subType: 5,
-        },
+        //先隐藏，不要删！
+        // {
+        //   name: formatMessage({
+        //     id: 'siteManage.set.energyStorageBatteryCharge',
+        //     defaultMessage: '储能电池充电量',
+        //   }),
+        //   area: 'row4',
+        //   subType: 6,
+        // },
+        // {
+        //   name: formatMessage({
+        //     id: 'siteManage.set.energyStorageBatteryDischarge',
+        //     defaultMessage: '储能电池放电量',
+        //   }),
+        //   area: 'row5',
+        //   subType: 7,
+        // },
+        // {
+        //   name: formatMessage({
+        //     id: 'siteManage.set.energyStorageBatteryEnableDischarge',
+        //     defaultMessage: '储能电池可放电量',
+        //   }),
+        //   area: 'row6',
+        //   subType: 8,
+        // },
+        // {
+        //   name: formatMessage({
+        //     id: 'siteManage.set.storageBatteryRealtimePower',
+        //     defaultMessage: '储能电池实时功率',
+        //   }),
+        //   area: 'row7',
+        //   subType: 5,
+        // },
       ],
     },
   ],

@@ -1,6 +1,5 @@
 import { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
-import { PathConfigType } from '../../../Geometry/EnergyFlowAnimation/type';
-import { reverse as reverseArr } from 'lodash';
+import type { PathConfigType } from '../../../Geometry/EnergyFlowAnimation/type';
 
 const AnimationPoint = ({
   duration = 4,

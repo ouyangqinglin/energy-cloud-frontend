@@ -168,4 +168,7 @@ export default {
 
   'siteManage.1033': '收益刷新',
   'siteManage.1034': '是否确定刷新，确定后会对规则生效期间内的收益和整体收益进行刷新！',
+  'siteManage.1035': '站点投运',
+  'siteManage.1036': '请选择站点投运日期',
+  'siteManage.1037': '安全运行',
 };

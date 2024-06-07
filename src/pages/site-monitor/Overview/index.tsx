@@ -57,7 +57,7 @@ const Index: React.FC = () => {
     <>
       <div className="bg-white card-wrap p24">
         <div className={styles.stationHeader}>
-          <SiteLabel onChange={onChange} />
+          <SiteLabel onChange={onChange} isShowSafeDay={true} />
           {screenConfig?.status == 1 && (
             <>
               <Tooltip

@@ -9,8 +9,7 @@
 
 import { chartTypeEnum } from '@/components/Chart/config';
 import { DetailItem } from '@/components/Detail';
-import { formatMessage, getPlaceholder } from '@/utils';
-import moment from 'moment';
+import { formatMessage } from '@/utils';
 
 export const chartOption = {
   grid: {
@@ -21,7 +20,7 @@ export const chartOption = {
     top: 'bottom',
   },
   yAxis: {
-    name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
+    // name: formatMessage({ id: 'common.unit', defaultMessage: '单位' }) + '（kWh）',
   },
   series: [
     {
@@ -31,6 +30,10 @@ export const chartOption = {
     {
       type: 'line',
       color: 'rgba(255, 151, 74, 1)',
+    },
+    {
+      type: 'line',
+      color: '#FF7B7B',
     },
   ],
 };
@@ -45,6 +48,11 @@ export const detailItems: DetailItem[] = [
     label: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
     field: 'totalDischarge',
     unit: 'kWh',
+  },
+  {
+    label: formatMessage({ id: 'siteMonitor.totalRevenue', defaultMessage: '总收益' }),
+    field: 'totalRevenue',
+    unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
   },
 ];
 

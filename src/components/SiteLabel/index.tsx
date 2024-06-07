@@ -8,15 +8,17 @@
  */
 import React, { useEffect } from 'react';
 import { useModel } from 'umi';
-import { SiteDataType } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
+import { formatMessage } from '@/utils';
 
 export type SiteLabelProps = {
   onChange?: (value: SiteDataType) => void;
   className?: string;
+  isShowSafeDay?: boolean;
 };
 
 const SiteLabel: React.FC<SiteLabelProps> = (props) => {
-  const { onChange, className, children } = props;
+  const { onChange, className, children, isShowSafeDay = false } = props;
 
   const { state: siteData } = useModel('site');
 
@@ -32,6 +34,10 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
     <>
       <div className={`page-label ${className}`}>
         {siteData?.name || '--'}
+        {isShowSafeDay &&
+          `（${formatMessage({ id: 'siteManage.1037', defaultMessage: '安全运行' })}：${
+            siteData?.data || '--'
+          }${formatMessage({ id: 'common.time.day1', defaultMessage: '天' })}）`}
         {children}
       </div>
     </>

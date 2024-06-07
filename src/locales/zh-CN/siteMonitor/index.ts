@@ -88,6 +88,7 @@ export default {
   'siteMonitor.charge': '充电',
   'siteMonitor.allCharge': '总充电量',
   'siteMonitor.allDisharge': '总放电量',
+  'siteMonitor.totalRevenue': '总收益',
   'siteMonitor.chargeTrendUnit': '储能单元充放电趋势',
   'siteMonitor.chargeTrend': '储能充放电趋势',
   'siteMonitor.communication': '通信',
