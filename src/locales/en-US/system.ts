@@ -71,4 +71,9 @@ export default {
   'system.1014': ' ',
   'system.1015': 'Download App',
   'system.1016': 'Version',
+  'system.1017': '',
+  'system.1018': 'Are you sure you want to enable it?',
+  'system.1019': 'Are you sure you want to disable it?',
+  'system.1020': 'Select Product',
+  'system.1021': '',
 };

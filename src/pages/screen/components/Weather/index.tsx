@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-27 11:19:44
- * @LastEditTime: 2023-06-13 15:58:39
+ * @LastEditTime: 2024-06-07 09:41:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\components\Weather\index.tsx
  */
@@ -14,7 +14,7 @@ import { getSiteId } from '../../Scene/helper';
 import weatherMap, { iconUnknow } from '@/utils/weather';
 import styles from './index.less';
 import { getWeather } from './service';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 
 const Weather: React.FC = (props) => {
   const siteId = getSiteId();
@@ -38,14 +38,20 @@ const Weather: React.FC = (props) => {
       ) : (
         <>
           <Space align="center">
-            <span className={styles.name}>
-              {formatMessage({ id: `weather.${data?.weather}`, defaultMessage: data?.weather })}
-            </span>
-            <img className={styles.img} src={weatherMap.get(data?.weather) || iconUnknow} />
-            <span className={styles.temp}>
-              {Math.min(data?.nighttemp, data?.daytemp)}℃ -{' '}
-              {Math.max(data?.nighttemp, data?.daytemp)}℃{' '}
-            </span>
+            {data?.weather && (
+              <>
+                <span className={styles.name}>
+                  {formatMessage({ id: `weather.${data?.weather}`, defaultMessage: data?.weather })}
+                </span>
+                <img className={styles.img} src={weatherMap.get(data?.weather) || iconUnknow} />
+              </>
+            )}
+            {(!isEmpty(data?.nighttemp) || !isEmpty(data?.daytemp)) && (
+              <span className={styles.temp}>
+                {Math.min(data?.nighttemp ?? 0, data?.daytemp ?? 0)}℃ -{' '}
+                {Math.max(data?.nighttemp ?? 0, data?.daytemp ?? 0)}℃{' '}
+              </span>
+            )}
           </Space>
         </>
       )}

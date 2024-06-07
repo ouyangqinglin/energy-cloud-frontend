@@ -1,27 +1,44 @@
-import { del, get, post, put } from '@/utils/request';
-import { ListDataType } from './type';
-import { requestEmptyPage } from '@/services';
+import request, { ResponsePageData } from '@/utils/request';
+import { AuthDataType } from './type';
 
-// import type { ElectricityPriceList } from '../type';
-// import type { MarketElectricityPriceInfo } from './type';
+export const getPage = (params: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp/page`, {
+    method: 'get',
+    params,
+  });
+};
 
-// export const createMarketPrice = (data: any) => {
-//   return post(`/oss/remote-upgrade/create`, data);
-// };
+export const addData = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'post',
+    data,
+  });
+};
 
-// export const updateMarketPrice = (data: any) => {
-//   return put(`/oss/site/mains/update`, data);
-// };
+export const editData = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'put',
+    data,
+  });
+};
 
-// export const deleteMarketPrice = (data: any) => {
-//   return del(`/oss/site/mains/delete`, data);
-// };
+export const getData = (params: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'get',
+    params,
+  });
+};
 
-// export const getMarketPrice = (params: any) => {
-//   return get<{ data: MarketElectricityPriceInfo }>(`/oss/site/mains/getInfo`, params);
-// };
+export const deleteData = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp`, {
+    method: 'delete',
+    data,
+  });
+};
 
-export const getApplicationAuthorizationList = (params: any) => {
-  return requestEmptyPage();
-  return get<ListDataType>(`/oss/authorization/list`, params);
+export const updateStatus = (data: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openApp/changeStatus`, {
+    method: 'put',
+    data,
+  });
 };

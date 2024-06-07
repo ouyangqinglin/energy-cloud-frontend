@@ -15,6 +15,7 @@ import { ProConfigProvider } from '@ant-design/pro-components';
 import { Radio, RadioChangeEvent } from 'antd';
 import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Chart, { ChartRefType } from './chart';
+
 type DeviceMapDataType = {
   sn: string;
   deviceName: string;
@@ -22,6 +23,13 @@ type DeviceMapDataType = {
     name: string;
     id: string;
   }[];
+};
+
+type RequestRefType = {
+  chartPromise?: Promise<any>;
+  chartResolve?: (value: any) => void;
+  tablePromise?: Promise<any>;
+  tableResolve?: (value: any) => void;
 };
 
 type SearchProps = {
@@ -79,7 +87,12 @@ const Search: React.FC<SearchProps> = (props) => {
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
   const [tableType, setTableType] = useState(0);
+  const requestRef = useRef<RequestRefType>({});
   const [searchData, setSearchData] = useState<any>(null);
+  const [tableData, setTableData] = useState<{
+    data: TableDataType[];
+    total: number;
+  }>({ data: [], total: 0 });
   const [allTableData, setAllTableData] = useState<TableDataType[]>([]);
   const chartRef = useRef<ChartRefType>();
   const [collectionColumns, setCollectionColumns] = useState<
@@ -112,30 +125,67 @@ const Search: React.FC<SearchProps> = (props) => {
           ...params,
           ...(isDeviceChild ? { siteId } : {}),
         };
-        const result = getList(searchDataResult).then(({ data }) => {
-          data?.list?.forEach?.((item) => {
-            item?.devices?.forEach?.((child) => {
-              item[child?.key + '-' + child?.deviceId] = child?.value;
+        requestRef.current.tablePromise = new Promise((resolve) => {
+          requestRef.current.tableResolve = resolve;
+        });
+        const tableResult = requestRef.current.tablePromise.then(() => {
+          return getList(searchDataResult).then((res) => {
+            const data = res?.data || {};
+            data?.list?.forEach?.((item) => {
+              item?.devices?.forEach?.((child) => {
+                item[child?.key + '-' + child?.deviceId] = child?.value;
+              });
             });
+            setTableData({
+              data: data?.list || [],
+              total: data?.total,
+            });
+            return {
+              code: '200',
+              data: {
+                list: [],
+                total: 0,
+              },
+              msg: '',
+            };
           });
-          return {
-            code: '200',
-            data,
-            msg: '',
-          };
         });
-        await getList({
-          ...searchDataResult,
-          pageSize: 2147483647,
-        }).then((res) => {
-          setAllTableData(res?.data?.list?.reverse?.() || []);
+        requestRef.current.chartPromise = new Promise((resolve) => {
+          requestRef.current.chartResolve = resolve;
         });
-        setSearchData(searchDataResult);
-        return result;
+        const chartResult = requestRef.current.chartPromise.then(() => {
+          setSearchData(searchDataResult);
+          return getList({
+            ...searchDataResult,
+            current: 1,
+            pageSize: 2147483647,
+          }).then((res) => {
+            setAllTableData(res?.data?.list?.reverse?.() || []);
+            return {
+              code: '200',
+              data: {
+                list: [],
+                total: 0,
+              },
+              msg: '',
+            };
+          });
+        });
+        if (tableType) {
+          requestRef.current?.chartResolve?.('');
+          return chartResult;
+        } else {
+          requestRef.current?.tableResolve?.('');
+          return tableResult;
+        }
       } else {
         setCollectionColumns([]);
         setSearchData(null);
         setAllTableData([]);
+        setTableData({
+          data: [],
+          total: 0,
+        });
         return Promise.resolve({
           code: '200',
           data: {
@@ -181,13 +231,18 @@ const Search: React.FC<SearchProps> = (props) => {
 
   const onTypeChange = (e: RadioChangeEvent) => {
     setTableType(e.target.value);
+    if (e.target.value) {
+      requestRef.current?.chartResolve?.('');
+    } else {
+      requestRef.current?.tableResolve?.('');
+    }
   };
 
   const chart = useMemo(() => {
     return (
       <Chart ref={chartRef} searchData={searchData} tableType={tableType} data={allTableData} />
     );
-  }, [searchData, tableType]);
+  }, [searchData, tableType, allTableData]);
 
   useEffect(() => {
     if (isDeviceChild) {
@@ -243,11 +298,11 @@ const Search: React.FC<SearchProps> = (props) => {
             setting: !tableType,
           }}
           columns={columns}
-          request={onRequest}
           search={{
             collapsed: false,
             collapseRender: false,
           }}
+          request={onRequest}
           form={{
             ignoreRules: false,
           }}
@@ -270,6 +325,10 @@ const Search: React.FC<SearchProps> = (props) => {
             ) : (
               dom
             );
+          }}
+          dataSource={tableData.data}
+          pagination={{
+            total: tableData.total,
           }}
         />
       </ProConfigProvider>

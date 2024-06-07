@@ -2,36 +2,107 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-24 15:15:42
- * @LastEditTime: 2023-07-07 15:29:10
+ * @LastEditTime: 2024-06-06 16:16:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\authorization\index.tsx
  */
-import React, { useCallback } from 'react';
-import type { ProColumns } from '@ant-design/pro-table';
+import React, { useCallback, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
-import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { columns } from './config';
-import { getApplicationAuthorizationList } from './service';
-import { ListDataType } from './type';
+import { columns, formColumns } from './config';
+import { deleteData, getPage, editData, addData, getData, updateStatus } from './service';
+import { AuthDataType } from './type';
 import { formatMessage } from '@/utils';
+import { Modal, message } from 'antd';
+import { ActionType, ProConfigProvider } from '@ant-design/pro-components';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
+import { useBoolean } from 'ahooks';
+import { tableSelectValueTypeMap } from '@/components/TableSelect';
 
 const RemoteUpgrade: React.FC = () => {
-  const requestList: YTProTableCustomProps<ListDataType, ListDataType>['request'] = useCallback(
-    (params) => {
-      return getApplicationAuthorizationList(params);
-    },
-    [],
-  );
-  const onAddClick = useCallback(() => {}, []);
-  const onEditClick: ProColumns<ListDataType>['render'] = useCallback((_, row) => {}, []);
+  const actionRef = useRef<ActionType>();
+  const [openForm, { set }] = useBoolean(false);
+  const [formInfo, setFormInfo] = useState({
+    type: FormTypeEnum.Add,
+    id: '',
+  });
+
+  const request = useCallback((params) => {
+    return getPage(params);
+  }, []);
+
+  const onSuccess = useCallback(() => {
+    actionRef.current?.reload?.();
+  }, []);
+
+  const onAddClick = useCallback(() => {
+    setFormInfo({
+      type: FormTypeEnum.Add,
+      id: '',
+    });
+    set(true);
+  }, []);
+
+  const onEditClick = useCallback((_, record: AuthDataType) => {
+    setFormInfo({
+      type: FormTypeEnum.Edit,
+      id: record.id,
+    });
+    set(true);
+  }, []);
+
+  const onEvent = useCallback((_, params: AuthDataType) => {
+    Modal.confirm({
+      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      content: params?.status
+        ? formatMessage({
+            id: 'system.1018',
+            defaultMessage: '您确认要启用吗',
+          })
+        : formatMessage({
+            id: 'system.1019',
+            defaultMessage: '您确认要禁用吗',
+          }),
+      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+      onOk: () =>
+        updateStatus(params).then(({ data }) => {
+          if (data) {
+            message.success(
+              formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
+            );
+            onSuccess();
+          }
+        }),
+    });
+  }, []);
+
+  const onDeleteClick = useCallback((_, record: AuthDataType) => {
+    return deleteData({ id: record.id }).then(({ data }) => {
+      if (data) {
+        message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+        onSuccess();
+      }
+    });
+  }, []);
+
+  const afterRequest = useCallback((data) => {
+    data.status = !!data.status;
+    data.siteIds = data?.sites || [];
+  }, []);
+
+  const beforeSubmit = useCallback((data) => {
+    data.status = Number(data.status);
+    data.siteIds = data?.siteIds?.map?.((item: any) => item.id) || [];
+  }, []);
+
   return (
     <>
-      <YTProTable<ListDataType, ListDataType>
+      <YTProTable
+        actionRef={actionRef}
         columns={columns}
         toolBarRenderOptions={{
           add: {
-            onClick: () => {},
-            text: formatMessage({ id: 'common.newBuilt', defaultMessage: '新建' }),
+            onClick: onAddClick,
           },
         }}
         option={{
@@ -39,9 +110,37 @@ const RemoteUpgrade: React.FC = () => {
             width: '120px',
           },
           onEditChange: onEditClick,
+          onDeleteChange: onDeleteClick,
+          modalDeleteText: formatMessage({
+            id: 'common.1017',
+            defaultMessage: '您确认要删除该授权吗？删除之后无法恢复！',
+          }),
         }}
-        request={requestList}
+        request={request}
+        onEvent={onEvent}
+        resizable
       />
+      <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
+        <SchemaForm
+          width="816px"
+          type={formInfo.type}
+          columns={formColumns}
+          open={openForm}
+          onOpenChange={set}
+          shouldUpdate={false}
+          id={formInfo.id}
+          editData={editData}
+          addData={addData}
+          getData={getData}
+          beforeSubmit={beforeSubmit}
+          afterRequest={afterRequest}
+          onSuccess={onSuccess}
+          grid={true}
+          colProps={{
+            span: 12,
+          }}
+        />
+      </ProConfigProvider>
     </>
   );
 };

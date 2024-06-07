@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-28 15:30:14
+ * @LastEditTime: 2024-06-07 10:18:23
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\RealtimePower\index.tsx
+ * @FilePath: \energy-cloud-frontend\src\pages\site-monitor\Overview\RealTimePower\index.tsx
  */
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { DatePicker, Spin, Typography } from 'antd';
@@ -108,6 +108,7 @@ const RealTimePower: React.FC<PowerType> = (props) => {
             date={date}
             option={options}
             data={chartData}
+            containClassName="h-full"
             style={{
               height: '100%',
             }}

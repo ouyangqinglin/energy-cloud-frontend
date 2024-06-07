@@ -19,7 +19,16 @@ import { parseToObj } from '@/utils';
 import { CollectionChartType } from './helper';
 
 const CollectionChart: React.FC<CollectionChartType> = (props) => {
-  const { deviceId, collection, model, title, date, height = 400, onLoadingChange } = props;
+  const {
+    deviceId,
+    collection,
+    model,
+    title,
+    date,
+    height = 400,
+    onLoadingChange,
+    containClassName,
+  } = props;
 
   const chartRef = useRef<EChartsReact>(null);
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -182,6 +191,7 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
         data={chartData}
         allLabel={allLabel}
         max={modelData.type == DeviceModelTypeEnum.Enum ? modelData.keys.length - 1 : 0}
+        containClassName={containClassName}
       />
     </>
   );

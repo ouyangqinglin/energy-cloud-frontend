@@ -6,14 +6,17 @@ import styles from './index.less';
 import { useRequest, useHistory } from 'umi';
 import { getStationInfo } from './service';
 import { isNil } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
-import { Carousel } from 'antd';
+import { Carousel, Image } from 'antd';
 import { formatMessage } from '@/utils';
 import { SiteTypeStrEnum } from '@/utils/enum';
+import { useBoolean } from 'ahooks';
 
 const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string }) => {
-  const [photos, setPhotos] = useState(Array);
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [visible, { set }] = useBoolean(false);
+  const [visibleIndex, setVisibleIndex] = useState(0);
   const { data, run } = useRequest(getStationInfo, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
@@ -34,7 +37,8 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
   }, [run, siteId]);
 
   useEffect(() => {
-    setPhotos(data?.photos?.split?.(',') ?? []);
+    const result = data?.photos ? data?.photos?.split?.(',') : [BackgroundImg];
+    setPhotos(result);
   }, [data]);
 
   const getAlarm = (alarmKey?: number) => {
@@ -49,6 +53,24 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
         return '--';
     }
   };
+
+  const images = useMemo(() => {
+    return photos.map((item, index) => {
+      return (
+        <div className={styles.imgContain}>
+          <Image
+            className={styles.img}
+            src={item}
+            preview={{ visible: false }}
+            onClick={() => {
+              setVisibleIndex(index);
+              set(true);
+            }}
+          />
+        </div>
+      );
+    });
+  }, [photos]);
 
   return (
     <RowBox span={6} className={styles.siteInfo}>
@@ -130,18 +152,25 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
           <div className={styles.value}>{data?.deliveryTime ?? '--'}</div>
         </li>
       </ul>
-
-      {photos?.length > 1 ? (
-        <Carousel autoplay dotPosition="bottom">
-          {photos.map((item: any) => {
-            return <img className={styles.innerImg} src={item} />;
-          })}
-        </Carousel>
-      ) : (
-        <div className={styles.img}>
-          <img className={styles.innerImg} src={photos[0] || BackgroundImg} />
-        </div>
-      )}
+      <Carousel
+        className={styles.carousel}
+        autoplay
+        dotPosition="bottom"
+        dots={{ className: styles.dot }}
+      >
+        {images}
+      </Carousel>
+      <div style={{ display: 'none' }}>
+        <Image.PreviewGroup
+          preview={{
+            visible,
+            current: visibleIndex,
+            onVisibleChange: (value) => set(value),
+          }}
+        >
+          {images}
+        </Image.PreviewGroup>
+      </div>
     </RowBox>
   );
 };

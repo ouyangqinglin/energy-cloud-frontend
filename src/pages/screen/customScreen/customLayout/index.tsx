@@ -331,6 +331,7 @@ const CustomLayout = () => {
                 </div>
               </div>
               <Chart
+                containClassName="h-full"
                 option={getPhotovoltaicOption()}
                 style={{ height: 'calc(100% - 40px)' }}
                 calculateMax={false}
@@ -371,6 +372,7 @@ const CustomLayout = () => {
                 </div>
               </div>
               <TypeChart
+                containClassName="h-full"
                 option={newStorageOption}
                 style={{ height: 'calc(100% - 20px)', marginTop: '0px' }}
                 calculateMax={false}
@@ -417,6 +419,7 @@ const CustomLayout = () => {
               <TypeChart
                 option={getEnergyOption()}
                 data={storageChartData}
+                containClassName="h-full"
                 style={{ height: 'calc(100% - 30px)' }}
                 calculateMax={false}
               />

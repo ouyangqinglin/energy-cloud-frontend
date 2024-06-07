@@ -69,6 +69,6 @@ export type YTProColumns<D, V = 'text'> = ProColumns<D, V> & {
     mapKey?: Record<string, string>;
     dataIndex?: string;
   };
-  renderWithEmit?: ProColumns<D, V>['render'];
+  renderWithEmit?: ProColumns<D & EmitType, V>['render'];
   renderFormat?: string;
 };
