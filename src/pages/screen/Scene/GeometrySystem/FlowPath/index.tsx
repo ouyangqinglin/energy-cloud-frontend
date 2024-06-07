@@ -136,12 +136,12 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           direction={data?.[SubSystemType.PV].direction}
         />
         <PathFan
-          show={data?.[SubSystemType.PV].flag}
-          direction={data?.[SubSystemType.PV].direction}
+          show={data?.[SubSystemType.F].flag}
+          direction={data?.[SubSystemType.F].direction}
         />
         <PathDiesel
-          show={data?.[SubSystemType.PV].flag}
-          direction={data?.[SubSystemType.PV].direction}
+          show={data?.[SubSystemType.D].flag}
+          direction={data?.[SubSystemType.F].direction}
         />
       </g>
     </svg>

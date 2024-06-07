@@ -44,7 +44,7 @@ export const dataSource: DigitalFlipperItemProps[] = [
     title: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
     unit: 'kWh',
     floatLength: 2,
-    field: 'charge',
+    field: 'charge1',
     numStyle: {
       width: 'auto',
       fontWeight: 500,
@@ -123,7 +123,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     title: formatMessage({ id: 'screen.1012', defaultMessage: '风机发电功率' }),
     unit: 'kW',
     floatLength: 2,
-    field: 'totalStringCapacity',
+    field: 'totalStringCapacity1',
     numStyle: {
       width: 'auto',
       fontWeight: 500,
