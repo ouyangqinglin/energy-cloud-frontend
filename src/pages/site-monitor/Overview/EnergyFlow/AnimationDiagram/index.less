@@ -3,18 +3,11 @@
   top: 0;
   left: 0;
   width: 10px;
-  height: 10px;
+  height: 7px;
   background: #ff974a;
   border-radius: 50%;
   animation: move linear normal infinite;
-}
-
-.out {
-  animation: moveOut linear normal infinite;
-}
-
-.in {
-  animation: moveIn linear normal infinite;
+  animation-duration: 4s;
 }
 
 .animationWrapper {
@@ -29,29 +22,8 @@
   0% {
     offset-distance: 0%;
   }
-  100% {
-    offset-distance: 100%;
-  }
-}
-
-@keyframes moveOut {
-  0% {
-    offset-distance: 0%;
-  }
   50% {
     offset-distance: 100%;
-  }
-  100% {
-    offset-distance: 100%;
-  }
-}
-
-@keyframes moveIn {
-  0% {
-    offset-distance: 0%;
-  }
-  50% {
-    offset-distance: 0%;
   }
   100% {
     offset-distance: 100%;

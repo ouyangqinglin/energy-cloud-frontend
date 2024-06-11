@@ -47,8 +47,8 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
       <div
         className={styles.cell}
         style={{
-          top: 37,
-          left: ['3'].includes(siteType) ? 271 : 91,
+          top: 23,
+          left: ['3'].includes(siteType) ? 271 : 78,
         }}
       >
         <img
@@ -71,8 +71,8 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
       <div
         className={styles.cell}
         style={{
-          top: 37,
-          left: 424,
+          top: 32,
+          left: ['12', '123'].includes(siteType) ? 423 : 441,
         }}
       >
         <EsIcon
@@ -113,7 +113,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
       <div
         className={styles.cell}
         style={{
-          top: ['13', '1'].includes(siteType) ? 28 : 230,
+          top: ['13', '1'].includes(siteType) ? 45 : 230,
           left: ['13', '1'].includes(siteType) ? 443 : 84,
         }}
       >
@@ -229,8 +229,8 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         <div
           className={styles.cell}
           style={{
-            top: 224,
-            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 241 : 423,
+            top: ['12', '123'].includes(siteType) ? 227 : ['13'].includes(siteType) ? 254 : 261,
+            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 423,
             transform: ['13', '23'].includes(siteType) ? 'translateX(-50%)' : '',
           }}
         >
