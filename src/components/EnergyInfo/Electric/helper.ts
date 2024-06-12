@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-18 18:00:46
- * @LastEditTime: 2024-04-25 16:06:13
+ * @LastEditTime: 2024-06-12 15:35:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\helper.ts
  */
@@ -10,6 +10,7 @@
 import { chartTypeEnum } from '@/components/Chart/config';
 import { DetailItem } from '@/components/Detail';
 import { formatMessage } from '@/utils';
+import { EnergySourceEnum } from '.';
 
 export const chartOption = {
   grid: {
@@ -31,10 +32,6 @@ export const chartOption = {
       type: 'line',
       color: 'rgba(255, 151, 74, 1)',
     },
-    {
-      type: 'line',
-      color: '#FF7B7B',
-    },
   ],
 };
 
@@ -51,8 +48,9 @@ export const detailItems: DetailItem[] = [
   },
   {
     label: formatMessage({ id: 'siteMonitor.totalRevenue', defaultMessage: '总收益' }),
-    field: 'totalRevenue',
+    field: 'totalIncome',
     unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
+    show: (_, data) => data.source == EnergySourceEnum.SiteMonitor,
   },
 ];
 

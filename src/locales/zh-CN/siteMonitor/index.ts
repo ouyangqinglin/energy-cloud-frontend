@@ -358,4 +358,5 @@ export default {
   'siteMonitor.1007': '累计馈网电量',
 
   'siteMonitor.1008': '自发自用电量',
+  'siteMonitor.1009': '收益',
 };

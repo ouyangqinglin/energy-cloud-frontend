@@ -2,21 +2,21 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-05-10 16:31:18
+ * @LastEditTime: 2024-06-12 15:29:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { DatePicker, Select, Spin } from 'antd';
 import { chartTypeEnum } from '@/components/Chart/config';
 import TypeChart from '@/components/Chart/TypeChart';
 import type { TypeChartDataType } from '@/components/Chart/TypeChart';
-import { getElectic } from '../service';
+import { getElectic, getUnitElectic } from '../service';
 import styles from '../index.less';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import type { ComProps } from '../type';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import Detail from '@/components/Detail';
@@ -45,6 +45,17 @@ const Electric: React.FC<ComProps> = (props) => {
   const onChange = useCallback((value: Moment | null) => {
     setDate(value || moment());
   }, []);
+
+  const options = useMemo(() => {
+    const result = merge({}, chartOption);
+    if (source === EnergySourceEnum.SiteMonitor) {
+      result.series.push({
+        type: 'line',
+        color: '#FF7B7B',
+      });
+    }
+    return result;
+  }, [source]);
 
   useEffect(() => {
     setChartData([]);
@@ -117,30 +128,30 @@ const Electric: React.FC<ComProps> = (props) => {
       let requestNum = 0;
       const result: TypeChartDataType[] = [
         {
-          name: formatMessage({ id: 'siteMonitor.allCharge', defaultMessage: '总充电量' }),
+          name: formatMessage({ id: 'siteMonitor.chargingCapacity', defaultMessage: '充电量' }),
           data: [],
           unit: 'kWh',
         },
         {
-          name: formatMessage({ id: 'siteMonitor.allDisharge', defaultMessage: '总放电量' }),
+          name: formatMessage({ id: 'siteMonitor.disChargingCapacity', defaultMessage: '放电量' }),
           data: [],
           unit: 'kWh',
-        },
-        {
-          name: formatMessage({ id: 'siteMonitor.totalRevenue', defaultMessage: '总收益' }),
-          data: [],
-          unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
         },
       ];
-      const totalResult = {
-        totalCharge: 0,
-        totalDischarge: 0,
-      };
+      if (source == EnergySourceEnum.SiteMonitor) {
+        result.push({
+          name: formatMessage({ id: 'siteMonitor.1009', defaultMessage: '收益' }),
+          data: [],
+          unit: formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
+        });
+      }
+      const totalResult: Record<string, any> = {};
       dates.reverse();
 
       const request = () => {
         if (requestNum < dates.length) {
-          getElectic({
+          const requestData = source == EnergySourceEnum.SiteMonitor ? getUnitElectic : getElectic;
+          requestData({
             deviceId: deviceData?.deviceId,
             type: chartType,
             startDate: dates[requestNum].start?.format?.('YYYY-MM-DD'),
@@ -150,20 +161,39 @@ const Electric: React.FC<ComProps> = (props) => {
             if (requestNum < dates.length) {
               result[0].data?.push?.(
                 ...(data?.charge?.map?.((item) => ({
-                  label: item.eventTs,
-                  value: item.doubleVal,
+                  label: item.time || item.eventTs,
+                  value: item.value || item.doubleVal,
                 })) || []),
               );
               result[1].data?.push?.(
                 ...(data?.discharge?.map?.((item) => ({
-                  label: item.eventTs,
-                  value: item.doubleVal,
+                  label: item.time || item.eventTs,
+                  value: item.value || item.doubleVal,
                 })) || []),
               );
-              totalResult.totalCharge =
-                ((totalResult.totalCharge + (data?.totalCharge || 0)).toFixed(2) as any) * 1;
-              totalResult.totalDischarge =
-                ((totalResult.totalDischarge + (data?.totalDischarge || 0)).toFixed(2) as any) * 1;
+              if (source == EnergySourceEnum.SiteMonitor) {
+                result[2].data?.push?.(
+                  ...(data?.income?.map?.((item) => ({
+                    label: item.time || '',
+                    value: item.value,
+                  })) || []),
+                );
+              }
+              if (!isEmpty(data?.totalCharge)) {
+                totalResult.totalCharge = Number(
+                  ((totalResult.totalCharge ?? 0) + data?.totalCharge).toFixed(2),
+                );
+              }
+              if (!isEmpty(data?.totalDischarge)) {
+                totalResult.totalDischarge = Number(
+                  ((totalResult.totalDischarge ?? 0) + data?.totalDischarge).toFixed(2) as any,
+                );
+              }
+              if (!isEmpty(data?.totalIncome)) {
+                totalResult.totalIncome = Number(
+                  ((totalResult.totalIncome ?? 0) + data?.totalIncome).toFixed(2) as any,
+                );
+              }
               setChartData(merge([], result));
               setStatisInfo(merge({}, totalResult));
               if (chartType == chartTypeEnum.Label) {
@@ -222,14 +252,14 @@ const Electric: React.FC<ComProps> = (props) => {
         <Detail
           className="detail-center"
           items={detailItems}
-          data={statisInfo}
-          column={3}
+          data={{ ...statisInfo, source }}
+          column={source == EnergySourceEnum.SiteMonitor ? 3 : 2}
           unitInLabel={true}
         />
         <TypeChart
           type={chartType}
           date={date}
-          option={chartOption}
+          option={options}
           data={chartData}
           step={60}
           allLabel={allLabel}

@@ -30,3 +30,10 @@ export const getElectic = (params: searchType) => {
     params,
   });
 };
+
+export const getUnitElectic = (params: searchType) => {
+  return request<ResponseCommonData<ElectricType>>('/oss/device/essChargeDischargeTrends', {
+    method: 'GET',
+    params,
+  });
+};
