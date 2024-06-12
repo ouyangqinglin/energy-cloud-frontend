@@ -229,7 +229,11 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         <div
           className={styles.cell}
           style={{
-            top: ['12', '123'].includes(siteType) ? 227 : ['13'].includes(siteType) ? 254 : 261,
+            top: ['12', '123'].includes(siteType)
+              ? 227
+              : ['13', '23'].includes(siteType)
+              ? 254
+              : 261,
             left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 423,
             transform: ['13', '23'].includes(siteType) ? 'translateX(-50%)' : '',
           }}
