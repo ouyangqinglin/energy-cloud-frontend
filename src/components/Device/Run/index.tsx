@@ -235,17 +235,21 @@ const Run: React.FC<RunType> = (props) => {
           });
         }
       });
-      return (data: any) => (
-        <Meter
-          items={grid}
-          data={data}
-          detailProps={{
-            extral,
-            colon: false,
-            valueStyle: { flex: 1, textAlign: 'right' },
-          }}
-        />
-      );
+      if (grid.length) {
+        return (data: any) => (
+          <Meter
+            items={grid}
+            data={data}
+            detailProps={{
+              extral,
+              colon: false,
+              valueStyle: { flex: 1, textAlign: 'right' },
+            }}
+          />
+        );
+      } else {
+        return;
+      }
     },
     [passAuthority, extral],
   );
@@ -257,28 +261,38 @@ const Run: React.FC<RunType> = (props) => {
         case DeviceModelDescribeTypeEnum.Group:
         case DeviceModelDescribeTypeEnum.PropertyGroup:
           if (passAuthority(modelDescribeItem?.authority)) {
-            if (modelDescribeItem.showType != DeviceModelShowTypeEnum.HideName) {
-              result.push({
-                label: <Detail.Label title={modelDescribeItem.name} />,
-              });
-            }
             if (modelDescribeItem.showType == DeviceModelShowTypeEnum.Grid) {
-              result.push({
-                component: getGridComponent(modelDescribeItem.children, modelDescribeItem?.columns),
-              });
+              const gridResult = getGridComponent(
+                modelDescribeItem.children,
+                modelDescribeItem?.columns,
+              );
+              gridResult &&
+                result.push({
+                  component: gridResult,
+                });
             } else {
               if (modelDescribeItem?.children?.[0]?.type == DeviceModelDescribeTypeEnum.Property) {
-                result.push({
-                  items: getDetailItems(modelDescribeItem?.children),
-                  detailProps: {
-                    showExtra: modelDescribeItem?.showHistory,
-                  },
-                });
+                const properResult = getDetailItems(modelDescribeItem?.children);
+                properResult.length &&
+                  result.push({
+                    items: properResult,
+                    detailProps: {
+                      showExtra: modelDescribeItem?.showHistory,
+                    },
+                  });
               } else {
                 modelDescribeItem?.children?.forEach?.((item) => {
                   if (passAuthority(item?.authority)) {
-                    result.push(...getGroupItems(item));
+                    const groupResult = getGroupItems(item);
+                    groupResult.length && result.push(...groupResult);
                   }
+                });
+              }
+            }
+            if (modelDescribeItem.showType != DeviceModelShowTypeEnum.HideName) {
+              if (result.length) {
+                result.unshift({
+                  label: <Detail.Label title={modelDescribeItem.name} />,
                 });
               }
             }
@@ -286,25 +300,27 @@ const Run: React.FC<RunType> = (props) => {
           break;
         case DeviceModelDescribeTypeEnum.Tab:
           const tabItems: GroupItem['tabItems'] = [];
-
           modelDescribeItem?.children?.forEach?.((item) => {
             if (passAuthority(item?.authority)) {
               if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
                 const tabGroupItems: GroupItem[] = [];
                 (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
-                  tabGroupItems.push(...getGroupItems(tabGroupItem));
+                  const tabGroupResult = getGroupItems(tabGroupItem);
+                  tabGroupResult.length && tabGroupItems.push(...tabGroupResult);
                 });
-                tabItems.push({
-                  key: item.id || '',
-                  label: item.name,
-                  groupItems: tabGroupItems,
-                });
+                tabGroupItems.length &&
+                  tabItems.push({
+                    key: item.id || '',
+                    label: item.name,
+                    groupItems: tabGroupItems,
+                  });
               }
             }
           });
-          result.push({
-            tabItems,
-          });
+          tabItems.length &&
+            result.push({
+              tabItems,
+            });
           break;
         case DeviceModelDescribeTypeEnum.Component:
           if (modelDescribeItem.id) {

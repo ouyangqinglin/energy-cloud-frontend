@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-06-05 09:01:44
+ * @LastEditTime: 2024-06-12 13:52:20
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -70,7 +70,7 @@ export type ControlType = {
   groupData?: DeviceModelDescribeType[];
   realTimeData?: Record<string, any>;
   deviceData?: DeviceDataType;
-  onLoadChange?: () => void;
+  onLoadChange?: (groupLength: number) => void;
 };
 
 type FormInfoType = {
@@ -996,51 +996,55 @@ const Control: React.FC<ControlType> = memo((props) => {
       if (detailItems?.length == 2) {
         detailItems[1].span = 2;
       }
-      const groupItem: GroupItem = {
-        className: styles.btnDetail,
-        items: detailItems,
-      };
-      if (service.showType != DeviceModelShowTypeEnum.HideName) {
-        groupItem.label = (
-          <Detail.Label
-            title={
-              <>
-                {service?.name}
-                {!!service?.tip && (
-                  <Typography.Text className={styles.tip} type="secondary">
-                    ({service?.tip})
-                  </Typography.Text>
-                )}
-              </>
-            }
-          >
-            {service?.buttons?.includes?.('refresh') ? (
-              <RedoOutlined
-                className={`cl-primary cursor ${styles.refresh}`}
-                onClick={() => onRefresh(service)}
-                title={formatMessage({
-                  id: 'common.refresh',
-                  defaultMessage: '刷新',
-                })}
-              />
-            ) : (
-              <Authority
-                code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
-                mode={AuthorityModeEnum.Within}
-              >
-                <Button
-                  type="primary"
-                  onClick={() => onClick(service, columns, columnsLength)}
-                  disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
+      if (detailItems.length) {
+        const groupItem: GroupItem = {
+          className: styles.btnDetail,
+          items: detailItems,
+        };
+        if (service.showType != DeviceModelShowTypeEnum.HideName) {
+          groupItem.label = (
+            <Detail.Label
+              title={
+                <>
+                  {service?.name}
+                  {!!service?.tip && (
+                    <Typography.Text className={styles.tip} type="secondary">
+                      ({service?.tip})
+                    </Typography.Text>
+                  )}
+                </>
+              }
+            >
+              {service?.buttons?.includes?.('refresh') ? (
+                <RedoOutlined
+                  className={`cl-primary cursor ${styles.refresh}`}
+                  onClick={() => onRefresh(service)}
+                  title={formatMessage({
+                    id: 'common.refresh',
+                    defaultMessage: '刷新',
+                  })}
+                />
+              ) : (
+                <Authority
+                  code={service?.authority?.map?.((item) => item.edit)?.join?.(',')}
+                  mode={AuthorityModeEnum.Within}
                 >
-                  {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
-                </Button>
-              </Authority>
-            )}
-          </Detail.Label>
-        );
+                  <Button
+                    type="primary"
+                    onClick={() => onClick(service, columns, columnsLength)}
+                    disabled={deviceData?.networkStatus === OnlineStatusEnum.Offline}
+                  >
+                    {formatMessage({ id: 'common.configParam', defaultMessage: '配置参数' })}
+                  </Button>
+                </Authority>
+              )}
+            </Detail.Label>
+          );
+        }
+        return groupItem;
+      } else {
+        return;
       }
-      return groupItem;
     },
     [deviceData, getFieldItem, onClick, onRefresh, passAuthority],
   );
@@ -1051,12 +1055,19 @@ const Control: React.FC<ControlType> = memo((props) => {
       if (passAuthority(modelDescribeItem?.authority)) {
         switch (modelDescribeItem.type) {
           case DeviceModelDescribeTypeEnum.Group:
+            modelDescribeItem?.children?.forEach?.((item) => {
+              if (passAuthority(item?.authority)) {
+                const groupResult = getGroupItems(item);
+                groupResult.length && result.push(...groupResult);
+              }
+            });
             if (
+              result.length &&
               modelDescribeItem.children &&
               (modelDescribeItem.children.length > 1 ||
                 modelDescribeItem.children?.[0]?.showType == DeviceModelShowTypeEnum.HideName)
             ) {
-              result.push({
+              result.unshift({
                 label: (
                   <Detail.Label
                     title={
@@ -1073,15 +1084,11 @@ const Control: React.FC<ControlType> = memo((props) => {
                 ),
               });
             }
-            modelDescribeItem?.children?.forEach?.((item) => {
-              if (passAuthority(item?.authority)) {
-                result.push(...getGroupItems(item));
-              }
-            });
             break;
           case DeviceModelDescribeTypeEnum.PropertyGroup:
           case DeviceModelDescribeTypeEnum.Service:
-            result.push(getServiceItem(modelDescribeItem));
+            const serviceGroup = getServiceItem(modelDescribeItem);
+            serviceGroup && result.push(serviceGroup);
             break;
           case DeviceModelDescribeTypeEnum.Tab:
             const tabItems: GroupItem['tabItems'] = [];
@@ -1090,36 +1097,42 @@ const Control: React.FC<ControlType> = memo((props) => {
                 if (item?.type == DeviceModelDescribeTypeEnum.TabItem) {
                   const tabGroupItems: GroupItem[] = [];
                   (item as DeviceModelDescribeType)?.children?.forEach?.((tabGroupItem) => {
-                    tabGroupItems.push(...getGroupItems(tabGroupItem));
+                    const tabGroupResult = getGroupItems(tabGroupItem);
+                    tabGroupResult.length && tabGroupItems.push(...tabGroupResult);
                   });
-                  tabItems.push({
-                    key: item.id || '',
-                    label: item.name,
-                    groupItems: tabGroupItems,
-                  });
+                  if (tabGroupItems.length) {
+                    tabItems.push({
+                      key: item.id || '',
+                      label: item.name,
+                      groupItems: tabGroupItems,
+                    });
+                  }
                 }
               }
             });
-            result.push({
-              tabItems,
-            });
+            if (tabItems.length) {
+              result.push({
+                tabItems,
+              });
+            }
             break;
           case DeviceModelDescribeTypeEnum.Component:
             if (modelDescribeItem.id) {
               const Component = components[modelDescribeItem.id];
-              result.push({
-                component: (
-                  <Suspense
-                    fallback={
-                      <div className="tx-center">
-                        <Spin />
-                      </div>
-                    }
-                  >
-                    <Component deviceId={deviceData?.deviceId} />
-                  </Suspense>
-                ),
-              });
+              Component &&
+                result.push({
+                  component: (
+                    <Suspense
+                      fallback={
+                        <div className="tx-center">
+                          <Spin />
+                        </div>
+                      }
+                    >
+                      <Component deviceId={deviceData?.deviceId} />
+                    </Suspense>
+                  ),
+                });
             }
             break;
           default:
@@ -1153,7 +1166,7 @@ const Control: React.FC<ControlType> = memo((props) => {
   }, [groupData, deviceData, getGroupItems, realTimeData, authorityMap]);
 
   useEffect(() => {
-    onLoadChange?.();
+    onLoadChange?.(groupsItems.length);
   }, [groupsItems]);
 
   return (
