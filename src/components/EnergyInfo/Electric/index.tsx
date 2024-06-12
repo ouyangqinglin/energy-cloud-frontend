@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-06-12 15:29:11
+ * @LastEditTime: 2024-06-12 15:51:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -186,12 +186,12 @@ const Electric: React.FC<ComProps> = (props) => {
               }
               if (!isEmpty(data?.totalDischarge)) {
                 totalResult.totalDischarge = Number(
-                  ((totalResult.totalDischarge ?? 0) + data?.totalDischarge).toFixed(2) as any,
+                  ((totalResult.totalDischarge ?? 0) + data?.totalDischarge).toFixed(2),
                 );
               }
               if (!isEmpty(data?.totalIncome)) {
                 totalResult.totalIncome = Number(
-                  ((totalResult.totalIncome ?? 0) + data?.totalIncome).toFixed(2) as any,
+                  ((totalResult.totalIncome ?? 0) + data?.totalIncome).toFixed(2),
                 );
               }
               setChartData(merge([], result));

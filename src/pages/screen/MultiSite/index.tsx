@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-21 15:07:56
- * @LastEditTime: 2023-09-15 13:59:22
+ * @LastEditTime: 2024-06-12 16:31:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\index.tsx
  */
@@ -23,6 +23,8 @@ import IncomeStat from './IncomeStat';
 import InstallCapacity from './InstallCapacity';
 import SiteMap from './SiteMap';
 import '@/assets/styles/font.less';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallBackRender from '@/components/FallBackRender';
 
 const MultiSite: React.FC = () => {
   return (
@@ -35,19 +37,42 @@ const MultiSite: React.FC = () => {
         }}
         scaleMode={ScaleMode.EQUAL}
       >
-        <Title />
-        <ScreenTime />
-        <FullScreen />
-        {/* 站点排名 */}
-        <SiteRange />
-        <SystemRun />
-        <Alarm />
-        <Task />
-        <Device />
-        <SaveEnergy />
-        <IncomeStat />
-        <SiteMap />
-        <InstallCapacity />
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <Title />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <ScreenTime />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <FullScreen />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <SiteRange />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <SystemRun />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <Alarm />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <Task />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <Device />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <SaveEnergy />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <IncomeStat />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <SiteMap />
+        </ErrorBoundary>
+        <ErrorBoundary fallbackRender={FallBackRender}>
+          <InstallCapacity />
+        </ErrorBoundary>
       </Layout>
     </>
   );
