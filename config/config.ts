@@ -83,7 +83,9 @@ export default defineConfig({
   exportStatic: {},
   externals: {},
   chainWebpack: (config) => {
-    config.module.rule('otf').test(/.otf$/).use('file-loader').loader('file-loader');
+    config.module.rule('otf').test(/.otf$/).use('file-loader').loader('file-loader').options({
+      name: 'static/[name].[hash:7].[ext]',
+    });
     config.module.rule('mp4').test(/.mp4$/).use('file-loader').loader('file-loader');
     config.plugin('compression-webpack-plugin').use(CompressionPlugin, [
       {
