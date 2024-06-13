@@ -21,3 +21,10 @@ export const getCustomPage = () => {
     method: 'GET',
   });
 };
+
+export const constructionStatus = (data: any) => {
+  return request(`/uc/site/constructionStatus`, {
+    method: 'PUT',
+    data,
+  });
+};

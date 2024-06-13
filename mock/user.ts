@@ -564,6 +564,18 @@ export default {
               link: null,
             },
           },
+          {
+            name: 'Refresh',
+            path: 'refresh',
+            hidden: false,
+            component: 'Layout',
+            meta: {
+              title: '数据刷新',
+              icon: '#',
+              noCache: false,
+              link: null,
+            },
+          },
         ],
       },
       {

@@ -6,7 +6,7 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { useBoolean, useToggle } from 'ahooks';
 import React, { useMemo } from 'react';
 import { useState, useCallback } from 'react';
-import { useModel, useRequest } from 'umi';
+import { useRequest } from 'umi';
 import YTDivider from '../Divider';
 import type { FormReadBaseProps } from '../FormRead/type';
 import type { FormUpdateBaseProps } from '../FormUpdate/type';
@@ -15,7 +15,7 @@ import { formatMessage } from '@/utils';
 import type { YTProColumns } from '@/components/YTProTable/typing';
 import { useAuthority } from '@/hooks';
 import { merge } from 'lodash';
-import { distributeElectricityPrice } from '@/services/station';
+import { distributeElectricityPrice, updateIncomeByRuleIdAndType } from '@/services/station';
 
 const enum TabKeys {
   MARKET = '1',
@@ -272,12 +272,16 @@ const FormTableList = <DataType extends Record<string, any>>(
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: async () => {
-        onDeleteChange?.({ id: rowData?.id })?.then?.(({ data }) => {
-          if (data) {
-            message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-            actionRef?.current?.reload?.();
-          }
-        });
+        updateIncomeByRuleIdAndType?.({ id: rowData?.id, type: Number(priceType) - 1 })?.then?.(
+          ({ data }) => {
+            if (data) {
+              message.success(
+                formatMessage({ id: 'common.refreshSuccess', defaultMessage: '刷新成功' }),
+              ),
+                actionRef?.current?.reload?.();
+            }
+          },
+        );
       },
     });
   };

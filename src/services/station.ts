@@ -21,6 +21,7 @@ export type SiteDataType = {
   isLoad?: boolean;
   longitude?: number;
   latitude?: number;
+  operationDays?: number;
 };
 
 export type SiteTypeOptionType = {
@@ -133,6 +134,16 @@ export const distributeElectricityPrice = (params: any) => {
     method: 'GET',
     params,
   });
+};
+
+export const updateIncomeByRuleIdAndType = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorTokenType>>(
+    `/oss/site/energyFlowDiagram/updateIncomeByRuleIdAndType`,
+    {
+      method: 'POST',
+      params,
+    },
+  );
 };
 
 export const getSitePage = (params: any) => {

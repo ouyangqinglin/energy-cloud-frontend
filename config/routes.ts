@@ -283,6 +283,15 @@ const routers: RouterType[] = [
         locale: 'menu.dataManage.report',
       },
       {
+        path: 'refresh',
+        name: 'refresh',
+        component: './data-manage/refresh',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.dataManage.refresh',
+      },
+
+      {
         path: 'fault-tracing',
         name: 'faultTracing',
         component: './data-manage/faultTracing',

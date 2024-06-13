@@ -21,6 +21,7 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
   const { onChange, className, children, isShowSafeDay = false } = props;
 
   const { state: siteData } = useModel('site');
+  console.log('siteData>>', siteData);
 
   useEffect(() => {
     if (siteData?.isLoad) {
@@ -36,7 +37,7 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
         {siteData?.name || '--'}
         {isShowSafeDay &&
           `（${formatMessage({ id: 'siteManage.1037', defaultMessage: '安全运行' })}：${
-            siteData?.data || '--'
+            siteData?.operationDays || 0
           }${formatMessage({ id: 'common.time.day1', defaultMessage: '天' })}）`}
         {children}
       </div>

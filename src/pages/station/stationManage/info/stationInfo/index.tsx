@@ -1,22 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Button, Image, Modal, message, DatePicker, Space } from 'antd';
-import type { DatePickerProps } from 'antd';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { Card, Button, Image, Modal, Row, Col } from 'antd';
 import { ProField } from '@ant-design/pro-components';
 import { useRequest, useLocation } from 'umi';
 import Detail from '@/components/Detail';
 import type { DetailItem } from '@/components/Detail';
 import { getStation } from '@/services/station';
-import { setComplete } from './service';
+import { constructionStatus } from './service';
 import { siteType } from '@/utils/dict';
 import { buildStatus } from '@/utils/dict';
-import { FormTypeEnum } from '@/components/SchemaForm';
-import { LocationType } from '@/types';
+import type { LocationType } from '@/types';
 import { kVoltageFormat, kVAFormat, kWpFormat, powerFormat, powerHourFormat } from '@/utils/format';
 import StationForm from '@/pages/station/stationList/components/edit';
 import PositionSelect from '@/components/PositionSelect';
 import { formatMessage, getPlaceholder, getLocale } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { StationType } from '../../../stationList/data.d';
+import type { StationType } from '../../../stationList/data.d';
+import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
+import type { ProColumns, ProFormInstance } from '@ant-design/pro-components';
 
 type StationInfoType = {
   onSiteChange?: (data: StationType) => void;
@@ -25,10 +25,11 @@ type StationInfoType = {
 const StationInfo: React.FC<StationInfoType> = (props) => {
   const { onSiteChange } = props;
   const location = useLocation<LocationType>();
+  const formRef = useRef<ProFormInstance>(null);
 
-  const [deliveryDate, setDeliveryDate] = useState<string>('');
   const siteId = (location as LocationType).query?.id;
   const [open, setOpen] = useState(false);
+  const [siteOpen, setSiteOpen] = useState(false);
   const { authorityMap } = useAuthority([
     'siteManage:siteConfig:baseInfo:siteDone',
     'oss:site:update',
@@ -43,47 +44,30 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
       onSiteChange?.(data);
     },
   });
-  const onDatePickerChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
-    setDeliveryDate(dateString);
-  };
-
-  const onCompleteClick = useCallback(() => {
-    Modal.confirm({
-      title: formatMessage({
-        id: 'siteManage.1035',
-        defaultMessage: '站点投运',
-      }),
-      content: (
-        <Space>
-          {formatMessage({ id: 'siteManage.1036', defaultMessage: '请选择站点投运日期' })}
-          <DatePicker
-            onChange={onDatePickerChange}
-            placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请选择' })}
-            format={getLocale().dateFormat}
-          />
-        </Space>
-      ),
-      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-      onOk: () => {
-        if (!deliveryDate) {
-          message.info(
-            formatMessage({ id: 'siteManage.1036', defaultMessage: '请选择站点投运日期' }),
-          );
-          return;
-        }
-        setComplete(siteId).then(({ data }) => {
-          if (data) {
-            message.success(
-              formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
-            );
-            run(siteId);
-          }
-        });
+  const columns: ProColumns[] = [
+    {
+      title: formatMessage({ id: 'siteManage.1036', defaultMessage: '请选择站点投运日期' }),
+      dataIndex: 'deliveryTime',
+      valueType: 'date',
+      width: '100%',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message:
+              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+              formatMessage({ id: 'common.time', defaultMessage: '时间' }),
+          },
+        ],
       },
-    });
-  }, [deliveryDate, run, siteId]);
+      fieldProps: {
+        format: getLocale().dateFormat,
+      },
+    },
+  ];
+  const beforeSubmit = (data: any) => {
+    data.siteId = siteId;
+  };
 
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
@@ -257,6 +241,10 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
     },
   ];
 
+  const submit = () => {
+    formRef?.current?.submit?.();
+  };
+
   return (
     <>
       <div className="px24">
@@ -269,7 +257,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
           extra={
             detailData?.constructionStatus === 0 ||
             authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
-              <Button type="primary" loading={loading} onClick={onCompleteClick}>
+              <Button type="primary" loading={loading} onClick={() => setSiteOpen(true)}>
                 {formatMessage({ id: 'siteManage.1035', defaultMessage: '站点投运' })}
               </Button>
             ) : (
@@ -311,6 +299,20 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
         onOpenChange={setOpen}
         type={FormTypeEnum.Edit}
         onSuccess={onSuccess}
+      />
+      <SchemaForm
+        title={formatMessage({ id: 'siteManage.1035', defaultMessage: '站点投运' })}
+        formRef={formRef}
+        open={siteOpen}
+        onOpenChange={(value) => setSiteOpen(value)}
+        type={FormTypeEnum.Edit}
+        columns={columns}
+        beforeSubmit={beforeSubmit}
+        editData={constructionStatus}
+        grid={true}
+        colProps={{
+          span: 24,
+        }}
       />
     </>
   );

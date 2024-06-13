@@ -132,6 +132,7 @@ export default {
 
   'siteManage.unitName': '单元名称',
   'siteManage.electricityMeter': '市电电表',
+
   'siteManage.unitManage': '储能单元管理',
   'siteManage.1001': '视频监控',
   'siteManage.1002': '监控状态',
@@ -171,4 +172,9 @@ export default {
   'siteManage.1035': '站点投运',
   'siteManage.1036': '请选择站点投运日期',
   'siteManage.1037': '安全运行',
+  'siteManage.1038': '投运成功',
+  'siteManage.1039': '投运失败',
+  'siteManage.1040': '主从模式',
+
+  'siteManage.1041': '至少有一个主机',
 };

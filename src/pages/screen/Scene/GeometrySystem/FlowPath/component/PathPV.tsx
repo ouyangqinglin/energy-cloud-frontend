@@ -3,7 +3,7 @@ import AnimationPoint from './AnimationPoint';
 
 const PathPV = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
-    <g transform="translate(234, 173)">
+    <g transform="translate(240, 173)">
       {/* 光伏 */}
       <path
         stroke="#438BCC"
