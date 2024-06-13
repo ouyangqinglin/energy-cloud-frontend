@@ -175,4 +175,6 @@ export default {
   'siteManage.1038': '投运成功',
   'siteManage.1039': '投运失败',
   'siteManage.1040': '主从模式',
+
+  'siteManage.1041': '至少有一个主机',
 };

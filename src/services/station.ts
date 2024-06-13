@@ -136,6 +136,16 @@ export const distributeElectricityPrice = (params: any) => {
   });
 };
 
+export const updateIncomeByRuleIdAndType = (params: any) => {
+  return request<ResponseCommonData<VideoMonitorTokenType>>(
+    `/oss/site/energyFlowDiagram/updateIncomeByRuleIdAndType`,
+    {
+      method: 'POST',
+      params,
+    },
+  );
+};
+
 export const getSitePage = (params: any) => {
   return request<ResponsePageData<SiteDataType>>(`/uc/site/page`, {
     method: 'GET',
