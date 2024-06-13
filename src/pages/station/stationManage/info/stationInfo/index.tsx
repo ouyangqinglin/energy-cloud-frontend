@@ -305,7 +305,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
         formRef={formRef}
         open={siteOpen}
         onOpenChange={(value) => setSiteOpen(value)}
-        type={FormTypeEnum.Add}
+        type={FormTypeEnum.Edit}
         columns={columns}
         beforeSubmit={beforeSubmit}
         editData={constructionStatus}
