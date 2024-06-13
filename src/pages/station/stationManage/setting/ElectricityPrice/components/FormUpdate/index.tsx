@@ -4,7 +4,6 @@ import { Button, Form, message } from 'antd';
 import YTModalForm from '@/components/YTModalForm';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import useSafeTimeRangeColum from './SafeTimeSelect';
-// import useSafeTimeRangeColum from './SafeTimeRange';
 
 import type { BasePriceInfo, FormUpdateProps } from './type';
 import type { ProFormColumnsType } from '@ant-design/pro-form';

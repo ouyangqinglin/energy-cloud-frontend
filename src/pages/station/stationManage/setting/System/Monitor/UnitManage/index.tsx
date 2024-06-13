@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './index.less';
 import { formatMessage, getUniqueNumber } from '@/utils';
-import { Table, Button, Input, Modal, message } from 'antd';
+import { Table, Button, Input, Modal, message, Switch } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
 import { useModel, useRequest } from 'umi';
@@ -109,14 +109,37 @@ const EnergyUnitManage: React.FC = () => {
     }
     setEnergyData(cloneEnergyData);
   };
+  const onSwitchChange = (checked: boolean, record: MonitorDataType, row: MonitorDataType) => {
+    const cloneEnergyData = cloneDeep(energyData);
+    const index = cloneEnergyData.findIndex((i) => i.groupId == record.groupId);
+    if (checked) {
+      //先把其他变成从机
+      cloneEnergyData[index].esDevices = cloneEnergyData[index].esDevices.map((item: any) => {
+        item.masterSlaveMode = 1;
+        return item;
+      });
+    } else {
+      message.info(formatMessage({ id: '12', defaultMessage: '至少有一个主机' }));
+    }
+    //再把自己变成主机
+    const checkIndex = cloneEnergyData[index].esDevices.findIndex(
+      (i: MonitorDataType) => i.deviceId == row.deviceId,
+    );
+    cloneEnergyData[index].esDevices[checkIndex].masterSlaveMode = 0;
+    setEnergyData(cloneEnergyData);
+  };
 
   const onSaveClick = () => {
     const groups = energyData.map((item) => {
       const deviceIds = item.esDevices.filter((i: any) => i.deviceId).map((i: any) => i.deviceId);
+      const masterDeviceId =
+        item.esDevices.filter((i: any) => i.masterSlaveMode === 0).map((i: any) => i.deviceId)[0] ||
+        '';
       return {
         groupId: item.isAdd ? '' : item.groupId,
         groupName: item.groupName,
         deviceIds,
+        masterDeviceId,
       };
     });
     const params = { siteId, groups };
@@ -129,7 +152,6 @@ const EnergyUnitManage: React.FC = () => {
   };
 
   const handleOk = () => {
-    console.log('selectedRowsState>>', selectedRowsState);
     if (selectedRowsState.length) {
       changeTableData(currentRow as MonitorDataType, selectedRowsState, 'esDevices');
     } else {
@@ -216,6 +238,61 @@ const EnergyUnitManage: React.FC = () => {
       },
       ellipsis: true,
     },
+
+    {
+      title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }),
+      dataIndex: 'esDevices',
+      width: 150,
+      render: (_, record) => {
+        return (
+          <div className={styles.child_table}>
+            <Table
+              showHeader={false}
+              size="small"
+              pagination={false}
+              columns={[{ dataIndex: 'sn' }]}
+              dataSource={record?.esDevices || []}
+            />
+          </div>
+        );
+      },
+      ellipsis: true,
+    },
+    {
+      title: formatMessage({ id: 'siteManage.1040', defaultMessage: '主从模式' }),
+      dataIndex: 'esDevices',
+      width: 150,
+      render: (_, record) => {
+        return (
+          <div className={styles.child_table}>
+            <Table
+              showHeader={false}
+              size="small"
+              pagination={false}
+              columns={[
+                {
+                  dataIndex: 'masterSlaveMode',
+                  // eslint-disable-next-line @typescript-eslint/no-shadow
+                  render: (_, row) => {
+                    return (
+                      <>
+                        <Switch
+                          checked={row.masterSlaveMode == 0}
+                          onChange={(e) => onSwitchChange(e, record, row)}
+                        />
+                      </>
+                    );
+                  },
+                },
+              ]}
+              dataSource={record?.esDevices || []}
+            />
+          </div>
+        );
+      },
+      ellipsis: true,
+    },
+
     {
       title: formatMessage({ id: 'siteManage.electricityMeter', defaultMessage: '市电电表' }),
       dataIndex: 'mainsSupplyMeters',

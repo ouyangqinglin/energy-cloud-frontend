@@ -21,6 +21,7 @@ export type SiteDataType = {
   isLoad?: boolean;
   longitude?: number;
   latitude?: number;
+  operationDays?: number;
 };
 
 export type SiteTypeOptionType = {

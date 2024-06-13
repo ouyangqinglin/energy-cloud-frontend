@@ -174,4 +174,10 @@ export default {
   'siteManage.1035': 'Site Delivery',
   'siteManage.1036': 'Please Select Site Delivery Date',
   'siteManage.1037': 'Safe Operation',
+  'siteManage.1038': 'Put into operation Success',
+  'siteManage.1039': 'Put into operation Fail',
+  'siteManage.1040': 'Master-slave Mode',
+  'siteManage.1041': 'At least one host',
+
+
 };

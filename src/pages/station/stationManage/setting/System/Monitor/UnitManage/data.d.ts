@@ -15,4 +15,5 @@ export type MonitorDataType = {
   groupId?: string;
   maximumLoadOfTransformer: { name?: string; value?: strting; editable?: 0 | 1 };
   mainsSupplyMeters?: MonitorDataType[];
+  masterSlaveMode?: number | string;
 };
