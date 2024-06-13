@@ -14,13 +14,19 @@ import { formatMessage } from '@/utils';
 import RealTimePower from './RealTimePower';
 import ElectricityStatistics from './ElectricityStatistics';
 import { SiteTypeStrEnum } from '@/utils/enum';
+import { getPowerFlow } from './service';
 
 const Index: React.FC = () => {
   const [siteId, setSiteId] = useState<number>();
   const [siteType, setSiteType] = useState<string | undefined>('');
 
-  const { data: screenConfig, run } = useRequest(getSiteScreenConfig, {
+  const { data: screenConfig, run: runGetSiteConfig } = useRequest(getSiteScreenConfig, {
     manual: true,
+  });
+
+  const { data: powerFlowData, run } = useRequest(getPowerFlow, {
+    manual: true,
+    pollingInterval: 15 * 1000,
   });
 
   const onChange = useCallback((data: SiteDataType) => {
@@ -33,6 +39,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     if (siteId) {
       run({ siteId });
+      runGetSiteConfig({ siteId });
     }
   }, [siteId]);
 
@@ -77,8 +84,8 @@ const Index: React.FC = () => {
           )} */}
         </div>
         <Row gutter={[16, 16]}>
-          <Statistics siteId={siteId} siteType={siteType} />
-          <EnergyFlow siteId={siteId} siteType={siteType} />
+          <Statistics siteId={siteId} siteType={siteType} data={powerFlowData} />
+          <EnergyFlow siteId={siteId} siteType={siteType} data={powerFlowData} />
           {[SiteTypeStrEnum.CS].includes(siteType) ? (
             <>
               <RealTimePower siteId={siteId} />

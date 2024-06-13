@@ -8,10 +8,17 @@
  */
 
 import request, { ResponseCommonData } from '@/utils/request';
-import { PowerDataType } from './typing';
+import { PowerDataType, PowerFlowDataType } from './typing';
 
 export const getPower = (params: any) => {
   return request<ResponseCommonData<PowerDataType>>('/oss/site/monitor/overview/getOverviewData', {
+    method: 'GET',
+    params,
+  });
+};
+
+export const getPowerFlow = (params: any) => {
+  return request<ResponseCommonData<PowerFlowDataType>>('/oss/topologicalGraph/logicalViewPower', {
     method: 'GET',
     params,
   });
