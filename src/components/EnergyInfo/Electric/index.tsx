@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-06-12 15:51:19
+ * @LastEditTime: 2024-06-12 17:51:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\index.tsx
  */
@@ -50,7 +50,7 @@ const Electric: React.FC<ComProps> = (props) => {
     const result = merge({}, chartOption);
     if (source === EnergySourceEnum.SiteMonitor) {
       result.series.push({
-        type: 'line',
+        type: 'bar',
         color: '#FF7B7B',
       });
     }

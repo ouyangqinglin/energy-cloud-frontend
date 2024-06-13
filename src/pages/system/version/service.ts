@@ -1,4 +1,5 @@
-import request from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
+import { AppTypeDataType } from './type';
 
 export const insertVersion = (formData: any) => {
   return request(`/oss/version/insert`, {
@@ -22,6 +23,12 @@ export const getVersionDetail = (data: any) => {
 
 export const getFileUrl = (data: any) => {
   return request(`/uc/fileUrl?${new URLSearchParams(data).toString()}`, {
+    method: 'GET',
+  });
+};
+
+export const getTypeList = () => {
+  return request<ResponseCommonData<AppTypeDataType[]>>(`/oss/version/appType`, {
     method: 'GET',
   });
 };

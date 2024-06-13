@@ -23,7 +23,7 @@ const DownloadApp: React.FC = () => {
   }, []);
 
   const getDownloadUrl = () => {
-    getVersionList({ appType: 1, platform: 0 }).then(({ data }) => {
+    getVersionList({ appType: 2, platform: 0 }).then(({ data }) => {
       const url = data?.list?.[0]?.url;
       if (url) {
         getFileUrl({ url, platform: 2 }).then((res) => {

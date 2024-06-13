@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-18 18:00:46
- * @LastEditTime: 2024-06-12 15:35:01
+ * @LastEditTime: 2024-06-12 17:49:45
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Electric\helper.ts
  */
@@ -18,6 +18,7 @@ export const chartOption = {
     bottom: 20,
   },
   legend: {
+    icon: 'rect',
     top: 'bottom',
   },
   yAxis: {
@@ -25,11 +26,11 @@ export const chartOption = {
   },
   series: [
     {
-      type: 'line',
+      type: 'bar',
       color: 'rgba(21, 154, 255, 1)',
     },
     {
-      type: 'line',
+      type: 'bar',
       color: 'rgba(255, 151, 74, 1)',
     },
   ],

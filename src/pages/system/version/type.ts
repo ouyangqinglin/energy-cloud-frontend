@@ -10,3 +10,8 @@ export interface VersionInfo {
   url: string;
   details?: string;
 }
+
+export type AppTypeDataType = {
+  id?: number;
+  name?: string;
+};

@@ -19,10 +19,9 @@ export const columns: ProColumns<VersionInfo>[] = [
   },
   {
     title: formatMessage({ id: 'system.Version.appType', defaultMessage: 'App类型' }),
-    dataIndex: 'appType',
+    dataIndex: 'appTypeName',
     width: 130,
     hideInSearch: true,
-    render: (text, record) => (text === 1 ? '永泰运维' : '-'),
   },
   {
     title: formatMessage({ id: 'system.Version.version', defaultMessage: '版本' }),

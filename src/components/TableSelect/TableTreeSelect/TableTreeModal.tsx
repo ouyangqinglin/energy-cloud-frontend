@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-05-15 17:41:09
+ * @LastEditTime: 2024-06-13 14:04:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
-import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin } from 'antd';
+import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin, Input } from 'antd';
 import Dialog from '@/components/Dialog';
 import type { TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
@@ -22,6 +22,7 @@ import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
 import { useBoolean, useSize } from 'ahooks';
 import { formatMessage } from '@/utils';
+import { filterData, runDealTreeData } from './helper';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -73,23 +74,6 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   virtual?: boolean;
 };
 
-const runDealTreeData = <TreeData,>(
-  data: TreeProps['treeData'],
-  dealTreeData?: dealTreeDataType<TreeData>,
-) => {
-  if (data && data.length) {
-    data.forEach((item, index) => {
-      if (item.children && item.children.length) {
-        item.selectable = false;
-      }
-      dealTreeData?.(item as any, index);
-      if (item.children && item.children.length) {
-        runDealTreeData(item.children, dealTreeData);
-      }
-    });
-  }
-};
-
 const TableTreeModal = <
   ValueType extends Record<string, any>,
   DataType extends Record<string, any>,
@@ -126,6 +110,19 @@ const TableTreeModal = <
   const colRef = useRef<HTMLDivElement>(null);
   const colSize = useSize(colRef);
   const tableFormRef = useRef<ProFormInstance<Params>>();
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  const filterTreeData = useMemo(() => {
+    if (searchValue) {
+      return filterData(
+        treeData || [],
+        searchValue,
+        props?.treeProps?.fieldNames?.title || 'title',
+      );
+    } else {
+      return treeData;
+    }
+  }, [treeData, searchValue]);
 
   const treeSelectAndCheckData = useMemo(() => {
     if (selectType === SelectTypeEnum.Device) {
@@ -260,6 +257,7 @@ const TableTreeModal = <
   useEffect(() => {
     if (open) {
       setSelectedTags(value || []);
+      setSearchValue('');
       if (selectType === SelectTypeEnum.Device) {
         if (value && value.length) {
           setTableParams({ deviceId: value[0][valueId] });
@@ -335,6 +333,11 @@ const TableTreeModal = <
     });
   }, [selectType, multiple, selectedTags, valueId, onSelectedChange, proTableProps]);
 
+  const onSearch = useCallback((data, e: React.MouseEvent) => {
+    setSearchValue(data);
+    e.preventDefault();
+  }, []);
+
   useEffect(() => {
     if (virtual && colSize?.height && !loadingTreeData) {
       const treeList = colRef.current?.querySelector?.(
@@ -395,19 +398,22 @@ const TableTreeModal = <
                 <Spin className="flex1" />
               </div>
             ) : (
-              <Tree
-                className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
-                treeData={treeData}
-                onSelect={onTreeSelect}
-                onCheck={onTreeCheck}
-                blockNode
-                checkable={selectType === SelectTypeEnum.Device && multiple}
-                {...treeSelectAndCheckData}
-                checkStrictly
-                defaultExpandAll={true}
-                height={virtual ? colSize?.height : undefined}
-                {...props?.treeProps}
-              />
+              <>
+                <Input.Search className={styles.search} onSearch={onSearch} />
+                <Tree
+                  className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
+                  treeData={filterTreeData}
+                  onSelect={onTreeSelect}
+                  onCheck={onTreeCheck}
+                  blockNode
+                  checkable={selectType === SelectTypeEnum.Device && multiple}
+                  {...treeSelectAndCheckData}
+                  checkStrictly
+                  defaultExpandAll={true}
+                  height={virtual ? colSize?.height : undefined}
+                  {...props?.treeProps}
+                />
+              </>
             )}
           </Col>
           <Col className={styles.treeCol} flex="1">
@@ -424,6 +430,7 @@ const TableTreeModal = <
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
               }}
               search={{
+                labelWidth: 'auto',
                 optionRender: () => [],
               }}
               form={{
