@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-11 14:34:31
- * @LastEditTime: 2024-04-17 10:18:56
+ * @LastEditTime: 2024-06-12 11:49:33
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceRealTime\Device\index.tsx
  */
 import React, { useCallback, useMemo, useState } from 'react';
 import { DeviceRealTimeType } from '../config';
-import { Spin, Tabs, TabsProps } from 'antd';
+import { Spin, Tabs, TabsProps, Empty } from 'antd';
 import { default as OldRun } from './Run';
 import { default as OldControl } from './Control';
 import useDeviceModel from '../useDeviceModel';
@@ -18,6 +18,7 @@ import styles from './index.less';
 import Control from '@/components/Device/Control';
 import { formatMessage } from '@/utils';
 import Run from '@/components/Device/Run';
+import { useBoolean } from 'ahooks';
 
 const oldControlProductIds: DeviceTypeEnum[] = [
   DeviceTypeEnum.ExchangePowerCabinet,
@@ -40,6 +41,7 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
     page: DeviceServicePageEnum.RemoteControl,
   });
   const [activeTab, setActiveTab] = useState<string>('run');
+  const [isEmpty, { set }] = useBoolean(false);
 
   const onTabChange = useCallback((key) => {
     setActiveTab(key);
@@ -58,6 +60,10 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
       return false;
     }
   }, [deviceData, deviceGroupData, serviceGruop]);
+
+  const onLoadChange = useCallback((length) => {
+    set(!length);
+  }, []);
 
   const tabItems = useMemo<TabsProps['items']>(() => {
     return [
@@ -111,12 +117,16 @@ const Device: React.FC<DeviceRealTimeType> = (props) => {
               realTimeData={realTimeData}
             />
           ) : (
-            <Control
-              deviceId={deviceData?.deviceId}
-              deviceData={deviceData}
-              groupData={serviceGruop}
-              realTimeData={realTimeData}
-            />
+            <>
+              <Control
+                deviceId={deviceData?.deviceId}
+                deviceData={deviceData}
+                groupData={serviceGruop}
+                realTimeData={realTimeData}
+                onLoadChange={onLoadChange}
+              />
+              {isEmpty && <Empty className="mt20" />}
+            </>
           )}
         </>
       )}

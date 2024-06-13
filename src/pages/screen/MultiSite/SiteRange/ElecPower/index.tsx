@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-22 09:36:55
- * @LastEditTime: 2024-06-03 08:51:04
+ * @LastEditTime: 2024-06-12 17:26:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteRange\ElecPower\index.tsx
  */
@@ -51,6 +51,7 @@ const sourceItem = {
 
 const targetItem = {
   name: 'A' + formatMessage({ id: 'device.site', defaultMessage: '站点' }),
+  type: 'target',
   itemStyle: {
     color: '#34B9FF',
   },
@@ -91,10 +92,11 @@ const ElecPower: React.FC = () => {
     let totalHasElseElec = false;
     let totalElseElec = 0;
     installData?.forEach?.((item) => {
+      const siteTypeName = item.name + ' ';
       // 循环站点类型
       source.push(
         merge({}, sourceItem, {
-          name: item.name,
+          name: siteTypeName,
           count: item.sites?.length,
         }),
       );
@@ -115,7 +117,7 @@ const ElecPower: React.FC = () => {
             }),
           );
           links.push({
-            source: item.name,
+            source: siteTypeName,
             target: site.name,
             value: site.mainsElec || 10,
           });
@@ -128,7 +130,7 @@ const ElecPower: React.FC = () => {
       });
       if (hasElseSite) {
         links.push({
-          source: item.name,
+          source: siteTypeName,
           target: formatMessage({ id: 'screen.otherSites', defaultMessage: '其他站点' }),
           value: Number((elseSiteElec || 10).toFixed(2)),
         });

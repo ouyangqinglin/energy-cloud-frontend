@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-13 14:11:39
- * @LastEditTime: 2024-05-22 10:05:00
+ * @LastEditTime: 2024-06-12 13:57:25
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\locales\en-US\system.ts
  */
@@ -74,6 +74,6 @@ export default {
   'system.1017': '',
   'system.1018': 'Are you sure you want to enable it?',
   'system.1019': 'Are you sure you want to disable it?',
-  'system.1020': 'Select Product',
+  'system.1020': 'Product Type',
   'system.1021': '',
 };

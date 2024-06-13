@@ -48,7 +48,6 @@ const Operator = () => {
   }, [actionRef]);
 
   const requestList: YTProTableCustomProps<VersionInfo, VersionInfo>['request'] = (params) => {
-    params.appType = 1;
     return getVersionList(params);
   };
   return (

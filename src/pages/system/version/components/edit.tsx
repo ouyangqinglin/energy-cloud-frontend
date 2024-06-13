@@ -8,7 +8,7 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-form';
 import { VersionInfo } from '../type';
-import { insertVersion } from '../service';
+import { getTypeList, insertVersion } from '../service';
 import { platformTypes } from '@/utils/dict';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { formatMessage } from '@/utils';
@@ -25,6 +25,19 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
   const { onSuccess, initialValues } = props;
   const formDataRef = useRef<FormData | null>(null);
   const [form] = Form.useForm<VersionInfo>();
+
+  const requestTypeList = useCallback(() => {
+    return getTypeList().then((res) => {
+      return (
+        res?.data?.map?.((item) => {
+          return {
+            label: item.name,
+            value: item.id,
+          };
+        }) || []
+      );
+    });
+  }, []);
 
   const beforeUpload = useCallback((file) => {
     const formData = new FormData();
@@ -90,6 +103,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             })}
             name="appType"
             valueEnum={{ 1: { text: '永泰运维' } }}
+            request={requestTypeList}
             rules={[
               {
                 required: true,

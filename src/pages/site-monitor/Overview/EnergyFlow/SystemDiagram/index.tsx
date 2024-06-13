@@ -1,7 +1,6 @@
 import { ReactComponent as SVGStaticUp } from './svg/SVGStatic3.svg';
 import { ReactComponent as SVGT } from './svg/svgT.svg';
 import { ReactComponent as SVGX } from './svg/svgX.svg';
-import IconDot from './svg/dot.png';
 import IconDot25 from './svg/dot2.5.png';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
@@ -37,7 +36,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
         setSvgLine(
           <>
             <SVGT style={{ width: 283, height: 209, marginLeft: 90 }} />
-            <img className={styles.dot} src={IconDot} />
+            <img className={styles.dot} src={IconDot25} />
           </>,
         );
         break;
@@ -45,7 +44,7 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
         setSvgLine(
           <>
             <SVGStaticUp style={{ width: 261, height: 370, marginLeft: 116 }} />
-            <img className={styles.dot} src={IconDot} style={{ top: 232, left: 234 }} />
+            <img className={styles.dot} src={IconDot25} style={{ top: 235, left: 231 }} />
           </>,
         );
         break;
@@ -60,7 +59,16 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
   }, [siteType]);
   return (
     <>
-      <div className={styles.systemDiagram}>
+      <div
+        className={styles.systemDiagram}
+        style={
+          [SiteTypeStrEnum.CS, SiteTypeStrEnum.PV_ES, SiteTypeStrEnum.PV_ES_CS].includes(siteType)
+            ? {
+                top: '36px',
+              }
+            : {}
+        }
+      >
         {svgLine}
         <div
           style={{

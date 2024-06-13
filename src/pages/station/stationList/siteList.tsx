@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-05-31 10:59:42
+ * @LastEditTime: 2024-06-11 16:00:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -261,10 +261,10 @@ const StationList: React.FC = () => {
       {
         title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '投运日期' }),
         dataIndex: 'deliveryTime',
-        valueType: 'dateTime',
-        renderFormat: getLocale().dateTimeFormat,
+        valueType: 'date',
+        renderFormat: getLocale().dateFormat,
         hideInSearch: true,
-        width: 150,
+        width: 100,
         sorter: true,
       },
       {

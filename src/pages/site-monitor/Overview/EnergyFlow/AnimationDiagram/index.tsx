@@ -3,6 +3,8 @@ import { SubSystemType } from '../type';
 import styles from './index.less';
 import { isEmpty } from 'lodash';
 import { paths } from './config';
+import { memo } from 'react';
+
 const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType: string }) => {
   const pv = data?.[SubSystemType.PV] ?? {};
   const electricSupply = data?.[SubSystemType.E] ?? {};
@@ -14,7 +16,6 @@ const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType
     <div className={styles.animationWrapper}>
       {currentPaths.map((p) => {
         let styleConfig = {
-          animationDuration: `${p.duration}s`,
           animationPlayState: 'running',
           offsetPath: `path('${p.path}')`,
           animationDirection: p.reverse ? 'reverse' : 'normal',
@@ -27,10 +28,8 @@ const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType
 
         return (
           <div
-            className={`${styles.flow} ${p?.route == 'in' ? styles.in : ''} ${
-              p?.route == 'out' ? styles.out : ''
-            }`}
-            key={p.id}
+            className={`${styles.flow}`}
+            key={Math.floor(Math.random() * 10000000)}
             id={p.id}
             style={styleConfig}
           />
@@ -40,4 +39,4 @@ const AnimationDiagram = ({ data, siteType }: { data: SystemDiagramRes; siteType
   );
 };
 
-export default AnimationDiagram;
+export default memo(AnimationDiagram);

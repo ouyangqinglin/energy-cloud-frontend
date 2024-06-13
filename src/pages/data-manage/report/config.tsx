@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-29 10:07:04
- * @LastEditTime: 2024-05-13 17:35:26
+ * @LastEditTime: 2024-06-11 15:46:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\report\config.tsx
  */
@@ -386,6 +386,7 @@ export const siteColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
+    dataIndex: 'otherLoad',
     hideInSearch: true,
     children: [
       {
@@ -419,6 +420,7 @@ export const electricColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+    dataIndex: 'tip',
     hideInSearch: true,
     children: [
       {
@@ -440,6 +442,7 @@ export const electricColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+    dataIndex: 'peak',
     hideInSearch: true,
     children: [
       {
@@ -461,6 +464,7 @@ export const electricColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+    dataIndex: 'flat',
     hideInSearch: true,
     children: [
       {
@@ -482,6 +486,7 @@ export const electricColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+    dataIndex: 'valley',
     hideInSearch: true,
     children: [
       {
@@ -503,6 +508,7 @@ export const electricColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+    dataIndex: 'total',
     hideInSearch: true,
     children: [
       {
@@ -533,10 +539,12 @@ export const pvInverterColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.spontaneousSelfUse', defaultMessage: '自发自用' }),
+    dataIndex: 'self',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'tip',
         hideInSearch: true,
         children: [
           {
@@ -559,6 +567,7 @@ export const pvInverterColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'peak',
         hideInSearch: true,
         children: [
           {
@@ -581,6 +590,7 @@ export const pvInverterColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'flat',
         hideInSearch: true,
         children: [
           {
@@ -603,6 +613,7 @@ export const pvInverterColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'valley',
         hideInSearch: true,
         children: [
           {
@@ -625,6 +636,7 @@ export const pvInverterColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'selfTotal',
         hideInSearch: true,
         children: [
           {
@@ -649,10 +661,12 @@ export const pvInverterColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.photovoltaicOnline', defaultMessage: '光伏上网' }),
+    dataIndex: 'pvGrid',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'pvGridTotal',
         children: [
           {
             title:
@@ -676,6 +690,7 @@ export const pvInverterColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
+    dataIndex: 'total',
     hideInSearch: true,
     children: [
       {
@@ -706,10 +721,12 @@ export const energyColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }),
+    dataIndex: 'energyCharge',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'energyChargeTip',
         hideInSearch: true,
         children: [
           {
@@ -732,6 +749,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'energyChargePeak',
         hideInSearch: true,
         children: [
           {
@@ -754,6 +772,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'energyChargeFlat',
         hideInSearch: true,
         children: [
           {
@@ -776,6 +795,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'energyChargeValley',
         hideInSearch: true,
         children: [
           {
@@ -798,6 +818,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'energyChargeTotal',
         hideInSearch: true,
         children: [
           {
@@ -822,10 +843,12 @@ export const energyColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }),
+    dataIndex: 'energyDischarge',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'energyDischargeTip',
         hideInSearch: true,
         children: [
           {
@@ -848,6 +871,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'energyDischargePeak',
         hideInSearch: true,
         children: [
           {
@@ -870,6 +894,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'energyDischargeFlat',
         hideInSearch: true,
         children: [
           {
@@ -892,6 +917,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'energyDischargeValley',
         hideInSearch: true,
         children: [
           {
@@ -914,6 +940,7 @@ export const energyColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'energyDischargeTotal',
         hideInSearch: true,
         children: [
           {
@@ -938,6 +965,7 @@ export const energyColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
+    dataIndex: 'total',
     hideInSearch: true,
     children: [
       {
@@ -1145,10 +1173,12 @@ export const chargeBaseColumns: ProColumns[] = [
       id: 'dataManage.chargingConsumptionPower',
       defaultMessage: '充电桩用电',
     }),
+    dataIndex: 'charge',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'chargeTip',
         hideInSearch: true,
         children: [
           {
@@ -1171,6 +1201,7 @@ export const chargeBaseColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'chargePeak',
         hideInSearch: true,
         children: [
           {
@@ -1193,6 +1224,7 @@ export const chargeBaseColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'chargeFlat',
         hideInSearch: true,
         children: [
           {
@@ -1215,6 +1247,7 @@ export const chargeBaseColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'chargeValley',
         hideInSearch: true,
         children: [
           {
@@ -1237,6 +1270,7 @@ export const chargeBaseColumns: ProColumns[] = [
       },
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'chargeTotal',
         hideInSearch: true,
         children: [
           {
@@ -1261,10 +1295,12 @@ export const chargeBaseColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.pileCharging', defaultMessage: '充电桩充电' }),
+    dataIndex: 'chargeCharge',
     hideInSearch: true,
     children: [
       {
         title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'chargeChargeTotal',
         children: [
           {
             title:
@@ -1288,6 +1324,7 @@ export const chargeBaseColumns: ProColumns[] = [
   },
   {
     title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
+    dataIndex: 'total',
     hideInSearch: true,
     children: [
       {

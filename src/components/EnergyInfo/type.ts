@@ -34,11 +34,15 @@ export type energyType = {
 export type PowerType = {
   eventTs: string;
   doubleVal: number;
+  time?: string;
+  value?: number;
 };
 
 export type ElectricType = {
   charge?: PowerType[];
   discharge?: PowerType[];
+  income?: PowerType[];
   totalCharge?: number;
   totalDischarge?: number;
+  totalIncome?: number;
 };

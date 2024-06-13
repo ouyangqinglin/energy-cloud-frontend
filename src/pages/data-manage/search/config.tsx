@@ -21,11 +21,6 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     width: 200,
     ellipsis: true,
     hideInTable: true,
-    formItemProps: {
-      labelCol: {
-        flex: '0 1 100px',
-      },
-    },
     fieldProps: {
       onPressEnter: (e) => {
         e.preventDefault();

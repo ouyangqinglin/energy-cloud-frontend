@@ -25,6 +25,9 @@ import { formatMessage } from '@/utils';
 import { useModel } from 'umi';
 import { getUnitBySiteType } from '@/models/siteType';
 import type { UnitType } from '@/models/siteType';
+import '@/assets/styles/font.less';
+import { ErrorBoundary } from 'react-error-boundary';
+import FallBackRender from '@/components/FallBackRender';
 
 const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
@@ -92,21 +95,47 @@ const Scene = () => {
 
   return (
     <>
-      {[EnergyDataWidget, RevenueTimeTypeWidget]}
-      <Title title={siteInfo?.name} />
-      <ScreenTime />
-      <ScreenWeather />
-      <StationOverview onChange={onSiteChange} siteTypeConfig={siteTypeConfig} />
-      <Benefit />
-      <SubsystemStatistic siteTypeConfig={siteTypeConfig} />
-      <RunningLog />
-      <ButtonGroupCarousel onChange={switchGeometry} setAlarmShow={setAlarmShow} />
-      {geometryMode === SystemDiagramType.CUSTOMER && (
-        <Geometry alarmDeviceTree={alarmDeviceTree} alarmShow={alarmShow} />
-      )}
-      {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
-      <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} alarmShow={alarmShow} />
-      <FullScreen />
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        {[EnergyDataWidget, RevenueTimeTypeWidget]}
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <Title title={siteInfo?.name} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <ScreenTime />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <ScreenWeather />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <StationOverview onChange={onSiteChange} siteTypeConfig={siteTypeConfig} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <Benefit />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <SubsystemStatistic siteTypeConfig={siteTypeConfig} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <RunningLog />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <ButtonGroupCarousel onChange={switchGeometry} setAlarmShow={setAlarmShow} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        {geometryMode === SystemDiagramType.CUSTOMER && (
+          <Geometry alarmDeviceTree={alarmDeviceTree} alarmShow={alarmShow} />
+        )}
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} alarmShow={alarmShow} />
+      </ErrorBoundary>
+      <ErrorBoundary fallbackRender={FallBackRender}>
+        <FullScreen />
+      </ErrorBoundary>
     </>
   );
 };

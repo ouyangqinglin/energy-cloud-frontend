@@ -358,4 +358,5 @@ export default {
   'siteMonitor.1006': 'Consumption Energy Total',
   'siteMonitor.1007': 'Feed-in Energy Total',
   'siteMonitor.1008': '',
+  'siteMonitor.1009': 'Income',
 };
