@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-06-13 14:04:23
+ * @LastEditTime: 2024-06-14 09:28:37
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -392,29 +392,31 @@ const TableTreeModal = <
           </div>
         </div>
         <Row gutter={20}>
-          <Col ref={colRef} className={styles.treeCol} flex="250px">
-            {loadingTreeData ? (
-              <div className="flex h-full">
-                <Spin className="flex1" />
-              </div>
-            ) : (
-              <>
-                <Input.Search className={styles.search} onSearch={onSearch} />
-                <Tree
-                  className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
-                  treeData={filterTreeData}
-                  onSelect={onTreeSelect}
-                  onCheck={onTreeCheck}
-                  blockNode
-                  checkable={selectType === SelectTypeEnum.Device && multiple}
-                  {...treeSelectAndCheckData}
-                  checkStrictly
-                  defaultExpandAll={true}
-                  height={virtual ? colSize?.height : undefined}
-                  {...props?.treeProps}
-                />
-              </>
-            )}
+          <Col flex="250px">
+            <Input.Search className={styles.search} onSearch={onSearch} />
+            <div ref={colRef} className={styles.treeCol}>
+              {loadingTreeData ? (
+                <div className="flex h-full">
+                  <Spin className="flex1" />
+                </div>
+              ) : (
+                <>
+                  <Tree
+                    className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
+                    treeData={filterTreeData}
+                    onSelect={onTreeSelect}
+                    onCheck={onTreeCheck}
+                    blockNode
+                    checkable={selectType === SelectTypeEnum.Device && multiple}
+                    {...treeSelectAndCheckData}
+                    checkStrictly
+                    defaultExpandAll={true}
+                    height={virtual ? colSize?.height : undefined}
+                    {...props?.treeProps}
+                  />
+                </>
+              )}
+            </div>
           </Col>
           <Col className={styles.treeCol} flex="1">
             <ProTable<DataType, Params>
