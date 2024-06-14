@@ -292,16 +292,6 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                 </span>
                 <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.p ?? 0)}</span>
               </div>
-              <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.loadElectricConsumption',
-                    defaultMessage: '负载用电量',
-                  })}
-                  (kWh)：
-                </span>
-                <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.charge ?? 0)}</span>
-              </div>
             </div>
           ) : (
             <div
