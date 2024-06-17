@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-05-20 15:03:49
+ * @LastEditTime: 2024-06-17 09:55:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -74,17 +74,6 @@ export const alarmLevelMap = new Map([
   ['warn', getLevelByType('warn')],
   ['info', getLevelByType('info')],
 ]);
-
-const alarmStatusOptions: OptionType[] = [
-  {
-    label: formatMessage({ id: 'dataManage.generate', defaultMessage: '告警中' }),
-    value: 0,
-  },
-  {
-    label: formatMessage({ id: 'dataManage.eliminate', defaultMessage: '已消除' }),
-    value: 1,
-  },
-];
 
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
@@ -249,6 +238,16 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     [type, params],
   );
 
+  const onDeviceClick = useCallback(
+    (rowData: AlarmType) => {
+      history.push({
+        pathname: '/equipment/device-detail',
+        search: `?id=${rowData.deviceId}`,
+      });
+    },
+    [isStationChild],
+  );
+
   useEffect(() => {
     requestStation('');
   }, []);
@@ -364,6 +363,19 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         width: 150,
         ellipsis: true,
         hideInSearch: isStationChild,
+        render: (_, record) => {
+          return isStationChild ? (
+            record.deviceName
+          ) : (
+            <span
+              className="cl-primary cursor"
+              onClick={() => onDeviceClick(record)}
+              title={record.deviceName}
+            >
+              {record.deviceName}
+            </span>
+          );
+        },
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),

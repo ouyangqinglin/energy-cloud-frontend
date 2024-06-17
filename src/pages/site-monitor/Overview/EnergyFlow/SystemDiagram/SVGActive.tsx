@@ -72,7 +72,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         className={styles.cell}
         style={{
           top: 32,
-          left: ['12', '123'].includes(siteType) ? 423 : 441,
+          left: ['12', '123'].includes(siteType) ? 418 : 441,
         }}
       >
         <EsIcon
@@ -114,7 +114,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         className={styles.cell}
         style={{
           top: ['13', '1'].includes(siteType) ? 45 : 230,
-          left: ['13', '1'].includes(siteType) ? 443 : 84,
+          left: ['13', '1'].includes(siteType) ? 440 : 84,
         }}
       >
         <PVcon
@@ -199,7 +199,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
             className={styles.cell}
             style={{
               top: 224,
-              left: 453,
+              left: 445,
             }}
           >
             <LoadOtherIcon
@@ -234,7 +234,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
               : ['13', '23'].includes(siteType)
               ? 254
               : 261,
-            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 423,
+            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 418,
             transform: ['13', '23'].includes(siteType) ? 'translateX(-50%)' : '',
           }}
         >

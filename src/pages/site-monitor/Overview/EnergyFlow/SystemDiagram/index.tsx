@@ -1,7 +1,7 @@
 import { ReactComponent as SVGStaticUp } from './svg/SVGStatic3.svg';
 import { ReactComponent as SVGT } from './svg/svgT.svg';
 import { ReactComponent as SVGX } from './svg/svgX.svg';
-import IconDot25 from './svg/dot2.5.png';
+import IconDot25 from './svg/dot2.5.svg';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
 import styles from './index.less';
