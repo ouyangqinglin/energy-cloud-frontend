@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-06-12 13:52:20
+ * @LastEditTime: 2024-06-17 11:25:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -1129,7 +1129,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                         </div>
                       }
                     >
-                      <Component deviceId={deviceData?.deviceId} />
+                      <Component
+                        deviceId={deviceData?.deviceId}
+                        passEditAuth={passAuthority(modelDescribeItem?.authority, 'edit')}
+                      />
                     </Suspense>
                   ),
                 });

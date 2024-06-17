@@ -10,6 +10,7 @@
 export type RemoteUpgradeType = {
   deviceId?: string;
   productId?: string;
+  passEditAuth?: boolean;
 };
 
 export type UpgradeDataType = {
