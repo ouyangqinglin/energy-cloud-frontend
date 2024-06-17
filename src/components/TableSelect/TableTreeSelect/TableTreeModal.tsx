@@ -392,9 +392,9 @@ const TableTreeModal = <
           </div>
         </div>
         <Row gutter={20}>
-          <Col flex="250px">
+          <Col className={styles.treeCol} flex="250px">
             <Input.Search className={styles.search} onSearch={onSearch} />
-            <div ref={colRef} className={styles.treeCol}>
+            <div ref={colRef} className={styles.treeContain}>
               {loadingTreeData ? (
                 <div className="flex h-full">
                   <Spin className="flex1" />
