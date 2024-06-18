@@ -2,21 +2,22 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2024-03-27 14:41:24
+ * @LastEditTime: 2024-06-18 10:10:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Adjust\index.tsx
  */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Switch, Tag, Input, message } from 'antd';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale, saveFile } from '@/utils';
 import { useSubscribe } from '@/hooks';
 import moment from 'moment';
 import useWebsocket from '@/pages/screen/useWebsocket';
 import classnames from 'classnames';
 import { sendDebug } from '@/services/equipment';
+import { ExportOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -58,24 +59,13 @@ const Index: React.FC<AdjustType> = (props) => {
   useEffect(() => {
     if (Object.keys(data).length > 1) {
       setLoading(false);
-      let time;
-      try {
-        const dataMsg = JSON.parse(JSON.stringify(data.msg));
-        for (const v in dataMsg) {
-          if (Array.isArray(dataMsg[v]) && dataMsg[v][0].ts)
-            time = moment(dataMsg[v][0].ts).format('YYYY-MM-DD HH:mm:ss');
-        }
-      } catch {
-        time = '';
-      }
       const item = {
         msg: data.msg,
         topic: data.topic,
         type: data.type, // 0是下行， 1是上行
-        time,
+        time: moment().format(getLocale().dateTimeFormat + '.SSS'),
       };
       list.push(item);
-      if (list.length > 1000) list.splice(0, 1000);
       setList([...list]);
     }
   }, [data]);
@@ -127,7 +117,52 @@ const Index: React.FC<AdjustType> = (props) => {
     });
   };
 
+  const items = useMemo(() => {
+    return list.slice(list.length > 500 ? list.length - 500 : 0, list.length).map((item, index) => (
+      <div
+        key={index}
+        className={classnames(styles.item, item.type ? styles.blue : '')}
+        onMouseOver={() => hoverHandler(false)}
+        onMouseOut={() => hoverHandler(true)}
+      >
+        <div>
+          <Tag color={['#87d068', '#108ee9'][item.type]}>
+            {item.type
+              ? formatMessage({ id: 'device.1010', defaultMessage: '上行' })
+              : formatMessage({ id: 'device.1010', defaultMessage: '下行' })}
+          </Tag>
+          <span>{item.time}</span>
+        </div>
+        <span className={styles.topic}>Topic: {item.topic}</span>
+        <div className={styles.msg}>{item.msg}</div>
+      </div>
+    ));
+  }, [list]);
+
+  const exportList = useCallback(() => {
+    const txt = list
+      .map((item) => {
+        return [
+          (item.type
+            ? formatMessage({ id: 'device.1010', defaultMessage: '上行' })
+            : formatMessage({ id: 'device.1010', defaultMessage: '下行' })) +
+            ' ' +
+            item.time,
+          'Topic:' + item.topic,
+          item.msg,
+        ].join('\n');
+      })
+      .join('\n\n');
+    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    saveFile(
+      blob,
+      formatMessage({ id: 'debug.communicationMessage', defaultMessage: '通信报文' }),
+      '.txt',
+    );
+  }, [list]);
+
   useEffect(() => {
+    clearList();
     return () => {
       connection.sendMessage({
         data: {
@@ -141,7 +176,7 @@ const Index: React.FC<AdjustType> = (props) => {
         type: MessageEventType.DEVICEMSG,
       });
     };
-  }, []);
+  }, [deviceId]);
 
   return (
     <>
@@ -159,34 +194,23 @@ const Index: React.FC<AdjustType> = (props) => {
         >
           <div className={styles.title}>
             <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听' })}</div>
-            {loading ? (
-              <Switch loading checked={isSubscribe} onChange={stopGet} />
-            ) : (
-              <Switch checked={isSubscribe} onChange={stopGet} />
-            )}
-            <Button onClick={() => clearList()}>
+            <div className="flex1">
+              {loading ? (
+                <Switch loading checked={isSubscribe} onChange={stopGet} />
+              ) : (
+                <Switch checked={isSubscribe} onChange={stopGet} />
+              )}
+            </div>
+            <Button type="primary" icon={<ExportOutlined />} onClick={exportList}>
+              {formatMessage({ id: 'common.export', defaultMessage: '导出' })}
+            </Button>
+            <Button className="ml12" onClick={() => clearList()}>
               {formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
             </Button>
           </div>
           <div className={styles.parent} ref={warper}>
             <div className={styles.child} ref={childDom}>
-              {list.map((item, index) => (
-                <div
-                  key={index}
-                  className={classnames(styles.item, item.type ? styles.blue : '')}
-                  onMouseOver={() => hoverHandler(false)}
-                  onMouseOut={() => hoverHandler(true)}
-                >
-                  <div>
-                    <Tag color={['#87d068', '#108ee9'][item.type]}>
-                      {item.type ? '上行' : '下行'}
-                    </Tag>
-                    <span>{item.time}</span>
-                  </div>
-                  <span className={styles.topic}>Topic: {item.topic}</span>
-                  <div className={styles.msg}>{item.msg}</div>
-                </div>
-              ))}
+              {items}
             </div>
           </div>
         </div>
