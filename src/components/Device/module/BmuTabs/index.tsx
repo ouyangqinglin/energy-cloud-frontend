@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-06-03 09:52:10
+ * @LastEditTime: 2024-06-18 17:37:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -32,6 +32,7 @@ const LiquidEnergyBatteryProductIds = [
   DeviceTypeEnum.LiquidEnergyBatteryStack,
   DeviceTypeEnum.Liquid2EnergyBatteryCluster,
   DeviceTypeEnum.LiquidEnergy232BatteryPack,
+  DeviceTypeEnum.LiquidEnergy232ABatteryPack,
   DeviceTypeEnum.Liquid2Battery16,
 ];
 
