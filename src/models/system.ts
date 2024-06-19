@@ -10,14 +10,14 @@ import { useReducer } from 'react';
 interface InitialState {
   collapsed: boolean;
   tabList: TabItem[]; // 所有的应有的点击过后的路由
-  active: number; // 当前的路由的索引值
+  active: string; // 当前的路由的索引值
   showTabs: number; // 一行最多展示多少个tables
   tarnslateX: number; // 转移的距离位置
   tabsWidth: number; //可视区域的总的宽度
   tabWidth: number; //一个tab的宽度cha
 }
 
-interface TabItem {
+export interface TabItem {
   hash: string;
   key: string;
   pathname: string;
@@ -31,7 +31,7 @@ interface TabItem {
 interface InitialStateType {
   collapsed?: boolean;
   tabList?: TabItem[]; // 所有的应有的点击过后的路由
-  active?: number; // 当前的路由的索引值
+  active?: string; // 当前的路由的索引值
   showTabs?: number; // 一行最多展示多少个tables
   tarnslateX?: number; // 转移的距离位置
   tabsWidth?: number; //可视区域的总的宽度
@@ -48,7 +48,7 @@ export default function useSystem(): StateType {
   const initialState: InitialState = {
     collapsed: false, //菜单是否折叠
     tabList: [],
-    active: 0,
+    active: '0',
     showTabs: 10,
     tarnslateX: 0,
     tabsWidth: 0,
