@@ -34,7 +34,6 @@ const KeepAliveTabs = () => {
   const { collapsed } = initialState;
   const { tabList, dispatch, active, showTabs, tabsWidth, tabWidth, tarnslateX } =
     useModel('system');
-  const { dropScope, clear } = useAliveController();
 
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     const dataSource = JSON.parse(JSON.stringify(tabList));
@@ -93,103 +92,6 @@ const KeepAliveTabs = () => {
       })}
     </Menu>
   );
-  const menu = (
-    <Menu
-      onClick={(e) => {
-        let activeIndex: number = 0;
-        const localTablist = JSON.parse(JSON.stringify(tabList));
-        switch (e.key) {
-          case 'closeCurrent': {
-            const currentName = localTablist[active].keepAliveName;
-            if (active > 0) {
-              activeIndex = active - 1;
-              const timer = setTimeout(() => {
-                clearTimeout(timer);
-                history.push(tabList[activeIndex]);
-              }, 10);
-            } else {
-              activeIndex = 0;
-              const timer = setTimeout(() => {
-                clearTimeout(timer);
-                history.push(localTablist[activeIndex]);
-              }, 10);
-            }
-            const unlisten = history.listen(() => {
-              unlisten();
-              const dropTimer = setTimeout(() => {
-                clearTimeout(dropTimer);
-                dropScope(currentName);
-              }, 10);
-            });
-            localTablist.splice(active, 1);
-            dispatch({
-              type: 'CHANGESTATE',
-              payload: { tabList: localTablist, active: activeIndex, tarnslateX: 0 },
-            });
-            break;
-          }
-          case 'closeOther': {
-            const needDelete = localTablist.filter((item: any, index: number) => index !== active);
-            const needUpdate = localTablist.filter((item: any, index: number) => index === active);
-            needDelete.forEach((item: any) => dropScope(item.keepAliveName));
-            dispatch({
-              type: 'CHANGESTATE',
-              payload: { tabList: needUpdate, active: 0, tarnslateX: 0 },
-            });
-            break;
-          }
-          case 'closeAll': {
-            const unlisten = history.listen(() => {
-              unlisten();
-              const dropTimer = setTimeout(() => {
-                clearTimeout(dropTimer);
-                clear();
-              }, 10);
-            });
-            const timer = setTimeout(() => {
-              clearTimeout(timer);
-              history.push('/');
-            }, 10);
-            dispatch({ type: 'CHANGESTATE', payload: { tabList: [], active: 0, tarnslateX: 0 } });
-            break;
-          }
-          case 'closeLeft': {
-            const needDelete = localTablist.filter((item: any, index: number) => index < active);
-            const needUpdate = localTablist.filter((item: any, index: number) => index >= active);
-            needDelete.forEach((item: any) => dropScope(item.keepAliveName));
-            dispatch({
-              type: 'CHANGESTATE',
-              payload: { tabList: needUpdate, active: 0, tarnslateX: 0 },
-            });
-            break;
-          }
-          case 'closeRight': {
-            const needDelete = localTablist.filter((item: any, index: number) => index > active);
-            const needUpdate = localTablist.filter((item: any, index: number) => index <= active);
-            needDelete.forEach((item: any) => dropScope(item.keepAliveName));
-            dispatch({ type: 'CHANGESTATE', payload: { tabList: needUpdate, tarnslateX: 0 } });
-            break;
-          }
-        }
-      }}
-    >
-      <Menu.Item key="closeCurrent">
-        {formatMessage({ id: 'common.closeCurrentLabel', defaultMessage: '关闭当前标签' })}
-      </Menu.Item>
-      <Menu.Item key="closeOther">
-        {formatMessage({ id: 'common.closeOtherTags', defaultMessage: '关闭其他标签' })}
-      </Menu.Item>
-      <Menu.Item key="closeAll">
-        {formatMessage({ id: 'common.closeAllTags', defaultMessage: '关闭全部标签' })}
-      </Menu.Item>
-      <Menu.Item key="closeLeft" disabled={active === 0}>
-        {formatMessage({ id: 'common.closeCurrentLeftLabel', defaultMessage: '关闭当前左边标签' })}
-      </Menu.Item>
-      <Menu.Item key="closeRight" disabled={active === tabList.length - 1}>
-        {formatMessage({ id: 'common.closeCurrentrightLabel', defaultMessage: '关闭当前右边标签' })}
-      </Menu.Item>
-    </Menu>
-  );
 
   useEffect(() => {
     window.onresize = () => {
@@ -228,7 +130,6 @@ const KeepAliveTabs = () => {
   }, [tabsWidth]);
 
   return (
-    // <div className={styles.tabs} style={{ width: initialState?.collapsed ? "calc(100vw - 41px)" : "calc(100vw - 249px)" }}>
     <div className={styles.tabs} id="contentContainer">
       {tabList.length > 0 && <SortableList onSortEnd={onSortEnd} axis={'x'} distance={1} />}
       <div className={`${styles.tabLeftMenu}  ${tabList.length >= showTabs && styles.boxShadow}`}>
@@ -242,13 +143,6 @@ const KeepAliveTabs = () => {
             <Divider type="vertical" />
           </>
         )}
-        {/* {tabList.length > 1 && (
-          <Dropdown overlay={menu} className={styles.menuRight}>
-            <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-              操作 <DownOutlined />
-            </a>
-          </Dropdown>
-        )} */}
       </div>
     </div>
   );
