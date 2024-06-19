@@ -566,7 +566,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
             data: detailData,
             items: detailItems,
             column: 1,
-            labelStyle: { width: 'auto' },
+            labelStyle: { width: '80px' },
           }}
         />
       </ProConfigProvider>
