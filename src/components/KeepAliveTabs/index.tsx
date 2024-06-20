@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2024-06-19 17:05:59
+ * @LastEditTime: 2024-06-19 18:58:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\KeepAliveTabs\index.tsx
  */
@@ -61,7 +61,7 @@ const KeepAliveTabs: React.FC = () => {
           history.push({ ...tabListResult[nextKey] });
         }, 10);
       } else {
-        tabListResult.splice(keyNum);
+        tabListResult.splice(keyNum, 1);
         dispatch({
           type: 'CHANGESTATE',
           payload: {
