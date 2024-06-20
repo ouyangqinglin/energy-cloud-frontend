@@ -1,14 +1,23 @@
 import { ReactComponent as Icon_BASE } from '@/assets/image/screen/geometrySystem/icon_base.svg';
+
 import Icon_PV from '@/assets/image/screen/geometrySystem/icon_pv.svg';
-import Icon_PV_disable from '@/assets/image/screen/geometrySystem/icon_pv_disable.svg';
+import Icon_PV_DISABLE from '@/assets/image/screen/geometrySystem/icon_pv_disable.svg';
 import Icon_FAN from '@/assets/image/screen/geometrySystem/icon_fan.svg';
-import Icon_FAN_disable from '@/assets/image/screen/geometrySystem/icon_fan_disable.svg';
-
-import Icon_SITEBASE from '@/assets/image/screen/geometrySystem/icon_site_base.svg';
-import Icon_SITEBASE_disable from '@/assets/image/screen/geometrySystem/icon_site_base.svg';
-
 import Icon_DIESEL from '@/assets/image/screen/geometrySystem/icon_diesel.svg';
-import Icon_DIESEL_disable from '@/assets/image/screen/geometrySystem/icon_diesel_disable.svg';
+import Icon_PV_FAN from '@/assets/image/screen/geometrySystem/icon_pv_fan.svg';
+import Icon_PV_DIESEL from '@/assets/image/screen/geometrySystem/icon_pv_diesel.svg';
+import Icon_FAN_DIESEL from '@/assets/image/screen/geometrySystem/icon_fan_diesel.svg';
+import Icon_PV_FAN_DIESEL from '@/assets/image/screen/geometrySystem/icon_pv_fan_diesel.svg';
+
+import Icon_PV_US from '@/assets/image/screen/geometrySystem/icon_pv_us.svg';
+import Icon_PV_DISABLE_US from '@/assets/image/screen/geometrySystem/icon_pv_disable_us.svg';
+import Icon_FAN_US from '@/assets/image/screen/geometrySystem/icon_fan_us.svg';
+import Icon_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_diesel_us.svg';
+import Icon_PV_FAN_US from '@/assets/image/screen/geometrySystem/icon_pv_fan_us.svg';
+import Icon_PV_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_pv_diesel_us.svg';
+import Icon_FAN_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_fan_diesel_us.svg';
+import Icon_PV_FAN_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_pv_fan_diesel.svg';
+
 import Icon_PC from '@/assets/image/screen/geometrySystem/icon_pc.png';
 import Icon_LOAD from '@/assets/image/screen/geometrySystem/icon_load.png';
 import Icon_GE from '@/assets/image/screen/geometrySystem/icon_ge.png';
@@ -37,6 +46,25 @@ export type CellConfig = {
   iconDisable?: ReactNode;
   subsystemType?: SubSystemType;
   hide?: boolean;
+};
+
+export const groupSvg = {
+  icon_pv_disable: Icon_PV_DISABLE,
+  icon_pv: Icon_PV,
+  icon_fan: Icon_FAN,
+  icon_diesel: Icon_DIESEL,
+  icon_pv_fan: Icon_PV_FAN,
+  icon_pv_diesel: Icon_PV_DIESEL,
+  icon_fan_diesel: Icon_FAN_DIESEL,
+  icon_pv_fan_diesel: Icon_PV_FAN_DIESEL,
+  icon_pv_disable_us: Icon_PV_DISABLE_US,
+  icon_pv_us: Icon_PV_US,
+  icon_fan_us: Icon_FAN_US,
+  icon_diesel_us: Icon_DIESEL_US,
+  icon_pv_fan_us: Icon_PV_FAN_US,
+  icon_pv_diesel_us: Icon_PV_DIESEL_US,
+  icon_fan_diesel_us: Icon_FAN_DIESEL_US,
+  icon_pv_fan_diesel_us: Icon_PV_FAN_DIESEL_US,
 };
 
 export const config: CellConfig[] = [
@@ -102,53 +130,54 @@ export const config: CellConfig[] = [
     subsystemType: SubSystemType.L,
     icon: isUS ? Icon_LOAD_US : Icon_LOAD,
   },
+  // {
+  //   name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
+  //   cellStyle: {
+  //     width: 109,
+  //     height: 106,
+  //     left: 156,
+  //     top: 291,
+  //   },
+  //   subsystemType: SubSystemType.PV,
+  //   iconDisable: Icon_PV_disable,
+  //   icon: Icon_PV,
+  //   hide: true,
+  // },
+  // {
+  //   name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
+  //   cellStyle: {
+  //     width: 109,
+  //     height: 115,
+  //     left: 231,
+  //     top: 327,
+  //   },
+  //   subsystemType: SubSystemType.F,
+  //   iconDisable: Icon_FAN_disable,
+  //   icon: Icon_FAN,
+  //   hide: true,
+  // },
+  // {
+  //   name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
+  //   cellStyle: {
+  //     width: 109,
+  //     height: 106,
+  //     left: 308,
+  //     top: 381,
+  //   },
+  //   subsystemType: SubSystemType.D,
+  //   iconDisable: Icon_DIESEL_disable,
+  //   icon: Icon_DIESEL,
+  //   hide: true,
+  // },
   {
-    name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
+    name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
     cellStyle: {
       width: 109,
       height: 106,
       left: 156,
       top: 291,
     },
-    subsystemType: SubSystemType.PV,
-    iconDisable: Icon_PV_disable,
+    subsystemType: SubSystemType.GROUP,
     icon: Icon_PV,
-  },
-  {
-    name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
-    cellStyle: {
-      width: 109,
-      height: 115,
-      left: 231,
-      top: 327,
-    },
-    subsystemType: SubSystemType.F,
-    iconDisable: Icon_FAN_disable,
-    icon: Icon_FAN,
-  },
-  {
-    name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
-    cellStyle: {
-      width: 109,
-      height: 106,
-      left: 308,
-      top: 381,
-    },
-    subsystemType: SubSystemType.D,
-    iconDisable: Icon_DIESEL_disable,
-    icon: Icon_DIESEL,
-  },
-  {
-    name: formatMessage({ id: 'screen.foundationBed', defaultMessage: '基座' }),
-    cellStyle: {
-      width: 363,
-      height: 223,
-      left: 103,
-      zIndex: -1,
-      top: 301,
-    },
-    subsystemType: SubSystemType.PV || SubSystemType.F || SubSystemType.D,
-    iconDisable: Icon_SITEBASE_disable,
-    icon: Icon_SITEBASE,
   },
 ];

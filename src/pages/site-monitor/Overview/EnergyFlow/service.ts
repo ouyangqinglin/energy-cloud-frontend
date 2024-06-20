@@ -1,6 +1,6 @@
-import { get, post } from '@/utils/request';
-import { TimeType } from '../components/TimeButtonGroup';
-import { PVRevenueRes, SystemDiagramRes } from './type';
+import { get } from '@/utils/request';
+import type { TimeType } from '../components/TimeButtonGroup';
+import type { PVRevenueRes, SystemDiagramRes } from './type';
 
 export const getSystemDiagram = (siteId: number | string) => {
   return get<SystemDiagramRes>('/oss/topologicalGraph/logicalView', {

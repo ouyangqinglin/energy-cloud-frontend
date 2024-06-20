@@ -5,8 +5,14 @@ import { getSiteId } from '../helper';
 import RealTimeData from './RealTimeData';
 import Subject from './Subject';
 import styles from './index.less';
+import type { UnitType } from '@/models/siteType';
 
-const GeometrySystem = () => {
+type GeometrySystemProps = {
+  siteTypeConfig: UnitType;
+};
+
+const GeometrySystem = (props: GeometrySystemProps) => {
+  const { siteTypeConfig } = props;
   const { data } = useRequest(() => getSystemDiagram(getSiteId() as string));
   return (
     <Cell
@@ -18,7 +24,7 @@ const GeometrySystem = () => {
       className={styles.wrapper}
       cursor="default"
     >
-      <Subject data={data} />
+      <Subject data={data} siteTypeConfig={siteTypeConfig} />
       <RealTimeData data={data} />
     </Cell>
   );

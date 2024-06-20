@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './index.less';
 import { formatMessage, getUniqueNumber } from '@/utils';
-import { Table, Button, Input, Modal, message, Switch } from 'antd';
+import { Table, Button, Input, Modal, message, Switch, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { cloneDeep } from 'lodash';
 import { useModel, useRequest } from 'umi';
@@ -261,7 +261,7 @@ const EnergyUnitManage: React.FC = () => {
     {
       title: formatMessage({ id: 'siteManage.1040', defaultMessage: '主从模式' }),
       dataIndex: 'esDevices',
-      width: 150,
+      width: 80,
       render: (_, record) => {
         return (
           <div className={styles.child_table}>
@@ -299,13 +299,27 @@ const EnergyUnitManage: React.FC = () => {
       width: 150,
       render: (_, record) => {
         return record?.mainsSupplyMeters?.length ? (
-          <Table
-            showHeader={false}
-            size="small"
-            pagination={false}
-            columns={[{ dataIndex: 'deviceName' }]}
-            dataSource={record?.mainsSupplyMeters}
-          />
+          <div className={styles.child_table}>
+            <Table
+              showHeader={false}
+              size="small"
+              pagination={false}
+              columns={[
+                {
+                  dataIndex: 'deviceName',
+                  ellipsis: {
+                    showTitle: false,
+                  },
+                  render: (address) => (
+                    <Tooltip placement="topLeft" title={address}>
+                      {address}
+                    </Tooltip>
+                  ),
+                },
+              ]}
+              dataSource={record?.mainsSupplyMeters}
+            />
+          </div>
         ) : (
           '--'
         );
@@ -318,21 +332,23 @@ const EnergyUnitManage: React.FC = () => {
         defaultMessage: '变压器最大功率',
       })}（kW）`,
       dataIndex: 'mainsSupplyMeters',
-      width: 150,
+      width: 100,
       render: (_, record) => {
         return record?.mainsSupplyMeters?.length ? (
-          <Table
-            showHeader={false}
-            size="small"
-            pagination={false}
-            columns={[
-              {
-                dataIndex: 'maximumLoadOfTransformer',
-                render: (_s, row) => row.maximumLoadOfTransformer?.value,
-              },
-            ]}
-            dataSource={record?.mainsSupplyMeters || []}
-          />
+          <div className={styles.child_table}>
+            <Table
+              showHeader={false}
+              size="small"
+              pagination={false}
+              columns={[
+                {
+                  dataIndex: 'maximumLoadOfTransformer',
+                  render: (_s, row) => row.maximumLoadOfTransformer?.value,
+                },
+              ]}
+              dataSource={record?.mainsSupplyMeters || []}
+            />
+          </div>
         ) : (
           '--'
         );

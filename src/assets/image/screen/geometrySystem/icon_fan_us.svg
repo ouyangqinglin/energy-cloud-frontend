@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="218px" height="160px" viewBox="0 0 218 160" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>icon_风机</title>
+    <title>icon_风机EN</title>
     <defs>
         <filter x="-4.1%" y="-7.2%" width="108.3%" height="114.4%" filterUnits="objectBoundingBox" id="filter-1">
             <feGaussianBlur stdDeviation="2.75726967" in="SourceGraphic"></feGaussianBlur>
@@ -289,7 +289,7 @@
                 <g id="系统能流图" transform="translate(0.000000, 52.000000)">
                     <g id="能流图（全都有）" transform="translate(40.000000, 86.000000)">
                         <g id="中间2" transform="translate(142.000000, 0.000000)">
-                            <g id="icon_风机" transform="translate(0.000000, 234.000000)">
+                            <g id="icon_风机EN" transform="translate(0.000000, 234.000000)">
                                 <g id="组合-14" transform="translate(0.000000, 21.969973)">
                                     <polygon id="形状_2_拷贝_2-3" fill="#000000" opacity="0.5" filter="url(#filter-1)" points="0 71.4571052 99.8388 13.884183 200 71.7785924 99.8388 129.030027"></polygon>
                                     <polygon id="形状_2_拷贝-3" fill="url(#linearGradient-2)" opacity="0.800000012" points="0.155031189 67.5393228 99.9062054 9.96890521 199.90747 68.0378079 99.9062054 125.358983"></polygon>
@@ -494,8 +494,8 @@
                                         <path d="M9.48970271,2.72079575 C9.30794505,2.86458331 9.14086781,3.05025075 8.99685982,3.26593209 L8.99685982,3.26593209 L0.0362069668,16.821749 C-0.0707504279,16.9774025 0.0774519753,17.2335677 0.243830145,17.3305894 L0.243830145,17.3305894 L0.285774221,17.3543213 C0.27948261,17.3508314 0.273890066,17.3438514 0.267598455,17.3389654 L0.267598455,17.3389654 C0.343097792,17.3892212 0.423490605,17.4108592 0.487804856,17.3731673 L0.487804856,17.3731673 C0.507378758,17.3626973 0.524855457,17.3466434 0.540234951,17.3257034 L0.540234951,17.3257034 L13.259077,0.344112956 L12.9864405,0.023731928 L12.9458946,0 L9.48970271,2.72079575 Z" id="Fill-75" fill="url(#linearGradient-96)" mask="url(#mask-95)"></path>
                                     </g>
                                 </g>
-                                <text id="风机" transform="translate(63.945299, 103.922037) rotate(31.999989) translate(-63.945299, -103.922037) " font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" line-spacing="18" fill="#ACD9FF">
-                                    <tspan x="51.9452989" y="107.922037">风机</tspan>
+                                <text id="Windpower" transform="translate(62.945299, 102.922037) rotate(31.999989) translate(-62.945299, -102.922037) " font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" line-spacing="18" fill="#ACD9FF">
+                                    <tspan x="30.9592989" y="106.922037">Windpower</tspan>
                                 </text>
                             </g>
                         </g>

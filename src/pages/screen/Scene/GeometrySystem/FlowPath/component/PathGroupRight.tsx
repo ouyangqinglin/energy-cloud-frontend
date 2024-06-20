@@ -1,7 +1,7 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 // 柴发
-const PathDiesel = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathGroupRight = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
     <g transform="translate(378, 218)">
       <path
@@ -25,4 +25,4 @@ const PathDiesel = ({ show, direction }: { show?: boolean; direction?: FlowDirec
   );
 };
 
-export default PathDiesel;
+export default PathGroupRight;

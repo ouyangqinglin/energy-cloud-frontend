@@ -137,7 +137,7 @@
         </linearGradient>
     </defs>
     <g id="能源云系统V2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="1_8.站控系统（站点）首页全屏展示(无光伏）" transform="translate(-647.000000, -627.000000)">
+        <g id="1_8_2.站控系统（站点）首页全屏展示(无光伏)（英文版）" transform="translate(-647.000000, -627.000000)">
             <g id="2D视图" transform="translate(474.000000, 253.000000)">
                 <g id="系统能流图" transform="translate(0.000000, 52.000000)">
                     <g id="能流图(无光伏）" transform="translate(40.000000, 86.000000)">
@@ -192,8 +192,8 @@
                                         </g>
                                     </g>
                                 </g>
-                                <text id="光伏" opacity="0.400000006" transform="translate(63.945299, 101.922037) rotate(31.999989) translate(-63.945299, -101.922037) " font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" line-spacing="18" fill="#ACD9FF">
-                                    <tspan x="51.9452989" y="105.922037">光伏</tspan>
+                                <text id="PV-Production" opacity="0.400000006" transform="translate(62.945299, 100.922037) rotate(30.999989) translate(-62.945299, -100.922037) " font-family="PingFangSC-Semibold, PingFang SC" font-size="12" font-weight="500" line-spacing="18" fill="#ACD9FF">
+                                    <tspan x="21.9112989" y="104.922037">PV Production</tspan>
                                 </text>
                             </g>
                         </g>

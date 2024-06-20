@@ -7,6 +7,7 @@ export const enum SubSystemType {
   E = '5',
   F = '6',
   D = '7',
+  GROUP = '167',
 }
 
 export const enum FlowDirection {

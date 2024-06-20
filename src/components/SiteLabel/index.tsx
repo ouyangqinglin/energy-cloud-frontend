@@ -21,7 +21,6 @@ const SiteLabel: React.FC<SiteLabelProps> = (props) => {
   const { onChange, className, children, isShowSafeDay = false } = props;
 
   const { state: siteData } = useModel('site');
-  console.log('siteData>>', siteData);
 
   useEffect(() => {
     if (siteData?.isLoad) {

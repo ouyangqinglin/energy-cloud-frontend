@@ -93,13 +93,12 @@ const EVChargerChart = () => {
             case 'gci': //充电输出电流
               currentVChartData[6].data = currentValue;
               break;
-            case 'gdct': //BMS测量电流
+            case 'gxqi': //BMS测量电流
               currentVChartData[7].data = currentValue;
               break;
             default:
           }
         });
-        console.log('currentVChartData>>', currentVChartData);
         setVChartData(currentVChartData);
       });
       getChargeTCurve({ deviceId: deviceData?.deviceId }).then(({ data }) => {

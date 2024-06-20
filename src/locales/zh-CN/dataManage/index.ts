@@ -81,4 +81,5 @@ export default {
   'dataManage.1014': '电量（市电、光伏、风机、柴发、储能、充电桩、其他负载）',
   'dataManage.1015': '收益',
   'device.1016': '执行',
+  'device.1017': '执行成功',
 };

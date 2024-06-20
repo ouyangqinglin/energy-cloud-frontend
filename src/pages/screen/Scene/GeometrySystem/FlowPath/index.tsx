@@ -5,11 +5,13 @@ import PathES from './component/PathES';
 import PathElectricSupply from './component/PathElectricSupply';
 import PathLoad from './component/PathLoad';
 import PathPowerConsumption from './component/PathPowerConsumption';
-import PathPV from './component/PathPV';
-import PathFan from './component/PathFan';
-import PathDiesel from './component/PathDiesel';
+import PathGroup from './component/PathGroup';
 
-const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<SVGSVGElement>) => {
+const FlowPath = ({
+  data,
+  siteTypeArray,
+  ...restProp
+}: { data?: SystemDiagramRes; siteTypeArray: string[] } & SVGProps<SVGSVGElement>) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={894} height={419} {...restProp}>
       <defs>
@@ -131,17 +133,13 @@ const FlowPath = ({ data, ...restProp }: { data?: SystemDiagramRes } & SVGProps<
           show={data?.[SubSystemType.ES].flag}
           direction={data?.[SubSystemType.ES].direction}
         />
-        <PathPV
-          show={data?.[SubSystemType.PV].flag}
-          direction={data?.[SubSystemType.PV].direction}
-        />
-        <PathFan
-          show={data?.[SubSystemType.F].flag}
-          direction={data?.[SubSystemType.F].direction}
-        />
-        <PathDiesel
-          show={data?.[SubSystemType.D].flag}
-          direction={data?.[SubSystemType.F].direction}
+        <PathGroup
+          siteTypeArray={siteTypeArray}
+          direction={{
+            pv: data?.[SubSystemType.PV].direction || 0,
+            fan: data?.[SubSystemType.F].direction || 0,
+            diesel: data?.[SubSystemType.D].direction || 0,
+          }}
         />
       </g>
     </svg>

@@ -3,8 +3,8 @@ import type { ResponseCommonData } from '@/utils/request';
 import type { SiteDataType } from './type';
 
 export const editData = (data: any) => {
-  return request(`/uc/site/videoMonitor`, {
-    method: 'put',
+  return request(`/iot/collectionData/recoverDataPower`, {
+    method: 'POST',
     data,
   });
 };
