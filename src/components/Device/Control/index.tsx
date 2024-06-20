@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-06-12 13:52:20
+ * @LastEditTime: 2024-06-18 17:58:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -89,7 +89,7 @@ const Control: React.FC<ControlType> = memo((props) => {
   const [transformData, setTransformData] = useState({});
   const [openForm, { set, setTrue }] = useBoolean(false);
   const [currentFormInfo, setCurrentFormInfo] = useState<FormInfoType>({});
-  const { loading, run } = useRequest(editSetting, {
+  const { run } = useRequest(editSetting, {
     manual: true,
   });
   const extralDeviceIds = useMemo(() => {
@@ -568,7 +568,6 @@ const Control: React.FC<ControlType> = memo((props) => {
                         deviceData?.networkStatus === OnlineStatusEnum.Offline ||
                         !passAuthority(field?.authority, 'edit')
                       }
-                      loading={loading}
                       onClick={() => btnClick(field, !!formatValue ? 1 : 0, formatValue)}
                     />
                   );
@@ -622,7 +621,6 @@ const Control: React.FC<ControlType> = memo((props) => {
                           !passAuthority(field?.authority, 'edit')
                         }
                         onChange={(btnValue) => btnClick(field, btnValue, formatValue)}
-                        loading={loading}
                       />
                       {!!field?.tip && (
                         <div>
@@ -964,7 +962,7 @@ const Control: React.FC<ControlType> = memo((props) => {
         cols: columns,
       };
     },
-    [realTimeData, deviceData, btnClick, loading, passAuthority, onClick, onRefresh],
+    [realTimeData, deviceData, btnClick, passAuthority, onClick, onRefresh],
   );
 
   const getServiceItem = useCallback(
@@ -1129,7 +1127,10 @@ const Control: React.FC<ControlType> = memo((props) => {
                         </div>
                       }
                     >
-                      <Component deviceId={deviceData?.deviceId} />
+                      <Component
+                        deviceId={deviceData?.deviceId}
+                        passEditAuth={passAuthority(modelDescribeItem?.authority, 'edit')}
+                      />
                     </Suspense>
                   ),
                 });

@@ -233,6 +233,7 @@ export enum DeviceTypeEnum {
   Liquid2Battery16 = 224,
   LiquidEmsGrid = 228,
   WindEmsGrid = 229,
+  LiquidEnergy232ABatteryPack = 233,
   Device = 'default',
 }
 

@@ -1,22 +1,42 @@
 import { ReactComponent as SVGStaticUp } from './svg/SVGStatic3.svg';
 import { ReactComponent as SVGT } from './svg/svgT.svg';
 import { ReactComponent as SVGX } from './svg/svgX.svg';
-import IconDot25 from './svg/dot2.5.png';
+import IconDot25 from './svg/dot2.5.svg';
 import SVGActive from './SVGActive';
 import AnimationDiagram from '../AnimationDiagram';
 import styles from './index.less';
 import { useRequest } from 'umi';
 import { getSystemDiagram } from '../service';
-import { useEffect, useState } from 'react';
-import { isNil } from 'lodash';
+import React, { useEffect, useMemo, useState } from 'react';
+import { isNil, merge, mergeWith } from 'lodash';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { useWatchingAlarmForSystem } from './useWatchingAlarmForSystem';
 import { SiteTypeStrEnum } from '@/utils/enum';
-const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTypeStrEnum }) => {
+import { PowerFlowDataType } from '../../typing';
+
+type SystemDiagramType = {
+  siteId: number;
+  siteType: SiteTypeStrEnum;
+  data: PowerFlowDataType;
+};
+
+const SystemDiagram: React.FC<SystemDiagramType> = (props) => {
+  const { siteId, siteType, data: powerFlowData } = props;
+
   const { data, run } = useRequest(getSystemDiagram, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
+
+  const mergedData = useMemo(() => {
+    const result = powerFlowData?.list?.reduce?.((res, item) => {
+      return {
+        ...res,
+        [item.type || '']: item,
+      };
+    }, {});
+    return merge({}, data, result);
+  }, [data, powerFlowData]);
 
   const { alarmSubsystemTree } = useWatchingAlarmForSystem(siteId);
   const [svgLine, setSvgLine] = useState(<></>);
@@ -79,11 +99,11 @@ const SystemDiagram = ({ siteId, siteType }: { siteId: number; siteType: SiteTyp
             left: 0,
           }}
         >
-          <AnimationDiagram data={data} siteType={siteType} />
+          <AnimationDiagram data={mergedData} siteType={siteType} />
         </div>
       </div>
       <SVGActive
-        data={data}
+        data={mergedData}
         siteType={siteType}
         alarmData={alarmSubsystemTree}
         siteId={siteId}

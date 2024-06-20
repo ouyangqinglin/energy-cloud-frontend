@@ -505,4 +505,6 @@ export default {
   'device.1007': 'ESS Charging/Discharging Capacity',
   'device.1008': 'Total Charging Capacity',
   'device.1009': 'Total Discharging Capacity',
+  'device.1010': 'Upstream',
+  'device.1011': 'Down',
 };

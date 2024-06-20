@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 16:00:49
- * @LastEditTime: 2024-05-16 17:43:33
+ * @LastEditTime: 2024-06-18 15:05:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\helper.tsx
  */
@@ -129,8 +129,8 @@ export const timeRangeColumn: ProFormColumnsType = {
     },
     itemRender: ({ listDom, action }: any) => {
       return (
-        <div>
-          <Row>
+        <div className={styles.action}>
+          <Row gutter={0}>
             <Col style={{ display: 'inline-flex', alignItems: 'flex-end' }} span={24}>
               {listDom}
               {action}
@@ -143,10 +143,16 @@ export const timeRangeColumn: ProFormColumnsType = {
   colProps: {
     span: 24,
   },
+  rowProps: {
+    gutter: 0,
+  },
   columns: [
     {
       valueType: 'group',
       columns: [],
+      rowProps: {
+        gutter: [24, 0],
+      },
       colProps: {
         span: 24,
       },

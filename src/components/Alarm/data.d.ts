@@ -9,6 +9,8 @@
 
 export type AlarmType = {
   id: string;
+  deviceId?: string;
+  deviceName?: string;
   content: string;
   device: string;
   siteId: string;

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-04-15 15:48:42
+ * @LastEditTime: 2024-06-17 14:30:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -52,7 +52,7 @@ const Power: React.FC<ComProps> = (props) => {
           const result = [name];
           if (typeof value[1] === 'number') {
             result.push(
-              value[1] > 0
+              value[1] < 0
                 ? value[1] +
                     `kW（<span style="color:${colorEnum.DisCharge}">${formatMessage({
                       id: 'siteMonitor.discharge',
@@ -86,11 +86,11 @@ const Power: React.FC<ComProps> = (props) => {
         pieces: [
           {
             gt: 0.1,
-            color: colorEnum.DisCharge,
+            color: colorEnum.Charge,
           },
           {
             lte: 0,
-            color: colorEnum.Charge,
+            color: colorEnum.DisCharge,
           },
         ],
       },
@@ -107,13 +107,13 @@ const Power: React.FC<ComProps> = (props) => {
                 label: {
                   show: true,
                   color: colorEnum.Charge,
-                  formatter: `{dis|${formatMessage({
-                    id: 'siteMonitor.discharge',
-                    defaultMessage: '放电',
-                  })}}\n\n\n\n\n${formatMessage({
+                  formatter: `${formatMessage({
                     id: 'siteMonitor.charge',
                     defaultMessage: '充电',
-                  })}`,
+                  })}\n\n\n\n\n{dis|${formatMessage({
+                    id: 'siteMonitor.discharge',
+                    defaultMessage: '放电',
+                  })}}`,
                   rich: {
                     dis: {
                       color: colorEnum.DisCharge,

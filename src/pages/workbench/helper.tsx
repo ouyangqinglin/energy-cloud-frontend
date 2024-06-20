@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-02-20 13:52:59
+ * @LastEditTime: 2024-06-14 10:04:00
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\workbench\helper.tsx
  */
@@ -14,7 +14,7 @@ import { YTCellFourOutlined, YTCellNineOutlined, YTCellSixOutlined } from '@/com
 import { TABLETREESELECT, TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getDeviceCollection, getMultipleDeviceTree } from '@/services/equipment';
 import { DeviceTreeDataType } from '@/types/device';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -148,6 +148,11 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       virtual: true,
       valueFormat: (_: any, item: CollectionDataType) => {
         return `${item?.tree?.siteName}-${item?.tree?.deviceName}-${item.paramName}`;
+      },
+      dealTreeData: (data: DeviceTreeDataType) => {
+        if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
+          data.selectable = true;
+        }
       },
     },
     colProps: {

@@ -71,7 +71,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         className={styles.cell}
         style={{
           top: 32,
-          left: ['12', '123'].includes(siteType) ? 423 : 441,
+          left: ['12', '123'].includes(siteType) ? 418 : 441,
         }}
       >
         <EsIcon
@@ -113,7 +113,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
         className={styles.cell}
         style={{
           top: ['13', '1'].includes(siteType) ? 45 : 230,
-          left: ['13', '1'].includes(siteType) ? 443 : 84,
+          left: ['13', '1'].includes(siteType) ? 440 : 84,
         }}
       >
         <PVcon
@@ -198,7 +198,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
             className={styles.cell}
             style={{
               top: 224,
-              left: 453,
+              left: 445,
             }}
           >
             <LoadOtherIcon
@@ -233,7 +233,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
               : ['13', '23'].includes(siteType)
               ? 254
               : 261,
-            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 423,
+            left: ['13', '23'].includes(siteType) ? 299 : ['1', '2'].includes(siteType) ? 239 : 418,
             transform: ['13', '23'].includes(siteType) ? 'translateX(-50%)' : '',
           }}
         >
@@ -290,16 +290,6 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                   (kW)：
                 </span>
                 <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.p ?? 0)}</span>
-              </div>
-              <div className={styles.desc}>
-                <span className={styles.title}>
-                  {formatMessage({
-                    id: 'siteMonitor.loadElectricConsumption',
-                    defaultMessage: '负载用电量',
-                  })}
-                  (kWh)：
-                </span>
-                <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.charge ?? 0)}</span>
               </div>
             </div>
           ) : (

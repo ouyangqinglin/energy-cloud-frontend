@@ -178,4 +178,6 @@ export type DeviceTreeDataType = {
   siteId?: string;
   siteName?: string;
   children?: DeviceTreeDataType[];
+  component?: number;
+  selectable?: boolean;
 };

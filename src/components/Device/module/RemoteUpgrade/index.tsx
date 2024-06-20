@@ -19,16 +19,11 @@ import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
 const RemoteUpgrade: React.FC<RemoteUpgradeType> = memo((props) => {
-  const { deviceId } = props;
+  const { deviceId, passEditAuth } = props;
 
   const { data: versionData, run } = useRequest(getUpgradeVersion, {
     manual: true,
   });
-
-  const { authorityMap } = useAuthority([
-    'iot:device:config:systemSetting:remoteUpgrade',
-    'iot:device:config:systemSetting:remoteUpgrade:distribute',
-  ]);
 
   useEffect(() => {
     if (deviceId) {
@@ -43,7 +38,7 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = memo((props) => {
           <Detail.Label
             title={formatMessage({ id: 'device.remoteUpgrade', defaultMessage: '远程升级' })}
           >
-            {authorityMap.get('iot:device:config:systemSetting:remoteUpgrade:distribute') && (
+            {passEditAuth && (
               <UpgradeForm
                 deviceId={deviceId}
                 versionItems={versionData?.upgradeableVersionVOList}
@@ -55,13 +50,11 @@ const RemoteUpgrade: React.FC<RemoteUpgradeType> = memo((props) => {
         items: upgradeItems,
       },
     ];
-  }, [deviceId, versionData, authorityMap]);
+  }, [deviceId, versionData, passEditAuth]);
 
   return (
     <>
-      {authorityMap.get('iot:device:config:systemSetting:remoteUpgrade') && (
-        <Detail.Group items={groupItems} data={versionData} />
-      )}
+      <Detail.Group items={groupItems} data={versionData} />
     </>
   );
 });

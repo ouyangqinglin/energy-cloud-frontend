@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="18px" viewBox="0 0 30 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>汇流点2</title>
+    <defs>
+        <path d="M25.6066017,15.363961 C31.4644661,11.8492424 31.4644661,6.15075759 25.6066017,2.63603897 C19.7487373,-0.878679656 10.2512627,-0.878679656 4.39339828,2.63603897 C-1.46446609,6.15075759 -1.46446609,11.8492424 4.39339828,15.363961 C10.2512627,18.8786797 19.7487373,18.8786797 25.6066017,15.363961 Z" id="path-1"></path>
+        <filter x="-21.7%" y="-36.1%" width="143.3%" height="172.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="6.5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 0.592156863   0 0 0 0 0.290196078  0 0 0 0.201841128 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="光储充及工商储管理系统V1.5" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3_1_1.站点监视_站点概览_光储充示范站(风光柴储充）" transform="translate(-520.000000, -457.000000)">
+            <g id="main" transform="translate(212.000000, 102.000000)">
+                <g id="2" transform="translate(20.000000, 212.000000)">
+                    <g id="能流图6" transform="translate(24.000000, 22.000000)">
+                        <g id="汇流点2" transform="translate(264.000000, 121.000000)">
+                            <g id="椭圆形">
+                                <use fill-opacity="0.150540865" fill="#FF974A" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                            </g>
+                            <path d="M21.363961,12.8183766 C24.8786797,10.7095454 24.8786797,7.29045456 21.363961,5.18162338 C17.8492424,3.07279221 12.1507576,3.07279221 8.63603897,5.18162338 C5.12132034,7.29045456 5.12132034,10.7095454 8.63603897,12.8183766 C12.1507576,14.9272078 17.8492424,14.9272078 21.363961,12.8183766 Z" id="椭圆形备份-4" fill="#FF974A"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

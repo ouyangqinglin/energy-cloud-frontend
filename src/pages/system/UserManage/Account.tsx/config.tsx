@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-26 09:18:55
- * @LastEditTime: 2024-06-06 15:47:06
+ * @LastEditTime: 2024-06-14 15:46:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\system\UserManage\Account.tsx\config.tsx
  */
@@ -18,7 +18,7 @@ import { api } from '@/services';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
-import { getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
+import { SiteDataType, getOrgByRole, getSiteByOrg, getThreeLevelSiteTree } from './service';
 import Detail from '@/components/Detail';
 import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
@@ -535,6 +535,9 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
                     treeDefaultExpandAll: true,
                     onSelect: (id: string) => {
                       if (id === '0') form.setFieldValue('webConfig', ['0']);
+                    },
+                    filterTreeNode: (searchValue: string, treeNode: SiteDataType) => {
+                      return !!treeNode?.title && treeNode?.title?.indexOf?.(searchValue) > -1;
                     },
                   };
                 },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-16 09:11:52
- * @LastEditTime: 2023-06-16 12:01:34
+ * @LastEditTime: 2024-06-19 09:14:31
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationManage\setting\Record\index.tsx
  */
@@ -21,6 +21,8 @@ import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 import { getLocale } from '@/utils';
+import { ModelSizeEnum } from '@/utils/enum';
+import { Typography } from 'antd';
 
 const Alarm: React.FC = (props) => {
   const [open, setOpen] = useState(false);
@@ -58,6 +60,20 @@ const Alarm: React.FC = (props) => {
     {
       label: formatMessage({ id: 'siteManage.set.setContent', defaultMessage: '设置内容' }),
       field: 'operParam',
+      format: (value) => (
+        <Typography.Paragraph
+          style={{
+            whiteSpace: 'normal',
+          }}
+          ellipsis={{
+            rows: 4,
+            expandable: true,
+            symbol: formatMessage({ id: 'common.more', defaultMessage: '更多' }),
+          }}
+        >
+          {value}
+        </Typography.Paragraph>
+      ),
     },
   ];
 
@@ -121,7 +137,7 @@ const Alarm: React.FC = (props) => {
       </ProConfigProvider>
 
       <DetailDialog
-        width="500px"
+        width={ModelSizeEnum.TwoCol}
         title={formatMessage({ id: 'common.setDetails', defaultMessage: '设置详情' })}
         open={open}
         onCancel={switchOpen}
@@ -129,7 +145,7 @@ const Alarm: React.FC = (props) => {
           data: data,
           items: detailItems,
           column: 1,
-          labelStyle: { width: '90px' },
+          labelStyle: { width: '100px' },
         }}
       />
     </>

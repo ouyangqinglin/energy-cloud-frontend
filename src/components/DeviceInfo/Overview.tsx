@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-05-08 17:41:23
+ * @LastEditTime: 2024-06-17 16:13:08
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
  */
@@ -282,6 +282,8 @@ const Overview: React.FC<OverviewProps> = (props) => {
               xxl: 4,
               xl: 3,
               lg: 2,
+              sm: 1,
+              xs: 1,
             }}
             labelStyle={{ maxWidth: '130px' }}
             onEvent={onEvent}

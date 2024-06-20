@@ -25,3 +25,13 @@ export type PowerDataType = {
   loadUse?: ChartDataType;
   chargeOrder?: ChartDataType;
 };
+
+export type PowerFlowDataType = {
+  list?: {
+    type?: number;
+    direction?: number;
+    p?: number;
+  }[];
+  chargeBattery?: number;
+  loadPower?: number;
+};

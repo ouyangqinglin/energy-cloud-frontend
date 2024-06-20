@@ -19,6 +19,7 @@ export type OrgDataType = {
 export type SiteDataType = {
   id?: string;
   name?: string;
+  title?: string;
 };
 
 export const getPage = (params: AccountDataType) => {
@@ -71,7 +72,7 @@ export const getSiteByOrg = (params: any) => {
 };
 
 export const getThreeLevelSiteTree = (params: any) => {
-  return request<ResponseCommonData<OrgDataType[]>>(`/uc/site/threeLevelSiteTree`, {
+  return request<ResponseCommonData<SiteDataType[]>>(`/uc/site/threeLevelSiteTree`, {
     method: 'GET',
     params,
   });
