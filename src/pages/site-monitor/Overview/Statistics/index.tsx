@@ -20,7 +20,7 @@ const Statistics: React.FC<StatisticsType> = (props) => {
 
   const { data = {}, run } = useRequest(getElectricityStatistics, {
     manual: true,
-    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+    pollingInterval: 60 * 1000,
   });
   const siteconfig = config(siteType);
   const span = siteconfig.length ? 24 / siteconfig.length : 6;

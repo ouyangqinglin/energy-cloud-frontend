@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2024-06-19 18:58:04
+ * @LastEditTime: 2024-06-20 09:43:21
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\KeepAliveTabs\index.tsx
  */
@@ -65,6 +65,7 @@ const KeepAliveTabs: React.FC = () => {
         dispatch({
           type: 'CHANGESTATE',
           payload: {
+            ...(keyNum < Number(active) ? { active: (Number(active) - 1).toString() } : {}),
             tabList: tabListResult,
           },
         });
