@@ -208,4 +208,5 @@ export default {
   'screen.1014': '',
   'screen.1015': '馈网电量',
   'screen.1016': '额定功率',
+  'screen.1017': '组合',
 };

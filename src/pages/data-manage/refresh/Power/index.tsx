@@ -26,16 +26,6 @@ const Power: React.FC = () => {
     },
     [setTrue],
   );
-  const onSuccess = () => {
-    message.success(formatMessage({ id: 'device.1017', defaultMessage: '执行成功' }));
-    setFalse();
-  };
-
-  const onError = (error: any) => {
-    console.log('error>>', error);
-    setFalse();
-  };
-
   return (
     <>
       <Card
@@ -58,7 +48,7 @@ const Power: React.FC = () => {
           columns={columns}
           addData={editData}
           beforeSubmit={beforeSubmit}
-          onSuccess={onSuccess}
+          onSuccess={setFalse}
           onError={onError}
           submitter={false}
           grid={true}

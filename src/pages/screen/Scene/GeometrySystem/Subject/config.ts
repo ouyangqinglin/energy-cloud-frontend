@@ -16,7 +16,7 @@ import Icon_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_diesel_us.
 import Icon_PV_FAN_US from '@/assets/image/screen/geometrySystem/icon_pv_fan_us.svg';
 import Icon_PV_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_pv_diesel_us.svg';
 import Icon_FAN_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_fan_diesel_us.svg';
-import Icon_PV_FAN_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_pv_fan_diesel.svg';
+import Icon_PV_FAN_DIESEL_US from '@/assets/image/screen/geometrySystem/icon_pv_fan_diesel_us.svg';
 
 import Icon_PC from '@/assets/image/screen/geometrySystem/icon_pc.png';
 import Icon_LOAD from '@/assets/image/screen/geometrySystem/icon_load.png';
@@ -170,7 +170,7 @@ export const config: CellConfig[] = [
   //   hide: true,
   // },
   {
-    name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
+    name: formatMessage({ id: 'screen.1017', defaultMessage: '组合' }),
     cellStyle: {
       width: 109,
       height: 106,
