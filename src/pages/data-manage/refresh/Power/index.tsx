@@ -49,7 +49,7 @@ const Power: React.FC = () => {
           addData={editData}
           beforeSubmit={beforeSubmit}
           onSuccess={setFalse}
-          onError={onError}
+          onError={setFalse}
           submitter={false}
           grid={true}
           colProps={{
