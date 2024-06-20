@@ -53,7 +53,7 @@ const Power: React.FC = () => {
           submitter={false}
           grid={true}
           colProps={{
-            span: 12,
+            span: 8,
           }}
         />
       </Card>

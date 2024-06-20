@@ -54,7 +54,7 @@ const RectData: React.FC = () => {
           onError={setFalse}
           grid={true}
           colProps={{
-            span: 12,
+            span: 8,
           }}
         />
       </Card>
