@@ -1,7 +1,7 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 
-const PathPV = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathGroupLeft = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
     <g transform="translate(240, 173)">
       {/* 光伏 */}
@@ -24,4 +24,4 @@ const PathPV = ({ show, direction }: { show?: boolean; direction?: FlowDirection
   );
 };
 
-export default PathPV;
+export default PathGroupLeft;

@@ -22,7 +22,6 @@ import ButtonGroupCarouselInSystemData from '../components/ButtonGroupCarouselIn
 import AccumulatedPowerChart from './AccumulatedPowerChart';
 import type { SiteInfoRes } from './StationOverview/type';
 import { formatMessage } from '@/utils';
-import { useModel } from 'umi';
 import { getUnitBySiteType } from '@/models/siteType';
 import type { UnitType } from '@/models/siteType';
 import '@/assets/styles/font.less';
@@ -31,16 +30,17 @@ import FallBackRender from '@/components/FallBackRender';
 
 const Scene = () => {
   const [siteInfo, setSiteInfo] = useState<SiteInfoRes>();
+  const [siteTypeConfig, setSiteTypeConfig] = useState<UnitType>({});
   const [energyTimeType, setEnergyTimeType] = useState(TimeType.DAY);
   const [revenueTimeType, setRevenueTimeType] = useState(TimeType.DAY);
   const [alarmShow, setAlarmShow] = useState<boolean>(false);
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
-  const { unit } = useModel('siteType');
-  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
-  const siteTypeConfig: UnitType = siteType ? getUnitBySiteType(siteType) : unit;
-  //测试数据
-  // siteTypeConfig.hasFan = true
-  // siteTypeConfig.hasDiesel = true
+
+  const onSiteChange = useCallback((res: SiteInfoRes) => {
+    // res.energyOptions = '12367';
+    setSiteTypeConfig(getUnitBySiteType(res?.energyOptions || ''));
+    setSiteInfo(res);
+  }, []);
 
   const EnergyDataWidget = useMemo(
     () => (
@@ -59,7 +59,7 @@ const Scene = () => {
         </DecorationCarousel>
       </Cell>
     ),
-    [energyTimeType],
+    [energyTimeType, siteTypeConfig],
   );
 
   const RevenueTimeTypeWidget = useMemo(
@@ -81,17 +81,13 @@ const Scene = () => {
         </DecorationCarousel>
       </Cell>
     ),
-    [revenueTimeType],
+    [revenueTimeType, siteTypeConfig],
   );
 
   const [geometryMode, setGeometryMode] = useState<SystemDiagramType>();
   const switchGeometry = (value: SystemDiagramType) => {
     setGeometryMode(value);
   };
-
-  const onSiteChange = useCallback((res: SiteInfoRes) => {
-    setSiteInfo(res);
-  }, []);
 
   return (
     <>
@@ -128,7 +124,9 @@ const Scene = () => {
         )}
       </ErrorBoundary>
       <ErrorBoundary fallbackRender={FallBackRender}>
-        {geometryMode === SystemDiagramType.NORMAL && <GeometrySystem />}
+        {geometryMode === SystemDiagramType.NORMAL && (
+          <GeometrySystem siteTypeConfig={siteTypeConfig} />
+        )}
       </ErrorBoundary>
       <ErrorBoundary fallbackRender={FallBackRender}>
         <AlarmInfo alarmCount={alarmCount} latestAlarm={latestAlarm} alarmShow={alarmShow} />

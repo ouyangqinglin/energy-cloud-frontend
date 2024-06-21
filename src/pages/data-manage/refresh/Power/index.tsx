@@ -1,8 +1,7 @@
 import React, { useCallback, useRef } from 'react';
-import { Card, Button } from 'antd';
+import { Card, Button, message } from 'antd';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { useModel } from 'umi';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
@@ -10,7 +9,6 @@ import { columns } from './helper';
 import { editData } from './service';
 
 const Power: React.FC = () => {
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const { authorityMap } = useAuthority(['oss:dataStatistics:refresh:power:done']);
   const isEdit = authorityMap.get('oss:dataStatistics:refresh:power:done');
   const formRef = useRef<ProFormInstance>(null);
@@ -21,12 +19,13 @@ const Power: React.FC = () => {
 
   const beforeSubmit = useCallback(
     (data) => {
-      console.log('data>>', data);
+      data.startTime = data.time[0];
+      data.endTime = data.time[1];
+      delete data.time;
       setTrue();
     },
     [setTrue],
   );
-
   return (
     <>
       <Card
@@ -45,18 +44,16 @@ const Power: React.FC = () => {
         <SchemaForm
           formRef={formRef}
           layoutType="Form"
-          type={FormTypeEnum.Edit}
+          type={FormTypeEnum.Add}
           columns={columns}
-          submitter={false}
-          id={siteId}
-          idKey="siteId"
-          editData={editData}
+          addData={editData}
           beforeSubmit={beforeSubmit}
           onSuccess={setFalse}
           onError={setFalse}
+          submitter={false}
           grid={true}
           colProps={{
-            span: 12,
+            span: 8,
           }}
         />
       </Card>

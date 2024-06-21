@@ -1,9 +1,17 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 //风机
-const PathFan = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathGroupCenter = ({
+  show,
+  direction,
+  transform = 'translate(311,197)',
+}: {
+  show?: boolean;
+  direction?: FlowDirection;
+  transform?: string;
+}) => {
   return show ? (
-    <g transform="translate(311,197)">
+    <g transform={transform}>
       <path
         stroke="#438BCC"
         strokeWidth={3}
@@ -23,4 +31,4 @@ const PathFan = ({ show, direction }: { show?: boolean; direction?: FlowDirectio
   );
 };
 
-export default PathFan;
+export default PathGroupCenter;

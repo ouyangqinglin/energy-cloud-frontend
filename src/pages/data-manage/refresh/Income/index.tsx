@@ -2,7 +2,6 @@ import React, { useCallback, useRef } from 'react';
 import { Card, Button } from 'antd';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { useModel } from 'umi';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
@@ -10,7 +9,6 @@ import { columns } from './helper';
 import { editData } from './service';
 
 const Income: React.FC = () => {
-  const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const { authorityMap } = useAuthority(['oss:dataStatistics:refresh:income:done']);
   const isEdit = authorityMap.get('oss:dataStatistics:refresh:income:done');
   const formRef = useRef<ProFormInstance>(null);
@@ -21,7 +19,9 @@ const Income: React.FC = () => {
 
   const beforeSubmit = useCallback(
     (data) => {
-      console.log('data>>', data);
+      data.startTime = data.time[0];
+      data.endTime = data.time[1];
+      delete data.time;
       setTrue();
     },
     [setTrue],
@@ -48,15 +48,13 @@ const Income: React.FC = () => {
           type={FormTypeEnum.Edit}
           columns={columns}
           submitter={false}
-          id={siteId}
-          idKey="siteId"
           editData={editData}
           beforeSubmit={beforeSubmit}
           onSuccess={setFalse}
           onError={setFalse}
           grid={true}
           colProps={{
-            span: 12,
+            span: 8,
           }}
         />
       </Card>

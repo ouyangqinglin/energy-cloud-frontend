@@ -1,6 +1,5 @@
 import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
-import moment from 'moment';
 import { getList } from './service';
 
 export const columns: ProColumns[] = [

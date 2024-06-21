@@ -1,16 +1,16 @@
 import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
-import moment from 'moment';
 import { getList } from './service';
 
 export const columns: ProColumns[] = [
   {
     title: formatMessage({ id: 'dataManage.1008', defaultMessage: '站点' }),
-    dataIndex: 'siteId',
+    dataIndex: 'siteIds',
     valueType: 'select',
     formItemProps: {
       rules: [
         {
+          required: false,
           message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
         },
       ],
@@ -45,7 +45,7 @@ export const columns: ProColumns[] = [
       ],
     },
     fieldProps: {
-      format: getLocale().dateFormat,
+      format: getLocale().dateTimeFormat,
     },
   },
 ];

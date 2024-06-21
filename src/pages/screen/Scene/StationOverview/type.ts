@@ -11,6 +11,7 @@ export interface SiteInfoRes extends SiteInfoFront {
   chargingStationCapacity: number;
   address: string;
   cityCode: string;
+  energyOptions?: string;
   longitude: number;
   latitude: number;
   map?: MapTypeEnum;

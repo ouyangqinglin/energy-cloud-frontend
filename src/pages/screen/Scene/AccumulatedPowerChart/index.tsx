@@ -84,7 +84,7 @@ const AccumulatedPowerChart: React.FC<RealTimePowerProps> = (props) => {
         chartData.push({
           date: dayjs(timeDimension).format('HH:mm'),
           value,
-          field: chartConfigMap[key].name,
+          field: chartConfigMap[key]?.name || '',
         });
       });
     });
