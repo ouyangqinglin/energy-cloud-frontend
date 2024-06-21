@@ -129,7 +129,7 @@ const Index: React.FC<AdjustType> = (props) => {
           <Tag color={['#87d068', '#108ee9'][item.type]}>
             {item.type
               ? formatMessage({ id: 'device.1010', defaultMessage: '上行' })
-              : formatMessage({ id: 'device.1010', defaultMessage: '下行' })}
+              : formatMessage({ id: 'device.1011', defaultMessage: '下行' })}
           </Tag>
           <span>{item.time}</span>
         </div>
@@ -145,7 +145,7 @@ const Index: React.FC<AdjustType> = (props) => {
         return [
           (item.type
             ? formatMessage({ id: 'device.1010', defaultMessage: '上行' })
-            : formatMessage({ id: 'device.1010', defaultMessage: '下行' })) +
+            : formatMessage({ id: 'device.1011', defaultMessage: '下行' })) +
             ' ' +
             item.time,
           'Topic:' + item.topic,

@@ -26,13 +26,14 @@ const Statistics: React.FC<StatisticsType> = (props) => {
   const span = siteconfig.length ? 24 / siteconfig.length : 6;
 
   const mergedData = useMemo(() => {
-    const result = powerFlowData?.list?.reduce?.((res, item) => {
+    const { list, ...restData } = powerFlowData || {};
+    const result = list?.reduce?.((res, item) => {
       return {
         ...res,
         [FieldMap[item.type || 0]]: { p: item.p },
       };
     }, {});
-    return merge({}, data, result);
+    return merge({}, data, restData, result);
   }, [data, powerFlowData]);
 
   useEffect(() => {
