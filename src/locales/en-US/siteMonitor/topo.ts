@@ -9,4 +9,7 @@
 
 export default {
   'siteMonitor.top.1001': 'Prodcution Today',
+  'siteMonitor.top.1002': 'Consumption Energy Today',
+  'siteMonitor.top.1003': 'Feed-in Energy Today',
+  'siteMonitor.top.1004': 'Gird Power',
 };
