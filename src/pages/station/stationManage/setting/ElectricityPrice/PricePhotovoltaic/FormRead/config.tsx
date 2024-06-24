@@ -5,7 +5,7 @@ import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder } from '@/utils';
 export const PriceTypeEnum = {
   [PriceType.SHARP]: {
     text: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
@@ -165,7 +165,7 @@ export const columns = (setType: 0 | 1): ProFormColumnsType[] => [
           span: 24,
         },
         render: (_, { value }) => {
-          return <span>{value}</span>;
+          return <span>{getPlaceholder(value)}</span>;
         },
       },
       {
