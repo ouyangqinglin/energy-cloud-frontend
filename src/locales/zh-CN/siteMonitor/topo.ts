@@ -9,4 +9,7 @@
 
 export default {
   'siteMonitor.top.1001': '今日发电',
+  'siteMonitor.top.1002': '今日供电量',
+  'siteMonitor.top.1003': '今日馈网电量',
+  'siteMonitor.top.1004': '市电功率',
 };

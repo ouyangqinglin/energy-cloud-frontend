@@ -7,7 +7,7 @@ import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
 import { PriceType } from '../../type';
 import { electricMoneyMap } from '@/utils/dict';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder } from '@/utils';
 export const columns: ProFormColumnsType[] = [
   {
     title: (
@@ -105,7 +105,7 @@ export const columns: ProFormColumnsType[] = [
           defaultMessage: '最大需量/容量',
         }),
         dataIndex: 'maxDemand',
-        render: (_, { value }) => value + 'kW',
+        render: (_, { value }) => getPlaceholder(value) + 'kW',
         colProps: {
           span: 8,
         },
@@ -116,7 +116,8 @@ export const columns: ProFormColumnsType[] = [
           defaultMessage: '需量/容量电费',
         }),
         dataIndex: 'demandElectrovalency',
-        render: (_, { value }) => value + formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
+        render: (_, { value }) =>
+          getPlaceholder(value) + formatMessage({ id: 'common.rmb', defaultMessage: '元' }),
         colProps: {
           span: 8,
         },
@@ -171,7 +172,8 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
+          getPlaceholder(value) +
+          formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -188,7 +190,8 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
+          getPlaceholder(value) +
+          formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -205,7 +208,8 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
+          getPlaceholder(value) +
+          formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -222,7 +226,8 @@ export const columns: ProFormColumnsType[] = [
           },
         },
         render: (_, { value }) =>
-          value + formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
+          getPlaceholder(value) +
+          formatMessage({ id: 'siteManage.set.rmb/kWh', defaultMessage: '元/kWh' }),
         colProps: {
           span: 6,
         },
@@ -309,7 +314,7 @@ export const columns: ProFormColumnsType[] = [
           span: 24,
         },
         render: (_, { value }) => {
-          return <span>{value}</span>;
+          return <span>{getPlaceholder(value)}</span>;
         },
       },
       {

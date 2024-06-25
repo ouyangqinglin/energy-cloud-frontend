@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import type { EffectiveTimeList, HoursPriceList } from '../../type';
 import styles from '../index.less';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder } from '@/utils';
 
 export const columns: ProFormColumnsType[] = [
   {
@@ -144,7 +144,7 @@ export const columns: ProFormColumnsType[] = [
           span: 24,
         },
         render: (_, { value }) => {
-          return <span>{value}</span>;
+          return <span>{getPlaceholder(value)}</span>;
         },
       },
       {

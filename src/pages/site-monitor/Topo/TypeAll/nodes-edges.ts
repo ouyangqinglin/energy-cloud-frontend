@@ -99,24 +99,24 @@ const genElectricSupplyNode = (data: MainsSupply) => {
           column: [
             {
               label: `${formatMessage({
-                id: 'siteMonitor.TodayBuyElectricity',
-                defaultMessage: '今日购电量',
+                id: 'siteMonitor.top.1002',
+                defaultMessage: '今日供电量',
               })}(kWh)：`,
               value: data.todayConsumption,
               field: 'todayConsumption',
             },
             {
               label: `${formatMessage({
-                id: 'siteMonitor.TodaySellElectricity',
-                defaultMessage: '今日售电量',
+                id: 'siteMonitor.top.1003',
+                defaultMessage: '今日馈网电量',
               })}(kWh)：`,
               value: data.todayProduction,
               field: 'todayConsumption',
             },
             {
               label: `${formatMessage({
-                id: 'device.gridPower',
-                defaultMessage: '电网功率',
+                id: 'siteMonitor.top.1004',
+                defaultMessage: '市电',
               })}(kWh)：`,
               value: data.power,
               field: 'todayConsumption',
