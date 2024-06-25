@@ -25,7 +25,7 @@ const GeometrySystem = (props: GeometrySystemProps) => {
       cursor="default"
     >
       <Subject data={data} siteTypeConfig={siteTypeConfig} />
-      <RealTimeData data={data} />
+      <RealTimeData data={data} siteTypeConfig={siteTypeConfig} />
     </Cell>
   );
 };

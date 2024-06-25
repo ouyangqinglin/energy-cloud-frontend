@@ -46,9 +46,9 @@ const Subject = ({
         break;
       case 3:
         groupStyle.cellStyle = {
-          width: 363,
-          height: 232,
-          left: 97,
+          width: 362,
+          height: 228,
+          left: 99,
           top: 289,
         };
         groupStyle.icon = groupStyle.icon + currentSiteTypeArray.join('_');

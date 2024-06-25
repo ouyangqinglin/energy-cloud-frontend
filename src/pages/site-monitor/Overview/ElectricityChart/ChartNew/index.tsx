@@ -11,7 +11,7 @@ import styles from './index.less';
 import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { barFieldMap, lineFieldMap } from './config';
-import EChartsReact from 'echarts-for-react';
+import type EChartsReact from 'echarts-for-react';
 
 type RealTimePowerProps = {
   date?: Moment;

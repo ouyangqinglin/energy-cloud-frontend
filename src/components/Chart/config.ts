@@ -26,6 +26,7 @@ export type ChartProps = Omit<EChartsReactProps, 'option'> & {
   calculateMax?: boolean;
   loading?: boolean;
   containClassName?: string;
+  height?: number;
 };
 
 export const defaultOption: any = {};

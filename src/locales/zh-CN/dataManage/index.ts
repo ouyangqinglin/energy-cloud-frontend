@@ -82,4 +82,6 @@ export default {
   'dataManage.1015': '收益',
   'device.1016': '执行',
   'device.1017': '执行成功',
+  'device.1018': '统计概览',
+  'device.1019': '站点排名',
 };

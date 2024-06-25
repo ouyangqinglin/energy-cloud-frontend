@@ -14,7 +14,7 @@ import type { ChartProps } from './config';
 import { merge } from 'lodash';
 
 const Chart: React.FC<ChartProps> = (props) => {
-  const { option, min, max, chartRef, calculateMax = true, ...restProps } = props;
+  const { option, height, min, max, chartRef, calculateMax = true, ...restProps } = props;
 
   const [show, { setTrue, setFalse }] = useBoolean(false);
   const [key, setKey] = useState('1');
@@ -51,7 +51,7 @@ const Chart: React.FC<ChartProps> = (props) => {
     } else {
       return merge({}, defaultOption, option);
     }
-  }, [option]);
+  }, [calculateMax, max, min, option]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -71,7 +71,7 @@ const Chart: React.FC<ChartProps> = (props) => {
             key={key}
             ref={chartRef}
             option={chartOptions}
-            style={{ height: 254 }}
+            style={{ height: height || 254 }}
             {...restProps}
           />
         </>

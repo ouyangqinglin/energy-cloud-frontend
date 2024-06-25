@@ -1,66 +1,73 @@
-export const pieConfig = {
-  startAngle: -Math.PI,
-  endAngle: Math.PI,
-  tooltip: {
-    domStyles: {
-      'g2-tooltip': {
-        border: '1px solid rgba(21, 154, 255, 0.8)',
-        backgroundColor: 'rgba(9,12,21,0.8)',
-        'box-shadow': '0 0 6px 0 rgba(21,154,255,0.7)',
-        color: 'white',
-        opacity: 1,
-      },
-    },
-  },
-  legend: {
-    layout: 'horizontal',
-    position: 'bottom',
-    marker: {
-      symbol: 'square',
-    },
-    itemName: {
-      style: {
-        fill: '#ACCCEC',
-      },
-    },
-    itemValue: {
-      formatter: (text: string) => text,
-      style: {
-        fontSize: 14,
-        fill: 'white',
-      },
-    },
-  },
-  appendPadding: 10,
-  angleField: 'value',
-  colorField: 'type',
+import { formatMessage } from '@/utils';
+
+export const pieConfig = (data = [], total = 0) => ({
   color: ['#FFD15C', '#159AFF', '#01CFA1'],
-  radius: 0.6,
-  innerRadius: 0.7,
-  pieStyle: {
-    lineWidth: 0,
-  },
-  label: {
-    type: 'spider',
-    offset: 20,
-    labelHeight: 40,
-    formatter: (data: any, mappingData: any) => {
-      return '';
+  legend: {
+    bottom: '1%',
+    itemWidth: 8, // 设置图例图形的宽度
+    itemHeight: 8, // 设置图例图形的高度
+    itemGap: 20,
+    textStyle: {
+      color: '#fff',
+    },
+    formatter: (name: string) => {
+      const row: any = data.find((i: any) => i.name == name);
+      return row.text;
     },
   },
-  interactions: [
-    {
-      type: 'element-selected',
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(9,12,21,0.8)',
+    textStyle: {
+      color: 'white',
     },
+  },
+  title: {
+    text: total,
+    left: 'center',
+    top: 'center',
+    itemGap: 5,
+    textVerticalAlign: 'top',
+    subtext: `${formatMessage({
+      id: 'device.totalRevenue',
+      defaultMessage: '总收益',
+    })}${formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' })}`,
+    textStyle: {
+      fontSize: 20,
+      lineHeight: 20,
+      fontWeight: 300,
+      color: '#fff',
+    },
+    subtextStyle: {
+      fontSize: 12,
+      lineHeight: 14,
+      color: '#ACCCEC',
+    },
+  },
+  series: [
     {
-      type: 'element-active',
+      type: 'pie',
+      radius: ['40%', '60%'],
+      data: data,
+      label: {
+        alignTo: 'edge',
+        formatter: `{name|{b}}\n{value|{c}}`,
+        minMargin: 5,
+        edgeDistance: 10,
+        lineHeight: 15,
+        rich: {
+          name: {
+            fontSize: 12,
+            fontWeight: 400,
+            color: 'auto',
+          },
+          value: {
+            fontSize: 20,
+            lineHeight: 22,
+            color: '#ACCCEC',
+          },
+        },
+      },
     },
   ],
-  statistic: {
-    title: false,
-    content: {
-      customHtml:
-        '<div><span style="color:white;font-size:24px">12345</span><div style="font-size:12px;color:#ACCCEC;">总收益(元)</div></div>',
-    },
-  },
-};
+});

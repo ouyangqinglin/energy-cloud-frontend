@@ -1,110 +1,136 @@
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
-import dayjs from 'dayjs';
 import { useRequest } from 'umi';
-import StatisticChart from '../SubsystemStatistic/Chart';
-import { sortedData } from '../SubsystemStatistic/Chart/helper';
-import type { ChartData } from '../SubsystemStatistic/Chart/type';
 import { getAccumulatedPowerChart } from './service';
 import { formatMessage } from '@/utils';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import type { UnitType } from '@/models/siteType';
+import type EChartsReact from 'echarts-for-react';
+import { defaultOptions } from './config';
+import TypeChart from '@/components/Chart/TypeChart';
+import type { Moment } from 'moment';
 
-const timeRange = ['00'];
+const getChartData = (data: any[]) => {
+  return data.map((item) => {
+    return { label: item?.timeDimension, value: Math.floor(item?.electricity * 100) / 100 };
+  });
+};
 
 type RealTimePowerProps = {
   siteTypeConfig: UnitType;
+  date?: Moment;
 };
 
 const AccumulatedPowerChart: React.FC<RealTimePowerProps> = (props) => {
-  const { siteTypeConfig } = props;
+  const { date, siteTypeConfig } = props;
+  const chartRef = useRef<EChartsReact>();
+  const [chartData, setChartData] = useState<[]>();
+  const [options, setOptions] = useState(defaultOptions());
+  const timerRef = useRef({ stop: false });
   const { data: rawChartData } = useRequest(getAccumulatedPowerChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const chartConfigMap = useMemo(() => {
-    const map = {
-      me: {
-        name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
-        unit: 'kWh',
-      },
-    } as any;
+    const map = new Map([
+      [
+        'me',
+        {
+          name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
+          color: '#FF7B7B',
+          unit: 'kWh',
+        },
+      ],
+      [
+        'load',
+        {
+          name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
+          unit: 'kWh',
+          color: '#FF9AD5',
+        },
+      ],
+    ]);
+
     if (siteTypeConfig.hasPv) {
-      map.pv = {
+      map.set('pv', {
         name: formatMessage({ id: 'screen.pvPowerGeneration', defaultMessage: '光伏发电' }),
         unit: 'kWh',
-      };
+        color: '#FFD15C',
+      });
     }
     if (siteTypeConfig.hasEnergy) {
-      map.esCharge = {
+      map.set('esCharge', {
         name: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }),
         unit: 'kWh',
-      };
+        color: '#159AFF',
+      });
     }
     if (siteTypeConfig.hasEnergy) {
-      map.esDischarge = {
+      map.set('esDischarge', {
         name: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }),
         unit: 'kWh',
-      };
+        color: '#FF974A',
+      });
     }
     if (siteTypeConfig.hasCharge) {
-      map.cs = {
+      map.set('cs', {
         name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
         unit: 'kWh',
-      };
-    }
-    if (true) {
-      map.load = {
-        name: formatMessage({ id: 'device.load', defaultMessage: '负载' }),
-        unit: 'kWh',
-      };
+        color: '#01CFA1',
+      });
     }
     if (siteTypeConfig.hasFan) {
-      map.fan = {
+      map.set('fan', {
         name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
         unit: 'kWh',
-      };
+        color: '#66E1DF',
+      });
     }
     if (siteTypeConfig.hasDiesel) {
-      map.diesel = {
+      map.set('diesel', {
         name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
         unit: 'kWh',
-      };
+        color: '#7A79FF',
+      });
     }
     return map;
   }, [siteTypeConfig]);
 
-  const chartData: ChartData = [];
-  if (rawChartData) {
-    Object.keys(rawChartData).forEach((key) => {
-      rawChartData[key].forEach(({ timeDimension, electricity }) => {
-        const value = Math.floor(electricity * 100) / 100;
-        const ts = dayjs(timeDimension).format('HH:mm');
-        if (!timeRange.includes(ts.split(':')?.[1])) {
-          return;
-        }
-        chartData.push({
-          date: dayjs(timeDimension).format('HH:mm'),
-          value,
-          field: chartConfigMap[key]?.name || '',
-        });
-      });
+  useEffect(() => {
+    const result: any = [];
+    const series: any[] = [];
+    chartConfigMap.forEach(({ name, color }, key) => {
+      result.push({ data: getChartData(rawChartData?.[key] || []), name });
+      series.push({ type: 'bar', color });
     });
-  }
+    const instance = chartRef?.current?.getEchartsInstance();
+    let currentIndex = -1;
+    const dataLen = result?.[0]?.data?.length || 0;
+    const timer = setInterval(() => {
+      if (dataLen && !timerRef.current.stop) {
+        currentIndex = (currentIndex + 1) % dataLen; // 取余 循环展示
+        instance &&
+          instance.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: currentIndex,
+            name: 'wahaha',
+          });
+      }
+    }, 3000);
+    setChartData(result);
+    setOptions(defaultOptions(series));
+    return () => clearInterval(timer);
+  }, [chartConfigMap, rawChartData]);
 
   return (
-    <StatisticChart
-      showDatePicker={false}
-      showLegend={true}
-      height={Object.keys(chartConfigMap).length > 6 ? 163 : 235}
-      chartConfigMap={chartConfigMap}
-      barSize={3}
-      color={['#FF7B7B', '#FFD15C', '#159AFF', '#00E0DB', '#01CFA1', '#FF8144']}
-      title={formatMessage({
-        id: 'screen.storageChargingDischargingCapacity',
-        defaultMessage: '储能充放电量',
-      })}
-      legendLayout={'vertical'}
-      chartData={sortedData(chartData)}
-    />
+    <div>
+      <TypeChart
+        height={Object.keys(chartConfigMap).length > 6 ? 163 : 235}
+        date={date}
+        chartRef={chartRef}
+        option={options}
+        data={chartData}
+      />
+    </div>
   );
 };
 

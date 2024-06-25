@@ -83,4 +83,6 @@ export default {
   'dataManage.1015': 'Income',
   'device.1016': 'Execute',
   'device.1017': 'Execute Success',
+  'device.1018': 'Statistical Overview',
+  'device.1019': 'Site Ranking',
 };
