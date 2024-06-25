@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-06-11 16:00:50
+ * @LastEditTime: 2024-06-25 10:13:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -38,10 +38,10 @@ const StationList: React.FC = () => {
     'system:site:create',
     'oss:site:update',
   ]);
-  const { run: runStar, loading: starLoading } = useRequest(starSite, {
+  const { run: runStar } = useRequest(starSite, {
     manual: true,
   });
-  const { run: runUnstar, loading: unstarLoading } = useRequest(unstarSite, {
+  const { run: runUnstar } = useRequest(unstarSite, {
     manual: true,
   });
 

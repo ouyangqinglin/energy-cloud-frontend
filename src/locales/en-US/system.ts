@@ -76,4 +76,8 @@ export default {
   'system.1019': 'Are you sure you want to disable it?',
   'system.1020': 'Product Type',
   'system.1021': '',
+
+  'system.1022': 'Discovering new versions',
+  'system.1023': 'Error',
+  'system.1024': 'Please refresh the page',
 };
