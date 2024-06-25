@@ -197,7 +197,7 @@ export const formColumns: ProFormColumnsType<AuthDataType, TABLESELECTVALUETYPE>
         fieldProps: {
           addonAfter: formatMessage({ id: 'common.1006', defaultMessage: '次' }),
           min: 1,
-          max: 10,
+          max: 100,
           step: 1,
         },
         formItemProps: {

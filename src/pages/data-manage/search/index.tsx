@@ -3,7 +3,6 @@ import { useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { timeColumns, getDeviceSearchColumns } from './config';
 import { TableDataType, TableSearchType } from './type';
-import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
@@ -98,23 +97,14 @@ const Search: React.FC<SearchProps> = (props) => {
   const [collectionColumns, setCollectionColumns] = useState<
     ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[]
   >([]);
-  const [siteSearchColumn] = useSiteColumn<TableDataType, TABLETREESELECTVALUETYPE>({
-    hideInTable: true,
-    formItemProps: {
-      rules: [{ required: true }],
-      name: 'siteId',
-    },
-  });
 
   const columns = useMemo(() => {
-    const siteSearch = isDeviceChild ? [] : [siteSearchColumn];
     return [
-      ...siteSearch,
       ...getDeviceSearchColumns(isDeviceChild ? deviceData?.deviceId : ''),
       ...timeColumns,
       ...collectionColumns,
     ];
-  }, [siteSearchColumn, collectionColumns, deviceData]);
+  }, [collectionColumns, deviceData]);
 
   const onRequest = useCallback(
     async (params: TableSearchType) => {
@@ -214,19 +204,14 @@ const Search: React.FC<SearchProps> = (props) => {
     (params: TableSearchType) => {
       dealParams(params);
       const date = params?.time || [];
-      if (tableType) {
-        chartRef.current?.downLoadImg?.(getExportName(params));
-        return Promise.reject();
-      } else {
-        return exportList({
-          ...params,
-          startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
-          endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
-          ...(isDeviceChild ? { siteId } : {}),
-        });
-      }
+      return exportList({
+        ...params,
+        startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
+        endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
+        ...(isDeviceChild ? { siteId } : {}),
+      });
     },
-    [isDeviceChild, siteId, deviceData, tableType],
+    [isDeviceChild, siteId, deviceData],
   );
 
   const onTypeChange = (e: RadioChangeEvent) => {

@@ -6,10 +6,15 @@ import type {
   dealTreeDataType,
 } from '@/components/TableSelect';
 import type { TableSearchType, CollectionValueType, TableDataType } from './type';
-import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
+import {
+  getSiteDeviceTree,
+  getDeviceCollection,
+  getMultipleDeviceTree,
+} from '@/services/equipment';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
+import { DeviceTreeDataType } from '@/types/device';
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
@@ -48,8 +53,24 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     hideInSearch: true,
   },
 ];
-const dealTreeData: dealTreeDataType = (item) => {
-  item.selectable = !!item.productId;
+
+const dealTreeData = (data: DeviceTreeDataType[], siteName = '', parentId = '') => {
+  data?.forEach?.((item, index) => {
+    item.siteName = siteName || item.deviceName;
+    if (!item.productId) {
+      item.id = `${parentId}${index}`;
+    }
+    if (item.children && item.children.length) {
+      dealTreeData(item.children, item.siteName, item.id);
+    }
+  });
+};
+
+const requestTree = (params?: any) => {
+  return getMultipleDeviceTree(params).then((res) => {
+    dealTreeData(res?.data);
+    return res;
+  });
 };
 
 export const getDeviceSearchColumns = (deviceId?: string) => {
@@ -62,44 +83,31 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
       dataIndex: 'collection',
       valueType: TABLETREESELECT,
       hideInTable: true,
-      dependencies: deviceId ? ['siteId'] : [],
       formItemProps: {
         rules: [
           {
             required: true,
-            message:
-              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
-              formatMessage({
-                id: 'siteManage.set.dataCollectionPoints',
-                defaultMessage: '数据采集点',
-              }),
+            message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
           },
         ],
       },
       fieldProps: (form) => {
-        const value = form?.getFieldValue?.('siteId');
         const tableTreeSelectProps: TableTreeModalProps<
           CollectionValueType,
           TableDataType,
           TableSearchType,
           any
         > = {
-          title:
-            formatMessage({ id: 'common.select', defaultMessage: '选择' }) +
-            formatMessage({
-              id: 'siteManage.set.dataCollectionPoints',
-              defaultMessage: '数据采集点',
-            }),
+          title: formatMessage({ id: 'common.select', defaultMessage: '请选择' }),
           treeProps: {
             fieldNames: {
               title: 'deviceName',
               key: 'id',
               children: 'children',
             },
-            request: () => getSiteDeviceTree(deviceId ? { deviceId } : { siteId: value }),
+            request: () => requestTree(deviceId ? { deviceId } : {}),
             ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
           },
-          dealTreeData,
           proTableProps: {
             pagination: false,
             columns: tableSelectColumns as any,
@@ -109,8 +117,13 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           valueName: 'paramName',
           limit: 2,
           limitSelect: 250,
-          onFocus: () => {
-            return deviceId ? undefined : form?.validateFields(['siteId']);
+          virtual: true,
+          dealTreeData: (data: DeviceTreeDataType) => {
+            if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
+              data.selectable = true;
+            } else {
+              data.id = (data?.id ?? '') + Math.random().toFixed(8);
+            }
           },
         };
         return tableTreeSelectProps;

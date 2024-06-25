@@ -15,6 +15,7 @@ import { formatMessage, isEmpty } from '@/utils';
 import { useModel } from 'umi';
 import { getUnitBySiteType } from '@/models/siteType';
 import { EChartsInstance } from 'echarts-for-react';
+import defaultConfig from '../../../../../config/defaultSettings';
 
 const ChartBox = ({
   type: subSystemType,
@@ -197,7 +198,7 @@ const ChartBox = ({
         type: isDay ? 'line' : 'bar',
         barWidth: isTotal ? '22px' : '10px',
         name: '',
-        color: '#159AFF',
+        color: defaultConfig.primaryColor,
         showSymbol: false,
       },
     ];
@@ -244,7 +245,7 @@ const ChartBox = ({
             id: 'index.chart.powerDischarge',
             defaultMessage: '放电量',
           });
-          pushData.color = '#11DA81';
+          pushData.color = '#3DD598';
           series.push(pushData);
           data = chartData?.discharge || [];
           result.push({
@@ -280,7 +281,7 @@ const ChartBox = ({
             ...deepData,
             name,
             type: 'bar',
-            color: '#159aff',
+            color: defaultConfig.primaryColor,
             barGap: '-100%',
           });
           data = chartData?.esIncome || [];

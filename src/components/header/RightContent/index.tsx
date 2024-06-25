@@ -15,7 +15,6 @@ export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
   const { initialState } = useModel('@@initialState');
-  const { passAuthority } = useAuthority(['workbench']);
   const systemInfo = useMemo(
     () => initialState?.currentUser?.systemInfo || {},
     [initialState?.currentUser?.systemInfo],
@@ -61,7 +60,6 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className} size={16}>
-      {passAuthority ? <Workbench /> : <></>}
       {systemInfo.appDownloadStatus ? <App systemInfo={systemInfo} /> : <></>}
       {systemInfo.officialAccountsStatus ? <OfficialAccount systemInfo={systemInfo} /> : <></>}
       <Avatar menu />
