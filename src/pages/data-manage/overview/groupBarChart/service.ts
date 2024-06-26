@@ -7,10 +7,10 @@ export const getData = (params: any) => {
 
 //设备
 export const getDeviceData = (params: any) => {
-  return get(`/oss/device/getStatisticsDeviceData`, { ...params });
+  return get(`/iot/device/getStatisticsDeviceData`, { ...params });
 };
 
 //告警
 export const getAlarmData = (params: any) => {
-  return get(`/oss/alarm/getStatisticsAlarmData`, { ...params });
+  return get(`/iot/alarm/getStatisticsAlarmData`, { ...params });
 };

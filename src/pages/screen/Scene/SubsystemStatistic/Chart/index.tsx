@@ -39,7 +39,6 @@ const StatisticChart: FC<Props> = ({
   barSize = 8,
   showLegend,
   legendLayout = 'horizontal',
-  chartConfigMap,
   height = 200,
   showDatePicker = true,
   onDateChange,

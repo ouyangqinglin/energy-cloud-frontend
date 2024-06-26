@@ -30,12 +30,11 @@ const Income: React.FC = () => {
   return (
     <>
       <Card
-        className="my16 mx24"
         title={formatMessage({ id: 'dataManage.1007', defaultMessage: '刷新' })}
         extra={
           isEdit ? (
             <Button type="primary" loading={loading} onClick={onSaveClick}>
-              {formatMessage({ id: 'device.1016', defaultMessage: '执行' })}
+              {formatMessage({ id: 'dataManage.1016', defaultMessage: '执行' })}
             </Button>
           ) : (
             <></>

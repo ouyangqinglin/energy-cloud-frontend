@@ -18,6 +18,7 @@ export const enum SiteTypeStrEnum {
   Exchange = '4',
   FAN = '6',
   DIESEL = '7',
+  OTHER = '100',
 }
 
 export const enum ModelSizeEnum {
