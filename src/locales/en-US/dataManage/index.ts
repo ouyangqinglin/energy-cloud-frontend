@@ -83,4 +83,7 @@ export default {
   'dataManage.1015': 'Income',
   'device.1016': 'Execute',
   'device.1017': 'Execute Success',
+  'dataManage.1018': '1 Grid',
+  'dataManage.1019': '2 Grid',
+  'dataManage.1020': '4 Grid',
 };

@@ -269,7 +269,7 @@ const routers: RouterType[] = [
       {
         path: 'search',
         name: 'search',
-        component: './data-manage/search',
+        component: './data-manage/search/Tabs',
         wrappers: ['@/components/KeepAlive'],
         keepAlive: true,
         locale: 'menu.dataManage.search',
@@ -949,15 +949,15 @@ const routers: RouterType[] = [
         path: '/',
         redirect: '/index',
       },
-      {
-        path: 'workbench',
-        name: 'workbench',
-        component: 'workbench',
-        wrappers: ['@/components/KeepAlive'],
-        keepAlive: true,
-        locale: 'menu.workbench',
-        access: 'workbench',
-      },
+      // {
+      //   path: 'workbench',
+      //   name: 'workbench',
+      //   component: 'workbench',
+      //   wrappers: ['@/components/KeepAlive'],
+      //   keepAlive: true,
+      //   locale: 'menu.workbench',
+      //   access: 'workbench',
+      // },
     ],
   },
   {

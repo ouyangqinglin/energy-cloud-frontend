@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { timeColumns, getDeviceSearchColumns } from './config';
+import { timeColumns, getDeviceSearchColumns, dealParams } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
@@ -15,15 +15,6 @@ import { Radio, RadioChangeEvent } from 'antd';
 import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Chart, { ChartRefType } from './chart';
 
-type DeviceMapDataType = {
-  sn: string;
-  deviceName: string;
-  collection: {
-    name: string;
-    id: string;
-  }[];
-};
-
 type RequestRefType = {
   chartPromise?: Promise<any>;
   chartResolve?: (value: any) => void;
@@ -34,50 +25,6 @@ type RequestRefType = {
 type SearchProps = {
   isDeviceChild?: boolean;
   deviceData?: DeviceDataType;
-};
-
-const dealParams = (params: TableSearchType) => {
-  const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-  const deviceData: TableSearchType['keyValue'] = [];
-  const deviceDataMap = new Map<string, DeviceMapDataType>();
-  params?.collection?.forEach?.((item) => {
-    const collection = deviceDataMap.get(item?.node?.deviceId || '');
-    if (collection) {
-      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
-      deviceDataMap.set(item?.node?.deviceId || '', collection);
-    } else {
-      deviceDataMap.set(item?.node?.deviceId || '', {
-        deviceName: item?.node?.deviceName || '',
-        sn: item?.node?.deviceSN || '',
-        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
-      });
-    }
-  });
-  deviceDataMap.forEach((value, key) => {
-    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-    value.collection.forEach((item) => {
-      deviceData.push({
-        key: item.id,
-        name: item.name,
-        deviceId: key,
-        deviceName: value.deviceName,
-        sn: value.sn,
-      });
-      arr.push({
-        title: item.name,
-        dataIndex: item.id + '-' + key,
-        width: 120,
-        ellipsis: true,
-      });
-    });
-    cols.push({
-      title: `${value.deviceName}(${value.sn})`,
-      hideInSearch: true,
-      children: arr,
-    });
-  });
-  params.keyValue = deviceData;
-  return cols;
 };
 
 const Search: React.FC<SearchProps> = (props) => {

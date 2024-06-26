@@ -31,7 +31,7 @@ const DescriptionCard = ({
         </div>
         <div className={styles['card-right']}>
           <span className={styles['card-kpi-value']}>
-            {(field ? data?.[field] : isFunction(value) ? value(data) : value) || '--'}
+            {(field ? data?.[field] : isFunction(value) ? value(data) : value) ?? '--'}
           </span>
           {valueUnit && <span className={styles['card-kpi-unit']}>{valueUnit}</span>}
         </div>

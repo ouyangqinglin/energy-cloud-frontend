@@ -16,6 +16,15 @@ import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
 import { DeviceTreeDataType } from '@/types/device';
 
+type DeviceMapDataType = {
+  sn: string;
+  deviceName: string;
+  collection: {
+    name: string;
+    id: string;
+  }[];
+};
+
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: formatMessage({
@@ -191,3 +200,47 @@ export const timeColumns: ProColumns<TableDataType>[] = [
     },
   },
 ];
+
+export const dealParams = (params: TableSearchType) => {
+  const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+  const deviceData: TableSearchType['keyValue'] = [];
+  const deviceDataMap = new Map<string, DeviceMapDataType>();
+  params?.collection?.forEach?.((item) => {
+    const collection = deviceDataMap.get(item?.node?.deviceId || '');
+    if (collection) {
+      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
+      deviceDataMap.set(item?.node?.deviceId || '', collection);
+    } else {
+      deviceDataMap.set(item?.node?.deviceId || '', {
+        deviceName: item?.node?.deviceName || '',
+        sn: item?.node?.deviceSN || '',
+        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
+      });
+    }
+  });
+  deviceDataMap.forEach((value, key) => {
+    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+    value.collection.forEach((item) => {
+      deviceData.push({
+        key: item.id,
+        name: item.name,
+        deviceId: key,
+        deviceName: value.deviceName,
+        sn: value.sn,
+      });
+      arr.push({
+        title: item.name,
+        dataIndex: item.id + '-' + key,
+        width: 120,
+        ellipsis: true,
+      });
+    });
+    cols.push({
+      title: `${value.deviceName}(${value.sn})`,
+      hideInSearch: true,
+      children: arr,
+    });
+  });
+  params.keyValue = deviceData;
+  return cols;
+};

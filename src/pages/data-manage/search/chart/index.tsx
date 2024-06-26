@@ -20,6 +20,7 @@ type ChartType = {
   searchData: TableSearchType;
   tableType: number;
   data?: TableDataType[];
+  height?: string;
 };
 
 export type ChartRefType = {
@@ -27,7 +28,7 @@ export type ChartRefType = {
 };
 
 const Chart = forwardRef<any, ChartType>((props, ref) => {
-  const { searchData, tableType, data } = props;
+  const { searchData, tableType, data, height } = props;
 
   const chartRef = useRef<EChartsReact>();
   const [chartData, setChartData] = useState<TypeChartDataType[]>([]);
@@ -92,7 +93,7 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         chartRef={chartRef}
         type={chartTypeEnum.Label}
         option={chartOptions}
-        style={{ height: 'calc(100vh - 280px)' }}
+        style={{ height: height || 'calc(100vh - 320px)' }}
         data={chartData}
         allLabel={allLabel}
       />

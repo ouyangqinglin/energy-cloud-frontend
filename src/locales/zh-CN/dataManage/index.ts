@@ -82,4 +82,7 @@ export default {
   'dataManage.1015': '收益',
   'device.1016': '执行',
   'device.1017': '执行成功',
+  'dataManage.1018': '一宫格',
+  'dataManage.1019': '二宫格',
+  'dataManage.1020': '四宫格',
 };
