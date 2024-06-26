@@ -58,7 +58,7 @@ export type VideoMonitorTokenType = {
 };
 
 export const getStations = (params?: any) => {
-  return request(`/oss/site/getList`, {
+  return request<ResponseCommonData<SiteDataType[]>>(`/oss/site/getList`, {
     method: 'GET',
     params,
   });

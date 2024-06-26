@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\helper.ts
  */
 
-import { TreeProps } from 'antd';
+import { TreeNodeProps, TreeProps } from 'antd';
 import { dealTreeDataType } from './TableTreeModal';
 import { TreeNode } from './type';
 
@@ -45,4 +45,23 @@ export const filterData = (data: TreeNode[], searchValue: string, labelKey: stri
     }
   });
   return result;
+};
+
+export const updateTreeData = (
+  sourceData: TreeProps['treeData'],
+  key: string,
+  keyValue: string,
+  appendData: TreeProps['treeData'],
+) => {
+  sourceData?.forEach?.((item: TreeNodeProps & Record<string, any>) => {
+    if (item[key] == keyValue) {
+      item.children = appendData;
+      item.loaded = true;
+      if (!appendData?.length) {
+        item.isLeaf = true;
+      }
+    } else if (item.children) {
+      updateTreeData(item.children as any, key, keyValue, appendData);
+    }
+  });
 };

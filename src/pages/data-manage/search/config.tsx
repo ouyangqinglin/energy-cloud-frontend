@@ -15,6 +15,8 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { formatMessage, getLocale } from '@/utils';
 import { DeviceTreeDataType } from '@/types/device';
+import { getStations } from '@/services/station';
+import { TreeNodeProps } from 'antd';
 
 type DeviceMapDataType = {
   sn: string;
@@ -63,21 +65,23 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
   },
 ];
 
-const dealTreeData = (data: DeviceTreeDataType[], siteName = '', parentId = '') => {
-  data?.forEach?.((item, index) => {
-    item.siteName = siteName || item.deviceName;
-    if (!item.productId) {
-      item.id = `${parentId}${index}`;
-    }
-    if (item.children && item.children.length) {
-      dealTreeData(item.children, item.siteName, item.id);
-    }
-  });
+const requestTree = (node: DeviceTreeDataType) => {
+  if (node.children) {
+    return Promise.resolve();
+  } else {
+    return getSiteDeviceTree({ siteId: node.siteId }).then((res) => {
+      return res?.data?.[0]?.children || [];
+    });
+  }
 };
 
-const requestTree = (params?: any) => {
-  return getMultipleDeviceTree(params).then((res) => {
-    dealTreeData(res?.data);
+const requestSiteList = () => {
+  return getStations().then((res) => {
+    res?.data?.map?.((item: DeviceTreeDataType) => {
+      item.deviceName = item.name;
+      item.isLeaf = false;
+      item.siteId = item.id;
+    });
     return res;
   });
 };
@@ -100,42 +104,58 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           },
         ],
       },
-      fieldProps: (form) => {
-        const tableTreeSelectProps: TableTreeModalProps<
-          CollectionValueType,
-          TableDataType,
-          TableSearchType,
-          any
-        > = {
-          title: formatMessage({ id: 'common.select', defaultMessage: '请选择' }),
-          treeProps: {
-            fieldNames: {
-              title: 'deviceName',
-              key: 'id',
-              children: 'children',
-            },
-            request: () => requestTree(deviceId ? { deviceId } : {}),
-            ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
+      fieldProps: {
+        title: formatMessage({ id: 'common.select', defaultMessage: '请选择' }),
+        treeProps: {
+          fieldNames: {
+            title: 'deviceName',
+            key: 'id',
+            children: 'children',
           },
-          proTableProps: {
-            pagination: false,
-            columns: tableSelectColumns as any,
-            request: getDeviceCollection,
+          ...(deviceId
+            ? {
+                defaultSelectedKeys: [deviceId],
+              }
+            : {
+                request: requestSiteList,
+                loadData: requestTree,
+                defaultExpandAll: false,
+              }),
+          // request: () => requestTree(deviceId ? { deviceId } : {}),
+          // ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
+        },
+        treeSearch: {
+          filterData: (data: DeviceTreeDataType[], searchValue: string) => {
+            const result: DeviceTreeDataType[] = [];
+            data?.forEach?.((item) => {
+              if (item?.deviceName?.indexOf && item?.deviceName?.indexOf?.(searchValue) > -1) {
+                result.push(item);
+              }
+            });
+            return result;
           },
-          valueId: 'selectName',
-          valueName: 'paramName',
-          limit: 2,
-          limitSelect: 250,
-          virtual: true,
-          dealTreeData: (data: DeviceTreeDataType) => {
-            if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
-              data.selectable = true;
-            } else {
-              data.id = (data?.id ?? '') + Math.random().toFixed(8);
-            }
-          },
-        };
-        return tableTreeSelectProps;
+        },
+        proTableProps: {
+          pagination: false,
+          columns: tableSelectColumns as any,
+          request: getDeviceCollection,
+        },
+        valueId: 'selectName',
+        valueName: 'paramName',
+        limit: 2,
+        limitSelect: 250,
+        virtual: true,
+        dealTreeData: (data: DeviceTreeDataType) => {
+          if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
+            data.selectable = true;
+          } else {
+            data.selectable = false;
+            data.id = (data?.id ?? '') + Math.random().toFixed(8);
+          }
+          if (typeof data.isLeaf !== 'boolean' && !data?.children?.length) {
+            data.isLeaf = true;
+          }
+        },
       },
     },
   ];

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-06-25 17:26:27
+ * @LastEditTime: 2024-06-26 15:05:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
@@ -12,9 +12,15 @@ import { CollectionDataType, CollectionSearchType, SearchType } from './typing';
 import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 import { YTCellFourOutlined, YTCellNineOutlined, YTCellSixOutlined } from '@/components/YTIcons';
 import { TABLETREESELECT, TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
-import { getDeviceCollection, getMultipleDeviceTree } from '@/services/equipment';
+import {
+  getDeviceCollection,
+  getMultipleDeviceTree,
+  getSiteDeviceTree,
+} from '@/services/equipment';
 import { DeviceTreeDataType } from '@/types/device';
 import { formatMessage, isEmpty } from '@/utils';
+import { getStations } from '@/services/station';
+import { TreeNodeProps } from 'antd';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -91,21 +97,23 @@ const tableSelectColumns: ProColumns[] = [
   },
 ];
 
-const dealTreeData = (data: DeviceTreeDataType[], siteName = '', parentId = '') => {
-  data?.forEach?.((item, index) => {
-    item.siteName = siteName || item.deviceName;
-    if (!item.productId) {
-      item.id = `${parentId}${index}`;
-    }
-    if (item.children && item.children.length) {
-      dealTreeData(item.children, item.siteName, item.id);
-    }
-  });
+const requestTree = (node: DeviceTreeDataType) => {
+  if (node.children) {
+    return Promise.resolve();
+  } else {
+    return getSiteDeviceTree({ siteId: node.siteId }).then((res) => {
+      return res?.data?.[0]?.children || [];
+    });
+  }
 };
 
-const requestTree = () => {
-  return getMultipleDeviceTree().then((res) => {
-    dealTreeData(res?.data);
+const requestSiteList = () => {
+  return getStations().then((res) => {
+    res?.data?.map?.((item: DeviceTreeDataType) => {
+      item.deviceName = item.name;
+      item.isLeaf = false;
+      item.siteId = item.id;
+    });
     return res;
   });
 };
@@ -119,6 +127,7 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
     dataIndex: 'collection',
     valueType: TABLETREESELECT,
     formItemProps: {
+      labelCol: { span: '0 0 100px' },
       rules: [
         {
           required: true,
@@ -140,7 +149,20 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
           key: 'id',
           children: 'children',
         },
-        request: requestTree,
+        request: requestSiteList,
+        loadData: requestTree,
+        defaultExpandAll: false,
+      },
+      treeSearch: {
+        filterData: (data: DeviceTreeDataType[], searchValue: string) => {
+          const result: DeviceTreeDataType[] = [];
+          data?.forEach?.((item) => {
+            if (item?.deviceName?.indexOf && item?.deviceName?.indexOf?.(searchValue) > -1) {
+              result.push(item);
+            }
+          });
+          return result;
+        },
       },
       proTableProps: {
         pagination: false,
@@ -156,7 +178,11 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
         if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
           data.selectable = true;
         } else {
+          data.selectable = false;
           data.id = (data?.id ?? '') + Math.random().toFixed(8);
+        }
+        if (typeof data.isLeaf !== 'boolean' && !data?.children?.length) {
+          data.isLeaf = true;
         }
       },
     },

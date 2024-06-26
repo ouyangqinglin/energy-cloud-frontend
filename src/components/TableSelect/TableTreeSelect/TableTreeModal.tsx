@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-06-24 11:22:51
+ * @LastEditTime: 2024-06-26 14:51:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin, Input } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { TreeProps } from 'antd';
+import type { InputProps, TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
 import type { TableRowSelection } from 'antd/es/table/interface';
@@ -22,7 +22,8 @@ import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
 import { useBoolean, useSize } from 'ahooks';
 import { formatMessage } from '@/utils';
-import { filterData, runDealTreeData } from './helper';
+import { filterData, runDealTreeData, updateTreeData } from './helper';
+import { SearchProps } from 'antd/lib/input';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -65,6 +66,9 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   valueFormat?: (value: string, item: V) => string;
   clearable?: boolean; // 表单输入框是否可清空
   placeholder?: string; // 表单输入框placshoder
+  treeSearch?: SearchProps & {
+    filterData?: typeof filterData;
+  };
   treeProps?: Omit<TreeProps, 'onSelect' | 'treeData' | 'blockNode'> & {
     //  树属性
     request: (params?: any) => Promise<any> | undefined;
@@ -99,6 +103,7 @@ const TableTreeModal = <
     selectType = SelectTypeEnum.Collect,
     dealTreeData,
     virtual = false,
+    treeSearch,
   } = props;
 
   const [selectedTags, setSelectedTags] = useState<ValueType[]>([]);
@@ -114,7 +119,7 @@ const TableTreeModal = <
 
   const filterTreeData = useMemo(() => {
     if (searchValue) {
-      return filterData(
+      return (treeSearch?.filterData || filterData)(
         treeData || [],
         searchValue,
         props?.treeProps?.fieldNames?.title || 'title',
@@ -315,6 +320,12 @@ const TableTreeModal = <
         : {}),
       search: {
         searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
+        labelWidth: 'auto',
+        optionRender: () => [],
+      },
+      form: {
+        onValuesChange: onSearchChange,
+        submitter: false,
       },
       rowKey: valueId,
       pagination: {
@@ -331,12 +342,47 @@ const TableTreeModal = <
         return false;
       }
     });
-  }, [selectType, multiple, selectedTags, valueId, onSelectedChange, proTableProps]);
+  }, [
+    selectType,
+    multiple,
+    selectedTags,
+    valueId,
+    onSelectedChange,
+    proTableProps,
+    onSearchChange,
+  ]);
 
   const onSearch = useCallback((data, e: React.MouseEvent) => {
     setSearchValue(data);
     e.preventDefault();
   }, []);
+
+  const treeLoadData = useMemo(() => {
+    if (props.treeProps?.loadData) {
+      return {
+        loadData: (node: any) => {
+          const result = props.treeProps?.loadData?.(node);
+          result?.then((data) => {
+            if (data) {
+              setTreeData((prevData) => {
+                runDealTreeData(data, dealTreeData);
+                updateTreeData(
+                  prevData,
+                  props.treeProps?.fieldNames?.key || 'key',
+                  node[props.treeProps?.fieldNames?.key || 'key'],
+                  data || [],
+                );
+                return [...(prevData || [])];
+              });
+            }
+          });
+          return result;
+        },
+      };
+    } else {
+      return {};
+    }
+  }, [props.treeProps?.loadData]);
 
   useEffect(() => {
     if (virtual && colSize?.height && !loadingTreeData) {
@@ -393,7 +439,7 @@ const TableTreeModal = <
         </div>
         <Row gutter={20}>
           <Col className={styles.treeCol} flex="250px">
-            <Input.Search className={styles.search} onSearch={onSearch} />
+            <Input.Search className={styles.search} onSearch={onSearch} {...treeSearch} />
             <div ref={colRef} className={styles.treeContain}>
               {loadingTreeData ? (
                 <div className="flex h-full">
@@ -413,6 +459,7 @@ const TableTreeModal = <
                     defaultExpandAll={true}
                     height={virtual ? colSize?.height : undefined}
                     {...props?.treeProps}
+                    {...treeLoadData}
                   />
                 </>
               )}
@@ -430,13 +477,6 @@ const TableTreeModal = <
               request={requestTable}
               locale={{
                 emptyText: model == 'screen' ? <Empty /> : <AntEmpty />,
-              }}
-              search={{
-                labelWidth: 'auto',
-                optionRender: () => [],
-              }}
-              form={{
-                onValuesChange: onSearchChange,
               }}
             />
           </Col>
