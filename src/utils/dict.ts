@@ -511,6 +511,15 @@ export const platformTypes = {
   },
 };
 
+export const platform = {
+  0: {
+    text: formatMessage({ id: 'dataManage.1037', defaultMessage: '自研' }),
+  },
+  1: {
+    text: formatMessage({ id: 'dataManage.1038', defaultMessage: '矩形' }),
+  },
+};
+
 export const enableOptions = [
   {
     value: 1,

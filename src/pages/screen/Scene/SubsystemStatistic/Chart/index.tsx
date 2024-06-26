@@ -9,7 +9,6 @@ import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import type { LegendCfg } from 'bizcharts/lib/interface';
-import useToolTip from '@/hooks/useTooltip';
 import { formatMessage } from '@/utils';
 type Props = {
   chartData: ChartData;
@@ -40,7 +39,6 @@ const StatisticChart: FC<Props> = ({
   barSize = 8,
   showLegend,
   legendLayout = 'horizontal',
-  chartConfigMap,
   height = 200,
   showDatePicker = true,
   onDateChange,

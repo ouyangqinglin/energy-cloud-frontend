@@ -45,7 +45,7 @@ export const columns: ProColumns[] = [
       ],
     },
     fieldProps: {
-      format: getLocale().dateTimeFormat,
+      format: getLocale().dateTimeNoSecondFormat,
     },
   },
 ];

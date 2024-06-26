@@ -30,12 +30,11 @@ const RectData: React.FC = () => {
   return (
     <>
       <Card
-        className="my16 mx24"
         title={formatMessage({ id: 'dataManage.1006', defaultMessage: '同步' })}
         extra={
           isEdit ? (
             <Button type="primary" loading={loading} onClick={onSaveClick}>
-              {formatMessage({ id: 'device.1016', defaultMessage: '执行' })}
+              {formatMessage({ id: 'dataManage.1016', defaultMessage: '执行' })}
             </Button>
           ) : (
             <></>

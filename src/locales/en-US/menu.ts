@@ -24,6 +24,7 @@ export default {
   'menu.dataManage.search': 'Data Search',
   'menu.dataManage.report': 'Data Report',
   'menu.dataManage.refresh': 'Data refresh',
+  'menu.dataManage.overview': 'Data overview',
   'menu.alarm': 'Alarm Manage',
   'menu.alarm.current': 'Current Alarm',
   'menu.alarm.history': 'History Alarm',

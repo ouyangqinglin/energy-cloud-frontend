@@ -272,16 +272,17 @@ const FormTableList = <DataType extends Record<string, any>>(
       okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
       cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
       onOk: async () => {
-        updateIncomeByRuleIdAndType?.({ id: rowData?.id, type: Number(priceType) - 1 })?.then?.(
-          ({ data }) => {
-            if (data) {
-              message.success(
-                formatMessage({ id: 'common.refreshSuccess', defaultMessage: '刷新成功' }),
-              ),
-                actionRef?.current?.reload?.();
-            }
-          },
-        );
+        return updateIncomeByRuleIdAndType?.({
+          id: rowData?.id,
+          type: Number(priceType) - 1,
+        })?.then?.(({ data }) => {
+          if (data) {
+            message.success(
+              formatMessage({ id: 'common.refreshSuccess', defaultMessage: '刷新成功' }),
+            ),
+              actionRef?.current?.reload?.();
+          }
+        });
       },
     });
   };
