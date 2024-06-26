@@ -1,6 +1,64 @@
 import { formatMessage } from '@/utils';
 import { SiteTypeStrEnum } from '@/utils/enum';
 
+export type SiteDataType = {
+  totalSiteCount: number | null;
+  commissioningCount: number;
+  constructCount: number;
+  alarmSiteCount: number;
+  normalSiteCount: number;
+  siteTypeGroupCount: Record<
+    number,
+    {
+      name: string;
+      count: number;
+      percent: number;
+      alarmCount: number;
+      normalCount: number;
+    }
+  >;
+};
+
+export type DeviceDataType = {
+  totalCount: number | null;
+  installCount: number;
+  noInstallCount: number;
+  onlineCount: number;
+  offlineCount: number;
+  map: Record<
+    number,
+    {
+      total: number;
+      name: string;
+      onlineCount: number;
+      offlineCount: number;
+      percent: number;
+    }
+  >;
+};
+
+export type AlarmDataType = {
+  totalCount: number | null;
+  alarmCount: number;
+  eliminatedCount: number;
+  map: Record<
+    string,
+    {
+      alarm: number;
+      eliminated: number;
+      total: number;
+      percent: number;
+    }
+  >;
+};
+
+export type PieDataType = {
+  name: string;
+  value: number;
+  percent?: string;
+  text: string;
+};
+
 export const enum deviceTypeStrEnum {
   OTHER = '0',
   PV = '513',
@@ -15,19 +73,36 @@ export const enum alarmTypeStrEnum {
   ERROR = 'error',
 }
 
-export const barConfig = (data = [], total = { text: 0, subtext: '总数' }, colors = []) => ({
+export const siteTitle = {
+  text: 0,
+  subtext: formatMessage({ id: 'dataManage.1020', defaultMessage: '站点总数' }),
+};
+export const deviceTitle = {
+  text: 0,
+  subtext: formatMessage({ id: 'dataManage.1021', defaultMessage: '设备总数' }),
+};
+export const alarmTitle = {
+  text: 0,
+  subtext: formatMessage({ id: 'dataManage.1022', defaultMessage: '告警总数' }),
+};
+
+export const barConfig = (
+  data: PieDataType[] = [],
+  total = { text: 0, subtext: '总数' },
+  colors: string[] = [],
+) => ({
   color: colors,
   legend: {
     bottom: '-1%',
     itemWidth: 8, // 设置图例图形的宽度
     itemHeight: 8, // 设置图例图形的高度
-    itemGap: 20,
+    icon: 'circle',
     textStyle: {
       color: '#000',
     },
     formatter: (name: string) => {
       const row: any = data.find((i: any) => i.name == name);
-      return row.name;
+      return `${row.name} ${row.percent}`;
     },
   },
   tooltip: {
@@ -35,6 +110,13 @@ export const barConfig = (data = [], total = { text: 0, subtext: '总数' }, col
     backgroundColor: 'rgba(9,12,21,0.8)',
     textStyle: {
       color: 'white',
+    },
+    formatter: (params: any) => {
+      const row = params.data;
+      return `${params.marker}${row.name} ${formatMessage({
+        id: 'dataManage.1032',
+        defaultMessage: '总数',
+      })}：${row.value} ${row.text}`;
     },
   },
   title: {
@@ -62,13 +144,7 @@ export const barConfig = (data = [], total = { text: 0, subtext: '总数' }, col
       radius: ['40%', '60%'],
       data: data,
       label: {
-        alignTo: 'edge',
-        formatter: (row: any) => {
-          return `${row.data.text1}\n${row.data.text2}`;
-        },
-        minMargin: 5,
-        edgeDistance: 10,
-        lineHeight: 15,
+        show: false,
       },
     },
   ],

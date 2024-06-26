@@ -108,4 +108,10 @@ export default {
   'dataManage.1038': '矩形',
   'dataManage.1039': '储能效率',
   'dataManage.1040': '工商储设备数量',
+
+  'dataManage.1041': '已投运',
+  'dataManage.1042': '建设中',
+
+  'dataManage.1043': '已安装',
+  'dataManage.1044': '未安装',
 };

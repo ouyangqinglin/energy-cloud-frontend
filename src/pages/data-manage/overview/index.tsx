@@ -3,8 +3,7 @@ import { formatMessage, getLocale } from '@/utils';
 import Detail from '@/components/Detail';
 import GroupBarChart from './groupBarChart';
 import SiteRankTable from './siteRankTable';
-import { DatePicker } from 'antd';
-const { RangePicker } = DatePicker;
+import { DatePicker, Button, Space } from 'antd';
 import moment from 'moment';
 
 const startTime = moment().subtract(1, 'week');
@@ -12,9 +11,10 @@ const endTime = moment();
 const format = getLocale().dateFormat;
 
 const Overview: React.FC = () => {
+  let dataString: string[] = [];
   const [date, setDate] = useState<string[]>([startTime.format(format), endTime.format(format)]);
   const onChange = (info: any, infoString: string[]) => {
-    setDate(infoString);
+    dataString = infoString;
   };
   return (
     <div className="p24">
@@ -22,7 +22,16 @@ const Overview: React.FC = () => {
         title={formatMessage({ id: 'device.1018', defaultMessage: '统计概览' })}
         className="mt16"
       >
-        <RangePicker onChange={onChange} format={format} defaultValue={[startTime, endTime]} />
+        <Space>
+          <DatePicker.RangePicker
+            onChange={onChange}
+            format={format}
+            defaultValue={[startTime, endTime]}
+          />
+          <Button type="primary" onClick={() => setDate(dataString)}>
+            {formatMessage({ id: 'common.search', defaultMessage: '搜索' })}
+          </Button>
+        </Space>
       </Detail.Label>
       <GroupBarChart date={date} />
       <Detail.Label

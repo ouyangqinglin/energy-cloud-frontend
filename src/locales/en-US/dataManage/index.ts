@@ -109,4 +109,10 @@ export default {
   'dataManage.1038': 'Rectangle',
   'dataManage.1039': 'ESS Efficiency',
   'dataManage.1040': 'Equipment Number',
+
+  'dataManage.1041': 'Operated',
+  'dataManage.1042': 'Under Construction',
+
+  'dataManage.1043': 'Installed',
+  'dataManage.1044': 'Not Installed',
 };

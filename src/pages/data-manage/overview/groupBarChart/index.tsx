@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
 import { getData, getDeviceData, getAlarmData } from './service';
-import { Row, Col, Card } from 'antd';
-import { barConfig, siteMap, deviceMap, alarmMap } from './config';
+import { Row, Col, Card, Descriptions, Badge } from 'antd';
+import {
+  barConfig,
+  siteMap,
+  deviceMap,
+  alarmMap,
+  siteTitle,
+  deviceTitle,
+  alarmTitle,
+} from './config';
 import Chart from '@/components/Chart/index';
 import { formatMessage } from '@/utils';
-
-const siteTitle = {
-  text: 0,
-  subtext: formatMessage({ id: 'dataManage.1020', defaultMessage: '站点总数' }),
-};
-const deviceTitle = {
-  text: 0,
-  subtext: formatMessage({ id: 'dataManage.1021', defaultMessage: '设备总数' }),
-};
-const alarmTitle = {
-  text: 0,
-  subtext: formatMessage({ id: 'dataManage.1022', defaultMessage: '告警总数' }),
-};
+import type { SiteDataType, DeviceDataType, AlarmDataType, PieDataType } from './config';
+import styles from './index.less';
 
 type GroupBarChartProps = {
   date: string[];
@@ -31,13 +28,15 @@ const GroupBarChart: React.FC<GroupBarChartProps> = (props) => {
 
   const { data, run } = useRequest(getData, {
     manual: true,
-  });
+  }) as { data: SiteDataType; run: (params: any) => Promise<unknown> };
+
   const { data: deviceData, run: runFordeviceData } = useRequest(getDeviceData, {
     manual: true,
-  });
+  }) as { data: DeviceDataType; run: (params: any) => Promise<unknown> };
+
   const { data: alarmData, run: runForAlarmData } = useRequest(getAlarmData, {
     manual: true,
-  });
+  }) as { data: AlarmDataType; run: (params: any) => Promise<unknown> };
 
   useEffect(() => {
     const [startTime, endTime] = date;
@@ -50,105 +49,166 @@ const GroupBarChart: React.FC<GroupBarChartProps> = (props) => {
 
   useEffect(() => {
     if (data) {
-      const currentData: any = [];
-      const colors: any = [];
-      const { totalSiteCount, siteTypeGroupCount } = data as any;
+      const pieData: PieDataType[] = [];
+      const colors: string[] = [];
+      const { totalSiteCount, siteTypeGroupCount } = data;
       siteMap.forEach((i, key) => {
         const currentObj = siteTypeGroupCount[key];
-        currentData.push({
+        pieData.push({
           name: i.name,
           value: currentObj?.count,
-          color: i.color,
-          text1: `${i.name}：${formatMessage({ id: 'dataManage.1032', defaultMessage: '总数' })}：${
-            currentObj?.count
-          }（${currentObj.percent}%）`,
-          text2: `${formatMessage({ id: 'dataManage.1033', defaultMessage: '正常' })}：${
-            currentObj.normalCount
-          } ${formatMessage({ id: 'dataManage.1034', defaultMessage: '告警' })}：${
-            currentObj.normalCount
+          percent: currentObj.percent + '%',
+          text: `${formatMessage({ id: 'dataManage.1034', defaultMessage: '告警' })}：${
+            currentObj.alarmCount
           }`,
         });
         colors.push(i.color);
       });
-      siteTitle.text = totalSiteCount;
-      setSiteOption(barConfig(currentData, siteTitle, colors));
+      siteTitle.text = totalSiteCount || 0;
+      setSiteOption(barConfig(pieData, siteTitle, colors));
     }
-
+  }, [data]);
+  useEffect(() => {
     if (deviceData) {
-      const currentData: any = [];
-      const colors: any = [];
-      const { totalCount, map } = deviceData as any;
+      const pieData: PieDataType[] = [];
+      const colors: string[] = [];
+      const { totalCount, map } = deviceData;
       deviceMap.forEach((i, key) => {
         const currentObj = map[key];
-        currentData.push({
+        pieData.push({
           name: i.name,
           value: currentObj.total,
-          text1: `${i.name}：${formatMessage({ id: 'dataManage.1032', defaultMessage: '总数' })}：${
-            currentObj?.total
-          }（${currentObj.percent}%）`,
-          text2: `${formatMessage({ id: 'dataManage.1035', defaultMessage: '在线' })}：${
-            currentObj.onlineCount
-          } ${formatMessage({ id: 'dataManage.1036', defaultMessage: '离线' })}：${
+          percent: currentObj.percent + '%',
+          text: `${formatMessage({ id: 'dataManage.1036', defaultMessage: '离线' })}：${
             currentObj.offlineCount
           }`,
         });
         colors.push(i.color);
       });
-      deviceTitle.text = totalCount;
-      setDeviception(barConfig(currentData, deviceTitle, colors));
+      deviceTitle.text = totalCount || 0;
+      setDeviception(barConfig(pieData, deviceTitle, colors));
     }
+  }, [deviceData]);
 
+  useEffect(() => {
     if (alarmData) {
-      const colors: any = [];
-      const currentData: any = [];
-      const { totalCount, map } = alarmData as any;
+      const pieData: PieDataType[] = [];
+      const colors: string[] = [];
+      const { totalCount, map } = alarmData;
       alarmMap.forEach((i, key) => {
         const currentObj = map[key];
-        currentData.push({
+        pieData.push({
           name: i.name,
           value: currentObj.total,
-          text1: `${i.name}：${formatMessage({ id: 'dataManage.1032', defaultMessage: '总数' })}：${
-            currentObj?.total
-          }（${currentObj.percent}%）`,
-          text2: `${formatMessage({ id: 'common.alarming', defaultMessage: '告警中' })}：${
+          percent: currentObj.percent + '%',
+          text: `${formatMessage({ id: 'common.alarming', defaultMessage: '告警中' })}：${
             currentObj.alarm
-          } ${formatMessage({ id: 'common.eliminated', defaultMessage: '已消除' })}：${
-            currentObj.eliminated
           }`,
         });
         colors.push(i.color);
       });
-      alarmTitle.text = totalCount;
-      setAlarmOption(barConfig(currentData, alarmTitle, colors));
+      alarmTitle.text = totalCount || 0;
+      setAlarmOption(barConfig(pieData, alarmTitle, colors));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, deviceData, alarmData]);
+  }, [alarmData]);
+
   return (
     <>
       <Row gutter={16}>
         <Col span={8}>
           <Card>
-            <div>{`已投运：${data?.commissioningCount || '--'} 建设中：${
-              data?.constructCount || '--'
-            } 正常：${data?.normalSiteCount || '--'} 告警：${data?.alarmSiteCount || '--'}`}</div>
+            <div className={styles.head}>
+              <Descriptions column={4}>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.1041', defaultMessage: '已投运' })}
+                >
+                  {data?.commissioningCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.1042', defaultMessage: '建设中' })}
+                >
+                  {data?.constructCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <Badge
+                      status="success"
+                      text={formatMessage({ id: 'dataManage.1033', defaultMessage: '正常' })}
+                    />
+                  }
+                >
+                  {data?.normalSiteCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <Badge
+                      status="error"
+                      text={formatMessage({ id: 'dataManage.1034', defaultMessage: '告警' })}
+                    />
+                  }
+                >
+                  {data?.alarmSiteCount || '--'}
+                </Descriptions.Item>
+              </Descriptions>
+            </div>
             <Chart height={250} option={siteOption} calculateMax={false} />
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <div>{`已安装：${deviceData?.installCount || '--'} 未安装：${
-              deviceData?.noInstallCount || '--'
-            } 在线：${deviceData?.onlineCount || '--'} 离线：${
-              deviceData?.offlineCount || '--'
-            }`}</div>
+            <div className={styles.head}>
+              <Descriptions column={4}>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.1043', defaultMessage: '已安装' })}
+                >
+                  {deviceData?.installCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.1044', defaultMessage: '未安装' })}
+                >
+                  {deviceData?.noInstallCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <Badge
+                      status="success"
+                      text={formatMessage({ id: 'dataManage.1035', defaultMessage: '在线' })}
+                    />
+                  }
+                >
+                  {deviceData?.onlineCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <Badge
+                      status="error"
+                      text={formatMessage({ id: 'dataManage.1036', defaultMessage: '离线' })}
+                    />
+                  }
+                >
+                  {deviceData?.offlineCount || '--'}
+                </Descriptions.Item>
+              </Descriptions>
+            </div>
             <Chart height={250} option={deviceOption} calculateMax={false} />
           </Card>
         </Col>
         <Col span={8}>
           <Card>
-            <div>{`告警中：${alarmData?.alarmCount || '--'} 已消除：${
-              alarmData?.eliminatedCount || '--'
-            }`}</div>
+            <div className={styles.head} style={{ width: '40%' }}>
+              <Descriptions column={2}>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.generate', defaultMessage: '告警中' })}
+                >
+                  {alarmData?.alarmCount || '--'}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={formatMessage({ id: 'dataManage.eliminate', defaultMessage: '已消除' })}
+                >
+                  {alarmData?.eliminatedCount || '--'}
+                </Descriptions.Item>
+              </Descriptions>
+            </div>
             <Chart height={250} option={alarmOption} calculateMax={false} />
           </Card>
         </Col>
