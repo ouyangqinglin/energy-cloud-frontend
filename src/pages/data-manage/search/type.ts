@@ -7,6 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\type.ts
  */
 
+import { DeviceModelType } from '@/types/device';
+
 export type CollectionValueType = {
   id: string;
   name: string;
@@ -17,6 +19,7 @@ export type CollectionValueType = {
     paramCode?: string;
     deviceName?: string;
     deviceSN?: string;
+    dataType?: DeviceModelType;
   };
 };
 
@@ -36,11 +39,12 @@ export type TableSearchType = {
   }[];
 };
 
-export type TableDataType = Omit<TableSearchType, 'time'> & {
-  time?: string;
-  devices?: {
-    deviceId?: string;
-    key?: string;
-    value?: number;
-  }[];
-};
+export type TableDataType = Omit<TableSearchType, 'time'> &
+  Record<string, any> & {
+    time?: string;
+    devices?: {
+      deviceId?: string;
+      key?: string;
+      value?: number;
+    }[];
+  };

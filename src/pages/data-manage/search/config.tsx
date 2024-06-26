@@ -13,8 +13,8 @@ import {
 } from '@/services/equipment';
 import moment from 'moment';
 import type { Moment } from 'moment';
-import { formatMessage, getLocale } from '@/utils';
-import { DeviceTreeDataType } from '@/types/device';
+import { formatMessage, getLocale, parseToObj } from '@/utils';
+import { DeviceModelType, DeviceTreeDataType } from '@/types/device';
 import { getStations } from '@/services/station';
 import { TreeNodeProps } from 'antd';
 
@@ -114,6 +114,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
           },
           ...(deviceId
             ? {
+                request: () => getSiteDeviceTree({ deviceId }),
                 defaultSelectedKeys: [deviceId],
               }
             : {
@@ -121,8 +122,6 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
                 loadData: requestTree,
                 defaultExpandAll: false,
               }),
-          // request: () => requestTree(deviceId ? { deviceId } : {}),
-          // ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
         },
         treeSearch: {
           filterData: (data: DeviceTreeDataType[], searchValue: string) => {
@@ -221,10 +220,21 @@ export const timeColumns: ProColumns<TableDataType>[] = [
   },
 ];
 
+export const getModelMap = (params: TableSearchType) => {
+  const modelMap: Record<string, DeviceModelType | undefined> = {};
+  params?.collection?.forEach?.((item) => {
+    modelMap[(item?.node?.paramCode ?? '') + '-' + (item?.node?.deviceId ?? '')] = parseToObj(
+      item.node?.dataType,
+    );
+  });
+  return modelMap;
+};
+
 export const dealParams = (params: TableSearchType) => {
   const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
   const deviceData: TableSearchType['keyValue'] = [];
   const deviceDataMap = new Map<string, DeviceMapDataType>();
+  const modelMap = getModelMap(params);
   params?.collection?.forEach?.((item) => {
     const collection = deviceDataMap.get(item?.node?.deviceId || '');
     if (collection) {
@@ -248,9 +258,12 @@ export const dealParams = (params: TableSearchType) => {
         deviceName: value.deviceName,
         sn: value.sn,
       });
+      const dataIndex = item.id + '-' + key;
       arr.push({
-        title: item.name,
-        dataIndex: item.id + '-' + key,
+        title: `${item.name}${
+          modelMap[dataIndex]?.specs?.unit ? '(' + modelMap[dataIndex]?.specs?.unit + ')' : ''
+        }`,
+        dataIndex,
         width: 120,
         ellipsis: true,
       });

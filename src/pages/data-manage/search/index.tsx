@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { timeColumns, getDeviceSearchColumns, dealParams } from './config';
+import { timeColumns, getDeviceSearchColumns, dealParams, getModelMap } from './config';
 import { TableDataType, TableSearchType } from './type';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
@@ -9,7 +9,7 @@ import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
-import { formatMessage } from '@/utils';
+import { formatMessage, formatModelValue } from '@/utils';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { Radio, RadioChangeEvent } from 'antd';
 import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
@@ -57,6 +57,7 @@ const Search: React.FC<SearchProps> = (props) => {
     async (params: TableSearchType) => {
       if (params?.collection && params?.collection?.length) {
         const cols = dealParams(params);
+        const modelMap = getModelMap(params);
         setCollectionColumns(cols);
         const searchDataResult = {
           ...params,
@@ -70,7 +71,8 @@ const Search: React.FC<SearchProps> = (props) => {
             const data = res?.data || {};
             data?.list?.forEach?.((item) => {
               item?.devices?.forEach?.((child) => {
-                item[child?.key + '-' + child?.deviceId] = child?.value;
+                const dataIndex = child?.key + '-' + child?.deviceId;
+                item[dataIndex] = formatModelValue(child?.value, modelMap[dataIndex] || {}, false);
               });
             });
             setTableData({
