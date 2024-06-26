@@ -1,29 +1,19 @@
 import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import { useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
-import { timeColumns, getDeviceSearchColumns } from './config';
+import { timeColumns, getDeviceSearchColumns, dealParams, getModelMap } from './config';
 import { TableDataType, TableSearchType } from './type';
-import { useSiteColumn } from '@/hooks';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
 import { DeviceDataType } from '@/services/equipment';
-import { formatMessage } from '@/utils';
+import { formatMessage, formatModelValue } from '@/utils';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { Radio, RadioChangeEvent } from 'antd';
 import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Chart, { ChartRefType } from './chart';
-
-type DeviceMapDataType = {
-  sn: string;
-  deviceName: string;
-  collection: {
-    name: string;
-    id: string;
-  }[];
-};
 
 type RequestRefType = {
   chartPromise?: Promise<any>;
@@ -35,50 +25,6 @@ type RequestRefType = {
 type SearchProps = {
   isDeviceChild?: boolean;
   deviceData?: DeviceDataType;
-};
-
-const dealParams = (params: TableSearchType) => {
-  const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-  const deviceData: TableSearchType['keyValue'] = [];
-  const deviceDataMap = new Map<string, DeviceMapDataType>();
-  params?.collection?.forEach?.((item) => {
-    const collection = deviceDataMap.get(item?.node?.deviceId || '');
-    if (collection) {
-      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
-      deviceDataMap.set(item?.node?.deviceId || '', collection);
-    } else {
-      deviceDataMap.set(item?.node?.deviceId || '', {
-        deviceName: item?.node?.deviceName || '',
-        sn: item?.node?.deviceSN || '',
-        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
-      });
-    }
-  });
-  deviceDataMap.forEach((value, key) => {
-    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
-    value.collection.forEach((item) => {
-      deviceData.push({
-        key: item.id,
-        name: item.name,
-        deviceId: key,
-        deviceName: value.deviceName,
-        sn: value.sn,
-      });
-      arr.push({
-        title: item.name,
-        dataIndex: item.id + '-' + key,
-        width: 120,
-        ellipsis: true,
-      });
-    });
-    cols.push({
-      title: `${value.deviceName}(${value.sn})`,
-      hideInSearch: true,
-      children: arr,
-    });
-  });
-  params.keyValue = deviceData;
-  return cols;
 };
 
 const Search: React.FC<SearchProps> = (props) => {
@@ -98,28 +44,20 @@ const Search: React.FC<SearchProps> = (props) => {
   const [collectionColumns, setCollectionColumns] = useState<
     ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[]
   >([]);
-  const [siteSearchColumn] = useSiteColumn<TableDataType, TABLETREESELECTVALUETYPE>({
-    hideInTable: true,
-    formItemProps: {
-      rules: [{ required: true }],
-      name: 'siteId',
-    },
-  });
 
   const columns = useMemo(() => {
-    const siteSearch = isDeviceChild ? [] : [siteSearchColumn];
     return [
-      ...siteSearch,
       ...getDeviceSearchColumns(isDeviceChild ? deviceData?.deviceId : ''),
       ...timeColumns,
       ...collectionColumns,
     ];
-  }, [siteSearchColumn, collectionColumns, deviceData]);
+  }, [collectionColumns, deviceData]);
 
   const onRequest = useCallback(
     async (params: TableSearchType) => {
       if (params?.collection && params?.collection?.length) {
         const cols = dealParams(params);
+        const modelMap = getModelMap(params);
         setCollectionColumns(cols);
         const searchDataResult = {
           ...params,
@@ -133,7 +71,8 @@ const Search: React.FC<SearchProps> = (props) => {
             const data = res?.data || {};
             data?.list?.forEach?.((item) => {
               item?.devices?.forEach?.((child) => {
-                item[child?.key + '-' + child?.deviceId] = child?.value;
+                const dataIndex = child?.key + '-' + child?.deviceId;
+                item[dataIndex] = formatModelValue(child?.value, modelMap[dataIndex] || {}, false);
               });
             });
             setTableData({
@@ -214,19 +153,14 @@ const Search: React.FC<SearchProps> = (props) => {
     (params: TableSearchType) => {
       dealParams(params);
       const date = params?.time || [];
-      if (tableType) {
-        chartRef.current?.downLoadImg?.(getExportName(params));
-        return Promise.reject();
-      } else {
-        return exportList({
-          ...params,
-          startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
-          endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
-          ...(isDeviceChild ? { siteId } : {}),
-        });
-      }
+      return exportList({
+        ...params,
+        startTime: (date[0] as any)?.format?.('YYYY-MM-DD 00:00:00'),
+        endTime: (date[1] as any)?.format?.('YYYY-MM-DD 23:59:59'),
+        ...(isDeviceChild ? { siteId } : {}),
+      });
     },
-    [isDeviceChild, siteId, deviceData, tableType],
+    [isDeviceChild, siteId, deviceData],
   );
 
   const onTypeChange = (e: RadioChangeEvent) => {

@@ -80,6 +80,8 @@ export default {
   'dataManage.1013': '刷新项',
   'dataManage.1014': '电量（市电、光伏、风机、柴发、储能、充电桩、其他负载）',
   'dataManage.1015': '收益',
+  'device.1016': '执行',
+  'device.1017': '执行成功',
   'dataManage.1016': '执行',
   'dataManage.1017': '执行成功',
   'dataManage.1018': '统计概览',
@@ -114,4 +116,7 @@ export default {
 
   'dataManage.1043': '已安装',
   'dataManage.1044': '未安装',
+  'dataManage.1045': '一宫格',
+  'dataManage.1046': '二宫格',
+  'dataManage.1047': '四宫格',
 };

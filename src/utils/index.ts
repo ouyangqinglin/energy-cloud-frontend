@@ -208,7 +208,7 @@ export const getAreaCodeByAdCode = (code: string): string[] => {
 };
 
 export const getPlaceholder = (value: any, placeholder = '--') => {
-  return value ?? placeholder;
+  return isEmpty(value) ? placeholder : value;
 };
 
 /**
@@ -284,11 +284,7 @@ export const parseToObj = (value: any): Record<string, any> => {
   return result;
 };
 
-export const formatModelValue = (
-  value: string,
-  model: DeviceModelType,
-  showUnit = true,
-): string => {
+export const formatModelValue = (value: any, model: DeviceModelType, showUnit = true): string => {
   let specs: Record<string, any> = {};
   if (typeof model?.specs !== 'object') {
     try {

@@ -89,13 +89,6 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
               <span className={styles.value}>{energyStore?.p ?? '--'}</span>
             </div>
             <div className={styles.desc}>
-              <span className={styles.title}>SOC：</span>
-              <span className={styles.value}>
-                {energyStore.soc ?? '--'}
-                <span className={styles.unit}>%</span>
-              </span>
-            </div>
-            <div className={styles.desc}>
               <span className={styles.title}>
                 {formatMessage({ id: 'siteMonitor.runningState', defaultMessage: '运行状态' })}：
               </span>

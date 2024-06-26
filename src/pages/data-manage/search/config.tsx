@@ -6,10 +6,26 @@ import type {
   dealTreeDataType,
 } from '@/components/TableSelect';
 import type { TableSearchType, CollectionValueType, TableDataType } from './type';
-import { getSiteDeviceTree, getDeviceCollection } from '@/services/equipment';
+import {
+  getSiteDeviceTree,
+  getDeviceCollection,
+  getMultipleDeviceTree,
+} from '@/services/equipment';
 import moment from 'moment';
 import type { Moment } from 'moment';
-import { formatMessage, getLocale } from '@/utils';
+import { formatMessage, getLocale, parseToObj } from '@/utils';
+import { DeviceModelType, DeviceTreeDataType } from '@/types/device';
+import { getStations } from '@/services/station';
+import { TreeNodeProps } from 'antd';
+
+type DeviceMapDataType = {
+  sn: string;
+  deviceName: string;
+  collection: {
+    name: string;
+    id: string;
+  }[];
+};
 
 const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [
   {
@@ -48,8 +64,26 @@ const tableSelectColumns: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] 
     hideInSearch: true,
   },
 ];
-const dealTreeData: dealTreeDataType = (item) => {
-  item.selectable = !!item.productId;
+
+const requestTree = (node: DeviceTreeDataType) => {
+  if (node.children) {
+    return Promise.resolve();
+  } else {
+    return getSiteDeviceTree({ siteId: node.siteId }).then((res) => {
+      return res?.data?.[0]?.children || [];
+    });
+  }
+};
+
+const requestSiteList = () => {
+  return getStations().then((res) => {
+    res?.data?.map?.((item: DeviceTreeDataType) => {
+      item.deviceName = item.name;
+      item.isLeaf = false;
+      item.siteId = item.id;
+    });
+    return res;
+  });
 };
 
 export const getDeviceSearchColumns = (deviceId?: string) => {
@@ -62,58 +96,65 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
       dataIndex: 'collection',
       valueType: TABLETREESELECT,
       hideInTable: true,
-      dependencies: deviceId ? ['siteId'] : [],
       formItemProps: {
         rules: [
           {
             required: true,
-            message:
-              formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
-              formatMessage({
-                id: 'siteManage.set.dataCollectionPoints',
-                defaultMessage: '数据采集点',
-              }),
+            message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
           },
         ],
       },
-      fieldProps: (form) => {
-        const value = form?.getFieldValue?.('siteId');
-        const tableTreeSelectProps: TableTreeModalProps<
-          CollectionValueType,
-          TableDataType,
-          TableSearchType,
-          any
-        > = {
-          title:
-            formatMessage({ id: 'common.select', defaultMessage: '选择' }) +
-            formatMessage({
-              id: 'siteManage.set.dataCollectionPoints',
-              defaultMessage: '数据采集点',
-            }),
-          treeProps: {
-            fieldNames: {
-              title: 'deviceName',
-              key: 'id',
-              children: 'children',
-            },
-            request: () => getSiteDeviceTree(deviceId ? { deviceId } : { siteId: value }),
-            ...(deviceId ? { defaultSelectedKeys: [deviceId] } : {}),
+      fieldProps: {
+        title: formatMessage({ id: 'common.select', defaultMessage: '请选择' }),
+        treeProps: {
+          fieldNames: {
+            title: 'deviceName',
+            key: 'id',
+            children: 'children',
           },
-          dealTreeData,
-          proTableProps: {
-            pagination: false,
-            columns: tableSelectColumns as any,
-            request: getDeviceCollection,
+          ...(deviceId
+            ? {
+                request: () => getSiteDeviceTree({ deviceId }),
+                defaultSelectedKeys: [deviceId],
+              }
+            : {
+                request: requestSiteList,
+                loadData: requestTree,
+                defaultExpandAll: false,
+              }),
+        },
+        treeSearch: {
+          filterData: (data: DeviceTreeDataType[], searchValue: string) => {
+            const result: DeviceTreeDataType[] = [];
+            data?.forEach?.((item) => {
+              if (item?.deviceName?.indexOf && item?.deviceName?.indexOf?.(searchValue) > -1) {
+                result.push(item);
+              }
+            });
+            return result;
           },
-          valueId: 'selectName',
-          valueName: 'paramName',
-          limit: 2,
-          limitSelect: 250,
-          onFocus: () => {
-            return deviceId ? undefined : form?.validateFields(['siteId']);
-          },
-        };
-        return tableTreeSelectProps;
+        },
+        proTableProps: {
+          pagination: false,
+          columns: tableSelectColumns as any,
+          request: getDeviceCollection,
+        },
+        valueId: 'selectName',
+        valueName: 'paramName',
+        limit: 2,
+        limitSelect: 250,
+        virtual: true,
+        dealTreeData: (data: DeviceTreeDataType) => {
+          if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
+            data.selectable = true;
+          } else {
+            data.selectable = false;
+            data.id = (data?.id ?? '') + Math.random().toFixed(8);
+          }
+          if (typeof data.isLeaf !== 'boolean' && !data?.children?.length) {
+            data.isLeaf = true;
+          }
+        },
       },
     },
   ];
@@ -178,3 +219,61 @@ export const timeColumns: ProColumns<TableDataType>[] = [
     },
   },
 ];
+
+export const getModelMap = (params: TableSearchType) => {
+  const modelMap: Record<string, DeviceModelType | undefined> = {};
+  params?.collection?.forEach?.((item) => {
+    modelMap[(item?.node?.paramCode ?? '') + '-' + (item?.node?.deviceId ?? '')] = parseToObj(
+      item.node?.dataType,
+    );
+  });
+  return modelMap;
+};
+
+export const dealParams = (params: TableSearchType) => {
+  const cols: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+  const deviceData: TableSearchType['keyValue'] = [];
+  const deviceDataMap = new Map<string, DeviceMapDataType>();
+  const modelMap = getModelMap(params);
+  params?.collection?.forEach?.((item) => {
+    const collection = deviceDataMap.get(item?.node?.deviceId || '');
+    if (collection) {
+      collection.collection.push({ id: item?.node?.paramCode || '', name: item?.paramName });
+      deviceDataMap.set(item?.node?.deviceId || '', collection);
+    } else {
+      deviceDataMap.set(item?.node?.deviceId || '', {
+        deviceName: item?.node?.deviceName || '',
+        sn: item?.node?.deviceSN || '',
+        collection: [{ id: item?.node?.paramCode || '', name: item?.paramName }],
+      });
+    }
+  });
+  deviceDataMap.forEach((value, key) => {
+    const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
+    value.collection.forEach((item) => {
+      deviceData.push({
+        key: item.id,
+        name: item.name,
+        deviceId: key,
+        deviceName: value.deviceName,
+        sn: value.sn,
+      });
+      const dataIndex = item.id + '-' + key;
+      arr.push({
+        title: `${item.name}${
+          modelMap[dataIndex]?.specs?.unit ? '(' + modelMap[dataIndex]?.specs?.unit + ')' : ''
+        }`,
+        dataIndex,
+        width: 120,
+        ellipsis: true,
+      });
+    });
+    cols.push({
+      title: `${value.deviceName}(${value.sn})`,
+      hideInSearch: true,
+      children: arr,
+    });
+  });
+  params.keyValue = deviceData;
+  return cols;
+};

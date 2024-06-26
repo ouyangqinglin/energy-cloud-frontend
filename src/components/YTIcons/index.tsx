@@ -64,6 +64,7 @@ import {
   Video,
   Star,
   StarFull,
+  CellTwo,
 } from './YTSvg';
 import { AntdIconProps } from '@ant-design/icons/lib/components/AntdIcon';
 import React from 'react';
@@ -200,6 +201,10 @@ const YTCellOneOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={CellOne} {...props} />
 );
 
+const YTCellTwoOutlined = (props: Partial<CustomIconComponentProps>) => (
+  <Icon component={CellTwo} {...props} />
+);
+
 const YTCellFourOutlined = (props: Partial<CustomIconComponentProps>) => (
   <Icon component={CellFour} {...props} />
 );
@@ -306,6 +311,7 @@ export {
   YTDotOutlined,
   YTStoreOutlined,
   YTCellOneOutlined,
+  YTCellTwoOutlined,
   YTCellFourOutlined,
   YTCellSixOutlined,
   YTCellNineOutlined,

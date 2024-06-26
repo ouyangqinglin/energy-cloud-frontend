@@ -250,8 +250,13 @@ export const formatData = (data: Record<string, any>, columns?: ProColumns<any, 
           data[col.dataIndex] = valueArr;
         }
 
-        if (col?.search && format) {
-          let result: any = col?.search?.transform?.([], '', []);
+        if (
+          ((typeof col?.search !== 'boolean' && col?.search?.transform) ||
+            (col as any)?.transform) &&
+          format
+        ) {
+          let result: any =
+            (col as any)?.search?.transform?.([], '', []) || (col as any)?.transform?.([], '', []);
           if (typeof result == 'object') {
             const valueArr: string[] = [];
             Object.keys(result).forEach((key) => {
@@ -263,7 +268,9 @@ export const formatData = (data: Record<string, any>, columns?: ProColumns<any, 
                 valueArr.push(moment(value).format(format));
               }
             });
-            result = col?.search?.transform?.(valueArr, '', []);
+            result =
+              (col as any)?.search?.transform?.(valueArr, '', []) ||
+              (col as any)?.transform?.(valueArr, '', []);
             Object.keys(result).forEach((key) => {
               const value = result?.[key];
               if (value) {

@@ -7,6 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\types\device.ts
  */
 import { DeviceModelDescribeTypeEnum, DeviceModelShowTypeEnum, DeviceModelTypeEnum } from '@/utils';
+import { TreeNodeProps } from 'antd';
 
 export type DeviceModelAuthorityType = {
   detail?: string;
@@ -169,7 +170,7 @@ export type DeviceModelDataType = {
   data?: DeviceModelDescribeType[];
 };
 
-export type DeviceTreeDataType = {
+export type DeviceTreeDataType = TreeNodeProps & {
   id?: string;
   deviceName?: string;
   deviceSN?: string;
@@ -180,4 +181,5 @@ export type DeviceTreeDataType = {
   children?: DeviceTreeDataType[];
   component?: number;
   selectable?: boolean;
+  loaded?: boolean;
 };

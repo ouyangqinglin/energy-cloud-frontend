@@ -21,6 +21,7 @@ const urlReg = new RegExp(
     '(\\#[-a-z\\d_]*)?$', // fragment locator
   'i', // case insensitive
 );
+const loadErrorReg = /Loading.*failed.*/gi;
 
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
@@ -71,4 +72,8 @@ export const isHourRange = (value: string) => {
 
 export const isUrl = (value?: string) => {
   return urlReg.test(value ?? '');
+};
+
+export const isLoadError = (value?: string) => {
+  return loadErrorReg.test(value ?? '');
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2024-05-13 15:06:30
+ * @LastEditTime: 2024-06-26 10:03:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
@@ -147,9 +147,11 @@ const SchemaForm = <
       if (layoutType !== 'QueryFilter') {
         setDisableSubmitterFalse();
       }
+      formatData(changedValues, columns);
+      formatData(allValues, columns);
       onValuesChange?.(changedValues, allValues);
     },
-    [onValuesChange, layoutType],
+    [onValuesChange, layoutType, columns],
   );
 
   const onFinish = useCallback(

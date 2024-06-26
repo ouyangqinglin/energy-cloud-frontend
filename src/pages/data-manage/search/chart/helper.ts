@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\helper.ts
  */
 
-export const options = {
+export const defaultOptions = {
   backgroundColor: 'white',
   grid: {
     left: 10,
