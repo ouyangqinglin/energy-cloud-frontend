@@ -286,7 +286,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
 
   const requestList = useCallback(
     (params) => {
-      switch (type) {
+      switch (currentType) {
         case TabKeys.CHARGING: //充电桩计费设置
           return getChargingElectricityPriceList(params);
         case TabKeys.MARKET: //市电电价设置
@@ -301,7 +301,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
           return getMarketElectricityPriceList(params);
       }
     },
-    [type],
+    [currentType],
   );
 
   return (
