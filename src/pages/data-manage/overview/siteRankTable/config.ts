@@ -103,7 +103,6 @@ export const columns: ProColumns<DataType>[] = [
     valueType: 'dateRange',
     hideInTable: true,
     width: 200,
-    initialValue: [moment(), moment().subtract(1, 'week')],
     fieldProps: {
       format: getLocale().dateFormat,
     },

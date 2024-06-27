@@ -5,9 +5,8 @@ export type ChartRes = {
 }[];
 
 export type ChartData = {
-  value: number;
-  date: string;
-  field: string;
+  data: { label?: string; value?: string }[];
+  name: string;
 }[];
 
 export type ChartMapType = Record<
