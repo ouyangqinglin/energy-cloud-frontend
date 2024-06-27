@@ -70,11 +70,6 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
       }
     });
   };
-
-  const requestStation = useCallback((searchText) => {
-    getSiteData(searchText);
-  }, []);
-
   useEffect(() => {
     if (visible) {
       getSiteData();
@@ -282,7 +277,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
       },
       ...defaultColumns,
     ];
-  }, [requestStation, siteList]);
+  }, [siteList]);
 
   const requestList = useCallback(
     (params) => {

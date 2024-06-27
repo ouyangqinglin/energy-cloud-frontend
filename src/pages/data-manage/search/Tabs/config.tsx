@@ -12,17 +12,17 @@ import { formatMessage } from '@/utils';
 
 export const layoutConfig = [
   {
-    title: formatMessage({ id: 'dataManage.1041', defaultMessage: '一宫格' }),
+    title: formatMessage({ id: 'dataManage.1045', defaultMessage: '一宫格' }),
     value: 1,
     icon: <YTCellOneOutlined />,
   },
   {
-    title: formatMessage({ id: 'dataManage.1042', defaultMessage: '二宫格' }),
+    title: formatMessage({ id: 'dataManage.1046', defaultMessage: '二宫格' }),
     value: 2,
     icon: <YTCellTwoOutlined />,
   },
   {
-    title: formatMessage({ id: 'dataManage.1043', defaultMessage: '四宫格' }),
+    title: formatMessage({ id: 'dataManage.1047', defaultMessage: '四宫格' }),
     value: 4,
     icon: <YTCellFourOutlined />,
   },

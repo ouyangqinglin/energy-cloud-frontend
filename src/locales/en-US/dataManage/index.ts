@@ -111,7 +111,13 @@ export default {
   'dataManage.1038': 'Rectangle',
   'dataManage.1039': 'ESS Efficiency',
   'dataManage.1040': 'Equipment Number',
-  'dataManage.1041': '1 Grid',
-  'dataManage.1042': '2 Grid',
-  'dataManage.1043': '4 Grid',
+
+  'dataManage.1041': 'Operated',
+  'dataManage.1042': 'Under Construction',
+
+  'dataManage.1043': 'Installed',
+  'dataManage.1044': 'Not Installed',
+  'dataManage.1045': '1 Grid',
+  'dataManage.1046': '2 Grid',
+  'dataManage.1047': '4 Grid',
 };
