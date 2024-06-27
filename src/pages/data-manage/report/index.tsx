@@ -147,6 +147,7 @@ const Report: React.FC<ReportProps> = (props) => {
       return exportList({
         ...params,
         dimensionTime,
+        showType: 1,
         ...(isStationChild ? { siteId } : {}),
       });
     },
