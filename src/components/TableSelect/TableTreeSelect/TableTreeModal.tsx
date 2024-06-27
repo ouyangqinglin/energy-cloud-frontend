@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-06-26 14:51:07
+ * @LastEditTime: 2024-06-27 14:39:27
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -437,7 +437,7 @@ const TableTreeModal = <
             <div className={`flex1 ${styles.tagContain}`}>{tags}</div>
           </div>
         </div>
-        <Row gutter={20}>
+        <Row gutter={24}>
           <Col className={styles.treeCol} flex="250px">
             <Input.Search className={styles.search} onSearch={onSearch} {...treeSearch} />
             <div ref={colRef} className={styles.treeContain}>

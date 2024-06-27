@@ -409,7 +409,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
               });
             },
             scroll: {
-              y: 340,
+              y: 302,
             },
           },
           onFocus: () => {

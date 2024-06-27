@@ -20,8 +20,10 @@ export type toolBarRenderOptionType<Params> = {
 };
 
 export type toolBarRenderOptionsType<Params> = {
+  prepend?: React.ReactNode;
   add?: toolBarRenderOptionType<Params>;
   export?: toolBarRenderOptionType<Params>;
+  append?: React.ReactNode;
 };
 
 export type YTProTableCustomProps<D, P, V = 'text'> = {

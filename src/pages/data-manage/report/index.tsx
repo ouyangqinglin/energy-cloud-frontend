@@ -20,6 +20,7 @@ import { cloneDeep } from 'lodash';
 import moment from 'moment';
 import { formatMessage } from '@/utils';
 import './index.less';
+import { Radio, RadioChangeEvent } from 'antd';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -37,13 +38,19 @@ const columnsMap = new Map([
 
 const Report: React.FC<ReportProps> = (props) => {
   const { isStationChild } = props;
+
   const [currentSearchColumns, setCurrentSearchColumns] = useState(searchColumns(reportType));
   const [currentSiteColumns, setCurrentSiteColumns] = useState(siteColumns);
-
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const [searchParams, setSearchParams] = useState<TableSearchType>({
     reportType: reportTypeEnum.Site,
   });
+  const [showType, setShowType] = useState(1);
+
+  const onTypeChange = (e: RadioChangeEvent) => {
+    setShowType(e.target.value);
+  };
+
   const reportTypeHandle = (energyOptions: string) => {
     const cloneSiteColumns = cloneDeep(siteColumns);
     const currentReportType = cloneDeep(reportType);
@@ -147,6 +154,7 @@ const Report: React.FC<ReportProps> = (props) => {
       return exportList({
         ...params,
         dimensionTime,
+        showType: 1,
         ...(isStationChild ? { siteId } : {}),
       });
     },
@@ -197,6 +205,21 @@ const Report: React.FC<ReportProps> = (props) => {
     <>
       <YTProTable
         columns={columns}
+        // headerTitle={
+        //   <Radio.Group
+        //     optionType="button"
+        //     value={showType}
+        //     onChange={onTypeChange}
+        //     buttonStyle='solid'
+        //   >
+        //     <Radio.Button value={1}>
+        //       {formatMessage({ id: 'dataManage.1048', defaultMessage: '先分后总' })}
+        //     </Radio.Button>
+        //     <Radio.Button value={2}>
+        //       {formatMessage({ id: 'dataManage.1049', defaultMessage: '先总后分' })}
+        //     </Radio.Button>
+        //   </Radio.Group>
+        // }
         toolBarRenderOptions={{
           add: { show: false },
           export: {

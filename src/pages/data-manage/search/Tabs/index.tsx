@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-25 15:09:45
- * @LastEditTime: 2024-06-25 16:40:09
+ * @LastEditTime: 2024-06-27 14:09:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\Tabs\index.tsx
  */
@@ -14,6 +14,8 @@ import FullScreen from '@/components/FullScreen';
 import { useBoolean } from 'ahooks';
 import Workbench from '../workbench';
 import Search from '..';
+import { formatMessage } from '@/utils';
+import Detail from '@/components/Detail';
 
 const Tabs: React.FC = () => {
   const contentRef = useRef(null);
@@ -42,11 +44,25 @@ const Tabs: React.FC = () => {
   return (
     <>
       <div ref={contentRef} className="bg-white">
-        <div className="tx-right px24 pt12">
-          <Radio.Group className="mr12" value={grid} onChange={onLayoutChange}>
-            {radioButtons}
-          </Radio.Group>
-          <FullScreen key="fullScreen" target={contentRef} onChange={onFullScreenChange} />
+        <div className="px24 pt24">
+          <Detail.Label
+            title={formatMessage({
+              id: 'dataManage.samplingDetail',
+              defaultMessage: '采样明细',
+            })}
+            bold={false}
+            showLine={false}
+          >
+            <Radio.Group
+              className="mr12"
+              value={grid}
+              onChange={onLayoutChange}
+              buttonStyle="solid"
+            >
+              {radioButtons}
+            </Radio.Group>
+            <FullScreen key="fullScreen" target={contentRef} onChange={onFullScreenChange} />
+          </Detail.Label>
         </div>
         {grid > 1 ? <Workbench isFullScreen={isFullScreen} grid={grid} /> : <Search />}
       </div>

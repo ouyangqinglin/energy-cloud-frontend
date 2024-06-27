@@ -73,6 +73,9 @@ const useToolBarRender = <
   const toolBarRenderResult = useMemo(() => {
     if (isEmpty(toolBarRender)) {
       const result: React.ReactNode[] = [];
+      if (options.prepend) {
+        result.push(options.prepend);
+      }
       [optionsType.Add, optionsType.Export].forEach((item) => {
         if (options[item]?.show) {
           result.push(
@@ -89,6 +92,9 @@ const useToolBarRender = <
           );
         }
       });
+      if (options.append) {
+        result.push(options.append);
+      }
       return () => result;
     } else {
       return toolBarRender;
