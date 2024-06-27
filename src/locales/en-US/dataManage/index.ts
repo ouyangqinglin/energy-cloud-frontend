@@ -120,4 +120,6 @@ export default {
   'dataManage.1045': '1 Grid',
   'dataManage.1046': '2 Grid',
   'dataManage.1047': '4 Grid',
+  'dataManage.1048': 'Divide First',
+  'dataManage.1049': 'Total First',
 };

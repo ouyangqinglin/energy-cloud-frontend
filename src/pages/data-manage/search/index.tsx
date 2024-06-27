@@ -196,15 +196,11 @@ const Search: React.FC<SearchProps> = (props) => {
           actionRef={actionRef}
           headerTitle={
             <>
-              {formatMessage({
-                id: 'dataManage.samplingDetail',
-                defaultMessage: '采样明细',
-              })}
               <Radio.Group
-                className="ml12"
                 optionType="button"
                 value={tableType}
                 onChange={onTypeChange}
+                buttonStyle="solid"
               >
                 <Radio.Button value={0}>
                   <UnorderedListOutlined />

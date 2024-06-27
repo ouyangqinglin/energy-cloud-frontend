@@ -119,4 +119,6 @@ export default {
   'dataManage.1045': '一宫格',
   'dataManage.1046': '二宫格',
   'dataManage.1047': '四宫格',
+  'dataManage.1048': '先分后总',
+  'dataManage.1049': '先总后分',
 };
