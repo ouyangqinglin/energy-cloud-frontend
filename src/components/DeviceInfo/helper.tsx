@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-05-13 15:38:26
+ * @LastEditTime: 2024-06-28 14:30:14
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -720,7 +720,6 @@ const chargeOneMasterKeys = [
   'mpcuc',
   'tccuaconnect',
   'tccubconnect',
-  'tcloundconnet',
   'tappnet',
   'tnets',
   'tnetprod',
@@ -755,7 +754,6 @@ const chargeTerminalKeys = [
   'tpcuconnect',
   'tccuaconnect',
   'tccubconnect',
-  'tcloundconnet',
   'tappnet',
   'tnets',
   'tnetprod',

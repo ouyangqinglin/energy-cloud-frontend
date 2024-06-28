@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2024-06-27 15:40:55
+ * @LastEditTime: 2024-06-28 15:12:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\chart.tsx
  */
@@ -37,25 +37,34 @@ const Chart: React.FC<ChartType> = (props) => {
   });
 
   const onValuesChange = useCallback((_, params) => {
-    dealParams(params);
-    setSearchData(params);
-    if (params?.collection && params?.collection?.length && params?.startTime && params?.endTime) {
-      run({
-        ...params,
-        current: 1,
-        pageSize: 2147483647,
-      }).then((data) => {
-        setTableData(data?.list?.reverse?.() || []);
-        return {
-          code: '200',
-          data: {
-            list: [],
-            total: 0,
-          },
-          msg: '',
-        };
+    setTimeout(() => {
+      formRef?.current?.validateFields?.()?.then(() => {
+        dealParams(params);
+        setSearchData(params);
+        if (
+          params?.collection &&
+          params?.collection?.length &&
+          params?.startTime &&
+          params?.endTime
+        ) {
+          run({
+            ...params,
+            current: 1,
+            pageSize: 2147483647,
+          }).then((data) => {
+            setTableData(data?.list?.reverse?.() || []);
+            return {
+              code: '200',
+              data: {
+                list: [],
+                total: 0,
+              },
+              msg: '',
+            };
+          });
+        }
       });
-    }
+    }, 10);
   }, []);
 
   const getExportName = useCallback((params: TableSearchType) => {

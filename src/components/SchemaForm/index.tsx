@@ -150,13 +150,9 @@ const SchemaForm = <
       if (layoutType !== 'QueryFilter') {
         setDisableSubmitterFalse();
       }
-      setTimeout(() => {
-        myFormRef?.current?.validateFields?.()?.then(() => {
-          formatData(changedValues, columns);
-          formatData(allValues, columns);
-          onValuesChange?.(changedValues, allValues);
-        });
-      }, 10);
+      formatData(changedValues, columns);
+      formatData(allValues, columns);
+      onValuesChange?.(changedValues, allValues);
     },
     [onValuesChange, layoutType, columns],
   );
