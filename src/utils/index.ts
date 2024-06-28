@@ -284,7 +284,14 @@ export const parseToObj = (value: any): Record<string, any> => {
   return result;
 };
 
-export const formatModelValue = (value: any, model: DeviceModelType, showUnit = true): string => {
+export const formatModelValue = (
+  value: any,
+  model: DeviceModelType,
+  showUnit = true,
+  options?: {
+    showEnumValue?: boolean;
+  },
+): string => {
   let specs: Record<string, any> = {};
   if (typeof model?.specs !== 'object') {
     try {
@@ -307,7 +314,7 @@ export const formatModelValue = (value: any, model: DeviceModelType, showUnit = 
       break;
     case DeviceModelTypeEnum.Boolean:
     case DeviceModelTypeEnum.Enum:
-      result = specs[value];
+      result = options?.showEnumValue ? `${value}(${specs[value]})` : specs[value];
       break;
     case DeviceModelTypeEnum.Array:
       try {

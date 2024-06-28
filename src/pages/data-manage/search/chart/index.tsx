@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-06-26 17:24:26
+ * @LastEditTime: 2024-06-27 16:16:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -62,9 +62,13 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
     if (searchData?.keyValue?.length == 1) {
       const model = modelMap[searchData.keyValue[0].key + '-' + searchData.keyValue[0].deviceId];
       const enumObj: any = model?.specs;
+      const keys = Object.keys(enumObj);
       let enumKeys: string[] = [];
       if (model?.type === DeviceModelTypeEnum.Enum) {
-        enumKeys = ['heifa'].concat(Object.keys(enumObj));
+        enumKeys = ['heifa'].concat(keys);
+        keys.forEach((key) => {
+          enumObj[key] = `${key}(${enumObj[key]})`;
+        });
       }
       return {
         type: model?.type,
@@ -100,13 +104,14 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
           result.push(
             marker +
               seriesName +
-              ': ' +
+              ':  ' +
               (modelData?.type == DeviceModelTypeEnum.Enum
                 ? getPlaceholder(modelData.data[modelData.keys[value]])
                 : formatModelValue(
                     value,
                     modelMap[collection?.key + '-' + collection?.deviceId] || {},
                     false,
+                    { showEnumValue: true },
                   )),
           );
         });

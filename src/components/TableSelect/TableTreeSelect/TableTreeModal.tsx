@@ -2,28 +2,29 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-06-27 14:39:27
+ * @LastEditTime: 2024-06-28 14:01:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
 import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { Tag, Tree, Row, Col, Empty as AntEmpty, Spin, Input } from 'antd';
 import Dialog from '@/components/Dialog';
-import type { InputProps, TreeProps } from 'antd';
+import type { TreeProps } from 'antd';
 import type { SortOrder } from 'antd/lib/table/interface';
 import type { BasicDataNode } from 'rc-tree/lib/interface';
 import type { TableRowSelection } from 'antd/es/table/interface';
-import { ProTable } from '@ant-design/pro-components';
-import type { ProTableProps, ActionType, ProFormInstance } from '@ant-design/pro-components';
+import RcTree from 'rc-tree';
+import type { ProTableProps, ProFormInstance } from '@ant-design/pro-components';
 import { debounce, mergeWith } from 'lodash';
 import styles from '../index.less';
 import { cloneDeep } from 'lodash';
 import type { ResponsePromise, ResponsePageData } from '@/utils/request';
 import Empty from '@/components/Empty';
-import { useBoolean, useSize } from 'ahooks';
+import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { filterData, runDealTreeData, updateTreeData } from './helper';
 import { SearchProps } from 'antd/lib/input';
+import YTProTable from '@/components/YTProTable';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -78,6 +79,9 @@ export type TableTreeModalProps<V, T, U, TreeData> = {
   virtual?: boolean;
 };
 
+const treeHeight = 441;
+const treeHeightStyle = { height: treeHeight + 'px' };
+
 const TableTreeModal = <
   ValueType extends Record<string, any>,
   DataType extends Record<string, any>,
@@ -113,7 +117,7 @@ const TableTreeModal = <
   const [tableIdSet, setTableIdSet] = useState<Set<string>>();
   const [loadingTreeData, { setTrue, setFalse }] = useBoolean(false);
   const colRef = useRef<HTMLDivElement>(null);
-  const colSize = useSize(colRef);
+  const treeRef = useRef<RcTree>(null);
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -234,19 +238,34 @@ const TableTreeModal = <
           if (Array.isArray(data)) {
             setTableIdSet(new Set(data?.map?.((item) => item[valueId])));
             return {
-              data: data,
-              total: data?.length,
+              code: '200',
+              data: {
+                list: data,
+                total: data?.length,
+              },
+              msg: '',
             };
           } else {
             setTableIdSet(new Set(data?.list?.map?.((item) => item[valueId])));
             return {
-              data: data?.list,
-              total: data?.total,
+              code: '200',
+              data: {
+                list: data?.list,
+                total: data?.total,
+              },
+              msg: '',
             };
           }
         });
       } else {
-        return Promise.resolve({});
+        return Promise.resolve({
+          code: '200',
+          data: {
+            list: [],
+            total: 0,
+          },
+          msg: '',
+        });
       }
     },
     [proTableProps?.request, proTableProps?.pagination, valueId],
@@ -322,12 +341,16 @@ const TableTreeModal = <
         searchText: formatMessage({ id: 'common.search', defaultMessage: '搜索' }),
         labelWidth: 'auto',
         optionRender: () => [],
+        span: 12,
       },
       form: {
         onValuesChange: onSearchChange,
         submitter: false,
       },
       rowKey: valueId,
+      scroll: {
+        y: proTableProps?.pagination === false ? 372 : 332,
+      },
       pagination: {
         defaultPageSize: 10,
         showSizeChanger: true,
@@ -384,16 +407,16 @@ const TableTreeModal = <
     }
   }, [props.treeProps?.loadData]);
 
-  useEffect(() => {
-    if (virtual && colSize?.height && !loadingTreeData) {
-      const treeList = colRef.current?.querySelector?.(
-        '.ant-tree-list-holder-inner',
-      ) as HTMLDivElement;
-      if (treeList) {
-        treeList.style.height = colSize.height + 'px';
-      }
-    }
-  }, [colSize, virtual, loadingTreeData]);
+  // useEffect(() => {
+  //   if (virtual && !loadingTreeData) {
+  //     const treeList = colRef.current?.querySelector?.(
+  //       '.ant-tree-list-holder-inner',
+  //     ) as HTMLDivElement;
+  //     if (treeList) {
+  //       treeList.style.height = treeHeight + 'px';
+  //     }
+  //   }
+  // }, [virtual, loadingTreeData]);
 
   return (
     <>
@@ -440,7 +463,7 @@ const TableTreeModal = <
         <Row gutter={24}>
           <Col className={styles.treeCol} flex="250px">
             <Input.Search className={styles.search} onSearch={onSearch} {...treeSearch} />
-            <div ref={colRef} className={styles.treeContain}>
+            <div ref={colRef} className={styles.treeContain} style={treeHeightStyle}>
               {loadingTreeData ? (
                 <div className="flex h-full">
                   <Spin className="flex1" />
@@ -448,6 +471,7 @@ const TableTreeModal = <
               ) : (
                 <>
                   <Tree
+                    ref={treeRef}
                     className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
                     treeData={filterTreeData}
                     onSelect={onTreeSelect}
@@ -457,7 +481,7 @@ const TableTreeModal = <
                     {...treeSelectAndCheckData}
                     checkStrictly
                     defaultExpandAll={true}
-                    height={virtual ? colSize?.height : undefined}
+                    height={virtual ? treeHeight : undefined}
                     {...props?.treeProps}
                     {...treeLoadData}
                   />
@@ -466,12 +490,9 @@ const TableTreeModal = <
             </div>
           </Col>
           <Col className={styles.treeCol} flex="1">
-            <ProTable<DataType, Params>
+            <YTProTable<DataType, Params>
               formRef={tableFormRef}
               className={styles.proTable}
-              scroll={{
-                y: 380,
-              }}
               {...tableProps}
               params={tableParams}
               request={requestTable}

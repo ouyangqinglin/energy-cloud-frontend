@@ -72,7 +72,9 @@ const Search: React.FC<SearchProps> = (props) => {
             data?.list?.forEach?.((item) => {
               item?.devices?.forEach?.((child) => {
                 const dataIndex = child?.key + '-' + child?.deviceId;
-                item[dataIndex] = formatModelValue(child?.value, modelMap[dataIndex] || {}, false);
+                item[dataIndex] = formatModelValue(child?.value, modelMap[dataIndex] || {}, false, {
+                  showEnumValue: true,
+                });
               });
             });
             setTableData({

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 09:30:58
- * @LastEditTime: 2024-06-26 10:03:29
+ * @LastEditTime: 2024-06-27 15:56:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\SchemaForm\index.tsx
  */
@@ -111,6 +111,9 @@ const SchemaForm = <
   }, [formRef, schemaFormRef]);
 
   const title = useMemo(() => {
+    if (!['ModalForm', 'DrawerForm'].includes(layoutType)) {
+      return;
+    }
     if (type === FormTypeEnum.Detail) {
       return suffixTitle + formatMessage({ id: 'common.view', defaultMessage: '详情' });
     } else {
@@ -120,7 +123,7 @@ const SchemaForm = <
           : formatMessage({ id: 'common.edit', defaultMessage: '编辑' })) + suffixTitle
       );
     }
-  }, [type, suffixTitle]);
+  }, [type, suffixTitle, layoutType]);
 
   const columns = useMemo(() => {
     return formatColumns(formColumns as ProColumns[]);
@@ -147,9 +150,13 @@ const SchemaForm = <
       if (layoutType !== 'QueryFilter') {
         setDisableSubmitterFalse();
       }
-      formatData(changedValues, columns);
-      formatData(allValues, columns);
-      onValuesChange?.(changedValues, allValues);
+      setTimeout(() => {
+        myFormRef?.current?.validateFields?.()?.then(() => {
+          formatData(changedValues, columns);
+          formatData(allValues, columns);
+          onValuesChange?.(changedValues, allValues);
+        });
+      }, 10);
     },
     [onValuesChange, layoutType, columns],
   );
