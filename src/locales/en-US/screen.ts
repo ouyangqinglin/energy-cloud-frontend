@@ -85,6 +85,7 @@ export default {
   'screen.timeGeneratingCapacity': 'Real-time Production Power',
   'screen.totalStringCapacity': 'Total PV String Capacity',
   'screen.owerPvGeneration': 'Production Energy of PV',
+  'screen.dieselGeneration': 'Production Energy of diesel',
   'screen.subsystemRunningData': 'Subsystem Running Data',
   'screen.systemRunningData': 'System Running Data',
   'screen.economicProportion': 'Economic Proportion',

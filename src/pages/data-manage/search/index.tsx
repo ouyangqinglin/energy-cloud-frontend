@@ -2,18 +2,20 @@ import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react'
 import { useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { timeColumns, getDeviceSearchColumns, dealParams, getModelMap } from './config';
-import { TableDataType, TableSearchType } from './type';
+import type { TableDataType, TableSearchType } from './type';
 import { tableTreeSelectValueTypeMap, tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getList, exportList } from './service';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import moment from 'moment';
-import { DeviceDataType } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
 import { formatMessage, formatModelValue } from '@/utils';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { Radio, RadioChangeEvent } from 'antd';
+import { Radio } from 'antd';
+import type { RadioChangeEvent } from 'antd';
 import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import Chart, { ChartRefType } from './chart';
+import Chart from './chart';
+import type { ChartRefType } from './chart';
 
 type RequestRefType = {
   chartPromise?: Promise<any>;

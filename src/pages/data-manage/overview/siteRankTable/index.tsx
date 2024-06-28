@@ -48,6 +48,9 @@ const SiteRankTable: React.FC = () => {
             getExportName: () => formatMessage({ id: 'device.1019', defaultMessage: '站点排名' }),
           },
         }}
+        form={{
+          ignoreRules: false,
+        }}
         resizable={true}
       />
     </>

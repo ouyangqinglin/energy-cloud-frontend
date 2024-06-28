@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
@@ -9,15 +9,18 @@ import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonG
 import { List } from 'antd';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
+import { getChartData } from '../Chart/config';
 import DigitalFlipperItem from '@/pages/screen/components/DigitalFlipper/Item';
 import type { Moment } from 'moment';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
 import dayjs from 'dayjs';
-import type { ChartRes } from '../Chart/type';
-import { convertToData, sortedData } from '../Chart/helper';
 import { formatMessage } from '@/utils';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 
 const Photovoltaic: FC = () => {
+  const [chartData, setChartData] = useState<TypeChartDataType[]>([]);
+  const [series, setSeries] = useState<any[]>([]);
+
   const { data: currentPowerData } = useRequest(getCurrentPowerGeneration, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
@@ -33,37 +36,55 @@ const Photovoltaic: FC = () => {
   });
   useEffect(() => {
     run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback((rangeDate) => {
-    if (rangeDate) {
-      runForChart(
-        dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
-        dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
-      );
-    }
-  }, []);
+  const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback(
+    (rangeDate) => {
+      if (rangeDate) {
+        runForChart(
+          dayjs(rangeDate[0] as any).format('YYYY-MM-DD'),
+          dayjs(rangeDate[1] as any).format('YYYY-MM-DD'),
+        );
+      }
+    },
+    [runForChart],
+  );
 
-  const chartConfigMap = {
-    pv: {
-      name: formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电' }),
-      unit: 'kWh',
-    },
-    fan: {
-      name: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
-      unit: 'kWh',
-    },
-  };
-  const chartData: ChartRes =
-    (rawChartData &&
-      rawChartData.map((it, index) => {
-        return {
-          ts: it.time,
-          value: it.value,
-          field: chartConfigMap.pv.name, //需要动态修改
-        };
-      })) ??
-    [];
+  const chartConfigMap = new Map([
+    [
+      'pv',
+      {
+        name: formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电' }),
+        unit: 'kWh',
+        color: '#FFD15C',
+      },
+    ],
+    [
+      'fan',
+      {
+        name: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
+        unit: 'kWh',
+        color: '#66E1DF',
+      },
+    ],
+  ]);
+
+  useEffect(() => {
+    const result: any = [];
+    const seriesMap: any[] = [];
+    chartConfigMap.forEach(({ name, unit, color }, key) => {
+      result.push({
+        data: getChartData(key == 'pv' ? rawChartData || [] : [], 'time', 'value'),
+        name,
+        unit,
+      });
+      seriesMap.push({ type: 'bar', color, barWidth: '20%' });
+    });
+    setChartData(result);
+    setSeries(seriesMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawChartData]);
 
   return (
     <div className={styles.contentWrapper}>
@@ -111,10 +132,9 @@ const Photovoltaic: FC = () => {
       <StatisticChart
         title={formatMessage({ id: 'screen.generatingCapacity', defaultMessage: '发电量' })}
         onDateChange={onDateChange}
-        chartConfigMap={chartConfigMap}
-        color={['#FFD15C']}
+        series={series}
         height={164}
-        chartData={sortedData(convertToData(chartData))}
+        chartData={chartData}
       />
     </div>
   );

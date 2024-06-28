@@ -37,6 +37,7 @@ export default {
   'screen.ton': '吨',
   'screen.tree': '棵',
   'screen.pvPowerGeneration': '光伏发电',
+  'screen.dieselGeneration': '柴发发电',
   'screen.pvPowerGenerationTotalize': '光伏发电累计值',
   'screen.pvPowerSelfuse': '光伏自用',
   'screen.pvPowerSelfuseTotalize': '光伏自用累计值',

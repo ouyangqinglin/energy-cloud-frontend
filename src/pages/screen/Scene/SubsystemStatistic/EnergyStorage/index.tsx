@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import styles from './index.less';
 import { useRequest } from 'umi';
@@ -8,48 +8,44 @@ import {
   getEnergyStorageChart,
   getEnergyStorageStatistic,
 } from './service';
-import ChargingStationChart from './Chart';
-import Detail from '@/components/Detail';
-import {
-  dataSource,
-  DEFAULT_REQUEST_INTERVAL,
-  DEFAULT_STATISTICS_REQUEST_INTERVAL,
-  digitalFlipperItemConfig,
-  gunInfoItem,
-  realTimeStatisticConfig,
-  RealtimeStatusMap,
-} from './config';
-import { isNaN } from 'lodash';
-import type { RealtimeStakeepTwoDecimalWithUnittusEnum, StatisticsRes } from './type';
+import { dataSource, DEFAULT_REQUEST_INTERVAL, realTimeStatisticConfig } from './config';
 import { keepTwoDecimalWithUnit } from '@/utils/math';
-import DigitalFlipperItem, {
-  DigitalFlipperItemProps,
-} from '@/pages/screen/components/DigitalFlipper/Item';
+import DigitalFlipperItem from '@/pages/screen/components/DigitalFlipper/Item';
 import DigitalFlipperGroup from '@/pages/screen/components/DigitalFlipper/Group';
 import TimeButtonGroup, { TimeType } from '@/pages/screen/components/TimeButtonGroup';
-import { Col, List, Row, Statistic } from 'antd';
+import { List } from 'antd';
 import ChartProcess from '../ChartProcess';
 import classnames from 'classnames';
 import StatisticChart from '../Chart';
 import dayjs from 'dayjs';
 import type { Moment } from 'moment';
 import type { RangePickerSharedProps } from 'rc-picker/lib/RangePicker';
-import type { ChartRes } from '../Chart/type';
-import { convertToData, sortedData } from '../Chart/helper';
 import { formatMessage } from '@/utils';
+import { getChartData } from '../Chart/config';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 
-const chartConfigMap = {
-  charge: {
-    name: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
-    unit: 'kWh',
-  },
-  discharge: {
-    name: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
-    unit: 'kWh',
-  },
-};
+const chartConfigMap = new Map([
+  [
+    'charge',
+    {
+      name: formatMessage({ id: 'screen.chargingCapacity', defaultMessage: '充电量' }),
+      unit: 'kWh',
+      color: '#159AFF',
+    },
+  ],
+  [
+    'discharge',
+    {
+      name: formatMessage({ id: 'screen.dischargingCapacity', defaultMessage: '放电量' }),
+      unit: 'kWh',
+      color: '#FF974A',
+    },
+  ],
+]);
 
 const EnergyStorage: FC = () => {
+  const [chartData, setChartData] = useState<TypeChartDataType[]>([]);
+  const [series, setSeries] = useState<any[]>([]);
   const { data: rawChartData, run: runForChart } = useRequest(getEnergyStorageChart, {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
     manual: true,
@@ -68,7 +64,7 @@ const EnergyStorage: FC = () => {
 
   useEffect(() => {
     run();
-  }, []);
+  }, [run]);
 
   const onDateChange: RangePickerSharedProps<Moment>['onChange'] = useCallback(
     (rangeDate) => {
@@ -82,18 +78,17 @@ const EnergyStorage: FC = () => {
     [runForChart],
   );
 
-  const chartData: ChartRes = [];
-  if (rawChartData) {
-    Object.entries(rawChartData).forEach(([key, value]) => {
-      value.forEach((it) => {
-        chartData.push({
-          ts: it.time,
-          value: it.value,
-          field: chartConfigMap[key]?.name,
-        });
-      });
+  useEffect(() => {
+    const result: any = [];
+    const seriesMap: any[] = [];
+    chartConfigMap.forEach(({ name, unit, color }, key) => {
+      result.push({ data: getChartData(rawChartData?.[key] || [], 'time', 'value'), name, unit });
+      seriesMap.push({ type: 'bar', color, barWidth: '20%' });
     });
-  }
+    setChartData(result);
+    setSeries(seriesMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawChartData]);
 
   return (
     <div className={styles.contentWrapper}>
@@ -138,24 +133,13 @@ const EnergyStorage: FC = () => {
         <div className={classnames([styles.rect, styles['bottom-left']])} />
       </div>
       <StatisticChart
-        showLegend={true}
-        // chartConfigMap={{
-        //   charge: {
-        //     name: '充电量',
-        //     unit: 'kWh',
-        //   },
-        //   discharge: {
-        //     name: '放电量',
-        //     unit: 'kWh',
-        //   },
-        // }}
-        color={['#159AFF', '#00E0DB']}
         title={formatMessage({
           id: 'screen.storageChargingDischargingCapacity',
           defaultMessage: '储能充放电量',
         })}
         onDateChange={onDateChange}
-        chartData={sortedData(convertToData(chartData))}
+        series={series}
+        chartData={chartData}
       />
     </div>
   );
