@@ -35,7 +35,7 @@ const SiteRankTable: React.FC = () => {
     <>
       <YTProTable
         scroll={{ y: 471 }}
-        pagination={{ pageSize: 10 }}
+        pagination={{ defaultPageSize: 10 }}
         columns={columns}
         request={requestList}
         toolBarRenderOptions={{
