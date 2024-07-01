@@ -123,4 +123,11 @@ export default {
   'dataManage.1048': 'Divide First',
   'dataManage.1049': 'Total First',
   'dataManage.1050': 'Data Type',
+  'dataManage.1051': 'Charge',
+  'dataManage.1052': 'Discharge',
+  'dataManage.1053': 'Income',
+  'dataManage.1054': 'Total Electric Quantity',
+  'dataManage.1055': 'Total Fees',
+  'dataManage.1056': 'Total Income',
+  'dataManage.1057': 'Total Efficiency',
 };

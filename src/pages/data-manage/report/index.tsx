@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useRef } from 'react';
 import { useRequest, useModel } from 'umi';
 import YTProTable from '@/components/YTProTable';
 import { useSiteColumn } from '@/hooks';
@@ -11,6 +11,7 @@ import {
   chargeOrderColumns,
   chargeOrderStatColumns,
   chargeBaseColumns,
+  energyTotalFirstColumns,
 } from './config';
 import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
@@ -21,6 +22,7 @@ import moment from 'moment';
 import { formatMessage } from '@/utils';
 import './index.less';
 import { Radio, RadioChangeEvent } from 'antd';
+import { TableFormItem } from '@ant-design/pro-table/lib/components/Form/FormRender';
 
 type ReportProps = {
   isStationChild?: boolean;
@@ -39,6 +41,7 @@ const columnsMap = new Map([
 const Report: React.FC<ReportProps> = (props) => {
   const { isStationChild } = props;
 
+  const formRef: TableFormItem<any>['formRef'] = useRef();
   const [currentSearchColumns, setCurrentSearchColumns] = useState(searchColumns(reportType));
   const [currentSiteColumns, setCurrentSiteColumns] = useState(siteColumns);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -49,6 +52,7 @@ const Report: React.FC<ReportProps> = (props) => {
 
   const onTypeChange = (e: RadioChangeEvent) => {
     setShowType(e.target.value);
+    formRef?.current?.submit?.();
   };
 
   const reportTypeHandle = (energyOptions: string) => {
@@ -137,13 +141,14 @@ const Report: React.FC<ReportProps> = (props) => {
       setSearchParams(params);
       run({
         ...params,
+        showType,
         dimensionTime: params?.dimensionTime
           ? moment(params?.dimensionTime).format('YYYY-MM-DD')
           : '',
         ...(isStationChild ? { siteId } : {}),
       });
     },
-    [isStationChild, siteId],
+    [isStationChild, siteId, showType],
   );
 
   const requestExport = useCallback(
@@ -154,11 +159,11 @@ const Report: React.FC<ReportProps> = (props) => {
       return exportList({
         ...params,
         dimensionTime,
-        showType: 1,
+        showType,
         ...(isStationChild ? { siteId } : {}),
       });
     },
-    [isStationChild, siteId],
+    [isStationChild, siteId, showType],
   );
 
   const getExportName = useCallback((params) => {
@@ -193,33 +198,49 @@ const Report: React.FC<ReportProps> = (props) => {
         fieldColumns = cloneDeep(chargeOrderStatColumns);
       }
       if (searchParams?.reportType == reportTypeEnum.Energy) {
-        const totalColumn = (fieldColumns[fieldColumns.length - 1] as any).children;
-        totalColumn[totalColumn.length - 1].hideInTable =
-          searchParams?.timeDimension === timeDimensionEnum.Day;
+        if (showType == 2) {
+          fieldColumns = cloneDeep(energyTotalFirstColumns);
+          (fieldColumns[1] as any).children[2].children[1].hideInTable =
+            searchParams?.timeDimension === timeDimensionEnum.Day;
+        } else {
+          const totalColumn = (fieldColumns[fieldColumns.length - 1] as any).children;
+          totalColumn[totalColumn.length - 1].hideInTable =
+            searchParams?.timeDimension === timeDimensionEnum.Day;
+        }
       }
     }
     return [...siteSearch, ...currentSearchColumns, ...fieldColumns];
-  }, [siteSearchColumn, searchParams, isStationChild, currentSearchColumns, currentSiteColumns]);
+  }, [
+    siteSearchColumn,
+    searchParams,
+    isStationChild,
+    currentSearchColumns,
+    currentSiteColumns,
+    showType,
+  ]);
 
   return (
     <>
       <YTProTable
+        formRef={formRef}
         columns={columns}
-        // headerTitle={
-        //   <Radio.Group
-        //     optionType="button"
-        //     value={showType}
-        //     onChange={onTypeChange}
-        //     buttonStyle='solid'
-        //   >
-        //     <Radio.Button value={1}>
-        //       {formatMessage({ id: 'dataManage.1048', defaultMessage: '先分后总' })}
-        //     </Radio.Button>
-        //     <Radio.Button value={2}>
-        //       {formatMessage({ id: 'dataManage.1049', defaultMessage: '先总后分' })}
-        //     </Radio.Button>
-        //   </Radio.Group>
-        // }
+        headerTitle={
+          searchParams?.reportType == reportTypeEnum.Energy && (
+            <Radio.Group
+              optionType="button"
+              value={showType}
+              onChange={onTypeChange}
+              buttonStyle="solid"
+            >
+              <Radio.Button value={1}>
+                {formatMessage({ id: 'dataManage.1048', defaultMessage: '先分后总' })}
+              </Radio.Button>
+              <Radio.Button value={2}>
+                {formatMessage({ id: 'dataManage.1049', defaultMessage: '先总后分' })}
+              </Radio.Button>
+            </Radio.Group>
+          )
+        }
         toolBarRenderOptions={{
           add: { show: false },
           export: {

@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-01 15:10:57
- * @LastEditTime: 2024-04-26 10:40:53
+ * @LastEditTime: 2024-07-01 17:06:53
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\index.tsx
  */
 
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Cell from '../../components/LayoutCell';
 import { request, useRequest } from 'umi';
 import * as echarts from 'echarts';
@@ -18,11 +18,11 @@ import { defaultMapOption } from '@/components/Chart/config';
 import { merge } from 'lodash';
 import { useBoolean } from 'ahooks';
 import { getCountryData } from './service';
-import { REQUEST_INTERVAL_5_MINUTE } from '../config';
 import { arrayToMap, formatMessage } from '@/utils';
 import IconDot from '@/assets/image/multi-site/dot.png';
 import ProvinceMap from './ProvinceMap';
 import { Spin } from 'antd';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 
 const geoCodeMap = arrayToMap(geoCoordData, 'adCode', 'lnglat');
 const geoCodeNameMap = arrayToMap(geoCoordData, 'adCode', 'name');
@@ -52,7 +52,7 @@ const getAdCodeByName = (name: string) => {
 
 const SiteMap: React.FC = () => {
   const { data: countryData } = useRequest(getCountryData, {
-    pollingInterval: REQUEST_INTERVAL_5_MINUTE,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   const chartRef = useRef(null);
@@ -72,7 +72,7 @@ const SiteMap: React.FC = () => {
     } else {
       return;
     }
-  }, [isRegisterMap, countryData]);
+  }, [isRegisterMap]);
 
   const onEchartClick = useCallback((params) => {
     const code = getAdCodeByName(params?.name);
@@ -83,9 +83,6 @@ const SiteMap: React.FC = () => {
 
   const onLinkChinaMap = useCallback(() => {
     setAdCode(100000);
-    chartInstance?.dispatchAction({
-      type: 'restore',
-    }); //每次渲染前都要还原地图，防止沿用前一次缩放拖拽
   }, [chartInstance]);
 
   useEffect(() => {
@@ -101,6 +98,14 @@ const SiteMap: React.FC = () => {
       chartInstance?.setOption?.(options);
     }
   }, [options, chartInstance]);
+
+  useEffect(() => {
+    if (isRegisterMap) {
+      const option: any = { series: [{ data: [] }] };
+      option.series[0].data = getGeoData(countryData);
+      chartInstance?.setOption?.(option);
+    }
+  }, [countryData]);
 
   useEffect(() => {
     setMapLoadingTrue();

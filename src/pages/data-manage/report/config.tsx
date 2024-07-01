@@ -986,6 +986,283 @@ export const energyColumns: ProColumns[] = [
   },
 ];
 
+export const energyTotalFirstColumns: ProColumns[] = [
+  {
+    title: formatMessage({ id: 'dataManage.statisticalTime', defaultMessage: '统计时间' }),
+    dataIndex: 'statisticalDimension',
+    hideInSearch: true,
+    width: 150,
+  },
+  {
+    title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
+    dataIndex: 'total',
+    hideInSearch: true,
+    children: [
+      {
+        title: formatMessage({ id: 'dataManage.1051', defaultMessage: '充电' }),
+        dataIndex: 'totalCharge',
+        hideInSearch: true,
+        children: [
+          {
+            title: formatMessage({ id: 'dataManage.1054', defaultMessage: '总电量' }) + '(kWh)',
+            dataIndex: 'escelectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.1055', defaultMessage: '总费用' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'escincome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.1052', defaultMessage: '放电' }),
+        dataIndex: 'totalDischarge',
+        hideInSearch: true,
+        children: [
+          {
+            title: formatMessage({ id: 'dataManage.1054', defaultMessage: '总电量' }) + '(kWh)',
+            dataIndex: 'esdelectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.1056', defaultMessage: '总收入' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'esdincome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.1053', defaultMessage: '收益' }),
+        dataIndex: 'totalIncome',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.totalRevenue', defaultMessage: '总收益' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'income',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title: formatMessage({ id: 'dataManage.1057', defaultMessage: '效率' }) + '(%)',
+            dataIndex: 'efficiency',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'dataManage.storageCharging', defaultMessage: '储能充电' }),
+    dataIndex: 'energyCharge',
+    hideInSearch: true,
+    children: [
+      {
+        title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'energyChargeTip',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'escsharpElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.fees', defaultMessage: '费用' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'escsharpIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'energyChargePeak',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'escpeakElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.fees', defaultMessage: '费用' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'escpeakIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'energyChargeFlat',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'escflatElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.fees', defaultMessage: '费用' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'escflatIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'energyChargeValley',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'escvalleyElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.fees', defaultMessage: '费用' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'escvalleyIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'dataManage.storageDischarge', defaultMessage: '储能放电' }),
+    dataIndex: 'energyDischarge',
+    hideInSearch: true,
+    children: [
+      {
+        title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'energyDischargeTip',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'esdsharpElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.earning', defaultMessage: '收入' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'esdsharpIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'energyDischargePeak',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'esdpeakElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.earning', defaultMessage: '收入' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'esdpeakIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'energyDischargeFlat',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'esdflatElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.earning', defaultMessage: '收入' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'esdflatIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'energyDischargeValley',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'esdvalleyElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+          {
+            title:
+              formatMessage({ id: 'dataManage.earning', defaultMessage: '收入' }) +
+              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+            dataIndex: 'esdvalleyIncome',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+    ],
+  },
+];
+
 const onCell = (record: any) => {
   if ('rowSpan' in record) {
     return {

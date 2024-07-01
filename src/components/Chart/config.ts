@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-08-01 13:56:07
- * @LastEditTime: 2024-05-30 09:59:30
+ * @LastEditTime: 2024-07-01 16:39:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Chart\config.ts
  */
@@ -231,6 +231,7 @@ export const defaultMapOption: any = {
     show: true,
     animationDurationUpdate: 0,
     roam: true, //可以通过鼠标拖动进行缩放
+    center: [104.37536882744293, 28.480215435],
     zoom: 1.5,
     top: 210,
     z: 100,
@@ -309,8 +310,9 @@ export const defaultMapOption: any = {
       map: 'chinaMapOutline',
       silent: true,
       type: 'map',
+      center: [104.37536882744293, 28.480215435],
       zoom: 1,
-      top: 63,
+      top: 210,
       z: 15,
       label: {
         normal: {
@@ -346,6 +348,8 @@ export const defaultMapOption: any = {
       map: 'chinaMapOutline1',
       silent: true,
       type: 'map',
+      center: [104.37536882744293, 28.480215435],
+      top: 220,
       zoom: 1,
       label: {
         normal: {

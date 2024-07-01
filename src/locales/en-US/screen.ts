@@ -91,7 +91,7 @@ export default {
   'screen.economicProportion': 'Economic Proportion',
   'screen.num': 'Num',
   'screen.alarmNotHandledOverDay': 'Alarm Not Handled For More Than 24h',
-  'screen.totalNumberDevices': 'Total Quantity of Devices',
+  'screen.totalNumberDevices': 'Total Devices',
   'screen.offLineDevices': 'Off-line Devices',
   'screen.onLineDevices': 'On-line Devices',
   'screen.normalDevices': 'Normal Devices',

@@ -2,16 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-09-05 09:43:40
- * @LastEditTime: 2024-05-11 14:02:59
+ * @LastEditTime: 2024-07-01 16:56:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\SiteMap\ProvinceMap\index.tsx
  */
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { request, useRequest } from 'umi';
 import { getProvinceData } from './service';
-import { REQUEST_INTERVAL_5_MINUTE } from '../../config';
 import * as echarts from 'echarts';
-import type { ECharts } from 'echarts';
 import { useBoolean } from 'ahooks';
 import { merge } from 'lodash';
 import { defaultMapOption } from '@/components/Chart/config';
@@ -23,6 +21,7 @@ import { Spin } from 'antd';
 import { SiteDataType } from '@/services/station';
 import { MapTypeEnum, asyncMap } from '../config';
 import { formatMessage } from '@/utils';
+import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 
 export type ProvinceMapProps = {
   chinaData: any;
@@ -63,16 +62,18 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
   const [mapLoading, { setTrue: setMapLoadingTrue, setFalse: setMapLoadingFalse }] =
     useBoolean(false);
   const { run } = useRequest(() => getProvinceData({ type: 1, code: adCode }), {
-    pollingInterval: REQUEST_INTERVAL_5_MINUTE,
+    manual: true,
+    // pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
 
   const changeMap = useCallback(
-    (provinceData: SiteDataType[]) => {
+    (center, provinceData: SiteDataType[]) => {
       const option = merge({}, defaultMapOption);
       option.tooltip.formatter = '{b}';
       option.geo.map = '' + adCode;
       option.geo.zoom = 1;
       option.geo.top = 63;
+      option.geo.center = center;
       option.series[0].type = 'effectScatter';
       option.series[0].label.show = false;
       option.series[0].symbolSize = [5, 5];
@@ -87,7 +88,11 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
         return { name: item.name, value: [item.longitude, item.latitude, ''] };
       });
       option.series[1].map = 'Outline' + adCode;
+      option.series[1].top = 63;
+      option.series[1].center = center;
+      option.series[2].center = center;
       option.series[2].map = 'Outline1' + adCode;
+      option.series[2].top = 73;
       instanceRef.current?.setOption?.(option);
       setMapLoadingFalse();
     },
@@ -127,10 +132,10 @@ const ProvinceMap: React.FC<ProvinceMapProps> = (props) => {
 
           run()
             .then((provinceData) => {
-              changeMap(provinceData);
+              changeMap(provinceRes?.features?.[0]?.properties?.center, provinceData);
             })
             .catch(() => {
-              changeMap([]);
+              changeMap(provinceRes?.features?.[0]?.properties?.center, []);
             });
         });
       }
