@@ -55,7 +55,7 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
   const onTreeSelect = useCallback(
     (value: string) => {
       const treeData = flatTree(deviceTreeData);
-      const result = treeData.find((item) => item.id == value);
+      const result = treeData.find((item) => item.deviceId == value);
       if (result) {
         onSelect?.(result);
       }
@@ -89,6 +89,7 @@ const DeviceProvider: React.FC<DeviceProviderType> = memo((props) => {
           updateData: updateData,
           onSelect: onTreeSelect,
           refreshDataByRequest: refreshDataByRequest,
+          treeData: deviceTreeData,
         }}
       >
         {children}

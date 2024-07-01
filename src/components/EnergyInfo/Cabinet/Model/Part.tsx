@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-29 10:50:47
- * @LastEditTime: 2024-05-17 11:33:11
+ * @LastEditTime: 2024-07-01 10:17:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Model\Part.tsx
  */
@@ -14,11 +14,12 @@ import { EnergySourceEnum } from '../..';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { message } from 'antd';
 import { useHistory } from 'umi';
-import { arrayToMap, formatMessage, formatModelValue } from '@/utils';
+import { arrayToMap, formatMessage, formatModelValue, getPropsFromTree, isEmpty } from '@/utils';
 import { merge } from 'lodash';
 import styles from '../../index.less';
 import Detail, { DetailItem } from '@/components/Detail';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
+import { OnlineStatusEnum } from '@/utils/dict';
 
 type PartType = {
   config: ConfigType;
@@ -32,7 +33,16 @@ type PartType = {
 const Part: React.FC<PartType> = (props) => {
   const { config, deviceId, productId, productIdMap, source, detailProps } = props;
 
-  const { onSelect } = useContext(DeviceContext);
+  const { onSelect, treeData } = useContext(DeviceContext);
+
+  const networkStatus = useMemo(() => {
+    return getPropsFromTree(
+      treeData,
+      'networkStatus',
+      'children',
+      (item) => item.deviceId == deviceId,
+    )?.[0];
+  }, [deviceId, treeData]);
 
   const dataDeviceIds = useMemo(() => {
     const result: string[] = [];
@@ -131,7 +141,13 @@ const Part: React.FC<PartType> = (props) => {
           </label>
         )}
         <Detail
-          className={styles.detail}
+          className={`${styles.detail} ${
+            isEmpty(networkStatus)
+              ? ''
+              : (networkStatus as any) == OnlineStatusEnum.Online
+              ? 'device-online'
+              : 'device-offline'
+          }`}
           items={mergedConfig.data}
           data={{ ...realTimeData, productId }}
           column={1}
