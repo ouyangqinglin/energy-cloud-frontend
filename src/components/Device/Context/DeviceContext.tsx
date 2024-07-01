@@ -27,6 +27,7 @@ export type DeviceContextType = {
     params: RefreshRequestParams,
     showMessage?: boolean,
   ) => Promise<ResponseCommonData<string[]>>;
+  treeData?: DeviceDataType[];
 };
 
 const DeviceContext = createContext<DeviceContextType>({
@@ -35,6 +36,7 @@ const DeviceContext = createContext<DeviceContextType>({
   updateData: () => {},
   // onSelect: () => { },
   refreshDataByRequest: () => Promise.resolve({ code: '200', data: [], msg: '' }),
+  treeData: [],
 });
 
 export default DeviceContext;

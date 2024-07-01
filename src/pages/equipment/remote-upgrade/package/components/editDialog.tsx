@@ -403,9 +403,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
                 siteId: params.deviceId == -1 ? '' : params.deviceId,
               });
             },
-            scroll: {
-              y: 302,
-            },
           },
           onFocus: () => {
             return form?.validateFields(['productId']);

@@ -2,13 +2,13 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2024-06-26 10:01:07
+ * @LastEditTime: 2024-06-28 15:12:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\chart.tsx
  */
 
 import SchemaForm from '@/components/SchemaForm';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { searchColumns } from './helper';
 import TableChart from '../chart';
 import { TableDataType, TableSearchType } from '../type';
@@ -21,12 +21,14 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { useBoolean } from 'ahooks';
 import { formatMessage, saveFile } from '@/utils';
 import moment from 'moment';
+import { ProFormInstance } from '@ant-design/pro-components';
 
 export type ChartType = {};
 
 const Chart: React.FC<ChartType> = (props) => {
   const {} = props;
 
+  const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [searchData, setSearchData] = useState<TableSearchType>({});
   const [tableData, setTableData] = useState<TableDataType[]>([]);
   const [loadingExport, { setFalse, setTrue }] = useBoolean(false);
@@ -35,25 +37,34 @@ const Chart: React.FC<ChartType> = (props) => {
   });
 
   const onValuesChange = useCallback((_, params) => {
-    dealParams(params);
-    setSearchData(params);
-    if (params?.collection && params?.collection?.length && params?.startTime && params?.endTime) {
-      run({
-        ...params,
-        current: 1,
-        pageSize: 2147483647,
-      }).then((data) => {
-        setTableData(data?.list?.reverse?.() || []);
-        return {
-          code: '200',
-          data: {
-            list: [],
-            total: 0,
-          },
-          msg: '',
-        };
+    setTimeout(() => {
+      formRef?.current?.validateFields?.()?.then(() => {
+        dealParams(params);
+        setSearchData(params);
+        if (
+          params?.collection &&
+          params?.collection?.length &&
+          params?.startTime &&
+          params?.endTime
+        ) {
+          run({
+            ...params,
+            current: 1,
+            pageSize: 2147483647,
+          }).then((data) => {
+            setTableData(data?.list?.reverse?.() || []);
+            return {
+              code: '200',
+              data: {
+                list: [],
+                total: 0,
+              },
+              msg: '',
+            };
+          });
+        }
       });
-    }
+    }, 10);
   }, []);
 
   const getExportName = useCallback((params: TableSearchType) => {
@@ -68,19 +79,22 @@ const Chart: React.FC<ChartType> = (props) => {
   }, []);
 
   const exportData = useCallback(() => {
-    setTrue();
-    exportList(searchData)
-      .then((res) => {
-        saveFile(res, getExportName?.(searchData) || '导出文件');
-      })
-      .finally(() => {
-        setFalse();
-      });
+    formRef?.current?.validateFields?.()?.then(() => {
+      setTrue();
+      exportList(searchData)
+        .then((res) => {
+          saveFile(res, getExportName?.(searchData) || '导出文件');
+        })
+        .finally(() => {
+          setFalse();
+        });
+    });
   }, [searchData]);
 
   return (
     <>
       <SchemaForm
+        formRef={formRef}
         className={styles.form}
         columns={searchColumns}
         layout="inline"

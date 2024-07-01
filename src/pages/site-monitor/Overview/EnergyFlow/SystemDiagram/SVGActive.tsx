@@ -12,7 +12,7 @@ import { history } from 'umi';
 import { deviceAlarmStatusFormat } from '@/utils/format';
 import type { AlarmTreeData } from './useWatchingAlarmForSystem';
 import { SubsystemType } from './type';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { SiteTypeStrEnum } from '@/utils/enum';
 
 type SvgComponentType = SVGProps<SVGSVGElement> & {
@@ -282,7 +282,7 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                   })}
                   (kW)：
                 </span>
-                <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.p ?? 0)}</span>
+                <span className={styles.value}>{keepTwoDecimalWithoutNull(load?.p)}</span>
               </div>
             </div>
           ) : (
@@ -316,7 +316,9 @@ const SvgComponent: React.FC<SvgComponentType> = (props) => {
                   (kWh)：
                 </span>
                 <span className={styles.value}>
-                  {keepTwoDecimalWithoutNull((load?.charge ?? 0) + (chargeStack?.charge ?? 0))}
+                  {isEmpty(load?.charge) && isEmpty(chargeStack?.charge)
+                    ? '--'
+                    : keepTwoDecimalWithoutNull((load?.charge ?? 0) + (chargeStack?.charge ?? 0))}
                 </span>
               </div>
 

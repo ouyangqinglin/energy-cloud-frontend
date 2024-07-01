@@ -122,4 +122,5 @@ export default {
   'dataManage.1047': '4 Grid',
   'dataManage.1048': 'Divide First',
   'dataManage.1049': 'Total First',
+  'dataManage.1050': 'Data Type',
 };

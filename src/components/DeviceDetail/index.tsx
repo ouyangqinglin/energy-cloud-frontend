@@ -102,7 +102,6 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
 
   const onProviderSelect = useCallback((data: DeviceDataType) => {
     if (data) {
-      data.deviceId = data.id;
       setSelectOrg(data);
     }
   }, []);
@@ -157,7 +156,7 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
         <div className={styles.content}>
           <DeviceProvider
             deviceId={selectOrg.deviceId}
-            deviceTreeData={treeData}
+            deviceTreeData={mergedTreeData}
             onChange={onChange}
             onSelect={onProviderSelect}
           >
