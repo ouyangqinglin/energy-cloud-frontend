@@ -14,19 +14,17 @@ type StationInfo = {
 export const stationInfoConfig: StationInfo[] = [
   {
     icon: icon_site_name,
-    label: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }) + '：',
+    label: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
     field: 'name',
   },
   {
     icon: icon_create_time,
-    label:
-      formatMessage({ id: 'screen.steCommissioningTime', defaultMessage: '站点投运时间' }) + '：',
+    label: formatMessage({ id: 'screen.steCommissioningTime', defaultMessage: '站点投运时间' }),
     field: 'createTime',
   },
   {
     icon: icon_location,
-    label:
-      formatMessage({ id: 'siteManage.siteList.siteAddress', defaultMessage: '站点地址' }) + '：',
+    label: formatMessage({ id: 'siteManage.siteList.siteAddress', defaultMessage: '站点地址' }),
     field: 'address',
   },
 ];

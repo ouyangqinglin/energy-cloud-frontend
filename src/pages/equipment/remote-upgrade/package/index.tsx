@@ -4,16 +4,15 @@ import { useModel, useIntl, FormattedMessage } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
-import { StationType, packageStatus } from './config';
+import { packageStatus } from './config';
+import type { StationType } from './config';
 import { getPackageList, removePackageData } from './service';
 import UpdatePackageForm from './components/editDialog';
 import { useAuthority } from '@/hooks';
 import { useToggle } from 'ahooks';
-import { getProductTypeList } from '@/services/equipment';
-import { SearchParams } from '@/hooks/useSearchSelect';
-import { getProductSnList } from '../comService';
+import { getProductTypeTree } from '@/services/equipment';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import { PackageListType } from './type';
+import type { PackageListType } from './type';
 import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
@@ -25,6 +24,7 @@ const Package: React.FC = () => {
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   const intl = useIntl();
+  const [productTypeList, setProductTypeList] = useState([]);
   const actionRef = useRef<ActionType>();
   const { siteType } = useModel('site', (model: any) => ({ siteType: model?.state?.siteType }));
   //控制权限相关变量
@@ -34,60 +34,40 @@ const Package: React.FC = () => {
     'upgradManage:package:delete',
   ]);
   const requestList = useCallback((params) => {
+    if (params.productTypeInfo) {
+      params.productTypeId = params.productTypeInfo[0];
+      params.productModel = params.productTypeInfo[1];
+      delete params.productTypeInfo;
+    }
     return getPackageList({ ...params });
   }, []);
 
-  //获取产品类型
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
+  const requestProductTypeTree = () => {
+    return getProductTypeTree().then(({ data }) => {
+      setProductTypeList(data || []);
     });
+  };
+
+  useEffect(() => {
+    requestProductTypeTree();
   }, []);
 
   const productTypeColumn = {
     title: intl.formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeName',
     formItemProps: {
-      name: 'productTypeId',
+      name: 'productTypeInfo',
     },
+    hideInTable: true,
+    valueType: 'cascader',
     fieldProps: {
-      onChange: (productTypeId: any) => {},
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+      },
+      options: productTypeList,
+      changeOnSelect: true,
     },
-    hideInTable: true,
-
-    request: requestProductType,
-  };
-  //获取产品型号--依赖产品类型
-  const requestProductSn = useCallback((params) => {
-    if (params?.productTypeId) {
-      return getProductSnList({
-        productTypeId: params?.productTypeId,
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.model || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    } else {
-      return Promise.resolve([]);
-    }
-  }, []);
-  const productSnColumn = {
-    title: intl.formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
-    dataIndex: 'productModel',
-    formItemProps: {
-      name: 'productModel',
-    },
-    hideInTable: true,
-    dependencies: ['productTypeId'],
-    request: requestProductSn,
   };
   //添加升级包
   const onAddClick = useCallback(() => {
@@ -157,7 +137,6 @@ const Package: React.FC = () => {
   );
   const columns: ProColumns<PackageListType, YTDATERANGEVALUETYPE>[] = [
     productTypeColumn,
-    productSnColumn,
     {
       title: intl.formatMessage({ id: 'common.index', defaultMessage: '序号' }),
       dataIndex: 'index',

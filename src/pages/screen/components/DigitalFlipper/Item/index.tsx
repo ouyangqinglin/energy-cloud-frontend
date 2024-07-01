@@ -1,5 +1,4 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useMemo } from 'react';
 import styles from './index.less';
 import TweenOne from 'rc-tween-one';
 import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';

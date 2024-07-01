@@ -262,7 +262,7 @@ export const getProductTypeList = (params: any) => {
   });
 };
 
-export const getProductTypeTree = (params: any) => {
+export const getProductTypeTree = (params?: any) => {
   return request<ResponseCommonData<ListDataType[]>>('/iot/product/getProductTypeTree', {
     method: 'GET',
     params,

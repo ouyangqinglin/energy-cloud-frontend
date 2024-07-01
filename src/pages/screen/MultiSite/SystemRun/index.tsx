@@ -16,14 +16,14 @@ import { useModel, useRequest } from 'umi';
 import { getData } from './service';
 import { REQUEST_INTERVAL_2_MINUTE } from '../config';
 import { formatMessage } from '@/utils';
-import { UnitType } from '@/models/siteType';
+import type { UnitType } from '@/models/siteType';
 
 const powerNameMap = new Map([
   [
     'mePower',
     {
       name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
-      color: '#ff7b7b',
+      color: '#FF7B7B',
     },
   ],
   [
@@ -31,21 +31,30 @@ const powerNameMap = new Map([
     { name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }), color: '#ffd15c' },
   ],
   [
+    'fanPower',
+    { name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }), color: '#66E1DF' },
+  ],
+
+  [
+    'dieselPower',
+    { name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }), color: '#7A79FF' },
+  ],
+  [
     'esPower',
-    { name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }), color: '#159aff' },
+    { name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }), color: '#159AFF' },
   ],
   [
     'csPower',
     {
       name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
-      color: '#ff8144',
+      color: '#01CFA1',
     },
   ],
   [
     'loadPower',
     {
       name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
-      color: '#5470c6',
+      color: '#FF9AD5',
     },
   ],
 ]);
@@ -54,12 +63,21 @@ const elecNameMap = new Map([
     'meConsumption',
     {
       name: formatMessage({ id: 'device.electricSupply', defaultMessage: '市电' }),
-      color: '#ff7b7b',
+      color: '#FF7B7B',
     },
   ],
   [
     'pvPowerGeneration',
-    { name: formatMessage({ id: 'device.1001', defaultMessage: '光伏发电' }), color: '#ffd15c' },
+    { name: formatMessage({ id: 'device.1001', defaultMessage: '光伏发电' }), color: '#FFD15C' },
+  ],
+  [
+    'fanPower',
+    { name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }), color: '#66E1DF' },
+  ],
+
+  [
+    'dieselPower',
+    { name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }), color: '#7A79FF' },
   ],
   [
     'charge',
@@ -79,14 +97,14 @@ const elecNameMap = new Map([
     'csCharge',
     {
       name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
-      color: '#ff8144',
+      color: '#01CFA1',
     },
   ],
   [
     'loadConsumption',
     {
       name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
-      color: '#5470c6',
+      color: '#FF9AD5',
     },
   ],
 ]);
@@ -158,8 +176,7 @@ const SystemRun: React.FC = () => {
 
     return {
       grid: {
-        top: 60,
-        bottom: 40,
+        top: 90,
         right: 40,
       },
       legend: {
@@ -178,12 +195,6 @@ const SystemRun: React.FC = () => {
       dataZoom: [
         {
           type: 'inside',
-        },
-        {
-          start: 0,
-          end: 100,
-          height: 15,
-          bottom: 15,
         },
       ],
       xAxis: {

@@ -124,7 +124,7 @@ const AccumulatedPowerChart: React.FC<RealTimePowerProps> = (props) => {
   return (
     <div>
       <TypeChart
-        height={Object.keys(chartConfigMap).length > 6 ? 163 : 235}
+        height={chartConfigMap.size > 6 ? 163 : 235}
         date={date}
         chartRef={chartRef}
         option={options}

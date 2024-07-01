@@ -3,11 +3,13 @@ import styles from './index.less';
 import Cell from '../../components/LayoutCell';
 import TitleBG from './TitleBackGround';
 import { useModel } from 'umi';
+import { formatMessage } from '@/utils';
 
 const Title: FC = () => {
   const { initialState } = useModel('@@initialState');
   const title =
-    initialState?.currentUser?.systemInfo?.multiSiteLargeScreenTitle || '新能源能量管理云平台';
+    initialState?.currentUser?.systemInfo?.multiSiteLargeScreenTitle ||
+    formatMessage({ id: 'system.title', defaultMessage: '新能源能量管理云平台' });
 
   return (
     <>

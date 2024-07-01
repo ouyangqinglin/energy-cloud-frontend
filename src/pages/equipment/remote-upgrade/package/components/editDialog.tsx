@@ -1,10 +1,13 @@
 import { getDetailData, addPackageData, editPackageData } from '../service';
 import { useCallback, useState, useEffect } from 'react';
-import type { PackageListType, FormUpdateBaseProps } from '../type';
+import type { FormUpdateBaseProps } from '../type';
+import { ProFormUploadButton } from '@ant-design/pro-form';
+
 import { isCreate } from '@/components/YTModalForm/helper';
 import type { dealTreeDataType } from '@/components/TableSelect';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import SchemaForm from '@/components/SchemaForm';
+import type { UploadFile } from 'antd';
 import {
   TABLESELECT,
   TABLETREESELECT,
@@ -18,15 +21,14 @@ import {
   getVersionList,
   getDeviceListBySiteId,
 } from '../../comService';
-import { DeviceDataType, getProductTypeList } from '@/services/equipment';
-import { UpdateTaskParam } from '../../upgradeTask/type';
+import { getProductTypeList } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
+import type { UpdateTaskParam } from '../../upgradeTask/type';
 import { api } from '@/services';
-import { Form, Button, Upload } from 'antd';
-import { TreeDataType } from '../config';
+import type { TreeDataType } from '../config';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { formatMessage } from '@/utils';
-import { FormattedMessage } from 'umi';
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
   onSuccess?: () => void;
@@ -43,7 +45,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   const [modelList, setModelList] = useState(); //模块下拉框列表
   const [selectDevice, setSelectDevice] = useState(true); //是否选择设备
   const [selectVersion, setSelectVersion] = useState(true); //是否选择可升级版本
-  const [softwareList, setSoftwareList] = useState(); //软件包路径回显
   const [productModel, setProductModel] = useState(); //回显产品型号名字
   const [platform, setPlatform] = useState('1'); //回显平台类型字段
   //获取产品类型
@@ -60,7 +61,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   //监听operations的变化--当为新建弹窗时，清空软件包;不影响编辑弹窗
   useEffect(() => {
     if (!visible) {
-      setSoftwareList([]);
       setSelectDevice(true);
       setSelectVersion(true);
     }
@@ -184,18 +184,15 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     1: 'minio ',
     2: 'oss',
   };
-  const [packageForm] = Form.useForm<PackageListType>();
 
   const beforeUpload = useCallback(
-    (file, field) => {
+    (file, form, field) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('platform', platform);
       api.uploadFile(formData).then(({ data }) => {
         if (data.url) {
-          packageForm.setFieldValue(field, data.url);
-          packageForm.setFieldValue('softwareList', [{ url: data.url, name: data.name }]);
-          setSoftwareList([{ url: data.url, name: data.name }]); //上传后回显
+          form.setFieldValue(field, `${data.url}`);
         }
       });
       return false;
@@ -269,12 +266,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     });
   }, []);
 
-  const uploadProps = {
-    beforeUpload: (file) => beforeUpload(file, 'softwarePackageUrl'),
-    onChange: (info) => {
-      console.log(info.fileList);
-    },
-  };
   const columns = [
     {
       title: formatMessage({ id: 'common.version', defaultMessage: '版本号' }),
@@ -310,9 +301,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       dataIndex: 'platform',
       valueType: 'select',
       valueEnum: platformList,
-      formItemProps: {
-        //rules: [{ required: true,}],
-      },
+      formItemProps: {},
       initialValue: '1',
       colProps: {
         span: 6,
@@ -322,32 +311,38 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
           onChange: (e: any) => {
             setPlatform(e);
           },
-          disabled: softwareList.length > 0,
+          disabled: form.getFieldValue('softwarePackageUrl') > 0,
         };
       },
     },
     {
       title: formatMessage({ id: 'common.software', defaultMessage: '软件包' }),
-      dataIndex: 'softwareList',
-      valueType: 'uploadFile',
+      dataIndex: 'softwarePackageUrl',
+      valueType: 'upload',
       formItemProps: {
-        name: 'softwarePackageUrl',
-        //rules: [{ required: true, message: '请上传软件包' }],//软件包地址
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.updataSoftware', defaultMessage: '请上传软件包' }),
+          },
+        ], //软件包地址
       },
-      labelAlign: 'left',
-      renderFormItem: () => {
+      renderFormItem: (schema: any, config: any, form: any) => {
+        const value = form.getFieldValue('softwarePackageUrl') || '';
+        const name = value.split('/').pop() || '';
         return (
-          <Upload
-            {...uploadProps}
+          <ProFormUploadButton
+            title={formatMessage({ id: 'common.upload', defaultMessage: '上传' })}
             accept="*"
-            name="softwarePackageUrl"
-            maxCount={1}
-            fileList={softwareList}
-          >
-            <Button type="primary">
-              <FormattedMessage id="common.upload" defaultMessage="上传" />
-            </Button>
-          </Upload>
+            max={1}
+            fieldProps={{
+              listType: 'text',
+              fileList: value ? ([{ url: value, uid: '1', name }] as UploadFile[]) : [],
+              name: 'file',
+              beforeUpload: (file) => beforeUpload(file, form, 'softwarePackageUrl'),
+              onChange: () => form.setFieldValue('softwarePackageUrl', ''),
+            }}
+          />
         );
       },
       colProps: {
@@ -564,17 +559,10 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         if (res?.productModel) {
           setProductModel(res?.productModel);
         }
-        //对软件包上传路径进行回显
-        if (res?.softwarePackageUrl) {
-          const pathList = res.softwarePackageUrl.split('/');
-          const pathName = pathList[pathList.length - 1];
-          res.softwareList = [{ url: res?.softwarePackageUrl, name: pathName }];
-          setSoftwareList(res.softwareList);
-        }
       }
       return res;
     },
-    [productModel, selectDevice, selectVersion],
+    [requestModule, requestProductSn],
   );
 
   //提交前的处理函数
@@ -590,7 +578,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       params.productModel = productModel || '';
       params.signature = +params.signature;
       params.status = +params.status;
-      params.softwarePackageUrl = softwareList ? softwareList[0].url : '';
       params.platform = +params.platform;
       const allowedKeys = [
         'version',
@@ -615,7 +602,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         }, {});
       return filteredObj;
     },
-    [productModel, softwareList],
+    [productModel],
   );
 
   //const getConfig = useCallback(() => Columns(props?.operations), [props.operations]);

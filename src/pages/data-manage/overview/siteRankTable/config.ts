@@ -2,7 +2,6 @@ import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import { platform } from '@/utils/dict';
 import { siteType as siteTypeEnum } from '@/utils/dict';
-import moment from 'moment';
 
 export interface DataType {
   key: React.Key;
@@ -84,7 +83,7 @@ export const columns: ProColumns<DataType>[] = [
     hideInSearch: true,
   },
   {
-    title: formatMessage({ id: 'dataManage.1039', defaultMessage: '储能效率' }) + '(KWh)',
+    title: formatMessage({ id: 'dataManage.1039', defaultMessage: '储能效率' }) + '(%)',
     dataIndex: 'efficiency',
     sorter: true,
     hideInSearch: true,

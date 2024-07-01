@@ -130,7 +130,8 @@ const DigitStat: React.FC<DigitStatProps> = memo((props) => {
                   const content = getContentByItem(child, data, unitLinkValue, childIndex);
                   return [
                     childIndex ? (
-                      <span key={childIndex} className="digit-stat-separator"></span>
+                      // eslint-disable-next-line react/no-array-index-key
+                      <span key={childIndex} className="digit-stat-separator" />
                     ) : (
                       <></>
                     ),

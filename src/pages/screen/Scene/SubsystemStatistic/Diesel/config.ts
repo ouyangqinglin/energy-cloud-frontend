@@ -28,7 +28,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     title: formatMessage({ id: 'screen.powerGeneration', defaultMessage: '发电功率' }),
     unit: 'kW',
     floatLength: 2,
-    field: 'realTimePowerGeneration',
+    field: 'dgRealTimePower',
     numStyle: {
       width: 'auto',
       fontSize: 20,
@@ -47,7 +47,7 @@ export const dataSourceRealTime: DigitalFlipperItemProps[] = [
     title: formatMessage({ id: 'screen.1016', defaultMessage: '额定功率' }),
     unit: 'kW',
     floatLength: 2,
-    field: 'realTimePowerGeneration',
+    field: 'dieselRatedPower',
     numStyle: {
       width: 'auto',
       fontSize: 20,

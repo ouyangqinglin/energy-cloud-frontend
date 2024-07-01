@@ -4,7 +4,7 @@ import { getSiteId } from '../../helper';
 import type { CurrentPowerRes, PVChartRes, StatisticsRes } from './type';
 
 export const getCurrentPowerGeneration = () => {
-  return get<CurrentPowerRes>(`/iot/photovoltaic/currentPowerGeneration`, {
+  return get<CurrentPowerRes>(`/iot/dieselGenerator/powerGeneration`, {
     siteId: getSiteId(),
   });
 };
