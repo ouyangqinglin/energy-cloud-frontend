@@ -14,6 +14,7 @@ export type TableSearchType = {
   deviceId?: number;
   timeDimension?: timeDimensionEnum;
   dimensionTime?: string;
+  showType?: number;
 };
 
 export type TableDataType = {

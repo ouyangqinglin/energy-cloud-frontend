@@ -122,4 +122,11 @@ export default {
   'dataManage.1048': '先分后总',
   'dataManage.1049': '先总后分',
   'dataManage.1050': '数据类型',
+  'dataManage.1051': '充电',
+  'dataManage.1052': '放电',
+  'dataManage.1053': '收益',
+  'dataManage.1054': '总电量',
+  'dataManage.1055': '总费用',
+  'dataManage.1056': '总收入',
+  'dataManage.1057': '总效率',
 };
