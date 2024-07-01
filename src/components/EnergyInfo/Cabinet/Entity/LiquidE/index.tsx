@@ -181,8 +181,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.energyStorageInverter', defaultMessage: '储能变流器' }),
-    dataProductTypeIds: [DeviceProductTypeEnum.Pcs],
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.Pcs,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     position: { top: 200, left: 768 },
     icon: PcsImg,
     line: LiquidPcsLineImg,

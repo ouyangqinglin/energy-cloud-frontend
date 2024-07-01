@@ -151,7 +151,8 @@ const configs: ConfigType[] = [
   },
   {
     label: formatMessage({ id: 'device.inverter', defaultMessage: '逆变器' }),
-    productTypeId: DeviceProductTypeEnum.Ems,
+    productTypeId: DeviceProductTypeEnum.Pcs,
+    dataProductTypeIds: [DeviceProductTypeEnum.Ems],
     position: { top: 208, left: 783 },
     icon: PvEnergyInverterImg,
     line: PvEnergyInverterLineImg,
