@@ -81,7 +81,7 @@ const DecorationCarousel: FC<DecorationProp> = memo(
               dots={false}
               ref={carouselRef}
               autoplay
-              autoplaySpeed={5000}
+              autoplaySpeed={8000}
               afterChange={(current) => afterChange(current + 1)}
             >
               {children}
@@ -112,8 +112,8 @@ const DecorationCarousel: FC<DecorationProp> = memo(
               className={styles.carousel}
               dots={false}
               ref={carouselSiteTypeRef}
-              // autoplay
-              // autoplaySpeed={5000}
+              autoplay
+              autoplaySpeed={8000}
               afterChange={afterChange}
             >
               {children}

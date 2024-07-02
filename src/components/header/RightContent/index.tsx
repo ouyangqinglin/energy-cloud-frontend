@@ -3,11 +3,9 @@ import React, { useCallback, useMemo } from 'react';
 import { useModel, SelectLang, setLocale } from 'umi';
 import Avatar from './AvatarDropdown';
 import styles from './index.less';
-import Workbench from '../Workbench';
 import { updateUserLang } from '@/services/session';
 import { formatMessage } from '@/utils';
 import { localeInfo } from 'umi';
-import { useAuthority } from '@/hooks';
 import App from '../App';
 import OfficialAccount from '../OfficialAccount';
 
@@ -21,6 +19,7 @@ const GlobalHeaderRight: React.FC = () => {
   );
 
   const onLangClick = useCallback(({ key }) => {
+    console.log('key>>', key);
     const messageKey = 'localLoading';
     message.loading({
       content:

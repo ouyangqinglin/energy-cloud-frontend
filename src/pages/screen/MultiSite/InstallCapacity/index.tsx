@@ -8,7 +8,8 @@
  */
 import React, { useMemo } from 'react';
 import Cell from '../../components/LayoutCell';
-import DigitStat, { DigitStatItemType } from '../../components/DigitStat';
+import DigitStat from '../../components/DigitStat';
+import type { DigitStatItemType } from '../../components/DigitStat';
 import { items } from './config';
 import styles from './index.less';
 import { useModel, useRequest } from 'umi';
@@ -42,7 +43,7 @@ const InstallCapacity: React.FC = () => {
 
   return (
     <>
-      <Cell cursor="default" width={1026} height={80} left={447} bottom={24}>
+      <Cell cursor="default" width={1000} height={80} left={469} bottom={24}>
         <DigitStat
           className={styles.digit}
           items={config}

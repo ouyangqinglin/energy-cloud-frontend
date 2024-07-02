@@ -7,7 +7,7 @@
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
-import { Button, Modal, message, Upload, Tooltip } from 'antd';
+import { Button, Modal, message, Upload } from 'antd';
 import { useHistory, useModel } from 'umi';
 import {
   CaretDownFilled,
@@ -20,11 +20,11 @@ import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
-import { getDevicePage, DeviceDataType, getProductTypeTree } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
+import { getDevicePage, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
 import EquipForm from '@/components/EquipForm';
 import { useSiteColumn, useAuthority } from '@/hooks';
-// import { SearchParams } from '@/hooks/useSearchSelect';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import DeviceSn from './deviceSn';
@@ -140,7 +140,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         search: `?id=${rowData.deviceId}`,
       });
     },
-    [isStationChild],
+    [history, isStationChild],
   );
 
   const onSuccess = () => {
@@ -428,6 +428,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         render: rowBar,
       },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteColumn, productTypeColumn]);
 
   return (

@@ -39,6 +39,7 @@ export default {
   'common.workbentch': 'Workbentch',
   'common.softwarePackage': 'Software Package',
   'common.software': 'Software',
+  'common.updataSoftware': 'Please Update Software',
   'common.uploadDate': 'Upload Date',
   'common.index': 'No.',
   'common.custom': 'Custom',

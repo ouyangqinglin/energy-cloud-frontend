@@ -6,11 +6,12 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\screen\MultiSite\InstallCapacity\config.ts
  */
-import { DigitStatItemType } from '../../components/DigitStat';
+import type { DigitStatItemType } from '../../components/DigitStat';
 import IconTransformer from '@/assets/image/multi-site/install-capacity/transformer.png';
 import IconPhotovoltaic from '@/assets/image/multi-site/install-capacity/photovoltaic.png';
 import IconCharge from '@/assets/image/multi-site/install-capacity/charge.png';
 import IconEnergy from '@/assets/image/multi-site/install-capacity/energy.png';
+import FanIcon from '@/assets/image/multi-site/install-capacity/fan_icon.png';
 import { formatMessage, formatWattNum } from '@/utils';
 
 export const items: DigitStatItemType[] = [
@@ -32,6 +33,19 @@ export const items: DigitStatItemType[] = [
     title: formatMessage({ id: 'screen.totalPvCapacity', defaultMessage: '光伏总容量' }),
     unit: 'Wp',
     field: 'photovoltaicInstalledCapacity',
+    format: formatWattNum,
+    animation: {
+      Children: {
+        floatLength: 2,
+      },
+    },
+  },
+  {
+    key: 'fan',
+    icon: FanIcon,
+    title: formatMessage({ id: 'siteManage.1015', defaultMessage: '风机额定功率' }),
+    unit: 'W',
+    field: 'fanInstalledCapacity',
     format: formatWattNum,
     animation: {
       Children: {

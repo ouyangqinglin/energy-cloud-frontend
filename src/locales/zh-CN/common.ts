@@ -12,6 +12,7 @@ export default {
   'common.model': '产品型号',
   'common.softwarePackage': '软件包名',
   'common.software': '软件包',
+  'common.updataSoftware': '请上传软件包',
   'common.uploadDate': '上传时间',
   'common.index': '序号',
   'common.versionSentence': '{name}版本',

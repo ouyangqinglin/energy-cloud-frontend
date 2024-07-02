@@ -27,7 +27,9 @@ const StationInfo = React.forwardRef(
           <div className={styles.iconWrapper}>
             <div className={styles.icon} style={{ backgroundImage: `url(${item.icon})` }} />
           </div>
-          <span className={styles.label}>{item.label}</span>
+          <span className={styles.label} title={item.label as string}>
+            {item.label}：
+          </span>
         </div>
       );
 
@@ -36,7 +38,7 @@ const StationInfo = React.forwardRef(
       if (isLocation && isValidCoord) {
         item.format = (value): ReactNode => {
           return (
-            <span className={isLocation ? 'cl-primary cursor' : ''} onClick={onOpen}>
+            <span title={value} className={isLocation ? 'cl-primary cursor' : ''} onClick={onOpen}>
               {value}
             </span>
           );
