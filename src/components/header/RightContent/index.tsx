@@ -19,7 +19,6 @@ const GlobalHeaderRight: React.FC = () => {
   );
 
   const onLangClick = useCallback(({ key }) => {
-    console.log('key>>', key);
     const messageKey = 'localLoading';
     message.loading({
       content:

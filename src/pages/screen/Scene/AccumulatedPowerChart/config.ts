@@ -2,9 +2,9 @@ import { formatMessage } from '@/utils';
 
 export const defaultOptions = (series: any = []) => ({
   grid: {
-    left: 0,
+    left: 15,
     top: 50,
-    right: 0,
+    right: 15,
     bottom: 0,
   },
   legend: {

@@ -37,7 +37,7 @@ const Scene = () => {
   const { alarmCount, latestAlarm, alarmDeviceTree } = useWatchingAlarm();
 
   const onSiteChange = useCallback((res: SiteInfoRes) => {
-    // res.energyOptions = '12367';
+    res.energyOptions = '12367';
     setSiteTypeConfig(getUnitBySiteType(res?.energyOptions || ''));
     setSiteInfo(res);
   }, []);

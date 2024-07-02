@@ -18,7 +18,7 @@ import {
 import type { MenuProps } from 'antd';
 import Logo from '@/components/header/Logo';
 import styles from './app.less';
-import { SiteDataType } from './services/station';
+import type { SiteDataType } from './services/station';
 import { defaultSystemInfo } from '@/utils/config';
 import { merge } from 'lodash';
 

@@ -2,6 +2,8 @@ import type { DeviceConfigItem } from '../component/type';
 import styles from '../component/index.less';
 import IconTransformerCapacity from '@/assets/image/screen/stationOverview/icon_transformer_capacity.png';
 import IconPhotovoltaicPanel from '@/assets/image/screen/stationOverview/icon_photovoltaic_panel.png';
+import IconDiesel from '@/assets/image/screen/stationOverview/icon_diesel.png';
+import IconFan from '@/assets/image/screen/stationOverview/icon_fan.png';
 import IconEnergyStorageCapacity from '@/assets/image/screen/stationOverview/icon_energy_storage_capacity.png';
 import iconChargingStation from '@/assets/image/screen/stationOverview/icon_charging_station.png';
 import type { SiteInfoRes } from '../type';
@@ -75,7 +77,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
   ...(siteType.hasFan
     ? [
         {
-          icon: IconPhotovoltaicPanel,
+          icon: IconFan,
           title: formatMessage({ id: 'screen.1002', defaultMessage: '风机额定功率' }),
           unit: 'kW',
           field: '',
@@ -98,7 +100,7 @@ export const config = (siteType: UnitType): DeviceConfigItem[] => [
   ...(siteType.hasDiesel
     ? [
         {
-          icon: IconPhotovoltaicPanel,
+          icon: IconDiesel,
           title: formatMessage({ id: 'screen.1003', defaultMessage: '柴发额定功率' }),
           unit: 'kW',
           field: '',
