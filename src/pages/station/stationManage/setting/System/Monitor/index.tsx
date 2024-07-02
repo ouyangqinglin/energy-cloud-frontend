@@ -128,6 +128,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
 
   const onClick = useCallback(
     (record: MonitorDataType) => {
+      console.log('record>>', record);
       const data: TableTreeDataType[] = [];
       const valueId = record.area == 'elec' ? 'id' : 'selectName';
       const valueName = record.area == 'elec' ? 'deviceName' : 'paramName';
@@ -180,6 +181,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
   const onChange = useCallback(
     (selectedData) => {
       const rowData: MonitorDataType[] = selectedData.map((item: any, t: number) => {
+        const esMapObj =
+          selectedRow.esMapData?.filter((i: any) => i.id == item.selectName)[0] || ({} as any);
         return {
           id: item[valueMap.valueId],
           rowId: selectedRow.type + item[valueMap.valueId],
@@ -194,7 +197,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           sn: item?.node?.deviceSN,
           area: selectedRow.area,
           type: selectedRow.type,
-          esMap: selectedRow.esMapData?.[t] || '--',
+          esMap: esMapObj.esMap || '--',
+          esMapData: selectedRow.esMapData,
         };
       });
       bingData(rowData, selectedRow.type, areaMap.get(selectedRow.area) || 0);
@@ -325,10 +329,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
                   area: row.area,
                   type: type,
                   maximumLoadOfTransformer: record?.maximumLoadOfTransformer || {},
-                  esMap: data?.[item.type]?.esMap?.[row.subType]?.[t]?.groupName || '--',
-                  esMapData: data?.[item.type]?.esMap?.[row.subType]?.map(
-                    (es: any) => es.groupName,
-                  ),
+                  esMap: record?.groupName || '--',
+                  esMapData: data?.[item.type]?.valueMap?.[row.subType]?.map((es: any) => ({
+                    id: es.selectName,
+                    esMap: es.groupName,
+                  })),
                 };
               }) || [];
             bingData(rowData, type, index);

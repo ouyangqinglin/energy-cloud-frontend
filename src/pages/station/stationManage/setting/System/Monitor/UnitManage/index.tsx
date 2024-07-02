@@ -238,26 +238,6 @@ const EnergyUnitManage: React.FC = () => {
       },
       ellipsis: true,
     },
-
-    {
-      title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }),
-      dataIndex: 'esDevices',
-      width: 150,
-      render: (_, record) => {
-        return (
-          <div className={styles.child_table}>
-            <Table
-              showHeader={false}
-              size="small"
-              pagination={false}
-              columns={[{ dataIndex: 'sn' }]}
-              dataSource={record?.esDevices || []}
-            />
-          </div>
-        );
-      },
-      ellipsis: true,
-    },
     {
       title: formatMessage({ id: 'siteManage.1040', defaultMessage: '主从模式' }),
       dataIndex: 'esDevices',
