@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-06-25 10:13:27
+ * @LastEditTime: 2024-07-02 14:52:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -13,7 +13,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { StationType } from './data.d';
-import { buildStatus } from '@/utils/dict';
+import { alarmStatus1, buildStatus } from '@/utils/dict';
 import { getList, removeData, starSite, unstarSite } from './service';
 import StationForm from './components/edit';
 import { siteType as siteTypeEnum } from '@/utils/dict';
@@ -208,6 +208,13 @@ const StationList: React.FC = () => {
         },
       },
       {
+        title: formatMessage({ id: 'siteManage.set.siteStatus', defaultMessage: '站点状态' }),
+        dataIndex: 'status',
+        valueType: 'select',
+        valueEnum: alarmStatus1,
+        width: 100,
+      },
+      {
         title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
         dataIndex: 'id',
         hideInSearch: true,
@@ -233,18 +240,9 @@ const StationList: React.FC = () => {
       {
         title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
-        valueType: 'dateRange',
         renderFormat: getLocale().dateTimeFormat,
-        search: {
-          transform: (value) => {
-            return {
-              startTime: value[0],
-              endTime: value[1],
-            };
-          },
-        },
         width: 150,
-        sorter: true,
+        hideInSearch: true,
       },
       {
         title: formatMessage({
@@ -256,7 +254,22 @@ const StationList: React.FC = () => {
         valueEnum: buildStatus,
         width: 150,
         ellipsis: true,
-        hideInSearch: true,
+      },
+      {
+        title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
+        dataIndex: 'createTime',
+        valueType: 'dateRange',
+        renderFormat: getLocale().dateTimeFormat,
+        search: {
+          transform: (value) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+        width: 150,
+        hideInTable: true,
       },
       {
         title: formatMessage({ id: 'common.deliveryTime', defaultMessage: '投运日期' }),
@@ -265,7 +278,6 @@ const StationList: React.FC = () => {
         renderFormat: getLocale().dateFormat,
         hideInSearch: true,
         width: 100,
-        sorter: true,
       },
       {
         title: formatMessage({ id: 'siteManage.siteList.installer', defaultMessage: '安装商' }),

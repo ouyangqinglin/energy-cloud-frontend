@@ -26,7 +26,7 @@ const Index: React.FC = () => {
 
   const { data: powerFlowData, run } = useRequest(getPowerFlow, {
     manual: true,
-    pollingInterval: 15 * 1000,
+    pollingInterval: 16 * 1000,
   });
 
   const onChange = useCallback((data: SiteDataType) => {
