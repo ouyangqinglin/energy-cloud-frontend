@@ -50,6 +50,7 @@ const SiteRankTable: React.FC = () => {
         }}
         form={{
           ignoreRules: false,
+          initialValues: { time: [moment().subtract(1, 'week'), moment()] },
         }}
         resizable={true}
       />
