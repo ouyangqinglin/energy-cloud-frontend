@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-06-17 09:55:19
+ * @LastEditTime: 2024-07-02 17:50:50
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -75,11 +75,18 @@ export const alarmLevelMap = new Map([
   ['info', getLevelByType('info')],
 ]);
 
+const alarmSourceOptions = Object.entries(alarmSource).map(([key, { text }]) => ({
+  label: text,
+  value: key,
+}));
+
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
 
   const formParamRef = useRef(formParam);
-  const [headParams, setHeadParams] = useState<Record<string, string[]>>({});
+  const [headParams, setHeadParams] = useState<Record<string, any[]>>({
+    fromResource: ['0'],
+  });
   const formRef = useRef<ProFormInstance>();
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -192,16 +199,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     [],
   );
 
-  const onHeadChange = useCallback((value: string[], field) => {
+  const onHeadChange = useCallback((value: any[], field) => {
     setHeadParams((prevData) => {
-      if (field === 'levels') {
-        return { ...prevData, [field]: value };
-      } else {
+      if (field === 'recoverType') {
         return { ...prevData, [field]: value.length == 1 ? value[0] : '' };
+      } else {
+        return { ...prevData, [field]: value };
       }
     });
-    //actionRef?.current?.reload?.();
-    actionRef?.current?.reloadAndRest?.(); //回到第一页
+    actionRef?.current?.reloadAndRest?.();
   }, []);
 
   const requestExport = useCallback(
@@ -486,26 +492,42 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     });
     return (
       <>
-        <span>{formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' })}：</span>
-        <Checkbox.Group
-          className="mr24"
-          onChange={(value) => onHeadChange(value, 'levels')}
-          defaultValue={Array.from(levelMap.keys())}
-        >
-          <Space>{nums}</Space>
-        </Checkbox.Group>
+        <div className="my6">
+          <span>
+            {formatMessage({ id: 'alarmManage.alarmLevel', defaultMessage: '告警级别' })}：
+          </span>
+          <Checkbox.Group
+            className="mr24"
+            onChange={(value) => onHeadChange(value, 'levels')}
+            defaultValue={Array.from(levelMap.keys())}
+          >
+            <Space>{nums}</Space>
+          </Checkbox.Group>
+        </div>
         {type == PageTypeEnum.History && (
           <>
-            <span>
-              {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' })}：
-            </span>
-            <Checkbox.Group
-              options={cleanUpOptions}
-              defaultValue={cleanUpOptions.map((item) => item.value)}
-              onChange={(value) => onHeadChange(value, 'recoverType')}
-            />
+            <div className="mr12 my6">
+              <span>
+                {formatMessage({ id: 'alarmManage.clearType', defaultMessage: '消除类型' })}：
+              </span>
+              <Checkbox.Group
+                options={cleanUpOptions}
+                defaultValue={cleanUpOptions.map((item) => item.value)}
+                onChange={(value) => onHeadChange(value, 'recoverType')}
+              />
+            </div>
           </>
         )}
+        <div className="my6">
+          <span>
+            {formatMessage({ id: 'alarmManage.reportSource', defaultMessage: '告警来源' })}：
+          </span>
+          <Checkbox.Group
+            options={alarmSourceOptions}
+            defaultValue={['0']}
+            onChange={(value) => onHeadChange(value, 'fromResource')}
+          />
+        </div>
       </>
     );
   }, [alarmNumData, type]);
