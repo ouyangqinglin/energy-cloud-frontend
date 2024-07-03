@@ -228,7 +228,7 @@ export const deviceMap = new Map([
     deviceTypeStrEnum.CS,
     {
       name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
-      color: '#007DFF',
+      color: '#3DD598',
     },
   ],
   [
