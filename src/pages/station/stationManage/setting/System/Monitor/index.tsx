@@ -128,7 +128,6 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
 
   const onClick = useCallback(
     (record: MonitorDataType) => {
-      console.log('record>>', record);
       const data: TableTreeDataType[] = [];
       const valueId = record.area == 'elec' ? 'id' : 'selectName';
       const valueName = record.area == 'elec' ? 'deviceName' : 'paramName';
