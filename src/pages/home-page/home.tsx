@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-02 16:06:43
- * @LastEditTime: 2024-05-23 15:55:50
+ * @LastEditTime: 2024-07-03 14:47:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\home-page\home.tsx
  */
@@ -35,7 +35,10 @@ const HomePage: React.FC = () => {
   const screenWidth = useWindowSize().width;
   const [slidesPerRow, setSlidesPerRow] = useState(4);
   const ref = useRef<HTMLDivElement>(null);
-  const { siteType } = useModel('site', (model) => ({ siteType: model?.state?.siteType }));
+  const { siteType, isLoad } = useModel('site', (model) => ({
+    siteType: model?.state?.siteType,
+    isLoad: model?.state?.isLoad,
+  }));
   const [statistic, setStatistic] = useState({});
   const { authorityMap } = useAuthority(['index:multiSite']);
   const { unit } = useModel('siteType');
@@ -98,17 +101,19 @@ const HomePage: React.FC = () => {
   }, [screenWidth]);
 
   useEffect(() => {
-    getStatisticData(siteType ? { energyOptions: siteType } : {}).then((res) => {
-      const rawData = {};
-      res.forEach(({ data }) => {
-        if (!data) {
-          return;
-        }
-        assign(rawData, data);
+    if (isLoad) {
+      getStatisticData(siteType ? { energyOptions: siteType } : {}).then((res) => {
+        const rawData = {};
+        res.forEach(({ data }) => {
+          if (!data) {
+            return;
+          }
+          assign(rawData, data);
+        });
+        setStatistic({ ...rawData, siteType, unit });
       });
-      setStatistic({ ...rawData, siteType, unit });
-    });
-  }, [getStatisticData, siteType, unit]);
+    }
+  }, [siteType, unit]);
 
   const items = useMemo(() => {
     const result: React.ReactNode[] = [];
