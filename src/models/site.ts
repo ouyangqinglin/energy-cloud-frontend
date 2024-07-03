@@ -14,9 +14,11 @@ const useSiteModel = () => {
     isLoad: false,
   };
 
-  const reducer = (state: SiteDataType, action: { type: string; payload: SiteDataType }) => {
+  const reducer = (state: SiteDataType, action: { type: string; payload?: SiteDataType }) => {
     if (action.type == 'change') {
       return { ...action.payload, isLoad: true };
+    } else if (action.type == 'init') {
+      return { ...initState };
     } else {
       return state;
     }

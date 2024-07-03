@@ -39,6 +39,7 @@ const getRoutersList = () => {
 const Login: React.FC = () => {
   const location = useLocation<QueryParams>();
   const { refresh: refreshSiteType } = useModel('siteType');
+  const { dispatch } = useModel('site');
 
   const [userLoginState, setUserLoginState] = useState<any>({});
   const [type, setType] = useState<string>('account');
@@ -85,6 +86,7 @@ const Login: React.FC = () => {
         }
 
         const pathArr = redirectPath.split('?');
+        dispatch({ type: 'init' });
         await clear();
         history.push({
           pathname: pathArr[0],
