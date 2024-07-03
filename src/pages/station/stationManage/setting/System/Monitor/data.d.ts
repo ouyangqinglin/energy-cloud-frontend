@@ -14,6 +14,7 @@ export type MonitorDataType = {
   project?: string;
   esMap?: string;
   esMapData?: string[];
+  esMapSpan?: number | undefined;
   deviceId?: string;
   deviceName?: string;
   sn?: string;
