@@ -28,4 +28,5 @@ export default {
   'alarmManage.alarmContent': 'Alarm Content',
   'alarmManage.generateTime': 'Alarm time',
   'alarmManage.alarmList': 'Alarm List',
+  'alarmManage.1001': 'Alarm Detail',
 };

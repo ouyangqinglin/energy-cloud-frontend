@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-07-03 15:10:38
+ * @LastEditTime: 2024-07-04 14:06:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -85,7 +85,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   const formParamRef = useRef(formParam);
   const [headParams, setHeadParams] = useState<Record<string, any[]>>({
-    fromResource: ['0'],
+    fromResources: ['0'],
   });
   const formRef = useRef<ProFormInstance>();
   const history = useHistory();
@@ -407,10 +407,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       },
       {
         title: formatMessage({ id: 'alarmManage.alarmInformation', defaultMessage: '告警信息' }),
-        dataIndex: 'content',
+        dataIndex: 'alarmName',
         width: 150,
         ellipsis: true,
-        hideInSearch: true,
+        formItemProps: {
+          label: formatMessage({ id: 'alarmManage.1001', defaultMessage: '告警详情' }),
+        },
         render: (_, record) => {
           return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
         },
