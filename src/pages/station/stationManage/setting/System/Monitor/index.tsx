@@ -19,7 +19,7 @@ import type {
 } from './data.d';
 import { useAuthority } from '@/hooks';
 import { areaMap, defaultOpenKeys, monitorTypeMap } from './config';
-import { formatMessage } from '@/utils';
+import { formatMessage, getUniqueNumber } from '@/utils';
 import { cloneDeep } from 'lodash';
 type CollectionChartType = {
   deviceTree: boolean;
@@ -32,6 +32,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     'iot:siteConfig:monitoringOnOff', //开启、关闭监测点按钮
     'iot:siteConfig:deviceTree', //关联设备/采集点
   ]);
+  const [uuid, setUuid] = useState<string>(getUniqueNumber());
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
   const [activeKeysSet, setActiveKeysSet] = useState<Set<string>>(new Set());
   const [allTableData, setAllTableData] = useState<AllTableDataType>({
@@ -77,7 +78,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         span: 1,
         maximumLoadOfTransformer: {},
         esMap: '--',
-        esMapData: [],
+        esMapSpan: 1,
       });
     } else {
       data[0].project = monitorTypeMap.get(type)?.data[index].name;
@@ -179,9 +180,9 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
 
   const onChange = useCallback(
     (selectedData) => {
+      console.log('selectedData>>', selectedData);
+      console.log('selectedRow>>', selectedRow);
       const rowData: MonitorDataType[] = selectedData.map((item: any, t: number) => {
-        const esMapObj =
-          selectedRow.esMapData?.filter((i: any) => i.id == item.selectName)[0] || ({} as any);
         return {
           id: item[valueMap.valueId],
           rowId: selectedRow.type + item[valueMap.valueId],
@@ -196,8 +197,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
           sn: item?.node?.deviceSN,
           area: selectedRow.area,
           type: selectedRow.type,
-          esMap: esMapObj.esMap || '--',
-          esMapData: selectedRow.esMapData,
+          esMapSpan: 1,
+          esMap: '--',
         };
       });
       bingData(rowData, selectedRow.type, areaMap.get(selectedRow.area) || 0);
@@ -248,6 +249,7 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
     runEditConfig(data).then((result) => {
       if (result) {
         message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+        setUuid(getUniqueNumber());
       }
     });
   };
@@ -311,8 +313,26 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
             keys.add(type);
           }
           item.data.forEach((row, index) => {
+            let valueMapData = data?.[item.type]?.valueMap?.[row.subType];
+            if (type == 'energy') {
+              valueMapData = data?.[item.type]?.esMap?.[row.subType]?.reduce(
+                (pre: any, cur: any) => {
+                  cur.devices.map((device: any, sub: number) => {
+                    if (!sub) {
+                      device.esMapSpan = cur.devices.length;
+                    } else {
+                      device.esMapSpan = 0;
+                    }
+                    return device;
+                  });
+                  return pre.concat(cur?.devices || []);
+                },
+                [],
+              );
+            }
+
             const rowData =
-              data?.[item.type]?.valueMap?.[row.subType]?.map?.((record: any, t: number) => {
+              valueMapData?.map?.((record: any, t: number) => {
                 return {
                   id: row.area == 'elec' ? record.deviceId : record?.selectName,
                   rowId: row.area == 'elec' ? record.deviceId : record?.selectName,
@@ -328,11 +348,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
                   area: row.area,
                   type: type,
                   maximumLoadOfTransformer: record?.maximumLoadOfTransformer || {},
+                  esMapSpan: record.esMapSpan,
                   esMap: record?.groupName || '--',
-                  esMapData: data?.[item.type]?.valueMap?.[row.subType]?.map((es: any) => ({
-                    id: es.selectName,
-                    esMap: es.groupName,
-                  })),
                 };
               }) || [];
             bingData(rowData, type, index);
@@ -343,7 +360,8 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
         setAllTableData({ ...datas });
       });
     }
-  }, [siteId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteId, uuid]);
 
   const setMaximumLoadOfTransformer = (
     record: MonitorDataType,
@@ -378,6 +396,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
               defaultMessage: '储能单元',
             }),
             dataIndex: 'esMap',
+            onCell: (record: any) => {
+              return {
+                rowSpan: record.esMapSpan || 0,
+              };
+            },
             width: 150,
             ellipsis: true,
           },
