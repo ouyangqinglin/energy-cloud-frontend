@@ -214,6 +214,7 @@ const SchemaForm = <
         runGet?.({ [idKey]: id })?.then?.((data) => {
           const requestData = data || ({} as FormData);
           const processResult = afterRequest?.(requestData, myFormRef);
+          console.log('processResult>>', processResult);
           myFormRef?.current?.setFieldsValue?.(processResult ?? (requestData as any));
         });
       } else if (initialValues) {
