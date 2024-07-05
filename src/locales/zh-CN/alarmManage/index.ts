@@ -27,4 +27,5 @@ export default {
   'alarmManage.alarmContent': '告警内容',
   'alarmManage.generateTime': '产生时间',
   'alarmManage.alarmList': '告警列表',
+  'alarmManage.1001': '告警详情',
 };
