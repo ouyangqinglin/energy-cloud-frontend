@@ -15,6 +15,7 @@ export default {
   'common.updataSoftware': '请上传软件包',
   'common.uploadDate': '上传时间',
   'common.index': '序号',
+  'common.sort': '排序',
   'common.versionSentence': '{name}版本',
   'common.version': '版本号',
   'common.description': '描述',

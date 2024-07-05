@@ -16,6 +16,7 @@ import useTableSize from './useTableSize';
 import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
+import { merge } from 'lodash';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -27,7 +28,9 @@ const YTProTable = <
   const {
     toolBarRender,
     columns,
+    isDragSort = false,
     actionRef,
+    components: realityComponents = {},
     formRef,
     toolBarRenderOptions,
     request,
@@ -65,6 +68,10 @@ const YTProTable = <
     },
     [restProps],
   );
+
+  // useEffect(() => {
+  //   columns?.unshift(...dragcolumns);
+  // }, [isDragSort]);
 
   const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
     toolBarRender,
@@ -125,7 +132,7 @@ const YTProTable = <
           setting: true,
         }}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
-        components={components}
+        components={merge(components, realityComponents)}
         toolBarRender={toolBarRenderResult}
         pagination={
           pagination == false

@@ -42,6 +42,7 @@ export default {
   'common.updataSoftware': 'Please Update Software',
   'common.uploadDate': 'Upload Date',
   'common.index': 'No.',
+  'common.sort': 'Sort',
   'common.custom': 'Custom',
   'common.predefine': 'Predefine',
   'common.versionSentence': '{name} Version',

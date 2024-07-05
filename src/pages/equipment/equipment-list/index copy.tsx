@@ -19,7 +19,11 @@ import {
   ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import dragComponents, { dragcolumns } from '@/components/YTProTable/dragSort';
+import dragComponents, {
+  dragcolumns,
+  SortableItem,
+  SortableBody,
+} from '@/components/YTProTable/dragSort';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
@@ -464,6 +468,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       });
     }
   };
+
+  const DraggableContainer = (ContainerProps: any) => (
+    <SortableBody
+      useDragHandle
+      disableAutoscroll
+      helperClass="row-dragging"
+      onSortEnd={onSortEnd}
+      {...ContainerProps}
+    />
+  );
+  const DraggableBodyRow: React.FC<any> = (rowProps) => {
+    const index = dataSourceInfo.list.findIndex(
+      (x: any) => x.deviceId === rowProps['data-row-key'],
+    );
+    return <SortableItem index={index} {...rowProps} />;
+  };
+
   return (
     <>
       {authorPage ? (
@@ -480,7 +501,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             request={handleRequest}
             rowKey="deviceId"
             resizable={true}
-            components={dragComponents(onSortEnd, dataSourceInfo.list)}
+            components={{
+              body: {
+                wrapper: DraggableContainer,
+                row: DraggableBodyRow,
+              },
+            }}
             expandable={{
               childrenColumnName: 'childDeviceList',
               expandIcon: ({ expanded, expandable, record, onExpand }) => {

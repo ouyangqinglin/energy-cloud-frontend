@@ -45,3 +45,10 @@ export const importTemp = (data: any) => {
     data,
   });
 };
+
+export const modifySort = (data: any) => {
+  return request(`/iot/device/modifySort`, {
+    method: 'PUT',
+    data,
+  });
+};
