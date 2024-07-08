@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-06-28 14:30:14
+ * @LastEditTime: 2024-07-05 11:16:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -589,6 +589,9 @@ export const allItems: Record<string, DetailItem> = {
   gtcucontype: { field: 'gtcucontype' },
   gpcuconnect: { field: 'gpcuconnect' },
   gpcucontype: { field: 'gpcucontype' },
+  MCUhv: { field: 'MCUhv' },
+  MCUsv: { field: 'MCUsv' },
+  bootloaderVersion: { field: 'bootloaderVersion' },
 };
 
 const emsKeys = [
@@ -623,6 +626,9 @@ const fgccEmsKeys = [
   'externalIpAddress',
   'emsHardwareVersion',
   'emsSoftwareVersion',
+  'MCUhv',
+  'MCUsv',
+  'bootloaderVersion',
   'imeiNumber',
   'iccid',
   'thirdCloudPlatformCommunication',
