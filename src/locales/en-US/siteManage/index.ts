@@ -179,5 +179,8 @@ export default {
   'siteManage.1040': 'Master-slave Mode',
   'siteManage.1041': 'At least one host',
 
-
+  'siteManage.1042': 'Alarm Push Switch',
+  'siteManage.1043':
+    'When enabled, alerts will be pushed to all users with site management permissions. When closed, all alerts for the current site will not be pushed',
+  'siteManage.1044': 'Alarm Push',
 };

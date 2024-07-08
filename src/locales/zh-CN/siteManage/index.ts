@@ -177,4 +177,8 @@ export default {
   'siteManage.1040': '主从模式',
 
   'siteManage.1041': '至少有一个主机',
+  'siteManage.1042': '告警推送开关',
+  'siteManage.1043':
+    '开启时，会对有站点管理权限的所有用户进行告警推送，关闭时当前站点的所有告警都不会推送',
+  'siteManage.1044': '告警推送',
 };

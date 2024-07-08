@@ -2,13 +2,15 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-06 13:38:22
- * @LastEditTime: 2024-07-05 11:10:58
+ * @LastEditTime: 2024-04-11 09:15:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\equipment\equipment-list\index.tsx
  */
 import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Modal, message, Upload } from 'antd';
 import { useHistory, useModel } from 'umi';
+import { arrayMoveImmutable } from 'array-move';
+import type { SortEnd } from 'react-sortable-hoc';
 import {
   CaretDownFilled,
   CaretRightFilled,
@@ -17,8 +19,11 @@ import {
   ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import dragComponents, { DragHandle, arrayMoveImmutable } from '@/components/YTProTable/dragSort';
-import type { SortEnd } from '@/components/YTProTable/dragSort';
+import dragComponents, {
+  dragcolumns,
+  SortableItem,
+  SortableBody,
+} from '@/components/YTProTable/dragSort';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
@@ -312,23 +317,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
-      ...(isStationChild
-        ? [
-            {
-              title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
-              dataIndex: 'sort',
-              width: 80,
-              hideInSearch: true,
-              render: (_, record: any) => {
-                if (!record.parentId) {
-                  // 父节点显示拖拽功能
-                  return <DragHandle />;
-                }
-                return '';
-              },
-            },
-          ]
-        : [siteColumn]),
+      ...(isStationChild ? dragcolumns : [siteColumn]),
       productTypeColumn,
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
@@ -479,6 +468,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       });
     }
   };
+
+  const DraggableContainer = (ContainerProps: any) => (
+    <SortableBody
+      useDragHandle
+      disableAutoscroll
+      helperClass="row-dragging"
+      onSortEnd={onSortEnd}
+      {...ContainerProps}
+    />
+  );
+  const DraggableBodyRow: React.FC<any> = (rowProps) => {
+    const index = dataSourceInfo.list.findIndex(
+      (x: any) => x.deviceId === rowProps['data-row-key'],
+    );
+    return <SortableItem index={index} {...rowProps} />;
+  };
+
   return (
     <>
       {authorPage ? (
@@ -495,7 +501,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             request={handleRequest}
             rowKey="deviceId"
             resizable={true}
-            components={dragComponents(onSortEnd, dataSourceInfo.list, 'deviceId')}
+            components={{
+              body: {
+                wrapper: DraggableContainer,
+                row: DraggableBodyRow,
+              },
+            }}
             expandable={{
               childrenColumnName: 'childDeviceList',
               expandIcon: ({ expanded, expandable, record, onExpand }) => {

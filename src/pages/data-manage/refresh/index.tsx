@@ -1,23 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { Button, Tabs, message } from 'antd';
+import React, { useMemo } from 'react';
+import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import { useAuthority } from '@/hooks';
-import { formatMessage, saveFile } from '@/utils';
+import { formatMessage } from '@/utils';
 import Income from './Income';
 import Power from './Power';
 import RectData from './RectData';
-import { useRequest } from 'umi';
-import { exportDataType } from './service';
+import DataType from './DataType';
 
 type RefreshtProps = {};
 
 const Refresh: React.FC<RefreshtProps> = () => {
-  const [activeKey, setActiveKey] = useState('0');
-  const { run, loading } = useRequest(exportDataType, {
-    manual: true,
-    formatResult: (res) => res,
-  });
-
   const { authorityMap } = useAuthority([
     'oss:dataStatistics:refresh:rect',
     'oss:dataStatistics:refresh:power',
@@ -50,37 +43,17 @@ const Refresh: React.FC<RefreshtProps> = () => {
     }
     if (authorityMap.get('oss:dataStatistics:refresh:dataType')) {
       result.push({
-        key: 'dataType',
+        key: '3',
         label: formatMessage({ id: 'dataManage.1050', defaultMessage: '数据类型' }),
+        children: <DataType />,
       });
     }
     return result;
   }, [authorityMap]);
 
-  const onExportClick = () => {
-    run().then((res) => {
-      if (res) {
-        saveFile(res, formatMessage({ id: 'dataManage.1050', defaultMessage: '数据类型' }));
-      }
-    });
-  };
-
   return (
     <>
-      <Tabs
-        className="category-tabs p20"
-        tabBarGutter={34}
-        defaultActiveKey="1"
-        items={items}
-        tabBarExtraContent={
-          activeKey == 'dataType' && (
-            <Button type="primary" onClick={onExportClick} loading={loading}>
-              {formatMessage({ id: 'common.export', defaultMessage: '导出' })}
-            </Button>
-          )
-        }
-        onChange={(key) => setActiveKey(key)}
-      />
+      <Tabs className="category-tabs p20" tabBarGutter={34} defaultActiveKey="1" items={items} />
     </>
   );
 };

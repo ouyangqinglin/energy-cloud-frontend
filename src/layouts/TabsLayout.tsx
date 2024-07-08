@@ -5,14 +5,12 @@ import { useModel, useHistory } from 'umi';
 import { useLocation } from '@/hooks';
 
 const { tabsLayout } = defaultSettings;
-
 /* *
  *
  * @author whiteshader@163.com
  * @datetime  2022/02/22
  *
  * */
-
 const TabsLayout: React.FC = (props) => {
   const { initialState } = useModel('@@initialState');
   const { pathname } = useLocation();
