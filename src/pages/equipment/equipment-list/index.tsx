@@ -9,8 +9,6 @@
 import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Modal, message, Upload } from 'antd';
 import { useHistory, useModel } from 'umi';
-import { arrayMoveImmutable } from 'array-move';
-import type { SortEnd } from 'react-sortable-hoc';
 import {
   CaretDownFilled,
   CaretRightFilled,
@@ -19,7 +17,8 @@ import {
   ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import dragComponents, { dragcolumns } from '@/components/YTProTable/dragSort';
+import dragComponents, { DragHandle, arrayMoveImmutable } from '@/components/YTProTable/dragSort';
+import type { SortEnd } from '@/components/YTProTable/dragSort';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
@@ -313,7 +312,23 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
-      ...(isStationChild ? dragcolumns : [siteColumn]),
+      ...(isStationChild
+        ? [
+            {
+              title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
+              dataIndex: 'sort',
+              width: 80,
+              hideInSearch: true,
+              render: (_, record: any) => {
+                if (!record.parentId) {
+                  // 父节点显示拖拽功能
+                  return <DragHandle />;
+                }
+                return '';
+              },
+            },
+          ]
+        : [siteColumn]),
       productTypeColumn,
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
@@ -480,7 +495,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             request={handleRequest}
             rowKey="deviceId"
             resizable={true}
-            components={dragComponents(onSortEnd, dataSourceInfo.list)}
+            components={dragComponents(onSortEnd, dataSourceInfo.list, 'deviceId')}
             expandable={{
               childrenColumnName: 'childDeviceList',
               expandIcon: ({ expanded, expandable, record, onExpand }) => {

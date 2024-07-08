@@ -2,10 +2,15 @@ import { MenuOutlined } from '@ant-design/icons';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import type { SortableContainerProps } from 'react-sortable-hoc';
 import { formatMessage } from '@/utils';
+import type { SortEnd } from 'react-sortable-hoc';
+import { arrayMoveImmutable } from 'array-move';
+import type { ProColumns } from '@ant-design/pro-components';
 
-const DragHandle = SortableHandle(() => <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />);
+export const DragHandle = SortableHandle(() => (
+  <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
+));
 
-export const dragcolumns = [
+export const dragcolumns: ProColumns[] = [
   {
     title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
     dataIndex: 'sort',
@@ -15,15 +20,15 @@ export const dragcolumns = [
   },
 ];
 
-export const SortableItem = SortableElement((props: React.HTMLAttributes<HTMLTableRowElement>) => (
+const SortableItem = SortableElement((props: React.HTMLAttributes<HTMLTableRowElement>) => (
   <tr {...props} />
 ));
 
-export const SortableBody = SortableContainer(
-  (props: React.HTMLAttributes<HTMLTableSectionElement>) => <tbody {...props} />,
-);
+const SortableBody = SortableContainer((props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+  <tbody {...props} />
+));
 
-export const DraggableContainer = (props: SortableContainerProps) => (
+const DraggableContainer = (props: SortableContainerProps) => (
   <SortableBody
     useDragHandle
     disableAutoscroll
@@ -33,16 +38,19 @@ export const DraggableContainer = (props: SortableContainerProps) => (
   />
 );
 
-export const DraggableBodyRow: React.FC<any> = (props) => {
-  const index = props.dataSource.findIndex((x: any) => x.deviceId === props['data-row-key']);
+const DraggableBodyRow: React.FC<any> = (props) => {
+  const index = props.dataSource.findIndex(
+    (x: any) => x[`${props.rowKey}`] === props['data-row-key'],
+  );
   return <SortableItem index={index} {...props} />;
 };
 
-const dragComponents = (onSortEnd: any, dataSource: any) => ({
+const dragComponents = (onSortEnd: any, dataSource: any, rowKey: string) => ({
   body: {
     wrapper: (wrapperProps: any) => DraggableContainer({ ...wrapperProps, onSortEnd }),
-    row: (rowProps: any) => DraggableBodyRow({ ...rowProps, dataSource }),
+    row: (rowProps: any) => DraggableBodyRow({ ...rowProps, dataSource, rowKey }),
   },
 });
 
 export default dragComponents;
+export { SortEnd, arrayMoveImmutable };

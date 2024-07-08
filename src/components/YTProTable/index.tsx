@@ -69,10 +69,6 @@ const YTProTable = <
     [restProps],
   );
 
-  // useEffect(() => {
-  //   columns?.unshift(...dragcolumns);
-  // }, [isDragSort]);
-
   const toolBarRenderResult = useToolBarRender<DataType, Params, ValueType>(
     toolBarRender,
     toolBarRenderOptions,
