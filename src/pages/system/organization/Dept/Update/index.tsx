@@ -42,9 +42,6 @@ export const Update = memo((props: FormUpdateBaseProps) => {
     }
     setTreeData(buildTreeData(serviceList, 'orgId', 'orgName', '', '', ''));
   };
-  useEffect(() => {
-    getTreeData();
-  }, []);
   const convertRequestData = useCallback(async (param: { orgId: number }) => {
     const res = await getService(param);
     if (res?.data) {
@@ -75,19 +72,20 @@ export const Update = memo((props: FormUpdateBaseProps) => {
       ...inputInfo,
     };
     params.address = inputInfo.addressInfo?.address || '';
-    params.longitude = inputInfo.addressInfo?.point?.lng || '';
-    params.latitude = inputInfo.addressInfo?.point?.lat || '';
+    params.longitude = inputInfo.addressInfo?.point?.lng || 0;
+    params.latitude = inputInfo.addressInfo?.point?.lat || 0;
     unset(params, 'addressInfo');
     return params;
   };
 
   useEffect(() => {
     if (props.visible && isCreate(props.operations)) {
+      getTreeData();
       getServiceId()?.then(({ data }) => {
         setOrgId(data);
       });
     }
-  }, [props.visible]);
+  }, [props.operations, props.visible]);
 
   const getConfig = useCallback(() => {
     const defaultLog = initialValues.orgIcon.logo;

@@ -17,6 +17,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
+// import  dragComponents from './dragSort'
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -29,6 +30,7 @@ const YTProTable = <
     toolBarRender,
     columns,
     isDragSort = false,
+    onSortEnd,
     actionRef,
     components: realityComponents = {},
     formRef,
@@ -128,7 +130,7 @@ const YTProTable = <
           setting: true,
         }}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
-        components={merge(components, realityComponents)}
+        components={merge(components, realityComponents, isDragSort ? {} : {})}
         toolBarRender={toolBarRenderResult}
         pagination={
           pagination == false
