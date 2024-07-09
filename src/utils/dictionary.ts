@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-05-11 14:34:55
+ * @LastEditTime: 2024-07-08 16:49:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -234,6 +234,8 @@ export enum DeviceTypeEnum {
   LiquidEmsGrid = 228,
   WindEmsGrid = 229,
   LiquidEnergy232ABatteryPack = 233,
+  PvInverter100k1 = 240,
+  PvInverter100k2 = 241,
   Device = 'default',
 }
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-07-04 14:06:47
+ * @LastEditTime: 2024-07-05 15:28:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -294,10 +294,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       format: (value) => getLevelByType(value),
     },
     {
-      label: formatMessage({ id: 'alarmManage.alarm', defaultMessage: '告警' }) + 'ID',
-      field: 'id',
-    },
-    {
       label: formatMessage({ id: 'alarmManage.occurrenceTime', defaultMessage: '发生时间' }),
       field: 'alarmTime',
     },
@@ -406,13 +402,10 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         hideInSearch: true,
       },
       {
-        title: formatMessage({ id: 'alarmManage.alarmInformation', defaultMessage: '告警信息' }),
+        title: formatMessage({ id: 'alarmManage.alarmName', defaultMessage: '告警名称' }),
         dataIndex: 'alarmName',
         width: 150,
         ellipsis: true,
-        formItemProps: {
-          label: formatMessage({ id: 'alarmManage.1001', defaultMessage: '告警详情' }),
-        },
         render: (_, record) => {
           return <a onClick={() => onDetailClick(_, record)}>{record.content}</a>;
         },

@@ -197,7 +197,7 @@ export const Columns: (
                         id: 'taskManage.example',
                         defaultMessage: '示例',
                       }) +
-                      `: ${isUS ? '222-333-4444' : '131123456789'}`,
+                      `: ${isUS ? '222-333-4444' : '13112345678'}`,
                   );
                 }
               },

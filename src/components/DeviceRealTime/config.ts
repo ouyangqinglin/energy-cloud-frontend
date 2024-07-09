@@ -88,4 +88,6 @@ export const deviceRealTimeMap: any = {
     component: 'Ems',
     props: { type: DeviceTypeEnum.React100WEmsEnergy },
   },
+  [DeviceTypeEnum.PvInverter100k1]: { component: 'PvInverter', props: { loopNum: 4 } },
+  [DeviceTypeEnum.PvInverter100k2]: { component: 'PvInverter', props: { loopNum: 4 } },
 };

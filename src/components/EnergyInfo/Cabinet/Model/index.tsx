@@ -35,7 +35,6 @@ const Model: React.FC<CabinetProps> = (props) => {
   const {
     deviceData,
     showLabel,
-    loading,
     source = EnergySourceEnum.DeviceManage,
     children,
     configs,
@@ -47,11 +46,7 @@ const Model: React.FC<CabinetProps> = (props) => {
   const bodySize = useSize(divRef);
   const history = useHistory();
   const [productIdMap, setProductIdMap] = useState<ProductIdMapType>();
-  const {
-    loading: loadingEnergy,
-    data: energyData,
-    run,
-  } = useRequest(getWholeDeviceTree, {
+  const { data: energyData, run } = useRequest(getWholeDeviceTree, {
     manual: true,
   });
 
@@ -91,7 +86,7 @@ const Model: React.FC<CabinetProps> = (props) => {
       run({
         deviceId: deviceData?.deviceId,
         component: 0,
-        containTopParentDevice: 1,
+        // containTopParentDevice: 1,
       }).then((data) => {
         setProductIdMap(getProductTypeIdMap(data ? [data] : []));
       });
