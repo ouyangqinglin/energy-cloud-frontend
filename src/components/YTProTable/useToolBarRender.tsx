@@ -6,10 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
-import React, { MutableRefObject, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import type { MutableRefObject } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
-import { ProFormInstance } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
@@ -50,7 +51,7 @@ const useToolBarRender = <
           });
       }
     });
-  }, [toolBarRenderOptions, toolBarRenderOptions?.export?.requestExport, formRef]);
+  }, [formRef, toolBarRenderOptions?.export, setTrue, setFalse]);
 
   const options = useMemo(() => {
     const defaultOptions: toolBarRenderOptionsType<Params> = {

@@ -1,13 +1,16 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { columns, OrderTypEnum } from './config';
 import YTProTable from '@/components/YTProTable';
 import { getData, exportList } from './service';
 import { formatMessage } from '@/utils';
 import moment from 'moment';
+import { message } from 'antd';
 
 const SiteRankTable: React.FC = () => {
+  const [exportTime, setExportTime] = useState([]);
   const requestList = useCallback((params) => {
     if (params.time) {
+      setExportTime(params.time);
       params.startTime = params.time[0];
       params.endTime = params.time[1];
       delete params.time;
@@ -28,8 +31,8 @@ const SiteRankTable: React.FC = () => {
       params.startTime = moment(params.time[0]).format('YYYY-MM-DD');
       params.endTime = moment(params.time[1]).format('YYYY-MM-DD');
       delete params.time;
+      return exportList({ ...params });
     }
-    return exportList({ ...params });
   }, []);
   return (
     <>
@@ -45,7 +48,9 @@ const SiteRankTable: React.FC = () => {
           export: {
             show: true,
             requestExport: requestExport,
-            getExportName: () => formatMessage({ id: 'device.1019', defaultMessage: '站点排名' }),
+            getExportName: () =>
+              formatMessage({ id: 'device.1019', defaultMessage: '站点排名' }) +
+              `${exportTime[0]}~${exportTime[1]}`,
           },
         }}
         form={{

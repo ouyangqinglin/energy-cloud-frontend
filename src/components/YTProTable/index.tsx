@@ -3,6 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProColumns, YTProTableProps } from './typing';
+
 import genDefaultOperation from './operation';
 import {
   formatData,
@@ -17,7 +18,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
-// import  dragComponents from './dragSort'
+import dragComponents, { dragcolumns } from './dragSort';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -50,7 +51,9 @@ const YTProTable = <
   } = props;
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const myTableRef = useRef<HTMLDivElement>();
+  const [dragConfig, setDragConfig] = useState({});
   const [collapsed, { set: setCollapse }] = useBoolean(false);
+  const [dataSource, setDataSource] = useState([]);
   const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>([]);
 
   const mergedFormRef = useMemo(() => {
@@ -77,8 +80,20 @@ const YTProTable = <
     mergedFormRef,
   );
 
+  const getDragList = (params: any) => {
+    if (isDragSort) {
+      setDataSource(params.list);
+      const baseSort = (params.pageNum - 1) * params.pageSize;
+      const getSortData = (SortData: any) => setDataSource(SortData);
+      setDragConfig(dragComponents(onSortEnd, params.list, rowKey, baseSort, getSortData));
+    }
+  };
   // 对request请求方法进行封装，解构表格数据格式
-  const standardRequest = standardRequestTableData<DataType, Params>(request, props.expandable);
+  const standardRequest = standardRequestTableData<DataType, Params>(
+    request,
+    props.expandable,
+    getDragList,
+  );
 
   const mergedBeforeSearchSubmit = useCallback(
     (data) => {
@@ -112,6 +127,9 @@ const YTProTable = <
     if (defaultOperation) {
       result?.push(defaultOperation);
     }
+    if (isDragSort) {
+      result?.unshift(...dragcolumns);
+    }
     if (resizable) {
       calculateColumns(result, mergedTableRef);
     }
@@ -129,8 +147,9 @@ const YTProTable = <
           reload: false,
           setting: true,
         }}
+        dataSource={isDragSort ? dataSource : restProps.dataSource}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
-        components={merge(components, realityComponents, isDragSort ? {} : {})}
+        components={merge(components, realityComponents, isDragSort ? dragConfig : {})}
         toolBarRender={toolBarRenderResult}
         pagination={
           pagination == false

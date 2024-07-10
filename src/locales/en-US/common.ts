@@ -90,6 +90,7 @@ export default {
   'common.addSuccess': 'Successfully Added',
   'common.editSuccess': 'Successfully edited',
   'common.unbind': 'Unbind',
+  'common.Topping': 'Topping',
   'common.unbindSuccess': 'Successfully Unbind',
   'common.createTime': 'Creation Time',
   'common.deliveryTime': 'Delivery Time',
@@ -264,4 +265,6 @@ export default {
   'common.1004': 'Please Config',
   'common.1005': 'Failed to obtain token, please try again!',
   'common.1006': 'Number',
+  'common.1007': 'Dragging to child nodes is not supported',
+  'common.1008': 'Topping to child nodes is not supported',
 };

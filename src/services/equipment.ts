@@ -25,6 +25,7 @@ export type DeviceDataType = {
   isBindMainServer?: string | number;
   siteId?: string;
   productImg?: string;
+  parentId?: number;
   name?: string;
   sn?: string;
   model?: string;

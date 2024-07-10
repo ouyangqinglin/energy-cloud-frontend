@@ -1,4 +1,6 @@
 import { getDetailData, addPackageData, editPackageData } from '../service';
+import { getFileUrl } from '@/pages/system/version/service';
+
 import { useCallback, useState, useEffect } from 'react';
 import type { FormUpdateBaseProps } from '../type';
 import { ProFormUploadButton } from '@ant-design/pro-form';
@@ -186,13 +188,18 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   };
 
   const beforeUpload = useCallback(
-    (file, form, field) => {
+    (file, form, field, isOss) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('platform', platform);
       api.uploadFile(formData).then(({ data }) => {
         if (data.url) {
           form.setFieldValue(field, `${data.url}`);
+          if (isOss) {
+            getFileUrl({ url: data.url, platform: 2 }).then((res) => {
+              form.setFieldValue(field, `${res.data}`);
+            });
+          }
         }
       });
       return false;
@@ -330,6 +337,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       renderFormItem: (schema: any, config: any, form: any) => {
         const value = form.getFieldValue('softwarePackageUrl') || '';
         const name = value.split('/').pop() || '';
+        const isOss = form.getFieldValue('platform') == 2;
         return (
           <ProFormUploadButton
             title={formatMessage({ id: 'common.upload', defaultMessage: '上传' })}
@@ -339,7 +347,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
               listType: 'text',
               fileList: value ? ([{ url: value, uid: '1', name }] as UploadFile[]) : [],
               name: 'file',
-              beforeUpload: (file) => beforeUpload(file, form, 'softwarePackageUrl'),
+              beforeUpload: (file) => beforeUpload(file, form, 'softwarePackageUrl', isOss),
               onChange: () => form.setFieldValue('softwarePackageUrl', ''),
             }}
           />

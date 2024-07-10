@@ -67,7 +67,7 @@ const Product: React.FC = () => {
       >
         <YTProTable
           columns={columns}
-          toolBarRender={false}
+          toolBarRender={() => []}
           request={getPage}
           option={{
             onDetailChange,
