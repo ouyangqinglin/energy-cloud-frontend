@@ -21,7 +21,7 @@ import { defaultLineOption } from '@/components/Chart/config';
 import { BmuType } from '../type';
 
 const BmuTabs: React.FC<BmuType> = memo((props) => {
-  const { bmuMap, onOpenChart } = props;
+  const { bmuMap, onOpenChart, modelMap } = props;
 
   const { data: deviceData } = useContext(DeviceContext);
   const [activeKey, setActiveKey] = useState('0');

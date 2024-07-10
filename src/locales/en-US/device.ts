@@ -507,4 +507,10 @@ export default {
   'device.1009': 'Total Discharging Capacity',
   'device.1010': 'Upstream',
   'device.1011': 'Down',
+  'device.1012': 'Max',
+  'device.1013': 'Min',
+  'device.1014': 'Max Vol',
+  'device.1015': 'Min Vol',
+  'device.1016': 'Max Temp',
+  'device.1017': 'Min Temp',
 };

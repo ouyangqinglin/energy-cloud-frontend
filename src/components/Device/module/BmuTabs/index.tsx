@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-07-09 16:30:43
+ * @LastEditTime: 2024-07-10 14:52:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
@@ -19,6 +19,7 @@ import { getChildEquipment } from '@/services/equipment';
 import { useBoolean } from 'ahooks';
 import { LineChartOutlined, TableOutlined } from '@ant-design/icons';
 import BmuTabs from './Tab';
+import Table from './Table';
 
 type BmuInfoType = {
   isStackChild?: boolean;
@@ -88,7 +89,11 @@ const BmuInfo: React.FC<BmuInfoType> = memo((props) => {
           </Radio.Button>
         </Radio.Group>
       </Detail.Label>
-      {tableType ? <></> : <BmuTabs bmuMap={bmuMap} onOpenChart={onOpenChart} />}
+      {tableType ? (
+        <Table bmuMap={bmuMap} onOpenChart={onOpenChart} modelMap={modelMap} />
+      ) : (
+        <BmuTabs bmuMap={bmuMap} onOpenChart={onOpenChart} />
+      )}
       <CollectionModal
         title={collectionInfo.title}
         open={openBmuChart}

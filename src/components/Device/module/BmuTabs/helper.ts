@@ -10,8 +10,8 @@
 import { formatMessage } from '@/utils';
 import { DeviceTypeEnum } from '@/utils/dictionary';
 
-const cellText = formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' });
-const tempText = formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' });
+export const cellText = formatMessage({ id: 'siteMonitor.cell', defaultMessage: '电芯' });
+export const tempText = formatMessage({ id: 'siteMonitor.temperature', defaultMessage: '温度' });
 const voltageText = formatMessage({ id: 'siteMonitor.voltage', defaultMessage: '电压' });
 
 export const chartOptions = {

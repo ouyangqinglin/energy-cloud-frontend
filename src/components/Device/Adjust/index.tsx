@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-27 16:31:19
- * @LastEditTime: 2024-06-18 10:10:31
+ * @LastEditTime: 2024-07-10 13:44:47
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Adjust\index.tsx
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Switch, Tag, Input, message } from 'antd';
+import { Button, Switch, Tag, Input, message, Row, Col } from 'antd';
 import { MessageEventType, RequestCommandEnum } from '@/utils/connection';
 import { DeviceProductTypeEnum } from '@/utils/dictionary';
 import styles from './index.less';
@@ -180,55 +180,57 @@ const Index: React.FC<AdjustType> = (props) => {
 
   return (
     <>
-      <div className={`${styles.adjust} ${className}`}>
-        <div
-          className={styles.message}
-          style={{
-            width: [
-              DeviceProductTypeEnum.DCChargePile,
-              DeviceProductTypeEnum.ACChargePile,
-            ].includes(productTypeId)
-              ? 'calc(100% - 350px)'
-              : '100%',
-          }}
+      <Row className={`${styles.adjust} mb24 ${className}`} gutter={24}>
+        <Col
+          span={
+            [DeviceProductTypeEnum.ChargeMaster, DeviceProductTypeEnum.ChargeTerminal].includes(
+              productTypeId,
+            )
+              ? 16
+              : 24
+          }
         >
-          <div className={styles.title}>
-            <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听' })}</div>
-            <div className="flex1">
-              {loading ? (
-                <Switch loading checked={isSubscribe} onChange={stopGet} />
-              ) : (
-                <Switch checked={isSubscribe} onChange={stopGet} />
-              )}
+          <div className={styles.message}>
+            <div className={styles.title}>
+              <div>{formatMessage({ id: 'device.systemMessage', defaultMessage: '监听' })}</div>
+              <div className="flex1">
+                {loading ? (
+                  <Switch loading checked={isSubscribe} onChange={stopGet} />
+                ) : (
+                  <Switch checked={isSubscribe} onChange={stopGet} />
+                )}
+              </div>
+              <Button type="primary" icon={<ExportOutlined />} onClick={exportList}>
+                {formatMessage({ id: 'common.export', defaultMessage: '导出' })}
+              </Button>
+              <Button className="ml12" onClick={() => clearList()}>
+                {formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
+              </Button>
             </div>
-            <Button type="primary" icon={<ExportOutlined />} onClick={exportList}>
-              {formatMessage({ id: 'common.export', defaultMessage: '导出' })}
-            </Button>
-            <Button className="ml12" onClick={() => clearList()}>
-              {formatMessage({ id: 'common.clear', defaultMessage: '清空' })}
-            </Button>
-          </div>
-          <div className={styles.parent} ref={warper}>
-            <div className={styles.child} ref={childDom}>
-              {items}
+            <div className={styles.parent} ref={warper}>
+              <div className={styles.child} ref={childDom}>
+                {items}
+              </div>
             </div>
           </div>
-        </div>
+        </Col>
         {/* 充电桩 */}
-        {[DeviceProductTypeEnum.DCChargePile, DeviceProductTypeEnum.ChargeTerminal].includes(
+        {[DeviceProductTypeEnum.ChargeMaster, DeviceProductTypeEnum.ChargeTerminal].includes(
           productTypeId,
         ) && (
-          <div className={styles.send}>
-            <div className={styles.title}>
-              <div>发送信息</div>
-              <Button onClick={sendMessage}>发送</Button>
+          <Col span={8}>
+            <div className={styles.send}>
+              <div className={styles.title}>
+                <div>发送信息</div>
+                <Button onClick={sendMessage}>发送</Button>
+              </div>
+              <div className={styles.data}>
+                <TextArea rows={4} onChange={onChange} value={msg} />
+              </div>
             </div>
-            <div className={styles.data}>
-              <TextArea rows={4} onChange={onChange} value={msg} />
-            </div>
-          </div>
+          </Col>
         )}
-      </div>
+      </Row>
     </>
   );
 };

@@ -7,9 +7,11 @@
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\type.ts
  */
 
+import { DeviceModelType } from '@/types/device';
+
 export type BmuType = {
-  bmuTabNum?: number;
   bmuMap?: Map<string, string>;
+  modelMap?: Record<string, DeviceModelType>;
   onOpenChart?: (
     deviceId: string,
     collectionInfo: {
@@ -17,4 +19,31 @@ export type BmuType = {
       collection: string;
     },
   ) => void;
+};
+
+export type MaxDataType = {
+  cell: {
+    max: {
+      bmu?: number;
+      index: number;
+      value: number;
+    };
+    min: {
+      bmu?: number;
+      index: number;
+      value: number;
+    };
+  };
+  temp: {
+    max: {
+      bmu?: number;
+      index: number;
+      value: number;
+    };
+    min: {
+      bmu?: number;
+      index: number;
+      value: number;
+    };
+  };
 };

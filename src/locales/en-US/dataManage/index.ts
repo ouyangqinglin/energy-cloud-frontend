@@ -81,8 +81,6 @@ export default {
   'dataManage.1013': 'Refresh Item',
   'dataManage.1014': 'Electricity（Grid、ESS、Fan、Diesel、PV Generation、EV Chager、Other Load）',
   'dataManage.1015': 'Income',
-  'device.1016': 'Execute',
-  'device.1017': 'Execute Success',
   'dataManage.1016': 'Execute',
   'dataManage.1017': 'Execute Success',
   'dataManage.1018': 'Statistical Overview',
