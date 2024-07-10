@@ -3,8 +3,6 @@ import { columns, OrderTypEnum } from './config';
 import YTProTable from '@/components/YTProTable';
 import { getData, exportList } from './service';
 import { formatMessage } from '@/utils';
-import moment from 'moment';
-import { message } from 'antd';
 
 const SiteRankTable: React.FC = () => {
   const [exportTime, setExportTime] = useState([]);
@@ -26,14 +24,16 @@ const SiteRankTable: React.FC = () => {
       ...params,
     });
   }, []);
+
   const requestExport = useCallback((params) => {
     if (params.time) {
-      params.startTime = moment(params.time[0]).format('YYYY-MM-DD');
-      params.endTime = moment(params.time[1]).format('YYYY-MM-DD');
-      delete params.time;
-      return exportList({ ...params });
+      return exportList({
+        startTime: params?.time?.[0]?.format?.('YYYY-MM-DD'),
+        endTime: params?.time?.[1]?.format?.('YYYY-MM-DD'),
+      });
     }
   }, []);
+
   return (
     <>
       <YTProTable
@@ -55,9 +55,7 @@ const SiteRankTable: React.FC = () => {
         }}
         form={{
           ignoreRules: false,
-          initialValues: { time: [moment().subtract(1, 'week'), moment()] },
         }}
-        resizable={true}
       />
     </>
   );

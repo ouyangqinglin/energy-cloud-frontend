@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-27 14:38:35
- * @LastEditTime: 2024-06-18 17:58:19
+ * @LastEditTime: 2024-07-10 19:05:54
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\Control\index.tsx
  */
@@ -379,6 +379,7 @@ const Control: React.FC<ControlType> = memo((props) => {
                     },
                   ),
                 },
+                max: (field?.dataType as DeviceArrayType)?.specs?.size || 1000,
               },
             },
             timeRangeColumn,
@@ -1188,7 +1189,15 @@ const Control: React.FC<ControlType> = memo((props) => {
             width={currentFormInfo?.width || '816px'}
             open={openForm}
             onOpenChange={set}
-            title={currentFormInfo?.service?.name || ''}
+            title={`${currentFormInfo?.service?.name || ''}${
+              currentFormInfo?.service?.tip ? (
+                <Typography.Text className={styles.tip} type="secondary">
+                  ({currentFormInfo?.service?.tip})
+                </Typography.Text>
+              ) : (
+                ''
+              )
+            }`}
             deviceId={currentFormInfo?.service?.deviceId || deviceId}
             realTimeData={{
               ...merge(

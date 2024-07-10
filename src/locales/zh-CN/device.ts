@@ -502,4 +502,10 @@ export default {
   'device.timeRequire': '所有时间范围相加未满24小时',
   'device.1010': '上行',
   'device.1011': '下行',
+  'device.1012': '最高值',
+  'device.1013': '最低值',
+  'device.1014': '最高电压',
+  'device.1015': '最低电压',
+  'device.1016': '最高温度',
+  'device.1017': '最低温度',
 };

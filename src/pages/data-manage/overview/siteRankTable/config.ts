@@ -102,8 +102,14 @@ export const columns: ProColumns<DataType>[] = [
     valueType: 'dateRange',
     hideInTable: true,
     width: 200,
-    fieldProps: {
-      format: getLocale().dateFormat,
+    initialValue: [moment().subtract(1, 'week'), moment()],
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
     },
     formItemProps: {
       rules: [

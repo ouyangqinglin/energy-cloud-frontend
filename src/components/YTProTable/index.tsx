@@ -54,7 +54,9 @@ const YTProTable = <
   const [dragConfig, setDragConfig] = useState({});
   const [collapsed, { set: setCollapse }] = useBoolean(false);
   const [dataSource, setDataSource] = useState([]);
-  const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>([]);
+  const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
+    columns || [],
+  );
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;
@@ -78,6 +80,7 @@ const YTProTable = <
     toolBarRender,
     toolBarRenderOptions,
     mergedFormRef,
+    columns,
   );
 
   const getDragList = (params: any) => {
