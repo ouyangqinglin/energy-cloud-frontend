@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import { Tabs, TabsProps } from 'antd';
-// import DeptTableList from '../dept';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
 import styles from './index.less';
 import { useAuthority } from '@/hooks';
-import Operator from './Operator';
 import Owner from './Owner';
 import Dept from './Dept';
 import Customer from './Service';

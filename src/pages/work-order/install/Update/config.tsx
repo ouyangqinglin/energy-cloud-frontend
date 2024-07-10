@@ -265,7 +265,7 @@ export const Columns: (
       },
     },
     {
-      title: formatMessage({ id: 'taskManage.installer', defaultMessage: '安装人' }),
+      title: formatMessage({ id: 'taskManage.installer', defaultMessage: '安装人员' }),
       valueType: 'select',
       dataIndex: 'handler',
       colProps: {
@@ -273,7 +273,7 @@ export const Columns: (
       },
       dependencies: ['serviceProvider'],
       fieldProps: {
-        fieldNames: { label: 'userName', value: 'userId' },
+        fieldNames: { label: 'nickName', value: 'userId' },
       },
       formItemProps: {
         rules: [

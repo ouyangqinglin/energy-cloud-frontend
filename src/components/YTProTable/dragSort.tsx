@@ -5,6 +5,7 @@ import { formatMessage } from '@/utils';
 import type { SortEnd } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import type { ProColumns } from '@ant-design/pro-components';
+import './index.less';
 
 export const DragHandle = SortableHandle(() => (
   <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
