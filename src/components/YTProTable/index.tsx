@@ -49,7 +49,9 @@ const YTProTable = <
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const myTableRef = useRef<HTMLDivElement>();
   const [collapsed, { set: setCollapse }] = useBoolean(false);
-  const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>([]);
+  const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
+    columns || [],
+  );
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;
@@ -73,6 +75,7 @@ const YTProTable = <
     toolBarRender,
     toolBarRenderOptions,
     mergedFormRef,
+    columns,
   );
 
   // 对request请求方法进行封装，解构表格数据格式

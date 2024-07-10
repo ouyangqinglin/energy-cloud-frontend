@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-11 17:39:54
- * @LastEditTime: 2023-12-06 09:26:58
+ * @LastEditTime: 2024-07-10 11:04:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
@@ -11,11 +11,12 @@ import { Button } from 'antd';
 import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
 import { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
+import type { YTProColumns, YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
 import { isEmpty, saveFile } from '@/utils';
 import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
+import { formatData } from './helper';
 
 enum optionsType {
   Add = 'add',
@@ -30,11 +31,13 @@ const useToolBarRender = <
   toolBarRender: YTProTableProps<DataType, Params, ValueType>['toolBarRender'],
   toolBarRenderOptions?: toolBarRenderOptionsType<Params>,
   formRef?: MutableRefObject<ProFormInstance<Params> | undefined>,
+  columns?: any,
 ) => {
   const [exportLoading, { setTrue, setFalse }] = useBoolean(false);
 
   const onExport = useCallback(() => {
     formRef?.current?.validateFields?.()?.then((value) => {
+      formatData(value, columns);
       if (toolBarRenderOptions?.export?.requestExport) {
         setTrue();
         toolBarRenderOptions?.export
@@ -50,7 +53,7 @@ const useToolBarRender = <
           });
       }
     });
-  }, [toolBarRenderOptions, toolBarRenderOptions?.export?.requestExport, formRef]);
+  }, [toolBarRenderOptions, toolBarRenderOptions?.export?.requestExport, formRef, columns]);
 
   const options = useMemo(() => {
     const defaultOptions: toolBarRenderOptionsType<Params> = {
