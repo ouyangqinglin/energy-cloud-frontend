@@ -45,17 +45,6 @@ const SortableBody = SortableContainer((props: React.HTMLAttributes<HTMLTableSec
   <tbody {...props} />
 ));
 
-export const getDragSort = (dataSource: any, oldIndex: number, newIndex: number) => {
-  return arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex).filter((el: any) => !!el);
-};
-
-export const getQueryData = (sortData: any[], rowKey: number, baseSort: number) => {
-  return sortData.map((item: any, index) => ({
-    [`${rowKey}`]: item[`${rowKey}`],
-    sort: index + baseSort,
-  }));
-};
-
 const DraggableContainer = (props: ContainerProps) => {
   const sortEnd = ({ oldIndex, newIndex }: SortEnd) => {
     if (newIndex < 0) {
@@ -63,8 +52,16 @@ const DraggableContainer = (props: ContainerProps) => {
       return;
     }
     if (oldIndex !== newIndex) {
-      const sortData = getDragSort(props?.dataSource || [], oldIndex, newIndex);
-      const queryData = getQueryData(sortData, props.rowKey, props.baseSort);
+      const queryData = [] as any;
+      const sortData = arrayMoveImmutable(props.dataSource.slice(), oldIndex, newIndex)
+        .filter((el: any) => !!el)
+        .map((item, index) => {
+          queryData.push({
+            [`${props.rowKey}`]: item[`${props.rowKey}`],
+            sort: index + props.baseSort,
+          });
+          return item;
+        });
       props.request(queryData);
       props.getSortData(sortData);
     }

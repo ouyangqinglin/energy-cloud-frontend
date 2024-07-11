@@ -18,7 +18,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
-import dragComponents, { dragcolumns, getDragSort, getQueryData } from './dragSort';
+import dragComponents, { dragcolumns } from './dragSort';
 
 const YTProTable = <
   DataType extends Record<string, any>,
