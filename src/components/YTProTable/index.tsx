@@ -18,7 +18,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
-import dragComponents, { dragcolumns } from './dragSort';
+import dragComponents, { dragcolumns, getDragSort, getQueryData } from './dragSort';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -53,6 +53,8 @@ const YTProTable = <
   const [dragConfig, setDragConfig] = useState({});
   const [collapsed, { set: setCollapse }] = useBoolean(false);
   const [dataSource, setDataSource] = useState([]);
+  const [baseSort, setBaseSort] = useState<number>(0);
+
   const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
     columns || [],
   );
@@ -85,11 +87,28 @@ const YTProTable = <
   const getDragList = (params: any) => {
     if (dragSort?.visable) {
       setDataSource(params.list);
-      const baseSort = (params.pageNum - 1) * params.pageSize;
-      const getSortData = (SortData: any) => setDataSource(SortData);
-      setDragConfig(dragComponents(dragSort.onSortEnd, params.list, rowKey, baseSort, getSortData));
+      const currentBaseSort = (params.pageNum - 1) * params.pageSize;
+      setBaseSort(currentBaseSort);
+      const query = {
+        request: dragSort.request,
+        dataSource: params.list,
+        rowKey,
+        baseSort: currentBaseSort,
+        getSortData: (sortData: any) => setDataSource(sortData),
+      };
+      setDragConfig(dragComponents(query));
     }
   };
+
+  useEffect(() => {
+    if (dragSort?.rowIndex) {
+      const sortData = getDragSort(dataSource, dragSort?.rowIndex, 0);
+      setDataSource(sortData as any);
+      const queryData = getQueryData(sortData, rowKey as any, baseSort);
+      dragSort?.request?.(queryData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dragSort?.rowIndex]);
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(
     request,

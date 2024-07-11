@@ -17,7 +17,6 @@ import {
   ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import { DragHandle } from '@/components/YTProTable/dragSort';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
@@ -46,6 +45,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [rowIndex, setRowIndex] = useState<number>(0);
   const [snOpen, setSnOpen] = useState(false);
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -221,18 +221,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return toolBarArray;
   }, [authorityMap, isStationChild]);
 
-  const goToTop = (row: DeviceDataType, index: number) => {
-    console.log('row>>', row);
-    console.log('index>>', index);
-    // if (row?.parentId == 0) {
-    //   modifySort([{ sort: 0, deviceId: row.deviceId }]).then((res) => {
-    //     if (res.code == '200') {
-    //       actionRef.current?.reload();
-    //     }
-    //   });
-    // } else {
-    //   message.info(formatMessage({ id: 'common.1008', defaultMessage: '不支持置顶子节点' }));
-    // }
+  const goToTop = (index: number) => {
+    setRowIndex(index);
   };
   const rowBar = (_: any, record: DeviceDataType, index: number) => (
     <>
@@ -314,12 +304,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ) : (
         <></>
       )}
-      {isStationChild && false ? (
+      {isStationChild ? (
         <Button
           className="pl0"
           type="link"
           size="small"
-          onClick={() => goToTop(record, index)}
+          onClick={() => goToTop(index)}
           key="unbind"
         >
           <FormattedMessage id="common.Topping" defaultMessage="置顶" />
@@ -461,20 +451,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteColumn, productTypeColumn]);
 
-  const onSortEnd = (data: any) => {
-    const sortData = data.map((item: any) => {
-      return {
-        deviceId: item.deviceId,
-        sort: item.sort,
-      };
-    });
-    modifySort(sortData).then((res) => {
-      if (res.code == '200') {
-        actionRef.current?.reload();
-      }
-    });
-  };
-
   return (
     <>
       {authorPage ? (
@@ -492,7 +468,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             resizable={true}
             dragSort={{
               visable: isStationChild,
-              onSortEnd: onSortEnd,
+              request: modifySort,
+              rowIndex,
             }}
             expandable={{
               childrenColumnName: 'childDeviceList',
