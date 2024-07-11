@@ -6,6 +6,7 @@ import type { SortEnd } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import './index.less';
 import { message } from 'antd';
+import { cloneDeep } from 'lodash';
 
 type DragComponentsProps = {
   request: any;
@@ -37,7 +38,8 @@ const DraggableContainer = (props: ContainerProps) => {
     }
     if (oldIndex !== newIndex) {
       const queryData = [] as any;
-      const sortData = arrayMoveImmutable(props.dataSource.slice(), oldIndex, newIndex)
+      const dataSource = cloneDeep(props.dataSource);
+      const sortData = arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex)
         .filter((el: any) => !!el)
         .map((item, index) => {
           queryData.push({
@@ -63,7 +65,7 @@ const DraggableContainer = (props: ContainerProps) => {
 
 const DraggableBodyRow: React.FC<any> = (props) => {
   const index = props.dataSource.findIndex(
-    (x: any) => x[`${props.rowKey}`] === props['data-row-key'],
+    (x: any) => x[`${props.rowKey}`] == props['data-row-key'],
   );
   return <SortableItem index={index} {...props} />;
 };

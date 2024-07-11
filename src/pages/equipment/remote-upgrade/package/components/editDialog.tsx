@@ -31,6 +31,8 @@ import type { TreeDataType } from '../config';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { formatMessage } from '@/utils';
+import { aLinkDownLoad } from '@/utils/downloadfile';
+
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
   onSuccess?: () => void;
@@ -188,18 +190,13 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   };
 
   const beforeUpload = useCallback(
-    (file, form, field, isOss) => {
+    (file, form, field) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('platform', platform);
       api.uploadFile(formData).then(({ data }) => {
         if (data.url) {
           form.setFieldValue(field, `${data.url}`);
-          if (isOss) {
-            getFileUrl({ url: data.url, platform: 2 }).then((res) => {
-              form.setFieldValue(field, `${res.data}`);
-            });
-          }
         }
       });
       return false;
@@ -347,8 +344,18 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
               listType: 'text',
               fileList: value ? ([{ url: value, uid: '1', name }] as UploadFile[]) : [],
               name: 'file',
-              beforeUpload: (file) => beforeUpload(file, form, 'softwarePackageUrl', isOss),
+              beforeUpload: (file) => beforeUpload(file, form, 'softwarePackageUrl'),
               onChange: () => form.setFieldValue('softwarePackageUrl', ''),
+              onPreview: (file) => {
+                if (isOss) {
+                  getFileUrl({ url: file.url, platform: 2 }).then((res) => {
+                    file.url = res.data;
+                    aLinkDownLoad(file.url || '', file.name);
+                  });
+                } else {
+                  aLinkDownLoad(file.url || '', file.name);
+                }
+              },
             }}
           />
         );

@@ -53,6 +53,7 @@ const YTProTable = <
   const [dragConfig, setDragConfig] = useState({});
   const [collapsed, { set: setCollapse }] = useBoolean(false);
   const [dataSource, setDataSource] = useState([]);
+  const [curBaseSort, setCurBaseSortataSource] = useState(0);
 
   const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
     columns || [],
@@ -102,16 +103,24 @@ const YTProTable = <
   const getDragList = (params: any) => {
     if (dragSort?.visable) {
       setDataSource(params.list);
-      const query = {
-        request: dragSort.request,
-        dataSource: params.list,
-        rowKey,
-        baseSort: (params.pageNum - 1) * params.pageSize,
-        getSortData: (sortData: any) => setDataSource(sortData),
-      };
-      setDragConfig(dragComponents(query));
+      setCurBaseSortataSource((params.pageNum - 1) * params.pageSize);
     }
   };
+
+  useEffect(() => {
+    const query = {
+      request: dragSort?.request,
+      dataSource,
+      rowKey,
+      baseSort: curBaseSort,
+      getSortData: (sortData: any) => {
+        setDataSource(sortData);
+      },
+    };
+    setDragConfig(dragComponents(query));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataSource]);
+
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(
     request,
