@@ -1,11 +1,10 @@
 import { MenuOutlined } from '@ant-design/icons';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import type { SortableContainerProps } from 'react-sortable-hoc';
-import { formatMessage } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 import type { SortEnd } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import './index.less';
-import { cloneDeep } from 'lodash';
 import { message } from 'antd';
 
 type ContainerProps = SortableContainerProps & {
@@ -21,9 +20,9 @@ export const DragHandle = SortableHandle(() => (
 
 export const dragcolumns = [
   {
-    title: 'Sort',
+    title: '',
     dataIndex: 'sort',
-    width: 80,
+    width: 50,
     hideInSearch: true,
     render: (_, record: any) => {
       if (!record.parentId) {
@@ -50,8 +49,7 @@ const DraggableContainer = (props: ContainerProps) => {
       return;
     }
     if (oldIndex !== newIndex) {
-      const dataSource = cloneDeep(props.dataSource);
-      const sortData = arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex)
+      const sortData = arrayMoveImmutable(props.dataSource.slice(), oldIndex, newIndex)
         .filter((el: any) => !!el)
         .map((item, index) => {
           item.sort = index + props.baseSort;

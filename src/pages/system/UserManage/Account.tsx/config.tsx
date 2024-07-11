@@ -23,6 +23,7 @@ import Detail from '@/components/Detail';
 import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { FormTypeEnum } from '@/components/SchemaForm';
 
 export type AccountDataType = {
   userId?: string;
@@ -191,7 +192,11 @@ const HanderTreeData = (data) => {
   });
 };
 
-export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) => {
+export const getFormColumns = (
+  types: OrgTypeEnum[],
+  roleOptions: OptionType[],
+  type: FormTypeEnum,
+) => {
   const formColumns: ProFormColumnsType<AccountDataType, TABLESELECTVALUETYPE>[] = [
     {
       title: '',
@@ -255,6 +260,7 @@ export const getFormColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) 
       },
       fieldProps: {
         autoComplete: 'off',
+        disabled: type === FormTypeEnum.Edit,
       },
     },
     {

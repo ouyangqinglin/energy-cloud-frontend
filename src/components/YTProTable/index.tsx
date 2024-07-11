@@ -30,8 +30,7 @@ const YTProTable = <
   const {
     toolBarRender,
     columns,
-    isDragSort = false,
-    onSortEnd,
+    dragSort,
     actionRef,
     components: realityComponents = {},
     formRef,
@@ -84,11 +83,11 @@ const YTProTable = <
   );
 
   const getDragList = (params: any) => {
-    if (isDragSort) {
+    if (dragSort?.visable) {
       setDataSource(params.list);
       const baseSort = (params.pageNum - 1) * params.pageSize;
       const getSortData = (SortData: any) => setDataSource(SortData);
-      setDragConfig(dragComponents(onSortEnd, params.list, rowKey, baseSort, getSortData));
+      setDragConfig(dragComponents(dragSort.onSortEnd, params.list, rowKey, baseSort, getSortData));
     }
   };
   // 对request请求方法进行封装，解构表格数据格式
@@ -130,14 +129,14 @@ const YTProTable = <
     if (defaultOperation) {
       result?.push(defaultOperation);
     }
-    if (isDragSort) {
+    if (dragSort?.visable) {
       result?.unshift(...dragcolumns);
     }
     if (resizable) {
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, onEvent, props.option]);
+  }, [columns, resizable, onEvent, props.option, props, dragSort?.visable, mergedTableRef]);
 
   return (
     <div ref={mergedTableRef}>
@@ -150,9 +149,10 @@ const YTProTable = <
           reload: false,
           setting: true,
         }}
-        dataSource={isDragSort ? dataSource : restProps.dataSource}
+        expandIconColumnIndex={dragSort?.visable ? 1 : 0}
+        dataSource={dragSort?.visable ? dataSource : restProps.dataSource}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
-        components={merge(components, realityComponents, isDragSort ? dragConfig : {})}
+        components={merge(components, realityComponents, dragSort?.visable ? dragConfig : {})}
         toolBarRender={toolBarRenderResult}
         pagination={
           pagination == false

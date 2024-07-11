@@ -221,18 +221,20 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return toolBarArray;
   }, [authorityMap, isStationChild]);
 
-  const goToTop = (row: DeviceDataType) => {
-    if (row?.parentId == 0) {
-      modifySort([{ sort: 0, deviceId: row.deviceId }]).then((res) => {
-        if (res.code == '200') {
-          actionRef.current?.reload();
-        }
-      });
-    } else {
-      message.info(formatMessage({ id: 'common.1008', defaultMessage: '不支持置顶子节点' }));
-    }
+  const goToTop = (row: DeviceDataType, index: number) => {
+    console.log('row>>', row);
+    console.log('index>>', index);
+    // if (row?.parentId == 0) {
+    //   modifySort([{ sort: 0, deviceId: row.deviceId }]).then((res) => {
+    //     if (res.code == '200') {
+    //       actionRef.current?.reload();
+    //     }
+    //   });
+    // } else {
+    //   message.info(formatMessage({ id: 'common.1008', defaultMessage: '不支持置顶子节点' }));
+    // }
   };
-  const rowBar = (_: any, record: DeviceDataType) => (
+  const rowBar = (_: any, record: DeviceDataType, index: number) => (
     <>
       {!isStationChild && record.canBeDeleted !== 0 ? (
         <Button
@@ -312,9 +314,19 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ) : (
         <></>
       )}
-      <Button className="pl0" type="link" size="small" onClick={() => goToTop(record)} key="unbind">
-        <FormattedMessage id="common.Topping" defaultMessage="置顶" />
-      </Button>
+      {isStationChild && false ? (
+        <Button
+          className="pl0"
+          type="link"
+          size="small"
+          onClick={() => goToTop(record, index)}
+          key="unbind"
+        >
+          <FormattedMessage id="common.Topping" defaultMessage="置顶" />
+        </Button>
+      ) : (
+        <></>
+      )}
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
@@ -478,8 +490,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             request={handleRequest}
             rowKey="deviceId"
             resizable={true}
-            isDragSort={true}
-            onSortEnd={onSortEnd}
+            dragSort={{
+              visable: isStationChild,
+              onSortEnd: onSortEnd,
+            }}
             expandable={{
               childrenColumnName: 'childDeviceList',
               expandIcon: ({ expanded, expandable, record, onExpand }) => {

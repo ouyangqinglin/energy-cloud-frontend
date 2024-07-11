@@ -8,8 +8,9 @@
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
-import { getTableColumns, getFormColumns, AccountDataType } from './config';
-import { ActionType } from '@ant-design/pro-components';
+import { getTableColumns, getFormColumns } from './config';
+import type { AccountDataType } from './config';
+import type { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
@@ -18,10 +19,10 @@ import { tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { api } from '@/services';
-import { OptionType } from '@/types';
+import type { OptionType } from '@/types';
 import { arrayToMap, formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
-import { YTProTableProps } from '@/components/YTProTable/typing';
+import type { YTProTableProps } from '@/components/YTProTable/typing';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
@@ -71,7 +72,7 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params]);
 
   const formColumns = useMemo(() => {
-    return getFormColumns(params?.orgTypes, roleOptions);
+    return getFormColumns(params?.orgTypes, roleOptions, formInfo.type);
   }, [params, roleOptions]);
 
   const initialValues = useMemo(() => {
