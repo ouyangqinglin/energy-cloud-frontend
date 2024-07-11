@@ -17,8 +17,7 @@ import {
   ImportOutlined,
 } from '@ant-design/icons';
 import YTProTable from '@/components/YTProTable';
-import dragComponents, { DragHandle, arrayMoveImmutable } from '@/components/YTProTable/dragSort';
-import type { SortEnd } from '@/components/YTProTable/dragSort';
+import { DragHandle } from '@/components/YTProTable/dragSort';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
 import { onlineStatus, onInstallStatus } from '@/utils/dict';
@@ -38,7 +37,6 @@ import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
-import { cloneDeep } from 'lodash';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -48,7 +46,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [dataSourceInfo, setDataSourceInfo] = useState({ list: [] });
   const [snOpen, setSnOpen] = useState(false);
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -163,12 +160,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       rootFilter: 1,
       ...(isStationChild ? { siteId } : {}),
     };
-    return getDevicePage(query).then((res) => {
-      if (res.code == '200') {
-        setDataSourceInfo(res?.data as any);
-        return res;
-      }
-    });
+    return getDevicePage(query);
   };
 
   const toolBar = useCallback(() => {
@@ -228,6 +220,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     }
     return toolBarArray;
   }, [authorityMap, isStationChild]);
+
+  const goToTop = (row: DeviceDataType) => {
+    if (row?.parentId == 0) {
+      modifySort([{ sort: 0, deviceId: row.deviceId }]).then((res) => {
+        if (res.code == '200') {
+          actionRef.current?.reload();
+        }
+      });
+    } else {
+      message.info(formatMessage({ id: 'common.1008', defaultMessage: '不支持置顶子节点' }));
+    }
+  };
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       {!isStationChild && record.canBeDeleted !== 0 ? (
@@ -308,27 +312,14 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ) : (
         <></>
       )}
+      <Button className="pl0" type="link" size="small" onClick={() => goToTop(record)} key="unbind">
+        <FormattedMessage id="common.Topping" defaultMessage="置顶" />
+      </Button>
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
     return [
-      ...(isStationChild
-        ? [
-            {
-              title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
-              dataIndex: 'sort',
-              width: 80,
-              hideInSearch: true,
-              render: (_, record: any) => {
-                if (!record.parentId) {
-                  // 父节点显示拖拽功能
-                  return <DragHandle />;
-                }
-                return '';
-              },
-            },
-          ]
-        : [siteColumn]),
+      ...(isStationChild ? [] : [siteColumn]),
       productTypeColumn,
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
@@ -451,34 +442,27 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
         valueType: 'option',
         fixed: 'right',
-        width: 80,
+        width: 120,
         render: rowBar,
       },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteColumn, productTypeColumn]);
 
-  const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    if (oldIndex !== newIndex) {
-      const cloneSourceInfo = cloneDeep(dataSourceInfo) as any;
-      const newData = arrayMoveImmutable(cloneSourceInfo.list.slice(), oldIndex, newIndex).filter(
-        (el: any) => !!el,
-      );
-      cloneSourceInfo.list = newData as any;
-      setDataSourceInfo(cloneSourceInfo);
-      const sortData = newData.map((item: any, index: number) => {
-        return {
-          deviceId: item.deviceId,
-          sort: index + (cloneSourceInfo.pageNum - 1) * cloneSourceInfo.pageSize,
-        };
-      });
-      modifySort(sortData).then((res) => {
-        if (res.code == '200') {
-          actionRef.current?.reload();
-        }
-      });
-    }
+  const onSortEnd = (data: any) => {
+    const sortData = data.map((item: any) => {
+      return {
+        deviceId: item.deviceId,
+        sort: item.sort,
+      };
+    });
+    modifySort(sortData).then((res) => {
+      if (res.code == '200') {
+        actionRef.current?.reload();
+      }
+    });
   };
+
   return (
     <>
       {authorPage ? (
@@ -491,11 +475,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             actionRef={actionRef}
             columns={columns}
             toolBarRender={toolBar}
-            dataSource={dataSourceInfo.list}
             request={handleRequest}
             rowKey="deviceId"
             resizable={true}
-            components={dragComponents(onSortEnd, dataSourceInfo.list, 'deviceId')}
+            isDragSort={true}
+            onSortEnd={onSortEnd}
             expandable={{
               childrenColumnName: 'childDeviceList',
               expandIcon: ({ expanded, expandable, record, onExpand }) => {

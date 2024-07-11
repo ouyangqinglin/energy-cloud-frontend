@@ -6,10 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\YTProTable\useToolBarRender.tsx
  */
-import React, { MutableRefObject, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import type { MutableRefObject } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
-import { ProFormInstance } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
 import type { YTProColumns, YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';

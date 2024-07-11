@@ -1,6 +1,6 @@
 import { get as requestGet, post as requestPost } from '@/utils/request';
 import type { ProColumns, ProTableProps } from '@ant-design/pro-components';
-import { get, isEmpty, merge } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import type { EmitType, YTProColumns, YTProTableCustomProps } from './typing';
 import { dateFormatMap } from '@/utils/dictionary';
 import moment from 'moment';
@@ -141,6 +141,7 @@ export const normalizeRequestOption = <D, V>(
 export const standardRequestTableData = <D, P>(
   request?: YTProTableCustomProps<D, P>['request'],
   expandable?: ProTableProps<D, P>['expandable'],
+  getDragList?: (params: any) => void,
 ) => {
   if (!request) {
     return;
@@ -167,10 +168,12 @@ export const standardRequestTableData = <D, P>(
         item[childrenKey] = null;
       }
     });
-    return {
+    const result = {
       data: data?.list || [],
       total: data?.total,
     };
+    getDragList?.(data);
+    return result;
   };
   return simpleRequest;
 };

@@ -56,6 +56,7 @@ export default {
   'common.unbindSuccess': '解绑成功',
   'common.custom': '自定义',
   'common.predefine': '预定义',
+  'common.Topping': '置顶',
 
   'common.operateSuccess': '操作成功',
   'common.refreshSuccess': '刷新成功',
@@ -262,4 +263,6 @@ export default {
   'common.1004': '请配置',
   'common.1005': '令牌获取失败，请重试！',
   'common.1006': '次',
+  'common.1007': '不支持拖拽到子节点',
+  'common.1008': '不支持置顶子节点',
 };

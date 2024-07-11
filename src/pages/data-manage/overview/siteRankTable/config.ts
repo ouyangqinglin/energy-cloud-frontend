@@ -1,4 +1,4 @@
-import { formatMessage, getLocale } from '@/utils';
+import { formatMessage } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import { platform } from '@/utils/dict';
 import { siteType as siteTypeEnum } from '@/utils/dict';

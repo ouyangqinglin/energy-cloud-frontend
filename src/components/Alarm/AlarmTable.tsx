@@ -13,7 +13,7 @@ import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { AlarmType, TableSearchType } from './data';
-import { alarmSource, alarmStatus } from '@/utils/dict';
+import { alarmSource, buildStatus } from '@/utils/dict';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 import { cleanUpType } from '@/utils/dict';
@@ -184,8 +184,12 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   }, []);
 
   const requestStation = useCallback(
-    debounce((searchText) => {
-      getStations({ name: searchText }).then(({ data }) => {
+    debounce(({ text, siteConstructionStatus }) => {
+      const query = { name: text } as any;
+      if (siteConstructionStatus !== undefined) {
+        query.siteConstructionStatus = siteConstructionStatus;
+      }
+      getStations(query).then(({ data }) => {
         setStationOptions(
           data?.map?.((item: any) => {
             return {
@@ -318,6 +322,22 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'index',
         width: 50,
       },
+      {
+        title: formatMessage({
+          id: 'siteManage.siteList.constructionStatus',
+          defaultMessage: '建设状态',
+        }),
+        dataIndex: 'siteConstructionStatus',
+        valueType: 'select',
+        valueEnum: buildStatus,
+        width: 150,
+        ellipsis: true,
+        hideInTable: true,
+        fieldProps: {
+          onChange: (siteConstructionStatus) =>
+            requestStation({ siteConstructionStatus, text: '' }),
+        },
+      },
       ...(isStationChild
         ? []
         : [
@@ -334,11 +354,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               formItemProps: {
                 name: 'siteId',
               },
-              fieldProps: {
-                showSearch: true,
-                filterOption: false,
-                onSearch: requestStation,
-                options: stationOptions,
+              fieldProps: (form) => {
+                const siteConstructionStatus = form.getFieldValue('siteConstructionStatus');
+
+                return {
+                  showSearch: true,
+                  filterOption: false,
+                  onSearch: (text: string) => requestStation({ siteConstructionStatus, text }),
+                  options: stationOptions,
+                };
               },
               width: 150,
               ellipsis: true,

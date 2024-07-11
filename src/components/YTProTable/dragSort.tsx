@@ -4,20 +4,34 @@ import type { SortableContainerProps } from 'react-sortable-hoc';
 import { formatMessage } from '@/utils';
 import type { SortEnd } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
-import type { ProColumns } from '@ant-design/pro-components';
 import './index.less';
+import { cloneDeep } from 'lodash';
+import { message } from 'antd';
+
+type ContainerProps = SortableContainerProps & {
+  baseSort: number;
+  dataSource: any[];
+  sortEnd: (sortData: any) => void;
+  getSortData: (sortData: any) => void;
+};
 
 export const DragHandle = SortableHandle(() => (
   <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
 ));
 
-export const dragcolumns: ProColumns[] = [
+export const dragcolumns = [
   {
-    title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
+    title: 'Sort',
     dataIndex: 'sort',
     width: 80,
     hideInSearch: true,
-    render: () => <DragHandle />,
+    render: (_, record: any) => {
+      if (!record.parentId) {
+        // 父节点显示拖拽功能
+        return <DragHandle />;
+      }
+      return '';
+    },
   },
 ];
 
@@ -29,15 +43,34 @@ const SortableBody = SortableContainer((props: React.HTMLAttributes<HTMLTableSec
   <tbody {...props} />
 ));
 
-const DraggableContainer = (props: SortableContainerProps) => (
-  <SortableBody
-    useDragHandle
-    disableAutoscroll
-    helperClass="row-dragging"
-    onSortEnd={props.onSortEnd}
-    {...props}
-  />
-);
+const DraggableContainer = (props: ContainerProps) => {
+  const sortEnd = ({ oldIndex, newIndex }: SortEnd) => {
+    if (newIndex < 0) {
+      message.info(formatMessage({ id: 'common.1007', defaultMessage: '不支持拖拽到子节点' }));
+      return;
+    }
+    if (oldIndex !== newIndex) {
+      const dataSource = cloneDeep(props.dataSource);
+      const sortData = arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex)
+        .filter((el: any) => !!el)
+        .map((item, index) => {
+          item.sort = index + props.baseSort;
+          return item;
+        });
+      props.sortEnd(sortData);
+      props.getSortData(sortData);
+    }
+  };
+  return (
+    <SortableBody
+      useDragHandle
+      disableAutoscroll
+      helperClass="row-dragging"
+      onSortEnd={sortEnd}
+      {...props}
+    />
+  );
+};
 
 const DraggableBodyRow: React.FC<any> = (props) => {
   const index = props.dataSource.findIndex(
@@ -46,9 +79,16 @@ const DraggableBodyRow: React.FC<any> = (props) => {
   return <SortableItem index={index} {...props} />;
 };
 
-const dragComponents = (onSortEnd: any, dataSource: any, rowKey: string) => ({
+const dragComponents = (
+  sortEnd: any,
+  dataSource: any[],
+  rowKey: any,
+  baseSort: number,
+  getSortData: any,
+) => ({
   body: {
-    wrapper: (wrapperProps: any) => DraggableContainer({ ...wrapperProps, onSortEnd }),
+    wrapper: (wrapperProps: any) =>
+      DraggableContainer({ ...wrapperProps, sortEnd, baseSort, dataSource, getSortData }),
     row: (rowProps: any) => DraggableBodyRow({ ...rowProps, dataSource, rowKey }),
   },
 });
