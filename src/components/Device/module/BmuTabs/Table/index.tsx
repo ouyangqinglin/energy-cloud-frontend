@@ -24,7 +24,7 @@ const Table: React.FC<BmuType> = (props) => {
       return {
         ...item,
         unit:
-          index > 1 ? modelMap?.['Voltage1']?.specs?.unit : modelMap?.['Temperature1']?.specs?.unit,
+          index > 1 ? modelMap?.['Temperature1']?.specs?.unit : modelMap?.['Voltage1']?.specs?.unit,
       };
     });
   }, [modelMap]);
