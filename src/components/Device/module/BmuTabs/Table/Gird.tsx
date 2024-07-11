@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-07-10 11:14:21
- * @LastEditTime: 2024-07-10 15:40:29
+ * @LastEditTime: 2024-07-11 09:26:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\Table\Gird.tsx
  */
 
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useCallback, useContext, useMemo } from 'react';
 import styles from './index.less';
 import { bumConfigMap, cellText, defaultLables, getFieldByLabel, tempText } from '../helper';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
@@ -20,10 +20,17 @@ type GridType = {
   deviceId?: string;
   modelMap?: Record<string, DeviceModelType>;
   onDataChange?: (bmuName?: string, data?: MaxDataType) => void;
+  onOpenChart?: (
+    deviceId: string,
+    collectionInfo: {
+      title: string;
+      collection: string;
+    },
+  ) => void;
 };
 
 const Grid: React.FC<GridType> = (props) => {
-  const { bmuName, deviceId, modelMap, onDataChange } = props;
+  const { bmuName, deviceId, modelMap, onDataChange, onOpenChart } = props;
 
   const { data: deviceData } = useContext(DeviceContext);
 
@@ -81,6 +88,16 @@ const Grid: React.FC<GridType> = (props) => {
     return result;
   }, [realTimeData, deviceData]);
 
+  const onClick = useCallback(
+    (name: string, field: string) => {
+      onOpenChart?.(deviceId || '', {
+        title: `${bmuName}-${name}`,
+        collection: field,
+      });
+    },
+    [onOpenChart, bmuName, deviceId],
+  );
+
   const items = useMemo(() => {
     const labels = bumConfigMap.get(deviceData?.productId)?.labels || defaultLables;
     return labels.map((item) => {
@@ -104,14 +121,17 @@ const Grid: React.FC<GridType> = (props) => {
         }
       }
       return (
-        <div className={`${styles.box} ${isCell ? '' : styles.temp} ${className}`}>
+        <div
+          className={`${styles.box} ${isCell ? '' : styles.temp} ${className}`}
+          onClick={() => onClick(item, field)}
+        >
           <div className={styles.dot}>{num}</div>
           <div>{realTimeData[field]}</div>
           <span>{modelMap?.[field]?.specs?.unit}</span>
         </div>
       );
     });
-  }, [realTimeData, deviceData, modelMap, maxData]);
+  }, [realTimeData, deviceData, modelMap, maxData, onClick]);
 
   return (
     <>

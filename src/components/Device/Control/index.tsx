@@ -1189,15 +1189,18 @@ const Control: React.FC<ControlType> = memo((props) => {
             width={currentFormInfo?.width || '816px'}
             open={openForm}
             onOpenChange={set}
-            title={`${currentFormInfo?.service?.name || ''}${
-              currentFormInfo?.service?.tip ? (
-                <Typography.Text className={styles.tip} type="secondary">
-                  ({currentFormInfo?.service?.tip})
-                </Typography.Text>
-              ) : (
-                ''
-              )
-            }`}
+            title={
+              <span>
+                {currentFormInfo?.service?.name || ''}
+                {currentFormInfo?.service?.tip ? (
+                  <Typography.Text className={styles.tip} type="secondary">
+                    ({currentFormInfo?.service?.tip})
+                  </Typography.Text>
+                ) : (
+                  ''
+                )}
+              </span>
+            }
             deviceId={currentFormInfo?.service?.deviceId || deviceId}
             realTimeData={{
               ...merge(
