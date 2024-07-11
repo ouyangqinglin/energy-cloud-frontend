@@ -236,6 +236,9 @@ export enum DeviceTypeEnum {
   LiquidEnergy232ABatteryPack = 233,
   PvInverter100k1 = 240,
   PvInverter100k2 = 241,
+  ChargeEU4801 = 242,
+  ChargeEU3502 = 243,
+  ChargeEU5002 = 244,
   Device = 'default',
 }
 

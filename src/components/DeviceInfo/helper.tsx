@@ -816,6 +816,7 @@ const productIdKeysMap = new Map([
   [DeviceTypeEnum.ChargeS6401, chargeStackKeys],
   [DeviceTypeEnum.ChargeS7201, chargeStackKeys],
   [DeviceTypeEnum.ChargeS8001, chargeStackKeys],
+  [DeviceTypeEnum.ChargeEU4801, chargeStackKeys],
 ]);
 
 export const getDetailItems = (data?: DeviceDataType) => {

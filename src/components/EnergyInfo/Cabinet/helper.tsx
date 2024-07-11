@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 16:45:44
- * @LastEditTime: 2024-05-20 15:25:14
+ * @LastEditTime: 2024-07-11 14:20:03
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\helper.tsx
  */
@@ -107,6 +107,8 @@ export const energyProductIdMap = new Map([
   [DeviceTypeEnum.Charge2502, 'ChargeTerminal2Gun'],
   [DeviceTypeEnum.Charge6002, 'ChargeTerminal2Gun'],
   [DeviceTypeEnum.Charge5002, 'ChargeTerminal2Gun'],
+  [DeviceTypeEnum.ChargeEU3502, 'ChargeTerminal2Gun'],
+  [DeviceTypeEnum.ChargeEU5002, 'ChargeTerminal2Gun'],
   [DeviceTypeEnum.FGCCEnergy, 'WindPvFirewood'],
   [DeviceTypeEnum.React100XEnergy, 'Bwt'],
   [DeviceTypeEnum.React100WEnergy, 'Bwt'],
