@@ -13,13 +13,6 @@ const SiteRankTable: React.FC = () => {
       params.endTime = params.time[1];
       delete params.time;
     }
-    if (params.sortMode) {
-      Object.keys(params.sortMode).forEach((key: string) => {
-        params.orderType = OrderTypEnum[key as keyof typeof OrderTypEnum];
-        params.sortType = params.sortMode[key] == 0 ? 2 : 1;
-      }),
-        delete params.sortMode;
-    }
     return getData({
       ...params,
     });
