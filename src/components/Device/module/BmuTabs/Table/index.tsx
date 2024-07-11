@@ -119,11 +119,12 @@ const Table: React.FC<BmuType> = (props) => {
           deviceId={deviceId}
           modelMap={modelMap}
           onDataChange={onDataChange}
+          onOpenChart={onOpenChart}
         />,
       );
     });
     return result;
-  }, [bmuMap, modelMap, onDataChange]);
+  }, [bmuMap, modelMap, onDataChange, onOpenChart]);
 
   return (
     <>

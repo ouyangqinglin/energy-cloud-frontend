@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-07-09 14:32:35
- * @LastEditTime: 2024-07-09 17:44:58
+ * @LastEditTime: 2024-07-11 09:26:19
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\Tab\index.tsx
  */
@@ -44,7 +44,7 @@ const BmuTabs: React.FC<BmuType> = memo((props) => {
       }
       const field = getFieldByLabel(name);
       onOpenChart?.(bmuMap?.get?.('BMU-' + (Number(activeKey) + 1)) || '', {
-        title: `BMU${Number(activeKey) * 1 + 1}-${name}`,
+        title: `BMU-${Number(activeKey) * 1 + 1}-${name}`,
         collection: field,
       });
     },

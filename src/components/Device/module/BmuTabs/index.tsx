@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 15:21:47
- * @LastEditTime: 2024-07-10 14:52:42
+ * @LastEditTime: 2024-07-11 09:23:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\index.tsx
  */
