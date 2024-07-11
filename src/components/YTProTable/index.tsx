@@ -18,7 +18,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
-import dragComponents, { dragcolumns } from './dragSort';
+import dragComponents, { DragHandle } from './dragSort';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -57,6 +57,22 @@ const YTProTable = <
   const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
     columns || [],
   );
+
+  const dragcolumns = [
+    {
+      title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
+      dataIndex: 'sort',
+      hideInSearch: true,
+      width: 50,
+      render: (_, record: any) => {
+        if (!record.parentId) {
+          // 父节点显示拖拽功能
+          return <DragHandle />;
+        }
+        return '';
+      },
+    },
+  ];
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;

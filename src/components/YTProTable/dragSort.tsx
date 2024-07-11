@@ -21,22 +21,6 @@ export const DragHandle = SortableHandle(() => (
   <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
 ));
 
-export const dragcolumns = [
-  {
-    title: '',
-    dataIndex: 'sort',
-    width: 50,
-    hideInSearch: true,
-    render: (_, record: any) => {
-      if (!record.parentId) {
-        // 父节点显示拖拽功能
-        return <DragHandle />;
-      }
-      return '';
-    },
-  },
-];
-
 const SortableItem = SortableElement((props: React.HTMLAttributes<HTMLTableRowElement>) => (
   <tr {...props} />
 ));
