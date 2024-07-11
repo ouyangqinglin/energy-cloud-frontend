@@ -221,18 +221,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return toolBarArray;
   }, [authorityMap, isStationChild]);
 
-  const goToTop = (row: DeviceDataType) => {
-    console.log('row>>', row);
-    // if (row?.parentId == 0) {
-    //   modifySort([{ sort: 0, deviceId: row.deviceId }]).then((res) => {
-    //     if (res.code == '200') {
-    //       actionRef.current?.reload();
-    //     }
-    //   });
-    // } else {
-    //   message.info(formatMessage({ id: 'common.1008', defaultMessage: '不支持置顶子节点' }));
-    // }
-  };
   const rowBar = (_: any, record: DeviceDataType) => (
     <>
       {!isStationChild && record.canBeDeleted !== 0 ? (
@@ -309,19 +297,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           }}
         >
           <FormattedMessage id="common.unbind" defaultMessage="解绑" />
-        </Button>
-      ) : (
-        <></>
-      )}
-      {isStationChild ? (
-        <Button
-          className="pl0"
-          type="link"
-          size="small"
-          onClick={() => goToTop(record)}
-          key="unbind"
-        >
-          <FormattedMessage id="common.Topping" defaultMessage="置顶" />
         </Button>
       ) : (
         <></>
