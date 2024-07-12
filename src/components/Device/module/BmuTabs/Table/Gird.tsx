@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-07-10 11:14:21
- * @LastEditTime: 2024-07-11 13:41:53
+ * @LastEditTime: 2024-07-12 12:28:23
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\Table\Gird.tsx
  */
@@ -15,6 +15,7 @@ import { useSubscribe } from '@/hooks';
 import { DeviceModelType } from '@/types/device';
 import { MaxDataType } from '../type';
 import { merge } from 'lodash';
+import { getPlaceholder } from '@/utils';
 
 type GridType = {
   bmuName?: string;
@@ -130,7 +131,7 @@ const Grid: React.FC<GridType> = (props) => {
           onClick={() => onClick(item, field)}
         >
           <div className={styles.dot}>{num}</div>
-          <div>{realTimeData[field]}</div>
+          <div>{getPlaceholder(realTimeData[field])}</div>
           <span>{modelMap?.[field]?.specs?.unit}</span>
         </div>
       );

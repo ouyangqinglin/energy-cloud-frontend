@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-07-09 17:45:23
- * @LastEditTime: 2024-07-10 18:18:23
+ * @LastEditTime: 2024-07-12 12:40:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\BmuTabs\Table\index.tsx
  */
 
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useContext, useMemo, useState } from 'react';
 import { BmuType, MaxDataType } from '../type';
 import Gird from './Gird';
 import styles from './index.less';
@@ -15,9 +15,13 @@ import { formatMessage, getLocale } from '@/utils';
 import Detail from '@/components/Detail';
 import { items } from './helper';
 import moment from 'moment';
+import { bumConfigMap } from '../helper';
+import DeviceContext from '@/components/Device/Context/DeviceContext';
 
 const Table: React.FC<BmuType> = (props) => {
   const { bmuMap, onOpenChart, modelMap } = props;
+
+  const { data: deviceData } = useContext(DeviceContext);
 
   const detailItems = useMemo(() => {
     return items.map((item, index) => {
@@ -112,11 +116,15 @@ const Table: React.FC<BmuType> = (props) => {
 
   const girds = useMemo(() => {
     const result: React.ReactNode[] = [];
-    bmuMap?.forEach?.((deviceId, bmuName) => {
+    const bmuTabNum = bumConfigMap.get(deviceData?.productId)?.bmuNum || 10;
+    Array.from({
+      length: bmuTabNum,
+    }).forEach((_, index) => {
+      const bmuName = 'BMU-' + (index + 1);
       result.push(
         <Gird
           bmuName={bmuName}
-          deviceId={deviceId}
+          deviceId={bmuMap?.get?.(bmuName)}
           modelMap={modelMap}
           onDataChange={onDataChange}
           onOpenChart={onOpenChart}
@@ -124,7 +132,7 @@ const Table: React.FC<BmuType> = (props) => {
       );
     });
     return result;
-  }, [bmuMap, modelMap, onDataChange, onOpenChart]);
+  }, [bmuMap, modelMap, onDataChange, onOpenChart, deviceData]);
 
   return (
     <>
