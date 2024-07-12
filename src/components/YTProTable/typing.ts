@@ -56,9 +56,11 @@ export type YTProTableCustomProps<D, P, V = 'text'> = {
     minWidth?: number;
     maxWidth?: number;
   };
-  isDragSort?: boolean;
+  dragSort?: {
+    visable?: boolean;
+    request?: (params: any) => void;
+  };
   onEvent?: (eventName?: string, params?: any) => void;
-  onSortEnd?: (params: any) => void;
   extraHeight?: number;
 };
 

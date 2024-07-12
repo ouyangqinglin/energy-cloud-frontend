@@ -18,7 +18,7 @@ import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { useAntdColumnResize } from '@yangjianfei/react-antd-column-resize';
 import { merge } from 'lodash';
-import dragComponents, { dragcolumns } from './dragSort';
+import dragComponents, { DragHandle } from './dragSort';
 
 const YTProTable = <
   DataType extends Record<string, any>,
@@ -30,8 +30,7 @@ const YTProTable = <
   const {
     toolBarRender,
     columns,
-    isDragSort = false,
-    onSortEnd,
+    dragSort,
     actionRef,
     components: realityComponents = {},
     formRef,
@@ -54,9 +53,27 @@ const YTProTable = <
   const [dragConfig, setDragConfig] = useState({});
   const [collapsed, { set: setCollapse }] = useBoolean(false);
   const [dataSource, setDataSource] = useState([]);
+  const [curBaseSort, setCurBaseSortataSource] = useState(0);
+
   const [adaptionColumns, setAdaptionColumns] = useState<YTProColumns<DataType, ValueType>[]>(
     columns || [],
   );
+
+  const dragcolumns = [
+    {
+      title: formatMessage({ id: 'common.sort', defaultMessage: '排序' }),
+      dataIndex: 'sort',
+      hideInSearch: true,
+      width: 50,
+      render: (_, record: any) => {
+        if (!record.parentId) {
+          // 父节点显示拖拽功能
+          return <DragHandle />;
+        }
+        return '';
+      },
+    },
+  ];
 
   const mergedFormRef = useMemo(() => {
     return formRef || tableFormRef;
@@ -84,13 +101,26 @@ const YTProTable = <
   );
 
   const getDragList = (params: any) => {
-    if (isDragSort) {
+    if (dragSort?.visable) {
       setDataSource(params.list);
-      const baseSort = (params.pageNum - 1) * params.pageSize;
-      const getSortData = (SortData: any) => setDataSource(SortData);
-      setDragConfig(dragComponents(onSortEnd, params.list, rowKey, baseSort, getSortData));
+      setCurBaseSortataSource((params.pageNum - 1) * params.pageSize);
     }
   };
+
+  useEffect(() => {
+    const query = {
+      request: dragSort?.request,
+      dataSource,
+      rowKey,
+      baseSort: curBaseSort,
+      getSortData: (sortData: any) => {
+        setDataSource(sortData);
+      },
+    };
+    setDragConfig(dragComponents(query));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataSource]);
+
   // 对request请求方法进行封装，解构表格数据格式
   const standardRequest = standardRequestTableData<DataType, Params>(
     request,
@@ -130,14 +160,14 @@ const YTProTable = <
     if (defaultOperation) {
       result?.push(defaultOperation);
     }
-    if (isDragSort) {
+    if (dragSort?.visable) {
       result?.unshift(...dragcolumns);
     }
     if (resizable) {
       calculateColumns(result, mergedTableRef);
     }
     setAdaptionColumns(result);
-  }, [columns, resizable, onEvent, props.option]);
+  }, [columns, resizable, onEvent, props.option, props, dragSort?.visable, mergedTableRef]);
 
   return (
     <div ref={mergedTableRef}>
@@ -150,9 +180,10 @@ const YTProTable = <
           reload: false,
           setting: true,
         }}
-        dataSource={isDragSort ? dataSource : restProps.dataSource}
+        expandIconColumnIndex={dragSort?.visable ? 1 : 0}
+        dataSource={dragSort?.visable ? dataSource : restProps.dataSource}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
-        components={merge(components, realityComponents, isDragSort ? dragConfig : {})}
+        components={merge(components, realityComponents, dragSort?.visable ? dragConfig : {})}
         toolBarRender={toolBarRenderResult}
         pagination={
           pagination == false

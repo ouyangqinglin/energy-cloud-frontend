@@ -5,35 +5,22 @@ import { formatMessage } from '@/utils';
 import type { SortEnd } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import './index.less';
-import { cloneDeep } from 'lodash';
 import { message } from 'antd';
+import { cloneDeep } from 'lodash';
 
-type ContainerProps = SortableContainerProps & {
-  baseSort: number;
+type DragComponentsProps = {
+  request: any;
   dataSource: any[];
-  sortEnd: (sortData: any) => void;
-  getSortData: (sortData: any) => void;
+  rowKey: any;
+  baseSort: number;
+  getSortData: any;
 };
+
+type ContainerProps = SortableContainerProps & DragComponentsProps;
 
 export const DragHandle = SortableHandle(() => (
   <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />
 ));
-
-export const dragcolumns = [
-  {
-    title: 'Sort',
-    dataIndex: 'sort',
-    width: 80,
-    hideInSearch: true,
-    render: (_, record: any) => {
-      if (!record.parentId) {
-        // 父节点显示拖拽功能
-        return <DragHandle />;
-      }
-      return '';
-    },
-  },
-];
 
 const SortableItem = SortableElement((props: React.HTMLAttributes<HTMLTableRowElement>) => (
   <tr {...props} />
@@ -50,14 +37,18 @@ const DraggableContainer = (props: ContainerProps) => {
       return;
     }
     if (oldIndex !== newIndex) {
+      const queryData = [] as any;
       const dataSource = cloneDeep(props.dataSource);
       const sortData = arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex)
         .filter((el: any) => !!el)
         .map((item, index) => {
-          item.sort = index + props.baseSort;
+          queryData.push({
+            [`${props.rowKey}`]: item[`${props.rowKey}`],
+            sort: index + props.baseSort,
+          });
           return item;
         });
-      props.sortEnd(sortData);
+      props.request(queryData);
       props.getSortData(sortData);
     }
   };
@@ -74,22 +65,15 @@ const DraggableContainer = (props: ContainerProps) => {
 
 const DraggableBodyRow: React.FC<any> = (props) => {
   const index = props.dataSource.findIndex(
-    (x: any) => x[`${props.rowKey}`] === props['data-row-key'],
+    (x: any) => x[`${props.rowKey}`] == props['data-row-key'],
   );
   return <SortableItem index={index} {...props} />;
 };
 
-const dragComponents = (
-  sortEnd: any,
-  dataSource: any[],
-  rowKey: any,
-  baseSort: number,
-  getSortData: any,
-) => ({
+const dragComponents = (props: DragComponentsProps) => ({
   body: {
-    wrapper: (wrapperProps: any) =>
-      DraggableContainer({ ...wrapperProps, sortEnd, baseSort, dataSource, getSortData }),
-    row: (rowProps: any) => DraggableBodyRow({ ...rowProps, dataSource, rowKey }),
+    wrapper: (wrapperProps: any) => DraggableContainer({ ...wrapperProps, ...props }),
+    row: (rowProps: any) => DraggableBodyRow({ ...rowProps, ...props }),
   },
 });
 
