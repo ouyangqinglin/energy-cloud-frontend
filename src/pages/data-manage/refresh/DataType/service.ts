@@ -9,7 +9,7 @@
 import request from '@/utils/request';
 
 export const exportDataType = () => {
-  return request(`/iot/model/exportDomainDataType`, {
+  return request(`/iot/model/exportDomainType`, {
     method: 'get',
     params: {
       convertType: 1,
