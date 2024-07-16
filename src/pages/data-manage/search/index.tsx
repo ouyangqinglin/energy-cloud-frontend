@@ -34,7 +34,7 @@ const Search: React.FC<SearchProps> = (props) => {
 
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  const [tableType, setTableType] = useState(0);
+  const [tableType, setTableType] = useState(1);
   const requestRef = useRef<RequestRefType>({});
   const [searchData, setSearchData] = useState<any>(null);
   const [tableData, setTableData] = useState<{
@@ -198,23 +198,23 @@ const Search: React.FC<SearchProps> = (props) => {
       >
         <YTProTable<TableDataType, TableSearchType, TABLETREESELECTVALUETYPE>
           actionRef={actionRef}
-          headerTitle={
-            <>
-              <Radio.Group
-                optionType="button"
-                value={tableType}
-                onChange={onTypeChange}
-                buttonStyle="solid"
-              >
-                <Radio.Button value={0}>
-                  <UnorderedListOutlined />
-                </Radio.Button>
-                <Radio.Button value={1}>
-                  <LineChartOutlined />
-                </Radio.Button>
-              </Radio.Group>
-            </>
-          }
+          // headerTitle={
+          //   <>
+          //     <Radio.Group
+          //       optionType="button"
+          //       value={tableType}
+          //       onChange={onTypeChange}
+          //       buttonStyle="solid"
+          //     >
+          //       <Radio.Button value={0}>
+          //         <UnorderedListOutlined />
+          //       </Radio.Button>
+          //       <Radio.Button value={1}>
+          //         <LineChartOutlined />
+          //       </Radio.Button>
+          //     </Radio.Group>
+          //   </>
+          // }
           toolBarRenderOptions={{
             add: {
               show: false,
