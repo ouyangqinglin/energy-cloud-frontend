@@ -53,7 +53,7 @@ export type AccountDataType = {
   webConfig?: string[] & string;
 };
 
-export const getTableColumns = (types: OrgTypeEnum[]) => {
+export const getTableColumns = (types: OrgTypeEnum[], roleOptions: OptionType[]) => {
   const tableColumns: ProColumns<AccountDataType, YTDATERANGEVALUETYPE>[] = [
     {
       title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
@@ -83,17 +83,8 @@ export const getTableColumns = (types: OrgTypeEnum[]) => {
       render: (_, record) => {
         return record?.roles?.map?.((item) => item.roleName)?.join('，');
       },
-      request: () => {
-        return api
-          .getRoles({ builtInRole: types?.[0] === OrgTypeEnum.System ? 0 : 1 })
-          .then(({ data }) => {
-            return data?.map?.((item: any) => {
-              return {
-                label: item?.roleName,
-                value: item?.roleId,
-              };
-            });
-          });
+      fieldProps: {
+        options: roleOptions,
       },
     },
     {

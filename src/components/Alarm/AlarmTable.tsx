@@ -7,8 +7,8 @@
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { Modal, message, Space, Checkbox } from 'antd';
-import { ClearOutlined } from '@ant-design/icons';
+import { Modal, message, Space, Checkbox, Button } from 'antd';
+import { ClearOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRequest, useHistory, FormattedMessage } from 'umi';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import type { ProFormInstance } from '@ant-design/pro-components';
@@ -18,6 +18,7 @@ import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 import { cleanUpType } from '@/utils/dict';
 import YTProTable from '@/components/YTProTable';
+import { useAuthority } from '@/hooks';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
 import DetailDialog from '@/components/DetailDialog';
@@ -82,6 +83,9 @@ const alarmSourceOptions = Object.entries(alarmSource).map(([key, { text }]) => 
 
 const Alarm: React.FC<AlarmProps> = (props) => {
   const { isStationChild, type = PageTypeEnum.Current, params, formParam } = props;
+  const { authorityMap } = useAuthority(['oss:historyAlarm:page:batchDelete']);
+  const isBatchDelete =
+    authorityMap.get('oss:historyAlarm:page:batchDelete') && type == PageTypeEnum.History;
 
   const formParamRef = useRef(formParam);
   const [headParams, setHeadParams] = useState<Record<string, any[]>>({
@@ -92,6 +96,8 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [stationOptions, setStationOptions] = useState<OptionType[]>();
   const actionRef = useRef<ActionType>();
+  const [selectedRowsState, setSelectedRows] = useState<OptionType[]>([]);
+
   const { data: detailData, run } = useRequest(getDetail, {
     manual: true,
   });
@@ -551,6 +557,30 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     );
   }, [alarmNumData, type]);
 
+  /**
+   * 删除节点
+   *
+   * @param selectedRows
+   */
+  const handleRemove = async (selectedRows: AlarmType[]) => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+      const resp = await removeMenu(selectedRows.map((row) => row.menuId).join(','));
+      hide();
+      if (resp.code === 200) {
+        message.success('删除成功，即将刷新');
+      } else {
+        message.error(resp.msg);
+      }
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试');
+      return false;
+    }
+  };
+
   return (
     <>
       <ProConfigProvider
@@ -565,6 +595,15 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           formRef={formRef}
           columns={columns}
           request={requestList}
+          rowSelection={
+            isBatchDelete
+              ? {
+                  onChange: (_, selectedRows) => {
+                    setSelectedRows(selectedRows);
+                  },
+                }
+              : false
+          }
           toolBarRenderOptions={{
             add: {
               show: false,
@@ -574,6 +613,30 @@ const Alarm: React.FC<AlarmProps> = (props) => {
               requestExport: requestExport,
               getExportName: getExportName,
             },
+            ...(isBatchDelete
+              ? {
+                  prepend: (
+                    <Button
+                      type="primary"
+                      key="remove"
+                      hidden={selectedRowsState?.length === 0}
+                      onClick={async () => {
+                        const success = await handleRemove(selectedRowsState);
+                        if (success) {
+                          setSelectedRows([]);
+                          actionRef.current?.reloadAndRest?.();
+                        }
+                      }}
+                    >
+                      <DeleteOutlined />
+                      <FormattedMessage
+                        id="pages.searchTable.batchDeletion"
+                        defaultMessage="批量删除"
+                      />
+                    </Button>
+                  ),
+                }
+              : {}),
           }}
           onSubmit={() => (formParamRef.current = {})}
           search={{

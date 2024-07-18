@@ -129,4 +129,5 @@ export default {
   'dataManage.1056': '总收入',
   'dataManage.1057': '总效率',
   'dataManage.1058': '数据类型导出',
+  'dataManage.1059': '导出类型',
 };

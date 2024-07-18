@@ -11,7 +11,7 @@ export type AlarmTreeData = {
 
 export const useWatchingAlarmForSystem = (siteId: number) => {
   const [alarmSubsystemTree, setAlarmSubsystemTree] = useState<AlarmTreeData>({});
-  const { connection } = useWebsocket(true);
+  const { connection } = useWebsocket();
   const onReceivedMessage = useCallback((res: { type: MessageEventType; data: SiteAlarm[] }) => {
     if (MessageEventType.DEVICE_EVENT_DATA === res?.type) {
       const { data: msgData } = res;
