@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { columns, OrderTypEnum } from './config';
+import { columns } from './config';
 import YTProTable from '@/components/YTProTable';
 import { getData, exportList } from './service';
 import { formatMessage } from '@/utils';

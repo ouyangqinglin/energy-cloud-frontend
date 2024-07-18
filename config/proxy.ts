@@ -10,6 +10,7 @@ export default {
   dev: {
     '/api/': {
       target: 'https://192.168.3.18', //开发环境
+      // target: 'https://103.191.242.231', //开发环境
       // target: 'https://ytoss.yotaienergy.com',
       // target: 'https://192.168.3.4/',
       // target: 'https://192.168.3.47', //测试环境

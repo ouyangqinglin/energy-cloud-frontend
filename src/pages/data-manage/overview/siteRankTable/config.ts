@@ -1,6 +1,6 @@
 import { formatMessage } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
-import { platform } from '@/utils/dict';
+import { platform, buildStatus } from '@/utils/dict';
 import { siteType as siteTypeEnum } from '@/utils/dict';
 import moment from 'moment';
 
@@ -52,10 +52,21 @@ export const columns: ProColumns<DataType>[] = [
     hideInSearch: true,
   },
   {
+    title: formatMessage({
+      id: 'siteManage.siteList.constructionStatus',
+      defaultMessage: '建设状态',
+    }),
+    dataIndex: 'siteConstructionStatus',
+    valueType: 'select',
+    valueEnum: buildStatus,
+    width: 150,
+    ellipsis: true,
+    hideInTable: true,
+  },
+  {
     title: formatMessage({ id: 'system.Version.platform', defaultMessage: '平台' }),
     dataIndex: 'platform',
     valueEnum: platform,
-    hideInSearch: true,
   },
   {
     title: formatMessage({ id: 'screen.steCommissioningTime', defaultMessage: '站点投运时间' }),

@@ -129,4 +129,5 @@ export default {
   'dataManage.1056': 'Total Income',
   'dataManage.1057': 'Total Efficiency',
   'dataManage.1058': 'Data Type Export',
+  'dataManage.1059': 'Export Type',
 };
