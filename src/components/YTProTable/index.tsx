@@ -180,7 +180,7 @@ const YTProTable = <
           reload: false,
           setting: true,
         }}
-        expandIconColumnIndex={dragSort?.visable ? 1 : 0}
+        expandIconColumnIndex={dragSort?.visable ? 1 : undefined}
         dataSource={dragSort?.visable ? dataSource : restProps.dataSource}
         columns={resizable ? (resizableColumns as any) : adaptionColumns}
         components={merge(components, realityComponents, dragSort?.visable ? dragConfig : {})}

@@ -142,7 +142,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
         valueId: 'selectName',
         valueName: 'paramName',
         limit: 2,
-        limitSelect: 250,
+        limitSelect: 10,
         virtual: true,
         dealTreeData: (data: DeviceTreeDataType) => {
           if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {

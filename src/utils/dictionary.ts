@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-07-08 16:49:55
+ * @LastEditTime: 2024-07-15 16:13:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -239,6 +239,7 @@ export enum DeviceTypeEnum {
   ChargeEU4801 = 242,
   ChargeEU3502 = 243,
   ChargeEU5002 = 244,
+  PvInverter120k2 = 246,
   Device = 'default',
 }
 
