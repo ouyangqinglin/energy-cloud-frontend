@@ -251,6 +251,8 @@ export default {
   'common.requestError504': '网关超时。',
   'common.requestErrorAbnormalTips': '您的网络发生异常，无法连接服务器',
   'common.requestErrorAbnormal': '网络异常',
+  'common.dataLoadingPleaseWaitTips': '数据加载中，请稍等',
+  'common.dataLoading': '数据加载中',
   'common.requestError': '请求错误',
   'common.passwordResetSuccessful': '密码重置成功',
   'common.passwordinconsistency': '两次密码输入不一致',

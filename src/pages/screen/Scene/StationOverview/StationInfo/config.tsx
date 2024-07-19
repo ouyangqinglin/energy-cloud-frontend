@@ -20,7 +20,7 @@ export const stationInfoConfig: StationInfo[] = [
   {
     icon: icon_create_time,
     label: formatMessage({ id: 'screen.steCommissioningTime', defaultMessage: '站点投运时间' }),
-    field: 'createTime',
+    field: 'deliveryTime',
   },
   {
     icon: icon_location,

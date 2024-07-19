@@ -254,6 +254,7 @@ export default {
   'common.requestErrorAbnormalTips':
     'Your network is experiencing an exception and unable to connect to the server',
   'common.requestErrorAbnormal': 'Network Abnormality',
+  'common.dataLoadingPleaseWaitTips': 'Data loading, please wait',
   'common.requestError': 'Request Error',
   'common.passwordResetSuccessful': 'Password Reset Successful',
   'common.passwordinconsistency': 'The two password inputs are inconsistent',
