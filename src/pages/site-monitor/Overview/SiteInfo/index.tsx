@@ -1,4 +1,4 @@
-import { Tooltip } from 'antd';
+import { message, notification, Tooltip } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import BackgroundImg from '@/assets/image/station/overview/img_home.png';
 import RowBox from '../components/RowBox';
@@ -24,6 +24,17 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
   const history = useHistory();
 
   const onClick = () => {
+    if (!siteId) {
+      notification.warning({
+        description: formatMessage({
+          id: 'common.dataLoadingPleaseWaitTips',
+          defaultMessage: '数据加载中，请稍等',
+        }),
+        message: formatMessage({ id: 'common.dataLoading', defaultMessage: '数据加载中' }),
+      });
+      return;
+    }
+
     history.push({
       pathname: `/station/setting`,
       search: `?id=${siteId}`,
@@ -140,9 +151,8 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
               })}
               ：
             </div>
-            <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${
-              data?.energyStorageCapacity ?? '--'
-            }kWh`}</div>
+            <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${data?.energyStorageCapacity ?? '--'
+              }kWh`}</div>
           </li>
         )}
         <li>
