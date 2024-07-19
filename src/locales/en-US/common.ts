@@ -116,6 +116,7 @@ export default {
   'common.uploadPhoto': 'Upload Photo',
   'common.select': 'Select',
   'common.pleaseSelect': 'Please Select ',
+  'common.uploadFile': 'Please Upload File',
   'common.deleteConfirm': 'Delete Confirmation',
   'common.enter': 'Enter',
   'common.appointTime': 'Appointment Time',

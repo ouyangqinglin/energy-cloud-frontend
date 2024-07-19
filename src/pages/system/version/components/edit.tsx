@@ -6,12 +6,14 @@ import {
   ProFormTextArea,
   ProFormUploadButton,
   ProFormSelect,
+  ProFormSwitch,
 } from '@ant-design/pro-form';
 import { VersionInfo } from '../type';
 import { getTypeList, insertVersion } from '../service';
 import { platformTypes } from '@/utils/dict';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { formatMessage } from '@/utils';
+import { upgradeForce } from '@/utils/dict';
 
 type StationFOrmProps = {
   open: boolean;
@@ -54,6 +56,8 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
         onSuccess?.();
         return true;
+      } else {
+        formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' });
       }
     });
   }, []);
@@ -157,7 +161,30 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             ]}
           />
         </Col>
+
+        <Col span={12}>
+          <ProFormSelect
+            label={formatMessage({
+              id: 'system.Version.isCoerce',
+              defaultMessage: '是否强制升级',
+            })}
+            name="isCoerce"
+            valueEnum={upgradeForce}
+            rules={[
+              {
+                required: false,
+                message:
+                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                  formatMessage({
+                    id: 'system.Version.isCoerce',
+                    defaultMessage: '是否强制升级',
+                  }),
+              },
+            ]}
+          />
+        </Col>
       </Row>
+
       <ProFormTextArea
         label={formatMessage({ id: 'common.description', defaultMessage: '描述' })}
         name="details"
@@ -171,6 +198,12 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
             })}
             name="file"
             title={formatMessage({ id: 'system.Version.uploadApp', defaultMessage: '上传安装包' })}
+            rules={[
+              {
+                required: true,
+                message: formatMessage({ id: 'common.uploadFile', defaultMessage: '请上传安装包' }),
+              },
+            ]}
             max={1}
             fieldProps={{
               name: 'file',

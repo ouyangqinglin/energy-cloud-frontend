@@ -2,6 +2,7 @@ import { platformTypes } from '@/utils/dict';
 import { ProColumns } from '@ant-design/pro-components';
 import { VersionInfo } from './type';
 import { formatMessage } from '@/utils';
+import { upgradeForce } from '@/utils/dict';
 
 export const columns: ProColumns<VersionInfo>[] = [
   {
@@ -42,6 +43,15 @@ export const columns: ProColumns<VersionInfo>[] = [
     width: 150,
     hideInSearch: true,
   },
+  {
+    title: formatMessage({ id: 'system.Version.isCoerce', defaultMessage: '是否强制升级' }),
+    valueType: 'select',
+    dataIndex: 'isCoerce',
+    valueEnum: upgradeForce,
+    width: 150,
+    hideInSearch: true,
+  },
+
   {
     title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),
     dataIndex: 'details',

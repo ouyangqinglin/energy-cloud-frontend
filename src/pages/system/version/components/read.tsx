@@ -4,6 +4,7 @@ import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ProColumns } from '@ant-design/pro-components';
 import type { VersionInfo } from '../type';
 import { platformTypes } from '@/utils/dict';
+import { upgradeForce } from '@/utils/dict';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { getFileUrl } from '../service';
@@ -52,6 +53,11 @@ const Read = (props: IProps) => {
     {
       title: formatMessage({ id: 'common.updatedTime', defaultMessage: '更新时间' }),
       dataIndex: 'releaseTime',
+    },
+    {
+      title: formatMessage({ id: 'system.Version.isCoerce', defaultMessage: '是否强制升级' }),
+      dataIndex: 'isCoerce',
+      valueEnum: upgradeForce,
     },
     {
       title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),

@@ -7,4 +7,5 @@ export default {
   'system.Version.systemName': '系统名称',
   'system.Version.uploadApp': '上传安装包',
   'system.Version.package': '安装包',
+  'system.Version.isCoerce': '是否强制升级',
 };

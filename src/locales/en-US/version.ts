@@ -7,4 +7,5 @@ export default {
   'system.Version.systemName': 'System Name',
   'system.Version.uploadApp': 'Upload App',
   'system.Version.package': 'Package',
+  'system.Version.isCoerce': 'isCoerce',
 };

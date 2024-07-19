@@ -9,6 +9,7 @@ export interface VersionInfo {
   version: string;
   url: string;
   details?: string;
+  isCoerce?: number;
 }
 
 export type AppTypeDataType = {

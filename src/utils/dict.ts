@@ -608,3 +608,12 @@ export const timeZoneOptions: OptionType[] = [
     position: { lng: -13.592248, lat: 9.643234 },
   },
 ];
+
+export const upgradeForce = {
+  0: {
+    text: formatMessage({ id: 'common.no', defaultMessage: '否' }),
+  },
+  1: {
+    text: formatMessage({ id: 'common.yes', defaultMessage: '是' }),
+  },
+};
