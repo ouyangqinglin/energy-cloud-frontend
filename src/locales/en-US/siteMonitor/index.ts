@@ -75,6 +75,7 @@ export default {
   'siteMonitor.storageDoor': 'ESS Bin Door',
   'siteMonitor.systemModel': 'System Model',
   'siteMonitor.systemWorkModel': 'System Work Model',
+  'siteMonitor.softVersion': 'Soft Version',
   'siteMonitor.batteryPile': 'Battery Pile',
   'siteMonitor.workingCondition': 'Working Condition',
   'siteMonitor.workingMode': 'Working Mode',

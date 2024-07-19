@@ -1,26 +1,30 @@
-import { DeviceDataType } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { productTypeIconMap } from '@/utils/IconUtil';
 import {
-  alarmStatus,
+  // alarmStatus,
   alarmStatus1,
   chargingAndDischargingStatus,
-  systemMode,
-  workStatus,
+  // systemMode,
+  // workStatus,
   runningState,
   onlineStatus,
 } from '@/utils/dict';
 import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
+import type { DeviceType } from './data';
 
 // 其他设备
-export const getOtColumns = (onClick) => {
+export const getOtColumns = (onClick: {
+  (rowData: DeviceType): void;
+  (arg0: DeviceDataType): void;
+}) => {
   return [
     {
       title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
       width: 200,
       ellipsis: true,
-      render: (_, record: DeviceDataType) => {
+      render: (_: any, record: DeviceDataType) => {
         const Component =
           productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
           productTypeIconMap.get(DeviceProductTypeEnum.Default);
@@ -72,7 +76,8 @@ export const getOtColumns = (onClick) => {
     {
       title: formatMessage({ id: 'siteMonitor.communicationStatus', defaultMessage: '通信状态' }),
       dataIndex: 'connectStatus',
-      render: (dom, record) => (record.connectStatus == 2 ? '-' : dom),
+      render: (dom: any, record: { connectStatus: number }) =>
+        record.connectStatus == 2 ? '-' : dom,
       valueType: 'select',
       valueEnum: onlineStatus,
       width: 120,
@@ -94,7 +99,14 @@ export const EMScolumns = [
     title: formatMessage({ id: 'siteMonitor.systemWorkModel', defaultMessage: '系统工作模式' }),
     dataIndex: 'systemOperatingModeName',
     hideInSearch: true,
-    width: 120,
+    // width: 120,
+    ellipsis: true,
+  },
+  {
+    title: formatMessage({ id: 'siteMonitor.softVersion', defaultMessage: '软件版本号' }),
+    dataIndex: 'softVersion',
+    hideInSearch: false,
+    // width: 100,
     ellipsis: true,
   },
 ];
@@ -221,6 +233,7 @@ export const CSColumns = [
   },
 ];
 
+// @ts-ignore
 export const TabColumnsMap = new Map([
   [1, EMScolumns],
   [4, PVInverterColumns],
