@@ -13,7 +13,7 @@ import { useToggle } from 'ahooks';
 import { getProductTypeTree } from '@/services/equipment';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import type { PackageListType } from './type';
-import { getLocale } from '@/utils';
+import { formatMessage, getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
@@ -91,12 +91,18 @@ const Package: React.FC = () => {
     actionRef?.current?.reload?.();
   }, [siteType]);
 
-  const toolBar = () => [
-    <Button type="primary" key="add" onClick={onAddClick}>
-      <PlusOutlined />
-      <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
-    </Button>,
-  ];
+  const toolBar = () => {
+    return authorityMap.get('upgradManage:package:add') ? (
+      [
+        <Button type="primary" key="add" onClick={onAddClick}>
+          <PlusOutlined />
+          <FormattedMessage id="pages.searchTable.new" defaultMessage="新建" />
+        </Button>,
+      ]
+    ) : (
+      <></>
+    );
+  };
 
   const rowBar = (_: any, record: StationType) => (
     <>

@@ -1,19 +1,10 @@
-import {
-  PlusOutlined,
-  DeleteOutlined,
-  DownOutlined,
-  RightOutlined,
-  CaretDownFilled,
-  CaretRightFilled,
-} from '@ant-design/icons';
-import type { FormInstance } from 'antd';
+import { PlusOutlined, DeleteOutlined, CaretDownFilled, CaretRightFilled } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import type { MenuType, MenuListParams } from './data.d';
 import { getMenuList, removeMenu, addMenu, updateMenu } from './service';
 import UpdateForm from './components/edit';

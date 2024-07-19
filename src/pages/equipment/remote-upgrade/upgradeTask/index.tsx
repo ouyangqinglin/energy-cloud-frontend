@@ -26,12 +26,15 @@ import DetailDialog from '@/components/DetailDialog';
 import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
+import { useAuthority } from '@/hooks';
 
 const UpgradeTask: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
   const [initialValues, setInitialValues] = useState<UpgradeListType>({} as UpgradeListType);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
+
+  const { authorityMap } = useAuthority(['upgradManage:task:add']);
 
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
@@ -42,6 +45,7 @@ const UpgradeTask: React.FC = () => {
     toolBarRenderOptions: {
       add: {
         onClick: onAddClick,
+        show: authorityMap.get('upgradManage:task:add'),
       },
     },
   };

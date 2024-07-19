@@ -68,12 +68,14 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [type, authorityMap]);
 
   const tableColumns = useMemo(() => {
-    return getTableColumns(params?.orgTypes);
-  }, [params]);
+    return getTableColumns(params?.orgTypes, roleOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roleOptions]);
 
   const formColumns = useMemo(() => {
     return getFormColumns(params?.orgTypes, roleOptions, formInfo.type);
-  }, [params, roleOptions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formInfo.type, roleOptions]);
 
   const initialValues = useMemo(() => {
     const result: AccountDataType = {};
@@ -185,25 +187,23 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params]);
   //获取角色下拉框数据
   useEffect(() => {
-    if (openForm) {
-      api
-        .getRoles({
-          builtInRole: params?.orgTypes?.[0] == OrgTypeEnum.System ? 0 : 1,
-          manageOrgType: params?.orgTypes?.[0],
-        })
-        .then(({ data }) => {
-          const result =
-            data?.map?.((item: any) => {
-              return {
-                ...item,
-                label: item?.roleName,
-                value: item?.roleId,
-              };
-            }) || [];
-          setRoleOptions(result);
-        });
-    }
-  }, [openForm, params]);
+    api
+      .getRoles({
+        builtInRole: params?.orgTypes?.[0] == OrgTypeEnum.System ? 0 : 1,
+        manageOrgType: params?.orgTypes?.[0],
+      })
+      .then(({ data }) => {
+        const result =
+          data?.map?.((item: any) => {
+            return {
+              ...item,
+              label: item?.roleName,
+              value: item?.roleId,
+            };
+          }) || [];
+        setRoleOptions(result);
+      });
+  }, [params?.orgTypes]);
 
   return (
     <>
