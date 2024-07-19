@@ -6,7 +6,7 @@ import DeviceImg from '@/assets/image/masterSlaveGroup/device.png';
 import IconCharge from '@/assets/image/masterSlaveGroup/icon_charge.png';
 import IconDisCharge from '@/assets/image/masterSlaveGroup/icon_discharge.png';
 import IconStewing from '@/assets/image/masterSlaveGroup/icon_stewing.png';
-import { formatMessage, isEmpty } from '@/utils';
+import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { DeviceDataType, getWholeDeviceTree } from '@/services/equipment';
 import { useDeviceModel, useSubscribe } from '@/hooks';
 import { DeviceMasterMode, DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
@@ -198,7 +198,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
             <div className={`flex flex-between px12 py8 mb16 ${styles.maxContent}`}>{maxItems}</div>
             <Progress
               className={styles.progress}
-              percent={realTimeData?.SOC || '--'}
+              percent={getPlaceholder(realTimeData?.SOC)}
               format={(percent) => `SOC ${percent}%`}
               size={'default'}
               strokeColor={'#00B42A'}
@@ -207,7 +207,7 @@ const DeviceItem: React.FC<DeviceItemProps> = (props) => {
             />
             <Progress
               className={`mt14 mb16 ${styles.progress}`}
-              percent={realTimeData?.SOH || '--'}
+              percent={getPlaceholder(realTimeData?.SOH)}
               format={(percent) => `SOH ${percent}%`}
               size={'default'}
               strokeColor={'#007DFF'}
