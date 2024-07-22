@@ -374,7 +374,7 @@ export default {
   'device.refreshSuccess': 'Refresh Success',
   'device.curve': 'Curve',
   'device.todayCurve': 'Today Curve',
-  'device.voltageCurrentCurve': 'Voltage-current Curve',
+  'device.chargingCurve': 'Charging Curve',
   'device.voltage': 'Voltage',
   'device.current': 'Current',
   'device.maxAllowVoltage': 'Max Allowvoltage',

@@ -53,7 +53,6 @@ const defaultCChartData = [
     data: [],
   }, //充电枪负极负温度
 ];
-
 const EVChargerChart = () => {
   const chartRef = useRef() as any;
   const { data: deviceData } = useContext(DeviceContext);
@@ -150,7 +149,7 @@ const EVChargerChart = () => {
         className="mt16"
       />
       <Detail.Label
-        title={formatMessage({ id: 'device.voltageCurrentCurve', defaultMessage: '电压电流曲线' })}
+        title={formatMessage({ id: 'device.chargingCurve', defaultMessage: '充电曲线' })}
         className="mt16"
       />
       <TypeChart
