@@ -133,6 +133,7 @@ export const getDeviceSearchColumns = (deviceId?: string) => {
             });
             return result;
           },
+          placeholder: formatMessage({ id: 'dataManage.1060', defaultMessage: '筛选站点' }),
         },
         proTableProps: {
           pagination: false,
@@ -251,14 +252,15 @@ export const dealParams = (params: TableSearchType) => {
   deviceDataMap.forEach((value, key) => {
     const arr: ProColumns<TableDataType, TABLETREESELECTVALUETYPE>[] = [];
     value.collection.forEach((item) => {
+      const dataIndex = item.id + '-' + key;
       deviceData.push({
         key: item.id,
         name: item.name,
         deviceId: key,
         deviceName: value.deviceName,
         sn: value.sn,
+        type: modelMap[dataIndex]?.type,
       });
-      const dataIndex = item.id + '-' + key;
       arr.push({
         title: `${item.name}${
           modelMap[dataIndex]?.specs?.unit ? '(' + modelMap[dataIndex]?.specs?.unit + ')' : ''

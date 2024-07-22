@@ -246,7 +246,7 @@ export const workFormat = (value: number) => {
 };
 export const emsConnectMethodFormat = (value: number) => {
   const map: MapType = {
-    0: '485',
+    0: 'RS485',
     1: formatMessage({ id: 'things.unknown', defaultMessage: '未知' }),
   };
   return <span className={''}>{map[value]}</span>;

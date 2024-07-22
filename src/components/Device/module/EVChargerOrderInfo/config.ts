@@ -109,7 +109,7 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
   {
     title: formatMessage({ id: 'device.stopReason', defaultMessage: '停止原因' }),
     hideInSearch: true,
-    dataIndex: 'stopReason',
+    dataIndex: 'stopReasonDesc',
     hideInTable: true,
   },
   {

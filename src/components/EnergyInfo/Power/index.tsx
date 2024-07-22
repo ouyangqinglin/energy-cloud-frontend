@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-12 14:14:19
- * @LastEditTime: 2024-06-17 14:30:11
+ * @LastEditTime: 2024-07-22 11:38:29
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Power\index.tsx
  */
@@ -51,19 +51,25 @@ const Power: React.FC<ComProps> = (props) => {
           const { value, name } = (params || [{}])[0];
           const result = [name];
           if (typeof value[1] === 'number') {
-            result.push(
-              value[1] < 0
-                ? value[1] +
-                    `kW（<span style="color:${colorEnum.DisCharge}">${formatMessage({
-                      id: 'siteMonitor.discharge',
-                      defaultMessage: '放电',
-                    })}</span>）`
-                : value[1] +
-                    `kW（<span style="color:${colorEnum.Charge}">${formatMessage({
-                      id: 'siteMonitor.charge',
-                      defaultMessage: '充电',
-                    })}</span>）`,
-            );
+            if (value[1] < 0) {
+              result.push(
+                value[1] +
+                  `kW（<span style="color:${colorEnum.DisCharge}">${formatMessage({
+                    id: 'siteMonitor.discharge',
+                    defaultMessage: '放电',
+                  })}</span>）`,
+              );
+            } else if (value[1] > 0) {
+              result.push(
+                value[1] +
+                  `kW（<span style="color:${colorEnum.Charge}">${formatMessage({
+                    id: 'siteMonitor.charge',
+                    defaultMessage: '充电',
+                  })}</span>）`,
+              );
+            } else {
+              result.push(value[1] + 'kW');
+            }
           } else {
             result.push('-');
           }
@@ -85,7 +91,7 @@ const Power: React.FC<ComProps> = (props) => {
         show: false,
         pieces: [
           {
-            gt: 0.1,
+            gt: 0.00000000001,
             color: colorEnum.Charge,
           },
           {

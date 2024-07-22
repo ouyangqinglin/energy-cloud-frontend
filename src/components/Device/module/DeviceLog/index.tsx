@@ -95,11 +95,10 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
               type="primary"
               key="get"
               onClick={async () => {
-                //充电桩
-                if (DeviceProductTypeEnum.ChargeMaster == deviceData?.productTypeId) {
-                  handleFinish();
-                } else {
+                if (DeviceProductTypeEnum.ExchangeCabinet == deviceData?.productTypeId) {
                   setVisible(true);
+                } else {
+                  handleFinish();
                 }
               }}
             >

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-06-26 15:05:41
+ * @LastEditTime: 2024-07-22 17:23:24
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
@@ -163,6 +163,7 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
           });
           return result;
         },
+        placeholder: formatMessage({ id: 'dataManage.1060', defaultMessage: '筛选站点' }),
       },
       proTableProps: {
         pagination: false,
@@ -237,4 +238,16 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       };
     },
   },
+  // {
+  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '聚合周期' }),
+  //   dataIndex: 'timeBucket',
+  // },
+  // {
+  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '聚合方式' }),
+  //   dataIndex: 'polymerizationType',
+  // },
+  // {
+  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '断点强连' }),
+  //   dataIndex: 'breakConnect',
+  // },
 ];

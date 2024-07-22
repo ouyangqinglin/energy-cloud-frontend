@@ -130,4 +130,8 @@ export default {
   'dataManage.1057': '总效率',
   'dataManage.1058': '数据类型导出',
   'dataManage.1059': '导出类型',
+  'dataManage.1060': '筛选站点',
+  'dataManage.1061': '聚合周期',
+  'dataManage.1062': '聚合方式',
+  'dataManage.1063': '断点强连',
 };
