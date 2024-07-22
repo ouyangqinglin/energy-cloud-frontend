@@ -371,7 +371,7 @@ export default {
   'device.refreshSuccess': '刷新成功',
   'device.curve': '曲线',
   'device.todayCurve': '今日曲线',
-  'device.voltageCurrentCurve': '电压电流曲线',
+  'device.chargingCurve': '充电曲线',
   'device.voltage': '电压',
   'device.current': '电流',
   'device.maxAllowVoltage': '最高允许充电电压',
