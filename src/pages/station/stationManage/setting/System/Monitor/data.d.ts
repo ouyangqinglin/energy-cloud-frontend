@@ -7,6 +7,7 @@ export type TreeDataType = {
   selectFlag: boolean;
   productId: number;
   productTypeId: number;
+  component?: number;
 };
 
 export type MonitorDataType = {

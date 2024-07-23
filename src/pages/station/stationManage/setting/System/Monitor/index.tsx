@@ -162,6 +162,11 @@ const Monitor: React.FC<CollectionChartType> = (props) => {
 
   const dealTreeData = useCallback<dealTreeDataType<TreeDataType>>(
     (item) => {
+      if (typeof item.component != 'undefined' && [0, 1].includes(item.component)) {
+        item.selectable = true;
+      } else {
+        item.selectable = false;
+      }
       if (selectedRow.area === 'elec') {
         if (item.productId) {
           item.selectable = true;
