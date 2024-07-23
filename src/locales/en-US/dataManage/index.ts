@@ -130,4 +130,8 @@ export default {
   'dataManage.1057': 'Total Efficiency',
   'dataManage.1058': 'Data Type Export',
   'dataManage.1059': 'Export Type',
+  'dataManage.1060': 'Filter Sites',
+  'dataManage.1061': 'Aggregation Cycle',
+  'dataManage.1062': 'Aggregation Method',
+  'dataManage.1063': 'Breakpoint Connection',
 };

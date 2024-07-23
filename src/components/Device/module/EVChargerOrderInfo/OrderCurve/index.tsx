@@ -9,11 +9,18 @@ import { formatMessage } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const defaultChartData = [
-  { data: [], name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) }, //SOC
+  { data: [], name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) }, 
   {
     data: [],
     name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }),
-  }, //已充电量
+  },
+  { name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }), data: [] },
+  {
+    name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电输出电压' }),
+    data: [],
+  },
+  { name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }), data: [] },
+  { name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '充电输出电流' }), data: [] },
 ];
 export type DetailProps = {
   onCancel: () => void;
@@ -76,7 +83,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
   return (
     <Modal
       width={800}
-      title={formatMessage({ id: 'device.SOCAndElectric', defaultMessage: 'SOC与电能' })}
+      title={formatMessage({ id: 'device.chargingCurve', defaultMessage: '充电曲线' })}
       visible={visible}
       destroyOnClose
       onCancel={handleCancel}

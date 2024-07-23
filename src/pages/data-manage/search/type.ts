@@ -36,6 +36,7 @@ export type TableSearchType = {
     deviceId?: string;
     deviceName?: string;
     sn?: string;
+    type?: string;
   }[];
 };
 

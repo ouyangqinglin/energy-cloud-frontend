@@ -6,11 +6,11 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\service.ts
  */
-import request, { ResponsePageData } from '@/utils/request';
+import request, { ResponseCommonData } from '@/utils/request';
 import { TableDataType } from './type';
 
 export const getList = (data: any) => {
-  return request<ResponsePageData<TableDataType>>(`/iot/deviceData/queryHistorical`, {
+  return request<ResponseCommonData<TableDataType[]>>(`/iot/deviceData/queryHistorical`, {
     method: 'POST',
     data,
   });

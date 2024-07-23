@@ -100,10 +100,8 @@ const Search: React.FC<SearchProps> = (props) => {
           setSearchData(searchDataResult);
           return getList({
             ...searchDataResult,
-            current: 1,
-            pageSize: 2147483647,
           }).then((res) => {
-            setAllTableData(res?.data?.list?.reverse?.() || []);
+            setAllTableData(res?.data?.reverse?.() || []);
             return {
               code: '200',
               data: {

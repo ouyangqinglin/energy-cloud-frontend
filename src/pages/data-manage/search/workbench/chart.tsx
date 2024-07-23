@@ -49,10 +49,8 @@ const Chart: React.FC<ChartType> = (props) => {
         ) {
           run({
             ...params,
-            current: 1,
-            pageSize: 2147483647,
           }).then((data) => {
-            setTableData(data?.list?.reverse?.() || []);
+            setTableData(data?.reverse?.() || []);
             return {
               code: '200',
               data: {

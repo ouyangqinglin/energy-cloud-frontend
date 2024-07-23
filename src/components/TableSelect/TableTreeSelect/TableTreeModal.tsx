@@ -462,7 +462,12 @@ const TableTreeModal = <
         </div>
         <Row gutter={24}>
           <Col className={styles.treeCol} flex="250px">
-            <Input.Search className={styles.search} onSearch={onSearch} {...treeSearch} />
+            <Input.Search
+              className={styles.search}
+              onSearch={onSearch}
+              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
+              {...treeSearch}
+            />
             <div ref={colRef} className={styles.treeContain} style={treeHeightStyle}>
               {loadingTreeData ? (
                 <div className="flex h-full">
