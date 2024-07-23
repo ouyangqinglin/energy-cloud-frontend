@@ -14,4 +14,6 @@ export type OperationLogType = {
   createTime: string;
   siteName: string;
   createByName: string;
+  appName: string;
+  appId: number;
 };

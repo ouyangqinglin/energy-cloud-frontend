@@ -56,7 +56,7 @@ export const columns: ProColumns<DataType>[] = [
       id: 'siteManage.siteList.constructionStatus',
       defaultMessage: '建设状态',
     }),
-    dataIndex: 'siteConstructionStatus',
+    dataIndex: 'constructionStatus',
     valueType: 'select',
     valueEnum: buildStatus,
     width: 150,
