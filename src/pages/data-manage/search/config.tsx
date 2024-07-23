@@ -277,5 +277,8 @@ export const dealParams = (params: TableSearchType) => {
     });
   });
   params.keyValue = deviceData;
+  params.timeBucket = params.extralData?.timeBucket;
+  params.polymerizationType = params.extralData?.polymerizationType;
+  params.breakConnect = params.extralData?.breakConnect;
   return cols;
 };

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-06-27 16:16:26
+ * @LastEditTime: 2024-07-23 17:26:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -24,6 +24,7 @@ import { TableDataType, TableSearchType } from '../type';
 import { merge } from 'lodash';
 import { DeviceModelTypeEnum, formatModelValue, getPlaceholder, isEmpty, saveFile } from '@/utils';
 import { getModelMap } from '../config';
+import moment from 'moment';
 
 type ChartType = {
   searchData: TableSearchType;
@@ -137,7 +138,17 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         chartRef.current?.getEchartsInstance?.()?.clear?.();
         const series: any = [];
         const dataSource: TypeChartDataType[] = [];
-        const deviceIdkeyIndex: Record<string, number> = {};
+        const deviceIdkeyDataMap: Record<
+          string,
+          {
+            index: number;
+            prevData?: {
+              index: number;
+              time: string;
+              value?: number;
+            };
+          }
+        > = {};
         searchData.keyValue?.forEach?.(({ name, key, deviceName, deviceId }, index) => {
           series?.push({
             type: 'line',
@@ -147,7 +158,7 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
             data: [],
             unit: modelMap[key + '-' + deviceId]?.specs?.unit,
           });
-          deviceIdkeyIndex[(deviceId ?? '') + (key ?? '')] = index;
+          deviceIdkeyDataMap[(deviceId ?? '') + (key ?? '')] = { index };
         });
         const labels: string[] = [];
         data?.forEach?.(({ time, devices }) => {
@@ -159,10 +170,35 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
             if (modelData.type == DeviceModelTypeEnum.Enum) {
               value = modelData.keys.findIndex((key) => key == (item?.value as any));
             }
-            dataSource[deviceIdkeyIndex[(item.deviceId ?? '') + (item.key ?? '')]]?.data?.push({
-              label: time || '',
-              value: value,
-            });
+            if (!isEmpty(value) && !isEmpty(time)) {
+              const deviceIdKeyData = deviceIdkeyDataMap[(item.deviceId ?? '') + (item.key ?? '')];
+              if (isEmpty(searchData.timeBucket) && searchData.breakConnect) {
+                if (deviceIdKeyData?.prevData?.time) {
+                  const distanceNum =
+                    labels.length - 1 - (deviceIdKeyData?.prevData?.index as number);
+                  if (
+                    distanceNum > 1 &&
+                    Math.abs(moment(deviceIdKeyData?.prevData?.time).diff(moment(time))) < 30 * 1000
+                  ) {
+                    for (let i = 1; i < distanceNum; i++) {
+                      dataSource[deviceIdKeyData.index]?.data?.push({
+                        label: labels[deviceIdKeyData?.prevData?.index + i],
+                        value: deviceIdKeyData?.prevData.value,
+                      });
+                    }
+                  }
+                }
+              }
+              dataSource[deviceIdKeyData.index]?.data?.push({
+                label: time || '',
+                value: value,
+              });
+              deviceIdKeyData.prevData = {
+                index: labels.length - 1,
+                time: time as string,
+                value: value,
+              };
+            }
           });
         });
         setChartData(dataSource);

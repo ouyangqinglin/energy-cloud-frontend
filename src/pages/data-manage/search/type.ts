@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-30 13:43:29
- * @LastEditTime: 2023-06-30 13:43:29
+ * @LastEditTime: 2024-07-23 17:06:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\type.ts
  */
@@ -38,6 +38,14 @@ export type TableSearchType = {
     sn?: string;
     type?: string;
   }[];
+  timeBucket?: string;
+  polymerizationType?: string;
+  breakConnect?: boolean;
+  extralData?: {
+    timeBucket?: string;
+    polymerizationType?: string;
+    breakConnect?: boolean;
+  };
 };
 
 export type TableDataType = Omit<TableSearchType, 'time'> &

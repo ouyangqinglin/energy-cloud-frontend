@@ -11,7 +11,7 @@ import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { layoutConfig } from './config';
 import { Radio, RadioChangeEvent, Tooltip } from 'antd';
 import FullScreen from '@/components/FullScreen';
-import { useBoolean } from 'ahooks';
+import { useBoolean, useSize } from 'ahooks';
 import Workbench from '../workbench';
 import Search from '..';
 import { formatMessage } from '@/utils';
@@ -21,6 +21,7 @@ const Tabs: React.FC = () => {
   const contentRef = useRef(null);
   const [grid, setGrid] = useState<number>(1);
   const [isFullScreen, { set }] = useBoolean(false);
+  const contentSize = useSize(contentRef);
 
   const onLayoutChange = useCallback((e: RadioChangeEvent) => {
     const value = e.target.value;
@@ -43,7 +44,7 @@ const Tabs: React.FC = () => {
 
   return (
     <>
-      <div ref={contentRef} className="bg-white">
+      <div ref={contentRef} className="bg-white h-full">
         <div className="px24 pt24">
           <Detail.Label
             title={formatMessage({
@@ -64,7 +65,9 @@ const Tabs: React.FC = () => {
             <FullScreen key="fullScreen" target={contentRef} onChange={onFullScreenChange} />
           </Detail.Label>
         </div>
-        {grid > 1 ? <Workbench isFullScreen={isFullScreen} grid={grid} /> : <Search />}
+        {contentSize?.height && (
+          <Workbench isFullScreen={isFullScreen} grid={grid} height={contentSize.height} />
+        )}
       </div>
     </>
   );

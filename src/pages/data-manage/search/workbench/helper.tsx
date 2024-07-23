@@ -2,14 +2,19 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-07-22 17:23:24
+ * @LastEditTime: 2024-07-23 17:44:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
 
 import moment, { Moment } from 'moment';
 import { CollectionDataType, CollectionSearchType, SearchType } from './typing';
-import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
+import {
+  ProColumns,
+  ProFormCheckbox,
+  ProFormColumnsType,
+  ProFormSelect,
+} from '@ant-design/pro-components';
 import { YTCellFourOutlined, YTCellNineOutlined, YTCellSixOutlined } from '@/components/YTIcons';
 import { TABLETREESELECT, TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import {
@@ -20,7 +25,8 @@ import {
 import { DeviceTreeDataType } from '@/types/device';
 import { formatMessage, isEmpty } from '@/utils';
 import { getStations } from '@/services/station';
-import { TreeNodeProps } from 'antd';
+import { Checkbox, Col, Row, Switch, TreeNodeProps } from 'antd';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -58,6 +64,45 @@ export const layoutConfig = [
     icon: <YTCellNineOutlined />,
   },
 ];
+
+const aggregationTime = {
+  1: {
+    text: formatMessage({ id: 'dataManage.1064', defaultMessage: '1分钟' }),
+  },
+  2: {
+    text: formatMessage({ id: 'dataManage.1065', defaultMessage: '2分钟' }),
+  },
+  5: {
+    text: formatMessage({ id: 'dataManage.1066', defaultMessage: '5分钟' }),
+  },
+  10: {
+    text: formatMessage({ id: 'dataManage.1067', defaultMessage: '10分钟' }),
+  },
+  15: {
+    text: formatMessage({ id: 'dataManage.1068', defaultMessage: '15分钟' }),
+  },
+  30: {
+    text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
+  },
+};
+
+const aggregationMethod = {
+  0: {
+    text: formatMessage({ id: 'dataManage.1070', defaultMessage: '最大值' }),
+  },
+  1: {
+    text: formatMessage({ id: 'dataManage.1071', defaultMessage: '最小值' }),
+  },
+  2: {
+    text: formatMessage({ id: 'dataManage.1072', defaultMessage: '平均值' }),
+  },
+  3: {
+    text: formatMessage({ id: 'dataManage.1073', defaultMessage: '第一个值' }),
+  },
+  4: {
+    text: formatMessage({ id: 'dataManage.1074', defaultMessage: '最后一个值' }),
+  },
+};
 
 const tableSelectColumns: ProColumns[] = [
   {
@@ -118,6 +163,81 @@ const requestSiteList = () => {
   });
 };
 
+const TimeCom = ({ value, onChange }: any) => {
+  const { timeBucket, polymerizationType, breakConnect } = value || {};
+  return (
+    <>
+      <Row>
+        <Col span={12}>
+          <ProFormSelect
+            name="timeBucket"
+            label={formatMessage({ id: 'dataManage.1061', defaultMessage: '聚合周期' })}
+            valueEnum={aggregationTime}
+            initialValue={timeBucket}
+            onChange={
+              (params) =>
+                onChange?.({
+                  polymerizationType,
+                  breakConnect,
+                  timeBucket: params,
+                })
+              // form?.setFieldValue?.('extralData', {
+              // polymerizationType,
+              // breakConnect,
+              // timeBucket: value
+              // })
+            }
+          />
+        </Col>
+        <Col span={12}>
+          {timeBucket ? (
+            <ProFormSelect
+              name="polymerizationType"
+              label={formatMessage({ id: 'dataManage.1062', defaultMessage: '聚合方式' })}
+              valueEnum={aggregationMethod}
+              initialValue={polymerizationType}
+              onChange={
+                (params) =>
+                  onChange?.({
+                    polymerizationType: params,
+                    breakConnect,
+                    timeBucket,
+                  })
+                //   form?.setFieldValue?.('extralData', {
+                //   polymerizationType: value,
+                //   breakConnect,
+                //   timeBucket
+                // })
+              }
+            />
+          ) : (
+            <div className="flex flex-center h-full">
+              <Checkbox
+                defaultChecked={breakConnect}
+                onChange={
+                  (e: CheckboxChangeEvent) =>
+                    onChange?.({
+                      polymerizationType,
+                      breakConnect: e.target.checked,
+                      timeBucket,
+                    })
+                  // form?.setFieldValue?.('extralData', {
+                  //   polymerizationType,
+                  //   breakConnect: e.target.checked,
+                  //   timeBucket
+                  // })
+                }
+              >
+                {formatMessage({ id: 'dataManage.1063', defaultMessage: '断点强连' })}
+              </Checkbox>
+            </div>
+          )}
+        </Col>
+      </Row>
+    </>
+  );
+};
+
 export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: formatMessage({
@@ -173,7 +293,7 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       valueId: 'selectName',
       valueName: 'paramName',
       limit: 2,
-      limitSelect: 250,
+      limitSelect: 10,
       virtual: true,
       dealTreeData: (data: DeviceTreeDataType) => {
         if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
@@ -238,16 +358,15 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       };
     },
   },
-  // {
-  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '聚合周期' }),
-  //   dataIndex: 'timeBucket',
-  // },
-  // {
-  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '聚合方式' }),
-  //   dataIndex: 'polymerizationType',
-  // },
-  // {
-  //   title: formatMessage({ id: 'dataManage.1061', defaultMessage: '断点强连' }),
-  //   dataIndex: 'breakConnect',
-  // },
+  {
+    dataIndex: 'extralData',
+    initialValue: {},
+    formItemProps: {
+      labelCol: { span: 0 },
+      wrapperCol: { span: 24 },
+    },
+    renderFormItem: () => {
+      return <TimeCom />;
+    },
+  },
 ];
