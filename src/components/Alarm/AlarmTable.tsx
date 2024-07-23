@@ -338,7 +338,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueEnum: buildStatus,
         width: 150,
         ellipsis: true,
-        hideInTable: true,
+        hideInTable: false,
         fieldProps: {
           onChange: (siteConstructionStatus) =>
             requestStation({ siteConstructionStatus, text: '' }),

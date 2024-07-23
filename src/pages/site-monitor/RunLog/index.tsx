@@ -105,6 +105,9 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
     {
       label: formatMessage({ id: 'common.operator', defaultMessage: '操作人' }),
       field: 'createByName',
+      valueInterceptor: (value, data) => {
+        return data.appName ? data.appName : data.createByName;
+      },
     },
     {
       label: formatMessage({ id: 'common.occurrenceTime', defaultMessage: '发生时间' }),
@@ -192,6 +195,9 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
       width: 120,
       ellipsis: true,
       hideInSearch: true,
+      render: (_, record) => {
+        return record.appName ? record.appName : record.createByName;
+      },
     },
   ];
 
