@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2024-07-23 16:55:16
+ * @LastEditTime: 2024-07-24 09:47:55
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\chart.tsx
  */
@@ -23,6 +23,7 @@ import { formatMessage, saveFile } from '@/utils';
 import moment from 'moment';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { Resizable } from 'react-resizable';
+import FullScreen from '@/components/FullScreen';
 
 export type ChartType = {
   width: number;
@@ -32,6 +33,7 @@ export type ChartType = {
 const Chart: React.FC<ChartType> = (props) => {
   const { width, height: initHeight } = props;
 
+  const contentRef = useRef(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [searchData, setSearchData] = useState<TableSearchType>({});
   const [tableData, setTableData] = useState<TableDataType[]>([]);
@@ -109,7 +111,11 @@ const Chart: React.FC<ChartType> = (props) => {
   return (
     <>
       <Resizable width={width} height={height} onResize={onResize} className={styles.resizable}>
-        <div className={styles.content} style={{ width: width + 'px', height: height + 'px' }}>
+        <div
+          ref={contentRef}
+          className={styles.content}
+          style={{ width: width + 'px', height: height + 'px' }}
+        >
           <SchemaForm
             formRef={formRef}
             className={styles.form}
@@ -118,20 +124,16 @@ const Chart: React.FC<ChartType> = (props) => {
             onValuesChange={onValuesChange}
             submitter={{
               render: () => [
-                <Button
-                  key="search"
-                  type="primary"
-                  onClick={onSearch}
-                  loading={loading || loadingExport}
-                >
+                <Button key="search" type="primary" onClick={onSearch} loading={loading}>
                   {formatMessage({ id: 'common.search', defaultMessage: '搜索' })}
                 </Button>,
                 <Button
                   key="export"
                   icon={<DownloadOutlined />}
                   onClick={exportData}
-                  loading={loading || loadingExport}
+                  loading={loadingExport}
                 />,
+                <FullScreen key="fullScreen" target={contentRef} />,
               ],
             }}
           />

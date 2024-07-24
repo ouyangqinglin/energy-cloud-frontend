@@ -51,6 +51,15 @@
 
 .treeCol {
   overflow: auto;
+  :global {
+    .react-resizable-handle {
+      height: 100%;
+      /* stylelint-disable-next-line */
+      background-image: url(~@/assets/image/vertical.png);
+      background-position: right center;
+      cursor: e-resize;
+    }
+  }
 }
 
 .treeContain {
