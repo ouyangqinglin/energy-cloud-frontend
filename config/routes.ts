@@ -283,6 +283,14 @@ const routers: RouterType[] = [
         locale: 'menu.dataManage.report',
       },
       {
+        path: 'export',
+        name: 'export',
+        component: './data-manage/export',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.dataManage.export',
+      },
+      {
         path: 'refresh',
         name: 'refresh',
         component: './data-manage/refresh',

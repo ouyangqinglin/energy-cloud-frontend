@@ -638,3 +638,14 @@ export const aggregationTime = {
     text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
   },
 };
+export const taskStatusEnum = {
+  0: {
+    text: formatMessage({ id: 'dataManage.1076', defaultMessage: '执行中' }),
+  },
+  1: {
+    text: formatMessage({ id: 'dataManage.1077', defaultMessage: '执行失败' }),
+  },
+  2: {
+    text: formatMessage({ id: 'dataManage.1078', defaultMessage: '执行完毕' }),
+  },
+};

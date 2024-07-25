@@ -23,6 +23,7 @@ export default {
   'menu.dataManage': '数据管理',
   'menu.dataManage.search': '数据查询',
   'menu.dataManage.report': '数据报表',
+  'menu.dataManage.export': '数据导出',
   'menu.dataManage.refresh': '数据刷新',
   'menu.dataManage.overview': '统计分析',
   'menu.alarm': '告警管理',

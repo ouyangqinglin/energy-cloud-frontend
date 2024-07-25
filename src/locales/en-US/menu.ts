@@ -23,6 +23,7 @@ export default {
   'menu.dataManage': 'Data Manage',
   'menu.dataManage.search': 'Data Search',
   'menu.dataManage.report': 'Data Report',
+  'menu.dataManage.export': 'Data Export',
   'menu.dataManage.refresh': 'Data refresh',
   'menu.dataManage.overview': 'Data overview',
   'menu.alarm': 'Alarm Manage',
