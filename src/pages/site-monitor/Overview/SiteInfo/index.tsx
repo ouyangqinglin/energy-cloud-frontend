@@ -25,13 +25,7 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
 
   const onClick = () => {
     if (!siteId) {
-      notification.warning({
-        description: formatMessage({
-          id: 'common.dataLoadingPleaseWaitTips',
-          defaultMessage: '数据加载中，请稍等',
-        }),
-        message: formatMessage({ id: 'common.dataLoading', defaultMessage: '数据加载中' }),
-      });
+      message.warning('数据加载中，请稍等');
       return;
     }
 
@@ -151,8 +145,9 @@ const SiteInfo = ({ siteId, siteType = '' }: { siteId?: number; siteType: string
               })}
               ：
             </div>
-            <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${data?.energyStorageCapacity ?? '--'
-              }kWh`}</div>
+            <div className={styles.value}>{`${data?.energyStoragePower ?? '--'}kW/ ${
+              data?.energyStorageCapacity ?? '--'
+            }kWh`}</div>
           </li>
         )}
         <li>

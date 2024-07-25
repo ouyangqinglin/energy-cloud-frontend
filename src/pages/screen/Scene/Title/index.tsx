@@ -23,7 +23,8 @@ const Title: FC<TitleType> = (props) => {
   return (
     <>
       <TitleBG />
-      <Cell width={435} height={60} left={743} top={0} cursor={'default'}>
+      <Cell width={700} height={65} left={610} top={0} cursor={'default'}>
+        {/* //<Cell width={435} height={60} left={743} top={0} cursor={'default'}> */}
         <div className={styles.titleContain}>
           <div
             ref={titleRef}
