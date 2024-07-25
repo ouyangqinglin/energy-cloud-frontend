@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-25 15:09:45
- * @LastEditTime: 2024-06-27 14:09:32
+ * @LastEditTime: 2024-07-24 09:26:32
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\Tabs\index.tsx
  */
@@ -13,7 +13,6 @@ import { Radio, RadioChangeEvent, Tooltip } from 'antd';
 import FullScreen from '@/components/FullScreen';
 import { useBoolean, useSize } from 'ahooks';
 import Workbench from '../workbench';
-import Search from '..';
 import { formatMessage } from '@/utils';
 import Detail from '@/components/Detail';
 
@@ -65,9 +64,7 @@ const Tabs: React.FC = () => {
             <FullScreen key="fullScreen" target={contentRef} onChange={onFullScreenChange} />
           </Detail.Label>
         </div>
-        {contentSize?.height && (
-          <Workbench isFullScreen={isFullScreen} grid={grid} height={contentSize.height} />
-        )}
+        <Workbench key={1} isFullScreen={isFullScreen} grid={grid} height={contentSize?.height} />
       </div>
     </>
   );

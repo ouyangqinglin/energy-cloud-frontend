@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-06-28 14:01:09
+ * @LastEditTime: 2024-07-24 09:12:51
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -25,6 +25,7 @@ import { formatMessage } from '@/utils';
 import { filterData, runDealTreeData, updateTreeData } from './helper';
 import { SearchProps } from 'antd/lib/input';
 import YTProTable from '@/components/YTProTable';
+import { Resizable } from 'react-resizable';
 
 export enum SelectTypeEnum {
   Collect = 'collect',
@@ -120,6 +121,7 @@ const TableTreeModal = <
   const treeRef = useRef<RcTree>(null);
   const tableFormRef = useRef<ProFormInstance<Params>>();
   const [searchValue, setSearchValue] = useState<string>('');
+  const [treeWidth, setTreeWidth] = useState(250);
 
   const filterTreeData = useMemo(() => {
     if (searchValue) {
@@ -407,16 +409,10 @@ const TableTreeModal = <
     }
   }, [props.treeProps?.loadData]);
 
-  // useEffect(() => {
-  //   if (virtual && !loadingTreeData) {
-  //     const treeList = colRef.current?.querySelector?.(
-  //       '.ant-tree-list-holder-inner',
-  //     ) as HTMLDivElement;
-  //     if (treeList) {
-  //       treeList.style.height = treeHeight + 'px';
-  //     }
-  //   }
-  // }, [virtual, loadingTreeData]);
+  const onResize = useCallback(
+    (e, { size }) => setTreeWidth(size.width > 700 ? 700 : size.width),
+    [],
+  );
 
   return (
     <>
@@ -461,39 +457,41 @@ const TableTreeModal = <
           </div>
         </div>
         <Row gutter={24}>
-          <Col className={styles.treeCol} flex="250px">
-            <Input.Search
-              className={styles.search}
-              onSearch={onSearch}
-              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
-              {...treeSearch}
-            />
-            <div ref={colRef} className={styles.treeContain} style={treeHeightStyle}>
-              {loadingTreeData ? (
-                <div className="flex h-full">
-                  <Spin className="flex1" />
-                </div>
-              ) : (
-                <>
-                  <Tree
-                    ref={treeRef}
-                    className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
-                    treeData={filterTreeData}
-                    onSelect={onTreeSelect}
-                    onCheck={onTreeCheck}
-                    blockNode
-                    checkable={selectType === SelectTypeEnum.Device && multiple}
-                    {...treeSelectAndCheckData}
-                    checkStrictly
-                    defaultExpandAll={true}
-                    height={virtual ? treeHeight : undefined}
-                    {...props?.treeProps}
-                    {...treeLoadData}
-                  />
-                </>
-              )}
-            </div>
-          </Col>
+          <Resizable width={treeWidth} onResize={onResize}>
+            <Col className={styles.treeCol} flex={treeWidth + 'px'}>
+              <Input.Search
+                className={styles.search}
+                onSearch={onSearch}
+                placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
+                {...treeSearch}
+              />
+              <div ref={colRef} className={styles.treeContain} style={treeHeightStyle}>
+                {loadingTreeData ? (
+                  <div className="flex h-full">
+                    <Spin className="flex1" />
+                  </div>
+                ) : (
+                  <>
+                    <Tree
+                      ref={treeRef}
+                      className={`${styles.tree} ${virtual ? styles.virtualTree : ''}`}
+                      treeData={filterTreeData}
+                      onSelect={onTreeSelect}
+                      onCheck={onTreeCheck}
+                      blockNode
+                      checkable={selectType === SelectTypeEnum.Device && multiple}
+                      {...treeSelectAndCheckData}
+                      checkStrictly
+                      defaultExpandAll={true}
+                      height={virtual ? treeHeight : undefined}
+                      {...props?.treeProps}
+                      {...treeLoadData}
+                    />
+                  </>
+                )}
+              </div>
+            </Col>
+          </Resizable>
           <Col className={styles.treeCol} flex="1">
             <YTProTable<DataType, Params>
               formRef={tableFormRef}

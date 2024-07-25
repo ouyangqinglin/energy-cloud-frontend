@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-07-05 15:28:52
+ * @LastEditTime: 2024-07-24 14:14:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -328,25 +328,25 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         valueType: 'index',
         width: 50,
       },
-      {
-        title: formatMessage({
-          id: 'siteManage.siteList.constructionStatus',
-          defaultMessage: '建设状态',
-        }),
-        dataIndex: 'siteConstructionStatus',
-        valueType: 'select',
-        valueEnum: buildStatus,
-        width: 150,
-        ellipsis: true,
-        hideInTable: false,
-        fieldProps: {
-          onChange: (siteConstructionStatus) =>
-            requestStation({ siteConstructionStatus, text: '' }),
-        },
-      },
       ...(isStationChild
         ? []
         : [
+            {
+              title: formatMessage({
+                id: 'siteManage.siteList.constructionStatus',
+                defaultMessage: '建设状态',
+              }),
+              dataIndex: 'siteConstructionStatus',
+              valueType: 'select',
+              valueEnum: buildStatus,
+              width: 150,
+              ellipsis: true,
+              hideInTable: true,
+              fieldProps: {
+                onChange: (siteConstructionStatus) =>
+                  requestStation({ siteConstructionStatus, text: '' }),
+              },
+            },
             {
               title: formatMessage({
                 id: 'siteManage.siteList.siteName',
