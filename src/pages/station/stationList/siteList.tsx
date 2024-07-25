@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-07-02 14:52:28
+ * @LastEditTime: 2024-07-25 14:03:22
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -138,12 +138,14 @@ const StationList: React.FC = () => {
                 okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
                 cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
                 onOk: () => {
-                  removeData({ siteId: record.id }).then(() => {
-                    message.success(
-                      formatMessage({ id: 'common.del', defaultMessage: '删除成功' }),
-                    );
-                    if (actionRef.current) {
-                      actionRef.current.reload();
+                  return removeData({ siteId: record.id }).then((res) => {
+                    if (res.data) {
+                      message.success(
+                        formatMessage({ id: 'common.del', defaultMessage: '删除成功' }),
+                      );
+                      if (actionRef.current) {
+                        actionRef.current.reload();
+                      }
                     }
                   });
                 },

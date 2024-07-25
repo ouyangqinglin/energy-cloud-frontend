@@ -27,6 +27,7 @@ import { formatMessage, isEmpty } from '@/utils';
 import { getStations } from '@/services/station';
 import { Checkbox, Col, Row, Switch, TreeNodeProps } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { aggregationTime } from '@/utils/dict';
 
 export const column: ProFormColumnsType<SearchType>[] = [
   {
@@ -64,27 +65,6 @@ export const layoutConfig = [
     icon: <YTCellNineOutlined />,
   },
 ];
-
-const aggregationTime = {
-  1: {
-    text: formatMessage({ id: 'dataManage.1064', defaultMessage: '1分钟' }),
-  },
-  2: {
-    text: formatMessage({ id: 'dataManage.1065', defaultMessage: '2分钟' }),
-  },
-  5: {
-    text: formatMessage({ id: 'dataManage.1066', defaultMessage: '5分钟' }),
-  },
-  10: {
-    text: formatMessage({ id: 'dataManage.1067', defaultMessage: '10分钟' }),
-  },
-  15: {
-    text: formatMessage({ id: 'dataManage.1068', defaultMessage: '15分钟' }),
-  },
-  30: {
-    text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
-  },
-};
 
 const aggregationMethod = {
   0: {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-07-23 17:26:28
+ * @LastEditTime: 2024-07-25 10:43:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -93,6 +93,19 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         symbolSize: 1,
         large: true,
         sampling: 'lttb',
+        markPoint: {
+          emphasis: {
+            label: {
+              formatter: (params: any) => {
+                return `${allLabel?.[params?.data?.coord?.[0]]}\n${params?.value}`;
+              },
+            },
+          },
+          data: [
+            { type: 'max', name: 'Max' },
+            { type: 'min', name: 'Min' },
+          ],
+        },
       });
     });
     options.tooltip = {
@@ -130,7 +143,7 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
       };
     }
     return merge({}, defaultOptions, options);
-  }, [searchData, modelData]);
+  }, [searchData, modelData, allLabel]);
 
   useEffect(() => {
     if (tableType) {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-15 14:50:06
- * @LastEditTime: 2024-05-08 10:52:22
+ * @LastEditTime: 2024-07-25 11:35:06
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\index.tsx
  */
@@ -16,7 +16,7 @@ import { ProFormInstance } from '@ant-design/pro-components';
 import { DeviceModelTypeEnum, formatMessage } from '@/utils';
 import { parseToObj } from '@/utils';
 import CollectionChart from './CollectionChart';
-import { CollectionModalType } from './helper';
+import { CollectionModalType, columns } from './helper';
 import { useBoolean } from 'ahooks';
 type Searchtype = CollectionSearchType & {
   date: string[];
@@ -25,8 +25,8 @@ type Searchtype = CollectionSearchType & {
 const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => {
   const { deviceId, collection, model, title, open, ...restProps } = props;
   const formRef = useRef<ProFormInstance>(null);
-  const [date, setDate] = useState<string[]>();
-  const [loading, { set, setTrue, setFalse }] = useBoolean(false);
+  const [searchParams, setsearchParams] = useState<Searchtype>();
+  const [loading, { set, setTrue }] = useBoolean(false);
 
   const modelData = useMemo(() => {
     const enumObj: any = parseToObj(model?.specs);
@@ -43,7 +43,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
   }, [model]);
 
   const onFinish = useCallback((formData: Searchtype) => {
-    setDate(formData.date);
+    setsearchParams(formData);
     setTrue();
     return Promise.resolve(true);
   }, []);
@@ -58,52 +58,6 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
     }
   }, [deviceId, collection, open]);
 
-  const searchColumns = useMemo<ProFormColumnsType<Searchtype>[]>(() => {
-    return [
-      {
-        title: formatMessage({ id: 'common.selectDate', defaultMessage: '选择日期' }),
-        dataIndex: 'date',
-        valueType: 'dateRange',
-        formItemProps: {
-          rules: [{ required: true }],
-        },
-        initialValue: [moment(), moment()],
-        fieldProps: (form) => {
-          return {
-            onOpenChange: (openDate: boolean) => {
-              if (openDate) {
-                window.collectionSearchDates = [];
-                window.collectionSelectDates = form?.getFieldValue?.('date');
-                form?.setFieldValue?.('date', []);
-              } else {
-                if (window.collectionSearchDates?.[0] && window.collectionSearchDates?.[1]) {
-                  form?.setFieldValue?.('date', window.collectionSearchDates);
-                } else {
-                  form?.setFieldValue?.('date', window.collectionSelectDates);
-                }
-              }
-            },
-            onCalendarChange: (val: Moment[]) => {
-              window.collectionSearchDates = [...(val || [])];
-            },
-            disabledDate: (current: Moment) => {
-              if (!window.collectionSearchDates) {
-                return false;
-              }
-              const tooLate =
-                window.collectionSearchDates?.[0] &&
-                current.diff(window.collectionSearchDates?.[0], 'days') > 6;
-              const tooEarly =
-                window.collectionSearchDates?.[1] &&
-                window.collectionSearchDates?.[1].diff(current, 'days') > 6;
-              return !!tooEarly || !!tooLate;
-            },
-          };
-        },
-      },
-    ];
-  }, []);
-
   return (
     <>
       <Modal
@@ -117,7 +71,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
         <SchemaForm<Searchtype>
           className="p0 mb24"
           formRef={formRef}
-          columns={searchColumns}
+          columns={columns}
           layout="inline"
           layoutType="QueryFilter"
           onFinish={onFinish}
@@ -130,7 +84,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           deviceId={deviceId}
           collection={collection}
           model={model}
-          date={date}
+          searchParams={searchParams}
           onLoadingChange={onLoadingChange}
         />
       </Modal>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 11:18:13
- * @LastEditTime: 2024-06-04 15:35:27
+ * @LastEditTime: 2024-07-25 09:35:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\helper.ts
  */
@@ -10,7 +10,7 @@
 export const defaultOptions = {
   backgroundColor: 'white',
   grid: {
-    left: 10,
+    left: 50,
     top: 10,
     right: 40,
     bottom: 70,

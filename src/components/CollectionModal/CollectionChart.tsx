@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-17 15:53:59
- * @LastEditTime: 2024-05-08 10:44:45
+ * @LastEditTime: 2024-07-25 13:58:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\CollectionChart.tsx
  */
@@ -24,10 +24,10 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
     collection,
     model,
     title,
-    date,
     height = 400,
     onLoadingChange,
     containClassName,
+    searchParams,
   } = props;
 
   const chartRef = useRef<EChartsReact>(null);
@@ -52,10 +52,14 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
     };
   }, [model]);
 
+  const allLabel = useMemo(() => {
+    return chartData?.[0]?.data?.map?.((item) => item.label);
+  }, [chartData]);
+
   const chartOption = useMemo(() => {
     return {
       grid: {
-        top: 10,
+        top: 50,
         bottom: 50,
         right: 35,
       },
@@ -115,21 +119,32 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
           symbolSize: 1,
           large: true,
           sampling: 'lttb',
+          markPoint: {
+            emphasis: {
+              label: {
+                formatter: (params: any) => {
+                  return `${allLabel?.[params?.data?.coord?.[0]]}\n${params?.value}`;
+                },
+              },
+            },
+            data: [
+              { type: 'max', name: 'Max' },
+              { type: 'min', name: 'Min' },
+            ],
+          },
         },
       ],
     };
-  }, [title, modelData]);
-
-  const allLabel = useMemo(() => {
-    return chartData?.[0]?.data?.map?.((item) => item.label);
-  }, [chartData]);
+  }, [title, modelData, allLabel]);
 
   useEffect(() => {
     let timer: NodeJS.Timer;
+    const date = searchParams?.date;
     if (deviceId && collection && date && date[0] && date[1]) {
       const request = () => {
         onLoadingChange?.(true);
         run({
+          ...searchParams,
           deviceId: deviceId,
           key: collection,
           startTime: date[0] + ' 00:00:00',
@@ -137,11 +152,6 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
           // msgType: 1,
         })
           .then((data) => {
-            if (moment(date[0]).format('YYYY-MM-DD') == moment(date[1]).format('YYYY-MM-DD')) {
-              setChartType(chartTypeEnum.Day);
-            } else {
-              setChartType(chartTypeEnum.Label);
-            }
             const result: TypeChartDataType = {
               name: title || '',
               data: [],
@@ -178,7 +188,22 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
       clearInterval(timer);
       onLoadingChange?.(false);
     };
-  }, [deviceId, collection, date, step]);
+  }, [deviceId, collection, searchParams, step, searchParams]);
+
+  useEffect(() => {
+    const { date, aggregationPeriod } = searchParams || {};
+    if (date && date[0] && date[1]) {
+      if (
+        moment(date[0]).format('YYYY-MM-DD') == moment(date[1]).format('YYYY-MM-DD') &&
+        aggregationPeriod
+      ) {
+        setChartType(chartTypeEnum.Day);
+      } else {
+        setChartType(chartTypeEnum.Label);
+      }
+    }
+    setStep((aggregationPeriod || 2) * 1);
+  }, [searchParams]);
 
   return (
     <>
