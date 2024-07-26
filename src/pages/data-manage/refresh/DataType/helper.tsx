@@ -1,6 +1,6 @@
 import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
-import { getList } from './service';
+import { getStations } from '@/services/station';
 
 export const columns: ProColumns[] = [
   {
@@ -16,8 +16,8 @@ export const columns: ProColumns[] = [
       ],
     },
     request: () =>
-      getList().then(({ data }) => {
-        return data?.map?.((item) => {
+      getStations().then(({ data }) => {
+        return data?.list?.map?.((item) => {
           return {
             ...item,
             label: item.name,
@@ -42,8 +42,8 @@ export const columns: ProColumns[] = [
       mode: 'multiple',
     },
     request: () =>
-      getList().then(({ data }) => {
-        return data?.map?.((item) => {
+      getStations().then(({ data }) => {
+        return data?.list?.map?.((item) => {
           return {
             ...item,
             label: item.name,

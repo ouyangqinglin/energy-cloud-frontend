@@ -21,8 +21,9 @@ import { cloneDeep } from 'lodash';
 import moment from 'moment';
 import { formatMessage } from '@/utils';
 import './index.less';
-import { Radio, RadioChangeEvent } from 'antd';
-import { TableFormItem } from '@ant-design/pro-table/lib/components/Form/FormRender';
+import { Radio } from 'antd';
+import type { RadioChangeEvent } from 'antd';
+import type { TableFormItem } from '@ant-design/pro-table/lib/components/Form/FormRender';
 
 type ReportProps = {
   isStationChild?: boolean;

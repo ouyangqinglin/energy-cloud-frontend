@@ -197,7 +197,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       }
       getStations(query).then(({ data }) => {
         setStationOptions(
-          data?.map?.((item: any) => {
+          data?.list?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,

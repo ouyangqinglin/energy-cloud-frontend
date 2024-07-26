@@ -7,12 +7,13 @@
  * @FilePath: \energy-cloud-frontend\src\hooks\useSiteColumn.ts
  */
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { SiteDataType, getStations } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
+import { getStations } from '@/services/station';
 import type { OptionType } from '@/types';
-import { debounce, merge } from 'lodash';
+import { debounce } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-components';
 import { formatMessage } from '@/utils';
-import { ResponsePromise } from '@/utils/request';
+import type { ResponsePromise } from '@/utils/request';
 
 const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
   props: Omit<ProColumns<TableData, ValueType>, 'request'> & {
@@ -29,8 +30,9 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
         ...(props?.params ?? {}),
         name: searchText,
       }).then(({ data }) => {
+        const list = data?.list || data;
         let result =
-          data?.map?.((item: any) => {
+          list?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,
