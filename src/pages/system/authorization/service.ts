@@ -42,3 +42,10 @@ export const updateStatus = (data: any) => {
     data,
   });
 };
+
+export const getLog = (params: any) => {
+  return request<ResponsePageData<AuthDataType>>(`/uc/openLog/page`, {
+    method: 'get',
+    params,
+  });
+};

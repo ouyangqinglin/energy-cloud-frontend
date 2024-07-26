@@ -8,24 +8,27 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
-import { columns, formColumns } from './config';
-import { deleteData, getPage, editData, addData, getData, updateStatus } from './service';
+import { columns, formColumns, getLogColumns } from './config';
+import { deleteData, getPage, editData, addData, getData, updateStatus, getLog } from './service';
 import { AuthDataType } from './type';
 import { formatMessage } from '@/utils';
-import { Modal, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { ActionType, ProConfigProvider } from '@ant-design/pro-components';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import { tableSelectValueTypeMap } from '@/components/TableSelect';
+import type { getLogData } from './data';
 
 const RemoteUpgrade: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [openForm, { set }] = useBoolean(false);
+  const [appId, setAppId] = useState<string>('');
   const [formInfo, setFormInfo] = useState({
     type: FormTypeEnum.Add,
     id: '',
   });
 
+  const [open, setOpen] = useState(false);
   const request = useCallback((params) => {
     return getPage(params);
   }, []);
@@ -38,14 +41,6 @@ const RemoteUpgrade: React.FC = () => {
     setFormInfo({
       type: FormTypeEnum.Add,
       id: '',
-    });
-    set(true);
-  }, []);
-
-  const onEditClick = useCallback((_, record: AuthDataType) => {
-    setFormInfo({
-      type: FormTypeEnum.Edit,
-      id: record.id,
     });
     set(true);
   }, []);
@@ -95,6 +90,36 @@ const RemoteUpgrade: React.FC = () => {
     data.siteIds = data?.siteIds?.map?.((item: any) => item.id) || [];
   }, []);
 
+  const onEditClick = useCallback((_, record: AuthDataType) => {
+    setFormInfo({
+      type: FormTypeEnum.Edit,
+      id: record.id,
+    });
+    set(true);
+  }, []);
+
+  //
+  const onLogClick = useCallback((params) => {
+    setAppId(params.appId);
+    setOpen(true);
+    return getLog(params);
+  }, []);
+
+  const handleOk = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const requestList = useCallback(
+    (params: getLogData, record) => {
+      return getLog({ ...params, appId });
+    },
+    [appId],
+  );
+
   return (
     <>
       <YTProTable
@@ -107,10 +132,15 @@ const RemoteUpgrade: React.FC = () => {
         }}
         option={{
           columnsProp: {
-            width: '120px',
+            width: '160px',
           },
           onEditChange: onEditClick,
           onDeleteChange: onDeleteClick,
+          render: (_, record) => (
+            <Button type="link" onClick={() => onLogClick(record)}>
+              日志
+            </Button>
+          ),
           modalDeleteText: formatMessage({
             id: 'common.1017',
             defaultMessage: '您确认要删除该授权吗？删除之后无法恢复！',
@@ -120,6 +150,29 @@ const RemoteUpgrade: React.FC = () => {
         onEvent={onEvent}
         resizable
       />
+
+      <Modal
+        title="日志"
+        open={open}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1000}
+        destroyOnClose
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            关闭
+          </Button>,
+        ]}
+      >
+        <YTProTable<getLogData, getLogData>
+          actionRef={actionRef}
+          // @ts-ignore
+          columns={getLogColumns}
+          request={requestList}
+          toolBarRender={() => []}
+        />
+      </Modal>
+
       <ProConfigProvider valueTypeMap={tableSelectValueTypeMap}>
         <SchemaForm
           width="816px"

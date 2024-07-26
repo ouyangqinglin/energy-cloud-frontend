@@ -649,3 +649,12 @@ export const taskStatusEnum = {
     text: formatMessage({ id: 'dataManage.1078', defaultMessage: '执行完毕' }),
   },
 };
+
+export const logSelect = {
+  0: {
+    text: formatMessage({ id: 'common.fail', defaultMessage: '失败' }),
+  },
+  1: {
+    text: formatMessage({ id: 'common.success', defaultMessage: '成功' }),
+  },
+};
