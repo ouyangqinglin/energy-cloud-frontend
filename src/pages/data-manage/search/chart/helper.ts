@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 11:18:13
- * @LastEditTime: 2024-07-25 09:35:59
+ * @LastEditTime: 2024-07-26 14:52:38
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\helper.ts
  */
@@ -10,10 +10,10 @@
 export const defaultOptions = {
   backgroundColor: 'white',
   grid: {
-    left: 50,
-    top: 10,
+    top: 40,
     right: 40,
     bottom: 70,
+    left: 50,
   },
   legend: {
     type: 'scroll',
