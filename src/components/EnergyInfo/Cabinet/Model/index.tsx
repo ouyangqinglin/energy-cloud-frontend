@@ -29,6 +29,7 @@ type CabinetProps = ComProps & {
   configs?: ConfigType[];
   modelStyle?: React.CSSProperties;
   detailProps?: DetailItem;
+  containTopParentDevice?: number;
 };
 
 const Model: React.FC<CabinetProps> = (props) => {
@@ -40,6 +41,7 @@ const Model: React.FC<CabinetProps> = (props) => {
     configs,
     modelStyle,
     detailProps,
+    containTopParentDevice,
   } = props;
 
   const divRef = useRef(null);
@@ -86,7 +88,7 @@ const Model: React.FC<CabinetProps> = (props) => {
       run({
         deviceId: deviceData?.deviceId,
         component: 0,
-        // containTopParentDevice: 1,
+        containTopParentDevice,
       }).then((data) => {
         setProductIdMap(getProductTypeIdMap(data ? [data] : []));
       });

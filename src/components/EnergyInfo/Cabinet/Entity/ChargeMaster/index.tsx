@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-04-29 18:56:59
+ * @LastEditTime: 2024-07-26 17:20:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeMaster\index.tsx
  */
@@ -98,6 +98,7 @@ const ChargeMaster: React.FC<EntityType> = (props) => {
             maxWidth: '150px',
           },
         }}
+        containTopParentDevice={1}
         {...restProps}
       ></Model>
     </>
