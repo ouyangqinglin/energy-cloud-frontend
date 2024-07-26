@@ -128,7 +128,7 @@ const Log: React.FC = () => {
     if (params?.productModel) {
       return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
         ({ data }) => {
-          return data?.map?.((item) => {
+          return data?.list?.map?.((item) => {
             return {
               label: item?.version || '',
               value: item?.id || '',

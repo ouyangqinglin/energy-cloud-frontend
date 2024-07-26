@@ -117,6 +117,7 @@ const Device: React.FC<DeviceType> = memo((props) => {
         DeviceProductTypeEnum.Ems,
         DeviceProductTypeEnum.ChargeMaster,
         DeviceProductTypeEnum.ChargeTerminal,
+        DeviceProductTypeEnum.LocalEms,
       ].includes(deviceData?.productTypeId) &&
       ![DeviceTypeEnum.ChargeMaster].includes(deviceData?.productId) &&
       authorityMap.get('deviceManage:detail:debug')
