@@ -16,7 +16,8 @@ import {
   tableSelectValueTypeMap,
   tableTreeSelectValueTypeMap,
 } from '@/components/TableSelect';
-import { getStations } from '../service';
+import { getStations } from '@/services/station';
+
 import {
   getProductSnList,
   getModuleList,
@@ -263,7 +264,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         {
           name: formatMessage({ id: 'common.all', defaultMessage: '全部' }),
           id: -1,
-          children: data,
+          children: data?.list,
         },
       ];
       return { data: list };

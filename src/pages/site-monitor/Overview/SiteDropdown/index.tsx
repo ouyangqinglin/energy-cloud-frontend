@@ -3,7 +3,7 @@ import { Dropdown, Space } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import type { MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { getStations } from './service';
+import { getStations } from '@/services/station';
 
 const SiteDropdown = ({
   defaultSiteId,

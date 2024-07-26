@@ -77,7 +77,7 @@ const requestTree = (node: DeviceTreeDataType) => {
 
 const requestSiteList = () => {
   return getStations().then((res) => {
-    res?.data?.map?.((item: DeviceTreeDataType) => {
+    res?.data?.list?.map?.((item: DeviceTreeDataType) => {
       item.deviceName = item.name;
       item.isLeaf = false;
       item.siteId = item.id;
