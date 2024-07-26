@@ -38,7 +38,7 @@ export interface UpgradeListType {
   updater: string;
   updateBy: string;
   status: number;
-  type: number;
+  type: number | string;
 }
 export interface SelectedDeviceType {
   deviceId: number;
@@ -51,6 +51,8 @@ export interface SelectedDeviceType {
 
 //抄11111
 import type { FormOperations } from '@/components/YTModalForm/typing';
+import { OrderStatus } from '@/pages/work-order/fault/type';
+import { Tail } from '@/pages/work-order/maintenance/type';
 
 export type FormUpdateBaseProps = {
   visible: boolean;

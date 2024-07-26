@@ -212,6 +212,7 @@ const OperationLog: React.FC<OperationLogProps> = (props) => {
         {' '}
         <YTProTable<OperationLogType, OperationLogType>
           actionRef={actionRef}
+          // @ts-ignore
           columns={columns}
           request={requestList}
           manualRequest={true}

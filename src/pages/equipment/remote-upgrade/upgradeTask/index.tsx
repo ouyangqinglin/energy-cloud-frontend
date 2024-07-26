@@ -33,14 +33,15 @@ const UpgradeTask: React.FC = () => {
   const [initialValues, setInitialValues] = useState<UpgradeListType>({} as UpgradeListType);
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
-
   const { authorityMap } = useAuthority(['upgradManage:task:add']);
 
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
+    // @ts-ignore
     setInitialValues({ type: '2' });
     setUpdateModal(true); //打开弹窗
   }, []);
+
   const customListConfig: YTProTableCustomProps<UpgradeListType, any> = {
     toolBarRenderOptions: {
       add: {
@@ -49,6 +50,7 @@ const UpgradeTask: React.FC = () => {
       },
     },
   };
+
   const customConfig: YTProTableCustomProps<UpgradeListType, any> = {
     toolBarRenderOptions: {
       add: {
@@ -60,6 +62,7 @@ const UpgradeTask: React.FC = () => {
   const requestList = useCallback((params) => {
     return getUpgradeTaskList({ ...params });
   }, []);
+
   //获取产品类型
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -78,7 +81,7 @@ const UpgradeTask: React.FC = () => {
     formItemProps: {
       name: 'productTypeId',
     },
-    fieldProps: (form) => {
+    fieldProps: (form: { setFieldValue: (arg0: string, arg1: string) => void }) => {
       return {
         onChange: () => {
           form?.setFieldValue?.('productModel', ''); //清空产品型号的数据
@@ -88,6 +91,7 @@ const UpgradeTask: React.FC = () => {
     hideInTable: true,
     request: requestProductType,
   };
+
   //获取产品型号--依赖产品类型
   const requestProductSn = useCallback((params) => {
     if (params?.productTypeId) {
@@ -105,6 +109,7 @@ const UpgradeTask: React.FC = () => {
       return Promise.resolve([]);
     }
   }, []);
+
   const productSnColumn = {
     title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
     dataIndex: 'productModel',
@@ -114,7 +119,7 @@ const UpgradeTask: React.FC = () => {
     hideInTable: true,
     dependencies: ['productTypeId'],
     request: requestProductSn,
-    fieldProps: (form) => {
+    fieldProps: (form: { setFieldValue: (arg0: string, arg1: string) => void }) => {
       return {
         onChange: () => {
           form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
@@ -123,6 +128,7 @@ const UpgradeTask: React.FC = () => {
       };
     },
   };
+
   //获取模块下拉框数据--依赖产品型号id
   const requestModule = useCallback((params) => {
     if (params?.productModel) {
@@ -140,6 +146,7 @@ const UpgradeTask: React.FC = () => {
       return Promise.resolve([]);
     }
   }, []);
+
   const moduleColumn = {
     title: formatMessage({ id: 'common.module', defaultMessage: '模块' }),
     dataIndex: 'moduleName',
@@ -150,12 +157,13 @@ const UpgradeTask: React.FC = () => {
     dependencies: ['productModel'],
     request: requestModule,
   };
+
   //获取升级版本号--依赖产品型号id
   const requestVersion = useCallback((params) => {
     if (params?.productModel) {
       return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
         ({ data }) => {
-          return data?.map?.((item) => {
+          return data?.map?.((item: { version: any; id: any }) => {
             return {
               label: item?.version || '',
               value: item?.id || '',
@@ -167,6 +175,7 @@ const UpgradeTask: React.FC = () => {
       return Promise.resolve([]);
     }
   }, []);
+
   const versionList = {
     title: formatMessage({ id: 'upgradeManage.upgraVersion', defaultMessage: '升级版本' }),
     dataIndex: 'version',
@@ -177,13 +186,14 @@ const UpgradeTask: React.FC = () => {
     dependencies: ['productModel'],
     request: requestVersion,
   };
+
   //升级时间
   const upgradTime = {
     title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
     dataIndex: 'upgradeTime',
     valueType: 'dateRange',
     width: 150,
-    render: (_, record: any) => record.upgradeTime,
+    render: (_: any, record: any) => record.upgradeTime,
     search: {
       transform: (value: any) => {
         return {
@@ -193,6 +203,7 @@ const UpgradeTask: React.FC = () => {
       },
     },
   };
+
   //删除升级任务
   const onCleanClick = useCallback((record: any) => {
     Modal.confirm({
@@ -225,6 +236,7 @@ const UpgradeTask: React.FC = () => {
     setOperations(FormOperations.UPDATE);
     setUpdateModal(true);
   }, []);
+
   const [open, setOpen] = useState(false); //打开查看详情弹窗
   const switchOpen = useCallback(() => {
     setOpen((value) => !value);
@@ -232,12 +244,14 @@ const UpgradeTask: React.FC = () => {
 
   const [viewDetailData, setViewDetailData] = useState();
   const [detailParams, setDetailParams] = useState();
+
   //查看详情
   const onViewEvents = useCallback((record) => {
     switchOpen();
     setViewDetailData(record);
     setDetailParams(record);
   }, []);
+
   //查看详情列表--根据列表id获取
   const requestDetailList = useCallback((params) => {
     return getTaskDetail(params).then(({ data }) => {
@@ -250,6 +264,8 @@ const UpgradeTask: React.FC = () => {
       return listdata;
     });
   }, []);
+
+  // @ts-ignore
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       productTypeColumn,
@@ -283,7 +299,7 @@ const UpgradeTask: React.FC = () => {
         ellipsis: true,
       },
       {
-        title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '模块' }),
+        title: formatMessage({ id: 'common.module', defaultMessage: '模块' }),
         dataIndex: 'moduleName',
         width: 120,
         ellipsis: true,
@@ -356,7 +372,9 @@ const UpgradeTask: React.FC = () => {
         title={<FormattedMessage id="upgradeManage.upgradeRes" defaultMessage="升级结果" />}
       />
       <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
+        // @ts-ignore
         columns={taskDetailColumns}
+        // @ts-ignore
         request={requestDetailList}
         //request={requestList}
         rowKey="id"
@@ -375,8 +393,10 @@ const UpgradeTask: React.FC = () => {
   return (
     <>
       <YTProTable<RemoteUpgradeDataRes, RemoteUpgradeDataRes>
+        // @ts-ignore
         columns={columnsNew}
         actionRef={actionRef}
+        // @ts-ignore
         request={requestList}
         rowKey="id"
         {...customListConfig}
@@ -413,4 +433,5 @@ const UpgradeTask: React.FC = () => {
     </>
   );
 };
+
 export default UpgradeTask;

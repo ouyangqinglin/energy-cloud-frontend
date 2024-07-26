@@ -6,12 +6,8 @@ import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 import { getProductTypeList } from '@/services/equipment';
 import { TABLESELECT, TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getSitePage } from '@/services/station';
-
-import { result } from 'lodash';
 import { logSelect } from '@/utils/dict';
 import type { getLogData } from './data';
-import { YTDATERANGE } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { getLocale } from '@/utils';
 
 const tableSelectColumns: ProColumns[] = [
