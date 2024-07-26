@@ -101,6 +101,7 @@ export default {
   'common.upgradeDuring': 'During Upgrade',
   'common.upgradeSuc': 'Upgrade Successful',
   'common.upgradeFai': 'Upgrade failed',
+  'common.upgradeTimeout': 'Upgrade Timeout',
   'common.supportFile': 'Support File',
   'common.execute': 'Execute',
   'common.search': 'Search',

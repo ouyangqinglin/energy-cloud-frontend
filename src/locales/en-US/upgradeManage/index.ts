@@ -29,6 +29,8 @@ export default {
   'upgradeManage.deleteTips':
     'Are you sure you want to delete this upgrade package? Cannot recover after deletion!',
   'upgradeManage.upgradeTime': 'Upgrade Time',
+  'upgradeManage.upgradeTakeTime': 'Upgrade Take Time(s)',
+  'upgradeManage.issuingTime': 'Issuing Time',
   'upgradeManage.statusTask': 'Status Task',
   'upgradeManage.upgradeRes': 'Upgrade Results',
   'upgradeManage.taskDetail': 'Task Details',
@@ -50,4 +52,6 @@ export default {
   'upgradeManage.upgradeSuc': 'Upgrade Successful',
   'upgradeManage.upgrading': 'Upgrading',
   'upgradeManage.failReason': 'The Cause of Failure: ',
+  'upgradeManage.timeoutReason': 'The Timeout Reason: ',
+  'upgradeManage.1000': 'Upgrade Progress',
 };
