@@ -166,6 +166,8 @@ export default {
   'common.selectDate': '选择日期',
   'common.occurrenceTime': '发生时间',
   'common.time': '时间',
+  'common.costTime': '调用耗时',
+  'common.logCreateTime': '调用时间',
   'common.operatingUser': '操作用户',
   'common.userType': '用户类型',
   'common.logs': '日志',
@@ -267,4 +269,7 @@ export default {
   'common.1006': '次',
   'common.1007': '不支持拖拽到子节点',
   'common.1008': '不支持置顶子节点',
+
+  'common.fail': '失败',
+  'common.success': '成功',
 };
