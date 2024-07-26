@@ -105,6 +105,7 @@ export default {
   'common.upgradeDuring': '升级中',
   'common.upgradeSuc': '升级成功',
   'common.upgradeFai': '升级失败',
+  'common.upgradeTimeout': '升级超时',
   'common.execute': '执行',
   'common.site.siteName': '站点名称',
   'common.site.siteType': '站点类型',

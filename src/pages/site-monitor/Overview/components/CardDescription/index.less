@@ -41,6 +41,8 @@
       .card-right {
         display: flex;
         align-items: center;
+        width: 120px;
+        min-width: 100px;
       }
       .card-kpi-label {
         color: #606266;
@@ -52,9 +54,12 @@
       }
       .card-kpi-value {
         margin-right: 3px;
+        overflow: hidden;
         color: #1d2129;
         font-weight: 700;
         font-size: 14px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

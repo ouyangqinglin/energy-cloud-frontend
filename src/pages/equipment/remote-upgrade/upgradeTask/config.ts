@@ -12,6 +12,9 @@ export const taskUpdateStatus = {
   2: {
     text: formatMessage({ id: 'common.upgradeFai', defaultMessage: '升级失败' }),
   },
+  3: {
+    text: formatMessage({ id: 'common.upgradeTimeout', defaultMessage: '升级超时' }),
+  },
 };
 export const taskDetailColumns: YTProColumns<DeviceDataType>[] = [
   {
@@ -43,8 +46,31 @@ export const taskDetailColumns: YTProColumns<DeviceDataType>[] = [
     hideInSearch: true,
   },
   {
+    title: formatMessage({ id: 'upgradeManage.issuingTime', defaultMessage: '下发时间' }),
+    dataIndex: 'createTime',
+    hideInSearch: true,
+    width: 150,
+    ellipsis: true,
+  },
+  {
     title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
     dataIndex: 'upgradeTime',
+    hideInSearch: true,
+    width: 150,
+    ellipsis: true,
+  },
+
+  {
+    title: formatMessage({ id: 'upgradeManage.1000', defaultMessage: '升级进度' }),
+    dataIndex: 'progress',
+    hideInSearch: true,
+    width: 100,
+    ellipsis: true,
+  },
+
+  {
+    title: formatMessage({ id: 'upgradeManage.upgradeTakeTime', defaultMessage: '升级耗时(s)' }),
+    dataIndex: 'upgradeTimeConsumption',
     hideInSearch: true,
     width: 100,
     ellipsis: true,

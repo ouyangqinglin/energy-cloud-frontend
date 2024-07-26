@@ -3,7 +3,6 @@ import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { getLogList, getProductSnList, getVersionList, getModuleList } from './service';
 import { RemoteUpgradeDataRes } from './type';
-import { upgradeStatus } from './config';
 import { useSiteColumn, useSearchSelect } from '@/hooks';
 import { SearchParams } from '@/hooks/useSearchSelect';
 import { DeviceDataType, getProductTypeList } from '@/services/equipment';
@@ -12,7 +11,9 @@ import { FormattedMessage } from 'umi';
 import { Modal } from 'antd';
 
 const Log: React.FC = () => {
+  const [upgradeStatus, setUpgradeStatus] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [failReason, setFailReason] = useState();
   //打开升级失败的弹窗
   const statusClick = useCallback((record: DeviceDataType) => {
@@ -127,7 +128,7 @@ const Log: React.FC = () => {
     if (params?.productModel) {
       return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
         ({ data }) => {
-          return data?.map?.((item) => {
+          return data?.list?.map?.((item) => {
             return {
               label: item?.version || '',
               value: item?.id || '',
@@ -162,22 +163,7 @@ const Log: React.FC = () => {
   //   },
   //   request: requestVersion,
   // });
-  //升级时间
-  const upgradTime = {
-    title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
-    dataIndex: 'upgradeTime',
-    valueType: 'dateRange',
-    width: 150,
-    render: (_, record: any) => record.upgradeTime,
-    search: {
-      transform: (value: any) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
-        };
-      },
-    },
-  };
+
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       siteColumn,
@@ -261,19 +247,65 @@ const Log: React.FC = () => {
         ellipsis: true,
         hideInSearch: true,
       },
-      upgradTime,
+
+      {
+        title: formatMessage({ id: 'upgradeManage.issuingTime', defaultMessage: '下发时间' }),
+        dataIndex: 'createTime',
+        width: 150,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+
+      {
+        title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
+        dataIndex: 'upgradeTime',
+        valueType: 'dateRange',
+        width: 150,
+        render: (_, record: any) => record.upgradeTime,
+        search: {
+          transform: (value: any) => {
+            return {
+              startTime: value[0],
+              endTime: value[1],
+            };
+          },
+        },
+      },
+
+      {
+        title: formatMessage({ id: 'upgradeManage.1000', defaultMessage: '升级进度' }),
+        dataIndex: 'progress',
+        width: 100,
+        ellipsis: true,
+        hideInSearch: true,
+      },
+
+      {
+        title: formatMessage({
+          id: 'upgradeManage.upgradeTakeTime',
+          defaultMessage: '升级耗时(s)',
+        }),
+        dataIndex: 'upgradeTimeconsumption',
+        width: 100,
+        ellipsis: true,
+        hideInSearch: true,
+      },
       {
         title: formatMessage({ id: 'upgradeManage.upgradeStatus', defaultMessage: '升级状态' }),
         dataIndex: 'status',
         width: 150,
         ellipsis: true,
         hideInSearch: true,
-        //valueEnum: upgradeStatus,
         render: (_, record) => {
-          if (record.status == 2) {
+          if (record.status && [2, 3].includes(record.status)) {
+            setUpgradeStatus(record.status);
             return (
               <a onClick={() => statusClick(record)}>
-                <FormattedMessage id="upgradeManage.upgradeFailed" defaultMessage="升级失败" />{' '}
+                {record.status == 3 ? (
+                  <FormattedMessage id="common.upgradeTimeout" defaultMessage="升级超时" />
+                ) : (
+                  <FormattedMessage id="upgradeManage.upgradeFailed" defaultMessage="升级失败" />
+                )}
               </a>
             );
           } else if (record.status == 1) {
@@ -318,13 +350,23 @@ const Log: React.FC = () => {
         request={requestList}
       />
       <Modal
-        title={<FormattedMessage id="upgradeManage.upgradeFailed" defaultMessage="升级失败" />}
+        title={
+          upgradeStatus == 3 ? (
+            <FormattedMessage id="upgradeManage.upgradeTimeout" defaultMessage="升级超时" />
+          ) : (
+            <FormattedMessage id="common.upgradeFailed" defaultMessage="升级失败" />
+          )
+        }
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <p>
-          <FormattedMessage id="upgradeManage.failReason" defaultMessage="失败原因:" />
+          {upgradeStatus == 3 ? (
+            <FormattedMessage id="upgradeManage.timeoutReason" defaultMessage="超时原因:" />
+          ) : (
+            <FormattedMessage id="upgradeManage.failReason" defaultMessage="失败原因:" />
+          )}
           {failReason}
         </p>
       </Modal>

@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { useIntl } from 'umi';
-import { Tabs, TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
+
 import styles from './index.less';
 import { useAuthority } from '@/hooks';
 import Package from './package';
 import UpgradeTask from './upgradeTask';
 import Log from './log';
-import { Item } from '@ant-design/charts';
 import { formatMessage } from '@/utils';
 
 const UpgradeManage: React.FC = () => {

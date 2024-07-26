@@ -43,10 +43,10 @@ export const getSelectDeviceList = (params: any) => {
   });
 };
 //查看详情接口
-export const getTaskDetail = (params:any) => {
+export const getTaskDetail = (params: any) => {
   return request(`/iot/otaUpgrade/execute/details`, {
     method: 'GET',
-    params
+    params,
   });
 };
 //获取升级任务详情-编辑接口
@@ -64,8 +64,6 @@ export const addTaskList = (data: UpdateTaskParam) => {
 export const updateTaskList = (data: UpdateTaskParam) => {
   return put(`/iot/otaUpgrade/edit`, data);
 };
-
-
 
 //11111抄表单
 export interface InstallOrderUpdateParam {
