@@ -7,26 +7,20 @@
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
 
-import moment, { Moment } from 'moment';
-import { CollectionDataType, CollectionSearchType, SearchType } from './typing';
-import {
-  ProColumns,
-  ProFormCheckbox,
-  ProFormColumnsType,
-  ProFormSelect,
-} from '@ant-design/pro-components';
+import moment from 'moment';
+import type { Moment } from 'moment';
+import type { CollectionSearchType, SearchType } from './typing';
+import { ProFormSelect } from '@ant-design/pro-components';
+import type { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 import { YTCellFourOutlined, YTCellNineOutlined, YTCellSixOutlined } from '@/components/YTIcons';
-import { TABLETREESELECT, TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
-import {
-  getDeviceCollection,
-  getMultipleDeviceTree,
-  getSiteDeviceTree,
-} from '@/services/equipment';
-import { DeviceTreeDataType } from '@/types/device';
-import { formatMessage, isEmpty } from '@/utils';
+import { TABLETREESELECT } from '@/components/TableSelect';
+import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
+import { getDeviceCollection, getSiteDeviceTree } from '@/services/equipment';
+import type { DeviceTreeDataType } from '@/types/device';
+import { formatMessage } from '@/utils';
 import { getStations } from '@/services/station';
-import { Checkbox, Col, Row, Switch, TreeNodeProps } from 'antd';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { Checkbox, Col, Row } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { aggregationTime } from '@/utils/dict';
 
 export const column: ProFormColumnsType<SearchType>[] = [
@@ -134,7 +128,7 @@ const requestTree = (node: DeviceTreeDataType) => {
 
 const requestSiteList = () => {
   return getStations().then((res) => {
-    res?.data?.map?.((item: DeviceTreeDataType) => {
+    res?.data?.list?.map?.((item: DeviceTreeDataType) => {
       item.deviceName = item.name;
       item.isLeaf = false;
       item.siteId = item.id;

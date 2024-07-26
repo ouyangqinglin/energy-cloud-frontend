@@ -6,6 +6,9 @@ import { ProColumns, ProFormColumnsType } from '@ant-design/pro-components';
 import { getProductTypeList } from '@/services/equipment';
 import { TABLESELECT, TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { getSitePage } from '@/services/station';
+import { logSelect } from '@/utils/dict';
+import type { getLogData } from './data';
+import { getLocale } from '@/utils';
 
 const tableSelectColumns: ProColumns[] = [
   {
@@ -249,5 +252,76 @@ export const formColumns: ProFormColumnsType<AuthDataType, TABLESELECTVALUETYPE>
     colProps: {
       span: 24,
     },
+  },
+];
+
+export const getLogColumns: YTProColumns<getLogData, TABLESELECTVALUETYPE>[] = [
+  {
+    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
+    dataIndex: 'id',
+    valueType: 'index',
+    width: 20,
+    hideInSearch: true,
+  },
+  {
+    title: formatMessage({ id: 'common.logCreateTime', defaultMessage: '调用时间' }),
+    dataIndex: 'createTime',
+    valueType: 'dateTime',
+    width: 48,
+    hideInSearch: true,
+  },
+  {
+    title: formatMessage({ id: 'common.time', defaultMessage: '时间' }),
+    dataIndex: 'createTime',
+    valueType: 'dateRange',
+    fieldProps: {
+      dateFormat: getLocale().dateFormat,
+      format: 'YYYY-MM-DD',
+    },
+    render: (_, record) => <span>{record.createTime}</span>,
+    search: {
+      transform: (value) => {
+        return {
+          startDate: value[0],
+          endDate: value[1],
+        };
+      },
+    },
+    ellipsis: true,
+    hideInTable: true,
+    width: 48,
+  },
+  {
+    title: formatMessage({ id: 'common.result', defaultMessage: '结果' }),
+    dataIndex: 'result',
+    width: 20,
+    valueType: 'select',
+    valueEnum: logSelect,
+  },
+  {
+    title: formatMessage({ id: 'common.method', defaultMessage: '方法' }),
+    dataIndex: 'method',
+    width: 45,
+    hideInSearch: true,
+    ellipsis: true,
+  },
+  {
+    title: formatMessage({ id: 'common.costTime', defaultMessage: '调用耗时' }),
+    dataIndex: 'requiredTime',
+    width: 30,
+    hideInSearch: true,
+  },
+  {
+    title: formatMessage({ id: 'common.input', defaultMessage: '入参' }),
+    dataIndex: 'input',
+    ellipsis: true,
+    width: 60,
+    hideInSearch: true,
+  },
+  {
+    title: formatMessage({ id: 'common.response', defaultMessage: '返回数据' }),
+    dataIndex: 'response',
+    width: 30,
+    hideInSearch: true,
   },
 ];

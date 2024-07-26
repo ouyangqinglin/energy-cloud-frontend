@@ -44,6 +44,5 @@ export const defaultOptions = (series: any = []) => ({
       },
     },
   ],
-
   series,
 });

@@ -12,7 +12,7 @@ export const getPackageList = (params: any) => {
 export const getDetailData = (params: any) => {
   return request(`/iot/otaPackage`, {
     method: 'GET',
-    params
+    params,
   });
 };
 //删除升级包
@@ -43,13 +43,6 @@ export const getSelectDeviceList = (params: any) => {
     params,
   });
 };
-//获取树形结构数据--站点
-export const getStations = (params?: any) => {
-  return request(`/oss/site/getList`, {
-    method: 'GET',
-    params,
-  });
-};
 //上传文件
 export const uploadPackageFile = (formData: any) => {
   return request(`/prodApi/uc/upload`, {
@@ -57,5 +50,3 @@ export const uploadPackageFile = (formData: any) => {
     data: formData,
   });
 };
-
-

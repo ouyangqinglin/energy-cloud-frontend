@@ -8,6 +8,8 @@ import { getData } from './service';
 import { formatMessage } from '@/utils';
 import type { UnitType } from '@/models/siteType';
 import TypeChart from '@/components/Chart/TypeChart';
+import { chartTypeEnum } from '@/components/Chart/config';
+
 import { defaultOptions } from './config';
 import type EChartsReact from 'echarts-for-react';
 
@@ -53,37 +55,49 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           color: '#FF7B7B',
         },
       ],
+      [
+        'load',
+        {
+          name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
+          color: '#FF9AD5',
+        },
+      ],
     ]);
-    if (siteTypeConfig.hasPv)
+
+    if (siteTypeConfig.hasPv) {
       map.set('pv', {
         name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
         color: '#FFD15C',
       });
-    if (siteTypeConfig.hasEnergy)
+    }
+
+    if (siteTypeConfig.hasEnergy) {
       map.set('es', {
         name: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
         color: '#159AFF',
       });
-    if (siteTypeConfig.hasCharge)
+    }
+
+    if (siteTypeConfig.hasCharge) {
       map.set('cs', {
         name: formatMessage({ id: 'device.chargingPile', defaultMessage: '充电桩' }),
         color: '#01CFA1',
       });
-    if (true)
-      map.set('load', {
-        name: formatMessage({ id: 'device.otherLoad', defaultMessage: '其他负载' }),
-        color: '#FF9AD5',
-      });
-    if (siteTypeConfig.hasDiesel)
+    }
+
+    if (siteTypeConfig.hasDiesel) {
       map.set('diesel', {
         name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
         color: '#7A79FF',
       });
-    if (siteTypeConfig.hasFan)
+    }
+
+    if (siteTypeConfig.hasFan) {
       map.set('fan', {
         name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
         color: '#66E1DF',
       });
+    }
     return map;
   }, [siteTypeConfig]);
 
@@ -109,6 +123,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           });
       }
     }, 3000);
+
     setChartData(result);
     setOptions(defaultOptions(series));
     return () => clearInterval(timer);
@@ -130,7 +145,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     >
       <TypeChart
         height={legendMap.size > 5 ? 163 : 235}
-        date={date}
         chartRef={chartRef}
         option={options}
         data={chartData}
