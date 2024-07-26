@@ -14,7 +14,7 @@ import { getDeviceLocalLog, getLocalLog } from '@/services/equipment';
 import moment from 'moment';
 import { aLinkDownLoad } from '@/utils/downloadfile';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
-
+import styles from './index.less';
 export type EVChargerOrderInfoType = {
   deviceId?: string;
 };
@@ -22,7 +22,7 @@ export type EVChargerOrderInfoType = {
 const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(true);
   const { data: deviceData } = useContext(DeviceContext);
   const actionRef = useRef<ActionType>();
   const handleRequest = (params: any) => {
@@ -76,10 +76,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   ];
   return (
     <div>
-      <Detail.Label
-        title={formatMessage({ id: 'device.deviceLog', defaultMessage: '设备日志' })}
-        className="mt16"
-      />
+      <Detail.Label title={formatMessage({ id: 'device.deviceLog', defaultMessage: '设备日志' })} />
       <ProConfigProvider
         valueTypeMap={{
           ...YTDateRangeValueTypeMap,
@@ -89,6 +86,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
           actionRef={actionRef}
           columns={[...columns, ...actionColumn]}
           request={handleRequest}
+          className={styles.logTable}
           scroll={{ y: 'auto' }}
           toolBarRender={() => [
             <Button
@@ -108,7 +106,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
         />
       </ProConfigProvider>
       <Modal
-        width={800}
+        width={522}
         title={formatMessage({ id: 'device.exportLog', defaultMessage: '日志导出' })}
         visible={visible}
         destroyOnClose

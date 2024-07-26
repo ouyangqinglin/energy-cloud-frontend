@@ -8,20 +8,20 @@
  */
 import React, { useCallback, useMemo, useContext, memo } from 'react';
 import Overview from '../DeviceInfo/Overview';
-import { Tabs, TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
 import { formatMessage } from '@/utils';
 import DeviceRealTime from '../DeviceRealTime';
 import DeviceContext from '../Device/Context/DeviceContext';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
 import Search from '@/pages/data-manage/search';
 import Alarm from '@/components/Alarm';
-import Adjust from '../Device/Adjust';
 import RunLog from '@/pages/site-monitor/RunLog';
 import Configuration from '../Device/Configuration';
 import styles from './index.less';
 import { ErrorBoundary } from 'react-error-boundary';
 import FallBackRender from '../FallBackRender';
-import { DeviceDataType } from '@/services/equipment';
+import type { DeviceDataType } from '@/services/equipment';
 import { useAuthority } from '@/hooks';
 import Debug from '../Device/components/Debug';
 
