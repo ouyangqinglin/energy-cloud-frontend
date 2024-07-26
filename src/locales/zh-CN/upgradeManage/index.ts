@@ -28,6 +28,8 @@ export default {
   'upgradeManage.upload': '上传',
   'upgradeManage.deleteTips': '你确定要删除该升级包吗？删除之后无法恢复！',
   'upgradeManage.upgradeTime': '升级时间',
+  'upgradeManage.upgradeTakeTime': '升级耗时(s)',
+  'upgradeManage.issuingTime': '下发时间',
   'upgradeManage.statusTask': '任务状态',
   'upgradeManage.upgradeRes': '升级结果',
   'upgradeManage.taskDetail': '任务详情',
@@ -47,4 +49,6 @@ export default {
   'upgradeManage.upgradeSuc': '升级成功',
   'upgradeManage.upgrading': '升级中',
   'upgradeManage.failReason': '失败原因: ',
+  'upgradeManage.timeoutReason': '超时原因: ',
+  'upgradeManage.1000': '升级进度',
 };

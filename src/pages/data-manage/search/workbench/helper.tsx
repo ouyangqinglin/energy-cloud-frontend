@@ -350,3 +350,134 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
     },
   },
 ];
+
+export const exportTaskColumns: ProFormColumnsType<
+  CollectionSearchType,
+  TABLETREESELECTVALUETYPE
+>[] = [
+  {
+    title: formatMessage({ id: 'monitor.Job.job_name', defaultMessage: '任务名称' }),
+    dataIndex: 'taskName',
+    formItemProps: { rules: [{ required: true, message: '请输入任务名称' }] },
+    colProps: { span: 12 },
+  },
+  {
+    title: formatMessage({ id: 'dataManage.1085', defaultMessage: '任务执行时间' }),
+    dataIndex: 'time',
+    valueType: 'dateRange',
+    transform: (value) => {
+      return {
+        startTime: value[0] + ' 00:00:00',
+        endTime: value[1] + ' 23:59:59',
+      };
+    },
+    initialValue: [moment().startOf('day'), moment().endOf('day')],
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+        },
+      ],
+    },
+    fieldProps: (form) => {
+      return {
+        onOpenChange: (open: boolean) => {
+          if (open) {
+            window.workbenchDates = [];
+            window.workbenchSelectDates = form?.getFieldValue?.('time');
+            form?.setFieldValue?.('time', []);
+          } else {
+            if (window.workbenchDates?.[0] && window.workbenchDates?.[1]) {
+              form?.setFieldValue?.('time', window.workbenchDates);
+            } else {
+              form?.setFieldValue?.('time', window.workbenchSelectDates);
+            }
+          }
+        },
+        onCalendarChange: (val: Moment[]) => {
+          window.workbenchDates = [...(val || [])];
+        },
+        disabledDate: (current: Moment) => {
+          if (!window.workbenchDates) {
+            return false;
+          }
+          const tooLate =
+            window.workbenchDates?.[0] && current.diff(window.workbenchDates?.[0], 'days') > 7;
+          const tooEarly =
+            window.workbenchDates?.[1] && window.workbenchDates?.[1].diff(current, 'days') > 7;
+          return !!tooEarly || !!tooLate;
+        },
+      };
+    },
+  },
+  {
+    title: formatMessage({
+      id: 'siteManage.set.dataCollectionPoints',
+      defaultMessage: '数据采集点',
+    }),
+    dataIndex: 'collection',
+    valueType: TABLETREESELECT,
+    formItemProps: {
+      labelCol: { span: '0 0 100px' },
+      rules: [
+        {
+          required: true,
+          message: formatMessage({
+            id: 'common.pleaseSelect',
+            defaultMessage: '请选择',
+          }),
+        },
+      ],
+    },
+    fieldProps: {
+      title: formatMessage({
+        id: 'common.pleaseSelect',
+        defaultMessage: '请选择',
+      }),
+      treeProps: {
+        fieldNames: {
+          title: 'deviceName',
+          key: 'id',
+          children: 'children',
+        },
+        request: requestSiteList,
+        loadData: requestTree,
+        defaultExpandAll: false,
+      },
+      treeSearch: {
+        filterData: (data: DeviceTreeDataType[], searchValue: string) => {
+          const result: DeviceTreeDataType[] = [];
+          data?.forEach?.((item) => {
+            if (item?.deviceName?.indexOf && item?.deviceName?.indexOf?.(searchValue) > -1) {
+              result.push(item);
+            }
+          });
+          return result;
+        },
+        placeholder: formatMessage({ id: 'dataManage.1060', defaultMessage: '筛选站点' }),
+      },
+      proTableProps: {
+        pagination: false,
+        columns: tableSelectColumns,
+        request: getDeviceCollection,
+      },
+      valueId: 'selectName',
+      valueName: 'paramName',
+      limit: 2,
+      limitSelect: 10,
+      virtual: true,
+      dealTreeData: (data: DeviceTreeDataType) => {
+        if (typeof data.component != 'undefined' && [0, 1].includes(data.component)) {
+          data.selectable = true;
+        } else {
+          data.selectable = false;
+          data.id = (data?.id ?? '') + Math.random().toFixed(8);
+        }
+        if (typeof data.isLeaf !== 'boolean' && !data?.children?.length) {
+          data.isLeaf = true;
+        }
+      },
+    },
+  },
+];
