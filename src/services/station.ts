@@ -57,6 +57,13 @@ export type VideoMonitorTokenType = {
   refreshToken?: string;
 };
 
+export const getSitesList = (params?: any) => {
+  return request<ResponseCommonData<SiteDataType[]>>(`/oss/site/getList`, {
+    method: 'GET',
+    params,
+  });
+};
+
 export const getStations = (params?: any) => {
   return request<ResponseCommonData<SiteDataType[]>>(`/uc/site/page`, {
     method: 'GET',

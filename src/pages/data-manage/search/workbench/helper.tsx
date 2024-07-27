@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-07-23 17:44:46
+ * @LastEditTime: 2024-07-27 12:46:59
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
@@ -18,7 +18,7 @@ import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getDeviceCollection, getSiteDeviceTree } from '@/services/equipment';
 import type { DeviceTreeDataType } from '@/types/device';
 import { formatMessage } from '@/utils';
-import { getStations } from '@/services/station';
+import { getSitesList, getStations } from '@/services/station';
 import { Checkbox, Col, Row } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { aggregationTime } from '@/utils/dict';
@@ -127,8 +127,8 @@ const requestTree = (node: DeviceTreeDataType) => {
 };
 
 const requestSiteList = () => {
-  return getStations().then((res) => {
-    res?.data?.list?.map?.((item: DeviceTreeDataType) => {
+  return getSitesList().then((res) => {
+    res?.data?.map?.((item: DeviceTreeDataType) => {
       item.deviceName = item.name;
       item.isLeaf = false;
       item.siteId = item.id;

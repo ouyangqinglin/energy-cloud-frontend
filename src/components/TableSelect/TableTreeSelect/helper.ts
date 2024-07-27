@@ -16,7 +16,7 @@ export const runDealTreeData = <TreeData>(
   dealTreeData?: dealTreeDataType<TreeData>,
 ) => {
   if (data && data.length) {
-    data.forEach((item, index) => {
+    data?.forEach?.((item, index) => {
       if (item.children && item.children.length) {
         item.selectable = false;
       }
