@@ -22,7 +22,7 @@ export type EVChargerOrderInfoType = {
 const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   const { deviceId } = props;
   const [form] = Form.useForm();
-  const [visible, setVisible] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
   const { data: deviceData } = useContext(DeviceContext);
   const actionRef = useRef<ActionType>();
   const handleRequest = (params: any) => {
@@ -106,7 +106,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
         />
       </ProConfigProvider>
       <Modal
-        width={522}
+        width={552}
         title={formatMessage({ id: 'device.exportLog', defaultMessage: '日志导出' })}
         visible={visible}
         destroyOnClose
