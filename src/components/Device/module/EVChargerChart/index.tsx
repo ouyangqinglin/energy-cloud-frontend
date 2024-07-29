@@ -149,7 +149,10 @@ const EVChargerChart = () => {
         className="mt16"
       />
       <Detail.Label
-        title={formatMessage({ id: 'device.chargingCurve', defaultMessage: '充电曲线' })}
+        title={formatMessage({
+          id: 'device.dailyChargingCapacity',
+          defaultMessage: '电压电流曲线',
+        })}
         className="mt16"
       />
       <TypeChart

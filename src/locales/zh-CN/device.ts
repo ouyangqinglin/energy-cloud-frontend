@@ -372,6 +372,7 @@ export default {
   'device.curve': '曲线',
   'device.todayCurve': '今日曲线',
   'device.chargingCurve': '充电曲线',
+  'device.dailyChargingCapacity': '电压电流曲线',
   'device.voltage': '电压',
   'device.current': '电流',
   'device.maxAllowVoltage': '最高允许充电电压',
@@ -508,4 +509,5 @@ export default {
   'device.1015': '最低电压',
   'device.1016': '最高温度',
   'device.1017': '最低温度',
+  'device.startmeterRead': '开始电表读数',
 };

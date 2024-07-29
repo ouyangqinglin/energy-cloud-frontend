@@ -23,7 +23,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const [curveVisible, setCurveVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<OrderDataType>({});
   const [orderType, setOrderType] = useState<string>('0');
-  const [orderId, setOrderId] = useState<string>('0');
+  const [orderId, setOrderId] = useState<string>('');
 
   const [columns, setColumns] = useState<ProColumns<OrderDataType>[]>(defaultColumns(false));
   const actionRef = useRef<ActionType>();
@@ -52,8 +52,10 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
   const onTabChange = (value: string) => {
     setOrderType(value);
     if (value == '1') {
+      // @ts-ignore
       setColumns(defaultColumns(true));
     } else {
+      // @ts-ignore
       setColumns(defaultColumns(false));
     }
     actionRef?.current?.reload?.();
@@ -82,6 +84,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           size="small"
           key="edit"
           onClick={() => {
+            setCurrentRow(rowData);
             setCurveVisible(true);
             setOrderId(rowData?.id || '');
           }}
@@ -108,6 +111,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           actionRef={actionRef}
           columns={[...columns, actionColumn]}
           toolBarRender={false}
+          // @ts-ignore
           request={handleRequest}
           scroll={{ y: 'auto' }}
         />
@@ -124,6 +128,7 @@ const EVChargerOrderInfo: React.FC<EVChargerOrderInfoType> = (props) => {
           }}
           orderId={orderId}
           visible={curveVisible}
+          values={currentRow}
         />
       </ProConfigProvider>
     </div>

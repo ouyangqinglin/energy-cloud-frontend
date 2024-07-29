@@ -375,6 +375,7 @@ export default {
   'device.curve': 'Curve',
   'device.todayCurve': 'Today Curve',
   'device.chargingCurve': 'Charging Curve',
+  'device.dailyChargingCapacity': 'Daily Charging Capacity',
   'device.voltage': 'Voltage',
   'device.current': 'Current',
   'device.maxAllowVoltage': 'Max Allowvoltage',
