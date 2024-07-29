@@ -16,7 +16,7 @@ import {
   tableSelectValueTypeMap,
   tableTreeSelectValueTypeMap,
 } from '@/components/TableSelect';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 
 import {
   getProductSnList,
@@ -259,12 +259,12 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     },
   ];
   const requestTree = useCallback(() => {
-    return getStations().then(({ data }) => {
+    return getSitesList().then(({ data }) => {
       const list = [
         {
           name: formatMessage({ id: 'common.all', defaultMessage: '全部' }),
           id: -1,
-          children: data?.list,
+          children: data,
         },
       ];
       return { data: list };

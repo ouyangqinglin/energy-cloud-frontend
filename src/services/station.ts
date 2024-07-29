@@ -69,7 +69,7 @@ export const getStations = (params?: any) => {
     method: 'GET',
     params: {
       current: 1,
-      pageSize: 50,
+      pageSize: 999,
       ...params,
     },
   });

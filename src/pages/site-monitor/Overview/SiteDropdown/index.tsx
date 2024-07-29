@@ -3,7 +3,7 @@ import { Dropdown, Space } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import type { MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 
 const SiteDropdown = ({
   defaultSiteId,
@@ -15,7 +15,7 @@ const SiteDropdown = ({
   params?: any;
 }) => {
   const [station, setStation] = useState<MenuItemType>({} as MenuItemType);
-  const { data } = useRequest(() => getStations(params));
+  const { data } = useRequest(() => getSitesList(params));
   const items: MenuItemType[] = useMemo(
     () =>
       data?.map?.((item: any) => {

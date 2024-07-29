@@ -18,7 +18,7 @@ import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getDeviceCollection, getSiteDeviceTree } from '@/services/equipment';
 import type { DeviceTreeDataType } from '@/types/device';
 import { formatMessage } from '@/utils';
-import { getSitesList, getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 import { Checkbox, Col, Row } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { aggregationTime } from '@/utils/dict';

@@ -23,7 +23,7 @@ import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 import { debounce } from 'lodash';
 import type { OptionType } from '@/types';
 import { YTAlarmFullOutlined } from '@/components/YTIcons';
@@ -195,9 +195,9 @@ const Alarm: React.FC<AlarmProps> = (props) => {
       if (siteConstructionStatus !== undefined) {
         query.siteConstructionStatus = siteConstructionStatus;
       }
-      getStations(query).then(({ data }) => {
+      getSitesList(query).then(({ data }) => {
         setStationOptions(
-          data?.list?.map?.((item: any) => {
+          data?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,
