@@ -1,6 +1,6 @@
 import { formatMessage, getLocale } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 
 export const columns: ProColumns[] = [
   {
@@ -19,8 +19,8 @@ export const columns: ProColumns[] = [
       mode: 'multiple',
     },
     request: () =>
-      getStations({ factoryId: 500003 }).then(({ data }) => {
-        return data?.list?.map?.((item) => {
+      getSitesList({ factoryId: 500003 }).then(({ data }) => {
+        return data?.map?.((item) => {
           return {
             ...item,
             label: item.name,

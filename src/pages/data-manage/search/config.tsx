@@ -15,7 +15,7 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { formatMessage, getLocale, parseToObj } from '@/utils';
 import { DeviceModelType, DeviceTreeDataType } from '@/types/device';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 import { TreeNodeProps } from 'antd';
 
 type DeviceMapDataType = {
@@ -76,8 +76,8 @@ const requestTree = (node: DeviceTreeDataType) => {
 };
 
 const requestSiteList = () => {
-  return getStations().then((res) => {
-    res?.data?.list?.map?.((item: DeviceTreeDataType) => {
+  return getSitesList().then((res) => {
+    res?.data?.map?.((item: DeviceTreeDataType) => {
       item.deviceName = item.name;
       item.isLeaf = false;
       item.siteId = item.id;

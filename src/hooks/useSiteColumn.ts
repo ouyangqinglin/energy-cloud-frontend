@@ -8,7 +8,7 @@
  */
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import type { SiteDataType } from '@/services/station';
-import { getStations } from '@/services/station';
+import { getSitesList } from '@/services/station';
 import type { OptionType } from '@/types';
 import { debounce } from 'lodash';
 import type { ProColumns } from '@ant-design/pro-components';
@@ -26,13 +26,12 @@ const useSiteColumn = <TableData = Record<string, any>, ValueType = 'text'>(
 
   const requestStation = useCallback(
     debounce((searchText, fun) => {
-      return (props?.searchRequest || getStations)({
+      return (props?.searchRequest || getSitesList)({
         ...(props?.params ?? {}),
         name: searchText,
       }).then(({ data }) => {
-        const list = data?.list || data;
         let result =
-          list?.map?.((item: any) => {
+          data?.map?.((item: any) => {
             return {
               label: item.name,
               value: item.id,
