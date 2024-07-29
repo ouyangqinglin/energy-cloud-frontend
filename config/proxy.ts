@@ -14,6 +14,7 @@ export default {
       // target: 'https://ytoss.yotaienergy.com',
       // target: 'https://192.168.3.4/',
       // target: 'https://192.168.3.47', //测试环境
+      // target: 'https://link.yotaienergy.com',
       changeOrigin: true,
       secure: false,
       pathRewrite: { '^/api': '/prod-api' },

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-07-05 11:16:07
+ * @LastEditTime: 2024-07-29 16:29:46
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -443,10 +443,6 @@ export const allItems: Record<string, DetailItem> = {
       data.productId != DeviceTypeEnum.SmallEnergyFireFight &&
       data.productId != DeviceTypeEnum.PvEnergyFirFight,
   },
-  meterNumber: {
-    label: formatMessage({ id: 'device.softwareVersion', defaultMessage: '电表序号' }),
-    field: 'MeterSerialNumber',
-  },
   meterAddress: {
     label: formatMessage({ id: 'device.meterAddress', defaultMessage: '电表地址' }),
     field: 'MeterAddress',
@@ -687,7 +683,12 @@ const fireFightKeys = [
   'emsCommunicationMethod',
 ];
 
-const meterKeys = ['meterNumber', 'meterAddress', 'meterSerialNumber', 'emsCommunicationMethod'];
+const meterKeys = [
+  'softwareVersion',
+  'meterAddress',
+  'meterSerialNumber',
+  'emsCommunicationMethod',
+];
 
 const liquidCoolerKeys = [
   'liquidCoolerHardwareVersion',
@@ -791,7 +792,6 @@ const productTypeIdKeysMap = new Map([
   [DeviceProductTypeEnum.Air, airKeys],
   [DeviceProductTypeEnum.FireFight, fireFightKeys],
   [DeviceProductTypeEnum.Dehumidifier, dehumidifierKeys],
-  [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.EnergyElectricMeter, meterKeys],
   [DeviceProductTypeEnum.Dynamo, dynamoKeys],
   [DeviceProductTypeEnum.ChargeGun, chargeGunKeys],
