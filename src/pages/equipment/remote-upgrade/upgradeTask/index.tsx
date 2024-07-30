@@ -81,7 +81,7 @@ const UpgradeTask: React.FC = () => {
     formItemProps: {
       name: 'productTypeId',
     },
-    fieldProps: (form: { setFieldValue: (arg0: string, arg1: string) => void }) => {
+    fieldProps: (form) => {
       return {
         onChange: () => {
           form?.setFieldValue?.('productModel', ''); //清空产品型号的数据
@@ -119,7 +119,7 @@ const UpgradeTask: React.FC = () => {
     hideInTable: true,
     dependencies: ['productTypeId'],
     request: requestProductSn,
-    fieldProps: (form: { setFieldValue: (arg0: string, arg1: string) => void }) => {
+    fieldProps: (form) => {
       return {
         onChange: () => {
           form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
