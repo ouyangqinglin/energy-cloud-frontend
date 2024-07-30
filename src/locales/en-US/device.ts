@@ -449,6 +449,7 @@ export default {
   'device.quantity': 'Quantity',
   'device.soc': 'SOC',
   'device.keepOne': 'Please Keep At Least One Terminal Associated Host!',
+  'device.not': 'NOT',
   'device.SINOPEC': 'SINOPEC',
   'device.XIAOJI': 'XIAOJU',
   'device.JoinFastCharge': 'Join Fast Charge',
