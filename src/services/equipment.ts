@@ -18,6 +18,7 @@ import type {
 import type { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
+  devices: any;
   id?: string;
   forShort?: string;
   deviceId?: string;
@@ -127,12 +128,45 @@ export const getChargeDayCurve = (params: any) => {
   });
 };
 
-export const getytOrdercurve = (params: any) => {
-  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/ytOrder/curve`, {
-    method: 'GET',
-    params,
+export type OrderCurveRequestType = {
+  endTime?: string;
+  keyValue?: KeyValue[];
+  /**
+   * 聚合方式，0最大值  1最小值 2平均值 3-第一个值 4最后一个值
+   */
+  polymerizationType?: number;
+  startTime?: string;
+  /**
+   * 聚合时间 ，分钟
+   */
+  timeBucket?: number;
+  [property: string]: any;
+};
+
+export type KeyValue = {
+  deviceId?: number | string;
+  key?: string;
+  name?: string;
+  /**
+   * key的数据类型
+   */
+  type?: string;
+  [property: string]: any;
+};
+
+export const getytOrdercurve = (data: any) => {
+  return request<ResponseCommonData<DeviceDataType[]>>(`/iot/deviceData/queryHistorical`, {
+    method: 'POST',
+    data,
   });
 };
+
+// export const getytOrdercurve = (params: any) => {
+//   return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/ytOrder/curve`, {
+//     method: 'GET',
+//     params,
+//   });
+// };
 
 export const getChargeTCurve = (params: any) => {
   return request<ResponseCommonData<DeviceDataType[]>>(`/iot/ytcharging/getChargeTCurve`, {

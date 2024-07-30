@@ -166,7 +166,7 @@ export default {
   'common.selectDate': '选择日期',
   'common.occurrenceTime': '发生时间',
   'common.time': '时间',
-  'common.costTime': '调用耗时',
+  'common.costTime': '调用耗时(s)',
   'common.logCreateTime': '调用时间',
   'common.operatingUser': '操作用户',
   'common.userType': '用户类型',

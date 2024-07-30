@@ -9,6 +9,7 @@ const imgStyle = {
   height: 20,
 };
 
+// @ts-ignore
 const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic }) => {
   return (
     <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'}>
@@ -20,10 +21,18 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
             className={styles.statisticCardWrapper}
             key={item.title}
             statistic={{
-              title: item.title,
-              value: data[item.field] ?? 0,
+              title: item.title + '  (' + item.unit + ')',
+              // @ts-ignore
+              value:
+                data[item.field] !== null || data[item.field] !== undefined
+                  ? typeof data[item.field] === 'number'
+                    ? Number.isInteger(data[item.field])
+                      ? data[item.field]
+                      : data[item.field].toFixed(2)
+                    : Number(data[item.field]).toFixed(2)
+                  : 0,
+              // @ts-ignore
               icon: <Icon style={imgStyle} />,
-              suffix: <span className={styles.unit}>{item.unit}</span>,
             }}
           />
         );

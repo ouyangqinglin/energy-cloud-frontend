@@ -176,20 +176,25 @@ export const SourceType: ValueEnum = {
 };
 
 export enum ServerTypeEnum {
-  Null,
-  SINOPEC,
-  XIAOJI,
-  JoinFastCharge,
-  None,
-  FastCharg,
-  StateGrid,
-  SANYUN,
-  ZHJN,
-  PT,
-  XXCD,
-  XX,
-  XYSPT,
-  YKCen,
+  Null = 0,
+  SINOPEC = 1,
+  XIAOJI = 2,
+  JoinFastCharge = 3,
+  None = 4,
+  FastCharg = 5,
+  StateGrid = 6,
+  SANYUN = 7,
+  ZHJN = 8,
+  PT = 9,
+  XXCD = 10,
+  XX = 11,
+  XYSPT = 12,
+  YKCen = 13,
+  SN = 14,
+  ANC = 15,
+  YTYW = 16,
+  LX = 17,
+  JTZX = 18,
 }
 
 export const ServerType: ValueEnum = {
@@ -233,7 +238,22 @@ export const ServerType: ValueEnum = {
     text: formatMessage({ id: 'device.XYSPT', defaultMessage: '三盈双平台监控后台' }),
   },
   [ServerTypeEnum.YKCen]: {
-    text: formatMessage({ id: 'device.YKCen', defaultMessage: '云快充等' }),
+    text: formatMessage({ id: 'device.YKCen', defaultMessage: '云快充' }),
+  },
+  [ServerTypeEnum.SN]: {
+    text: formatMessage({ id: 'device.SN', defaultMessage: '深能' }),
+  },
+  [ServerTypeEnum.ANC]: {
+    text: formatMessage({ id: 'device.ANC', defaultMessage: '安车' }),
+  },
+  [ServerTypeEnum.YTYW]: {
+    text: formatMessage({ id: 'device.YTYW', defaultMessage: '永泰运维平台' }),
+  },
+  [ServerTypeEnum.LX]: {
+    text: formatMessage({ id: 'device.LX', defaultMessage: '朗新' }),
+  },
+  [ServerTypeEnum.JTZX]: {
+    text: formatMessage({ id: 'device.JTZX', defaultMessage: '交投智行' }),
   },
 };
 

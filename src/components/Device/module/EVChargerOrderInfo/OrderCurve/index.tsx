@@ -1,34 +1,45 @@
 import { Modal, Button } from 'antd';
 import TypeChart from '@/components/Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { getytOrdercurve } from '@/services/equipment';
 import moment from 'moment';
 import { option } from '../config';
 import { formatMessage } from '@/utils';
 import { cloneDeep } from 'lodash';
+import type OrderDataType from '../data';
 
 const defaultChartData = [
-  { data: [], name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) }, 
+  { data: [] as any, name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) },
   {
-    data: [],
+    data: [] as any,
     name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }),
   },
-  { name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }), data: [] },
   {
-    name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电输出电压' }),
-    data: [],
+    data: [] as any,
+    name: formatMessage({ id: 'device.demandVoltage', defaultMessage: '需求电压' }),
   },
-  { name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }), data: [] },
-  { name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '充电输出电流' }), data: [] },
+  {
+    data: [] as any,
+    name: formatMessage({ id: 'device.chargeOutputVoltage', defaultMessage: '充电输出电压' }),
+  },
+  {
+    data: [] as any,
+    name: formatMessage({ id: 'device.demandCurrent', defaultMessage: '需求电流' }),
+  },
+  {
+    data: [] as any,
+    name: formatMessage({ id: 'device.outputCurrent', defaultMessage: '充电输出电流' }),
+  },
 ];
 export type DetailProps = {
   onCancel: () => void;
   visible: boolean;
   orderId: number | string;
+  values: OrderDataType;
 };
 const OrderCurve: React.FC<DetailProps> = (props) => {
-  const { visible, onCancel, orderId } = props;
+  const { visible, onCancel, orderId, values } = props;
   const chartRef = useRef() as any;
   const [ChartData, setChartData] = useState(defaultChartData);
   const [allLabel, setAllLabel] = useState([]);
@@ -36,55 +47,112 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
   const handleCancel = () => {
     onCancel();
   };
-  const getChartData = (id: number | string) => {
+
+  const collectRequestParams = useCallback(() => {
+    const deviceId = values.deviceId;
+    const startTime = values.startTime;
+    const endTime = values.endTime;
+    const keyValue = [
+      {
+        key: 'SOC',
+        deviceId,
+        type: 'double',
+        name: 'SOC',
+      },
+      {
+        key: 'mq',
+        deviceId,
+        type: 'double',
+        name: '已充电量',
+      },
+      {
+        key: 'gxqu',
+        deviceId,
+        type: 'double',
+        name: '需求电压',
+      },
+      {
+        key: 'gcu',
+        deviceId,
+        type: 'double',
+        name: '充电输出电压',
+      },
+      {
+        key: 'gxqi',
+        deviceId,
+        type: 'double',
+        name: '需求电流',
+      },
+      {
+        key: 'gci',
+        deviceId,
+        type: 'double',
+        name: '充电输出电流',
+      },
+    ];
+    return { startTime, endTime, keyValue };
+  }, [orderId, values]);
+
+  const getChartData = async (id: number | string) => {
     if (id) {
-      getytOrdercurve({ id }).then(({ data }) => {
+      const params = collectRequestParams();
+      getytOrdercurve(params).then(({ data }) => {
         if (!data || !data.length) return;
-        const currentVChartData = cloneDeep(defaultChartData);
         const currentAllLabel: any = [];
+        const currentVChartData = cloneDeep(defaultChartData);
         data.forEach((item, index) => {
-          if (!item.values || !item.values.length) return;
-          const currentValue = item.values.map((i) => {
-            const currentLabel = moment(i.eventTs).format('HH:mm:ss');
-            if (!index) {
-              currentAllLabel.push(currentLabel);
+          if (!item.devices || !item.devices.length) return;
+          // @ts-ignore
+          const currentLabel = moment(item.time).format('HH:mm:ss');
+          currentAllLabel.push(currentLabel);
+          setAllLabel(currentAllLabel);
+          item.devices.forEach((device: any) => {
+            switch (device.key) {
+              case 'SOC':
+                currentVChartData[0].data.push({ label: currentLabel, value: device.value });
+                break;
+              case 'mq':
+                currentVChartData[1].data.push({ label: currentLabel, value: device.value });
+                break;
+              case 'gxqu':
+                currentVChartData[2].data.push({ label: currentLabel, value: device.value });
+                break;
+              case 'gcu':
+                currentVChartData[3].data.push({ label: currentLabel, value: device.value });
+                break;
+              case 'gxqi':
+                currentVChartData[4].data.push({ label: currentLabel, value: device.value });
+                break;
+              case 'gci':
+                currentVChartData[5].data.push({ label: currentLabel, value: device.value });
+                break;
+              default:
+                break;
             }
-            setAllLabel(currentAllLabel);
-            return {
-              label: currentLabel,
-              value: i.val,
-            };
-          }) as never[];
-          switch (item.key) {
-            case 'SOC': //SOC
-              currentVChartData[0].data = currentValue;
-              break;
-            case 'mq': //已充电量
-              currentVChartData[1].data = currentValue;
-              break;
-            default:
-              return;
-          }
+          });
         });
         setChartData(currentVChartData);
       });
     }
   };
+
   useEffect(() => {
-    getChartData(orderId || '');
-    const timer = setInterval(() => {
+    if (orderId) {
       getChartData(orderId || '');
-    }, 5 * 60 * 1000);
-    return () => {
-      clearTimeout(timer);
-    };
+      const timer = setInterval(() => {
+        getChartData(orderId || '');
+      }, 5 * 60 * 1000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, [orderId]);
 
   return (
     <Modal
       width={800}
       title={formatMessage({ id: 'device.chargingCurve', defaultMessage: '充电曲线' })}
-      visible={visible}
+      open={visible}
       destroyOnClose
       onCancel={handleCancel}
       footer={[
