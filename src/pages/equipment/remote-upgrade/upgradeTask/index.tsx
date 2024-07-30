@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { FormOperations } from '@/components/YTModalForm/typing';
@@ -11,9 +11,8 @@ import {
 } from './service';
 import type { UpgradeListType } from './type';
 import { taskStatus, taskDetailColumns } from './config';
-import type { SearchParams } from '@/hooks/useSearchSelect';
 import type { DeviceDataType } from '@/services/equipment';
-import { getProductTypeList } from '@/services/equipment';
+import { getProductTypeTree } from '@/services/equipment';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import type { ActionType } from '@ant-design/pro-components';
 import { useToggle } from 'ahooks';
@@ -27,6 +26,7 @@ import Detail from '@/components/Detail';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { useAuthority } from '@/hooks';
+import type { ListDataType } from '@/utils/dictionary';
 
 const UpgradeTask: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
@@ -34,6 +34,17 @@ const UpgradeTask: React.FC = () => {
   const [operations, setOperations] = useState(FormOperations.CREATE);
   const [updateModal, { set: setUpdateModal }] = useToggle<boolean>(false);
   const { authorityMap } = useAuthority(['upgradManage:task:add']);
+  const [productTypeList, setProductTypeList] = useState<ListDataType[]>([]);
+
+  const requestProductTypeTree = () => {
+    return getProductTypeTree().then(({ data }) => {
+      setProductTypeList(data || []);
+    });
+  };
+
+  useEffect(() => {
+    requestProductTypeTree();
+  }, []);
 
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
@@ -60,80 +71,35 @@ const UpgradeTask: React.FC = () => {
   };
 
   const requestList = useCallback((params) => {
-    return getUpgradeTaskList({ ...params });
-  }, []);
-
-  //获取产品类型
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
-    });
+    const { productTypeInfo, ...rest } = params;
+    const [productTypeId, productId] = productTypeInfo || [];
+    const filters = productId ? { productId } : { productTypeId };
+    return getUpgradeTaskList({ ...rest, ...filters });
   }, []);
 
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeName',
     formItemProps: {
-      name: 'productTypeId',
-    },
-    fieldProps: (form) => {
-      return {
-        onChange: () => {
-          form?.setFieldValue?.('productModel', ''); //清空产品型号的数据
-        },
-      };
+      name: 'productTypeInfo',
     },
     hideInTable: true,
-    request: requestProductType,
-  };
-
-  //获取产品型号--依赖产品类型
-  const requestProductSn = useCallback((params) => {
-    if (params?.productTypeId) {
-      return getProductSnList({
-        productTypeId: params?.productTypeId,
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.model || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    } else {
-      return Promise.resolve([]);
-    }
-  }, []);
-
-  const productSnColumn = {
-    title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
-    dataIndex: 'productModel',
-    formItemProps: {
-      name: 'productModel',
-    },
-    hideInTable: true,
-    dependencies: ['productTypeId'],
-    request: requestProductSn,
-    fieldProps: (form) => {
-      return {
-        onChange: () => {
-          form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
-          form?.setFieldValue?.('id', ''); //清空版本号数据
-        },
-      };
+    valueType: 'cascader',
+    fieldProps: {
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+      },
+      options: productTypeList,
+      changeOnSelect: true,
     },
   };
 
   //获取模块下拉框数据--依赖产品型号id
-  const requestModule = useCallback((params) => {
-    if (params?.productModel) {
+  const requestModule = useCallback(({ productTypeInfo }) => {
+    if (productTypeInfo[1]) {
       return getModuleList({
-        productId: params?.productModel,
+        productId: productTypeInfo[1],
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -154,16 +120,16 @@ const UpgradeTask: React.FC = () => {
       name: 'moduleMark',
     },
     hideInTable: true,
-    dependencies: ['productModel'],
+    dependencies: ['productTypeInfo'],
     request: requestModule,
   };
 
   //获取升级版本号--依赖产品型号id
-  const requestVersion = useCallback((params) => {
-    if (params?.productModel) {
-      return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
+  const requestVersion = useCallback(({ productTypeInfo }) => {
+    if (productTypeInfo[1]) {
+      return getVersionList({ productId: productTypeInfo[1], current: 1, pageSize: 2000 }).then(
         ({ data }) => {
-          return data?.map?.((item: { version: any; id: any }) => {
+          return data?.list.map?.((item: { version: any; id: any }) => {
             return {
               label: item?.version || '',
               value: item?.id || '',
@@ -183,7 +149,7 @@ const UpgradeTask: React.FC = () => {
       name: 'id',
     },
     hideInTable: true,
-    dependencies: ['productModel'],
+    dependencies: ['productTypeInfo'],
     request: requestVersion,
   };
 
@@ -269,7 +235,6 @@ const UpgradeTask: React.FC = () => {
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       productTypeColumn,
-      productSnColumn,
       moduleColumn,
       versionList,
       {
