@@ -114,6 +114,21 @@ const tableSelectColumns: ProColumns[] = [
     ellipsis: true,
     hideInSearch: true,
   },
+  {
+    title: formatMessage({ id: 'dataManage.1050', defaultMessage: '数据类型' }),
+    dataIndex: 'type',
+    width: 150,
+    ellipsis: true,
+    hideInSearch: true,
+    render: (_, record) => {
+      const dataType = JSON.parse(record.dataType);
+      console.log('666', dataType);
+      if (!dataType.type) {
+        return '-';
+      }
+      return <span>{dataType.type}</span>;
+    },
+  },
 ];
 
 const requestTree = (node: DeviceTreeDataType) => {
