@@ -45,7 +45,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [rowIndex, setRowIndex] = useState<number>(0);
   const [snOpen, setSnOpen] = useState(false);
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -453,7 +452,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             dragSort={{
               visable: isStationChild,
               request: modifySort,
-              rowIndex,
             }}
             expandable={{
               childrenColumnName: 'childDeviceList',

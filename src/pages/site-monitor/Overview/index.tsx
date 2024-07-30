@@ -45,12 +45,6 @@ const Index: React.FC = () => {
 
   const onScreenClick = useCallback(() => {
     if (siteId) {
-      // if (screenConfig && screenConfig.screen) {
-      //   let screenArr = screenConfig.screen;
-      //   let url = screenArr[0].url;
-      //   let screenUrl = `${url}?id=${siteId}`;
-      //   window.open(screenUrl);
-      // }
       const screen = screenConfig?.screen?.find?.((item) => item.url);
       window.open(`${screen?.url || '/screen/demo-station'}?id=${siteId}`);
     } else {
@@ -86,9 +80,13 @@ const Index: React.FC = () => {
         <Row gutter={[16, 16]}>
           <Statistics siteId={siteId} siteType={siteType} data={powerFlowData} />
           <EnergyFlow siteId={siteId} siteType={siteType} data={powerFlowData} />
-          {[SiteTypeStrEnum.CS].includes(siteType) ? (
+          <Benefit siteId={siteId} />
+          <ElectricityChart siteId={siteId} />
+          {/* {[SiteTypeStrEnum.CS].includes(siteType) ? (
             <>
               <RealTimePower siteId={siteId} />
+              <Benefit siteId={siteId} />
+
               <ElectricityStatistics siteId={siteId} />
             </>
           ) : (
@@ -96,7 +94,7 @@ const Index: React.FC = () => {
               <Benefit siteId={siteId} />
               <ElectricityChart siteId={siteId} />
             </>
-          )}
+          )} */}
           <SiteInfo siteId={siteId} siteType={siteType} />
         </Row>
       </div>

@@ -20,7 +20,7 @@ import { cleanUpType } from '@/utils/dict';
 import YTProTable from '@/components/YTProTable';
 import { useAuthority } from '@/hooks';
 import type { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList } from './service';
+import { getList, getDetail, cleanUpAlarm, getAlarmNum, exportList, removeMenu } from './service';
 import DetailDialog from '@/components/DetailDialog';
 import type { DetailItem } from '@/components/Detail';
 import { getSitesList } from '@/services/station';
@@ -566,7 +566,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
     const hide = message.loading('正在删除');
     if (!selectedRows) return true;
     try {
-      const resp = await removeMenu(selectedRows.map((row) => row.menuId).join(','));
+      const resp = await removeMenu({ ids: selectedRows.map((row) => row.id).join(',') });
       hide();
       if (resp.code === 200) {
         message.success('删除成功，即将刷新');
@@ -595,6 +595,8 @@ const Alarm: React.FC<AlarmProps> = (props) => {
           formRef={formRef}
           columns={columns}
           request={requestList}
+          tableAlertRender={false}
+          tableAlertOptionRender={false}
           rowSelection={
             isBatchDelete
               ? {
@@ -619,7 +621,6 @@ const Alarm: React.FC<AlarmProps> = (props) => {
                     <Button
                       type="primary"
                       key="remove"
-                      hidden={selectedRowsState?.length === 0}
                       onClick={async () => {
                         const success = await handleRemove(selectedRowsState);
                         if (success) {

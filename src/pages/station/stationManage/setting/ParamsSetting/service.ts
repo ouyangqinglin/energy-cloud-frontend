@@ -13,3 +13,23 @@ export const getAlarmPush = (params: any) => {
     params,
   });
 };
+
+export const monetaryUnit = () => {
+  return request(`/uc/site/monetaryUnit`, {
+    method: 'GET',
+  });
+};
+
+export const getParameterSetting = (params: any) => {
+  return request(`/uc/site/parameterSetting`, {
+    method: 'GET',
+    params,
+  });
+};
+
+export const setParameterSetting = (data: any) => {
+  return request(`/uc/site/parameterSetting`, {
+    method: 'PUT',
+    data,
+  });
+};

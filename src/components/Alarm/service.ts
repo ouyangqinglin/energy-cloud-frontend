@@ -46,3 +46,9 @@ export const exportList = (data: any) => {
     responseType: 'blob',
   });
 };
+export const removeMenu = (data: any) => {
+  return request('/iot/alarm/deleteAlarms', {
+    method: 'POST',
+    params: data,
+  });
+};

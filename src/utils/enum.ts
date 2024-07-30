@@ -8,9 +8,9 @@
  */
 
 export const enum SiteTypeStrEnum {
-  PV = '1',
-  ES = '2',
-  CS = '3',
+  PV = '1', //光
+  ES = '2', //储
+  CS = '3', //充
   ES_CS = '23',
   PV_CS = '13',
   PV_ES = '12',
