@@ -183,4 +183,5 @@ export default {
   'siteManage.1043':
     'When enabled, alerts will be pushed to all users with site management permissions. When closed, all alerts for the current site will not be pushed',
   'siteManage.1044': 'Alarm Push',
+  'siteManage.1045': 'Currency Unit',
 };

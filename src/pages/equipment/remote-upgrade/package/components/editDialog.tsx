@@ -241,21 +241,21 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       dataIndex: 'packageName',
       width: 150,
       ellipsis: true,
-      hideInSearch: true,
+      hideInSearch: false,
     },
     {
       title: formatMessage({ id: 'common.currentVersion', defaultMessage: '当前版本' }),
       dataIndex: 'version',
       width: 100,
       ellipsis: true,
-      hideInSearch: true,
+      hideInSearch: false,
     },
     {
       title: formatMessage({ id: 'common.uploadDate', defaultMessage: '上传时间' }),
       dataIndex: 'uploadTime',
       width: 150,
       ellipsis: true,
-      hideInSearch: true,
+      hideInSearch: false,
     },
   ];
   const requestTree = useCallback(() => {
@@ -492,7 +492,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
           },
           valueId: 'id',
           valueName: 'version',
-          //tableId: 'id',
+          tableId: 'id',
           tableName: 'version',
         };
       },

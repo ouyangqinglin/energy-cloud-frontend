@@ -8,7 +8,6 @@ import { getData } from './service';
 import { formatMessage } from '@/utils';
 import type { UnitType } from '@/models/siteType';
 import TypeChart from '@/components/Chart/TypeChart';
-import { chartTypeEnum } from '@/components/Chart/config';
 
 import { defaultOptions } from './config';
 import type EChartsReact from 'echarts-for-react';

@@ -19,7 +19,7 @@ import {
 import YTProTable from '@/components/YTProTable';
 import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { removeData, unbindDevice, exportTemp, importTemp, modifySort } from './service';
-import { onlineStatus, onInstallStatus } from '@/utils/dict';
+import { onlineStatus, onInstallStatus, alarmStatus, alarmStatus1 } from '@/utils/dict';
 import type { DeviceDataType } from '@/services/equipment';
 import { getDevicePage, getProductTypeTree } from '@/services/equipment';
 import { FormTypeEnum } from '@/components/SchemaForm';
@@ -45,7 +45,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [rowIndex, setRowIndex] = useState<number>(0);
   const [snOpen, setSnOpen] = useState(false);
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -261,6 +260,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ) : (
         <></>
       )}
+
       {isStationChild &&
       record.canUnbind == 1 &&
       authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
@@ -316,6 +316,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
+          //图标
           return (
             <>
               <span
@@ -411,6 +412,13 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         sorter: true,
       },
       {
+        title: formatMessage({ id: 'siteMonitor.alarmStatus', defaultMessage: '告警状态' }),
+        dataIndex: 'alarmStatus',
+        valueType: 'select',
+        valueEnum: alarmStatus1,
+        width: 120,
+      },
+      {
         title: formatMessage({ id: 'equipmentList.imei', defaultMessage: 'IMEI/ICCID' }),
         dataIndex: 'imei',
         width: 120,
@@ -453,7 +461,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             dragSort={{
               visable: isStationChild,
               request: modifySort,
-              rowIndex,
             }}
             expandable={{
               childrenColumnName: 'childDeviceList',

@@ -1,4 +1,5 @@
 export type OrderDataType = {
+  deviceId: any;
   id?: string;
   orderNumber?: string;
   kid?: string;

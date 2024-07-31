@@ -218,6 +218,7 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
     valueEnum: ServerType,
   },
 ];
+
 export const option = {
   color: ['#3DD598', '#007DFF'],
   yAxis: [
@@ -281,7 +282,43 @@ export const option = {
         id: 'device.chargeAmount',
         defaultMessage: '已充电量',
       }),
+      color: '#E6A23C',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({
+        id: 'device.demandVoltage',
+        defaultMessage: '需求电压',
+      }),
       color: '#2FC25B',
+      type: 'line',
+      yAxisIndex: 0,
+    },
+    {
+      name: formatMessage({
+        id: 'device.chargeOutputVoltage',
+        defaultMessage: '充电输出电压',
+      }),
+      color: '#5D7092',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+    {
+      name: formatMessage({
+        id: 'device.demandCurrent',
+        defaultMessage: '需求电流',
+      }),
+      color: '#FF7070',
+      type: 'line',
+      yAxisIndex: 1,
+    },
+    {
+      name: formatMessage({
+        id: 'device.outputCurrent',
+        defaultMessage: '充电输出电流',
+      }),
+      color: '#8080FF',
       type: 'line',
       yAxisIndex: 1,
     },

@@ -1,19 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { getLogList, getProductSnList, getVersionList, getModuleList } from './service';
-import { RemoteUpgradeDataRes } from './type';
-import { useSiteColumn, useSearchSelect } from '@/hooks';
-import { SearchParams } from '@/hooks/useSearchSelect';
-import { DeviceDataType, getProductTypeList } from '@/services/equipment';
+import type { RemoteUpgradeDataRes } from './type';
+import { useSiteColumn } from '@/hooks';
+import type { SearchParams } from '@/hooks/useSearchSelect';
+import type { DeviceDataType } from '@/services/equipment';
+import { getProductTypeList, getProductTypeTree } from '@/services/equipment';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 import { Modal } from 'antd';
+import type { ListDataType } from '@/utils/dictionary';
 
 const Log: React.FC = () => {
   const [upgradeStatus, setUpgradeStatus] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [productTypeList, setProductTypeList] = useState<ListDataType[]>([]);
   const [failReason, setFailReason] = useState();
   //打开升级失败的弹窗
   const statusClick = useCallback((record: DeviceDataType) => {
@@ -27,9 +29,20 @@ const Log: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const requestProductTypeTree = () => {
+    return getProductTypeTree().then(({ data }) => {
+      setProductTypeList(data || []);
+    });
+  };
+  useEffect(() => {
+    requestProductTypeTree();
+  }, []);
 
   const requestList = useCallback((params) => {
-    return getLogList({ ...params });
+    const { productTypeInfo, ...rest } = params;
+    const [productTypeId, productId] = productTypeInfo || [];
+    const filters = productId ? { productId } : { productTypeId };
+    return getLogList({ ...rest, ...filters });
   }, []);
 
   //获取产品类型
@@ -48,59 +61,28 @@ const Log: React.FC = () => {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeName',
     formItemProps: {
-      name: 'productTypeId',
+      name: 'productTypeInfo',
     },
+    hideInTable: true,
+    valueType: 'cascader',
     fieldProps: {
-      onChange: (productTypeId: any) => {},
+      fieldNames: {
+        label: 'name',
+        value: 'id',
+      },
+      options: productTypeList,
+      changeOnSelect: true,
     },
-    hideInTable: true,
-
-    request: requestProductType,
-  };
-  //获取产品型号--依赖产品类型
-  const requestProductSn = useCallback((params) => {
-    if (params?.productTypeId) {
-      return getProductSnList({
-        productTypeId: params?.productTypeId,
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            label: item?.model || '',
-            value: item?.id || '',
-          };
-        });
-      });
-    } else {
-      return Promise.resolve([]);
-    }
-  }, []);
-  const productSnColumn = {
-    title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
-    dataIndex: 'productModel',
-    formItemProps: {
-      name: 'productModel',
-    },
-    hideInTable: true,
-    dependencies: ['productTypeId'],
-    fieldProps: (form) => {
-      return {
-        onChange: () => {
-          form?.setFieldValue?.('moduleMark', ''); //清空模块的数据
-          form?.setFieldValue?.('id', ''); //清空版本号数据
-        },
-      };
-    },
-    request: requestProductSn,
   };
   //获取站点信息
   const [siteColumn] = useSiteColumn<DeviceDataType>({
     hideInTable: true,
   });
   //获取模块下拉框数据--依赖产品型号id
-  const requestModule = useCallback((params) => {
-    if (params?.productModel) {
+  const requestModule = useCallback(({ productTypeInfo }) => {
+    if (productTypeInfo[1]) {
       return getModuleList({
-        productId: params?.productModel,
+        productId: productTypeInfo[1],
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -120,13 +102,13 @@ const Log: React.FC = () => {
       name: 'moduleMark', //模块id
     },
     hideInTable: true,
-    dependencies: ['productModel'],
+    dependencies: ['productTypeInfo'],
     request: requestModule,
   };
   //获取升级版本号--依赖产品型号id
-  const requestVersion = useCallback((params) => {
-    if (params?.productModel) {
-      return getVersionList({ productId: params?.productModel, current: 1, pageSize: 2000 }).then(
+  const requestVersion = useCallback(({ productTypeInfo }) => {
+    if (productTypeInfo[1]) {
+      return getVersionList({ productId: productTypeInfo[1], current: 1, pageSize: 2000 }).then(
         ({ data }) => {
           return data?.list?.map?.((item) => {
             return {
@@ -147,28 +129,14 @@ const Log: React.FC = () => {
       name: 'id',
     },
     hideInTable: true,
-    dependencies: ['productModel'],
+    dependencies: ['productTypeInfo'],
     request: requestVersion,
   };
-
-  // const [versionList] = useSearchSelect<DeviceDataType>({
-  //   proColumns: {
-  //     title: '升级版本',
-  //     dataIndex: 'version',
-  //     formItemProps: {
-  //       name: 'id',
-  //     },
-  //     hideInTable: true,
-  //     dependencies: ['productModel'],
-  //   },
-  //   request: requestVersion,
-  // });
 
   const columnsNew = useMemo<ProColumns<DeviceDataType>[]>(() => {
     return [
       siteColumn,
       productTypeColumn,
-      productSnColumn,
       moduleColumn,
       versionList,
       {
@@ -285,7 +253,7 @@ const Log: React.FC = () => {
           id: 'upgradeManage.upgradeTakeTime',
           defaultMessage: '升级耗时(s)',
         }),
-        dataIndex: 'upgradeTimeconsumption',
+        dataIndex: 'upgradeTimeConsumption',
         width: 100,
         ellipsis: true,
         hideInSearch: true,

@@ -161,7 +161,7 @@ export default {
   'common.selectDate': 'Select Date',
   'common.occurrenceTime': 'Occurrence Time',
   'common.time': 'Time',
-  'common.costTime': 'requiredTime',
+  'common.costTime': 'requiredTime(s)',
   'common.logCreateTime': 'createTime',
   'common.operatingUser': 'Operating User',
   'common.userType': 'User Type',
