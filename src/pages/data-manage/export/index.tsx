@@ -41,7 +41,6 @@ const Export: React.FC = () => {
 
   const requestExport = useCallback(
     (params) => {
-      console.log('SSSS', !firstFailure);
       setReDownload(!firstFailure);
       return exportList({
         startTime: params?.time?.[0]?.format?.('YYYY-MM-DD'),

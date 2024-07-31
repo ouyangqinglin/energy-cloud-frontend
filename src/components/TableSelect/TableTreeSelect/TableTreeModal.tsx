@@ -152,6 +152,8 @@ const TableTreeModal = <
 
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
+      console.log('onSelectedChange', selectedRows);
+
       setSelectedTags((prevData) => {
         const map = multiple
           ? prevData.reduce((result, item) => {
@@ -238,7 +240,14 @@ const TableTreeModal = <
       if (proTableProps?.request && params.deviceId) {
         return proTableProps.request(params, sort, filter).then(({ data }) => {
           if (Array.isArray(data)) {
-            setTableIdSet(new Set(data?.map?.((item) => item[valueId])));
+            setTableIdSet(
+              new Set(
+                data?.map?.((item) => {
+                  item.selectable = false;
+                  return item[valueId];
+                }),
+              ),
+            );
             return {
               code: '200',
               data: {

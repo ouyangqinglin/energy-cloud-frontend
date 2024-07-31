@@ -66,8 +66,6 @@ const Owner = () => {
   const visibleUpdated = operations !== FormOperations.READ;
 
   const onSuccess = useCallback(() => {
-    console.log(123);
-
     actionRef?.current?.reload?.();
   }, [actionRef]);
 

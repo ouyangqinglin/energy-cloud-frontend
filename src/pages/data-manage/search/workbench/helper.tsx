@@ -122,7 +122,6 @@ const tableSelectColumns: ProColumns[] = [
     hideInSearch: true,
     render: (_, record) => {
       const dataType = JSON.parse(record.dataType);
-      console.log('666', dataType);
       if (!dataType.type) {
         return '-';
       }
@@ -278,6 +277,16 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
         pagination: false,
         columns: tableSelectColumns,
         request: getDeviceCollection,
+        rowSelection: {
+          renderCell: (checked: any, record: any, index: any, originNode: any) => {
+            const dataType = JSON.parse(record.dataType);
+            if (['long', 'double', 'enum'].includes(dataType.type)) {
+              return originNode;
+            } else {
+              return <Checkbox defaultChecked={false} disabled />;
+            }
+          },
+        },
       },
       valueId: 'selectName',
       valueName: 'paramName',

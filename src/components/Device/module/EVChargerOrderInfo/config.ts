@@ -220,11 +220,13 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
 ];
 
 export const option = {
-  color: ['#3DD598', '#007DFF'],
+  // color: ['#3DD598', '#007DFF'],
+  color: ['#3DD598'],
   yAxis: [
     {
       type: 'value',
-      name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) + '（%）',
+      // name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }),
+      name: '',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {
@@ -232,16 +234,16 @@ export const option = {
         },
       },
     },
-    {
-      type: 'value',
-      name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kWh）',
-      nameLocation: 'end',
-      splitLine: {
-        lineStyle: {
-          type: 'dashed', //虚线
-        },
-      },
-    },
+    // {
+    //   type: 'value',
+    //   name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kWh）',
+    //   nameLocation: 'end',
+    //   splitLine: {
+    //     lineStyle: {
+    //       type: 'dashed', //虚线
+    //     },
+    //   },
+    // },
   ],
   grid: {
     top: 30,
@@ -302,7 +304,7 @@ export const option = {
       }),
       color: '#5D7092',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
     {
       name: formatMessage({
@@ -311,7 +313,7 @@ export const option = {
       }),
       color: '#FF7070',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
     {
       name: formatMessage({
@@ -320,7 +322,7 @@ export const option = {
       }),
       color: '#8080FF',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
   ],
 };
