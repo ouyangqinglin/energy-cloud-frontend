@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-07-25 10:43:06
+ * @LastEditTime: 2024-07-31 16:20:01
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -97,7 +97,10 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
           emphasis: {
             label: {
               formatter: (params: any) => {
-                return `${allLabel?.[params?.data?.coord?.[0]]}\n${params?.value}`;
+                const maxData = chartData?.[params?.seriesIndex]?.data?.find(
+                  (item) => item.value == params?.value,
+                );
+                return `${maxData?.label}\n${params?.value}`;
               },
             },
           },
@@ -143,7 +146,7 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
       };
     }
     return merge({}, defaultOptions, options);
-  }, [searchData, modelData, allLabel]);
+  }, [searchData, modelData, chartData]);
 
   useEffect(() => {
     if (tableType) {

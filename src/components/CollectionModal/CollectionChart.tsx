@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-17 15:53:59
- * @LastEditTime: 2024-07-25 13:58:11
+ * @LastEditTime: 2024-07-31 16:21:41
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\CollectionModal\CollectionChart.tsx
  */
@@ -123,7 +123,10 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
             emphasis: {
               label: {
                 formatter: (params: any) => {
-                  return `${allLabel?.[params?.data?.coord?.[0]]}\n${params?.value}`;
+                  const maxData = chartData?.[params?.seriesIndex]?.data?.find(
+                    (item) => item.value == params?.value,
+                  );
+                  return `${maxData?.label}\n${params?.value}`;
                 },
               },
             },
@@ -135,7 +138,7 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
         },
       ],
     };
-  }, [title, modelData, allLabel]);
+  }, [title, modelData, chartData]);
 
   useEffect(() => {
     let timer: NodeJS.Timer;
