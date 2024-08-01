@@ -105,7 +105,8 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
           // @ts-ignore
           const currentLabel = moment(item.time).format('HH:mm:ss');
           currentAllLabel.push(currentLabel);
-          setAllLabel(currentAllLabel);
+          // @ts-ignore
+          setAllLabel([...currentAllLabel].reverse());
           item.devices.forEach((device: any) => {
             switch (device.key) {
               case 'SOC':
