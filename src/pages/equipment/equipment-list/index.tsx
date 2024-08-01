@@ -151,7 +151,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
-  //
+
+  const returnChild = (item) => {
+    if (item.childDeviceList && item.childDeviceList.length) {
+      item.childDeviceList.forEach(child => {
+        child.name = child.productTypeName;
+        item.childDeviceList?.map(res => returnChild(res))
+      });
+    }
+    return item;
+  };
+
   const handleRequest = (params: any) => {
     const { productTypeInfo, ...rest } = params;
     const [productTypeId, productId] = productTypeInfo || [];
@@ -163,9 +173,20 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       rootFilter: 1,
       ...(isStationChild ? { siteId } : {}),
     };
-    return getDevicePage(query);
+    return getDevicePage(query).then(res => {
+      // console.log('=====a>>>', res)
+      let getData = res;
+      getData.data.list.forEach(item => {
+        if ([514, 541, 549, 550, 551, 553].includes(item.productType)) {
+          returnChild(item);
+        }
+      })
+      return new Promise((resolve, reject) => {
+        return resolve(getData)
+      })
+    })
   };
-  //
+
 
   const toolBar = useCallback(() => {
     const toolBarArray = [];
@@ -315,89 +336,29 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       productTypeColumn,
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
-        dataIndex: 'showName',
+        dataIndex: 'name',
         ellipsis: true,
         width: 200,
         render: (_, record) => {
-          let showName: any = '';
+
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
 
-          console.log('record', record);
-          // @ts-ignore
-          // if (record.childDeviceList && record.childDeviceList.list !== 0 && record.parentId === 0) {//是父节点,子节点需要展示其值
-          // if ([514, 541, 549, 550, 551, 553].includes(record.productType)) {
-          //   if (record.parentId === 0) {
-          //     showName = record.name;
-          //   } else
-          //     showName = record.productTypeName;
-          // }
-          // else showName = record.name;
-          if (record.parentId === 0) {//父节点+单层节点
-            const type = record.productType;
-            if (type === 514 || type === 541 || type === 549 || type === 550 || type === 551 || type === 553) {
-              storageList.push({
-                id: record.deviceId,
-                name: record.productTypeName,
-                type,
-              })
-            }
-            showName = record.name;
-          } else {
-            storageList.forEach((item: any, index: number) => {
-              // showName = record.productTypeName;
-              if (record.parentId === item.id) {
-                showName = record.productTypeName;
-              } else {
-                showName = record.name;
-              }
-            });
-            // actionRef?.current?.reload?.();
-          }
           return (
             <>
               <span
                 className="cl-primary cursor"
                 onClick={() => onDetailClick(record)}
-                title={showName}
+                title={record.name}
               >
                 {Component && <Component className="mr8" />}
-                {showName}
+                {record.name}
               </span>
             </>
           );
-          // if (!isStorage) {
-          //   return (<>YUANLAI</>)
-
-          // } else {
-          //   let name;
-          //   // @ts-ignore
-          //   const list = record.childDeviceList;
-          //   // @ts-ignore
-          //   if (list && list.length !== 0) {
-          //     list.forEach((child: any, index: number) => {
-          //       console.log('child', child);
-          //       name = child.productTypeName;
-
-          //       const childList = child.childDeviceList;
-          //       if (childList && childList.length !== 0) {
-          //         childList.forEach((item: any, index: number) => {
-          //           console.log('item', item);
-          //           name = item.productTypeName;
-          //         });
-          //       }
-          //     });
-          //   } else {
-          //     name = record.name;
-          //   }
-
-          // console.log("最终name", name);
-          //图标
-
         }
       },
-      // },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
         dataIndex: 'sn',
