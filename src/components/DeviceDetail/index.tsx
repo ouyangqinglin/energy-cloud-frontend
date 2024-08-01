@@ -31,9 +31,11 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
       key: item?.id + '',
       deviceId: item?.id,
       deviceName: item?.name,
+      productTypeName:item?.productTypeName,
       title: (
         <>
-          <span title={item?.name}>{item?.name}</span>
+          {/* <span title={item?.name}>{item?.name}</span> */}
+          <span title={item?.parentId!== 0? item?.productTypeName : item?.name}>{item?.parentId!== 0? item?.productTypeName : item?.name}</span>
           {networkStatusShows.includes(networkStatus) && (
             <span className={styles.network}>
               <ProField mode="read" text={networkStatus} valueEnum={netWorkStatusEnum} />

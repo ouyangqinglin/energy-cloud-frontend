@@ -110,6 +110,8 @@ export interface Init {
 }
 
 export type ResponsePageData<T> = {
+  list: any;
+  list: any;
   code: string;
   data: {
     list: T[];

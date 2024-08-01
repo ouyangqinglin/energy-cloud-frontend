@@ -36,6 +36,9 @@ import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { items } from '@/pages/screen/MultiSite/Alarm/config';
+import device from 'mock/screen/device';
+import { number } from 'echarts';
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -49,6 +52,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
+  let storageList: Array<any> = [];
 
   const siteColumnOptions = useMemo(
     () => ({
@@ -147,7 +151,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const onSuccess = () => {
     actionRef?.current?.reload?.();
   };
-
+  //
   const handleRequest = (params: any) => {
     const { productTypeInfo, ...rest } = params;
     const [productTypeId, productId] = productTypeInfo || [];
@@ -161,6 +165,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     };
     return getDevicePage(query);
   };
+  //
 
   const toolBar = useCallback(() => {
     const toolBarArray = [];
@@ -262,8 +267,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       )}
 
       {isStationChild &&
-      record.canUnbind == 1 &&
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+        record.canUnbind == 1 &&
+        authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
           className="pl0"
           type="link"
@@ -304,33 +309,95 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
+    storageList = [];
     return [
       ...(isStationChild ? [] : [siteColumn]),
       productTypeColumn,
       {
         title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
-        dataIndex: 'name',
+        dataIndex: 'showName',
         ellipsis: true,
         width: 200,
         render: (_, record) => {
+          let showName: any = '';
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
-          //图标
+
+          console.log('record', record);
+          // @ts-ignore
+          // if (record.childDeviceList && record.childDeviceList.list !== 0 && record.parentId === 0) {//是父节点,子节点需要展示其值
+          // if ([514, 541, 549, 550, 551, 553].includes(record.productType)) {
+          //   if (record.parentId === 0) {
+          //     showName = record.name;
+          //   } else
+          //     showName = record.productTypeName;
+          // }
+          // else showName = record.name;
+          if (record.parentId === 0) {//父节点+单层节点
+            const type = record.productType;
+            if (type === 514 || type === 541 || type === 549 || type === 550 || type === 551 || type === 553) {
+              storageList.push({
+                id: record.deviceId,
+                name: record.productTypeName,
+                type,
+              })
+            }
+            showName = record.name;
+          } else {
+            storageList.forEach((item: any, index: number) => {
+              // showName = record.productTypeName;
+              if (record.parentId === item.id) {
+                showName = record.productTypeName;
+              } else {
+                showName = record.name;
+              }
+            });
+            // actionRef?.current?.reload?.();
+          }
           return (
             <>
               <span
                 className="cl-primary cursor"
                 onClick={() => onDetailClick(record)}
-                title={record.name}
+                title={showName}
               >
                 {Component && <Component className="mr8" />}
-                {record.name}
+                {showName}
               </span>
             </>
           );
-        },
+          // if (!isStorage) {
+          //   return (<>YUANLAI</>)
+
+          // } else {
+          //   let name;
+          //   // @ts-ignore
+          //   const list = record.childDeviceList;
+          //   // @ts-ignore
+          //   if (list && list.length !== 0) {
+          //     list.forEach((child: any, index: number) => {
+          //       console.log('child', child);
+          //       name = child.productTypeName;
+
+          //       const childList = child.childDeviceList;
+          //       if (childList && childList.length !== 0) {
+          //         childList.forEach((item: any, index: number) => {
+          //           console.log('item', item);
+          //           name = item.productTypeName;
+          //         });
+          //       }
+          //     });
+          //   } else {
+          //     name = record.name;
+          //   }
+
+          // console.log("最终name", name);
+          //图标
+
+        }
       },
+      // },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
         dataIndex: 'sn',
@@ -500,7 +567,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
-            //onOk={triggerSubmit}
+          //onOk={triggerSubmit}
           />
         </>
       ) : (
