@@ -220,12 +220,10 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
 ];
 
 export const option = {
-  // color: ['#3DD598', '#007DFF'],
   color: ['#3DD598'],
   yAxis: [
     {
       type: 'value',
-      // name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }),
       name: '',
       nameLocation: 'end',
       splitLine: {
@@ -234,16 +232,6 @@ export const option = {
         },
       },
     },
-    // {
-    //   type: 'value',
-    //   name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kWh）',
-    //   nameLocation: 'end',
-    //   splitLine: {
-    //     lineStyle: {
-    //       type: 'dashed', //虚线
-    //     },
-    //   },
-    // },
   ],
   grid: {
     top: 30,
@@ -259,6 +247,16 @@ export const option = {
   },
   tooltip: {
     trigger: 'axis',
+    formatter: function (params: any) {
+      var units = ['%', 'kWh', 'V', 'V', 'A', 'A'];
+      var result = '';
+      params.forEach(function (item: any, index: number) {
+        var unit = units[index] || '';
+        var items = item.value.toString().split(',');
+        result += '<div style="display: flex; justify-content: space-between;">' + '<span>' + item.seriesName + ' (' + unit + '): ' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '    ' + '</span>' + '<span>' + items[index + 1] + '</span>' + '</div>';
+      });
+      return result;
+    },
   },
   dataZoom: [
     {
