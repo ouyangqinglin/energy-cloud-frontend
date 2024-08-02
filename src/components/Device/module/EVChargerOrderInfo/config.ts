@@ -248,12 +248,37 @@ export const option = {
   tooltip: {
     trigger: 'axis',
     formatter: function (params: any) {
-      var units = ['%', 'kWh', 'V', 'V', 'A', 'A'];
-      var result = '';
+      let result = '';
       params.forEach(function (item: any, index: number) {
-        var unit = units[index] || '';
-        var items = item.value.toString().split(',');
-        result += '<div style="display: flex; justify-content: space-between;">' + '<span>' + item.seriesName + ' (' + unit + '): ' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '    ' + '</span>' + '<span>' + items[index + 1] + '</span>' + '</div>';
+        let label = item.seriesName;
+        let unit, value;
+        switch (label) {
+          case 'SOC':
+            unit = '%';
+            value = params[0].data[1];
+            break;
+          case '已充电量':
+            unit = 'kWh';
+            value = params[0].data[2];
+            break;
+          case '需求电压':
+            unit = 'V';
+            value = params[0].data[3];
+            break;
+          case '充电输出电压':
+            unit = 'V';
+            value = params[0].data[4];
+            break;
+          case '需求电流':
+            unit = 'A';
+            value = params[0].data[5];
+            break;
+          case '充电输出电流':
+            unit = 'A';
+            value = params[0].data[6];
+            break;
+        }
+        result += '<div style="display: flex; justify-content: space-between;">' + '<span>' + label + ' (' + unit + '): ' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '    ' + '</span>' + '<span>' + value + '</span>' + '</div>';
       });
       return result;
     },
