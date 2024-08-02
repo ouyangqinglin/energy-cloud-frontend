@@ -114,6 +114,20 @@ const tableSelectColumns: ProColumns[] = [
     ellipsis: true,
     hideInSearch: true,
   },
+  {
+    title: formatMessage({ id: 'dataManage.1050', defaultMessage: '数据类型' }),
+    dataIndex: 'type',
+    width: 150,
+    ellipsis: true,
+    hideInSearch: true,
+    render: (_, record) => {
+      const dataType = JSON.parse(record.dataType);
+      if (!dataType.type) {
+        return '-';
+      }
+      return <span>{dataType.type}</span>;
+    },
+  },
 ];
 
 const requestTree = (node: DeviceTreeDataType) => {
@@ -263,6 +277,16 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
         pagination: false,
         columns: tableSelectColumns,
         request: getDeviceCollection,
+        rowSelection: {
+          renderCell: (checked: any, record: any, index: any, originNode: any) => {
+            const dataType = JSON.parse(record.dataType);
+            if (['long', 'double', 'enum'].includes(dataType.type)) {
+              return originNode;
+            } else {
+              return <Checkbox defaultChecked={false} disabled />;
+            }
+          },
+        },
       },
       valueId: 'selectName',
       valueName: 'paramName',

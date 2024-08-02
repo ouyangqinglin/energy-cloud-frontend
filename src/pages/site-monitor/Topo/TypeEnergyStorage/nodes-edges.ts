@@ -50,7 +50,7 @@ const genPSC = (data: PcsVo) => ({
             id: 'siteMonitor.runningState',
             defaultMessage: '运行状态',
           })}：`,
-          render: () => WorkStatusMap.get(data?.workStatus),
+          render: () => data?.workStatusName,
           field: 'todayConsumption',
         },
         {

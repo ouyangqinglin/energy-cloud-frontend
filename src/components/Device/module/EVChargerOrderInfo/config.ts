@@ -220,21 +220,11 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
 ];
 
 export const option = {
-  color: ['#3DD598', '#007DFF'],
+  color: ['#3DD598'],
   yAxis: [
     {
       type: 'value',
-      name: formatMessage({ id: 'device.SOC', defaultMessage: 'SOC' }) + '（%）',
-      nameLocation: 'end',
-      splitLine: {
-        lineStyle: {
-          type: 'dashed', //虚线
-        },
-      },
-    },
-    {
-      type: 'value',
-      name: formatMessage({ id: 'device.chargeAmount', defaultMessage: '已充电量' }) + '（kWh）',
+      name: '',
       nameLocation: 'end',
       splitLine: {
         lineStyle: {
@@ -257,6 +247,41 @@ export const option = {
   },
   tooltip: {
     trigger: 'axis',
+    formatter: function (params: any) {
+      let result = '';
+      params.forEach(function (item: any, index: number) {
+        let label = item.seriesName;
+        let unit, value;
+        switch (label) {
+          case 'SOC':
+            unit = '%';
+            value = params[0].data[1];
+            break;
+          case '已充电量':
+            unit = 'kWh';
+            value = params[0].data[2];
+            break;
+          case '需求电压':
+            unit = 'V';
+            value = params[0].data[3];
+            break;
+          case '充电输出电压':
+            unit = 'V';
+            value = params[0].data[4];
+            break;
+          case '需求电流':
+            unit = 'A';
+            value = params[0].data[5];
+            break;
+          case '充电输出电流':
+            unit = 'A';
+            value = params[0].data[6];
+            break;
+        }
+        result += '<div style="display: flex; justify-content: space-between;">' + '<span>' + label + ' (' + unit + '): ' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '    ' + '</span>' + '<span>' + value + '</span>' + '</div>';
+      });
+      return result;
+    },
   },
   dataZoom: [
     {
@@ -302,7 +327,7 @@ export const option = {
       }),
       color: '#5D7092',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
     {
       name: formatMessage({
@@ -311,7 +336,7 @@ export const option = {
       }),
       color: '#FF7070',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
     {
       name: formatMessage({
@@ -320,7 +345,7 @@ export const option = {
       }),
       color: '#8080FF',
       type: 'line',
-      yAxisIndex: 1,
+      yAxisIndex: 0,
     },
   ],
 };

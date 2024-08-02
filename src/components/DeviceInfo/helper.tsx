@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-08 10:51:07
- * @LastEditTime: 2024-07-29 16:29:46
+ * @LastEditTime: 2024-07-30 16:23:07
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\helper.tsx
  */
@@ -707,7 +707,7 @@ const dehumidifierKeys = [
   'emsCommunicationMethod',
 ];
 
-const chargeKeys = ['chargeRatedPower', 'chargeGunNumber', 'tcloundconnet'];
+const chargeKeys = ['chargeRatedPower', 'chargeGunNumber'];
 
 const chargeStackKeys = ['chargeRatedPower', 'terminalNumber', 'chargeGunNumber'];
 

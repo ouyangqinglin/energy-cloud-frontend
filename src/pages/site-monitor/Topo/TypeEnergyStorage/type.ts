@@ -33,6 +33,7 @@ export const WorkStatusMap = new Map([
 export interface PcsVo {
   pcsName: string;
   workStatus: WorkStatus;
+  workStatusName: string;
   p?: any;
   q?: any;
 }

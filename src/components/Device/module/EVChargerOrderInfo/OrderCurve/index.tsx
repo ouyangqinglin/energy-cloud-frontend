@@ -100,19 +100,27 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
         if (!data || !data.length) return;
         const currentAllLabel: any = [];
         const currentVChartData = cloneDeep(defaultChartData);
-        data.forEach((item, index) => {
+        data.reverse().forEach((item, index) => {
           if (!item.devices || !item.devices.length) return;
           // @ts-ignore
           const currentLabel = moment(item.time).format('HH:mm:ss');
           currentAllLabel.push(currentLabel);
-          setAllLabel(currentAllLabel);
+          // @ts-ignore   
+          setAllLabel([...currentAllLabel]);
           item.devices.forEach((device: any) => {
             switch (device.key) {
               case 'SOC':
                 currentVChartData[0].data.push({ label: currentLabel, value: device.value });
                 break;
               case 'mq':
-                currentVChartData[1].data.push({ label: currentLabel, value: device.value });
+                let value;
+                if (index === 0) {
+                  value = 0
+                } else {
+                  const val = (device.value - data[0].devices[0].value);
+                  Number.isInteger(val) ? value = val : value = val.toFixed(2);
+                }
+                currentVChartData[1].data.push({ label: currentLabel, value: value });
                 break;
               case 'gxqu':
                 currentVChartData[2].data.push({ label: currentLabel, value: device.value });
@@ -130,7 +138,10 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
                 break;
             }
           });
+
         });
+        console.log("999", currentVChartData);
+        console.log("000", currentVChartData);
         setChartData(currentVChartData);
       });
     }
