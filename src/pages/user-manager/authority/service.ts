@@ -5,7 +5,7 @@ export const createRole = (data: RoleParam) => {
   return post(`/uc/role`, data);
 };
 
-export const getRole = (data: { roleId: number }) => {
+export const getRole = (data: { roleId: number; category: string | number }) => {
   return get(`/uc/role`, data);
 };
 
@@ -21,9 +21,10 @@ export const getRoleList = (params: any) => {
   return get<RoleInfo, ''>(`/uc/role/page`, params);
 };
 
-export const getEffectMenus = () => {
+export const getEffectMenus = (params: any) => {
   return request('/uc/role/menu/roleMenuTreeselect', {
     method: 'GET',
+    params,
   });
 };
 

@@ -315,6 +315,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         return {
           onChange: (e: any) => {
             setPlatform(e);
+            form.setFieldValue('softwarePackageUrl', '');
           },
           disabled: form.getFieldValue('softwarePackageUrl') > 0,
         };

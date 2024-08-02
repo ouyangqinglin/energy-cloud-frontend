@@ -95,14 +95,6 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
     [treeKeys.allKeys],
   );
 
-  const onLinkChange = useCallback((e: CheckboxChangeEvent) => {
-    if (e?.target?.checked) {
-      setCheckStrictly(false);
-    } else {
-      setCheckStrictly(true);
-    }
-  }, []);
-
   const onExpand = useCallback((keys: React.Key[]) => {
     setExpandedKeys(keys);
   }, []);
@@ -133,7 +125,6 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
         <Checkbox onChange={onAllSelectChange}>
           {formatMessage({ id: 'system.Notice.selectAllNnone', defaultMessage: '全选/全不选' })}
         </Checkbox>
-        {/* <Checkbox onChange={onLinkChange}>父子联动</Checkbox> */}
       </Space>
       <div className={'ant-input mt4 ' + styles.tree}>
         <Tree

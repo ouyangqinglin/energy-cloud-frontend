@@ -8,12 +8,10 @@ import SiteInfo from './SiteInfo';
 import Benefit from './Benefits';
 import ElectricityChart from './ElectricityChart';
 import { ReactComponent as IconScreen } from '@/assets/image/station/overview/icon_全屏可视化.svg';
-import { SiteDataType, getSiteScreenConfig } from '@/services/station';
+import type { SiteDataType } from '@/services/station';
+import { getSiteScreenConfig } from '@/services/station';
 import SiteLabel from '@/components/SiteLabel';
 import { formatMessage } from '@/utils';
-import RealTimePower from './RealTimePower';
-import ElectricityStatistics from './ElectricityStatistics';
-import { SiteTypeStrEnum } from '@/utils/enum';
 import { getPowerFlow } from './service';
 
 const Index: React.FC = () => {
@@ -69,32 +67,12 @@ const Index: React.FC = () => {
               </Tooltip>
             </>
           )}
-          {/* {screenConfig?.status != 1 && (
-            <>
-            <Tooltip placement="top" title="定制大屏页">
-              <IconScreen className={styles.screen} onClick={onScreenClick} />
-            </Tooltip>
-            </>
-          )} */}
         </div>
         <Row gutter={[16, 16]}>
           <Statistics siteId={siteId} siteType={siteType} data={powerFlowData} />
           <EnergyFlow siteId={siteId} siteType={siteType} data={powerFlowData} />
           <Benefit siteId={siteId} />
           <ElectricityChart siteId={siteId} />
-          {/* {[SiteTypeStrEnum.CS].includes(siteType) ? (
-            <>
-              <RealTimePower siteId={siteId} />
-              <Benefit siteId={siteId} />
-
-              <ElectricityStatistics siteId={siteId} />
-            </>
-          ) : (
-            <>
-              <Benefit siteId={siteId} />
-              <ElectricityChart siteId={siteId} />
-            </>
-          )} */}
           <SiteInfo siteId={siteId} siteType={siteType} />
         </Row>
       </div>

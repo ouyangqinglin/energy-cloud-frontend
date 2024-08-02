@@ -118,6 +118,8 @@ export default {
   'common.other': '其他',
   'common.search': '搜索',
   'common.successSaved': '保存成功',
+  'common.filterSave': '保存为快捷查询',
+  'common.name': '名称',
   'common.save': '保存',
   'common.saveAndeffect': '保存并生效',
   'common.uploadPhoto': '上传图片',

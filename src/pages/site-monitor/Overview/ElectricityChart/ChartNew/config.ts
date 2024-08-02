@@ -1,6 +1,6 @@
 import { formatMessage } from '@/utils';
 import { TimeType } from '../../components/TimeButtonGroup';
-import { ChartConfigType, FlagType, TotalConfigType } from '../type';
+import type { ChartConfigType } from '../type';
 
 export const enum SubTypeEnum {
   Power,

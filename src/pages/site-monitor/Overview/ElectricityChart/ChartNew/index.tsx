@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
+import { TimeType } from '@/components/TimeButtonGroup';
+import type { SubTypeEnum } from '../../components/TimeButtonGroup';
 import TypeChart from '@/components/Chart/TypeChart';
 import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
@@ -18,10 +19,11 @@ type RealTimePowerProps = {
   siteId?: number | string;
   timeType: TimeType;
   subType: SubTypeEnum;
+  rangedate: Moment[];
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId, timeType, subType } = props;
+  const { date, siteId, timeType, subType, rangedate } = props;
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -76,14 +78,14 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     if (siteId) {
+      const [startTime, endTime] = rangedate;
       run({
         siteId,
-        type: timeType,
-        subType,
-        date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+        startTime: startTime ? startTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+        endTime: endTime ? endTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
       });
     }
-  }, [siteId, date, run, timeType, subType]);
+  }, [siteId, rangedate, run, timeType, subType]);
 
   useEffect(() => {
     chartData?.forEach((item) => {
