@@ -36,9 +36,7 @@ import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
-import { items } from '@/pages/screen/MultiSite/Alarm/config';
-import device from 'mock/screen/device';
-import { number } from 'echarts';
+
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -174,7 +172,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ...(isStationChild ? { siteId } : {}),
     };
     return getDevicePage(query).then(res => {
-      // console.log('=====a>>>', res)
       let getData = res;
       getData.data.list.forEach(item => {
         if ([514, 541, 549, 550, 551, 553].includes(item.productType)) {
@@ -340,11 +337,9 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         ellipsis: true,
         width: 200,
         render: (_, record) => {
-
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
-
           return (
             <>
               <span

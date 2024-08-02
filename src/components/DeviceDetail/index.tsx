@@ -31,11 +31,10 @@ const dealTreeData = (data: TreeNode[], realTimeData: Record<string, any>) => {
       key: item?.id + '',
       deviceId: item?.id,
       deviceName: item?.name,
-      productTypeName:item?.productTypeName,
+      productTypeName: item?.productTypeName,
       title: (
         <>
-          {/* <span title={item?.name}>{item?.name}</span> */}
-          <span title={item?.parentId!== 0? item?.productTypeName : item?.name}>{item?.parentId!== 0? item?.productTypeName : item?.name}</span>
+          <span title={item?.name}>{item?.name}</span>
           {networkStatusShows.includes(networkStatus) && (
             <span className={styles.network}>
               <ProField mode="read" text={networkStatus} valueEnum={netWorkStatusEnum} />
@@ -62,6 +61,16 @@ export type DeviceDetailProps = {
   id: string;
 };
 
+const returnChild = (item) => {
+  if (item.children && item.children.length) {
+    item.children.forEach(child => {
+      child.name = child.productTypeName;
+      item.children?.map(res => returnChild(res))
+    });
+  }
+  return item;
+};
+
 const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   const { id } = props;
 
@@ -77,9 +86,13 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
   } = useRequest(getWholeDeviceTree, {
     manual: true,
     formatResult: (res) => {
-      return res.data ? [res.data] : [];
-    },
-  });
+      let getData: DeviceDataType = res.data;
+      if ([514, 541, 549, 550, 551, 553].includes(getData?.productTypeId))
+        returnChild(getData);
+      return getData ? [getData] : [];
+    }
+  },
+  );
   const deviceIds = useMemo(() => {
     return getPropsFromTree(treeData || []);
   }, [treeData]);
