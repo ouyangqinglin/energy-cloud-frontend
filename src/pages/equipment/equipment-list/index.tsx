@@ -37,6 +37,7 @@ import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
+
 type DeviceListProps = {
   isStationChild?: boolean;
 };
@@ -49,6 +50,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
+  let storageList: Array<any> = [];
 
   const siteColumnOptions = useMemo(
     () => ({
@@ -148,6 +150,16 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     actionRef?.current?.reload?.();
   };
 
+  const returnChild = (item) => {
+    if (item.childDeviceList && item.childDeviceList.length) {
+      item.childDeviceList.forEach(child => {
+        child.name = child.productTypeName;
+        item.childDeviceList?.map(res => returnChild(res))
+      });
+    }
+    return item;
+  };
+
   const handleRequest = (params: any) => {
     const { productTypeInfo, ...rest } = params;
     const [productTypeId, productId] = productTypeInfo || [];
@@ -159,8 +171,19 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       rootFilter: 1,
       ...(isStationChild ? { siteId } : {}),
     };
-    return getDevicePage(query);
+    return getDevicePage(query).then(res => {
+      let getData = res;
+      getData.data.list.forEach(item => {
+        if ([514, 541, 549, 550, 551, 553].includes(item.productType)) {
+          returnChild(item);
+        }
+      })
+      return new Promise((resolve, reject) => {
+        return resolve(getData)
+      })
+    })
   };
+
 
   const toolBar = useCallback(() => {
     const toolBarArray = [];
@@ -262,8 +285,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       )}
 
       {isStationChild &&
-      record.canUnbind == 1 &&
-      authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
+        record.canUnbind == 1 &&
+        authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
         <Button
           className="pl0"
           type="link"
@@ -304,6 +327,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     </>
   );
   const columns = useMemo<ProColumns<DeviceDataType, YTDATERANGEVALUETYPE>[]>(() => {
+    storageList = [];
     return [
       ...(isStationChild ? [] : [siteColumn]),
       productTypeColumn,
@@ -316,7 +340,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           const Component =
             productTypeIconMap.get(record?.productType ?? DeviceProductTypeEnum.Default) ||
             productTypeIconMap.get(DeviceProductTypeEnum.Default);
-          //图标
           return (
             <>
               <span
@@ -329,7 +352,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
               </span>
             </>
           );
-        },
+        }
       },
       {
         title: formatMessage({ id: 'common.equipmentSerial', defaultMessage: '设备序列号' }),
@@ -500,7 +523,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             onCancel={onCancelSn}
             isStationChild={isStationChild}
             onSuccess={onSuccess}
-            //onOk={triggerSubmit}
+          //onOk={triggerSubmit}
           />
         </>
       ) : (
