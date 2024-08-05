@@ -37,7 +37,7 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   };
 
   const downloadLog = (rowData: ConfigDataType) => {
-    aLinkDownLoad(rowData.downLoadUrl || '', rowData.logName || '');
+    aLinkDownLoad(rowData.logUrl || '', rowData.logName || '');
   };
 
   const handleFinish = async (rowData?: ConfigDataType) => {
