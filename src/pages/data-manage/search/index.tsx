@@ -11,9 +11,7 @@ import moment from 'moment';
 import type { DeviceDataType } from '@/services/equipment';
 import { formatMessage, formatModelValue } from '@/utils';
 import { ProConfigProvider } from '@ant-design/pro-components';
-import { Radio } from 'antd';
 import type { RadioChangeEvent } from 'antd';
-import { LineChartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import Chart from './chart';
 import type { ChartRefType } from './chart';
 

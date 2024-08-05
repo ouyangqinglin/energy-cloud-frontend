@@ -68,4 +68,6 @@ export default {
   'system.1022': '发现新版本',
   'system.1023': '出错了',
   'system.1024': '请刷新页面',
+  'system.1025': 'web权限',
+  'system.1026': 'app权限',
 };

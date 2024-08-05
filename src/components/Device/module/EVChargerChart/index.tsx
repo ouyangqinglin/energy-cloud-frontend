@@ -110,17 +110,15 @@ const EVChargerChart = () => {
             value: i.val,
           })) as never[];
           switch (item.key) {
-            case 'gdct': //枪温度
+            case 'gdct': //枪温度、充电枪正极温度
               currentCChartData[0].data = currentValue;
+              currentCChartData[3].data = currentValue;
               break;
             case 'ght': //单体电池最高温度
               currentCChartData[1].data = currentValue;
               break;
             case 'glt': //单体电池最低温度
               currentCChartData[2].data = currentValue;
-              break;
-            case 'gdct': //充电枪正极温度
-              currentCChartData[3].data = currentValue;
               break;
             case 'gdct2': //充电枪负极负温度
               currentCChartData[4].data = currentValue;

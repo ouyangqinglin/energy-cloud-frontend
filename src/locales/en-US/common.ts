@@ -111,6 +111,8 @@ export default {
   'common.upTime': 'Online Time',
   'common.unknown': 'Unknown',
   'common.successSaved': 'Successfully Saved',
+  'common.filterSave': 'Save Quick Query',
+  'common.name': 'Name',
   'common.save': 'Save',
   'common.saveAndeffect': 'Save And Effect',
   'common.other': 'Other',

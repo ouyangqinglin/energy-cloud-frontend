@@ -12,6 +12,7 @@ export type YTProTableProps<D, P, V = 'text'> = YTProTableCustomProps<D, P, V> &
 export type toolBarRenderOptionType<Params> = {
   show?: boolean;
   text?: string;
+  filterKey?: string | number;
   onClick?: (formRef?: MutableRefObject<ProFormInstance<Params> | undefined>) => void;
   icon?: React.ReactNode;
   buttonProps?: ButtonProps;
@@ -24,6 +25,7 @@ export type toolBarRenderOptionsType<Params> = {
   add?: toolBarRenderOptionType<Params>;
   export?: toolBarRenderOptionType<Params>;
   append?: React.ReactNode;
+  filterSave?: toolBarRenderOptionType<Params>;
 };
 
 export type YTProTableCustomProps<D, P, V = 'text'> = {

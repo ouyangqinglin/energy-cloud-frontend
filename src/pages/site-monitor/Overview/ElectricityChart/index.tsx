@@ -11,6 +11,8 @@ import { subTypeMap } from './ChartNew/config';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
 
+const { RangePicker } = DatePicker;
+
 const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [picker, setPicker] = useState<
     'year' | 'month' | 'time' | 'date' | 'week' | 'quarter' | undefined
@@ -19,10 +21,16 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [subType, setSubType] = useState<SubTypeEnum>(SubTypeEnum.Power);
   const [showDatePicker, { set }] = useToggle(true);
   const [date, setDate] = useState(moment());
+  const [rangedate, setRangeDate] = useState([moment(), moment()]);
 
   const onChange = (value: any) => {
     setDate(value);
   };
+
+  const onRangePickerChange = (value: any) => {
+    setRangeDate(value);
+  };
+
   const changesubType = ({ target: { value } }: RadioChangeEvent) => {
     setSubType(value);
   };
@@ -63,8 +71,16 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         ) : (
           ''
         )}
-        <div>
-          {showDatePicker && <DatePicker defaultValue={date} onChange={onChange} picker={picker} />}
+        <div className={styles.picker}>
+          {showDatePicker && subType == 0 && timeType === TimeType.DAY ? (
+            <RangePicker
+              defaultValue={rangedate as any}
+              onChange={onRangePickerChange}
+              picker="date"
+            />
+          ) : (
+            <DatePicker defaultValue={date} onChange={onChange} picker={picker} />
+          )}
           <TimeButtonGroup
             style={{
               marginLeft: 20,
@@ -73,7 +89,13 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
           />
         </div>
       </div>
-      <RealTimePower date={date} siteId={siteId} timeType={timeType} subType={subType} />
+      <RealTimePower
+        rangedate={rangedate}
+        date={date}
+        siteId={siteId}
+        timeType={timeType}
+        subType={subType}
+      />
     </RowBox>
   );
 };

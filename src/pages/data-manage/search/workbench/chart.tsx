@@ -11,7 +11,7 @@ import SchemaForm from '@/components/SchemaForm';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { searchColumns } from './helper';
 import TableChart from '../chart';
-import { TableDataType, TableSearchType } from '../type';
+import type { TableDataType, TableSearchType } from '../type';
 import { exportList, getList } from '../service';
 import { dealParams } from '../config';
 import { useRequest } from 'umi';
@@ -21,18 +21,19 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { useBoolean } from 'ahooks';
 import { formatMessage, saveFile } from '@/utils';
 import moment from 'moment';
-import { ProFormInstance } from '@ant-design/pro-components';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import { Resizable } from 'react-resizable';
 import FullScreen from '@/components/FullScreen';
+import FilterSave from '@/components/FilterSave';
 
 export type ChartType = {
   width: number;
   height: number;
+  chartId: number;
 };
 
 const Chart: React.FC<ChartType> = (props) => {
-  const { width, height: initHeight } = props;
-
+  const { width, height: initHeight, chartId } = props;
   const contentRef = useRef(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [searchData, setSearchData] = useState<TableSearchType>({});
@@ -81,13 +82,12 @@ const Chart: React.FC<ChartType> = (props) => {
   }, [searchData]);
 
   const getExportName = useCallback((params: TableSearchType) => {
-    const date = params?.time || [];
     return (
       formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
       '-' +
-      moment(date[0]).format('YYYY-MM-DD') +
+      moment(params.startTime).format('YYYY-MM-DD') +
       '~' +
-      moment(date[1]).format('YYYY-MM-DD')
+      moment(params.endTime).format('YYYY-MM-DD')
     );
   }, []);
 
@@ -124,11 +124,13 @@ const Chart: React.FC<ChartType> = (props) => {
             onValuesChange={onValuesChange}
             submitter={{
               render: () => [
+                <FilterSave filterForm={formRef} key="filter" filterKey={`search-${chartId}`} />,
                 <Button key="search" type="primary" onClick={onSearch} loading={loading}>
                   {formatMessage({ id: 'common.search', defaultMessage: '搜索' })}
                 </Button>,
                 <Button
                   key="export"
+                  style={{ padding: '6px' }}
                   icon={<DownloadOutlined />}
                   onClick={exportData}
                   loading={loadingExport}
