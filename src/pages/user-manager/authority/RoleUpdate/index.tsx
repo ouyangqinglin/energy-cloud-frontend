@@ -1,8 +1,8 @@
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useCallback } from 'react';
 import { useRequest } from 'umi';
 import { columns } from './config';
 import type { RoleInfo, RoleParam } from '../type';
-import { createRole, getRole, updateRole, getEffectMenus, getSelectMenu } from '../service';
+import { createRole, getRole, updateRole, getEffectMenus } from '../service';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { FormUpdate } from '../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../components/FormUpdate/type';
@@ -10,6 +10,8 @@ import TreeSelect from '@/components/TreeSelect';
 import { formatMessage } from '@/utils';
 import { getProductTypeList } from '@/services/equipment';
 import { getRoleSiteList } from '@/services/station';
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
 
 export const RoleUpdate = (props: FormUpdateBaseProps) => {
   const { visible, id, type } = props;
@@ -53,6 +55,26 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       ];
     });
   }, []);
+
+  const tabsItem: TabsProps['items'] = useMemo(() => {
+    return [
+      {
+        key: '0',
+        label: formatMessage({ id: 'system.1025', defaultMessage: 'web权限' }),
+      },
+      {
+        key: '1',
+        label: formatMessage({ id: 'system.1026', defaultMessage: 'app权限' }),
+      },
+    ];
+  }, []);
+
+  const onTabsChange = (value: any) => {
+    run({ category: value });
+    getRole({ roleId: id || 0, category: value }).then((res) => {
+      console.log('res>>', res);
+    });
+  };
 
   const formColumns = useMemo<ProFormColumnsType[]>(() => {
     const customCoulumns: ProFormColumnsType[] = [
@@ -105,8 +127,17 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       {
         title: formatMessage({ id: 'user.menuPermissions', defaultMessage: '菜单权限' }),
         dataIndex: 'menuKeys',
-        renderFormItem: () => {
-          return <TreeSelect treeData={menuData} />;
+        renderFormItem: (schema, config, form) => {
+          return (
+            <>
+              <Tabs items={tabsItem} onChange={onTabsChange} />
+              <TreeSelect
+                value={config.value}
+                onChange={(newVal: any) => form.setFieldValue('menuKeys', newVal)}
+                treeData={menuData}
+              />
+            </>
+          );
         },
         colProps: {
           span: 24,
@@ -150,7 +181,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
 
   useEffect(() => {
     if (visible) {
-      run();
+      run({ category: 0 });
     }
   }, [visible, id]);
 

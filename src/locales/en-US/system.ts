@@ -80,4 +80,7 @@ export default {
   'system.1022': 'Discovering new versions',
   'system.1023': 'Error',
   'system.1024': 'Please refresh the page',
+
+  'system.1025': 'Web Authority',
+  'system.1026': 'App Authority',
 };

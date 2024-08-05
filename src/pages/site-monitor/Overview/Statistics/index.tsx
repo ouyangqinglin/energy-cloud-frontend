@@ -1,11 +1,10 @@
-import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { isNil, merge } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useRequest } from 'umi';
 import DescriptionCard from '../components/CardDescription';
 import { config } from './config';
 import { getElectricityStatistics } from './service';
-import { PowerFlowDataType } from '../typing';
+import type { PowerFlowDataType } from '../typing';
 
 type StatisticsType = {
   siteId?: number;
@@ -22,7 +21,7 @@ const Statistics: React.FC<StatisticsType> = (props) => {
     manual: true,
     pollingInterval: 60 * 1000,
   });
-  const siteconfig = config(siteType);
+  const siteconfig = config(siteType as any);
   const span = siteconfig.length ? 24 / siteconfig.length : 6;
 
   const mergedData = useMemo(() => {

@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { TimeType, SubTypeEnum } from '@/components/TimeButtonGroup';
+import { TimeType } from '@/components/TimeButtonGroup';
+import type { SubTypeEnum } from '../../components/TimeButtonGroup';
 import TypeChart from '@/components/Chart/TypeChart';
 import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
 import { formatMessage, isEmpty } from '@/utils';
 import type { Moment } from 'moment';
-import { getData } from '../service';
+import { getData, getElectricityData } from '../service';
 import styles from './index.less';
 import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
@@ -18,10 +19,11 @@ type RealTimePowerProps = {
   siteId?: number | string;
   timeType: TimeType;
   subType: SubTypeEnum;
+  rangedate: Moment[];
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId, timeType, subType } = props;
+  const { date, siteId, timeType, subType, rangedate } = props;
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -32,10 +34,15 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
+
+  const { data: electricityData, run: runElectricity } = useRequest(getElectricityData, {
+    manual: true,
+    pollingInterval: DEFAULT_REQUEST_INTERVAL,
+  });
   const shouldShowLine = timeType === TimeType.DAY && subType == 0;
 
   useEffect(() => {
-    if (!powerData) {
+    if (!powerData || !electricityData) {
       return;
     }
     let calcData: TypeChartDataType[] = [];
@@ -47,8 +54,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       );
       calcData = getLineChartData(powerData, fieldConfig);
     } else {
-      const fieldConfig = makeDataVisibleAccordingFlag([...barFieldMap], powerData, shouldShowLine);
-      calcData = getBarChartData(powerData, fieldConfig, timeType as number);
+      const fieldConfig = makeDataVisibleAccordingFlag(
+        [...barFieldMap],
+        electricityData,
+        shouldShowLine,
+      );
+      calcData = getBarChartData(electricityData, fieldConfig, timeType as number);
       if (calcData[calcData.length - 1]) {
         calcData[calcData.length - 1].type = 'line';
         calcData[calcData.length - 1].color = '#FF9AD5';
@@ -72,18 +83,24 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       }
     }, 3000);
     return () => clearInterval(timer);
-  }, [powerData, shouldShowLine, timeType]);
+  }, [electricityData, powerData, shouldShowLine, timeType]);
 
   useEffect(() => {
     if (siteId) {
+      const [startTime, endTime] = rangedate;
       run({
+        siteId,
+        startTime: startTime ? startTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+        endTime: endTime ? endTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
+      });
+      runElectricity({
         siteId,
         type: timeType,
         subType,
         date: date ? date.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
       });
     }
-  }, [siteId, date, run, timeType, subType]);
+  }, [siteId, rangedate, run, timeType, subType, runElectricity, date]);
 
   useEffect(() => {
     chartData?.forEach((item) => {

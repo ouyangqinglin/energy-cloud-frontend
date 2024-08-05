@@ -12,12 +12,13 @@ import { Button } from 'antd';
 import { PlusOutlined, ExportOutlined } from '@ant-design/icons';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import type { ParamsType } from '@ant-design/pro-provider';
-import type { YTProColumns, YTProTableProps, toolBarRenderOptionsType } from './typing';
+import type { YTProTableProps, toolBarRenderOptionsType } from './typing';
 import { merge } from 'lodash';
 import { isEmpty, saveFile } from '@/utils';
 import { useBoolean } from 'ahooks';
 import { formatMessage } from '@/utils';
 import { formatData } from './helper';
+import FilterSave from '../FilterSave';
 
 enum optionsType {
   Add = 'add',
@@ -80,6 +81,10 @@ const useToolBarRender = <
       if (options.prepend) {
         result.push(options.prepend);
       }
+      if (options.filterSave) {
+        result.push(<FilterSave filterKey={options.filterSave.filterKey} filterForm={formRef} />);
+      }
+
       [optionsType.Add, optionsType.Export].forEach((item) => {
         if (options[item]?.show) {
           result.push(

@@ -13,7 +13,7 @@ import { useToggle } from 'ahooks';
 import { getProductTypeTree } from '@/services/equipment';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import type { PackageListType } from './type';
-import { formatMessage, getLocale } from '@/utils';
+import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';

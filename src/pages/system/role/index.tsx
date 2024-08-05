@@ -23,7 +23,6 @@ import { formatTreeSelectData } from '@/utils/utils';
 import WrapContent from '@/components/WrapContent';
 import { getLocale, formatMessage } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
-import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 

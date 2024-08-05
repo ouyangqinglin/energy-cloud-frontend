@@ -6,7 +6,7 @@ import { ReactComponent as IconStorageBattery } from '@/assets/image/station/ove
 import { ReactComponent as IconCharge } from '@/assets/image/station/overview/icon_充电桩.svg';
 import { ReactComponent as IconOtherLoad } from '@/assets/image/station/overview/icon_其他负载.svg';
 
-import type { Load, StoredEnergy } from './type';
+import type { Load } from './type';
 import type { DescriptionCardConfig } from '../components/CardDescription/type';
 
 import { formatMessage } from '@/utils';
@@ -57,12 +57,21 @@ export const config = (siteType: SiteTypeStrEnum) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.Charge/discharge',
-            defaultMessage: '今日充/放电量',
+            id: 'siteMonitor.chargingVolumeToday',
+            defaultMessage: '今日充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) =>
-            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
+          field: 'charge',
+          value: '210.03',
+        },
+
+        {
+          label: `${formatMessage({
+            id: 'siteMonitor.todayDischargeCapacity',
+            defaultMessage: '今日放电量',
+          })}(kWh)`,
+          labelUnit: '/kWh',
+          field: 'discharge',
         },
         {
           label: `${formatMessage({
@@ -92,12 +101,20 @@ export const config = (siteType: SiteTypeStrEnum) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.Charge/dischargeDaily',
-            defaultMessage: '今日系统充/放电量',
+            id: 'siteMonitor.dayChargingVolume',
+            defaultMessage: '今日系统充电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) =>
-            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
+          field: 'charge',
+        },
+
+        {
+          label: `${formatMessage({
+            id: 'siteMonitor.dayDischarge',
+            defaultMessage: '今日系统放电量',
+          })}(kWh)`,
+          labelUnit: '/kWh',
+          field: 'discharge',
         },
         {
           label: `${formatMessage({
@@ -133,12 +150,19 @@ export const config = (siteType: SiteTypeStrEnum) => {
       statistics: [
         {
           label: `${formatMessage({
-            id: 'siteMonitor.dayPowerSupply/dayGridPowerSupply',
-            defaultMessage: '今日供电量/馈网电量',
+            id: 'siteMonitor.dayPowerSupply',
+            defaultMessage: '今日供电量',
           })}(kWh)`,
           labelUnit: '/kWh',
-          value: (entity: StoredEnergy) =>
-            `${entity?.charge || '--'} / ${entity?.discharge || '--'}`,
+          field: 'charge',
+        },
+        {
+          label: `${formatMessage({
+            id: 'siteMonitor.dayGridPowerSupply',
+            defaultMessage: '今日馈网电量',
+          })}(kWh)`,
+          labelUnit: '/kWh',
+          field: 'discharge',
         },
         {
           label: `${formatMessage({
