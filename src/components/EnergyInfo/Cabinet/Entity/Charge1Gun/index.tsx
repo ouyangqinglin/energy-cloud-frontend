@@ -77,7 +77,7 @@ const configs: ConfigType[] = [
   {
     label: '',
     showLabel: false,
-    productTypeId: DeviceProductTypeEnum.DCChargePile,
+    productTypeId: DeviceProductTypeEnum.ChargeMaster,
     position: { top: 20, left: 754 },
     icon: RunImg,
     line: RunLineImg,

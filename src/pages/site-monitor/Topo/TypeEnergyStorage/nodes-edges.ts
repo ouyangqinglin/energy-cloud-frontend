@@ -202,7 +202,7 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
               label: `${formatMessage({
                 id: 'siteMonitor.MonomerMaxVoltage',
                 defaultMessage: '单体最高电压',
-              })}(℃):`,
+              })}(mV):`,
               value: data?.mvvoasu,
               field: 'todayConsumption',
             },
@@ -210,7 +210,7 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
               label: `${formatMessage({
                 id: 'siteMonitor.MonomerMinVoltage',
                 defaultMessage: '单体最低电压',
-              })}(℃):`,
+              })}(mV):`,
               value: data?.mvvosu,
               field: 'todayConsumption',
             },
