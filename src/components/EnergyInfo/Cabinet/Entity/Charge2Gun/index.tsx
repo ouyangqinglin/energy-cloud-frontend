@@ -89,7 +89,7 @@ const configs: ConfigType[] = [
     icon: RunImg,
     line: RunLineImg,
     linePosition: { top: 22, left: -222 },
-    data: [{ field: 'sctlmd' }, { field: 'swmode' }],
+    data: [{ field: 'ctlmd' }, { field: 'systemWorkingStatus' }],
   },
   {
     label: formatMessage(
