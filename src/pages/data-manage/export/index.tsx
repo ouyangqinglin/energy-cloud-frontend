@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { columns } from './config';
 import YTProTable from '@/components/YTProTable';
-import { getData, exportList } from './service';
+import { getData, exportList, createTask } from './service';
 import { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { TaskInfo } from './type';
 import { formatMessage } from '@/utils';
@@ -12,7 +12,7 @@ import {
   ProConfigProvider,
   ProFormInstance,
 } from '@ant-design/pro-components';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { FormattedMessage } from 'umi';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import SchemaForm from '@/components/SchemaForm';
@@ -20,6 +20,7 @@ import { TableSearchType } from '../search/type';
 import styles from '../search/workbench/index.less';
 import { exportTaskColumns } from '../search/workbench/helper';
 import { dealParams } from '../search/config';
+import config from 'config/config';
 
 const Export: React.FC = () => {
   const [initVal, setInitVal] = useState<TaskInfo>({} as TaskInfo);
@@ -99,18 +100,38 @@ const Export: React.FC = () => {
   //     moment(date[1]).format('YYYY-MM-DD')
   //   );
   // }, []);
+
+  const collectParams = (formData: { collection: any[]; startTime: any; endTime: any; name: any; }) => {
+    let config = { keyValue: [] as any }
+
+    formData.collection.forEach((item: any, index: number) => {
+      config.keyValue.push({
+        deviceName: item.node.deviceName,
+        key: item.node.paramCode,
+        deviceId: item.node.deviceId,
+        name: item.node.deviceName
+      })
+    });
+
+    return {
+      config: config,
+      startTime: formData.startTime,
+      endTime: formData.endTime,
+      name: formData.name,
+      type: 0,
+    }
+  }
+
   const onFinish = useCallback(
     (formData) => {
-      // const run = onFinishCreate;
-      // return run({ ...formData, ...{ userId: id } }, {}).then(({ data }) => {
-      //   if (data) {
-      //     message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
-      //     onSuccess?.();
-      //     return true;
-      //   }
-      // });
-      console.log('成功了', formData);
-      return true;
+      // @ts-ignore
+      return createTask(collectParams(formData)).then(({ data }) => {
+        if (data) {
+          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
+          onSuccess?.();
+          return true;
+        }
+      });
     },
     [formRef.current],
   );

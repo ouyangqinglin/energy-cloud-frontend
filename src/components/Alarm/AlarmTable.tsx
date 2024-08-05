@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-25 10:21:56
- * @LastEditTime: 2024-07-24 14:14:26
+ * @LastEditTime: 2024-08-05 09:51:26
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Alarm\AlarmTable.tsx
  */
@@ -101,7 +101,11 @@ const Alarm: React.FC<AlarmProps> = (props) => {
   const { data: detailData, run } = useRequest(getDetail, {
     manual: true,
   });
-  const { data: alarmNumData, run: runGetAlarmNum } = useRequest(getAlarmNum, {
+  const {
+    data: alarmNumData,
+    run: runGetAlarmNum,
+    cancel,
+  } = useRequest(getAlarmNum, {
     manual: true,
   });
 
@@ -270,7 +274,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
 
   useEffect(() => {
     actionRef?.current?.reloadAndRest?.();
-  }, [params]);
+  }, [params?.deviceId]);
 
   useEffect(() => {
     formParamRef.current = formParam;

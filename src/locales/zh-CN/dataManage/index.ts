@@ -158,4 +158,5 @@ export default {
   'dataManage.1084': '查询结束时间',
   'dataManage.1085': '任务执行时间',
   'dataManage.1086': '重新执行',
+  'dataManage.1087': '（只能选择数据类型为: long、double、enum的数据）',
 };

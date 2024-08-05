@@ -158,4 +158,5 @@ export default {
   'dataManage.1084': 'Query End Time',
   'dataManage.1085': 'Task Execution Time',
   'dataManage.1086': 'Re-Download',
+  'dataManage.1087': '(Only data types of long, double, enum can be selected)',
 };
