@@ -658,15 +658,15 @@ export const aggregationTime = {
     text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
   },
 };
-export const taskStatusEnum = {
+export const taskStatusEnum = { // 0正在执行 1执行完成 2执行错误  先这样定吧
   0: {
     text: formatMessage({ id: 'dataManage.1076', defaultMessage: '执行中' }),
   },
   1: {
-    text: formatMessage({ id: 'dataManage.1077', defaultMessage: '执行失败' }),
+    text: formatMessage({ id: 'dataManage.1078', defaultMessage: '执行完毕' }),
   },
   2: {
-    text: formatMessage({ id: 'dataManage.1078', defaultMessage: '执行完毕' }),
+    text: formatMessage({ id: 'dataManage.1077', defaultMessage: '执行失败' }),
   },
 };
 

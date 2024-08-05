@@ -1,7 +1,6 @@
 import { formatMessage } from '@/utils';
 import type { ProColumns } from '@ant-design/pro-components';
 import { taskStatusEnum } from '@/utils/dict';
-import moment from 'moment';
 
 export interface DataType {
   key: React.Key;
@@ -27,7 +26,7 @@ export const columns: ProColumns<DataType>[] = [
   },
   {
     title: formatMessage({ id: 'monitor.Job.job_name', defaultMessage: '任务名称' }),
-    dataIndex: 'siteId',
+    dataIndex: 'name',
     hideInSearch: false,
     ellipsis: true,
     align: 'center',
@@ -52,13 +51,35 @@ export const columns: ProColumns<DataType>[] = [
     align: 'center',
   },
   {
+    title: formatMessage({ id: 'dataManage.1080', defaultMessage: '查询参数' }),
+    dataIndex: 'config',
+    ellipsis: true,
+    hideInSearch: true,
+    align: 'center',
+  },
+  {
+    title: formatMessage({ id: 'dataManage.1081', defaultMessage: '任务状态' }),
+    dataIndex: 'status',
+    valueEnum: taskStatusEnum,
+    ellipsis: true,
+    hideInSearch: false,
+    align: 'center',
+  },
+  {
+    title: formatMessage({ id: 'dataManage.1082', defaultMessage: '进度' }),
+    dataIndex: 'schedule',
+    hideInSearch: true,
+    hideInTable: false,
+    ellipsis: true,
+    align: 'center',
+  },
+  {
     title: formatMessage({ id: 'dataManage.1085', defaultMessage: '任务执行时间' }),
-    dataIndex: 'time',
+    dataIndex: 'taskStartTime',
     valueType: 'dateRange',
     hideInTable: true,
     hideInSearch: false,
     width: 200,
-    initialValue: [moment().subtract(1, 'week'), moment()],
     search: {
       transform: (value) => {
         return {
@@ -69,31 +90,8 @@ export const columns: ProColumns<DataType>[] = [
     },
   },
   {
-    title: formatMessage({ id: 'dataManage.1080', defaultMessage: '查询参数' }),
-    dataIndex: 'siteName',
-    ellipsis: true,
-    hideInSearch: true,
-    align: 'center',
-  },
-  {
-    title: formatMessage({ id: 'dataManage.1081', defaultMessage: '任务状态' }),
-    dataIndex: 'energyOptions',
-    valueEnum: taskStatusEnum,
-    ellipsis: true,
-    hideInSearch: false,
-    align: 'center',
-  },
-  {
-    title: formatMessage({ id: 'dataManage.1082', defaultMessage: '进度' }),
-    dataIndex: 'siteId',
-    hideInSearch: true,
-    hideInTable: false,
-    ellipsis: true,
-    align: 'center',
-  },
-  {
     title: formatMessage({ id: 'dataManage.1085', defaultMessage: '任务执行时间' }),
-    dataIndex: 'endTime',
+    dataIndex: 'taskStartTime',
     ellipsis: true,
     valueType: 'dateTime',
     hideInSearch: true,
