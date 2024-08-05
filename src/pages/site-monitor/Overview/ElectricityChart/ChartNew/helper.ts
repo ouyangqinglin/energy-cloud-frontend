@@ -26,6 +26,7 @@ export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartCon
   for (let index = 0; index < fieldConfig.length; index++) {
     const { field, show, name, color, unit } = fieldConfig[index];
     if (!show) continue;
+
     result.push({
       name,
       type: 'line',
