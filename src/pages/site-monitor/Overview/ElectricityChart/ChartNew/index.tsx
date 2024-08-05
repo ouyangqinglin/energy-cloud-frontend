@@ -7,6 +7,7 @@ import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 import { useRequest } from 'umi';
 import moment from 'moment';
 import { formatMessage, isEmpty } from '@/utils';
+import { dateRemovalSort } from '@/utils/utils';
 import type { Moment } from 'moment';
 import { getData, getElectricityData } from '../service';
 import styles from './index.less';
@@ -41,6 +42,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const shouldShowLine = timeType === TimeType.DAY && subType == 0;
+  const oneDayLabel = shouldShowLine && rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
 
   useEffect(() => {
     let calcData: TypeChartDataType[] = [];
@@ -51,11 +53,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         shouldShowLine,
       );
       calcData = getLineChartData(powerData, fieldConfig);
-      if (calcData[0]?.data?.length) {
-        const currentLabel = calcData[0]?.data?.map((i) =>
-          moment(i.label).format('YYYY-MM-DD HH:mm'),
-        );
-        setAllLabel(currentLabel);
+      if (!oneDayLabel) {
+        calcData.forEach((item) => {
+          if (item?.data?.length) {
+            const currentAllLabel = item?.data?.map(({ label }) => label);
+            setAllLabel(dateRemovalSort(currentAllLabel));
+          }
+        });
       }
     } else if (electricityData) {
       const fieldConfig = makeDataVisibleAccordingFlag(
@@ -109,15 +113,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
   }, [siteId, rangedate, run, timeType, subType, runElectricity, date, shouldShowLine]);
 
-  useEffect(() => {
-    chartData?.forEach((item) => {
-      const data = item.data;
-      if (data && data.length) {
-        setAllLabel(data.map(({ label }) => label));
-      }
-    });
-  }, [chartData]);
-
   const option = {
     grid: {
       bottom: 50,
@@ -170,6 +165,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         realtime: false,
       },
     ],
+    xAxis: {
+      axisLabel: {
+        formatter: (value: string) => {
+          return value.replace(' ', '\n');
+        },
+      },
+    },
     series: chartData?.map((item) => {
       return {
         type: item.type,
@@ -198,7 +200,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           : ''}
       </div>
       <TypeChart
-        type={shouldShowLine ? chartTypeEnum.Label : timeType}
+        type={oneDayLabel ? timeType : chartTypeEnum.Label}
         chartRef={chartRef}
         date={date}
         option={option}
