@@ -250,6 +250,9 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       title: formatMessage({
         id: 'common.pleaseSelect',
         defaultMessage: '请选择',
+      }) + formatMessage({
+        id: 'dataManage.1087',
+        defaultMessage: '（只能选择数据类型为: long、double、enum的数据）',
       }),
       treeProps: {
         fieldNames: {
@@ -451,6 +454,9 @@ export const exportTaskColumns: ProFormColumnsType<
         title: formatMessage({
           id: 'common.pleaseSelect',
           defaultMessage: '请选择',
+        }) + formatMessage({
+          id: 'dataManage.1087',
+          defaultMessage: '（只能选择数据类型为: long、double、enum的数据）',
         }),
         treeProps: {
           fieldNames: {
