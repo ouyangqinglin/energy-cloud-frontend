@@ -1,9 +1,11 @@
 import { CustomerParam } from '@/pages/user-manager/accounts/Customer/type';
 import request, { post } from '@/utils/request';
+import { AddTaskParams } from './type';
 
 //站点
 export const getData = (params: any) => {
-  return request(`/oss/site/statisticsSiteRank`, {
+
+  return request(`/iot/deviceDataTask/page`, {
     method: 'GET',
     params,
   });
@@ -17,6 +19,6 @@ export const exportList = (params: any) => {
   });
 };
 
-export const createTask = (data: CustomerParam) => {
-  return post(`/uc/customerUser`, data);
+export const createTask = (data: AddTaskParams) => {
+  return post(`/iot/deviceDataTask/save`, data);
 };
