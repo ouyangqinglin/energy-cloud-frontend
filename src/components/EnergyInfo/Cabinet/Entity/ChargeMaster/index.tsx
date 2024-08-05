@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-03-05 09:11:33
- * @LastEditTime: 2024-07-26 17:20:15
+ * @LastEditTime: 2024-08-05 11:28:11
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\Cabinet\Entity\ChargeMaster\index.tsx
  */
@@ -57,7 +57,7 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: StatusLine,
     linePosition: { top: 22, left: -150 },
-    data: [{ field: 'sctlmd' }, { field: 'swmode' }],
+    data: [{ field: 'ctlmd' }, { field: 'systemWorkingStatus' }],
   },
   {
     label: formatMessage({ id: 'device.hostStatusInformation', defaultMessage: '主机状态信息' }),
