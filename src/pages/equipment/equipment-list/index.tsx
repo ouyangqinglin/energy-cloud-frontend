@@ -37,6 +37,8 @@ import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
 
+import LifeCycleDialog from '@/components/LifeCycle';
+let storageList: Array<any> = [];
 
 type DeviceListProps = {
   isStationChild?: boolean;
@@ -50,7 +52,8 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
   const actionRef = useRef<ActionType>();
-  let storageList: Array<any> = [];
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const siteColumnOptions = useMemo(
     () => ({
@@ -150,11 +153,11 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     actionRef?.current?.reload?.();
   };
 
-  const returnChild = (item) => {
+  const returnChild = (item: any) => {
     if (item.childDeviceList && item.childDeviceList.length) {
-      item.childDeviceList.forEach(child => {
+      item.childDeviceList.forEach((child: any) => {
         child.name = child.productTypeName;
-        item.childDeviceList?.map(res => returnChild(res))
+        item.childDeviceList?.map((res: any) => returnChild(res))
       });
     }
     return item;
@@ -174,7 +177,17 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
     return getDevicePage(query).then(res => {
       let getData = res;
       getData.data.list.forEach(item => {
-        if ([514, 541, 549, 550, 551, 553].includes(item.productType)) {
+        if (
+          item?.productType &&
+          [
+            DeviceProductTypeEnum.Energy,
+            DeviceProductTypeEnum.LocalEms,
+            DeviceProductTypeEnum.PvEnergy,
+            DeviceProductTypeEnum.SmallEnergy,
+            DeviceProductTypeEnum.WindPvFirewoodEnergy,
+            DeviceProductTypeEnum.BEnergy,
+          ].includes(item.productType)) {
+          console.log('type', item.productType);
           returnChild(item);
         }
       })
@@ -284,6 +297,42 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <></>
       )}
 
+      {!isStationChild ? (
+        <Button
+          className="pl0"
+          type="link"
+          size="small"
+          key="lifeCycle"
+          onClick={
+            () => {
+              return (
+                <>
+                  <LifeCycleDialog
+                    width="420px"
+                    title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
+                    open={open}
+                    // onCancel={switchOpen}
+                    // detailProps={{
+                    //   data: logData,
+                    //   items: detailItems,
+                    //   column: 4,
+                    //   labelStyle: { width: '90px' },
+                    // }}
+                  />
+                </>
+              );
+            }
+          }
+        >
+          <FormattedMessage id="equipmentList.lifeCycle" defaultMessage="生命周期" />
+        </Button>
+      ) : (
+        <></>
+      )}
+
+
+
+
       {isStationChild &&
         record.canUnbind == 1 &&
         authorityMap.get('iot:siteManage:siteConfig:deviceManage:unbind') ? (
@@ -312,6 +361,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                     }
                     return true;
                   } else {
+                    Modal.confirm({
+                      title: formatMessage({ id: 'equipmentList.forceUnbind', defaultMessage: '强制解绑' }),
+                      content: formatMessage({
+                        id: 'equipmentList.forceUnbindTips',
+                        defaultMessage: '该设备在监测中，是否强制解绑？',
+                      }),
+                      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                      onOk: () => {
+                        // return 接口
+                      }
+                    })
                     return false;
                   }
                 });
