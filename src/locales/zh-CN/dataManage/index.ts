@@ -159,4 +159,8 @@ export default {
   'dataManage.1085': '任务执行时间',
   'dataManage.1086': '重新执行',
   'dataManage.1087': '（只能选择数据类型为: long、double、enum的数据）',
+
+  'dataManage.1088': '诊断日期',
+  'dataManage.1089': '任务开始时间',
+  'dataManage.1090': '任务结束时间',
 };
