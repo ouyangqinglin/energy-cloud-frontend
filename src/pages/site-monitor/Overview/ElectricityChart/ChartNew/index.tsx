@@ -15,6 +15,7 @@ import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from 
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { barFieldMap, lineFieldMap } from './config';
 import type EChartsReact from 'echarts-for-react';
+import { Spin, Flex } from 'antd';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -199,6 +200,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             ))
           : ''}
       </div>
+      {/* <Flex gap="middle" vertical>
+      <Spin spinning={true}>121212</Spin>
+      </Flex> */}
       <TypeChart
         type={oneDayLabel ? timeType : chartTypeEnum.Label}
         chartRef={chartRef}
