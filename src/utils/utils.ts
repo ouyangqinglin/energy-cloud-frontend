@@ -133,7 +133,6 @@ export function dateRemovalSort(date: string[]) {
       }
       return 0;
     });
-    console.log('uniqueArr>>', uniqueArr);
     return uniqueArr;
   } else {
     return [];

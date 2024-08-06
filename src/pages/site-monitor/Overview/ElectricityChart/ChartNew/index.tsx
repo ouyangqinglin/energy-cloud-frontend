@@ -9,7 +9,7 @@ import moment from 'moment';
 import { formatMessage, isEmpty } from '@/utils';
 import { dateRemovalSort } from '@/utils/utils';
 import type { Moment } from 'moment';
-import { getData, getElectricityData } from '../service';
+import { getPowerData, getElectricityData } from '../service';
 import styles from './index.less';
 import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from './helper';
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
@@ -35,9 +35,9 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   const {
     data: powerData,
-    run,
+    run: runPower,
     loading,
-  } = useRequest(getData, {
+  } = useRequest(getPowerData, {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
@@ -51,7 +51,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const shouldShowLine = timeType === TimeType.DAY && subType == 0;
-  const oneDayLabel = rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
+  const isOneDay = rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
 
   useEffect(() => {
     getLoadingStatus(electricityLoading || loading);
@@ -67,14 +67,6 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         shouldShowLine,
       );
       calcData = getLineChartData(powerData, fieldConfig);
-      if (!oneDayLabel) {
-        calcData.forEach((item) => {
-          if (item?.data?.length) {
-            const currentAllLabel = item?.data?.map(({ label }) => label);
-            setAllLabel(dateRemovalSort(currentAllLabel));
-          }
-        });
-      }
     } else if (electricityData) {
       const fieldConfig = makeDataVisibleAccordingFlag(
         [...barFieldMap],
@@ -89,14 +81,13 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     }
     chartRef.current?.getEchartsInstance?.()?.clear?.();
     setChartData(calcData);
-    // setTotalData(getTotalData([...totalMap], powerData));
     const instance = chartRef?.current?.getEchartsInstance();
     let currentIndex = -1;
     const dataLen = calcData?.[0]?.data?.length || 0;
     const timer = setInterval(() => {
       if (dataLen && !timerRef.current.stop) {
         currentIndex = (currentIndex + 1) % dataLen; // 取余 循环展示
-        instance.dispatchAction({
+        instance?.dispatchAction({
           type: 'showTip',
           seriesIndex: 0,
           dataIndex: currentIndex,
@@ -105,13 +96,24 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       }
     }, 3000);
     return () => clearInterval(timer);
-  }, [electricityData, powerData, shouldShowLine, timeType]);
+  }, [electricityData, isOneDay, powerData, shouldShowLine, timeType]);
+
+  useEffect(() => {
+    if ((shouldShowLine && !isOneDay) || timeType == 3) {
+      chartData?.forEach((item) => {
+        if (item?.data?.length) {
+          const currentAllLabel = item?.data?.map(({ label }) => label);
+          setAllLabel(dateRemovalSort(currentAllLabel));
+        }
+      });
+    }
+  }, [chartData, isOneDay, shouldShowLine, timeType]);
 
   useEffect(() => {
     if (siteId) {
       const [startTime, endTime] = rangedate || [];
       if (shouldShowLine) {
-        run({
+        runPower({
           siteId,
           startTime: startTime ? startTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
           endTime: endTime ? endTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -125,7 +127,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         });
       }
     }
-  }, [siteId, rangedate, run, timeType, subType, runElectricity, date, shouldShowLine]);
+  }, [siteId, rangedate, runPower, timeType, subType, runElectricity, date, shouldShowLine]);
 
   const option = {
     grid: {
@@ -214,7 +216,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           : ''}
       </div>
       <TypeChart
-        type={shouldShowLine ? (oneDayLabel ? timeType : chartTypeEnum.Label) : timeType}
+        type={shouldShowLine ? (isOneDay ? timeType : chartTypeEnum.Label) : timeType}
         chartRef={chartRef}
         date={date}
         option={option}
