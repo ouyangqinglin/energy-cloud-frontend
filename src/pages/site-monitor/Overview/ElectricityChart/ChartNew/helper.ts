@@ -1,8 +1,6 @@
-import moment from 'moment';
 import type { TimeType } from '../../components/TimeButtonGroup';
-import type { ChartConfigType, ChartItemType, ChartType, TotalConfigType } from '../type';
-import { TimeFormat } from './config';
-import { TypeChartDataType } from '@/components/Chart/TypeChart';
+import type { ChartConfigType, ChartType, TotalConfigType } from '../type';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 
 export const makeDataVisibleAccordingFlag = (
   config: ChartConfigType[],

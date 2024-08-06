@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useCallback, useState } from 'react';
 import { useRequest } from 'umi';
 import { columns } from './config';
 import type { RoleInfo, RoleParam } from '../type';
@@ -15,6 +15,7 @@ import type { TabsProps } from 'antd';
 
 export const RoleUpdate = (props: FormUpdateBaseProps) => {
   const { visible, id, type } = props;
+  const [menu, setMenu] = useState();
 
   const { data: menuData, run } = useRequest(getEffectMenus, {
     manual: true,
@@ -69,11 +70,30 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
     ];
   }, []);
 
-  const onTabsChange = (value: any) => {
-    run({ category: value });
-    getRole({ roleId: id || 0, category: value }).then((res) => {
-      console.log('res>>', res);
+  const menuKeysHandler = (data: any) => {
+    data.menuKeys = {
+      halfCheckedKeys: data?.halfMenuIds || [],
+    };
+    const halfKeySet = new Set(data.menuKeys.halfCheckedKeys);
+    const checkedKeys: number[] = [];
+    (data?.menuIds || []).forEach((item: number) => {
+      if (!halfKeySet.has(item)) {
+        checkedKeys.push(item);
+      }
     });
+    data.menuKeys.checkedKeys = checkedKeys;
+    return data.menuKeys;
+  };
+
+  const onTabsChange = (value: any, form: any) => {
+    run({ category: value });
+    if (id) {
+      getRole({ roleId: id, category: value }).then((res) => {
+        if (res.code == '200') {
+          form.setFieldValue('menuKeys', menuKeysHandler(res.data));
+        }
+      });
+    }
   };
 
   const formColumns = useMemo<ProFormColumnsType[]>(() => {
@@ -128,12 +148,15 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
         title: formatMessage({ id: 'user.menuPermissions', defaultMessage: '菜单权限' }),
         dataIndex: 'menuKeys',
         renderFormItem: (schema, config, form) => {
+          const value = form.getFieldValue('menuKeys');
           return (
             <>
-              <Tabs items={tabsItem} onChange={onTabsChange} />
+              <Tabs items={tabsItem} onChange={(e) => onTabsChange(e, form)} />
               <TreeSelect
-                value={config.value}
-                onChange={(newVal: any) => form.setFieldValue('menuKeys', newVal)}
+                value={value}
+                onChange={(newVal: any) => {
+                  form.setFieldValue('menuKeys', { ...newVal, ...value });
+                }}
                 treeData={menuData}
               />
             </>
@@ -158,19 +181,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
     ];
   }, [menuData, type]);
 
-  const afterRequest = useCallback((data, form) => {
-    data.menuKeys = {
-      halfCheckedKeys: data?.halfMenuIds || [],
-    };
-    const halfKeySet = new Set(data.menuKeys.halfCheckedKeys);
-    const checkedKeys: number[] = [];
-    (data?.menuIds || []).forEach((item: number) => {
-      if (!halfKeySet.has(item)) {
-        checkedKeys.push(item);
-      }
-    });
-    data.menuKeys.checkedKeys = checkedKeys;
-  }, []);
+  const afterRequest = useCallback((data) => (data.menuKeys = menuKeysHandler(data)), []);
 
   const beforeSubmit = useCallback((data) => {
     data.menuIds = data?.menuKeys?.checkedKeys || [];
