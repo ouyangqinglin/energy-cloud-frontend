@@ -255,7 +255,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       dataIndex: 'uploadTime',
       width: 150,
       ellipsis: true,
-      hideInSearch: false,
+      hideInSearch: true,
     },
   ];
   const requestTree = useCallback(() => {

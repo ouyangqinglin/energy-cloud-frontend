@@ -1,8 +1,6 @@
-import moment from 'moment';
 import type { TimeType } from '../../components/TimeButtonGroup';
-import type { ChartConfigType, ChartItemType, ChartType, TotalConfigType } from '../type';
-import { TimeFormat } from './config';
-import { TypeChartDataType } from '@/components/Chart/TypeChart';
+import type { ChartConfigType, ChartType, TotalConfigType } from '../type';
+import type { TypeChartDataType } from '@/components/Chart/TypeChart';
 
 export const makeDataVisibleAccordingFlag = (
   config: ChartConfigType[],
@@ -26,6 +24,7 @@ export const getLineChartData = (rawSourceData: ChartType, fieldConfig: ChartCon
   for (let index = 0; index < fieldConfig.length; index++) {
     const { field, show, name, color, unit } = fieldConfig[index];
     if (!show) continue;
+
     result.push({
       name,
       type: 'line',

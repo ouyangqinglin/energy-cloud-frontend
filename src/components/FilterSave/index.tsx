@@ -1,13 +1,14 @@
 import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import type { MutableRefObject } from 'react';
-import { Dropdown, Input, Button, Row, Col, Modal, message, Empty } from 'antd';
+import { Dropdown, Input, Button, Row, Col, Modal, message, Empty, Space } from 'antd';
 import { formatMessage } from '@/utils';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { editData, addData, getData, deleteData } from './service';
 import type { ProColumns } from '@ant-design/pro-components';
+import type { ButtonProps } from 'antd';
 import type { FilterSaveData } from './helper';
 import { useRequest } from 'umi';
 import moment from 'moment';
@@ -16,10 +17,12 @@ import styles from './index.less';
 type FilterSaveProps = {
   filterForm?: MutableRefObject<ProFormInstance | undefined>;
   filterKey?: string | number; // 同一个页面唯一
-};
+  onFilterValuesChange?: (values: any) => void;
+  children?: React.ReactNode;
+} & ButtonProps;
 
 const FilterSave = (props: FilterSaveProps) => {
-  const { filterForm, filterKey } = props;
+  const { filterForm, filterKey, onFilterValuesChange, children, ...resetButtonProps } = props;
   const pageId = window.location.pathname + `:${filterKey}`;
   const formRef = useRef<ProFormInstance>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -69,7 +72,7 @@ const FilterSave = (props: FilterSaveProps) => {
   const beforeSubmit = useCallback(
     (formData: FilterSaveData) => {
       if (formType == FormTypeEnum.Add) {
-        const param = filterForm?.current?.getFieldsValue() || {};
+        let param = filterForm?.current?.getFieldsValue() || {};
         const _momentKey: string[] = [];
         Object.keys(param).forEach((key) => {
           if (moment.isMoment(param[key])) {
@@ -79,6 +82,10 @@ const FilterSave = (props: FilterSaveProps) => {
           }
         });
         param._momentKey = _momentKey;
+        const transformData = filterForm?.current?.getFieldsFormatValue?.();
+        if (Object.keys(transformData).length) {
+          param = { ...param, ...transformData };
+        }
         formData.param = JSON.stringify(param);
         formData.pageId = pageId;
       } else if (formType == FormTypeEnum.Edit) {
@@ -95,8 +102,11 @@ const FilterSave = (props: FilterSaveProps) => {
       filterParams._momentKey.forEach((key: string) => {
         filterParams[key] = moment(filterParams[key]);
       });
+      delete filterParams._momentKey;
     }
     filterForm?.current?.setFieldsValue(filterParams);
+    // console.log('filterForm>>',filterForm?.current?.getFieldsFormatValue());
+    onFilterValuesChange && onFilterValuesChange(filterParams);
   };
 
   const onSuccess = () => {
@@ -109,34 +119,58 @@ const FilterSave = (props: FilterSaveProps) => {
   };
 
   const items: MenuProps['items'] = useMemo(() => {
-    const searchItem = {
-      key: -1,
-      label: (
-        <Row onClick={(e) => e.stopPropagation()}>
-          <Col span={24}>
-            <Input
-              onChange={onSearch}
-              allowClear
-              placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
-            />
-          </Col>
-        </Row>
-      ),
-    };
+    const searchItem = [
+      {
+        key: -2,
+        label: (
+          <Row onClick={(e) => e.stopPropagation()}>
+            <Col span={24}>
+              <Button icon={<PlusOutlined />} onClick={openAddModal}>
+                {formatMessage({ id: 'common.filterSave', defaultMessage: '保存为快捷查询' })}
+              </Button>
+            </Col>
+          </Row>
+        ),
+      },
+      {
+        key: -1,
+        label: (
+          <Row onClick={(e) => e.stopPropagation()}>
+            <Col span={24}>
+              <Input
+                onChange={onSearch}
+                allowClear
+                placeholder={formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请输入' })}
+              />
+            </Col>
+          </Row>
+        ),
+      },
+    ];
     let filterData: FilterSaveData[] = [];
     if (data && data.length) {
       filterData = data.map((i: FilterSaveData) => {
         i.key = i.id;
         i.label = (
-          <Row className={styles.item}>
+          <Row className={styles.item} align="middle">
             <Col span={18} className={styles.lable} onClick={() => showFilterData(i.param)}>
               {i.name}
             </Col>
-            <Col span={3}>
-              <Button type="link" icon={<EditOutlined />} onClick={(e) => openEditModal(e, i)} />
-            </Col>
-            <Col span={3}>
-              <Button type="link" icon={<DeleteOutlined />} onClick={(e) => onDelete(e, i.id)} />
+            <Col span={6} className={styles.action}>
+              <Space size={1}>
+                <Button
+                  type="link"
+                  size="small"
+                  icon={<EditOutlined />}
+                  onClick={(e) => openEditModal(e, i)}
+                />
+                <Button
+                  type="link"
+                  size="small"
+                  icon={<DeleteOutlined />}
+                  onClick={(e) => onDelete(e, i.id)}
+                />
+              </Space>
             </Col>
           </Row>
         );
@@ -150,7 +184,7 @@ const FilterSave = (props: FilterSaveProps) => {
         },
       ];
     }
-    return [searchItem, ...filterData] as MenuProps['items'];
+    return [...searchItem, ...filterData] as MenuProps['items'];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -170,8 +204,8 @@ const FilterSave = (props: FilterSaveProps) => {
   ];
   return (
     <>
-      <Dropdown.Button type="primary" onClick={openAddModal} menu={{ items }}>
-        {formatMessage({ id: 'common.filterSave', defaultMessage: '保存为快捷查询' })}
+      <Dropdown.Button {...resetButtonProps} menu={{ items }}>
+        {children}
       </Dropdown.Button>
       <SchemaForm
         formRef={formRef}

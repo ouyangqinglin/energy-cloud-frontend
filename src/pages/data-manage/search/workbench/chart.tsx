@@ -51,6 +51,13 @@ const Chart: React.FC<ChartType> = (props) => {
 
   const onValuesChange = useCallback((_, params) => {
     dealParams(params);
+    console.log('params111>>', params);
+    setSearchData(params);
+  }, []);
+
+  const onFilterValuesChange = useCallback((params: any) => {
+    dealParams(params);
+    console.log('params222>>', params);
     setSearchData(params);
   }, []);
 
@@ -124,10 +131,17 @@ const Chart: React.FC<ChartType> = (props) => {
             onValuesChange={onValuesChange}
             submitter={{
               render: () => [
-                <FilterSave filterForm={formRef} key="filter" filterKey={`search-${chartId}`} />,
-                <Button key="search" type="primary" onClick={onSearch} loading={loading}>
+                <FilterSave
+                  filterForm={formRef}
+                  key="filter"
+                  onClick={onSearch}
+                  loading={loading}
+                  type="primary"
+                  filterKey={`search-${chartId}`}
+                  onFilterValuesChange={onFilterValuesChange}
+                >
                   {formatMessage({ id: 'common.search', defaultMessage: '搜索' })}
-                </Button>,
+                </FilterSave>,
                 <Button
                   key="export"
                   style={{ padding: '6px' }}
