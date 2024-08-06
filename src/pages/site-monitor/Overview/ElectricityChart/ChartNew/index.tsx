@@ -15,7 +15,6 @@ import { getBarChartData, getLineChartData, makeDataVisibleAccordingFlag } from 
 import { DEFAULT_REQUEST_INTERVAL } from '@/utils/request';
 import { barFieldMap, lineFieldMap } from './config';
 import type EChartsReact from 'echarts-for-react';
-import { Spin } from 'antd';
 
 type RealTimePowerProps = {
   date?: Moment;
@@ -23,10 +22,11 @@ type RealTimePowerProps = {
   timeType: TimeType;
   subType: SubTypeEnum;
   rangedate: [Moment | null, Moment | null] | null;
+  getLoadingStatus: (loading: boolean) => void;
 };
 
 const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
-  const { date, siteId, timeType, subType, rangedate } = props;
+  const { date, siteId, timeType, subType, rangedate, getLoadingStatus } = props;
 
   const timerRef = useRef({ stop: false });
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
@@ -51,7 +51,12 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
   const shouldShowLine = timeType === TimeType.DAY && subType == 0;
-  const oneDayLabel = shouldShowLine && rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
+  const oneDayLabel = rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
+
+  useEffect(() => {
+    getLoadingStatus(electricityLoading || loading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [electricityLoading, loading]);
 
   useEffect(() => {
     let calcData: TypeChartDataType[] = [];
@@ -208,18 +213,16 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
             ))
           : ''}
       </div>
-      <Spin spinning={loading || electricityLoading}>
-        <TypeChart
-          type={oneDayLabel ? timeType : chartTypeEnum.Label}
-          chartRef={chartRef}
-          date={date}
-          option={option}
-          style={{ height: '340px' }}
-          data={chartData}
-          allLabel={allLabel}
-          step={shouldShowLine ? 2 : 60}
-        />
-      </Spin>
+      <TypeChart
+        type={shouldShowLine ? (oneDayLabel ? timeType : chartTypeEnum.Label) : timeType}
+        chartRef={chartRef}
+        date={date}
+        option={option}
+        style={{ height: '340px' }}
+        data={chartData}
+        allLabel={allLabel}
+        step={shouldShowLine ? 2 : 60}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useToggle } from 'ahooks';
-import { DatePicker, Flex, Spin } from 'antd';
+import { DatePicker, Spin, Space } from 'antd';
 import moment from 'moment';
 import type { Moment } from 'moment';
 import { useState } from 'react';
@@ -25,6 +25,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [date, setDate] = useState(moment());
   const [rangedate, setRangeDate] = useState<RangeValue>([moment(), moment()]);
   const [dates, setDates] = useState<RangeValue>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onChange = (value: any) => {
     setDate(value);
@@ -79,7 +80,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         <h1 className={styles.title}>
           {formatMessage({ id: 'siteMonitor.siteRealtimepower', defaultMessage: '站点运行数据图' })}
         </h1>
-        {timeType === TimeType.DAY ? (
+        {timeType === TimeType.DAY && (
           <Radio.Group
             optionType="button"
             buttonStyle="solid"
@@ -87,33 +88,30 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
             onChange={changesubType}
             value={subType}
           />
-        ) : (
-          ''
         )}
         <div className={styles.picker}>
-          {showDatePicker && subType == 0 && timeType === TimeType.DAY ? (
-            <RangePicker
-              value={dates || rangedate}
-              onChange={onRangePickerChange}
-              disabledDate={disabledDate}
-              onOpenChange={onOpenChange}
-              onCalendarChange={(val) => setDates(val)}
-              picker="date"
-            />
-          ) : (
-            <DatePicker defaultValue={date} onChange={onChange} picker={picker} />
-          )}
-          <TimeButtonGroup
-            style={{
-              marginLeft: 20,
-            }}
-            onChange={timeTypeChange}
-          />
+          <Space>
+            <Spin size="small" spinning={loading} />
+            {showDatePicker && subType == 0 && timeType === TimeType.DAY ? (
+              <RangePicker
+                value={dates || rangedate}
+                onChange={onRangePickerChange}
+                disabledDate={disabledDate}
+                onOpenChange={onOpenChange}
+                onCalendarChange={(val) => setDates(val)}
+                picker="date"
+              />
+            ) : (
+              <DatePicker defaultValue={date} onChange={onChange} picker={picker} />
+            )}
+            <TimeButtonGroup onChange={timeTypeChange} />
+          </Space>
         </div>
       </div>
       <RealTimePower
         rangedate={rangedate}
         date={date}
+        getLoadingStatus={(status: boolean) => setLoading(status)}
         siteId={siteId}
         timeType={timeType}
         subType={subType}
