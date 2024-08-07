@@ -36,8 +36,9 @@ import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { ModelSizeEnum } from '@/utils/enum';
+import LifeCycleDialog from './component';
 
-import LifeCycleDialog from '@/components/LifeCycle';
 let storageList: Array<any> = [];
 
 type DeviceListProps = {
@@ -48,6 +49,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const { isStationChild } = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [openLife, setOpenLife] = useState(false);
   const [snOpen, setSnOpen] = useState(false);
   const [productTypeList, setProductTypeList] = useState([]);
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id || '' }));
@@ -112,6 +114,10 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
   const onSwitchOpen = useCallback(() => {
     setOpen((data) => !data);
   }, []);
+
+  const handleCancel = () => {
+    setOpenLife(false);
+  };
 
   const onAddClick = useCallback(() => {
     if (isStationChild) {
@@ -298,6 +304,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       )}
 
       {!isStationChild ? (
+
         <Button
           className="pl0"
           type="link"
@@ -305,22 +312,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
           key="lifeCycle"
           onClick={
             () => {
-              return (
-                <>
-                  <LifeCycleDialog
-                    width="420px"
-                    title={<FormattedMessage id='common.viewDetail' defaultMessage="查看详情" />}
-                    open={open}
-                    // onCancel={switchOpen}
-                    // detailProps={{
-                    //   data: logData,
-                    //   items: detailItems,
-                    //   column: 4,
-                    //   labelStyle: { width: '90px' },
-                    // }}
-                  />
-                </>
-              );
+              setOpenLife(true);
             }
           }
         >
@@ -329,9 +321,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
       ) : (
         <></>
       )}
-
-
-
 
       {isStationChild &&
         record.canUnbind == 1 &&
@@ -361,6 +350,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                     }
                     return true;
                   } else {
+                    //
                     Modal.confirm({
                       title: formatMessage({ id: 'equipmentList.forceUnbind', defaultMessage: '强制解绑' }),
                       content: formatMessage({
@@ -373,6 +363,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                         // return 接口
                       }
                     })
+                    //
                     return false;
                   }
                 });
@@ -572,6 +563,12 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                 );
               },
             }}
+          />
+
+          <LifeCycleDialog
+            title={formatMessage({ id: 'equipmentList.lifeCycle', defaultMessage: '生命周期' })}
+            open={openLife}
+            onCancel={handleCancel}
           />
         </ProConfigProvider>
       ) : (
