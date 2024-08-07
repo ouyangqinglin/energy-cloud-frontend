@@ -61,11 +61,11 @@ export type DeviceDetailProps = {
   id: string;
 };
 
-const returnChild = (item) => {
+const returnChild = (item: any) => {
   if (item.children && item.children.length) {
-    item.children.forEach(child => {
+    item.children.forEach((child: any) => {
       child.name = child.productTypeName;
-      item.children?.map(res => returnChild(res))
+      item.children?.map((res: any) => returnChild(res))
     });
   }
   return item;
@@ -87,7 +87,16 @@ const DeviceDetail: React.FC<DeviceDetailProps> = (props) => {
     manual: true,
     formatResult: (res) => {
       let getData: DeviceDataType = res.data;
-      if ([514, 541, 549, 550, 551, 553].includes(getData?.productTypeId))
+      console.log('res.data', res.data);
+      if (
+        getData?.productTypeId && [
+          DeviceProductTypeEnum.Energy,
+          DeviceProductTypeEnum.LocalEms,
+          DeviceProductTypeEnum.PvEnergy,
+          DeviceProductTypeEnum.SmallEnergy,
+          DeviceProductTypeEnum.WindPvFirewoodEnergy,
+          DeviceProductTypeEnum.BEnergy,
+        ].includes(getData?.productTypeId))
         returnChild(getData);
       return getData ? [getData] : [];
     }

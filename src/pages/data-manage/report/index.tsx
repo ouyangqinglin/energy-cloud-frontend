@@ -244,7 +244,7 @@ const Report: React.FC<ReportProps> = (props) => {
         }
         toolBarRenderOptions={{
           add: { show: false },
-          filterSave: { filterKey: 'report' },
+          // filterSave: { filterKey: 'report' },
           export: {
             show: true,
             requestExport: requestExport,

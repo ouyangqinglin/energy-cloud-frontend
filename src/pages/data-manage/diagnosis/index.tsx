@@ -1,33 +1,27 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { columns } from './config';
-import YTProTable from '@/components/YTProTable';
-import { getData, createTask, reExecuteExport, getFileUrl } from './service';
-import { YTProTableCustomProps } from '@/components/YTProTable/typing';
-import { TaskInfo } from './type';
-import { formatMessage } from '@/utils';
-import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
-import {
-  ActionType,
-  ProColumns,
-  ProConfigProvider,
-  ProFormInstance,
-} from '@ant-design/pro-components';
-import { Button, message } from 'antd';
-import { FormattedMessage } from 'umi';
-import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
-import SchemaForm from '@/components/SchemaForm';
-import { TableSearchType } from '../search/type';
+import { tableTreeSelectValueTypeMap } from "@/components/TableSelect";
+import { YTDateRangeValueTypeMap } from "@/components/YTDateRange";
+import YTProTable from "@/components/YTProTable";
+import { ActionType, ProColumns, ProConfigProvider, ProFormInstance } from "@ant-design/pro-components";
+import { TaskInfo } from "./type";
+import SchemaForm from "@/components/SchemaForm";
+import { exportTaskColumns } from "../search/workbench/helper";
+import { useCallback, useRef, useState } from "react";
+import { Button, message } from "antd";
+import { formatMessage, FormattedMessage } from "umi";
+import { dealParams } from "../search/config";
+import { YTProTableCustomProps } from "@/components/YTProTable/typing";
+import { getData, getFileUrl } from "./service";
+import { aLinkDownLoad } from "@/utils/downloadfile";
+import { TableSearchType } from "../search/type";
 import styles from '../search/workbench/index.less';
-import { exportTaskColumns } from '../search/workbench/helper';
-import { dealParams } from '../search/config';
-import { aLinkDownLoad } from '@/utils/downloadfile';
-import { useBoolean } from 'ahooks';
+import { columns, formColumns } from "./config";
+
 
 const Export: React.FC = () => {
   const [initVal, setInitVal] = useState<TaskInfo>({} as TaskInfo);
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
-  const [openForm, { set, setTrue: setOpenFormTrue, setFalse }] = useBoolean(false);
+  const [open, setOpen] = useState(false);
 
   const requestList = useCallback((params) => {
     return getData({
@@ -103,15 +97,13 @@ const Export: React.FC = () => {
         text: formatMessage({ id: 'pages.searchTable.new', defaultMessage: '新建' }),
         onClick() {
           setInitVal({} as TaskInfo);
-          // setOpen(true);
-          setOpenFormTrue();
+          setOpen(true);
         },
       },
     },
   };
 
   const onSuccess = useCallback(() => {
-    setFalse();
     actionRef?.current?.reload?.();
   }, [actionRef]);
 
@@ -147,11 +139,8 @@ const Export: React.FC = () => {
         if (data) {
           message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
           onSuccess?.();
+          return true;
         }
-      }).finally(() => {
-        // setOpen(false);
-        setFalse();
-        return true;
       });
     },
     [formRef.current],
@@ -180,17 +169,15 @@ const Export: React.FC = () => {
         />
 
         <SchemaForm
-          width={900}
           formRef={formRef}
-          open={openForm}
+          open={open}
           className={styles.form}
-          columns={exportTaskColumns}
+          // @ts-ignore
+          columns={formColumns}
           onValuesChange={onValuesChange}
           onSuccess={onSuccess}
-          onOpenChange={set}
           // @ts-ignore
           onFinish={onFinish}
-          grid={true}
         />
       </ProConfigProvider>
     </>

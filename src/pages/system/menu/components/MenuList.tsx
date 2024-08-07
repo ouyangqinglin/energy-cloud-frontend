@@ -117,7 +117,6 @@ type Menuprops = {
 
 const MenuTableList = (props: Menuprops) => {
   const { menuType } = props;
-  console.log('menuType>>', menuType);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
@@ -307,8 +306,8 @@ const MenuTableList = (props: Menuprops) => {
               <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
             </Button>,
           ]}
-          request={(params) =>
-            getMenuList({ ...params } as MenuListParams).then((res) => {
+          request={() =>
+            getMenuList({ category: menuType } as MenuListParams).then((res) => {
               const menu = { id: 0, label: '主类目', children: [] as DataNode[], value: 0 };
               const memuData = buildTreeData(res.data, 'menuId', 'menuName', '', '', '');
               menu.children = memuData;
@@ -390,9 +389,9 @@ const MenuTableList = (props: Menuprops) => {
         onSubmit={async (values) => {
           let success = false;
           if (values.menuId) {
-            success = await handleUpdate({ ...values } as MenuType);
+            success = await handleUpdate({ ...values, category: menuType } as MenuType);
           } else {
-            success = await handleAdd({ ...values } as MenuType);
+            success = await handleAdd({ ...values, category: menuType } as MenuType);
           }
           if (success) {
             setModalVisible(false);

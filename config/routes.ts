@@ -291,6 +291,14 @@ const routers: RouterType[] = [
         locale: 'menu.dataManage.export',
       },
       {
+        path: 'diagnosis',
+        name: 'diagnosis',
+        component: './data-manage/diagnosis',
+        wrappers: ['@/components/KeepAlive'],
+        keepAlive: true,
+        locale: 'menu.dataManage.diagnosis',
+      },
+      {
         path: 'refresh',
         name: 'refresh',
         component: './data-manage/refresh',

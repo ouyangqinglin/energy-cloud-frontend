@@ -1,5 +1,6 @@
 import type { DataNode } from 'antd/lib/tree';
 import { parse } from 'querystring';
+import moment from 'moment';
 
 export const LoginPageUrl = '/user/login';
 
@@ -116,4 +117,24 @@ export function formatTreeSelectData(arrayList: any): DataNode[] {
 
 export function download(fileName: string) {
   window.location.href = `/common/download?fileName=${encodeURI(fileName)}&delete=${true}`;
+}
+
+export function dateRemovalSort(date: string[]) {
+  if (date && date.length) {
+    const uniqueArr = [...new Set(date)];
+    uniqueArr.sort((a, b) => {
+      const dataA = moment(a);
+      const dataB = moment(b);
+      if (dataA.isBefore(dataB)) {
+        return -1;
+      }
+      if (dataA.isAfter(dataB)) {
+        return 1;
+      }
+      return 0;
+    });
+    return uniqueArr;
+  } else {
+    return [];
+  }
 }
