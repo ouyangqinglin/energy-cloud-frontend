@@ -8,6 +8,14 @@ export const getData = (params: any) => {
   });
 };
 
+// export const getFileUrl = (params: any) => {
+//   return request('/uc/fileUrl', {
+//     method: 'GET',
+//     params,
+//     responseType: 'blob',
+//   });
+// };
+
 export const getFileUrl = (params: any) => {
   return get('/uc/fileUrl', { ...params });
 };
