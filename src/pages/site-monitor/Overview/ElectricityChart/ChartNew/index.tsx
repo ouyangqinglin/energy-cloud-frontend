@@ -32,6 +32,8 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const chartRef = useRef<EChartsReact>();
   const [allLabel, setAllLabel] = useState<string[]>([]);
+  // const [isRealTimePower, setIsRealTimePower] = useState<boolean[]>(false);
+  // const [isOneDay,setIsOneDay] = useState<boolean[]>(false);
 
   const {
     data: realTimePowerData,
