@@ -1,6 +1,8 @@
 export default {
   'equipmentList.deleteTips': 'Are you sure you want to delete this device?',
   'equipmentList.unbindTips': 'Are you sure you want to unbind this device?',
+  'equipmentList.forceUnbindTips': 'The device is being monitored and do you want to unbind it anyway?',
+  'equipmentList.forceUnbind': 'unbind it anyway',
   'equipmentList.exportTips': 'Are you sure you want to export the device template?',
   'equipmentList.affSite': 'Site Name',
   'equipmentList.comStatus': 'Communication Status',
