@@ -4,10 +4,11 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { useState } from 'react';
 import RowBox from '../components/RowBox';
-import TimeButtonGroup, { TimeType, SubTypeEnum } from '../components/TimeButtonGroup';
+import TimeButtonGroup, { SubTypeEnum } from '../components/TimeButtonGroup';
 import type { RadioChangeEvent } from 'antd';
+import { chartTypeEnum } from '@/components/Chart/config';
 import { Radio } from 'antd';
-import RealTimePower from './ChartNew';
+import SiteRunDataChart from './ChartNew';
 import { subTypeMap } from './ChartNew/config';
 import styles from './index.less';
 import { formatMessage } from '@/utils';
@@ -19,7 +20,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const [picker, setPicker] = useState<
     'year' | 'month' | 'time' | 'date' | 'week' | 'quarter' | undefined
   >();
-  const [timeType, setTimeType] = useState<TimeType>(TimeType.DAY);
+  const [timeType, setTimeType] = useState<chartTypeEnum>(chartTypeEnum.Day);
   const [subType, setSubType] = useState<SubTypeEnum>(SubTypeEnum.Power);
   const [showDatePicker, { set }] = useToggle(true);
   const [date, setDate] = useState(moment());
@@ -54,22 +55,22 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
   const changesubType = ({ target: { value } }: RadioChangeEvent) => {
     setSubType(value);
   };
-  const timeTypeChange = (type: TimeType) => {
+  const timeTypeChange = (type: chartTypeEnum) => {
     setTimeType(type);
     switch (type) {
-      case TimeType.DAY:
+      case chartTypeEnum.Day:
         setPicker('date');
         set(true);
         break;
-      case TimeType.MONTH:
+      case chartTypeEnum.Month:
         setPicker('month');
         set(true);
         break;
-      case TimeType.YEAR:
+      case chartTypeEnum.Year:
         setPicker('year');
         set(true);
         break;
-      case TimeType.TOTAL:
+      case chartTypeEnum.Label:
         set(false);
         break;
     }
@@ -80,7 +81,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         <h1 className={styles.title}>
           {formatMessage({ id: 'siteMonitor.siteRealtimepower', defaultMessage: '站点运行数据图' })}
         </h1>
-        {timeType === TimeType.DAY && (
+        {timeType === chartTypeEnum.Day && (
           <Radio.Group
             optionType="button"
             buttonStyle="solid"
@@ -92,7 +93,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
         <div className={styles.picker}>
           <Space>
             <Spin size="small" spinning={loading} />
-            {showDatePicker && subType == 0 && timeType === TimeType.DAY ? (
+            {showDatePicker && subType == 0 && timeType === chartTypeEnum.Day ? (
               <RangePicker
                 value={dates || rangedate}
                 onChange={onRangePickerChange}
@@ -108,7 +109,7 @@ const ElectricityChart = ({ siteId }: { siteId?: number }) => {
           </Space>
         </div>
       </div>
-      <RealTimePower
+      <SiteRunDataChart
         rangedate={rangedate}
         date={date}
         getLoadingStatus={(status: boolean) => setLoading(status)}

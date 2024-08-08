@@ -29,11 +29,10 @@ import FilterSave from '@/components/FilterSave';
 export type ChartType = {
   width: number;
   height: number;
-  chartId: number;
 };
 
 const Chart: React.FC<ChartType> = (props) => {
-  const { width, height: initHeight, chartId } = props;
+  const { width, height: initHeight } = props;
   const contentRef = useRef(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [searchData, setSearchData] = useState<TableSearchType>({});
@@ -137,7 +136,7 @@ const Chart: React.FC<ChartType> = (props) => {
                   onClick={onSearch}
                   loading={loading}
                   type="primary"
-                  filterKey={`search-${chartId}`}
+                  filterKey={`search`}
                   onFilterValuesChange={onFilterValuesChange}
                 >
                   {formatMessage({ id: 'common.search', defaultMessage: '搜索' })}

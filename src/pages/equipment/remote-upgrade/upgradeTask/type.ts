@@ -165,7 +165,7 @@ export interface InstallOrderUpdateInfo {
   site?: any;
   current: number;
   pageSize: number;
-
+  upgradeTime?: string;
   // front end
   serviceProvider: {
     orgId: number;

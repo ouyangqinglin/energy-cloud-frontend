@@ -17,21 +17,16 @@ const PathGroup = ({
         return <></>;
       case 1:
         return (
-          <PathGroupCenter
-            show={true}
-            direction={direction[siteTypeArray[0] as keyof typeof direction]}
-          />
+          <PathGroupCenter direction={direction[siteTypeArray[0] as keyof typeof direction]} />
         );
       case 2:
         return (
           <>
             <PathGroupCenter
               transform="translate(279,179)"
-              show={true}
               direction={direction[siteTypeArray[0] as keyof typeof direction]}
             />
             <PathGroupCenter
-              show={true}
               transform="translate(340,216)"
               direction={direction[siteTypeArray[1] as keyof typeof direction]}
             />
@@ -40,18 +35,9 @@ const PathGroup = ({
       case 3:
         return (
           <>
-            <PathGroupLeft
-              show={true}
-              direction={direction[siteTypeArray[0] as keyof typeof direction]}
-            />
-            <PathGroupCenter
-              show={true}
-              direction={direction[siteTypeArray[1] as keyof typeof direction]}
-            />
-            <PathGroupRight
-              show={true}
-              direction={direction[siteTypeArray[2] as keyof typeof direction]}
-            />
+            <PathGroupLeft direction={direction[siteTypeArray[0] as keyof typeof direction]} />
+            <PathGroupCenter direction={direction[siteTypeArray[1] as keyof typeof direction]} />
+            <PathGroupRight direction={direction[siteTypeArray[2] as keyof typeof direction]} />
           </>
         );
       default:

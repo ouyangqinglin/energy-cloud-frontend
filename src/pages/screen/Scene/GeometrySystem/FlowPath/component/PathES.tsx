@@ -1,7 +1,7 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 
-const PathES = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathES = ({ show = true, direction }: { show?: boolean; direction?: FlowDirection }) => {
   return show ? (
     <g transform="rotate(-29.745 509.571 -916.144)">
       <path
@@ -12,7 +12,7 @@ const PathES = ({ show, direction }: { show?: boolean; direction?: FlowDirection
         opacity={0.6}
       />
       <path id="es" stroke="url(#c)" strokeWidth={3} d="m-4.89 19.719 77.999.129" />
-      <AnimationPoint duration={4} direction={direction} pathId="#es" />
+      <AnimationPoint direction={direction} pathId="#es" />
     </g>
   ) : (
     <></>

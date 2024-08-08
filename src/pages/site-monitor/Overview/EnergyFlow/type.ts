@@ -27,6 +27,16 @@ export interface ystemDiagram {
   soc: number;
 }
 
+export type PowerFlowDataType = {
+  list?: {
+    type?: number;
+    direction?: number;
+    p?: number;
+  }[];
+  chargeBattery?: number;
+  loadPower?: number;
+};
+
 export type SystemDiagramRes = Record<`${SubSystemType}`, ystemDiagram>;
 
 export interface PVRevenueRes {

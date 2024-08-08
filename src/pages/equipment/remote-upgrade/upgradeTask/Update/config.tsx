@@ -19,7 +19,7 @@ export const Columns: (
     hideInTable: true,
     showAllOption: true,
   });
-  const [snList, setSnList] = useState(); //产品型号下拉框列表
+  const [snList] = useState(); //产品型号下拉框列表
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -204,80 +204,6 @@ export const Columns: (
     productSnColumn,
     moduleColumn,
     versionNameColumn,
-    // {
-    //   title: '客户名称',
-    //   valueType: TABLESELECT,
-    //   dataIndex: 'customer',
-    //   colProps: {
-    //     span: 8,
-    //   },
-    //   formItemProps: {
-    //     rules: [
-    //       {
-    //         required: true,
-    //         message: '请选择客户名称',
-    //       },
-    //     ],
-    //   },
-    //   fieldProps: () => {
-    //     return {
-    //       tableId: 'userId',
-    //       tableName: 'userName',
-    //       valueId: 'userId',
-    //       valueName: 'userName',
-    //       multiple: false,
-    //       proTableProps: {
-    //         rowKey: 'userId',
-    //         columns: [
-    //           {
-    //             title: '用户名',
-    //             dataIndex: 'userId',
-    //             width: 150,
-    //             ellipsis: true,
-    //           },
-    //           {
-    //             title: '账号',
-    //             dataIndex: 'userName',
-    //             width: 200,
-    //             ellipsis: true,
-    //             hideInSearch: true,
-    //           },
-    //         ],
-    //         request: (params: Record<string, any>) => {
-    //           return getCustomerList({ ...params })?.then(({ data }) => {
-    //             return {
-    //               data: data?.list,
-    //               total: data?.total,
-    //               success: true,
-    //             };
-    //           });
-    //         },
-    //       },
-    //     };
-    //   },
-    // },
-    // {
-    //   title: '联系电话',
-    //   dataIndex: 'phone',
-    //   formItemProps: {
-    //     required: true,
-    //     rules: [
-    //       () => {
-    //         return {
-    //           validator: (_: any, value: string) => {
-    //             if (isEmpty(value)) {
-    //               return Promise.resolve();
-    //             } else if (verifyPhone(value)) {
-    //               return Promise.resolve();
-    //             } else {
-    //               return Promise.reject(`电话格式错误`);
-    //             }
-    //           },
-    //         };
-    //       },
-    //     ],
-    //   },
-    // },
     {
       title: '',
       dataIndex: 'type', //升级类型 1现在升级 2稍后升级

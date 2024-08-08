@@ -130,7 +130,6 @@ export class Connection {
 
   private tryConnectedUntilSuccess() {
     try {
-      console.log('websocket: ', 'before connected');
       const token = getAccessToken();
       if (!token) {
         throw Error('Connection: token is invalid');
@@ -144,7 +143,6 @@ export class Connection {
       this.client.onerror = (e) => {
         this.initClientReady();
         this.onConnectedError?.();
-        console.log('websocket: ', 'connected error', e);
       };
 
       this.client.onclose = ({ code, reason }) => {
@@ -159,7 +157,6 @@ export class Connection {
             this.tryConnectedUntilSuccess();
           }, RETRY_INTERVAL);
         }
-        console.log('websocket: ', 'close', code, reason);
       };
 
       this.client.onopen = (e) => {
@@ -168,7 +165,6 @@ export class Connection {
         this.clientResolve();
         this.resendSubscribeService();
         this.onConnectedSuccess?.();
-        console.log('websocket: ', 'connected', e);
       };
 
       this.client.onmessage = (rawData: MessageEvent<string>) => {
@@ -189,9 +185,7 @@ export class Connection {
           cb(message || rawData.data);
         });
       };
-    } catch (error) {
-      console.log('websocket: catch error', error);
-    }
+    } catch (error) {}
   }
 
   reStartHeartCheck() {

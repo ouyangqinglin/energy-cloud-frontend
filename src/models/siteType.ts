@@ -22,6 +22,7 @@ export type UnitType = {
   hasPv?: boolean;
   hasEnergy?: boolean;
   hasCharge?: boolean;
+  hasExchange?: boolean;
   hasFan?: boolean;
   hasDiesel?: boolean;
 };
@@ -43,6 +44,7 @@ export const getUnitBySiteType = (siteType: SiteTypeStrEnum | string): UnitType 
     hasPv: type?.indexOf?.(SiteTypeStrEnum.PV) > -1 || false,
     hasEnergy: type?.indexOf?.(SiteTypeStrEnum.ES) > -1 || false,
     hasCharge: type?.indexOf?.(SiteTypeStrEnum.CS) > -1 || false,
+    hasExchange: type?.indexOf?.(SiteTypeStrEnum.Exchange) > -1 || false,
     hasFan: type?.indexOf?.(SiteTypeStrEnum.FAN) > -1 || false,
     hasDiesel: type?.indexOf?.(SiteTypeStrEnum.DIESEL) > -1 || false,
   };

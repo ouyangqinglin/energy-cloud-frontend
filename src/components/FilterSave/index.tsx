@@ -16,7 +16,7 @@ import styles from './index.less';
 
 type FilterSaveProps = {
   filterForm?: MutableRefObject<ProFormInstance | undefined>;
-  filterKey?: string | number; // 同一个页面唯一
+  filterKey?: string | number; // 同一个页面唯一，如果需要共用筛选条件则设置一致
   onFilterValuesChange?: (values: any) => void;
   children?: React.ReactNode;
 } & ButtonProps;
