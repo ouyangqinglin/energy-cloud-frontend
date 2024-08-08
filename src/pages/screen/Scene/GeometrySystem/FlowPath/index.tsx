@@ -6,12 +6,18 @@ import PathElectricSupply from './component/PathElectricSupply';
 import PathLoad from './component/PathLoad';
 import PathPowerConsumption from './component/PathPowerConsumption';
 import PathGroup from './component/PathGroup';
+import type { UnitType } from '@/models/siteType';
 
 const FlowPath = ({
   data,
   siteTypeArray,
+  siteTypeConfig,
   ...restProp
-}: { data?: SystemDiagramRes; siteTypeArray: string[] } & SVGProps<SVGSVGElement>) => {
+}: {
+  data?: SystemDiagramRes;
+  siteTypeArray: string[];
+  siteTypeConfig: UnitType;
+} & SVGProps<SVGSVGElement>) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={894} height={419} {...restProp}>
       <defs>
@@ -117,28 +123,23 @@ const FlowPath = ({
         </filter>
       </defs>
       <g fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
-        <PathElectricSupply
-          show={data?.[SubSystemType.E].flag}
-          direction={data?.[SubSystemType.E].direction}
-        />
-        <PathLoad
-          show={!data?.[SubSystemType.CS].flag}
-          direction={data?.[SubSystemType.CS].direction}
-        />
+        {/* 市电 */}
+        <PathElectricSupply direction={data?.[SubSystemType.E]?.direction} />
+        {/* 负载 */}
+        <PathLoad show={!siteTypeConfig.hasCharge} direction={data?.[SubSystemType.L]?.direction} />
+        {/* 充电桩和负载 */}
         <PathPowerConsumption
-          show={data?.[SubSystemType.CS].flag}
-          direction={data?.[SubSystemType.L].direction}
+          show={siteTypeConfig.hasCharge}
+          direction={data?.[SubSystemType.CS]?.direction}
         />
-        <PathES
-          show={data?.[SubSystemType.ES].flag}
-          direction={data?.[SubSystemType.ES].direction}
-        />
+        {/* 储能 */}
+        <PathES show={siteTypeConfig.hasEnergy} direction={data?.[SubSystemType.ES]?.direction} />
         <PathGroup
           siteTypeArray={siteTypeArray}
           direction={{
-            pv: data?.[SubSystemType.PV].direction || 0,
-            fan: data?.[SubSystemType.F].direction || 0,
-            diesel: data?.[SubSystemType.D].direction || 0,
+            pv: data?.[SubSystemType.PV]?.direction || 0,
+            fan: data?.[SubSystemType.F]?.direction || 0,
+            diesel: data?.[SubSystemType.D]?.direction || 0,
           }}
         />
       </g>

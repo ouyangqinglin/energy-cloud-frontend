@@ -123,12 +123,12 @@ export function dateRemovalSort(date: string[]) {
   if (date && date.length) {
     const uniqueArr = [...new Set(date)];
     uniqueArr.sort((a, b) => {
-      const dataA = moment(a);
-      const dataB = moment(b);
-      if (dataA.isBefore(dataB)) {
+      const preDate = moment(a);
+      const curData = moment(b);
+      if (preDate.isBefore(curData)) {
         return -1;
       }
-      if (dataA.isAfter(dataB)) {
+      if (preDate.isAfter(curData)) {
         return 1;
       }
       return 0;

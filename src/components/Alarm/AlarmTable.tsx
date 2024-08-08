@@ -567,20 +567,35 @@ const Alarm: React.FC<AlarmProps> = (props) => {
    * @param selectedRows
    */
   const handleRemove = async (selectedRows: AlarmType[]) => {
-    const hide = message.loading('正在删除');
-    if (!selectedRows) return true;
+    if (!selectedRows?.length) {
+      message.warn(formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }));
+      return false;
+    }
+    const hide = message.loading(
+      formatMessage({ id: 'system.Notice.deleting', defaultMessage: '正在删除' }),
+    );
     try {
       const resp = await removeMenu({ ids: selectedRows.map((row) => row.id).join(',') });
       hide();
       if (resp.code === 200) {
-        message.success('删除成功，即将刷新');
+        message.success(
+          formatMessage({
+            id: 'system.Notice.delete_success',
+            defaultMessage: '删除成功，即将刷新',
+          }),
+        );
       } else {
         message.error(resp.msg);
       }
       return true;
     } catch (error) {
       hide();
-      message.error('删除失败，请重试');
+      message.error(
+        formatMessage({
+          id: 'system.Notice.delete_fail_again',
+          defaultMessage: '删除失败，请重试',
+        }),
+      );
       return false;
     }
   };
