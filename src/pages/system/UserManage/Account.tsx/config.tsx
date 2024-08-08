@@ -14,7 +14,6 @@ import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
 import { arrayToMap, formatMessage, isEmpty } from '@/utils';
 import { verifyPassword, verifyPhone } from '@/utils/reg';
-import { api } from '@/services';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
@@ -479,17 +478,16 @@ export const getFormColumns = (
       valueType: 'dependency',
       name: ['roleId'],
       columns: ({ roleId }) => {
-        if (types?.[0] == OrgTypeEnum.Install) {
-          return [];
-        }
-        const roleType = roleOptions.filter((i) => i.roleId == roleId)[0]?.type || 0;
+        const roleInfo = roleOptions.filter((i) => i.roleId == roleId)[0] || {};
+        const roleType = roleInfo.type || 0;
+        const orgType = roleInfo.orgType;
         return roleType == 0
           ? [
               {
                 title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
                 dataIndex: 'sites',
                 valueType: TABLESELECT,
-                hideInForm: types?.[0] === OrgTypeEnum.System,
+                hideInForm: types?.[0] === OrgTypeEnum.System || orgType == OrgTypeEnum.Install,
                 colProps: {
                   span: 24,
                 },

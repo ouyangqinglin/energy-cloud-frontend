@@ -9,10 +9,11 @@
 
 import React, { useState, useMemo, useCallback, memo } from 'react';
 import OrgTree from '@/components/OrgTree';
-import { OrgTypeEnum, TreeNode } from '@/components/OrgTree/type';
+import { OrgTypeEnum } from '@/components/OrgTree/type';
+import type { TreeNode } from '@/components/OrgTree/type';
 import styles from '../index.less';
 import { isEmpty } from '@/utils';
-import { AccountDataType } from './config';
+import type { AccountDataType } from './config';
 import { default as UserAccount } from './Account';
 
 type AccountTreeType = {
