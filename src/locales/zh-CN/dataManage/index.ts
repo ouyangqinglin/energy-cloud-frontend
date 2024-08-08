@@ -163,4 +163,6 @@ export default {
   'dataManage.1088': '诊断日期',
   'dataManage.1089': '任务开始时间',
   'dataManage.1090': '任务结束时间',
+  'dataManage.1091': '风机报表',
+  'dataManage.1092': '柴发报表',
 };

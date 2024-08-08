@@ -163,4 +163,6 @@ export default {
   'dataManage.1088': 'Diagnosis date',
   'dataManage.1089': 'Task start time',
   'dataManage.1090': 'Task end time',
+  'dataManage.1091': 'Wind turbine report',
+  'dataManage.1092': 'Chai Fa Report',
 };

@@ -420,6 +420,14 @@ export const reportType = new Map([
     formatMessage({ id: 'dataManage.chargingFoundationReport', defaultMessage: '充电桩基础报表' }),
   ],
   [
+    reportTypeEnum.FanColumns,
+    formatMessage({ id: 'dataManage.1091', defaultMessage: '风机报表' }),
+  ],
+  [
+    reportTypeEnum.ChaiFaColumns,
+    formatMessage({ id: 'dataManage.1092', defaultMessage: '柴发报表' }),
+  ],
+  [
     reportTypeEnum.Else,
     formatMessage({ id: 'dataManage.otherLoadReport', defaultMessage: '其他负载报表' }),
   ],
