@@ -1,5 +1,6 @@
 import { formatMessage } from '@/utils';
-import { TimeType } from '../../components/TimeButtonGroup';
+import { chartTypeEnum } from '@/components/Chart/config';
+
 import type { ChartConfigType } from '../type';
 
 export const enum SubTypeEnum {
@@ -35,10 +36,10 @@ export const barLegendMap = new Map([
 ]);
 
 export const TimeFormat = new Map([
-  [TimeType.DAY, 'HH:mm'],
-  [TimeType.MONTH, 'YYYY-MM-DD'],
-  [TimeType.YEAR, 'YYYY-MM'],
-  [TimeType.TOTAL, 'YYYY'],
+  [chartTypeEnum.Day, 'HH:mm'],
+  [chartTypeEnum.Month, 'YYYY-MM-DD'],
+  [chartTypeEnum.Year, 'YYYY-MM'],
+  [chartTypeEnum.Label, 'YYYY'],
 ]);
 
 export const lineFieldMap: ChartConfigType[] = [

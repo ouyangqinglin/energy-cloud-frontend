@@ -1,25 +1,19 @@
-import { useMemo, useEffect, useCallback, useState } from 'react';
-import { useRequest } from 'umi';
+import { useMemo, useCallback } from 'react';
 import { columns } from './config';
 import type { RoleInfo, RoleParam } from '../type';
-import { createRole, getRole, updateRole, getEffectMenus } from '../service';
+import { createRole, getRole, updateRole } from '../service';
 import type { ProFormColumnsType } from '@ant-design/pro-form';
 import { FormUpdate } from '../components/FormUpdate';
 import type { FormUpdateBaseProps } from '../components/FormUpdate/type';
-import TreeSelect from '@/components/TreeSelect';
 import { formatMessage } from '@/utils';
 import { getProductTypeList } from '@/services/equipment';
 import { getRoleSiteList } from '@/services/station';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
+
+import TabTreeSelect from './TabTreeSelect';
+import { merge } from 'lodash';
 
 export const RoleUpdate = (props: FormUpdateBaseProps) => {
-  const { visible, id, type } = props;
-  const [menu, setMenu] = useState();
-
-  const { data: menuData, run } = useRequest(getEffectMenus, {
-    manual: true,
-  });
+  const { type } = props;
 
   const requestProductType = useCallback(() => {
     return getProductTypeList({}).then(({ data }) => {
@@ -56,45 +50,6 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       ];
     });
   }, []);
-
-  const tabsItem: TabsProps['items'] = useMemo(() => {
-    return [
-      {
-        key: '0',
-        label: formatMessage({ id: 'system.1025', defaultMessage: 'web权限' }),
-      },
-      {
-        key: '1',
-        label: formatMessage({ id: 'system.1026', defaultMessage: 'app权限' }),
-      },
-    ];
-  }, []);
-
-  const menuKeysHandler = (data: any) => {
-    data.menuKeys = {
-      halfCheckedKeys: data?.halfMenuIds || [],
-    };
-    const halfKeySet = new Set(data.menuKeys.halfCheckedKeys);
-    const checkedKeys: number[] = [];
-    (data?.menuIds || []).forEach((item: number) => {
-      if (!halfKeySet.has(item)) {
-        checkedKeys.push(item);
-      }
-    });
-    data.menuKeys.checkedKeys = checkedKeys;
-    return data.menuKeys;
-  };
-
-  const onTabsChange = (value: any, form: any) => {
-    run({ category: value });
-    if (id) {
-      getRole({ roleId: id, category: value }).then((res) => {
-        if (res.code == '200') {
-          form.setFieldValue('menuKeys', menuKeysHandler(res.data));
-        }
-      });
-    }
-  };
 
   const formColumns = useMemo<ProFormColumnsType[]>(() => {
     const customCoulumns: ProFormColumnsType[] = [
@@ -147,21 +102,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       {
         title: formatMessage({ id: 'user.menuPermissions', defaultMessage: '菜单权限' }),
         dataIndex: 'menuKeys',
-        renderFormItem: (schema, config, form) => {
-          const value = form.getFieldValue('menuKeys');
-          return (
-            <>
-              <Tabs items={tabsItem} onChange={(e) => onTabsChange(e, form)} />
-              <TreeSelect
-                value={value}
-                onChange={(newVal: any) => {
-                  form.setFieldValue('menuKeys', { ...newVal, ...value });
-                }}
-                treeData={menuData}
-              />
-            </>
-          );
-        },
+        renderFormItem: (_, __, form) => <TabTreeSelect form={form} />,
         colProps: {
           span: 24,
         },
@@ -179,22 +120,47 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
         },
       },
     ];
-  }, [menuData, type]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
-  const afterRequest = useCallback((data) => (data.menuKeys = menuKeysHandler(data)), []);
-
-  const beforeSubmit = useCallback((data) => {
-    data.menuIds = data?.menuKeys?.checkedKeys || [];
-    data.halfMenuIds = data?.menuKeys?.halfCheckedKeys || [];
-    data.menuIds.push(...data.halfMenuIds);
-    delete data.menuKeys;
+  const afterRequest = useCallback((data) => {
+    const menuKeys = {
+      halfCheckedKeys: data?.halfMenuIds || [],
+      checkedKeys: [],
+    } as any;
+    const halfKeySet = new Set(menuKeys.halfCheckedKeys);
+    (data?.menuIds || []).forEach((item: number) => {
+      if (!halfKeySet.has(item)) {
+        menuKeys.checkedKeys.push(item);
+      }
+    });
+    data.menuKeys = [menuKeys, menuKeys];
   }, []);
 
-  useEffect(() => {
-    if (visible) {
-      run({ category: 0 });
+  const beforeSubmit = useCallback((data) => {
+    const menuKeys = {
+      checkedKeys: [],
+      halfCheckedKeys: [],
+    } as any;
+    const webMenuKeys = data?.menuKeys?.[0];
+    const appMenuKeys = data?.menuKeys?.[1];
+    if (webMenuKeys?.checkedKeys && appMenuKeys?.checkedKeys) {
+      menuKeys.checkedKeys = [...new Set(webMenuKeys.checkedKeys.concat(appMenuKeys.checkedKeys))];
     }
-  }, [visible, id]);
+    if (webMenuKeys?.halfCheckedKeys && appMenuKeys?.halfCheckedKeys) {
+      menuKeys.halfCheckedKeys = [
+        ...new Set(webMenuKeys.halfCheckedKeys.concat(appMenuKeys.halfCheckedKeys)),
+      ];
+    }
+    console.log('menuKeys>>', menuKeys);
+    data.menuIds = menuKeys.checkedKeys;
+    data.halfMenuIds = null;
+    if (menuKeys.halfCheckedKeys.length) {
+      data.halfMenuIds = menuKeys.halfCheckedKeys;
+      data.menuIds.push(...menuKeys.halfCheckedKeys);
+    }
+    delete data.menuKeys;
+  }, []);
 
   return (
     <FormUpdate<RoleInfo, RoleParam>

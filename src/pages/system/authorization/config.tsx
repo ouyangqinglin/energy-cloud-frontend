@@ -86,7 +86,6 @@ export const columns: YTProColumns<AuthDataType>[] = [
   {
     title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
     dataIndex: 'createTime',
-    valueType: 'dateTime',
     hideInSearch: true,
     width: 120,
   },
@@ -266,7 +265,6 @@ export const getLogColumns: YTProColumns<getLogData, TABLESELECTVALUETYPE>[] = [
   {
     title: formatMessage({ id: 'common.logCreateTime', defaultMessage: '调用时间' }),
     dataIndex: 'createTime',
-    valueType: 'dateTime',
     width: 48,
     hideInSearch: true,
   },

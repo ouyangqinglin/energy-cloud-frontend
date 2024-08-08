@@ -2,7 +2,7 @@ import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/typ
 import AnimationPoint from './AnimationPoint';
 
 const PathPowerConsumption = ({
-  show,
+  show = true,
   direction,
 }: {
   show?: boolean;
@@ -17,7 +17,7 @@ const PathPowerConsumption = ({
         strokeWidth={3}
         d="m454.86 215.419 31.094 17.543v8.066l23.22 13.107-.202 20.567 43.697 26.229"
       />
-      <AnimationPoint duration={4} pathId="#chargeStack" />
+      <AnimationPoint direction={direction} pathId="#chargeStack" />
       <path
         stroke="url(#j)"
         d="m150.128 109.056 31.094 17.543v8.066l23.22 13.107-.203 20.568 43.697 26.228"
@@ -31,7 +31,7 @@ const PathPowerConsumption = ({
         id="others"
         d="m512.808 181.34 31.094 17.544v8.065l23.219 13.107-.202 20.568 44 26.388"
       />
-      <AnimationPoint duration={4} pathId="#others" />
+      <AnimationPoint direction={direction} pathId="#others" />
       <path
         stroke="url(#k)"
         d="M208.076 75.978 239.17 93.52v8.066l23.219 13.107-.202 20.568 44 26.387"

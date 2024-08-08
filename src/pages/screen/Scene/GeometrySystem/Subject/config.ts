@@ -130,45 +130,6 @@ export const config: CellConfig[] = [
     subsystemType: SubSystemType.L,
     icon: isUS ? Icon_LOAD_US : Icon_LOAD,
   },
-  // {
-  //   name: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
-  //   cellStyle: {
-  //     width: 109,
-  //     height: 106,
-  //     left: 156,
-  //     top: 291,
-  //   },
-  //   subsystemType: SubSystemType.PV,
-  //   iconDisable: Icon_PV_disable,
-  //   icon: Icon_PV,
-  //   hide: true,
-  // },
-  // {
-  //   name: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
-  //   cellStyle: {
-  //     width: 109,
-  //     height: 115,
-  //     left: 231,
-  //     top: 327,
-  //   },
-  //   subsystemType: SubSystemType.F,
-  //   iconDisable: Icon_FAN_disable,
-  //   icon: Icon_FAN,
-  //   hide: true,
-  // },
-  // {
-  //   name: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
-  //   cellStyle: {
-  //     width: 109,
-  //     height: 106,
-  //     left: 308,
-  //     top: 381,
-  //   },
-  //   subsystemType: SubSystemType.D,
-  //   iconDisable: Icon_DIESEL_disable,
-  //   icon: Icon_DIESEL,
-  //   hide: true,
-  // },
   {
     name: formatMessage({ id: 'screen.1017', defaultMessage: '组合' }),
     cellStyle: {

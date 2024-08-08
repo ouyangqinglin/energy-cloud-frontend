@@ -1,7 +1,13 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 
-const PathElectricSupply = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathElectricSupply = ({
+  show = true,
+  direction,
+}: {
+  show?: boolean;
+  direction?: FlowDirection;
+}) => {
   return show ? (
     <g stroke="url(#h)" transform="translate(302.511 121.543)">
       <path
@@ -11,7 +17,7 @@ const PathElectricSupply = ({ show, direction }: { show?: boolean; direction?: F
         transform="rotate(29.745 28.9 21.451)"
       />
       <path id="eSupply" strokeWidth={3} d="m2.447.419 57.286 32.776" />
-      <AnimationPoint duration={4} reverse={true} direction={direction} pathId="#eSupply" />
+      <AnimationPoint reverse={true} direction={direction} pathId="#eSupply" />
     </g>
   ) : (
     <></>

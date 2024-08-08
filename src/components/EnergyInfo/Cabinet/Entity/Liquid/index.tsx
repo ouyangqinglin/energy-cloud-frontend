@@ -55,7 +55,7 @@ const energyPowerFormat = (value: number, data: any) => {
 const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.liquidCoolingUnit', defaultMessage: '液冷机组' }),
-    productTypeId: DeviceProductTypeEnum.Air,
+    productTypeId: DeviceProductTypeEnum.LiquidCooled,
     position: { top: 557, left: 2 },
     icon: LiquidAirImg,
     line: LiquidAirLineImg,

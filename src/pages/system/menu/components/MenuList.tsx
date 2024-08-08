@@ -1,6 +1,6 @@
 import { PlusOutlined, DeleteOutlined, CaretDownFilled, CaretRightFilled } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useAccess } from 'umi';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import WrapContent from '@/components/WrapContent';
@@ -410,6 +410,7 @@ const MenuTableList = (props: Menuprops) => {
         visibleOptions={visibleOptions}
         statusOptions={statusOptions}
         menuTree={menuTree}
+        menuType={menuType}
       />
     </WrapContent>
   );

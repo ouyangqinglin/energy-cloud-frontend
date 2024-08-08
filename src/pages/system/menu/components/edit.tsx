@@ -27,6 +27,7 @@ export type MenuFormProps = {
   visibleOptions: any;
   statusOptions: any;
   menuTree: DataNode[];
+  menuType?: string;
 };
 
 const MenuForm: React.FC<MenuFormProps> = (props) => {
@@ -275,7 +276,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
               hidden={menuTypeId === 'F'}
               rules={[
                 {
-                  required: menuTypeId !== 'F',
+                  required: props?.menuType == '0' && menuTypeId !== 'F',
                 },
               ]}
             />
