@@ -34,7 +34,7 @@ import DehumidiferLineImg from '@/assets/image/station/liquid-energy/dehumidifie
 const configs: ConfigType[] = [
   {
     label: formatMessage({ id: 'device.liquidCoolingUnit', defaultMessage: '液冷机组' }),
-    productTypeId: DeviceProductTypeEnum.Air,
+    productTypeId: DeviceProductTypeEnum.LiquidCooled,
     position: { top: 557, left: 2 },
     icon: LiquidAirImg,
     line: LiquidAirLineImg,

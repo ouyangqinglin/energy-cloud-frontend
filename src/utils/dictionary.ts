@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-08-07 17:23:14
+ * @LastEditTime: 2024-08-08 13:55:28
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
  */
@@ -71,6 +71,7 @@ export enum DeviceProductTypeEnum {
   SmallEnergy = 550,
   WindPvFirewoodEnergy = 551,
   BEnergy = 553,
+  LiquidCooled = 556,
 }
 
 export enum DeviceTypeEnum {
