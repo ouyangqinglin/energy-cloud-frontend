@@ -193,7 +193,6 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
             DeviceProductTypeEnum.WindPvFirewoodEnergy,
             DeviceProductTypeEnum.BEnergy,
           ].includes(item.productType)) {
-          console.log('type', item.productType);
           returnChild(item);
         }
       })
@@ -303,7 +302,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         <></>
       )}
 
-      {!isStationChild ? (
+      {/* {!isStationChild ? (
 
         <Button
           className="pl0"
@@ -320,7 +319,7 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
         </Button>
       ) : (
         <></>
-      )}
+      )} */}
 
       {isStationChild &&
         record.canUnbind == 1 &&
@@ -351,18 +350,18 @@ const DeviceList: React.FC<DeviceListProps> = (props) => {
                     return true;
                   } else {
                     //
-                    Modal.confirm({
-                      title: formatMessage({ id: 'equipmentList.forceUnbind', defaultMessage: '强制解绑' }),
-                      content: formatMessage({
-                        id: 'equipmentList.forceUnbindTips',
-                        defaultMessage: '该设备在监测中，是否强制解绑？',
-                      }),
-                      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                      onOk: () => {
-                        // return 接口
-                      }
-                    })
+                    // Modal.confirm({
+                    //   title: formatMessage({ id: 'equipmentList.forceUnbind', defaultMessage: '强制解绑' }),
+                    //   content: formatMessage({
+                    //     id: 'equipmentList.forceUnbindTips',
+                    //     defaultMessage: '该设备在监测中，是否强制解绑？',
+                    //   }),
+                    //   okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                    //   cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                    //   onOk: () => {
+                    //     // return 接口
+                    //   }
+                    // })
                     //
                     return false;
                   }
