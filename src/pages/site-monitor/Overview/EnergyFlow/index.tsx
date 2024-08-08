@@ -4,8 +4,8 @@ import RealTimeData from './RealTimeData';
 import SystemDiagram from './SystemDiagram';
 import styles from './index.less';
 import React from 'react';
-import { PowerFlowDataType } from '../typing';
-import { SiteTypeStrEnum } from '@/utils/enum';
+import type { PowerFlowDataType } from '../typing';
+import type { SiteTypeStrEnum } from '@/utils/enum';
 
 type EnergyFlowType = {
   siteId?: number;

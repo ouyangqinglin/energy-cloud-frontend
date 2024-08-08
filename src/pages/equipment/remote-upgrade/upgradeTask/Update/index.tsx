@@ -18,21 +18,13 @@ import { getSelectDeviceList } from '../service';
 import { getProductSnList, getModuleList, getSelectedVersionList } from '../../comService';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { useSiteColumn } from '@/hooks';
-import { DeviceDataType, getProductTypeList } from '@/services/equipment';
-import { Modal, message, Button } from 'antd';
+import { getProductTypeList } from '@/services/equipment';
+import { Modal, Button } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
 
 export const Update = (props: FormUpdateBaseProps) => {
-  const [siteColumn] = useSiteColumn<DeviceDataType>({
-    hideInTable: true,
-    showAllOption: true,
-  });
-  const [snList, setSnList] = useState(); //产品型号下拉框列表
-  const [modelList, setModelList] = useState(); //模块下拉框列表
-  const [packageList, setPackageList] = useState(); //软件包名下拉框列表
   const [updateType, setUpdateType] = useState(2); //升级类型
   const formRef = useRef<ProFormInstance>();
   //获取产品类型
@@ -48,9 +40,9 @@ export const Update = (props: FormUpdateBaseProps) => {
   }, []);
   //获取产品型号--依赖产品类型
   const requestProductSn = useCallback((params) => {
-    if (params) {
+    if (params?.productType) {
       return getProductSnList({
-        productTypeId: params, //传递产品类型id
+        productTypeId: params.productType, //传递产品类型id
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -65,9 +57,9 @@ export const Update = (props: FormUpdateBaseProps) => {
   }, []);
   //获取模块下拉框数据--依赖产品型号id
   const requestModule = useCallback((params) => {
-    if (params) {
+    if (params?.productId) {
       return getModuleList({
-        productId: params,
+        productId: params.productId,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -82,18 +74,10 @@ export const Update = (props: FormUpdateBaseProps) => {
   }, []);
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
-    dataIndex: 'productTypeId', //产品类型id
+    dataIndex: 'productType', //产品类型id
     formItemProps: {
-      name: 'productTypeId', //产品类型id
+      name: 'productType', //产品类型id
       rules: [{ required: true }],
-    },
-    fieldProps: {
-      rules: [{ required: true }],
-      onChange: (productTypeId: any) => {
-        requestProductSn(productTypeId).then((list) => {
-          setSnList(list);
-        }); //获取产品型号
-      },
     },
     hideInTable: true,
     request: requestProductType,
@@ -111,26 +95,20 @@ export const Update = (props: FormUpdateBaseProps) => {
       rules: [{ required: true }],
     },
     hideInTable: true,
-    dependencies: ['productTypeId'], //依赖产品类型--dataIndex
+    dependencies: ['productType'], //依赖产品类型--dataIndex
     fieldProps: {
-      options: snList,
       rules: [{ required: true }],
-      onChange: (productId: any) => {
-        requestModule(productId).then((list) => {
-          setModelList(list);
-        }); //获取模块
-      },
     },
     colProps: {
       span: 12,
     },
-    //request: requestProductSn,
+    request: requestProductSn,
   };
   //获取软件包名--依赖模块
   const requestVersionName = useCallback((params) => {
-    if (params) {
+    if (params?.moduleId) {
       return getSelectedVersionList({
-        moduleId: params,
+        moduleId: params.moduleId,
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
@@ -139,20 +117,7 @@ export const Update = (props: FormUpdateBaseProps) => {
           };
         });
       });
-    }
-    // else if (params?.productId) {
-    //   return getSelectedVersionList({
-    //     productId: params?.productId
-    //   }).then(({ data }) => {
-    //     return data?.map?.((item: any) => {
-    //       return {
-    //         label: item?.packageName || '',
-    //         value: item?.id || '',
-    //       };
-    //     });
-    //   });
-    // }
-    else {
+    } else {
       return Promise.resolve([]);
     }
   }, []);
@@ -168,19 +133,8 @@ export const Update = (props: FormUpdateBaseProps) => {
       span: 12,
     },
     hideInTable: true,
-    dependencies: ['productModel'],
-    fieldProps: (form: any) => {
-      return {
-        options: modelList,
-        rules: [{ required: true }],
-        onChange: (e) => {
-          requestVersionName(e).then((list) => {
-            setPackageList(list);
-          }); //获取软件包名
-        },
-      };
-    },
-    //request: requestModule,
+    dependencies: ['productId'],
+    request: requestModule,
   };
 
   const versionNameColumn = {
@@ -195,12 +149,8 @@ export const Update = (props: FormUpdateBaseProps) => {
       span: 12,
     },
     hideInTable: true,
-    //dependencies: ['moduleName', 'productId'],
-    //request: requestVersionName,
-    fieldProps: {
-      options: packageList,
-      rules: [{ required: true }],
-    },
+    dependencies: ['moduleId'],
+    request: requestVersionName,
   };
   //升级时间表单
   const updateTimeList = {
@@ -267,9 +217,9 @@ export const Update = (props: FormUpdateBaseProps) => {
         initialValue: '2',
         rules: [{ required: true }],
       },
-      fieldProps: (form) => {
+      fieldProps: () => {
         return {
-          onChange: (e) => {
+          onChange: (e: any) => {
             //隐藏日期表单
             setUpdateType(e.target.value);
           },
@@ -350,22 +300,13 @@ export const Update = (props: FormUpdateBaseProps) => {
   //config.tsx移过来的
   const convertRequestData = (res: UpdateTaskParam) => {
     if (res) {
-      requestProductSn(res?.productTypeId).then((list) => {
-        setSnList(list);
-      }); //获取产品型号
-      requestModule(res?.productId).then((data) => {
-        setModelList(data);
-      }); //获取模块
-      requestVersionName(res?.moduleId).then((data) => {
-        setPackageList(data);
-      }); //获取软件包名
       res.type = res.type + '';
     }
     return res;
   };
   //提交前的处理函数
   const convertUpdateParams = (params: InstallOrderUpdateInfo) => {
-    if (params.upgradeTime) {
+    if (params?.upgradeTime) {
       params.upgradeTime = params.upgradeTime.replace(/\//g, '-');
     }
     params.upgradeDevice = params.upgradeDeviceDetailList

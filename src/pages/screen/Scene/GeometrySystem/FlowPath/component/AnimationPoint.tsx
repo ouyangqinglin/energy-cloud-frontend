@@ -3,7 +3,6 @@ import type { PathConfigType } from '../../../Geometry/EnergyFlowAnimation/type'
 
 const AnimationPoint = ({
   duration = 4,
-  delay,
   reverse = false,
   direction = FlowDirection.IN,
   pathId,

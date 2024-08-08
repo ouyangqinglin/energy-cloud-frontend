@@ -15,7 +15,9 @@ import classNames from 'classnames';
 import { SiteTypeEnum } from '@/utils/dict';
 import { isNil } from 'lodash';
 import { useRequest } from 'umi';
-import TimeButtonGroup, { TimeType } from '../../components/TimeButtonGroup';
+import TimeButtonGroup from '../../components/TimeButtonGroup';
+import { chartTypeEnum } from '@/components/Chart/config';
+
 import { getPVRevenue } from '../service';
 import styles from './index.less';
 import Detail from '@/components/Detail';
@@ -26,7 +28,7 @@ const Income = ({ siteId, siteType }: { siteId?: number; siteType: string }) => 
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
-  const [timeType, setTimeType] = useState(TimeType.DAY);
+  const [timeType, setTimeType] = useState(chartTypeEnum.Day);
 
   useEffect(() => {
     if (!isNil(siteId)) {

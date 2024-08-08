@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { TimeType } from '@/components/TimeButtonGroup';
+
 import type { SubTypeEnum } from '../../components/TimeButtonGroup';
 import TypeChart from '@/components/Chart/TypeChart';
 import { chartTypeEnum } from '@/components/Chart/config';
@@ -19,7 +19,7 @@ import type EChartsReact from 'echarts-for-react';
 type RealTimePowerProps = {
   date?: Moment;
   siteId?: number | string;
-  timeType: TimeType;
+  timeType: chartTypeEnum;
   subType: SubTypeEnum;
   rangedate: [Moment | null, Moment | null] | null;
   getLoadingStatus: (loading: boolean) => void;
@@ -34,7 +34,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
   const [allLabel, setAllLabel] = useState<string[]>([]);
 
   const {
-    data: powerData,
+    data: realTimePowerData,
     run: runPower,
     loading,
   } = useRequest(getPowerData, {
@@ -50,7 +50,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
     manual: true,
     pollingInterval: DEFAULT_REQUEST_INTERVAL,
   });
-  const shouldShowLine = timeType === TimeType.DAY && subType == 0;
+  const isRealTimePower = timeType === chartTypeEnum.Day && subType == 0;
   const isOneDay = rangedate && rangedate[0]?.isSame(rangedate[1], 'days');
 
   useEffect(() => {
@@ -60,18 +60,19 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
 
   useEffect(() => {
     let calcData: TypeChartDataType[] = [];
-    if (shouldShowLine && powerData) {
+    if (isRealTimePower && realTimePowerData) {
       const fieldConfig = makeDataVisibleAccordingFlag(
         [...lineFieldMap],
-        powerData,
-        shouldShowLine,
+        realTimePowerData,
+        isRealTimePower,
       );
-      calcData = getLineChartData(powerData, fieldConfig);
+      calcData = getLineChartData(realTimePowerData, fieldConfig);
+      setAllLabel([]);
     } else if (electricityData) {
       const fieldConfig = makeDataVisibleAccordingFlag(
         [...barFieldMap],
         electricityData,
-        shouldShowLine,
+        isRealTimePower,
       );
       calcData = getBarChartData(electricityData, fieldConfig, timeType as number);
       if (calcData[calcData.length - 1]) {
@@ -96,23 +97,26 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       }
     }, 3000);
     return () => clearInterval(timer);
-  }, [electricityData, isOneDay, powerData, shouldShowLine, timeType]);
+  }, [electricityData, realTimePowerData, isRealTimePower, timeType]);
 
   useEffect(() => {
-    if ((shouldShowLine && !isOneDay) || timeType == 3) {
+    if ((isRealTimePower && !isOneDay) || timeType == 3) {
+      const currentAllLabel: string[] = [];
       chartData?.forEach((item) => {
         if (item?.data?.length) {
-          const currentAllLabel = item?.data?.map(({ label }) => label);
-          setAllLabel(dateRemovalSort(currentAllLabel));
+          currentAllLabel.push(...item?.data?.map(({ label }) => label));
         }
       });
+      if (currentAllLabel.length) {
+        setAllLabel(dateRemovalSort(currentAllLabel));
+      }
     }
-  }, [chartData, isOneDay, shouldShowLine, timeType]);
+  }, [chartData, isOneDay, isRealTimePower, timeType]);
 
   useEffect(() => {
     if (siteId) {
       const [startTime, endTime] = rangedate || [];
-      if (shouldShowLine) {
+      if (isRealTimePower) {
         runPower({
           siteId,
           startTime: startTime ? startTime.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD'),
@@ -127,7 +131,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
         });
       }
     }
-  }, [siteId, rangedate, runPower, timeType, subType, runElectricity, date, shouldShowLine]);
+  }, [siteId, rangedate, runPower, timeType, subType, runElectricity, date, isRealTimePower]);
 
   const option = {
     grid: {
@@ -203,7 +207,7 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
       onMouseOut={() => (timerRef.current.stop = false)}
     >
       <div className={styles.total}>
-        {!shouldShowLine
+        {!isRealTimePower
           ? chartData?.map((item) => (
               <div className={styles.totalWrapperr} key={item.name}>
                 <div className={styles.totallable}>
@@ -216,14 +220,14 @@ const RealTimePower: React.FC<RealTimePowerProps> = (props) => {
           : ''}
       </div>
       <TypeChart
-        type={shouldShowLine ? (isOneDay ? timeType : chartTypeEnum.Label) : timeType}
+        type={isRealTimePower ? (isOneDay ? timeType : chartTypeEnum.Label) : timeType}
         chartRef={chartRef}
         date={date}
         option={option}
         style={{ height: '340px' }}
         data={chartData}
         allLabel={allLabel}
-        step={shouldShowLine ? 2 : 60}
+        step={isRealTimePower ? 2 : 60}
       />
     </div>
   );

@@ -89,7 +89,7 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
           checkedKeys: treeKeys.allKeys,
         });
       } else {
-        onChange?.({});
+        onChange?.({ checkedKeys: [], halfCheckedKeys: [] });
       }
     },
     [treeKeys.allKeys],

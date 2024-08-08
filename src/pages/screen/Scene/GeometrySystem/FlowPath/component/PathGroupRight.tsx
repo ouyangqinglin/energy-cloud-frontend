@@ -1,7 +1,13 @@
 import type { FlowDirection } from '@/pages/site-monitor/Overview/EnergyFlow/type';
 import AnimationPoint from './AnimationPoint';
 // 柴发
-const PathGroupRight = ({ show, direction }: { show?: boolean; direction?: FlowDirection }) => {
+const PathGroupRight = ({
+  show = true,
+  direction,
+}: {
+  show?: boolean;
+  direction?: FlowDirection;
+}) => {
   return show ? (
     <g transform="translate(378, 218)">
       <path
@@ -11,7 +17,7 @@ const PathGroupRight = ({ show, direction }: { show?: boolean; direction?: FlowD
         d="M64.7255094,0 L33.6316767,17.5432149 L33.6316767,25.6090466 L10.4122939,38.7160232 L10.4122638,59.8144497 L40.1036241,77.1015636 L-8.13931832e-12,102.80487"
         fill="none"
       />
-      <AnimationPoint duration={4} direction={direction} pathId="#fan2" />
+      <AnimationPoint direction={direction} pathId="#fan2" />
       <path
         stroke="url(#diesel)"
         opacity="0.600000024"

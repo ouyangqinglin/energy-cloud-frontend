@@ -61,7 +61,7 @@ const Subject = ({
   // 切换充电桩和负载
   useEffect(() => {
     if (data) {
-      const shouldHideChargeStack = !data[SubSystemType.CS].flag;
+      const shouldHideChargeStack = !siteTypeConfig.hasCharge;
       const newCellList = [...cellList];
       const csCell = newCellList.find((item) => item.subsystemType === SubSystemType.CS);
       const loadCell = newCellList.find((item) => item.subsystemType === SubSystemType.L);
@@ -90,8 +90,8 @@ const Subject = ({
       if (hide) {
         return;
       }
-      const shouldIShowDisableIcon = subsystemType ? !data?.[subsystemType]?.flag : false;
-      const Icon = shouldIShowDisableIcon && iconDisable ? iconDisable : icon;
+      // const shouldIShowDisableIcon = subsystemType ? !data?.[subsystemType]?.flag : false;
+      const Icon = subsystemType && iconDisable ? iconDisable : icon;
       return (
         <Cell {...cellStyle} key={name}>
           {isSVG ? (
@@ -113,7 +113,7 @@ const Subject = ({
     <div>
       {ceils}
       <Cell width={894} height={419} left={18} top={88} zIndex={0}>
-        <FlowPath data={data} siteTypeArray={siteTypeArray} />
+        <FlowPath data={data} siteTypeArray={siteTypeArray} siteTypeConfig={siteTypeConfig} />
       </Cell>
     </div>
   );
