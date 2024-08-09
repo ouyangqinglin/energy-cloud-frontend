@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { useIntl } from 'umi';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 
@@ -11,9 +10,6 @@ import Log from './log';
 import { formatMessage } from '@/utils';
 
 const UpgradeManage: React.FC = () => {
-  // const { authorityMap } = useAuthority(['system:user:authority', 'system:user:org']);
-  const intl = useIntl();
-
   const { authorityMap } = useAuthority([
     'system:user:authority',
     'system:user:org',

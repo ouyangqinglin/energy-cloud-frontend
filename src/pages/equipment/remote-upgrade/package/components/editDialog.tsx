@@ -46,12 +46,19 @@ const dealTreeData: dealTreeDataType<TreeDataType> = (item) => {
 export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   const { operations } = props; //获取操作弹窗的类型
   const { visible } = props; //弹窗是否可见
-  const [snList, setSnList] = useState(); //产品型号下拉框列表
-  const [modelList, setModelList] = useState(); //模块下拉框列表
   const [selectDevice, setSelectDevice] = useState(true); //是否选择设备
   const [selectVersion, setSelectVersion] = useState(true); //是否选择可升级版本
   const [productModel, setProductModel] = useState(); //回显产品型号名字
   const [platform, setPlatform] = useState('1'); //回显平台类型字段
+
+  //监听operations的变化--当为新建弹窗时，清空软件包;不影响编辑弹窗
+  useEffect(() => {
+    if (!visible) {
+      setSelectDevice(true);
+      setSelectVersion(true);
+    }
+  }, [operations, visible]);
+
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
     return getProductTypeList(searchParams).then(({ data }) => {
@@ -63,32 +70,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       });
     });
   }, []);
-  //监听operations的变化--当为新建弹窗时，清空软件包;不影响编辑弹窗
-  useEffect(() => {
-    if (!visible) {
-      setSelectDevice(true);
-      setSelectVersion(true);
-    }
-  }, [operations, visible]);
-  //获取产品型号--依赖产品类型
-  const requestProductSn = useCallback((params) => {
-    if (params) {
-      return getProductSnList({
-        productTypeId: params, //传递产品类型id
-      }).then(({ data }) => {
-        return data?.map?.((item: any) => {
-          return {
-            ...item,
-            label: item?.model || '',
-            value: item?.id || '',
-            //value:item
-          };
-        });
-      });
-    } else {
-      return Promise.resolve([]);
-    }
-  }, []);
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeId', //产品类型id
@@ -99,28 +80,31 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     colProps: {
       span: 12,
     },
-    fieldProps: {
-      disabled: operations == FormOperations.UPDATE,
-      rules: [{ required: true, message: '请输入' }],
-      onChange: (productTypeId: any) => {
-        requestProductSn(productTypeId).then((list) => {
-          setSnList(list);
-        }); //获取产品型号
-      },
+    fieldProps: (form: any) => {
+      return {
+        disabled: operations == FormOperations.UPDATE,
+        onChange: () => {
+          form.setFieldValue('productId', null);
+          form.setFieldValue('moduleId', null);
+        },
+      };
     },
     hideInTable: true,
     request: requestProductType,
   };
-  //获取模块下拉框数据--依赖产品型号id
-  const requestModule = useCallback((params) => {
-    if (params) {
-      return getModuleList({
-        productId: params,
+
+  //获取产品型号--依赖产品类型
+  const requestProductSn = useCallback((params) => {
+    if (params?.productTypeId) {
+      return getProductSnList({
+        productTypeId: params?.productTypeId, //传递产品类型id
       }).then(({ data }) => {
         return data?.map?.((item: any) => {
           return {
-            label: item?.moduleName || '',
-            value: item?.id || '', //模块id
+            ...item,
+            label: item?.model || '',
+            value: item?.id || '',
+            //value:item
           };
         });
       });
@@ -141,18 +125,35 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     },
     hideInTable: true,
     dependencies: ['productTypeId'], //依赖产品类型--dataIndex
-    fieldProps: {
-      disabled: operations == FormOperations.UPDATE,
-      options: snList,
-      rules: [{ required: true, message: '请输入' }],
-      onChange: (productId: any, item: any) => {
-        requestModule(productId).then((list) => {
-          setModelList(list);
-        }); //获取模块
-        setProductModel(item?.label);
-      },
+    fieldProps: (form: any) => {
+      return {
+        disabled: operations == FormOperations.UPDATE,
+        onChange: () => {
+          form.setFieldValue('moduleId', null);
+        },
+      };
     },
+    request: requestProductSn,
   };
+
+  //获取模块下拉框数据--依赖产品型号id
+  const requestModule = useCallback((params) => {
+    if (params?.productId) {
+      return getModuleList({
+        productId: params?.productId,
+      }).then(({ data }) => {
+        return data?.map?.((item: any) => {
+          return {
+            label: item?.moduleName || '',
+            value: item?.id || '', //模块id
+          };
+        });
+      });
+    } else {
+      return Promise.resolve([]);
+    }
+  }, []);
+
   const moduleColumn = {
     title: formatMessage({ id: 'common.module', defaultMessage: '模块' }),
     dataIndex: 'moduleName',
@@ -165,16 +166,11 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       span: 12,
     },
     hideInTable: true,
-    dependencies: ['productModel'],
+    dependencies: ['productId'],
     fieldProps: {
       disabled: operations == FormOperations.UPDATE,
-      options: modelList,
-      rules: [{ required: true, message: '请输入' }],
-      onChange: (moduleName: any) => {
-        //requestVersionName(moduleName);//获取软件包名
-      },
     },
-    //request: requestModule,
+    request: requestModule,
   };
   //状态表单
   const statusList = {
@@ -541,12 +537,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     (res: UpdateTaskParam) => {
       //编辑才会走到这里
       if (res) {
-        requestProductSn(res?.productTypeId).then((list) => {
-          setSnList(list);
-        }); //获取产品型号
-        requestModule(res?.productId).then((data) => {
-          setModelList(data);
-        }); //获取模块
         res.signature = res.signature ? res.signature + '' : '0';
         res.status = res.status ? res.status + '' : '0';
         res.platform = res.platform ? res.platform + '' : '1';

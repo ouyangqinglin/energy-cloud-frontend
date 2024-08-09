@@ -2,13 +2,7 @@ import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
 import type { ProColumns } from '@ant-design/pro-table';
 import YTProTable from '@/components/YTProTable';
 import { FormOperations } from '@/components/YTModalForm/typing';
-import {
-  getUpgradeTaskList,
-  getProductSnList,
-  getVersionList,
-  getModuleList,
-  deleteTaskList,
-} from './service';
+import { getUpgradeTaskList, getVersionList, getModuleList, deleteTaskList } from './service';
 import type { UpgradeListType } from './type';
 import { taskStatus, taskDetailColumns } from './config';
 import type { DeviceDataType } from '@/services/equipment';
@@ -77,7 +71,7 @@ const UpgradeTask: React.FC = () => {
     return getUpgradeTaskList({ ...rest, ...filters });
   }, []);
 
-  const productTypeColumn = {
+  const productTypeColumn: ProColumns = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeName',
     formItemProps: {
@@ -85,13 +79,19 @@ const UpgradeTask: React.FC = () => {
     },
     hideInTable: true,
     valueType: 'cascader',
-    fieldProps: {
-      fieldNames: {
-        label: 'name',
-        value: 'id',
-      },
-      options: productTypeList,
-      changeOnSelect: true,
+    fieldProps: (form) => {
+      return {
+        fieldNames: {
+          label: 'name',
+          value: 'id',
+        },
+        options: productTypeList,
+        changeOnSelect: true,
+        onChange: () => {
+          form.setFieldValue('moduleMark', null);
+          form.setFieldValue('id', null);
+        },
+      };
     },
   };
 

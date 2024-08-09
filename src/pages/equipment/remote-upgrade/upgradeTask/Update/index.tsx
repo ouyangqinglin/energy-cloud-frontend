@@ -1,8 +1,8 @@
-//import { Columns } from './config';
 import { getEditTaskList, addTaskList, updateTaskList } from '../service';
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useMemo } from 'react';
+import { FormAndDetailType } from '@/components/Detail/Detail';
+
 import type {
-  InstallListType,
   InstallOrderUpdateParam,
   InstallOrderUpdateInfo,
   FormUpdateBaseProps,
@@ -72,7 +72,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       return Promise.resolve([]);
     }
   }, []);
-  const productTypeColumn = {
+  const productTypeColumn: FormAndDetailType = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productType', //产品类型id
     formItemProps: {
@@ -81,12 +81,22 @@ export const Update = (props: FormUpdateBaseProps) => {
     },
     hideInTable: true,
     request: requestProductType,
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form.setFieldValue('productId', null);
+          form.setFieldValue('moduleId', null);
+          form.setFieldValue('packageId', null);
+          form.setFieldValue('upgradeDeviceDetailList', []);
+        },
+      };
+    },
     colProps: {
       span: 12,
     },
   };
 
-  const productSnColumn = {
+  const productSnColumn: FormAndDetailType = {
     title: formatMessage({ id: 'common.model', defaultMessage: '产品型号' }),
     dataIndex: 'productId',
     valueType: 'select',
@@ -96,8 +106,14 @@ export const Update = (props: FormUpdateBaseProps) => {
     },
     hideInTable: true,
     dependencies: ['productType'], //依赖产品类型--dataIndex
-    fieldProps: {
-      rules: [{ required: true }],
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form.setFieldValue('moduleId', null);
+          form.setFieldValue('packageId', null);
+          form.setFieldValue('upgradeDeviceDetailList', []);
+        },
+      };
     },
     colProps: {
       span: 12,
@@ -121,7 +137,7 @@ export const Update = (props: FormUpdateBaseProps) => {
       return Promise.resolve([]);
     }
   }, []);
-  const moduleColumn = {
+  const moduleColumn: FormAndDetailType = {
     title: formatMessage({ id: 'common.module', defaultMessage: '模块' }),
     dataIndex: 'moduleName',
     valueType: 'select',
@@ -132,12 +148,20 @@ export const Update = (props: FormUpdateBaseProps) => {
     colProps: {
       span: 12,
     },
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form.setFieldValue('packageId', null);
+          form.setFieldValue('upgradeDeviceDetailList', []);
+        },
+      };
+    },
     hideInTable: true,
     dependencies: ['productId'],
     request: requestModule,
   };
 
-  const versionNameColumn = {
+  const versionNameColumn: FormAndDetailType = {
     title: formatMessage({ id: 'common.softwarePackage', defaultMessage: '软件包名' }),
     dataIndex: 'packageName',
     valueType: 'select',
@@ -147,6 +171,13 @@ export const Update = (props: FormUpdateBaseProps) => {
     },
     colProps: {
       span: 12,
+    },
+    fieldProps: (form) => {
+      return {
+        onChange: () => {
+          form.setFieldValue('upgradeDeviceDetailList', []);
+        },
+      };
     },
     hideInTable: true,
     dependencies: ['moduleId'],
@@ -189,114 +220,116 @@ export const Update = (props: FormUpdateBaseProps) => {
     },
   ];
 
-  const columns = [
-    {
-      title: formatMessage({ id: 'upgradeManage.taskName', defaultMessage: '任务名称' }),
-      dataIndex: 'taskName',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入' }],
-      },
-      colProps: {
-        span: 12,
-      },
-    },
-    //siteColumn,
-    productTypeColumn,
-    productSnColumn,
-    moduleColumn,
-    versionNameColumn,
-    {
-      title: formatMessage({ id: 'upgradeManage.upgradeType', defaultMessage: '升级类型' }),
-      dataIndex: 'type', //升级类型 1现在升级 2稍后升级
-      colProps: {
-        span: 12,
-      },
-      valueType: 'radio',
-      valueEnum: updateTimeList,
-      formItemProps: {
-        initialValue: '2',
-        rules: [{ required: true }],
-      },
-      fieldProps: () => {
-        return {
-          onChange: (e: any) => {
-            //隐藏日期表单
-            setUpdateType(e.target.value);
-          },
-        };
-      },
-    },
-    {
-      title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
-      dataIndex: ['upgradeTime'],
-      hideInForm: updateType == 1, //稍后升级时才显示时间表单--彻底隐藏，去除校验
-      formItemProps: {
-        //hidden: updateType == 1,//稍后升级时才显示时间表单
-        rules: [
-          {
-            required: true,
-          },
-        ],
-      },
-      fieldProps: {
-        style: {
-          width: '100%',
+  const columns = useMemo<FormAndDetailType[]>(
+    () => [
+      {
+        title: formatMessage({ id: 'upgradeManage.taskName', defaultMessage: '任务名称' }),
+        dataIndex: 'taskName',
+        formItemProps: {
+          rules: [{ required: true, message: '请输入' }],
         },
-        disabledDate: (current: Dayjs) => {
-          return current && current < dayjs().startOf('day'); //只能选择今天以及之后的时间
+        colProps: {
+          span: 12,
         },
       },
-      valueType: 'dateTime',
-      dependencies: ['type'],
-      colProps: {
-        span: 12,
-      },
-    },
-    //关联设备
-    {
-      title: formatMessage({ id: 'upgradeManage.assoDevice', defaultMessage: '关联设备' }),
-      valueType: TABLESELECT,
-      dataIndex: 'upgradeDeviceDetailList',
-      colProps: {
-        span: 12,
-      },
-      dependencies: ['siteId', 'packageName'],
-      fieldProps: (form: any) => {
-        return {
-          proTableProps: {
-            columns: deviceSelectColumns,
-            request: (params: any) => {
-              return getSelectDeviceList({
-                ...params,
-                packageId: form?.getFieldValue?.('packageId'),
-                siteId: form?.getFieldValue?.('siteId'),
-              }).then(({ data }) => {
-                return {
-                  data: data?.list,
-                  total: data?.total,
-                  success: true,
-                };
-              });
+      productTypeColumn,
+      productSnColumn,
+      moduleColumn,
+      versionNameColumn,
+      {
+        title: formatMessage({ id: 'upgradeManage.upgradeType', defaultMessage: '升级类型' }),
+        dataIndex: 'type', //升级类型 1现在升级 2稍后升级
+        colProps: {
+          span: 12,
+        },
+        valueType: 'radio',
+        valueEnum: updateTimeList,
+        formItemProps: {
+          initialValue: '2',
+          rules: [{ required: true }],
+        },
+        fieldProps: () => {
+          return {
+            onChange: (e: any) => {
+              //隐藏日期表单
+              setUpdateType(e.target.value);
             },
-          },
-          onFocus: () => {
-            return form?.validateFields(['packageId']);
-          },
-          valueId: 'deviceId',
-          valueName: 'deviceName',
-          tableName: 'deviceName',
-          tableId: 'deviceId',
-        };
+          };
+        },
       },
-      formItemProps: {
-        rules: [
-          {
-            required: true,
+      {
+        title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
+        dataIndex: ['upgradeTime'],
+        hideInForm: updateType == 1, //稍后升级时才显示时间表单--彻底隐藏，去除校验
+        formItemProps: {
+          //hidden: updateType == 1,//稍后升级时才显示时间表单
+          rules: [
+            {
+              required: true,
+            },
+          ],
+        },
+        fieldProps: {
+          style: {
+            width: '100%',
           },
-        ],
+          disabledDate: (current: Dayjs) => {
+            return current && current < dayjs().startOf('day'); //只能选择今天以及之后的时间
+          },
+        },
+        valueType: 'dateTime',
+        dependencies: ['type'],
+        colProps: {
+          span: 12,
+        },
       },
-    },
-  ];
+      //关联设备
+      {
+        title: formatMessage({ id: 'upgradeManage.assoDevice', defaultMessage: '关联设备' }),
+        valueType: TABLESELECT as any,
+        dataIndex: 'upgradeDeviceDetailList',
+        colProps: {
+          span: 12,
+        },
+        dependencies: ['siteId', 'packageName'],
+        fieldProps: (form: any) => {
+          return {
+            proTableProps: {
+              columns: deviceSelectColumns,
+              request: (params: any) => {
+                return getSelectDeviceList({
+                  ...params,
+                  packageId: form?.getFieldValue?.('packageId'),
+                  siteId: form?.getFieldValue?.('siteId'),
+                }).then(({ data }) => {
+                  return {
+                    data: data?.list,
+                    total: data?.total,
+                    success: true,
+                  };
+                });
+              },
+            },
+            onFocus: () => {
+              return form?.validateFields(['packageId']);
+            },
+            valueId: 'deviceId',
+            valueName: 'deviceName',
+            tableName: 'deviceName',
+            tableId: 'deviceId',
+          };
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+            },
+          ],
+        },
+      },
+    ],
+    [],
+  );
   //config.tsx移过来的
   const convertRequestData = (res: UpdateTaskParam) => {
     if (res) {
