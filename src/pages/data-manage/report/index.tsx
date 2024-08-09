@@ -191,10 +191,7 @@ const Report: React.FC<ReportProps> = (props) => {
 
   const columns = useMemo(() => {
     const siteSearch = isStationChild ? [] : [siteSearchColumn];
-    console.log('siteSearch', siteSearch);
     let fieldColumns = currentSiteColumns;
-    console.log('searchParams', searchParams);
-
     if (searchParams.reportType) {
       fieldColumns = cloneDeep(columnsMap.get(searchParams.reportType)) || [];
       if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {

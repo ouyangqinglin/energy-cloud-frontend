@@ -1,6 +1,6 @@
 export default {
   'device.pv': 'PV',
-  'device.green': '',
+  'device.green': 'YGE',
   'device.storage': 'ESS',
   'device.storageCharging': 'ESS Charge',
   'device.storageDischarge': 'ESS Revenue',

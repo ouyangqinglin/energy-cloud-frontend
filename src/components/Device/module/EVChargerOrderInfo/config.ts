@@ -248,37 +248,43 @@ export const option = {
   tooltip: {
     trigger: 'axis',
     formatter: function (params: any) {
-      let result = '';
+      let result: string = params[0].axisValueLabel;
       params.forEach(function (item: any, index: number) {
         let label = item.seriesName;
-        let unit, value;
+        let unit, value, color;
         switch (label) {
           case 'SOC':
             unit = '%';
             value = params[0].data[1];
+            color = '#1890FF';
             break;
           case '已充电量':
             unit = 'kWh';
             value = params[0].data[2];
+            color = '#E6A23C';
             break;
           case '需求电压':
             unit = 'V';
             value = params[0].data[3];
+            color = '#2FC25B';
             break;
           case '充电输出电压':
             unit = 'V';
             value = params[0].data[4];
+            color = '#5D7092';
             break;
           case '需求电流':
             unit = 'A';
             value = params[0].data[5];
+            color = '#FF7070';
             break;
           case '充电输出电流':
             unit = 'A';
             value = params[0].data[6];
+            color = '#8080FF';
             break;
         }
-        result += '<div style="display: flex; justify-content: space-between;">' + '<span>' + label + ' (' + unit + '): ' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '    ' + '</span>' + '<span>' + value + '</span>' + '</div>';
+        result += '<div style="display: flex; align-items: center;">' + '<span style="width: 10px; height: 10px; background-color: ' + `${color}` + '; border-radius: 5px;">' + '</span>' + '<span style="text-align: left; padding-left: 5px;">' + label + '(' + unit + '):&nbsp;' + '</span>' + '<span>' + value + '</span>' + '</div>';
       });
       return result;
     },
