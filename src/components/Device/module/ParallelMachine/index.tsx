@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-01-06 11:15:56
- * @LastEditTime: 2024-05-31 16:42:55
+ * @LastEditTime: 2024-08-09 14:21:17
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\Device\module\ParallelMachine\index.tsx
  */
@@ -141,11 +141,11 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         dataIndex: 'systemWorkModelId',
         width: 150,
         ellipsis: true,
-        render: (_, { systemWorkModelId }: any) => {
+        render: (_, { emsId, systemWorkModelId }: any) => {
           return isEmpty(systemWorkModelId)
             ? getPlaceholder(null, '-')
             : formatModelValue(
-                associationRealtimeData?.[systemWorkModelId],
+                associationRealtimeData?.[emsId]?.[systemWorkModelId],
                 modelMap?.[systemWorkModelId],
               );
         },
@@ -155,11 +155,11 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         dataIndex: 'systemWorkStatusId',
         width: 150,
         ellipsis: true,
-        render: (_, { systemWorkStatusId }: any) => {
+        render: (_, { emsId, systemWorkStatusId }: any) => {
           return isEmpty(systemWorkStatusId)
             ? getPlaceholder(null, '-')
             : formatModelValue(
-                associationRealtimeData?.[systemWorkStatusId],
+                associationRealtimeData?.[emsId]?.[systemWorkStatusId],
                 modelMap?.[systemWorkStatusId],
               );
         },
@@ -169,8 +169,10 @@ const AccessDeviceList: React.FC<AccessDeviceListType> = memo((props) => {
         dataIndex: 'socId',
         width: 100,
         ellipsis: true,
-        render: (_, { socId }: any) => {
-          return isEmpty(socId) ? getPlaceholder(null, '-') : associationRealtimeData?.[socId];
+        render: (_, { bmsId, socId }: any) => {
+          return isEmpty(socId)
+            ? getPlaceholder(null, '-')
+            : associationRealtimeData?.[bmsId]?.[socId];
         },
       },
     ];

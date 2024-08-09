@@ -23,7 +23,7 @@ const RealTimeData = ({
   const fan = data?.[SubSystemType.F];
   const diesel = data?.[SubSystemType.D];
   const title_powerGrid =
-    formatMessage({ id: 'screen.powerGrid1', defaultMessage: '电网功率' }) + '(kW)';
+    formatMessage({ id: 'screen.powerGrid', defaultMessage: '电网功率' }) + '(kW)';
   const title_powerGeneration =
     formatMessage({
       id: 'screen.powerGeneration',
