@@ -50,7 +50,7 @@ const StationOverview: React.FC<StationOverviewType> = memo((props) => {
         valueType="pagination"
         panelStyle={{ padding: 0 }}
         title={formatMessage({
-          id: 'screen.overviewSiteInformation1',
+          id: 'screen.overviewSiteInformation',
           defaultMessage: '站点信息概览',
         })}
       >
