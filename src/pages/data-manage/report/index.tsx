@@ -12,6 +12,8 @@ import {
   chargeOrderStatColumns,
   chargeBaseColumns,
   energyTotalFirstColumns,
+  fanColumns,
+  chaiFaColumns
 } from './config';
 import { getList, exportList } from './service';
 import type { TableDataType, TableSearchType } from './type';
@@ -37,6 +39,8 @@ const columnsMap = new Map([
   [reportTypeEnum.ChargeOrder, chargeOrderColumns],
   [reportTypeEnum.ChargeBase, chargeBaseColumns],
   [reportTypeEnum.Else, electricColumns],
+  [reportTypeEnum.FanColumns, fanColumns],
+  [reportTypeEnum.ChaiFaColumns, chaiFaColumns],
 ]);
 
 const Report: React.FC<ReportProps> = (props) => {
@@ -57,6 +61,8 @@ const Report: React.FC<ReportProps> = (props) => {
   };
 
   const reportTypeHandle = (energyOptions: string) => {
+    console.log("energyOptions", energyOptions);
+
     const cloneSiteColumns = cloneDeep(siteColumns);
     const currentReportType = cloneDeep(reportType);
     setCurrentSiteColumns(cloneSiteColumns);
@@ -82,6 +88,7 @@ const Report: React.FC<ReportProps> = (props) => {
     setCurrentSiteColumns(cloneSiteColumns);
     setCurrentSearchColumns(() => searchColumns(currentReportType));
   };
+
   const [siteSearchColumn] = useSiteColumn({
     hideInTable: true,
     formItemProps: {
@@ -171,22 +178,23 @@ const Report: React.FC<ReportProps> = (props) => {
     const dimensionTime = params?.dimensionTime
       ? moment(params?.dimensionTime).format('YYYY-MM-DD')
       : '';
-    return `${
-      reportType.get(params?.reportType || reportTypeEnum.Site) ||
+    return `${reportType.get(params?.reportType || reportTypeEnum.Site) ||
       formatMessage({ id: 'dataManage.siteReport', defaultMessage: '站点报表' })
-    }${params.groupId ? '-' + params.groupName : ''}${
-      dimensionTime
+      }${params.groupId ? '-' + params.groupName : ''}${dimensionTime
         ? '_' +
-          moment(params?.dimensionTime).format(
-            timeDimension.get(params?.timeDimension || timeDimensionEnum.Day)?.format,
-          )
+        moment(params?.dimensionTime).format(
+          timeDimension.get(params?.timeDimension || timeDimensionEnum.Day)?.format,
+        )
         : ''
-    }`;
+      }`;
   }, []);
 
   const columns = useMemo(() => {
     const siteSearch = isStationChild ? [] : [siteSearchColumn];
+    console.log('siteSearch', siteSearch);
     let fieldColumns = currentSiteColumns;
+    console.log('searchParams', searchParams);
+
     if (searchParams.reportType) {
       fieldColumns = cloneDeep(columnsMap.get(searchParams.reportType)) || [];
       if (searchParams?.reportType === reportTypeEnum.PvInverter && searchParams?.deviceId) {
@@ -208,6 +216,14 @@ const Report: React.FC<ReportProps> = (props) => {
           totalColumn[totalColumn.length - 1].hideInTable =
             searchParams?.timeDimension === timeDimensionEnum.Day;
         }
+      }
+      // 风机报表
+      if (searchParams?.reportType === reportTypeEnum.FanColumns) {
+        fieldColumns = cloneDeep(fanColumns);
+      }
+      // 柴发报表
+      if (searchParams?.reportType === reportTypeEnum.ChaiFaColumns) {
+        fieldColumns = cloneDeep(chaiFaColumns);
       }
     }
     return [...siteSearch, ...currentSearchColumns, ...fieldColumns];

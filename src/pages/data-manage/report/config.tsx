@@ -243,9 +243,9 @@ export const siteColumns: ProColumns[] = [
     children: [
       {
         title:
-          formatMessage({ id: 'siteMonitor.mainsCapacity', defaultMessage: '市电电量' }) + '(kWh)',
+          formatMessage({ id: 'siteMonitor.mainsCapacity', defaultMessage: '市电供电量' }) + '(kWh)',
         dataIndex: 'meq',
-        width: 120,
+        width: 150,
         ellipsis: true,
       },
       {
@@ -254,6 +254,156 @@ export const siteColumns: ProColumns[] = [
           defaultMessage: '市电电费',
         })}(${formatMessage({ id: 'common.rmb', defaultMessage: '元' })})`,
         dataIndex: 'meb',
+        width: 120,
+        ellipsis: true,
+      },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
+    hideInSearch: true,
+    dataIndex: 'pv',
+    children: [
+      {
+        title:
+          formatMessage({ id: 'siteManage.set.pvPowerGeneration', defaultMessage: '光伏发电量' }) +
+          '(kWh)',
+        dataIndex: 'pvpg',
+        width: 150,
+        ellipsis: true,
+      },
+      // {
+      //   title:
+      //     formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }) +
+      //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+      //   dataIndex: 'pvr',
+      //   width: 120,
+      //   ellipsis: true,
+      // },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'screen.1010', defaultMessage: '风机' }),
+    hideInSearch: true,
+    dataIndex: 'fan',
+    children: [
+      {
+        title:
+          formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }) +
+          '(kWh)',
+        dataIndex: 'fanRatedPower',
+        width: 150,
+        ellipsis: true,
+      }
+    ],
+  },
+  {
+    title: formatMessage({ id: 'screen.1009', defaultMessage: '柴发' }),
+    hideInSearch: true,
+    dataIndex: 'diesel',
+    children: [
+      {
+        title:
+          formatMessage({ id: 'siteManage.1022', defaultMessage: '柴发发电量' }) +
+          '(kWh)',
+        dataIndex: 'dieselRatedPower',
+        width: 150,
+        ellipsis: true,
+      }
+    ],
+  },
+  {
+    title: formatMessage({ id: 'dataManage.spontaneousSelfUse', defaultMessage: '自发自用' }),
+    dataIndex: 'self',
+    hideInSearch: true,
+    children: [
+      {
+        title:
+          formatMessage({ id: 'siteMonitor.SelfGeneratedElectriConsumption', defaultMessage: '自发自用电量' }) +
+          '(kWh)',
+        dataIndex: 'selfElectricityLevel',
+        width: 150,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        dataIndex: 'selfIncome',
+        width: 120,
+        ellipsis: true,
+      },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'screen.1018', defaultMessage: '馈网' }),
+    dataIndex: 'self',
+    hideInSearch: true,
+    children: [
+      {
+        title:
+          formatMessage({ id: 'screen.1015', defaultMessage: '馈网电量' }) +
+          '(kWh)',
+        dataIndex: 'disCharge',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        dataIndex: 'selfIncome',
+        width: 120,
+        ellipsis: true,
+      },
+    ],
+  },
+  {
+    title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
+    hideInSearch: true,
+    dataIndex: 'storage',
+    children: [
+      {
+        title:
+          formatMessage({
+            id: 'siteManage.set.energyStorageCharge',
+            defaultMessage: '储能充电量',
+          }) + '(kWh)',
+        dataIndex: 'escc',
+        width: 150,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({
+            id: 'siteManage.set.energyStorageDischarge',
+            defaultMessage: '储能放电量',
+          }) + '(kWh)',
+        dataIndex: 'esdc',
+        width: 150,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({ id: 'dataManage.chargingCost', defaultMessage: '充电成本' }) +
+          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        dataIndex: 'cc',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({ id: 'dataManage.dischargeIncome', defaultMessage: '放电收入' }) +
+          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        dataIndex: 'di',
+        width: 120,
+        ellipsis: true,
+      },
+      {
+        title:
+          formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }) +
+          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+        dataIndex: 'esi',
         width: 120,
         ellipsis: true,
       },
@@ -305,80 +455,6 @@ export const siteColumns: ProColumns[] = [
           formatMessage({ id: 'device.chargingRevenue', defaultMessage: '充电桩收益' }) +
           formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
         dataIndex: 'ics',
-        width: 120,
-        ellipsis: true,
-      },
-    ],
-  },
-  {
-    title: formatMessage({ id: 'device.pv', defaultMessage: '光伏' }),
-    hideInSearch: true,
-    dataIndex: 'pv',
-    children: [
-      {
-        title:
-          formatMessage({ id: 'siteManage.set.pvPowerGeneration', defaultMessage: '光伏发电量' }) +
-          '(kWh)',
-        dataIndex: 'pvpg',
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({ id: 'device.pvRevenue', defaultMessage: '光伏收益' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-        dataIndex: 'pvr',
-        width: 120,
-        ellipsis: true,
-      },
-    ],
-  },
-  {
-    title: formatMessage({ id: 'device.storage', defaultMessage: '储能' }),
-    hideInSearch: true,
-    dataIndex: 'storage',
-    children: [
-      {
-        title:
-          formatMessage({
-            id: 'siteManage.set.energyStorageCharge',
-            defaultMessage: '储能充电量',
-          }) + '(kWh)',
-        dataIndex: 'escc',
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({
-            id: 'siteManage.set.energyStorageDischarge',
-            defaultMessage: '储能放电量',
-          }) + '(kWh)',
-        dataIndex: 'esdc',
-        width: 150,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({ id: 'dataManage.ChargingFees', defaultMessage: '充电成本' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-        dataIndex: 'cc',
-        width: 120,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({ id: 'dataManage.dischargeIncome', defaultMessage: '放电收入' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-        dataIndex: 'di',
-        width: 120,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({ id: 'device.storageRevenue', defaultMessage: '储能收益' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-        dataIndex: 'esi',
         width: 120,
         ellipsis: true,
       },
@@ -538,8 +614,8 @@ export const pvInverterColumns: ProColumns[] = [
     width: 150,
   },
   {
-    title: formatMessage({ id: 'dataManage.spontaneousSelfUse', defaultMessage: '自发自用' }),
-    dataIndex: 'self',
+    title: formatMessage({ id: 'screen.owerPvGeneration', defaultMessage: '光伏发电量' }),
+    dataIndex: 'pvPowerGeneration',
     hideInSearch: true,
     children: [
       {
@@ -555,14 +631,14 @@ export const pvInverterColumns: ProColumns[] = [
             width: 120,
             ellipsis: true,
           },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'sharpIncome',
-            width: 120,
-            ellipsis: true,
-          },
+          // {
+          //   title:
+          //     formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+          //   dataIndex: 'sharpIncome',
+          //   width: 120,
+          //   ellipsis: true,
+          // },
         ],
       },
       {
@@ -578,14 +654,14 @@ export const pvInverterColumns: ProColumns[] = [
             width: 120,
             ellipsis: true,
           },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'peakIncome',
-            width: 120,
-            ellipsis: true,
-          },
+          // {
+          //   title:
+          //     formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+          //   dataIndex: 'peakIncome',
+          //   width: 120,
+          //   ellipsis: true,
+          // },
         ],
       },
       {
@@ -601,14 +677,14 @@ export const pvInverterColumns: ProColumns[] = [
             width: 120,
             ellipsis: true,
           },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'flatIncome',
-            width: 120,
-            ellipsis: true,
-          },
+          // {
+          //   title:
+          //     formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+          //   dataIndex: 'flatIncome',
+          //   width: 120,
+          //   ellipsis: true,
+          // },
         ],
       },
       {
@@ -624,14 +700,14 @@ export const pvInverterColumns: ProColumns[] = [
             width: 120,
             ellipsis: true,
           },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'valleyIncome',
-            width: 120,
-            ellipsis: true,
-          },
+          // {
+          //   title:
+          //     formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+          //   dataIndex: 'valleyIncome',
+          //   width: 120,
+          //   ellipsis: true,
+          // },
         ],
       },
       {
@@ -647,69 +723,69 @@ export const pvInverterColumns: ProColumns[] = [
             width: 120,
             ellipsis: true,
           },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'selfIncome',
-            width: 120,
-            ellipsis: true,
-          },
+          // {
+          //   title:
+          //     formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+          //     formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+          //   dataIndex: 'selfIncome',
+          //   width: 120,
+          //   ellipsis: true,
+          // },
         ],
       },
     ],
   },
-  {
-    title: formatMessage({ id: 'dataManage.photovoltaicOnline', defaultMessage: '光伏上网' }),
-    dataIndex: 'pvGrid',
-    hideInSearch: true,
-    children: [
-      {
-        title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
-        dataIndex: 'pvGridTotal',
-        children: [
-          {
-            title:
-              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
-              '(kWh)',
-            dataIndex: 'pvgElectricityLevel',
-            width: 110,
-            ellipsis: true,
-          },
-          {
-            title:
-              formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-              formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-            dataIndex: 'pvgIncome',
-            width: 110,
-            ellipsis: true,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
-    dataIndex: 'total',
-    hideInSearch: true,
-    children: [
-      {
-        title:
-          formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) + '(kWh)',
-        dataIndex: 'electricityLevel',
-        width: 120,
-        ellipsis: true,
-      },
-      {
-        title:
-          formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
-          formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
-        dataIndex: 'income',
-        width: 120,
-        ellipsis: true,
-      },
-    ],
-  },
+  // {
+  //   title: formatMessage({ id: 'dataManage.photovoltaicOnline', defaultMessage: '光伏上网' }),
+  //   dataIndex: 'pvGrid',
+  //   hideInSearch: true,
+  //   children: [
+  //     {
+  //       title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+  //       dataIndex: 'pvGridTotal',
+  //       children: [
+  //         {
+  //           title:
+  //             formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+  //             '(kWh)',
+  //           dataIndex: 'pvgElectricityLevel',
+  //           width: 110,
+  //           ellipsis: true,
+  //         },
+  //         {
+  //           title:
+  //             formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+  //             formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+  //           dataIndex: 'pvgIncome',
+  //           width: 110,
+  //           ellipsis: true,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: formatMessage({ id: 'dataManage.total', defaultMessage: '总计' }),
+  //   dataIndex: 'total',
+  //   hideInSearch: true,
+  //   children: [
+  //     {
+  //       title:
+  //         formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) + '(kWh)',
+  //       dataIndex: 'electricityLevel',
+  //       width: 120,
+  //       ellipsis: true,
+  //     },
+  //     {
+  //       title:
+  //         formatMessage({ id: 'dataManage.income', defaultMessage: '收益' }) +
+  //         formatMessage({ id: 'device.unitRevenue', defaultMessage: '(元)' }),
+  //       dataIndex: 'income',
+  //       width: 120,
+  //       ellipsis: true,
+  //     },
+  //   ],
+  // },
 ];
 
 export const energyColumns: ProColumns[] = [
@@ -1611,6 +1687,190 @@ export const chargeBaseColumns: ProColumns[] = [
         dataIndex: 'totalRevenue',
         width: 120,
         ellipsis: true,
+      },
+    ],
+  },
+];
+
+// 风机报表
+export const fanColumns: ProColumns[] = [
+  {
+    title: formatMessage({ id: 'dataManage.statisticalTime', defaultMessage: '统计时间' }),
+    dataIndex: 'statisticalDimension',
+    hideInSearch: true,
+    width: 150,
+  },
+  {
+    title: formatMessage({ id: 'screen.1014', defaultMessage: '风机发电量' }),
+    dataIndex: 'fanRatedPower',
+    hideInSearch: true,
+    children: [
+      {
+        title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'tip',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'sharpElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'peak',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'peakElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'flat',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'flatElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'valley',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'valleyElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'selfTotal',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'selfElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+    ],
+  },
+];
+
+// 柴发报表
+export const chaiFaColumns: ProColumns[] = [
+  {
+    title: formatMessage({ id: 'dataManage.statisticalTime', defaultMessage: '统计时间' }),
+    dataIndex: 'statisticalDimension',
+    hideInSearch: true,
+    width: 150,
+  },
+  {
+    title: formatMessage({ id: 'siteManage.1022', defaultMessage: '柴发发电量' }),
+    dataIndex: 'dieselRatedPower',
+    hideInSearch: true,
+    children: [
+      {
+        title: formatMessage({ id: 'dataManage.theTip', defaultMessage: '尖' }),
+        dataIndex: 'tip',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'sharpElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.peak', defaultMessage: '峰' }),
+        dataIndex: 'peak',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'peakElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.flat', defaultMessage: '平' }),
+        dataIndex: 'flat',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'flatElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'dataManage.valley', defaultMessage: '谷' }),
+        dataIndex: 'valley',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'valleyElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
+      },
+      {
+        title: formatMessage({ id: 'siteMonitor.total', defaultMessage: '总' }),
+        dataIndex: 'selfTotal',
+        hideInSearch: true,
+        children: [
+          {
+            title:
+              formatMessage({ id: 'dataManage.electricQuantity', defaultMessage: '电量' }) +
+              '(kWh)',
+            dataIndex: 'selfElectricityLevel',
+            width: 120,
+            ellipsis: true,
+          },
+        ],
       },
     ],
   },
