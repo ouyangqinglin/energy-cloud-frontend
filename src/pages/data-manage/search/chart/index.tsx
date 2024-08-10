@@ -90,10 +90,6 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
     searchData?.keyValue?.forEach?.(() => {
       options.series.push({
         type: 'line',
-        showAllSymbol: true,
-        symbolSize: 1,
-        large: true,
-        sampling: 'lttb',
         markPoint: {
           emphasis: {
             label: {
