@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-04 10:22:48
- * @LastEditTime: 2024-07-31 16:20:01
+ * @LastEditTime: 2024-08-09 16:11:09
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\chart\index.tsx
  */
@@ -25,6 +25,7 @@ import { merge } from 'lodash';
 import { DeviceModelTypeEnum, formatModelValue, getPlaceholder, isEmpty, saveFile } from '@/utils';
 import { getModelMap } from '../config';
 import moment from 'moment';
+import { getAllMinute } from '@/components/Chart/TypeChart/config';
 
 type ChartType = {
   searchData: TableSearchType;
@@ -178,8 +179,10 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
         });
         const labels: string[] = [];
         data?.forEach?.(({ time, devices }) => {
-          if (labels[labels.length - 1] !== time) {
-            labels.push(time || '');
+          if (isEmpty(searchData.timeBucket)) {
+            if (labels[labels.length - 1] !== time) {
+              labels.push(time || '');
+            }
           }
           devices?.forEach?.((item) => {
             let value = item.value;
@@ -218,7 +221,24 @@ const Chart = forwardRef<any, ChartType>((props, ref) => {
           });
         });
         setChartData(dataSource);
-        setAllLabel(labels);
+        if (!isEmpty(searchData.timeBucket)) {
+          const allMinuteLabel: string[] = [];
+          const allMinute = getAllMinute(Number(searchData.timeBucket));
+          const startTime = moment(moment(searchData.startTime).format('YYYY-MM-DD 00:00:00'));
+          while (
+            startTime.isSameOrBefore(
+              moment(moment(searchData.endTime).format('YYYY-MM-DD 00:00:00')),
+            )
+          ) {
+            allMinuteLabel.push(
+              ...allMinute.map((item) => startTime.format(`YYYY-MM-DD ${item}:00`)),
+            );
+            startTime.add(1, 'day');
+          }
+          setAllLabel(allMinuteLabel);
+        } else {
+          setAllLabel(labels);
+        }
       } else {
         chartRef.current?.getEchartsInstance?.()?.clear?.();
         setChartData([]);

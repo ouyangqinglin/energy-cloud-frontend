@@ -30,7 +30,6 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
     searchParams,
   } = props;
 
-  const chartRef = useRef<EChartsReact>(null);
   const [chartData, setChartData] = useState<TypeChartDataType[]>();
   const [chartType, setChartType] = useState<chartTypeEnum>(chartTypeEnum.Day);
   const [step, setStep] = useState(2);
@@ -211,7 +210,6 @@ const CollectionChart: React.FC<CollectionChartType> = (props) => {
   return (
     <>
       <TypeChart
-        chartRef={chartRef}
         type={chartType}
         step={step}
         option={chartOption}
