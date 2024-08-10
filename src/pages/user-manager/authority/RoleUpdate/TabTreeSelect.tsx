@@ -25,8 +25,8 @@ const TabTreeSelect = (tabProps: any) => {
 
   const onTreeSelectChange = (newVal: any) => {
     const curvValue = form.getFieldValue('menuKeys') || [];
+    console.log('newVal>>', newVal);
     curvValue[category] = newVal;
-    console.log('curvValue>>', curvValue);
     onChange(curvValue);
   };
   const tabsItem: TabsProps['items'] = useMemo(() => {

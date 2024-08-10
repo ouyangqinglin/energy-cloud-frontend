@@ -45,18 +45,6 @@ const Log: React.FC = () => {
     return getLogList({ ...rest, ...filters });
   }, []);
 
-  //获取产品类型
-  const requestProductType = useCallback((searchParams: SearchParams) => {
-    return getProductTypeList(searchParams).then(({ data }) => {
-      return data?.map?.((item) => {
-        return {
-          label: item?.name || '',
-          value: item?.id || '',
-        };
-      });
-    });
-  }, []);
-
   const productTypeColumn = {
     title: formatMessage({ id: 'common.productType', defaultMessage: '产品类型' }),
     dataIndex: 'productTypeName',
@@ -65,13 +53,19 @@ const Log: React.FC = () => {
     },
     hideInTable: true,
     valueType: 'cascader',
-    fieldProps: {
-      fieldNames: {
-        label: 'name',
-        value: 'id',
-      },
-      options: productTypeList,
-      changeOnSelect: true,
+    fieldProps: (form: any) => {
+      return {
+        fieldNames: {
+          label: 'name',
+          value: 'id',
+        },
+        options: productTypeList,
+        changeOnSelect: true,
+        onChange: () => {
+          form.setFieldValue('moduleMark', null);
+          form.setFieldValue('id', null);
+        },
+      };
     },
   };
   //获取站点信息
@@ -104,6 +98,13 @@ const Log: React.FC = () => {
     hideInTable: true,
     dependencies: ['productTypeInfo'],
     request: requestModule,
+    fieldProps: (form: any) => {
+      return {
+        onChange: () => {
+          form.setFieldValue('id', null);
+        },
+      };
+    },
   };
   //获取升级版本号--依赖产品型号id
   const requestVersion = useCallback(({ productTypeInfo }) => {

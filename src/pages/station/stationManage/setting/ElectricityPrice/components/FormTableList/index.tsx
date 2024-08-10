@@ -287,103 +287,105 @@ const FormTableList = <DataType extends Record<string, any>>(
     });
   };
 
-  const currentColums: YTProColumns<DataType, any>[] = [
-    ...tableColumns,
-    {
-      title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
-      dataIndex: 'status',
-      hideInSearch: true,
-      hideInTable: inDevice,
-      render: (_, record) => {
-        const rowData = record as any;
-        return [
-          <Switch
-            disabled={!hasAuthority().setStatus}
-            checked={rowData.status == 1} //0--未生效 1-生效
-            checkedChildren={formatMessage({
-              id: 'common.effect',
-              defaultMessage: '生效',
-            })}
-            unCheckedChildren={formatMessage({
-              id: 'common.ineffect',
-              defaultMessage: '未生效',
-            })}
-            key="Checke"
-            onClick={async () => {
-              Modal.confirm({
-                title: formatMessage({
-                  id: 'siteManage.siteList.changeStatus',
-                  defaultMessage: '更改状态',
-                }),
-                content: ` ${formatMessage({
-                  id: 'siteManage.siteList.changeStatus',
-                  defaultMessage: '更改状态',
-                })}：${
-                  rowData.status
-                    ? formatMessage({
-                        id: 'common.ineffect',
-                        defaultMessage: '未生效',
-                      })
-                    : formatMessage({
-                        id: 'common.effect',
-                        defaultMessage: '生效',
-                      })
-                }?`,
-                okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-                cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-                onOk: async () => {
-                  rowData.status == 1 ? (rowData.status = 0) : (rowData.status = 1);
-                  const success = await onChangeStatus({ id: rowData.id, type: priceType });
-                  if (success) {
-                    if (actionRef?.current) {
-                      actionRef?.current?.reload();
+  const currentColums: YTProColumns<DataType, any>[] = useMemo(() => {
+    return [
+      ...tableColumns,
+      {
+        title: formatMessage({ id: 'common.currentState', defaultMessage: '当前状态' }),
+        dataIndex: 'status',
+        hideInSearch: true,
+        hideInTable: inDevice,
+        render: (_, record) => {
+          const rowData = record as any;
+          return [
+            <Switch
+              disabled={!hasAuthority().setStatus}
+              checked={rowData.status == 1} //0--未生效 1-生效
+              checkedChildren={formatMessage({
+                id: 'common.effect',
+                defaultMessage: '生效',
+              })}
+              unCheckedChildren={formatMessage({
+                id: 'common.ineffect',
+                defaultMessage: '未生效',
+              })}
+              key="Checke"
+              onClick={async () => {
+                Modal.confirm({
+                  title: formatMessage({
+                    id: 'siteManage.siteList.changeStatus',
+                    defaultMessage: '更改状态',
+                  }),
+                  content: ` ${formatMessage({
+                    id: 'siteManage.siteList.changeStatus',
+                    defaultMessage: '更改状态',
+                  })}：${
+                    rowData.status
+                      ? formatMessage({
+                          id: 'common.ineffect',
+                          defaultMessage: '未生效',
+                        })
+                      : formatMessage({
+                          id: 'common.effect',
+                          defaultMessage: '生效',
+                        })
+                  }?`,
+                  okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                  cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                  onOk: async () => {
+                    const success = await onChangeStatus({ id: rowData.id, type: priceType });
+                    if (success) {
+                      if (actionRef?.current) {
+                        actionRef?.current?.reload();
+                      }
                     }
-                  }
-                },
-              });
-            }}
-          />,
-        ];
+                  },
+                });
+              }}
+            />,
+          ];
+        },
       },
-    },
-    {
-      title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
-      valueType: 'option',
-      width: 250,
-      fixed: 'right',
-      render: (_, record) => {
-        const rowData = record as any;
-        return (
-          <>
-            {hasAuthority().refresh && rowData.status ? (
-              <Button type="link" size="small" key="refresh" onClick={() => onRefresh(rowData)}>
-                {formatMessage({ id: 'siteManage.1033', defaultMessage: '收益刷新' })}
+      {
+        title: formatMessage({ id: 'common.operate', defaultMessage: '操作' }),
+        valueType: 'option',
+        width: 250,
+        render: (_, record) => {
+          const rowData = record as any;
+          return (
+            <>
+              {hasAuthority().refresh && rowData.status ? (
+                <Button type="link" size="small" key="refresh" onClick={() => onRefresh(rowData)}>
+                  {formatMessage({ id: 'siteManage.1033', defaultMessage: '收益刷新' })}
+                </Button>
+              ) : (
+                <></>
+              )}
+              <Button type="link" size="small" key="detail" onClick={() => onDetail(rowData)}>
+                {formatMessage({ id: 'common.detail', defaultMessage: '查看详情' })}
               </Button>
-            ) : (
-              <></>
-            )}
-            <Button type="link" size="small" key="delete" onClick={() => onDetail(rowData)}>
-              {formatMessage({ id: 'common.detail', defaultMessage: '查看详情' })}
-            </Button>
-            {hasAuthority().delete && !inDevice ? (
-              <Button type="link" size="small" key="delete" onClick={() => onDelete(rowData)}>
-                {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
-              </Button>
-            ) : (
-              <></>
-            )}
-            {hasAuthority().update && !inDevice ? (
-              <Button type="link" size="small" key="delete" onClick={() => onEdit(rowData)}>
-                {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
-              </Button>
-            ) : (
-              <></>
-            )}
-          </>
-        );
+
+              {hasAuthority().delete && !inDevice ? (
+                <Button type="link" size="small" key="delete" onClick={() => onDelete(rowData)}>
+                  {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
+                </Button>
+              ) : (
+                <></>
+              )}
+              {hasAuthority().update && !inDevice ? (
+                <Button type="link" size="small" key="edit" onClick={() => onEdit(rowData)}>
+                  {formatMessage({ id: 'common.edit', defaultMessage: '编辑' })}
+                </Button>
+              ) : (
+                <></>
+              )}
+            </>
+          );
+        },
       },
-    },
-  ];
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    ];
+  }, [actionRef, hasAuthority, tableColumns]);
 
   const onDataSourceChange = useCallback((data) => {
     setHasTableData(!!data?.length);

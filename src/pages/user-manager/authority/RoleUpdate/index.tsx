@@ -10,7 +10,7 @@ import { getProductTypeList } from '@/services/equipment';
 import { getRoleSiteList } from '@/services/station';
 
 import TabTreeSelect from './TabTreeSelect';
-import { merge } from 'lodash';
+import { difference } from 'lodash';
 
 export const RoleUpdate = (props: FormUpdateBaseProps) => {
   const { type } = props;
@@ -124,40 +124,33 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
   }, [type]);
 
   const afterRequest = useCallback((data) => {
-    const menuKeys = {
+    const webMenuKeys = {
       halfCheckedKeys: data?.halfMenuIds || [],
-      checkedKeys: [],
-    } as any;
-    const halfKeySet = new Set(menuKeys.halfCheckedKeys);
-    (data?.menuIds || []).forEach((item: number) => {
-      if (!halfKeySet.has(item)) {
-        menuKeys.checkedKeys.push(item);
-      }
-    });
-    data.menuKeys = [menuKeys, menuKeys];
+      checkedKeys: difference(data?.menuIds || [], data?.halfMenuIds || []),
+    };
+    const appMenuKeys = {
+      halfCheckedKeys: data?.halfMenuIds || [],
+      checkedKeys: difference(data?.appMenuIds || [], data?.halfAppMenuIds || []),
+    };
+    data.menuKeys = [webMenuKeys, appMenuKeys];
   }, []);
 
   const beforeSubmit = useCallback((data) => {
-    const menuKeys = {
-      checkedKeys: [],
-      halfCheckedKeys: [],
-    } as any;
+    // web
     const webMenuKeys = data?.menuKeys?.[0];
-    const appMenuKeys = data?.menuKeys?.[1];
-    if (webMenuKeys?.checkedKeys && appMenuKeys?.checkedKeys) {
-      menuKeys.checkedKeys = [...new Set(webMenuKeys.checkedKeys.concat(appMenuKeys.checkedKeys))];
-    }
-    if (webMenuKeys?.halfCheckedKeys && appMenuKeys?.halfCheckedKeys) {
-      menuKeys.halfCheckedKeys = [
-        ...new Set(webMenuKeys.halfCheckedKeys.concat(appMenuKeys.halfCheckedKeys)),
-      ];
-    }
-    console.log('menuKeys>>', menuKeys);
-    data.menuIds = menuKeys.checkedKeys;
+    data.menuIds = webMenuKeys.checkedKeys;
     data.halfMenuIds = null;
-    if (menuKeys.halfCheckedKeys.length) {
-      data.halfMenuIds = menuKeys.halfCheckedKeys;
-      data.menuIds.push(...menuKeys.halfCheckedKeys);
+    if (webMenuKeys.halfCheckedKeys.length) {
+      data.halfMenuIds = webMenuKeys.halfCheckedKeys;
+      data.menuIds.push(...data.halfMenuIds);
+    }
+    //app
+    const appMenuKeys = data?.menuKeys?.[1];
+    data.appMenuIds = appMenuKeys.checkedKeys;
+    data.halfAppMenuIds = null;
+    if (appMenuKeys.halfCheckedKeys.length) {
+      data.halfAppMenuIds = appMenuKeys.halfCheckedKeys;
+      data.appMenuIds.push(...data.halfAppMenuIds);
     }
     delete data.menuKeys;
   }, []);
