@@ -175,7 +175,7 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
     hideInTable: true,
   },
   {
-    title: formatMessage({ id: 'device.startmeterRead', defaultMessage: '开始电表读数' }) + '(kWh)',
+    title: formatMessage({ id: 'device.1018', defaultMessage: '开始电表读数' }) + '(kWh)',
     hideInSearch: true,
     dataIndex: 'startMeter',
     hideInTable: true,
@@ -250,7 +250,7 @@ export const option = {
     formatter: function (params: any) {
       let result: string = params[0].axisValueLabel;
       params.forEach(function (item: any, index: number) {
-        let label = item.seriesName;
+        const label = item.seriesName;
         let unit, value, color;
         switch (label) {
           case 'SOC':
@@ -284,7 +284,22 @@ export const option = {
             color = '#8080FF';
             break;
         }
-        result += '<div style="display: flex; align-items: center;">' + '<span style="width: 10px; height: 10px; background-color: ' + `${color}` + '; border-radius: 5px;">' + '</span>' + '<span style="text-align: left; padding-left: 5px;">' + label + '(' + unit + '):&nbsp;' + '</span>' + '<span>' + value + '</span>' + '</div>';
+        result +=
+          '<div style="display: flex; align-items: center;">' +
+          '<span style="width: 10px; height: 10px; background-color: ' +
+          `${color}` +
+          '; border-radius: 5px;">' +
+          '</span>' +
+          '<span style="text-align: left; padding-left: 5px;">' +
+          label +
+          '(' +
+          unit +
+          '):&nbsp;' +
+          '</span>' +
+          '<span>' +
+          value +
+          '</span>' +
+          '</div>';
       });
       return result;
     },
