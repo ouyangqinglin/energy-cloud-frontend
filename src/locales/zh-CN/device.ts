@@ -413,7 +413,6 @@ export default {
   'device.stopId': '停止编码',
   'device.stopChildId': '停止子编码',
   'device.chargeDuration': '充电时长',
-  'device.starmeterRead': '开始电表读数',
   'device.endmeterRead': '结束电表读数',
   'device.totalServiceCharge': '总服务费',
   'device.serviceType': '服务器类型',
@@ -515,5 +514,5 @@ export default {
   'device.1015': '最低电压',
   'device.1016': '最高温度',
   'device.1017': '最低温度',
-  'device.startmeterRead': '开始电表读数',
+  'device.1018': '开始电表读数',
 };

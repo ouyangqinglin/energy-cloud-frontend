@@ -140,8 +140,6 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
           });
 
         });
-        console.log("999", currentVChartData);
-        console.log("000", currentVChartData);
         setChartData(currentVChartData);
       });
     }

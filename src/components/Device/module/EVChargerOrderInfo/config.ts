@@ -175,7 +175,7 @@ export const columns = (isHistory: boolean): ProColumns<OrderDataType, YTDATERAN
     hideInTable: true,
   },
   {
-    title: formatMessage({ id: 'device.startmeterRead', defaultMessage: '开始电表读数' }) + '(kWh)',
+    title: formatMessage({ id: 'device.1018', defaultMessage: '开始电表读数' }) + '(kWh)',
     hideInSearch: true,
     dataIndex: 'startMeter',
     hideInTable: true,

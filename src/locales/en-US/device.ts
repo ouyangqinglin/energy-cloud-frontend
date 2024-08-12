@@ -520,4 +520,5 @@ export default {
   'device.1015': 'Min Vol',
   'device.1016': 'Max Temp',
   'device.1017': 'Min Temp',
+  'device.1018': 'Start reading the electricity meter',
 };
