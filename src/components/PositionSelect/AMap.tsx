@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:48:10
- * @LastEditTime: 2024-08-12 11:25:30
+ * @LastEditTime: 2024-08-12 17:08:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\AMap.tsx
  */
@@ -14,7 +14,7 @@ import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/types';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
-import { formatMessage, getAreaCodeByAdCode, getLocale, getPlaceholder } from '@/utils';
+import { formatMessage, getAreaCodeByAdCode, getLocale, getPlaceholder, isEmpty } from '@/utils';
 import { AmapLang } from '@/utils/dictionary';
 import { PositionSelectType } from '.';
 
@@ -33,14 +33,14 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (point && point.lat && point.lng) {
+    if (point && !isEmpty(point.lat) && !isEmpty(point.lng)) {
       setInputPoint(`${point?.lng},${point?.lat}`);
     }
   }, [point]);
 
   useEffect(() => {
     setAddress(value?.address || '');
-    if (value?.point && value?.point?.lng && value?.point?.lat) {
+    if (value?.point && !isEmpty(value?.point?.lng) && !isEmpty(value?.point?.lat)) {
       getPoint(value.point?.lng, value.point?.lat).then((res) => {
         if (res) {
           setPoint(res);

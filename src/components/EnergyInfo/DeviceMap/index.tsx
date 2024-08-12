@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-08-12 09:43:55
- * @LastEditTime: 2024-08-12 14:28:21
+ * @LastEditTime: 2024-08-12 17:03:42
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\EnergyInfo\DeviceMap\index.tsx
  */
@@ -13,7 +13,7 @@ import PositionSelect from '@/components/PositionSelect';
 import { useGeocoder, useSubscribe } from '@/hooks';
 import { DeviceDataType } from '@/services/equipment';
 import { getStation } from '@/services/station';
-import { formatMessage } from '@/utils';
+import { formatMessage, isEmpty } from '@/utils';
 import { mapTypeOptions } from '@/utils/dict';
 import { DeviceProductTypeEnum, MapTypeEnum } from '@/utils/dictionary';
 import { getGeocoder, getPoint } from '@/utils/map';
@@ -54,9 +54,9 @@ const DeviceMap: React.FC<DeviceMapType> = (props) => {
 
   const position = useMemo(() => {
     const result: PositionType = {
-      lng: emsRealTImeData?.longitude || siteData?.longitude,
-      lat: emsRealTImeData?.latitude || siteData?.latitude,
-      high: emsRealTImeData?.altitude || '',
+      lng: emsRealTImeData?.longitude ?? siteData?.longitude,
+      lat: emsRealTImeData?.latitude ?? siteData?.latitude,
+      high: emsRealTImeData?.altitude ?? '',
     };
     return result;
   }, [emsRealTImeData, siteData]);
@@ -75,7 +75,7 @@ const DeviceMap: React.FC<DeviceMapType> = (props) => {
 
   return (
     <>
-      {position?.lng && position?.lat && (
+      {!isEmpty(position?.lng) && !isEmpty(position?.lat) && (
         <div className="card-wrap shadow p20 mb20">
           <Detail.Label
             className="mb12"

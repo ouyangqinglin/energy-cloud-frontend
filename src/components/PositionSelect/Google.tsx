@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-08-12 14:03:53
+ * @LastEditTime: 2024-08-12 17:07:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
@@ -13,7 +13,7 @@ import { Marker, mapEventHandler } from 'google-maps-react';
 import GoogleMap from '../Map/GoogleMap';
 import type { OptionType } from '@/types';
 import { debounce } from 'lodash';
-import { formatMessage, getPlaceholder } from '@/utils';
+import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { PositionSelectType } from '.';
 import MapContext from '../MapContain/MapContext';
 import { useAutocomplete, useGeocoder } from '@/hooks';
@@ -143,14 +143,14 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
   };
 
   useEffect(() => {
-    if (point && point.lat && point.lng) {
+    if (point && !isEmpty(point.lat) && !isEmpty(point.lng)) {
       setInputPoint(`${point?.lng},${point?.lat}`);
     }
   }, [point]);
 
   useEffect(() => {
     setAddress(value?.address || '');
-    if (value?.point && value?.point?.lng && value?.point?.lat) {
+    if (value?.point && !isEmpty(value?.point?.lng) && !isEmpty(value?.point?.lat)) {
       setPoint(value?.point);
       setCenter(value?.point);
       mapRef?.current?.setZoom?.(17);

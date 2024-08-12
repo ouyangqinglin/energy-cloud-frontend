@@ -8,6 +8,7 @@
  */
 
 import { useGeocoder } from '@/hooks';
+import { isEmpty } from '@/utils';
 import { MapTypeEnum } from '@/utils/dictionary';
 import { getGeocoder, getPoint } from '@/utils/map';
 import React, { memo, useCallback, useEffect, useState } from 'react';
@@ -37,7 +38,7 @@ const Address: React.FC<AddressType> = (props) => {
   });
 
   useEffect(() => {
-    if (lng && lat) {
+    if (!isEmpty(lng) && !isEmpty(lat)) {
       if (mapType == MapTypeEnum.AMap) {
         getPoint(Number(lng), Number(lat)).then((point) => {
           getGeocoder().then(({ getAddress }) => {
@@ -53,8 +54,8 @@ const Address: React.FC<AddressType> = (props) => {
       } else {
         setGeocoderParams({
           location: {
-            lng: lng,
-            lat: lat,
+            lng: lng as number,
+            lat: lat as number,
           },
         });
       }

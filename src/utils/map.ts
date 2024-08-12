@@ -2,12 +2,12 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-03-13 19:26:34
- * @LastEditTime: 2024-02-23 15:10:18
+ * @LastEditTime: 2024-08-12 16:47:16
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\utils\map.ts
  */
 import { AmapLang, AutoComStatusEnum } from './dictionary';
-import { getLocale } from './index';
+import { getLocale, isEmpty } from './index';
 
 interface IAutoComResult {
   autoComplete: AMap.AutoComplete;
@@ -76,7 +76,7 @@ export function getGeocoder() {
 
         const getAddress = (point: AMap.LngLat) => {
           return new Promise<any>((resolve, reject) => {
-            if (point.lng && point.lat) {
+            if (!isEmpty(point.lng) && !isEmpty(point.lat)) {
               getPoint(point.lng, point.lat).then((resPoint) => {
                 geocoder.getAddress(resPoint, (status: AutoComStatusEnum, result: any) => {
                   if (status === AutoComStatusEnum.Complete) {
