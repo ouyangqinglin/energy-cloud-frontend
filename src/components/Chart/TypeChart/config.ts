@@ -10,7 +10,7 @@ import moment from 'moment';
 import type { Moment } from 'moment';
 import { chartTypeEnum } from '../config';
 
-const getAllMinute = (step = 2, hourRange: boolean) => {
+export const getAllMinute = (step = 2, hourRange?: boolean) => {
   return Array.from({ length: (24 * 60) / step }).map((_, index) => {
     const time = moment()
       .startOf('day')

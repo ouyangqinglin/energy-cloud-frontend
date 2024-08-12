@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2024-07-24 09:47:55
+ * @LastEditTime: 2024-08-10 10:19:52
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\chart.tsx
  */
