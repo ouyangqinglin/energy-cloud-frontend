@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import type { DetailItem } from '@/components/Detail';
-import { chargePutFormat, moneyPowerFormat, percentageFormat, powerFormat } from '@/utils/format';
+import { moneyPowerFormat, percentageFormat, powerFormat } from '@/utils/format';
 import type { FormInstance, ProFormColumnsType } from '@ant-design/pro-components';
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import styles from '../index.less';
 import { Col, Row, TimePicker } from 'antd';
 import { formatMessage } from '@/utils';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import type { Moment } from 'moment';
 import { chargeAndDischargeStatus } from '@/utils/dict';
-import { FormAndDetailType } from '@/components/Detail/Detail';
-
+import type { FormAndDetailType } from '@/components/Detail/Detail';
 const hourFormat = 'HH:mm';
 const contrastDate = '2023-01-01 ';
 
