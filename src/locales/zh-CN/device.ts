@@ -516,4 +516,6 @@ export default {
   'device.1016': '最高温度',
   'device.1017': '最低温度',
   'device.startmeterRead': '开始电表读数',
+  'device.1018': '发送',
+  'device.1019': '发送信息',
 };

@@ -221,8 +221,10 @@ const Index: React.FC<AdjustType> = (props) => {
           <Col span={8}>
             <div className={styles.send}>
               <div className={styles.title}>
-                <div>发送信息</div>
-                <Button onClick={sendMessage}>发送</Button>
+                <div>{formatMessage({ id: 'device.1019', defaultMessage: '发送信息' })}</div>
+                <Button onClick={sendMessage}>
+                  {formatMessage({ id: 'device.1018', defaultMessage: '发送' })}
+                </Button>
               </div>
               <div className={styles.data}>
                 <TextArea rows={4} onChange={onChange} value={msg} />

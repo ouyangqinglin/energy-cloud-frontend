@@ -520,4 +520,6 @@ export default {
   'device.1015': 'Min Vol',
   'device.1016': 'Max Temp',
   'device.1017': 'Min Temp',
+  'device.1018': 'Send',
+  'device.1019': 'Send A Message',
 };
