@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-08-09 15:36:01
+ * @LastEditTime: 2024-08-12 15:17:15
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
  */
@@ -17,7 +17,7 @@ import { TABLETREESELECT } from '@/components/TableSelect';
 import type { TABLETREESELECTVALUETYPE } from '@/components/TableSelect';
 import { getDeviceCollection, getSiteDeviceTree } from '@/services/equipment';
 import type { DeviceTreeDataType } from '@/types/device';
-import { formatMessage } from '@/utils';
+import { formatMessage, parseToObj } from '@/utils';
 import { getSitesList } from '@/services/station';
 import { Checkbox, Col, Row } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
@@ -121,7 +121,7 @@ const tableSelectColumns: ProColumns[] = [
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => {
-      const dataType = JSON.parse(record.dataType);
+      const dataType = parseToObj(record.dataType);
       if (!dataType.type) {
         return '-';
       }
@@ -226,6 +226,15 @@ const TimeCom = ({ value, onChange }: any) => {
   );
 };
 
+const requestList = (params: any) =>
+  getDeviceCollection(params).then((res) => {
+    res?.data?.forEach?.((item: any) => {
+      const dataType = parseToObj(item.dataType);
+      item.checkable = ['long', 'double', 'enum'].includes(dataType.type);
+    });
+    return res;
+  });
+
 export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESELECTVALUETYPE>[] = [
   {
     title: formatMessage({
@@ -281,10 +290,10 @@ export const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESE
       proTableProps: {
         pagination: false,
         columns: tableSelectColumns,
-        request: getDeviceCollection,
+        request: requestList,
         rowSelection: {
           renderCell: (checked: any, record: any, index: any, originNode: any) => {
-            const dataType = JSON.parse(record.dataType);
+            const dataType = parseToObj(record.dataType);
             if (['long', 'double', 'enum'].includes(dataType.type)) {
               return originNode;
             } else {
