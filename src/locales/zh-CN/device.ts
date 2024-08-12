@@ -516,4 +516,7 @@ export default {
   'device.1016': '最高温度',
   'device.1017': '最低温度',
   'device.startmeterRead': '开始电表读数',
+  'device.1019': '设备地址',
+  'device.1020': '经纬度',
+  'device.1021': '海拔高度(米)',
 };

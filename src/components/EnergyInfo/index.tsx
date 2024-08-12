@@ -13,7 +13,8 @@ import Power from './Power';
 import Electric from './Electric';
 import { DeviceDataType } from '@/services/equipment';
 import ElectricDiagram from './ElectricDiagram';
-import { DeviceTypeEnum } from '@/utils/dictionary';
+import { DeviceProductTypeEnum, DeviceTypeEnum } from '@/utils/dictionary';
+import Address from './DeviceMap';
 
 export enum EnergySourceEnum {
   SiteMonitor,
@@ -32,6 +33,13 @@ const newWindLiquidEnergy: (DeviceTypeEnum | undefined)[] = [
   DeviceTypeEnum.Wind2Energy,
   // DeviceTypeEnum.PvEnergy,
   // DeviceTypeEnum.SmallEnergy,
+];
+
+const energy: (DeviceProductTypeEnum | undefined)[] = [
+  DeviceProductTypeEnum.Energy,
+  DeviceProductTypeEnum.PvEnergy,
+  DeviceProductTypeEnum.SmallEnergy,
+  DeviceProductTypeEnum.WindPvFirewoodEnergy,
 ];
 
 const EnergyInfo: React.FC<EnergyInfoType> = (props) => {
@@ -56,6 +64,7 @@ const EnergyInfo: React.FC<EnergyInfoType> = (props) => {
       {newWindLiquidEnergy.includes(deviceData?.productId) && (
         <ElectricDiagram deviceData={deviceData} />
       )}
+      {energy.includes(deviceData?.productTypeId) && <Address deviceData={deviceData} />}
     </>
   );
 };

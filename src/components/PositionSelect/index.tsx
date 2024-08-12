@@ -23,6 +23,7 @@ export type PositionSelectValueType = {
   countryName?: string;
   provinceName?: string;
   cityName?: string;
+  high?: number;
 };
 
 export type PositionSelectType = {
@@ -33,6 +34,7 @@ export type PositionSelectType = {
   className?: string;
   type?: MapTypeEnum;
   initCenter?: google.maps.LatLngLiteral;
+  showHigh?: boolean;
 };
 
 const Index: React.FC<PositionSelectType> = (props) => {
