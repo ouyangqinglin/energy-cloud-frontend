@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-07-25 14:03:22
+ * @LastEditTime: 2024-08-12 15:32:04
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
  */
@@ -351,6 +351,9 @@ const StationList: React.FC = () => {
         toolBarRender={authorityMap.get('system:site:create') ? toolBar : () => [<></>]}
         request={requestList}
         resizable={true}
+        onReset={() => {
+          areaSelectRef.current = [];
+        }}
       />
       <StationForm
         id={siteId}

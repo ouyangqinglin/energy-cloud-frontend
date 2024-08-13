@@ -28,6 +28,7 @@ export const defaultOptions = {
       end: 100,
       height: 15,
       bottom: 50,
+      labelFormatter: '',
     },
   ],
   xAxis: {

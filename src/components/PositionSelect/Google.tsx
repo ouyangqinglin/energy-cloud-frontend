@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:47:39
- * @LastEditTime: 2024-04-28 13:55:45
+ * @LastEditTime: 2024-08-12 17:07:12
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\Google.tsx
  */
@@ -13,14 +13,14 @@ import { Marker, mapEventHandler } from 'google-maps-react';
 import GoogleMap from '../Map/GoogleMap';
 import type { OptionType } from '@/types';
 import { debounce } from 'lodash';
-import { formatMessage } from '@/utils';
+import { formatMessage, getPlaceholder, isEmpty } from '@/utils';
 import { PositionSelectType } from '.';
 import MapContext from '../MapContain/MapContext';
 import { useAutocomplete, useGeocoder } from '@/hooks';
 import { getLevelInfo } from '@/hooks/map/useGeocoder';
 
 const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
-  const { value, onChange, disabled, readonly, className, initCenter } = props;
+  const { value, onChange, disabled, readonly, className, initCenter, showHigh = false } = props;
 
   const mapRef = useRef<google.maps.Map>();
   const { google } = useContext(MapContext);
@@ -135,22 +135,22 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
     ) {
       setGeocoderParams({
         location: {
-          lat: point?.lng,
-          lng: point?.lat,
+          lat: Number(pointObj[1]),
+          lng: Number(pointObj[0]),
         },
       });
     }
   };
 
   useEffect(() => {
-    if (point && point.lat && point.lng) {
+    if (point && !isEmpty(point.lat) && !isEmpty(point.lng)) {
       setInputPoint(`${point?.lng},${point?.lat}`);
     }
   }, [point]);
 
   useEffect(() => {
     setAddress(value?.address || '');
-    if (value?.point && value?.point?.lng && value?.point?.lat) {
+    if (value?.point && !isEmpty(value?.point?.lng) && !isEmpty(value?.point?.lat)) {
       setPoint(value?.point);
       setCenter(value?.point);
       mapRef?.current?.setZoom?.(17);
@@ -170,7 +170,7 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
           <Col flex="auto">
             {readonly ? (
               // address + inputPoint
-              address
+              getPlaceholder(address)
             ) : (
               <AutoComplete
                 className="mb8 w-full"
@@ -187,7 +187,11 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
               />
             )}
           </Col>
-          {!readonly && (
+          {readonly ? (
+            `${formatMessage({ id: 'device.1020', defaultMessage: '经纬度' })}：${getPlaceholder(
+              inputPoint,
+            )}`
+          ) : (
             <Col flex="200px">
               <Input
                 value={inputPoint}
@@ -200,6 +204,16 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
                 onBlur={onBlur}
                 disabled={disabled}
               />
+            </Col>
+          )}
+          {showHigh && (
+            <Col className="tx-right ml12">
+              {readonly
+                ? `${formatMessage({
+                    id: 'device.1021',
+                    defaultMessage: '海拔高度(米)',
+                  })}：${getPlaceholder(value?.high)}`
+                : ''}
             </Col>
           )}
         </Row>

@@ -105,7 +105,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
           // @ts-ignore
           const currentLabel = moment(item.time).format('HH:mm:ss');
           currentAllLabel.push(currentLabel);
-          // @ts-ignore   
+          // @ts-ignore
           setAllLabel([...currentAllLabel]);
           item.devices.forEach((device: any) => {
             switch (device.key) {
@@ -115,10 +115,10 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
               case 'mq':
                 let value;
                 if (index === 0) {
-                  value = 0
+                  value = 0;
                 } else {
-                  const val = (device.value - data[0].devices[0].value);
-                  Number.isInteger(val) ? value = val : value = val.toFixed(2);
+                  const val = device.value - data[0].devices[0].value;
+                  Number.isInteger(val) ? (value = val) : (value = val.toFixed(2));
                 }
                 currentVChartData[1].data.push({ label: currentLabel, value: value });
                 break;
@@ -138,10 +138,7 @@ const OrderCurve: React.FC<DetailProps> = (props) => {
                 break;
             }
           });
-
         });
-        console.log("999", currentVChartData);
-        console.log("000", currentVChartData);
         setChartData(currentVChartData);
       });
     }

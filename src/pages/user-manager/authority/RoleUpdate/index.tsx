@@ -129,7 +129,7 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
       checkedKeys: difference(data?.menuIds || [], data?.halfMenuIds || []),
     };
     const appMenuKeys = {
-      halfCheckedKeys: data?.halfMenuIds || [],
+      halfCheckedKeys: data?.halfAppMenuIds || [],
       checkedKeys: difference(data?.appMenuIds || [], data?.halfAppMenuIds || []),
     };
     data.menuKeys = [webMenuKeys, appMenuKeys];
@@ -138,17 +138,17 @@ export const RoleUpdate = (props: FormUpdateBaseProps) => {
   const beforeSubmit = useCallback((data) => {
     // web
     const webMenuKeys = data?.menuKeys?.[0];
-    data.menuIds = webMenuKeys.checkedKeys;
+    data.menuIds = webMenuKeys?.checkedKeys || [];
     data.halfMenuIds = null;
-    if (webMenuKeys.halfCheckedKeys.length) {
+    if (webMenuKeys?.halfCheckedKeys?.length) {
       data.halfMenuIds = webMenuKeys.halfCheckedKeys;
       data.menuIds.push(...data.halfMenuIds);
     }
     //app
     const appMenuKeys = data?.menuKeys?.[1];
-    data.appMenuIds = appMenuKeys.checkedKeys;
+    data.appMenuIds = appMenuKeys?.checkedKeys || [];
     data.halfAppMenuIds = null;
-    if (appMenuKeys.halfCheckedKeys.length) {
+    if (appMenuKeys?.halfCheckedKeys?.length) {
       data.halfAppMenuIds = appMenuKeys.halfCheckedKeys;
       data.appMenuIds.push(...data.halfAppMenuIds);
     }
