@@ -10,7 +10,7 @@ import { columns } from './config';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { ProFormDatePicker } from '@ant-design/pro-form';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
-import { getDeviceLocalLog, getLocalLog } from '@/services/equipment';
+import { getDeviceLocalLog, getFileUrl, getLocalLog } from '@/services/equipment';
 import moment from 'moment';
 import { aLinkDownLoad } from '@/utils/downloadfile';
 import DeviceContext from '@/components/Device/Context/DeviceContext';
@@ -37,7 +37,11 @@ const DeviceLog: React.FC<EVChargerOrderInfoType> = (props) => {
   };
 
   const downloadLog = (rowData: ConfigDataType) => {
-    aLinkDownLoad(rowData.downLoadUrl || '', rowData.logName || '');
+    getFileUrl({ url: rowData.logUrl || '', platform: rowData.type || '' }).then((res) => {
+      if (res) {
+        aLinkDownLoad(res.data, rowData.logName || '');
+      }
+    });
   };
 
   const handleFinish = async (rowData?: ConfigDataType) => {
