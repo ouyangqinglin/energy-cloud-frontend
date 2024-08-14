@@ -29,7 +29,19 @@ export default {
   'alarmManage.generateTime': 'Alarm time',
   'alarmManage.alarmList': 'Alarm List',
   'alarmManage.1001': 'Alarm Detail',
-  'alarmManage.1002': 'Alarm Setting',
-  'alarmManage.1003': 'Push method',
-  'alarmManage.1004': 'Push level',
+
+  'alarmManage.1002': 'Single Site Statistics',
+  'alarmManage.1003': ' Multiple Site Statistics',
+  'alarmManage.1004': 'Alarm Time',
+  'alarmManage.1005': 'Alarm Statistics',
+  'alarmManage.1006': 'Divice Distribution',
+  'alarmManage.1007': 'Alarm Number',
+  'alarmManage.1008': 'Alarm Times',
+  'alarmManage.1009': 'Rank',
+  'alarmManage.1010': 'Alarm Total',
+  'alarmManage.1011': 'Total',
+
+  'alarmManage.1012': 'Alarm Setting',
+  'alarmManage.1013': 'Push method',
+  'alarmManage.1014': 'Push level',
 };

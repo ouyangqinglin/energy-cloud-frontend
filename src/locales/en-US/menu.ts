@@ -31,6 +31,7 @@ export default {
   'menu.alarm.current': 'Current Alarm',
   'menu.alarm.history': 'History Alarm',
   'menu.alarm.setting': 'Alarm Setting',
+  'menu.alarm.overview': 'Alarm Overview',
   'menu.workOrder': 'Task Manage',
   'menu.workOrder.install': 'Install Work Order',
   'menu.workOrder.maintenance': 'Maintenance Work Order',

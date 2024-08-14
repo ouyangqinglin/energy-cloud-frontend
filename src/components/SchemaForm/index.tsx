@@ -181,11 +181,16 @@ const SchemaForm = <
             if (data) {
               const result = onSuccess?.((beforeSubmitResult as ParamData) ?? formData);
               if (result !== false) {
-                message.success(
-                  formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
-                );
                 if (layoutType !== 'QueryFilter') {
                   setDisableSubmitterTrue();
+                  message.success(
+                    formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+                  );
+                } else {
+                  message.success(
+                    formatMessage({ id: 'common.successQuery', defaultMessage: '查询成功' }),
+                  );
+                  afterRequest?.(data, myFormRef);
                 }
                 return true;
               } else {
@@ -193,6 +198,7 @@ const SchemaForm = <
               }
             } else {
               onError?.(data);
+              message.info(formatMessage({ id: 'common.noData', defaultMessage: '暂无数据' }));
               return false;
             }
           })

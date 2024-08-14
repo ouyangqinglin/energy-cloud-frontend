@@ -21,7 +21,7 @@ import { PositionSelectType } from '.';
 const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
   const { value, onChange, disabled, readonly, className, showHigh = false } = props;
 
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<React.ReactNode>();
   const [options, setOptions] = useState<OptionType[]>([]);
   const [point, setPoint] = useState<AMap.LngLat>();
   const [inputPoint, setInputPoint] = useState('');

@@ -23,9 +23,9 @@ import { Modal, Button } from 'antd';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { formatMessage } from '@/utils';
 import { FormattedMessage } from 'umi';
+import { log } from 'lodash-decorators/utils';
 
 export const Update = (props: FormUpdateBaseProps) => {
-  const [updateType, setUpdateType] = useState(2); //升级类型
   const formRef = useRef<ProFormInstance>();
   //获取产品类型
   const requestProductType = useCallback((searchParams: any) => {
@@ -248,26 +248,30 @@ export const Update = (props: FormUpdateBaseProps) => {
           initialValue: '2',
           rules: [{ required: true }],
         },
-        fieldProps: () => {
-          return {
-            onChange: (e: any) => {
-              //隐藏日期表单
-              setUpdateType(e.target.value);
-            },
-          };
-        },
       },
       {
         title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
         dataIndex: ['upgradeTime'],
-        hideInForm: updateType == 1, //稍后升级时才显示时间表单--彻底隐藏，去除校验
-        formItemProps: {
-          //hidden: updateType == 1,//稍后升级时才显示时间表单
-          rules: [
-            {
-              required: true,
-            },
-          ],
+        name: 'upgradeTime',
+        dependencies: ['type'],
+        formItemProps(form) {
+          if (form.getFieldValue('type') == 2) {
+            return {
+              rules: [
+                {
+                  required: true,
+                },
+              ],
+            };
+          } else {
+            return {
+              rules: [
+                {
+                  required: false,
+                },
+              ],
+            };
+          }
         },
         fieldProps: {
           style: {
@@ -278,7 +282,6 @@ export const Update = (props: FormUpdateBaseProps) => {
           },
         },
         valueType: 'dateTime',
-        dependencies: ['type'],
         colProps: {
           span: 12,
         },

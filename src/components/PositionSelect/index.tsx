@@ -14,7 +14,7 @@ import GooglePositionSelect from './Google';
 import GoogleMapContain from '@/components/MapContain/Google';
 
 export type PositionSelectValueType = {
-  address?: string;
+  address?: React.ReactNode;
   point?: google.maps.LatLngLiteral;
   countryCode?: string;
   provinceCode?: string;

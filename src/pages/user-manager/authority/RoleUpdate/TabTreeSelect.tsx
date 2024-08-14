@@ -1,31 +1,34 @@
-import { Tabs } from 'antd';
+import { message, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import TreeSelect from '@/components/TreeSelect';
 import { formatMessage } from '@/utils';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { getEffectMenus } from '../service';
-import { useRequest } from 'umi';
 
 const TabTreeSelect = (tabProps: any) => {
   const { value, onChange, form } = tabProps;
-
   const [category, setCategory] = useState<string>('0');
-  const { data: menuData, run } = useRequest(getEffectMenus, {
-    manual: true,
-  });
+  const getMenuData = (key: string) => {
+    return getEffectMenus({ category: key })
+      .then((res) => {
+        if (res.code == 200) {
+          return res.data;
+        } else {
+          return [];
+        }
+      })
+      .catch((err) => {
+        message.error(err);
+        return [];
+      });
+  };
 
   const onTabsChange = (e: string) => {
     setCategory(e);
   };
 
-  useEffect(() => {
-    run({ category });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category]);
-
   const onTreeSelectChange = (newVal: any) => {
     const curvValue = form.getFieldValue('menuKeys') || [];
-    console.log('newVal>>', newVal);
     curvValue[category] = newVal;
     onChange(curvValue);
   };
@@ -38,7 +41,7 @@ const TabTreeSelect = (tabProps: any) => {
           <TreeSelect
             value={value && value[0]}
             onChange={(newVal) => onTreeSelectChange(newVal)}
-            treeData={menuData}
+            request={getMenuData('0')}
           />
         ),
       },
@@ -49,13 +52,13 @@ const TabTreeSelect = (tabProps: any) => {
           <TreeSelect
             value={value && value[1]}
             onChange={(newVal) => onTreeSelectChange(newVal)}
-            treeData={menuData}
+            request={getMenuData('1')}
           />
         ),
       },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menuData, onChange, value, category]);
+  }, [onChange, value, category]);
   return <Tabs items={tabsItem} onChange={onTabsChange} />;
 };
 

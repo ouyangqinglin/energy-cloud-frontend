@@ -31,6 +31,7 @@ export default {
   'menu.alarm.current': '当前告警',
   'menu.alarm.history': '历史告警',
   'menu.alarm.setting': '告警设置',
+  'menu.alarm.overview': '告警统计',
   'menu.workOrder': '任务管理',
   'menu.workOrder.install': '安装工单',
   'menu.workOrder.maintenance': '维护工单',

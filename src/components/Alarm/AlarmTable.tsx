@@ -52,9 +52,12 @@ export const levelMap = new Map([
   ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
 ]);
 
-const getLevelByType = (type: string, num?: string) => {
+export const getLevelByType = (type: string, hasBackground: boolean = true, num?: string) => {
   return (
-    <span className={`${styles.alarmWrap} ${styles[type]}`}>
+    <span
+      className={`${styles.alarmWrap} ${styles[type]}`}
+      style={{ backgroundColor: hasBackground ? '' : 'transparent' }}
+    >
       {isEmpty(num) ? (
         <>
           <YTAlarmFullOutlined /> {levelMap.get(type)}

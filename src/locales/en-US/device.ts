@@ -526,4 +526,5 @@ export default {
   'device.1019': 'Device Address',
   'device.1020': 'Latitude And Longitude',
   'device.1021': 'Altitude (m)',
+  'device.1022': 'Show Address',
 };

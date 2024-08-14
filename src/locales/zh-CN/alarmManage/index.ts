@@ -28,7 +28,19 @@ export default {
   'alarmManage.generateTime': '产生时间',
   'alarmManage.alarmList': '告警列表',
   'alarmManage.1001': '告警详情',
-  'alarmManage.1002': '告警配置',
-  'alarmManage.1003': '推送方式',
-  'alarmManage.1004': '推送级别',
+
+  'alarmManage.1002': '单站点统计',
+  'alarmManage.1003': '多站点统计',
+  'alarmManage.1004': '告警时间',
+  'alarmManage.1005': '告警统计',
+  'alarmManage.1006': '设备分布',
+  'alarmManage.1007': '告警数',
+  'alarmManage.1008': '告警次数',
+  'alarmManage.1009': '排名',
+  'alarmManage.1010': '告警总数',
+  'alarmManage.1011': '总数',
+
+  'alarmManage.1012': '告警配置',
+  'alarmManage.1013': '推送方式',
+  'alarmManage.1014': '推送级别',
 };

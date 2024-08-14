@@ -118,6 +118,7 @@ export default {
   'common.other': '其他',
   'common.search': '搜索',
   'common.successSaved': '保存成功',
+  'common.successQuery': '查询成功',
   'common.filterSave': '保存为快捷查询',
   'common.name': '名称',
   'common.save': '保存',

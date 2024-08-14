@@ -50,7 +50,6 @@ const Chart: React.FC<ChartType> = (props) => {
 
   const onValuesChange = useCallback((_, params) => {
     dealParams(params);
-    console.log('params111>>', params);
     setSearchData(params);
   }, []);
 

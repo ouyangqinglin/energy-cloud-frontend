@@ -20493,9 +20493,14 @@ umi-plugin-antd-icon-config@^2.0.0:
   dependencies:
     "@ant-design/icons" "^4.0.0"
 
+umi-plugin-disable-devtool@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/umi-plugin-disable-devtool/-/umi-plugin-disable-devtool-1.0.1.tgz#6805932d708a9a3e57f9332e0765961a9157a83c"
+  integrity sha512-GOAJ5HaweoSMILR5bgNDOEwCmGA2ZidEkFnxNrbtN4HNQZTDSvg7M5IjKqa0+RLekYl7CKY2WuCwk4PJihQ8Og==
+
 umi-plugin-keep-alive@^0.0.1-beta.18:
   version "0.0.1-beta.35"
-  resolved "https://registry.npmmirror.com/umi-plugin-keep-alive/-/umi-plugin-keep-alive-0.0.1-beta.35.tgz"
+  resolved "https://registry.npmmirror.com/umi-plugin-keep-alive/-/umi-plugin-keep-alive-0.0.1-beta.35.tgz#d0c8eb81eea27f3b91528d71345641d2d88dc65e"
   integrity sha512-VaQXS911MnBzdnEZkSjqF+GbbfIby4iqNPLH4PDbOVGR8fNZgAF+9u4iWUPESJQ4receFDT/tkqv6nZ+W1ANRg==
   dependencies:
     react-activation "^0.12.1"
