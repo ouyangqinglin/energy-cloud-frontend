@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-02-28 14:48:10
- * @LastEditTime: 2024-02-28 14:48:11
+ * @LastEditTime: 2024-08-12 17:08:48
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\PositionSelect\AMap.tsx
  */
@@ -14,14 +14,14 @@ import { Map, Marker } from '@uiw/react-amap';
 import type { OptionType } from '@/types';
 import { getAutoComplete, getGeocoder, getPoint } from '@/utils/map';
 import { debounce } from 'lodash';
-import { formatMessage, getAreaCodeByAdCode, getLocale } from '@/utils';
+import { formatMessage, getAreaCodeByAdCode, getLocale, getPlaceholder, isEmpty } from '@/utils';
 import { AmapLang } from '@/utils/dictionary';
 import { PositionSelectType } from '.';
 
 const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
-  const { value, onChange, disabled, readonly, className } = props;
+  const { value, onChange, disabled, readonly, className, showHigh = false } = props;
 
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<React.ReactNode>();
   const [options, setOptions] = useState<OptionType[]>([]);
   const [point, setPoint] = useState<AMap.LngLat>();
   const [inputPoint, setInputPoint] = useState('');
@@ -33,14 +33,14 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (point && point.lat && point.lng) {
+    if (point && !isEmpty(point.lat) && !isEmpty(point.lng)) {
       setInputPoint(`${point?.lng},${point?.lat}`);
     }
   }, [point]);
 
   useEffect(() => {
     setAddress(value?.address || '');
-    if (value?.point && value?.point?.lng && value?.point?.lat) {
+    if (value?.point && !isEmpty(value?.point?.lng) && !isEmpty(value?.point?.lat)) {
       getPoint(value.point?.lng, value.point?.lat).then((res) => {
         if (res) {
           setPoint(res);
@@ -172,7 +172,7 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
           <Col flex="auto">
             {readonly ? (
               // address + inputPoint
-              address
+              getPlaceholder(address)
             ) : (
               <AutoComplete
                 className="mb8 w-full"
@@ -189,7 +189,11 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
               />
             )}
           </Col>
-          {!readonly && (
+          {readonly ? (
+            `${formatMessage({ id: 'device.1020', defaultMessage: '经纬度' })}：${getPlaceholder(
+              inputPoint,
+            )}`
+          ) : (
             <Col flex="200px">
               <Input
                 value={inputPoint}
@@ -202,6 +206,16 @@ const AMapPositionSelect: React.FC<PositionSelectType> = (props) => {
                 onBlur={onBlur}
                 disabled={disabled}
               />
+            </Col>
+          )}
+          {showHigh && (
+            <Col className="tx-right ml12">
+              {readonly
+                ? `${formatMessage({
+                    id: 'device.1021',
+                    defaultMessage: '海拔高度(米)',
+                  })}：${getPlaceholder(value?.high)}`
+                : ''}
             </Col>
           )}
         </Row>

@@ -393,7 +393,7 @@ const Alarm: React.FC<AlarmProps> = (props) => {
         dataIndex: 'level',
         valueType: 'select',
         valueEnum: alarmLevelMap,
-        width: 120,
+        width: 135,
         hideInSearch: true,
       },
       {

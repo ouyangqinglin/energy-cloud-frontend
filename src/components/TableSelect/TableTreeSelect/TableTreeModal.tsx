@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-06-02 16:59:12
- * @LastEditTime: 2024-07-24 09:12:51
+ * @LastEditTime: 2024-08-12 15:19:58
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\components\TableSelect\TableTreeSelect\TableTreeModal.tsx
  */
@@ -152,8 +152,6 @@ const TableTreeModal = <
 
   const onSelectedChange: TableRowSelection<DataType>['onChange'] = useCallback(
     (selectedRowKeys, selectedRows: DataType[]) => {
-      console.log('onSelectedChange', selectedRows);
-
       setSelectedTags((prevData) => {
         const map = multiple
           ? prevData.reduce((result, item) => {
@@ -167,12 +165,14 @@ const TableTreeModal = <
           });
         }
         selectedRows.forEach((item) => {
-          map.set(item[valueId], {
-            [valueId]: item[valueId],
-            [valueName]: item[valueName],
-            node: item,
-            tree: selectedTree,
-          });
+          if (item.checkable !== false) {
+            map.set(item[valueId], {
+              [valueId]: item[valueId],
+              [valueName]: item[valueName],
+              node: item,
+              tree: selectedTree,
+            });
+          }
         });
         const result = [...map.values()];
         return limitSelect ? result.slice(0, limitSelect) : result;

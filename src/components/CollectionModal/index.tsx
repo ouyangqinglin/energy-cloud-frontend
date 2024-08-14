@@ -22,6 +22,10 @@ type Searchtype = CollectionSearchType & {
   date: string[];
 };
 
+const initialValues = {
+  aggregationPeriod: '1',
+};
+
 const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => {
   const { deviceId, collection, model, title, open, ...restProps } = props;
   const formRef = useRef<ProFormInstance>(null);
@@ -78,6 +82,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
           onReset={onFinish}
           loading={loading}
           title={undefined}
+          initialValues={initialValues}
         />
         <CollectionChart
           title={title}
