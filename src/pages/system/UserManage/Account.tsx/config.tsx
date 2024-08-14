@@ -512,7 +512,7 @@ export const getFormColumns = (
         return (
           <Detail.DotLabel
             title={formatMessage({
-              id: 'alarmManage.1002',
+              id: 'alarmManage.1012',
               defaultMessage: '告警配置',
             })}
             className="mb0"
@@ -524,7 +524,7 @@ export const getFormColumns = (
       },
     },
     {
-      title: formatMessage({ id: 'alarmManage.1003', defaultMessage: '推送方式' }),
+      title: formatMessage({ id: 'alarmManage.1013', defaultMessage: '推送方式' }),
       dataIndex: 'sendWay',
       formItemProps: {
         rules: [
@@ -551,7 +551,7 @@ export const getFormColumns = (
       },
     },
     {
-      title: formatMessage({ id: 'alarmManage.1004', defaultMessage: '推送级别' }),
+      title: formatMessage({ id: 'alarmManage.1014', defaultMessage: '推送级别' }),
       dataIndex: 'sendLevel',
       formItemProps: {
         rules: [
