@@ -7,12 +7,14 @@ export enum OnlineStatusEnum {
 }
 export const onlineStatus = {
   [OnlineStatusEnum.None]: {
-    text: '离线',
+    text: formatMessage({ id: 'common.offline', defaultMessage: '离线' }),
+    title: formatMessage({ id: 'common.offline', defaultMessage: '离线' }),
     icon: 'red',
     status: 'Default',
   },
   [OnlineStatusEnum.Online]: {
-    text: '在线',
+    text: formatMessage({ id: 'common.onLine', defaultMessage: '在线' }),
+    title: formatMessage({ id: 'common.onLine', defaultMessage: '在线' }),
     icon: 'green',
     status: 'Processing',
   },

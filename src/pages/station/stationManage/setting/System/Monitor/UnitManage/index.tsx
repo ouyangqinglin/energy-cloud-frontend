@@ -355,11 +355,11 @@ const EnergyUnitManage: React.FC = () => {
     {
       title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备名称' }),
       dataIndex: 'deviceName',
-      width: 100,
+      width: 150,
       ellipsis: true,
     },
     {
-      title: formatMessage({ id: 'common.deviceName', defaultMessage: '设备序列号' }),
+      title: formatMessage({ id: 'common.deviceSn', defaultMessage: '设备序列号' }),
       dataIndex: 'sn',
       width: 100,
       ellipsis: true,

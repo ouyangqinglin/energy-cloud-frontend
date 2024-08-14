@@ -520,6 +520,8 @@ export default {
   'device.1015': 'Min Vol',
   'device.1016': 'Max Temp',
   'device.1017': 'Min Temp',
+  'device.send': 'Send',
+  'device.sendMessage': 'Send A Message',
   'device.1018': 'Start reading the electricity meter',
   'device.1019': 'Device Address',
   'device.1020': 'Latitude And Longitude',
