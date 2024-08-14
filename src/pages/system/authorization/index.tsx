@@ -152,7 +152,7 @@ const RemoteUpgrade: React.FC = () => {
       />
 
       <Modal
-        title="日志"
+        title="站点查看"
         open={open}
         onOk={handleOk}
         onCancel={handleCancel}

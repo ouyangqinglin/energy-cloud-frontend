@@ -27,6 +27,7 @@ import { Checkbox, Space } from 'antd';
 import { levelMap } from '@/components/Alarm/AlarmTable';
 import { YTAlarmFullOutlined } from '@/components/YTIcons';
 import styles from '@/components/Alarm/index.less';
+import { YTProColumns } from '@/components/YTProTable/typing';
 
 export type AccountDataType = {
   userId?: string;
@@ -304,52 +305,52 @@ export const getFormColumns = (
     },
     types?.[0] === OrgTypeEnum.System
       ? {
-          title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
-          dataIndex: 'orgId',
-          valueType: 'treeSelect',
-          request: () => {
-            return getDeptList({ excludeRootId: 1 }).then(({ data }) => {
-              return buildTreeData(data || [], 'orgId', 'orgName', '', '', '');
-            });
-          },
-          formItemProps: {
-            rules: [
-              {
-                required: true,
-                message:
-                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
-                  formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
-              },
-            ],
-          },
-        }
-      : {
-          title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
-          dataIndex: 'orgId',
-          valueType: 'select',
-          dependencies: ['roleId'],
-          request: (params) => {
-            const roleOrgTypeMap = arrayToMap(roleOptions, 'roleId', 'orgType');
-            return getOrgByRole({ type: roleOrgTypeMap[params.roleId] }).then(({ data }) => {
-              return data?.map?.((item) => {
-                return {
-                  label: item?.orgName,
-                  value: item?.orgId,
-                };
-              });
-            });
-          },
-          formItemProps: {
-            rules: [
-              {
-                required: true,
-                message:
-                  formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
-                  formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
-              },
-            ],
-          },
+        title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
+        dataIndex: 'orgId',
+        valueType: 'treeSelect',
+        request: () => {
+          return getDeptList({ excludeRootId: 1 }).then(({ data }) => {
+            return buildTreeData(data || [], 'orgId', 'orgName', '', '', '');
+          });
         },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
+            },
+          ],
+        },
+      }
+      : {
+        title: formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
+        dataIndex: 'orgId',
+        valueType: 'select',
+        dependencies: ['roleId'],
+        request: (params) => {
+          const roleOrgTypeMap = arrayToMap(roleOptions, 'roleId', 'orgType');
+          return getOrgByRole({ type: roleOrgTypeMap[params.roleId] }).then(({ data }) => {
+            return data?.map?.((item) => {
+              return {
+                label: item?.orgName,
+                value: item?.orgId,
+              };
+            });
+          });
+        },
+        formItemProps: {
+          rules: [
+            {
+              required: true,
+              message:
+                formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }) +
+                formatMessage({ id: 'user.organization', defaultMessage: '组织' }),
+            },
+          ],
+        },
+      },
     {
       title: formatMessage({ id: 'user.mobilePhone', defaultMessage: '手机' }),
       dataIndex: 'phone',
@@ -423,10 +424,10 @@ export const getFormColumns = (
                     if (isEmpty(userId)) {
                       return Promise.reject(
                         formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) +
-                          formatMessage({
-                            id: 'system.initialPassword',
-                            defaultMessage: '初始密码',
-                          }),
+                        formatMessage({
+                          id: 'system.initialPassword',
+                          defaultMessage: '初始密码',
+                        }),
                       );
                     }
                   } else if (!verifyPassword(value)) {
@@ -470,10 +471,10 @@ export const getFormColumns = (
                     if (isEmpty(userId)) {
                       return Promise.reject(
                         formatMessage({ id: 'common.pleaseEnter', defaultMessage: '请填写' }) +
-                          formatMessage({
-                            id: 'user.confirmPassword',
-                            defaultMessage: '确认密码',
-                          }),
+                        formatMessage({
+                          id: 'user.confirmPassword',
+                          defaultMessage: '确认密码',
+                        }),
                       );
                     }
                   } else if (password !== value) {
@@ -601,101 +602,66 @@ export const getFormColumns = (
         const orgType = roleInfo.orgType;
         return roleType == 0
           ? [
-              {
-                title: '',
-                hideInForm: types?.[0] === OrgTypeEnum.System || orgType == OrgTypeEnum.Install,
-                renderFormItem: () => {
-                  return (
-                    <Detail.DotLabel
-                      title={formatMessage({
-                        id: 'user.associatedSite',
-                        defaultMessage: '关联站点',
-                      })}
-                      className="mb0"
-                    />
-                  );
-                },
-                colProps: {
-                  span: 24,
-                },
+            {
+              title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
+              dataIndex: 'sites',
+              valueType: TABLESELECT,
+              hideInForm: types?.[0] === OrgTypeEnum.System || orgType == OrgTypeEnum.Install,
+              colProps: {
+                span: 24,
               },
-              {
-                title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
-                dataIndex: 'sites',
-                valueType: TABLESELECT,
-                hideInForm: types?.[0] === OrgTypeEnum.System || orgType == OrgTypeEnum.Install,
-                colProps: {
-                  span: 24,
-                },
-                dependencies: ['orgId'],
-                fieldProps: (form) => {
-                  return {
-                    proTableProps: {
-                      columns: tableSelectColumns,
-                      request: (params: any) =>
-                        requestTable({ ...params, orgId: form?.getFieldValue?.('orgId') }),
-                    },
-                  };
-                },
+              dependencies: ['orgId'],
+              fieldProps: (form) => {
+                return {
+                  proTableProps: {
+                    columns: tableSelectColumns,
+                    request: (params: any) =>
+                      requestTable({ ...params, orgId: form?.getFieldValue?.('orgId') }),
+                  },
+                };
               },
-            ]
+            },
+          ]
           : [
-              {
-                title: '',
-                renderFormItem: () => {
-                  return (
-                    <Detail.DotLabel
-                      title={formatMessage({
-                        id: 'user.associatedSite',
-                        defaultMessage: '关联站点',
-                      })}
-                      className="mb0"
-                    />
-                  );
-                },
-                colProps: {
-                  span: 24,
-                },
+            {
+              title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
+              dataIndex: 'webConfig',
+              valueType: 'treeSelect',
+              dependencies: ['roleId'],
+              formItemProps: {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'common.pleaseSelect',
+                      defaultMessage: '请选择',
+                    }),
+                  },
+                ],
               },
-              {
-                title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
-                dataIndex: 'webConfig',
-                valueType: 'treeSelect',
-                dependencies: ['roleId'],
-                formItemProps: {
-                  rules: [
-                    {
-                      required: true,
-                      message: formatMessage({
-                        id: 'common.pleaseSelect',
-                        defaultMessage: '请选择',
-                      }),
-                    },
-                  ],
-                },
-                colProps: {
-                  span: 24,
-                },
-                fieldProps: (form) => {
-                  return {
-                    multiple: true,
-                    treeCheckable: true,
-                    treeDefaultExpandAll: true,
-                    onSelect: (id: string) => {
-                      if (id === '0') form.setFieldValue('webConfig', ['0']);
-                    },
-                    filterTreeNode: (searchValue: string, treeNode: SiteDataType) => {
-                      return !!treeNode?.title && treeNode?.title?.indexOf?.(searchValue) > -1;
-                    },
-                  };
-                },
-                request: (params) => {
-                  return getThreeLevelSiteTree({ roleId: params.roleId }).then(({ data }) => {
-                    return HanderTreeData([data]);
-                  });
-                },
+              colProps: {
+                span: 24,
               },
-            ];
+              fieldProps: (form) => {
+                return {
+                  multiple: true,
+                  treeCheckable: true,
+                  treeDefaultExpandAll: true,
+                  onSelect: (id: string) => {
+                    if (id === '0') form.setFieldValue('webConfig', ['0']);
+                  },
+                  filterTreeNode: (searchValue: string, treeNode: SiteDataType) => {
+                    return !!treeNode?.title && treeNode?.title?.indexOf?.(searchValue) > -1;
+                  },
+                };
+              },
+              request: (params) => {
+                return getThreeLevelSiteTree({ roleId: params.roleId }).then(({ data }) => {
+                  return HanderTreeData([data]);
+                });
+              },
+            },
+          ];
       },
     },
     {
@@ -709,3 +675,25 @@ export const getFormColumns = (
   ];
   return formColumns;
 };
+
+export const getStationColumns: YTProColumns<any, any>[] = [
+  {
+    title: formatMessage({ id: 'common.index', defaultMessage: '序号' }),
+    dataIndex: 'index',
+    valueType: 'index',
+    width: 50,
+  },
+  {
+    title: formatMessage({ id: 'siteManage.siteList.siteCode', defaultMessage: '站点编码' }),
+    dataIndex: 'siteId',
+    hideInSearch: true,
+    ellipsis: true,
+  },
+  {
+    title: formatMessage({ id: 'siteManage.siteList.siteName', defaultMessage: '站点名称' }),
+    dataIndex: 'siteName',
+    ellipsis: true,
+    hideInSearch: true,
+  },
+];
+
