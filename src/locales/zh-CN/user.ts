@@ -42,6 +42,7 @@ export default {
   'user.mobilePhone': '手机',
   'user.organization': '组织',
   'user.phoneFormatError': '电话格式错误',
+  'user.emailFormatError': '邮箱格式错误',
   'user.phoneFormatErrorHint': '格式错误：8-16个数字单词，至少其中两种:字母/数字/符号',
   'user.phoneFormatHint': '8-16个数字单词，至少其中两种:字母/数字/符号',
   'user.confirmPassword': '确认密码',

@@ -22,6 +22,7 @@ const urlReg = new RegExp(
   'i', // case insensitive
 );
 const loadErrorReg = /Loading.*failed.*/gi;
+const emailReg = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 export const verifyPhone = (phone: string) => {
   const str = phone ?? '';
@@ -76,4 +77,9 @@ export const isUrl = (value?: string) => {
 
 export const isLoadError = (value?: string) => {
   return loadErrorReg.test(value ?? '');
+};
+
+export const verifyEmail = (email: string) => {
+  const str = email ?? '';
+  return emailReg.test(str);
 };

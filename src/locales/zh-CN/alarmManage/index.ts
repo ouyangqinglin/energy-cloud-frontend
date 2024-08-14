@@ -28,4 +28,7 @@ export default {
   'alarmManage.generateTime': '产生时间',
   'alarmManage.alarmList': '告警列表',
   'alarmManage.1001': '告警详情',
+  'alarmManage.1002': '告警配置',
+  'alarmManage.1003': '推送方式',
+  'alarmManage.1004': '推送级别',
 };

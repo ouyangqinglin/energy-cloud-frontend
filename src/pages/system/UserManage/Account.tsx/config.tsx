@@ -13,7 +13,7 @@ import type { ProFormColumnsType } from '@ant-design/pro-components';
 import { getDeptList } from '@/pages/system/dept/service';
 import { buildTreeData } from '@/utils/utils';
 import { arrayToMap, formatMessage, isEmpty } from '@/utils';
-import { verifyPassword, verifyPhone } from '@/utils/reg';
+import { verifyEmail, verifyPassword, verifyPhone } from '@/utils/reg';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
 import { TABLESELECT } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
@@ -23,6 +23,10 @@ import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
 import { FormTypeEnum } from '@/components/SchemaForm';
+import { Checkbox, Space } from 'antd';
+import { levelMap } from '@/components/Alarm/AlarmTable';
+import { YTAlarmFullOutlined } from '@/components/YTIcons';
+import styles from '@/components/Alarm/index.less';
 
 export type AccountDataType = {
   userId?: string;
@@ -170,7 +174,7 @@ const requestTable = (params: Record<string, any>) => {
   });
 };
 
-const HanderTreeData = (data) => {
+const HanderTreeData = (data: any[]) => {
   return data.map((i) => {
     i.key = i.id;
     i.title = i.label;
@@ -375,6 +379,34 @@ export const getFormColumns = (
       },
     },
     {
+      title: formatMessage({ id: 'common.mailbox', defaultMessage: '邮箱' }),
+      dataIndex: 'email',
+      formItemProps: {
+        rules: [
+          () => {
+            return {
+              validator: (_: any, value: string) => {
+                if (isEmpty(value)) {
+                  return Promise.resolve();
+                } else if (verifyEmail(value)) {
+                  return Promise.resolve();
+                } else {
+                  return Promise.reject(
+                    formatMessage({ id: 'user.emailFormatError', defaultMessage: '邮箱格式错误!' }),
+                  );
+                }
+              },
+            };
+          },
+        ],
+      },
+      fieldProps: {
+        onCompositionEnd: (e) => {
+          console.log(e);
+        },
+      },
+    },
+    {
       title: formatMessage({ id: 'system.initialPassword', defaultMessage: '初始密码' }),
       dataIndex: 'password',
       valueType: 'password',
@@ -475,6 +507,92 @@ export const getFormColumns = (
       },
     },
     {
+      title: '',
+      renderFormItem: () => {
+        return (
+          <Detail.DotLabel
+            title={formatMessage({
+              id: 'alarmManage.1002',
+              defaultMessage: '告警配置',
+            })}
+            className="mb0"
+          />
+        );
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: formatMessage({ id: 'alarmManage.1003', defaultMessage: '推送方式' }),
+      dataIndex: 'sendWay',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+          },
+        ],
+      },
+      renderFormItem: () => {
+        return (
+          <Checkbox.Group>
+            <Checkbox value="1" defaultChecked style={{ lineHeight: '32px', marginLeft: '8px' }}>
+              APP消息推送
+            </Checkbox>
+            <Checkbox value="2" defaultChecked style={{ lineHeight: '32px' }}>
+              邮箱
+            </Checkbox>
+          </Checkbox.Group>
+        );
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      title: formatMessage({ id: 'alarmManage.1004', defaultMessage: '推送级别' }),
+      dataIndex: 'sendLevel',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: formatMessage({ id: 'common.pleaseSelect', defaultMessage: '请选择' }),
+          },
+        ],
+      },
+      renderFormItem: () => {
+        const alarmLevelSpans: React.ReactNode[] = [];
+        levelMap.forEach((_: any, key: string) => {
+          alarmLevelSpans.push(
+            <span className={`${styles.alarmWrap} ${styles[key]}`}>
+              <Checkbox className="py2" value={key}>
+                <YTAlarmFullOutlined />
+                {levelMap.get(key)}
+              </Checkbox>
+            </span>,
+          );
+        });
+
+        return (
+          <>
+            <Checkbox.Group
+              className="mr24"
+              onChange={(value) => {
+                console.log('value', value);
+              }}
+              defaultValue={[]}
+            >
+              <Space>{alarmLevelSpans}</Space>
+            </Checkbox.Group>
+          </>
+        );
+      },
+      colProps: {
+        span: 24,
+      },
+    },
+    {
       valueType: 'dependency',
       name: ['roleId'],
       columns: ({ roleId }) => {
@@ -483,6 +601,24 @@ export const getFormColumns = (
         const orgType = roleInfo.orgType;
         return roleType == 0
           ? [
+              {
+                title: '',
+                hideInForm: types?.[0] === OrgTypeEnum.System || orgType == OrgTypeEnum.Install,
+                renderFormItem: () => {
+                  return (
+                    <Detail.DotLabel
+                      title={formatMessage({
+                        id: 'user.associatedSite',
+                        defaultMessage: '关联站点',
+                      })}
+                      className="mb0"
+                    />
+                  );
+                },
+                colProps: {
+                  span: 24,
+                },
+              },
               {
                 title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
                 dataIndex: 'sites',
@@ -504,6 +640,23 @@ export const getFormColumns = (
               },
             ]
           : [
+              {
+                title: '',
+                renderFormItem: () => {
+                  return (
+                    <Detail.DotLabel
+                      title={formatMessage({
+                        id: 'user.associatedSite',
+                        defaultMessage: '关联站点',
+                      })}
+                      className="mb0"
+                    />
+                  );
+                },
+                colProps: {
+                  span: 24,
+                },
+              },
               {
                 title: formatMessage({ id: 'user.associatedSite', defaultMessage: '关联站点' }),
                 dataIndex: 'webConfig',

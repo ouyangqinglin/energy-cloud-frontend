@@ -29,4 +29,7 @@ export default {
   'alarmManage.generateTime': 'Alarm time',
   'alarmManage.alarmList': 'Alarm List',
   'alarmManage.1001': 'Alarm Detail',
+  'alarmManage.1002': 'Alarm Setting',
+  'alarmManage.1003': 'Push method',
+  'alarmManage.1004': 'Push level',
 };
