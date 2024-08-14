@@ -24,7 +24,7 @@ const GooglePositionSelect: React.FC<PositionSelectType> = (props) => {
 
   const mapRef = useRef<google.maps.Map>();
   const { google } = useContext(MapContext);
-  const [address, setAddress] = useState<string>();
+  const [address, setAddress] = useState<React.ReactNode>();
   const [options, setOptions] = useState<OptionType[]>([]);
   const [point, setPoint] = useState<google.maps.LatLngLiteral>();
   const [inputPoint, setInputPoint] = useState('');

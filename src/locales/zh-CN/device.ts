@@ -521,4 +521,5 @@ export default {
   'device.1019': '设备地址',
   'device.1020': '经纬度',
   'device.1021': '海拔高度(米)',
+  'device.1022': '查看地址',
 };

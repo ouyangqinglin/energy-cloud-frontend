@@ -37,7 +37,6 @@ const DeviceMap: React.FC<DeviceMapType> = (props) => {
   const { deviceData } = props;
 
   const { treeData } = useContext(DeviceContext);
-  const [address, setAddress] = useState('');
   const [mapType, setMapType] = useState<MapTypeEnum>(MapTypeEnum.AMap);
 
   const { data: siteData, run } = useRequest(getStation, {
@@ -89,7 +88,14 @@ const DeviceMap: React.FC<DeviceMapType> = (props) => {
             type={mapType}
             value={{
               high: position?.high,
-              address: address,
+              address:
+                mapType == MapTypeEnum.Google ? (
+                  <GoogleMapContain>
+                    <Address mapType={mapType} lat={position?.lat} lng={position?.lng} />
+                  </GoogleMapContain>
+                ) : (
+                  <Address mapType={mapType} lat={position?.lat} lng={position?.lng} />
+                ),
               point: {
                 lng: position?.lng as number,
                 lat: position?.lat as number,
@@ -98,23 +104,6 @@ const DeviceMap: React.FC<DeviceMapType> = (props) => {
             showHigh
             readonly
           />
-          {mapType == MapTypeEnum.Google ? (
-            <GoogleMapContain>
-              <Address
-                mapType={mapType}
-                lat={position?.lat}
-                lng={position?.lng}
-                onChange={(value) => setAddress(value)}
-              />
-            </GoogleMapContain>
-          ) : (
-            <Address
-              mapType={mapType}
-              lat={position?.lat}
-              lng={position?.lng}
-              onChange={(value) => setAddress(value)}
-            />
-          )}
         </div>
       )}
     </>
