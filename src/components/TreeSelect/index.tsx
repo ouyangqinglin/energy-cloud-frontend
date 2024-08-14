@@ -47,11 +47,12 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
   const { value, onChange, treeData, request } = props;
 
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>();
-  const [checkStrictly, setCheckStrictly] = useState<boolean>(true);
   const [currentTreeData, setCurrentTreeData] = useState(treeData || []);
 
   request?.then((data) => {
-    setCurrentTreeData(data);
+    if (data?.length) {
+      setCurrentTreeData(data);
+    }
   });
   const options = useMemo<TreeSelectProps>(() => {
     const defaultOptions: TreeSelectProps = {
@@ -136,7 +137,6 @@ const TreeSelect: React.FC<TreeSelectProps> = (props) => {
           onExpand={onExpand}
           onCheck={onCheck}
           treeData={currentTreeData}
-          // checkStrictly={checkStrictly}
           {...options}
         />
       </div>

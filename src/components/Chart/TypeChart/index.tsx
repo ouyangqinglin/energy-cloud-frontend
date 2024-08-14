@@ -131,6 +131,7 @@ const TypeChart: React.FC<TypeChartProps> = (props) => {
       typeMap.get(type)?.fun?.((type == chartTypeEnum.Day ? step : date) as any, hourRange) ||
       allLabel ||
       getLabelByData(data);
+    console.log('labels>>', labels);
     setXLables(labels);
   }, [type, step, date, allLabel, data]);
 
