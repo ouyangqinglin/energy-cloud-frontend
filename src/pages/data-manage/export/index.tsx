@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { columns } from './config';
+import { columns, exportTaskColumns } from './config';
 import YTProTable from '@/components/YTProTable';
 import { getData, createTask, reExecuteExport, getFileUrl } from './service';
 import { YTProTableCustomProps } from '@/components/YTProTable/typing';
@@ -18,12 +18,12 @@ import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import SchemaForm from '@/components/SchemaForm';
 import { TableSearchType } from '../search/type';
 import styles from '../search/workbench/index.less';
-import { exportTaskColumns } from '../search/workbench/helper';
 import { dealParams } from '../search/config';
 import { aLinkDownLoad } from '@/utils/downloadfile';
 import { useBoolean } from 'ahooks';
 
 const Export: React.FC = () => {
+  // @ts-ignore
   const [initVal, setInitVal] = useState<TaskInfo>({} as TaskInfo);
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
@@ -39,27 +39,28 @@ const Export: React.FC = () => {
     aLinkDownLoad(url, '');
   };
 
-  const requestExport = useCallback(
-    (record) => {
-      if (record.status === 1) {
-        return getFileUrl({ platform: 1, url: record.url }).then((result) => {
-          if (result.data !== '') {
-            downloadLog(result.data as string);
-          }
+  const onSuccess = useCallback(() => {
+    setFalse();
+    actionRef?.current?.reload?.();
+  }, [actionRef]);
 
-        })
-      } else {
-        // @ts-ignore
-        return reExecuteExport({ id: record.id, type: 0 }).then((data) => {
-          if (data) {
-            message.success(formatMessage({ id: 'dataManage.1017', defaultMessage: '执行成功' }));
-            onSuccess?.();
-          }
-        });
-      }
-    },
-    [],
-  );
+  const requestExport = useCallback((record) => {
+    if (record.status === 1) {
+      return getFileUrl({ platform: 1, url: record.url }).then((result) => {
+        if (result.data !== '') {
+          downloadLog(result.data as string);
+        }
+      });
+    } else {
+      // @ts-ignore
+      return reExecuteExport({ id: record.id, type: 0 }).then((data) => {
+        if (data) {
+          message.success(formatMessage({ id: 'dataManage.1017', defaultMessage: '执行成功' }));
+          onSuccess?.();
+        }
+      });
+    }
+  }, []);
 
   const operation: ProColumns = {
     title: formatMessage({ id: 'dataManage.1075', defaultMessage: '操作' }),
@@ -73,7 +74,7 @@ const Export: React.FC = () => {
       // 0执行中 1成功 2失败
       switch (record.status) {
         case 0:
-          return (<span>-</span>);
+          return <span>-</span>;
         case 1:
           statusId = 'common.download';
           defaultMessage = '下载';
@@ -87,10 +88,7 @@ const Export: React.FC = () => {
       return (
         <>
           <Button type="link" size="small" key="taskDownload" onClick={() => requestExport(record)}>
-            <FormattedMessage
-              id={statusId}
-              defaultMessage={defaultMessage}
-            />
+            <FormattedMessage id={statusId} defaultMessage={defaultMessage} />
           </Button>
         </>
       );
@@ -110,25 +108,25 @@ const Export: React.FC = () => {
     },
   };
 
-  const onSuccess = useCallback(() => {
-    setFalse();
-    actionRef?.current?.reload?.();
-  }, [actionRef]);
-
   const onValuesChange = useCallback((_, params) => {
     dealParams(params);
   }, []);
 
-  const collectParams = (formData: { collection: any[]; startTime: any; endTime: any; name: any; }) => {
-    let config = { keyValue: [] as any }
+  const collectParams = (formData: {
+    collection: any[];
+    startTime: any;
+    endTime: any;
+    name: any;
+  }) => {
+    const config = { keyValue: [] as any };
 
-    formData.collection.forEach((item: any, index: number) => {
+    formData.collection.forEach((item: any) => {
       config.keyValue.push({
         deviceName: item.node.deviceName,
         key: item.node.paramCode,
         deviceId: item.node.deviceId,
-        name: item.node.deviceName
-      })
+        name: item.node.deviceName,
+      });
     });
 
     return {
@@ -137,22 +135,26 @@ const Export: React.FC = () => {
       endTime: formData.endTime,
       name: formData.name,
       type: 0,
-    }
-  }
+    };
+  };
 
   const onFinish = useCallback(
     (formData) => {
       // @ts-ignore
-      return createTask(collectParams(formData)).then(({ data }) => {
-        if (data) {
-          message.success(formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }));
-          onSuccess?.();
-        }
-      }).finally(() => {
-        // setOpen(false);
-        setFalse();
-        return true;
-      });
+      return createTask(collectParams(formData))
+        .then(({ data }) => {
+          if (data) {
+            message.success(
+              formatMessage({ id: 'common.successSaved', defaultMessage: '保存成功' }),
+            );
+            onSuccess?.();
+          }
+        })
+        .finally(() => {
+          // setOpen(false);
+          setFalse();
+          return true;
+        });
     },
     [formRef.current],
   );
