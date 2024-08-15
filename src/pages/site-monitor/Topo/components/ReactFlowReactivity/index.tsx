@@ -38,6 +38,7 @@ export const LayoutFlow: FC<LayoutFlowType> = ({ children, height, ...restProps 
         connectionLineType={ConnectionLineType.SmoothStep}
         minZoom={0.2}
         maxZoom={3}
+        nodesDraggable={false}
         {...restProps}
       >
         <Panel position="bottom-right" className={styles.coverTagPanel}>
