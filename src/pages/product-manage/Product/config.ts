@@ -13,8 +13,10 @@ import { ProColumns } from '@ant-design/pro-components';
 import { getLocale } from '@/utils';
 import { YTDATERANGE } from '@/components/YTDateRange';
 import type { YTDATERANGEVALUETYPE } from '@/components/YTDateRange';
+import { Table, Input } from 'antd';
 
 export type ProductDataType = {
+  description: string;
   id?: string;
   createTime?: string;
   productTypeId?: string;
@@ -69,7 +71,7 @@ export const getColumns = (
       formItemProps: {
         name: 'factoryId',
       },
-      width: 150,
+      width: 120,
       ellipsis: true,
       request: () => {
         return getFactoryList().then(({ data }) => {
@@ -100,6 +102,12 @@ export const getColumns = (
         format: 'YYYY-MM-DD',
       },
       width: 150,
+    },
+    {
+      title: formatMessage({ id: 'common.remark', defaultMessage: '备注' }),
+      dataIndex: 'description',
+      width: 150,
+      valueType: 'text',
     },
   ];
 };

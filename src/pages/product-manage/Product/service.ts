@@ -37,3 +37,10 @@ export const updateProductIntroduce = (data: any) => {
     data,
   });
 };
+
+export const editDescription = (data: any) => {
+  return request('/iot/product/editDescriptionById', {
+    method: 'POST',
+    data,
+  });
+};
