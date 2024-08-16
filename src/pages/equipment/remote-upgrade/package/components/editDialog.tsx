@@ -33,6 +33,7 @@ import { ProConfigProvider } from '@ant-design/pro-components';
 import { FormOperations } from '@/components/YTModalForm/typing';
 import { formatMessage } from '@/utils';
 import { aLinkDownLoad } from '@/utils/downloadfile';
+import { columns } from '@/components/CollectionModal/helper';
 
 export type ConfigFormProps = {
   deviceData: DeviceDataType;
@@ -439,7 +440,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       valueType: 'switch',
       formItemProps: {
         name: 'selectVersion',
-        initialValue: true,
+        initialValue: false,
         //rules: [{ required: true, message: '请选择' }],
       },
       fieldProps: (form) => {
@@ -453,46 +454,53 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         span: 24,
       },
     },
-    //选择可升级版本号
+    //选择可升级版本
     {
-      title: '',
-      dataIndex: 'upgradeDeviceVersionDetailList',
-      valueType: TABLESELECT,
-      colProps: {
-        span: 24,
-      },
-      dependencies: ['productId'],
-      hideInForm: selectVersion == false,
-      formItemProps: {
-        //hidden: selectVersion == false,
-        rules: [{ required: true }],
-      },
-      fieldProps: (form: any) => {
-        return {
-          proTableProps: {
-            columns: versionSelectColumns,
-            request: (params: any) => {
-              return getVersionList({
-                ...params,
-                productId: form?.getFieldValue?.('productId'),
-              }).then(({ data }) => {
-                return {
-                  data: data?.list,
-                  total: data?.total,
-                  success: true,
-                };
-              });
+      valueType: 'dependency',
+      name:['selectVersion'],
+      //@ts-ignore
+      columns:({selectVersion})=>{
+        return selectVersion?[{
+            title: '',
+            dataIndex: 'upgradeDeviceVersionDetailList',
+            valueType: TABLESELECT,
+            colProps: {
+              span: 24,
             },
-          },
-          onFocus: () => {
-            return form?.validateFields(['productId']);
-          },
-          valueId: 'id',
-          valueName: 'version',
-          tableId: 'id',
-          tableName: 'version',
-        };
-      },
+            dependencies: ['productId'],
+            hideInForm: selectVersion == false,
+            formItemProps: {
+              //hidden: selectVersion == false,
+              rules: [{ required: true }],
+            },
+            fieldProps: (form: any) => {
+              return {
+                proTableProps: {
+                  columns: versionSelectColumns,
+                  request: (params: any) => {
+                    return getVersionList({
+                      ...params,
+                      productId: form?.getFieldValue?.('productId'),
+                    }).then(({ data }) => {
+                      return {
+                        data: data?.list,
+                        total: data?.total,
+                        success: true,
+                      };
+                    });
+                  },
+                },
+                onFocus: () => {
+                  return form?.validateFields(['productId']);
+                },
+                valueId: 'id',
+                valueName: 'version',
+                tableId: 'id',
+                tableName: 'version',
+              };
+            },
+          }]:[];
+      }
     },
     {
       title: formatMessage({ id: 'upgradeManage.signature', defaultMessage: '签名算法' }),
