@@ -43,7 +43,7 @@ const UpgradeTask: React.FC = () => {
   const onAddClick = useCallback(() => {
     setOperations(FormOperations.CREATE);
     // @ts-ignore
-    setInitialValues({ type: '2' });
+    setInitialValues({ type: '1' });
     setUpdateModal(true); //打开弹窗
   }, []);
 
