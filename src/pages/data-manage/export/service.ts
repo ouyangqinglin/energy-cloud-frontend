@@ -23,3 +23,10 @@ export const reExecuteExport = (data: any) => {
 export const createTask = (data: AddTaskParams) => {
   return post(`/iot/deviceDataTask/save`, data);
 };
+
+export const removeLog = (params: any) => {
+  return request(`/iot/otaPackage`, {
+    method: 'DELETE',
+    params,
+  });
+};

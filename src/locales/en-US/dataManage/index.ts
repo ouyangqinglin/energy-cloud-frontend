@@ -165,4 +165,6 @@ export default {
   'dataManage.1090': 'Task end time',
   'dataManage.1091': 'Wind turbine report',
   'dataManage.1092': 'Chai Fa Report',
+  'dataManage.1093': 'Exporting person',
+  'dataManage.1094': 'Are you sure you want to delete it? After deletion, it cannot be restored!',
 };
