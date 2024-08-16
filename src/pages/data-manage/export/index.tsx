@@ -125,7 +125,7 @@ const Export: React.FC = () => {
         deviceName: item.node.deviceName,
         key: item.node.paramCode,
         deviceId: item.node.deviceId,
-        name: item.node.deviceName,
+        name: item.node.paramName,
       });
     });
 
