@@ -165,4 +165,6 @@ export default {
   'dataManage.1090': '任务结束时间',
   'dataManage.1091': '风机报表',
   'dataManage.1092': '柴发报表',
+  'dataManage.1093': '导出人',
+  'dataManage.1094': '你确定要删除吗？删除之后无法恢复！',
 };
