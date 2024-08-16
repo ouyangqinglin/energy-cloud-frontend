@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { columns, exportTaskColumns } from './config';
 import YTProTable from '@/components/YTProTable';
-import { getData, createTask, reExecuteExport, getFileUrl } from './service';
+import { getData, createTask, reExecuteExport, getFileUrl, removeLog } from './service';
 import { YTProTableCustomProps } from '@/components/YTProTable/typing';
 import { TaskInfo } from './type';
 import { formatMessage } from '@/utils';
@@ -12,8 +12,8 @@ import {
   ProConfigProvider,
   ProFormInstance,
 } from '@ant-design/pro-components';
-import { Button, message } from 'antd';
-import { FormattedMessage } from 'umi';
+import { Button, message, Modal, Row } from 'antd';
+import { FormattedMessage, useIntl } from 'umi';
 import { tableTreeSelectValueTypeMap } from '@/components/TableSelect';
 import SchemaForm from '@/components/SchemaForm';
 import { TableSearchType } from '../search/type';
@@ -21,6 +21,7 @@ import styles from '../search/workbench/index.less';
 import { dealParams } from '../search/config';
 import { aLinkDownLoad } from '@/utils/downloadfile';
 import { useBoolean } from 'ahooks';
+import { TaskExecuteStatus } from '@/utils/enum';
 
 const Export: React.FC = () => {
   // @ts-ignore
@@ -28,6 +29,7 @@ const Export: React.FC = () => {
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [openForm, { set, setTrue: setOpenFormTrue, setFalse }] = useBoolean(false);
+  const intl = useIntl();
 
   const requestList = useCallback((params) => {
     return getData({
@@ -65,21 +67,19 @@ const Export: React.FC = () => {
   const operation: ProColumns = {
     title: formatMessage({ id: 'dataManage.1075', defaultMessage: '操作' }),
     valueType: 'option',
-    width: 100,
     fixed: 'right',
     align: 'center',
     render: (_: any, record: any) => {
       let statusId = '';
       let defaultMessage = '';
-      // 0执行中 1成功 2失败
       switch (record.status) {
-        case 0:
+        case TaskExecuteStatus.Inprogress:
           return <span>-</span>;
-        case 1:
+        case TaskExecuteStatus.Success:
           statusId = 'common.download';
           defaultMessage = '下载';
           break;
-        case 2:
+        case TaskExecuteStatus.Failure:
           statusId = 'dataManage.1086';
           defaultMessage = '重新执行';
           break;
@@ -90,6 +90,37 @@ const Export: React.FC = () => {
           <Button type="link" size="small" key="taskDownload" onClick={() => requestExport(record)}>
             <FormattedMessage id={statusId} defaultMessage={defaultMessage} />
           </Button>
+
+          {record.status === TaskExecuteStatus.Inprogress ? (
+            <></>
+          ) : (
+            <Button
+              type="link"
+              size="small"
+              key="delete"
+              onClick={() => {
+                Modal.confirm({
+                  title: intl.formatMessage({ id: 'common.delete', defaultMessage: '删除' }),
+                  content: intl.formatMessage({
+                    id: 'dataManage.1094',
+                    defaultMessage: '你确定要删除吗？删除之后无法恢复！',
+                  }),
+                  okText: intl.formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+                  cancelText: intl.formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+                  onOk: () => {
+                    // removeLog({ id: record.id }).then(() => {
+                    message.success('删除成功');
+                    if (actionRef.current) {
+                      actionRef.current.reload();
+                    }
+                    // });
+                  },
+                });
+              }}
+            >
+              <FormattedMessage id="common.delete" defaultMessage="删除" />
+            </Button>
+          )}
         </>
       );
     },
@@ -125,7 +156,7 @@ const Export: React.FC = () => {
         deviceName: item.node.deviceName,
         key: item.node.paramCode,
         deviceId: item.node.deviceId,
-        name: item.node.deviceName,
+        name: item.node.paramName,
       });
     });
 

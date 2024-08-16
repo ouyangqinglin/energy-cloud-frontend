@@ -245,89 +245,143 @@ export const Update = (props: FormUpdateBaseProps) => {
         valueType: 'radio',
         valueEnum: updateTimeList,
         formItemProps: {
-          initialValue: '2',
-          rules: [{ required: true }],
-        },
-      },
-      {
-        title: formatMessage({ id: 'upgradeManage.upgradeTime', defaultMessage: '升级时间' }),
-        dataIndex: ['upgradeTime'],
-        name: 'upgradeTime',
-        dependencies: ['type'],
-        formItemProps(form) {
-          if (form.getFieldValue('type') == 2) {
-            return {
-              rules: [
-                {
-                  required: true,
-                },
-              ],
-            };
-          } else {
-            return {
-              rules: [
-                {
-                  required: false,
-                },
-              ],
-            };
-          }
-        },
-        fieldProps: {
-          style: {
-            width: '100%',
-          },
-          disabledDate: (current: Dayjs) => {
-            return current && current < dayjs().startOf('day'); //只能选择今天以及之后的时间
-          },
-        },
-        valueType: 'dateTime',
-        colProps: {
-          span: 12,
-        },
-      },
-      //关联设备
-      {
-        title: formatMessage({ id: 'upgradeManage.assoDevice', defaultMessage: '关联设备' }),
-        valueType: TABLESELECT as any,
-        dataIndex: 'upgradeDeviceDetailList',
-        colProps: {
-          span: 12,
-        },
-        dependencies: ['siteId', 'packageName'],
-        fieldProps: (form: any) => {
-          return {
-            proTableProps: {
-              columns: deviceSelectColumns,
-              request: (params: any) => {
-                return getSelectDeviceList({
-                  ...params,
-                  packageId: form?.getFieldValue?.('packageId'),
-                  siteId: form?.getFieldValue?.('siteId'),
-                }).then(({ data }) => {
-                  return {
-                    data: data?.list,
-                    total: data?.total,
-                    success: true,
-                  };
-                });
-              },
-            },
-            onFocus: () => {
-              return form?.validateFields(['packageId']);
-            },
-            valueId: 'deviceId',
-            valueName: 'deviceName',
-            tableName: 'deviceName',
-            tableId: 'deviceId',
-          };
-        },
-        formItemProps: {
           rules: [
             {
               required: true,
             },
           ],
+        },
+      },
+      {
+        valueType: 'dependency',
+        name: ['type'],
+        columns: ({ type }) => {
+          console.log(type);
+          return type == 1
+            ? [
+                {
+                  title: formatMessage({
+                    id: 'upgradeManage.assoDevice',
+                    defaultMessage: '关联设备',
+                  }),
+                  valueType: TABLESELECT as any,
+                  dataIndex: 'upgradeDeviceDetailList',
+                  colProps: {
+                    span: 12,
+                  },
+                  dependencies: ['siteId', 'packageName'],
+                  fieldProps: (form: any) => {
+                    return {
+                      proTableProps: {
+                        columns: deviceSelectColumns,
+                        request: (params: any) => {
+                          return getSelectDeviceList({
+                            ...params,
+                            packageId: form?.getFieldValue?.('packageId'),
+                            siteId: form?.getFieldValue?.('siteId'),
+                          }).then(({ data }) => {
+                            return {
+                              data: data?.list,
+                              total: data?.total,
+                              success: true,
+                            };
+                          });
+                        },
+                      },
+                      onFocus: () => {
+                        return form?.validateFields(['packageId']);
+                      },
+                      valueId: 'deviceId',
+                      valueName: 'deviceName',
+                      tableName: 'deviceName',
+                      tableId: 'deviceId',
+                    };
+                  },
+                  formItemProps: {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                  },
+                },
+              ]
+            : [
+                {
+                  title: formatMessage({
+                    id: 'upgradeManage.upgradeTime',
+                    defaultMessage: '升级时间',
+                  }),
+                  dataIndex: ['upgradeTime'],
+                  name: 'upgradeTime',
+                  dependencies: ['type'],
+                  fieldProps: {
+                    style: {
+                      width: '100%',
+                    },
+                    disabledDate: (current: Dayjs) => {
+                      return current && current < dayjs().startOf('day'); //只能选择今天以及之后的时间
+                    },
+                  },
+                  valueType: 'dateTime',
+                  colProps: {
+                    span: 12,
+                  },
+                  formItemProps: {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                  },
+                },
+                {
+                  title: formatMessage({
+                    id: 'upgradeManage.assoDevice',
+                    defaultMessage: '关联设备',
+                  }),
+                  valueType: TABLESELECT as any,
+                  dataIndex: 'upgradeDeviceDetailList',
+                  colProps: {
+                    span: 12,
+                  },
+                  dependencies: ['siteId', 'packageName'],
+                  fieldProps: (form: any) => {
+                    return {
+                      proTableProps: {
+                        columns: deviceSelectColumns,
+                        request: (params: any) => {
+                          return getSelectDeviceList({
+                            ...params,
+                            packageId: form?.getFieldValue?.('packageId'),
+                            siteId: form?.getFieldValue?.('siteId'),
+                          }).then(({ data }) => {
+                            return {
+                              data: data?.list,
+                              total: data?.total,
+                              success: true,
+                            };
+                          });
+                        },
+                      },
+                      onFocus: () => {
+                        return form?.validateFields(['packageId']);
+                      },
+                      valueId: 'deviceId',
+                      valueName: 'deviceName',
+                      tableName: 'deviceName',
+                      tableId: 'deviceId',
+                    };
+                  },
+                  formItemProps: {
+                    rules: [
+                      {
+                        required: true,
+                      },
+                    ],
+                  },
+                },
+              ];
         },
       },
     ],

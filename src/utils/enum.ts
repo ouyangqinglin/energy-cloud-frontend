@@ -26,3 +26,10 @@ export const enum ModelSizeEnum {
   ThreeCol = '816px',
   FourCol = '1080px',
 }
+
+export const enum TaskExecuteStatus {
+  // 0执行中 1成功 2失败
+  Inprogress = 0,
+  Success = 1,
+  Failure = 2,
+}

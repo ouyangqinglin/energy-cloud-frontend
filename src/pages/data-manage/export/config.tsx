@@ -73,8 +73,16 @@ export const columns: ProColumns<DataType>[] = [
     align: 'center',
   },
   {
-    title: formatMessage({ id: 'dataManage.1082', defaultMessage: '进度' }),
+    title: formatMessage({ id: 'dataManage.1082', defaultMessage: '进度' }) + '(%)',
     dataIndex: 'schedule',
+    hideInSearch: true,
+    hideInTable: false,
+    ellipsis: true,
+    align: 'center',
+  },
+  {
+    title: formatMessage({ id: 'dataManage.1093', defaultMessage: '导出人' }),
+    dataIndex: 'userName',
     hideInSearch: true,
     hideInTable: false,
     ellipsis: true,
