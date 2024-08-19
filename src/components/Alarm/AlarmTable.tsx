@@ -52,7 +52,7 @@ const levelMap = new Map([
   ['info', formatMessage({ id: 'alarmManage.tips', defaultMessage: '提示' })],
 ]);
 
-export const getLevelByType = (type: string, hasBackground: boolean = true, num?: string) => {
+export const getLevelByType = (type: string, num?: string, hasBackground?: boolean) => {
   return (
     <span
       className={`${styles.alarmWrap} ${styles[type]}`}

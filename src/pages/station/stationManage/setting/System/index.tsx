@@ -12,6 +12,7 @@ import type { TabsProps } from 'antd';
 import Monitor from './Monitor';
 import OverviewSetting from './OverviewSetting';
 import VideoMonitor from './VideoMonitor';
+import CustomTags from './CustomTags';
 import { formatMessage } from '@/utils';
 import { useAuthority } from '@/hooks';
 
@@ -21,6 +22,7 @@ const System: React.FC = () => {
     'siteManage:siteConfig:runManage:overviewSetting',
     'iot:siteConfig:deviceTree', //关联设备/采集点
     'siteManage:siteConfig:runManage:videoMonitor',
+    'siteManage:siteConfig:runManage:custom',
   ]);
   const deviceTree = authorityMap.get('iot:siteConfig:deviceTree') || false;
   const tabItems = useMemo(() => {
@@ -50,6 +52,16 @@ const System: React.FC = () => {
           defaultMessage: '监控配置',
         }),
         children: <VideoMonitor />,
+      });
+    }
+    if (authorityMap.get('siteManage:siteConfig:runManage:custom')) {
+      result.push({
+        key: 'custom',
+        label: formatMessage({
+          id: 'siteManage.1046',
+          defaultMessage: '自定义标签',
+        }),
+        children: <CustomTags />,
       });
     }
     return result;
