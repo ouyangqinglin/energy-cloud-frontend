@@ -206,4 +206,6 @@ export default {
   'siteManage.1065': '平均值',
   'siteManage.1066': '第一个值',
   'siteManage.1067': '最后一个值',
+  'siteManage.1068': '最多只能添加15个采集点',
+  'siteManage.1069': '请输入仪表盘名称，最多四个字符',
 };

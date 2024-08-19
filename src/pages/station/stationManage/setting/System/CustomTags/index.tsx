@@ -26,12 +26,13 @@ const CustomTags: React.FC = () => {
 
   const afterRequest = useCallback(
     (data: CustomDataType) => {
-      console.log('RequestData>>', data);
       if (data?.charts.length) {
         data.charts = data?.charts?.map((i) => {
+          i.aggregationPeriod = String(i.aggregationPeriod);
           i.curves = i?.curves?.map((item) => {
             item.collection = defaultCollectionData();
             item.device = defaultDeviceData();
+            item.aggregationMethod = String(item.aggregationMethod);
             if (item?.config) {
               const config = JSON.parse(item?.config) as ConfigType[];
               if (config?.length > 0) {
@@ -49,7 +50,7 @@ const CustomTags: React.FC = () => {
           return i;
         });
       }
-      console.log('data>>', data);
+      data.labelManage.status = String(data?.labelManage?.status);
       setFalse();
     },
     [setFalse],
@@ -60,13 +61,15 @@ const CustomTags: React.FC = () => {
       if (data?.charts.length) {
         data.charts = data?.charts?.map((i) => {
           i.curves = i?.curves?.map((item) => {
+            item.config = [];
             if (item?.collection?.length > 0) {
-              item.config = item.collection.map(({ key, keyName }, index) => {
-                const { deviceId, deviceName } = item.device[index];
-                return { key, keyName, deviceId, deviceName };
-              });
-            } else {
-              item.config = [];
+              const isDefaultData = item.device.some((ids) => ids.deviceId == 'noData');
+              if (!isDefaultData) {
+                item.config = item.collection.map(({ key, keyName }, index) => {
+                  const { deviceId, deviceName } = item.device[index];
+                  return { key, keyName, deviceId, deviceName };
+                });
+              }
             }
             item.config = JSON.stringify(item.config);
             const result = item as any;

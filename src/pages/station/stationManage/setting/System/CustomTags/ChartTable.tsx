@@ -29,15 +29,22 @@ type ChartTableProps = Omit<DatePickerProps, 'value' | 'onChange'> & {
 const ChartTable: React.FC<ChartTableProps> = (props) => {
   const { value, onChange } = props;
   const { siteId } = useModel('station', (model) => ({ siteId: model.state?.id }));
-  const [dataSource, setDataSource] = useState<DataType[]>(value || []);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [openTableSelect, { setLeft, setRight }] = useToggle(false);
   const [selectedRow, setSelectedRow] = useState<TableDataType>({} as TableDataType);
   const [tableTreeValue, setTableTreeValue] = useState<any[]>();
   const [dataId, setDataId] = useState<string | number>('0');
 
   useEffect(() => {
+    if (value?.length) {
+      setDataSource(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
     onChange?.(dataSource);
-  }, [dataSource, onChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataSource]);
 
   const requestTree = useCallback(() => {
     if (siteId) {
@@ -61,10 +68,10 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
   };
 
   const deleteData = useCallback(
-    (id: string | number) => {
+    (uuid: string | number) => {
       const cloneData = cloneDeep(dataSource);
       cloneData.splice(
-        cloneData.findIndex((i) => i.id == id),
+        cloneData.findIndex((i) => i.uuid == uuid),
         1,
       );
       setDataSource(cloneData);
@@ -73,9 +80,9 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
   );
 
   const changeData = useCallback(
-    (id: number | string, curValue: any, key: keyof DataType) => {
+    (uuid: number | string, curValue: any, key: keyof DataType) => {
       const cloneData = cloneDeep(dataSource);
-      const index = cloneData.findIndex((i) => i.id == id);
+      const index = cloneData.findIndex((i) => i.uuid == uuid);
       cloneData[index][key] = curValue;
       setDataSource(cloneData);
     },
@@ -83,21 +90,13 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
   );
 
   const changeTableData = useCallback(
-    (
-      panelId: number | string,
-      rowId: number | string,
-      curValue: any,
-      key: keyof TableDataType,
-      curValueTwo?: any,
-      keyTwo?: keyof TableDataType,
-    ) => {
+    (panelId: number | string, rowId: number | string, changeObj: any) => {
       const cloneData = cloneDeep(dataSource);
-      const panelIndex = cloneData.findIndex((i) => i.id == panelId);
-      const rowIndex = cloneData[panelIndex].curves.findIndex((i) => i.id == rowId);
-      cloneData[panelIndex].curves[rowIndex][key] = curValue;
-      if (curValueTwo && keyTwo) {
-        cloneData[panelIndex].curves[rowIndex][keyTwo] = curValueTwo;
-      }
+      const panelIndex = cloneData.findIndex((i) => i.uuid == panelId);
+      const rowIndex = cloneData[panelIndex].curves.findIndex((i) => i.uuid == rowId);
+      Object.keys(changeObj).forEach((key) => {
+        cloneData[panelIndex].curves[rowIndex][key] = changeObj[key];
+      });
       setDataSource(cloneData);
     },
     [dataSource],
@@ -115,12 +114,12 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
           treeValue = record?.collection?.map((i, index) => {
             const curDevice = record?.device?.[index];
             return {
-              paramCode: i.key,
+              selectName: `${curDevice?.deviceId}_${i.key}`,
               paramName: i.keyName,
               node: {
                 deviceId: curDevice?.deviceId,
                 deviceName: curDevice?.deviceName,
-                paramCode: i.key,
+                selectName: i.key,
                 paramName: i.keyName,
               },
             };
@@ -132,22 +131,60 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
     [setRight],
   );
 
+  const changeUnitDisable = (units: string[]) => {
+    let disable = false;
+    const changeObj: any = {};
+    if (units.length) {
+      const firstItem = units[0];
+      //所有项单位一样且不为空
+      disable = units.every((item) => item === firstItem) && Boolean(firstItem);
+      if (disable) {
+        changeObj.unit = firstItem;
+      }
+    } else {
+      disable = false;
+    }
+    changeObj.unitDisable = disable;
+    return changeObj;
+  };
+
   const getSelectRow = useCallback(
     (selectedData) => {
       let deviceData: DeviceDataType[] = [];
       let collectionData: CollectionDataType[] = [];
+      const units: string[] = [];
       if (selectedData.length) {
+        if (selectedData.length > 15) {
+          message.info(
+            formatMessage({
+              id: 'siteManage.1068',
+              defaultMessage: '最多只能添加15个采集点',
+            }),
+          );
+          return;
+        }
         selectedData.forEach((i: any) => {
+          let dataType: any = {};
+          try {
+            dataType = JSON.parse(i?.node?.dataType || '{}');
+          } catch (err: any) {
+            throw Error(err);
+          }
+          units.push(dataType?.specs?.unit || '');
           deviceData.push({ deviceId: i.node.deviceId, deviceName: i.node.deviceName });
-          collectionData.push({ key: i.paramCode, keyName: i.paramName });
+          collectionData.push({ key: i.selectName.split('_')[1] || '', keyName: i.paramName });
         });
       } else {
         deviceData = defaultDeviceData();
         collectionData = defaultCollectionData();
       }
-      changeTableData(dataId, selectedRow.id, deviceData, 'device', collectionData, 'collection');
+      changeTableData(dataId, selectedRow.uuid, {
+        device: deviceData,
+        collection: collectionData,
+        ...changeUnitDisable(units),
+      });
     },
-    [changeTableData, dataId, selectedRow.id],
+    [changeTableData, dataId, selectedRow.uuid],
   );
 
   const tableColumns = useCallback(
@@ -165,7 +202,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
               width={100}
               maxLength={6}
               onChange={({ target }) => {
-                changeTableData(panelId, record.id, target.value, 'name');
+                changeTableData(panelId, record.uuid, { name: target.value });
               }}
               placeholder={formatMessage({
                 id: 'common.pleaseEnter',
@@ -178,7 +215,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
               key="delete"
               icon={<DeleteOutlined />}
               onClick={() => {
-                const panelIndex = dataSource.findIndex((i) => i.id == panelId);
+                const panelIndex = dataSource.findIndex((i) => i.uuid == panelId);
                 const curves = cloneDeep(dataSource[panelIndex].curves);
                 const length = curves.length;
                 if (length <= 1) {
@@ -190,7 +227,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
                   );
                   return;
                 }
-                const deleteIndex = curves.findIndex((i) => (i.id = record.id));
+                const deleteIndex = curves.findIndex((i) => (i.uuid = record.uuid));
                 curves.splice(deleteIndex, 1);
                 changeData(panelId, curves, 'curves');
               }}
@@ -201,7 +238,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
               key="add"
               icon={<PlusCircleOutlined />}
               onClick={() => {
-                const panelIndex = dataSource.findIndex((i) => i.id == panelId);
+                const panelIndex = dataSource.findIndex((i) => i.uuid == panelId);
                 const curves = cloneDeep(dataSource[panelIndex].curves);
                 const length = curves.length;
                 if (length > 10) {
@@ -229,7 +266,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
           <Select
             value={record.aggregationMethod}
             options={wayOptions}
-            onChange={(data) => changeTableData(panelId, record.id, data, 'aggregationMethod')}
+            onChange={(data) => changeTableData(panelId, record.uuid, { aggregationMethod: data })}
             placeholder={formatMessage({
               id: 'common.pleaseSelect',
               defaultMessage: '请选择',
@@ -245,7 +282,9 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
         render: (_, record) => (
           <Input
             value={record.color}
-            onChange={({ target }) => changeTableData(panelId, record.id, target.value, 'color')}
+            onChange={({ target }) =>
+              changeTableData(panelId, record.uuid, { color: target.value })
+            }
             type="color"
           />
         ),
@@ -258,7 +297,8 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
         render: (_, record) => (
           <Input
             value={record.unit}
-            onChange={({ target }) => changeTableData(panelId, record.id, target.value, 'unit')}
+            disabled={record.unitDisable}
+            onChange={({ target }) => changeTableData(panelId, record.uuid, { unit: target.value })}
             placeholder={formatMessage({
               id: 'common.pleaseEnter',
               defaultMessage: '请输入',
@@ -337,17 +377,17 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
               <Input
                 value={item.name}
                 maxLength={6}
-                key={item.id}
+                key={item.uuid}
                 onClick={(e) => e.stopPropagation()}
                 style={{ width: '150px' }}
-                onChange={({ target }) => changeData(item.id, target.value, 'name')}
+                onChange={({ target }) => changeData(item.uuid, target.value, 'name')}
                 placeholder={formatMessage({
                   id: 'common.pleaseEnter',
                   defaultMessage: '请输入',
                 })}
               />
             }
-            key={item.id}
+            key={item.uuid}
             extra={
               <Space>
                 <span>{formatMessage({ id: 'siteManage.1051', defaultMessage: '聚合周期' })}</span>
@@ -355,24 +395,24 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
                   style={{ width: '150px' }}
                   onClick={(e) => e.stopPropagation()}
                   value={item.aggregationPeriod}
-                  key={item.id}
+                  key={item.uuid}
                   options={getCycleOptions()}
-                  onChange={(data) => changeData(item.id, data, 'aggregationPeriod')}
+                  onChange={(data) => changeData(item.uuid, data, 'aggregationPeriod')}
                   placeholder={formatMessage({
                     id: 'common.pleaseSelect',
                     defaultMessage: '请选择',
                   })}
                 />
-                <Button onClick={() => deleteData(item.id)} type="link" key={item.id}>
+                <Button onClick={() => deleteData(item.uuid)} type="link" key={item.uuid}>
                   {formatMessage({ id: 'common.delete', defaultMessage: '删除' })}
                 </Button>
               </Space>
             }
           >
             <Table
-              key={item.id}
+              key={item.uuid}
               bordered
-              columns={tableColumns(item.id)}
+              columns={tableColumns(item.uuid)}
               dataSource={item.curves}
             />
           </Panel>
@@ -408,7 +448,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
           request: getDeviceCollection,
           pagination: false,
         }}
-        valueId="paramCode"
+        valueId="selectName"
         valueName="paramName"
         value={tableTreeValue}
         onChange={getSelectRow}

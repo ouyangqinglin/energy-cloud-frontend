@@ -4,7 +4,7 @@ import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
-import { DeviceModelType, DevicePropsType } from '@/types/device';
+import type { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import moment from 'moment';
 import defaultSettings from '../../config/defaultSettings';
@@ -236,18 +236,31 @@ export const saveFile = (data: Blob | string, name = '导出文件', ext = '.xls
   // let blob = new Blob([data], { type: fileType.Xlxs })
   FileSaver.saveAs(data, name + ext);
 };
+
+const getExcelData = (data: any[], columns: any[]) => {
+  return data.map((item) => {
+    const obj: any = {};
+    columns.forEach((column) => {
+      if (column.dataIndex) {
+        obj[column.dataIndex] = item[column.dataIndex];
+      }
+    });
+    return obj;
+  });
+};
 /*
  *@Author: aoshilin
  *@Date: 2024-08-16 17:01:17
  *@parms: data 数据源 table数据格式
  *@parms: fileName 下载文件名称
- *@parms: header 表头
+ *@parms: columns 表格配置
  *@parms: fileName 下载文件名称
  *@Description: 前端将数据转换为excel文件格式
  */
-export const dataToExcel = (data: any[], header: string[], fileName?: string) => {
+export const tabelDataToExcel = (data: any[], columns: any, fileName?: string) => {
   try {
-    const worksheet = XLSX.utils.json_to_sheet(data, { header });
+    const excelData = getExcelData(data, columns);
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
