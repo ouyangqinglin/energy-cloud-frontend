@@ -47,7 +47,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   const { operations } = props; //获取操作弹窗的类型
   const { visible } = props; //弹窗是否可见
   const [selectDevice, setSelectDevice] = useState(true); //是否选择设备
-  const [selectVersion, setSelectVersion] = useState(true); //是否选择可升级版本
   const [productModel, setProductModel] = useState(); //回显产品型号名字
   const [platform, setPlatform] = useState('1'); //回显平台类型字段
 
@@ -55,7 +54,6 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   useEffect(() => {
     if (!visible) {
       setSelectDevice(true);
-      setSelectVersion(true);
     }
   }, [operations, visible]);
 
@@ -371,7 +369,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         initialValue: true,
         rules: [{ required: true }],
       },
-      fieldProps: (form) => {
+      fieldProps: () => {
         return {
           onChange: (e: boolean) => {
             setSelectDevice(e);
@@ -439,59 +437,62 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
       valueType: 'switch',
       formItemProps: {
         name: 'selectVersion',
-        initialValue: true,
-        //rules: [{ required: true, message: '请选择' }],
-      },
-      fieldProps: (form) => {
-        return {
-          onChange: (e: boolean) => {
-            setSelectVersion(e);
-          },
-        };
+        initialValue: false,
       },
       colProps: {
         span: 24,
       },
     },
-    //选择可升级版本号
+    //选择可升级版本
     {
-      title: '',
-      dataIndex: 'upgradeDeviceVersionDetailList',
-      valueType: TABLESELECT,
-      colProps: {
-        span: 24,
-      },
-      dependencies: ['productId'],
-      hideInForm: selectVersion == false,
-      formItemProps: {
-        //hidden: selectVersion == false,
-        rules: [{ required: true }],
-      },
-      fieldProps: (form: any) => {
-        return {
-          proTableProps: {
-            columns: versionSelectColumns,
-            request: (params: any) => {
-              return getVersionList({
-                ...params,
-                productId: form?.getFieldValue?.('productId'),
-              }).then(({ data }) => {
-                return {
-                  data: data?.list,
-                  total: data?.total,
-                  success: true,
-                };
-              });
-            },
-          },
-          onFocus: () => {
-            return form?.validateFields(['productId']);
-          },
-          valueId: 'id',
-          valueName: 'version',
-          tableId: 'id',
-          tableName: 'version',
-        };
+      valueType: 'dependency',
+      name: ['selectVersion'],
+      //@ts-ignore
+      columns: ({ selectVersion }) => {
+        return selectVersion
+          ? [
+              {
+                title: '',
+                dataIndex: 'upgradeDeviceVersionDetailList',
+                valueType: TABLESELECT,
+                colProps: {
+                  span: 24,
+                },
+                dependencies: ['productId'],
+                hideInForm: selectVersion == false,
+                formItemProps: {
+                  //hidden: selectVersion == false,
+                  rules: [{ required: true }],
+                },
+                fieldProps: (form: any) => {
+                  return {
+                    proTableProps: {
+                      columns: versionSelectColumns,
+                      request: (params: any) => {
+                        return getVersionList({
+                          ...params,
+                          productId: form?.getFieldValue?.('productId'),
+                        }).then(({ data }) => {
+                          return {
+                            data: data?.list,
+                            total: data?.total,
+                            success: true,
+                          };
+                        });
+                      },
+                    },
+                    onFocus: () => {
+                      return form?.validateFields(['productId']);
+                    },
+                    valueId: 'id',
+                    valueName: 'version',
+                    tableId: 'id',
+                    tableName: 'version',
+                  };
+                },
+              },
+            ]
+          : [];
       },
     },
     {
@@ -550,11 +551,9 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         }
         if (!res.upgradeDeviceVersionDetailList) {
           res.selectVersion = false;
-          setSelectVersion(false);
           res.upgradeDeviceVersionDetailList = [];
         } else {
           res.selectVersion = true;
-          setSelectVersion(true);
           res.upgradeDeviceVersionDetailList.map((item: any) => {
             item.id = item.versionId;
             delete item.versionId;
@@ -573,10 +572,10 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
   const convertUpdateParams = useCallback(
     (params: UpdateTaskParam) => {
       params.upgradeDevice = params.upgradeDeviceDetailList
-        ? params.upgradeDeviceDetailList.map((item) => item.deviceId).join(',')
+        ? params.upgradeDeviceDetailList.map((item: any) => item.deviceId).join(',')
         : '';
       params.upgradableVersion = params.upgradeDeviceVersionDetailList
-        ? params.upgradeDeviceVersionDetailList.map((item) => item.id).join(',')
+        ? params.upgradeDeviceVersionDetailList.map((item: any) => item.id).join(',')
         : '';
       params.productTypeId = params.productTypeId;
       params.productModel = productModel || '';

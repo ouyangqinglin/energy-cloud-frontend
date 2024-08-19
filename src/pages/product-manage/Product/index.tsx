@@ -6,7 +6,7 @@
  * @LastEditors: YangJianFei
  * @FilePath: \energy-cloud-frontend\src\pages\product-manage\Product\index.tsx
  */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { history } from 'umi';
 import { getColumns } from './config';
 import type { ProductDataType } from './config';
@@ -16,10 +16,31 @@ import type { SearchParams } from '@/hooks/useSearchSelect';
 import { getProductTypeList } from '@/services/equipment';
 import { getPage } from './service';
 import { formatMessage } from '@/utils';
-import { ProConfigProvider } from '@ant-design/pro-components';
+import { ActionType, ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { Button, Modal, Input } from 'antd';
+import { useBoolean } from 'ahooks';
+import { editDescription } from './service';
 
 const Product: React.FC = () => {
+  const [open, { set, setTrue, setFalse }] = useBoolean(false);
+  const { TextArea } = Input;
+  const [description, setDescription] = useState(''); // 使用 useState 钩子来管理输入值的状态
+  const [id, setId] = useState();
+  const actionRef = useRef<ActionType>();
+  const [des, setDes] = useState('');
+
+  const onOk = (e: any) => {
+    editDescription({ id, description }).then((res) => {
+      if (res.data) {
+        if (actionRef.current) {
+          actionRef.current?.reload();
+        }
+      }
+    });
+    setFalse();
+  };
+
   const requestProductType = useCallback((searchParams: SearchParams) => {
     return getProductTypeList(searchParams).then(({ data }) => {
       return data?.map?.((item) => {
@@ -67,12 +88,45 @@ const Product: React.FC = () => {
       >
         <YTProTable
           columns={columns}
+          actionRef={actionRef}
           toolBarRender={() => []}
           request={getPage}
           option={{
             onDetailChange,
+            render: (_, record) => (
+              <>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setTrue();
+                    //@ts-ignore
+                    setId(record?.id);
+                    setDes(record?.description);
+                  }}
+                >
+                  编辑
+                </Button>
+              </>
+            ),
           }}
         />
+        <Modal
+          open={open}
+          //@ts-ignore
+          onCancel={setFalse}
+          onOk={onOk}
+          title={formatMessage({ id: 'siteManage.editNote', defaultMessage: '编辑备注' })}
+          destroyOnClose
+        >
+          <TextArea
+            name="postContent"
+            rows={4}
+            defaultValue={des}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }} // 监听改变事件来更新状态
+          />
+        </Modal>
       </ProConfigProvider>
     </>
   );

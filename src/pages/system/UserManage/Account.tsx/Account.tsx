@@ -14,7 +14,7 @@ import type { ActionType } from '@ant-design/pro-components';
 import { useBoolean } from 'ahooks';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { getPage, getData, addData, editData, deleteData } from './service';
-import { message } from 'antd';
+import { Button, message, Modal } from 'antd';
 import { tableSelectValueTypeMap } from '@/components/TableSelect';
 import type { TABLESELECTVALUETYPE } from '@/components/TableSelect';
 import { OrgTypeEnum } from '@/components/OrgTree/type';
@@ -25,6 +25,8 @@ import { useAuthority } from '@/hooks';
 import type { YTProTableProps } from '@/components/YTProTable/typing';
 import { ProConfigProvider } from '@ant-design/pro-components';
 import { YTDateRangeValueTypeMap } from '@/components/YTDateRange';
+import { getLog } from '../../authorization/service';
+import { getLogData } from '../../authorization/data';
 
 export type AccountProps = {
   params?: Record<string, any>;
@@ -36,6 +38,7 @@ const Account: React.FC<AccountProps> = (props) => {
   const actionRef = useRef<ActionType>();
   const [openForm, { set, setTrue: setOpenFormTrue }] = useBoolean(false);
   const [roleOptions, setRoleOptions] = useState<OptionType[]>([]);
+  const [open, setOpen] = useState(false);
   const [formInfo, setFormInfo] = useState({
     type: FormTypeEnum.Add,
     id: '',
@@ -119,6 +122,21 @@ const Account: React.FC<AccountProps> = (props) => {
     setOpenFormTrue();
   }, []);
 
+  const onClickStation = useCallback((record: AccountDataType) => {
+    console.log('onClickStation', record);
+    setOpen(true);
+    // setAppId(params.appId);
+    // return getLog(params);
+  }, []);
+
+  const handleOk = () => {
+    setOpen(false);
+  };
+
+  const onCancel = () => {
+    setOpen(false);
+  };
+
   const onDeleteClick = useCallback((_, record: AccountDataType) => {
     return deleteData({ userIds: [record.userId] }).then(({ data }) => {
       if (data) {
@@ -127,6 +145,12 @@ const Account: React.FC<AccountProps> = (props) => {
       }
     });
   }, []);
+
+  const footer = () => [
+    <Button key="back" onClick={onCancel}>
+      关闭
+    </Button>,
+  ];
 
   const options = useMemo(() => {
     const result: YTProTableProps<any, any>['option'] = {};
@@ -146,6 +170,8 @@ const Account: React.FC<AccountProps> = (props) => {
     ) {
       result.onDeleteChange = onDeleteClick;
     }
+    // TODO: 未联调，暂时注释
+    // result.render = (_, record) => (<Button type="link" onClick={() => onClickStation(record)}>站点</Button>);
     return result;
   }, [type, authorityMap, onEditClick, onDeleteClick]);
 
@@ -205,6 +231,11 @@ const Account: React.FC<AccountProps> = (props) => {
       });
   }, [params?.orgTypes]);
 
+  // TODO: 站点table请求
+  const requestList = useCallback((query: getLogData) => {
+    return getLog({ ...query });
+  }, []);
+
   return (
     <>
       <ProConfigProvider
@@ -255,6 +286,26 @@ const Account: React.FC<AccountProps> = (props) => {
           }}
           initialValues={initialValues}
         />
+      </ProConfigProvider>
+
+      <ProConfigProvider>
+        <Modal
+          title="站点查看"
+          open={open}
+          onOk={handleOk}
+          onCancel={onCancel}
+          width={1000}
+          destroyOnClose
+          footer={footer}
+        >
+          {/* <YTProTable<any, any>
+            actionRef={actionRef}
+            // @ts-ignore
+            columns={getStationColumns}
+            request={requestList}
+            toolBarRender={() => []}
+          /> */}
+        </Modal>
       </ProConfigProvider>
     </>
   );

@@ -22,7 +22,6 @@ export const buildEdges = (
         targetHandle: node.targetHandle,
         sourceHandle,
         type: edgeType,
-        animated: true,
       });
     }
     if (node.children) {

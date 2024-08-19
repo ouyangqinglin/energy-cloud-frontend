@@ -38,6 +38,7 @@ export default {
   'user.mobilePhone': 'Mobile Phone',
   'user.organization': 'Organization',
   'user.phoneFormatError': 'Phone Format Error',
+  'user.emailFormatError': 'Email Format Error',
   'user.phoneFormatErrorHint':
     'Format error: 8-16 numeric words, at least two of which are: letters/numbers/symbols',
   'user.phoneFormatHint': '8-16 numeric words, at least two of which are: letters/numbers/symbols',

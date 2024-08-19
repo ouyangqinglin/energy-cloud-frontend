@@ -492,7 +492,6 @@ const buildEdges = (nodes: GraphNode[] = [], edges: Edge[] = [], sourceId?: stri
         source: sourceId,
         target: node.id,
         type: edgeType,
-        animated: true,
       });
     }
     if (node.children) {

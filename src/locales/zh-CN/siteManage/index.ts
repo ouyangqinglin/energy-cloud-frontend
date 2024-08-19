@@ -132,7 +132,7 @@ export default {
 
   'siteManage.unitName': '单元名称',
   'siteManage.electricityMeter': '市电电表',
-
+  'siteManage.editNote': '编辑备注',
   'siteManage.unitManage': '储能单元管理',
   'siteManage.1001': '视频监控',
   'siteManage.1002': '监控状态',

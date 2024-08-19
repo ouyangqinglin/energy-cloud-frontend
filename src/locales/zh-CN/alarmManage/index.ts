@@ -39,4 +39,8 @@ export default {
   'alarmManage.1009': '排名',
   'alarmManage.1010': '告警总数',
   'alarmManage.1011': '总数',
+
+  'alarmManage.1012': '告警配置',
+  'alarmManage.1013': '推送方式',
+  'alarmManage.1014': '推送级别',
 };

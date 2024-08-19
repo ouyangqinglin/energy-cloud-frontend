@@ -45,7 +45,7 @@ export type AlarmProps = {
   formParam?: Record<string, any>;
 };
 
-const levelMap = new Map([
+export const levelMap = new Map([
   ['error', formatMessage({ id: 'alarmManage.emergent', defaultMessage: '严重' })],
   ['alarm', formatMessage({ id: 'alarmManage.importance', defaultMessage: '重要' })],
   ['warn', formatMessage({ id: 'alarmManage.secondary', defaultMessage: '次要' })],

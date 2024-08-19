@@ -224,7 +224,7 @@ const genBatteryCluster = (data: VoltaicPileVo) => {
             },
             {
               label: `${formatMessage({
-                id: 'siteMonitor.MonomerMaxHeat',
+                id: 'siteMonitor.MonomerMinHeat',
                 defaultMessage: '单体最低温度',
               })}(℃):`,
               value: data?.lvomt,
