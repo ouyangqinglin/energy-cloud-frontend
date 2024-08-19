@@ -167,4 +167,5 @@ export default {
   'dataManage.1092': 'Chai Fa Report',
   'dataManage.1093': 'Exporting person',
   'dataManage.1094': 'Are you sure you want to delete it? After deletion, it cannot be restored!',
+  'dataManage.1095': 'Not Aggregated',
 };

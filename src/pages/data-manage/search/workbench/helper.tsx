@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-10 16:33:30
- * @LastEditTime: 2024-08-12 15:17:15
+ * @LastEditTime: 2024-08-19 10:21:13
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\helper.tsx
+ * @FilePath: /energy-cloud-frontend/src/pages/data-manage/search/workbench/helper.tsx
  */
 
 import moment from 'moment';
