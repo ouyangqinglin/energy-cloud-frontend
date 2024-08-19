@@ -145,6 +145,7 @@ const Read = (props: FormUpdateBaseProps) => {
         title={<FormattedMessage id="common.viewDetail" defaultMessage="查看详情" />}
         formRef={formRef}
         layout={'vertical'}
+        modalProps={{ maskClosable: false }}
         readonly={true}
         {...{
           rowProps: {

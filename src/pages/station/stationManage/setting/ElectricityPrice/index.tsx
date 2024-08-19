@@ -318,6 +318,7 @@ const ElectricPrice: React.FC<ElectricPriceType> = (props) => {
         destroyOnClose
         onOk={handleOk}
         onCancel={() => setVisible(false)}
+        maskClosable={false}
       >
         <YTProTable<any, any>
           columns={columns}

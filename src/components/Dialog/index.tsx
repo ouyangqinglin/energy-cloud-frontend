@@ -65,6 +65,7 @@ const Dialog: React.FC<DialogProps> = (props) => {
       centered
       bodyStyle={ModalBodyStyle}
       {...restProps}
+      maskClosable={false}
     >
       <DialogContext.Provider value={dialogContext}>
         {loading ? <Spin /> : props.children}

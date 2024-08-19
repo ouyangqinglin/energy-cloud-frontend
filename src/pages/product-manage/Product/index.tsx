@@ -117,6 +117,7 @@ const Product: React.FC = () => {
           onOk={onOk}
           title={formatMessage({ id: 'siteManage.editNote', defaultMessage: '编辑备注' })}
           destroyOnClose
+          maskClosable={false}
         >
           <TextArea
             name="postContent"

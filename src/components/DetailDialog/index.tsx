@@ -26,6 +26,7 @@ const DetailDialog: React.FC<DetailDialogProps> = (props) => {
     <>
       <Modal
         title={formatMessage({ id: 'common.view', defaultMessage: '详情' })}
+        maskClosable={false}
         footer={[
           <Button key="confirm" type="primary" onClick={onCancel} loading={confirmLoading}>
             {formatMessage({ id: 'common.ok', defaultMessage: '确定' })}

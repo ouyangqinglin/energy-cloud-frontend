@@ -168,6 +168,7 @@ const RemoteUpgrade: React.FC = () => {
         onCancel={handleCancel}
         width={1000}
         destroyOnClose
+        maskClosable={false}
         footer={[
           <Button key="back" onClick={handleCancel}>
             关闭
