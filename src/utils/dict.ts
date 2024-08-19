@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-06-06 09:00:24
+ * @LastEditTime: 2024-08-19 10:28:13
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
+ * @FilePath: /energy-cloud-frontend/src/utils/dict.ts
  */
 import { OptionType, ValueEnum } from '@/types';
 import { MapTypeEnum, reportTypeEnum, timeDimensionEnum } from './dictionary';
@@ -647,6 +647,9 @@ export const upgradeForce = {
 };
 
 export const aggregationTime = {
+  '': {
+    text: formatMessage({ id: 'dataManage.1095', defaultMessage: '不聚合' }),
+  },
   1: {
     text: formatMessage({ id: 'dataManage.1064', defaultMessage: '1分钟' }),
   },
