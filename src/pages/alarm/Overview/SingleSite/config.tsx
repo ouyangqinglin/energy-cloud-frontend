@@ -13,31 +13,38 @@ export type FrequencyVOList = {
   alarmNum: number;
 };
 
-export type StatisticsVO = {
+export type Statistics = {
   total: number;
-  errorNum: number;
-  errorProportion: number;
-  errorInProgressNum: number;
-  errorEliminatedNum: number;
-
-  alarmNum: number;
-  alarmProportion: number;
-  alarmInProgressNum: number;
-  alarmEliminatedNum: number;
-
-  warnNum: number;
-  warnProportion: number;
-  warnInProgressNum: number;
-  warnEliminatedNum: number;
-
-  infoNum: number;
-  infoProportion: number;
-  infoInProgressNum: number;
-  infoEliminatedNum: number;
+  alarmInfoMap: {
+    alarm: {
+      eliminatedNum: number;
+      inProgressNum: number;
+      num: number;
+      proportion: number;
+    };
+    error: {
+      eliminatedNum: number;
+      inProgressNum: number;
+      num: number;
+      proportion: number;
+    };
+    info: {
+      eliminatedNum: number;
+      inProgressNum: number;
+      num: number;
+      proportion: number;
+    };
+    warn: {
+      eliminatedNum: number;
+      inProgressNum: number;
+      num: number;
+      proportion: number;
+    };
+  };
 };
 
 export type SiteDataType = {
-  alarmStatisticsVO: StatisticsVO;
+  alarmStatistics: Statistics;
   alarmDistributionVOList: {
     productTypeId: number;
     productTypeName: string;
@@ -166,7 +173,7 @@ export const pieConfig = (
   series: [
     {
       type: 'pie',
-      radius: ['40%', '60%'],
+      radius: ['30%', '50%'],
       data: data,
       label: {
         show: false,
@@ -189,19 +196,7 @@ export const barConfig = (data: TypeChartDataType[] = []) => ({
       type: 'shadow',
     },
   },
-  dataZoom: [
-    {
-      type: 'inside',
-      realtime: false,
-    },
-    {
-      start: 0,
-      end: 100,
-      height: 15,
-      realtime: false,
-    },
-  ],
-  series: data.map((i) => ({ type: i.type, color: i.color, barMaxWidth: '25%', stack: 'Ad' })),
+  series: data.map((i) => ({ type: i.type, color: i.color, barMaxWidth: 30, stack: 'Ad' })),
 });
 
 export const alarmMap = new Map([
@@ -285,32 +280,3 @@ export const columns: ProColumns[] = [
     hideInSearch: true,
   },
 ];
-
-export const statisticsVOHandler = (data: StatisticsVO) => {
-  return {
-    error: {
-      num: data.errorNum,
-      proportion: data.errorProportion,
-      inProgressNum: data.errorInProgressNum,
-      eliminatedNum: data.errorEliminatedNum,
-    },
-    alarm: {
-      num: data.alarmNum,
-      proportion: data.alarmProportion,
-      inProgressNum: data.alarmInProgressNum,
-      eliminatedNum: data.alarmEliminatedNum,
-    },
-    warn: {
-      num: data.warnNum,
-      proportion: data.warnProportion,
-      inProgressNum: data.warnInProgressNum,
-      eliminatedNum: data.warnEliminatedNum,
-    },
-    info: {
-      num: data.infoNum,
-      proportion: data.infoProportion,
-      inProgressNum: data.infoInProgressNum,
-      eliminatedNum: data.infoEliminatedNum,
-    },
-  };
-};

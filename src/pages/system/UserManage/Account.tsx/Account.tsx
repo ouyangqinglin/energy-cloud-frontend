@@ -123,12 +123,11 @@ const Account: React.FC<AccountProps> = (props) => {
   }, []);
 
   const onClickStation = useCallback((record: AccountDataType) => {
-    console.log("onClickStation", record);
+    console.log('onClickStation', record);
     setOpen(true);
     // setAppId(params.appId);
     // return getLog(params);
   }, []);
-
 
   const handleOk = () => {
     setOpen(false);
@@ -233,12 +232,9 @@ const Account: React.FC<AccountProps> = (props) => {
   }, [params?.orgTypes]);
 
   // TODO: 站点table请求
-  const requestList = useCallback(
-    (params: getLogData, record) => {
-      return getLog({ ...params });
-    },
-    [],
-  );
+  const requestList = useCallback((query: getLogData) => {
+    return getLog({ ...query });
+  }, []);
 
   return (
     <>

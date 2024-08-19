@@ -3,6 +3,7 @@ import type { MenuDataItem } from '@umijs/route-utils';
 import { formatMessage as umiFormatMessage } from 'umi';
 import { createIcon } from './IconUtil';
 import FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 import { DeviceModelType, DevicePropsType } from '@/types/device';
 import routers, { getPathLocaleMap } from '../../config/routes';
 import moment from 'moment';
@@ -234,6 +235,33 @@ export const getPathArrary = (path: string): string[] => {
 export const saveFile = (data: Blob | string, name = '导出文件', ext = '.xlsx') => {
   // let blob = new Blob([data], { type: fileType.Xlxs })
   FileSaver.saveAs(data, name + ext);
+};
+/*
+ *@Author: aoshilin
+ *@Date: 2024-08-16 17:01:17
+ *@parms: data 数据源 table数据格式
+ *@parms: fileName 下载文件名称
+ *@parms: header 表头
+ *@parms: fileName 下载文件名称
+ *@Description: 前端将数据转换为excel文件格式
+ */
+export const dataToExcel = (data: any[], header: string[], fileName?: string) => {
+  try {
+    const worksheet = XLSX.utils.json_to_sheet(data, { header });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const fileData = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+    if (fileName) {
+      saveFile(fileData, fileName);
+    }
+    return Promise.resolve(fileData);
+  } catch (error) {
+    console.log('error>>', error);
+    return Promise.reject(error);
+  }
 };
 
 export const strToArray = (value: number | string): number[] => {

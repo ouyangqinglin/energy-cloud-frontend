@@ -89,14 +89,19 @@
     flex-flow: row;
     align-items: baseline;
     justify-content: flex-start;
+    width: 92%;
 
     .boxValue {
+      max-width: 92%;
       height: 28px;
       padding-right: 4px;
+      overflow: hidden;
       color: #4dd6f0;
       font-weight: 600;
       font-size: 20px;
       font-family: YouSheBiaoTiHei;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       background: linear-gradient(180deg, #fff 0%, #9be5ff 67%, #0dcaf5 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

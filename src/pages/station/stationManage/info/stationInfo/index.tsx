@@ -255,7 +255,7 @@ const StationInfo: React.FC<StationInfoType> = (props) => {
             defaultMessage: '状态信息',
           })}
           extra={
-            detailData?.constructionStatus === 0 ||
+            detailData?.constructionStatus === 0 &&
             authorityMap.get('siteManage:siteConfig:baseInfo:siteDone') ? (
               <Button type="primary" loading={loading} onClick={() => setSiteOpen(true)}>
                 {formatMessage({ id: 'siteManage.1035', defaultMessage: '站点投运' })}
