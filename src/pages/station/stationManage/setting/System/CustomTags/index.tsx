@@ -92,13 +92,9 @@ const CustomTags: React.FC = () => {
         className="my16 mx24"
         title={formatMessage({ id: 'siteManage.1046', defaultMessage: '自定义标签' })}
         extra={
-          isEdit ? (
-            <Button type="primary" loading={loading} onClick={onSaveClick}>
-              {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
-            </Button>
-          ) : (
-            <></>
-          )
+          <Button disabled={!isEdit} type="primary" loading={loading} onClick={onSaveClick}>
+            {formatMessage({ id: 'common.save', defaultMessage: '保存' })}
+          </Button>
         }
       >
         <SchemaForm

@@ -44,10 +44,10 @@ export interface CustomDataType {
   charts: DataType[];
 }
 
-export const getCycleOptions = (length: number = 10) => {
+export const getCycleOptions = (length: number = 15) => {
   return Array.from({ length }, (_, i) => ({
     label: `${i + 1}${formatMessage({ id: 'common.minute', defaultMessage: '分钟' })}`,
-    value: `${i}`,
+    value: `${i + 1}`,
   }));
 };
 
@@ -84,7 +84,7 @@ export const defaultCurveData = (length: number): TableDataType => ({
 
 export const defaultData = (length: number): DataType => ({
   uuid: getUniqueNumber(3),
-  name: `${length}#${formatMessage({
+  name: `${length + 1}#${formatMessage({
     id: 'siteManage.1058',
     defaultMessage: '图表',
   })}`,

@@ -57,7 +57,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
   const addData = () => {
     const cloneData = cloneDeep(dataSource);
     const dataLength = cloneData.length;
-    if (dataLength > 10) {
+    if (dataLength >= 10) {
       message.info(
         formatMessage({ id: 'siteManage.1059', defaultMessage: '最多只能添加10个图表' }),
       );
@@ -241,7 +241,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
                 const panelIndex = dataSource.findIndex((i) => i.uuid == panelId);
                 const curves = cloneDeep(dataSource[panelIndex].curves);
                 const length = curves.length;
-                if (length > 10) {
+                if (length >= 10) {
                   message.info(
                     formatMessage({
                       id: 'siteManage.1061',
@@ -390,7 +390,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
             key={item.uuid}
             extra={
               <Space>
-                <span>{formatMessage({ id: 'siteManage.1051', defaultMessage: '聚合周期' })}</span>
+                <span>{formatMessage({ id: 'siteManage.1051', defaultMessage: '聚合周期' })}:</span>
                 <Select
                   style={{ width: '150px' }}
                   onClick={(e) => e.stopPropagation()}
@@ -412,6 +412,7 @@ const ChartTable: React.FC<ChartTableProps> = (props) => {
             <Table
               key={item.uuid}
               bordered
+              pagination={false}
               columns={tableColumns(item.uuid)}
               dataSource={item.curves}
             />
