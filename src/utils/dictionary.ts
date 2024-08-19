@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-08-08 13:55:28
+ * @LastEditTime: 2024-08-19 16:15:39
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\utils\dictionary.ts
+ * @FilePath: /energy-cloud-frontend/src/utils/dictionary.ts
  */
 
 // import { formatMessage } from './index';
@@ -20,6 +20,7 @@ export enum MapTypeEnum {
 
 export const mapAks = {
   [MapTypeEnum.AMap]: [
+    { key: '004d69baeeb26c2a3977a1960febf0a6', securityJsCode: 'd5c7428c5a5bc0e10841eb967c4fc94b' },
     { key: '595f6302d987647e6c2cb83344e3c487', securityJsCode: '442c0d8de42797daebe1579fdcfcbccb' },
   ],
   [MapTypeEnum.Google]: [{ key: 'AIzaSyBnBWCK_zdES0iQPpyn5k14CUShUGgAUAQ' }],

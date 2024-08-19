@@ -167,4 +167,5 @@ export default {
   'dataManage.1092': '柴发报表',
   'dataManage.1093': '导出人',
   'dataManage.1094': '你确定要删除吗？删除之后无法恢复！',
+  'dataManage.1095': '不聚合',
 };

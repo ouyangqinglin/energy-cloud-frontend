@@ -19,7 +19,7 @@ const Overview: React.FC = () => {
   return (
     <>
       <div className="px24 pt24">
-        <Detail.Label title={formatMessage({ id: 'device.1018', defaultMessage: '统计概览' })}>
+        <Detail.Label title={formatMessage({ id: 'dataManage.1018', defaultMessage: '统计概览' })}>
           <Space>
             <DatePicker.RangePicker
               onChange={onChange}
@@ -33,7 +33,7 @@ const Overview: React.FC = () => {
         </Detail.Label>
         <GroupBarChart date={date} />
         <Detail.Label
-          title={formatMessage({ id: 'device.1019', defaultMessage: '站点排名' })}
+          title={formatMessage({ id: 'dataManage.1019', defaultMessage: '站点排名' })}
           className="mt16"
           dividerProps={{
             className: 'mb0',

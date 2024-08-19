@@ -10,10 +10,11 @@ import React, { useCallback, useRef, useState } from 'react';
 import YTProTable from '@/components/YTProTable';
 import { columns, formColumns, getLogColumns } from './config';
 import { deleteData, getPage, editData, addData, getData, updateStatus, getLog } from './service';
-import { AuthDataType } from './type';
+import type { AuthDataType } from './type';
 import { formatMessage } from '@/utils';
 import { Button, Modal, message } from 'antd';
-import { ActionType, ProConfigProvider } from '@ant-design/pro-components';
+import type { ActionType } from '@ant-design/pro-components';
+import { ProConfigProvider } from '@ant-design/pro-components';
 import SchemaForm, { FormTypeEnum } from '@/components/SchemaForm';
 import { useBoolean } from 'ahooks';
 import { tableSelectValueTypeMap } from '@/components/TableSelect';
@@ -43,42 +44,48 @@ const RemoteUpgrade: React.FC = () => {
       id: '',
     });
     set(true);
-  }, []);
+  }, [set]);
 
-  const onEvent = useCallback((_, params: AuthDataType) => {
-    Modal.confirm({
-      title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-      content: params?.status
-        ? formatMessage({
-            id: 'system.1018',
-            defaultMessage: '您确认要启用吗',
-          })
-        : formatMessage({
-            id: 'system.1019',
-            defaultMessage: '您确认要禁用吗',
+  const onEvent = useCallback(
+    (_, params: AuthDataType) => {
+      Modal.confirm({
+        title: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        content: params?.status
+          ? formatMessage({
+              id: 'system.1018',
+              defaultMessage: '您确认要启用吗',
+            })
+          : formatMessage({
+              id: 'system.1019',
+              defaultMessage: '您确认要禁用吗',
+            }),
+        okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
+        cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
+        onOk: () =>
+          updateStatus(params).then(({ data }) => {
+            if (data) {
+              message.success(
+                formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
+              );
+              onSuccess();
+            }
           }),
-      okText: formatMessage({ id: 'common.confirm', defaultMessage: '确认' }),
-      cancelText: formatMessage({ id: 'common.cancel', defaultMessage: '取消' }),
-      onOk: () =>
-        updateStatus(params).then(({ data }) => {
-          if (data) {
-            message.success(
-              formatMessage({ id: 'common.operateSuccess', defaultMessage: '操作成功' }),
-            );
-            onSuccess();
-          }
-        }),
-    });
-  }, []);
+      });
+    },
+    [onSuccess],
+  );
 
-  const onDeleteClick = useCallback((_, record: AuthDataType) => {
-    return deleteData({ id: record.id }).then(({ data }) => {
-      if (data) {
-        message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
-        onSuccess();
-      }
-    });
-  }, []);
+  const onDeleteClick = useCallback(
+    (_, record: AuthDataType) => {
+      return deleteData({ id: record.id }).then(({ data }) => {
+        if (data) {
+          message.success(formatMessage({ id: 'common.del', defaultMessage: '删除成功' }));
+          onSuccess();
+        }
+      });
+    },
+    [onSuccess],
+  );
 
   const afterRequest = useCallback((data) => {
     data.status = !!data.status;
@@ -90,13 +97,16 @@ const RemoteUpgrade: React.FC = () => {
     data.siteIds = data?.siteIds?.map?.((item: any) => item.id) || [];
   }, []);
 
-  const onEditClick = useCallback((_, record: AuthDataType) => {
-    setFormInfo({
-      type: FormTypeEnum.Edit,
-      id: record.id,
-    });
-    set(true);
-  }, []);
+  const onEditClick = useCallback(
+    (_, record: AuthDataType) => {
+      setFormInfo({
+        type: FormTypeEnum.Edit,
+        id: record.id,
+      });
+      set(true);
+    },
+    [set],
+  );
 
   //
   const onLogClick = useCallback((params) => {
@@ -114,7 +124,7 @@ const RemoteUpgrade: React.FC = () => {
   };
 
   const requestList = useCallback(
-    (params: getLogData, record) => {
+    (params: getLogData) => {
       return getLog({ ...params, appId });
     },
     [appId],

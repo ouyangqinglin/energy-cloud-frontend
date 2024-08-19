@@ -8,7 +8,9 @@
     margin-right: 10px;
   }
   .digit-stat-content {
+    width: calc(100% - 60px);
     .digit-stat-title {
+      width: 100%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -16,12 +18,17 @@
   }
 
   .digit-stat-num {
+    display: inline-block;
+    width: 100%;
     margin-top: 4px;
+    overflow: hidden;
     color: #34e1b6;
     font-weight: 500;
     font-size: 20px;
     font-family: DIN-Medium, DIN;
     line-height: 24px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .digit-stat-num-value {
     display: inline-block;

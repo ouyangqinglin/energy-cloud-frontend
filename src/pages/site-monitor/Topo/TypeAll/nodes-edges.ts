@@ -46,7 +46,7 @@ const genOverViewStatistic = (data: AllTypeData) => {
     id: uniqueId(),
     type: 'statisticCard',
     position: {
-      x: 31,
+      x: -50,
       y: 0,
     },
     data: {
@@ -306,8 +306,8 @@ const genESNode = (data: MainsSupply) => ({
     height: 80,
 
     title: `${utilIsEmpty(data?.masterSlaveMode)
-        ? ''
-        : '(' + masterSlave2Enum[data?.masterSlaveMode as string]?.text + ')'
+      ? ''
+      : '(' + masterSlave2Enum[data?.masterSlaveMode as string]?.text + ')'
       }${data?.deviceName ?? ''}`,
     textContent: {
       column: [

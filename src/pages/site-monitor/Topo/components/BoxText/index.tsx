@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { Handle, Position } from 'reactflow';
 import { ExtraNodeData } from '../../type';
 import styles from './index.less';
+import { Typography } from 'antd';
 
 export type BoxTextProp = {
   label?: string;
@@ -21,8 +22,10 @@ const BoxText = ({ label, width, height = 42, boxStyle = {}, labelStyle = {} }: 
         height,
       }}
     >
-      <span className={styles.label} style={labelStyle}>
-        {label}
+      <span className={styles.label} style={labelStyle} title={label}>
+        <Typography.Paragraph className='mb0' ellipsis={{ rows: 2, expandable: false }}>
+          {label}
+        </Typography.Paragraph>
       </span>
     </div>
   );

@@ -1,15 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { getData, exportList } from './service';
 import { Row, Col, Card, Button } from 'antd';
-import {
-  pieConfig,
-  alarmTitle,
-  filterColumns,
-  columns,
-  alarmMap,
-  barConfig,
-  statisticsVOHandler,
-} from './config';
+import { pieConfig, alarmTitle, filterColumns, columns, alarmMap, barConfig } from './config';
 import Chart from '@/components/Chart/index';
 import TypeChart from '@/components/Chart/TypeChart';
 import { useSiteColumn } from '@/hooks';
@@ -48,11 +40,10 @@ const SingleSite: React.FC = () => {
       const alarmingData: { label: string; value: number }[] = [];
       const eliminatedData: { label: string; value: number }[] = [];
 
-      const { alarmStatisticsVO, alarmDistributionVOList, alarmFrequencyVOList } = data;
-      const curAlarmStatisticsVO = statisticsVOHandler(alarmStatisticsVO);
+      const { alarmStatistics, alarmDistributionVOList, alarmFrequencyVOList } = data;
       //告警统计
       alarmMap.forEach((i, key) => {
-        const currentObj = curAlarmStatisticsVO[key];
+        const currentObj = alarmStatistics.alarmInfoMap[key];
         pieData.push({
           name: i.name,
           value: currentObj?.num,
@@ -63,7 +54,7 @@ const SingleSite: React.FC = () => {
         });
         piecolors.push(i.color);
       });
-      alarmTitle.text = alarmStatisticsVO.total || 0;
+      alarmTitle.text = alarmStatistics.total || 0;
       setOverviewOption(pieConfig(pieData, alarmTitle, piecolors));
       //设备分布
       alarmDistributionVOList.forEach((i) => {
@@ -116,7 +107,6 @@ const SingleSite: React.FC = () => {
           endDate: params.time?.[1]?.format?.('YYYY-MM-DD'),
           siteId: params.siteId,
         }).then((res: any) => {
-          console.log('res>>', res);
           saveFile(res, formatMessage({ id: 'alarmManage.1008', defaultMessage: '告警次数' }));
         });
       })
