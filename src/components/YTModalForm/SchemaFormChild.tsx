@@ -85,6 +85,7 @@ const SchemaModalFormChild = <T, ValueType = 'text'>(
         rowProps={{
           gutter: [24, 0],
         }}
+        modalProps={{ maskClosable: false }}
         {...restProps}
       />
     </ProConfigProvider>

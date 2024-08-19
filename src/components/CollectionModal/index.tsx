@@ -69,6 +69,7 @@ const CollectionModal: React.FC<Omit<CollectionModalType, 'date'>> = (props) => 
         footer={false}
         title={title + (modelData.unit ? `（${modelData.unit}）` : '')}
         open={open}
+        maskClosable={false}
         centered
         {...restProps}
       >
