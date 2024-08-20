@@ -96,6 +96,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
+      maskClosable={false}
     >
       <Form form={form} onFinish={handleFinish} layout="vertical">
         <Row gutter={[16, 16]}>

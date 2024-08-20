@@ -87,6 +87,13 @@ const Read = (props: IProps) => {
         formRef={formRef}
         layout={'vertical'}
         readonly={true}
+        modalProps={{
+          maskClosable: false,
+          destroyOnClose: true,
+          onCancel: () => {
+            formRef?.current?.resetFields?.();
+          },
+        }}
         {...{
           rowProps: {
             gutter: [16, 16],

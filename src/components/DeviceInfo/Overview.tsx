@@ -318,6 +318,7 @@ const Overview: React.FC<OverviewProps> = (props) => {
         open={isModalOpen}
         onOk={closeModal}
         onCancel={closeModal}
+        maskClosable={false}
       >
         {deviceData?.productIntroduce ? (
           <Row gutter={[20, 8]}>

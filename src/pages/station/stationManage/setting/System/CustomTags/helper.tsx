@@ -19,14 +19,16 @@ export type TableDataType = {
   aggregationMethod: string;
   color: string;
   unit: string;
+  unitDisable: boolean;
   device: DeviceDataType[];
   collection: CollectionDataType[];
   config?: any;
-  id: number | string;
+  uuid: number | string;
+  [key: string]: any;
 };
 
 export interface DataType {
-  id: number | string;
+  uuid: number | string;
   name: string;
   aggregationPeriod: string;
   curves: TableDataType[];
@@ -36,16 +38,16 @@ export interface CustomDataType {
   labelManage: {
     id: number | string;
     name: string;
-    status: number;
+    status: string;
     siteId?: string;
   };
   charts: DataType[];
 }
 
-export const getCycleOptions = (length: number = 10) => {
+export const getCycleOptions = (length: number = 15) => {
   return Array.from({ length }, (_, i) => ({
     label: `${i + 1}${formatMessage({ id: 'common.minute', defaultMessage: '分钟' })}`,
-    value: `${i}`,
+    value: `${i + 1}`,
   }));
 };
 
@@ -67,7 +69,7 @@ export const defaultCollectionData = (): CollectionDataType[] => [
 ];
 
 export const defaultCurveData = (length: number): TableDataType => ({
-  id: getUniqueNumber(3),
+  uuid: getUniqueNumber(3),
   name: `${length + 1}#${formatMessage({
     id: 'siteManage.1060',
     defaultMessage: '曲线',
@@ -75,13 +77,14 @@ export const defaultCurveData = (length: number): TableDataType => ({
   aggregationMethod: '1',
   color: '#3DD598',
   unit: 'KW',
+  unitDisable: false,
   device: defaultDeviceData(),
   collection: defaultCollectionData(),
 });
 
 export const defaultData = (length: number): DataType => ({
-  id: getUniqueNumber(3),
-  name: `${length}#${formatMessage({
+  uuid: getUniqueNumber(3),
+  name: `${length + 1}#${formatMessage({
     id: 'siteManage.1058',
     defaultMessage: '图表',
   })}`,
@@ -161,20 +164,27 @@ export const columns: ProFormColumnsType[] = [
         },
       ],
     },
+    fieldProps: {
+      placeholder: formatMessage({
+        id: 'siteManage.1069',
+        defaultMessage: '请输入仪表盘名称，最多四个字符',
+      }),
+      maxLength: 4,
+    },
   },
-  // {
-  //   title: formatMessage({ id: 'siteManage.1049', defaultMessage: '图表管理' }),
-  //   dataIndex: 'charts',
-  //   colProps: {
-  //     span: 24,
-  //   },
-  //   formItemProps: {
-  //     rules: [
-  //       {
-  //         required: true,
-  //       },
-  //     ],
-  //   },
-  //   renderFormItem: () => <ChartTable />,
-  // },
+  {
+    title: formatMessage({ id: 'siteManage.1049', defaultMessage: '图表管理' }),
+    dataIndex: 'charts',
+    colProps: {
+      span: 24,
+    },
+    formItemProps: {
+      rules: [
+        {
+          required: false,
+        },
+      ],
+    },
+    renderFormItem: () => <ChartTable />,
+  },
 ];

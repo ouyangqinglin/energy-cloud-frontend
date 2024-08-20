@@ -43,6 +43,7 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
       })}
       visible={props.visible}
       destroyOnClose
+      maskClosable={false}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>

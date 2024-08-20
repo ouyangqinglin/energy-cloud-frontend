@@ -208,4 +208,6 @@ export default {
   'siteManage.1065': 'Average Value',
   'siteManage.1066': 'The first value',
   'siteManage.1067': 'The last value',
+  'siteManage.1068': 'Only up to 15 collection points can be added',
+  'siteManage.1069': 'Please enter the dashboard name, up to four characters long',
 };

@@ -3,14 +3,12 @@ import { columns } from './config';
 import YTProTable from '@/components/YTProTable';
 import { getData } from './service';
 import styles from './index.less';
-import { formatMessage, dataToExcel } from '@/utils';
+import { formatMessage, tabelDataToExcel } from '@/utils';
 
 const Multistite: React.FC = () => {
   const [exportData, setExportData] = useState<any[]>([]);
   const requestExport = () => {
-    const header = columns.map((item) => item.title) as string[];
-    console.log('header>>', header);
-    return dataToExcel(exportData, header);
+    return tabelDataToExcel(exportData, columns);
   };
 
   const handlerData = (data: any[], params: any) => {
