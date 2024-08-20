@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-11-22 15:11:07
- * @LastEditTime: 2024-06-06 09:00:24
+ * @LastEditTime: 2024-08-19 10:28:13
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\utils\dict.ts
+ * @FilePath: /energy-cloud-frontend/src/utils/dict.ts
  */
 import { OptionType, ValueEnum } from '@/types';
 import { MapTypeEnum, reportTypeEnum, timeDimensionEnum } from './dictionary';
@@ -419,10 +419,7 @@ export const reportType = new Map([
     reportTypeEnum.ChargeBase,
     formatMessage({ id: 'dataManage.chargingFoundationReport', defaultMessage: '充电桩基础报表' }),
   ],
-  [
-    reportTypeEnum.FanColumns,
-    formatMessage({ id: 'dataManage.1091', defaultMessage: '风机报表' }),
-  ],
+  [reportTypeEnum.FanColumns, formatMessage({ id: 'dataManage.1091', defaultMessage: '风机报表' })],
   [
     reportTypeEnum.ChaiFaColumns,
     formatMessage({ id: 'dataManage.1092', defaultMessage: '柴发报表' }),
@@ -647,6 +644,9 @@ export const upgradeForce = {
 };
 
 export const aggregationTime = {
+  '': {
+    text: formatMessage({ id: 'dataManage.1095', defaultMessage: '不聚合' }),
+  },
   1: {
     text: formatMessage({ id: 'dataManage.1064', defaultMessage: '1分钟' }),
   },
@@ -666,7 +666,8 @@ export const aggregationTime = {
     text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
   },
 };
-export const taskStatusEnum = { // 0正在执行 1执行完成 2执行错误  先这样定吧
+export const taskStatusEnum = {
+  // 0正在执行 1执行完成 2执行错误  先这样定吧
   0: {
     text: formatMessage({ id: 'dataManage.1076', defaultMessage: '执行中' }),
   },

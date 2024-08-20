@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-03 18:33:54
- * @LastEditTime: 2024-08-12 15:32:04
+ * @LastEditTime: 2024-08-19 16:40:35
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\station\stationList\siteList.tsx
+ * @FilePath: /energy-cloud-frontend/src/pages/station/stationList/siteList.tsx
  */
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal, Tooltip, message } from 'antd';
@@ -243,7 +243,7 @@ const StationList: React.FC = () => {
         title: formatMessage({ id: 'common.createTime', defaultMessage: '创建时间' }),
         dataIndex: 'createTime',
         renderFormat: getLocale().dateTimeFormat,
-        width: 150,
+        width: 170,
         hideInSearch: true,
       },
       {

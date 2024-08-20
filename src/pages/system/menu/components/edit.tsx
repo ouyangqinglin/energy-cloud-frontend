@@ -88,10 +88,12 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
+      maskClosable={false}
     >
       <Modal
         width={1200}
         visible={previewModalVisible}
+        maskClosable={false}
         onCancel={() => {
           setPreviewModalVisible(false);
         }}

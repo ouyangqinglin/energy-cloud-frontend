@@ -195,6 +195,7 @@ const TableModal = <
         width={width}
         onCancel={onCancel}
         onOk={onOk}
+        maskClosable={false}
         destroyOnClose
         centered
       >

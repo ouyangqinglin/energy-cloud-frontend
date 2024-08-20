@@ -105,6 +105,7 @@ const Read = (props: FormUpdateBaseProps) => {
       title={formatMessage({ id: 'taskManage.view', defaultMessage: '查看' })}
       formRef={formRef}
       layout={'vertical'}
+      modalProps={{ maskClosable: false }}
       readonly={true}
       {...{
         rowProps: {

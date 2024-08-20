@@ -73,6 +73,7 @@ const NoticeForm: React.FC<NoticeFormProps> = (props) => {
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
+      maskClosable={false}
     >
       <Form form={form} onFinish={handleFinish} initialValues={props.values} layout="vertical">
         <ProFormDigit

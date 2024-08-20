@@ -73,12 +73,19 @@ export const stationBoxConfig = (siteType: UnitType) => [
           render: (data: SiteInfoRes) => {
             return (
               <div className={styles.boxDescription}>
-                <span className={styles.boxValue}>{data.energyStoragePower}</span>
+                <span className={styles.boxValue} title={data.energyStoragePower || ('--' as any)}>
+                  {data.energyStoragePower || '--'}
+                </span>
                 <span className={styles.boxUnit} style={{ marginRight: 4 }}>
                   kW
                 </span>
                 <span className={styles.boxValue}>/</span>
-                <span className={styles.boxValue}>{data.energyStorageCapacity}</span>
+                <span
+                  className={styles.boxValue}
+                  title={data.energyStorageCapacity || ('--' as any)}
+                >
+                  {data.energyStorageCapacity || '--'}
+                </span>
                 <span className={styles.boxUnit}>kWh</span>
               </div>
             );

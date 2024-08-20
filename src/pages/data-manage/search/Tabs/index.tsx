@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2024-06-25 15:09:45
- * @LastEditTime: 2024-07-25 10:12:20
+ * @LastEditTime: 2024-08-19 19:01:18
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\Tabs\index.tsx
+ * @FilePath: /energy-cloud-frontend/src/pages/data-manage/search/Tabs/index.tsx
  */
 
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
@@ -15,8 +15,16 @@ import { useBoolean, useSize } from 'ahooks';
 import Workbench from '../workbench';
 import { formatMessage, isEmpty } from '@/utils';
 import Detail from '@/components/Detail';
+import { DeviceDataType } from '@/services/equipment';
 
-const Tabs: React.FC = () => {
+type TabsType = {
+  isDeviceChild?: boolean;
+  deviceData?: DeviceDataType;
+};
+
+const Tabs: React.FC<TabsType> = (props) => {
+  const { isDeviceChild, deviceData } = props;
+
   const contentRef = useRef(null);
   const [grid, setGrid] = useState<number>(1);
   const [isFullScreen, { set }] = useBoolean(false);
@@ -65,7 +73,14 @@ const Tabs: React.FC = () => {
           </Detail.Label>
         </div>
         {!isEmpty(contentSize?.height) && (
-          <Workbench key={1} isFullScreen={isFullScreen} grid={grid} height={contentSize?.height} />
+          <Workbench
+            isDeviceChild={isDeviceChild}
+            deviceData={deviceData}
+            key={1}
+            isFullScreen={isFullScreen}
+            grid={grid}
+            height={contentSize?.height}
+          />
         )}
       </div>
     </>

@@ -65,6 +65,7 @@ const DictTypeForm: React.FC<DictTypeFormProps> = (props) => {
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
+      maskClosable={false}
     >
       <Form form={form} onFinish={handleFinish} initialValues={props.values}>
         <ProFormText

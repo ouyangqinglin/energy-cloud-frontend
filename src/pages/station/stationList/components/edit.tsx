@@ -155,6 +155,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
         autoFocusFirstInput
         onFinish={onFinish}
         onVisibleChange={props.onOpenChange}
+        modalProps={{ maskClosable: false }}
       >
         <Detail.DotLabel
           title={formatMessage({ id: 'common.baseInfo', defaultMessage: '基础信息' })}

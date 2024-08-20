@@ -76,6 +76,7 @@ const StationForm: React.FC<StationFOrmProps> = (props) => {
       autoFocusFirstInput
       onFinish={onFinish}
       onVisibleChange={props.onOpenChange}
+      modalProps={{ maskClosable: false }}
     >
       <Row gutter={20}>
         <Col span={12}>

@@ -66,7 +66,7 @@ const getContentByItem = (
   return (
     <>
       {item.icon ? <img src={item.icon} key={item.field || index} /> : ''}
-      <div className="digit-stat-content flex1" key={'digit' + (item.field || index)}>
+      <div className="digit-stat-content" key={'digit' + (item.field || index)}>
         <div className="digit-stat-title">
           <span title={item.title}>{item.title}</span>
           {unitLinkValue ? '' : `(${formatValue.unit}${item.unit})`}

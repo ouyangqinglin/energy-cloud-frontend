@@ -365,6 +365,7 @@ const ConfigTree = forwardRef((props: ConfigTreeProps, ref) => {
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
+        maskClosable={false}
       >
         <Form form={form} layout="vertical">
           <Row gutter={[16, 16]}>

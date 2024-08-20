@@ -7,7 +7,7 @@ import type { JobType } from '../data';
  *
  * @author whiteshader@163.com
  * @datetime  2021/09/16
- * 
+ *
  * */
 
 export type OperlogFormValueType = Record<string, unknown> & Partial<JobType>;
@@ -44,6 +44,7 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
         id: 'monitor.Operlog.detail',
         defaultMessage: '操作日志详细信息',
       })}
+      maskClosable={false}
       visible={props.visible}
       destroyOnClose
       onCancel={handleCancel}

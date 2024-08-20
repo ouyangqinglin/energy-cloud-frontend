@@ -306,8 +306,8 @@ const MenuTableList = (props: Menuprops) => {
               <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
             </Button>,
           ]}
-          request={() =>
-            getMenuList({ category: menuType } as MenuListParams).then((res) => {
+          request={(params) =>
+            getMenuList({ category: menuType, ...params } as MenuListParams).then((res) => {
               const menu = { id: 0, label: '主类目', children: [] as DataNode[], value: 0 };
               const memuData = buildTreeData(res.data, 'menuId', 'menuName', '', '', '');
               menu.children = memuData;
