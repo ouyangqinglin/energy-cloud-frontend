@@ -457,49 +457,49 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
     //选择可升级版本
     {
       valueType: 'dependency',
-      name:['selectVersion'],
+      name: ['selectVersion'],
       //@ts-ignore
-      columns:({selectVersion})=>{
-        return selectVersion?[{
-            title: '',
-            dataIndex: 'upgradeDeviceVersionDetailList',
-            valueType: TABLESELECT,
-            colProps: {
-              span: 24,
-            },
-            dependencies: ['productId'],
-            hideInForm: selectVersion == false,
-            formItemProps: {
-              //hidden: selectVersion == false,
-              rules: [{ required: true }],
-            },
-            fieldProps: (form: any) => {
-              return {
-                proTableProps: {
-                  columns: versionSelectColumns,
-                  request: (params: any) => {
-                    return getVersionList({
-                      ...params,
-                      productId: form?.getFieldValue?.('productId'),
-                    }).then(({ data }) => {
-                      return {
-                        data: data?.list,
-                        total: data?.total,
-                        success: true,
-                      };
-                    });
-                  },
+      columns: ({ selectVersion }) => {
+        return selectVersion ? [{
+          title: '',
+          dataIndex: 'upgradeDeviceVersionDetailList',
+          valueType: TABLESELECT,
+          colProps: {
+            span: 24,
+          },
+          dependencies: ['productId'],
+          hideInForm: selectVersion == false,
+          formItemProps: {
+            //hidden: selectVersion == false,
+            rules: [{ required: true }],
+          },
+          fieldProps: (form: any) => {
+            return {
+              proTableProps: {
+                columns: versionSelectColumns,
+                request: (params: any) => {
+                  return getVersionList({
+                    ...params,
+                    productId: form?.getFieldValue?.('productId'),
+                  }).then(({ data }) => {
+                    return {
+                      data: data?.list,
+                      total: data?.total,
+                      success: true,
+                    };
+                  });
                 },
-                onFocus: () => {
-                  return form?.validateFields(['productId']);
-                },
-                valueId: 'id',
-                valueName: 'version',
-                tableId: 'id',
-                tableName: 'version',
-              };
-            },
-          }]:[];
+              },
+              onFocus: () => {
+                return form?.validateFields(['productId']);
+              },
+              valueId: 'id',
+              valueName: 'version',
+              tableId: 'id',
+              tableName: 'version',
+            };
+          },
+        }] : [];
       }
     },
     {
@@ -526,7 +526,7 @@ export const UpdatePackageForm = (props: FormUpdateBaseProps) => {
         initialValue: '1',
         rules: [{ required: true, message: '请选择' }],
       },
-      fieldProps: (form: any) => {},
+      fieldProps: (form: any) => { },
     },
     {
       title: formatMessage({ id: 'common.description', defaultMessage: '描述' }),

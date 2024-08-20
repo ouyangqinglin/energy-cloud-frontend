@@ -256,7 +256,6 @@ export const Update = (props: FormUpdateBaseProps) => {
         valueType: 'dependency',
         name: ['type'],
         columns: ({ type }) => {
-          console.log(type);
           return type == 1
             ? [
                 {
