@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-07-13 21:46:44
- * @LastEditTime: 2024-06-17 16:13:08
+ * @LastEditTime: 2024-08-20 18:04:55
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceInfo\Overview.tsx
+ * @FilePath: /energy-cloud-frontend/src/components/DeviceInfo/Overview.tsx
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ChangeEvent } from 'react';
@@ -27,7 +27,7 @@ import { formatMessage, formatModelValue, getPropsFromTree, isEmpty } from '@/ut
 import { aLinkDownLoad } from '@/utils/downloadfile';
 import { DeviceMasterMode, DeviceProductTypeEnum } from '@/utils/dictionary';
 import { topItems, bottomItems, getDetailItems } from './helper';
-import { useDeviceModel, useSubscribe } from '@/hooks';
+import { useAuthority, useDeviceModel, useSubscribe } from '@/hooks';
 import IccidModal from './IccidModal';
 import { merge } from 'lodash';
 
@@ -50,6 +50,10 @@ type DeviceNameInfoType = {
 
 const Overview: React.FC<OverviewProps> = (props) => {
   const { deviceData, deviceTreeData, loading = false, onChange, introImg, className = '' } = props;
+
+  const { authorityMap } = useAuthority([
+    'device:detail:productIntro',
+  ]);
 
   const middleItems = useMemo(() => {
     return getDetailItems(deviceData);
@@ -229,23 +233,24 @@ const Overview: React.FC<OverviewProps> = (props) => {
         <div className={styles.device_title}>
           <div>
             {!isEmpty(deviceData?.masterSlaveMode) &&
-              `(${
-                deviceData?.masterSlaveMode === DeviceMasterMode.Master
-                  ? formatMessage({ id: 'device.host', defaultMessage: '主机' })
-                  : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
+              `(${deviceData?.masterSlaveMode === DeviceMasterMode.Master
+                ? formatMessage({ id: 'device.host', defaultMessage: '主机' })
+                : formatMessage({ id: 'device.slave', defaultMessage: '从机' })
               })`}
             {deviceNameInfo?.name}
             {deviceData?.forShort && `（${deviceData?.forShort}）`}
             <EditOutlined className="ml8 cl-primary" onClick={onEditNameClick} />
           </div>
-          <span onClick={openModal} className="ant-btn ant-btn-primary">
-            {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
-          </span>
+          {authorityMap.get('device:detail:productIntro') &&
+            <span onClick={openModal} className="ant-btn ant-btn-primary">
+              {formatMessage({ id: 'siteMonitor.productIntroduction', defaultMessage: '产品介绍' })}
+            </span>
+          }
         </div>
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceNameInfo, editNameloading, deviceData]);
+  }, [deviceNameInfo, editNameloading, deviceData, authorityMap]);
 
   return (
     <>
