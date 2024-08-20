@@ -2,7 +2,7 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-04-26 14:58:44
- * @LastEditTime: 2024-08-19 16:15:39
+ * @LastEditTime: 2024-08-20 16:52:25
  * @LastEditors: YangJianFei
  * @FilePath: /energy-cloud-frontend/src/utils/dictionary.ts
  */

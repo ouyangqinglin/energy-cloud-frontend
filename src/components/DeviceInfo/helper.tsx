@@ -236,7 +236,7 @@ export const allItems: Record<string, DetailItem> = {
     ),
     field: 'liquidCoolerCommunication',
     showPlaceholder: false,
-    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.Air], []),
+    format: (_, data) => connectFormat(data?.deviceTreeData, [DeviceProductTypeEnum.LiquidCooled], []),
     show: (_, data: DeviceDataType) => data.productId == DeviceTypeEnum.Liquid2Ems,
   },
   dehumidifierCommunication: {
