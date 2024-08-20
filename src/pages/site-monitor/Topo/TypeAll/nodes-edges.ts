@@ -46,7 +46,7 @@ const genOverViewStatistic = (data: AllTypeData) => {
     id: uniqueId(),
     type: 'statisticCard',
     position: {
-      x: -50,
+      x: 31,
       y: 0,
     },
     data: {
@@ -177,15 +177,15 @@ const genDistributionCabinetNode = (data: MainsSupply, type: any) => {
             label:
               type == 2
                 ? `${formatMessage({
-                  id: 'device.realTimePower',
-                  defaultMessage: '实时功率',
-                })}(kW)：`
+                    id: 'device.realTimePower',
+                    defaultMessage: '实时功率',
+                  })}(kW)：`
                 : type == 1
-                  ? `${formatMessage({
+                ? `${formatMessage({
                     id: 'screen.powerGeneration',
                     defaultMessage: '发电功率',
                   })}(kW)：`
-                  : `${formatMessage({
+                : `${formatMessage({
                     id: 'screen.powerConsumption',
                     defaultMessage: '用电功率',
                   })}(kW)：`,
@@ -305,10 +305,11 @@ const genESNode = (data: MainsSupply) => ({
     width: 70,
     height: 80,
 
-    title: `${utilIsEmpty(data?.masterSlaveMode)
-      ? ''
-      : '(' + masterSlave2Enum[data?.masterSlaveMode as string]?.text + ')'
-      }${data?.deviceName ?? ''}`,
+    title: `${
+      utilIsEmpty(data?.masterSlaveMode)
+        ? ''
+        : '(' + masterSlave2Enum[data?.masterSlaveMode as string]?.text + ')'
+    }${data?.deviceName ?? ''}`,
     textContent: {
       column: [
         {

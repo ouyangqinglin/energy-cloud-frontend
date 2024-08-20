@@ -2,14 +2,14 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-10-18 08:51:28
- * @LastEditTime: 2024-08-10 10:19:52
+ * @LastEditTime: 2024-08-20 08:59:45
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\pages\data-manage\search\workbench\chart.tsx
+ * @FilePath: /energy-cloud-frontend/src/pages/data-manage/search/workbench/chart.tsx
  */
 
 import SchemaForm from '@/components/SchemaForm';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { searchColumns } from './helper';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getSearchColumns } from './helper';
 import TableChart from '../chart';
 import type { TableDataType, TableSearchType } from '../type';
 import { exportList, getList } from '../service';
@@ -25,14 +25,17 @@ import type { ProFormInstance } from '@ant-design/pro-components';
 import { Resizable } from 'react-resizable';
 import FullScreen from '@/components/FullScreen';
 import FilterSave from '@/components/FilterSave';
+import { DeviceDataType } from '@/services/equipment';
 
 export type ChartType = {
+  isDeviceChild?: boolean;
+  deviceData?: DeviceDataType;
   width: number;
   height: number;
 };
 
 const Chart: React.FC<ChartType> = (props) => {
-  const { width, height: initHeight } = props;
+  const { width, height: initHeight, isDeviceChild, deviceData } = props;
   const contentRef = useRef(null);
   const formRef = useRef<ProFormInstance<TableSearchType>>();
   const [searchData, setSearchData] = useState<TableSearchType>({});
@@ -41,6 +44,10 @@ const Chart: React.FC<ChartType> = (props) => {
   const { loading, run } = useRequest(getList, {
     manual: true,
   });
+
+  const columns = useMemo(() => {
+    return getSearchColumns(isDeviceChild ? deviceData?.deviceId : '');
+  }, [isDeviceChild, deviceData]);
 
   const [height, setHeight] = useState(initHeight);
 
@@ -55,7 +62,6 @@ const Chart: React.FC<ChartType> = (props) => {
 
   const onFilterValuesChange = useCallback((params: any) => {
     dealParams(params);
-    console.log('params222>>', params);
     setSearchData(params);
   }, []);
 
@@ -86,15 +92,19 @@ const Chart: React.FC<ChartType> = (props) => {
     }, 10);
   }, [searchData]);
 
-  const getExportName = useCallback((params: TableSearchType) => {
-    return (
-      formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
-      '-' +
-      moment(params.startTime).format('YYYY-MM-DD') +
-      '~' +
-      moment(params.endTime).format('YYYY-MM-DD')
-    );
-  }, []);
+  const getExportName = useCallback(
+    (params: TableSearchType) => {
+      return (
+        (isDeviceChild ? deviceData?.deviceName + '-' : '') +
+        formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
+        '-' +
+        moment(params.startTime).format('YYYY-MM-DD') +
+        '~' +
+        moment(params.endTime).format('YYYY-MM-DD')
+      );
+    },
+    [isDeviceChild, deviceData],
+  );
 
   const exportData = useCallback(() => {
     formRef?.current?.validateFields?.()?.then(() => {
@@ -107,11 +117,27 @@ const Chart: React.FC<ChartType> = (props) => {
           setFalse();
         });
     });
-  }, [searchData]);
+  }, [searchData, getExportName]);
 
   useEffect(() => {
     setHeight(initHeight);
   }, [initHeight]);
+
+  useEffect(() => {
+    if (isDeviceChild) {
+      const initData = {
+        collection: [],
+        startTime: moment().startOf('day').format('YYYY-MM-DD 00:00:00'),
+        endTime: moment().endOf('day').format('YYYY-MM-DD 23:59:59'),
+        timeBucket: '1',
+        polymerizationType: '0',
+      };
+      formRef?.current?.setFieldsValue?.(initData);
+      dealParams(initData);
+      setSearchData(initData);
+      setTableData([]);
+    }
+  }, [deviceData?.deviceId]);
 
   return (
     <>
@@ -124,7 +150,7 @@ const Chart: React.FC<ChartType> = (props) => {
           <SchemaForm
             formRef={formRef}
             className={styles.form}
-            columns={searchColumns}
+            columns={columns}
             layoutType="QueryFilter"
             onValuesChange={onValuesChange}
             submitter={{

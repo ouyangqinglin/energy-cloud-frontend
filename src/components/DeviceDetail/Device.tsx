@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-12-22 10:34:55
- * @LastEditTime: 2024-04-22 16:36:19
+ * @LastEditTime: 2024-08-19 17:58:23
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\components\DeviceDetail\Device.tsx
+ * @FilePath: /energy-cloud-frontend/src/components/DeviceDetail/Device.tsx
  */
 import React, { useCallback, useMemo, useContext, memo } from 'react';
 import Overview from '../DeviceInfo/Overview';
@@ -14,7 +14,7 @@ import { formatMessage } from '@/utils';
 import DeviceRealTime from '../DeviceRealTime';
 import DeviceContext from '../Device/Context/DeviceContext';
 import { DeviceProductTypeEnum, DeviceTypeEnum, OnlineStatusEnum } from '@/utils/dictionary';
-import Search from '@/pages/data-manage/search';
+import Search from '@/pages/data-manage/search/Tabs';
 import Alarm from '@/components/Alarm';
 import RunLog from '@/pages/site-monitor/RunLog';
 import Configuration from '../Device/Configuration';
@@ -67,7 +67,12 @@ const Device: React.FC<DeviceType> = memo((props) => {
         key: '2',
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
-            <Search isDeviceChild deviceData={deviceData} />
+            <div style={{ height: '800px' }}>
+              <Search
+                isDeviceChild
+                deviceData={{ deviceId: deviceData?.deviceId, deviceName: deviceData?.name }}
+              />
+            </div>
           </ErrorBoundary>
         ),
       },

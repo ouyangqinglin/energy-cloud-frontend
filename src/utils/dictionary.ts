@@ -469,7 +469,7 @@ export enum reportTypeEnum {
   ChargeBase = 4,
   Else = 5,
   FanColumns = 6,
-  ChaiFaColumns = 7
+  ChaiFaColumns = 7,
 }
 
 export const reportTypeSystemIdMap = new Map([
