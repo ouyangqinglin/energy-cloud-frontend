@@ -20,14 +20,14 @@ export const config: EnergyStatisticInfo[] = [
   {
     title: formatMessage({ id: 'siteMonitor.generatingElectricity', defaultMessage: '正在发电' }),
     icon: icon_正在发电,
-    field: 'generatingElectricityInverter',
+    field: 'generatingElectricityDevice',
     value: 12,
     unit: formatMessage({ id: 'siteMonitor.number', defaultMessage: '台' }),
   },
   {
     title: formatMessage({ id: 'siteMonitor.notGeneratingElectricity', defaultMessage: '未发电' }),
     icon: icon_未发电,
-    field: 'noGenerateElectricityInverter',
+    field: 'noGenerateElectricityDevice',
     value: 6,
     unit: formatMessage({ id: 'siteMonitor.number', defaultMessage: '台' }),
   },

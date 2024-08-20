@@ -23,7 +23,6 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
           value !== '' &&
           value !== 0
         ) {
-          debugger;
           const decimalPart = value.toString().split('.')[1];
           const decimalPartLen = decimalPart ? decimalPart.length : 0;
           decimalPartLen > 2 ? (value = Number(value).toFixed(2).toString()) : (value = value);
