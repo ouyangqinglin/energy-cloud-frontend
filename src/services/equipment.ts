@@ -2,9 +2,9 @@
  * @Description:
  * @Author: YangJianFei
  * @Date: 2023-05-16 11:43:44
- * @LastEditTime: 2023-10-19 14:31:07
+ * @LastEditTime: 2024-08-19 18:06:01
  * @LastEditors: YangJianFei
- * @FilePath: \energy-cloud-frontend\src\services\equipment.ts
+ * @FilePath: /energy-cloud-frontend/src/services/equipment.ts
  */
 
 import type { ResponseCommonData, ResponsePageData } from '@/utils/request';
@@ -18,7 +18,7 @@ import type {
 import type { DeviceModelDataType } from '@/types/device';
 
 export type DeviceDataType = {
-  devices: any;
+  devices?: any;
   id?: string;
   forShort?: string;
   deviceId?: string;

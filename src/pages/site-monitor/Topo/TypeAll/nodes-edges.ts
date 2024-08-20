@@ -248,8 +248,8 @@ const genPVNode = (data: MainsSupply) => {
               label:
                 formatMessage({
                   id: 'screen.powerGeneration',
-                  defaultMessage: '发电功率(kWh)',
-                }) + '：',
+                  defaultMessage: '发电功率',
+                }) + '(kWh)：',
               value: data.power,
               field: 'todayConsumption',
             },
