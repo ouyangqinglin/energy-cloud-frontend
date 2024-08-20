@@ -15,6 +15,22 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
     <StatisticCard.Group className={styles.cardGroupWrapper} direction={'row'}>
       {config.map((item) => {
         const Icon = item.icon;
+
+        let value = (data as Record<string, any>)[item?.field] ?? 0;
+        if (
+          ['number', 'string'].includes(typeof value) &&
+          !Number.isNaN(value) &&
+          value !== '' &&
+          value !== 0
+        ) {
+          debugger;
+          const decimalPart = value.toString().split('.')[1];
+          const decimalPartLen = decimalPart ? decimalPart.length : 0;
+          decimalPartLen > 2 ? (value = Number(value).toFixed(2).toString()) : (value = value);
+        } else {
+          value = '0';
+        }
+
         return (
           <StatisticCard
             colSpan={3.5}
@@ -22,15 +38,7 @@ const EnergyStatisticCard = ({ data = {} }: { data: ElectricGenerateStatistic })
             key={item.title}
             statistic={{
               title: item.title + '  (' + item.unit + ')',
-              // @ts-ignore
-              value:
-                data[item.field] !== null || data[item.field] !== undefined
-                  ? typeof data[item.field] === 'number'
-                    ? Number.isInteger(data[item.field])
-                      ? data[item.field]
-                      : data[item.field].toFixed(2)
-                    : Number(data[item.field]).toFixed(2)
-                  : 0,
+              value: value,
               // @ts-ignore
               icon: <Icon style={imgStyle} />,
             }}
