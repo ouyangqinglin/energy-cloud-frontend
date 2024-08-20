@@ -92,16 +92,19 @@ const Chart: React.FC<ChartType> = (props) => {
     }, 10);
   }, [searchData]);
 
-  const getExportName = useCallback((params: TableSearchType) => {
-    return (
-      (isDeviceChild ? deviceData?.deviceName + '-' : '') +
-      formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
-      '-' +
-      moment(params.startTime).format('YYYY-MM-DD') +
-      '~' +
-      moment(params.endTime).format('YYYY-MM-DD')
-    );
-  }, [isDeviceChild, deviceData]);
+  const getExportName = useCallback(
+    (params: TableSearchType) => {
+      return (
+        (isDeviceChild ? deviceData?.deviceName + '-' : '') +
+        formatMessage({ id: 'dataManage.samplingDetail', defaultMessage: '采样明细' }) +
+        '-' +
+        moment(params.startTime).format('YYYY-MM-DD') +
+        '~' +
+        moment(params.endTime).format('YYYY-MM-DD')
+      );
+    },
+    [isDeviceChild, deviceData],
+  );
 
   const exportData = useCallback(() => {
     formRef?.current?.validateFields?.()?.then(() => {

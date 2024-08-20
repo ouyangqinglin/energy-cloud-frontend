@@ -360,4 +360,12 @@ export default {
 
   'siteMonitor.1008': '自发自用电量',
   'siteMonitor.1009': '收益',
+
+ 'siteMonitor.top.1001': '今日发电',
+  'siteMonitor.top.1002': '今日供电量',
+  'siteMonitor.top.1003': '今日馈网电量',
+  'siteMonitor.top.1004': '市电功率',
+
+  'siteMonitor.todayElectricityConsumption':'今日用电量',
+
 };

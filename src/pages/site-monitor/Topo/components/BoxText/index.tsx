@@ -23,7 +23,7 @@ const BoxText = ({ label, width, height = 42, boxStyle = {}, labelStyle = {} }: 
       }}
     >
       <span className={styles.label} style={labelStyle} title={label}>
-        <Typography.Paragraph className='mb0' ellipsis={{ rows: 2, expandable: false }}>
+        <Typography.Paragraph className="mb0" ellipsis={{ rows: 2, expandable: false }}>
           {label}
         </Typography.Paragraph>
       </span>

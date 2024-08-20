@@ -51,8 +51,9 @@ const Device: React.FC<DeviceType> = memo((props) => {
         children: (
           <>
             <div
-              className={`px24 ${styles.detail} ${deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''
-                }`}
+              className={`px24 ${styles.detail} ${
+                deviceData?.networkStatus === OnlineStatusEnum.Offline ? 'device-offline' : ''
+              }`}
             >
               <ErrorBoundary fallbackRender={FallBackRender}>
                 <DeviceRealTime deviceData={deviceData} />
@@ -67,7 +68,10 @@ const Device: React.FC<DeviceType> = memo((props) => {
         children: (
           <ErrorBoundary fallbackRender={FallBackRender}>
             <div style={{ height: '800px' }}>
-              <Search isDeviceChild deviceData={{ deviceId: deviceData?.deviceId, deviceName: deviceData?.name }} />
+              <Search
+                isDeviceChild
+                deviceData={{ deviceId: deviceData?.deviceId, deviceName: deviceData?.name }}
+              />
             </div>
           </ErrorBoundary>
         ),

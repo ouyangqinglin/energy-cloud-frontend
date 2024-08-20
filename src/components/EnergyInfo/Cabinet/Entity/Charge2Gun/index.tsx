@@ -79,7 +79,7 @@ const configs: ConfigType[] = [
     icon: EnvironmentImg,
     line: EnvironmentLineImg,
     linePosition: { top: 22, left: 120 },
-    data: [{ field: 'mmodp' }, { field: 'mgmodnum' }],
+    data: [{ field: 'mmodp' }, { field: 'mmodenum' }],
   },
   {
     label: '',

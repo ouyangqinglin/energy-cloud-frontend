@@ -236,7 +236,6 @@ const requestList = (params: any) =>
   });
 
 export const getSearchColumns = (deviceId?: string) => {
-
   const searchColumns: ProFormColumnsType<CollectionSearchType, TABLETREESELECTVALUETYPE>[] = [
     {
       title: formatMessage({
@@ -273,14 +272,16 @@ export const getSearchColumns = (deviceId?: string) => {
             key: 'id',
             children: 'children',
           },
-          ...(deviceId ? {
-            request: () => getSiteDeviceTree({ deviceId }),
-            defaultSelectedKeys: [deviceId],
-          } : {
-            request: requestSiteList,
-            loadData: requestTree,
-            defaultExpandAll: false,
-          }),
+          ...(deviceId
+            ? {
+                request: () => getSiteDeviceTree({ deviceId }),
+                defaultSelectedKeys: [deviceId],
+              }
+            : {
+                request: requestSiteList,
+                loadData: requestTree,
+                defaultExpandAll: false,
+              }),
         },
         treeSearch: {
           filterData: (data: DeviceTreeDataType[], searchValue: string) => {

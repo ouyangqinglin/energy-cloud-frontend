@@ -31,7 +31,15 @@ const Workbench: React.FC<WorkbenchType> = (props) => {
   const charts = useMemo(() => {
     const chartHeight = (height - 104 - (layoutValue > 1 ? 2 : 1) * 12) / (layoutValue > 1 ? 2 : 1);
     return Array.from({ length: layoutValue }).map((_, index) => {
-      return <Chart deviceData={deviceData} isDeviceChild={isDeviceChild} key={index} width={divSize?.width || 1637} height={chartHeight} />;
+      return (
+        <Chart
+          deviceData={deviceData}
+          isDeviceChild={isDeviceChild}
+          key={index}
+          width={divSize?.width || 1637}
+          height={chartHeight}
+        />
+      );
     });
   }, [layoutValue, divSize, height, deviceData]);
 

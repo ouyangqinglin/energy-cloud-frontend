@@ -419,10 +419,7 @@ export const reportType = new Map([
     reportTypeEnum.ChargeBase,
     formatMessage({ id: 'dataManage.chargingFoundationReport', defaultMessage: '充电桩基础报表' }),
   ],
-  [
-    reportTypeEnum.FanColumns,
-    formatMessage({ id: 'dataManage.1091', defaultMessage: '风机报表' }),
-  ],
+  [reportTypeEnum.FanColumns, formatMessage({ id: 'dataManage.1091', defaultMessage: '风机报表' })],
   [
     reportTypeEnum.ChaiFaColumns,
     formatMessage({ id: 'dataManage.1092', defaultMessage: '柴发报表' }),
@@ -669,7 +666,8 @@ export const aggregationTime = {
     text: formatMessage({ id: 'dataManage.1069', defaultMessage: '30分钟' }),
   },
 };
-export const taskStatusEnum = { // 0正在执行 1执行完成 2执行错误  先这样定吧
+export const taskStatusEnum = {
+  // 0正在执行 1执行完成 2执行错误  先这样定吧
   0: {
     text: formatMessage({ id: 'dataManage.1076', defaultMessage: '执行中' }),
   },

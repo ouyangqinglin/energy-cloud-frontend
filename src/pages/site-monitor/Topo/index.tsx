@@ -61,7 +61,7 @@ const Index: React.FC = () => {
           sm: 8,
           xl: 6,
         },
-        width: 200,
+        width: 300,
         initialValue: 1,
         fieldProps: {
           value: type,
@@ -124,6 +124,7 @@ const Index: React.FC = () => {
           </div>
           {/* <Button type="primary">编辑</Button> */}
         </div>
+        <br/>
         <div className={styles.title}>{keyToSystemTitle.get(type)}</div>
         <div className={classnames(styles.systemDiagram)} style={{ width: '100%' }}>
           {type === 1 && <TopoTypeAll siteId={siteData?.id} />}
